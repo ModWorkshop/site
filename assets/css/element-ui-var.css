@@ -1,0 +1,187 @@
+body, html {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        "Noto Sans",
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+:root {
+    --bg-color: #212529;
+    --secondary-bg-color: #2b3036;
+    --dropdown-bg: #292d32;
+    --dropdown-hover-bg: #32383e;
+    --dropdown-text-color: #ccc;
+    --text-color: #fff;
+    --secondary-text-color: #a6a6a6;
+    --primary-color: #107ef4;
+    --primary-hover-color: #0a6fdb;
+    --input-bg-color: #17191c;
+    --input-border-color: #393e46;
+    --input-border-hover-color: #505762;
+    --header-footer-color: #394047;
+    --button-text-color: #fff;
+    --tab-selected-color: #363d44;
+}
+
+html.light-mode {
+    --bg-color: #e3e6e8;
+    --secondary-bg-color: #d5dadd;
+    --text-color: #000;
+    --dropdown-bg: #e6e6e6;
+    --dropdown-hover-bg: #d9d9d9;
+    --dropdown-text-color: #252525;
+    --secondary-text-color: #333;
+    --input-bg-color: #f5f5f5;
+    --input-border-color: #d8d8d8;
+    --input-border-hover-color: #b3b3b3;
+    --header-footer-color: #f1f3f4;
+    --tab-selected-color: #e3e6e8;
+}
+
+.side-nav .nav-item a, .el-tabs__item.active {
+    color: var(--text-color);
+}
+
+.el-tabs__item {
+    color: var(--secondary-text-color);
+}
+
+.side-nav .nav-item .nav-item a {
+    color: var(--secondary-text-color);
+}
+
+.page-container p {
+    color: var(--text-color);
+}
+
+.page-container h2, .page-container h3, .page-container h4, .page-container h5 {
+    color: var(--text-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-hover-color);
+}
+
+.el-textarea__inner, .el-input__inner {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+}
+
+.el-select-dropdown, .el-dropdown-menu, .el-upload--picture-card {
+    background-color: var(--dropdown-bg);
+    border-color: var(--input-border-color);
+}
+
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover, .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: var(--dropdown-hover-bg);
+}
+
+.el-select-dropdown__item, .el-dropdown-menu__item{
+    color: var(--dropdown-text-color);
+}
+
+.el-popper[x-placement^=bottom] .popper__arrow, .el-popper[x-placement^=bottom] .popper__arrow::after {
+    border-bottom-color: var(--input-border-color);
+}
+
+.el-select:hover .el-input__inner, .el-textarea__inner:hover {
+    border-color: var(--input-border-hover-color);
+}
+
+.el-select .el-input.is-focus .el-input__inner, .el-textarea__inner:focus {
+    border-color: var(--primary-color);
+}
+
+.el-select-dropdown__item.selected {
+    color: var(--primary-color);
+}
+
+.el-button--primary, input[type='submit'] {
+    color: var(--button-text-color);
+}
+
+.el-button--primary, input[type='submit']  {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.el-button--primary:hover, input[type='submit']:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+}
+
+.el-dropdown {
+    font-size: initial;
+}
+
+.el-form-item__label {
+    color: var(--text-color);
+}
+
+.content-block {
+    background-color: var(--secondary-bg-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.content-block-med {
+    width: 60%;
+}
+
+.el-tabs__active-bar.is-left {
+    display: none;
+}
+
+.el-tabs--left .el-tabs__item.is-left {
+    text-align: left;
+    padding-left: 0.75rem;
+}
+
+.el-tabs__item.is-active {
+    background: var(--tab-selected-color);
+    border-radius: 4px;
+}
+
+.el-tabs__nav-wrap::after {
+    display: none;
+}
+
+.el-tabs__header.is-left {
+    width: 20%;
+}
+
+.el-form-item__label {
+    float: none;
+}
+
+.h3, h3 {
+    font-size: 1.75rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.markdown {
+    padding: 24px;
+    word-break: break-word;
+}
