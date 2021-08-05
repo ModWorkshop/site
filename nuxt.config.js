@@ -39,6 +39,7 @@ export default {
     '~/components/base',
     '~/components/shared',
     '~/components/helpers',
+    '~/components/pages',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

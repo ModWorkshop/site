@@ -146,6 +146,10 @@ a:hover {
     width: 60%;
 }
 
+.content-block-large {
+    width: 80%;
+}
+
 .el-tabs__active-bar.is-left {
     display: none;
 }

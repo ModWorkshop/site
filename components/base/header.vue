@@ -4,6 +4,7 @@
             <nuxt-img :src="logo" width="38"/>
         </NuxtLink>
         <div class="header-items">
+            <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/theme-test">Theme Test</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
             <a href="https://discord.gg/Eear4JW">Discord</a>
