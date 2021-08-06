@@ -16,13 +16,13 @@ class CreateModsTable extends Migration
         Schema::create('mods', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('cid')->unsigned();
+            $table->bigInteger('cid')->unsigned()->nullable();
             $table->foreign('cid')->references('id')->on('categories');
-            $table->bigInteger('root')->unsigned();
+            $table->bigInteger('root')->unsigned()->nullable();
             $table->foreign('root')->references('id')->on('categories');
             $table->bigInteger('submitter_uid')->unsigned();
             $table->foreign('submitter_uid')->references('id')->on('users');
-            $table->bigInteger('instid')->default('');
+            $table->bigInteger('instid')->default(0);
             //$table->foreign('instid')->references('id')->on('instructions'); //TODO: make table
 
             $table->tinyText('name');
@@ -32,20 +32,20 @@ class CreateModsTable extends Migration
             $table->text('license')->default('');
             $table->text('instructions')->default('');
             $table->json('depends_on')->nullable();
-            $table->tinyInteger('visibility'); // Was hidden
+            $table->tinyInteger('visibility')->default(0); // Was hidden
             $table->tinyText('thumbnail')->default(''); // Previews will be split into a table when migrating from old
             $table->tinyText('banner')->default('');
             $table->string('url')->default('');
-            $table->bigInteger('downloads');
-            $table->bigInteger('views');
+            $table->bigInteger('downloads')->default(0);
+            $table->bigInteger('views')->default(0);
             $table->tinyText('version')->default('');
             $table->tinyText('donation')->default(''); // Was receiver_email
             $table->string('collaborators')->default('');
             $table->string('invited')->default('');
-            $table->boolean('suspended_status');
-            $table->boolean('comments_disabled');
-            $table->tinyInteger('file_status');
-            $table->float('score');
+            $table->boolean('suspended_status')->default(false);
+            $table->boolean('comments_disabled')->default(false);
+            $table->tinyInteger('file_status')->default(0);
+            $table->float('score')->default(0);
 
             $table->timestamps();
         });

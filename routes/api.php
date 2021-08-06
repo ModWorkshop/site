@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EditModController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserSettingsController;
 use Illuminate\Auth\Events\Login;
@@ -30,6 +31,7 @@ Route::get('/auth/steam/callback', function(Request $request) {
     return json_encode($user);
 });
 
+Route::middleware('auth:sanctum')->post('/mod', [EditModController::class, 'save']);
 Route::middleware('auth:sanctum')->post('/user/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

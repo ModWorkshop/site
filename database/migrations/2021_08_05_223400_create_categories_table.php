@@ -18,21 +18,21 @@ class CreateCategoriesTable extends Migration
             $table->tinyText('name'); //TODO: should this be index?
             $table->tinyText('short_name')->unique()->default('');
             $table->tinyText('desc')->unique()->default(''); // Was description
-            $table->boolean('hidden');
-            $table->boolean('grid');
-            $table->tinyInteger('disporder')->unsigned();
-            $table->bigInteger('parent')->unsigned();
+            $table->boolean('hidden')->default(false);
+            $table->boolean('grid')->default(false);
+            $table->tinyInteger('disporder')->unsigned()->default(0);
+            $table->bigInteger('parent')->unsigned()->nullable();
             $table->foreign('parent')->references('id')->on('categories'); // TODO: should categories be cleaned up if their parent is erased?
             //Check whether we can set it to 0 to have it as a game category.
             //Worst case I imagine we can set it to null.
-            $table->bigInteger('root')->unsigned();
+            $table->bigInteger('root')->unsigned()->nullable();
             $table->foreign('root')->references('id')->on('categories');
 
             $table->tinyText('thumbnail')->default(''); // Was background
             $table->tinyText('banner')->default(''); // Was background
             $table->tinyText('buttons')->default(''); // Was background
             $table->tinyText('webhook_url')->default(''); // Was background
-            $table->boolean('approval_only');
+            $table->boolean('approval_only')->default(false);
             $table->timestamp('last_date');
 
             $table->timestamps();
