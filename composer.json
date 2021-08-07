@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/sanctum": "^2.11",
+        "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
         "socialiteproviders/steam": "^4.1",
         "socialiteproviders/zoho": "^4.1"
@@ -49,7 +50,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
