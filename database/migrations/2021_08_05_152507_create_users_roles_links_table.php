@@ -17,12 +17,12 @@ class CreateUsersRolesLinksTable extends Migration
          * Links a user to a role instead of using a hardcoded commaified list
          * This let's us handle cases such as deletion without the extra pain that involves in doing so.
          */
-        Schema::create('users_roles_links', function (Blueprint $table) {
+        Schema::create('role_user', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->bigInteger('uid')->unsigned();
-            $table->foreign('uid')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateUsersRolesLinksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_roles_links');
+        Schema::dropIfExists('role_user');
     }
 }

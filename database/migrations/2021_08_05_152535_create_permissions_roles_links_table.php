@@ -21,12 +21,12 @@ class CreatePermissionsRolesLinksTable extends Migration
          * Of course, this doesn't handle showing the user that they are banned, 
          * the banning system will only partly use the roles system to achieve what it needs.
          */
-        Schema::create('permissions_roles_links', function (Blueprint $table) {
+        Schema::create('permission_role', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('perm_id')->unsigned();
-            $table->foreign('perm_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->bigInteger('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->bigInteger('permission_id')->unsigned();
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->boolean('allow')->default(true);
 
             $table->timestamps();
@@ -40,6 +40,6 @@ class CreatePermissionsRolesLinksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permissions_roles_links');
+        Schema::dropIfExists('permission_role');
     }
 }

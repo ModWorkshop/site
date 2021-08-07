@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserSettingsController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -18,6 +19,7 @@ use Laravel\Socialite\Facades\Socialite;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
@@ -31,8 +33,10 @@ Route::get('/auth/steam/callback', function(Request $request) {
     return json_encode($user);
 });
 
-Route::middleware('auth:sanctum')->post('/mod', [EditModController::class, 'save']);
-Route::middleware('auth:sanctum')->post('/user/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
+// Routes that are protected under auth
+Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('can:create,App\Mod')->post('/mod', [EditModController::class, 'save']);
+    Route::post('/user/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
+    Route::get('/user', fn (Request $request) => $request->user());
 });

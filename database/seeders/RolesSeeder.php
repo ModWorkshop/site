@@ -34,6 +34,33 @@ class RolesSeeder extends Seeder
                 'desc' => 'The site moderator is 2nd to the admin, they are able to do a lot, but not everything.',
                 'order' => 2
             ]);
+
+            DB::table('permissions')->insert([
+                'slug' => 'edit-mod',
+                'name' => 'Edit Mods'
+            ]);
+            
+            DB::table('permissions')->insert([
+                'slug' => 'change-avatar',
+                'name' => 'Changing Avatars'
+            ]);
+
+            // Give Luffy admin
+            DB::table('role_user')->insert([
+                'role_id' => 2,
+                'user_id' => 1
+            ]);
+
+            // Give members perms
+            DB::table('permission_role')->insert([
+                'permission_id' => 1,
+                'role_id' => 1
+            ]);
+
+            DB::table('permission_role')->insert([
+                'permission_id' => 2,
+                'role_id' => 1
+            ]);
         }
         
     }
