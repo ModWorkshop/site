@@ -4,7 +4,7 @@
             <el-input v-model="mod.name"/>
         </el-form-item>
         <el-form-item label="Description" prop="description">
-            <el-input v-model="mod.description"/> <!-- TODO: Markdown editor -->
+            <el-input type="textarea" v-model="mod.desc" rows="8"/> <!-- TODO: Markdown editor -->
         </el-form-item>
     </div>
 </template>
