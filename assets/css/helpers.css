@@ -1,0 +1,125 @@
+.ratio-image {
+    object-fit:cover;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    width:100%;
+    height:100%;
+}
+
+.ratio-image-mod-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: calc(100% * 15/29);
+}
+
+.ratio-image-cat-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: calc(100% * 11/24);
+}
+
+.mods-grid .mod {
+    width: 100%;
+    min-height: 260px;
+}
+
+
+@media (max-width:600px) {
+    .cats-grid {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .games-grid>a:nth-of-type(n+4) {
+        display: none
+    }
+
+    #header-search {
+        width: 300px;
+    }
+}
+
+@media (min-width:600px) and (max-width:850px) {
+    .cats-grid {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .games-grid>a:nth-of-type(n+7) {
+        display: none
+    }
+
+    #header-search {
+        width: 300px;
+    }
+}
+
+@media (min-width:850px) and (max-width:1599px) {
+    .cats-grid {
+        grid-template-columns: repeat(4, 1fr)
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(5, 1fr)
+    }
+
+    .games-grid>a:nth-of-type(n+6) {
+        display: none
+    }
+
+    #header-search {
+        width: 250px;
+    }
+}
+
+@media (min-width:1600px) and (max-width:1829px) {
+    .cats-grid {
+        grid-template-columns: repeat(5, 1fr)
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(8, 1fr)
+    }
+
+    #header-search {
+        width: 300px;
+    }
+}
+
+@media (min-width:1830px) {
+    .cats-grid {
+        grid-template-columns: repeat(6, 1fr)
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(8, 1fr)
+    }
+}
+
+.mods-grid {
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+.mods-grid .card-img-top {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+.mods {
+    font-size: 14px;
+    width: 100%
+}
+
+.cats-grid,
+.games-grid,
+.mods-grid {
+    display: grid;
+    grid-gap: 16px
+}

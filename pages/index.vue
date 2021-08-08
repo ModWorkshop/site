@@ -1,13 +1,18 @@
 <template>
     <div>
-        OK
+        <mod-list :mods="mods"/>
     </div>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            mods: []
+        }
+    },
     async fetch() {
-        const user = await this.$axios.get('/user').then(res => res.data);
-        console.log(user);
+        this.mods = await this.$axios.get('/mods').then(res => res.data);
+        console.log(this.mods);
     },
 }
 </script>

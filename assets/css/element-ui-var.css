@@ -150,6 +150,10 @@ a:hover {
     width: 80%;
 }
 
+.content-block-huge {
+    width: 87%;
+}
+
 .el-tabs__active-bar.is-left {
     display: none;
 }
