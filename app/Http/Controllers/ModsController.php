@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Mod;
 use Illuminate\Http\Request;
 
-class EditModController extends Controller
+class ModsController extends Controller
 {
+    public function view()
+    {
+        $mods = Mod::limit(40)->get();
+        return $mods;
+    }
+
     public function save(Request $request, int $id=null)
     {
         $val = $request->validate([
@@ -21,7 +27,7 @@ class EditModController extends Controller
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
             $val['submitter_uid'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
-            return [gettype($mod->name), gettype($mod->id), gettype($mod->submitter_uid)];
+            return $mod->toJson();
         }
 
         return back()->withErrors([

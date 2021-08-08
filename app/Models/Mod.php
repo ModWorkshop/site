@@ -16,4 +16,13 @@ class Mod extends Model
      */
     protected $guarded = [];
 
+    public function submitter() {
+        return $this->hasOne(User::class, "id", 'submitter_uid')->latest();
+    }
+
+    protected $appends = ['submitter'];
+
+    public function getSubmitterAttribute() {
+        return $this->submitter()->first();
+    }
 }
