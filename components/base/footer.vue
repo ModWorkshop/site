@@ -10,11 +10,6 @@
         </div>
     </footer>
 </template>
-<script>
-export default {
-    
-}
-</script>
 <style>
     footer {
         padding: 1rem;
