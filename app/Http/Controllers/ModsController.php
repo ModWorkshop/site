@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Mod;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ModsController extends Controller
 {
@@ -13,15 +15,20 @@ class ModsController extends Controller
         return $mods;
     }
 
-    public function save(Request $request, int $id=null)
+    public function save(Request $request, Mod $mod=null)
     {
         $val = $request->validate([
             'name' => 'string|max:150|required',
-            'desc' => 'string|max:30000|required'
+            'desc' => 'string|max:30000|required',
+            'version' => 'string|max:100|default:""',
+            'visibility' => 'integer|min:1|max:4|required',
+            'game_id' => 'exists:App\Category,id',
+            'category_id' => 'exists:App\Category,id|nullable'
         ]);
 
-        if (isset($id)) {
-            
+        if (isset($mod)) {
+            $mod->update($val);
+            return Response::HTTP_OK;
         } else {
             // Never put something like $request->all(); in create.
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
@@ -34,5 +41,18 @@ class ModsController extends Controller
             'name' => 'A mod must have a name and it should not exceed 150 characters',
             'desc' => 'A mod must have a description and it should not exceed 30k character'
         ]);
+    }
+
+    public function getAllCategories(Request $request)
+    {
+        $val = $request->validate([
+            'limit' => 'integer',
+        ]);
+
+        if (isset($val['limit'])) {
+            return Category::limit($val['limit'])->get();
+        } else {
+            return Category::all();
+        }
     }
 }

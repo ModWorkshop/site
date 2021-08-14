@@ -4,6 +4,7 @@ use App\Http\Controllers\EditModController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModsController;
 use App\Http\Controllers\UserSettingsController;
+use App\Models\Category;
 use App\Models\Mod;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
@@ -39,9 +40,11 @@ Route::get('/auth/steam/callback', function(Request $request) {
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
 // Routes that are protected under auth
 Route::get('mods/{mod}', fn(Mod $mod) => $mod->toJson());
+Route::get('categories', [ModsController::class, 'getAllCategories']);
 Route::get('mods', [ModsController::class, 'view']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::middleware('can:create,App\Mod')->post('/mod', [ModsController::class, 'save']);
-    Route::post('/user/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
+    Route::middleware('can:create,App\Mod')->post('/mods', [ModsController::class, 'save']);
+    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModsController::class, 'save']);
+    Route::post('/users/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
     Route::get('/user', fn (Request $request) => $request->user());
 });
