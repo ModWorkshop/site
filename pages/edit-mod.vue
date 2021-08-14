@@ -37,11 +37,17 @@ export default {
     methods: {
         async save() {
             try {
-                await this.$axios.post('/mod', this.mod);
+                await this.$axios.post('/mods', this.mod);
             } catch (error) {
                 console.error(error);
                 return;
             }
+        },
+    },
+    async asyncData({params, $axios}) {
+        if (params.id) {
+            const mod = await $axios.get(`/mods/${params.id}`).then(res => res.data);
+            return { mod };
         }
     }
 }
