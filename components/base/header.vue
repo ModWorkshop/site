@@ -101,6 +101,7 @@ export default {
 
     header {
         top: 0;
+        z-index: 100;
         align-items: center;
         position: sticky;
         padding: 0.75rem;
