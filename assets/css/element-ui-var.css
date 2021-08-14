@@ -132,7 +132,7 @@ a:hover {
     font-size: initial;
 }
 
-.el-form-item__label {
+.el-form-item__label, .el-checkbox {
     color: var(--text-color);
 }
 
