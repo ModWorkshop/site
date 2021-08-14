@@ -1,5 +1,5 @@
 <template>
-    <div class="mod mx-auto" :title="mod.short_description">
+    <div class="mod mx-auto" :title="mod.short_desc">
         <a class="block ratio-image-mod-thumb" :href="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
         </a>
@@ -13,7 +13,7 @@
                 <i class="ri-user-3-fill"></i> <user class="text-gray" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
-            <div v-if="type != 3">
+            <div v-if="!noCategories">
                 <i class="ri-map-pin-2-fill"></i> 
                 <a class="text-gray" :href="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game}}</a>
                 <template v-if="mod.gid != mod.cid">
@@ -26,7 +26,7 @@
             <span><i class="ri-download-fill"></i> {{mod.downloads}}</span>
             <span><i class="ri-eye-fill"></i> {{mod.views}}</span>
             <span class="float-right">
-                <span v-if="sort == pub_date" :title="mod.pub_date">{{mod.timeago_pub}} <i class="ri-upload-2-fill"></i></span>
+                <span v-if="sort == 'pub_date'" :title="mod.pub_date">{{mod.timeago_pub}} <i class="ri-upload-2-fill"></i></span>
                 <span v-else :title="mod.date"><i class="ri-time-fill"></i> {{mod.timeago}}</span>
             </span>
         </div>
@@ -35,6 +35,8 @@
 <script>
     export default {
         props: {
+            sort: String,
+            noCategories: Boolean,
             mod: Object
         }
     }
