@@ -1,74 +1,101 @@
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    title: 'ModWorkshop',
-    htmlAttrs: {
-      lang: 'en'
-    },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
-  },
+	// Global page headers: https://go.nuxtjs.dev/config-head
+	head: {
+		title: "ModWorkshop",
+		htmlAttrs: {
+			lang: "en"
+		},
+		meta: [
+			{
+				charset: "utf-8"
+			}, {
+				name: "viewport",
+				content: "width=device-width, initial-scale=1"
+			}, {
+				hid: "description",
+				name: "description",
+				content: ""
+			}, {
+				name: "format-detection",
+				content: "telephone=no"
+			}
+		],
+		link: [
+			{
+				rel: "icon",
+				type: "image/x-icon",
+				href: "/favicon.ico"
+			}
+		]
+	},
 
-  build: {
-    extractCSS: true,
-  },
+	build: {
+		extractCSS: true
+	},
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'element-ui/lib/theme-chalk/index.css',
-    '@/assets/css/element-ui-var.css',
-    '@/assets/css/helpers.css',
-  ],
+	// Global CSS: https://go.nuxtjs.dev/config-css
+	css: [
+		"element-ui/lib/theme-chalk/index.css", "@/assets/css/element-ui-var.css", "@/assets/css/helpers.css"
+	],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/axios.js', mode: 'client' },
-    '@/plugins/element-ui'
-  ],
+	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+	plugins: [
+		{
+			src: "~/plugins/axios.js",
+			mode: "client"
+		},
+		"@/plugins/element-ui"
+	],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [
-    '~/components',
-    '~/components/base',
-    '~/components/shared',
-    '~/components/helpers',
-    '~/components/pages',
-  ],
+	// Auto import components: https://go.nuxtjs.dev/config-components
+	components: [
+		"~/components", "~/components/base", "~/components/shared", "~/components/helpers", "~/components/pages"
+	],
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/color-mode',
-    '@nuxtjs/tailwindcss'
-  ],
+	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+	buildModules: [
+		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss"
+	],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    'cookie-universal-nuxt',
-    '@nuxtjs/axios',
-    '@nuxt/image'
-  ],
+	// Modules: https://go.nuxtjs.dev/config-modules
+	modules: [
+		"cookie-universal-nuxt", "@nuxtjs/axios", "@nuxt/image", "@nuxtjs/i18n"
+	],
 
-  serverMiddleware: ['~/server-middleware/auth'],
+	serverMiddleware: ["~/server-middleware/auth"],
 
-  axios: {
-    credentials: true,
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      common: { // I don't think there is any situation we'd need to get anything but JSON from Laravel
-        'Accept': 'application/json, text/plain'
-      }
-    }
-  },
+	axios: {
+		credentials: true,
+		headers: {
+			"X-Requested-With": "XMLHttpRequest",
+			common: {
+				// I don't think there is any situation we'd need to get anything but JSON from Laravel
+				Accept: "application/json, text/plain"
+			}
+		}
+	},
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    transpile: [/^element-ui/],
-  }
-}
+	// Build Configuration: https://go.nuxtjs.dev/config-build
+	build: {
+		transpile: [/^element-ui/]
+	},
+
+	router: {
+		extendRoutes(routes, resolve) {
+			routes.push({ name: "edit-mod-page", path: "/mod/:id/edit", component: "pages/edit-mod.vue" });
+			routes.push({ name: "upload-mod-page", path: "/upload", component: "pages/edit-mod.vue" });
+		}
+	},
+
+	i18n: {
+		locales: [
+			{
+				code: 'en',
+				file: 'en.js'
+			}
+		],
+		strategy: 'no_prefix',
+		lazy: true,
+		langDir: "lang"
+	}
+};
