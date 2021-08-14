@@ -15,14 +15,14 @@
                         <h6 v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</h6>
                     </div>
                     <div v-if="profilePublic" id="extra-info" style="word-break: break-word;">
-                        <div>{{lang.registration_date}} {{user.regdate}}</div>
-                        <div>{{lang.lastvisit}} {{user.lastactive}}</div>
+                        <div>{{$t('registration_date')}} {{user.regdate}}</div>
+                        <div>{{$t('lastvisit')}} {{user.lastactive}}</div>
                         <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div>
                         <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
-                            {{lang.steam_profile}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
+                            {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
                         </div>
                         <div v-if="user.bday || user.age">
-                            {{lang.date_of_birth}} {{user.bday}} {{user.age}}
+                            {{$t('date_of_birth')}} {{user.bday}} {{user.age}}
                         </div>
                     </div>
                 </flex>
