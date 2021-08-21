@@ -6,6 +6,7 @@ use App\Http\Controllers\ModsController;
 use App\Http\Controllers\UserSettingsController;
 use App\Models\Category;
 use App\Models\Mod;
+use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,7 @@ Route::get('/auth/steam/callback', function(Request $request) {
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
 // Routes that are protected under auth
 Route::get('mods/{mod}', fn(Mod $mod) => $mod->toJson());
+Route::get('users/{user}', fn(User $user) => $user->toJson());
 Route::get('categories', [ModsController::class, 'getAllCategories']);
 Route::get('mods', [ModsController::class, 'view']);
 Route::middleware('auth:sanctum')->group(function () {
