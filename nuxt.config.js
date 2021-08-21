@@ -35,7 +35,10 @@ export default {
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
-		"element-ui/lib/theme-chalk/index.css", "@/assets/css/element-ui-var.css", "@/assets/css/helpers.css"
+		"element-ui/lib/theme-chalk/index.css",
+		"~/assets/css/element-ui-var",
+		"~/assets/css/helpers",
+		"~/assets/css/mod-page",
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,7 +47,8 @@ export default {
 			src: "~/plugins/axios.js",
 			mode: "client"
 		},
-		"@/plugins/element-ui"
+		"@/plugins/element-ui",
+		"@/plugins/factory"
 	],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,7 +58,7 @@ export default {
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
-		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss"
+		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss", '@nuxtjs/composition-api/module'
 	],
 
 	// Modules: https://go.nuxtjs.dev/config-modules
@@ -82,6 +86,8 @@ export default {
 
 	router: {
 		extendRoutes(routes, resolve) {
+			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
+			routes.push({ name: "user-page", path: "/user/:id", component: "pages/user.vue" });
 			routes.push({ name: "edit-mod-page", path: "/mod/:id/edit", component: "pages/edit-mod.vue" });
 			routes.push({ name: "upload-mod-page", path: "/upload", component: "pages/edit-mod.vue" });
 		}

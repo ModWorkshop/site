@@ -3,9 +3,9 @@
         <flex column class="user-banner px-3" :style="{backgroundImage: userBanner}">
             <avatar class="mt-auto d-inline-block" largest :src="userAvatar"/>
         </flex>
-        <flex class="flex-column flex-md-row">
-            <flex id="details" class="content-block flex-wrap">
-                <flex class="flex-column ml-2">
+        <flex :column="false" class="flex-md-row">
+            <flex wrap id="details" class="content-block">
+                <flex column class="ml-2">
                     <div id="main-info" style="min-width: 300px;">
                         <h4>
                             {{user.name}}
@@ -32,7 +32,6 @@
     </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import showdown from 'showdown';
 showdown.setFlavor('github');
 
@@ -46,15 +45,17 @@ const converter = new showdown.Converter({
 });
 
 export default {
+    data() {
+        return {
+            user: {}
+        }
+    },
     computed: {
         isMod() {
             return true;
         },
         userBanner() { //TEMP!
             return 'url(https://modworkshop.net/uploads/banners/banner_11.png?t=1586915614)';
-        },
-        lang() {
-            return {};
         },
         userBio() {
             return converter.makeHtml(`
@@ -77,10 +78,14 @@ Pretty much all my mods have either no license (falls under default license of t
         profilePublic() {
             return true;
         },
-        ...mapGetters([
-            'user',
-            'userAvatar'
-        ])
+        userAvatar() {
+            return 'http://localhost:8001/storage/' + this.user.avatar; //TODO: don't hardcode this URL.
+        }
+    },
+    async asyncData({params, $factory}) {
+        if (params.id) {
+            return {user: await $factory.getOne('users', params.id)};
+        }
     }
 }
 </script>

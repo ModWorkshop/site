@@ -1,0 +1,121 @@
+/* I'd put some in the SFC of the mod page, but it seems like <style> is broken atm in Nuxt */
+/* See issue: https://github.com/nuxt/nuxt.js/issues/9546 */
+.mod-banner {
+    background-size: cover;
+    box-shadow: 1px 1px 5px #000;
+    box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
+    height: 250px;
+    border-radius: .25rem;
+}
+
+.mod-banner .data {
+    height: 100%;
+    font-weight: bold;
+    color: var(--MAIN_COLOR_TEXT);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+}
+
+.mod-banner #title {
+    font-size: 20pt;
+}
+
+.mod-banner .data .version {
+    font-weight: normal;
+}
+
+.mod-main {
+    display: grid;
+    grid-gap: .75rem;
+    margin-right: .75rem;
+    grid-template-columns: 70% 30%
+}
+
+.desc-content img {
+    max-width: 100%;
+}
+
+.contributor-block {
+    display: flex;
+}
+
+.contributor-block .avatar-holder {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.contributor-block .info {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.fixed-anchor {
+    position: relative;
+    top: -64px;
+}
+
+@media (min-width:600px) and (max-width:850px) {
+    .mod-info .thumbnail {
+        display: none;
+    }
+}
+
+@media (max-width:850px) {
+    .mod-banner {
+        height: 295px;
+    }
+
+    .mod-info {
+        order: -1;
+    }
+
+    .mod-main {
+        grid-template-columns: auto;
+        margin-right: 0;
+    }
+    .contributor-block .info{
+        line-height: 32px;
+    }
+    .contributor-block .avatar {
+        height: 64px;
+        width: 64px;
+    }
+}
+
+a.like-button {
+    border-bottom: 2px solid var(--primary);
+}
+
+a.like-button.unliked {
+    border-color: var(--secondary);
+}
+
+a.like-button:hover {
+    border-color: var(--a-hover);
+}
+a.like-button.unliked:hover {
+    border-color: var(--primary);
+}
+
+.unliked {
+    color: var(--white);
+}
+
+.mod-banner a > span {
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.reply {
+    background-color: #151719;
+}
+
+.comment-body .comment-actions {
+    visibility: hidden
+}
+
+.comment-body:hover .comment-actions {
+    visibility: visible
+}

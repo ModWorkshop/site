@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div>dasd</div>
         <mod-list :mods="mods"/>
     </div>
 </template>
@@ -16,6 +17,3 @@ export default {
     },
 }
 </script>
-<style>
-    
-</style>

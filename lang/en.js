@@ -286,4 +286,5 @@ export default {
     decline: 'Decline',
     error_no_transfer_request: "Transfer request doesn't exist!",
     error_wait_for_transfer: 'You must wait for the previous request to expire to send additional transfer requests for this mod.',
+    submitted_by: "Submitted by"
 }

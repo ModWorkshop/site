@@ -48,7 +48,8 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         logo() {
-            return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
+            return '/mws_logo_black.svg';
+          //  return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
         },
         ...mapGetters([
             'user',

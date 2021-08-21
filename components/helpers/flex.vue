@@ -1,15 +1,12 @@
 <template>
-    <div :style="{flexDirection: column && 'column'}" class="d-flex"><slot/></div>
+    <div :class="{flex: true, 'flex-col': column, 'flex-wrap': wrap, [`gap-${gap}`]: !!gap}"><slot/></div>
 </template>
 <script>
     export default {
         props: {
-            column: Boolean
+            column: Boolean,
+            wrap: Boolean,
+            gap: Number
         }
     }
 </script>
-<style scoped>
-    .d-flex {
-        display: flex;
-    }
-</style>

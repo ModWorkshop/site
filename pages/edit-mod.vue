@@ -44,10 +44,9 @@ export default {
             }
         },
     },
-    async asyncData({params, $axios}) {
+    async asyncData({params, $factory}) {
         if (params.id) {
-            const mod = await $axios.get(`/mods/${params.id}`).then(res => res.data);
-            return { mod };
+            return { mod: await $factory.getOne('mods', params.id) };
         }
     }
 }

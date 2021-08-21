@@ -1,13 +1,13 @@
 <template>
     <div class="mod mx-auto" :title="mod.short_desc">
-        <a class="block ratio-image-mod-thumb" :href="`/mod/${mod.id}`">
+        <NuxtLink class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
-        </a>
+        </NuxtLink>
         <div class="p-2 w-100 text-gray" style="max-height:40%">
-            <a class="mod-title" :href="`/mod/${mod.id}`" :title="mod.name">
+            <NuxtLink class="mod-title" :to="`/mod/${mod.id}`" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
-            </a>
+            </NuxtLink>
 
             <div>
                 <i class="ri-user-3-fill"></i> <user class="text-gray" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
