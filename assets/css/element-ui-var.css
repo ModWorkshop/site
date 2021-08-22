@@ -24,7 +24,7 @@ body, html {
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;
     --text-color: #fff;
-    --secondary-text-color: #a6a6a6;
+    --secondary-text-color: #d8d8d8;
     --primary-color: #107ef4;
     --primary-hover-color: #0a6fdb;
     --input-bg-color: #17191c;
@@ -192,4 +192,8 @@ a:hover {
 .markdown {
     padding: 24px;
     word-break: break-word;
+}
+
+.text-secondary {
+    color: var(--secondary-text-color);
 }
