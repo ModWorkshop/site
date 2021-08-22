@@ -6,7 +6,7 @@
         props: {
             column: Boolean,
             wrap: Boolean,
-            gap: Number
+            gap: [Number, String]
         }
     }
 </script>
