@@ -7,7 +7,7 @@
             <el-input type="textarea" v-model="mod.desc" rows="8"/> <!-- TODO: Markdown editor -->
         </el-form-item>
         <el-form-item label="Game" prop="game">
-            <el-select v-model="mod.root_id" placeholder="Select a game" style="width: 100%;">
+            <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;">
                 <el-option v-for="game in games" :key="game.name" :label="game.name" :value="game.id"/>
             </el-select>
         </el-form-item>

@@ -22,6 +22,7 @@
 export default {
     data() {
         return {
+            newMod: true,
             mod: {
                 name: '',
                 desc: '',
@@ -37,7 +38,11 @@ export default {
     methods: {
         async save() {
             try {
-                await this.$axios.post('/mods', this.mod);
+                if (this.newMod) {
+                    await this.$factory.create('mods', this.mod);
+                } else {
+                    await this.$factory.update('mods', this.mod.id, this.mod);
+                }
             } catch (error) {
                 console.error(error);
                 return;
@@ -46,11 +51,8 @@ export default {
     },
     async asyncData({params, $factory}) {
         if (params.id) {
-            return { mod: await $factory.getOne('mods', params.id) };
+            return { mod: await $factory.getOne('mods', params.id), newMod: false };
         }
     }
 }
 </script>
-<style>
-    
-</style>
