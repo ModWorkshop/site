@@ -6,7 +6,7 @@
         :id="`${name}-tab-panel`"
         tabindex="0"
         v-show="show" 
-        class="tab-panel"
+        class="tab-panel content-block"
     >
         <slot/>
     </div>
@@ -26,3 +26,13 @@
         inject: ['tabState']
     }
 </script>
+
+<style scoped>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+</style>

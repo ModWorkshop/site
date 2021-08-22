@@ -1,12 +1,13 @@
 <template>
-    <div :class="{flex: true, 'flex-col': column, 'flex-wrap': wrap, [`gap-${gap}`]: !!gap}"><slot/></div>
+    <div :class="{flex: true, 'flex-col': column, 'flex-wrap': wrap, [`gap-${gap}`]: !!gap, 'flex-grow': grow}"><slot/></div>
 </template>
 <script>
     export default {
         props: {
             column: Boolean,
             wrap: Boolean,
-            gap: [Number, String]
+            gap: [Number, String],
+            grow: Boolean,
         }
     }
 </script>

@@ -30,20 +30,48 @@
                         </flex>
                     </flex>
                 </flex>
-                 Tabs
-                <tabs>
-                    <tab name="a" title="Tab A">
-                        xddd
-                    </tab>
-                    <tab name="b" title="Tab B">
-                        ok
-                    </tab>
-                    <tab name="c" title="Tab C">
-                        yo
-                    </tab>
-                </tabs>
             </div>
         </flex>
+        <div class="mod-main">
+            <flex grow>
+                <tabs class="content-block flex-grow">
+                    <tab name="description" :title="$t('description')">{{mod.desc}}</tab>
+                    <tab name="images" :title="$t('images')">Nothing for now!</tab>
+                    <tab name="files" :title="$t('files')">Nothing for now!</tab>
+                    <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">{{mod.changelog}}</tab>
+                    <tab v-if="mod.license" name="license" :title="$t('license')">{{mod.license}}</tab>
+                    <tab name="instructions" :title="$t('instructions')">Nothing for now!</tab>
+                </tabs>
+            </flex>
+            <div class="mod-info mt-4 content-block p-2">
+                <div class="thumbnail overflow-hidden ratio-image-mod-thumb">
+                    <mod-thumbnail :mod="mod"/>
+                </div>
+                <div class="col mt-3" style="font-size: 20px">
+                    <div class="p-1 inline-block">
+                        <font-awesome-icon icon="heart"/>
+                        <span id="likes">{{likes}}</span>
+                    </div>
+                    <div class="p-1 inline-block">
+                        <font-awesome-icon icon="download"/>
+                        <span>{{downloads}}</span>
+                    </div>
+                    <div class="p-1 inline-block">
+                        <font-awesome-icon icon="eye"/>
+                        <span>{{views}}</span>
+                    </div>
+                </div>
+                <div class="col mt-3">
+                    <!-- TODO: Don't forget to make them link -->
+                    <el-tag effect="dark">Temp</el-tag>
+                    <el-tag effect="dark">Anime</el-tag>
+                    <el-tag effect="dark">Pog</el-tag>
+                </div>
+                <div class="col my-3">
+
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -58,6 +86,15 @@
             }
         },
         computed: {
+            likes() {
+                return 0;
+            },
+            downloads() {
+                return 0;
+            },
+            views() {
+                return 1;
+            },
             pubDateRelative() {
                 return 'A few pogs ago';
             },

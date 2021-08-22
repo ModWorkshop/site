@@ -18,7 +18,9 @@
                 {{tab.title}}
             </a>
         </flex>
-        <slot/>
+        <div class="tab-panels">
+            <slot/>
+        </div>
     </flex>
 </template>
 
