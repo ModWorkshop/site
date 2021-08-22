@@ -11,9 +11,9 @@ export default {
             mods: []
         }
     },
-    async fetch() {
-        this.mods = await this.$axios.get('/mods').then(res => res.data);
-        console.log(this.mods);
+    async asyncData({$axios}) {
+        const mods = await $axios.get('/mods').then(res => res.data);
+        return { mods };
     },
 }
 </script>
