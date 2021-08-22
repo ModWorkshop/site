@@ -1,13 +1,13 @@
 <template>
     <div class="mod mx-auto" :title="mod.short_desc">
-        <NuxtLink class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
+        <nuxt-link class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
-        </NuxtLink>
+        </nuxt-link>
         <div class="p-2 w-100 text-gray" style="max-height:40%">
-            <NuxtLink class="mod-title" :to="`/mod/${mod.id}`" :title="mod.name">
+            <nuxt-link class="mod-title" :to="`/mod/${mod.id}`" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
-            </NuxtLink>
+            </nuxt-link>
 
             <div>
                 <i class="ri-user-3-fill"></i> <user class="text-gray" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
@@ -15,10 +15,10 @@
 
             <div v-if="!noCategories">
                 <i class="ri-map-pin-2-fill"></i> 
-                <a class="text-gray" :href="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game}}</a>
+                <nuxt-link class="text-gray" :to="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game}}</nuxt-link>
                 <template v-if="mod.gid != mod.cid">
                     <span class="text-secondary"> / </span>
-                    <a class="text-gray" :href="`/category/${mod.cid}`" :title="mod.category">{{mod.category}}</a>
+                    <nuxt-link class="text-gray" :to="`/category/${mod.cid}`" :title="mod.category">{{mod.category}}</nuxt-link>
                 </template>
             </div>
 
