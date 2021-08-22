@@ -3,28 +3,39 @@
         <nuxt-link class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
         </nuxt-link>
-        <div class="p-2 w-100 text-gray" style="max-height:40%">
+        <div class="p-2 w-100 text-secondary" style="max-height:40%">
             <nuxt-link class="mod-title" :to="`/mod/${mod.id}`" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
             </nuxt-link>
 
             <div>
-                <i class="ri-user-3-fill"></i> <user class="text-gray" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <font-awesome-icon icon="user"/>
+                <user class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories">
-                <i class="ri-map-pin-2-fill"></i> 
-                <nuxt-link class="text-gray" :to="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game}}</nuxt-link>
+                <font-awesome-icon icon="map-marker-alt"/>
+                <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
                 <template v-if="mod.gid != mod.cid">
                     <span class="text-secondary"> / </span>
-                    <nuxt-link class="text-gray" :to="`/category/${mod.cid}`" :title="mod.category">{{mod.category}}</nuxt-link>
+                    <nuxt-link class="text-secondary" :to="`/category/${mod.cid}`" :title="mod.category">{{mod.category}}</nuxt-link>
                 </template>
             </div>
 
-            <span><i class="ri-heart-fill"></i> {{mod.likes}}</span>
-            <span><i class="ri-download-fill"></i> {{mod.downloads}}</span>
-            <span><i class="ri-eye-fill"></i> {{mod.views}}</span>
+            <div class="inline-block">
+                <font-awesome-icon icon="heart"/>
+                <span id="likes">{{likes}}</span>
+            </div>
+            <div class="inline-block">
+                <font-awesome-icon icon="download"/>
+                <span>{{downloads}}</span>
+            </div>
+            <div class="inline-block">
+                <font-awesome-icon icon="eye"/>
+                <span>{{views}}</span>
+            </div>
+
             <span class="float-right">
                 <span v-if="sort == 'pub_date'" :title="mod.pub_date">{{mod.timeago_pub}} <i class="ri-upload-2-fill"></i></span>
                 <span v-else :title="mod.date"><i class="ri-time-fill"></i> {{mod.timeago}}</span>
@@ -38,6 +49,17 @@
             sort: String,
             noCategories: Boolean,
             mod: Object
+        },
+        computed: {
+            likes() {
+                return 0;
+            },
+            downloads() {
+                return this.mod.downloads;
+            },
+            views() {
+                return this.mod.views;
+            }
         }
     }
 </script>

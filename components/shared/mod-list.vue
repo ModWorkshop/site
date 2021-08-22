@@ -1,7 +1,7 @@
 <template>
-    <flex column class="content-block-huge">
+    <flex column>
         <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
-        <div class="mods d-flex flex-wrap justify-content-start flex-column">
+        <flex wrap column class="mods justify-content-start">
             <div v-if="is_list" id="mod_list_head" class="p-3 list_mod align-items-center bg-dark" style="height:40px;">
                 <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
                 <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
@@ -20,7 +20,7 @@
                 <mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
             </div>
             <button id="load-more" class="btn" type="button">{{$t('load_more')}}</button>
-        </div>
+        </flex>
     </flex>
 </template>
 <script>

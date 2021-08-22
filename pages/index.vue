@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <div>dasd</div>
+    <div class="content-block-huge">
         <mod-list :mods="mods"/>
     </div>
 </template>
