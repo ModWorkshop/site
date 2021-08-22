@@ -35,6 +35,7 @@ export default {
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
+		'@fortawesome/fontawesome-svg-core/styles.css',
 		"element-ui/lib/theme-chalk/index.css",
 		"~/assets/css/element-ui-var",
 		"~/assets/css/helpers"
@@ -47,7 +48,8 @@ export default {
 			mode: "client"
 		},
 		"@/plugins/element-ui",
-		"@/plugins/factory"
+		"@/plugins/factory",
+		"@/plugins/fa"
 	],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
