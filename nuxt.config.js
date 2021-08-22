@@ -37,8 +37,7 @@ export default {
 	css: [
 		"element-ui/lib/theme-chalk/index.css",
 		"~/assets/css/element-ui-var",
-		"~/assets/css/helpers",
-		"~/assets/css/mod-page",
+		"~/assets/css/helpers"
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
