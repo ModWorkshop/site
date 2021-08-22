@@ -3,7 +3,7 @@
         <NuxtLink to="/">
             <nuxt-img :src="logo" width="38"/>
         </NuxtLink>
-        <div class="header-items">
+        <div class="ml-3 header-items">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/theme-test">Theme Test</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
@@ -48,8 +48,7 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         logo() {
-            return '/mws_logo_black.svg';
-          //  return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
+            return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
         },
         ...mapGetters([
             'user',
@@ -68,32 +67,22 @@ export default {
 <style>
     .user {
         display: flex;
+        gap: 0.25rem;
         align-items: center;
     }
 
-    .user span {
-        margin-left: 0.25rem;
-    }
-
     .user:hover {
-        
         color: var(--text-color);
     }
 
     .user-items {
         margin-left: auto;
+        gap: 0.75rem;
     }
     
     .header-items {
         display: flex;
-    }
-    
-    .header-items a {
-        margin-left: 0.75rem;
-    }
-
-    .user-items a {
-        margin-right: 0.75rem;
+        gap: 0.75rem;
     }
 
     header a {

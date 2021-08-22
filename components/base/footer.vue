@@ -1,6 +1,6 @@
 <template>
     <footer>
-        MWS V3
+        MWS V3 - EARLY AS SHIT Alpha
         <div style="margin-left: auto;">
         </div>
     </footer>
