@@ -22,8 +22,8 @@ class ModsController extends Controller
             'desc' => 'string|max:30000|required',
             'version' => 'string|max:100|default:""',
             'visibility' => 'integer|min:1|max:4|required',
-            'game_id' => 'exists:App\Category,id',
-            'category_id' => 'exists:App\Category,id|nullable'
+            'game_id' => 'integer|min:1|required|exists:categories,id',
+            'category_id' => 'integer|min:1|nullable|exists:categories,id'
         ]);
 
         if (isset($mod)) {
