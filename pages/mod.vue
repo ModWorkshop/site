@@ -1,27 +1,33 @@
 <template>
-    <div style="width: 87%;">
-        <flex style="border-radius:.25rem">
-            <div class="mod-banner flex-grow" :style="`background:${mod.banner || 'https://modworkshop.net/images/default_banner.png'};`">
+    <flex column gap="3" class="content-block-large">
+        <flex>
+            <!-- TODO: make our own buttons -->
+            <nuxt-link :to="`/mod/${this.mod.id}/edit`">
+                <el-button type="primary"><font-awesome-icon icon="cog"/> {{$t('edit_mod')}}</el-button>
+            </nuxt-link>
+        </flex>
+        <flex style="border-radius: 0.25rem">
+            <div class="mod-banner flex-grow" :style="`background:url('${mod.banner || 'https://modworkshop.net/images/default_banner.png'}');`">
                 <flex column class="flex-grow p-3 data">
                     <div style="font-weight: normal;overflow: hidden;height: 148px;word-break: break-word;">
                         <span id="title">{{mod.name}}</span>
                         <br>
-                        <span style="font-weight: normal; font-size: 0.95em;">
+                        <span>
                             <strong>{{$t('submitted_by')}}</strong>
-                            <user :user="mod.submitter"/>
-                            <span v-if="mod.publish_date" :title="mod.publish_date">{{pubDateRelative}}</span>
+                            <user :user="mod.submitter" avatar-size="small"/>
+                            <span v-if="mod.publish_date" :title="mod.publish_date">{{publishDateAgo}}</span>
                         </span>
                     </div>
                     <flex column class="mt-auto flex-md-row">
                         <div class="p-0 version mt-auto">
-                            <span style="font-size: 0.95em;">
+                            <span>
                                 <strong v-if="modStatus">{{modStatus}}</strong>
                                 <strong v-if="mod.version && mod.version|length <= 24">{{$t('version')}} {{mod.version}}</strong>
                                 <strong>{{$t('last_updated')}}</strong> <!--TODO: implement last updater-->
-                                <span :title="mod.bump_date">{{mod.bumpDateRelative}}</span>
+                                <span :title="mod.updated_at">{{updateDateAgo}}</span>
                             </span>
                         </div>
-                        <flex class="ml-md-auto mt-2 mt-md-0">
+                        <flex class="ml-md-auto">
                             <a v-if="canLike" id="like-button" class="btn btn-lg d-flex align-items-center flex-grow px-2 py-2 btn-danger">
                                 <i v-if="mod.liked" class="ri-heart-fill mx-1"/>
                                 <i v-else class="ri-heart-line mx-1"/>
@@ -43,11 +49,11 @@
                     <tab name="instructions" :title="$t('instructions')">Nothing for now!</tab>
                 </tabs>
             </flex>
-            <div class="mod-info mt-4 content-block p-2">
+            <flex column gap="1" class="mod-info content-block p-2">
                 <div class="thumbnail overflow-hidden ratio-image-mod-thumb">
                     <mod-thumbnail :mod="mod"/>
                 </div>
-                <div class="col mt-3" style="font-size: 20px">
+                <div class="p-2" style="font-size: 20px">
                     <div class="p-1 inline-block">
                         <font-awesome-icon icon="heart"/>
                         <span id="likes">{{likes}}</span>
@@ -61,22 +67,23 @@
                         <span>{{views}}</span>
                     </div>
                 </div>
-                <div class="col mt-3">
+                <div class="p-2 tags-block">
                     <!-- TODO: Don't forget to make them link -->
                     <el-tag effect="dark">Temp</el-tag>
                     <el-tag effect="dark">Anime</el-tag>
                     <el-tag effect="dark">Pog</el-tag>
                 </div>
-                <div class="col my-3">
-
+                <div class="p-2 colllaborators-block">
+                    <user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
                 </div>
-            </div>
+            </flex>
         </div>
-    </div>
+    </flex>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters } from 'vuex';
+    import { DateTime } from 'luxon';
 
     //TODO: implement pipe split for mod status and whatnot
     export default {
@@ -95,11 +102,11 @@
             views() {
                 return 1;
             },
-            pubDateRelative() {
-                return 'A few pogs ago';
+            publishDateAgo() {
+                return DateTime.fromISO(this.mod.publish_date).toRelative();
             },
-            bumpDateRelative() {
-                return 'A few pogs ago';
+            updateDateAgo() {
+                return DateTime.fromISO(this.mod.updated_at).toRelative();
             },
             modStatus() {
                 return null;
@@ -153,24 +160,6 @@
 
 .desc-content img {
     max-width: 100%;
-}
-
-.contributor-block {
-    display: flex;
-}
-
-.contributor-block .avatar-holder {
-    width: 48px;
-    height: 48px;
-    display: inline-block;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 5px;
-}
-
-.contributor-block .info {
-    display: inline-flex;
-    vertical-align: middle;
 }
 
 .fixed-anchor {

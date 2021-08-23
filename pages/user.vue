@@ -1,7 +1,7 @@
 <template>
     <div id="user-main">
         <flex column class="user-banner px-3" :style="{backgroundImage: userBanner}">
-            <avatar class="mt-auto d-inline-block" largest :src="userAvatar"/>
+            <avatar class="mt-auto d-inline-block" size="largest" :src="userAvatar"/>
         </flex>
         <flex :column="false" class="flex-md-row">
             <flex wrap id="details" class="content-block">

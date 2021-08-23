@@ -1,21 +1,34 @@
 <template>
-    <img :src="src" :class="{'avatar': true, 'avatar-large': large, 'avatar-largest': largest}">
+    <img :src="src" :class="{'avatar': true, [`avatar-${size}`]: !!size}">
 </template>
 <script>
 export default {
     props: {
         src: String,
-        large: Boolean,
-        largest: Boolean
+        size: {
+            default: null,
+            type:  String
+        },
     }
 }
 </script>
 <style scoped>
     .avatar {
+        display: inline;
         object-fit: cover;
         width: 38px;
         height: 38px;
-        border-radius: 5%;
+        border-radius: 10%;
+    }
+
+    .avatar-small {
+        width: 32px;
+        height: 32px;
+    }
+
+    .avatar-medium {
+        width: 48px;
+        height: 48px;
     }
 
     .avatar-large {

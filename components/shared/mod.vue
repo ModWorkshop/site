@@ -11,7 +11,7 @@
 
             <div>
                 <font-awesome-icon icon="user"/>
-                <user class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories">

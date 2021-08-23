@@ -18,6 +18,7 @@
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.15.1",
     "element-ui": "^2.15.2",
+    "luxon": "^2.0.2",
     "nuxt": "^2.15.7",
     "showdown": "^1.9.1"
   },

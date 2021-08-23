@@ -1,5 +1,5 @@
 <template>
-    <div class="content-block-huge">
+    <div class="content-block-large">
         <mod-list :mods="mods"/>
     </div>
 </template>

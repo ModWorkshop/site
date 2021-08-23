@@ -1,22 +1,30 @@
 <template>
-    <div class="content-block content-block-large">
-        <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
-            <el-tabs tab-position="left">
-                <el-tab-pane label="Main">
-                    <edit-mod-main :mod="mod"/>
-                </el-tab-pane>
-                <el-tab-pane label="Files & Images">
+    <flex gap="3" column class="content-block-large">
+        <flex>
+            <!-- TODO: make our own buttons -->
+            <nuxt-link :to="`/mod/${this.mod.id}`">
+                <el-button type="primary"><font-awesome-icon icon="arrow-left"/> {{$t('return_to_mod')}}</el-button>
+            </nuxt-link> 
+        </flex>
+        <div class="content-block">
+            <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
+                <el-tabs tab-position="left">
+                    <el-tab-pane label="Main">
+                        <edit-mod-main :mod="mod"/>
+                    </el-tab-pane>
+                    <el-tab-pane label="Files & Images">
 
-                </el-tab-pane>
-                <el-tab-pane label="Extra">
+                    </el-tab-pane>
+                    <el-tab-pane label="Extra">
 
-                </el-tab-pane>
-            </el-tabs>
-            <el-form-item class="mx-auto" style="width: unset">
-                <el-input type="submit" value="Save"/>
-            </el-form-item>
-        </el-form>
-    </div>
+                    </el-tab-pane>
+                </el-tabs>
+                <el-form-item class="mx-auto" style="width: unset">
+                    <el-input type="submit" value="Save"/>
+                </el-form-item>
+            </el-form>
+        </div>
+    </flex>
 </template>
 <script>
 export default {

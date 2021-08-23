@@ -1,5 +1,5 @@
 <template>
-    <flex :column="!list" class="mt-4" gap="4">
+    <flex :column="!list" gap="4">
         <flex class="tab-list" role="tablist" :gap="2" :column="list">
             <!--ARIA compliant, I hope xd-->
             <a 
