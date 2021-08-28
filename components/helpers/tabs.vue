@@ -1,6 +1,6 @@
 <template>
-    <flex :column="!list" gap="4">
-        <flex class="tab-list" role="tablist" :gap="2" :column="list">
+    <flex :column="!list" gap="2">
+        <flex class="tab-list" role="tablist" :column="list">
             <!--ARIA compliant, I hope xd-->
             <a 
                 v-for="tab of tabs"
@@ -10,15 +10,17 @@
                 :tabindex="tabState.current == tab.name ? 0 : -1"
                 :aria-selected="tabState.current == tab.name"
                 :aria-controls="`${tab.name}-tab-panel`"
-                :key="tab.name" :href="`#${tab.name}`"
+                :key="tab.name" 
+                :href="hash && `#${tab.name}`"
                 @click="() => setCurrentTab(tab.name)"
                 @keydown.left="() => arrowKeysMove(true)"
                 @keydown.right="() => arrowKeysMove(false)"
                 :class="{'tab-link': true, 'selected': tabState.current == tab.name}">
                 {{tab.title}}
             </a>
+            <slot name="buttons"/>
         </flex>
-        <div class="tab-panels">
+        <div :class="{'tab-panels': true, [`p-${padding}`]: padding !== 0, 'flex-grow': list}">
             <slot/>
         </div>
     </flex>
@@ -30,6 +32,14 @@
     export default {
         props: {
             list: Boolean,
+            hash: {
+                default: true,
+                type: Boolean
+            },
+            padding: {
+                default: 2,
+                type: [String, Number]
+            }
         },
         setup() {
             const tabs = ref([]);
@@ -74,7 +84,7 @@
                     if (curr.tag) {
                         const tab = curr.componentOptions.propsData;
                         if (this.tabState.current === '') {
-                            this.tabState.current = process.client && window.location.hash.replace('#', '') || tab.name;
+                            this.tabState.current = process.client && !this.hash && window.location.hash.replace('#', '') || tab.name;
                         }
                         prev.push(tab);
                     }

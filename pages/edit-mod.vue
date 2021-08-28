@@ -8,17 +8,17 @@
         </flex>
         <div class="content-block">
             <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
-                <el-tabs tab-position="left">
-                    <el-tab-pane label="Main">
+                <tabs tab-position="left" list>
+                    <tab name="main" title="Main">
                         <edit-mod-main :mod="mod"/>
-                    </el-tab-pane>
-                    <el-tab-pane label="Files & Images">
+                    </tab>
+                    <tab name="files" title="Files & Images">
 
-                    </el-tab-pane>
-                    <el-tab-pane label="Extra">
+                    </tab>
+                    <tab name="extra" title="Extra">
 
-                    </el-tab-pane>
-                </el-tabs>
+                    </tab>
+                </tabs>
                 <el-form-item class="mx-auto" style="width: unset">
                     <el-input type="submit" value="Save"/>
                 </el-form-item>

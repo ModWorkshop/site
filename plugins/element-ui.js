@@ -15,7 +15,5 @@ Vue.component(DropdownMenu.name, DropdownMenu);
 Vue.component(Col.name, Col);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
-Vue.component(Tabs.name, Tabs);
-Vue.component(TabPane.name, TabPane);
 Vue.component(Upload.name, Upload);
 //Vue.use(Element, { locale })

@@ -6,8 +6,7 @@
         :id="`${name}-tab-panel`"
         tabindex="0"
         v-show="show" 
-        class="tab-panel content-block"
-    >
+        class="tab-panel">
         <slot/>
     </div>
 </template>
@@ -16,7 +15,7 @@
     export default {
         props: {
             name: String,
-            title: String
+            title: String,
         },
         computed: {
             show() {
