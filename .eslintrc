@@ -1,8 +1,6 @@
 {
-    "extends": [
-        "plugin:nuxt/recommended"
-    ],
+    "extends": [ "@nuxtjs", "plugin:nuxt/recommended", "prettier", "prettier/vue", "plugin:vue/essential", "eslint:recommended" ],
     "rules": {
-        "semi": "error"
+        "semi": 2
     }
 }
