@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Mod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ModsController extends Controller
 {
     public function view()
     {
-        $mods = Mod::limit(40)->get();
+        $mods = Mod::limit(40)->whereHas('tags', function(Builder $q) {
+            $q->where('tags.id', 31);
+        })->get();
         return $mods;
     }
 

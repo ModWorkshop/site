@@ -15,21 +15,19 @@ class Mod extends Model
      * @var array
      */
     protected $guarded = [];
-    protected $appends = ['submitter', 'game'];
-
+    protected $appends = [];
+    protected $with = ['submitter', 'game'];
+    
     public function submitter() {
-        return $this->hasOne(User::class, "id", 'submitter_uid')->latest();
+        return $this->hasOne(User::class, "id", 'submitter_uid');
     }
 
     public function game() {
-        return $this->hasOne(Category::class, "id", 'game_id')->latest();
+        return $this->hasOne(Category::class, "id", 'game_id');
     }
 
-    public function getSubmitterAttribute() {
-        return $this->submitter()->first();
-    }
-
-    public function getGameAttribute() {
-        return $this->game()->first();
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

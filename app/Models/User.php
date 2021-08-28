@@ -11,15 +11,23 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    private $roles = [];
+    private static $membersRole = null;
+    
     private $permissions = [];
 
+    // Always return roles for users
+    protected $with = ["roles"];
+    private $roleNames = [];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->orderByDesc('order');
+    }
+
     public function getRolesAndPermissions() {
-        $roles = $this->belongsToMany(Role::class)->orderByDesc('order')->get();
-        $this->roles[] = Role::find(1);
-        foreach ($roles as $role) {
-            $this->roles[] = $role;
-        }
+        self::$membersRole ??= Role::find(1);
+        $roles = $this->roles;
+        $roles->prepend(self::$membersRole);
 
         /**
          * THIS IS TEMPORARY
@@ -28,7 +36,8 @@ class User extends Authenticatable
          * The purpose of the allow variable is only take away permissions when necessary and not have to do give - take - give.
          * Only give and take with the first give being pretty much the members role.
          */
-        foreach ($this->roles as $role) {
+        foreach ($roles as $role) {
+            $this->roleNames[] = $role->name;
             foreach ($role->permissions as $perm) {
                 $slug = $perm->slug;
                 if ($perm->pivot->allow) {
@@ -83,14 +92,10 @@ class User extends Authenticatable
         $this->permissions[$toWhat] = true;
     }
 
-    protected $appends = ['permissions', 'roles'];
+    protected $appends = ['role_names'];
 
-    public function getRolesAttribute() {
-        $names = [];
-        foreach ($this->roles as $perm) {
-            $names[] = $perm->name;
-        }
-        return $names;
+    public function getRoleNamesAttribute() {
+        return $this->roleNames;
     }
 
     public function getPermissionsAttribute() {
@@ -115,6 +120,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'roles',
         'password',
         'remember_token',
         'email',

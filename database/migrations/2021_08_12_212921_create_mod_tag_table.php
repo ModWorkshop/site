@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagModTable extends Migration
+class CreateModTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTagModTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_mod', function (Blueprint $table) {
+        Schema::create('mod_tag', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('mod_id')->unsigned();
-            $table->foreign('mod_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
             $table->bigInteger('tag_id')->unsigned();
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateTagModTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag_mod');
+        Schema::dropIfExists('mod_tag');
     }
 }

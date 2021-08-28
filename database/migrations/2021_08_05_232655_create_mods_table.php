@@ -37,8 +37,9 @@ class CreateModsTable extends Migration
             $table->tinyInteger('visibility')->default(0); // Was hidden
             $table->tinyText('banner')->default('');
             $table->string('url')->default('');
-            $table->bigInteger('downloads')->default(0);
-            $table->bigInteger('views')->default(0);
+            $table->bigInteger('downloads')->unsigned()->default(0);
+            $table->bigInteger('likes')->unsigned()->default(0);
+            $table->bigInteger('views')->unsigned()->default(0);
             $table->tinyText('version')->default('');
             $table->tinyText('donation')->default(''); // Was receiver_email
             
