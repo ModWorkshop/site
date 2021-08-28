@@ -1,8 +1,9 @@
 <template>
-	<div>
+	<div class="content-block content-block-large">
 		Preview:
 		<div v-html="md"/>
-		<el-input v-model="mdText" type="textarea" rows="6"/>
+		<br>
+		<el-input v-model="mdText" type="textarea" rows="10"/>
 		
 		<br>
 		<a href="https://modworkshop.net">Ok</a>
@@ -22,17 +23,7 @@
 </template>
 
 <script>
-import showdown from 'showdown';
-import BBCodeParser from '../utils/bbcode-parser';
-showdown.setFlavor('github');
-const converter = new showdown.Converter({
-	parseImgDimensions: true,
-	//extensions: ['code-highlight', 'discord-spoiler', 'youtube', 'header-anchors'],
-	underline: true,
-	ghMentions: false,
-	simplifiedAutoLink: true,
-	ghMentionsLink: '/user/{u}'
-});
+import { parseMarkdown } from '../utils/md-parser';
 
 export default {
 	data() {
@@ -42,12 +33,7 @@ export default {
 	},
 	computed: {
 		md() {
-			let text = BBCodeParser.process(this.mdText);
-			text = text.replace(/&gt;/g, '>');
-     		text = text.replace(/&quot;/g, '"');
-        	text = converter.makeHtml(text);
-
-			return text;
+			return parseMarkdown(this.mdText)
 		}
 	}
 }

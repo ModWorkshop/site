@@ -79,7 +79,7 @@ a:hover {
     color: var(--primary-hover-color);
 }
 
-.el-textarea__inner, .el-input__inner {
+.el-textarea__inner, .el-input__inner, textarea {
     color: var(--text-color);
     background-color: var(--input-bg-color);
     border: 1px solid var(--input-border-color);
@@ -102,12 +102,13 @@ a:hover {
     border-bottom-color: var(--input-border-color);
 }
 
-.el-select:hover .el-input__inner, .el-textarea__inner:hover {
+.el-select:hover .el-input__inner, .el-textarea__inner:hover, textarea:hover {
     border-color: var(--input-border-hover-color);
 }
 
-.el-select .el-input.is-focus .el-input__inner, .el-textarea__inner:focus {
+.el-select .el-input.is-focus .el-input__inner, .el-textarea__inner:focus, textarea:focus-visible {
     border-color: var(--primary-color);
+    outline: none;
 }
 
 .el-select-dropdown__item.selected {

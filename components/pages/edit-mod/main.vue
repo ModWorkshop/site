@@ -3,9 +3,9 @@
         <el-form-item label="Name" prop="name">
             <el-input v-model="mod.name"/>
         </el-form-item>
-        <el-form-item label="Description" prop="description">
-            <el-input type="textarea" v-model="mod.desc" rows="8"/> <!-- TODO: Markdown editor -->
-        </el-form-item>
+        <form-item label="Description" label-id="desc">
+            <md-editor v-model="mod.desc" rows="16"/>
+        </form-item>
         <el-form-item label="Game" prop="game">
             <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;">
                 <el-option v-for="game in games" :key="game.name" :label="game.name" :value="game.id"/>

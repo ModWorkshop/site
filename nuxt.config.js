@@ -38,7 +38,8 @@ export default {
 		'@fortawesome/fontawesome-svg-core/styles.css',
 		"element-ui/lib/theme-chalk/index.css",
 		"~/assets/css/element-ui-var",
-		"~/assets/css/helpers"
+		"~/assets/css/helpers",
+		"~/assets/css/github-dark"
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

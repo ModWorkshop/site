@@ -41,7 +41,7 @@
         <div class="mod-main">
             <flex grow>
                 <tabs class="content-block flex-grow">
-                    <tab name="description" :title="$t('description')">{{mod.desc}}</tab>
+                    <tab name="description" :title="$t('description')" v-html="mdDesc"/>
                     <tab name="images" :title="$t('images')">Nothing for now!</tab>
                     <tab name="files" :title="$t('files')">Nothing for now!</tab>
                     <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">{{mod.changelog}}</tab>
@@ -84,6 +84,7 @@
 <script>
     import { mapGetters } from 'vuex';
     import { DateTime } from 'luxon';
+    import { parseMarkdown } from '../utils/md-parser';
 
     //TODO: implement pipe split for mod status and whatnot
     export default {
@@ -93,6 +94,9 @@
             }
         },
         computed: {
+            mdDesc() {
+                return parseMarkdown(this.mod.desc);
+            },
             likes() {
                 return 0;
             },
