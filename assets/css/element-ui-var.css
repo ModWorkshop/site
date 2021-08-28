@@ -193,3 +193,24 @@ a:hover {
 .text-secondary {
     color: var(--secondary-text-color);
 }
+
+*, :after, :before {
+    box-sizing: border-box;
+    border: 0 solid;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+button:hover {
+    cursor: pointer;
+}
