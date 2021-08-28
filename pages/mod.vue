@@ -3,7 +3,7 @@
         <flex>
             <!-- TODO: make our own buttons -->
             <nuxt-link :to="`/mod/${this.mod.id}/edit`">
-                <el-button type="primary"><font-awesome-icon icon="cog"/> {{$t('edit_mod')}}</el-button>
+                <a-button icon="cog">{{$t('edit_mod')}}</a-button>
             </nuxt-link>
         </flex>
         <flex style="border-radius: 0.25rem">
@@ -69,9 +69,9 @@
                 </div>
                 <div class="p-2 tags-block">
                     <!-- TODO: Don't forget to make them link -->
-                    <el-tag effect="dark">Temp</el-tag>
-                    <el-tag effect="dark">Anime</el-tag>
-                    <el-tag effect="dark">Pog</el-tag>
+                    <tag>Temp</tag>
+                    <tag>Anime</tag>
+                    <tag>Pog</tag>
                 </div>
                 <div class="p-2 colllaborators-block">
                     <user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>

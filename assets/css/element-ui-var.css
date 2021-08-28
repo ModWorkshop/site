@@ -33,6 +33,7 @@ body, html {
     --header-footer-color: #394047;
     --button-text-color: #fff;
     --tab-selected-color: #363d44;
+    --border-radius: 4px;
 }
 
 html.light-mode {

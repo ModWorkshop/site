@@ -3,7 +3,7 @@
         <flex>
             <!-- TODO: make our own buttons -->
             <nuxt-link :to="`/mod/${this.mod.id}`">
-                <el-button type="primary"><font-awesome-icon icon="arrow-left"/> {{$t('return_to_mod')}}</el-button>
+                <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
         <div class="content-block">
