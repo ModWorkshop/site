@@ -42,15 +42,7 @@ class CreateModsTable extends Migration
             $table->bigInteger('views')->unsigned()->default(0);
             $table->tinyText('version')->default('');
             $table->tinyText('donation')->default(''); // Was receiver_email
-            
-            /**
-             * Was collaborators and invited
-             * We'll handle this with a link table that will be able to assign type of collaborator
-             * Credit, Editor, Maintainer for example
-             * Why the value? At the moment I don't think there is a quick and easy way to do an if statement
-             * and if the mod isn't visible try to look for joined tables... you can understand it's a little tricky.
-             */
-            $table->string('access_ids')->default('');
+
             $table->boolean('suspended')->default(false);
             $table->boolean('comments_disabled')->default(false);
             $table->tinyInteger('file_status')->default(0);
