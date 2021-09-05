@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class UserSettingsController extends Controller
 {
+    /**
+     * Upload user avatar
+     *
+     * @bodyParam file file required The new avatar of the user
+     * @param Request $request
+     * @return void
+     */
     public function uploadAvatar(Request $request) {
         $file = $request->file('file');
         $user = $request->user();

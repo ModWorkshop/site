@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ModsController;
+use App\Http\Controllers\ModController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingsController;
 use App\Models\Category;
 use App\Models\Mod;
@@ -29,10 +31,16 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
+/**
+ * @hideFromAPIDocumentation
+ */
 Route::get('/auth/steam/redirect', function(Request $request) {
     return Socialite::driver('steam')->redirect();
 });
 
+/**
+ * @hideFromAPIDocumentation
+ */
 Route::get('/auth/steam/callback', function(Request $request) {
     $user = Socialite::driver('steam')->user();
     return json_encode($user);
@@ -40,13 +48,23 @@ Route::get('/auth/steam/callback', function(Request $request) {
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
 // Routes that are protected under auth
-Route::get('mods/{mod}', fn(Mod $mod) => $mod->toJson());
-Route::get('users/{user}', fn(User $user) => $user->toJson());
-Route::get('categories', [ModsController::class, 'getAllCategories']);
-Route::get('mods', [ModsController::class, 'view']);
+
+Route::get('users/{user}', [UserController::class, 'getUser']);
+Route::get('categories', [CategoryController::class, 'getCategories']);
+Route::get('mods', [ModController::class, 'getMods']);
+Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::middleware('can:create,App\Mod')->post('/mods', [ModsController::class, 'save']);
-    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModsController::class, 'save']);
+    Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
+    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
     Route::post('/users/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
-    Route::get('/user', fn (Request $request) => $request->user());
+    Route::get('/user', [UserController::class, 'currentUser']);
+});
+
+/**
+ * @group Category
+ */
+Route::prefix('games')->group(function () {
+    Route::get('/', [CategoryController::class, 'getGames']);
+    Route::get('/{game}', [CategoryController::class, 'getGame']);
+    Route::get('/{game}/categories', [CategoryController::class, 'getCategories']);
 });

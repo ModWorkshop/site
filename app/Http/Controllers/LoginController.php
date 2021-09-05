@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ViewErrorBag;
 
+/**
+ * @group Authentication
+ */
 class LoginController extends Controller
 {
     /**
-     * Handle an authentication attempt.
+     * Login
+     * 
+     * Attempts to login a user with the provided username and password
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -37,15 +41,27 @@ class LoginController extends Controller
         return response('Something went wrong :((', Response::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * Logout
+     * 
+     * Logs out the currently authenticated user.
+     *
+     * @authenticated
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return 200;
+        return Response::HTTP_OK;
     }
 
-      /**
-     * Handle a registeration attempt.
+    /**
+     * Register
+     * 
+     * Attempts to register users
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

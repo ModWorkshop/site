@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * @hideFromAPIDocumentation
+ */
 Route::get('/', function () {
     return view('welcome');
 });
