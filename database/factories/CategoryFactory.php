@@ -25,7 +25,6 @@ class CategoryFactory extends Factory
         $name = $this->faker->word();
         return [
             'name' => $name,
-            'short_name' => $name,
             'last_date' => Carbon::now()->toDateTimeString()
         ];
     }
