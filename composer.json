@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "biiiiiigmonster/hasin": "^1.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -13,6 +14,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
+        "mpyw/eloquent-has-by-join": "^2.0",
+        "mpyw/eloquent-has-by-non-dependent-subquery": "^2.0",
         "socialiteproviders/steam": "^4.1",
         "socialiteproviders/zoho": "^4.1"
     },

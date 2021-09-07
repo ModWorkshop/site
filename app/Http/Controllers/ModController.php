@@ -52,17 +52,16 @@ class ModController extends Controller
         ]);
         
         $query = Mod::limit($val['limit'] ?? 40)->list()->orderBy('updated_at', 'DESC');
-        
+
         if (isset($val['tags'])) {
-            $query->whereHas('tags', function(Builder $q) use ($val) {
-                $q->whereIn('tags.id', $val['tags']);
+            $query->whereHasIn('tags', function(Builder $q) use ($val) {
+                $q->limit(1)->whereIn('tags.id', $val['tags']);
             });
         }
-
         
         if (isset($val['notInTags'])) {
-            $query->whereDoesntHave('tags', function(Builder $q) use ($val) {
-                $q->whereIn('tags.id', $val['notInTags']);
+            $query->whereDoesntHaveIn('tags', function(Builder $q) use ($val) {
+                $q->limit(1)->whereIn('tags.id', $val['notInTags']);
             });
         }
 
