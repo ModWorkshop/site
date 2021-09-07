@@ -1,7 +1,13 @@
 <template>
-    <span class="tag"><slot/></span>
+    <span class="tag" :style="{backgroundColor: color}"><slot/></span>
 </template>
-
+<script>
+export default {
+    props: {
+        color: String
+    }
+}
+</script>
 <style scoped>
     .tag {
         padding: 0.5rem 0.75rem;

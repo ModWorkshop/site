@@ -1,14 +1,15 @@
 export const state = () => ({
     user: false,
-    categories: []
+    games: [],
+    tags: []
 });
 
 export const mutations = {
     setUser(state, user) {
         state.user = user;
     },
-    setCategories(state, categories) {
-        state.categories = categories;
+    setGames(state, games) {
+        state.categories = games;
     },
     setUserAvatar(state, avatar) {
         state.user.avatar = avatar;
@@ -25,16 +26,16 @@ export const getters = {
     userId(state) {
         return state.user.id;
     },
-    categories(state) {
-        return state.categories;
-    }
+    games(state) {
+        return state.games;
+    },
 };
 
 export const actions = {
-    async fetchCategories({commit}) {
-        if (this.state.categories.length === 0) {
-            const categories = await this.$axios.get('/categories').then(res => res.data);
-            await commit('setCategories', categories);
+    async fetchGames({commit}) {
+        if (this.state.games.length === 0) {
+            const games = await this.$axios.get('/games').then(res => res.data);
+            await commit('setGames', games);
         }
     },
     async nuxtServerInit({commit}, {req, $axios}) {

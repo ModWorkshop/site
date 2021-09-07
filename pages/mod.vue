@@ -22,7 +22,7 @@
                         <div class="p-0 version mt-auto">
                             <span>
                                 <strong v-if="modStatus">{{modStatus}}</strong>
-                                <strong v-if="mod.version && mod.version|length <= 24">{{$t('version')}} {{mod.version}}</strong>
+                                <strong v-if="mod.version && mod.version.length <= 24">{{$t('version')}} {{mod.version}}</strong>
                                 <strong>{{$t('last_updated')}}</strong> <!--TODO: implement last updater-->
                                 <span :title="mod.updated_at">{{updateDateAgo}}</span>
                             </span>
@@ -67,12 +67,10 @@
                         <span>{{views}}</span>
                     </div>
                 </div>
-                <div class="p-2 tags-block">
+                <flex gap="1" wrap class="p-2 tags-block">
                     <!-- TODO: Don't forget to make them link -->
-                    <tag>Temp</tag>
-                    <tag>Anime</tag>
-                    <tag>Pog</tag>
-                </div>
+                    <tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</tag>
+                </flex>
                 <div class="p-2 colllaborators-block">
                     <user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
                 </div>

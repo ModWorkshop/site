@@ -12,17 +12,13 @@
             </el-select>
         </el-form-item>
         <el-form-item label="Category" prop="category">
-            <el-select v-model="mod.category_id" placeholder="Select a category" style="width: 100%;" clearable>
+            <el-select v-model="mod.category_id" placeholder="Select a category" style="width: 100%;" clearable filterable>
                 
             </el-select>
         </el-form-item>
         <el-form-item label="Tags" prop="tags">
-            <el-select v-model="mod.tags" placeholder="Select tags" style="width: 100%;" clearable multiple>
-                <el-option label="Test" value="1"/>
-                <el-option label="This" value="2"/>
-                <el-option label="Doesn't" value="3"/>
-                <el-option label="Work" value="4"/>
-                <el-option label="Yet" value="5"/>
+            <el-select v-model="mod.tags" placeholder="Select tags" style="width: 100%;" clearable multiple filterable>
+                <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
             </el-select>
         </el-form-item>
         <el-form-item label="Version" prop="version">
@@ -44,19 +40,22 @@
     </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 export default {
     props: {
-        mod: Object,
+        mod: Object
     },
+    data: () => ({
+        tags: []
+    }),
     computed: {
         games() {
-            const cats = this.$store.getters.categories;
-            return cats;
+            return this.$store.getters.games;
         }
     },
     async fetch() {
-        await this.$store.dispatch('fetchCategories');
+        await this.$store.dispatch('fetchGames');
+        
+        this.tags = await this.$axios.get('tags').then(res => res.data);
     }
 }
 </script>
