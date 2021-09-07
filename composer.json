@@ -20,6 +20,7 @@
         "socialiteproviders/zoho": "^4.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.10",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^3.9",
