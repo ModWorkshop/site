@@ -2,7 +2,7 @@
     <flex column>
         <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
         <flex wrap column class="mods justify-content-start">
-            <div v-if="is_list" id="mod_list_head" class="p-3 list_mod align-items-center bg-dark" style="height:40px;">
+            <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center bg-dark" style="height:40px;">
                 <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
                 <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
                 <div style="flex: 3">{{$t('author')}}</div>
@@ -16,23 +16,31 @@
                     <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
                 </template>
             </div>
-            <div id="content" :class="`mods p-3 ${is_list ? 'mods-list' : 'mods-grid'}`">
+            <div id="content" :class="`mods p-3 ${isList ? 'mods-list' : 'mods-grid'}`">
                 <mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
             </div>
-            <button id="load-more" class="btn" type="button">{{$t('load_more')}}</button>
+            <button id="load-more" class="btn" @click="loadMods">{{$t('load_more')}}</button>
         </flex>
     </flex>
 </template>
 <script>
 export default {
     props: {
-        title: String,
-        mods: Array
+        title: String
     },
     data() {
         return {
-            is_list: false
+            isList: false,
+            mods: []
         }
+    },
+    methods: {
+        async loadMods() {
+            this.mods = [...this.mods, ...await this.$factory.get('mods')];
+        }
+    },
+    async fetch() {
+        this.mods = [...this.mods, ...await this.$factory.get('mods')];
     }
 }
 </script>
