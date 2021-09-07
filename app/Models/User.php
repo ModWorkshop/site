@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 
 class User extends Authenticatable
 {
@@ -15,21 +15,57 @@ class User extends Authenticatable
 
     private static $membersRole = null;
     
-    private $permissions = [];
-
     // Always return roles for users
-    protected $with = ['roles.permissions'];
+    protected $with = ['roles'];
+    private $permissions  = [];
     private $roleNames = [];
+
+    private $gotPerms = false;
+    private $gotRoles = false;
 
     public function roles() : BelongsToMany
     {
         return $this->belongsToMany(Role::class)->orderByDesc('order');
     }
 
-    public function getRolesAndPermissions() {
-        self::$membersRole ??= Role::find(1);
+    /**
+     * A scope to select permissions for users
+     * In most cases, we don't really have a need to know a user's permissions.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithPermissions(Builder $query) : Builder
+    {
+        return $query->without('roles')->with(['roles.permissions']);
+    }
+
+    public function getRoleNames()
+    {
+        if ($this->gotRoles) {
+            return $this->roleNames;
+        }
+
+        self::$membersRole ??= Role::with('permissions')->find(1);
         $roles = $this->roles;
         $roles->prepend(self::$membersRole);
+
+        $rolesNames = [];
+
+        foreach ($roles as $role) {
+            $rolesNames[] = $role->name;
+        }
+
+        $this->gotRoles = true;
+
+        return $rolesNames;
+    }
+
+    public function getPermissions()
+    {
+        if ($this->gotPerms) {
+            return $this->permissions;
+        }
 
         /**
          * THIS IS TEMPORARY
@@ -38,28 +74,29 @@ class User extends Authenticatable
          * The purpose of the allow variable is only take away permissions when necessary and not have to do give - take - give.
          * Only give and take with the first give being pretty much the members role.
          */
-        foreach ($roles as $role) {
-            $this->roleNames[] = $role->name;
-            foreach ($role->permissions as $perm) {
-                $slug = $perm->slug;
-                if ($perm->pivot->allow) {
-                    if (!$this->hasPermission($perm->slug)) {
-                        $this->grantPermission($slug);
-                    }
-                } else {
-                    if ($this->hasPermission($perm->slug)) {
-                        $this->denyPermission($slug);
+
+        foreach ($this->roles as $role) {
+            if ($role->relationLoaded('permissions')) {
+                foreach ($role->permissions as $perm) {
+                    $slug = $perm->slug;
+                    if ($perm->pivot->allow) {
+                        if (!$this->hasPermission($perm->slug)) {
+                            $this->grantPermission($slug);
+                        }
+                    } else {
+                        if ($this->hasPermission($perm->slug)) {
+                            $this->denyPermission($slug);
+                        }
                     }
                 }
+            } else {
+                return null;
             }
         }
-    }
-    
-    protected static function booted()
-    {
-        static::retrieved(function($model) {
-            $model->getRolesAndPermissions();
-        });
+
+        $this->gotPerms = true;
+
+        return $this->permissions;
     }
 
     /**
@@ -94,14 +131,14 @@ class User extends Authenticatable
         $this->permissions[$toWhat] = true;
     }
 
-    protected $appends = ['role_names'];
+    protected $appends = ['role_names', 'permissions'];
 
     public function getRoleNamesAttribute() {
-        return $this->roleNames;
+        return $this->getRoleNames();
     }
 
     public function getPermissionsAttribute() {
-        return $this->permissions;
+        return $this->getPermissions();
     }
 
     /**
