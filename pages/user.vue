@@ -32,18 +32,7 @@
     </div>
 </template>
 <script>
-import showdown from 'showdown';
-showdown.setFlavor('github');
-
-const converter = new showdown.Converter({
-	parseImgDimensions: true,
-	//extensions: ['code-highlight', 'discord-spoiler', 'youtube', 'header-anchors'],
-	underline: true,
-	ghMentions: false,
-	simplifiedAutoLink: true,
-	ghMentionsLink: '/user/{u}'
-});
-
+import { parseMarkdown } from '../utils/md-parser';
 export default {
     data() {
         return {
@@ -58,7 +47,7 @@ export default {
             return 'url(https://modworkshop.net/uploads/banners/banner_11.png?t=1586915614)';
         },
         userBio() {
-            return converter.makeHtml(`
+            return parseMarkdown(`
 ### I made some mods for payday now I am just lazy
 
 I'm the main site developer at time of writing. Feel free to suggest ideas for the site in our discord server!

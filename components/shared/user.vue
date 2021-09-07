@@ -1,7 +1,7 @@
 <template>
-    <flex inline gap="2">
-        <nuxt-link :to="`/user/${user.id}`">
-            <avatar v-if="avatar" :size="avatarSize" :src="src"/>
+    <flex inline :gap="avatar ? 2 : null">
+        <nuxt-link v-if="avatar" :to="`/user/${user.id}`">
+            <avatar :size="avatarSize" :src="src"/>
         </nuxt-link>
         <div class="inline-block">
             <nuxt-link :to="`/user/${user.id}`">
@@ -15,6 +15,7 @@
     </flex>
 </template>
 <script>
+
 export default {
     props: {
         details: String,
