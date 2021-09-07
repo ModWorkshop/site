@@ -17,14 +17,21 @@ class ModsTagsSeeder extends Seeder
     public function run()
     {
         //Tag::factory()->count(100)->create();
-        Mod::factory()->count(25000)->create()->each(function($mod)
-        {
-            $tags = $mod->tags();
-            $tags->attach(rand(1, 100));
-            $tags->attach(rand(1, 100));
-            $tags->attach(rand(1, 100));
-            $tags->attach(rand(1, 100));
+        // Mod::factory()->count(25000)->create()->each(function(Mod $mod)
+        // {
+        //     $tags = $mod->tags();
+        //     $tags->attach(rand(1, 100));
+        //     $tags->attach(rand(1, 100));
+        //     $tags->attach(rand(1, 100));
+        //     $tags->attach(rand(1, 100));
+        // });
+        Category::factory()->count(10)->create()->each(function(Category $category) {
+            Category::factory()->count(10)->create()->each(function(Category $childCategory) use ($category) {
+                $childCategory->update([
+                    'game_id' => $category->id,
+                    'parent_id' => $category->id
+                ]);
+            });
         });
-        //Category::factory()->count(100)->create();
     }
 }

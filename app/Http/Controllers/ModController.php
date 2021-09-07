@@ -6,6 +6,7 @@ use App\Models\Mod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 
 /**
  * @group Mod
@@ -102,20 +103,29 @@ class ModController extends Controller
             'version' => 'string|max:100',
             'visibility' => 'integer|min:1|max:4|required',
             'game_id' => 'integer|min:1|required|exists:categories,id',
-            'category_id' => 'integer|min:1|nullable|exists:categories,id'
+            'category_id' => 'integer|min:1|nullable|exists:categories,id',
+            'tags' => 'array',
+            'tags.*' => 'integer|min:1',
         ]);
+
+        $tags = Arr::pull($val, 'tags'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
         if (isset($mod)) {
             $mod->update($val);
-            return Response::HTTP_OK;
         } else {
             // Never put something like $request->all(); in create.
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
             $val['submitter_uid'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
-            return $mod->toJson();
         }
 
+
+        if(isset($tags)) {
+            $mod->tags()->sync($tags);
+        }
+
+        return $mod->toJson();
+        
         return back()->withErrors([
             'name' => 'A mod must have a name and it should not exceed 150 characters',
             'desc' => 'A mod must have a description and it should not exceed 30k character'

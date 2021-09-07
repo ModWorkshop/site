@@ -31,7 +31,7 @@ class ModPolicy
      */
     public function view(User $user, Mod $mod)
     {
-        //
+        
     }
 
     /**
@@ -52,9 +52,9 @@ class ModPolicy
      * @param  \App\Models\Mod  $mod
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Mod $mod)
+    public function update(User $user, Mod $mod, array $args)
     {
-        return $user->id === $mod->submitter_uid;
+        return $user->id === $mod->submitter_uid ? Response::allow() : Response::deny('You cannot edit the mod');
     }
 
     /**

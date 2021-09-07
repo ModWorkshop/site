@@ -24,26 +24,45 @@ class CategoryController extends Controller
      * @param Category|null $game
      * @return void
      */
-    public function getCategories(Request $request, Category $game=null)
+    public function getCategories(Request $request, Category $game=null, bool $getGames=false)
     {
         // Query parameters
         $val = $request->validate([
-            'limit' => 'integer|min:1|max:100|default:1000',
+            'limit' => 'integer|min:1|max:1000',
             'page' => 'integer|min:1',
             //Returns only the names of the categories
             'only_names' => 'boolean'
         ]);
 
-        $q = Category::query();
+        $q = Category::limit($val['limit'] ?? 1000);
 
-        // Limit results.
-        $q->limit($val['limit']);
-        if (isset($val['page'])) {
-            $q->paginate($val['limit']);
+        if (($val['only_names'] ?? false)) {
+            $q->select(['id', 'name']);
         }
 
+        if ($getGames) {
+            // Since now we use relations we cannot set it simply to 0, so instead we set it to null.
+            $q->whereNull('parent_id');
+        } elseif (isset($game)) {
+            $q->where('parent_id', $game->id);
+        }
 
-        return Category::limit($val['limit'])->get();
+        // Limit results.
+        if (isset($val['page'])) {
+            $q->paginate($val['page']);
+        }
+
+        return $q->get();
+    }
+
+    /**
+     * Games
+     *
+     * @return void
+     */
+    public function getGames(Request $request)
+    {
+        return $this->getcategories($request, null, true);
     }
 
     /**

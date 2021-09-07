@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends Model
 {
@@ -29,4 +30,14 @@ class Category extends Model
         'last_date',
         'webhook_url'
     ];
+
+    public function game() : HasOne 
+    {
+        return $this->hasOne(Category::class, "id", 'game_id');
+    }
+
+    public function parent() : HasOne 
+    {
+        return $this->hasOne(Category::class, "id", 'parent_id');
+    }
 }

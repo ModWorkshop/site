@@ -9,6 +9,8 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $with = [];
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class)->withPivot('allow');

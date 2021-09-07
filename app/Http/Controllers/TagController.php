@@ -21,9 +21,9 @@ class TagController extends Controller
     public function getTags(Request $request)
     {
         $val = $request->validate([
-            'limit' => 'integer|min:1|max:100|default:50',
+            'limit' => 'integer|min:1|max:100',
         ]);
 
-        return Tag::limit($val['limit'])->get();
+        return Tag::limit($val['limit'] ?? 50)->get();
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingsController;
 use App\Models\Category;
@@ -53,6 +54,7 @@ Route::get('users/{user}', [UserController::class, 'getUser']);
 Route::get('categories', [CategoryController::class, 'getCategories']);
 Route::get('mods', [ModController::class, 'getMods']);
 Route::get('mods/{mod}', [ModController::class, 'getMod']);
+Route::get('tags', [TagController::class, 'getTags']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
     Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
