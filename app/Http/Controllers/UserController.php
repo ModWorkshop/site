@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function getUser(User $user)
     {
-        return $user->tojson();
+        return $user->toJson();
     }
 
     /**
