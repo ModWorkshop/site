@@ -103,11 +103,11 @@ class ModController extends Controller
             'visibility' => 'integer|min:1|max:4|required',
             'game_id' => 'integer|min:1|required|exists:categories,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
-            'tags' => 'array',
-            'tags.*' => 'integer|min:1',
+            'tag_ids' => 'array',
+            'tag_ids.*' => 'integer|min:1',
         ]);
 
-        $tags = Arr::pull($val, 'tags'); // Since 'tags' isn't really inside the model, we need to pull it out.
+        $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
         if (isset($mod)) {
             $mod->update($val);

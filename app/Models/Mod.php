@@ -89,9 +89,9 @@ class Mod extends Model
      * @var array
      */
     protected $guarded = [];
-    protected $appends = [];
 
     protected $with = ['tags', 'submitter', 'game', 'category'];
+    protected $appends = ['tag_ids'];
     
     public function scopeList(Builder $query)
     {
@@ -116,5 +116,18 @@ class Mod extends Model
     public function tags() : BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function getTagIdsAttribute()
+    {
+        if ($this->relationLoaded('tags')) {
+            $tagIds = [];
+            foreach ($this->tags as $tag) {
+                $tagIds[] = $tag->id;
+            }
+            return $tagIds;
+        } else {
+            return null;
+        }
     }
 }
