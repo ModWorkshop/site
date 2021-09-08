@@ -31,10 +31,16 @@ class CategoryController extends Controller
             'limit' => 'integer|min:1|max:1000',
             'page' => 'integer|min:1',
             //Returns only the names of the categories
-            'only_names' => 'boolean'
+            'only_names' => 'boolean',
+            'include_paths' => 'boolean'
         ]);
 
         $q = Category::limit($val['limit'] ?? 1000);
+
+        $incPaths = $val['include_paths'] ?? false;
+        if ($incPaths) {
+            $q->with('parent');
+        }
 
         if (($val['only_names'] ?? false)) {
             $q->select(['id', 'name']);
@@ -52,7 +58,13 @@ class CategoryController extends Controller
             $q->paginate($val['page']);
         }
 
-        return $q->get();
+        $categories = $q->get();
+
+        if ($incPaths) {
+            $categories->append('path');
+        }
+
+        return $categories;
     }
 
     /**

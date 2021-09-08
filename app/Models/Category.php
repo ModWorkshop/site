@@ -77,6 +77,21 @@ class Category extends Model
         'webhook_url'
     ];
 
+    protected $hidden = ['parent', 'game'];
+    
+    protected $with = [];
+
+    protected $appends = [];
+
+    public function getPathAttribute()
+    {
+        if (isset($this->parent) && $this->game != $this->parent) {
+            return $this->name . ' / ' . $this->parent->path;
+        } else {
+            return $this->name;
+        }
+    }
+    
     public function game() : HasOne 
     {
         return $this->hasOne(Category::class, "id", 'game_id');
