@@ -9,7 +9,7 @@ export const mutations = {
         state.user = user;
     },
     setGames(state, games) {
-        state.categories = games;
+        state.games = games;
     },
     setUserAvatar(state, avatar) {
         state.user.avatar = avatar;

@@ -7,13 +7,13 @@
             <md-editor v-model="mod.desc" rows="16"/>
         </form-item>
         <el-form-item label="Game" prop="game">
-            <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;">
+            <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;" filterable>
                 <el-option v-for="game in games" :key="game.id" :label="game.name" :value="game.id"/>
             </el-select>
         </el-form-item>
         <el-form-item label="Category" prop="category">
             <el-select v-model="mod.category_id" placeholder="Select a category" style="width: 100%;" clearable filterable>
-                
+                <el-option v-for="category in categories" :key="category.id" :label="category.path" :value="category.id"/>
             </el-select>
         </el-form-item>
         <el-form-item label="Tags" prop="tags">
@@ -40,22 +40,30 @@
     </div>
 </template>
 <script>
+import { computed, ref, useContext, useFetch, useStore, watch } from '@nuxtjs/composition-api';
+
 export default {
     props: {
         mod: Object
     },
-    data: () => ({
-        tags: []
-    }),
-    computed: {
-        games() {
-            return this.$store.getters.games;
-        }
-    },
-    async fetch() {
-        await this.$store.dispatch('fetchGames');
+    setup({ mod }) {
+        const { $axios } = useContext();
+        const $store = useStore();
+
+        const categories = ref([]);
+        const tags = ref([]);
+        const games = computed(() => $store.getters.games);
+        useFetch(async () => {
+            await $store.dispatch('fetchGames');
         
-        this.tags = await this.$axios.get('tags').then(res => res.data);
-    }
+            tags.value = await $axios.get('/tags').then(res => res.data);
+        });
+
+        watch(() => mod.game_id, async () => {
+            categories.value = await $axios.get(`/games/${mod.game_id}/categories?include_paths=1`).then(res => res.data);
+        }, {immediate: true});
+
+        return { tags, categories, games };
+    },
 }
 </script>

@@ -14,12 +14,12 @@
                 <user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
-            <div v-if="!noCategories">
+            <div v-if="!noCategories && (mod.game || mod.category)">
                 <font-awesome-icon icon="map-marker-alt"/>
-                <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game_short || mod.gid}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
-                <template v-if="mod.gid != mod.cid">
+                <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
+                <template v-if="mod.category && mod.game_id != mod.category_id">
                     <span class="text-secondary"> / </span>
-                    <nuxt-link class="text-secondary" :to="`/category/${mod.cid}`" :title="mod.category">{{mod.category}}</nuxt-link>
+                    <nuxt-link class="text-secondary" :to="`/category/${mod.category_id}`" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
                 </template>
             </div>
 
