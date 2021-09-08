@@ -25,42 +25,41 @@
     import { parseMarkdown } from '../../utils/md-parser';
 
     export default {
-        data() {
-            return {
-                toolGroups: [ //$ = selection
-                    {
-                        name: 'main',
-                        tools: [
-                            {icon: 'bold', insert: '**$**'},
-                            {icon: 'italic', insert: '*$*'},
-                            {icon: 'strikethrough', insert: '~~$~~'},
-                            {icon: 'underline', insert: '__$__'},
-                            {icon: 'heading', insert: '# $'},
-                            {icon: 'align-center', insert: ':::$:::'},
-                        ]
-                    },
-                    {
-                        name: 'fuck',
-                        tools: [
-                            {icon: 'quote-left', insert: '> $'},
-                            {icon: 'code', insert: '```\n$\n```'},
-                            {icon: 'list-ul', insert: '* $'},
-                            {icon: 'list-ol', insert: '1. $'},
-                            {icon: 'eye-slash', insert: '||$||'}, //Spoiler
-                        ]
-                    },
-                    {
-                        name: 'media',
-                        tools: [
-                            {icon: 'link', insert: '[$](https://)'},
-                            {icon: 'photo-video', insert: '[](https://$)'},
-                            {icon: 'minus', insert: '$\n\n-----'},
-                            {icon: 'table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
-                        ]
-                    }
-                ]
-            }
-        },
+        data: () => ({
+            test: 'lol',
+            toolGroups: [ //$ = selection
+                {
+                    name: 'main',
+                    tools: [
+                        {icon: 'bold', insert: '**$**'},
+                        {icon: 'italic', insert: '*$*'},
+                        {icon: 'strikethrough', insert: '~~$~~'},
+                        {icon: 'underline', insert: '__$__'},
+                        {icon: 'heading', insert: '# $'},
+                        {icon: 'align-center', insert: ':::$:::'},
+                    ]
+                },
+                {
+                    name: 'fuck',
+                    tools: [
+                        {icon: 'quote-left', insert: '> $'},
+                        {icon: 'code', insert: '```\n$\n```'},
+                        {icon: 'list-ul', insert: '* $'},
+                        {icon: 'list-ol', insert: '1. $'},
+                        {icon: 'eye-slash', insert: '||$||'}, //Spoiler
+                    ]
+                },
+                {
+                    name: 'media',
+                    tools: [
+                        {icon: 'link', insert: '[$](https://)'},
+                        {icon: 'photo-video', insert: '[](https://$)'},
+                        {icon: 'minus', insert: '$\n\n-----'},
+                        {icon: 'table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
+                    ]
+                }
+            ]
+        }),
         props: {
             labelId: String,
             value: String,
