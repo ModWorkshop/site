@@ -68,7 +68,7 @@ Pretty much all my mods have either no license (falls under default license of t
             return true;
         },
         userAvatar() {
-            return 'http://localhost:8001/storage/' + this.user.avatar; //TODO: don't hardcode this URL.
+            return 'http://localhost:8000/storage/' + this.user.avatar; //TODO: don't hardcode this URL.
         }
     },
     async asyncData({params, $factory}) {

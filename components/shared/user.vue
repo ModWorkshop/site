@@ -31,7 +31,7 @@ export default {
     },
     computed: {
         src() {
-            return `http://localhost:8001/storage/${this.user.avatar}`;
+            return `http://localhost:8000/storage/${this.user.avatar}`;
         }
     }
 }

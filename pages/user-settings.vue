@@ -55,7 +55,7 @@ export default {
     },
     computed: {
         avatarUploadLink() {
-            return `http://localhost:8001/user/${this.$store.getters.userId}/avatar`;
+            return `http://localhost:8000/user/${this.$store.getters.userId}/avatar`;
         },
         ...mapGetters([
             'userAvatar'
@@ -74,7 +74,7 @@ export default {
             console.log(params);
             const formData = new FormData();
             formData.append('file', params.file);
-            const newAvatar = await this.$axios.post(`http://localhost:8001/users/${this.$store.getters.userId}/avatar`, formData, {
+            const newAvatar = await this.$axios.post(`http://localhost:8000/users/${this.$store.getters.userId}/avatar`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
