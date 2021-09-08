@@ -60,6 +60,9 @@ export default {
         });
 
         watch(() => mod.game_id, async () => {
+            if (!mod.game_id) {
+                return;
+            }
             categories.value = await $axios.get(`/games/${mod.game_id}/categories?include_paths=1`).then(res => res.data);
         }, {immediate: true});
 
