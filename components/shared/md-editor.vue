@@ -4,7 +4,9 @@
             <tab name="write" title="Write">
                 <textarea ref="textarea" class="textarea" :id="labelId" :value="value" @input="$emit('input', $event.target.value)" :rows="rows"/>
             </tab>
-            <tab name="preview" title="Preview" v-html="mdHTML"/>
+            <tab name="preview" title="Preview">
+                <div v-html="mdHTML"/>
+            </tab>
             <template v-slot:buttons>
                 <flex gap="1" class="ml-auto my-auto items-center">
                     <template v-for="[i, group] of toolGroups.entries()">

@@ -41,7 +41,9 @@
         <div class="mod-main">
             <flex grow>
                 <tabs class="content-block flex-grow">
-                    <tab name="description" :title="$t('description')" v-html="mdDesc"/>
+                    <tab name="description" :title="$t('description')">
+                        <div v-html="mdDesc"/>
+                    </tab>
                     <tab name="images" :title="$t('images')">Nothing for now!</tab>
                     <tab name="files" :title="$t('files')">Nothing for now!</tab>
                     <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">{{mod.changelog}}</tab>
