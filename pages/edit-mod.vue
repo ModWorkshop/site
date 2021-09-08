@@ -2,7 +2,7 @@
     <flex gap="3" column class="content-block-large">
         <flex>
             <!-- TODO: make our own buttons -->
-            <nuxt-link :to="`/mod/${this.mod.id}`">
+            <nuxt-link v-if="this.mod.id" :to="`/mod/${this.mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
@@ -47,7 +47,7 @@ export default {
         async save() {
             try {
                 if (this.newMod) {
-                    await this.$factory.create('mods', this.mod);
+                    this.mod = await this.$factory.create('mods', this.mod);
                 } else {
                     await this.$factory.update('mods', this.mod.id, this.mod);
                 }
