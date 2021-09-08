@@ -8,7 +8,7 @@
         </form-item>
         <el-form-item label="Game" prop="game">
             <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;">
-                <el-option v-for="game in games" :key="game.name" :label="game.name" :value="game.id"/>
+                <el-option v-for="game in games" :key="game.id" :label="game.name" :value="game.id"/>
             </el-select>
         </el-form-item>
         <el-form-item label="Category" prop="category">
@@ -17,7 +17,7 @@
             </el-select>
         </el-form-item>
         <el-form-item label="Tags" prop="tags">
-            <el-select v-model="mod.tags" placeholder="Select tags" style="width: 100%;" clearable multiple filterable>
+            <el-select v-model="mod.tag_ids" placeholder="Select tags" style="width: 100%;" clearable multiple filterable>
                 <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
             </el-select>
         </el-form-item>
