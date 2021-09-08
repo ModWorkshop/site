@@ -1,5 +1,6 @@
 <template>
     <flex column gap="3" class="content-block-large">
+        <breadcrumbs :items="breadcrumbs"/>
         <flex>
             <!-- TODO: make our own buttons -->
             <nuxt-link :to="`/mod/${this.mod.id}/edit`">
@@ -94,6 +95,14 @@
             }
         },
         computed: {
+            breadcrumbs() {
+                const mod = this.mod;
+                return [
+                    {name: mod.game.name, to: `/game/${mod.game.id}`},
+                    {name: mod.category.name, to: `/category/${mod.category.id}`},
+                    {name: mod.name},
+                ]
+            },
             mdDesc() {
                 return parseMarkdown(this.mod.desc);
             },

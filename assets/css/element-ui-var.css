@@ -25,6 +25,7 @@ body, html {
     --dropdown-text-color: #ccc;
     --text-color: #fff;
     --secondary-text-color: #d8d8d8;
+    --text-inactive: #6d6d6d;
     --primary-color: #107ef4;
     --primary-hover-color: #0a6fdb;
     --input-bg-color: #17191c;
