@@ -26,7 +26,7 @@
                         <span>{{user.name}}</span>
                     </a>
                     <el-dropdown-menu>
-                        <dropdown-item :to="`user/${user.id}`">Profile</dropdown-item>
+                        <dropdown-item :to="`/user/${user.id}`">Profile</dropdown-item>
                         <dropdown-item>Liked Mods</dropdown-item>
                         <dropdown-item>Followed Mods</dropdown-item>
                         <div class="dropdown-splitter"/>
