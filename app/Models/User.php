@@ -50,7 +50,7 @@ class User extends Authenticatable
     private static $membersRole = null;
     
     // Always return roles for users
-    protected $with = ['roles'];
+    protected $with = ['roles.permissions'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -82,7 +82,9 @@ class User extends Authenticatable
 
         self::$membersRole ??= Role::with('permissions')->find(1);
         $roles = $this->roles;
-        $roles->prepend(self::$membersRole);
+        if (!$roles->contains(self::$membersRole)) {
+            $roles->prepend(self::$membersRole);
+        }
 
         $rolesNames = [];
 
@@ -101,6 +103,14 @@ class User extends Authenticatable
             return $this->permissions;
         }
 
+        $this->gotPerms = true;
+
+        self::$membersRole ??= Role::with('permissions')->find(1);
+        $roles = $this->roles;
+        if (!$roles->contains(self::$membersRole)) {
+            $roles->prepend(self::$membersRole);
+        }
+
         /**
          * THIS IS TEMPORARY
          * the system should not allow for "permission racing", basically if we deny permission once, it should NOT give it again.
@@ -109,7 +119,7 @@ class User extends Authenticatable
          * Only give and take with the first give being pretty much the members role.
          */
 
-        foreach ($this->roles as $role) {
+        foreach ($roles as $role) {
             if ($role->relationLoaded('permissions')) {
                 foreach ($role->permissions as $perm) {
                     $slug = $perm->slug;
@@ -123,12 +133,10 @@ class User extends Authenticatable
                         }
                     }
                 }
-            } else {
-                return null;
-            }
+           } else {
+              return null;
+           }
         }
-
-        $this->gotPerms = true;
 
         return $this->permissions;
     }
@@ -140,7 +148,8 @@ class User extends Authenticatable
      * @return boolean
      */
     function hasPermission(string $toWhat) {
-        return isset($this->permissions[$toWhat]) && $this->permissions[$toWhat] === true;
+        $permissions = $this->getPermissions();
+        return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
 
     /**
