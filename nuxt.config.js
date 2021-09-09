@@ -62,6 +62,10 @@ export default {
 		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss", '@nuxtjs/composition-api/module'
 	],
 
+	scriptSetup: {
+		refTransform: true
+	},
+
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
 		"cookie-universal-nuxt", "@nuxtjs/axios", "@nuxt/image", "@nuxtjs/i18n"
