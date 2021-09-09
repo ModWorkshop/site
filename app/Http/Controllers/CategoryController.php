@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 /**
  * @group Category
@@ -17,6 +18,25 @@ use Illuminate\Http\Request;
  */
 class CategoryController extends Controller
 {
+    public function update(Request $request, Category $category=null)
+    {
+        $val = $request->validate([
+            'name' => 'string|max:150|required',
+            'game_id' => 'integer|min:1|nullable|exists:categories,id',
+            'parent_id' => 'integer|min:1|nullable|exists:categories,id',
+        ]);
+
+        
+        if (isset($category)) {
+            //TODO
+        } else {
+            $val['last_date'] = Date::now();
+            $category = Category::create($val);
+        }
+
+        return $category;
+    }
+
     /**
      * Mod Cateogries
      *
@@ -35,12 +55,7 @@ class CategoryController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $q = Category::limit($val['limit'] ?? 1000);
-
-        $incPaths = $val['include_paths'] ?? false;
-        if ($incPaths) {
-            $q->with('parent');
-        }
+        $q = Category::limit($val['limit'] ?? 1000)->orderBy('name');
 
         if (($val['only_names'] ?? false)) {
             $q->select(['id', 'name']);
@@ -50,7 +65,7 @@ class CategoryController extends Controller
             // Since now we use relations we cannot set it simply to 0, so instead we set it to null.
             $q->whereNull('parent_id');
         } elseif (isset($game)) {
-            $q->where('parent_id', $game->id);
+            $q->where('game_id', $game->id);
         }
 
         // Limit results.
@@ -92,5 +107,10 @@ class CategoryController extends Controller
     public function getGame(Category $game)
     {
         return $game;
+    }
+
+    public function getCategory(Category $category)
+    {
+        return $category;
     }
 }

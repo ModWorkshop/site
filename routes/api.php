@@ -48,18 +48,23 @@ Route::get('/auth/steam/callback', function(Request $request) {
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
-// Routes that are protected under auth
-
 Route::get('users/{user}', [UserController::class, 'getUser']);
+Route::get('categories/{category}', [CategoryController::class, 'getCategory']);
 Route::get('categories', [CategoryController::class, 'getCategories']);
 Route::get('mods', [ModController::class, 'getMods']);
 Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::get('tags', [TagController::class, 'getTags']);
+
+
+// Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
     Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
     Route::post('/users/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
     Route::get('/user', [UserController::class, 'currentUser']);
+
+    //TODO: let only moderators do this
+    Route::post('categories', [CategoryController::class, 'update']);
 });
 
 /**
