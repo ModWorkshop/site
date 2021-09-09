@@ -1,3 +1,5 @@
+import webpack from 'webpack'
+
 export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
@@ -80,7 +82,10 @@ export default {
 
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {
-		transpile: [/^element-ui/]
+		transpile: [/^element-ui/],
+		plugins: [
+			new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
+		]
 	},
 
 	router: {
