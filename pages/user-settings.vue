@@ -26,7 +26,7 @@
                         <el-form-item label="Email">
                             <el-input v-model="email"/>
                         </el-form-item>
-                        <el-form-item label="Passowrd">
+                        <el-form-item label="Password">
                             <el-input type="password" v-model="password"/>
                         </el-form-item>
                         <span v-if="error">{{error}}</span>
