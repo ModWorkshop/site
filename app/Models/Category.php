@@ -91,8 +91,8 @@ class Category extends Model
         return $this->hasOne(Category::class, "id", 'parent_id');
     }
 
-    public function getBreadcrumbAttribute($includeGame=true)
+    public function getBreadcrumbAttribute($includeGame=null)
     {
-        return ModService::makeBreadcrumb(ModService::categoryCrumb($this), $this->game_id, $this->parent_id, $includeGame);
+        return ModService::makeBreadcrumb(ModService::categoryCrumb($this), $this->game_id, $this->parent_id, $includeGame ?? true);
     }
 }

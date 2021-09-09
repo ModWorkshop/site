@@ -37,6 +37,9 @@ class ModService {
      * @return array
      */
     static public function makeBreadcrumb(array $head, int $gameId=null, int $categoryId=null, bool $includeGame=false) : array {
+        if (!isset($gameId)) {
+            return [$head];
+        }
         $parentCategory = null;
         $nextCrumb = null;
 
@@ -60,7 +63,7 @@ class ModService {
         } else {
             return [
                 $head,
-                ...self::makeBreadcrumb($nextCrumb, $gameId, $parentCategory['parent_id'])
+                ...self::makeBreadcrumb($nextCrumb, $gameId, $parentCategory['parent_id'], $includeGame)
             ];
         }
     }

@@ -92,7 +92,7 @@ class Mod extends Model
     protected $guarded = [];
 
     protected $with = ['tags', 'submitter', 'game', 'category'];
-    protected $appends = ['tag_ids', 'breadcrumbs'];
+    protected $appends = ['tag_ids', 'breadcrumb'];
     
     public function scopeList(Builder $query)
     {
@@ -124,12 +124,13 @@ class Mod extends Model
      *
      * @return void
      */
-    public function getBreadcrumbsAttribute($includeGame=true)
+    public function getBreadcrumbAttribute($includeGame=null)
     {
         return ModService::makeBreadcrumb([
             'name' => $this->name,
+            'is_mod' => true,
             'href' => "/mod/{$this->id}"
-        ], $this->game, $this->category_id, $includeGame);
+        ], $this->game_id, $this->category_id, $includeGame ?? true);
     }
 
     public function getTagIdsAttribute()
