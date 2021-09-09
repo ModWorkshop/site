@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ModService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -91,7 +92,7 @@ class Mod extends Model
     protected $guarded = [];
 
     protected $with = ['tags', 'submitter', 'game', 'category'];
-    protected $appends = ['tag_ids'];
+    protected $appends = ['tag_ids', 'breadcrumbs'];
     
     public function scopeList(Builder $query)
     {
@@ -116,6 +117,19 @@ class Mod extends Model
     public function tags() : BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * Returns an array with breadcrumbs
+     *
+     * @return void
+     */
+    public function getBreadcrumbsAttribute($includeGame=true)
+    {
+        return ModService::makeBreadcrumb([
+            'name' => $this->name,
+            'href' => "/mod/{$this->id}"
+        ], $this->game, $this->category_id, $includeGame);
     }
 
     public function getTagIdsAttribute()

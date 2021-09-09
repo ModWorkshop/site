@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ModService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -81,15 +82,23 @@ class Category extends Model
     
     protected $with = [];
 
-    protected $appends = [];
+    protected $appends = ['path'];
 
     public function getPathAttribute()
     {
-        if (isset($this->parent) && $this->game != $this->parent) {
-            return $this->name . ' / ' . $this->parent->path;
-        } else {
-            return $this->name;
+        // Paths are shown after selecting a game, therefore we don't really need to include the game in them
+        $breadcrumb = $this->getBreadcrumbAttribute(includeGame: false);
+        $path = '';
+
+        foreach ($breadcrumb as $crumb) {
+            if (empty($path)) {
+                $path = $crumb['name'];
+            } else {
+                $path = $crumb['name'] . ' / ' . $path;
+            }
         }
+
+        return $path;
     }
     
     public function game() : HasOne 
@@ -100,5 +109,10 @@ class Category extends Model
     public function parent() : HasOne 
     {
         return $this->hasOne(Category::class, "id", 'parent_id');
+    }
+
+    public function getBreadcrumbAttribute($includeGame=true)
+    {
+        return ModService::makeBreadcrumb(ModService::categoryCrumb($this), $this->game_id, $this->parent_id, $includeGame);
     }
 }

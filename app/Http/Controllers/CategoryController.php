@@ -60,6 +60,8 @@ class CategoryController extends Controller
 
         $categories = $q->get();
 
+        $incPaths = $val['include_paths'] ?? false;
+
         if ($incPaths) {
             $categories->append('path');
         }
@@ -89,6 +91,6 @@ class CategoryController extends Controller
      */
     public function getGame(Category $game)
     {
-        return $game->toJson();
+        return $game;
     }
 }
