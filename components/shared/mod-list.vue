@@ -10,7 +10,7 @@
                 <div>{{$t('likes')}}</div>
                 <div>{{$t('downloads')}}</div>
                 <div>{{$t('download_views')}}</div>
-                <div v-if="just_date" style="flex: 2;">{{$t('date')}}</div>
+                <div v-if="justDate" style="flex: 2;">{{$t('date')}}</div>
                 <template v-else>
                     <div id="date" style="flex: 2;">{{$t('last_updated')}}</div>
                     <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
@@ -23,24 +23,18 @@
         </flex>
     </flex>
 </template>
-<script>
-export default {
-    props: {
+<script setup>
+    import { useAsync, useContext } from '@nuxtjs/composition-api';
+    const props = defineProps({
         title: String
-    },
-    data() {
-        return {
-            isList: false,
-            mods: []
-        }
-    },
-    methods: {
-        async loadMods() {
-            this.mods = [...this.mods, ...await this.$factory.get('mods')];
-        }
-    },
-    async fetch() {
-        this.mods = [...this.mods, ...await this.$factory.get('mods')];
-    }
-}
+    });
+
+    let isList = $ref(false);
+    let justDate = $ref(false);
+    const { $factory, route } = useContext();
+    const mods = useAsync(() => $factory.get('mods'), route.value.path);
+
+    async function loadMods() {
+        mods.value = [...mods.value, ...await this.$factory.get('mods')];
+    };
 </script>
