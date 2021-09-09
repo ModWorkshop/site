@@ -6,12 +6,12 @@
         <form-item label="Description" label-id="desc">
             <md-editor v-model="mod.desc" rows="16"/>
         </form-item>
-        <el-form-item label="Game" prop="game">
+        <el-form-item label="Game">
             <el-select v-model="mod.game_id" placeholder="Select a game" style="width: 100%;" filterable>
                 <el-option v-for="game in games" :key="game.id" :label="game.name" :value="game.id"/>
             </el-select>
         </el-form-item>
-        <el-form-item label="Category" prop="category">
+        <el-form-item label="Category">
             <el-select v-model="mod.category_id" placeholder="Select a category" style="width: 100%;" clearable filterable>
                 <el-option v-for="category in categories" :key="category.id" :label="category.path" :value="category.id"/>
             </el-select>
@@ -39,34 +39,34 @@
         </el-form-item>
     </div>
 </template>
-<script>
-import { computed, ref, useContext, useFetch, useStore, watch } from '@nuxtjs/composition-api';
 
-export default {
-    props: {
+<script setup>
+    import { computed, useContext, useFetch, useStore, watch, watchEffect } from '@nuxtjs/composition-api';
+
+    const props = defineProps({
         mod: Object
-    },
-    setup({ mod }) {
-        const { $axios } = useContext();
-        const $store = useStore();
+    });
 
-        const categories = ref([]);
-        const tags = ref([]);
-        const games = computed(() => $store.getters.games);
-        useFetch(async () => {
-            await $store.dispatch('fetchGames');
-        
-            tags.value = await $axios.get('/tags').then(res => res.data);
-        });
+    const { $axios } = useContext();
+    const $store = useStore();
 
-        watch(() => mod.game_id, async () => {
-            if (!mod.game_id) {
-                return;
+    let categories = $ref([]);
+    let tags = $ref([]);
+    const games = computed(() => $store.getters.games);
+    useFetch(async () => {
+        await $store.dispatch('fetchGames');
+        tags = await $axios.get('/tags').then(res => res.data);
+    });
+
+    watch(() => props.mod.game_id, async () => {
+        if (props.mod.game_id) {
+            try {
+                categories = await $axios.get(`/games/${props.mod.game_id}/categories?include_paths=1`).then(res => res.data);
+            } catch (e) {
+                console.log(e);
             }
-            categories.value = await $axios.get(`/games/${mod.game_id}/categories?include_paths=1`).then(res => res.data);
-        }, {immediate: true});
-
-        return { tags, categories, games };
-    },
-}
+        } else {
+            categories = [];
+        }
+    }, {immediate: true});
 </script>

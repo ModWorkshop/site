@@ -2,7 +2,7 @@
     <flex gap="3" column class="content-block-large">
         <flex>
             <!-- TODO: make our own buttons -->
-            <nuxt-link v-if="this.mod.id" :to="`/mod/${this.mod.id}`">
+            <nuxt-link v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
@@ -26,41 +26,39 @@
         </div>
     </flex>
 </template>
-<script>
-export default {
-    data() {
-        return {
-            newMod: true,
-            mod: {
-                name: '',
-                desc: '',
-                root: 1,
-                cid: 1,
-                tags: [],
-                version: '',
-                nsfwMod: false,
-                visibility: 1
-            }
+
+<script setup>
+    import { useContext, useFetch } from '@nuxtjs/composition-api';
+    let isNew = $ref(true);
+    const { $factory, params } = useContext();
+    let mod = $ref({
+        name: '',
+        desc: '',
+        game_id: null,
+        category_id: null,
+        tags: [],
+        version: '',
+        nsfwMod: false,
+        visibility: 1
+    });
+
+    useFetch(async () => {
+        if (params.value.id) {
+            isNew = false;
+            mod = await $factory.getOne('mods', params.value.id);
         }
-    },
-    methods: {
-        async save() {
-            try {
-                if (this.newMod) {
-                    this.mod = await this.$factory.create('mods', this.mod);
-                } else {
-                    await this.$factory.update('mods', this.mod.id, this.mod);
-                }
-            } catch (error) {
-                console.error(error);
-                return;
+    });
+
+    const save = async function save() {
+        try {
+            if (isNew) {
+                mod = await $factory.create('mods', mod);
+            } else {
+                await $factory.update('mods', mod.id, mod);
             }
-        },
-    },
-    async asyncData({params, $factory}) {
-        if (params.id) {
-            return { mod: await $factory.getOne('mods', params.id), newMod: false };
+        } catch (error) {
+            console.error(error);
+            return;
         }
     }
-}
 </script>
