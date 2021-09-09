@@ -1,12 +1,11 @@
-import mods from "../factory/mods";
-import users from "../factory/users";
+import basicCrud from "../factory/basic-crud";
 
 export default function({$axios}, inject) {
     const Factories = {
         registered: {},
 
-        registerFactory(name, factory) {
-            this.registered[name] = factory($axios);
+        registerFactory(name, factory=null) {
+            this.registered[name] = factory && factory($axios) || basicCrud(name, $axios);
         },
     
         async doAction(name, action, ...props) {
@@ -39,8 +38,9 @@ export default function({$axios}, inject) {
         },
     };
 
-    Factories.registerFactory("mods", mods);
-    Factories.registerFactory("users", users);
+    Factories.registerFactory("mods");
+    Factories.registerFactory("users");
+    Factories.registerFactory("categories");
 
     inject('factory', Factories);
 }
