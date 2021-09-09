@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "types": [
+        "unplugin-vue2-script-setup/types"
+      ]
+    },
+    "noUnusedLocals": true,
+    "vueCompilerOptions": {
+        "experimentalCompatMode": 2 // TEMP!
+    },
+}
+  
