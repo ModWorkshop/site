@@ -1,11 +1,12 @@
 <template>
-    <flex :column="!list" gap="2">
+    <flex :column="!list" :gap="list ? 8 : 1">
         <flex class="tab-list" role="tablist" :column="list">
             <!--ARIA compliant, I hope xd-->
+            <!-- TODO: Move ref to v-for in nuxt3 https://v3.vuejs.org/guide/migration/array-refs.html -->
             <a 
                 v-for="tab of tabs"
                 role="tab"
-                ref="tabLinks"
+                ref="tabLinks" 
                 :id="`${tab.name}-tab-link`"
                 :tabindex="tabState.current == tab.name ? 0 : -1"
                 :aria-selected="tabState.current == tab.name"
@@ -15,12 +16,12 @@
                 @click="() => setCurrentTab(tab.name)"
                 @keydown.left="() => arrowKeysMove(true)"
                 @keydown.right="() => arrowKeysMove(false)"
-                :class="{'tab-link': true, 'selected': tabState.current == tab.name}">
+                :class="{'tab-link': true, 'tab-link-horizontal': !list, 'selected': tabState.current == tab.name}">
                 {{tab.title}}
             </a>
             <slot name="buttons"/>
         </flex>
-        <div :class="{'tab-panels': true, [`p-${padding}`]: padding !== 0, 'flex-grow': list}">
+        <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': list}">
             <slot/>
         </div>
     </flex>
@@ -80,11 +81,13 @@
                 tabState.focus = this.tabs.findIndex(tab => tab.name === name);
             },
             computeTabs() {
+                //TODO: remove in nuxt3
+                // eslint-disable-next-line vue/require-slots-as-functions
                 this.tabs = this.$slots.default.reduce((prev, curr) => {
                     if (curr.tag) {
                         const tab = curr.componentOptions.propsData;
                         if (this.tabState.current === '') {
-                            this.tabState.current = process.client && !this.hash && window.location.hash.replace('#', '') || tab.name;
+                            this.tabState.current = process.client && this.hash && window.location.hash.replace('#', '') || tab.name;
                         }
                         prev.push(tab);
                     }
@@ -93,18 +96,26 @@
                 }, []);
             }
         }
-    }
+    };
 </script>
 
 <style scoped>
     .tab-link {
         border-radius: 4px;
-        padding: 0.5rem 2rem;
+        padding: 0.5rem 4rem 0.5rem 0.75rem;
         color: var(--secondary-text-color);
+    }
+
+    .tab-link:hover {
+        cursor: pointer;
     }
 
     .tab-link.selected {
         background-color: var(--tab-selected-color);
         color: var(--primary-color);
+    }
+
+    .tab-link-horizontal {
+        padding: 0.5rem 2rem;
     }
 </style>

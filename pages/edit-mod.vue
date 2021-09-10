@@ -7,21 +7,27 @@
             </nuxt-link> 
         </flex>
         <div class="content-block">
-            <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
-                <tabs tab-position="left" list>
+            <el-form class="p-4 px-16" @submit.native.prevent="save" style="display: flex; flex-direction: column;">
+                <tabs padding="4" tab-position="left" list>
                     <tab name="main" title="Main">
                         <edit-mod-main :modData="mod"/>
                     </tab>
-                    <tab name="files" title="Files & Images">
+                    <tab name="files" title="Files & Updates">
+                        <edit-mod-files :modData="mod"/>
+                    </tab>
+                    <tab name="images" title="Images">
 
                     </tab>
-                    <tab name="extra" title="Extra">
+                    <tab name="contributors" title="Contributors">
+
+                    </tab>
+                    <tab name="instructions" title="Instructions">
 
                     </tab>
                 </tabs>
-                <el-form-item class="mx-auto" style="width: unset">
+                <group class="mx-auto mt-4" style="width: unset">
                     <el-input type="submit" value="Save"/>
-                </el-form-item>
+                </group>
             </el-form>
         </div>
     </flex>
@@ -29,6 +35,7 @@
 
 <script setup>
     import { useContext, useFetch } from '@nuxtjs/composition-api';
+    import editModMain from '../components/pages/edit-mod/main.vue';
     let isNew = $ref(true);
     const { $factory, params } = useContext();
     let mod = $ref({
@@ -36,7 +43,7 @@
         desc: '',
         game_id: null,
         category_id: null,
-        tags: [],
+        tag_ids: [],
         version: '',
         nsfwMod: false,
         visibility: 1

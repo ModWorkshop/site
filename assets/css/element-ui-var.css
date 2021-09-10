@@ -216,3 +216,6 @@ object {
 button:hover {
     cursor: pointer;
 }
+.el-input {
+    width: initial;
+}

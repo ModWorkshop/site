@@ -10,7 +10,7 @@
         props: {
             icon: String
         }
-    }
+    };
 </script>
 
 <style scoped>

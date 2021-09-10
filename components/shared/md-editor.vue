@@ -68,7 +68,7 @@
         computed: {
             mdHTML() {
                 return parseMarkdown(this.value);
-            }
+            },
         },
         methods: {
             clickedTool(tool) {
@@ -80,10 +80,10 @@
                 textarea.setRangeText(insert.replace('$', ''), start, end, 'select');
                 textarea.focus();
                 textarea.setSelectionRange(focus, focus);
-                this.value = textarea.value;
+                this.$emit('input', textarea.value);
             }
         }
-    }
+    };
 </script>
 
 <style scoped>
