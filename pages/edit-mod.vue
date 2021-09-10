@@ -10,7 +10,7 @@
             <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
                 <tabs tab-position="left" list>
                     <tab name="main" title="Main">
-                        <edit-mod-main :mod="mod"/>
+                        <edit-mod-main :modData="mod"/>
                     </tab>
                     <tab name="files" title="Files & Images">
 
@@ -49,7 +49,7 @@
         }
     });
 
-    const save = async function save() {
+    async function save() {
         try {
             if (isNew) {
                 mod = await $factory.create('mods', mod);

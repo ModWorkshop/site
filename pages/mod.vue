@@ -89,11 +89,9 @@
 
     //TODO: implement pipe split for mod status and whatnot
     export default {
-        data() {
-            return {
-                mod: {}
-            }
-        },
+        data: () => ({
+            mod: {}
+        }),
         computed: {
             mdDesc() {
                 return parseMarkdown(this.mod.desc);
@@ -129,7 +127,7 @@
                 return { mod: await $factory.getOne('mods', params.id) };
             }
         }
-    }
+    };
 </script>
 
 <style>

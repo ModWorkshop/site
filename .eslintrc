@@ -1,6 +1,14 @@
 {
-    "extends": [ "@nuxtjs", "plugin:nuxt/recommended", "prettier", "prettier/vue", "plugin:vue/essential", "eslint:recommended" ],
+    "extends": [ "plugin:vue/vue3-essential", "eslint:recommended" ],
     "rules": {
-        "semi": 2
+        "semi": 2,
+        "vue/no-deprecated-v-on-native-modifier": 1
+    },
+    "globals": {
+        "defineProps": "readonly",
+        "defineEmits": "readonly",
+        "defineExpose": "readonly",
+        "withDefaults": "readonly",
+        "$ref": "readonly"
     }
 }

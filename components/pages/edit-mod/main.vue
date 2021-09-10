@@ -41,14 +41,15 @@
 </template>
 
 <script setup>
-    import { computed, useContext, useFetch, useStore, watch, watchEffect } from '@nuxtjs/composition-api';
+    import { computed, useContext, useFetch, useStore, watch } from '@nuxtjs/composition-api';
 
     const props = defineProps({
-        mod: Object
+        modData: Object
     });
 
     const { $axios } = useContext();
     const $store = useStore();
+    const mod = computed(() => props.modData);
 
     let categories = $ref([]);
     let tags = $ref([]);
@@ -58,10 +59,10 @@
         tags = await $axios.get('/tags').then(res => res.data);
     });
 
-    watch(() => props.mod.game_id, async () => {
-        if (props.mod.game_id) {
+    watch(() => mod.value.game_id, async () => {
+        if (mod.value.game_id) {
             try {
-                categories = await $axios.get(`/games/${props.mod.game_id}/categories?include_paths=1`).then(res => res.data);
+                categories = await $axios.get(`/games/${mod.value.game_id}/categories?include_paths=1`).then(res => res.data);
             } catch (e) {
                 console.log(e);
             }

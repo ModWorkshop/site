@@ -1,4 +1,4 @@
-import webpack from 'webpack'
+import webpack from 'webpack';
 
 export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
@@ -31,10 +31,6 @@ export default {
 		]
 	},
 
-	build: {
-		extractCSS: true
-	},
-
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
 		'@fortawesome/fontawesome-svg-core/styles.css',
@@ -59,7 +55,7 @@ export default {
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
-		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss", '@nuxtjs/composition-api/module'
+		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss", '@nuxtjs/composition-api/module', '@nuxtjs/eslint-module'
 	],
 
 	scriptSetup: {
@@ -88,12 +84,13 @@ export default {
 	build: {
 		transpile: [/^element-ui/],
 		plugins: [
-			new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
-		]
+			new webpack.NormalModuleReplacementPlugin(/element-ui[/\\]lib[/\\]locale[/\\]lang[/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
+		],
+		extractCSS: true
 	},
 
 	router: {
-		extendRoutes(routes, resolve) {
+		extendRoutes(routes) {
 			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
 			routes.push({ name: "user-page", path: "/user/:id", component: "pages/user.vue" });
 			routes.push({ name: "edit-mod-page", path: "/mod/:id/edit", component: "pages/edit-mod.vue" });

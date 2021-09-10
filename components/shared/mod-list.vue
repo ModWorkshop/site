@@ -25,7 +25,7 @@
 </template>
 <script setup>
     import { useAsync, useContext } from '@nuxtjs/composition-api';
-    const props = defineProps({
+    defineProps({
         title: String
     });
 
@@ -36,5 +36,5 @@
 
     async function loadMods() {
         mods.value = [...mods.value, ...await this.$factory.get('mods')];
-    };
+    }
 </script>

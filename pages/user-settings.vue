@@ -41,18 +41,16 @@
     </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
-    data() {
-        return {
-            name: '',
-            email: '',
-            password: '',
-            remember: true,
-            error: false
-        }
-    },
+    data: () => ({
+        name: '',
+        email: '',
+        password: '',
+        remember: true,
+        error: false
+    }),
     computed: {
         avatarUploadLink() {
             return `http://localhost:8000/user/${this.$store.getters.userId}/avatar`;
@@ -61,7 +59,7 @@ export default {
             'userAvatar'
         ])
     },
-    middleware({ store, redirect, error }) { //TODO: error page
+    middleware({ store, error }) { //TODO: error page
         if (!store.state.user) {
             error({
                 statusCode: 401,
@@ -89,7 +87,7 @@ export default {
                 const codes = {
                     401: 'Incorrect email or password',
                     422: 'Given email or password are invalid'
-                }
+                };
                 console.log(error.response.status);
                 this.error = codes[error.response.status] || 'Something went wrong';
                 return;
@@ -100,7 +98,7 @@ export default {
             this.$router.push('/');
         }
     }
-}
+};
 </script>
 <style scoped>
     .avatar {
