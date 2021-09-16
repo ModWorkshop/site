@@ -195,7 +195,7 @@ function ignoreLoop(tagsMap, content) {
         tag.children = [];
     });
     return content;
-};
+}
 
 function contentLoop(tagsMap, content) {
     tagsMap.forEach(tag => {
@@ -217,7 +217,7 @@ function contentLoop(tagsMap, content) {
     });
 
     return content;
-};
+}
 
 function tagLoop(tagsMap, cleanUp, parent) {
     for (let i = 0; i < tagsMap.length; i++) {
@@ -286,7 +286,7 @@ function tagLoop(tagsMap, cleanUp, parent) {
 
         return tag;
     });
-};
+}
 
 
 function processTag(tag, module, content){            
@@ -318,7 +318,7 @@ function processTag(tag, module, content){
             replace = replace(tag.attr, innerContent);
     }
     else{
-        open = module.open || '', close = module.close || '';
+        let open = module.open || '', close = module.close || '';
         if(typeof(open) === 'function')
             open = open(tag.attr);
 

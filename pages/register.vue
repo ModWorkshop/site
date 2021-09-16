@@ -22,15 +22,13 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            name: '',
-            email: '',
-            password: '',
-            passwordConfirm: '',
-            error: false
-        }
-    },
+    data: () => ({
+        name: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        error: false
+    }),
     middleware({ store, redirect }) {
         if (store.state.user) {
             redirect('/');
@@ -62,5 +60,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

@@ -1,7 +1,11 @@
 {
+    "parserOptions": {
+        "ecmaVersion": 2021
+    },
     "extends": [ "plugin:vue/vue3-essential", "eslint:recommended" ],
     "rules": {
         "semi": 2,
+        "no-var": 2,
         "vue/no-deprecated-v-on-native-modifier": 1
     },
     "globals": {
@@ -9,6 +13,7 @@
         "defineEmits": "readonly",
         "defineExpose": "readonly",
         "withDefaults": "readonly",
-        "$ref": "readonly"
+        "$ref": "readonly",
+        "process": "readonly"
     }
 }

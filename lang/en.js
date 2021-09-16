@@ -288,5 +288,6 @@ export default {
     error_wait_for_transfer: 'You must wait for the previous request to expire to send additional transfer requests for this mod.',
     submitted_by: "Submitted by",
     return_to_mod: "Return to mod page",
-    edit_mod: "Edit Mod"
+    edit_mod: "Edit Mod",
+    license: "License"
 };

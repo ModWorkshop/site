@@ -18,13 +18,18 @@ const md = MarkdownIt({
 			}
 			return `<pre><code class="hljs">${hl}</code></pre>`;
 		}
-		catch (_) {}
+		catch (e) {
+			console.error(e);
+		}
 
 		return '';
 	}
 });
 
 export function parseMarkdown(text) {
+	if (!text) {
+		return '';
+	}
     //TODO: consider disabling BBCode for new/updated mods
 	text = escapeHtml(text); //First escape the ugly shit
     text = parseBBCode(text); //Handle BBCode

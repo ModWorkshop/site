@@ -1,7 +1,5 @@
 import Vue from 'vue';
-import Element, { Button, Checkbox, Col, Collapse, CollapseItem, Dropdown, DropdownItem, DropdownMenu, Form, FormItem, Input, Option, Pagination, Select, TabPane, Tabs, Tag, Upload } from 'element-ui';
-import locale from 'element-ui/lib/locale/lang/en';
-
+import { Button, Checkbox, Col, Collapse, CollapseItem, Dropdown, DropdownItem, DropdownMenu, Form, FormItem, Input, Option, Pagination, Select, Progress } from 'element-ui';
 Vue.component(Checkbox.name, Checkbox);
 Vue.component(Form.name, Form);
 Vue.component(FormItem.name, FormItem);
@@ -15,5 +13,4 @@ Vue.component(DropdownMenu.name, DropdownMenu);
 Vue.component(Col.name, Col);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
-Vue.component(Upload.name, Upload);
-//Vue.use(Element, { locale })
+Vue.component(Progress.name, Progress);

@@ -16,7 +16,7 @@
                         <edit-mod-files :modData="mod"/>
                     </tab>
                     <tab name="images" title="Images">
-
+                        <edit-mod-images :modData="mod"/>
                     </tab>
                     <tab name="contributors" title="Contributors">
 
@@ -41,6 +41,9 @@
     let mod = $ref({
         name: '',
         desc: '',
+        images: [],
+        files: [],
+        short_desc: '',
         game_id: null,
         category_id: null,
         tag_ids: [],

@@ -4,8 +4,8 @@
             <tab name="write" title="Write">
                 <textarea ref="textarea" class="textarea" :id="labelId" :value="value" @input="$emit('input', $event.target.value)" :rows="rows"/>
             </tab>
-            <tab name="preview" title="Preview">
-                <div v-html="mdHTML"/>
+            <tab name="preview" title="Preview" :style="{'min-height': previewHeight}">
+                <markdown :text="this.value"/>
             </tab>
             <template v-slot:buttons>
                 <flex gap="1" class="ml-auto my-auto items-center">
@@ -22,11 +22,9 @@
 </template>
 
 <script>
-    import { parseMarkdown } from '../../utils/md-parser';
-
     export default {
         data: () => ({
-            test: 'lol',
+            previewHeight: 0,
             toolGroups: [ //$ = selection
                 {
                     name: 'main',
@@ -65,13 +63,17 @@
             value: String,
             rows: String
         },
-        computed: {
-            mdHTML() {
-                return parseMarkdown(this.value);
-            },
+        mounted() {
+            const textarea = this.$refs.textarea;
+            new ResizeObserver(() => {
+                if (textarea.parentElement.style.display != 'none') {
+                    this.previewHeight = textarea.clientHeight - 10 + 'px';
+                }
+            }).observe(textarea);
         },
         methods: {
             clickedTool(tool) {
+                console.log(this.previewHeight);
                 const textarea = this.$refs.textarea;
                 //textarea.focus(); //Force focus
                 const [start, end] = [textarea.selectionStart, textarea.selectionEnd];

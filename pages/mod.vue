@@ -13,10 +13,10 @@
                     <div style="font-weight: normal;overflow: hidden;height: 148px;word-break: break-word;">
                         <span id="title">{{mod.name}}</span>
                         <br>
-                        <span>
-                            <strong>{{$t('submitted_by')}}</strong>
-                            <user :user="mod.submitter" avatar-size="small"/>
-                            <span v-if="mod.publish_date" :title="mod.publish_date">{{publishDateAgo}}</span>
+                        <span v-if="mod.publish_date">
+                            <strong>{{$t('submitted')}}</strong>
+                            <!-- <user :user="mod.submitter" avatar-size="small"/> -->
+                            <span :title="mod.publish_date">{{publishDateAgo}}</span>
                         </span>
                     </div>
                     <flex column class="mt-auto flex-md-row">
@@ -43,12 +43,23 @@
             <flex grow>
                 <tabs class="content-block flex-grow">
                     <tab name="description" :title="$t('description')">
-                        <div v-html="mdDesc"/>
+                        <markdown :text="mod.desc"/>
                     </tab>
-                    <tab name="images" :title="$t('images')">Nothing for now!</tab>
+                    <tab name="images" :title="$t('images')" style="width: 100%; margin: 0 auto; text-align: center">
+                        <a v-for="(image, i) of mod.images" :key="image.id" @click="showImage(i)" class="cursor-pointer mb-1 inline-block overflow-hidden">
+                            <img :src="`http://localhost:8000/storage/images/${image.file}`" style="max-width:100%;height: 210px;object-fit: cover;"/>
+                        </a>
+                        <no-ssr>
+                            <vue-easy-lightbox moveDisabled :visible="galleryVisible" :imgs="images" @hide="galleryVisible = false" :index="imageIndex"/>
+                        </no-ssr>
+                    </tab>
                     <tab name="files" :title="$t('files')">Nothing for now!</tab>
-                    <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">{{mod.changelog}}</tab>
-                    <tab v-if="mod.license" name="license" :title="$t('license')">{{mod.license}}</tab>
+                    <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
+                        <markdown :text="mod.changelog"/>
+                    </tab>
+                    <tab v-if="mod.license" name="license" :title="$t('license')">
+                        <markdown :text="mod.license"/>
+                    </tab>
                     <tab name="instructions" :title="$t('instructions')">Nothing for now!</tab>
                 </tabs>
             </flex>
@@ -90,11 +101,26 @@
     //TODO: implement pipe split for mod status and whatnot
     export default {
         data: () => ({
-            mod: {}
+            mod: {},
+            galleryVisible: false,
+            imageIndex: 0
         }),
+        methods: {
+            markdown(text) {
+                return parseMarkdown(text);
+            },
+            showImage(imageIndex) {
+                this.imageIndex = imageIndex;
+                this.galleryVisible = true;
+            }
+        },
         computed: {
-            mdDesc() {
-                return parseMarkdown(this.mod.desc);
+            images() {
+                const images = [];
+                for (const image of this.mod.images) {
+                    images.push(`http://localhost:8000/storage/images/${image.file}`);
+                }
+                return images;
             },
             likes() {
                 return 0;

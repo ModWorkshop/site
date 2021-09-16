@@ -38,7 +38,7 @@ export const actions = {
             await commit('setGames', games);
         }
     },
-    async nuxtServerInit({commit}, {req, $axios}) {
+    async nuxtServerInit({commit}, {$axios}) {
         try {
             const user = await $axios.get('/user').then(res => res.data);
             await commit('setUser', user);

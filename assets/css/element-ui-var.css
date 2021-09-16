@@ -17,6 +17,10 @@ body, html {
         "Noto Color Emoji";
 }
 
+body {
+    overflow-y: scroll;
+}
+
 :root {
     --bg-color: #212529;
     --secondary-bg-color: #2b3036;
@@ -188,7 +192,6 @@ a:hover {
 }
 
 .markdown {
-    padding: 24px;
     word-break: break-word;
 }
 
@@ -216,6 +219,11 @@ object {
 button:hover {
     cursor: pointer;
 }
+
 .el-input {
     width: initial;
+}
+
+.el-progress__text {
+    color: var(--text-color);
 }

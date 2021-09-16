@@ -25,7 +25,7 @@ export default {
             password: '',
             remember: true,
             error: false
-        }
+        };
     },
     middleware({ store, redirect }) {
         if (store.state.user) {
@@ -41,7 +41,7 @@ export default {
                 const codes = {
                     401: 'Incorrect email or password',
                     422: 'Given email or password are invalid'
-                }
+                };
                 console.log(error.response.status);
                 this.error = codes[error.response.status] || 'Something went wrong';
                 return;
@@ -52,5 +52,5 @@ export default {
             this.$router.push('/');
         }
     }
-}
+};
 </script>

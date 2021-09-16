@@ -1,13 +1,13 @@
 <template>
     <flex column gap="4">
-        <group label="Name">
+        <group label="Name" desc="Maximum of 150 letters and minimum of 3 letters">
             <el-input v-model="mod.name"/>
         </group>
-        <group label="Description" label-id="desc">
+        <group label="Description" label-id="desc" desc="Describe your mod in detail here, what it does or any other important details">
             <md-editor v-model="mod.desc" rows="12"/>
         </group>
-        <group label="Short Description">
-            <el-input type="textarea" v-model="mod.short_description" rows="2"/>
+        <group label="Short Description" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods">
+            <el-input type="textarea" v-model="mod.short_desc" rows="2" maxlength="150"/>
         </group>
         <group :labels="['Game', 'Category']">
             <el-select v-model="mod.game_id" placeholder="Select a game" filterable>
@@ -17,7 +17,7 @@
                 <el-option v-for="category in categories" :key="category.id" :label="category.path" :value="category.id"/>
             </el-select>
         </group>
-        <group label="Tags">
+        <group label="Tags" desc="Make your mod more discoverable">
             <el-select v-model="mod.tag_ids" placeholder="Select tags" clearable multiple filterable>
                 <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
             </el-select>
@@ -30,17 +30,23 @@
                 <el-option label="Invite Only" :value="4"/>
             </el-select>
         </group>
-        <group label="Donation">
+        <group label="Donation" desc="A donation link, currently supports PayPal, Ko-fi, and Patreon">
             <el-input v-model="mod.donation"/>
         </group>
-        <group label="License">
-            <md-editor v-model="mod.license" rows="6"/>
-        </group>
+    
+        <details>
+            <summary>{{$t('license')}}</summary>
+            <flex class="mt-3" column gap="2">
+                <small><a href="https://choosealicense.com/" target="_blank">Can't choose?</a></small>
+                <md-editor v-model="mod.license" rows="6"/>
+            </flex>
+        </details>
 
         <group>
             <div>
                 <el-checkbox v-model="mod.is_nsfw">NSFW Mod</el-checkbox>
-                <small>(If the mod contains adult content you must set your mod as NSFW. Read the rules regarding NSFW or risk getting banned)</small>
+                <br>
+                <small>If the mod contains adult content you must set your mod as NSFW. Read the rules regarding NSFW or risk getting banned</small>
             </div>
         </group>
     </flex>

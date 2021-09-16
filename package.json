@@ -24,7 +24,9 @@
     "isomorphic-dompurify": "^0.15.0",
     "luxon": "^2.0.2",
     "markdown-it": "^12.2.0",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "vue-easy-lightbox": "^0.16.1",
+    "vue-filepond": "^6.0.3"
   },
   "devDependencies": {
     "@nuxt/image": "^0.5.0",

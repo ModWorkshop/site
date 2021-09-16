@@ -37,7 +37,8 @@ export default {
 		"element-ui/lib/theme-chalk/index.css",
 		"~/assets/css/element-ui-var",
 		"~/assets/css/helpers",
-		"~/assets/css/github-dark"
+		"~/assets/css/github-dark",
+		"~/assets/css/markdown",
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -45,7 +46,8 @@ export default {
 		"@/plugins/axios.js",
 		"@/plugins/element-ui",
 		"@/plugins/factory",
-		"@/plugins/fa"
+		"@/plugins/fa",
+		"@/plugins/easy-lightbox",
 	],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
