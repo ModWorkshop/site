@@ -91,12 +91,21 @@ class ModService {
         
         $categories = self::$categories[$gameId];
 
+        $game = null;
         foreach ($categories as $category) {
+            if ($gameId === $category['id']) {
+                $game = $category;
+            }
             if ($categoryId === $category['id']) {
                 return $category;
             }
         }
 
-        return null;
+        if ($includeGame) {
+            return $game;
+        }
+        else {
+            return null;
+        }
     }
 }

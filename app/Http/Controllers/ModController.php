@@ -97,7 +97,7 @@ class ModController extends Controller
             'notInTags.*' => 'integer|min:1'
         ]);
         
-        $query = Mod::limit($val['limit'] ?? 40)->list()->orderBy('updated_at', 'DESC');
+        $query = Mod::limit($val['limit'] ?? 40)->list()->with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
 
         if (isset($val['tags'])) {
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
@@ -145,6 +145,10 @@ class ModController extends Controller
         $val = $request->validate([
             'name' => 'string|max:150|required',
             'desc' => 'string|max:30000|required',
+            'license' => 'string|max:30000',
+            'changelog' => 'string|max:30000',
+            'short_desc' => 'string|max:150',
+            'donation' => 'string|max:100',
             'version' => 'string|max:100',
             'visibility' => 'integer|min:1|max:4|required',
             'game_id' => 'integer|min:1|required|exists:categories,id',
@@ -163,7 +167,6 @@ class ModController extends Controller
             $val['submitter_uid'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
         }
-
 
         if(isset($tags)) {
             $mod->tags()->sync($tags);

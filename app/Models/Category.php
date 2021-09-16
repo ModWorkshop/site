@@ -52,6 +52,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereWebhookUrl($value)
  * @mixin \Eloquent
+ * @property-read mixed $breadcrumb
  */
 class Category extends Model
 {
