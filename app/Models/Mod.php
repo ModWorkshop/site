@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -79,6 +80,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|Mod whereViews($value)
  * @method static Builder|Mod whereVisibility($value)
  * @mixin \Eloquent
+ * @property-read void $breadcrumb
+ * @property-read mixed $tag_ids
  */
 class Mod extends Model
 {
@@ -91,7 +94,7 @@ class Mod extends Model
      */
     protected $guarded = [];
 
-    protected $with = ['tags', 'submitter', 'game', 'category'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images'];
     protected $appends = ['tag_ids', 'breadcrumb'];
     
     public function scopeList(Builder $query)
@@ -117,6 +120,11 @@ class Mod extends Model
     public function tags() : BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function images() : HasMany
+    {
+        return $this->hasMany(Image::class);
     }
 
     /**

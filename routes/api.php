@@ -58,13 +58,17 @@ Route::get('tags', [TagController::class, 'getTags']);
 
 // Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {
-    Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
-    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
     Route::post('/users/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
     Route::get('/user', [UserController::class, 'currentUser']);
-
+    
     //TODO: let only moderators do this
     Route::post('categories', [CategoryController::class, 'update']);
+    
+
+    Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
+    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
+    Route::middleware('can:create,App\Mod')->post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
+    Route::middleware('can:create,App\Mod')->delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
 });
 
 /**

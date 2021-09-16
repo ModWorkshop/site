@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Mod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -15,6 +16,51 @@ use Illuminate\Support\Arr;
  */
 class ModController extends Controller
 {
+    /**
+     * Upload mod image
+     * 
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function uploadModImage(Request $request, Mod $mod) {
+        $val = $request->validate([
+            'file' => 'required|max:512000|mimes:png,webp,gif'
+        ]);
+
+        $user = $request->user();
+        /**
+         * @var UploadedFile $file
+         */
+        $file = $val['file'];
+        $fileType = $file->extension();
+        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
+        $path = $file->storePubliclyAs('images', $fileName, 'public');
+        
+        $img = Image::create([
+            'user_id' => $user->id,
+            'mod_id' => $mod->id,
+            'file' => $fileName,
+            'type' => $fileType,
+            'size' => $file->getSize(),
+            'has_thumb' => false
+        ]);
+
+        return $img;
+    }
+    
+    /**
+     * Deletes an image from a mod
+     *
+     * @param Mod $mod
+     * @param Image $img
+     * @return void
+     */
+    public function deleteModImage(Request $request, Mod $mod, Image $image)
+    {
+        $image->delete(); //Deletion of files handled in the model class.
+    }
+
     /**
      * Mod
      * 
