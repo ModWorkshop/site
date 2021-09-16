@@ -5,12 +5,10 @@
     </button>
 </template>
 
-<script>
-    export default {
-        props: {
-            icon: String
-        }
-    };
+<script setup>
+    defineProps({
+        icon: String
+    });
 </script>
 
 <style scoped>

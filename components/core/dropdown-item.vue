@@ -4,23 +4,21 @@
         <a v-else-if="click" @click="click"><slot/></a>
     </el-dropdown-item>
 </template>
-<script>
-export default {
-    props: {
-        command: String | Number | Object,
+
+<script setup>
+    defineProps({
+        command: [String, Number, Object],
         to: String,
         href: String,
         disabled: Boolean,
         type: String,
         icon: String
-    },
-    methods: {
-        click() {
-            this.$emit('click');
-        }
+    });
+    function click() {
+        this.$emit('click');
     }
-}
 </script>
+
 <style>
     .dropdown-splitter {
         height: 1px;

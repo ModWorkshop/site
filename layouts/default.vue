@@ -1,8 +1,8 @@
 <template>
     <div class="layout">
-        <Header>Header</Header>
+        <the-header>Header</the-header>
         <main><Nuxt/></main>
-        <Footer>Footer</Footer>
+        <the-footer>Footer</the-footer>
     </div>
 </template>
 <style scoped>

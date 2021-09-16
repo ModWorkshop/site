@@ -52,7 +52,7 @@ export default {
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: [
-		"~/components", "~/components/base", "~/components/shared", "~/components/helpers", "~/components/pages"
+		"~/components", "~/components/common", "~/components/core", "~/components/layout", "~/components/pages"
 	],
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
