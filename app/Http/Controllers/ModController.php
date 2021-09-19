@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\Image;
 use App\Models\Mod;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,21 +36,22 @@ class ModController extends Controller
         $file = $val['file'];
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $path = $file->storePubliclyAs('images', $fileName, 'public');
+        $file->storePubliclyAs('images', $fileName, 'public');
         
         $img = Image::create([
             'user_id' => $user->id,
             'mod_id' => $mod->id,
             'file' => $fileName,
             'type' => $fileType,
-            'size' => $file->getSize(),
-            'has_thumb' => false
+            'size' => $file->getSize()
         ]);
 
         return $img;
     }
     
     /**
+     * Delete Image
+     * 
      * Deletes an image from a mod
      *
      * @param Mod $mod
@@ -59,6 +61,60 @@ class ModController extends Controller
     public function deleteModImage(Request $request, Mod $mod, Image $image)
     {
         $image->delete(); //Deletion of files handled in the model class.
+    }
+
+    /**
+     * Upload File
+     * 
+     * Uploads a single file to a mod
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function uploadModFile(Request $request, Mod $mod)
+    {
+        $val = $request->validate([
+            'file' => 'required|max:512000|mimes:zip,rar,7z'
+        ]);
+
+        $user = $request->user();
+        /**
+         * @var UploadedFile $file
+         */
+        $file = $val['file'];
+        $fileType = $file->extension();
+        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
+        $file->storePubliclyAs('files', $fileName, 'public');
+        
+        $file = File::create([
+            'name' => $fileName,
+            'desc' => '', //TODO: Should be nullable
+            'user_id' => $user->id,
+            'mod_id' => $mod->id,
+            'file' => $fileName,
+            'type' => $fileType,
+            'size' => $file->getSize()
+        ]);
+
+        $mod->download()->associate($file);
+        $mod->save();
+
+        return $file;
+    }
+
+    /**
+     * Delete File
+     * 
+     * Deletes a file from a mod
+     *
+     * @param Mod $mod
+     * @param File $img
+     * @return void
+     */
+    public function deleteModFile(Request $request, Mod $mod, File $file)
+    {
+        $file->delete(); //Deletion of files handled in the model class.
     }
 
     /**
@@ -73,7 +129,7 @@ class ModController extends Controller
      */
     public function getMod(Mod $mod)
     {
-        return $mod->toJson();
+        return $mod;
     }
 
     /**
