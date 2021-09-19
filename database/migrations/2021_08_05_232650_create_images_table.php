@@ -17,6 +17,8 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('mod_id')->unsigned();
+            $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
             $table->boolean('has_thumb')->default(false);
             $table->tinyText('file');
             $table->tinyText('type');

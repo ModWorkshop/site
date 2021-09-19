@@ -53,6 +53,19 @@ class CreateModsTable extends Migration
             // These are more general table tracking dates.
             // They can be used, but bump_date should be used for ordering so we don't bump a mod for every little edit.
             $table->timestamps();
+
+            $table->index([
+                'category_id',
+                'game_id',
+                'submitter_uid',
+                'name',
+                'bump_date', 
+                'publish_date'
+            ]);
+            $table->index('score');
+            $table->index('views');
+            $table->index('downloads');
+            $table->index('updated_at');
         });
     }
 
