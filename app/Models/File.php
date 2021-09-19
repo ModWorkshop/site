@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Storage;
+
+/**
+ * App\Models\File
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $mod_id
+ * @property string $name
+ * @property string $desc
+ * @property string $file
+ * @property string $type
+ * @property int|null $image_id
+ * @property int $size
+ * @property bool $approved
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|File newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|File newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|File query()
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereImageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereModId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
+ * @mixin \Eloquent
+ */
+class File extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    protected static function booted() {
+        static::deleting(function (File $image)
+        {
+            //TODO: make sure to handle a case that it's the mod's thumbnail or banner
+            Storage::disk('public')->delete('files/'.$image->file);
+        });
+    }
+}
