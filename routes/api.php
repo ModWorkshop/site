@@ -65,10 +65,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('categories', [CategoryController::class, 'update']);
     
 
-    Route::middleware('can:create,App\Mod')->post('/mods', [ModController::class, 'create']);
-    Route::middleware('can:create,App\Mod')->patch('/mods/{mod}', [ModController::class, 'update']);
-    Route::middleware('can:create,App\Mod')->post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
-    Route::middleware('can:create,App\Mod')->delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
+    Route::middleware('can:create,App\Mod')->group(function () {
+        Route::post('/mods', [ModController::class, 'create']);
+        Route::patch('/mods/{mod}', [ModController::class, 'update']);
+
+        //Images
+        Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
+        Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
+    
+        //Files
+        Route::post('/mods/{mod}/files', [ModController::class, 'uploadModFile']);
+        Route::delete('/mods/{mod}/files/{image}', [ModController::class, 'deleteModFile']);
+    });
 });
 
 /**
