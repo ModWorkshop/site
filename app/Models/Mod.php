@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * App\Models\Mod
@@ -82,6 +83,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @mixin \Eloquent
  * @property-read void $breadcrumb
  * @property-read mixed $tag_ids
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property int|null $download_id
+ * @property string|null $download_type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
+ * @property-read int|null $files_count
+ * @method static Builder|Mod whereDownloadId($value)
+ * @method static Builder|Mod whereDownloadType($value)
  */
 class Mod extends Model
 {
@@ -94,8 +103,9 @@ class Mod extends Model
      */
     protected $guarded = [];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images'];
-    protected $appends = ['tag_ids', 'breadcrumb'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files'];
+    protected $appends = ['tag_ids', 'breadcrumb', 'download'];
+    protected $hidden = ['download_id', 'download_type'];
     
     public function scopeList(Builder $query)
     {
@@ -125,6 +135,41 @@ class Mod extends Model
     public function images() : HasMany
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function files() : HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
+    /**
+     * Returns the primary download same as the attribute,
+     * but this should be used only when not loading the files relationship for optimization
+     *
+     * @return MorphTo
+     */
+    public function download() : MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Returns the primary download for the mod. Either a file or an external link
+     *
+     * @return void
+     */
+    public function getDownloadAttribute()
+    {
+        if ($this->download_type === File::class) {
+            if ($this->relationLoaded('files')) {
+                foreach ($this->files as $file) {
+                    if ($file->id === $this->download_id) {
+                        return $file;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
