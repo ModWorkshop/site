@@ -199,19 +199,37 @@ class ModController extends Controller
     public function update(Request $request, Mod $mod=null)
     {
         $val = $request->validate([
-            'name' => 'string|max:150|required',
-            'desc' => 'string|max:30000|required',
+            'name' => 'string||min:3|max:150',
+            'desc' => 'string|max:30000',
             'license' => 'string|max:30000',
             'changelog' => 'string|max:30000',
             'short_desc' => 'string|max:150',
             'donation' => 'string|max:100',
             'version' => 'string|max:100',
-            'visibility' => 'integer|min:1|max:4|required',
-            'game_id' => 'integer|min:1|required|exists:categories,id',
+            'visibility' => 'integer|min:1|max:4',
+            'game_id' => 'integer|min:1|exists:categories,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
+            'download_id' => 'integer|min:1|required_with:download_type',
+            'download_type' => 'string|required_with:download_id|in:file,link'
         ]);
+
+        $downloadId = Arr::pull($val, 'download_id');
+        if (isset($downloadId)) {
+            $type = Arr::pull($val, 'download_type');
+            if ($type == 'file') {
+                $file = $mod->files->find($downloadId);
+            } else if($type == 'link') {
+
+            }
+
+            if (isset($file)) {
+                $mod->download()->associate($file);
+            } else {
+                throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
+            }
+        }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
