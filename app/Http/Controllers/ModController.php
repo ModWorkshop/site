@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ModResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Mod;
@@ -129,7 +130,7 @@ class ModController extends Controller
      */
     public function getMod(Mod $mod)
     {
-        return $mod;
+        return new ModResource($mod);
     }
 
     /**
@@ -246,11 +247,6 @@ class ModController extends Controller
             $mod->tags()->sync($tags);
         }
 
-        return $mod->toJson();
-        
-        return back()->withErrors([
-            'name' => 'A mod must have a name and it should not exceed 150 characters',
-            'desc' => 'A mod must have a description and it should not exceed 30k character'
-        ]);
+        return new ModResource($mod);
     }
 }
