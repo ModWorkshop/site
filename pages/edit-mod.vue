@@ -25,20 +25,25 @@
 
                     </tab>
                 </tabs>
-                <group class="mx-auto mt-4" style="width: unset">
-                    <el-input type="submit" value="Save"/>
-                </group>
             </el-form>
         </div>
+        <!-- Dunno why SSR really dislikes me doing the deep check, anyway this shouldn't be relevant for SSR. Though check in Nuxt3 if it's fixed. -->
+        <client-only>
+            <transition name="fade">
+                <div v-if="shouldSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
+                    <small>{{saveText}}</small>
+                    <a-button @click="save">{{saveButtonText}}</a-button>
+                </div>
+            </transition>
+        </client-only>
     </flex>
 </template>
 
-<script setup>
-    import { useContext, useFetch } from '@nuxtjs/composition-api';
-    import editModMain from '../components/pages/edit-mod/main.vue';
-    let isNew = $ref(true);
-    const { $factory, params } = useContext();
-    let mod = $ref({
+<script>
+    import clone from 'rfdc/default';
+    import { deepEqual } from 'fast-equals';
+
+    let modTemplate = {
         name: '',
         desc: '',
         images: [],
@@ -49,26 +54,65 @@
         tag_ids: [],
         version: '',
         nsfwMod: false,
+        download_id: null,
+        download_type: null,
         visibility: 1
-    });
+    };
 
-    useFetch(async () => {
-        if (params.value.id) {
-            isNew = false;
-            mod = await $factory.getOne('mods', params.value.id);
-        }
-    });
-
-    async function save() {
-        try {
-            if (isNew) {
-                mod = await $factory.create('mods', mod);
-            } else {
-                await $factory.update('mods', mod.id, mod);
+    export default {
+        data: () => ({
+            mod: clone(modTemplate),
+            modCopy: clone(modTemplate),
+            isNew: true,
+        }),
+        computed: {
+            shouldSave() {
+                return this.isNew || !deepEqual(this.mod, this.modCopy);
+            },
+            saveText() {
+                return this.isNew ? 'Your mod is not uploaded yet' : 'You have unsaved changes';
+            },
+            saveButtonText() {
+                return this.isNew ? this.$t('upload') : this.$t('save');
             }
-        } catch (error) {
-            console.error(error);
-            return;
+        },
+        methods: {
+            async save() {
+                try {
+                    if (this.isNew) {
+                        this.mod = await this.$factory.create('mods', this.mod);
+                        this.isNew = false;
+                    } else {
+                        await this.$factory.update('mods', this.mod.id, this.mod);
+                    }
+                    this.modCopy = clone(this.mod);
+                } catch (error) {
+                    console.error(error);
+                    return;
+                }
+            }
+        },
+        async asyncData({ $factory, params }) {
+            if (params.id) {
+                const mod = await $factory.getOne('mods', params.id);
+
+                mod.tag_ids = mod.tags.map(tag => tag.id);
+
+                const modCopy = clone(mod);
+    
+                return { mod, modCopy, isNew: false };
+            } else {
+                return { mod: clone(modTemplate) };
+            }
         }
-    }
+    };
 </script>
+
+<style>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.25s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
+</style>
