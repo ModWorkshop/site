@@ -1,7 +1,7 @@
 <template>
 	<div class="content-block content-block-large">
 		Preview:
-		<div v-html="md"/>
+		<markdown :text="mdText"/>
 		<br>
 		<el-input v-model="mdText" type="textarea" rows="10"/>
 		
@@ -11,7 +11,7 @@
 		<br>
 
 		
-		<el-button type="primary">Hello!</el-button>
+		<!-- <el-button type="primary">Hello!</el-button> -->
 
 		<h1>Theme: {{ $colorMode.value }}</h1>
 		<el-select v-model="$colorMode.preference">
@@ -23,18 +23,11 @@
 </template>
 
 <script>
-import { parseMarkdown } from '../utils/md-parser';
-
 export default {
 	data() {
 		return {
 			mdText: '**hello**',
-		}
+		};
 	},
-	computed: {
-		md() {
-			return parseMarkdown(this.mdText)
-		}
-	}
-}
+};
 </script>
