@@ -1,43 +1,76 @@
 <template>
-    <label :for="`${name}-file-browser-open`">
-        <flex column gap="3"
-            style="width: 100%; min-height: 150px; background-color: var(--bg-color)" 
-            @dragend.prevent=""
-            @dragleave.prevent=""
-            @dragover.prevent=""
-            @drop.prevent="handleDrop"
-        >
-            <div class="mx-auto">
+    <div class="flex flex-col" gap="3"
+        style="width: 100%; min-height: 150px; background-color: var(--bg-color)" 
+        @dragover.prevent=""
+        @drop.prevent="handleDrop"
+    >
+        <label :for="`${name}-file-browser-open`">
+            <div class="text-center">
                 <h2>Drop files here or click the area to upload files</h2>
             </div>
-            <div class="grid file-list p-3 mb-8">
-                <input :id="`${name}-file-browser-open`" type="file" @change="handleFileBrowser" hidden multiple/>
-                <div class="file-item" v-for="[i, file] of files.entries()" :key="i">
-                    <img class="file-thumbnail" :src="file.url" alt="">
-                    <flex class="file-options">
-                        <div class="file-progress" :style="{width: file.progress + '%'}"/>
-                        <span class="file-buttons">
+        </label>
+        <input :id="`${name}-file-browser-open`" type="file" @change="handleFileBrowser" hidden multiple/>
+        <div v-if="list" class="p-3">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Upload Date</th>
+                        <th align="center">Actions</th>
+                        <slot name="headers"/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="[i, file] of files.entries()" :key="i">
+                        <td>{{file.name}}</td>
+                        <td>{{friendlySize(file.size)}}</td>
+                        <td v-if="file.date">{{fullDate(file.date)}}</td>
+                        <td v-else>Uploading: {{file.progress}}% </td>
+                        <td align="center">
+                            <slot name="buttons" :file="file"/>
                             <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
                                 <font-awesome-icon icon="trash"/>
                             </span>
+                        </td>
+                        <slot name="rows" :file="file"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else class="grid file-list p-3 mb-8">
+            <div class="file-item" v-for="[i, file] of files.entries()" :key="i" @click.prevent>
+                <img class="file-thumbnail" :src="file.url" alt="">
+                <flex class="file-options">
+                    <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
+                    <span class="file-buttons">
+                        <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
+                            <font-awesome-icon icon="trash"/>
                         </span>
-                    </flex>
-                </div>
+                    </span>
+                </flex>
             </div>
-        </flex>
-    </label>
+        </div>
+    </div>
 </template>
 
 <script setup>
     import { computed, useContext } from "@nuxtjs/composition-api";
+    import { friendlySize, fullDate } from '../../utils/helpers';
+    import { Notification } from 'element-ui';
+
+    let test = $ref(9);
 
     const props = defineProps({
+        list: Boolean,
+        buttons: {type: Array, default: () => []},
         url: { required: true, type: String },
         name: { required: true,  type: String },
         files: { required: true, type: Array }
     });
 
     const { $axios } = useContext();
+
     const computedFiles = computed(() => props.files);
 
     /**
@@ -49,6 +82,7 @@
                 id: -1,
                 name: file.name,
                 url: '',
+                size: file.size,
                 progress: -1,
                 cancel: null
             };
@@ -63,22 +97,30 @@
 
                 const formData = new FormData();
                 formData.append('file', file);
-                const uploadedFile = await $axios.post(props.url, formData, {
+                const { data } = await $axios.post(props.url, formData, {
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         insertFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
                     },
                     cancelToken: new $axios.CancelToken(c => insertFile.cancel = c)
-                }).then(res => res.data);
+                });
 
                 insertFile.progress = -1;
                 Object.assign(insertFile, {
-                    id: uploadedFile.id,
-                    name: uploadedFile.file,
-                    url: `http://localhost:8000/storage/images/${uploadedFile.file}`
+                    id: data.id,
+                    name: data.file,
+                    date: data.created_at,
+                    size: data.size,
+                    url: `http://localhost:8000/storage/images/${data.file}`
                 });
             } catch (error) {
                 console.log(error);
+                if (!$axios.isCancel(error)) {
+                    Notification.error({
+                        title: 'Error',
+                        message: 'File failed to upload: ' + error.message
+                    });
+                }
                 removeFile.call(this, insertFile);
             }
         }

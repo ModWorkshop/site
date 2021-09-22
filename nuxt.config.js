@@ -35,6 +35,7 @@ export default {
 	css: [
 		'@fortawesome/fontawesome-svg-core/styles.css',
 		"element-ui/lib/theme-chalk/index.css",
+		"~/assets/css/base",
 		"~/assets/css/element-ui-var",
 		"~/assets/css/helpers",
 		"~/assets/css/github-dark",

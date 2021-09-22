@@ -6,7 +6,9 @@
     "rules": {
         "semi": 2,
         "no-var": 2,
-        "vue/no-deprecated-v-on-native-modifier": 1
+        "vue/no-deprecated-v-on-native-modifier": 1,
+        "no-unused-vars": 1,
+        "vue/no-deprecated-v-bind-sync": 1 //Remove in Nuxt3
     },
     "globals": {
         "defineProps": "readonly",
