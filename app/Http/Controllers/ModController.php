@@ -99,7 +99,6 @@ class ModController extends Controller
             'size' => $file->getSize()
         ]);
 
-        $mod->download()->associate($file);
         $mod->save();
 
         return $file;
@@ -156,7 +155,7 @@ class ModController extends Controller
         ]);
         
         $query = Mod::limit($val['limit'] ?? 40)->list()->with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
-
+        
         if (isset($val['tags'])) {
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
                 $q->limit(1)->whereIn('tags.id', $val['tags']);
