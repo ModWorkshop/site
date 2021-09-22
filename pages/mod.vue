@@ -40,102 +40,34 @@
             </div>
         </flex>
         <div class="mod-main">
-            <flex grow>
-                <tabs class="content-block flex-grow">
-                    <tab name="description" :title="$t('description')">
-                        <markdown :text="mod.desc"/>
-                    </tab>
-                    <tab name="images" :title="$t('images')" style="width: 100%; margin: 0 auto; text-align: center">
-                        <a v-for="(image, i) of mod.images" :key="image.id" @click="showImage(i)" class="cursor-pointer mb-1 inline-block overflow-hidden">
-                            <img :src="`http://localhost:8000/storage/images/${image.file}`" style="max-width:100%;height: 210px;object-fit: cover;"/>
-                        </a>
-                        <no-ssr>
-                            <vue-easy-lightbox moveDisabled :visible="galleryVisible" :imgs="images" @hide="galleryVisible = false" :index="imageIndex"/>
-                        </no-ssr>
-                    </tab>
-                    <tab name="files" :title="$t('files')">Nothing for now!</tab>
-                    <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
-                        <markdown :text="mod.changelog"/>
-                    </tab>
-                    <tab v-if="mod.license" name="license" :title="$t('license')">
-                        <markdown :text="mod.license"/>
-                    </tab>
-                    <tab name="instructions" :title="$t('instructions')">Nothing for now!</tab>
-                </tabs>
-            </flex>
-            <flex column gap="1" class="mod-info content-block p-2">
-                <div class="thumbnail overflow-hidden ratio-image-mod-thumb">
-                    <mod-thumbnail :mod="mod"/>
-                </div>
-                <div class="p-2" style="font-size: 20px">
-                    <div class="p-1 inline-block">
-                        <font-awesome-icon icon="heart"/>
-                        <span id="likes">{{likes}}</span>
-                    </div>
-                    <div class="p-1 inline-block">
-                        <font-awesome-icon icon="download"/>
-                        <span>{{downloads}}</span>
-                    </div>
-                    <div class="p-1 inline-block">
-                        <font-awesome-icon icon="eye"/>
-                        <span>{{views}}</span>
-                    </div>
-                </div>
-                <flex gap="1" wrap class="p-2 tags-block">
-                    <!-- TODO: Don't forget to make them link -->
-                    <tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</tag>
-                </flex>
-                <div class="p-2 colllaborators-block">
-                    <user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
-                </div>
-            </flex>
+            <mod-tabs :mod="mod"/>
+            <mod-right-pane :mod="mod"/>
         </div>
     </flex>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
-    import { DateTime } from 'luxon';
+    import { timeAgo } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
 
     //TODO: implement pipe split for mod status and whatnot
     export default {
         data: () => ({
             mod: {},
-            galleryVisible: false,
-            imageIndex: 0
         }),
         methods: {
             markdown(text) {
                 return parseMarkdown(text);
             },
-            showImage(imageIndex) {
-                this.imageIndex = imageIndex;
-                this.galleryVisible = true;
-            }
+            
         },
         computed: {
-            images() {
-                const images = [];
-                for (const image of this.mod.images) {
-                    images.push(`http://localhost:8000/storage/images/${image.file}`);
-                }
-                return images;
-            },
-            likes() {
-                return 0;
-            },
-            downloads() {
-                return 0;
-            },
-            views() {
-                return 1;
-            },
             publishDateAgo() {
-                return DateTime.fromISO(this.mod.publish_date).toRelative();
+                return timeAgo(this.mod.publish_date);
             },
             updateDateAgo() {
-                return DateTime.fromISO(this.mod.updated_at).toRelative();
+                return timeAgo(this.mod.updated_at);
             },
             modStatus() {
                 return null;
@@ -157,105 +89,105 @@
 </script>
 
 <style>
-.mod-banner {
-    background-size: cover;
-    box-shadow: 1px 1px 5px #000;
-    box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
-    height: 250px;
-    border-radius: .25rem;
-}
-
-.mod-banner .data {
-    height: 100%;
-    font-weight: bold;
-    color: var(--MAIN_COLOR_TEXT);
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
-}
-
-.mod-banner #title {
-    font-size: 20pt;
-}
-
-.mod-banner .data .version {
-    font-weight: normal;
-}
-
-.mod-main {
-    display: grid;
-    grid-gap: .75rem;
-    margin-right: .75rem;
-    grid-template-columns: 70% 30%
-}
-
-.desc-content img {
-    max-width: 100%;
-}
-
-.fixed-anchor {
-    position: relative;
-    top: -64px;
-}
-
-@media (min-width:600px) and (max-width:850px) {
-    .mod-info .thumbnail {
-        display: none;
-    }
-}
-
-@media (max-width:850px) {
     .mod-banner {
-        height: 295px;
+        background-size: cover;
+        box-shadow: 1px 1px 5px #000;
+        box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
+        height: 250px;
+        border-radius: .25rem;
     }
 
-    .mod-info {
-        order: -1;
+    .mod-banner .data {
+        height: 100%;
+        font-weight: bold;
+        color: var(--MAIN_COLOR_TEXT);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+    }
+
+    .mod-banner #title {
+        font-size: 20pt;
+    }
+
+    .mod-banner .data .version {
+        font-weight: normal;
     }
 
     .mod-main {
-        grid-template-columns: auto;
-        margin-right: 0;
+        display: grid;
+        grid-gap: .75rem;
+        margin-right: .75rem;
+        grid-template-columns: 70% 30%
     }
-    .contributor-block .info{
-        line-height: 32px;
+
+    .desc-content img {
+        max-width: 100%;
     }
-    .contributor-block .avatar {
-        height: 64px;
-        width: 64px;
+
+    .fixed-anchor {
+        position: relative;
+        top: -64px;
     }
-}
 
-a.like-button {
-    border-bottom: 2px solid var(--primary);
-}
+    @media (min-width:600px) and (max-width:850px) {
+        .mod-info .thumbnail {
+            display: none;
+        }
+    }
 
-a.like-button.unliked {
-    border-color: var(--secondary);
-}
+    @media (max-width:850px) {
+        .mod-banner {
+            height: 295px;
+        }
 
-a.like-button:hover {
-    border-color: var(--a-hover);
-}
-a.like-button.unliked:hover {
-    border-color: var(--primary);
-}
+        .mod-info {
+            order: -1;
+        }
 
-.unliked {
-    color: var(--white);
-}
+        .mod-main {
+            grid-template-columns: auto;
+            margin-right: 0;
+        }
+        .contributor-block .info{
+            line-height: 32px;
+        }
+        .contributor-block .avatar {
+            height: 64px;
+            width: 64px;
+        }
+    }
 
-.mod-banner a > span {
-    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-}
+    a.like-button {
+        border-bottom: 2px solid var(--primary);
+    }
 
-.reply {
-    background-color: #151719;
-}
+    a.like-button.unliked {
+        border-color: var(--secondary);
+    }
 
-.comment-body .comment-actions {
-    visibility: hidden
-}
+    a.like-button:hover {
+        border-color: var(--a-hover);
+    }
+    a.like-button.unliked:hover {
+        border-color: var(--primary);
+    }
 
-.comment-body:hover .comment-actions {
-    visibility: visible
-}
+    .unliked {
+        color: var(--white);
+    }
+
+    .mod-banner a > span {
+        text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .reply {
+        background-color: #151719;
+    }
+
+    .comment-body .comment-actions {
+        visibility: hidden
+    }
+
+    .comment-body:hover .comment-actions {
+        visibility: visible
+    }
 </style>
