@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ModService;
+use App\Traits\RelationsListener;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,18 +96,20 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Mod extends Model
 {
     use HasFactory;
+    use RelationsListener;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
+     * download_type/id are handled by Laravel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['download_type', 'download_id'];
 
     protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files'];
-    protected $appends = ['tag_ids', 'breadcrumb', 'download'];
-    protected $hidden = ['download_id', 'download_type'];
-    
+    protected $appends = ['breadcrumb'];
+    protected $hidden = ['download_type'];
+
     public function scopeList(Builder $query)
     {
         return $query->without(['tags']);
@@ -154,25 +157,6 @@ class Mod extends Model
     }
 
     /**
-     * Returns the primary download for the mod. Either a file or an external link
-     *
-     * @return void
-     */
-    public function getDownloadAttribute()
-    {
-        if ($this->download_type === File::class) {
-            if ($this->relationLoaded('files')) {
-                foreach ($this->files as $file) {
-                    if ($file->id === $this->download_id) {
-                        return $file;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Returns an array with breadcrumbs
      *
      * @return void
@@ -184,18 +168,5 @@ class Mod extends Model
             'is_mod' => true,
             'href' => "/mod/{$this->id}"
         ], $this->game_id, $this->category_id, $includeGame ?? true);
-    }
-
-    public function getTagIdsAttribute()
-    {
-        if ($this->relationLoaded('tags')) {
-            $tagIds = [];
-            foreach ($this->tags as $tag) {
-                $tagIds[] = $tag->id;
-            }
-            return $tagIds;
-        } else {
-            return null;
-        }
     }
 }
