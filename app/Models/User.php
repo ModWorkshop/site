@@ -50,7 +50,7 @@ class User extends Authenticatable
     private static $membersRole = null;
     
     // Always return roles for users
-    protected $with = ['roles.permissions'];
+    protected $with = ['roles'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -97,7 +97,7 @@ class User extends Authenticatable
         return $rolesNames;
     }
 
-    public function getPermissions()
+    public function getPermissions(bool $forceLoad=false)
     {
         if ($this->gotPerms) {
             return $this->permissions;
@@ -120,7 +120,7 @@ class User extends Authenticatable
          */
 
         foreach ($roles as $role) {
-            if ($role->relationLoaded('permissions')) {
+            if ($forceLoad || $role->relationLoaded('permissions')) {
                 foreach ($role->permissions as $perm) {
                     $slug = $perm->slug;
                     if ($perm->pivot->allow) {
@@ -148,7 +148,7 @@ class User extends Authenticatable
      * @return boolean
      */
     function hasPermission(string $toWhat) {
-        $permissions = $this->getPermissions();
+        $permissions = $this->getPermissions(true);
         return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
 
