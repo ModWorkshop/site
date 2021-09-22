@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
         //Files
         Route::post('/mods/{mod}/files', [ModController::class, 'uploadModFile']);
-        Route::delete('/mods/{mod}/files/{image}', [ModController::class, 'deleteModFile']);
+        Route::delete('/mods/{mod}/files/{file}', [ModController::class, 'deleteModFile']);
     });
 });
 
