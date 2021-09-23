@@ -2,15 +2,16 @@
 
 namespace App\Policies;
 
-use App\Models\Mod;
+use App\Models\File;
 use App\Models\User;
-use App\Models\Visibility;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class ModPolicy
+class FilePolicy
 {
     use HandlesAuthorization;
+    use AuthorizesRequests;
 
     /**
      * Determine whether the user can view any models.
@@ -20,26 +21,19 @@ class ModPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Response::allow();
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
+     * @param  \App\Models\File  $file
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, Mod $mod)
+    public function view(?User $user, File $file)
     {
-        switch ($mod->visibility) {
-            case Visibility::unlisted:
-            case Visibility::pub:
-                return !$mod->suspended;
-            case Visibility::hidden:
-                return $mod->submitter->id === $user?->id; //TODO: account for collaborators & Invitees
-        }
-        return false;
+        return $this->authorize('view', $file->mod) && $file->approved;
     }
 
     /**
@@ -50,29 +44,29 @@ class ModPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-mod') ? Response::allow() : Response::deny('You cannot create mods');
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
+     * @param  \App\Models\File  $file
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Mod $mod, array $args)
+    public function update(User $user, File $file)
     {
-        return $user->id === $mod->submitter_uid ? Response::allow() : Response::deny('You cannot edit the mod');
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
+     * @param  \App\Models\File  $file
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Mod $mod)
+    public function delete(User $user, File $file)
     {
         //
     }
@@ -81,10 +75,10 @@ class ModPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
+     * @param  \App\Models\File  $file
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Mod $mod)
+    public function restore(User $user, File $file)
     {
         //
     }
@@ -93,10 +87,10 @@ class ModPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
+     * @param  \App\Models\File  $file
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Mod $mod)
+    public function forceDelete(User $user, File $file)
     {
         //
     }

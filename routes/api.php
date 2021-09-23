@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EditModController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\TagController;
@@ -55,6 +56,8 @@ Route::get('mods', [ModController::class, 'getMods']);
 Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::get('tags', [TagController::class, 'getTags']);
 
+Route::resource('files', FileController::class);
+Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 // Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {
@@ -63,7 +66,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     //TODO: let only moderators do this
     Route::post('categories', [CategoryController::class, 'update']);
-    
 
     Route::middleware('can:create,App\Mod')->group(function () {
         Route::post('/mods', [ModController::class, 'create']);

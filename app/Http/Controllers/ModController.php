@@ -9,8 +9,10 @@ use App\Models\Mod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use Storage;
 
 /**
  * @group Mod
@@ -87,10 +89,10 @@ class ModController extends Controller
         $file = $val['file'];
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('files', $fileName, 'public');
+        $file->storePubliclyAs('files', $fileName);
         
         $file = File::create([
-            'name' => $fileName,
+            'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
             'desc' => '', //TODO: Should be nullable
             'user_id' => $user->id,
             'mod_id' => $mod->id,
@@ -200,8 +202,8 @@ class ModController extends Controller
     public function update(Request $request, Mod $mod=null)
     {
         $val = $request->validate([
-            'name' => 'string||min:3|max:150',
-            'desc' => 'string|max:30000',
+            'name' => 'string|min:3|max:150',
+            'desc' => 'string|min:3|max:30000',
             'license' => 'string|max:30000',
             'changelog' => 'string|max:30000',
             'short_desc' => 'string|max:150',
@@ -212,23 +214,28 @@ class ModController extends Controller
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
-            'download_id' => 'integer|min:1|required_with:download_type',
+            'download_id' => 'integer|min:1|nullable',
             'download_type' => 'string|required_with:download_id|in:file,link'
         ]);
 
-        $downloadId = Arr::pull($val, 'download_id');
-        if (isset($downloadId)) {
-            $type = Arr::pull($val, 'download_type');
-            if ($type == 'file') {
-                $file = $mod->files->find($downloadId);
-            } else if($type == 'link') {
-
-            }
-
-            if (isset($file)) {
-                $mod->download()->associate($file);
+        if (array_key_exists('download_id', $val)) {
+            $downloadId = Arr::pull($val, 'download_id');
+            if (isset($downloadId)) {
+                $type = Arr::pull($val, 'download_type');
+                $download = null;
+                if ($type == 'file') {
+                    $download = $mod->files->find($downloadId);
+                } else if($type == 'link') {
+    
+                }
+    
+                if (isset($download)) {
+                    $mod->download()->associate($download);
+                } else {
+                    throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
+                }
             } else {
-                throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
+                $mod->download()->dissociate();
             }
         }
 

@@ -12,6 +12,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+
+abstract class Visibility {
+    const pub = 1;
+    const hidden = 2;
+    const unlisted = 3;
+}
+
 /**
  * App\Models\Mod
  *
