@@ -31,6 +31,7 @@ body {
     --secondary-text-color: #d8d8d8;
     --text-inactive: #6d6d6d;
     --primary-color: #107ef4;
+    --disabled-color: #3c3c3c;
     --primary-hover-color: #0a6fdb;
     --input-bg-color: #17191c;
     --input-border-color: #393e46;
@@ -214,10 +215,6 @@ embed,
 object {
   display: block;
   vertical-align: middle;
-}
-
-button:hover {
-    cursor: pointer;
 }
 
 .el-input {

@@ -59,8 +59,6 @@
     import { friendlySize, fullDate } from '../../utils/helpers';
     import { Notification } from 'element-ui';
 
-    let test = $ref(9);
-
     const props = defineProps({
         list: Boolean,
         buttons: {type: Array, default: () => []},
@@ -108,7 +106,7 @@
                 insertFile.progress = -1;
                 Object.assign(insertFile, {
                     id: data.id,
-                    name: data.file,
+                    name: data.name || data.file,
                     date: data.created_at,
                     size: data.size,
                     url: `http://localhost:8000/storage/images/${data.file}`

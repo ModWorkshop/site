@@ -12,7 +12,7 @@
                     <vue-easy-lightbox moveDisabled :visible="galleryVisible" :imgs="images" @hide="galleryVisible = false" :index="imageIndex"/>
                 </no-ssr>
             </tab>
-            <tab name="files" :title="$t('files')">Nothing for now!</tab>
+            <tab name="downloads" :title="$t('downloads')">Nothing for now!</tab>
             <tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
                 <markdown :text="mod.changelog"/>
             </tab>

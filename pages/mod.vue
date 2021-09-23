@@ -19,7 +19,7 @@
                             <span :title="mod.publish_date">{{publishDateAgo}}</span>
                         </span>
                     </div>
-                    <flex column class="mt-auto flex-md-row">
+                    <flex column class="mt-auto md:flex-row">
                         <div class="p-0 version mt-auto">
                             <span>
                                 <strong v-if="modStatus">{{modStatus}}</strong>
@@ -28,12 +28,20 @@
                                 <span :title="mod.updated_at">{{updateDateAgo}}</span>
                             </span>
                         </div>
-                        <flex class="ml-md-auto">
+                        <flex class="md:ml-auto">
                             <a v-if="canLike" id="like-button" class="btn btn-lg d-flex align-items-center flex-grow px-2 py-2 btn-danger">
                                 <i v-if="mod.liked" class="ri-heart-fill mx-1"/>
                                 <i v-else class="ri-heart-line mx-1"/>
                             </a>
-                            <!--{% include "parts/modpage/download_button.twig" %}-->
+                            <form v-if="mod.download" :action="`http://127.0.0.1:8000/files/${mod.download.id}/download`" method="get" class="flex-grow ml-2">
+                                <a-button class="download-button w-full" icon="download">
+                                    Download
+                                    <br>
+                                    <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
+                                </a-button>
+                            </form>
+                            <a-button v-else-if="mod.files.length > 0" href="#downloads" class="download-button" icon="download">Downloads</a-button>
+                            <a-button v-else class="download-button" disabled>No Files</a-button>
                         </flex>
                     </flex>
                 </flex>
@@ -48,7 +56,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import { timeAgo } from '../utils/helpers';
+    import { timeAgo, friendlySize } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
 
     //TODO: implement pipe split for mod status and whatnot
@@ -57,10 +65,8 @@
             mod: {},
         }),
         methods: {
-            markdown(text) {
-                return parseMarkdown(text);
-            },
-            
+            parseMarkdown,
+            friendlySize,
         },
         computed: {
             publishDateAgo() {
@@ -169,6 +175,11 @@
     }
     a.like-button.unliked:hover {
         border-color: var(--primary);
+    }
+
+    .download-button {
+        font-size: 1.25rem;
+        padding: 0.5rem 2rem !important;
     }
 
     .unliked {

@@ -1,5 +1,9 @@
 <template>
-    <button class="button" @click="$emit('click', $event)"> 
+    <a v-if="href && !disabled" :href="href" class="button">
+        <font-awesome-icon v-if="icon" :icon="icon"/>
+        <slot/>
+    </a>
+    <button v-else :disabled="disabled" class="button" @click="$emit('click', $event)"> 
         <font-awesome-icon v-if="icon" :icon="icon"/>
         <slot/>
     </button>
@@ -7,7 +11,9 @@
 
 <script setup>
     defineProps({
-        icon: String
+        href: String,
+        icon: String,
+        disabled: Boolean
     });
 </script>
 
@@ -20,9 +26,14 @@
         transition: background-color 0.5s;
     }
 
-    .button:hover {
+    .button:disabled {
+        background-color: var(--disabled-color);
+    }
+
+    .button:hover:enabled {
         transition: background-color 0.5s;
         background-color: var(--primary-hover-color);
         cursor: pointer;
     }
+
 </style>
