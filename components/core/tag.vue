@@ -6,7 +6,7 @@ export default {
     props: {
         color: String
     }
-}
+};
 </script>
 <style scoped>
     .tag {

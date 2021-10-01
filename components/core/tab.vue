@@ -5,7 +5,8 @@
         :aria-labelledby="`${name}-tab-link`"
         :id="`${name}-tab-panel`"
         tabindex="0"
-        v-show="show" 
+        v-show="show"
+        v-if="shouldExist"
         class="tab-panel">
         <slot/>
     </div>
@@ -20,9 +21,12 @@
         computed: {
             show() {
                 return this.name == this.tabState.current;
+            },
+            shouldExist() {
+                return this.type == 'route' ? this.show : true;
             }
         },
-        inject: ['tabState']
+        inject: ['tabState', 'type']
     };
 </script>
 

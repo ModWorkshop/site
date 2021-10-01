@@ -1,7 +1,7 @@
 <template>
     <div id="user-main">
         <flex column class="user-banner px-3" :style="{backgroundImage: userBanner}">
-            <avatar class="mt-auto d-inline-block" size="largest" :src="userAvatar"/>
+            <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
         </flex>
         <flex :column="false" class="flex-md-row">
             <flex wrap id="details" class="content-block">
@@ -37,7 +37,7 @@ export default {
     data() {
         return {
             user: {}
-        }
+        };
     },
     computed: {
         isMod() {
@@ -67,16 +67,13 @@ Pretty much all my mods have either no license (falls under default license of t
         profilePublic() {
             return true;
         },
-        userAvatar() {
-            return 'http://localhost:8000/storage/' + this.user.avatar; //TODO: don't hardcode this URL.
-        }
     },
     async asyncData({params, $factory}) {
         if (params.id) {
             return {user: await $factory.getOne('users', params.id)};
         }
     }
-}
+};
 </script>
 <style scoped>
     #user-main {

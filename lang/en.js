@@ -289,5 +289,6 @@ export default {
     submitted_by: "Submitted by",
     return_to_mod: "Return to mod page",
     edit_mod: "Edit Mod",
-    license: "License"
+    license: "License",
+    unsaved_changes: "You have unsaved changes",
 };

@@ -20,9 +20,6 @@ export const getters = {
     user(state) {
         return state.user;
     },
-    userAvatar(state) {
-        return 'http://localhost:8000/storage/' + state.user.avatar;
-    },
     userId(state) {
         return state.user.id;
     },

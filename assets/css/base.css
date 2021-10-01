@@ -1,3 +1,98 @@
+body, html {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        "Noto Sans",
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+body {
+    overflow-y: scroll;
+}
+
+:root {
+    --bg-color: #212529;
+    --secondary-bg-color: #2b3036;
+    --dropdown-bg: #292d32;
+    --dropdown-hover-bg: #32383e;
+    --dropdown-text-color: #ccc;
+    --text-color: #fff;
+    --secondary-text-color: #d8d8d8;
+    --text-inactive: #6d6d6d;
+    --primary-color: #107ef4;
+    --disabled-color: #3c3c3c;
+    --primary-hover-color: #0a6fdb;
+    --input-bg-color: #17191c;
+    --input-border-color: #393e46;
+    --input-border-hover-color: #505762;
+    --header-footer-color: #394047;
+    --button-text-color: #fff;
+    --tab-selected-color: #363d44;
+    --border-radius: 4px;
+}
+
+html.light-mode {
+    --bg-color: #e3e6e8;
+    --secondary-bg-color: #d5dadd;
+    --text-color: #000;
+    --dropdown-bg: #e6e6e6;
+    --dropdown-hover-bg: #d9d9d9;
+    --dropdown-text-color: #252525;
+    --secondary-text-color: #333;
+    --input-bg-color: #f5f5f5;
+    --input-border-color: #d8d8d8;
+    --input-border-hover-color: #b3b3b3;
+    --header-footer-color: #f1f3f4;
+    --tab-selected-color: #e3e6e8;
+}
+
 table {
     text-align: left;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+    border: 0 solid;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-hover-color);
+}
+
+.h3, h3 {
+    font-size: 1.75rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.markdown {
+    word-break: break-word;
+}
+
+.text-secondary {
+    color: var(--secondary-text-color);
 }

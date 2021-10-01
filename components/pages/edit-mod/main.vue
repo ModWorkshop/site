@@ -1,7 +1,7 @@
 <template>
     <flex column gap="4">
-        <group label="Name" desc="Maximum of 150 letters and minimum of 3 letters">
-            <el-input v-model="mod.name"/>
+        <group check="name" label="Name" desc="Maximum of 150 letters and minimum of 3 letters">
+            <el-input v-model="mod.name" maxlength="100" minlength="3"/>
         </group>
         <group label="Description" label-id="desc" desc="Describe your mod in detail here, what it does or any other important details">
             <md-editor v-model="mod.desc" rows="12"/>

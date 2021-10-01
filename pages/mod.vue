@@ -1,5 +1,5 @@
 <template>
-    <flex column gap="3" class="content-block-large">
+    <page-block>
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
             <!-- TODO: make our own buttons -->
@@ -15,7 +15,7 @@
                         <br>
                         <span v-if="mod.publish_date">
                             <strong>{{$t('submitted')}}</strong>
-                            <!-- <user :user="mod.submitter" avatar-size="small"/> -->
+                            <!-- <a-user :user="mod.submitter" avatar-size="small"/> -->
                             <span :title="mod.publish_date">{{publishDateAgo}}</span>
                         </span>
                     </div>
@@ -51,7 +51,7 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-    </flex>
+    </page-block>
 </template>
 
 <script>

@@ -1,109 +1,113 @@
 <template>
-    <div class="content-block content-block-med">
-        <el-tabs tab-position="left">
-            <el-tab-pane label="Profile">
-                <el-col :span="22" :offset="1">
-                    <el-form @submit.native.prevent="login" style="display: flex; flex-direction: column;">
-                        <el-form-item label="Avatar">
-                            <div style="display: flex;">
-                                <el-upload
-                                    id="avatar"
-                                    :action="avatarUploadLink"
-                                    :show-file-list="false"
-                                    :with-credentials="true"
-                                    :http-request="uploadAvatar"
-                                    list-type="picture-card">
-                                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                                </el-upload>
-                                <label for="file">
-                                    <avatar style="margin-left: 0.5rem;" large v-if="userAvatar" :src="userAvatar"/>
-                                </label>
-                            </div>
-                        </el-form-item>
-                        <el-form-item label="Name" prop="name">
-                            <el-input v-model="name"/>
-                        </el-form-item>
-                        <el-form-item label="Email">
-                            <el-input v-model="email"/>
-                        </el-form-item>
-                        <el-form-item label="Password">
-                            <el-input type="password" v-model="password"/>
-                        </el-form-item>
-                        <span v-if="error">{{error}}</span>
-                        <el-input style="width: initial; margin-left: auto; margin-right: auto;" type="submit" value="Save"/>
-                    </el-form>
-                </el-col>
-            </el-tab-pane>
-            <el-tab-pane label="Options">
+    <page-block size="med">
+        <content-block class="p-8">
+            <a-form @submit="save" :model="user" style="flex: 1;" :can-save="canSaveOverride" float-save-gui>
+                <tabs list tab-position="left">
+                    <form-tab name="account" title="Account">
+                        <group label="Username">
+                            <el-input v-model="user.name"/>
+                        </group>
+                        <group label="Email">
+                            <el-input v-model="user.email"/>
+                        </group>
+                        <h3>Change Password</h3>
+                        <group label="New Password">
+                            <el-input type="password" v-model="user.password"/>
+                        </group>
+                        <group label="Confirm Password">
+                            <el-input type="password" v-model="user.confirm_password"/>
+                        </group>
+                    </form-tab>
+                    <form-tab name="profile" title="Profile">
+                        <group label="Avatar" column gap="3">
+                            <label class="flex items-end gap-2" for="avatar-upload">
+                                <a-avatar size="large" :src="currentAvatarSrc"/>
+                                <a-avatar size="medium" :src="currentAvatarSrc"/>
+                                <a-avatar size="small" :src="currentAvatarSrc"/>
+                            </label>
+                            <input ref="avatar" type="file" id="avatar-upload" @change="onAvatarChosen"/>
+                        </group>
+                    </form-tab>
+                    <form-tab name="options" title="Options">
 
-            </el-tab-pane>
-        </el-tabs>
-    </div>
+                    </form-tab>
+                </tabs>
+            </a-form>
+        </content-block>
+    </page-block>
 </template>
-<script>
-import { mapGetters } from 'vuex';
 
-export default {
-    data: () => ({
-        name: '',
-        email: '',
-        password: '',
-        remember: true,
-        error: false
-    }),
-    computed: {
-        avatarUploadLink() {
-            return `http://localhost:8000/user/${this.$store.getters.userId}/avatar`;
+<script>
+    import { useStore, useContext, computed, ref } from '@nuxtjs/composition-api';
+    import { Notification } from 'element-ui';
+    import clone from 'rfdc/default';
+
+    export default {
+        middleware({ store, error }) {
+            if (!store.state.user) {
+                error({
+                    statusCode: 401,
+                    message: 'You must be logged in to enter this page!'
+                });
+            }
         },
-        ...mapGetters([
-            'userAvatar'
-        ])
-    },
-    middleware({ store, error }) { //TODO: error page
-        if (!store.state.user) {
-            error({
-                statusCode: 401,
-                message: 'You must be logged in to enter this page!'
-            });
-        }
-    },
-    methods: {
-        async uploadAvatar(params) {
-            console.log(params);
-            const formData = new FormData();
-            formData.append('file', params.file);
-            const newAvatar = await this.$axios.post(`http://localhost:8000/users/${this.$store.getters.userId}/avatar`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then(res => res.data);
-            this.$store.commit('setUserAvatar', newAvatar);
-        },
-        async login() {
-            this.error = false;
-            try {
-                await this.$axios.post('/login', {email: this.email, password: this.password, remember_me: this.remember});
-            } catch (error) {
-                const codes = {
-                    401: 'Incorrect email or password',
-                    422: 'Given email or password are invalid'
+        setup() {
+            const store = useStore();
+
+            const { $axios } = useContext();
+            const user = ref({});
+            const avatar = ref();
+            let avatarBolb = $ref(null);
+            let bannerBolb = $ref(null);
+
+            const canSaveOverride = computed(() => avatarBolb != null || bannerBolb != null);
+            const currentAvatarSrc = computed(() => avatarBolb || user.avatar);
+
+            function onAvatarChosen() {
+                const file = avatar.value.files[0];
+                const reader = new FileReader(file);
+                reader.onload = () => {
+                    avatarBolb = reader.result;
                 };
-                console.log(error.response.status);
-                this.error = codes[error.response.status] || 'Something went wrong';
-                return;
+                reader.readAsDataURL(file);
             }
 
-            const user = await this.$axios.get('/user').then(res => res.data);
-            this.$store.commit('setUser', user);
-            this.$router.push('/');
+            if (store.getters.user) {
+                const nextUser = clone(store.getters.user);
+                nextUser.password = '';
+                nextUser.confirm_password = '';
+                user.value = nextUser;
+            }
+
+            async function save() {
+                try {
+                    const formData = new FormData();
+                    if (avatar.value.files.length > 0) {
+                        formData.append('avatar-file', avatar.value.files[0]);
+                        avatar.value = '';
+                        avatarBolb = null;
+                        bannerBolb = null;
+                    }
+                    
+                    for (const [k, v] of Object.entries(user.value)) {
+                        formData.append(k, v);
+                    }
+
+                    const nextUser = await $axios.patch(`users/${user.value.id}`, formData).then(res => res.data);
+                    
+                    nextUser.password = '';
+                    nextUser.confirm_password = '';
+
+                    store.commit('setUser', clone(nextUser));
+
+                    user.value = nextUser;
+                } catch (error) {
+                    console.log(error);
+                    new Notification.error('Failed saving user settings');
+                }
+            }
+
+            return { avatar, user, canSaveOverride, currentAvatarSrc, onAvatarChosen, save };
         }
-    }
-};
+    };
 </script>
-<style scoped>
-    .avatar {
-        width: 150px;
-        height: 150px;
-        border-radius: 5%;
-    }
-</style>

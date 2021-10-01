@@ -21,8 +21,8 @@
         <div class="user-items">
             <div v-if="user">
                 <el-dropdown trigger="click">
-                    <a href="#" class="user">
-                        <avatar :src="userAvatar"/>
+                    <a class="user cursor-pointer">
+                        <a-avatar :src="user.avatar"/>
                         <span>{{user.name}}</span>
                     </a>
                     <el-dropdown-menu>
@@ -44,7 +44,7 @@
     </header>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 export default {
     computed: {
         logo() {
@@ -52,7 +52,6 @@ export default {
         },
         ...mapGetters([
             'user',
-            'userAvatar'
         ])
     },
     methods: {
@@ -62,7 +61,7 @@ export default {
             this.$store.commit('setUser', null);
         }
     }
-}
+};
 </script>
 <style>
     .user {

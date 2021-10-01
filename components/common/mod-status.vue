@@ -27,9 +27,10 @@ export default {
                         return 'Invite Only';
                 }
             }
+            return null;
         }
     }
-}
+};
 </script>
 <style lang="">
     

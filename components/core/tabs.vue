@@ -1,108 +1,124 @@
 <template>
-    <flex :column="!list" :gap="list ? 8 : 1">
-        <flex class="tab-list" role="tablist" :column="list">
+    <flex :column="!side" :gap="side ? 8 : 1">
+        <flex class="tab-list" role="tablist" :column="side">
             <!--ARIA compliant, I hope xd-->
             <!-- TODO: Move ref to v-for in nuxt3 https://v3.vuejs.org/guide/migration/array-refs.html -->
-            <a 
+            <nuxt-link
                 v-for="tab of tabs"
                 role="tab"
                 ref="tabLinks" 
                 :id="`${tab.name}-tab-link`"
+                :class="{'tab-link': true, 'tab-link-side': side, 'selected': tabState.current == tab.name}"
                 :tabindex="tabState.current == tab.name ? 0 : -1"
                 :aria-selected="tabState.current == tab.name"
                 :aria-controls="`${tab.name}-tab-panel`"
                 :key="tab.name" 
-                :href="hash && `#${tab.name}`"
-                @click="() => setCurrentTab(tab.name)"
-                @keydown.left="() => arrowKeysMove(true)"
-                @keydown.right="() => arrowKeysMove(false)"
-                :class="{'tab-link': true, 'tab-link-horizontal': !list, 'selected': tabState.current == tab.name}">
+                :to="type == 'route' ? tab.name : (type == 'hash' && `#${tab.name}`)"
+                @click.native="() => setCurrentTab(tab.name)"
+                @keydown.native.left="() => arrowKeysMove(true)"
+                @keydown.native.right="() => arrowKeysMove(false)">
                 {{tab.title}}
-            </a>
+            </nuxt-link>
             <slot name="buttons"/>
         </flex>
-        <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': list}">
-            <slot/>
+        <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': side}">
+            <slot v-if="type != 'route'"/>
+            <slot v-else name="content"/>
         </div>
     </flex>
 </template>
 
-<script>
-    import { provide, ref } from '@nuxtjs/composition-api';
+<script setup>
+    import { onMounted, provide, useSlots } from '@nuxtjs/composition-api';
 
-    export default {
-        props: {
-            list: Boolean,
-            hash: {
-                default: true,
-                type: Boolean
-            },
-            padding: {
-                default: 2,
-                type: [String, Number]
-            }
+    const props = defineProps({
+        side: Boolean,
+        route: String,
+        type: {
+            default: 'hash',
+            type: String
         },
-        setup() {
-            const tabs = ref([]);
-            const tabState = ref({current: '', focus: 0});
-            provide('tabState', tabState.value);
-
-            return { tabs, tabState };
-        },
-        created() {
-            this.computeTabs();
-        },
-        beforeUpdate() {
-            this.computeTabs();
-        },
-        methods: {
-            arrowKeysMove(left) {
-                const tabs = this.$refs.tabLinks;
-                let focus = this.tabState.focus;
-
-                if (left) {
-                    focus--;
-                } else {
-                    focus++;
-                }
-
-                if (focus < 0) {
-                    focus = tabs.length - 1;
-                } else if (focus >= tabs.length) {
-                    focus = 0;
-                }
-
-                this.tabState.focus = focus;
-                tabs[focus].focus();
-            },
-            setCurrentTab(name) {
-                const tabState = this.tabState;
-                tabState.current = name;
-                tabState.focus = this.tabs.findIndex(tab => tab.name === name);
-            },
-            computeTabs() {
-                //TODO: remove in nuxt3
-                // eslint-disable-next-line vue/require-slots-as-functions
-                this.tabs = this.$slots.default.reduce((prev, curr) => {
-                    if (curr.tag) {
-                        const tab = curr.componentOptions.propsData;
-                        if (this.tabState.current === '') {
-                            this.tabState.current = process.client && this.hash && window.location.hash.replace('#', '') || tab.name;
-                        }
-                        prev.push(tab);
-                    }
-
-                    return prev;
-                }, []);
-            }
+        padding: {
+            default: 2,
+            type: [String, Number]
         }
-    };
+    });
+    
+    const slots = useSlots();
+
+    let tabLinks = $ref();
+    let tabs = $ref([]);
+    let tabState = $ref({current: '', focus: 0});
+    provide('tabState', tabState);
+    provide('type', props.type);
+
+    onMounted(() => {
+        computeTabs();
+    });
+
+    if (process.client) {
+        window.addEventListener('hashchange', () => {
+            if (props.type == 'hash') {
+                setCurrentTab(window.location.hash.replace('#', ''));
+            }
+        });
+    }
+
+    function arrowKeysMove(left) {
+        const tabs = tabLinks;
+        let focus = tabState.focus;
+
+        if (left) {
+            focus--;
+        } else {
+            focus++;
+        }
+
+        if (focus < 0) {
+            focus = tabs.length - 1;
+        } else if (focus >= tabs.length) {
+            focus = 0;
+        }
+
+        tabState.focus = focus;
+        tabs[focus].$el.focus();
+    }
+
+    function setCurrentTab(name) {
+        tabState.current = name;
+        tabState.focus = tabs.findIndex(tab => tab.name === name);
+    }
+
+    function computeTabs() {
+        const def = slots.default();
+        if (def) {
+            let currentTab; 
+        
+            if (props.type == 'route') {
+                currentTab = props.route;
+            } else if (props.type == 'hash') {
+                currentTab = process.client && window.location.hash.replace('#', '');
+            }
+
+            tabs = def.reduce((prev, curr) => {
+                if (curr.tag) {
+                    const tab = curr.componentOptions.propsData;
+                    if (tabState.current === '') {
+                        tabState.current = currentTab || tab.name;
+                    }
+                    prev.push(tab);
+                }
+    
+                return prev;
+            }, []);
+        }
+    }
 </script>
 
-<style scoped>
+<style>
     .tab-link {
         border-radius: 4px;
-        padding: 0.5rem 4rem 0.5rem 0.75rem;
+        padding: 0.5rem 2rem;
         color: var(--secondary-text-color);
     }
 
@@ -115,7 +131,8 @@
         color: var(--primary-color);
     }
 
-    .tab-link-horizontal {
-        padding: 0.5rem 2rem;
+    .tab-link-side {
+        padding: 0.5rem 4rem 0.5rem 0.75rem;
+        min-width: 200px;
     }
 </style>

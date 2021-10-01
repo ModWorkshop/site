@@ -100,6 +100,16 @@ export default {
 			routes.push({ name: "upload-mod-page", path: "/upload", component: "pages/edit-mod.vue" });
 			routes.push({ name: "create-category", path: "/create-category", component: "pages/edit-category.vue" });
 			routes.push({ name: "fucking-edit-category", path: "/category/:id/edit", component: "pages/edit-category.vue" });
+			routes.push({ 
+				name: "admin-page-proper",
+				path: "/admin/home",
+				component: "pages/admin-page.vue"
+			});
+			routes.push({ 
+				name: "admin-page-roles-proper",
+				path: "/admin/roles",
+				component: "pages/admin-page-roles.vue"
+			});
 		}
 	},
 
@@ -113,5 +123,9 @@ export default {
 		strategy: 'no_prefix',
 		lazy: true,
 		langDir: "lang"
+	},
+
+	image: {
+		domains: [process.env.API_URL + '/storage']
 	}
 };

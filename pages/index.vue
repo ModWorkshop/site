@@ -1,5 +1,5 @@
 <template>
-    <div class="content-block-large">
+    <page-block>
         <mod-list/>
-    </div>
+    </page-block>
 </template>

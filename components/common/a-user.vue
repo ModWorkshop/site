@@ -1,7 +1,7 @@
 <template>
     <flex inline :gap="avatar ? 2 : null">
         <nuxt-link v-if="avatar" :to="`/user/${user.id}`">
-            <avatar :size="avatarSize" :src="src"/>
+            <a-avatar :size="avatarSize" :src="src"/>
         </nuxt-link>
         <div class="inline-block">
             <nuxt-link :to="`/user/${user.id}`">
@@ -34,5 +34,5 @@ export default {
             return `http://localhost:8000/storage/${this.user.avatar}`;
         }
     }
-}
+};
 </script>

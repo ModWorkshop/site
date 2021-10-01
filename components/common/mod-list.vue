@@ -17,7 +17,7 @@
                 </template>
             </div>
             <div id="content" :class="`mods p-3 ${isList ? 'mods-list' : 'mods-grid'}`">
-                <mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
+                <a-mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
             </div>
             <button id="load-more" class="btn" @click="loadMods">{{$t('load_more')}}</button>
         </flex>

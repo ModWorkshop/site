@@ -11,7 +11,7 @@
 
             <div>
                 <font-awesome-icon icon="user"/>
-                <user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <a-user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories && (mod.game || mod.category)">
@@ -61,7 +61,7 @@
                 return this.mod.views;
             }
         }
-    }
+    };
 </script>
 <style scoped>
     .mod-title {

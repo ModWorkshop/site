@@ -1,14 +1,15 @@
 <template>
-    <flex gap="3" column class="content-block-large">
+    <page-block size="med">
         <flex>
-            <!-- TODO: make our own buttons -->
             <nuxt-link v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
-        <div class="content-block">
-            <el-form class="p-4 px-16" @submit.native.prevent="save" style="display: flex; flex-direction: column;">
-                <tabs padding="4" tab-position="left" list>
+        <a-form @submit="save" :model="mod" :rules="rules"
+                :created="!isNew" :save-text="saveText" 
+                :can-save="this.isNew" float-save-gui>
+            <content-block class="p-8">
+                <tabs padding="4" side>
                     <tab name="main" title="Main">
                         <edit-mod-main :modData="mod"/>
                     </tab>
@@ -25,23 +26,13 @@
 
                     </tab>
                 </tabs>
-            </el-form>
-        </div>
-        <!-- Dunno why SSR really dislikes me doing the deep check, anyway this shouldn't be relevant for SSR. Though check in Nuxt3 if it's fixed. -->
-        <client-only>
-            <transition name="fade">
-                <div v-if="shouldSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
-                    <small>{{saveText}}</small>
-                    <a-button @click="save">{{saveButtonText}}</a-button>
-                </div>
-            </transition>
-        </client-only>
-    </flex>
+            </content-block>
+        </a-form>
+    </page-block>
 </template>
 
 <script>
     import clone from 'rfdc/default';
-    import { deepEqual } from 'fast-equals';
 
     let modTemplate = {
         name: '',
@@ -62,19 +53,15 @@
     export default {
         data: () => ({
             mod: clone(modTemplate),
-            modCopy: clone(modTemplate),
             isNew: true,
+            rules: {
+                name: {min: 3}
+            }
         }),
         computed: {
-            shouldSave() {
-                return this.isNew || !deepEqual(this.mod, this.modCopy);
-            },
             saveText() {
                 return this.isNew ? 'Your mod is not uploaded yet' : 'You have unsaved changes';
             },
-            saveButtonText() {
-                return this.isNew ? this.$t('upload') : this.$t('save');
-            }
         },
         methods: {
             async save() {
@@ -83,9 +70,8 @@
                         this.mod = await this.$factory.create('mods', this.mod);
                         this.isNew = false;
                     } else {
-                        await this.$factory.update('mods', this.mod.id, this.mod);
+                        this.mod = await this.$factory.update('mods', this.mod.id, this.mod);
                     }
-                    this.modCopy = clone(this.mod);
                 } catch (error) {
                     console.error(error);
                     return;
@@ -107,12 +93,3 @@
         }
     };
 </script>
-
-<style>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.25s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-</style>

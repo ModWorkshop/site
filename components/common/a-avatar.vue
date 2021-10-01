@@ -1,16 +1,19 @@
 <template>
-    <img :src="src" :class="{'avatar': true, [`avatar-${size}`]: !!size}">
+    <a-img :src="src" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script>
 export default {
     props: {
-        src: String,
+        src: {
+            default: '',
+            type: String
+        },
         size: {
             default: null,
             type:  String
         },
     }
-}
+};
 </script>
 <style scoped>
     .avatar {
