@@ -21,13 +21,13 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: cschimmel@example.org
+        example: carissa47@example.org
         type: string
       password:
         name: password
         description: blalba@email.com.
         required: true
-        example: velit
+        example: natus
         type: string
       remember_me:
         name: remember_me
@@ -55,19 +55,19 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: quis
+        example: qui
         type: string
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: delbert52@example.net
+        example: damian85@example.com
         type: string
       password:
         name: password
         description: ''
         required: true
-        example: soluta
+        example: quas
         type: string
     responses: []
     responseFields: []

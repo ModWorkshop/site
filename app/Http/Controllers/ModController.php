@@ -204,21 +204,21 @@ class ModController extends Controller
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
             'desc' => 'string|min:3|max:30000',
-            'license' => 'string|max:30000',
-            'changelog' => 'string|max:30000',
-            'short_desc' => 'string|max:150',
-            'donation' => 'string|max:100',
-            'version' => 'string|max:100',
+            'license' => 'string|nullable|max:30000',
+            'changelog' => 'string|nullable|max:30000',
+            'short_desc' => 'string|nullable|max:150',
+            'donation' => 'string|nullable|max:100',
+            'version' => 'string|nullable|max:100',
             'visibility' => 'integer|min:1|max:4',
             'game_id' => 'integer|min:1|exists:categories,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
             'download_id' => 'integer|min:1|nullable',
-            'download_type' => 'string|required_with:download_id|in:file,link'
+            'download_type' => 'string|nullable|in:file,link'
         ]);
 
-        if (array_key_exists('download_id', $val)) {
+        if (isset($mod) && array_key_exists('download_id', $val)) {
             $downloadId = Arr::pull($val, 'download_id');
             if (isset($downloadId)) {
                 $type = Arr::pull($val, 'download_type');

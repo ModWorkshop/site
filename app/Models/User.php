@@ -207,6 +207,7 @@ class User extends Authenticatable
         'remember_token',
         'email',
         'email_verified',
+        'email_verified_at'
     ];
 
     /**

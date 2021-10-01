@@ -5,9 +5,9 @@ use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserSettingsController;
 use App\Models\Category;
 use App\Models\Mod;
 use App\Models\User;
@@ -49,19 +49,20 @@ Route::get('/auth/steam/callback', function(Request $request) {
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
-Route::get('users/{user}', [UserController::class, 'getUser']);
 Route::get('categories/{category}', [CategoryController::class, 'getCategory']);
 Route::get('categories', [CategoryController::class, 'getCategories']);
 Route::get('mods', [ModController::class, 'getMods']);
 Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::get('tags', [TagController::class, 'getTags']);
 
+Route::resource('roles', RoleController::class);
 Route::resource('files', FileController::class);
+Route::resource('users', UserController::class)->except(['create']);
+
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 // Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/users/{id}/avatar', [UserSettingsController::class, 'uploadAvatar']);
     Route::get('/user', [UserController::class, 'currentUser']);
     
     //TODO: let only moderators do this
@@ -89,3 +90,5 @@ Route::prefix('games')->group(function () {
     Route::get('/{game}', [CategoryController::class, 'getGame']);
     Route::get('/{game}/categories', [CategoryController::class, 'getCategories']);
 });
+
+//blabla
