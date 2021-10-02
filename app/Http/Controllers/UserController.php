@@ -100,8 +100,6 @@ class UserController extends Controller
      */
     public function currentUser(Request $request)
     {
-        //Since this is the current user, it's safe to just return their email to themselves
-        //Note that this does handle admins wanting to get user's emails.
-        return $request->user()->makeVisible('email');
+        return new UserResource($request->user());
     }
 }

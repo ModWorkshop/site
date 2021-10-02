@@ -26,6 +26,7 @@ class ModResource extends JsonResource
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
+            'submitter' => new UserResource($this->submitter),
             'files' => $this->files,
             'images' => $this->images,
             'tags' => TagResource::collection($this->whenLoaded('tags')),
