@@ -4,7 +4,7 @@
             <a-avatar :size="avatarSize" :src="src"/>
         </nuxt-link>
         <div class="inline-block">
-            <nuxt-link :to="`/user/${user.id}`">
+            <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}">
                 {{user.name}}
             </nuxt-link>
             <template v-if="details">

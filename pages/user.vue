@@ -8,7 +8,7 @@
                 <flex column class="ml-2">
                     <div id="main-info" style="min-width: 300px;">
                         <h4>
-                            {{user.name}}
+                            <a-user :user="user" :avatar="false"/>
                             <div v-if="!userInvisible && profilePublic" id="status" :title="statusString" class="userStatus" :style="{backgroundColor: statusColor}"></div>
                         </h4>
                         <h6 v-if="!userInvisible">{{user.usertitle}}</h6>
