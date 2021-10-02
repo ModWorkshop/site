@@ -1,19 +1,30 @@
 <template>
     <admin-page route="roles">
-        lol!
+        <div class="mb-3">
+            <a-button to="/admin/roles/new">New</a-button>
+        </div>
+        <flex column gap="1" grow>
+            <nuxt-link class="role-button flex-grow" v-for="role of roles" :key="role.id" :to="`/admin/roles/${role.id}`">{{role.name}}</nuxt-link>
+        </flex>
     </admin-page>
 </template>
 
-<script>
-export default {
-    setup () {
-        
+<script setup>
+    import { useContext, useAsync } from '@nuxtjs/composition-api';
 
-        return {};
-    }
-};
+    const { $axios } = useContext();
+
+    const roles = useAsync(async () => {
+        const res = await $axios.get('/roles').then(res => res.data);
+
+        return res.data;        
+    });
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+    .role-button {
+        color: var(--text-color);
+        background-color: var(--alt-bg-color);
+        padding: 1rem;
+    }
 </style>

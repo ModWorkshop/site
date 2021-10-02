@@ -1,5 +1,5 @@
 <template>
-    <page-block size="large">
+    <page-block size="med">
         <content-block class="p-6">
             <a-nav :route="route" side>
                 <a-nav-link to="/admin/home" title="Home"/>

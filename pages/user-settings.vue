@@ -2,7 +2,7 @@
     <page-block size="med">
         <content-block class="p-8">
             <a-form @submit="save" :model="user" style="flex: 1;" :can-save="canSaveOverride" float-save-gui>
-                <tabs list tab-position="left">
+                <tabs side>
                     <form-tab name="account" title="Account">
                         <group label="Username">
                             <el-input v-model="user.name"/>
@@ -61,7 +61,7 @@
             let bannerBolb = $ref(null);
 
             const canSaveOverride = computed(() => avatarBolb != null || bannerBolb != null);
-            const currentAvatarSrc = computed(() => avatarBolb || user.avatar);
+            const currentAvatarSrc = computed(() => avatarBolb || user.value.avatar);
 
             function onAvatarChosen() {
                 const file = avatar.value.files[0];

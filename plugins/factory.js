@@ -41,6 +41,7 @@ export default function({$axios}, inject) {
     Factories.registerFactory("mods");
     Factories.registerFactory("users");
     Factories.registerFactory("categories");
+    Factories.registerFactory("roles");
 
     inject('factory', Factories);
 }

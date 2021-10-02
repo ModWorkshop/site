@@ -3,9 +3,9 @@
         <flex class="nav" :column="side">
             <slot/>
         </flex>
-        <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': side}">
+        <flex column grow gap="3">
             <slot name="content"/>
-        </div>
+        </flex>
     </flex>
 </template>
 

@@ -108,7 +108,12 @@ export default {
 			routes.push({ 
 				name: "admin-page-roles-proper",
 				path: "/admin/roles",
-				component: "pages/admin-page-roles.vue"
+				component: "pages/admin-page-roles.vue",
+			});
+			routes.push({ 
+				name: "admin-page-edit-role-proper",
+				path: "/admin/roles/:role",
+				component: "pages/admin-page-edit-role.vue"
 			});
 		}
 	},

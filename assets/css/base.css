@@ -24,6 +24,7 @@ body {
 :root {
     --bg-color: #212529;
     --secondary-bg-color: #2b3036;
+    --alt-bg-color: #212121;
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;

@@ -3,7 +3,11 @@
         <font-awesome-icon v-if="icon" :icon="icon"/>
         <slot/>
     </a>
-    <button v-else :disabled="disabled" class="button" @click="$emit('click', $event)"> 
+    <nuxt-link v-else-if="to && !disabled" :to="to" class="button">
+        <font-awesome-icon v-if="icon" :icon="icon"/>
+        <slot/>
+    </nuxt-link>
+    <button v-else :disabled="disabled" class="button" @click="$emit('click', $event)" :type="type"> 
         <font-awesome-icon v-if="icon" :icon="icon"/>
         <slot/>
     </button>
@@ -12,6 +16,11 @@
 <script setup>
     defineProps({
         href: String,
+        type: {
+            default: 'button',
+            type: String
+        },
+        to: String,
         icon: String,
         disabled: Boolean
     });

@@ -13,7 +13,7 @@
             <transition name="fade">
                 <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                     <small>{{currentSaveText}}</small>
-                    <a-button>{{currentSaveButtonText}}</a-button>
+                    <a-button type="submit">{{currentSaveButtonText}}</a-button>
                 </div>
             </transition>
         </client-only>

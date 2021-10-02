@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button, Checkbox, Col, Collapse, CollapseItem, Dropdown, DropdownItem, DropdownMenu, Form, FormItem, Input, Option, Pagination, Select, Progress, Notification, Radio, Dialog } from 'element-ui';
+import { Button, Checkbox, Col, Collapse, CollapseItem, Dropdown, DropdownItem, DropdownMenu, Form, FormItem, Input, Option, Pagination, Select, Progress, Notification, Radio, Dialog, ColorPicker } from 'element-ui';
 Vue.component(Checkbox.name, Checkbox);
 Vue.component(Form.name, Form);
 Vue.component(FormItem.name, FormItem);
@@ -17,3 +17,4 @@ Vue.component(Progress.name, Progress);
 Vue.component(Notification.name, Notification);
 Vue.component(Radio.name, Radio);
 Vue.component(Dialog.name, Dialog);
+Vue.component(ColorPicker.name, ColorPicker);
