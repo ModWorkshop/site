@@ -5,11 +5,13 @@ use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Mod;
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
@@ -56,8 +58,9 @@ Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::get('tags', [TagController::class, 'getTags']);
 
 Route::resource('roles', RoleController::class);
+Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
-Route::resource('users', UserController::class)->except(['create']);
+Route::resource('users', UserController::class)->except('store');
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 

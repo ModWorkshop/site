@@ -21,7 +21,13 @@ class RoleResource extends JsonResource
             'tag' => $this->tag,
             'color' => $this->color,
             'order' => $this->order,
-            'permissions' => $this->whenLoaded('permissions', fn() => Arr::pluck($this->permissions, 'slug'))
+            'permissions' => $this->whenLoaded('permissions', function() {
+                foreach ($this->permissions as $permission) {
+                    $permissions[$permission->id] = ['allow' => $permission['pivot']['allow']];
+                }
+
+                return (object)$permissions; //Forces JSON to treat this as an object and NOT an array for some dumb reason.
+            })
         ];
     }
 }

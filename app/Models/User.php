@@ -47,7 +47,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    private static $membersRole = null;
+    public static $membersRole = null;
     
     // Always return roles for users
     protected $with = ['roles'];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use Arr;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -21,7 +22,7 @@ class RoleController extends Controller
 
         $val['page'] ??= 1;
 
-        $roles = Role::with('permissions')->paginate((int)$val['page']);
+        $roles = Role::with('permissions')->orderBy('order')->paginate(page: (int)$val['page'], perPage: 100);
 
         return RoleResource::collection($roles);
     }
@@ -43,9 +44,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        //
+        $role->load('permissions');
+        return new RoleResource($role);
     }
 
     /**
@@ -60,16 +62,22 @@ class RoleController extends Controller
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
             'tag' => 'string|min:3|max:100',
-            'desc' => 'string|max:1000',
-            'color' => 'string|max:8',
-            'order' => 'integer|min:1|max:1000'
+            // 'desc' => 'string|max:1000',
+            'color' => 'string|nullable|max:8',
+            'order' => 'integer|nullable|min:-1|max:1000',
+            'permissions' => 'array|nullable'
         ]);
+
+        $permissions = Arr::pull($val, 'permissions');
 
         if (isset($role)) {
             $role->update($val);
         } else {
             $role = Role::create($val);
         }
+        
+        $role->permissions()->sync($permissions);
+        $role->load('permissions');
 
         return new RoleResource($role);
     }
@@ -80,8 +88,8 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
     }
 }
