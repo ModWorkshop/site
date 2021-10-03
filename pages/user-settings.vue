@@ -7,15 +7,22 @@
                         <group label="Username">
                             <el-input v-model="user.name"/>
                         </group>
-                        <group label="Email">
-                            <el-input v-model="user.email"/>
+                        <group label="Email" v-if="user.email || isMe">
+                            <el-input :disabled="!isMe" v-model="user.email"/>
                         </group>
-                        <h3>Change Password</h3>
-                        <group label="New Password">
-                            <el-input type="password" v-model="user.password"/>
-                        </group>
-                        <group label="Confirm Password">
-                            <el-input type="password" v-model="user.confirm_password"/>
+                        <template v-if="isMe">
+                            <h3>Change Password</h3>
+                            <group label="New Password">
+                                <el-input type="password" v-model="user.password"/>
+                            </group>
+                            <group label="Confirm Password">
+                                <el-input type="password" v-model="user.confirm_password"/>
+                            </group>
+                        </template>
+                        <group label="roles" desc="As a regular user, you may only set vanity roles">
+                            <el-select v-model="user.role_ids" placeholder="Select Roles" multiple filterable>
+                                <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id"/>
+                            </el-select>
                         </group>
                     </form-tab>
                     <form-tab name="profile" title="Profile">
@@ -29,7 +36,7 @@
                         </group>
                     </form-tab>
                     <form-tab name="options" title="Options">
-
+                        
                     </form-tab>
                 </tabs>
             </a-form>
@@ -38,7 +45,7 @@
 </template>
 
 <script>
-    import { useStore, useContext, computed, ref } from '@nuxtjs/composition-api';
+    import { useStore, useContext, computed, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
     import { Notification } from 'element-ui';
     import clone from 'rfdc/default';
 
@@ -54,11 +61,36 @@
         setup() {
             const store = useStore();
 
-            const { $axios } = useContext();
+            const { $axios, $factory } = useContext();
             const user = ref({});
             const avatar = ref();
+            const isMe = ref(false);
+            const roles = ref([]);
+
             let avatarBolb = $ref(null);
             let bannerBolb = $ref(null);
+
+            const route = useRoute();
+
+            useFetch(async () => {
+                let nextUser;
+                const id = parseInt(route.value.params.id);
+                if (id && id !== store.getters.user.id) {
+                    nextUser = await $factory.getOne('users', route.value.params.id);
+                }
+                else {
+                    nextUser = clone(store.getters.user);
+                    isMe.value = true;
+                }
+
+                const rolesRes = await $axios.get('/roles?only_assignable=1').then(res => res.data);
+                roles.value = rolesRes.data;
+                console.log(roles.value);
+
+                nextUser.password = '';
+                nextUser.confirm_password = '';
+                user.value = nextUser;
+            });
 
             const canSaveOverride = computed(() => avatarBolb != null || bannerBolb != null);
             const currentAvatarSrc = computed(() => avatarBolb || user.value.avatar);
@@ -70,13 +102,6 @@
                     avatarBolb = reader.result;
                 };
                 reader.readAsDataURL(file);
-            }
-
-            if (store.getters.user) {
-                const nextUser = clone(store.getters.user);
-                nextUser.password = '';
-                nextUser.confirm_password = '';
-                user.value = nextUser;
             }
 
             async function save() {
@@ -107,7 +132,7 @@
                 }
             }
 
-            return { avatar, user, canSaveOverride, currentAvatarSrc, onAvatarChosen, save };
+            return { avatar, user, canSaveOverride, currentAvatarSrc, onAvatarChosen, save, isMe, roles };
         }
     };
 </script>

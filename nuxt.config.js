@@ -94,6 +94,8 @@ export default {
 
 	router: {
 		extendRoutes(routes) {
+			routes.push({ name: "edit-user-page", path: "/user/:id/edit", component: "pages/user-settings.vue" });
+			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
 			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
 			routes.push({ name: "user-page", path: "/user/:id", component: "pages/user.vue" });
 			routes.push({ name: "edit-mod-page", path: "/mod/:id/edit", component: "pages/edit-mod.vue" });
