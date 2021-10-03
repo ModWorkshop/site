@@ -18,6 +18,7 @@ class RoleController extends Controller
     {
         $val = $request->validate([
             'page' => 'integer|min:1',
+            'only_assignable' => 'boolean|nullable'
         ]);
 
         $val['page'] ??= 1;

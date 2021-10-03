@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Auth;
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,6 +55,41 @@ class User extends Authenticatable
     protected $with = ['roles'];
     private $permissions  = [];
     private $roleNames = [];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'avatar'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'roles',
+        'password',
+        'remember_token',
+        'email',
+        'email_verified',
+        'email_verified_at'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     private $gotPerms = false;
     private $gotRoles = false;
@@ -141,6 +178,11 @@ class User extends Authenticatable
         return $this->permissions;
     }
 
+    public function hasRole(string $roleName)
+    {
+        return in_array($roleName, $this->rolenames);
+    }
+
     /**
      * Checks whether the user has a certain permission.
      *
@@ -185,37 +227,69 @@ class User extends Authenticatable
     }
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * Returns the highest order role
+     * Similiarly to Discord, we can do things to user that are *below* this order
+     * Let's say we have an admin, then a moderator: The admin can set the roles of the mod but mod can't set the admin.
+     * @return void
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'avatar'
-    ];
+    public function highestRoleOrder()
+    {
+        /**
+         * @var Role|null
+         */
+        $highest = null;
+        foreach ($this->role as $role) {
+            if (!$highest || $role->order > $highest->order) {
+                $highest = $role;
+            }
+        }
+        return $role?->order ?? -1;
+    }
 
     /**
-     * The attributes that should be hidden for arrays.
+     * A safe way of setting and saving roles
+     * The function makes sure that whoever gives the role (the runner) has permissions to do so!
      *
-     * @var array
+     * @param array $newRoles
+     * @return void
      */
-    protected $hidden = [
-        'roles',
-        'password',
-        'remember_token',
-        'email',
-        'email_verified',
-        'email_verified_at'
-    ];
+    public function syncRoles(array $newRoles)
+    {
+        $roles = Role::whereIn('id', $newRoles);
+        $me = Auth::user();
+        $myHighestOrder = $me->getHighestOrder();
+        $highestOrder = $this->getHighestOrder();
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+        //TODO: A permission to edit roles, similar to Discord.
+        //TODO: should we make user #1 the "super admin"?
+        if ($me->id !== $this->uid && (!$me->hasPermission('admin') || $myHighestOrder <= $highestOrder)) {
+            throw new Exception("You cannot edit this user");
+        }
+
+        //Make sure the roles in this list are valid for us to add/remove and then attach them.
+        //TODO: Vanity roles are roles any user can apply to themselves, vanity roles DO NOT have permissions.
+        foreach ($roles as $role) {
+            if ($me->hasPermission('admin')) { //$role->vanity
+                // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
+                if ($role->id !== 1 && $role->order < $myHighestOrder) {
+                    if (!$this->hasRole($role)) {
+                        $this->roles()->attach($role); //Alright, great.
+                    }
+                } else {
+                    throw new Exception("You don't have the right permissions to add this role to any user.");
+                }
+            } else {
+                throw new Exception("You don't have the right permissions to add this role to any user.");
+            }
+        }
+
+        //Let's get rid of roles that aren't in the list
+        $detach = [];
+        foreach ($this->roles as $role) {
+            if (!in_array($role->id, $newRoles)) {
+                $detach[] = $role;
+            }
+        }
+        $this->roles()->detatch($detach);
+    }
 }

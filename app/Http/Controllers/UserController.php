@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -57,7 +58,9 @@ class UserController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
-            'avatar-file' => 'nullable|max:512000|mimes:png,webp,gif'
+            'avatar-file' => 'nullable|max:512000|mimes:png,webp,gif',
+            'roles' => 'array',
+            'roles.*' => 'integer|min:1',
         ]);
 
         $user = $request->user();
@@ -73,6 +76,9 @@ class UserController extends Controller
             $user->avatar = $path.'?t='.time();
         }
 
+        //Get all roles first
+        $roles = Arr::pull($val, 'roles');
+        $user->syncRoles($roles);
         $user->update($val);
 
         return new UserResource($user);

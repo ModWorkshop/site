@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -18,6 +19,7 @@ class UserResource extends JsonResource
         $user = $request->user();
         return array_merge(parent::toArray($request), [
             'email' => $this->when($user?->id === $this->id, $this->email),
+            'role_ids' => $this->whenLoaded('roles', fn() => Arr::pluck($this->roles, 'id')),
             'color' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
                     if ($role->color) {

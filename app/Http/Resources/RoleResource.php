@@ -22,6 +22,8 @@ class RoleResource extends JsonResource
             'color' => $this->color,
             'order' => $this->order,
             'permissions' => $this->whenLoaded('permissions', function() {
+                $permissions = [];
+
                 foreach ($this->permissions as $permission) {
                     $permissions[$permission->id] = ['allow' => $permission['pivot']['allow']];
                 }
