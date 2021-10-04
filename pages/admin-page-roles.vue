@@ -4,7 +4,13 @@
             <a-button to="/admin/roles/new">New</a-button>
         </div>
         <flex column gap="1" grow>
-            <nuxt-link class="role-button flex-grow" v-for="role of roles" :key="role.id" :to="`/admin/roles/${role.id}`">{{role.name}}</nuxt-link>
+            <nuxt-link class="role-button flex-grow" v-for="role of roles" :key="role.id" :to="`/admin/roles/${role.id}`">
+                {{role.name}}
+                <br>
+                <small v-if="role.id == 1">
+                    All members have this role
+                </small>
+            </nuxt-link>
         </flex>
     </admin-page>
 </template>
