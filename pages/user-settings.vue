@@ -62,7 +62,10 @@
             const store = useStore();
 
             const { $axios, $factory } = useContext();
-            const user = ref({});
+            const user = ref({
+                name: '',
+                role_ids: []
+            });
             const avatar = ref();
             const isMe = ref(false);
             const roles = ref([]);
@@ -85,7 +88,6 @@
 
                 const rolesRes = await $axios.get('/roles?only_assignable=1').then(res => res.data);
                 roles.value = rolesRes.data;
-                console.log(roles.value);
 
                 nextUser.password = '';
                 nextUser.confirm_password = '';
@@ -113,17 +115,25 @@
                         avatarBolb = null;
                         bannerBolb = null;
                     }
-                    
+
                     for (const [k, v] of Object.entries(user.value)) {
-                        formData.append(k, v);
+                        if (Array.isArray(v)) {
+                            for (const arrVal of v) { //Why is this even needed?????
+                                formData.append(k + '[]', arrVal);
+                            }
+                        } else {
+                            formData.append(k, v);
+                        }
                     }
 
                     const nextUser = await $axios.patch(`users/${user.value.id}`, formData).then(res => res.data);
-                    
+
                     nextUser.password = '';
                     nextUser.confirm_password = '';
 
-                    store.commit('setUser', clone(nextUser));
+                    if (isMe.value) {
+                        store.commit('setUser', clone(nextUser));
+                    }
 
                     user.value = nextUser;
                 } catch (error) {
