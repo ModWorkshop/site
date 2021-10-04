@@ -24,6 +24,13 @@ class UserResource extends JsonResource
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
                 return $roleIds;
             }),
+            'tag' => $this->whenLoaded('roles', function() {
+                foreach ($this->roles as $role) {
+                    if ($role->tag) {
+                        return $role->tag;
+                    }
+                }
+            }),
             'color' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
                     if ($role->color) {
