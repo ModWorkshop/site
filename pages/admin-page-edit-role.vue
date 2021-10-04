@@ -35,6 +35,8 @@
             role: {
                 id: -1,
                 name: '',
+                tag: '',
+                color: null,
                 permissions: {}
             },
             permissions: []
@@ -67,10 +69,13 @@
             }
         },
         async asyncData({ error, $axios, params }) {
-            if (params.role != 'new') {
+            const permissions = await $axios.get('/permissions').then(res => res.data);
+
+            if (params.role == 'new') {
+                return { permissions };
+            } else {
                 try {
                     const role = await $axios.get(`/roles/${params.role}`).then(res => res.data);
-                    const permissions = await $axios.get('/permissions').then(res => res.data);
                     return { role, permissions };
                 } catch (err) {
                     if (err.response.status == 404) {
