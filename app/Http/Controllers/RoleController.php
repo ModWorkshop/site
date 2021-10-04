@@ -27,7 +27,13 @@ class RoleController extends Controller
 
         $val['page'] ??= 1;
 
-        $roles = Role::with('permissions')->orderBy('order')->paginate(page: (int)$val['page'], perPage: 100);
+        $roles = Role::with('permissions')->orderBy('order');
+        
+        if ($val['only_assignable'] ?? false) {
+            $roles->where('id', '!=', 1);
+        }
+        
+        $roles = $roles->paginate(page: (int)$val['page'], perPage: 100);
 
         return RoleResource::collection($roles);
     }
@@ -74,10 +80,13 @@ class RoleController extends Controller
         ]);
 
         $permissions = Arr::pull($val, 'permissions');
-
+        
         if (isset($role)) {
             $role->update($val);
         } else {
+            $biggestOrder = Role::orderByDesc('order')->first()->order;    
+            $val['order'] = $biggestOrder + 1;
+
             $role = Role::create($val);
         }
         

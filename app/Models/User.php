@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Arr;
 use Auth;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -96,7 +97,7 @@ class User extends Authenticatable
 
     public function roles() : BelongsToMany
     {
-        return $this->belongsToMany(Role::class)->orderByDesc('order');
+        return $this->belongsToMany(Role::class)->orderBy('order');
     }
 
     /**
@@ -120,7 +121,7 @@ class User extends Authenticatable
         self::$membersRole ??= Role::with('permissions')->find(1);
         $roles = $this->roles;
         if (!$roles->contains(self::$membersRole)) {
-            $roles->prepend(self::$membersRole);
+            $roles[] = self::$membersRole;
         }
 
         $rolesNames = [];
@@ -145,7 +146,7 @@ class User extends Authenticatable
         self::$membersRole ??= Role::with('permissions')->find(1);
         $roles = $this->roles;
         if (!$roles->contains(self::$membersRole)) {
-            $roles->prepend(self::$membersRole);
+            $roles[] = self::$membersRole;
         }
 
         /**
@@ -178,18 +179,23 @@ class User extends Authenticatable
         return $this->permissions;
     }
 
-    public function hasRole(string $roleName)
+    public function hasRole(int $id)
     {
-        return in_array($roleName, $this->rolenames);
+        $ids = Arr::pluck($this->roles, 'id');
+        return in_array($id, $ids);
     }
 
     /**
      * Checks whether the user has a certain permission.
+     * First it checks if the user has admin permission, admin bypasses all permissions at the moment.
      *
      * @param string $toWhat
      * @return boolean
      */
     function hasPermission(string $toWhat) {
+        if ($toWhat !== 'admin' && $this->hasPermission('admin')) {
+            return true;
+        }
         $permissions = $this->getPermissions(true);
         return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
@@ -227,23 +233,68 @@ class User extends Authenticatable
     }
 
     /**
-     * Returns the highest order role
-     * Similiarly to Discord, we can do things to user that are *below* this order
-     * Let's say we have an admin, then a moderator: The admin can set the roles of the mod but mod can't set the admin.
-     * @return void
+     * Returns the "highest" order role
+     * Highest goes from lowest to highest. So 0 is the highest.
+     * -1, or Members, is returned as null, it could be seen as "infinite" as it will awlays be the lowest.
+     * @return int|null
      */
-    public function highestRoleOrder()
+    public function getHighestRoleOrder()
     {
-        /**
-         * @var Role|null
-         */
         $highest = null;
-        foreach ($this->role as $role) {
-            if (!$highest || $role->order > $highest->order) {
+        foreach ($this->roles as $role) {
+            if ($role->id != 1 && (!$highest || $role->order < $highest->order)) {
                 $highest = $role;
             }
         }
-        return $role?->order ?? -1;
+
+        if (!isset($highest)) {
+            return null;
+        }
+
+        $order = $highest?->order ?? 9999;
+
+        //Special case for the Super Admin
+        if ($this->id === 1) {
+            $order--;
+        }
+
+        return $order;
+    }
+
+    /**
+     * Returns whether or not the user can be edited by the "other" user.
+     * The other user defaults to the currently authenticated user
+     *
+     * @param User|null $other
+     * @return boolean
+     */
+    public function canBeEdited(User $other=null)
+    {
+        $other ??= Auth::user();
+
+        //Not signed in? BTFU
+        if (!isset($other)) {
+            return false;
+        }
+
+        $otherHighestOrder = $other->getHighestRoleOrder();
+        $highestOrder = $this->getHighestRoleOrder();
+
+        //If we try to edit ourselves then return true
+        if ($other->id === $this->id) {
+            return true;
+        }
+
+        //Make sure we have an order
+        if ($other->hasPermission('admin') && $otherHighestOrder) {
+            //If the user has only Members it's safe to assume we can edit them
+            //If they have an order then let's make sure the other's is higher in order.
+            if (!$highestOrder || $otherHighestOrder < $highestOrder) {
+                return true;
+            }
+        }
+
+        return $other->id === $this->id || ($other->hasPermission('admin') && $otherHighestOrder < $highestOrder);
     }
 
     /**
@@ -255,41 +306,47 @@ class User extends Authenticatable
      */
     public function syncRoles(array $newRoles)
     {
-        $roles = Role::whereIn('id', $newRoles);
+        $roles = Role::whereIn('id', $newRoles)->get();
         $me = Auth::user();
-        $myHighestOrder = $me->getHighestOrder();
-        $highestOrder = $this->getHighestOrder();
+        $myHighestOrder = $me->getHighestRoleOrder();
 
         //TODO: A permission to edit roles, similar to Discord.
-        //TODO: should we make user #1 the "super admin"?
-        if ($me->id !== $this->uid && (!$me->hasPermission('admin') || $myHighestOrder <= $highestOrder)) {
+        if (!$this->canBeEdited($me)) {
             throw new Exception("You cannot edit this user");
         }
+
+        //Let's get rid of roles that aren't in the list
+        $detach = [];
+        foreach ($this->roles as $key => $role) {
+            if (!in_array($role->id, $newRoles) && $role->id !== 1) {
+                if ($myHighestOrder < $role->order) {
+                    $detach[] = $role->id;
+                    unset($this->roles[$key]);
+                } else {
+                    throw new Exception("You don't have the right permissions to remove this role from any user.");
+                }
+            }
+        }
+        $this->roles()->detach($detach);
 
         //Make sure the roles in this list are valid for us to add/remove and then attach them.
         //TODO: Vanity roles are roles any user can apply to themselves, vanity roles DO NOT have permissions.
         foreach ($roles as $role) {
             if ($me->hasPermission('admin')) { //$role->vanity
                 // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
-                if ($role->id !== 1 && $role->order < $myHighestOrder) {
-                    if (!$this->hasRole($role)) {
-                        $this->roles()->attach($role); //Alright, great.
+                if ($role->id !== 1 && $myHighestOrder < $role->order) {
+                    if (!$this->hasRole($role->id)) {
+                        $this->roles()->attach($role->id); //Alright, great.
+                        $this->roles[] = $role;
                     }
                 } else {
-                    throw new Exception("You don't have the right permissions to add this role to any user.");
+                    throw new Exception("You don't have the right permissions to add this role to any user. #2");
                 }
             } else {
                 throw new Exception("You don't have the right permissions to add this role to any user.");
             }
         }
 
-        //Let's get rid of roles that aren't in the list
-        $detach = [];
-        foreach ($this->roles as $role) {
-            if (!in_array($role->id, $newRoles)) {
-                $detach[] = $role;
-            }
-        }
-        $this->roles()->detatch($detach);
+        $this->relations['roles'] = $this->roles->sortBy('order');
     }
 }

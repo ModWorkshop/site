@@ -19,14 +19,17 @@ class UserResource extends JsonResource
         $user = $request->user();
         return array_merge(parent::toArray($request), [
             'email' => $this->when($user?->id === $this->id, $this->email),
-            'role_ids' => $this->whenLoaded('roles', fn() => Arr::pluck($this->roles, 'id')),
+            'role_ids' => $this->whenLoaded('roles', function() {
+                $roleIds = Arr::pluck($this->roles, 'id');
+                unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
+                return $roleIds;
+            }),
             'color' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
                     if ($role->color) {
                         return $role->color;
                     }
-                    return User::$membersRole->color;
-                }  
+                }
             })
         ]);
     }
