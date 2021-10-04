@@ -3,7 +3,7 @@
         <div class="mb-3">
             <a-button icon="arrow-left" to="/admin/roles">Back to Roles</a-button>
         </div>
-        <a-form :model="role" @submit="save" float-save-gui>
+        <a-form :model="role" @submit="save" :created="role.id != -1" float-save-gui>
             <flex column gap="3">
                 <group label="Name">
                     <el-input v-model="role.name" maxlength="100" minlength="3"/>

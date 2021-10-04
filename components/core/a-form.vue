@@ -44,8 +44,8 @@
         modelCopy = clone(val);
     }, {immediate: true});
 
-    let currentCanSave = computed(() => {
-        return props.canSave || !deepEqual(props.model, modelCopy);
+    const currentCanSave = computed(() => {
+        return !props.created || props.canSave || !deepEqual(props.model, modelCopy);
     });
 
     defineEmits(['submit']);
