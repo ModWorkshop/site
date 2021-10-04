@@ -19,7 +19,7 @@
         </div>
         <flex gap="1" wrap class="p-2 tags-block">
             <!-- TODO: Don't forget to make them link -->
-            <tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</tag>
+            <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
         </flex>
         <div class="p-2 colllaborators-block">
             <a-user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
