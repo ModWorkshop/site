@@ -17,15 +17,12 @@ export const mutations = {
 };
 
 export const getters = {
-    user(state) {
-        return state.user;
-    },
     userId(state) {
         return state.user.id;
     },
-    games(state) {
-        return state.games;
-    },
+    hasPermission: state => function(perm) {
+        return state.user?.permissions[perm] === true;
+    }
 };
 
 export const actions = {

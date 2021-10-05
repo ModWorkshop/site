@@ -78,11 +78,11 @@
             useFetch(async () => {
                 let nextUser;
                 const id = parseInt(route.value.params.id);
-                if (id && id !== store.getters.user.id) {
+                if (id && id !== store.getters.userId) {
                     nextUser = await $factory.getOne('users', route.value.params.id);
                 }
                 else {
-                    nextUser = clone(store.getters.user);
+                    nextUser = clone(store.state.user);
                     isMe.value = true;
                 }
 

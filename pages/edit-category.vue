@@ -35,7 +35,7 @@
     });
 
     let categories = $ref([]);
-    let games = computed(() => store.getters.games);
+    let games = computed(() => store.state.games);
 
     useFetch(async () => {
         await store.dispatch('fetchGames');

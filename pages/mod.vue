@@ -3,7 +3,7 @@
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
             <!-- TODO: make our own buttons -->
-            <nuxt-link :to="`/mod/${this.mod.id}/edit`">
+            <nuxt-link v-if="canEdit" :to="`/mod/${this.mod.id}/edit`">
                 <a-button icon="cog">{{$t('edit_mod')}}</a-button>
             </nuxt-link>
         </flex>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapState } from 'vuex';
     import { timeAgo, friendlySize } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
 
@@ -69,6 +69,9 @@
             friendlySize,
         },
         computed: {
+            canEdit() {
+                return this.mod.submitter_id === this.user.id || this.$store.getters.hasPermission('admin');
+            },
             publishDateAgo() {
                 return timeAgo(this.mod.publish_date);
             },
@@ -80,9 +83,9 @@
             },
             canLike() {
                 //Guests can't actually like the mod, it's just a redirect.
-                return !this.user || this.user.id !== this.mod.submitter_uid;
+                return !this.user || this.user.id !== this.mod.submitter_id;
             },
-            ...mapGetters([
+            ...mapState([
                 'user'
             ])
         },

@@ -44,13 +44,13 @@
     </header>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
     computed: {
         logo() {
             return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
         },
-        ...mapGetters([
+        ...mapState([
             'user',
         ])
     },

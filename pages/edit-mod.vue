@@ -78,13 +78,20 @@
                 }
             }
         },
-        async asyncData({ $factory, params }) {
+        async asyncData({ $factory, params, error, store }) {
             if (params.id) {
                 const mod = await $factory.getOne('mods', params.id);
 
                 mod.tag_ids = mod.tags.map(tag => tag.id);
 
                 const modCopy = clone(mod);
+
+                if (mod.submitter_id !== store.state.user.id && !store.getters.hasPermission('admin')) {
+                    error({
+                        statusCode: 401,
+                        message: "You don't have the right permissions to edit this mod!"
+                    });
+                }
     
                 return { mod, modCopy, isNew: false };
             } else {

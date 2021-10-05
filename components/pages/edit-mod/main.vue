@@ -65,7 +65,7 @@
 
     let categories = $ref([]);
     let tags = $ref([]);
-    const games = computed(() => $store.getters.games);
+    const games = computed(() => $store.state.games);
     useFetch(async () => {
         await $store.dispatch('fetchGames');
         tags = await $axios.get('/tags').then(res => res.data);
