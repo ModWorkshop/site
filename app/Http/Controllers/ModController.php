@@ -246,7 +246,7 @@ class ModController extends Controller
         } else {
             // Never put something like $request->all(); in create.
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
-            $val['submitter_uid'] = $request->user()->id;
+            $val['submitter_id'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
         }
 

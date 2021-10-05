@@ -22,8 +22,8 @@ class CreateModsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('categories');
-            $table->bigInteger('submitter_uid')->unsigned();
-            $table->foreign('submitter_uid')->references('id')->on('users');
+            $table->bigInteger('submitter_id')->unsigned();
+            $table->foreign('submitter_id')->references('id')->on('users');
             //$table->bigInteger('instid')->default(0); Implement later
             //$table->foreign('instid')->references('id')->on('instructions'); //TODO: make table
 
@@ -57,7 +57,7 @@ class CreateModsTable extends Migration
             $table->index([
                 'category_id',
                 'game_id',
-                'submitter_uid',
+                'submitter_id',
                 'name',
                 'bump_date', 
                 'publish_date'

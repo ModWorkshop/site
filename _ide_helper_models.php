@@ -135,7 +135,7 @@ namespace App\Models{
  * @property int|null $thumbnail_id
  * @property int|null $category_id
  * @property int|null $game_id
- * @property int $submitter_uid
+ * @property int $submitter_id
  * @property string $name
  * @property string $desc
  * @property string $short_desc

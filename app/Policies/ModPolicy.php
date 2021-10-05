@@ -62,7 +62,7 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod, array $args)
     {
-        return $user->id === $mod->submitter_uid ? Response::allow() : Response::deny('You cannot edit the mod');
+        return $user->id === $mod->submitter_id ? Response::allow() : Response::deny('You cannot edit the mod');
     }
 
     /**

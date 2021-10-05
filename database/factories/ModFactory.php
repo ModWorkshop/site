@@ -24,7 +24,7 @@ class ModFactory extends Factory
         $faker = $this->faker;
         return [
             'name' => $faker->words(3, true),
-            'submitter_uid' => 1,
+            'submitter_id' => 1,
             'desc' => $faker->text(500),
             'version' => $faker->word(),
             'visibility' => 1,
