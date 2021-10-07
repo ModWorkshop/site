@@ -332,19 +332,19 @@ class User extends Authenticatable
         //Make sure the roles in this list are valid for us to add/remove and then attach them.
         //TODO: Vanity roles are roles any user can apply to themselves, vanity roles DO NOT have permissions.
         foreach ($roles as $role) {
+            if (!$this->hasRole($role->id)) {
             if ($me->hasPermission('admin')) { //$role->vanity
                 // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
                 if ($role->id !== 1 && $myHighestOrder < $role->order) {
-                    if (!$this->hasRole($role->id)) {
                         $this->roles()->attach($role->id); //Alright, great.
                         $this->roles[] = $role;
-                    }
                 } else {
                     throw new Exception("You don't have the right permissions to add this role to any user. #2");
                 }
             } else {
                 throw new Exception("You don't have the right permissions to add this role to any user.");
             }
+        }
         }
 
         $this->relations['roles'] = $this->roles->sortBy('order');
