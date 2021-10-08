@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
@@ -59,6 +60,7 @@ Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
 Route::resource('mods', ModController::class);
+Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);

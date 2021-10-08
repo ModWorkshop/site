@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 
@@ -150,6 +151,11 @@ class Mod extends Model
     public function files() : HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function comments() : MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**
