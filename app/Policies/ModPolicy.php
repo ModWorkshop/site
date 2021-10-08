@@ -20,7 +20,7 @@ class ModPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -50,7 +50,7 @@ class ModPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-mod') ? Response::allow() : Response::deny('You cannot create mods');
+        return $user->hasPermission('edit-mod');
     }
 
     /**
@@ -60,9 +60,9 @@ class ModPolicy
      * @param  \App\Models\Mod  $mod
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Mod $mod, array $args)
+    public function update(User $user, Mod $mod)
     {
-        return $user->id === $mod->submitter_id ? Response::allow() : Response::deny('You cannot edit the mod');
+        return $user->id === $mod->submitter_id || $user->hasPermission('edit-all-mod');
     }
 
     /**
@@ -74,7 +74,7 @@ class ModPolicy
      */
     public function delete(User $user, Mod $mod)
     {
-        //
+        return $this->update($user, $mod); //TODO: && Only maintainer level contributor should be allowed to delete
     }
 
     /**

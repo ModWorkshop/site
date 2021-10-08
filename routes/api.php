@@ -53,13 +53,12 @@ Route::get('/auth/steam/callback', function(Request $request) {
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
 Route::get('categories/{category}', [CategoryController::class, 'getCategory']);
 Route::get('categories', [CategoryController::class, 'getCategories']);
-Route::get('mods', [ModController::class, 'getMods']);
-Route::get('mods/{mod}', [ModController::class, 'getMod']);
 Route::get('tags', [TagController::class, 'getTags']);
 
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
+Route::resource('mods', ModController::class);
 Route::resource('users', UserController::class)->except('store');
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
@@ -72,9 +71,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('categories', [CategoryController::class, 'update']);
 
     Route::middleware('can:create,App\Mod')->group(function () {
-        Route::post('/mods', [ModController::class, 'create']);
-        Route::patch('/mods/{mod}', [ModController::class, 'update']);
-
         //Images
         Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
         Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
