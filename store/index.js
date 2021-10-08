@@ -21,7 +21,7 @@ export const getters = {
         return state.user.id;
     },
     hasPermission: state => function(perm) {
-        return state.user?.permissions[perm] === true;
+        return state.user && state.user?.permissions[perm] === true;
     }
 };
 
