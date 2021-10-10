@@ -95,6 +95,19 @@ a:hover {
     word-break: break-word;
 }
 
+.text-body {
+    color: var(--text-color);
+}
+
 .text-secondary {
     color: var(--secondary-text-color);
+}
+
+.bg-dark {
+    background-color: var(--secondary-bg-color);
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }

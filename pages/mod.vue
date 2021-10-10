@@ -51,10 +51,20 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
+        <content-block class="p-4">
+            <md-editor v-model="commentContent" rows="12"/>
+            <div class="text-right">
+                <a-button @click="postComment">{{$t('Comment')}}</a-button>
+            </div>
+        </content-block>
+        <flex column>
+            <comment v-for="comment of comments.data" :key="comment.id" :comment="comment" :can-edit="canEdit"/>
+        </flex>
     </page-block>
 </template>
 
 <script>
+import { Notification } from 'element-ui';
     import { mapState } from 'vuex';
     import { timeAgo, friendlySize } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
@@ -63,10 +73,25 @@
     export default {
         data: () => ({
             mod: {},
+            comments: {},
+            commentContent: '',
         }),
         methods: {
             parseMarkdown,
             friendlySize,
+            async postComment() {
+                const content = this.commentContent;
+                try {
+                    this.commentContent = '';
+                    const comment = await this.$axios.post(`/mods/${this.mod.id}/comments`, {
+                        content
+                    }).then(res => res.data);
+                    this.comments.data.unshift(comment);    
+                } catch (error) {
+                    this.commentContent = content; //We failed, let's not eat the user's draft
+                    Notification.error('Failed to post the comment');
+                }                
+            }
         },
         computed: {
             canEdit() {
@@ -89,9 +114,10 @@
                 'user'
             ])
         },
-        async asyncData({params, $factory}) {
+        async asyncData({params, $factory, $axios}) {
             if (params.id) {
-                return { mod: await $factory.getOne('mods', params.id) };
+                const comments = await $axios.get(`mods/${params.id}/comments`).then(res => res.data);
+                return { mod: await $factory.getOne('mods', params.id), comments };
             }
         }
     };
@@ -191,17 +217,5 @@
 
     .mod-banner a > span {
         text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-    }
-
-    .reply {
-        background-color: #151719;
-    }
-
-    .comment-body .comment-actions {
-        visibility: hidden
-    }
-
-    .comment-body:hover .comment-actions {
-        visibility: visible
     }
 </style>

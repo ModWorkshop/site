@@ -13,7 +13,7 @@
                 :aria-selected="tabState.current == tab.name"
                 :aria-controls="`${tab.name}-tab-panel`"
                 :key="tab.name" 
-                :to="type == 'route' ? tab.name : (type == 'hash' && `#${tab.name}`)"
+                :to="type == 'route' ? tab.name : (type == 'hash' ? `#${tab.name}` : '#')"
                 @click.native="() => setCurrentTab(tab.name)"
                 @keydown.native.left="() => arrowKeysMove(true)"
                 @keydown.native.right="() => arrowKeysMove(false)">

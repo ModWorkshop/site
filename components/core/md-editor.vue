@@ -1,6 +1,6 @@
 <template>
     <div class="md-editor p-2">
-        <tabs padding="0" :hash="false">
+        <tabs padding="0" type="none">
             <tab name="write" title="Write">
                 <textarea ref="textarea" class="textarea" :id="labelId" :value="value" @input="$emit('input', $event.target.value)" :rows="rows"/>
             </tab>
