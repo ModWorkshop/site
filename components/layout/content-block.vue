@@ -9,7 +9,7 @@
         gap: {
             type: Number,
             default: 3
-        },
+        }
     });
 </script>
 

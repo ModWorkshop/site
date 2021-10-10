@@ -138,7 +138,7 @@
                     user.value = nextUser;
                 } catch (error) {
                     console.log(error);
-                    new Notification.error('Failed saving user settings');
+                    Notification.error('Failed saving user settings');
                 }
             }
 
