@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Mod;
 use Auth;
@@ -14,9 +15,17 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Mod $mod)
     {
-        //
+        $val = $request->validate([
+            'page' => 'integer|min:1',
+        ]);
+
+        $val['page'] ??= 1;
+
+        $comments = $mod->comments()->paginate(page: (int)$val['page'], perPage: 100);
+
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -28,13 +37,16 @@ class CommentController extends Controller
     public function store(Request $request, Mod $mod)
     {
         $val = $request->validate([
-            'content' => 'string|min:1|max:1000'
+            'content' => 'string|required|min:3|max:1000'
         ]);
         
         $val['user_id'] = Auth::user()->id;
-        $val['mod_id'] = $mod->id;
+        /**
+         * @var Comment
+         */
+        $comment = $mod->comments()->create($val);
 
-        $mod->comments()->create($val);
+        return new CommentResource($comment);
     }
 
     /**

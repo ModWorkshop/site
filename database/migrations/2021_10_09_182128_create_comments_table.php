@@ -15,6 +15,13 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->morphs('commentable');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('content'); //Was comment
+            $table->boolean('pinned')->default(false);
+            $table->bigInteger('reply_to')->unsigned()->nullable();
+            $table->foreign('reply_to')->references('id')->on('comments')->onDelete('cascade');
             $table->timestamps();
         });
     }
