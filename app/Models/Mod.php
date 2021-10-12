@@ -155,7 +155,7 @@ class Mod extends Model
 
     public function comments() : MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->orderByDesc('created_at');
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('reply_to')->orderByRaw('pinned DESC NULLS LAST')->orderByDesc('created_at');
     }
 
     /**
