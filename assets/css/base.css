@@ -103,11 +103,15 @@ a:hover {
     color: var(--secondary-text-color);
 }
 
-.bg-dark {
-    background-color: var(--secondary-bg-color);
-}
-
 p {
     margin-top: 0;
     margin-bottom: 1rem;
+}
+
+/* Animation stuff */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.25s;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }

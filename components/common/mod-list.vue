@@ -2,7 +2,7 @@
     <flex column>
         <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
         <flex wrap column class="mods justify-content-start">
-            <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center bg-dark" style="height:40px;">
+            <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
                 <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
                 <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
                 <div style="flex: 3">{{$t('author')}}</div>

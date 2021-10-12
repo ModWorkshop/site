@@ -49,6 +49,10 @@ export default {
 		"@/plugins/factory",
 		"@/plugins/fa",
 		"@/plugins/easy-lightbox",
+		{
+			mode: 'client',
+			src: "@/plugins/vue-observe-visibility"
+		}
 	],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components

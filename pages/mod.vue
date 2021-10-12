@@ -51,20 +51,11 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-        <content-block class="p-4">
-            <md-editor v-model="commentContent" rows="12"/>
-            <div class="text-right">
-                <a-button @click="postComment">{{$t('Comment')}}</a-button>
-            </div>
-        </content-block>
-        <flex column>
-            <comment v-for="comment of comments.data" :key="comment.id" :comment="comment" :can-edit="canEdit"/>
-        </flex>
+        <comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEdit"/>
     </page-block>
 </template>
 
 <script>
-import { Notification } from 'element-ui';
     import { mapState } from 'vuex';
     import { timeAgo, friendlySize } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
@@ -72,26 +63,11 @@ import { Notification } from 'element-ui';
     //TODO: implement pipe split for mod status and whatnot
     export default {
         data: () => ({
-            mod: {},
-            comments: {},
-            commentContent: '',
+            mod: {}
         }),
         methods: {
             parseMarkdown,
-            friendlySize,
-            async postComment() {
-                const content = this.commentContent;
-                try {
-                    this.commentContent = '';
-                    const comment = await this.$axios.post(`/mods/${this.mod.id}/comments`, {
-                        content
-                    }).then(res => res.data);
-                    this.comments.data.unshift(comment);    
-                } catch (error) {
-                    this.commentContent = content; //We failed, let's not eat the user's draft
-                    Notification.error('Failed to post the comment');
-                }                
-            }
+            friendlySize
         },
         computed: {
             canEdit() {
@@ -114,10 +90,9 @@ import { Notification } from 'element-ui';
                 'user'
             ])
         },
-        async asyncData({params, $factory, $axios}) {
+        async asyncData({params, $factory}) {
             if (params.id) {
-                const comments = await $axios.get(`mods/${params.id}/comments`).then(res => res.data);
-                return { mod: await $factory.getOne('mods', params.id), comments };
+                return { mod: await $factory.getOne('mods', params.id) };
             }
         }
     };

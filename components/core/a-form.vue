@@ -64,12 +64,3 @@
         this.$emit('submit');
     }
 </script>
-
-<style>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.25s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-</style>
