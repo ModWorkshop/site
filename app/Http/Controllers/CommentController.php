@@ -37,7 +37,8 @@ class CommentController extends Controller
     public function store(Request $request, Mod $mod)
     {
         $val = $request->validate([
-            'content' => 'string|required|min:3|max:1000'
+            'content' => 'string|required|min:3|max:1000',
+            'reply_to' => 'integer|nullable|min:1|exists:comments,id,reply_to,NULL'
         ]);
         
         $val['user_id'] = Auth::user()->id;
