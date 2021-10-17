@@ -33,23 +33,23 @@
         canEditAll: Boolean
     });
 
-    let isLoaded = $ref(false);
-    let comments = $ref({});
-    let commentContent = $ref('');
-    let showCommentDialog = $ref(false);
-    let replyToComment = $ref(null);
+    const isLoaded = ref(false);
+    const comments = ref({});
+    const commentContent = ref('');
+    const showCommentDialog = ref(false);
+    const replyToComment = ref(null);
 
     function setCommentDialog(open, replyTo, mention) {
-        showCommentDialog = open;
-        commentContent = '';
-        replyToComment = null;
+        showCommentDialog.value = open;
+        commentContent.value = '';
+        replyToComment.value = null;
 
         if (open) {
             if (replyTo) {
-                replyToComment = replyTo;
+                replyToComment.value = replyTo;
                 if (mention) {
-                    replyToComment = replyTo;
-                    commentContent = `@${mention} `;
+                    replyToComment.value = replyTo;
+                    commentContent.value = `@${mention} `;
                 }
             }
         }
@@ -58,7 +58,7 @@
     async function postComment() {
         const content = commentContent;
         try {
-            commentContent = '';
+            commentContent.value = '';
             const comment = await this.$axios.post(props.url, {
                 content,
                 reply_to: replyToComment && replyToComment.id
@@ -68,19 +68,19 @@
             } else {
                 comments.data.unshift(comment);
             }
-            showCommentDialog = false;
+            showCommentDialog.value = false;
         } catch (error) {
-            commentContent = content; //We failed, let's not eat the user's draft
+            commentContent.value = content; //We failed, let's not eat the user's draft
             Notification.error('Failed to post the comment');
             console.log(error);
         }                
     }
 
     async function onVisChange(isVisible) {
-        if (!isLoaded && isVisible) {
-            comments = await this.$axios.get(props.url).then(res => res.data);
+        if (!isLoaded.value && isVisible) {
+            comments.value = await this.$axios.get(props.url).then(res => res.data);
 
-            isLoaded = true;
+            isLoaded.value = true;
         }
     }
 </script>

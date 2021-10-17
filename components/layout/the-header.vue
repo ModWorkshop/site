@@ -1,7 +1,7 @@
 <template>
     <header>
         <NuxtLink to="/">
-            <nuxt-img :src="logo" width="38"/>
+            <img :src="logo" width="38"/>
         </NuxtLink>
         <div class="ml-3 header-items">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>

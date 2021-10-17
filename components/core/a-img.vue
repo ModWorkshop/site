@@ -3,8 +3,6 @@
 </template>
 
 <script setup>
-    import { computed } from '@nuxtjs/composition-api';
-
     const props = defineProps({
         src: {
             default: '',

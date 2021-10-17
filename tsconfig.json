@@ -1,0 +1,12 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    // "checkJs": true,
+    "types": [
+      "unplugin-vue2-script-setup/types"
+    ],
+  },
+  "vueCompilerOptions": {
+    "experimentalCompatMode": 2
+  },
+}

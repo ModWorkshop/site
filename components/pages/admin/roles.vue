@@ -10,13 +10,14 @@
 </template>
 
 <script setup>
-    import { useContext, useFetch } from "@nuxtjs/composition-api";
+    import { useFetch } from "@nuxtjs/composition-api";
 
-    let roles = $ref([]);
-    const { $axios } = useContext();
+    const roles = ref([]);
+    const { $axios } = useNuxtApp().legacyApp;
 
     useFetch(async () => {
-        roles = await $axios.get('/roles').then(res => res.data.data);
+        const {data: roles} = await $axios.get('/roles');
+        roles.value = roles;
     });
 </script>
 

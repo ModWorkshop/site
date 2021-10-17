@@ -24,42 +24,46 @@
 </template>
 
 <script setup>
-    import { computed, useContext, useFetch, watch } from "@nuxtjs/composition-api";
+    import { useFetch } from "@nuxtjs/composition-api";
 
-    let isNew = $ref(true);
-    const { $factory, params, store, $axios } = useContext();
-    let category = $ref({
+    const isNew = ref(true);
+    const { $factory, params, $axios } = useNuxtApp().legacyApp;
+    const store = useStore();
+
+    const category = ref({
+        id: -1,
         name: '',
         game_id: null,
         parent_id: null
     });
 
-    let categories = $ref([]);
-    let games = computed(() => store.state.games);
+    const categories = ref([]);
+    const games = computed(() => store.state.games);
 
     useFetch(async () => {
         await store.dispatch('fetchGames');
 
         if (params.value.id) {
-            isNew = false;
-            category = await $factory.getOne('categories', params.value.id);
+            isNew.value = false;
+            category.value = await $factory.getOne('categories', params.value.id);
         }
     });
 
-    watch(() => category.game_id, async () => {
-        if (category.game_id) {
-            categories = await $axios.get(`/games/${category.game_id}/categories?include_paths=1`).then(res => res.data);
+    watch(() => category.value.game_id, async () => {
+        if (category.value.game_id) {
+            const { data: cats } = await $axios.get(`/games/${category.game_id}/categories?include_paths=1`);
+            categories.value = cats;
         } else {
-            categories = [];
+            categories.value = [];
         }
     }, {immediate: true});
 
     const save = async function save() {
         try {
-            if (isNew) {
-                category = await $factory.create('categories', category);
+            if (isNew.value) {
+                category.value = await $factory.create('categories', category.value);
             } else {
-                await $factory.update('categories', category.id, category);
+                await $factory.update('categories', category.value.id, category.value);
             }
         } catch (error) {
             console.error(error);

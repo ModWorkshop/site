@@ -53,33 +53,34 @@
 </template>
 
 <script setup>
-    import { computed, useContext, useFetch, useStore, watch } from '@nuxtjs/composition-api';
+    import { useFetch, useStore } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         modData: Object
     });
 
-    const { $axios } = useContext();
+    const { $axios } = useNuxtApp().legacyApp;
     const $store = useStore();
     const mod = computed(() => props.modData);
 
-    let categories = $ref([]);
-    let tags = $ref([]);
+    const categories = ref([]);
+    const tags = ref([]);
     const games = computed(() => $store.state.games);
     useFetch(async () => {
         await $store.dispatch('fetchGames');
-        tags = await $axios.get('/tags').then(res => res.data);
+        const { data: tags } = await $axios.get('/tags');
+        tags.value = tags;
     });
 
     watch(() => mod.value.game_id, async () => {
         if (mod.value.game_id) {
             try {
-                categories = await $axios.get(`/games/${mod.value.game_id}/categories?include_paths=1`).then(res => res.data);
+                categories.value = await $axios.get(`/games/${mod.value.game_id}/categories?include_paths=1`).then(res => res.data);
             } catch (e) {
                 console.log(e);
             }
         } else {
-            categories = [];
+            categories.value = [];
         }
     }, {immediate: true});
 </script>

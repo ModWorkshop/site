@@ -24,15 +24,15 @@
     </flex>
 </template>
 <script setup>
-    import { useAsync, useContext } from '@nuxtjs/composition-api';
+    import { useAsync } from '@nuxtjs/composition-api';
     defineProps({
         title: String
     });
 
-    let isList = $ref(false);
-    let justDate = $ref(false);
-    const { $factory, route } = useContext();
-    const mods = useAsync(() => $factory.get('mods'), route.value.path);
+    const isList = ref(false);
+    const justDate = ref(false);
+    const { $factory } = useNuxtApp().legacyApp;
+    const mods = useAsync(() => $factory.get('mods'));
 
     async function loadMods() {
         mods.value = [...mods.value, ...await this.$factory.get('mods')];

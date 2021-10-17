@@ -21,37 +21,36 @@
 </template>
 
 <script setup>
-    import { inject, watch } from '@nuxtjs/composition-api';
+const props = defineProps({
+    column: Boolean,
+    gap: [Number, String],
+    check: String,
+    label: String,
+    desc: String,
+    labels: Array
+});
 
-    const props = defineProps({
-        column: Boolean,
-        gap: [Number, String],
-        check: String,
-        label: String,
-        desc: String,
-        labels: Array
+const rules = inject('rules');
+const model = inject('model');
+const error = ref('');
+
+if (props.check) {
+    const check = props.check;
+    watch(() => model[check], val => {
+        error.value = '';
+        const rule = rules[check];
+        if (rule.min) {
+            if (val.length < rule.min) {
+                error.value = `Must be at least ${rule.min} characters long`;
+            }
+        }
+        if (rule.max) {
+            if (val.length > rule.max) {
+                error.value = `Must not exceed ${rule.max} characters`;
+            }
+        }
     });
-
-    const rules = inject('rules');
-    const model = inject('model');
-    let error = $ref(null);
-
-    if (props.check) {
-        watch(() => model[props.check], val => {
-            error = '';
-            const rule = rules[props.check];
-            if (rule.min) {
-                if (val.length < rule.min) {
-                    error = `Must be at least ${rule.min} characters long`;
-                }
-            }
-            if (rule.max) {
-                if (val.length > rule.max) {
-                    error = `Must not exceed ${rule.max} characters`;
-                }
-            }
-        });
-    }
+}
 </script>
 
 <style>

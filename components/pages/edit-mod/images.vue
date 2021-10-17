@@ -5,19 +5,17 @@
 </template>
 
 <script setup>
-    import { computed, watch } from '@nuxtjs/composition-api';
-
     const props = defineProps({
         modData: Object
     });
     
     const mod = computed(() => props.modData);
     const uploadLink = computed(() => mod.value !== null ? `mods/${mod.value.id}/images`: '');
-    let fileList = $ref([]);
+    const fileList = ref([]);
 
     watch(() => mod.value.images, function() {
         mod.value.images.forEach(image => {
-            fileList.push({
+            fileList.value.push({
                 id: image.id,
                 name: image.file,
                 url: `http://localhost:8000/storage/images/${image.file}`

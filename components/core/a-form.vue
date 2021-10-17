@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-    import { computed, provide, watch } from '@nuxtjs/composition-api';
     import clone from 'rfdc/default';
     import { deepEqual } from 'fast-equals';
 
@@ -39,13 +38,13 @@
         model: Object
     });
     
-    let modelCopy = $ref();
+    const modelCopy = ref();
     watch(() => props.model, val => {
-        modelCopy = clone(val);
+        modelCopy.value = clone(val);
     }, {immediate: true});
 
     const currentCanSave = computed(() => {
-        return !props.created || props.canSave || !deepEqual(props.model, modelCopy);
+        return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
     });
 
     defineEmits(['submit']);

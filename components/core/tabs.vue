@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-    import { onMounted, provide, useSlots } from '@nuxtjs/composition-api';
+    import { useSlots } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         side: Boolean,
@@ -46,10 +46,10 @@
     
     const slots = useSlots();
 
-    let tabLinks = $ref();
-    let tabs = $ref([]);
-    let tabState = $ref({current: '', focus: 0});
-    provide('tabState', tabState);
+    const tabLinks = ref();
+    const tabs = ref([]);
+    const tabState = ref({current: '', focus: 0});
+    provide('tabState', tabState.value);
     provide('type', props.type);
 
     onMounted(() => {
@@ -65,8 +65,7 @@
     }
 
     function arrowKeysMove(left) {
-        const tabs = tabLinks;
-        let focus = tabState.focus;
+        let focus = tabState.value.focus;
 
         if (left) {
             focus--;
@@ -75,18 +74,18 @@
         }
 
         if (focus < 0) {
-            focus = tabs.length - 1;
-        } else if (focus >= tabs.length) {
+            focus = tabLinks.value.length - 1;
+        } else if (focus >= tabLinks.value.length) {
             focus = 0;
         }
 
-        tabState.focus = focus;
-        tabs[focus].$el.focus();
+        tabState.value.focus = focus;
+        tabLinks.value[focus].$el.focus();
     }
 
     function setCurrentTab(name) {
-        tabState.current = name;
-        tabState.focus = tabs.findIndex(tab => tab.name === name);
+        tabState.value.current = name;
+        tabState.value.focus = tabs.value.findIndex(tab => tab.name === name);
     }
 
     function computeTabs() {
@@ -100,11 +99,11 @@
                 currentTab = process.client && window.location.hash.replace('#', '');
             }
 
-            tabs = def.reduce((prev, curr) => {
+            tabs.value = def.reduce((prev, curr) => {
                 if (curr.tag) {
                     const tab = curr.componentOptions.propsData;
-                    if (tabState.current === '') {
-                        tabState.current = currentTab || tab.name;
+                    if (tabState.value.current === '') {
+                        tabState.value.current = currentTab || tab.name;
                     }
                     prev.push(tab);
                 }

@@ -7,8 +7,6 @@
 </template>
 
 <script setup>
-    import { inject } from '@nuxtjs/composition-api';
-
     defineProps({
         name: String,
         to: String,

@@ -30,8 +30,6 @@
 </template>
 
 <script setup>
-    import { computed, watch } from "@nuxtjs/composition-api";
-
     const props = defineProps({
         modData: Object
     });
@@ -39,7 +37,7 @@
     const mod = computed(() => props.modData);
 
     const uploadLink = computed(() => mod.value !== null ? `mods/${mod.value.id}/files`: '');
-    let fileList = $ref([]);
+    const fileList = ref([]);
 
     function editFile(file) {
     }

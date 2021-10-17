@@ -10,8 +10,6 @@
 </template>
 
 <script setup>
-    import { provide } from '@nuxtjs/composition-api';
-
     const props = defineProps({
         side: Boolean,
         route: String,

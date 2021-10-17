@@ -6,6 +6,7 @@
     "rules": {
         "semi": 2,
         "no-var": 2,
+        // "no-undef": 0,
         "vue/no-deprecated-v-on-native-modifier": 1,
         "no-unused-vars": 1,
         "vue/no-deprecated-v-bind-sync": 1 //Remove in Nuxt3
@@ -15,7 +16,13 @@
         "defineEmits": "readonly",
         "defineExpose": "readonly",
         "withDefaults": "readonly",
-        "$ref": "readonly",
+        "computed": "readonly", //Stupidity
+        "ref": "readonly",
+        "watch": "readonly",
+        "provide": "readonly",
+        "inject": "readonly",
+        "onMounted": "readonly",
+        "useNuxtApp": "readonly",
         "process": "readonly"
     }
 }

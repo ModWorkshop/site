@@ -16,9 +16,9 @@
 </template>
 
 <script setup>
-    import { useContext, useAsync } from '@nuxtjs/composition-api';
+    import { useAsync } from '@nuxtjs/composition-api';
 
-    const { $axios } = useContext();
+    const { $axios } = useuseNuxtApp().legacyApp;
 
     const roles = useAsync(async () => {
         const res = await $axios.get('/roles').then(res => res.data);

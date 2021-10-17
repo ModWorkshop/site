@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import { useStore, useContext, computed, ref, useFetch, useRoute } from '@nuxtjs/composition-api';
+    import { useFetch } from '@nuxtjs/composition-api';
     import { Notification } from 'element-ui';
     import clone from 'rfdc/default';
 
@@ -60,8 +60,8 @@
         },
         setup() {
             const store = useStore();
+            const { $axios, $factory } = useNuxtApp().legacyApp;
 
-            const { $axios, $factory } = useContext();
             const user = ref({
                 name: '',
                 role_ids: []
@@ -70,8 +70,8 @@
             const isMe = ref(false);
             const roles = ref([]);
 
-            let avatarBolb = $ref(null);
-            let bannerBolb = $ref(null);
+            const avatarBolb = ref(null);
+            const bannerBolb = ref(null);
 
             const route = useRoute();
 
@@ -94,14 +94,14 @@
                 user.value = nextUser;
             });
 
-            const canSaveOverride = computed(() => avatarBolb != null || bannerBolb != null);
-            const currentAvatarSrc = computed(() => avatarBolb || user.value.avatar);
+            const canSaveOverride = computed(() => avatarBolb.value != null || bannerBolb.value != null);
+            const currentAvatarSrc = computed(() => avatarBolb.value || user.value.avatar);
 
             function onAvatarChosen() {
                 const file = avatar.value.files[0];
                 const reader = new FileReader(file);
                 reader.onload = () => {
-                    avatarBolb = reader.result;
+                    avatarBolb.value = reader.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -112,8 +112,8 @@
                     if (avatar.value.files.length > 0) {
                         formData.append('avatar-file', avatar.value.files[0]);
                         avatar.value = '';
-                        avatarBolb = null;
-                        bannerBolb = null;
+                        avatarBolb.value = null;
+                        bannerBolb.value = null;
                     }
 
                     for (const [k, v] of Object.entries(user.value)) {

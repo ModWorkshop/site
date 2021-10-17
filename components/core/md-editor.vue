@@ -73,7 +73,6 @@
         },
         methods: {
             clickedTool(tool) {
-                console.log(this.previewHeight);
                 const textarea = this.$refs.textarea;
                 //textarea.focus(); //Force focus
                 const [start, end] = [textarea.selectionStart, textarea.selectionEnd];

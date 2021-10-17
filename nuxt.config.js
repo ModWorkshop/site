@@ -1,6 +1,7 @@
 import webpack from 'webpack';
+import { defineNuxtConfig } from '@nuxt/bridge';
 
-export default {
+export default defineNuxtConfig({
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
 		title: "ModWorkshop",
@@ -62,7 +63,7 @@ export default {
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
-		"@nuxtjs/color-mode", "@nuxtjs/tailwindcss", '@nuxtjs/composition-api/module', '@nuxtjs/eslint-module'
+		"@nuxtjs/color-mode", 'nuxt-windicss', 'unplugin-auto-import/nuxt'
 	],
 
 	scriptSetup: {
@@ -139,4 +140,4 @@ export default {
 	image: {
 		domains: [process.env.API_URL + '/storage']
 	}
-};
+});

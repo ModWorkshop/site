@@ -25,18 +25,16 @@
 </template>
 
 <script setup>
-    import { computed } from '@nuxtjs/composition-api';
-
     const props = defineProps({
         mod: Object
     });
 
-    let imageIndex = $ref(0);
-    let galleryVisible = $ref(false);
+    const imageIndex = ref(0);
+    const galleryVisible = ref(false);
 
     function showImage(nextIndex) {
-        imageIndex = nextIndex;
-        galleryVisible = true;
+        imageIndex.value = nextIndex;
+        galleryVisible.value = true;
     }
 
     const images = computed(() => {
