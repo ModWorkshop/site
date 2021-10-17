@@ -6,7 +6,9 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Mod;
 use Auth;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
@@ -71,17 +73,30 @@ class CommentController extends Controller
      */
     public function update(Request $request, Mod $mod, Comment $comment)
     {
-        //
+        $val = $request->validate([
+            'content' => 'string|required_without:pinned|min:3|max:1000',
+            'pinned' => 'boolean'
+        ]);
+
+        if ($comment->reply_to && isset($val['pinned'])) {
+            throw new Exception('Only regular comments can be pinned!');
+        }
+
+        /**
+         * @var Comment
+         */
+        $comment->update($val);
+
+        return new CommentResource($comment);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Comment  $comment
      */
-    public function destroy($id)
+    public function destroy(Mod $mod, Comment $comment)
     {
-        //
+        $comment->delete();
     }
 }
