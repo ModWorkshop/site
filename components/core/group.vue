@@ -30,15 +30,14 @@ const props = defineProps({
     labels: Array
 });
 
-const rules = inject('rules');
-const model = inject('model');
+const rules = inject('rules', false);
+const model = inject('model', false);
 const error = ref('');
 
-if (props.check) {
-    const check = props.check;
-    watch(() => model[check], val => {
+if (rules && model && props.check) {
+    watch(() => model[props.check], val => {
         error.value = '';
-        const rule = rules[check];
+        const rule = rules[props.check];
         if (rule.min) {
             if (val.length < rule.min) {
                 error.value = `Must be at least ${rule.min} characters long`;

@@ -33,6 +33,7 @@
 
 <script>
     import clone from 'rfdc/default';
+    import { useStore } from '../store';
 
     let modTemplate = {
         name: '',
@@ -78,7 +79,8 @@
                 }
             }
         },
-        async asyncData({ $factory, params, error, store }) {
+        async asyncData({ $factory, $pinia, params, error }) {
+            const store = useStore($pinia);
             if (params.id) {
                 const mod = await $factory.getOne('mods', params.id);
 
@@ -86,7 +88,7 @@
 
                 const modCopy = clone(mod);
 
-                if (mod.submitter_id !== store.state.user.id && !store.getters.hasPermission('admin')) {
+                if (mod.submitter_id !== store.user.id && !store.hasPermission('admin')) {
                     error({
                         statusCode: 401,
                         message: "You don't have the right permissions to edit this mod!"

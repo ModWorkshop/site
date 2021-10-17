@@ -63,12 +63,8 @@ export default defineNuxtConfig({
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
-		"@nuxtjs/color-mode", 'nuxt-windicss', 'unplugin-auto-import/nuxt'
+		"@nuxtjs/color-mode", 'nuxt-windicss', ['@pinia/nuxt', { disableVuex: true }]
 	],
-
-	scriptSetup: {
-		refTransform: true
-	},
 
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
@@ -98,6 +94,7 @@ export default defineNuxtConfig({
 	},
 
 	router: {
+		middleware: ['pinia-init'],
 		extendRoutes(routes) {
 			routes.push({ name: "edit-user-page", path: "/user/:id/edit", component: "pages/user-settings.vue" });
 			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });

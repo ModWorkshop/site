@@ -21,6 +21,9 @@
         "watch": "readonly",
         "provide": "readonly",
         "inject": "readonly",
+        "reactive": "readonly",
+        "useRouter": "readonly",
+        "useRoute": "readonly",
         "onMounted": "readonly",
         "useNuxtApp": "readonly",
         "process": "readonly"

@@ -1,56 +1,60 @@
 <template>
-    <el-col :span="8">
+    <page-block style="max-width: 50%;">
         <el-form @submit.native.prevent="login">
-            <el-form-item label="Email">
-                <el-input v-model="email"/>
-            </el-form-item>
-            <el-form-item label="Passowrd">
-                <el-input type="password" v-model="password"/>
-            </el-form-item>
-            <el-form-item>
-                <el-checkbox label="Remember Me" v-model="remember"/>
-            </el-form-item>
-            <el-form-item>
+            <group label="Email">
+                <el-input v-model="user.email"/>
+            </group>
+            <group label="Passowrd">
+                <el-input type="password" v-model="user.password"/>
+            </group>
+            <group>
+                <el-checkbox label="Remember Me" v-model="user.remember"/>
+            </group>
+            <group>
                 <span v-if="error">{{error}}</span>
                 <el-input type="submit" value="Login"/>
-            </el-form-item>
-        </el-form>        
-    </el-col>
+            </group>
+        </el-form>    
+    </page-block>
 </template>
+
 <script>
 export default {
-    data() {
-        return {
-            email: '',
-            password: '',
-            remember: true,
-            error: false
-        };
-    },
-    middleware({ store, redirect }) {
-        if (store.state.user) {
-            redirect('/');
-        }
-    },
-    methods: {
-        async login() {
-            this.error = false;
-            try {
-                await this.$axios.post('/login', {email: this.email, password: this.password, remember_me: this.remember});
-            } catch (error) {
-                const codes = {
-                    401: 'Incorrect email or password',
-                    422: 'Given email or password are invalid'
-                };
-                console.log(error.response.status);
-                this.error = codes[error.response.status] || 'Something went wrong';
-                return;
-            }
-
-            const user = await this.$axios.get('/user').then(res => res.data);
-            this.$store.commit('setUser', user);
-            this.$router.push('/');
-        }
-    }
+    middleware: 'guests-only'
 };
+</script>
+
+<script setup>
+import { useStore } from '~~/store';
+
+const user = ref({
+    email: '',
+    password: '',
+    remember: true,
+});
+
+const error = ref('');
+
+const { $axios } = useNuxtApp().legacyApp;
+const store = useStore();
+const router = useRouter();
+
+async function login() {
+    error.value = '';
+    try {
+        await $axios.post('/login', user.value);
+    } catch (error) {
+        const codes = {
+            401: 'Incorrect email or password',
+            422: 'Given email or password are invalid'
+        };
+        console.log(error);
+        //error.value = codes[error.response.status] || 'Something went wrong';
+        return;
+    }
+
+    const { data: userData } = await $axios.get('/user');
+    store.user = userData;
+    router.push('/');
+}
 </script>

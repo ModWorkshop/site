@@ -3,7 +3,6 @@
 
 /// <reference types="@nuxtjs/color-mode" />
 /// <reference types="nuxt-windicss" />
-/// <reference types="unplugin-auto-import" />
 /// <reference types="@nuxt/bridge-edge" />
 /// <reference types="cookie-universal-nuxt" />
 /// <reference types="@nuxtjs/axios" />
@@ -11,7 +10,4 @@
 /// <reference types="@nuxtjs/i18n" />
 /// <reference types="@nuxt/components" />
 /// <reference types="@nuxt/telemetry" />
-/// <reference path=".nuxt/nitro.d.ts" />
-/// <reference types="unplugin-vue2-script-setup/types" />
-/// <reference path=".nuxt/auto-imports.d.ts" />
 export {}

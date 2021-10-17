@@ -53,21 +53,22 @@
 </template>
 
 <script setup>
-    import { useFetch, useStore } from '@nuxtjs/composition-api';
+    import { useFetch } from '@nuxtjs/composition-api';
+    import { useStore } from '~~/store';
 
     const props = defineProps({
         modData: Object
     });
 
     const { $axios } = useNuxtApp().legacyApp;
-    const $store = useStore();
+    const store = useStore();
     const mod = computed(() => props.modData);
 
     const categories = ref([]);
     const tags = ref([]);
-    const games = computed(() => $store.state.games);
+    const games = computed(() => store.games);
     useFetch(async () => {
-        await $store.dispatch('fetchGames');
+        await store.fetchGames();
         const { data: tags } = await $axios.get('/tags');
         tags.value = tags;
     });

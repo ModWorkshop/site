@@ -43,25 +43,18 @@
         </div>
     </header>
 </template>
-<script>
-import { mapState } from 'vuex';
-export default {
-    computed: {
-        logo() {
-            return this.$colorMode.value == "light" ? '/mws_logo_black.svg' : '/mws_logo_white.svg';
-        },
-        ...mapState([
-            'user',
-        ])
-    },
-    methods: {
-        async logout() {
-            console.log("...");
-            await this.$axios.post('/logout');
-            this.$store.commit('setUser', null);
-        }
-    }
-};
+<script setup>
+import { useStore } from '../../store';
+
+const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
+
+const store = useStore();
+const user = computed(() => store.user);
+
+async function logout() {
+    await this.$axios.post('/logout');
+    store.user = null;
+}
 </script>
 <style>
     .user {

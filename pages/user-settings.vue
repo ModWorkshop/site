@@ -45,9 +45,10 @@
 </template>
 
 <script>
-    import { useFetch } from '@nuxtjs/composition-api';
+    import { useFetch, useRoute } from '@nuxtjs/composition-api';
     import { Notification } from 'element-ui';
     import clone from 'rfdc/default';
+    import { useStore } from '../store';
 
     export default {
         middleware({ store, error }) {
@@ -78,11 +79,11 @@
             useFetch(async () => {
                 let nextUser;
                 const id = parseInt(route.value.params.id);
-                if (id && id !== store.getters.userId) {
+                if (id && id !== store.user.id) {
                     nextUser = await $factory.getOne('users', route.value.params.id);
                 }
                 else {
-                    nextUser = clone(store.state.user);
+                    nextUser = clone(store.user);
                     isMe.value = true;
                 }
 
@@ -132,7 +133,7 @@
                     nextUser.confirm_password = '';
 
                     if (isMe.value) {
-                        store.commit('setUser', clone(nextUser));
+                        store.user = clone(nextUser);
                     }
 
                     user.value = nextUser;

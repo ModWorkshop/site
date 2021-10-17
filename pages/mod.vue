@@ -56,9 +56,10 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapStores } from 'pinia';
     import { timeAgo, friendlySize } from '../utils/helpers';
     import { parseMarkdown } from '../utils/md-parser';
+    import { useStore } from '../store';
 
     //TODO: implement pipe split for mod status and whatnot
     export default {
@@ -71,7 +72,7 @@
         },
         computed: {
             canEdit() {
-                return this.mod.submitter_id === this.user.id || this.$store.getters.hasPermission('admin');
+                return this.mod.submitter_id === this.user.id || this.mainStore.hasPermission('admin');
             },
             publishDateAgo() {
                 return timeAgo(this.mod.publish_date);
@@ -86,7 +87,8 @@
                 //Guests can't actually like the mod, it's just a redirect.
                 return !this.user || this.user.id !== this.mod.submitter_id;
             },
-            ...mapState([
+            ...mapStores(useStore),
+            ...mapState(useStore, [
                 'user'
             ])
         },

@@ -66,7 +66,7 @@
 <script setup>
 import { timeAgo } from '../../utils/helpers';
 import { MessageBox } from 'element-ui';
-import { useStore } from '@nuxtjs/composition-api';
+import { useStore } from '../../store';
 
 const props = defineProps({
     data: Object,
@@ -84,12 +84,12 @@ defineEmits([
     'edit'
 ]);
 
-const store = useStore();
+const { user } = useStore();
 
 const areActionsVisible = ref(false);
 const updateKey = ref(0);
 
-const canEdit = computed(() => store.state.user.id === comment.value.user_id || props.canEditAll);
+const canEdit = computed(() => user.id === comment.value.user_id || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => true);
 const isFocused = computed(() => false);

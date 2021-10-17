@@ -25,6 +25,7 @@
 
 <script setup>
     import { useFetch } from "@nuxtjs/composition-api";
+    import { useStore } from "~~/store";
 
     const isNew = ref(true);
     const { $factory, params, $axios } = useNuxtApp().legacyApp;
@@ -38,10 +39,10 @@
     });
 
     const categories = ref([]);
-    const games = computed(() => store.state.games);
+    const games = store.games;
 
     useFetch(async () => {
-        await store.dispatch('fetchGames');
+        await store.fetchGames();
 
         if (params.value.id) {
             isNew.value = false;

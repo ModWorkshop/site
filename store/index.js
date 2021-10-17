@@ -1,43 +1,41 @@
-export const state = () => ({
-    user: false,
-    games: [],
-    tags: []
+import { defineStore } from 'pinia';
+
+export const useStore = defineStore('main', {
+    state: () => ({
+        user: false,
+        games: [],
+        tags: [],
+        counter: 1,
+    }),
+    getters: {
+        hasPermission(state) {
+            const permissions = state.user && state.user.permissions;
+            if (permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
+                return () => false;
+            } else {
+                return perm => permissions[perm] === true;
+            }
+        }
+    },
+    actions: {
+        async fetchGames() {
+            if (this.games.length === 0) {
+                const { $axios } = this.$nuxt;
+                const { data: games } = await $axios.get('/games');
+                this.games = games;
+            }
+        },
+        async nuxtServerInit() {
+            try {
+                const { $axios } = this.$nuxt;
+                const { data: user } = await $axios.get('/user');
+                this.user = user;
+            } catch (error) {
+                console.error(error.message);
+            }
+        },
+        setUserAvatar(avatar) {
+            this.user.avatar = avatar;
+        }
+    }
 });
-
-export const mutations = {
-    setUser(state, user) {
-        state.user = user;
-    },
-    setGames(state, games) {
-        state.games = games;
-    },
-    setUserAvatar(state, avatar) {
-        state.user.avatar = avatar;
-    }
-};
-
-export const getters = {
-    userId(state) {
-        return state.user.id;
-    },
-    hasPermission: state => function(perm) {
-        return state.user && state.user?.permissions[perm] === true;
-    }
-};
-
-export const actions = {
-    async fetchGames({commit}) {
-        if (this.state.games.length === 0) {
-            const games = await this.$axios.get('/games').then(res => res.data);
-            await commit('setGames', games);
-        }
-    },
-    async nuxtServerInit({commit}, {$axios}) {
-        try {
-            const user = await $axios.get('/user').then(res => res.data);
-            await commit('setUser', user);
-        } catch (error) {
-            //console.error(error);
-        }
-    }
-};
