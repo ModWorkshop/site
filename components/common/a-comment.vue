@@ -25,7 +25,7 @@
             </flex>
             <div class="float-right mt-3">
                 <flex class="comment-actions" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a v-if="canReply" class="reply-button text-body mr-1 cursor-pointer" title="Reply" role="button" @click="$emit('reply', true, comment)">
+                    <a v-if="canReply" class="reply-button text-body mr-1 cursor-pointer" title="Reply" role="button" @click="$emit('reply', comment)">
                         <font-awesome-icon icon="reply"/>
                     </a>
                     <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
@@ -36,9 +36,9 @@
                             <font-awesome-icon icon="ellipsis-h"/>
                         </a>
                         <el-dropdown-menu>
-                            <dropdown-item v-if="canEdit">{{$t('edit')}}</dropdown-item>
+                            <dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</dropdown-item>
                             <dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</dropdown-item>
-                            <dropdown-item v-if="canEdit">{{$t('delete')}}</dropdown-item>
+                            <dropdown-item v-if="canEdit" @click="openDeleteModal">{{$t('delete')}}</dropdown-item>
                             <dropdown-item>{{$t('report')}}</dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -47,7 +47,14 @@
         </flex>
         <template v-if="!isReply">
             <flex column gap="1" class="replies px-6">
-                <comment v-for="reply of comment.last_replies" :key="reply.id" :comment="reply" :can-edit-all="canEditAll" @reply="$emit('reply', true, comment, reply.user.name)" is-reply/>
+                <a-comment v-for="reply of comment.last_replies" 
+                    :key="reply.id"
+                    :data="reply"
+                    :can-edit-all="canEditAll"
+                    is-reply
+                    @reply="$emit('reply', comment, reply.user.name)"
+                    @delete="deleteComment"
+                />
             </flex>
             <div v-if="comment.total_replies > 3" class="mx-4 mb-3">
                 <a class="load-more-replies cursor-pointer">{{$t('load_more')}} ({{comment.total_replies}} {{$t('replies')}})</a>
@@ -56,58 +63,67 @@
     </content-block>
 </template>
 
-<script>
+<script setup>
 import { timeAgo } from '../../utils/helpers';
-import { mapState } from 'vuex';
-import { ref } from '@vue/composition-api';
+import { MessageBox } from 'element-ui';
+import { useStore } from '@nuxtjs/composition-api';
 
-export default {
-    props: {
-        comment: {},
-        parent: {},
-        canEditAll: Boolean,
-        isReply: Boolean,
-    },
-    emits: [
-        'reply'
-    ],
-    computed: {
-        canEdit() {
-            return this.user.id === this.comment.user_id || this.canEditAll;
-        },
-        canReport() {
-            return false; //TODO: implement report system
-        },
-        canReply() {
-            return true;
-        },
-        isFocused() {
-            return false; //TODO implement focused comment
-        },
-        ...mapState([
-            'user'
-        ])
-    },
-    mounted() {
-        setInterval(() => { //TODO: don't do this for things that were posted long ago
-            this.updateKey++; //I'm not sure if I wanna keep this but lol this is piss easy to implement
-        }, 5000);
-    },
-    setup(props) {
-        const areActionsVisible = ref(false);
-        const updateKey = ref(0);
-        
-        async function togglePinnedState() {
-            
-        }
-        
-        function setActionsVisible(visible) {
-            areActionsVisible.value = visible;
-        }
+const props = defineProps({
+    data: Object,
+    parent: Object,
+    canEditAll: Boolean,
+    isReply: Boolean
+});
 
-        return { timeAgo, togglePinnedState, setActionsVisible, areActionsVisible, updateKey };
-    }
-};
+const comment = computed(() => props.data);
+
+defineEmits([
+    'reply',
+    'delete',
+    'pin',
+    'edit'
+]);
+
+const store = useStore();
+
+const areActionsVisible = ref(false);
+const updateKey = ref(0);
+
+const canEdit = computed(() => store.state.user.id === comment.value.user_id || props.canEditAll);
+// const canReport = computed(() => false);
+const canReply = computed(() => true);
+const isFocused = computed(() => false);
+
+onMounted(() => {
+    setInterval(() => { //TODO: don't do this for things that were posted long ago
+        updateKey.value++; //I'm not sure if I wanna keep this but lol this is piss easy to implement
+    }, 5000);
+});
+
+async function togglePinnedState() {
+    comment.value.pinned = !comment.value.pinned;
+    this.$emit('pin', comment.value);
+}
+
+function setActionsVisible(visible) {
+    areActionsVisible.value = visible;
+}
+
+//Deletes a reply in the comment
+function deleteComment(commentId, isReply) {
+    const lastReplies = comment.value.last_replies;
+    this.$delete(lastReplies, lastReplies.findIndex(com => com.id === commentId));
+    this.$emit('delete', commentId, isReply);
+}
+
+function openDeleteModal() {
+    MessageBox.confirm('This will delete the comment', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+    }).then(() => this.$emit('delete', comment.value.id, props.isReply));
+    //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
+}
 </script>
 
 <style>

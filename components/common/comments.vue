@@ -7,7 +7,15 @@
                     <a-button icon="comment" @click="setCommentDialog(true)">Comment</a-button>
                 </div>
             </flex>
-            <comment v-for="comment of comments.data" :key="comment.id" :comment="comment" :can-edit-all="canEditAll" @reply="setCommentDialog"/>
+            <a-comment v-for="comment of comments.data" 
+                :key="comment.id"
+                :data="comment"
+                :can-edit-all="canEditAll"
+                @delete="deleteComment"
+                @reply="replyToComment"
+                @pin="setCommentPinState"
+                @edit="beginEditingComment"
+            />
         </flex>
         <transition name="fade">
             <div v-if="showCommentDialog" class="fixed bottom-0 left-0 right-0 p-3">
@@ -17,7 +25,7 @@
                     <md-editor v-model="commentContent" rows="12"/>
                     <div class="text-right">
                         <a-button @click="setCommentDialog(false)" icon="times">{{$t('close')}}</a-button>
-                        <a-button @click="postComment" icon="comment">{{$t('comment')}}</a-button>
+                        <a-button @click="commentDialogConfirm" icon="comment">{{$t('comment')}}</a-button>
                     </div>
                 </flex>
             </div>
@@ -33,40 +41,34 @@
         canEditAll: Boolean
     });
 
+    const { $axios } = useNuxtApp().legacyApp;
+
     const isLoaded = ref(false);
-    const comments = ref({});
+    const comments = ref({ data: [] });
     const commentContent = ref('');
     const showCommentDialog = ref(false);
-    const replyToComment = ref(null);
+    const replyingComment = ref();
+    const editingComment = ref();
 
-    function setCommentDialog(open, replyTo, mention) {
+    function setCommentDialog(open) {
         showCommentDialog.value = open;
         commentContent.value = '';
-        replyToComment.value = null;
-
-        if (open) {
-            if (replyTo) {
-                replyToComment.value = replyTo;
-                if (mention) {
-                    replyToComment.value = replyTo;
-                    commentContent.value = `@${mention} `;
-                }
-            }
-        }
+        replyingComment.value = undefined;
+        editingComment.value = undefined;
     }
-    
+
     async function postComment() {
-        const content = commentContent;
+        const content = commentContent.value;
         try {
             commentContent.value = '';
-            const comment = await this.$axios.post(props.url, {
+            const {data: comment} = await $axios.post(props.url, {
                 content,
-                reply_to: replyToComment && replyToComment.id
-            }).then(res => res.data);
-            if (replyToComment) {
-                replyToComment.last_replies.push(comment);
+                reply_to: replyingComment.value && replyingComment.value.id
+            });
+            if (replyingComment.value) {
+                replyingComment.value.last_replies.push(comment);
             } else {
-                comments.data.unshift(comment);
+                comments.value.data.unshift(comment);
             }
             showCommentDialog.value = false;
         } catch (error) {
@@ -76,12 +78,71 @@
         }                
     }
 
-    async function onVisChange(isVisible) {
-        if (!isLoaded.value && isVisible) {
-            comments.value = await this.$axios.get(props.url).then(res => res.data);
-
-            isLoaded.value = true;
+    async function editComment() {
+        const content = commentContent.value;
+        try {
+            commentContent.value = '';
+            await $axios.patch(props.url + '/' + editingComment.value.id, { content });
+            showCommentDialog.value = false;
+            editingComment.value.content = content;
+        } catch (error) {
+            commentContent.value = content; //We failed, let's not eat the user's draft
+            Notification.error('Failed to edit the comment');
+            console.log(error);
         }
+    }
+
+    function commentDialogConfirm() {
+        if (editingComment.value) {
+            editComment();
+        } else {
+            postComment();
+        }
+    }
+
+    async function loadComments() {
+        const { data } = await $axios.get(props.url);
+        comments.value = data;
+        isLoaded.value = true;
+    }
+
+    function onVisChange(isVisible) {
+        if (!isLoaded.value && isVisible) {
+            loadComments();
+        }
+    }
+
+    async function deleteComment(commentId, isReply=false) {
+        await $axios.delete(props.url + '/' + commentId);
+        if (!isReply) {
+            const allComments = comments.value.data;
+            this.$delete(allComments, allComments.findIndex(com => com.id == commentId));
+        }
+    }
+    
+    function replyToComment(replyTo, mention) {
+        setCommentDialog(true);
+        
+        if (replyTo) {
+            replyingComment.value = replyTo;
+            if (mention) {
+                replyingComment.value = replyTo;
+                commentContent.value = `@${mention} `;
+            }
+        }
+    }
+
+    //This really just reloads the comments(will later reset pages)
+    //Pretty much because this isn't as frequent and so it's sorted well.
+    async function setCommentPinState(comment) {
+        await $axios.patch(props.url + '/' + comment.id, { pinned: comment.pinned });
+        loadComments();
+    }
+
+    function beginEditingComment(comment) {
+        setCommentDialog(true);
+        commentContent.value = comment.content;
+        editingComment.value = comment;
     }
 </script>
 
