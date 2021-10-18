@@ -17,7 +17,8 @@
         "mpyw/eloquent-has-by-join": "^2.0",
         "mpyw/eloquent-has-by-non-dependent-subquery": "^2.0",
         "socialiteproviders/steam": "^4.1",
-        "socialiteproviders/zoho": "^4.1"
+        "socialiteproviders/zoho": "^4.1",
+        "staudenmeir/eloquent-eager-limit": "^1.6"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

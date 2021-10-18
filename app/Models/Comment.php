@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Comment extends Model
 {
     use HasFactory;
+    use HasEagerLimit;
 
     protected $with = ['user', 'lastReplies'];
     protected $guarded = [];
@@ -28,7 +30,7 @@ class Comment extends Model
 
     public function lastReplies() : HasMany
     {
-        return $this->hasMany(Comment::class, 'reply_to')->limit(3);
+        return $this->hasMany(Comment::class, 'reply_to')->oldest()->limit(3);
     }
 
     public function replyingComment() : BelongsTo
