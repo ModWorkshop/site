@@ -1,5 +1,5 @@
 <template>
-    <content-block :alt-background="isReply" :gap="null" :class="{comment: true, reply: isReply, focus: isFocused}" :id="`comment-cid${comment.id}`">
+    <content-block :alt-background="isReply" :gap="null" :class="{comment: true, reply: isReply, focus: currentFocus && currentFocus.id == comment.id}" :id="`comment-cid${comment.id}`">
         <flex class="comment-body mx-4">
             <div class="mr-2" style="margin-top: 1rem;">
                 <nuxt-link :to="`/user/${comment.user_id}`">
@@ -51,7 +51,9 @@
                     :key="reply.id"
                     :data="reply"
                     :can-edit-all="canEditAll"
+                    :current-focus="currentFocus"
                     is-reply
+                    @edit="() => $emit('edit', reply)"
                     @reply="$emit('reply', comment, reply.user.name)"
                     @delete="deleteComment"
                 />
@@ -72,7 +74,8 @@ const props = defineProps({
     data: Object,
     parent: Object,
     canEditAll: Boolean,
-    isReply: Boolean
+    isReply: Boolean,
+    currentFocus: Object
 });
 
 const comment = computed(() => props.data);
@@ -92,7 +95,6 @@ const updateKey = ref(0);
 const canEdit = computed(() => user.id === comment.value.user_id || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => true);
-const isFocused = computed(() => false);
 
 onMounted(() => {
     setInterval(() => { //TODO: don't do this for things that were posted long ago
@@ -127,8 +129,16 @@ function openDeleteModal() {
 </script>
 
 <style>
+    .comment {
+        transition: border, background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    }
     .reply {
         background-color: #151719;
+    }
+
+    .focus {
+        background-color: #ffd4001a !important;
+        border-left: solid 1px #ffd400;
     }
 
     .comment-body .comment-actions {

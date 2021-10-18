@@ -11,6 +11,7 @@
                 :key="comment.id"
                 :data="comment"
                 :can-edit-all="canEditAll"
+                :current-focus="replyingComment || editingComment"
                 @delete="deleteComment"
                 @reply="replyToComment"
                 @pin="setCommentPinState"
@@ -20,7 +21,8 @@
         <transition name="fade">
             <div v-if="showCommentDialog" class="fixed bottom-0 left-0 right-0 p-3">
                 <flex column class="mx-auto w-7/12" gap="2">
-                    <h3 v-if="replyToComment">Replying</h3>
+                    <h3 v-if="replyingComment">Replying Comment</h3>
+                    <h3 v-else-if="editingComment">Editing Comment</h3>
                     <h3 v-else>Commenting</h3>
                     <md-editor v-model="commentContent" rows="12"/>
                     <div class="text-right">
@@ -70,7 +72,7 @@
             } else {
                 comments.value.data.unshift(comment);
             }
-            showCommentDialog.value = false;
+            setCommentDialog(false);
         } catch (error) {
             commentContent.value = content; //We failed, let's not eat the user's draft
             Notification.error('Failed to post the comment');
@@ -83,7 +85,7 @@
         try {
             commentContent.value = '';
             await $axios.patch(props.url + '/' + editingComment.value.id, { content });
-            showCommentDialog.value = false;
+            setCommentDialog(false);
             editingComment.value.content = content;
         } catch (error) {
             commentContent.value = content; //We failed, let's not eat the user's draft
