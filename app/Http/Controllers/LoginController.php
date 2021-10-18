@@ -28,10 +28,10 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'], //blalba@email.com
             'password' => ['required'],
-            'remember_me' => ['boolean']
+            'remember' => ['boolean']
         ]);
 
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $credentials['remember_me'])) {
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $credentials['remember'])) {
             $request->session()->regenerate();
             return response('');
         } else {
