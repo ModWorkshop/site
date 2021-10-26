@@ -13,7 +13,7 @@ export default {
     edit_comment: 'Edit',
     name: 'Name',
     views: 'Views',
-    edit: 'Edit Mod',
+    edit: 'Edit',
     editing_download: 'Edit',
     empty_reason: 'You must specify a reason for reporting the selected mod.',
     enter_a_comment: 'Enter a comment.',
