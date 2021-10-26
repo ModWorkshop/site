@@ -7,16 +7,21 @@
                     <a-button icon="comment" @click="setCommentDialog(true)">Comment</a-button>
                 </div>
             </flex>
-            <a-comment v-for="comment of comments.data" 
-                :key="comment.id"
-                :data="comment"
-                :can-edit-all="canEditAll"
-                :current-focus="replyingComment || editingComment"
-                @delete="deleteComment"
-                @reply="replyToComment"
-                @pin="setCommentPinState"
-                @edit="beginEditingComment"
-            />
+            <flex column gap="2" v-if="comments.data.length > 0">
+                <a-comment v-for="comment of comments.data" 
+                    :key="comment.id"
+                    :data="comment"
+                    :can-edit-all="canEditAll"
+                    :current-focus="replyingComment || editingComment"
+                    @delete="deleteComment"
+                    @reply="replyToComment"
+                    @pin="setCommentPinState"
+                    @edit="beginEditingComment"
+                />
+            </flex>
+            <div v-else class="text-center">
+                <h4>No Comments</h4>
+            </div>
         </flex>
         <transition name="fade">
             <div v-if="showCommentDialog" class="fixed bottom-0 left-0 right-0 p-3">
