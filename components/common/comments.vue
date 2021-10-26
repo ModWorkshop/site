@@ -90,8 +90,8 @@
         try {
             commentContent.value = '';
             await $axios.patch(props.url + '/' + editingComment.value.id, { content });
-            setCommentDialog(false);
             editingComment.value.content = content;
+            setCommentDialog(false);
         } catch (error) {
             commentContent.value = content; //We failed, let's not eat the user's draft
             Notification.error('Failed to edit the comment');
