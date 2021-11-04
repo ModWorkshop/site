@@ -43,6 +43,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('extra');
         return new UserResource($user);
     }
 
@@ -57,28 +58,47 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $userExtra = $user->extra;
+
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
-            'avatar-file' => 'nullable|max:512000|mimes:png,webp,gif',
+            'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'role_ids' => 'array',
             'role_ids.*' => 'integer|min:1',
         ]);
 
-        $oldAvatar = preg_replace('/\?t=\d+/', '', $user->avatar);
-        if (!str_contains($oldAvatar, 'http')) {
-            Storage::disk('public')->delete($oldAvatar); // Delete old avatar before uploading
-        }
+        $valExtra = $request->validate([
+            'bio' => 'string|nullable|max:3000',
+            'custom_title' => 'string|nullable|max:100',
+            'private_profile' => 'required|boolean',
+            'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+        ]);
 
-        $avatarFile = Arr::pull($val, 'avatar-file');
+        $avatarFile = Arr::pull($val, 'avatar_file');
         if (isset($avatarFile)) {
+            if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
+                $oldAvatar = preg_replace('/\?t=\d+/', '', $user->avatar);
+                Storage::disk('public')->delete($oldAvatar); // Delete old avatar before uploading
+            }
             $path = $avatarFile->storePubliclyAs('avatars', $user->id.'.'.$avatarFile->extension(), 'public');
             $user->avatar = $path.'?t='.time();
+        }
+
+        $bannerFile = Arr::pull($valExtra, 'banner_file');
+        if (isset($bannerFile)) {
+            $oldBanner  = preg_replace('/\?t=\d+/', '', $user->extra->banner);
+            if (isset($oldBanner)) {
+                Storage::disk('public')->delete($oldBanner); // Delete old avatar before uploading
+            }
+            $path = $bannerFile->storePubliclyAs('banners', $user->id.'.'.$bannerFile->extension(), 'public');
+            $userExtra->banner = $path.'?t='.time();
         }
 
         //Get all roles first
         $roles = Arr::pull($val, 'role_ids');
         $user->syncRoles($roles);
         $user->update($val);
+        $userExtra->update($valExtra);
 
         return new UserResource($user);
     }
@@ -105,6 +125,8 @@ class UserController extends Controller
      */
     public function currentUser(Request $request)
     {
-        return new UserResource($request->user());
+        $user = $request->user();
+        $user->load('extra');
+        return new UserResource($user);
     }
 }

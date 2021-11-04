@@ -17,7 +17,16 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $user = $request->user();
-        return array_merge(parent::toArray($request), [
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'avatar' => $this->avatar,
+            'role_names' => $this->role_names,
+            'permissions' => $this->permissions,
+            'tag' => $this->tag,
+            'color' => $this->color,
             'email' => $this->when($user?->id === $this->id, $this->email),
             'role_ids' => $this->whenLoaded('roles', function() {
                 $roleIds = Arr::pluck($this->roles, 'id');
@@ -37,7 +46,16 @@ class UserResource extends JsonResource
                         return $role->color;
                     }
                 }
-            })
-        ]);
+            }),
+            $this->mergeWhen($this->relationLoaded('extra'), function() {
+                $extra = $this->extra;
+                return [
+                    'banner' => $extra->banner,
+                    'bio' => $extra->bio,
+                    'private_profile' => $extra->private_profile,
+                    'custom_title' => $extra->custom_title,
+                ];
+            }),
+        ];
     }
 }
