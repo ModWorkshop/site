@@ -16,6 +16,7 @@ class CommentResource extends JsonResource
     {
         return array_merge([
             'user' => $this->user,
+            'last_replies' => $this->lastReplies,
         ], parent::toArray($request));
     }
 }
