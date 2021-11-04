@@ -69,6 +69,7 @@
 import { timeAgo } from '../../utils/helpers';
 import { MessageBox } from 'element-ui';
 import { useStore } from '../../store';
+import { computed, ref, onMounted } from '@nuxtjs/composition-api';
 
 const props = defineProps({
     data: Object,

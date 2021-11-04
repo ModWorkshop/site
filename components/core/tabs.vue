@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-    import { useSlots } from '@nuxtjs/composition-api';
+    import { ref, useSlots, provide, onMounted } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         side: Boolean,

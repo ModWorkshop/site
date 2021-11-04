@@ -25,6 +25,8 @@ export default {
 </script>
 
 <script setup>
+import { ref, useRouter, useContext } from '@nuxtjs/composition-api';
+
 import { useStore } from '~~/store';
 
 const user = ref({
@@ -35,7 +37,7 @@ const user = ref({
 
 const error = ref('');
 
-const { $axios } = useNuxtApp().legacyApp;
+const { $axios } = useContext();
 const store = useStore();
 const router = useRouter();
 

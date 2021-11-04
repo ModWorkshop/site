@@ -24,11 +24,11 @@
 </template>
 
 <script setup>
-    import { useFetch } from "@nuxtjs/composition-api";
     import { useStore } from "~~/store";
+    import { ref, watch, useFetch, useContext } from '@nuxtjs/composition-api';
 
     const isNew = ref(true);
-    const { $factory, params, $axios } = useNuxtApp().legacyApp;
+    const { $factory, params, $axios } = useContext();
     const store = useStore();
 
     const category = ref({

@@ -21,6 +21,8 @@
 </template>
 
 <script setup>
+import { ref, watch, inject } from '@nuxtjs/composition-api';
+
 const props = defineProps({
     column: Boolean,
     gap: [Number, String],

@@ -25,13 +25,15 @@
 </template>
 <script setup>
     import { useAsync } from '@nuxtjs/composition-api';
+    import { ref, useContext } from '@nuxtjs/composition-api';
+
     defineProps({
         title: String
     });
 
     const isList = ref(false);
     const justDate = ref(false);
-    const { $factory } = useNuxtApp().legacyApp;
+    const { $factory } = useContext();
     const mods = useAsync(() => $factory.get('mods'));
 
     async function loadMods() {

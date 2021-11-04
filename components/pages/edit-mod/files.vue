@@ -30,6 +30,8 @@
 </template>
 
 <script setup>
+    import { ref, computed, watch } from '@nuxtjs/composition-api';
+
     const props = defineProps({
         modData: Object
     });

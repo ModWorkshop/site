@@ -1,6 +1,7 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     // "checkJs": true,
     "types": [
       "unplugin-vue2-script-setup/types"

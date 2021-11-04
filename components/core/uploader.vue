@@ -57,6 +57,7 @@
 <script setup>
     import { friendlySize, fullDate } from '../../utils/helpers';
     import { Notification } from 'element-ui';
+    import { useContext, computed } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         list: Boolean,
@@ -66,7 +67,7 @@
         files: { required: true, type: Array }
     });
 
-    const { $axios } = useNuxtApp().legacyApp;
+    const { $axios } = useContext();
 
     const computedFiles = computed(() => props.files);
 

@@ -25,6 +25,8 @@
 </template>
 
 <script setup>
+    import { ref, computed } from '@nuxtjs/composition-api';
+
     const props = defineProps({
         mod: Object
     });

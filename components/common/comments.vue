@@ -42,13 +42,14 @@
 
 <script setup>
     import { Notification } from 'element-ui';
+    import { ref, useContext } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         url: String,
         canEditAll: Boolean
     });
 
-    const { $axios } = useNuxtApp().legacyApp;
+    const { $axios } = useContext();
 
     const isLoaded = ref(false);
     const comments = ref({ data: [] });

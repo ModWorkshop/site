@@ -53,14 +53,14 @@
 </template>
 
 <script setup>
-    import { useFetch } from '@nuxtjs/composition-api';
+    import { useFetch, ref, computed, watch, useContext } from '@nuxtjs/composition-api';
     import { useStore } from '~~/store';
 
     const props = defineProps({
         modData: Object
     });
 
-    const { $axios } = useNuxtApp().legacyApp;
+    const { $axios } = useContext();
     const store = useStore();
     const mod = computed(() => props.modData);
 

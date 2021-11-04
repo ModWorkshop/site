@@ -24,6 +24,7 @@
 <script setup>
     import clone from 'rfdc/default';
     import { deepEqual } from 'fast-equals';
+    import { computed, ref, watch, provide } from '@nuxtjs/composition-api';
 
     let props = defineProps({
         floatSaveGui: Boolean,

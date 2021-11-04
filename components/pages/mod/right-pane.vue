@@ -28,6 +28,8 @@
 </template>
 
 <script setup>
+    import { computed } from '@nuxtjs/composition-api';
+
     defineProps({
         mod: Object
     });

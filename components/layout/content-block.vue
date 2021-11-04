@@ -1,5 +1,5 @@
 <template>
-    <flex :gap="gap" column :class="{'content-block': true, 'alt-content-bg': altBackground, 'p-2': true}">
+    <flex :gap="gap" :column="column" :class="{'content-block': true, 'alt-content-bg': altBackground, 'p-2': true}">
         <slot/>
     </flex>
 </template>
@@ -9,6 +9,10 @@
         gap: {
             type: Number,
             default: 3
+        },
+        column: {
+            type: Boolean,
+            default: true
         },
         altBackground: Boolean
     });

@@ -27,12 +27,37 @@
                     </form-tab>
                     <form-tab name="profile" title="Profile">
                         <group label="Avatar" column gap="3">
-                            <label class="flex items-end gap-2" for="avatar-upload">
-                                <a-avatar size="large" :src="currentAvatarSrc"/>
-                                <a-avatar size="medium" :src="currentAvatarSrc"/>
-                                <a-avatar size="small" :src="currentAvatarSrc"/>
-                            </label>
-                            <input ref="avatar" type="file" id="avatar-upload" @change="onAvatarChosen"/>
+                            <img-uploader id="avatar" :src="user.avatar" :file.sync="avatarBlob">
+                                <template #label="{ src }">
+                                    <a-avatar size="large" :src="src"/>
+                                    <a-avatar size="medium" :src="src"/>
+                                    <a-avatar size="small" :src="src"/>
+                                </template>
+                            </img-uploader>
+                        </group>
+
+                        <group label="Banner" column gap="3">
+                            <img-uploader id="banner" :src="user.banner" :file.sync="bannerBlob">
+                                <template #label="{ src }">
+                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://127.0.0.1:8000/storage/default_banner.webp'})`}"/>
+                                </template>
+                            </img-uploader>
+                        </group>
+
+                        <group>
+                            <div>
+                                <el-checkbox v-model="user.private_profile">Private Profile</el-checkbox>
+                                <br>
+                                <small>Ticking this on will privatize your profile. Only staff members will be able to view it.</small>
+                            </div>
+                        </group>
+
+                        <group label="Custom Title">
+                            <el-input v-model="user.custom_title"/>
+                        </group>
+
+                        <group label="Bio" desc="Tell about yourself to people visiting your profile">
+                            <md-editor rows="12" v-model="user.bio"/>
                         </group>
                     </form-tab>
                     <form-tab name="options" title="Options">
@@ -44,106 +69,102 @@
     </page-block>
 </template>
 
+
 <script>
-    import { useFetch, useRoute } from '@nuxtjs/composition-api';
-    import { Notification } from 'element-ui';
-    import clone from 'rfdc/default';
-    import { useStore } from '../store';
+import { useStore } from '../store';
 
-    export default {
-        middleware({ store, error }) {
-            if (!store.state.user) {
-                error({
-                    statusCode: 401,
-                    message: 'You must be logged in to enter this page!'
-                });
-            }
-        },
-        setup() {
-            const store = useStore();
-            const { $axios, $factory } = useNuxtApp().legacyApp;
-
-            const user = ref({
-                name: '',
-                role_ids: []
+export default {
+    middleware({ $pinia, error }) {
+        const store = useStore($pinia);
+        if (!store.user) {
+            error({
+                statusCode: 401,
+                message: 'You must be logged in to enter this page!'
             });
-            const avatar = ref();
-            const isMe = ref(false);
-            const roles = ref([]);
-
-            const avatarBolb = ref(null);
-            const bannerBolb = ref(null);
-
-            const route = useRoute();
-
-            useFetch(async () => {
-                let nextUser;
-                const id = parseInt(route.value.params.id);
-                if (id && id !== store.user.id) {
-                    nextUser = await $factory.getOne('users', route.value.params.id);
-                }
-                else {
-                    nextUser = clone(store.user);
-                    isMe.value = true;
-                }
-
-                const rolesRes = await $axios.get('/roles?only_assignable=1').then(res => res.data);
-                roles.value = rolesRes.data;
-
-                nextUser.password = '';
-                nextUser.confirm_password = '';
-                user.value = nextUser;
-            });
-
-            const canSaveOverride = computed(() => avatarBolb.value != null || bannerBolb.value != null);
-            const currentAvatarSrc = computed(() => avatarBolb.value || user.value.avatar);
-
-            function onAvatarChosen() {
-                const file = avatar.value.files[0];
-                const reader = new FileReader(file);
-                reader.onload = () => {
-                    avatarBolb.value = reader.result;
-                };
-                reader.readAsDataURL(file);
-            }
-
-            async function save() {
-                try {
-                    const formData = new FormData();
-                    if (avatar.value.files.length > 0) {
-                        formData.append('avatar-file', avatar.value.files[0]);
-                        avatar.value = '';
-                        avatarBolb.value = null;
-                        bannerBolb.value = null;
-                    }
-
-                    for (const [k, v] of Object.entries(user.value)) {
-                        if (Array.isArray(v)) {
-                            for (const arrVal of v) { //Why is this even needed?????
-                                formData.append(k + '[]', arrVal);
-                            }
-                        } else {
-                            formData.append(k, v);
-                        }
-                    }
-
-                    const nextUser = await $axios.patch(`users/${user.value.id}`, formData).then(res => res.data);
-
-                    nextUser.password = '';
-                    nextUser.confirm_password = '';
-
-                    if (isMe.value) {
-                        store.user = clone(nextUser);
-                    }
-
-                    user.value = nextUser;
-                } catch (error) {
-                    console.log(error);
-                    Notification.error('Failed saving user settings');
-                }
-            }
-
-            return { avatar, user, canSaveOverride, currentAvatarSrc, onAvatarChosen, save, isMe, roles };
         }
-    };
+    }
+};
+</script>
+
+<script setup>
+import { useFetch, useRoute, ref, computed, useContext } from '@nuxtjs/composition-api';
+import { Notification } from 'element-ui';
+import clone from 'rfdc/default';
+
+const store = useStore();
+const { $axios, $factory } = useContext();
+
+const user = ref({
+    name: '',
+    role_ids: [],
+    bio: '',
+    private_profile: false
+});
+
+const isMe = ref(false);
+const roles = ref([]);
+
+const avatarBlob = ref(null);
+const bannerBlob = ref(null);
+
+const route = useRoute();
+
+useFetch(async () => {
+    let nextUser;
+    const id = parseInt(route.value.params.id);
+    if (id && id !== store.user.id) {
+        nextUser = await $factory.getOne('users', route.value.params.id);
+    }
+    else {
+        nextUser = clone(store.user);
+        isMe.value = true;
+    }
+
+    const rolesRes = await $axios.get('/roles?only_assignable=1').then(res => res.data);
+    roles.value = rolesRes.data;
+
+    nextUser.password = '';
+    nextUser.confirm_password = '';
+    user.value = nextUser;
+});
+
+const canSaveOverride = computed(() => !!avatarBlob.value || !!bannerBlob.value);
+
+async function save() {
+    try {
+        const formData = new FormData();
+        if (avatarBlob.value) {
+            formData.append('avatar_file', avatarBlob.value);
+            avatarBlob.value = null;
+        }
+        if (bannerBlob.value) {
+            formData.append('banner_file', bannerBlob.value);
+            bannerBlob.value = null;
+        }
+
+        for (const [k, v] of Object.entries(user.value)) {
+            if (Array.isArray(v)) {
+                for (const arrVal of v) { //Why is this even needed?????
+                    formData.append(k + '[]', arrVal);
+                }
+            } else {
+                formData.append(k, v);
+            }
+        }
+
+        const nextUser = await $axios.patch(`users/${user.value.id}`, user.value).then(res => res.data);
+
+        nextUser.password = '';
+        nextUser.confirm_password = '';
+
+        if (isMe.value) {
+            store.user = clone(nextUser);
+        }
+
+        user.value = nextUser;
+    } catch (error) {
+        console.log(error);
+        Notification.error('Failed saving user settings');
+    }
+}
 </script>

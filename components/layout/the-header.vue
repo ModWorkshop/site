@@ -45,6 +45,7 @@
 </template>
 <script setup>
 import { useStore } from '../../store';
+import { computed } from '@nuxtjs/composition-api';
 
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 

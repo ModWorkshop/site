@@ -1,7 +1,7 @@
 import webpack from 'webpack';
-import { defineNuxtConfig } from '@nuxt/bridge';
+import routes from './routes';
 
-export default defineNuxtConfig({
+export default {
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
 		title: "ModWorkshop",
@@ -63,7 +63,7 @@ export default defineNuxtConfig({
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
-		"@nuxtjs/color-mode", 'nuxt-windicss', ['@pinia/nuxt', { disableVuex: true }]
+		"@nuxtjs/color-mode", 'nuxt-windicss', '@nuxtjs/composition-api/module', ['@pinia/nuxt', { disableVuex: true }]
 	],
 
 	// Modules: https://go.nuxtjs.dev/config-modules
@@ -95,30 +95,8 @@ export default defineNuxtConfig({
 
 	router: {
 		middleware: ['pinia-init'],
-		extendRoutes(routes) {
-			routes.push({ name: "edit-user-page", path: "/user/:id/edit", component: "pages/user-settings.vue" });
-			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
-			routes.push({ name: "mod-page-proper", path: "/mod/:id", component: "pages/mod.vue" });
-			routes.push({ name: "user-page", path: "/user/:id", component: "pages/user.vue" });
-			routes.push({ name: "edit-mod-page", path: "/mod/:id/edit", component: "pages/edit-mod.vue" });
-			routes.push({ name: "upload-mod-page", path: "/upload", component: "pages/edit-mod.vue" });
-			routes.push({ name: "create-category", path: "/create-category", component: "pages/edit-category.vue" });
-			routes.push({ name: "fucking-edit-category", path: "/category/:id/edit", component: "pages/edit-category.vue" });
-			routes.push({ 
-				name: "admin-page-proper",
-				path: "/admin/home",
-				component: "pages/admin-page.vue"
-			});
-			routes.push({ 
-				name: "admin-page-roles-proper",
-				path: "/admin/roles",
-				component: "pages/admin-page-roles.vue",
-			});
-			routes.push({ 
-				name: "admin-page-edit-role-proper",
-				path: "/admin/roles/:role",
-				component: "pages/admin-page-edit-role.vue"
-			});
+		extendRoutes() {
+			return routes;
 		}
 	},
 
@@ -137,4 +115,4 @@ export default defineNuxtConfig({
 	image: {
 		domains: [process.env.API_URL + '/storage']
 	}
-});
+};

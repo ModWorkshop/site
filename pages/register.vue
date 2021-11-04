@@ -28,7 +28,7 @@ export default {
 </script>
 
 <script setup>
-import { useStore } from '~~/store';
+import { useStore, reactive, ref, useRouter, useContext } from '~~/store';
 
 const user = reactive({
     name: '',
@@ -39,7 +39,7 @@ const user = reactive({
 
 const error = ref('');
 
-const { $axios } = useNuxtApp().legacyApp;
+const { $axios } = useContext();
 const store = useStore();
 const router = useRouter();
 
