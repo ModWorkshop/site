@@ -16,7 +16,7 @@ class CreateUserExtrasTable extends Migration
         Schema::create('user_extras', function (Blueprint $table) {
             $table->id();
             $table->string('banner')->default('');
-            $table->string('bio')->default('');
+            $table->text('bio')->default('');
             $table->boolean('private_profile')->default(false);
             $table->tinyText('custom_title')->default('');
             $table->timestamp('last_online')->nullable();
