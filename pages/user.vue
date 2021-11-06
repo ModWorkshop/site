@@ -11,12 +11,12 @@
                             <a-user :user="user" :avatar="false"/>
                             <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"></div>
                         </h4>
-                        <h6 v-if="!userInvisible">{{user.custom_title}}</h6>
-                        <h6 v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</h6>
+                        <span v-if="!userInvisible">{{user.custom_title}}</span>
+                        <span v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</span>
                     </div>
                     <div v-if="isPublic" id="extra-info" style="word-break: break-word;">
-                        <div>{{$t('registration_date')}} {{user.regdate}}</div>
-                        <div>{{$t('lastvisit')}} {{user.lastactive}}</div>
+                        <div v-if="user.created_at">{{$t('registration_date')}} {{fullDate(user.created_at)}}</div>
+                        <div>{{$t('lastvisit')}} {{timeAgo(user.last_online)}}</div>
                         <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div>
                         <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
                             {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
@@ -37,6 +37,9 @@
     </page-block>
 </template>
 <script>
+import { timeAgo, fullDate } from '../utils/helpers';
+import { DateTime } from 'luxon';
+
 export default {
     data() {
         return {
@@ -50,11 +53,16 @@ export default {
         userBanner() {
             return this.user.banner || 'banners/default_banner.webp';
         },
-        statusColor() { //TEMP!
-            return 'green';
+        isOnline() {
+            const last = DateTime.fromISO(this.user.last_online);
+            const now = DateTime.now();
+            return now.diff(last, 'minutes').toObject().minutes < 5;
+        },
+        statusColor() {
+            return this.isOnline ? 'green' : 'gray';
         },
         statusString() {
-            return 'Online';
+            return this.isOnline ? this.$t('online') : this.$t('offline');
         },
         userInvisible() {
             return false;
@@ -62,6 +70,9 @@ export default {
         isPublic() {
             return !this.user.private_profile;
         },
+    },
+    methods: {
+        timeAgo, fullDate
     },
     async asyncData({params, $factory}) {
         if (params.id) {

@@ -12,8 +12,7 @@ export default {
         textColor() {
             if (this.color) {
                 const contrast = chroma.contrast('#000', this.color);
-                console.log(contrast);
-                if (contrast > 4.5) {
+                if (contrast > 4.55) {
                     return '#000';
                 } else {
                     return '#fff';
@@ -27,13 +26,13 @@ export default {
 <style scoped>
     .tag {
         color: #000;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 70%;
         background: var(--primary-color);
         border-radius: var(--border-radius);
     }
 
     .tag-small {
-        padding: 0.25rem 0.5rem;
+        padding: 0.15rem 0.4rem;
     }
 </style>
