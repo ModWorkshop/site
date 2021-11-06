@@ -100,6 +100,10 @@ abstract class Visibility {
  * @property-read int|null $files_count
  * @method static Builder|Mod whereDownloadId($value)
  * @method static Builder|Mod whereDownloadType($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read Model|\Eloquent $download
+ * @method static Builder|Mod whereSubmitterId($value)
  */
 class Mod extends Model
 {

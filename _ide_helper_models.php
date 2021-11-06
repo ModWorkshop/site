@@ -63,6 +63,41 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Comment
+ *
+ * @property int $id
+ * @property string $commentable_type
+ * @property int $commentable_id
+ * @property int $user_id
+ * @property string $content
+ * @property bool $pinned
+ * @property int|null $reply_to
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Model|\Eloquent $commentable
+ * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $lastReplies
+ * @property-read int|null $last_replies_count
+ * @property-read Comment $replyingComment
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment wherePinned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereReplyTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
+ * @mixin \Eloquent
+ */
+	class Comment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\File
  *
  * @property int $id
@@ -93,6 +128,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Mod $mod
  */
 	class File extends \Eloquent {}
 }
@@ -206,8 +242,12 @@ namespace App\Models{
  * @property string|null $download_type
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
  * @property-read int|null $files_count
- * @method static \Illuminate\Database\Eloquent\Builder|Mod whereDownloadId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mod whereDownloadType($value)
+ * @method static Builder|Mod whereDownloadId($value)
+ * @method static Builder|Mod whereDownloadType($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read Model|\Eloquent $download
+ * @method static Builder|Mod whereSubmitterId($value)
  */
 	class Mod extends \Eloquent {}
 }
@@ -341,8 +381,39 @@ namespace App\Models{
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User withPermissions()
  * @mixin \Eloquent
+ * @property-read \App\Models\UserExtra|null $extra
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserExtra
+ *
+ * @property int $id
+ * @property string $banner
+ * @property string $bio
+ * @property bool $private_profile
+ * @property string $custom_title
+ * @property string|null $last_online
+ * @property int|null $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereBanner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereBio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereCustomTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereLastOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra wherePrivateProfile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUserId($value)
+ * @mixin \Eloquent
+ */
+	class UserExtra extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -355,5 +426,17 @@ namespace App\Models{
  * @mixin \Eloquent
  */
 	class UsersRolesLink extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\update_comments_table
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table query()
+ * @mixin \Eloquent
+ */
+	class update_comments_table extends \Eloquent {}
 }
 

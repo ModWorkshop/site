@@ -17621,6 +17621,19 @@ namespace  {
             }
              
                 /**
+             * 
+             *
+             * @see \App\Providers\PaginationService::boot()
+             * @param mixed $items
+             * @param mixed $args
+             * @static 
+             */ 
+            public static function getPaginate($items, ...$args)
+            {
+                                return \Illuminate\Database\Eloquent\Builder::getPaginate($items, ...$args);
+            }
+             
+                /**
              * Set the columns to be selected.
              *
              * @param array|mixed $columns
