@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Mod;
 use App\Models\Permission;
+use App\Models\SocialLogin;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Telescope\Http\Controllers\ModelsController;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,8 +49,37 @@ Route::get('/auth/steam/redirect', function(Request $request) {
  * @hideFromAPIDocumentation
  */
 Route::get('/auth/steam/callback', function(Request $request) {
-    $user = Socialite::driver('steam')->user();
-    return json_encode($user);
+    $steamUser = Socialite::driver('steam')->user();
+
+    /**
+     * @var SocialLogin
+     */
+    $socialLogin = SocialLogin::where('social_id', 'steam')->where('special_id', $steamUser->id)->first();
+    $user = null;
+    if (isset($socialLogin)) {
+        $user = $socialLogin->user;
+        echo 'User already exists. Connected!';
+    } else {
+        //Create a user
+        $user = User::create([
+            'name' => $steamUser->nickname,
+            'avatar' => $steamUser->avatar,
+        ]);
+
+        //Create a social login so the user can login with it later
+        SocialLogin::create([
+            'social_id' => 'steam',
+            'special_id' => $steamUser->id,
+            'user_id' => $user->id
+        ]);
+
+        echo 'New user. Connected!';
+    }
+
+    //Attention: this only runs AFTER we verify the user has logged in. This data is returned by Steam, therefore we can safely login the user.
+    if (Auth::login($user, true)) {
+        $request->session()->regenerate();
+    }
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
