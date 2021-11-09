@@ -320,6 +320,29 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\SocialLogin
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property string $social_id
+ * @property string $special_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereSocialId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereSpecialId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereUserId($value)
+ */
+	class SocialLogin extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Tag
  *
  * @property int $id
@@ -395,7 +418,6 @@ namespace App\Models{
  * @property string $bio
  * @property bool $private_profile
  * @property string $custom_title
- * @property string|null $last_online
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -412,6 +434,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUserId($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereLastOnlineAt($value)
+ * @property Carbon|null $last_online
  */
 	class UserExtra extends \Eloquent {}
 }
@@ -426,17 +450,5 @@ namespace App\Models{
  * @mixin \Eloquent
  */
 	class UsersRolesLink extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\update_comments_table
- *
- * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|update_comments_table query()
- * @mixin \Eloquent
- */
-	class update_comments_table extends \Eloquent {}
 }
 
