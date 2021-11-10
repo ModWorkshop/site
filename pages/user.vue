@@ -1,6 +1,6 @@
 <template>
     <page-block>
-        <flex column class="user-banner p-2 round" :style="{backgroundImage: `url(http://127.0.0.1:8000/storage/${userBanner})`}">
+        <flex column class="user-banner p-2 round" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`}">
             <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
         </flex>
         <flex :column="false" gap="3" class="md:flex-row">

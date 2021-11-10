@@ -22,7 +22,7 @@ const compSrc = computed(function() {
     if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
         return src;
     } else {
-        return `http://127.0.0.1:8000/storage/${src}`;
+        return `http://localhost:8000/storage/${src}`;
     }
 });
 </script>

@@ -63,5 +63,10 @@ export default [
         name: 'user-settings',
         path: '/user-settings',
         component: 'pages/user-settings.vue'
+    },
+    {
+        name: 'login-successful',
+        path: '/login-successful',
+        component: 'pages/login-successful.vue'
     }
 ];

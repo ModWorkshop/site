@@ -39,7 +39,7 @@
                         <group label="Banner" column gap="3">
                             <img-uploader id="banner" :src="user.banner" :file.sync="bannerBlob">
                                 <template #label="{ src }">
-                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://127.0.0.1:8000/storage/default_banner.webp'})`}"/>
+                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
                                 </template>
                             </img-uploader>
                         </group>

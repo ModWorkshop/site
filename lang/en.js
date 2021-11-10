@@ -291,4 +291,5 @@ export default {
     edit_mod: "Edit Mod",
     license: "License",
     unsaved_changes: "You have unsaved changes",
+    login: 'Login'
 };

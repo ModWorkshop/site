@@ -20,7 +20,7 @@ const props = defineProps([
 const fileRef = ref();
 const blob = ref();
 const input = ref();
-const currentSrc = computed(() => blob.value || props.src && `http://127.0.0.1:8000/storage/${props.src}` || '');
+const currentSrc = computed(() => blob.value || props.src && `http://localhost:8000/storage/${props.src}` || '');
 
 function onChange() {
     const file = input.value.files[0];

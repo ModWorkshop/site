@@ -1,14 +1,14 @@
 <template>
     <a v-if="href && !disabled" :href="href" class="button">
-        <font-awesome-icon v-if="icon" :icon="icon"/>
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </a>
     <nuxt-link v-else-if="to && !disabled" :to="to" class="button">
-        <font-awesome-icon v-if="icon" :icon="icon"/>
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </nuxt-link>
-    <button v-else :disabled="disabled" class="button" @click="$emit('click', $event)" :type="type"> 
-        <font-awesome-icon v-if="icon" :icon="icon"/>
+    <button v-else :disabled="disabled" :class="{button: true, 'button-large': large}" @click="$emit('click', $event)" :type="type"> 
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </button>
 </template>
@@ -16,12 +16,14 @@
 <script setup>
     defineProps({
         href: String,
+        large: Boolean,
         type: {
             default: 'button',
             type: String
         },
         to: String,
-        icon: String,
+        iconSize: String,
+        icon: [String, Array],
         disabled: Boolean
     });
 </script>
@@ -33,6 +35,10 @@
         padding: 0.5rem 0.75rem;
         border-radius: var(--border-radius);
         transition: background-color 0.5s;
+    }
+
+    .button-large {
+        font-size: 1rem;
     }
 
     .button:disabled {

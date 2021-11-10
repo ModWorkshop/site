@@ -33,7 +33,7 @@
                                 <i v-if="mod.liked" class="ri-heart-fill mx-1"/>
                                 <i v-else class="ri-heart-line mx-1"/>
                             </a>
-                            <form v-if="mod.download" :action="`http://127.0.0.1:8000/files/${mod.download.id}/download`" method="get" class="flex-grow ml-2">
+                            <form v-if="mod.download" :action="`http://localhost:8000/files/${mod.download.id}/download`" method="get" class="flex-grow ml-2">
                                 <a-button class="download-button w-full" icon="download">
                                     Download
                                     <br>
