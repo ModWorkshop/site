@@ -58,7 +58,6 @@ Route::get('/auth/steam/callback', function(Request $request) {
     $user = null;
     if (isset($socialLogin)) {
         $user = $socialLogin->user;
-        echo 'User already exists. Connected!';
     } else {
         //Create a user
         $user = User::create([
@@ -73,13 +72,14 @@ Route::get('/auth/steam/callback', function(Request $request) {
             'user_id' => $user->id
         ]);
 
-        echo 'New user. Connected!';
     }
 
     //Attention: this only runs AFTER we verify the user has logged in. This data is returned by Steam, therefore we can safely login the user.
     if (Auth::login($user, true)) {
         $request->session()->regenerate();
     }
+
+    // return redirect('http://localhost:3000');
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models

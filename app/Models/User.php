@@ -97,6 +97,13 @@ class User extends Authenticatable
     private $gotPerms = false;
     private $gotRoles = false;
 
+    protected static function booted()
+    {
+        self::created(function($user) {
+            $user->extra()->create();
+        });
+    }
+
     public function extra() : HasOne
     {
         return $this->hasOne(UserExtra::class);

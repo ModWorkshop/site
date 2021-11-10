@@ -14,6 +14,7 @@ return [
     |
     */
     'steam' => [
+        'realm' => env('APP_URL'),
         'client_id' => env('APP_NAME'),
         'client_secret' => env('STEAM_CLIENT_SECRET'),
         'redirect' => env('STEAM_REDIRECT_URI')
