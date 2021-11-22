@@ -47,7 +47,7 @@ export default {
 	plugins: [
 		"@/plugins/axios.js",
 		"@/plugins/element-ui",
-		"@/plugins/factory",
+		"@/plugins/ftch",
 		"@/plugins/fa",
 		"@/plugins/easy-lightbox",
 		{

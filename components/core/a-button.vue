@@ -1,22 +1,28 @@
 <template>
-    <a v-if="href && !disabled" :href="href" class="button">
+    <a v-if="href && !disabled" :href="href" :class="clss">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </a>
-    <nuxt-link v-else-if="to && !disabled" :to="to" class="button">
+    <nuxt-link v-else-if="to && !disabled" :to="to" :class="clss">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </nuxt-link>
-    <button v-else :disabled="disabled" :class="{button: true, 'button-large': large}" @click="$emit('click', $event)" :type="type"> 
+    <button v-else :disabled="disabled" :class="clss" @click="$emit('click', $event)" :type="type"> 
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </button>
 </template>
 
 <script setup>
-    defineProps({
+    import { ref } from '@nuxtjs/composition-api';
+
+    const props = defineProps({
         href: String,
         large: Boolean,
+        color: {
+            default: 'primary',
+            type: String,
+        },
         type: {
             default: 'button',
             type: String
@@ -26,15 +32,28 @@
         icon: [String, Array],
         disabled: Boolean
     });
+
+    const clss = ref({
+        button: true,
+        [`button-${props.color}`]: true,
+        'button-large': props.large
+    });
 </script>
 
 <style scoped>
     .button {
-        background-color: var(--primary-color);
         color: var(--button-text-color);
         padding: 0.5rem 0.75rem;
         border-radius: var(--border-radius);
         transition: background-color 0.5s;
+    }
+
+    .button-none {
+        background-color: transparent;
+    }
+
+    .button-primary {
+        background-color: var(--primary-color);
     }
 
     .button-large {
@@ -47,8 +66,11 @@
 
     .button:hover:enabled {
         transition: background-color 0.5s;
-        background-color: var(--primary-hover-color);
         cursor: pointer;
     }
 
+    .button-primary:hover:enabled {
+        background-color: var(--primary-hover-color);
+        cursor: pointer;
+    }
 </style>

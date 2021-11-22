@@ -92,7 +92,7 @@ import { Notification } from 'element-ui';
 import clone from 'rfdc/default';
 
 const store = useStore();
-const { $axios, $factory } = useContext();
+const { $ftch } = useContext();
 
 const user = ref({
     name: '',
@@ -113,14 +113,14 @@ useFetch(async () => {
     let nextUser;
     const id = parseInt(route.value.params.id);
     if (id && id !== store.user.id) {
-        nextUser = await $factory.getOne('users', route.value.params.id);
+        nextUser = await $ftch.get(`users/${route.value.params.id}`);
     }
     else {
         nextUser = clone(store.user);
         isMe.value = true;
     }
 
-    const rolesRes = await $axios.get('/roles?only_assignable=1').then(res => res.data);
+    const rolesRes = await $ftch.get('/roles?only_assignable=1');
     roles.value = rolesRes.data;
 
     nextUser.password = '';
@@ -152,7 +152,7 @@ async function save() {
             }
         }
 
-        const nextUser = await $axios.patch(`users/${user.value.id}`, user.value).then(res => res.data);
+        const nextUser = await $ftch.patch(`users/${user.value.id}`, user.value);
 
         nextUser.password = '';
         nextUser.confirm_password = '';

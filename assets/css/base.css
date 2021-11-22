@@ -141,3 +141,7 @@ p {
     background-repeat: no-repeat;
     background-size:cover;
 }
+
+.alt-bg-color {
+    background-color: var(--alt-bg-color);
+}

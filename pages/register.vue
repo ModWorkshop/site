@@ -28,7 +28,8 @@ export default {
 </script>
 
 <script setup>
-import { useStore, reactive, ref, useRouter, useContext } from '~~/store';
+import { reactive, useContext, useRouter, ref } from '@nuxtjs/composition-api';
+import { useStore } from '../store';
 
 const user = reactive({
     name: '',

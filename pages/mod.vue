@@ -92,9 +92,9 @@
                 'user'
             ])
         },
-        async asyncData({params, $factory}) {
+        async asyncData({params, $ftch}) {
             if (params.id) {
-                return { mod: await $factory.getOne('mods', params.id) };
+                return { mod: await $ftch.get(`mods/${params.id}`) };
             }
         }
     };

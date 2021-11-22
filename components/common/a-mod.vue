@@ -1,9 +1,9 @@
 <template>
-    <div class="mod mx-auto" :title="mod.short_desc">
+    <content-block gap="0" class="mod !p-0" :title="mod.short_desc">
         <nuxt-link class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
         </nuxt-link>
-        <div class="p-2 w-100 text-secondary" style="max-height:40%">
+        <flex gap="1" column class="p-2 text-secondary">
             <nuxt-link class="mod-title" :to="`/mod/${mod.id}`" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
@@ -23,45 +23,62 @@
                 </template>
             </div>
 
-            <div class="inline-block">
-                <font-awesome-icon icon="heart"/>
-                <span id="likes">{{likes}}</span>
-            </div>
-            <div class="inline-block">
-                <font-awesome-icon icon="download"/>
-                <span>{{downloads}}</span>
-            </div>
-            <div class="inline-block">
-                <font-awesome-icon icon="eye"/>
-                <span>{{views}}</span>
-            </div>
-
-            <span class="float-right">
-                <span v-if="sort == 'pub_date'" :title="mod.pub_date">{{mod.timeago_pub}} <i class="ri-upload-2-fill"></i></span>
-                <span v-else :title="mod.date"><i class="ri-time-fill"></i> {{mod.timeago}}</span>
-            </span>
-        </div>
-    </div>
+            <flex gap="1">
+                <div class="inline-block">
+                    <font-awesome-icon icon="heart"/>
+                    <span id="likes">{{likes}}</span>
+                </div>
+                <div class="inline-block">
+                    <font-awesome-icon icon="download"/>
+                    <span>{{downloads}}</span>
+                </div>
+                <div class="inline-block">
+                    <font-awesome-icon icon="eye"/>
+                    <span>{{views}}</span>
+                </div>
+    
+                <span class="inline-block ml-auto">
+                    <span :title="date">
+                        <font-awesome-icon icon="clock"/>
+                        {{timeAgo}}
+                    </span>
+                </span>
+            </flex>
+        </flex>
+    </content-block>
 </template>
 <script>
-    export default {
-        props: {
-            sort: String,
-            noCategories: Boolean,
-            mod: Object
-        },
-        computed: {
-            likes() {
-                return 0;
-            },
-            downloads() {
-                return this.mod.downloads;
-            },
-            views() {
-                return this.mod.views;
+import { timeAgo } from "../../utils/helpers";
+
+export default {
+    props: {
+        sort: String,
+        noCategories: Boolean,
+        mod: Object
+    },
+    computed: {
+        date() {
+            //TODO: implement publish and bump date
+            if (this.sort == 'pub_date') {
+                return this.mod.created_at;
+            } else {
+                return this.mod.updated_at;
             }
+        },
+        timeAgo() {
+            return timeAgo(this.date);
+        },
+        likes() {
+            return 0;
+        },
+        downloads() {
+            return this.mod.downloads;
+        },
+        views() {
+            return this.mod.views;
         }
-    };
+    }
+};
 </script>
 <style scoped>
     .mod-title {

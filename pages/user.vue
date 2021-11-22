@@ -34,6 +34,7 @@
                 </div>
             </content-block>
         </flex>
+        <mod-list v-if="isPublic"/>
     </page-block>
 </template>
 <script>
@@ -43,7 +44,8 @@ import { DateTime } from 'luxon';
 export default {
     data() {
         return {
-            user: {}
+            user: {},
+            tags: []
         };
     },
     computed: {
@@ -74,9 +76,9 @@ export default {
     methods: {
         timeAgo, fullDate
     },
-    async asyncData({params, $factory}) {
+    async asyncData({params, $ftch}) {
         if (params.id) {
-            return {user: await $factory.getOne('users', params.id)};
+            return {user: await $ftch.get(`users/${params.id}`)};
         }
     }
 };

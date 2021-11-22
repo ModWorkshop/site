@@ -44,9 +44,9 @@
         methods: {
             async save() {
                 if (this.role.id == -1) {
-                    this.role = await this.$factory.create('roles', this.role);
+                    this.role = await this.$ftch.post('roles', this.role);
                 } else {
-                    this.role = await this.$factory.update('roles', this.role.id, this.role);
+                    this.role = await this.$ftch.patch(`roles/${this.role.id}`, this.role);
                 }
             },
             getPermissionState(id) {

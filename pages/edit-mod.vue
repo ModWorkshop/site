@@ -68,10 +68,10 @@
             async save() {
                 try {
                     if (this.isNew) {
-                        this.mod = await this.$factory.create('mods', this.mod);
+                        this.mod = await this.$ftch.post('mods', this.mod);
                         this.isNew = false;
                     } else {
-                        this.mod = await this.$factory.update('mods', this.mod.id, this.mod);
+                        this.mod = await this.$ftch.patch(`mods/${this.mod.id}`, this.mod);
                     }
                 } catch (error) {
                     console.error(error);
@@ -79,10 +79,10 @@
                 }
             }
         },
-        async asyncData({ $factory, $pinia, params, error }) {
+        async asyncData({ $ftch, $pinia, params, error }) {
             const store = useStore($pinia);
             if (params.id) {
-                const mod = await $factory.getOne('mods', params.id);
+                const mod = await $ftch.get(`mods/${params.id}`);
 
                 mod.tag_ids = mod.tags.map(tag => tag.id);
 

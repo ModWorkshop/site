@@ -1,5 +1,5 @@
 <template>
-    <flex class="form-group" column gap="2">
+    <flex class="form-group" column grow gap="2">
         <flex column class="label-area">
             <label v-if="label">{{label}}</label>
             <flex v-else-if="labels">

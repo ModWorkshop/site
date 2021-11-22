@@ -7,7 +7,7 @@
 <script setup>
     defineProps({
         gap: {
-            type: Number,
+            type: [Number, String],
             default: 3
         },
         column: {

@@ -13,10 +13,10 @@
         </group>
         <uploader list name="files" :url="uploadLink" :files="fileList">
             <template #headers>
-                <td align="center">Primary</td>
+                <td class="text-center">Primary</td>
             </template>
             <template #rows="{file}">
-                <td align="center">
+                <td class="text-center">
                     <input type="radio" v-model="mod.download_id" :value="file.id" @change="mod.download_type = 'file'">
                 </td>
             </template>
@@ -46,7 +46,7 @@
 
     watch(() => mod.value.files, function() {
         mod.value.files.forEach(file => {
-            fileList.push({
+            fileList.value.push({
                 id: file.id,
                 date: file.created_at,
                 size: file.size,

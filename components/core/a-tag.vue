@@ -11,10 +11,14 @@ export default {
     computed: {
         textColor() {
             if (this.color) {
-                const contrast = chroma.contrast('#000', this.color);
-                if (contrast > 4.55) {
-                    return '#000';
-                } else {
+                try {
+                    const contrast = chroma.contrast('#000', this.color);
+                    if (contrast > 4.55) {
+                        return '#000';
+                    } else {
+                        return '#fff';
+                    }
+                } catch (error) {
                     return '#fff';
                 }
             }

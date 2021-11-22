@@ -1,17 +1,17 @@
 <template>
     <flex inline :gap="avatar ? 2 : null">
         <nuxt-link v-if="avatar" :to="`/user/${user.id}`">
-            <a-avatar :size="avatarSize" :src="src"/>
+            <a-avatar :size="avatarSize" :src="user.avatar"/>
         </nuxt-link>
-        <div class="inline-block">
-            <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}">
+        <flex inline>
+            <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}" class="my-auto">
                 {{user.name}} <a-tag small v-if="user.tag" color="#2169ff">{{user.tag}}</a-tag>
             </nuxt-link>
             <template v-if="details">
                 <br>
                 {{details}}
             </template>
-        </div>
+        </flex>
     </flex>
 </template>
 <script>
@@ -28,11 +28,6 @@ export default {
             default: null,
             type: String
         },
-    },
-    computed: {
-        src() {
-            return `http://localhost:8000/storage/${this.user.avatar}`;
-        }
     }
 };
 </script>

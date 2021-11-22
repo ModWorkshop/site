@@ -1,23 +1,23 @@
 <template>
-    <div class="flex flex-col" gap="3"
-        style="width: 100%; min-height: 150px; background-color: var(--bg-color)" 
+    <flex column gap="1"
+        style="width: 100%; min-height: 150px;" 
         @dragover.prevent=""
         @drop.prevent="handleDrop"
     >
-        <label :for="`${name}-file-browser-open`">
-            <div class="text-center">
+        <label class="alt-bg-color" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
+            <div class="p-6 cursor-pointer text-center ">
                 <h2>Drop files here or click the area to upload files</h2>
             </div>
         </label>
         <input :id="`${name}-file-browser-open`" type="file" @change="handleFileBrowser" hidden multiple/>
-        <div v-if="list" class="p-3">
+        <div v-if="list" class="p-3 alt-bg-color">
             <table class="w-full">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Size</th>
                         <th>Upload Date</th>
-                        <th align="center">Actions</th>
+                        <th class="text-center">Actions</th>
                         <slot name="headers"/>
                     </tr>
                 </thead>
@@ -27,7 +27,7 @@
                         <td>{{friendlySize(file.size)}}</td>
                         <td v-if="file.date">{{fullDate(file.date)}}</td>
                         <td v-else>Uploading: {{file.progress}}% </td>
-                        <td align="center">
+                        <td class="text-center">
                             <slot name="buttons" :file="file"/>
                             <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
                                 <font-awesome-icon icon="trash"/>
@@ -38,20 +38,21 @@
                 </tbody>
             </table>
         </div>
-        <div v-else class="grid file-list p-3 mb-8">
+        <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
             <div class="file-item" v-for="[i, file] of files.entries()" :key="i" @click.prevent>
                 <img class="file-thumbnail" :src="file.url" alt="">
                 <flex class="file-options">
                     <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
-                    <span class="file-buttons">
-                        <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
-                            <font-awesome-icon icon="trash"/>
-                        </span>
-                    </span>
+                    <flex column class="file-buttons">
+                        <a-button class="file-button cursor-pointer" @click.prevent="handleRemove(file)" icon="trash">
+                            Delete
+                        </a-button>
+                        <slot name="buttons" :file="file"/>
+                    </flex>
                 </flex>
             </div>
         </div>
-    </div>
+    </flex>
 </template>
 
 <script setup>
@@ -197,6 +198,9 @@
 
     .file-buttons {
         position: absolute;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
         width: 100%;
         height: 100%;
         background-color: rgba(36, 36, 36, 0.5);
@@ -205,10 +209,6 @@
 
     .file-item:hover .file-buttons {
         display: flex;
-    }
-
-    .file-button {
-        margin: auto;
     }
 </style>
 

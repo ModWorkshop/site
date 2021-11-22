@@ -28,7 +28,7 @@
     import { ref, watch, useFetch, useContext } from '@nuxtjs/composition-api';
 
     const isNew = ref(true);
-    const { $factory, params, $axios } = useContext();
+    const { $ftch, params } = useContext();
     const store = useStore();
 
     const category = ref({
@@ -46,13 +46,13 @@
 
         if (params.value.id) {
             isNew.value = false;
-            category.value = await $factory.getOne('categories', params.value.id);
+            category.value = await $ftch.get(`categories/${params.value.id}`);
         }
     });
 
     watch(() => category.value.game_id, async () => {
         if (category.value.game_id) {
-            const { data: cats } = await $axios.get(`/games/${category.game_id}/categories?include_paths=1`);
+            const cats = await $ftch.get(`/games/${category.game_id}/categories?include_paths=1`);
             categories.value = cats;
         } else {
             categories.value = [];
@@ -62,9 +62,9 @@
     const save = async function save() {
         try {
             if (isNew.value) {
-                category.value = await $factory.create('categories', category.value);
+                category.value = await $ftch.post('categories', category.value);
             } else {
-                await $factory.update('categories', category.value.id, category.value);
+                await $ftch.patch(`categories/${category.value.id}`, category.value);
             }
         } catch (error) {
             console.error(error);
