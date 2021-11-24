@@ -34,7 +34,7 @@
                 </div>
             </content-block>
         </flex>
-        <mod-list v-if="isPublic"/>
+        <mod-list v-if="isPublic" :user-id="user.id"/>
     </page-block>
 </template>
 <script>

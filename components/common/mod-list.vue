@@ -68,28 +68,30 @@
                 <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'}`">
                     <a-mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
                 </div>
-                <a-button id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
+                <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
+                <span v-else-if="mods.length == 0" class="text-center">
+                    No mods found
+                </span>
             </flex>
         </flex>
     </flex>
 </template>
 <script setup>
-    import { useAsync, watch } from '@nuxtjs/composition-api';
-    import { ref, useContext } from '@nuxtjs/composition-api';
+    import { useFetch, watch, ref, useContext } from '@nuxtjs/composition-api';
 
-    defineProps({
-        title: String
+    const props = defineProps({
+        title: String,
+        userId: Number
     });
 
     const query = ref('');
     const page = ref(1);
     const isList = ref(false);
     const justDate = ref(false);
+    const hasMore = ref(false);
     const { $ftch } = useContext();
-    const mods = useAsync(async () => {
-        const paginator = await $ftch.get('mods');
-        return paginator.data;
-    });
+    const mods = ref([]);
+    useFetch(loadMods);
 
     let lastTimeout = null;
     watch([query], () => {
@@ -109,17 +111,26 @@
         loadMods(reload);
     }
 
-    async function loadMods(reload=true) {
+    async function getMods() {
         const paginator = await $ftch.get('mods', { 
             params: { 
                 page: page.value,
-                query: query.value
+                query: query.value,
+                submitter_id: props.userId
             }
         });
+
+        hasMore.value = parseInt(paginator.meta.total / 40) > 0;
+
+        return paginator.data;
+    }
+
+    async function loadMods(reload=true) {
+        const retMods = await getMods();
         if (reload) {
-            mods.value = paginator.data;
+            mods.value = retMods;
         } else {
-            mods.value = [...mods.value, ...paginator.data];
+            mods.value = [...mods.value, ...retMods];
         }
     }
 </script>
