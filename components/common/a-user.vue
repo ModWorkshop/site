@@ -3,13 +3,12 @@
         <nuxt-link v-if="avatar" :to="`/user/${user.id}`">
             <a-avatar :size="avatarSize" :src="user.avatar"/>
         </nuxt-link>
-        <flex inline>
-            <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}" class="my-auto">
+        <flex gap="1" column class="my-auto">
+            <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}">
                 {{user.name}} <a-tag small v-if="user.tag" color="#2169ff">{{user.tag}}</a-tag>
             </nuxt-link>
             <template v-if="details">
-                <br>
-                {{details}}
+                <span>{{details}}</span>
             </template>
         </flex>
     </flex>
