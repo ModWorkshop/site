@@ -18,18 +18,25 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
+        /**
+         * Fetches the tags for quick use around the site
+         */
+        async fetchTags() {
+            if (this.tags.length === 0) {
+                const { $ftch } = this.$nuxt;
+                this.tags = await $ftch.get('/tags');
+            }
+        },
         async fetchGames() {
             if (this.games.length === 0) {
-                const { $axios } = this.$nuxt;
-                const { data: games } = await $axios.get('/games');
-                this.games = games;
+                const { $ftch } = this.$nuxt;
+                this.games = await $ftch.get('/games');
             }
         },
         async nuxtServerInit() {
             try {
-                const { $axios } = this.$nuxt;
-                const { data: user } = await $axios.get('/user');
-                this.user = user;
+                const { $ftch } = this.$nuxt;
+                this.user = await $ftch.get('/user');
             } catch (error) {
                 console.error(error.message);
             }

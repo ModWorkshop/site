@@ -15,18 +15,13 @@
                 </el-select>
             </group>
             <group label="Tags">
-                <el-select placeholder="Select tags" clearable multiple filterable v-model="tags" collapse-tags>
-                    <el-option label="thonk" value="1"/>
-                    <el-option label="thonk" value="2"/>
-                    <el-option label="thonk" value="3"/>
-                    <el-option label="thonk" value="4"/>
-                    <el-option label="thonk" value="5"/>
-                    <el-option label="thonk" value="6"/>
+                <el-select v-model="selectedTags" placeholder="Select Tags" clearable multiple filterable collapse-tags>
+                    <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
                 </el-select>
             </group>
             <group label="Filter Out Tags">
-                <el-select placeholder="Select tags" clearable multiple filterable>
-                    
+                <el-select v-model="selectedBlockTags" placeholder="Select Tags" clearable multiple filterable collapse-tags>
+                    <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
                 </el-select>
             </group>
                 <a-button color="none" icon="ellipsis-v"/>
@@ -77,24 +72,33 @@
     </flex>
 </template>
 <script setup>
-    import { useFetch, watch, ref, useContext } from '@nuxtjs/composition-api';
+    import { useFetch, watch, ref, useContext, computed } from '@nuxtjs/composition-api';
+    import { useStore } from '../../store';
 
     const props = defineProps({
         title: String,
         userId: Number
     });
 
+    const store = useStore();
+
     const query = ref('');
     const page = ref(1);
     const isList = ref(false);
     const justDate = ref(false);
     const hasMore = ref(false);
+    const selectedTags = ref([]);
+    const selectedBlockTags = ref([]);
+    const tags = computed(() => store.tags);
     const { $ftch } = useContext();
     const mods = ref([]);
-    useFetch(loadMods);
+    useFetch(async () => {
+        await loadMods();
+        await store.fetchTags();
+    });
 
     let lastTimeout = null;
-    watch([query], () => {
+    watch([query, selectedTags, selectedBlockTags], () => {
         if (lastTimeout) {
             clearTimeout(lastTimeout);
             lastTimeout = null;
@@ -116,7 +120,9 @@
             params: { 
                 page: page.value,
                 query: query.value,
-                submitter_id: props.userId
+                submitter_id: props.userId,
+                tags: selectedTags.value,
+                block_tags: selectedBlockTags.value,
             }
         });
 
