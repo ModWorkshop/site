@@ -1,6 +1,6 @@
 <template>
     <div :class="{
-        flex: !inline,
+        'flexbox': !inline,
         'inline-flex': inline, 
         'flex-col': column,
         'flex-wrap': wrap,

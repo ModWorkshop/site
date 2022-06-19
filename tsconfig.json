@@ -1,13 +1,10 @@
 {
+  // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    // "checkJs": true,
     "types": [
-      "unplugin-vue2-script-setup/types"
-    ],
-  },
-  "vueCompilerOptions": {
-    "experimentalCompatMode": 2
-  },
+      // ...
+      "@pinia/nuxt"
+    ]
+  }
 }

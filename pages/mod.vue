@@ -3,7 +3,7 @@
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
             <!-- TODO: make our own buttons -->
-            <nuxt-link v-if="canEdit" :to="`/mod/${this.mod.id}/edit`">
+            <nuxt-link v-if="canEdit" :to="`/mod/${mod.id}/edit`">
                 <a-button icon="cog">{{$t('edit_mod')}}</a-button>
             </nuxt-link>
         </flex>
@@ -40,7 +40,7 @@
                                     <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
                                 </a-button>
                             </form>
-                            <a-button v-else-if="mod.files.length > 0" href="#downloads" class="download-button" icon="download">Downloads</a-button>
+                            <a-button v-else-if="mod.files && mod.files.length > 0" href="#downloads" class="download-button" icon="download">Downloads</a-button>
                             <a-button v-else class="download-button" disabled>No Files</a-button>
                         </flex>
                     </flex>
@@ -55,49 +55,22 @@
     </page-block>
 </template>
 
-<script>
-    import { mapState, mapStores } from 'pinia';
-    import { timeAgo, friendlySize } from '../utils/helpers';
+<script setup>
     import { parseMarkdown } from '../utils/md-parser';
+    import { friendlySize, timeAgo } from '../utils/helpers';
     import { useStore } from '../store';
 
-    //TODO: implement pipe split for mod status and whatnot
-    export default {
-        data: () => ({
-            mod: {}
-        }),
-        methods: {
-            parseMarkdown,
-            friendlySize
-        },
-        computed: {
-            canEdit() {
-                return this.mod.submitter_id === this.user.id || this.mainStore.hasPermission('admin');
-            },
-            publishDateAgo() {
-                return timeAgo(this.mod.publish_date);
-            },
-            updateDateAgo() {
-                return timeAgo(this.mod.updated_at);
-            },
-            modStatus() {
-                return null;
-            },
-            canLike() {
-                //Guests can't actually like the mod, it's just a redirect.
-                return !this.user || this.user.id !== this.mod.submitter_id;
-            },
-            ...mapStores(useStore),
-            ...mapState(useStore, [
-                'user'
-            ])
-        },
-        async asyncData({params, $ftch}) {
-            if (params.id) {
-                return { mod: await $ftch.get(`mods/${params.id}`) };
-            }
-        }
-    };
+    const store = useStore();
+    const route = useRoute();
+
+    const { data: mod } = await useAPIFetch(`mods/${route.params.id}/`);
+
+    const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
+    const updateDateAgo = computed(() => timeAgo(mod.value.updated_at));
+    const modStatus = computed(() => '');
+    //Guests can't actually like the mod, it's just a redirect.
+    const canLike = computed(() => !store.user || store.user.id !== mod.value.submitter_id);
+    const canEdit = computed(() => (store.user && mod.value.submitter_id == store.user.id) || store.hasPermission('admin'));
 </script>
 
 <style>

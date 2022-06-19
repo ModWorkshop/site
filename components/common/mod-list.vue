@@ -1,6 +1,6 @@
 <template>
     <flex column gap="3">
-        <content-block :column="false">
+        <!-- <content-block :column="false">
             <group label="Search" class="flex-grow">
                 <el-input type="text" v-model="query"/>
             </group>
@@ -24,10 +24,10 @@
                     <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
                 </el-select>
             </group>
-                <a-button color="none" icon="ellipsis-v"/>
-        </content-block>
+            <a-button color="none" icon="ellipsis-v"/>
+        </content-block> -->
         <flex gap="3" style="justify-content: end;">
-            <el-select value="1">
+            <!-- <el-select value="1">
                 <el-option label="Last Updated" value="1"/>
                 <el-option label="Popularity" value="2"/>
                 <el-option label="Likes" value="3"/>
@@ -35,7 +35,7 @@
                 <el-option label="Views" value="5"/>
                 <el-option label="Name" value="6"/>
                 <el-option label="Publish Date" value="7"/>
-            </el-select>
+            </el-select> -->
             <flex gap="1">
                 <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
                 <a-button icon="list"/>
@@ -43,7 +43,20 @@
             </flex>
         </flex>
 
-        <flex column>
+        <flex column gap="3">
+            <flex gap="1">
+                <template v-if="pages > 5">
+                    <a-button v-if="page > 3" @click="setPage(1, true)">1</a-button>
+                    <a-button disabled v-if="pageNumbers[0] > 2">...</a-button>
+                </template>
+                <a-button :disabled="page == n" @click="setPage(n, true)" v-for="n in pageNumbers">
+                    {{n}}
+                </a-button>
+                <template v-if="pages > 5">
+                    <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
+                    <a-button v-if="pages - page > 2" @click="setPage(pages, true)">{{pages}}</a-button>
+                </template>
+            </flex>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex wrap column gap="3" class="mods justify-content-start">
                 <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
@@ -61,18 +74,18 @@
                     </template>
                 </div>
                 <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'}`">
-                    <a-mod v-for="mod in mods" :key="mod.id" :mod="mod"/>
+                    <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod"/>
                 </div>
                 <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
                 <span v-else-if="mods.length == 0" class="text-center">
                     No mods found
                 </span>
+
             </flex>
         </flex>
     </flex>
 </template>
 <script setup>
-    import { useFetch, watch, ref, useContext, computed } from '@nuxtjs/composition-api';
     import { useStore } from '../../store';
 
     const props = defineProps({
@@ -86,15 +99,34 @@
     const page = ref(1);
     const isList = ref(false);
     const justDate = ref(false);
-    const hasMore = ref(false);
     const selectedTags = ref([]);
     const selectedBlockTags = ref([]);
     const tags = computed(() => store.tags);
-    const { $ftch } = useContext();
-    const mods = ref([]);
-    useFetch(async () => {
-        await loadMods();
-        await store.fetchTags();
+
+    const { data: fetchedMods, refresh } = await useAsyncData('get-mods', () => useAPI('mods', { 
+        params: { 
+            page: page.value,
+            query: query.value,
+            submitter_id: props.userId,
+            tags: selectedTags.value,
+            block_tags: selectedBlockTags.value,
+        }
+    }));
+
+    const savedMods = ref([]);
+    const pages = computed(() => parseInt(fetchedMods.value.meta.total / 40 || 0));
+    const pageNumbers = computed(() => {
+        if (page.value < 4) {
+            return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
+        } else if (pages.value - page.value > 2) {
+            return [...Array(5).keys()].map(x => x + page.value-2);
+        } else {
+            return [...Array(5).keys()].map(x => pages.value - 4 + x);
+        }
+    });
+    const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
+    const currentMods = computed(() => {
+        return [...savedMods.value, ...fetchedMods.value.data]
     });
 
     let lastTimeout = null;
@@ -103,40 +135,19 @@
             clearTimeout(lastTimeout);
             lastTimeout = null;
         }
-        lastTimeout = setTimeout(loadMods, 250);
+        lastTimeout = setTimeout(refresh, 250);
     });
 
     function incrementPage() {
         setPage(page.value++, false);
     }
 
-    function setPage(page, reload) {
-        page.value = page;
-        loadMods(reload);
-    }
-
-    async function getMods() {
-        const paginator = await $ftch.get('mods', { 
-            params: { 
-                page: page.value,
-                query: query.value,
-                submitter_id: props.userId,
-                tags: selectedTags.value,
-                block_tags: selectedBlockTags.value,
-            }
-        });
-
-        hasMore.value = parseInt(paginator.meta.total / 40) > 0;
-
-        return paginator.data;
-    }
-
-    async function loadMods(reload=true) {
-        const retMods = await getMods();
+    function setPage(newPage, reload) {
+        page.value = newPage;
         if (reload) {
-            mods.value = retMods;
-        } else {
-            mods.value = [...mods.value, ...retMods];
+            savedMods.value = [];
         }
+        savedMods.value = currentMods.value;
+        refresh();
     }
 </script>

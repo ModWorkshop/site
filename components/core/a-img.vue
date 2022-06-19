@@ -3,9 +3,7 @@
 </template>
 
 <script setup>
-import { computed } from '@nuxtjs/composition-api';
-
-const props = defineProps({
+const { src } = defineProps({
     src: {
         default: '',
         type: String,
@@ -16,9 +14,7 @@ const props = defineProps({
 });
 
 const compSrc = computed(function() {
-    const src = props.src;
     //This sucks lol
-    console.log(src);
     if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
         return src;
     } else {

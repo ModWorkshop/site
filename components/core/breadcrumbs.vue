@@ -9,12 +9,10 @@
 </template>
 
 <script setup>
-import { computed } from '@nuxtjs/composition-api';
-
 const props = defineProps({
     items: Array
 });
-const crumbs = computed(() => props.items.slice().reverse());
+const crumbs = computed(() => props.items?.slice().reverse());
 </script>
 
 <style scoped>

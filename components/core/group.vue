@@ -2,7 +2,7 @@
     <flex class="form-group" column grow gap="2">
         <flex column class="label-area">
             <label v-if="label">{{label}}</label>
-            <flex v-else-if="labels">
+            <flex v-else-if="labels" gap="2">
                 <label v-for="lbl in labels" :key="lbl">{{lbl}}</label>
             </flex>
             <small v-if="desc">
@@ -11,7 +11,7 @@
             <slot name="label-area"/>
 
         </flex>
-        <flex :column="column" :gap="gap">
+        <flex :column="column" gap="1">
             <slot/>
         </flex>
         <small v-if="error">
@@ -21,8 +21,6 @@
 </template>
 
 <script setup>
-import { ref, watch, inject } from '@nuxtjs/composition-api';
-
 const props = defineProps({
     column: Boolean,
     gap: [Number, String],

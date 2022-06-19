@@ -1,6 +1,5 @@
 <template>
     <span>
-        <span v-if="mod.is_nsfw">🔞</span>
         <i v-if="mod.suspended_status == 1 || mod.file_status == 0" :class="`ri-spam-fill text-${mod.suspended_status == 1 ? 'danger' : 'warning'}`" :title="statusText"></i>
         <i v-else-if="mod.file_status == 2" class="ri-time-fill text-secondary" :title="statusText"></i>
         <i v-else-if="mod.hidden != 0 || mod.file_status == 0" class="ri-eye-off-fill text-secondary" :title="statusText"></i>

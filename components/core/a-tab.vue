@@ -12,22 +12,17 @@
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            name: String,
-            title: String,
-        },
-        computed: {
-            show() {
-                return this.name == this.tabState.current;
-            },
-            shouldExist() {
-                return this.type == 'route' ? this.show : true;
-            }
-        },
-        inject: ['tabState', 'type']
-    };
+<script setup>
+const { name } = defineProps({
+    name: String,
+    title: String
+});
+
+const tabState = inject('tabState');
+const type = inject('type');
+
+const show = computed(() => name == tabState.current);
+const shouldExist = computed(() => type == 'route' ? show : true);
 </script>
 
 <style scoped>

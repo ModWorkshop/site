@@ -3,50 +3,47 @@
         <NuxtLink to="/">
             <img :src="logo" width="38"/>
         </NuxtLink>
-        <div class="ml-3 header-items">
+        <flex gap="2" class="ml-3">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
-            <NuxtLink to="/theme-test">Theme Test</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
             <a href="https://discord.gg/Eear4JW">Discord</a>
             <NuxtLink to="/support">Support Us</NuxtLink>
-            <el-dropdown trigger="click">
+            <a-dropdown>
                 <a href="#">More</a>
-                <el-dropdown-menu>
-                    <el-dropdown-item>Rules</el-dropdown-item>
-                    <el-dropdown-item>About Us</el-dropdown-item>
-                    <el-dropdown-item>Steam Group</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-        </div>
+                <template #items>
+                    <a-dropdown-item>Rules</a-dropdown-item>
+                    <a-dropdown-item>About Us</a-dropdown-item>
+                    <a-dropdown-item>Steam Group</a-dropdown-item>
+                </template>
+            </a-dropdown>
+        </flex>
         <div class="user-items">
-            <div v-if="user">
-                <el-dropdown trigger="click">
-                    <a class="user cursor-pointer">
-                        <a-avatar :src="user.avatar"/>
-                        <span>{{user.name}}</span>
-                    </a>
-                    <el-dropdown-menu>
-                        <dropdown-item :to="`/user/${user.id}`">Profile</dropdown-item>
-                        <dropdown-item>Liked Mods</dropdown-item>
-                        <dropdown-item>Followed Mods</dropdown-item>
+            <flex v-if="user" gap="1">
+                <a-avatar :src="user.avatar"/>
+                <a class="user cursor-pointer">
+                    <span>{{user.name}}</span>
+                </a>
+                <a-dropdown trigger="click">
+                    <template #items>
+                        <a-dropdown-item :to="`/user/${user.id}`">Profile</a-dropdown-item>
+                        <a-dropdown-item>Liked Mods</a-dropdown-item>
+                        <a-dropdown-item>Followed Mods</a-dropdown-item>
                         <div class="dropdown-splitter"/>
-                        <dropdown-item to="/user-settings">User Settings</dropdown-item>
-                        <dropdown-item>ModCP</dropdown-item>
-                        <dropdown-item @click="logout">Log Out</dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </div>
-            <div v-else>
+                        <a-dropdown-item to="/user-settings">User Settings</a-dropdown-item>
+                        <a-dropdown-item>ModCP</a-dropdown-item>
+                        <a-dropdown-item @click="logout">Log Out</a-dropdown-item>
+                    </template>
+                </a-dropdown>
+            </flex>
+            <flex gap="2" v-else>
                 <NuxtLink to="/login">Login</NuxtLink>
                 <NuxtLink to="/register">Register</NuxtLink>
-            </div>
+            </flex>
         </div>
     </header>
 </template>
 <script setup>
 import { useStore } from '../../store';
-import { computed } from '@nuxtjs/composition-api';
-
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();

@@ -14,23 +14,20 @@
 </template>
 
 <script setup>
-    import { ref, computed, watch } from '@nuxtjs/composition-api';
-
-    const props = defineProps({
-        modData: Object
+    const { mod } = defineProps({
+        mod: Object
     });
     
-    const mod = computed(() => props.modData);
-    const uploadLink = computed(() => mod.value !== null ? `mods/${mod.value.id}/images`: '');
+    const uploadLink = computed(() => mod ? `mods/${mod.id}/images`: '');
     const fileList = ref([]);
 
     function setThumbnail(file) {
-        mod.value.thumbnail_id = file.id;
+        mod.thumbnail_id = file.id;
     }
 
-    watch(() => mod.value.images, function() {
+    watch(() => mod.images, function() {
         fileList.value = [];
-        mod.value.images.forEach(image => {
+        mod.images.forEach(image => {
             fileList.value.push({
                 id: image.id,
                 name: image.file,

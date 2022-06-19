@@ -8,15 +8,12 @@
         So we should pluck them from the mod we get from the API and save them elsewhere.
     -->
     <form @submit.prevent="submit">
-        <!-- Dunno why SSR really dislikes me doing the deep check, anyway this shouldn't be relevant for SSR. Though check in Nuxt3 if it's fixed. -->
-        <client-only v-if="floatSaveGui">
-            <transition name="fade">
-                <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
-                    <small>{{currentSaveText}}</small>
-                    <a-button type="submit">{{currentSaveButtonText}}</a-button>
-                </div>
-            </transition>
-        </client-only>
+        <transition name="fade" v-if="floatSaveGui">
+            <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
+                <small>{{currentSaveText}}</small>
+                <a-button type="submit">{{currentSaveButtonText}}</a-button>
+            </div>
+        </transition>
         <slot/>
     </form>
 </template>
@@ -24,7 +21,7 @@
 <script setup>
     import clone from 'rfdc/default';
     import { deepEqual } from 'fast-equals';
-    import { computed, ref, watch, provide } from '@nuxtjs/composition-api';
+    const { $t } = useNuxtApp();
 
     let props = defineProps({
         floatSaveGui: Boolean,
@@ -56,9 +53,7 @@
         return props.saveButtonText || (props.created ? 'save' : 'upload');
     });
 
-    const currentSaveText = computed(function() {
-        return this.$t('unsaved_changes');
-    });
+    const currentSaveText = computed(() => $t('unsaved_changes'));
 
     function submit() {
         this.$emit('submit');

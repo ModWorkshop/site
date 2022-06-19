@@ -41,15 +41,10 @@
 </template>
 
 <script setup>
-    import { Notification } from 'element-ui';
-    import { ref, useContext } from '@nuxtjs/composition-api';
-
     const props = defineProps({
         url: String,
         canEditAll: Boolean
     });
-
-    const { $axios } = useContext();
 
     const isLoaded = ref(false);
     const comments = ref({ data: [] });
@@ -81,7 +76,7 @@
             setCommentDialog(false);
         } catch (error) {
             commentContent.value = content; //We failed, let's not eat the user's draft
-            Notification.error('Failed to post the comment');
+            // Notification.error('Failed to post the comment');
             console.log(error);
         }                
     }
@@ -95,7 +90,7 @@
             setCommentDialog(false);
         } catch (error) {
             commentContent.value = content; //We failed, let's not eat the user's draft
-            Notification.error('Failed to edit the comment');
+            // Notification.error('Failed to edit the comment');
             console.log(error);
         }
     }
@@ -109,7 +104,7 @@
     }
 
     async function loadComments() {
-        const { data } = await $axios.get(props.url);
+        const data = await useAPI(props.url);
         comments.value = data;
         isLoaded.value = true;
     }

@@ -7,7 +7,7 @@
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </nuxt-link>
-    <button v-else :disabled="disabled" :class="clss" @click="$emit('click', $event)" :type="type"> 
+    <button v-else :disabled="disabled" :class="clss" :type="type"> 
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </button>
@@ -53,6 +53,11 @@
     .button-primary {
         background-color: var(--primary-color);
     }
+
+    .button-secondary {
+        background-color: var(--secondary-color);
+    }
+
 
     .button-large {
         font-size: 1rem;

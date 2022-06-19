@@ -1,0 +1,8 @@
+.va-dropdown {
+    width: 100%;
+}
+
+:root {
+    --va-input-color: var(--input-bg-color) !important;
+    --va-input-text-color: var(--text-color) !important;
+}

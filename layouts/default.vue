@@ -1,14 +1,14 @@
 <template>
-    <div class="layout">
+    <div class="_layout">
         <the-header>Header</the-header>
         <main>
-            <Nuxt/>
+            <slot/>
         </main>
         <the-footer>Footer</the-footer>
     </div>
 </template>
 <style scoped>
-    .layout {
+    ._layout {
         min-height: 100vh;
         display: grid;
         grid-template-columns: 1fr;

@@ -87,12 +87,9 @@ export default {
 </script>
 
 <script setup>
-import { useFetch, useRoute, ref, computed, useContext } from '@nuxtjs/composition-api';
-import { Notification } from 'element-ui';
 import clone from 'rfdc/default';
 
 const store = useStore();
-const { $ftch } = useContext();
 
 const user = ref({
     name: '',
@@ -164,7 +161,7 @@ async function save() {
         user.value = nextUser;
     } catch (error) {
         console.log(error);
-        Notification.error('Failed saving user settings');
+        // Notification.error('Failed saving user settings');
     }
 }
 </script>

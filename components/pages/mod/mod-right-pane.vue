@@ -4,15 +4,15 @@
             <mod-thumbnail :mod="mod"/>
         </div>
         <div class="p-2" style="font-size: 20px">
-            <div class="p-1 inline-block">
+            <div class="p-1 inline-flex gap-1">
                 <font-awesome-icon icon="heart"/>
                 <span id="likes">{{likes}}</span>
             </div>
-            <div class="p-1 inline-block">
+            <div class="p-1 inline-flex gap-1">
                 <font-awesome-icon icon="download"/>
                 <span>{{downloads}}</span>
             </div>
-            <div class="p-1 inline-block">
+            <div class="p-1 inline-flex gap-1">
                 <font-awesome-icon icon="eye"/>
                 <span>{{views}}</span>
             </div>
@@ -28,8 +28,6 @@
 </template>
 
 <script setup>
-    import { computed } from '@nuxtjs/composition-api';
-
     defineProps({
         mod: Object
     });
@@ -38,7 +36,3 @@
     const downloads = computed(() => 0);
     const views = computed(() => 0);
 </script>
-
-<style lang="scss" scoped>
-
-</style>

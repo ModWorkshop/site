@@ -9,8 +9,6 @@
     </div>
 </template>
 <script setup>
-import { computed, ref } from '@nuxtjs/composition-api';
-
 const props = defineProps([
     'id',
     'src',

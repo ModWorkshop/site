@@ -31,17 +31,17 @@
                     <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
                         <font-awesome-icon :icon="comment.subbed ? 'slash' : 'bell'"/>
                     </a>
-                    <el-dropdown trigger="click" placement="bottom" @visible-change="setActionsVisible">
+                    <a-dropdown trigger="click" placement="bottom" @visible-change="setActionsVisible">
                         <a class="cursor-pointer text-body">
                             <font-awesome-icon icon="ellipsis-h"/>
                         </a>
-                        <el-dropdown-menu>
-                            <dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</dropdown-item>
-                            <dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</dropdown-item>
-                            <dropdown-item v-if="canEdit" @click="openDeleteModal">{{$t('delete')}}</dropdown-item>
-                            <dropdown-item>{{$t('report')}}</dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
+                        <template #items>
+                            <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
+                            <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
+                            <a-dropdown-item v-if="canEdit" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
+                            <a-dropdown-item>{{$t('report')}}</a-dropdown-item>
+                        </template>
+                    </a-dropdown>
                 </flex>
             </div>
         </flex>
@@ -67,9 +67,7 @@
 
 <script setup>
 import { timeAgo } from '../../utils/helpers';
-import { MessageBox } from 'element-ui';
 import { useStore } from '../../store';
-import { computed, ref, onMounted } from '@nuxtjs/composition-api';
 
 const props = defineProps({
     data: Object,
@@ -120,11 +118,11 @@ function deleteComment(commentId, isReply) {
 }
 
 function openDeleteModal() {
-    MessageBox.confirm('This will delete the comment', 'Warning', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-    }).then(() => this.$emit('delete', comment.value.id, props.isReply));
+    // MessageBox.confirm('This will delete the comment', 'Warning', {
+    //     confirmButtonText: 'OK',
+    //     cancelButtonText: 'Cancel',
+    //     type: 'warning'
+    // }).then(() => this.$emit('delete', comment.value.id, props.isReply));
     //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
 }
 </script>

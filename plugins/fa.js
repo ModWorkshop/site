@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { library, config } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -12,5 +11,7 @@ config.autoAddCss = false;
 library.add(fas);
 library.add(fab);
 
-// Register the component globally
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+export default defineNuxtPlugin(nuxtApp => {
+    // Register the component globally
+    nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon)
+});

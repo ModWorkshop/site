@@ -25,10 +25,8 @@
 
 <script setup>
     import { useStore } from "~~/store";
-    import { ref, watch, useFetch, useContext } from '@nuxtjs/composition-api';
 
     const isNew = ref(true);
-    const { $ftch, params } = useContext();
     const store = useStore();
 
     const category = ref({

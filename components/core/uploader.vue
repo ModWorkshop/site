@@ -57,8 +57,6 @@
 
 <script setup>
     import { friendlySize, fullDate } from '../../utils/helpers';
-    import { Notification } from 'element-ui';
-    import { useContext, computed } from '@nuxtjs/composition-api';
 
     const props = defineProps({
         list: Boolean,
@@ -67,8 +65,6 @@
         name: { required: true,  type: String },
         files: { required: true, type: Array }
     });
-
-    const { $axios } = useContext();
 
     const computedFiles = computed(() => props.files);
 
@@ -115,10 +111,10 @@
             } catch (error) {
                 console.log(error);
                 if (!$axios.isCancel(error)) {
-                    Notification.error({
-                        title: 'Error',
-                        message: 'File failed to upload: ' + error.message
-                    });
+                    // Notification.error({
+                    //     title: 'Error',
+                    //     message: 'File failed to upload: ' + error.message
+                    // });
                 }
                 removeFile.call(this, insertFile);
             }

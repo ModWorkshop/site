@@ -1,7 +1,7 @@
 <template>
-    <tab :name="name" :title="title" class="flex flex-col gap-3">
+    <a-tab :name="name" :title="title" class="flex flex-col gap-3">
         <slot/>
-    </tab>
+    </a-tab>
 </template>
 
 <script setup>

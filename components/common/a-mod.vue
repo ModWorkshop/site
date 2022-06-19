@@ -10,13 +10,11 @@
             </nuxt-link>
 
             <div>
-                <font-awesome-icon icon="user"/>
-                <a-user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <font-awesome-icon icon="user"/> <a-user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories && (mod.game || mod.category)">
-                <font-awesome-icon icon="map-marker-alt"/>
-                <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
+                <font-awesome-icon icon="map-marker-alt"/> <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
                 <template v-if="mod.category && mod.game_id != mod.category_id">
                     <span class="text-secondary"> / </span>
                     <nuxt-link class="text-secondary" :to="`/category/${mod.category_id}`" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
@@ -25,22 +23,18 @@
 
             <flex gap="1">
                 <div class="inline-block">
-                    <font-awesome-icon icon="heart"/>
-                    <span id="likes">{{likes}}</span>
+                    <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
                 </div>
                 <div class="inline-block">
-                    <font-awesome-icon icon="download"/>
-                    <span>{{downloads}}</span>
+                    <font-awesome-icon icon="download"/> <span>{{downloads}}</span>
                 </div>
                 <div class="inline-block">
-                    <font-awesome-icon icon="eye"/>
-                    <span>{{views}}</span>
+                    <font-awesome-icon icon="eye"/> <span>{{views}}</span>
                 </div>
     
                 <span class="inline-block ml-auto">
                     <span :title="date">
-                        <font-awesome-icon icon="clock"/>
-                        {{timeAgo}}
+                        <font-awesome-icon icon="clock"/> {{timeAgo}}
                     </span>
                 </span>
             </flex>

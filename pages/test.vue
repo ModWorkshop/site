@@ -1,14 +1,9 @@
 <template>
     <div>
-        dasdas!
+        a
+        <nuxt-link href="test2">test</nuxt-link>
     </div>
 </template>
-
-<script>
-    export default {
-        layout: 'none'
-    };
-</script>
 
 <script setup>
 </script>

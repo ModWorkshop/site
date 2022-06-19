@@ -7,33 +7,33 @@
         </flex>
         <a-form @submit="save" :model="mod" :rules="rules"
                 :created="!isNew" :save-text="saveText" 
-                :can-save="this.isNew" float-save-gui>
+                :can-save="isNew" float-save-gui>
             <content-block class="p-8">
-                <tabs padding="4" side>
-                    <tab name="main" title="Main">
-                        <edit-mod-main :modData="mod"/>
-                    </tab>
-                    <tab name="files" title="Files & Updates">
-                        <edit-mod-files :modData="mod"/>
-                    </tab>
-                    <tab name="images" title="Images">
-                        <edit-mod-images :modData="mod"/>
-                    </tab>
-                    <tab name="contributors" title="Contributors">
+                <a-tabs padding="4" side>
+                    <a-tab name="main" title="Main">
+                        <edit-mod-main :mod="mod"/>
+                    </a-tab>
+                    <a-tab name="files" title="Files & Updates">
+                        <edit-mod-files :mod="mod"/>
+                    </a-tab>
+                    <a-tab name="images" title="Images">
+                        <edit-mod-images :mod="mod"/>
+                    </a-tab>
+                    <a-tab name="contributors" title="Contributors">
 
-                    </tab>
-                    <tab name="instructions" title="Instructions">
+                    </a-tab>
+                    <a-tab name="instructions" title="Instructions">
 
-                    </tab>
-                </tabs>
+                    </a-tab>
+                </a-tabs>
             </content-block>
         </a-form>
     </page-block>
 </template>
 
-<script>
+<script setup>
     import clone from 'rfdc/default';
-    import { useStore } from '../store';
+    const route = useRoute();
 
     let modTemplate = {
         name: '',
@@ -51,54 +51,32 @@
         visibility: 1
     };
 
-    export default {
-        data: () => ({
-            mod: clone(modTemplate),
-            isNew: true,
-            rules: {
-                name: {min: 3}
-            }
-        }),
-        computed: {
-            saveText() {
-                return this.isNew ? 'Your mod is not uploaded yet' : 'You have unsaved changes';
-            },
-        },
-        methods: {
-            async save() {
-                try {
-                    if (this.isNew) {
-                        this.mod = await this.$ftch.post('mods', this.mod);
-                        this.isNew = false;
-                    } else {
-                        this.mod = await this.$ftch.patch(`mods/${this.mod.id}`, this.mod);
-                    }
-                } catch (error) {
-                    console.error(error);
-                    return;
-                }
-            }
-        },
-        async asyncData({ $ftch, $pinia, params, error }) {
-            const store = useStore($pinia);
-            if (params.id) {
-                const mod = await $ftch.get(`mods/${params.id}`);
+    // const store = useStore();
+    const mod = ref(clone(modTemplate));
+    const isNew = ref(!route.params.id);
 
-                mod.tag_ids = mod.tags.map(tag => tag.id);
+    if (route.params.id) {
+        const { data: fetchedMod } = await useAPIFetch(`mods/${route.params.id}/`);
+        mod.value = fetchedMod.value;
+        // mod.tag_ids = mod.tags.map(tag => tag.id);
+    }
 
-                const modCopy = clone(mod);
-
-                if (mod.submitter_id !== store.user.id && !store.hasPermission('admin')) {
-                    error({
-                        statusCode: 401,
-                        message: "You don't have the right permissions to edit this mod!"
-                    });
-                }
-    
-                return { mod, modCopy, isNew: false };
-            } else {
-                return { mod: clone(modTemplate) };
-            }
-        }
+    const rules = {
+        name: {min: 3}
     };
+    const saveText = computed(() => isNew.value ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
+
+    async function save() {
+        try {
+            if (isNew.value) {
+                mod.value = await this.$ftch.post('mods', mod.value);
+                isNew.value = false;
+            } else {
+                mod.value = await this.$ftch.patch(`mods/${mod.value.id}`, mod.value);
+            }
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+    }
 </script>

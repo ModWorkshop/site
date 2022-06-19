@@ -41,6 +41,17 @@ body {
     --button-text-color: #fff;
     --tab-selected-color: #363d44;
     --border-radius: 4px;
+
+    --vs-controls-color: #afafaf !important;
+    --vs-border-color: #afafaf !important;
+    --vs-dropdown-bg: #282c34 !important;
+    --vs-dropdown-color: #cc99cd !important;
+    --vs-dropdown-option-color: #cc99cd !important;
+    --vs-selected-bg: #664cc3 !important;
+    --vs-selected-color: #eeeeee !important;
+    --vs-search-input-color: #eeeeee !important;
+    --vs-dropdown-option--active-bg: #664cc3 !important;
+    --vs-dropdown-option--active-color: #eeeeee !important;  
 }
 
 html.light-mode {
@@ -70,6 +81,13 @@ table {
 img, svg, video, canvas, audio, iframe, embed, object {
     display: block;
     vertical-align: middle;
+}
+
+.svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
 }
 
 a {
@@ -144,4 +162,12 @@ p {
 
 .alt-bg-color {
     background-color: var(--alt-bg-color);
+}
+
+.v-select {
+    width: 100%;
+}
+
+.flexbox {
+    display: flex;
 }

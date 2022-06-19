@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useStore = defineStore('main', {
     state: () => ({
+        csrf: '',
         user: false,
         games: [],
         tags: [],
@@ -10,7 +11,7 @@ export const useStore = defineStore('main', {
     getters: {
         hasPermission(state) {
             const permissions = state.user && state.user.permissions;
-            if (permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
+            if (!permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
                 return () => false;
             } else {
                 return perm => permissions[perm] === true;
@@ -23,21 +24,20 @@ export const useStore = defineStore('main', {
          */
         async fetchTags() {
             if (this.tags.length === 0) {
-                const { $ftch } = this.$nuxt;
-                this.tags = await $ftch.get('/tags');
+                this.tags = await useAPI('/tags');
             }
         },
         async fetchGames() {
             if (this.games.length === 0) {
-                const { $ftch } = this.$nuxt;
-                this.games = await $ftch.get('/games');
+                this.games = await useAPI('/games');
             }
         },
         async nuxtServerInit() {
             try {
-                const { $ftch } = this.$nuxt;
-                this.user = await $ftch.get('/user');
+                this.user = await useAPI('/user');
             } catch (error) {
+                console.log("ERR");
+                console.log(error.req);
                 console.error(error.message);
             }
         },

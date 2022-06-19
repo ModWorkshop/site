@@ -16,15 +16,7 @@
 </template>
 
 <script setup>
-    import { useAsync, useContext } from '@nuxtjs/composition-api';
-
-    const { $axios } = useContext();
-
-    const roles = useAsync(async () => {
-        const res = await $axios.get('/roles').then(res => res.data);
-
-        return res.data;        
-    });
+const roles = useAPIFetch('/roles');
 </script>
 
 <style scoped>
