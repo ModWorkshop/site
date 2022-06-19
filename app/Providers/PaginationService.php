@@ -24,12 +24,12 @@ class PaginationService extends ServiceProvider
      */
     public function boot()
     {
-        Builder::macro('getPaginate', function($items, ...$args) {
+        Builder::macro('getPaginate', function($page = 1, $perPage = null, $columns = ['*']) {
             /**
              * @var Builder $this
             */
         
-            $result = $this->paginate($items, ...$args);
+            $result = $this->paginate($perPage, $columns, null, $page);
 
             return [
                 'per_page' => $result->perPage(),

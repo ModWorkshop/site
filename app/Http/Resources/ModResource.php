@@ -35,6 +35,7 @@ class ModResource extends JsonResource
                     return $this->files->find($this->download_id);
                 }
             }),
+            'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'download_type' => downloadTypeSimple[$this->download_type] ?? null,
         ]);
     }

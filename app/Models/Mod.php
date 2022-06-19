@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-
 abstract class Visibility {
     const pub = 1;
     const hidden = 2;
@@ -118,7 +117,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'thumbnail'];
     protected $appends = ['breadcrumb'];
     protected $hidden = ['download_type'];
 
@@ -140,6 +139,11 @@ class Mod extends Model
     public function game() : HasOne
     {
         return $this->hasOne(Category::class, "id", 'game_id');
+    }
+    
+    public function thumbnail() : HasOne
+    {
+        return $this->hasOne(Image::class, 'id', 'thumbnail_id');
     }
 
     public function tags() : BelongsToMany

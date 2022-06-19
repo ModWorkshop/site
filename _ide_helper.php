@@ -17624,13 +17624,14 @@ namespace  {
              * 
              *
              * @see \App\Providers\PaginationService::boot()
-             * @param mixed $items
-             * @param mixed $args
+             * @param mixed $page
+             * @param mixed $perPage
+             * @param mixed $columns
              * @static 
              */ 
-            public static function getPaginate($items, ...$args)
+            public static function getPaginate($page, $perPage, $columns)
             {
-                                return \Illuminate\Database\Eloquent\Builder::getPaginate($items, ...$args);
+                                return \Illuminate\Database\Eloquent\Builder::getPaginate($page, $perPage, $columns);
             }
              
                 /**

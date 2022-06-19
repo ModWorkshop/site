@@ -10,6 +10,8 @@ use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Log;
+use Str;
 
 class ModController extends Controller
 {
@@ -30,29 +32,41 @@ class ModController extends Controller
         // Query parameters
         $val = $request->validate([
             // How many mods should this return. 
+            'query' => 'string',
+            'page' => 'integer|min:1',
             'limit' => 'integer|min:1|max:50',
             'tags' => 'array',
             'tags.*' => 'integer|min:1',
-            'notInTags' => 'array',
+            'block_tags' => 'array',
             // Filter out mods that are in these tags
-            'notInTags.*' => 'integer|min:1'
+            'block_tags.*' => 'integer|min:1',
+            'submitter_id' => 'integer|min:1'
         ]);
         
-        $query = Mod::limit($val['limit'] ?? 40)->list()->with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
-        
+        /**
+         * @var Builder
+         */
+        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
+
         if (isset($val['tags'])) {
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                $q->limit(1)->whereIn('tags.id', $val['tags']);
+                $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
             });
         }
         
-        if (isset($val['notInTags'])) {
-            $query->whereDoesntHaveIn('tags', function(Builder $q) use ($val) {
-                $q->limit(1)->whereIn('tags.id', $val['notInTags']);
+        if (isset($val['block_tags'])) { //Broken for some reason
+            $query->whereHasIn('tags', function(Builder $q) use ($val) {
+                $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
             });
         }
+   
+        if (isset($val['query']) && !empty($val['query'])) {
+            $query->whereRaw("name % ?", [$val['query']]);
+        }
 
-        return $query->get();
+        $mods = $query->paginate(page: $val['page'] ?? 1, perPage: $val['limit'] ?? 40);
+
+        return ModResource::collection($mods);
     }
 
     /**
@@ -111,6 +125,7 @@ class ModController extends Controller
             'visibility' => 'integer|min:1|max:4',
             'game_id' => 'integer|min:1|exists:categories,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
+            'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
             'download_id' => 'integer|min:1|nullable',

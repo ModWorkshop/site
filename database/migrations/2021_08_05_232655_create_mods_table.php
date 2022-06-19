@@ -62,6 +62,7 @@ class CreateModsTable extends Migration
                 'bump_date', 
                 'publish_date'
             ]);
+            $table->index('name');
             $table->index('score');
             $table->index('views');
             $table->index('downloads');
