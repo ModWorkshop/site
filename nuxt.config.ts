@@ -73,9 +73,13 @@ export default defineNuxtConfig({
 		}
 	},
 
+	intlify: {
+		localeDir: 'locales'
+	},
+
 	modules: [
 		'@pinia/nuxt',
 		'nuxt-windicss',
-		'@vuestic/nuxt'
+		'@vuestic/nuxt',
 	],
 })
