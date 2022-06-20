@@ -45,7 +45,7 @@
         return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
     });
 
-    defineEmits(['submit']);
+    const emit = defineEmits(['submit']);
     provide('rules', props.rules);
     provide('model', props.model);
 
@@ -54,8 +54,7 @@
     });
 
     const currentSaveText = computed(() => $t('unsaved_changes'));
-
     function submit() {
-        this.$emit('submit');
+        emit('submit');
     }
 </script>

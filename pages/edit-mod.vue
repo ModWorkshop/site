@@ -34,6 +34,7 @@
 <script setup>
     import clone from 'rfdc/default';
     const route = useRoute();
+    const { $ftch } = useNuxtApp();
 
     let modTemplate = {
         name: '',
@@ -65,14 +66,13 @@
         name: {min: 3}
     };
     const saveText = computed(() => isNew.value ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
-
     async function save() {
         try {
             if (isNew.value) {
-                mod.value = await this.$ftch.post('mods', mod.value);
+                mod.value = await $ftch('mods', { method: 'POST', body: mod.value });
                 isNew.value = false;
             } else {
-                mod.value = await this.$ftch.patch(`mods/${mod.value.id}`, mod.value);
+                mod.value = await $ftch(`mods/${mod.value.id}`, { method: 'PATCH', body: mod.value });
             }
         } catch (error) {
             console.error(error);
