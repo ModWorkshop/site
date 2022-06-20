@@ -17,24 +17,24 @@
                 </template>
             </a-dropdown>
         </flex>
-        <div class="user-items">
-            <flex v-if="user" gap="1">
-                <a-avatar :src="user.avatar"/>
-                <a class="user cursor-pointer">
-                    <span>{{user.name}}</span>
-                </a>
-                <a-dropdown trigger="click">
-                    <template #items>
-                        <a-dropdown-item :to="`/user/${user.id}`">Profile</a-dropdown-item>
-                        <a-dropdown-item>Liked Mods</a-dropdown-item>
-                        <a-dropdown-item>Followed Mods</a-dropdown-item>
-                        <div class="dropdown-splitter"/>
-                        <a-dropdown-item to="/user-settings">User Settings</a-dropdown-item>
-                        <a-dropdown-item>ModCP</a-dropdown-item>
-                        <a-dropdown-item @click="logout">Log Out</a-dropdown-item>
-                    </template>
-                </a-dropdown>
-            </flex>
+        <div class="user-items mr-3"> 
+            <Popper v-if="user" arrow>
+                <flex gap="1">
+                    <a-avatar class="cursor-pointer" :src="user.avatar"/>
+                    <a class="user cursor-pointer">
+                        <span>{{user.name}}</span>
+                    </a>
+                </flex>
+                <template #content>
+                    <a-dropdown-item :to="`/user/${user.id}`">Profile</a-dropdown-item>
+                    <a-dropdown-item>Liked Mods</a-dropdown-item>
+                    <a-dropdown-item>Followed Mods</a-dropdown-item>
+                    <div class="dropdown-splitter"/>
+                    <a-dropdown-item to="/user-settings">User Settings</a-dropdown-item>
+                    <a-dropdown-item>ModCP</a-dropdown-item>
+                    <a-dropdown-item @click="logout">Log Out</a-dropdown-item>
+                </template>
+            </Popper>
             <flex gap="2" v-else>
                 <NuxtLink to="/login">Login</NuxtLink>
                 <NuxtLink to="/register">Register</NuxtLink>
@@ -48,9 +48,10 @@ const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();
 const user = computed(() => store.user);
+const { $ftch } = useNuxtApp();
 
 async function logout() {
-    await this.$axios.post('/logout');
+    await $ftch('/logout', { method: 'POST' });
     store.user = null;
 }
 </script>

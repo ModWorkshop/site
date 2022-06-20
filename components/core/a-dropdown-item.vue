@@ -1,7 +1,7 @@
 <template>
     <div class="dropdown-item">
         <nuxt-link v-if="to" :to="to"><slot/></nuxt-link>
-        <a v-else-if="click" @click="click"><slot/></a>
+        <a v-else-if="click" @click="click" class="cursor-pointer"><slot/></a>
     </div>
 </template>
 
@@ -30,7 +30,7 @@
     .dropdown-item {
         font-size: 0.9rem;
         text-align: left;
-        padding: 0.5rem 0.25rem;
+        padding: 0.65rem 1.5rem;
         display: block;
     }
 
