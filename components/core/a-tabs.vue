@@ -42,13 +42,7 @@ const props = defineProps({
 });
 
 const slots = useSlots();
-
 const tabLinks = ref();
-
-function addTabRef(el) {
-    console.log(el);
-    tabLinks.value.push(el);
-}
 
 let listening = false;
 onBeforeUpdate(() => {
