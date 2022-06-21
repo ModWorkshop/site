@@ -64,9 +64,9 @@
         const content = commentContent.value;
         try {
             commentContent.value = '';
-            const {data: comment} = await $axios.post(props.url, {
+            const comment = await usePost(props.url, {
                 content,
-                reply_to: replyingComment.value && replyingComment.value.id
+                reply_to: replyingComment.value?.id
             });
             if (replyingComment.value) {
                 replyingComment.value.last_replies.push(comment);
@@ -85,7 +85,7 @@
         const content = commentContent.value;
         try {
             commentContent.value = '';
-            await $axios.patch(props.url + '/' + editingComment.value.id, { content });
+            await usePatch(props.url + '/' + editingComment.value.id, { content });
             editingComment.value.content = content;
             setCommentDialog(false);
         } catch (error) {
@@ -116,7 +116,7 @@
     }
 
     async function deleteComment(commentId, isReply=false) {
-        await $axios.delete(props.url + '/' + commentId);
+        await useDelete(props.url + '/' + commentId);
         if (!isReply) {
             const allComments = comments.value.data;
             this.$delete(allComments, allComments.findIndex(com => com.id == commentId));
@@ -138,7 +138,7 @@
     //This really just reloads the comments(will later reset pages)
     //Pretty much because this isn't as frequent and so it's sorted well.
     async function setCommentPinState(comment) {
-        await $axios.patch(props.url + '/' + comment.id, { pinned: comment.pinned });
+        await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
         loadComments();
     }
 

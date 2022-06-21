@@ -137,7 +137,7 @@
             file.cancel('Cancelled by user');
         } else {
             try {
-                await $axios.delete(`${props.url}/${file.id}`);
+                await useDelete(`${props.url}/${file.id}`);
                 removeFile.call(this, file);
             } catch (error) {
                 console.log(error);

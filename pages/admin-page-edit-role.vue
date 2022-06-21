@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import useGet from '~~/composables/useGet';
+
     export default {
         data: () => ({
             role: {
@@ -68,14 +70,14 @@
                 }
             }
         },
-        async asyncData({ error, $axios, params }) {
-            const permissions = await $axios.get('/permissions').then(res => res.data);
+        async asyncData({ error, params }) {
+            const permissions = await useGet('/permissions');
 
             if (params.role == 'new') {
                 return { permissions };
             } else {
                 try {
-                    const role = await $axios.get(`/roles/${params.role}`).then(res => res.data);
+                    const role = await useGet(`/roles/${params.role}`);
                     return { role, permissions };
                 } catch (err) {
                     if (err.response.status == 404) {

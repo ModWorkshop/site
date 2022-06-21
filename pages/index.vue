@@ -8,8 +8,6 @@
     import { useStore } from '../store';
     import { storeToRefs } from 'pinia';
 
-
-
     const store = useStore();
     const { counter } = storeToRefs(store)
     
