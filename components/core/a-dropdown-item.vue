@@ -1,7 +1,7 @@
 <template>
-    <div class="dropdown-item">
+    <div class="dropdown-item cursor-pointer">
         <nuxt-link v-if="to" :to="to"><slot/></nuxt-link>
-        <a v-else-if="click" @click="click" class="cursor-pointer"><slot/></a>
+        <a v-else-if="click" @click="click"><slot/></a>
     </div>
 </template>
 
