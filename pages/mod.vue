@@ -1,8 +1,8 @@
 <template>
-    <Head>
-        <Title>{{mod.name}}</Title>
-    </Head>
     <page-block>
+        <Head>
+            <Title>{{title}}</Title>
+        </Head>
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
             <!-- TODO: make our own buttons -->
