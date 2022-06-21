@@ -31,7 +31,7 @@
                     <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
                         <font-awesome-icon :icon="comment.subbed ? 'slash' : 'bell'"/>
                     </a>
-                    <Popper arrow @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(true)">
+                    <Popper arrow @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
                         <a class="cursor-pointer text-body">
                             <font-awesome-icon icon="ellipsis-h"/>
                         </a>
