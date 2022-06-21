@@ -1,7 +1,7 @@
 <template>
     <page-block>
         <Head>
-            <Title>{{title}}</Title>
+            <Title>{{mod.name}}</Title>
         </Head>
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
