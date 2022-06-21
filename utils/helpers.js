@@ -24,7 +24,6 @@ export function fullDate(t) {
     return DateTime.fromISO(t).toLocaleString(DateTime.DATE_SHORT);
 }
 
-export async function reloadCSRF() {
-    const { $ftch } = useNuxtApp();
-    await $ftch('/sanctum/csrf-cookie');
+export async function reloadToken() {
+    await useGet('/sanctum/csrf-cookie');
 }

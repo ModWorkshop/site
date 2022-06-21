@@ -103,7 +103,7 @@
     const selectedBlockTags = ref([]);
     const tags = computed(() => store.tags);
 
-    const { data: fetchedMods, refresh } = await useAsyncData('get-mods', () => useAPI('mods', { 
+    const { data: fetchedMods, refresh } = await useAsyncData('get-mods', () => useGet('mods', { 
         params: { 
             page: page.value,
             query: query.value,

@@ -13,8 +13,8 @@
                     <a-button :icon="['fab', 'google']" icon-size="lg"/>
                     <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
                 </group>
-                <group>
-                    <a-input type="checkbox" label="Remember Me" v-model="user.remember"/>
+                <group label="Remember Me">
+                    <a-input type="checkbox" v-model="user.remember"/>
                 </group>
                 <group>
                     <a-button type="submit" large>{{$t('login')}}</a-button>
@@ -26,7 +26,6 @@
 
 <script setup>
 import { useStore } from '~~/store';
-import { reloadCSRF } from '~~/utils/helpers';
 
 definePageMeta({
     middleware: 'guests-only'
@@ -40,14 +39,12 @@ const user = ref({
 
 const error = ref('');
 
-const { $ftch } = useNuxtApp();
 const store = useStore();
-const router = useRouter();
 
 async function login() {
     error.value = '';
     try {
-        await $ftch('/login', { method: "POST", body: user.value });
+        await usePost('/login', user.value);
     } catch (error) {
         const codes = {
             401: 'Incorrect email or password',
@@ -58,10 +55,6 @@ async function login() {
         return;
     }
 
-    const userData = await $ftch('/user');
-    console.log(userData);
-    store.user = userData;
-    await reloadCSRF();
-    router.push('/');
+    store.attemptLoginUser(true);
 }
 </script>

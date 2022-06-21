@@ -44,13 +44,13 @@
 
         if (params.value.id) {
             isNew.value = false;
-            category.value = await $ftch.get(`categories/${params.value.id}`);
+            category.value = await useGet(`categories/${params.value.id}`);
         }
     });
 
     watch(() => category.value.game_id, async () => {
         if (category.value.game_id) {
-            const cats = await $ftch.get(`/games/${category.game_id}/categories?include_paths=1`);
+            const cats = await useGet(`/games/${category.game_id}/categories?include_paths=1`);
             categories.value = cats;
         } else {
             categories.value = [];
@@ -60,9 +60,9 @@
     const save = async function save() {
         try {
             if (isNew.value) {
-                category.value = await $ftch.post('categories', category.value);
+                category.value = await usePost('categories', category.value);
             } else {
-                await $ftch.patch(`categories/${category.value.id}`, category.value);
+                await usePatch(`categories/${category.value.id}`, category.value);
             }
         } catch (error) {
             console.error(error);

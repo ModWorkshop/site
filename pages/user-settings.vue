@@ -110,14 +110,14 @@ useFetch(async () => {
     let nextUser;
     const id = parseInt(route.value.params.id);
     if (id && id !== store.user.id) {
-        nextUser = await $ftch.get(`users/${route.value.params.id}`);
+        nextUser = await useGet(`users/${route.value.params.id}`);
     }
     else {
         nextUser = clone(store.user);
         isMe.value = true;
     }
 
-    const rolesRes = await $ftch.get('/roles?only_assignable=1');
+    const rolesRes = await useGet('/roles?only_assignable=1');
     roles.value = rolesRes.data;
 
     nextUser.password = '';
@@ -149,7 +149,7 @@ async function save() {
             }
         }
 
-        const nextUser = await $ftch.patch(`users/${user.value.id}`, user.value);
+        const nextUser = await usePatch(`users/${user.value.id}`, user.value);
 
         nextUser.password = '';
         nextUser.confirm_password = '';

@@ -9,6 +9,7 @@ export default async function(url, options) {
             cookie: headers.cookie,
             'X-XSRF-TOKEN': token.value
         },
+        credentials: "include",
         ...options
     });
 }

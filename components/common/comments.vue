@@ -104,7 +104,7 @@
     }
 
     async function loadComments() {
-        const data = await useAPI(props.url);
+        const data = await useGet(props.url);
         comments.value = data;
         isLoaded.value = true;
     }

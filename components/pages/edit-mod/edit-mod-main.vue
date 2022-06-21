@@ -52,7 +52,7 @@
     const games = computed(() => store.games);
     const { data: tags } = await useAsyncData('getTagsAndGames', async () => {
         await store.fetchGames();
-        return await useAPI('/tags');
+        return await useGet('/tags');
     });
 
     watch(() => mod.game_id, async () => {

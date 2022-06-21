@@ -76,9 +76,9 @@ export default {
     methods: {
         timeAgo, fullDate
     },
-    async asyncData({params, $ftch}) {
+    async asyncData({params}) {
         if (params.id) {
-            return {user: await $ftch.get(`users/${params.id}`)};
+            return {user: await useGet(`users/${params.id}`)};
         }
     }
 };

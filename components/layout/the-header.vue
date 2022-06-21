@@ -43,17 +43,16 @@
     </header>
 </template>
 <script setup>
-import { reloadCSRF } from '~~/utils/helpers';
+import { reloadToken } from '~~/utils/helpers';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();
 const user = computed(() => store.user);
-const { $ftch } = useNuxtApp();
 
 async function logout() {
-    await $ftch('/logout', { method: 'POST' });
-    reloadCSRF();
+    await usePost('/logout');
+    reloadToken();
     store.user = null;
 }
 </script>

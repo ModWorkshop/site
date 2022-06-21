@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { reloadToken } from '~~/utils/helpers';
 
 export const useStore = defineStore('main', {
     state: () => ({
@@ -20,21 +21,32 @@ export const useStore = defineStore('main', {
     },
     actions: {
         /**
+         * Attempts to login the user (automatically)
+         */
+        async attemptLoginUser() {
+            const userData = await useGet('/user');
+            this.user = userData;
+            
+            const router = useRouter();
+            await reloadToken();
+            router.push('/');
+        },
+        /**
          * Fetches the tags for quick use around the site
          */
         async fetchTags() {
             if (this.tags.length === 0) {
-                this.tags = await useAPI('/tags');
+                this.tags = await useGet('/tags');
             }
         },
         async fetchGames() {
             if (this.games.length === 0) {
-                this.games = await useAPI('/games');
+                this.games = await useGet('/games');
             }
         },
         async nuxtServerInit() {
             try {
-                this.user = await useAPI('/user');
+                this.user = await useGet('/user');
             } catch (error) {
                 console.log("ERR");
                 console.log(error.req);

@@ -34,7 +34,6 @@
 <script setup>
     import clone from 'rfdc/default';
     const route = useRoute();
-    const { $ftch } = useNuxtApp();
 
     let modTemplate = {
         name: '',
@@ -69,10 +68,10 @@
     async function save() {
         try {
             if (isNew.value) {
-                mod.value = await $ftch('mods', { method: 'POST', body: mod.value });
+                mod.value = await usePost('mods', mod.value);
                 isNew.value = false;
             } else {
-                mod.value = await $ftch(`mods/${mod.value.id}`, { method: 'PATCH', body: mod.value });
+                mod.value = await usePatch(`mods/${mod.value.id}`, mod.value);
             }
         } catch (error) {
             console.error(error);
