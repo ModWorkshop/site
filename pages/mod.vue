@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <Title>{{mod.name}}</Title>
+    </Head>
     <page-block>
         <breadcrumbs :items="mod.breadcrumb"/>
         <flex>
