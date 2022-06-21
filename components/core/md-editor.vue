@@ -2,10 +2,10 @@
     <div class="md-editor p-2">
         <a-tabs padding="0" type="none">
             <a-tab name="write" title="Write">
-                <textarea type="textarea" ref="textAreas" class="textarea" :id="labelId" :value="value" @input="$emit('input', $event.target.value)" :rows="rows"/>
+                <textarea type="textarea" ref="textArea" class="textarea" :id="labelId" v-model="modelValue" @change="$emit('update:modelValue', modelValue)" :rows="rows"/>
             </a-tab>
             <a-tab name="preview" title="Preview" :style="{'min-height': previewHeight}">
-                <markdown :text="value"/>
+                <markdown :text="modelValue"/>
             </a-tab>
             <template v-slot:buttons>
                 <flex gap="1" class="ml-auto my-auto items-center">
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-const textAreas = ref([]);
+const textArea = ref([]);
 const previewHeight = ref(0);
 const toolGroups = [ 
     {
@@ -59,29 +59,31 @@ const toolGroups = [
 
 defineProps({
     labelId: String,
-    value: String,
+    modelValue: String,
     rows: String
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 onMounted(() => {
-    const textarea = textAreas.value;
+    const textarea = textArea.value;
     new ResizeObserver(() => {
         if (textarea.parentElement.style.display != 'none') {
-            previewHeight.value = textarea.clientHeight - 10 + 'px';
+            previewHeight.value = textarea.clientHeight + 2 + 'px';
         }
     }).observe(textarea);
 });
 
 function clickedTool(tool) {
-    const textarea = textAreas[0];
+    const textarea = textArea.value;
     //textarea.focus(); //Force focus
     const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
     let insert = tool.insert;
     let focus = start + insert.indexOf('$');
     textarea.setRangeText(insert.replace('$', ''), start, end, 'select');
+    emit('update:modelValue', textarea.value);
     textarea.focus();
     textarea.setSelectionRange(focus, focus);
-    emit('input', textarea.value);
 }
 </script>
 
@@ -90,6 +92,7 @@ function clickedTool(tool) {
         background: var(--secondary-bg-color);
     }
     .textarea {
+        color: var(--text-color);
         background-color: var(--input-bg-color);
         resize : vertical;
         width: 100%;
