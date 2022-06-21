@@ -43,6 +43,7 @@
     </header>
 </template>
 <script setup>
+import { reloadCSRF } from '~~/utils/helpers';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
@@ -52,6 +53,7 @@ const { $ftch } = useNuxtApp();
 
 async function logout() {
     await $ftch('/logout', { method: 'POST' });
+    reloadCSRF();
     store.user = null;
 }
 </script>

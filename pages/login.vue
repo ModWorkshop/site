@@ -24,14 +24,13 @@
     </page-block>
 </template>
 
-<script>
+<script setup>
+import { useStore } from '~~/store';
+import { reloadCSRF } from '~~/utils/helpers';
+
 definePageMeta({
     middleware: 'guests-only'
 });
-</script>
-
-<script setup>
-import { useStore } from '~~/store';
 
 const user = ref({
     email: '',
@@ -62,6 +61,7 @@ async function login() {
     const userData = await $ftch('/user');
     console.log(userData);
     store.user = userData;
+    await reloadCSRF();
     router.push('/');
 }
 </script>

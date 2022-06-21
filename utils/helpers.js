@@ -23,3 +23,8 @@ export function timeAgo(t) {
 export function fullDate(t) {
     return DateTime.fromISO(t).toLocaleString(DateTime.DATE_SHORT);
 }
+
+export async function reloadCSRF() {
+    const { $ftch } = useNuxtApp();
+    await $ftch('/sanctum/csrf-cookie');
+}
