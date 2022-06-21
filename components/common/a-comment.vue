@@ -79,7 +79,7 @@ const props = defineProps({
 
 const comment = computed(() => props.data);
 
-defineEmits([
+const emit = defineEmits([
     'reply',
     'delete',
     'pin',
@@ -103,7 +103,7 @@ onMounted(() => {
 
 async function togglePinnedState() {
     comment.value.pinned = !comment.value.pinned;
-    this.$emit('pin', comment.value);
+    emit('pin', comment.value);
 }
 
 function setActionsVisible(visible) {
@@ -114,7 +114,7 @@ function setActionsVisible(visible) {
 function deleteComment(commentId, isReply) {
     const lastReplies = comment.value.last_replies;
     this.$delete(lastReplies, lastReplies.findIndex(com => com.id === commentId));
-    this.$emit('delete', commentId, isReply);
+    emit('delete', commentId, isReply);
 }
 
 function openDeleteModal() {
@@ -122,7 +122,7 @@ function openDeleteModal() {
     //     confirmButtonText: 'OK',
     //     cancelButtonText: 'Cancel',
     //     type: 'warning'
-    // }).then(() => this.$emit('delete', comment.value.id, props.isReply));
+    // }).then(() => emit('delete', comment.value.id, props.isReply));
     //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
 }
 </script>

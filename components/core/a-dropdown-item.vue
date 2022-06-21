@@ -14,8 +14,11 @@
         type: String,
         icon: String
     });
+
+    const emit = defineEmits(['click']);
+    
     function click() {
-        this.$emit('click');
+        emit('click');
     }
 </script>
 

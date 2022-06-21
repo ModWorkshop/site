@@ -15,6 +15,8 @@ const props = defineProps([
     'file'
 ]);
 
+const emit = defineEmits(['update:file']);
+
 const fileRef = ref();
 const blob = ref();
 const input = ref();
@@ -27,7 +29,7 @@ function onChange() {
         blob.value = reader.result;
     };
     fileRef.value = file;
-    this.$emit('update:file', file);
+    emit('update:file', file);
     if (file instanceof Blob) {
         reader.readAsDataURL(file);    
     }
