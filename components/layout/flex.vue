@@ -13,7 +13,7 @@
         inline: Boolean,
         column: Boolean,
         wrap: Boolean,
-        gap: [Number, String],
+        gap: {type: [Number, String], default: 1},
         grow: Boolean,
     });
 </script>
