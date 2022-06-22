@@ -1,36 +1,33 @@
 <template>
-    <span :class="{tag: true, 'tag-small': small}" :style="{backgroundColor: color, color: textColor}"><slot/></span>
+    <strong :class="{tag: true, 'tag-small': small}" :style="{backgroundColor: color, color: textColor}"><slot/></strong>
 </template>
-<script>
-import chroma from 'chroma-js';
-export default {
-    props: {
-        color: String,
-        small: Boolean
-    },
-    computed: {
-        textColor() {
-            if (this.color) {
-                try {
-                    const contrast = chroma.contrast('#000', this.color);
-                    if (contrast > 4.55) {
-                        return '#000';
-                    } else {
-                        return '#fff';
-                    }
-                } catch (error) {
-                    return '#fff';
-                }
+<script setup>
+import { getContrast } from 'polished';
+
+const { color } = defineProps({
+    small: Boolean,
+    color: String
+});
+
+const textColor = computed(() => {
+    if (color) {
+        try {
+            const contrast = getContrast('#000', color.replaceAll(' ', ''));
+            if (contrast < 4.5) {
+                return '#fff';
             }
-            return null;
+        } catch (error) {
+            return '#fff';
         }
     }
-};
+    return '#000';
+});
+
 </script>
 <style scoped>
     .tag {
         color: #000;
-        padding: 0.25rem 0.75rem;
+        padding: 0.5rem 0.75rem;
         font-size: 70%;
         background: var(--primary-color);
         border-radius: var(--border-radius);
