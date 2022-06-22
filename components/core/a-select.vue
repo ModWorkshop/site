@@ -9,7 +9,7 @@ const { options } = defineProps({
 	textBy: {type: [String, Function], default: "name"},
 	valueBy: {type: [String, Function], default: 'value'},
 	modelValue: [Object, Number, String],
-	multiple: Boolean
+	multiple: Boolean,
 });
 
 onMounted(() => {

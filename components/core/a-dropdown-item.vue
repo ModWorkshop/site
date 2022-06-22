@@ -1,8 +1,6 @@
 <template>
-    <div class="dropdown-item cursor-pointer">
-        <nuxt-link v-if="to" :to="to"><slot/></nuxt-link>
-        <a v-else-if="click" @click="click"><slot/></a>
-    </div>
+    <nuxt-link v-if="to" class="dropdown-item cursor-pointer" :to="to"><slot/></nuxt-link>
+    <a v-else-if="click" class="dropdown-item cursor-pointer" @click="click"><slot/></a>
 </template>
 
 <script setup>
@@ -31,14 +29,11 @@
     }
 
     .dropdown-item {
+        color: var(--text-color);
         font-size: 0.9rem;
         text-align: left;
         padding: 0.65rem 1.5rem;
         display: block;
-    }
-
-    .dropdown-item a {
-        color: var(--text-color);
     }
 
     .dropdown-item:hover {

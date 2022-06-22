@@ -1,41 +1,25 @@
 <template>
     <flex column gap="3">
-        <!-- <content-block :column="false">
+        <content-block :column="false">
             <group label="Search" class="flex-grow">
-                <el-input type="text" v-model="query"/>
+                <a-input type="text" v-model="query"/>
             </group>
             <group label="Game">
-                <el-select placeholder="Select game" filterable>
-                    
-                </el-select>
+                <a-select placeholder="Select game"/>
             </group>
             <group label="Categories">
-                <el-select placeholder="Select categories" clearable multiple filterable>
-                    
-                </el-select>
+                <a-select placeholder="Select categories" multiple/>
             </group>
             <group label="Tags">
-                <el-select v-model="selectedTags" placeholder="Select Tags" clearable multiple filterable collapse-tags>
-                    <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
-                </el-select>
+                <a-select v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
             </group>
             <group label="Filter Out Tags">
-                <el-select v-model="selectedBlockTags" placeholder="Select Tags" clearable multiple filterable collapse-tags>
-                    <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"/>
-                </el-select>
+                <a-select v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
             </group>
-            <a-button color="none" icon="ellipsis-v"/>
-        </content-block> -->
+            <!-- <a-button color="none" icon="ellipsis-v"/> -->
+        </content-block>
         <flex gap="3" style="justify-content: end;">
-            <!-- <el-select value="1">
-                <el-option label="Last Updated" value="1"/>
-                <el-option label="Popularity" value="2"/>
-                <el-option label="Likes" value="3"/>
-                <el-option label="Downloads" value="4"/>
-                <el-option label="Views" value="5"/>
-                <el-option label="Name" value="6"/>
-                <el-option label="Publish Date" value="7"/>
-            </el-select> -->
+            <a-select value="1" :options="sortOptions"/>
             <flex gap="1">
                 <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
                 <a-button icon="list"/>
@@ -77,16 +61,25 @@
                     <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod"/>
                 </div>
                 <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
-                <span v-else-if="mods.length == 0" class="text-center">
+                <span v-else-if="currentMods.length == 0" class="text-center">
                     No mods found
                 </span>
-
             </flex>
         </flex>
     </flex>
 </template>
 <script setup>
     import { useStore } from '../../store';
+
+    const sortOptions = [
+        'Last Updated',
+        'Popularity',
+        'Likes',
+        'Downloads',
+        'Views',
+        'Name',
+        'Publish Date',
+    ];
 
     const props = defineProps({
         title: String,
@@ -101,7 +94,10 @@
     const justDate = ref(false);
     const selectedTags = ref([]);
     const selectedBlockTags = ref([]);
+    const loading = ref(true);
     const tags = computed(() => store.tags);
+
+    await store.fetchTags();
 
     const { data: fetchedMods, refresh } = await useAsyncData('get-mods', () => useGet('mods', { 
         params: { 
@@ -111,10 +107,10 @@
             tags: selectedTags.value,
             block_tags: selectedBlockTags.value,
         }
-    }));
+    }), { initialCache: false });
 
     const savedMods = ref([]);
-    const pages = computed(() => parseInt(fetchedMods.value.meta.total / 40 || 0));
+    const pages = computed(() => parseInt(fetchedMods.value?.meta?.total / 40 || 0));
     const pageNumbers = computed(() => {
         if (page.value < 4) {
             return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
@@ -142,12 +138,14 @@
         setPage(page.value++, false);
     }
 
-    function setPage(newPage, reload) {
+    async function setPage(newPage, reload) {
         page.value = newPage;
         if (reload) {
             savedMods.value = [];
         }
         savedMods.value = currentMods.value;
-        refresh();
+        loading.value = true;
+        await refresh();
+        loading.value = false;
     }
 </script>
