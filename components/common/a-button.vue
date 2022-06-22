@@ -1,5 +1,5 @@
 <template>
-    <a v-if="href && !disabled" :href="href" :class="clss">
+    <a v-if="href && !disabled" :href="href" :class="clss" :download="download">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </a>
@@ -25,6 +25,7 @@
             default: 'button',
             type: String
         },
+        download: [String, Boolean],
         to: String,
         iconSize: String,
         icon: [String, Array],
