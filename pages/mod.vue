@@ -36,13 +36,11 @@
                                 <i v-if="mod.liked" class="ri-heart-fill mx-1"/>
                                 <i v-else class="ri-heart-line mx-1"/>
                             </a>
-                            <form v-if="mod.download" :action="`http://localhost:8000/files/${mod.download.id}/download`" method="get" class="flex-grow ml-2">
-                                <a-button class="download-button w-full" icon="download">
-                                    Download
-                                    <br>
-                                    <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
-                                </a-button>
-                            </form>
+                            <a-button v-if="mod.download" class="download-button w-full text-center" icon="download" :href="`http://localhost:8000/files/${mod.download.id}/download`" download>
+                                Download
+                                <br>
+                                <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
+                            </a-button>
                             <a-button v-else-if="mod.files && mod.files.length > 0" href="#downloads" class="download-button" icon="download">Downloads</a-button>
                             <a-button v-else class="download-button" disabled>No Files</a-button>
                         </flex>
