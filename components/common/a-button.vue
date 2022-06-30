@@ -22,6 +22,7 @@
             default: 'button',
             type: String
         },
+        noBg: Boolean,
         download: [String, Boolean],
         to: String,
         iconSize: String,
@@ -29,11 +30,12 @@
         disabled: Boolean
     });
 
-    const clss = ref({
+    const clss = computed(() => ({
         button: true,
         [`button-${props.color}`]: true,
+        'button-outline': props.noBg,
         'button-large': props.large
-    });
+    }));
 </script>
 
 <style scoped>
@@ -41,7 +43,7 @@
         color: var(--button-text-color);
         padding: 0.5rem 0.75rem;
         border-radius: var(--border-radius);
-        transition: background-color 0.5s;
+        transition: background-color, color 0.15s ease-in-out;
     }
 
     .button-none {
@@ -52,10 +54,15 @@
         background-color: var(--primary-color);
     }
 
+    .button-outline {
+        background-color: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+
     .button-secondary {
         background-color: var(--secondary-color);
     }
-
 
     .button-large {
         font-size: 1rem;
@@ -66,12 +73,13 @@
     }
 
     .button:hover:enabled {
-        transition: background-color 0.5s;
+        transition: background-color, color 0.15s ease-in-out;
         cursor: pointer;
     }
 
     .button-primary:hover:enabled {
         background-color: var(--primary-hover-color);
+        color: var(--button-text-color);
         cursor: pointer;
     }
 </style>

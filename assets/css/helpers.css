@@ -12,18 +12,18 @@
 .ratio-image-mod-thumb {
     position: relative;
     width: 100%;
-    padding-top: calc(100% * 15/29);
+    padding-top: calc(100% * 1/2);
 }
 
 .ratio-image-cat-thumb {
     position: relative;
     width: 100%;
-    padding-top: calc(100% * 11/24);
+    padding-top: calc(100% * 1/2);
 }
 
 .mods-grid .mod {
     width: 100%;
-    min-height: 250px;
+    min-height: 240px;
 }
 
 
@@ -113,13 +113,12 @@
 }
 
 .mods {
-    font-size: 14px;
-    width: 100%
+    width: 100%;
 }
 
 .cats-grid,
 .games-grid,
 .mods-grid {
     display: grid;
-    grid-gap: 16px
+    grid-gap: 1rem;
 }

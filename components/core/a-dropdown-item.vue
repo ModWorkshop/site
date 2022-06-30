@@ -1,10 +1,15 @@
 <template>
-    <nuxt-link v-if="to" class="dropdown-item cursor-pointer" :to="to"><slot/></nuxt-link>
-    <a v-else-if="click" class="dropdown-item cursor-pointer" @click="click"><slot/></a>
+    <nuxt-link v-if="to" class="dropdown-item cursor-pointer" :to="to">
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+    </nuxt-link>
+    <a v-else-if="click" class="dropdown-item cursor-pointer" @click="click">
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+    </a>
 </template>
 
 <script setup>
     defineProps({
+        iconSize: String,
         command: [String, Number, Object],
         to: String,
         href: String,

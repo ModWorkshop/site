@@ -1,9 +1,9 @@
 <template>
     <header>
         <NuxtLink to="/">
-            <img :src="logo" width="38"/>
+            <img :src="logo" width="36"/>
         </NuxtLink>
-        <flex gap="2" class="ml-3">
+        <flex gap="4" class="ml-3">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
             <a href="https://discord.gg/Eear4JW">Discord</a>
@@ -69,7 +69,6 @@ async function logout() {
 
     .user-items {
         margin-left: auto;
-        gap: 0.75rem;
     }
     
     .header-items {

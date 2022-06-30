@@ -64,7 +64,7 @@ const views = computed(() => mod.views);
 
 <style scoped>
     .mod-title {
-        font-size:18px;
+        font-size: 1.2rem;
         overflow: hidden;
         word-break: break-word;
         max-height: 60%;
