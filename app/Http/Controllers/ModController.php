@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Image;
 use App\Models\Mod;
@@ -13,6 +14,9 @@ use Illuminate\Validation\ValidationException;
 use Log;
 use Str;
 
+/**
+ * @group Mods
+ */
 class ModController extends Controller
 {
     public function __construct() {
@@ -24,7 +28,7 @@ class ModController extends Controller
      * 
      * Returns many mods, has a few options for searching the right mods
      *
-     * @param Request $request
+     * @param ModUpsertRequest $request
      * return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -32,15 +36,18 @@ class ModController extends Controller
         // Query parameters
         $val = $request->validate([
             // How many mods should this return. 
-            'query' => 'string',
+            'query' => 'string|nullable',
             'page' => 'integer|min:1',
             'limit' => 'integer|min:1|max:50',
+            'game_id' => 'integer|nullable|min:1|exists:sections,id',
             'tags' => 'array',
-            'tags.*' => 'integer|min:1',
+            'tags.*' => 'integer|min:1|nullable',
+            'categories' => 'array',
+            'categories.*' => 'integer|min:1|nullable',
             'block_tags' => 'array',
             // Filter out mods that are in these tags
-            'block_tags.*' => 'integer|min:1',
-            'submitter_id' => 'integer|min:1'
+            'block_tags.*' => 'integer|min:1|exists:tags,id',
+            'submitter_id' => 'integer|nullable|min:1'
         ]);
         
         /**
@@ -48,18 +55,30 @@ class ModController extends Controller
          */
         $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
 
-        if (isset($val['tags'])) {
+        if (!empty($val['game_id'])) {
+            $query->where('game_id', $val['game_id']);
+        }
+
+        if (!empty($val['submitter_id'])) {
+            $query->where('submitter_id', $val['submitter_id']);
+        }
+
+        if (!empty($val['tags'])) {
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
                 $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
             });
         }
-        
-        if (isset($val['block_tags'])) { //Broken for some reason
+
+        if (!empty($val['categories'])) {
+            $query->whereIn('category_id', $val['categories']);
+        }
+
+        if (!empty($val['block_tags'])) { //Broken for some reason
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
                 $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
             });
         }
-   
+
         if (isset($val['query']) && !empty($val['query'])) {
             $query->whereRaw("name % ?", [$val['query']]);
         }
@@ -67,23 +86,6 @@ class ModController extends Controller
         $mods = $query->paginate(page: $val['page'] ?? 1, perPage: $val['limit'] ?? 40);
 
         return ModResource::collection($mods);
-    }
-
-    /**
-     * Create Mod
-     * 
-     * Creates a new mod
-     * 
-     * Please refer to the edit of mods for parameters
-     * 
-     * @authenticated
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        return $this->update($request);
     }
 
     /**
@@ -112,25 +114,19 @@ class ModController extends Controller
      * @param Mod|null $mod
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mod $mod=null)
+    public function update(ModUpsertRequest $request, Mod $mod=null)
     {
-        $val = $request->validate([
-            'name' => 'string|min:3|max:150',
-            'desc' => 'string|min:3|max:30000',
-            'license' => 'string|nullable|max:30000',
-            'changelog' => 'string|nullable|max:30000',
-            'short_desc' => 'string|nullable|max:150',
-            'donation' => 'string|nullable|max:100',
-            'version' => 'string|nullable|max:100',
-            'visibility' => 'integer|min:1|max:4',
-            'game_id' => 'integer|min:1|exists:categories,id',
-            'category_id' => 'integer|min:1|nullable|exists:categories,id',
-            'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
-            'tag_ids' => 'array',
-            'tag_ids.*' => 'integer|min:1',
-            'download_id' => 'integer|min:1|nullable',
-            'download_type' => 'string|nullable|in:file,link'
-        ]);
+        $val = $request->validated();
+
+        //Currently if we give this something like short_desc= we expect short_desc to get empty
+        //However, Laravel sees this as a null value, while useful for integer filters, usually not so much for updating strings.
+        //We should *not* remove the middleware that handles this as it can cause other issues.
+        //This is the current solution:
+        $val['short_desc'] ??= '';
+        $val['donation'] ??= '';
+        $val['license'] ??= '';
+        $val['changelog'] ??= '';
+        $val['version'] ??= '';
 
         if (isset($mod) && array_key_exists('download_id', $val)) {
             $downloadId = Arr::pull($val, 'download_id');
@@ -169,6 +165,21 @@ class ModController extends Controller
         }
 
         return new ModResource($mod);
+    }
+
+    /**
+     * Create Mod
+     * 
+     * Creates a new mod
+     * 
+     * @authenticated
+     *
+     * @param ModUpsertRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ModUpsertRequest $request)
+    {
+        return $this->update($request);
     }
 
     /**
