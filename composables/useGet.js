@@ -9,7 +9,6 @@ export default async function(url, options) {
         //This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
         //tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
         url += '?'+queryString.stringify(options.params, { arrayFormat: 'bracket' })
-        delete options.params;
     }
 
     return await $fetch(url, {
@@ -21,6 +20,7 @@ export default async function(url, options) {
             'X-XSRF-TOKEN': token.value
         },
         credentials: "include", //Required as it doesn't send cookies and stuff otherwise
-        ...options
+        ...options,
+        params: {}
     });
 }

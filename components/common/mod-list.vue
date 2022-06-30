@@ -108,9 +108,10 @@
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
 
+    await store.fetchGames();
     await store.fetchTags();
 
-    const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGet('mods', { 
+    const { data: fetchedMods, refresh, error } = await useAsyncDyn('get-mods', () => useGet('mods', { 
         params: {
             submitter_id: props.userId,
             page: page.value,
@@ -121,9 +122,9 @@
             categories: selectedCategories.value,
             block_tags: selectedBlockTags.value,
         }
-    }), { initialCache: false });
+    }));
 
-    const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-cats', () => useGet(`games/${selectedGame.value}/categories`), { initialCache: false });
+    const { data: categories, refresh: refetchCats } = await useAPIFetch(() => `games/${selectedGame.value}/categories`);
     
     function gameChanged() {
         refetchCats();
