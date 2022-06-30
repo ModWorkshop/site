@@ -1,29 +1,28 @@
 <template>
-    <flex column gap="1" class="mod-info content-block p-2">
+    <flex column gap="3" class="mod-info content-block p-2 self-start">
         <div class="thumbnail overflow-hidden ratio-image-mod-thumb">
             <mod-thumbnail :mod="mod"/>
         </div>
-        <div class="p-2" style="font-size: 20px">
-            <div class="p-1 inline-flex gap-1">
-                <font-awesome-icon icon="heart"/>
-                <span id="likes">{{likes}}</span>
+        <flex column class="p-2" gap="4">
+            <flex style="font-size: 1.5rem;" gap="3">
+                <flex inline>
+                    <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
+                </flex>
+                <flex inline>
+                    <font-awesome-icon icon="download"/> {{downloads}}
+                </flex>
+                <flex inline>
+                    <font-awesome-icon icon="eye"/> {{views}}
+                </flex>
+            </flex>
+            <flex v-if="mod.tags.length > 0">
+                <!-- TODO: Don't forget to make them link -->
+                <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
+            </flex>
+            <div class="colllaborators-block">
+                <a-user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
             </div>
-            <div class="p-1 inline-flex gap-1">
-                <font-awesome-icon icon="download"/>
-                <span>{{downloads}}</span>
-            </div>
-            <div class="p-1 inline-flex gap-1">
-                <font-awesome-icon icon="eye"/>
-                <span>{{views}}</span>
-            </div>
-        </div>
-        <flex gap="1" wrap class="p-2 tags-block">
-            <!-- TODO: Don't forget to make them link -->
-            <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
         </flex>
-        <div class="p-2 colllaborators-block">
-            <a-user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
-        </div>
     </flex>
 </template>
 
