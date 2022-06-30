@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
@@ -10,11 +12,6 @@ use Illuminate\Support\Facades\Date;
  * @group Category
  * 
  * API routes for interacting with categories.
- * 
- * <aside class="notice">
- *  Something important to note is that games <em>are</em> categories. They simply have their parent set to 0, aka the global category.
- *  In the past mods were not aware of what game they were in. This was changed with MWS V2 and continued with V3.
- * </aside>
  */
 class CategoryController extends Controller
 {
@@ -44,10 +41,11 @@ class CategoryController extends Controller
      * @param Category|null $game
      * @return void
      */
-    public function getCategories(Request $request, Category $game=null, bool $getGames=false)
+    public function getCategories(Request $request, Section $game=null)
     {
         // Query parameters
         $val = $request->validate([
+            'game_id' => 'integer|min:1|exists:sections,id',
             'limit' => 'integer|min:1|max:1000',
             'page' => 'integer|min:1',
             //Returns only the names of the categories
@@ -61,56 +59,23 @@ class CategoryController extends Controller
             $q->select(['id', 'name']);
         }
 
-        if ($getGames) {
-            // Since now we use relations we cannot set it simply to 0, so instead we set it to null.
-            $q->whereNull('parent_id');
-        } elseif (isset($game)) {
-            $q->where('game_id', $game->id);
+        if (isset($game)) {
+            $val['game_id'] ??= $game->id;
         }
 
-        // Limit results.
-        if (isset($val['page'])) {
-            $q->paginate($val['page']);
+        if (!empty($val['game_id'])) {
+            $q->where('game_id', $val['game_id']);
         }
 
-        $categories = $q->get();
+        $categories = $q->paginate(page: $val['page'] ?? 1, perPage: 1000);
 
         $incPaths = $val['include_paths'] ?? false;
 
-        if ($incPaths) {
-            $categories->append('path');
-        }
-
-        return $categories;
-    }
-
-    /**
-     * Games
-     *
-     * @return void
-     */
-    public function getGames(Request $request)
-    {
-        return $this->getcategories($request, null, true);
-    }
-
-    /**
-     * Game
-     * 
-     * Returns a single game
-     *
-     * @urlParam game integer required The ID of the game (category)
-     * 
-     * @param Category $game
-     * @return void
-     */
-    public function getGame(Category $game)
-    {
-        return $game;
+        return CategoryResource::collection($categories);
     }
 
     public function getCategory(Category $category)
     {
-        return $category;
+        return new CategoryResource($category);
     }
 }

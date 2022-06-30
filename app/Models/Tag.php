@@ -40,4 +40,12 @@ class Tag extends Model
         'name',
         'color'
     ];
+    
+    public function categories() {
+        return $this->morphedByMany(Category::class, 'taggable');
+    }
+
+    public function sections() {
+        return $this->morphedByMany(Section::class, 'taggable');
+    }
 }

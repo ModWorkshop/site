@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -117,10 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
 /**
  * @group Category
  */
-Route::prefix('games')->group(function () {
-    Route::get('/', [CategoryController::class, 'getGames']);
-    Route::get('/{game}', [CategoryController::class, 'getGame']);
-    Route::get('/{game}/categories', [CategoryController::class, 'getCategories']);
-});
+Route::resource('games', SectionController::class);
+Route::get('games/{game}/categories', [CategoryController::class, 'getCategories']);
 
 //blabla

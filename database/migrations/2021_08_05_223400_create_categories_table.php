@@ -24,12 +24,12 @@ class CreateCategoriesTable extends Migration
             $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->foreign('parent_id')->references('id')->on('categories'); // TODO: should categories be cleaned up if their parent is erased?
             $table->bigInteger('game_id')->unsigned()->nullable();
-            $table->foreign('game_id')->references('id')->on('categories');
+            $table->foreign('game_id')->references('id')->on('sections');
 
             $table->tinyText('thumbnail')->default(''); // Was background
-            $table->tinyText('banner')->default(''); // Was background
-            $table->tinyText('buttons')->default(''); // Was background
-            $table->tinyText('webhook_url')->default(''); // Was background
+            $table->tinyText('banner')->default(''); //TODO: Remove
+            $table->tinyText('buttons')->default('');
+            $table->tinyText('webhook_url')->default('');
             $table->boolean('approval_only')->default(false);
             $table->timestamp('last_date');
 
