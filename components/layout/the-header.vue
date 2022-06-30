@@ -7,39 +7,53 @@
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
             <a href="https://discord.gg/Eear4JW">Discord</a>
+            <NuxtLink to="/blog">Blog</NuxtLink>
+            <NuxtLink to="/forum">Forum</NuxtLink>
             <NuxtLink to="/support">Support Us</NuxtLink>
-            <a-dropdown>
-                <a href="#">More</a>
-                <template #items>
+            <Popper arrow>
+                <a href="#"><font-awesome-icon icon="ellipsis"/> </a>
+                <template #content>
                     <a-dropdown-item>Rules</a-dropdown-item>
                     <a-dropdown-item>About Us</a-dropdown-item>
                     <a-dropdown-item>Steam Group</a-dropdown-item>
                 </template>
-            </a-dropdown>
-        </flex>
-        <div class="user-items mr-3"> 
-            <Popper v-if="user" arrow>
-                <flex gap="1">
-                    <a-avatar class="cursor-pointer" :src="user.avatar"/>
-                    <a class="user cursor-pointer">
-                        <span>{{user.name}}</span>
-                    </a>
-                </flex>
-                <template #content>
-                    <a-dropdown-item :to="`/user/${user.id}`">Profile</a-dropdown-item>
-                    <a-dropdown-item>Liked Mods</a-dropdown-item>
-                    <a-dropdown-item>Followed Mods</a-dropdown-item>
-                    <div class="dropdown-splitter"/>
-                    <a-dropdown-item to="/user-settings">User Settings</a-dropdown-item>
-                    <a-dropdown-item>ModCP</a-dropdown-item>
-                    <a-dropdown-item @click="logout">Log Out</a-dropdown-item>
-                </template>
             </Popper>
+        </flex>
+        <flex class="user-items mr-2" gap="6"> 
+            <div>
+                <a-input placeholder="Search" style="width: 250px;"/>
+                <a-button icon="search" style="background-color: var(--input-bg-color); padding: 0.6rem 0.75rem;"/>
+            </div>
+            <template v-if="user">
+                <flex class="my-auto text-lg" gap="4">
+                    <span><font-awesome-icon icon="bell"/> 0</span>
+                    <span><font-awesome-icon icon="message"/> 0</span>
+                </flex>
+                <Popper arrow>
+                    <flex>
+                        <a-avatar class="cursor-pointer" :src="user.avatar"/>
+                        <a class="user cursor-pointer">
+                            <span>{{user.name}}</span>
+                        </a>
+                    </flex>
+                    <template #content>
+                        <a-dropdown-item icon="user" :to="`/user/${user.id}`">Profile</a-dropdown-item>
+                        <a-dropdown-item icon="heart">Liked Mods</a-dropdown-item>
+                        <a-dropdown-item icon="plus">Followed Mods</a-dropdown-item>
+                        <div class="dropdown-splitter"/>
+                        <a-dropdown-item icon="cog" to="/user-settings">User Settings</a-dropdown-item>
+                        <a-dropdown-item icon="users-gear">ModCP</a-dropdown-item>
+                        <a-dropdown-item icon="arrow-right-from-bracket" @click="logout">Log Out</a-dropdown-item>
+                        <div class="dropdown-splitter"/>
+                        <a-dropdown-item icon="globe">English</a-dropdown-item>
+                    </template>
+                </Popper>
+            </template>
             <flex gap="2" v-else>
                 <NuxtLink to="/login">Login</NuxtLink>
                 <NuxtLink to="/register">Register</NuxtLink>
             </flex>
-        </div>
+        </flex>
     </header>
 </template>
 <script setup>
