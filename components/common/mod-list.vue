@@ -1,11 +1,17 @@
 <template>
     <flex column gap="3">
-        <a-select value="1" :options="sortOptions"/>
-        <flex gap="3">
-            <flex gap="1">
-                <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
-                <a-button icon="list"/>
-                <a-button icon="bars"/>
+        <flex>
+            <flex>
+                <a-button icon="clock">{{$t('last_updated')}}</a-button>
+                <a-button icon="upload" :no-bg="true">{{$t('publish_date')}}</a-button>
+                <a-button icon="star" :no-bg="true">{{$t('popular_now')}}</a-button>
+            </flex>
+            <flex class="ml-auto" gap="3">
+                <flex gap="1">
+                    <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
+                    <a-button icon="list"/>
+                    <a-button icon="bars"/>
+                </flex>
             </flex>
         </flex>
 
