@@ -2,14 +2,14 @@
     <flex column gap="1"
         style="width: 100%; min-height: 150px;" 
         @dragover.prevent=""
-        @drop.prevent="handleDrop"
+        @drop.prevent="e => upload(e.dataTransfer.files)"
     >
         <label class="alt-bg-color" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
             <div class="p-6 cursor-pointer text-center ">
                 <h2>Drop files here or click the area to upload files</h2>
             </div>
         </label>
-        <input :id="`${name}-file-browser-open`" type="file" @change="handleFileBrowser" hidden multiple/>
+        <input :id="`${name}-file-browser-open`" type="file" @change="e => upload(e.target.files)" hidden multiple/>
         <div v-if="list" class="p-3 alt-bg-color">
             <table class="w-full">
                 <thead>
@@ -92,12 +92,12 @@
 
                 const formData = new FormData();
                 formData.append('file', file);
-                const { data } = await $axios.post(props.url, formData, {
-                    headers: {'Content-Type': 'multipart/form-data'},
-                    onUploadProgress: function(progressEvent) {
-                        insertFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
-                    },
-                    cancelToken: new $axios.CancelToken(c => insertFile.cancel = c)
+                const controller = new AbortController();
+                const { data } = await usePost(props.url, formData, {
+                    // onUploadProgress: function(progressEvent) {
+                    //     insertFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+                    // },
+                    signal: controller.signal
                 });
 
                 insertFile.progress = -1;
@@ -110,12 +110,10 @@
                 });
             } catch (error) {
                 console.log(error);
-                if (!$axios.isCancel(error)) {
                     // Notification.error({
                     //     title: 'Error',
                     //     message: 'File failed to upload: ' + error.message
                     // });
-                }
                 removeFile.call(this, insertFile);
             }
         }
@@ -124,7 +122,7 @@
     function removeFile(file) {
         for (const [k, f] of Object.entries(computedFiles.value)) {
             if (f == file) {
-                this.$delete(computedFiles.value, k);
+                computedFiles.value.splice(k);
             }
         }
     }
@@ -143,24 +141,6 @@
                 console.log(error);
             }
         }
-    }
-
-    /**
-     * Handles uploads made by the file browser
-     * Since we need to use this.$delete we must also assign 'this' to the upload function. 
-     * This will not be required in Nuxt 3.
-     */
-    async function handleFileBrowser(e) {
-        const input = e.target;
-        await upload.call(this,input.files);
-    }
-
-    /**
-     * Handles uploads made by dropping files onto the uploader
-     */
-    async function handleDrop(e) {
-        const files = e.dataTransfer.files;
-        upload.call(this, files);
     }
 </script>
 
@@ -206,9 +186,7 @@
     .file-item:hover .file-buttons {
         display: flex;
     }
-</style>
 
-<style>
     .file-item img {
         object-fit: cover;
     }

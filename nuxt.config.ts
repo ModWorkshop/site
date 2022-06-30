@@ -34,13 +34,13 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "category",
 				path: "/category/:id",
-				file: resolve(__dirname, "pages/category.vue")
+				file: resolve(__dirname, "pages/game.vue")
 			});
 
 			routes.push({
 				name: "game",
 				path: "/game/:id",
-				file: resolve(__dirname, "pages/category.vue")
+				file: resolve(__dirname, "pages/game.vue")
 			});
 
 			routes.push({

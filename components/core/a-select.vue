@@ -1,8 +1,19 @@
 <template>
-	<va-select v-model="modelValue" @update:modelValue="value => $emit('update:modelValue', value)" :placeholder="placeholder" :options="options" :value-by="valueBy" :text-by="textBy" :multiple="multiple" searchable/>
+	<va-select 
+		v-model="modelValue"
+		@update:modelValue="update" 
+		:placeholder="placeholder" 
+		:options="fixedOptions" 
+		:value-by="valueBy" 
+		:text-by="textBy" 
+		:multiple="multiple"
+		:clearable="clearable"
+		searchable
+	/>
 </template>
 <script setup>
-const { options } = defineProps({
+const props = defineProps({
+	clearable: [String, Boolean],
 	placeholder: String,
 	options: Array,
 	searchable: {type: [String, Boolean], default: true},
@@ -12,15 +23,28 @@ const { options } = defineProps({
 	multiple: Boolean,
 });
 
-onMounted(() => {
-	if (options != null) {
-		options.forEach(item => {
+const emit = defineEmits(['update', 'update:modelValue']);
+
+function update(value) {
+	emit('update:modelValue', value);
+	emit('update', value);
+}
+
+const fixedOptions = computed(() => {
+	const o = [];
+	if (props.options != null) {
+		props.options.forEach(item => {
 			//VASelect does not like to use ID as value (value-by="id")
-			if (item.id && !item.value) {
-				item.value = item.id;
-			}
+			o.push({
+				value: item.id,
+				...item,
+			});
 		});
+
+		return o;
 	}
+	
+	return props.options ?? o;
 });
 
 </script>

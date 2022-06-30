@@ -1,5 +1,5 @@
 <template>
-    <page-block>
+    <page-block :error="error" error-string="This user does not exist!">
         <flex column class="user-banner p-2 round" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`}">
             <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
         </flex>
@@ -37,51 +37,26 @@
         <mod-list v-if="isPublic" :user-id="user.id"/>
     </page-block>
 </template>
-<script>
+<script setup>
 import { timeAgo, fullDate } from '../utils/helpers';
 import { DateTime } from 'luxon';
 
-export default {
-    data() {
-        return {
-            user: {},
-            tags: []
-        };
-    },
-    computed: {
-        isMod() {
-            return true;
-        },
-        userBanner() {
-            return this.user.banner || 'banners/default_banner.webp';
-        },
-        isOnline() {
-            const last = DateTime.fromISO(this.user.last_online);
-            const now = DateTime.now();
-            return now.diff(last, 'minutes').toObject().minutes < 5;
-        },
-        statusColor() {
-            return this.isOnline ? 'green' : 'gray';
-        },
-        statusString() {
-            return this.isOnline ? this.$t('online') : this.$t('offline');
-        },
-        userInvisible() {
-            return false;
-        },
-        isPublic() {
-            return !this.user.private_profile;
-        },
-    },
-    methods: {
-        timeAgo, fullDate
-    },
-    async asyncData({params}) {
-        if (params.id) {
-            return {user: await useGet(`users/${params.id}`)};
-        }
-    }
-};
+const route = useRoute();
+const { $t } = useNuxtApp();
+
+const { data: user, error } = await useAPIFetch(`users/${route.params.id}`);
+
+const isMod = computed(() => true);
+const userBanner = computed(() => user.banner || 'banners/default_banner.webp');
+const isOnline = computed(() => {
+    const last = DateTime.fromISO(user.last_online);
+    const now = DateTime.now();
+    return now.diff(last, 'minutes').toObject().minutes < 5;
+});
+const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
+const statusString = computed(() => isOnline.value ? $t('online') : $t('offline'));
+const userInvisible = computed(() => false);
+const isPublic = computed(() => !user.private_profile);
 </script>
 <style scoped>
     .user-status {

@@ -10,8 +10,8 @@
             <a-input type="textarea" v-model="mod.short_desc" rows="2" maxlength="150"/>
         </group>
         <group :labels="['Game', 'Category']">
-            <a-select v-model="mod.game_id" placeholder="Select a game" :options="games"/>
-            <a-select v-model="mod.category_id" placeholder="Select a category" :options="categories"/>
+            <a-select v-model="mod.game_id" placeholder="Select a game" :options="store.games.data" @update="refetchCats"/>
+            <a-select v-model="mod.category_id" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
         </group>
         <group label="Tags" desc="Make your mod more discoverable">
             <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags" multiple/>
@@ -36,7 +36,7 @@
 <script setup>
     import { useStore } from '~~/store';
 
-    const { mod } = defineProps({
+    const props = defineProps({
         mod: Object
     });
 
@@ -48,22 +48,7 @@
     ];
 
     const store = useStore();
-    const { data: categories, refresh: refetchCats } = await useAPIFetch(`/games/${mod.game_id}/categories?include_paths=1`);
-    const games = computed(() => store.games);
-    const { data: tags } = await useAsyncData('getTagsAndGames', async () => {
-        await store.fetchGames();
-        return await useGet('/tags');
-    });
-
-    watch(() => mod.game_id, async () => {
-        if (mod.game_id) {
-            try {
-                refetchCats();
-            } catch (e) {
-                console.log(e);
-            }
-        } else {
-            categories.value = [];
-        }
-    }, {immediate: true});
+    const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-categories', () => useGet(`games/${props.mod.game_id}/categories`));
+    const { data: tags } = await useAsyncData('getTagsAndGames', () => useGet('/tags'));
+    await store.fetchGames();
 </script>

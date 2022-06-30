@@ -113,7 +113,7 @@ function setActionsVisible(visible) {
 //Deletes a reply in the comment
 function deleteComment(commentId, isReply) {
     const lastReplies = comment.value.last_replies;
-    this.$delete(lastReplies, lastReplies.findIndex(com => com.id === commentId));
+    lastReplies.splice(lastReplies.findIndex(com => com.id === commentId));
     emit('delete', commentId, isReply);
 }
 

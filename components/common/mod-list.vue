@@ -1,25 +1,7 @@
 <template>
     <flex column gap="3">
-        <content-block :column="false">
-            <group label="Search" class="flex-grow">
-                <a-input type="text" v-model="query"/>
-            </group>
-            <group label="Game">
-                <a-select placeholder="Select game"/>
-            </group>
-            <group label="Categories">
-                <a-select placeholder="Select categories" multiple/>
-            </group>
-            <group label="Tags">
-                <a-select v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
-            </group>
-            <group label="Filter Out Tags">
-                <a-select v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
-            </group>
-            <!-- <a-button color="none" icon="ellipsis-v"/> -->
-        </content-block>
-        <flex gap="3" style="justify-content: end;">
-            <a-select value="1" :options="sortOptions"/>
+        <a-select value="1" :options="sortOptions"/>
+        <flex gap="3">
             <flex gap="1">
                 <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
                 <a-button icon="list"/>
@@ -42,28 +24,54 @@
                 </template>
             </flex>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
-            <flex wrap column gap="3" class="mods justify-content-start">
-                <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
-                    <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
-                    <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
-                    <div style="flex: 3">{{$t('author')}}</div>
-                    <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div>
-                    <div>{{$t('likes')}}</div>
-                    <div>{{$t('downloads')}}</div>
-                    <div>{{$t('download_views')}}</div>
-                    <div v-if="justDate" style="flex: 2;">{{$t('date')}}</div>
-                    <template v-else>
-                        <div id="date" style="flex: 2;">{{$t('last_updated')}}</div>
-                        <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
-                    </template>
-                </div>
-                <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'}`">
-                    <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod"/>
-                </div>
-                <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
-                <span v-else-if="currentMods.length == 0" class="text-center">
-                    No mods found
-                </span>
+            <flex gap="6">
+                <flex wrap column gap="3" class="mods justify-content-start" style="flex:10;">
+                    <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
+                        <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
+                        <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
+                        <div style="flex: 3">{{$t('author')}}</div>
+                        <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div>
+                        <div>{{$t('likes')}}</div>
+                        <div>{{$t('downloads')}}</div>
+                        <div>{{$t('download_views')}}</div>
+                        <div v-if="justDate" style="flex: 2;">{{$t('date')}}</div>
+                        <template v-else>
+                            <div id="date" style="flex: 2;">{{$t('last_updated')}}</div>
+                            <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
+                        </template>
+                    </div>
+                    <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'}`">
+                        <div v-if="error">
+                            There was an error fetching mods
+                            {{error}}
+                        </div>
+                        <template v-else>
+                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="forcedGame"/>
+                        </template>
+                    </div>
+                    <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
+                    <span v-else-if="currentMods.length == 0" class="text-center">
+                        No mods found
+                    </span>
+                </flex>
+                <content-block class="self-start" style="flex:2;">
+                    <group label="Search">
+                        <a-input type="text" v-model="query"/>
+                    </group>
+                    <group v-if="!forcedGame" label="Game">
+                        <a-select v-model="selectedGame" placeholder="Any game" clearable :options="store.games.data" @update="gameChanged"/>
+                    </group>
+                    <group label="Categories">
+                        <a-select v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories?.data || []" @update="refresh"/>
+                    </group>
+                    <group label="Tags">
+                        <a-select v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
+                    </group>
+                    <group label="Filter Out Tags">
+                        <a-select v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
+                    </group>
+                    <!-- <a-button color="none" icon="ellipsis-v"/> -->
+                </content-block>
             </flex>
         </flex>
     </flex>
@@ -83,6 +91,7 @@
 
     const props = defineProps({
         title: String,
+        forcedGame: Number,
         userId: Number
     });
 
@@ -96,18 +105,30 @@
     const selectedBlockTags = ref([]);
     const loading = ref(true);
     const tags = computed(() => store.tags);
+    const selectedGame = ref(props.forcedGame);
+    const selectedCategories = ref([]);
 
     await store.fetchTags();
 
-    const { data: fetchedMods, refresh } = await useAsyncData('get-mods', () => useGet('mods', { 
-        params: { 
+    const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGet('mods', { 
+        params: {
+            submitter_id: props.userId,
             page: page.value,
             query: query.value,
             submitter_id: props.userId,
+            game_id: selectedGame.value,
             tags: selectedTags.value,
+            categories: selectedCategories.value,
             block_tags: selectedBlockTags.value,
         }
     }), { initialCache: false });
+
+    const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-cats', () => useGet(`games/${selectedGame.value}/categories`), { initialCache: false });
+    
+    function gameChanged() {
+        refetchCats();
+        refresh();
+    }
 
     const savedMods = ref([]);
     const pages = computed(() => parseInt(fetchedMods.value?.meta?.total / 40 || 0));
@@ -122,7 +143,7 @@
     });
     const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
     const currentMods = computed(() => {
-        return [...savedMods.value, ...fetchedMods.value.data]
+        return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || []
     });
 
     let lastTimeout = null;

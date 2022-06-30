@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import useGet from '~~/composables/useGet';
-
     export default {
         data: () => ({
             role: {
@@ -63,10 +61,10 @@ import useGet from '~~/composables/useGet';
                     if (allow !== null) {
                         this.role.permissions[id].allow = allow;
                     } else {
-                        this.$delete(this.role.permissions, id);
+                        this.role.permissions.splice(this.role.permissions, id)
                     }
                 } else {
-                    this.$set(this.role.permissions, id, { allow });
+                    this.role.permissions[id] = { allow };
                 }
             }
         },

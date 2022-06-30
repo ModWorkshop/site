@@ -13,13 +13,15 @@
                 <font-awesome-icon icon="user"/> <a-user :avatar="false" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
-            <div v-if="!noCategories && (mod.game || mod.category)">
-                <font-awesome-icon icon="map-marker-alt"/> <nuxt-link v-if="mod.game" class="text-secondary" :to="`/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
-                <template v-if="mod.category && mod.game_id != mod.category_id">
-                    <span class="text-secondary"> / </span>
+            <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">
+                <font-awesome-icon icon="map-marker-alt"/> <nuxt-link v-if="showGame" class="text-secondary" :to="`/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
+                <template v-if="mod.category">
+                    <span v-if="showGame" class="text-secondary"> / </span>
                     <nuxt-link class="text-secondary" :to="`/category/${mod.category_id}`" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
                 </template>
             </div>
+
+            <br v-if="!(showGame || mod.category)">
 
             <flex gap="1">
                 <div class="inline-block">
@@ -34,46 +36,32 @@
     
                 <span class="inline-block ml-auto">
                     <span :title="date">
-                        <font-awesome-icon icon="clock"/> {{timeAgo}}
+                        <font-awesome-icon icon="clock"/> {{timeAgoText}}
                     </span>
                 </span>
             </flex>
         </flex>
     </content-block>
 </template>
-<script>
+<script setup>
 import { timeAgo } from "../../utils/helpers";
 
-export default {
-    props: {
-        sort: String,
-        noCategories: Boolean,
-        mod: Object
-    },
-    computed: {
-        date() {
-            //TODO: implement publish and bump date
-            if (this.sort == 'pub_date') {
-                return this.mod.created_at;
-            } else {
-                return this.mod.updated_at;
-            }
-        },
-        timeAgo() {
-            return timeAgo(this.date);
-        },
-        likes() {
-            return 0;
-        },
-        downloads() {
-            return this.mod.downloads;
-        },
-        views() {
-            return this.mod.views;
-        }
-    }
-};
+const { sort, mod, noGame } = defineProps({
+    sort: String,
+    noCategories: Boolean,
+    noGame: Boolean,
+    mod: Object
+});
+
+const showGame = computed(() => !noGame && mod.game);
+const date = computed(() => sort == 'pub_date' ? mod.created_at : mod.updated_at);
+const timeAgoText = computed(() => timeAgo(date.value));
+const likes = computed(() => 0);
+const downloads = computed(() => mod.downloads);
+const views = computed(() => mod.views);
+
 </script>
+
 <style scoped>
     .mod-title {
         font-size:18px;

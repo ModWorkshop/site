@@ -31,10 +31,10 @@
                     <h3 v-else-if="editingComment">Editing Comment</h3>
                     <h3 v-else>Commenting</h3>
                     <md-editor v-model="commentContent" rows="12"/>
-                    <div class="text-right">
-                        <a-button @click="setCommentDialog(false)" icon="times">{{$t('close')}}</a-button>
+                    <flex class="text-right">
                         <a-button @click="commentDialogConfirm" icon="comment">{{$t('comment')}}</a-button>
-                    </div>
+                        <a-button @click="setCommentDialog(false)" icon="times">{{$t('close')}}</a-button>
+                    </flex>
                 </flex>
             </div>
         </transition>
@@ -120,7 +120,7 @@
         await useDelete(props.url + '/' + commentId);
         if (!isReply) {
             const allComments = comments.value.data;
-            this.$delete(allComments, allComments.findIndex(com => com.id == commentId));
+            allComments.splice(allComments.findIndex(com => com.id == commentId));
         }
     }
     
