@@ -9,6 +9,7 @@ endpoints:
       title: Login
       description: 'Attempts to login a user with the provided username and password'
       authenticated: false
+      custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
@@ -19,20 +20,23 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: carissa47@example.org
+        example: iva.oconnell@example.com
         type: string
-      password:
-        name: password
+        custom: []
+      current_password:
+        name: current_password
         description: blalba@email.com.
         required: true
-        example: natus
+        example: eius
         type: string
-      remember_me:
-        name: remember_me
+        custom: []
+      remember:
+        name: remember
         description: ''
         required: false
         example: false
         type: boolean
+        custom: []
     responses: []
     responseFields: []
   -
@@ -43,6 +47,7 @@ endpoints:
       title: Register
       description: 'Attempts to register users'
       authenticated: false
+      custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
@@ -55,18 +60,21 @@ endpoints:
         required: true
         example: qui
         type: string
+        custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: damian85@example.com
+        example: isac29@example.com
         type: string
+        custom: []
       password:
         name: password
         description: ''
         required: true
-        example: quas
+        example: nesciunt
         type: string
+        custom: []
     responses: []
     responseFields: []
   -
@@ -77,6 +85,7 @@ endpoints:
       title: Logout
       description: 'Logs out the currently authenticated user.'
       authenticated: true
+      custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
