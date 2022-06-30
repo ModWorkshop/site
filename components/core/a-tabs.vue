@@ -117,8 +117,9 @@ function computeTabs() {
 
 <style>
     .tab-link {
+        font-size: 1.125rem;
         border-radius: 4px;
-        padding: 0.5rem 2rem;
+        padding: 0.75rem 2rem;
         color: var(--secondary-text-color);
     }
 
