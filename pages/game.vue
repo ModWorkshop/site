@@ -1,7 +1,7 @@
 <template>
 <page-block>
     <div v-if="game">
-        <img v-if="game.banner" src="/mydownloads/images/{{game.banner}}" class="d-flex card-img-top" style="width: 100%;height: 265px;object-fit: cover;">
+        <img v-if="game.banner" :src="`/images/${game.banner}`" class="d-flex card-img-top" style="width: 100%;height: 265px;object-fit: cover;">
         <div v-else class="d-flex card-img-top" style="background-image: url('/mws/assets/images/default_banner.webp');background-position: center;height: 265px;100%;">
             <strong style="font-size: 42pt;" class="ml-2 align-self-end">
                 {{game.name}}
@@ -21,7 +21,7 @@
         </nav>
     </div>
     <div v-if="cats.length > 0" class="mt-3 p-2 bg-dark2">
-        <h4 class="text-center text-primary">{{type == 2 ? lang.mydownloads_categories : type == 1 ? lang.mods_games : lang.mydownloads_sub_categories}}</h4>
+        <h4 class="text-center text-primary">{{type == 2 ? lang.categories : type == 1 ? lang.mods_games : lang.subcategories}}</h4>
         <br>
         <div class="cats_grid">
             <div v-for="cat in cats" class="category">
