@@ -35,7 +35,7 @@
     import clone from 'rfdc/default';
     const route = useRoute();
 
-    let modTemplate = {
+    const modTemplate = {
         name: '',
         desc: '',
         images: [],
