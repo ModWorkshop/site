@@ -33,7 +33,7 @@
     const clss = computed(() => ({
         button: true,
         [`button-${props.color}`]: true,
-        'button-outline': props.noBg,
+        'button-no-bg': props.noBg,
         'button-large': props.large
     }));
 </script>
@@ -42,8 +42,9 @@
     .button {
         color: var(--button-text-color);
         padding: 0.5rem 0.75rem;
+        border: 1px solid transparent;
         border-radius: var(--border-radius);
-        transition: background-color, color 0.15s ease-in-out;
+        transition: background-color, color, border-color 0.15s ease-in-out;
     }
 
     .button-none {
@@ -52,16 +53,17 @@
 
     .button-primary {
         background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
 
-    .button-outline {
+    .button-no-bg {
         background-color: transparent;
-        border: 1px solid var(--primary-color);
         color: var(--primary-color);
     }
 
     .button-secondary {
         background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
     }
 
     .button-large {
@@ -70,10 +72,11 @@
 
     .button:disabled {
         background-color: var(--disabled-color);
+        border-color: var(--disabled-color);
     }
 
     .button:hover:enabled {
-        transition: background-color, color 0.15s ease-in-out;
+        transition: background-color, color, border-color 0.15s ease-in-out;
         cursor: pointer;
     }
 

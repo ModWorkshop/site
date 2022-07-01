@@ -22,7 +22,7 @@
         <flex class="user-items mr-2" gap="6"> 
             <div>
                 <a-input placeholder="Search" style="width: 250px;"/>
-                <a-button icon="search" style="background-color: var(--input-bg-color); padding: 0.6rem 0.75rem;"/>
+                <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
             </div>
             <template v-if="user">
                 <flex class="my-auto text-lg" gap="4">
