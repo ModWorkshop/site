@@ -39,6 +39,9 @@ export const useStore = defineStore('main', {
                 this.tags = await useGet('/tags');
             }
         },
+        /**
+         * Fetches all games of the site
+         */
         async fetchGames() {
             if (this.games.length === 0) {
                 this.games = await useGet('/games');
