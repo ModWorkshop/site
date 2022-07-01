@@ -2,13 +2,22 @@
     <flex column gap="3">
         <flex>
             <flex>
-                <a-button icon="clock">{{$t('last_updated')}}</a-button>
-                <a-button icon="upload" :no-bg="true">{{$t('publish_date')}}</a-button>
-                <a-button icon="star" :no-bg="true">{{$t('popular_now')}}</a-button>
+                <a-button @click="setSortBy('bump_date')" icon="clock" :no-bg="sortBy != 'bump_date'">{{$t('last_updated')}}</a-button>
+                <a-button @click="setSortBy('publish_date')" icon="upload" :no-bg="sortBy != 'publish_date'">{{$t('publish_date')}}</a-button>
+                <a-button @click="setSortBy('score')" icon="star" :no-bg="sortBy != 'score'">{{$t('popular_now')}}</a-button>
+                <Popper arrow>
+                    <a-button icon="ellipsis" :no-bg="!['likes', 'downloads', 'views', 'name'].includes(sortBy)"/>
+                    <template #content>
+                        <a-dropdown-item icon="heart" @click="setSortBy('likes')">Likes</a-dropdown-item>
+                        <a-dropdown-item icon="download" @click="setSortBy('downloads')">Downloads</a-dropdown-item>
+                        <a-dropdown-item icon="eye" @click="setSortBy('views')">Views</a-dropdown-item>
+                        <a-dropdown-item icon="pencil" @click="setSortBy('name')">Name</a-dropdown-item>
+                    </template>
+                </Popper>
             </flex>
             <flex class="ml-auto" gap="3">
                 <flex gap="1">
-                    <a-button icon="th" style="background-color: var(--tab-selected-color)"/>
+                    <a-button icon="th"/>
                     <a-button icon="list"/>
                     <a-button icon="bars"/>
                 </flex>
@@ -52,7 +61,7 @@
                             {{error}}
                         </div>
                         <template v-else>
-                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="forcedGame"/>
+                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="forcedGame" :sort="sortBy"/>
                         </template>
                     </div>
                     <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
@@ -113,6 +122,7 @@
     const tags = computed(() => store.tags);
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
+    const sortBy = ref('bump_date');
 
     await store.fetchGames();
     await store.fetchTags();
@@ -127,6 +137,7 @@
             tags: selectedTags.value,
             categories: selectedCategories.value,
             block_tags: selectedBlockTags.value,
+            sort_by: sortBy.value
         }
     }));
 
@@ -134,6 +145,11 @@
     
     function gameChanged() {
         refetchCats();
+        refresh();
+    }
+
+    function setSortBy(sort) {
+        sortBy.value = sort;
         refresh();
     }
 
