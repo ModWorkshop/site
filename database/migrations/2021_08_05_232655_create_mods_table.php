@@ -52,6 +52,8 @@ class CreateModsTable extends Migration
 
             // These are more general table tracking dates.
             // They can be used, but bump_date should be used for ordering so we don't bump a mod for every little edit.
+            // To explain further, created_at is when the mod was created. updated_at is when the mod data was updated, regardless of anything.
+            // bump_date is when the mod was updated well enough to deserve a bump in the list. publish_date is when the mod was published for the first time.
             $table->timestamps();
 
             $table->index([
