@@ -7,9 +7,7 @@
             <md-editor v-model="mod.changelog" rows="12"/>
         </group>
         <group label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses">
-            <!--<el-select v-model="mod.download_id" placeholder="Select file or link" clearable filterable>
-                <el-option v-for="file in fileList" :key="file.id" :label="file.name" :value="file.id"/>
-            </el-select>-->
+            <a-select v-model="mod.download_id" placeholder="Select file or link" clearable :options="fileList"/>
         </group>
         <uploader list name="files" :url="uploadLink" :files="fileList">
             <template #headers>

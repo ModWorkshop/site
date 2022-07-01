@@ -53,7 +53,7 @@ if (rules && model && props.check) {
 </script>
 
 <style>
-    .form-group .el-select, .form-group .el-input, .form-group label, .form-group .md-editor, .form-group .el-textarea {
+    .form-group label, .form-group .md-editor {
         flex: 1;
     }
 

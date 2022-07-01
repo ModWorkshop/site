@@ -1,32 +1,27 @@
 <template>
-    <flex gap="3" column class="content-block-large">
+    <page-block>
         <div class="content-block">
-            <el-form @submit.native.prevent="save" style="display: flex; flex-direction: column;">
-                <el-form-item label="Name" prop="name">
-                    <el-input v-model="category.name"/>
-                </el-form-item>
-                <el-form-item label="Game">
-                    <el-select v-model="category.game_id" placeholder="Select a game (Leave empty to create a game) " style="width: 100%;" clearable filterable>
-                        <el-option v-for="game in games" :key="game.id" :label="game.name" :value="game.id"/>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="Parent Category">
-                    <el-select v-model="category.parent_id" placeholder="Select a parent category" style="width: 100%;" clearable filterable>
-                        <el-option v-for="category in categories" :key="category.id" :label="category.path" :value="category.id"/>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="mx-auto" style="width: unset">
-                    <el-input type="submit" value="Save"/>
-                </el-form-item>
-            </el-form>
+            <a-form @submit="save" style="display: flex; flex-direction: column;">
+                <group label="Name" prop="name">
+                    <a-input v-model="category.name"/>
+                </group>
+                <group label="Game">
+                    <a-select v-model="category.game_id" placeholder="Select a game" clearable :options="games"/>
+                </group>
+                <group label="Parent Category">
+                    <a-select v-model="category.parent_id" placeholder="Select a parent category" style="width: 100%;" clearable :options="categories"/>
+                </group>
+                <group class="mx-auto" style="width: unset">
+                    <a-input type="submit" value="Save"/>
+                </group>
+            </a-form>
         </div>
-    </flex>
+    </page-block>
 </template>
 
 <script setup>
     import { useStore } from "~~/store";
 
-    const isNew = ref(true);
     const store = useStore();
 
     const category = ref({
@@ -36,17 +31,16 @@
         parent_id: null
     });
 
+    await store.fetchGames();
+
     const categories = ref([]);
     const games = store.games;
+    const route = useRoute();
 
-    useFetch(async () => {
-        await store.fetchGames();
 
-        if (params.value.id) {
-            isNew.value = false;
-            category.value = await useGet(`categories/${params.value.id}`);
-        }
-    });
+    if (params.value.id) {
+        category.value = await useAPIFetch(`categories/${route.params.id}`);
+    }
 
     watch(() => category.value.game_id, async () => {
         if (category.value.game_id) {
@@ -57,12 +51,12 @@
         }
     }, {immediate: true});
 
-    const save = async function save() {
+    async function save() {
         try {
-            if (isNew.value) {
-                category.value = await usePost('categories', category.value);
+            if (category.value.id == -1) {
+                category.value = await usePatch(`categories/${category.value.id}`, category.value);
             } else {
-                await usePatch(`categories/${category.value.id}`, category.value);
+                category.value = await usePost('categories', category.value);
             }
         } catch (error) {
             console.error(error);

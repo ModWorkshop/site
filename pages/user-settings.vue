@@ -2,30 +2,28 @@
     <page-block size="med">
         <content-block class="p-8">
             <a-form @submit="save" :model="user" style="flex: 1;" :can-save="canSaveOverride" float-save-gui>
-                <tabs side>
-                    <form-tab name="account" title="Account">
+                <a-tabs side>
+                    <a-tab name="account" title="Account">
                         <group label="Username">
-                            <el-input v-model="user.name"/>
+                            <a-input v-model="user.name"/>
                         </group>
                         <group label="Email" v-if="user.email || isMe">
-                            <el-input :disabled="!isMe" v-model="user.email"/>
+                            <a-input :disabled="!isMe" v-model="user.email"/>
                         </group>
                         <template v-if="isMe">
                             <h3>Change Password</h3>
                             <group label="New Password">
-                                <el-input type="password" v-model="user.password"/>
+                                <a-input type="password" v-model="user.password"/>
                             </group>
                             <group label="Confirm Password">
-                                <el-input type="password" v-model="user.confirm_password"/>
+                                <a-input type="password" v-model="user.confirm_password"/>
                             </group>
                         </template>
                         <group label="roles" desc="As a regular user, you may only set vanity roles">
-                            <el-select v-model="user.role_ids" placeholder="Select Roles" multiple filterable>
-                                <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id"/>
-                            </el-select>
+                            <a-select v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
                         </group>
-                    </form-tab>
-                    <form-tab name="profile" title="Profile">
+                    </a-tab>
+                    <a-tab name="profile" title="Profile">
                         <group label="Avatar" column gap="3">
                             <img-uploader id="avatar" :src="user.avatar" :file.sync="avatarBlob">
                                 <template #label="{ src }">
@@ -46,84 +44,61 @@
 
                         <group>
                             <div>
-                                <el-checkbox v-model="user.private_profile">Private Profile</el-checkbox>
+                                <a-input type="checkbox" v-model="user.private_profile">Private Profile</a-input>
                                 <br>
                                 <small>Ticking this on will privatize your profile. Only staff members will be able to view it.</small>
                             </div>
                         </group>
 
                         <group label="Custom Title">
-                            <el-input v-model="user.custom_title"/>
+                            <a-input v-model="user.custom_title"/>
                         </group>
 
                         <group label="Bio" desc="Tell about yourself to people visiting your profile">
                             <md-editor rows="12" v-model="user.bio"/>
                         </group>
-                    </form-tab>
-                    <form-tab name="options" title="Options">
+                    </a-tab>
+                    <a-tab name="options" title="Options">
                         
-                    </form-tab>
-                </tabs>
+                    </a-tab>
+                </a-tabs>
             </a-form>
         </content-block>
     </page-block>
 </template>
 
-
-<script>
-import { useStore } from '../store';
-
-export default {
-    middleware({ $pinia, error }) {
-        const store = useStore($pinia);
-        if (!store.user) {
-            error({
-                statusCode: 401,
-                message: 'You must be logged in to enter this page!'
-            });
-        }
-    }
-};
-</script>
-
 <script setup>
 import clone from 'rfdc/default';
+import { useStore } from '../store';
+
+definePageMeta({
+    middleware: 'admins-only'
+});
 
 const store = useStore();
 
-const user = ref({
-    name: '',
-    role_ids: [],
-    bio: '',
-    private_profile: false
-});
-
 const isMe = ref(false);
-const roles = ref([]);
 
 const avatarBlob = ref(null);
 const bannerBlob = ref(null);
 
 const route = useRoute();
 
-useFetch(async () => {
-    let nextUser;
-    const id = parseInt(route.value.params.id);
-    if (id && id !== store.user.id) {
-        nextUser = await useGet(`users/${route.value.params.id}`);
-    }
-    else {
-        nextUser = clone(store.user);
-        isMe.value = true;
-    }
+let user;
+const id = parseInt(route.params.id);
+if (id && id !== store.user.id) {
+    const { data } = await useGet(`users/${route.params.id}`);
+    user = data;
+}
+else {
+    user = ref(clone(store.user));
+    isMe.value = true;
+}
 
-    const rolesRes = await useGet('/roles?only_assignable=1');
-    roles.value = rolesRes.data;
+const { data: roles } = await useAPIFetch('/roles?only_assignable=1');
 
-    nextUser.password = '';
-    nextUser.confirm_password = '';
-    user.value = nextUser;
-});
+user.password = '';
+user.confirm_password = '';
 
 const canSaveOverride = computed(() => !!avatarBlob.value || !!bannerBlob.value);
 
