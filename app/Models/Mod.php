@@ -121,6 +121,11 @@ class Mod extends Model
     protected $appends = ['breadcrumb'];
     protected $hidden = ['download_type'];
 
+    protected $casts = [
+        'bump_date' => 'datetime',
+        'publish_date' => 'datetime',
+    ];
+
     public function scopeList(Builder $query)
     {
         return $query->without(['tags']);
