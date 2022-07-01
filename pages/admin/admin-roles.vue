@@ -3,8 +3,8 @@
         <div class="mb-3">
             <a-button to="/admin/roles/new">New</a-button>
         </div>
-        <flex column gap="1" grow>
-            <nuxt-link class="role-button flex-grow" v-for="role of roles" :key="role.id" :to="`/admin/roles/${role.id}`">
+        <flex column grow>
+            <nuxt-link class="role-button flex-grow" v-for="role of roles.data" :key="role.id" :to="`/admin/roles/${role.id}`">
                 {{role.name}}
                 <br>
                 <small v-if="role.id == 1">
@@ -16,7 +16,10 @@
 </template>
 
 <script setup>
-const roles = useAPIFetch('/roles');
+definePageMeta({
+    middleware: 'admins-only'
+});
+const { data: roles } = await useAPIFetch('roles');
 </script>
 
 <style scoped>
