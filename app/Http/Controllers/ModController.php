@@ -8,6 +8,9 @@ use App\Models\Image;
 use App\Models\Mod;
 use App\Models\File;
 use Arr;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -47,23 +50,24 @@ class ModController extends Controller
             'block_tags' => 'array',
             // Filter out mods that are in these tags
             'block_tags.*' => 'integer|min:1|exists:tags,id',
-            'submitter_id' => 'integer|nullable|min:1'
+            'submitter_id' => 'integer|nullable|min:1',
+            'sort_by' => Rule::in(['bump_date', 'publish_date', 'likes', 'downloads', 'views', 'score'])
         ]);
         
         /**
          * @var Builder
          */
-        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderBy('updated_at', 'DESC');
+        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderByRaw("{$val['sort_by']} IS NOT NULL DESC");
 
-        if (!empty($val['game_id'])) {
+        if (isset($val['game_id'])) {
             $query->where('game_id', $val['game_id']);
         }
 
-        if (!empty($val['submitter_id'])) {
+        if (isset($val['submitter_id'])) {
             $query->where('submitter_id', $val['submitter_id']);
         }
 
-        if (!empty($val['tags'])) {
+        if (isset($val['tags'])) {
             $query->whereHasIn('tags', function(Builder $q) use ($val) {
                 $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
             });
@@ -150,6 +154,10 @@ class ModController extends Controller
         }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
+
+        $val['bump_date'] = Carbon::now();
+
+        var_dump($val);
 
         if (isset($mod)) {
             $mod->update($val);
