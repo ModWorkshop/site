@@ -127,6 +127,7 @@ class UserController extends Controller
     {
         $user = $request->user();
         $user->load('extra');
+        $user->load('roles.permissions');
         return new UserResource($user);
     }
 }
