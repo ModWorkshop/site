@@ -56,8 +56,8 @@
 </template>
 
 <script setup>
-    import { friendlySize, timeAgo } from '../utils/helpers';
-    import { useStore } from '../store';
+    import { friendlySize, timeAgo } from '../../utils/helpers';
+    import { useStore } from '../../store';
 
     const store = useStore();
     const route = useRoute();

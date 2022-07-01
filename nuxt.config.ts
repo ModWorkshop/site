@@ -22,13 +22,13 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "mod",
 				path: "/mod/:id",
-				file: resolve(__dirname, "pages/mod.vue")
+				file: resolve(__dirname, "pages/mod/index.vue")
 			});
 
 			routes.push({
 				name: "edit-mod",
 				path: "/mod/:id/edit",
-				file: resolve(__dirname, "pages/edit-mod.vue")
+				file: resolve(__dirname, "pages/mod/edit-mod.vue")
 			});
 			
 			routes.push({
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
 				name: "admin-page-edit-role",
 				path: "/admin/roles/:id",
 				file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
-			});
+			});      
 
 			routes.push({
 				name: "admin-page-new-role",
