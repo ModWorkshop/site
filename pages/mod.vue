@@ -27,8 +27,7 @@
                             <span>
                                 <strong v-if="modStatus">{{modStatus}}</strong>
                                 <strong v-if="mod.version && mod.version.length <= 24">{{$t('version')}} {{mod.version}}</strong>
-                                <strong>{{$t('last_updated')}}</strong> <!--TODO: implement last updater-->
-                                <span :title="mod.updated_at">{{updateDateAgo}}</span>
+                                <strong>{{$t('last_updated')}}</strong> <span :title="mod.bump_date">{{updateDateAgo}}</span>
                             </span>
                         </div>
                         <flex class="md:ml-auto">
@@ -57,7 +56,6 @@
 </template>
 
 <script setup>
-    import { parseMarkdown } from '../utils/md-parser';
     import { friendlySize, timeAgo } from '../utils/helpers';
     import { useStore } from '../store';
 
@@ -67,7 +65,7 @@
     const { data: mod } = await useAPIFetch(`mods/${route.params.id}/`);
 
     const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
-    const updateDateAgo = computed(() => timeAgo(mod.value.updated_at));
+    const updateDateAgo = computed(() => timeAgo(mod.value.bump_date));
     const modStatus = computed(() => '');
     //Guests can't actually like the mod, it's just a redirect.
     const canLike = computed(() => !store.user || store.user.id !== mod.value.submitter_id);

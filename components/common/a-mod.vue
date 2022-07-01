@@ -54,7 +54,7 @@ const { sort, mod, noGame } = defineProps({
 });
 
 const showGame = computed(() => !noGame && mod.game);
-const date = computed(() => sort == 'pub_date' ? mod.created_at : mod.updated_at);
+const date = computed(() => sort == 'publish_date' ? mod.publish_date : mod.bump_date);
 const timeAgoText = computed(() => timeAgo(date.value));
 const likes = computed(() => 0);
 const downloads = computed(() => mod.downloads);
