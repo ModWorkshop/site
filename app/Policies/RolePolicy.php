@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class RolePolicy
 {
@@ -16,9 +17,9 @@ class RolePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
-        return true;
+        return Response::allow();
     }
 
     /**
@@ -28,9 +29,9 @@ class RolePolicy
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Role $role)
+    public function view(?User $user, Role $role)
     {
-        return true;
+        return Response::allow();
     }
 
     /**
