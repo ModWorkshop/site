@@ -1,11 +1,11 @@
 <template>
     <div>
-        <label class="flex items-end gap-2" :for="id">
+        <label class="flexbox items-end gap-2" :for="id">
             <slot name="label" :src="currentSrc">
                 <a-img class="w-full round" :src="currentSrc"/>
             </slot>
         </label>
-        <input ref="input" type="file" :id="id" @change="onChange"/>
+        <input class="mt-1" ref="input" type="file" :id="id" @change="onChange"/>
     </div>
 </template>
 <script setup>
