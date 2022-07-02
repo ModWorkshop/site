@@ -5,10 +5,11 @@
         <img src="http://localhost:8000/storage/assets/nopreview.png" :class="{'ratio-image': true, nsfw: mod.is_nsfw && !mod.uses_default_thumbnail}" alt="thumbnail">
     </picture>
 </template>
-<script>
-export default {
+
+<script setup>
+defineProps({
     props: {
         mod: Object
     }
-};
+});
 </script>

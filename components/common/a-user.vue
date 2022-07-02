@@ -13,20 +13,18 @@
         </flex>
     </flex>
 </template>
-<script>
 
-export default {
-    props: {
-        details: String,
-        user : Object,
-        avatar: {
-            default: true,
-            type: Boolean
-        },
-        avatarSize: {
-            default: null,
-            type: String
-        },
-    }
-};
+<script setup>
+defineProps({
+    details: String,
+    user : Object,
+    avatar: {
+        default: true,
+        type: Boolean
+    },
+    avatarSize: {
+        default: null,
+        type: String
+    },
+});
 </script>
