@@ -8,8 +8,6 @@
 
 <script setup>
 defineProps({
-    props: {
-        mod: Object
-    }
+    mod: Object
 });
 </script>
