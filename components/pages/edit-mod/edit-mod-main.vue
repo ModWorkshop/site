@@ -14,7 +14,7 @@
             <a-select v-model="mod.category_id" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
         </group>
         <group label="Tags" desc="Make your mod more discoverable">
-            <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags" multiple/>
+            <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple/>
         </group>
         <group label="Visiblity">
             <a-select v-model="mod.visibility" placeholder="Select a category" :options="visItems"/>

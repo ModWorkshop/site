@@ -1,6 +1,6 @@
 <template>
     <nuxt-link
-        :class="{'tab-link': true, 'tab-link-side': side, selected: $route.path.startsWith(to)}"
+        :class="{'tab-link': true, 'tab-link-side': side, selected: $route.path == to}"
         :to="to">
         {{title}}
     </nuxt-link>

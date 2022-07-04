@@ -6,6 +6,7 @@
         :data-selected="tabState.current == tabName"
         :tabindex="tabState.current == tabName ? 0 : -1"
         :aria-selected="tabState.current == tabName"
+        href="#"
         :aria-controls="`${tabName}-tab-panel`">
         {{tabTitle}}
     </a>

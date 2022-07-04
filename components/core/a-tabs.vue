@@ -8,7 +8,6 @@
                 :tab-title="tab.title"
                 ref="tabLinks" 
                 :key="tab.name" 
-                :href="type == 'route' ? tabName : null"
                 @click="() => setCurrentTab(tab.name)"
                 @keydown.left="() => arrowKeysMove(true)"
                 @keydown.right="() => arrowKeysMove(false)"
@@ -16,8 +15,7 @@
             <slot name="buttons"/>
         </flex>
         <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': side}">
-            <slot v-if="type != 'route'"/>
-            <slot v-else name="content"/>
+            <slot/>
         </div>
     </flex>
 </template>
@@ -28,7 +26,6 @@ const router = useRouter();
 
 const props = defineProps({
     side: Boolean,
-    route: String,
     type: {
         default: 'query',
         type: String
@@ -49,7 +46,7 @@ const tabs = ref(slots.default().map(tab => {
 }).filter(tab => typeof tab == 'object'));
 
 const tabState = reactive({
-    current: props.type == 'route' ? props.route : route.query.tab, 
+    current: props.type == 'query' ? route.query.tab : null, 
     focus: 0
 });
 
@@ -59,7 +56,6 @@ if (tabs.value.length > 0 && (!tabState.current || tabs.value.reduce((prev, curr
 }
 
 provide('tabState', tabState);
-provide('type', props.type);
 provide('side', props.side);
 
 function arrowKeysMove(left) {

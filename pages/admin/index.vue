@@ -1,11 +1,12 @@
 <template>
     <page-block size="med">
         <content-block class="p-6">
-            <a-nav :route="route" side>
-                <a-nav-link to="/admin/home" title="Home"/>
+            <a-nav side>
+                <a-nav-link to="/admin" title="Home"/>
                 <a-nav-link to="/admin/roles" title="Roles"/>
+                <a-nav-link to="/admin/tags" title="Tags"/>
                 <template #content>
-                    <slot/>
+                    <NuxtPage/>
                 </template>
             </a-nav>
         </content-block>
@@ -14,10 +15,8 @@
 
 <script setup>
 definePageMeta({
-    middleware: 'admins-only'
-});
-defineProps({
-    route: String,
+    middleware: 'admins-only',
+    keepalive: true,
 });
 </script>
 

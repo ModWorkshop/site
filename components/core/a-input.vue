@@ -11,6 +11,10 @@
         type: String,
         value: String
     });
+
+    defineEmits([
+        'update:modelValue', 
+    ]);
 </script>
 
 <style scoped>

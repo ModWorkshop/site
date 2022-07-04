@@ -52,13 +52,19 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "admin-page",
 				path: "/admin",
-				file: resolve(__dirname, "pages/admin/index.vue")
-			});
-
-			routes.push({
-				name: "admin-page-roles",
-				path: "/admin/roles",
-				file: resolve(__dirname, "pages/admin/admin-roles.vue")
+				file: resolve(__dirname, "pages/admin/index.vue"),
+				children: [
+					{
+						name: "admin-page-roles",
+						path: "/admin/roles",
+						file: resolve(__dirname, "pages/admin/admin-roles.vue")
+					},
+					{
+						name: "admin-page-tags",
+						path: "/admin/tags",
+						file: resolve(__dirname, "pages/admin/admin-tags.vue")
+					}
+				]
 			});
 
 			routes.push({

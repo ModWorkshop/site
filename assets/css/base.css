@@ -181,3 +181,9 @@ p {
 .flexbox {
     display: flex;
 }
+
+.list-button {
+    color: var(--text-color);
+    background-color: var(--alt-bg-color);
+    padding: 1rem;
+}
