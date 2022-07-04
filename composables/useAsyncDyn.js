@@ -6,8 +6,7 @@
  * @param {function} func 
  * @param {object} options 
  */
-export default function(key, func, options) {
-    options ??= {};
+export default function(key, func, options={}) {
     options.initialCache = false;
     return useAsyncData(key, func, options)
 }

@@ -1,4 +1,6 @@
-export default function(url, options) {
+import { FetchOptions } from "ohmyfetch";
+
+export default function(url: string|Function, options: FetchOptions) {
     const key = typeof url == 'function' ? url() : url;
     return useAsyncData(key, () => {
         const current = typeof url == 'function' ? url() : url;

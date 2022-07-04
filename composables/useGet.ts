@@ -1,6 +1,7 @@
+import { FetchOptions } from 'ohmyfetch';
 import queryString from 'query-string';
 
-export default async function(url, options) {
+export default async function(url: string, options?: FetchOptions) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
 
