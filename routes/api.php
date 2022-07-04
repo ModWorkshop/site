@@ -92,6 +92,7 @@ Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
 Route::resource('mods', ModController::class);
+Route::resource('tags', TagController::class);
 Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
 

@@ -21,6 +21,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $val = $request->validate([
+            'query' => 'string|nullable',
             'page' => 'integer|min:1',
             'only_assignable' => 'boolean|nullable'
         ]);
@@ -29,6 +30,10 @@ class RoleController extends Controller
 
         $roles = Role::with('permissions')->orderBy('order');
         
+        if (isset($val['query']) && !empty($val['query'])) {
+            $roles->whereRaw("name % ?", [$val['query']]);
+        }
+
         if ($val['only_assignable'] ?? false) {
             $roles->where('id', '!=', 1);
         }

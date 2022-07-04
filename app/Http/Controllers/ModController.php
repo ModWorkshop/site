@@ -54,10 +54,12 @@ class ModController extends Controller
             'sort_by' => Rule::in(['bump_date', 'publish_date', 'likes', 'downloads', 'views', 'score'])
         ]);
         
+        $sortBy = $val['sort_by'] ?? 'bump_date';
+
         /**
          * @var Builder
          */
-        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderByRaw("{$val['sort_by']} IS NOT NULL DESC");
+        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderByRaw("{$sortBy} IS NOT NULL DESC");
 
         if (isset($val['game_id'])) {
             $query->where('game_id', $val['game_id']);
