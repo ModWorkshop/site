@@ -25,19 +25,7 @@
         </flex>
 
         <flex column gap="3">
-            <flex gap="1">
-                <template v-if="pages > 5">
-                    <a-button v-if="page > 3" @click="setPage(1, true)">1</a-button>
-                    <a-button disabled v-if="pageNumbers[0] > 2">...</a-button>
-                </template>
-                <a-button :disabled="page == n" @click="setPage(n, true)" v-for="n in pageNumbers">
-                    {{n}}
-                </a-button>
-                <template v-if="pages > 5">
-                    <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
-                    <a-button v-if="pages - page > 2" @click="setPage(pages, true)">{{pages}}</a-button>
-                </template>
-            </flex>
+            <a-pagination v-model="page" :total="fetchedMods.meta.total" perPage="40" @update="page => setPage(page, true)" v-model:pages="pages"/>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex gap="6">
                 <flex wrap column gap="3" class="mods justify-content-start" style="flex:10;">
@@ -119,10 +107,11 @@
     const selectedTags = ref([]);
     const selectedBlockTags = ref([]);
     const loading = ref(true);
-    const tags = computed(() => store.tags);
+    const tags = computed(() => store.tags.data);
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
     const sortBy = ref('bump_date');
+    const pages = ref(0);
 
     await store.fetchGames();
     await store.fetchTags();
@@ -154,16 +143,7 @@
     }
 
     const savedMods = ref([]);
-    const pages = computed(() => parseInt(fetchedMods.value?.meta?.total / 40 || 0));
-    const pageNumbers = computed(() => {
-        if (page.value < 4) {
-            return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
-        } else if (pages.value - page.value > 2) {
-            return [...Array(5).keys()].map(x => x + page.value-2);
-        } else {
-            return [...Array(5).keys()].map(x => pages.value - 4 + x);
-        }
-    });
+
     const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
     const currentMods = computed(() => {
         return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || []
