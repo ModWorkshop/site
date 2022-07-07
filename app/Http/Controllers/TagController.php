@@ -7,6 +7,9 @@ use App\Http\Resources\TagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
+/**
+ * @group Tags
+ */
 class TagController extends Controller
 {
     public function __construct() {

@@ -1,14 +1,12 @@
-name: Category
-description: |-
-
-  API routes for interacting with categories.
+name: Endpoints
+description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: categories
+    uri: sanctum/csrf-cookie
     metadata:
-      title: 'Mod Cateogries'
+      title: 'Return an empty response simply to trigger the storage of the CSRF cookie in the browser.'
       description: ''
       authenticated: false
       custom: []
@@ -16,258 +14,60 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
-    queryParameters:
-      game_id:
-        name: game_id
-        description: 'Must be at least 1.'
-        required: false
-        example: 0
-        type: integer
-        custom: []
-      limit:
-        name: limit
-        description: 'Must be at least 1. Must not be greater than 1000.'
-        required: false
-        example: 707
-        type: integer
-        custom: []
-      only_names:
-        name: only_names
-        description: 'Returns only the names of the categories.'
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      include_paths:
-        name: include_paths
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-    bodyParameters: []
-    responses:
-      -
-        status: 422
-        content: '{"message":"The game id must be at least 1.","errors":{"game_id":["The game id must be at least 1."]}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '58'
-          vary: Origin
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game}/categories'
-    metadata:
-      title: 'Mod Cateogries'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game:
-        name: game
-        description: ''
-        required: true
-        example: 2
-        type: integer
-        custom: []
-    queryParameters:
-      game_id:
-        name: game_id
-        description: 'Must be at least 1.'
-        required: false
-        example: 0
-        type: integer
-        custom: []
-      limit:
-        name: limit
-        description: 'Must be at least 1. Must not be greater than 1000.'
-        required: false
-        example: 723
-        type: integer
-        custom: []
-      only_names:
-        name: only_names
-        description: 'Returns only the names of the categories.'
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      include_paths:
-        name: include_paths
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-    bodyParameters: []
-    responses:
-      -
-        status: 422
-        content: '{"message":"The game id must be at least 1.","errors":{"game_id":["The game id must be at least 1."]}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '40'
-          vary: Origin
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'categories/{category}'
-    metadata:
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      category:
-        name: category
-        description: ''
-        required: true
-        example: 2
-        type: integer
-        custom: []
     queryParameters: []
     bodyParameters: []
     responses:
       -
-        status: 200
-        content: '{"id":2,"name":"PAYDAY 2","short_name":"payday-2","desc":"","hidden":false,"grid":false,"disporder":0,"parent_id":null,"game_id":null,"thumbnail":"","banner":"","buttons":"","webhook_url":"","approval_only":false,"last_date":"2021-08-12 22:49:12","created_at":null,"updated_at":null,"path":"PAYDAY 2"}'
+        status: 204
+        content: ''
         headers:
           cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '59'
           vary: Origin
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IkNQbGt4T1hyVXF0Y1hVaDNIdFRxV3c9PSIsInZhbHVlIjoiY2tuVXJ2QUx5dmxhVlpDeGlLS0RjTTl4TXQ0VHdOdFI0QzZiOHNseDhXK1N5Y29XR29CV2lxSjRDYXZyOCtVNUExbndGWUtGa3RZZ3ZtZUswM1ZnWEhPNGNoS0FmbFJzUDJsTHcranpndFdjVDNYT0FUNXdtcmJaYnMxam1YZUsiLCJtYWMiOiJiNTk5NGJhYTQ5MjY2YTM2MmIyYjczM2Q5OGZmYjIyMjBiNDBkM2MzY2NhOGM3Njg1NGIxYWM1MDA1NThmNjc5IiwidGFnIjoiIn0%3D; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; samesite=lax; laravel_session=eyJpdiI6IlhaZHFKbVRNSzJ3QUFlbVgyanJ3VkE9PSIsInZhbHVlIjoiU0dhUldqTzVUQU9aYm00dXNYQU9BRGh0UmFQclQ2d2wyT0JMOS85d0kyb29NZ08vUHZYUzQ1d2ovcVVkTjlNaGZGUDB4RThqZ29WbGhXcUJsMGFFMC82T2Q0S24wbUJrT3lZUExzaTRNRmhienBNOS9zN3Y2TnpLWW92NU1sM0EiLCJtYWMiOiJjN2VlM2MxYTFjMTkyNDZjMTQ1ZmRhYzg1MWNjMTExYjUzZDhjNDY5N2QyYWE1YmNkYzkzM2RkOGY5N2QyMTQ4IiwidGFnIjoiIn0%3D; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax; JzJ6memHpSNh2b7pN9XJ6pn2wkB73rJ8HfSpKy9Y=eyJpdiI6IjJ0dk9wNXZIL3AxcDZIUFIvdFM1MkE9PSIsInZhbHVlIjoiSW5wdDNzT3ExWmVsS1JlQ2ZZblRxV2ZLOFplLy9QUWZkTWNUeFVIQksvUmwyUGJaVHQ2d0d6a0JFNDg4Mlk0bE5qcHJ0R3gzNGFYakg4amRZdEorSVBYTUtEWFM4QnpBcWFJVkVyTUdIOHFVTHdiOTZIWExXTU4vWWtjM2pGOTVpczFiaW9IblYyVmV3VHhrWTJzYWpaUnM5d0NjTS8xNUpWWDJVU0R2OVpBNm8zRDdVRVlCUkVWK1k5Mmw2eUczODNMcFFWSGVlVElpOFRzeldKbHJyVkhPZkZBMnZuU01CR3kzNEZucEhaSGxWS2dDNmFyeFlzTmZjQVFWZG9lZkIyNzFqM3dhOENVVDV2eC9iSUZYN1dCYUJRbjhhT1doUVpMM241VCtEaG9GSDBNM0E1bk1LTHZmV1JReGY4eXF5bGhjTzJPTmJQTVNjUmVMZCtIRlNXWmpRakJsOHRBVlkvVUNjaGM3QUs3cE1MTVVDR0dwbmlnQS81R2gzT2NQZmRrT1FCa2w2VWg2TDQwanRGdXVWdz09IiwibWFjIjoiNTkxNTMzNzViNWIzMGFlNTdkNDhlNGU2ZWI4NzhiNDcxYTVkNGMxYTI0MTQ4ZmRmN2NiMGU4OWEwMmU0YzkxZiIsInRhZyI6IiJ9; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax'
         description: null
     responseFields: []
   -
     httpMethods:
-      - POST
-    uri: categories
+      - GET
+    uri: 'mods/{mod_id}/comments'
     metadata:
-      title: ''
+      title: 'Display a listing of the resource.'
       description: ''
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
+    urlParameters:
+      mod_id:
+        name: mod_id
+        description: 'The ID of the mod.'
+        required: true
+        example: 11
+        type: integer
+        custom: []
     queryParameters: []
     bodyParameters:
-      name:
-        name: name
-        description: 'Must not be greater than 150 characters.'
-        required: true
-        example: rbtmvpfvrhflqkzepziydmphfscszdwzsyswgjhrqp
+      query:
+        name: query
+        description: ''
+        required: false
+        example: qui
         type: string
         custom: []
-      game_id:
-        name: game_id
-        description: 'Must be at least 1.'
-        required: false
-        example: 0
-        type: integer
-        custom: []
-      parent_id:
-        name: parent_id
-        description: 'Must be at least 1.'
-        required: false
-        example: 1
-        type: integer
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: games
-    metadata:
-      title: 'Mod Cateogries'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters:
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 1000.'
         required: false
-        example: 676
+        example: 874
         type: integer
         custom: []
-      only_names:
-        name: only_names
-        description: 'Returns only the names of the categories.'
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      include_paths:
-        name: include_paths
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-    bodyParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"data":[{"id":276,"name":"accusamus","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"accusamus"},{"id":167,"name":"adipisci","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"adipisci"},{"id":271,"name":"aut","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"aut"},{"id":387,"name":"Best game 2022","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-10 07:38:01","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"Best game 2022"},{"id":272,"name":"blanditiis","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"blanditiis"},{"id":277,"name":"consequatur","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"consequatur"},{"id":48,"name":"corporis","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"corporis"},{"id":162,"name":"corrupti","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"corrupti"},{"id":158,"name":"dolorum","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"dolorum"},{"id":269,"name":"enim","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"enim"},{"id":161,"name":"et","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"et"},{"id":57,"name":"eveniet","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"eveniet"},{"id":56,"name":"fuga","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"fuga"},{"id":166,"name":"harum","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"harum"},{"id":275,"name":"illum","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"illum"},{"id":46,"name":"ipsa","short_name":"","disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:22:33","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"ipsa"},{"id":159,"name":"iste","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"iste"},{"id":50,"name":"magnam","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"magnam"},{"id":268,"name":"natus","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"natus"},{"id":54,"name":"odio","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"odio"},{"id":270,"name":"pariatur","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"pariatur"},{"id":2,"name":"PAYDAY 2","short_name":"payday-2","disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-08-12 22:49:12","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"PAYDAY 2"},{"id":274,"name":"praesentium","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"praesentium"},{"id":163,"name":"quas","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"quas"},{"id":49,"name":"qui","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"qui"},{"id":160,"name":"qui","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"qui"},{"id":52,"name":"quos","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"quos"},{"id":273,"name":"sed","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:41","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"sed"},{"id":53,"name":"sint","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"sint"},{"id":55,"name":"tenetur","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"tenetur"},{"id":383,"name":"test","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-09 08:48:32","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"test"},{"id":384,"name":"test","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-09 08:48:45","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"test"},{"id":381,"name":"test","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-09 08:46:30","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"test"},{"id":382,"name":"test","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-09 08:47:38","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"test"},{"id":164,"name":"ut","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"ut"},{"id":51,"name":"voluptas","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:24:01","created_at":"2022-06-26T20:05:54.000000Z","updated_at":"2022-06-26T20:05:54.000000Z","path":"voluptas"},{"id":165,"name":"voluptas","short_name":null,"disporder":0,"thumbnail":"","banner":"","buttons":"","webhook_url":"","last_date":"2021-09-06 15:25:28","created_at":"2022-06-26T20:05:55.000000Z","updated_at":"2022-06-26T20:05:55.000000Z","path":"voluptas"}],"links":{"first":"http:\/\/localhost:3000\/games?page=1","last":"http:\/\/localhost:3000\/games?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:3000\/games?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:3000\/games","per_page":1000,"to":37,"total":37}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '42'
-          vary: Origin
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{id}'
-    metadata:
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 2
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
     responses:
       -
         status: 404
         content: |-
           {
-              "message": "No query results for model [App\\Models\\Section] 1",
+              "message": "No query results for model [App\\Models\\Mod] 1",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php",
               "line": 378,
@@ -719,15 +519,14 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '41'
+          x-ratelimit-remaining: '30'
           vary: Origin
         description: null
     responseFields: []
   -
     httpMethods:
-      - PUT
-      - PATCH
-    uri: 'games/{id}'
+      - GET
+    uri: _ignition/health-check
     metadata:
       title: ''
       description: ''
@@ -736,22 +535,691 @@ endpoints:
     headers:
       Content-Type: application/json
       Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"can_execute_commands":true}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: 'mods/{mod}/comments'
+    metadata:
+      title: 'Store a newly created resource in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
     urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
+      mod:
+        name: mod
+        description: ''
         required: true
-        example: 2
+        example: 3
         type: integer
         custom: []
     queryParameters: []
     bodyParameters:
-      name:
-        name: name
-        description: 'Must not be greater than 150 characters.'
+      content:
+        name: content
+        description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: true
-        example: ddtrmtbeedrblzwrhwidleksis
+        example: wexstmooqnuhxvktpejnktzpwltdiqbzgwlndpbqguofrsqnatpscpzqyexfzqwtbxgrdagbktrsmxsvewhfhjlhbraoubdmrmijarolxwzrgicpsskqilwsjlzesyfjxryeascnucrsoeqqtqqkacqhbewkepgjfsnzbawidyldjbyxwvjyurwfergosdfsvkkmkankxehiymbvgqynqnditqedgniyihlwbfsanmyjfntyvofavjttqvgtkqdvhjyjytuhxewudrnujidnrmnuefhvcivlbpowmr
         type: string
         custom: []
+      reply_to:
+        name: reply_to
+        description: 'Must be at least 1.'
+        required: false
+        example: 0
+        type: integer
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: _ignition/execute-solution
+    metadata:
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      solution:
+        name: solution
+        description: ''
+        required: true
+        example: voluptate
+        type: string
+        custom: []
+      parameters:
+        name: parameters
+        description: ''
+        required: false
+        example:
+          - perspiciatis
+        type: 'string[]'
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'mods/{mod_id}/comments/{id}'
+    metadata:
+      title: 'Display the specified resource.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      mod_id:
+        name: mod_id
+        description: 'The ID of the mod.'
+        required: true
+        example: 16
+        type: integer
+        custom: []
+      id:
+        name: id
+        description: 'The ID of the comment.'
+        required: true
+        example: 31
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Mod] 1",
+              "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
+              "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php",
+              "line": 378,
+              "trace": [
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php",
+                      "line": 354,
+                      "function": "prepareException",
+                      "class": "Illuminate\\Foundation\\Exceptions\\Handler",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\nunomaduro\\collision\\src\\Adapters\\Laravel\\ExceptionHandler.php",
+                      "line": 54,
+                      "function": "render",
+                      "class": "Illuminate\\Foundation\\Exceptions\\Handler",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+                      "line": 51,
+                      "function": "render",
+                      "class": "NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 185,
+                      "function": "handleException",
+                      "class": "Illuminate\\Routing\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+                      "line": 126,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+                      "line": 102,
+                      "function": "handleRequest",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+                      "line": 54,
+                      "function": "handleRequestUsingNamedLimiter",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
+                      "line": 33,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 141,
+                      "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
+                      "line": 34,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 726,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 703,
+                      "function": "runRouteWithinStack",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 667,
+                      "function": "runRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 656,
+                      "function": "dispatchToRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 167,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 141,
+                      "function": "Illuminate\\Foundation\\Http\\{closure}",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php",
+                      "line": 31,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php",
+                      "line": 40,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+                      "line": 27,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php",
+                      "line": 86,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\fruitcake\\laravel-cors\\src\\HandleCors.php",
+                      "line": 52,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Fruitcake\\Cors\\HandleCors",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php",
+                      "line": 39,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 142,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 111,
+                      "function": "sendRequestThroughRouter",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 299,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 287,
+                      "function": "callLaravelOrLumenRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 89,
+                      "function": "makeApiCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 45,
+                      "function": "makeResponseCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 35,
+                      "function": "makeResponseCallIfConditionsPass",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 222,
+                      "function": "__invoke",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 179,
+                      "function": "iterateThroughStrategies",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 116,
+                      "function": "fetchResponses",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 123,
+                      "function": "processRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 80,
+                      "function": "extractEndpointsInfoFromLaravelApp",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 56,
+                      "function": "extractEndpointsInfoAndWriteToDisk",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\knuckleswtf\\scribe\\src\\Commands\\GenerateDocumentation.php",
+                      "line": 55,
+                      "function": "get",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 36,
+                      "function": "handle",
+                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php",
+                      "line": 41,
+                      "function": "Illuminate\\Container\\{closure}",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 93,
+                      "function": "unwrapIfClosure",
+                      "class": "Illuminate\\Container\\Util",
+                      "type": "::"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 37,
+                      "function": "callBoundMethod",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+                      "line": 651,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+                      "line": 136,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\Container",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\symfony\\console\\Command\\Command.php",
+                      "line": 291,
+                      "function": "execute",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+                      "line": 121,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Command\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 989,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 299,
+                      "function": "doRunCommand",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 171,
+                      "function": "doRun",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+                      "line": 102,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+                      "line": 129,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "C:\\Users\\Daniel\\mws-v3-backend\\artisan",
+                      "line": 37,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Console\\Kernel",
+                      "type": "->"
+                  }
+              ]
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '29'
+          vary: Origin
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: _ignition/update-config
+    metadata:
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      theme:
+        name: theme
+        description: 'Must be one of <code>light</code>, <code>dark</code>, or <code>auto</code>.'
+        required: true
+        example: auto
+        type: string
+        custom: []
+      editor:
+        name: editor
+        description: ''
+        required: true
+        example: sint
+        type: string
+        custom: []
+      hide_solutions:
+        name: hide_solutions
+        description: ''
+        required: true
+        example: true
+        type: boolean
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'mods/{mod_id}/comments/{id}'
+    metadata:
+      title: 'Update the specified resource in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      mod_id:
+        name: mod_id
+        description: 'The ID of the mod.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+      id:
+        name: id
+        description: 'The ID of the comment.'
+        required: true
+        example: 31
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      content:
+        name: content
+        description: 'This field is required when <code>pinned</code> is not present. Must be at least 3 characters. Must not be greater than 1000 characters.'
+        required: false
+        example: nwlcxjpjqzcyskwbupivdesoixitjazwkeovynqnndijctbjkixuipleniksdtmujasorkpuisamklxaahxjjgpubktctetmhesysgkdaddcwywtqufkiukhabiwzpfkicxuarfpmmrmmwcunqfgaaldmtyyhlswyionlgijxhpalhzhfyiekabalhbgmiobolohntgulepesyzehldkaybaxwezawbnyiwfslmcboxpizuuafnrgprsvilblibggvccabxzkcakxtmgkxuwcguboijgzuyeaezuotayqnsorjcuwsyizsmkjhsilitctejdrvmpftshgfjxwhdvfzdvwxpjteiuijsdxuisrcbaeidzicmkauvkldvjzypsuoqqwcbxfawxptwlzpvngyybcbjsbizxxtenimohyneivtmnkyfvaxikjjdmotmaditsewbtmpjpywiibkpstdlhovhajrovrlihibncebcyniwebbebcfxgwezrmjilmtbkjpmdteskucmkfjzkffcoglhwrxzdyvvzutotqhfupopzpuhljzatqojjwvoqitflokzhgykfibdgubwsdrsbiycwnvlijaupwjzdkbaiuumezhuxrivfjwtattcvyfaxqpbxowwhogomkertwqqrdvvnjfzmbskerujweumnklaesswxtioohuvnjnwlvxeipqcukmqlontpitpkxtbpsclvqgagmvkmgkeexxvfikprwakywlkaslzpbqsfcptbxkwpeqggmpnndpqxdnedxptunhcqbquplbijevdglrqcqytxqijjycsvtkqlwrsqwgivvtvgdshxvatblrrujfjzvrsfkoqdpugvqsxruenxgfnizhwygvjpebalehqhljozwnoredbxnjhimbfhivxbngimjbnuetyfaglls
+        type: string
+        custom: []
+      pinned:
+        name: pinned
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'mods/{mod_id}/comments/{id}'
+    metadata:
+      title: 'Remove the specified resource from storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      mod_id:
+        name: mod_id
+        description: 'The ID of the mod.'
+        required: true
+        example: 16
+        type: integer
+        custom: []
+      id:
+        name: id
+        description: 'The ID of the comment.'
+        required: true
+        example: 31
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
     responses: []
     responseFields: []

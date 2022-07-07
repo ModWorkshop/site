@@ -6,6 +6,9 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Storage;
 
+/**
+ * @group Files
+ */
 class FileController extends Controller
 {
     public function __construct() {

@@ -84,16 +84,20 @@ Route::get('/auth/steam/callback', function(Request $request) {
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
-Route::get('tags', [TagController::class, 'getTags']);
-
+// Resources
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
 Route::resource('mods', ModController::class);
 Route::resource('tags', TagController::class);
+/**
+ * @group Mods
+ */
 Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
 Route::resource('categories', TagController::class);
+Route::resource('games', SectionController::class);
+Route::get('games/{game}/categories', [CategoryController::class, 'getCategories']);
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
@@ -111,11 +115,3 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/mods/{mod}/files/{file}', [ModController::class, 'deleteModFile']);
     });
 });
-
-/**
- * @group Category
- */
-Route::resource('games', SectionController::class);
-Route::get('games/{game}/categories', [CategoryController::class, 'getCategories']);
-
-//blabla

@@ -11,6 +11,9 @@ use Date;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
+/**
+ * @group Categories
+ */
 class CategoryController extends Controller
 {
     /**

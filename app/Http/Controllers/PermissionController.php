@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
+/**
+ * @group Permissions
+ */
 class PermissionController extends Controller
 {
     /**

@@ -12,7 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * @group User
+ * @group Users
  * 
  * API routes for interacting with users
  */

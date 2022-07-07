@@ -7,6 +7,9 @@ use App\Models\Role;
 use Arr;
 use Illuminate\Http\Request;
 
+/**
+ * @group Roles
+ */
 class RoleController extends Controller
 {
     public function __construct() {

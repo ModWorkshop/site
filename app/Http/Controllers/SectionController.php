@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
 /**
- * @group Category
+ * @group Sections
  * 
  * API routes for interacting with game sections.
  */
