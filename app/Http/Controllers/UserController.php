@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
@@ -26,9 +27,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(FilteredRequest $request)
     {
-        //
+        $users = User::queryGet($request->validated());
+        return UserResource::collection($users);
     }
 
     /**

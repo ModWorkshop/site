@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Mod;
@@ -17,15 +18,9 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Mod $mod)
+    public function index(FilteredRequest $request, Mod $mod)
     {
-        $val = $request->validate([
-            'page' => 'integer|min:1',
-        ]);
-
-        $val['page'] ??= 1;
-
-        $comments = $mod->comments()->paginate(page: (int)$val['page'], perPage: 100);
+        $comments = $mod->comments()->paginate(perPage: $request->validated()['limit'] ?? 100);
 
         return CommentResource::collection($comments);
     }

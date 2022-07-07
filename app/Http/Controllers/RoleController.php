@@ -22,11 +22,8 @@ class RoleController extends Controller
     {
         $val = $request->validate([
             'query' => 'string|nullable',
-            'page' => 'integer|min:1',
             'only_assignable' => 'boolean|nullable'
         ]);
-
-        $val['page'] ??= 1;
 
         $roles = Role::with('permissions')->orderBy('order');
         
@@ -38,7 +35,7 @@ class RoleController extends Controller
             $roles->where('id', '!=', 1);
         }
         
-        $roles = $roles->paginate(page: (int)$val['page'], perPage: 100);
+        $roles = $roles->paginate(perPage: 100);
 
         return RoleResource::collection($roles);
     }

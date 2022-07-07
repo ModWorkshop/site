@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Image;
@@ -34,14 +35,11 @@ class ModController extends Controller
      * @param ModUpsertRequest $request
      * return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(FilteredRequest $request)
     {
         // Query parameters
         $val = $request->validate([
             // How many mods should this return. 
-            'query' => 'string|nullable',
-            'page' => 'integer|min:1',
-            'limit' => 'integer|min:1|max:50',
             'game_id' => 'integer|nullable|min:1|exists:sections,id',
             'tags' => 'array',
             'tags.*' => 'integer|min:1|nullable',
@@ -54,42 +52,42 @@ class ModController extends Controller
             'sort_by' => Rule::in(['bump_date', 'publish_date', 'likes', 'downloads', 'views', 'score'])
         ]);
         
-        $sortBy = $val['sort_by'] ?? 'bump_date';
-
         /**
          * @var Builder
          */
-        $query = Mod::with(['submitter' => fn($q) => $q->withPermissions()])->orderByRaw("{$sortBy} IS NOT NULL DESC");
+        $mods = Mod::queryGet($val, function(Builder $query, array $val) {
+            $sortBy = $val['sort_by'] ?? 'bump_date';
 
-        if (isset($val['game_id'])) {
-            $query->where('game_id', $val['game_id']);
-        }
+            $query->orderByRaw("{$sortBy} IS NOT NULL DESC");
+            
+            if (isset($val['game_id'])) {
+                $query->where('game_id', $val['game_id']);
+            }
 
-        if (isset($val['submitter_id'])) {
-            $query->where('submitter_id', $val['submitter_id']);
-        }
+            if (isset($val['submitter_id'])) {
+                $query->where('submitter_id', $val['submitter_id']);
+            }
 
-        if (isset($val['tags'])) {
-            $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
-            });
-        }
+            if (isset($val['tags'])) {
+                $query->whereHasIn('tags', function(Builder $q) use ($val) {
+                    $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
+                });
+            }
 
-        if (!empty($val['categories'])) {
-            $query->whereIn('category_id', $val['categories']);
-        }
+            if (!empty($val['categories'])) {
+                $query->whereIn('category_id', $val['categories']);
+            }
 
-        if (!empty($val['block_tags'])) { //Broken for some reason
-            $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
-            });
-        }
+            if (!empty($val['block_tags'])) { //Broken for some reason
+                $query->whereHasIn('tags', function(Builder $q) use ($val) {
+                    $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
+                });
+            }
 
-        if (isset($val['query']) && !empty($val['query'])) {
-            $query->whereRaw("name % ?", [$val['query']]);
-        }
-
-        $mods = $query->paginate(page: $val['page'] ?? 1, perPage: $val['limit'] ?? 40);
+            if (isset($val['query']) && !empty($val['query'])) {
+                $query->whereRaw("name % ?", [$val['query']]);
+            }
+        });
 
         return ModResource::collection($mods);
     }

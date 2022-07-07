@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Section;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
@@ -39,24 +41,21 @@ class SectionController extends Controller
      * @param Category|null $game
      * @return void
      */
-    public function index(Request $request)
+    public function index(FilteredRequest $request)
     {
-        // Query parameters
-        $val = $request->validate([
-            'limit' => 'integer|min:1|max:1000',
-            'page' => 'integer|min:1',
+        $val = $request->val([
             //Returns only the names of the categories
             'only_names' => 'boolean',
             'include_paths' => 'boolean'
         ]);
 
-        $q = Section::limit($val['limit'] ?? 1000)->orderBy('name');
+        $sections = Section::queryGet($val, function(Builder $query, array $val) {
+            if (($val['only_names'] ?? false)) {
+                $query->select(['id', 'name']);
+            }
 
-        if (($val['only_names'] ?? false)) {
-            $q->select(['id', 'name']);
-        }
-
-        $sections = $q->paginate(page: $val['page'] ?? 1, perPage: 1000);
+            $query->orderBy('name');
+        });
 
         return CategoryResource::collection($sections);
     }

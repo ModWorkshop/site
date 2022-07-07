@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\TagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -17,19 +18,9 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(FilteredRequest $request)
     {
-        $val = $request->validate([
-            'query' => 'string|nullable',
-            'limit' => 'integer|min:1|max:100',
-        ]);
-
-        $query = Tag::query();
-        if (isset($val['query']) && !empty($val['query'])) {
-            $query->whereRaw("name % ?", [$val['query']]);
-        }
-
-        $tags = $query->paginate($val['limit'] ?? 50);
+        $tags = Tag::queryGet($request->validated());
 
         return TagResource::collection($tags);
     }

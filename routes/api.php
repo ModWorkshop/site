@@ -84,8 +84,6 @@ Route::get('/auth/steam/callback', function(Request $request) {
 });
 
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
-Route::get('categories/{category}', [CategoryController::class, 'getCategory']);
-Route::get('categories', [CategoryController::class, 'getCategories']);
 Route::get('tags', [TagController::class, 'getTags']);
 
 Route::resource('roles', RoleController::class);
@@ -95,6 +93,7 @@ Route::resource('mods', ModController::class);
 Route::resource('tags', TagController::class);
 Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
+Route::resource('categories', TagController::class);
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
@@ -102,9 +101,6 @@ Route::middleware('can:view,file')->get('files/{file}/download', [FileController
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'currentUser']);
     
-    //TODO: let only moderators do this
-    Route::post('categories', [CategoryController::class, 'update']);
-
     Route::middleware('can:create,App\Mod')->group(function () {
         //Images
         Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ModService;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -56,14 +57,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
     protected $guarded = [];
 
     protected $hidden = ['parent', 'game'];
     
     protected $with = [];
 
-    protected $appends = ['path'];
+    protected $appends = [];
 
     public function getPathAttribute()
     {

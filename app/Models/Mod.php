@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ModService;
+use App\Traits\Filterable;
 use App\Traits\RelationsListener;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -106,8 +107,7 @@ abstract class Visibility {
  */
 class Mod extends Model
 {
-    use HasFactory;
-    use RelationsListener;
+    use HasFactory, RelationsListener, Filterable;
 
     /**
      * The attributes that aren't mass assignable.

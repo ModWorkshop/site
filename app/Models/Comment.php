@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Laravel\Scout\Attributes\SearchUsingFullText;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
@@ -42,8 +44,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  */
 class Comment extends Model
 {
-    use HasFactory;
-    use HasEagerLimit;
+    use HasFactory, HasEagerLimit, Filterable;
 
     protected $with = ['user', 'lastReplies'];
     protected $guarded = [];
@@ -67,5 +68,13 @@ class Comment extends Model
     public function replyingComment() : BelongsTo
     {
         return $this->belongsTo(Comment::class, 'id', 'reply_to');
+    }
+
+    #[SearchUsingFullText(['content'])]
+    public function toSearchableArray()
+    {
+        return [
+            'content' => $this->content
+        ];
     }
 }
