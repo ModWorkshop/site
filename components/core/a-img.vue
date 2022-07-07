@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-const { src } = defineProps({
+const props = defineProps({
     src: {
         default: '',
         type: String,
@@ -14,6 +14,7 @@ const { src } = defineProps({
 });
 
 const compSrc = computed(function() {
+    const src = props.src;
     //This sucks lol
     if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
         return src;
