@@ -20,14 +20,14 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: iva.oconnell@example.com
+        example: devante.hudson@example.com
         type: string
         custom: []
       current_password:
         name: current_password
         description: blalba@email.com.
         required: true
-        example: eius
+        example: amet
         type: string
         custom: []
       remember:
@@ -58,21 +58,21 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: qui
+        example: quo
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: isac29@example.com
+        example: jordon.hermann@example.net
         type: string
         custom: []
       password:
         name: password
         description: ''
         required: true
-        example: nesciunt
+        example: ad
         type: string
         custom: []
     responses: []
