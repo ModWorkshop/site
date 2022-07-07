@@ -63,6 +63,21 @@ export default defineNuxtConfig({
 						name: "admin-page-tags",
 						path: "/admin/tags",
 						file: resolve(__dirname, "pages/admin/admin-tags.vue")
+					},
+					{
+						name: "admin-page-categories",
+						path: "/admin/categories",
+						file: resolve(__dirname, "pages/admin/admin-categories.vue")
+					},
+					{
+						name: "admin-page-games",
+						path: "/admin/games",
+						file: resolve(__dirname, "pages/admin/admin-games.vue")
+					},
+					{
+						name: "admin-page-users",
+						path: "/admin/users",
+						file: resolve(__dirname, "pages/admin/admin-users.vue")
 					}
 				]
 			});

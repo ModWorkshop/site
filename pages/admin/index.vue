@@ -5,6 +5,9 @@
                 <a-nav-link to="/admin" title="Home"/>
                 <a-nav-link to="/admin/roles" title="Roles"/>
                 <a-nav-link to="/admin/tags" title="Tags"/>
+                <a-nav-link to="/admin/users" title="Users"/>
+                <a-nav-link to="/admin/categories" title="Categories"/>
+                <a-nav-link to="/admin/games" title="Games"/>
                 <template #content>
                     <NuxtPage/>
                 </template>
