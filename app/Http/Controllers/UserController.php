@@ -67,6 +67,7 @@ class UserController extends Controller
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'role_ids' => 'array',
             'role_ids.*' => 'integer|min:1',
+            'custom_color' => 'string|max:7'
         ]);
 
         $valExtra = $request->validate([
@@ -130,6 +131,7 @@ class UserController extends Controller
         $user = $request->user();
         $user->load('extra');
         $user->load('roles.permissions');
+        $user->extra;
         return new UserResource($user);
     }
 }

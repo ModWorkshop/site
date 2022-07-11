@@ -69,7 +69,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
+        'custom_color'
     ];
 
     /**

@@ -26,13 +26,13 @@ class UserResource extends JsonResource
             'role_names' => $this->role_names,
             'permissions' => $this->permissions,
             'tag' => $this->tag,
-            'color' => $this->color,
             'email' => $this->when($user?->id === $this->id, $this->email),
             'role_ids' => $this->whenLoaded('roles', function() {
                 $roleIds = Arr::pluck($this->roles, 'id');
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
                 return $roleIds;
             }),
+            'custom_color' => $this->custom_color,
             'tag' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
                     if ($role->tag) {
@@ -41,12 +41,15 @@ class UserResource extends JsonResource
                 }
             }),
             'color' => $this->whenLoaded('roles', function() {
+                if ($this->custom_color) {
+                    return $this->custom_color;
+                }
                 foreach ($this->roles as $role) {
                     if ($role->color) {
                         return $role->color;
                     }
                 }
-            }),
+            }, $this->custom_color),
             $this->mergeWhen($this->relationLoaded('extra'), function() {
                 $extra = $this->extra;
                 return [
