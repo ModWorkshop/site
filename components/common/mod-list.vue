@@ -58,21 +58,11 @@
                     </span>
                 </flex>
                 <content-block class="self-start" style="flex:2;">
-                    <group label="Search">
-                        <a-input type="text" v-model="query"/>
-                    </group>
-                    <group v-if="!forcedGame" label="Game">
-                        <a-select v-model="selectedGame" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
-                    </group>
-                    <group label="Categories">
-                        <a-select v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories || []" @update="refresh"/>
-                    </group>
-                    <group label="Tags">
-                        <a-select v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
-                    </group>
-                    <group label="Filter Out Tags">
-                        <a-select v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
-                    </group>
+                    <a-input label="Search" type="text" v-model="query"/>
+                    <a-select v-if="!forcedGame" label="Game" v-model="selectedGame" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
+                    <a-select label="Categories" v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories || []" @update="refresh"/>
+                    <a-select label="Tags" v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
+                    <a-select label="Filter Out Tags" v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
                     <!-- <a-button color="none" icon="ellipsis-v"/> -->
                 </content-block>
             </flex>

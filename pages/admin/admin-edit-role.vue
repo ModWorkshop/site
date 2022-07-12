@@ -5,16 +5,10 @@
         </div>
         <a-form :model="role" @submit="save" :created="role.id != -1" float-save-gui>
             <flex column gap="3">
-                <group label="Name">
-                    <a-input v-model="role.name" maxlength="100" minlength="3"/>
-                </group>
-                <group label="Tag" desc="If this role is special (Example: Moderator) what tag should it show?">
-                    <a-input v-model="role.tag" maxlength="100" minlength="3"/>
-                </group>
-                <group label="Color" desc="The color of the role">
-                    <a-input type="color" v-model="role.color"/>
-                </group>
-                <group label="Permissions">
+                <a-input label="Name" v-model="role.name" maxlength="100" minlength="3"/>
+                <a-input label="Tag" desc="If this role is special (Example: Moderator) what tag should it show?" v-model="role.tag" maxlength="100" minlength="3"/>
+                <a-input label="Color" desc="The color of the role" type="color" v-model="role.color"/>
+                <a-input label="Permissions">
                     <flex class="p-4" gap="1" column grow>
                         <flex gap="1" v-for="perm of permissions" :key="perm.key">
                             <span class="flex-grow">{{perm.name}}</span>
@@ -23,7 +17,7 @@
                             <a-button icon="xmark" @click="setPermission(perm.id, false)" :disabled="getPermissionState(perm.id) === false"/>
                         </flex>
                     </flex>
-                </group>
+                </a-input>
             </flex>
         </a-form>
     </admin-page>

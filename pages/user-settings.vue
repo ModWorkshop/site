@@ -5,45 +5,33 @@
                 <a-tabs side type="query">
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
-                            <group label="Username">
-                                <a-input v-model="user.name"/>
-                            </group>
-                            <group label="Email" v-if="user.email || isMe">
-                                <a-input :disabled="!isMe" v-model="user.email"/>
-                            </group>
+                            <a-input label="Username" v-model="user.name"/>
+                            <a-input label="Email" v-if="user.email || isMe" :disabled="!isMe" v-model="user.email"/>
                             <template v-if="isMe">
                                 <h3>Change Password</h3>
-                                <group label="New Password">
-                                    <a-input type="password" v-model="password"/>
-                                </group>
-                                <group label="Confirm Password">
-                                    <a-input type="password" v-model="confirmPassword"/>
-                                </group>
+                                <flex>
+                                    <a-input label="New Password" type="password" v-model="password"/>
+                                    <a-input label="Confirm Password" type="password" v-model="confirmPassword"/>
+                                </flex>
                             </template>
-                            <group label="roles" desc="As a regular user, you may only set vanity roles">
-                                <a-select v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
-                            </group>
+                            <a-select label="roles" desc="As a regular user, you may only set vanity roles" v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
                         </flex>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
                         <flex column gap="4">
-                            <group label="Avatar" column gap="3">
-                                <img-uploader id="avatar" :src="user.avatar" :file.sync="avatarBlob">
-                                    <template #label="{ src }">
-                                        <a-avatar size="large" :src="src"/>
-                                        <a-avatar size="medium" :src="src"/>
-                                        <a-avatar size="small" :src="src"/>
-                                    </template>
-                                </img-uploader>
-                            </group>
+                            <img-uploader label="Avatar" id="avatar" :src="user.avatar" :file.sync="avatarBlob">
+                                <template #label="{ src }">
+                                    <a-avatar size="large" :src="src"/>
+                                    <a-avatar size="medium" :src="src"/>
+                                    <a-avatar size="small" :src="src"/>
+                                </template>
+                            </img-uploader>
     
-                            <group label="Banner" column gap="3">
-                                <img-uploader id="banner" :src="user.banner" :file.sync="bannerBlob">
-                                    <template #label="{ src }">
-                                        <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
-                                    </template>
-                                </img-uploader>
-                            </group>
+                            <img-uploader label="Banner" column gap="3" id="banner" :src="user.banner" :file.sync="bannerBlob">
+                                <template #label="{ src }">
+                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
+                                </template>
+                            </img-uploader>
     
                             <div>
                                 <a-input label="Private Profile" type="checkbox" v-model="user.private_profile"/>
@@ -54,9 +42,7 @@
                             <a-input label="Custom Title" v-model="user.custom_title"/>
                             <a-input label="Custom Color" v-model="user.custom_color" type="color"/>
     
-                            <group label="Bio" desc="Tell about yourself to people visiting your profile">
-                                <md-editor rows="12" v-model="user.bio"/>
-                            </group>
+                            <md-editor rows="12" v-model="user.bio" label="Bio" desc="Tell about yourself to people visiting your profile"/>
                         </flex>
                     </a-tab>
                     <a-tab name="options" title="Options">

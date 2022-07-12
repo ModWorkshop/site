@@ -2,23 +2,20 @@
     <page-block class="!w-1/3">
         <a-form @submit="login">
             <flex column gap="3">
-                <group label="Email">
-                    <a-input v-model="user.email"/>
-                </group>
-                <group label="Password">
-                    <a-input type="password" v-model="user.current_password"/>
-                </group>
-                <group label="Or login using one the following" gap="2">
-                    <a-button href="http://localhost:8000/auth/steam/redirect" :icon="['fab', 'steam']" icon-size="lg"/>
-                    <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                    <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
-                </group>
-                <group label="Remember Me">
-                    <a-input type="checkbox" v-model="user.remember"/>
-                </group>
-                <group>
+                <a-input label="Email" v-model="user.email"/>
+                <a-input label="Password" type="password" v-model="user.current_password"/>
+                <flex column gap="2">
+                    Or register using one the following
+                    <flex>
+                        <a-button href="http://localhost:8000/auth/steam/redirect" :icon="['fab', 'steam']" icon-size="lg"/>
+                        <a-button :icon="['fab', 'google']" icon-size="lg"/>
+                        <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
+                    </flex>
+                </flex>
+                <a-input label="Remember Me" type="checkbox" v-model="user.remember"/>
+                <div>
                     <a-button type="submit" large>{{$t('login')}}</a-button>
-                </group>
+                </div>
             </flex>
         </a-form>    
     </page-block>

@@ -6,10 +6,10 @@
 
         <a-input label="Short Description" type="textarea" v-model="mod.short_desc" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
-        <group>
+        <flex>
             <a-select label="Game" v-model="mod.game_id" placeholder="Select a game" :options="store.games.data" @update="refetchCats"/>
             <a-select label="Category" v-model="mod.category_id" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
-        </group>
+        </flex>
 
         <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
 

@@ -2,18 +2,9 @@
     <page-block>
         <div class="content-block">
             <a-form @submit="save" style="display: flex; flex-direction: column;">
-                <group label="Name" prop="name">
-                    <a-input v-model="category.name"/>
-                </group>
-                <group label="Game">
-                    <a-select v-model="category.game_id" placeholder="Select a game" clearable :options="games"/>
-                </group>
-                <group label="Parent Category">
-                    <a-select v-model="category.parent_id" placeholder="Select a parent category" style="width: 100%;" clearable :options="categories"/>
-                </group>
-                <group class="mx-auto" style="width: unset">
-                    <a-input type="submit" value="Save"/>
-                </group>
+                <a-input label="Name" v-model="category.name"/>
+                <a-select label="Game" v-model="category.game_id" placeholder="Select a game" clearable :options="games"/>
+                <a-select label="Parent Category" v-model="category.parent_id" placeholder="Select a parent category" style="width: 100%;" clearable :options="categories"/>
             </a-form>
         </div>
     </page-block>

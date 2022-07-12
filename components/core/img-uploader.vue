@@ -1,19 +1,18 @@
 <template>
-    <div>
+    <a-input>
         <label class="flexbox items-end gap-2" :for="id">
             <slot name="label" :src="currentSrc">
                 <a-img class="w-full round" :src="currentSrc"/>
             </slot>
         </label>
         <input class="mt-1" ref="input" type="file" :id="id" @change="onChange"/>
-    </div>
+    </a-input>
 </template>
-<script setup>
-const props = defineProps([
-    'id',
-    'src',
-    'file'
-]);
+<script setup lang="ts">
+const props = defineProps({
+    id: String,
+    src: String
+});
 
 const emit = defineEmits(['update:file']);
 
@@ -24,7 +23,7 @@ const currentSrc = computed(() => blob.value || props.src && `http://localhost:8
 
 function onChange() {
     const file = input.value.files[0];
-    const reader = new FileReader(file);
+    const reader = new FileReader();
     reader.onload = () => {
         blob.value = reader.result;
     };
