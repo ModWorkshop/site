@@ -9,7 +9,6 @@
                 {{desc}}
             </small>
             <slot name="label-area"/>
-
         </flex>
         <flex :column="column" gap="1">
             <slot/>

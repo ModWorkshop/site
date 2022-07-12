@@ -1,6 +1,6 @@
 <template>
-    <div class="md-editor p-2">
-        <a-tabs padding="0" type="none">
+    <a-input>
+        <a-tabs class="md-editor p-2" padding="0" type="none">
             <a-tab name="write" title="Write">
                 <textarea type="textarea" ref="textArea" class="textarea" :id="labelId" v-model="modelValue" @change="$emit('update:modelValue', modelValue)" :rows="rows"/>
             </a-tab>
@@ -18,7 +18,7 @@
                 </flex>
             </template>
         </a-tabs>
-    </div>
+    </a-input>
 </template>
 
 <script setup>

@@ -26,10 +26,12 @@
     </flex>
 </template>
 
-<script setup>
-    defineProps({
-        mod: Object
-    });
+<script setup lang="ts">
+    import { Mod } from '~~/types/models';
+
+    defineProps<{
+        mod: Mod
+    }>();
 
     const likes = computed(() => 0);
     const downloads = computed(() => 0);

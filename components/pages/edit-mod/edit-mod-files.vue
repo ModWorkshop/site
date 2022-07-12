@@ -1,14 +1,8 @@
 <template>
     <flex column gap="4">
-        <group label="Version">
-            <a-input v-model="mod.version"/>
-        </group>
-        <group label="Changelog">
-            <md-editor v-model="mod.changelog" rows="12"/>
-        </group>
-        <group label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses">
-            <a-select v-model="mod.download_id" placeholder="Select file or link" clearable :options="fileList"/>
-        </group>
+        <a-input label="Version" v-model="mod.version"/>
+        <md-editor label="Changelog" v-model="mod.changelog" rows="12"/>
+        <a-select label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses" v-model="mod.download_id" placeholder="Select file or link" clearable :options="fileList"/>
         <uploader list name="files" :url="uploadLink" :files="fileList">
             <template #headers>
                 <td class="text-center">Primary</td>

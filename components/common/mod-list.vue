@@ -33,7 +33,7 @@
                         <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
                         <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
                         <div style="flex: 3">{{$t('author')}}</div>
-                        <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div>
+                        <!-- <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div> -->
                         <div>{{$t('likes')}}</div>
                         <div>{{$t('downloads')}}</div>
                         <div>{{$t('download_views')}}</div>
@@ -62,10 +62,10 @@
                         <a-input type="text" v-model="query"/>
                     </group>
                     <group v-if="!forcedGame" label="Game">
-                        <a-select v-model="selectedGame" placeholder="Any game" clearable :options="store.games.data" @update="gameChanged"/>
+                        <a-select v-model="selectedGame" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
                     </group>
                     <group label="Categories">
-                        <a-select v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories?.data || []" @update="refresh"/>
+                        <a-select v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories || []" @update="refresh"/>
                     </group>
                     <group label="Tags">
                         <a-select v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
@@ -79,7 +79,8 @@
         </flex>
     </flex>
 </template>
-<script setup>
+<script setup lang="ts">
+    import { Category, Mod } from '~~/types/models';
     import { useStore } from '../../store';
 
     const sortOptions = [
@@ -107,7 +108,7 @@
     const selectedTags = ref([]);
     const selectedBlockTags = ref([]);
     const loading = ref(true);
-    const tags = computed(() => store.tags.data);
+    const tags = computed(() => store.tags);
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
     const sortBy = ref('bump_date');
@@ -116,21 +117,20 @@
     await store.fetchGames();
     await store.fetchTags();
 
-    const { data: fetchedMods, refresh, error } = await useAsyncDyn('get-mods', () => useGet('mods', { 
+    const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGetMany<Mod>('mods', { 
         params: {
             submitter_id: props.userId,
             page: page.value,
             query: query.value,
-            submitter_id: props.userId,
             game_id: selectedGame.value,
             tags: selectedTags.value,
             categories: selectedCategories.value,
             block_tags: selectedBlockTags.value,
             sort_by: sortBy.value
         }
-    }));
+    }), { initialCache: false });
 
-    const { data: categories, refresh: refetchCats } = await useAPIFetch(() => `games/${selectedGame.value}/categories`);
+    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories`);
     
     function gameChanged() {
         refetchCats();
@@ -142,13 +142,13 @@
         refresh();
     }
 
-    const savedMods = ref([]);
+    const savedMods = ref<Mod[]>([]);
 
     const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
-    const currentMods = computed(() => {
+    const currentMods = computed<Mod[]>(() => {
         return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || []
     });
-
+    
     let lastTimeout = null;
     watch([query, selectedTags, selectedBlockTags], () => {
         if (lastTimeout) {
@@ -162,12 +162,13 @@
         setPage(page.value++, false);
     }
 
-    async function setPage(newPage, reload) {
+    async function setPage(newPage: number, reload=false) {
         page.value = newPage;
         if (reload) {
             savedMods.value = [];
+        } else {
+            savedMods.value = currentMods.value;
         }
-        savedMods.value = currentMods.value;
         loading.value = true;
         await refresh();
         loading.value = false;

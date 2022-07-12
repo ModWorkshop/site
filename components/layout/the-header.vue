@@ -21,7 +21,7 @@
         </flex>
         <flex class="user-items mr-2" gap="6"> 
             <div>
-                <a-input placeholder="Search" style="width: 250px;"/>
+                <a-input placeholder="Search" style="width: 250px;" v-model="search"/>
                 <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
             </div>
             <template v-if="user">
@@ -63,6 +63,7 @@ const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();
 const user = computed(() => store.user);
+const search = ref('');
 
 async function logout() {
     await usePost('/logout');

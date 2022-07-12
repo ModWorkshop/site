@@ -1,62 +1,63 @@
 <template>
     <page-block size="med">
         <content-block class="p-8">
-            <a-form @submit="save" :model="user" style="flex: 1;" :can-save="canSaveOverride" float-save-gui>
-                <a-tabs side>
+            <a-form @submit="save" :model="user" :can-save="canSaveOverride" float-save-gui>
+                <a-tabs side type="query">
                     <a-tab name="account" title="Account">
-                        <group label="Username">
-                            <a-input v-model="user.name"/>
-                        </group>
-                        <group label="Email" v-if="user.email || isMe">
-                            <a-input :disabled="!isMe" v-model="user.email"/>
-                        </group>
-                        <template v-if="isMe">
-                            <h3>Change Password</h3>
-                            <group label="New Password">
-                                <a-input type="password" v-model="user.password"/>
+                        <flex column gap="4">
+                            <group label="Username">
+                                <a-input v-model="user.name"/>
                             </group>
-                            <group label="Confirm Password">
-                                <a-input type="password" v-model="user.confirm_password"/>
+                            <group label="Email" v-if="user.email || isMe">
+                                <a-input :disabled="!isMe" v-model="user.email"/>
                             </group>
-                        </template>
-                        <group label="roles" desc="As a regular user, you may only set vanity roles">
-                            <a-select v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
-                        </group>
+                            <template v-if="isMe">
+                                <h3>Change Password</h3>
+                                <group label="New Password">
+                                    <a-input type="password" v-model="password"/>
+                                </group>
+                                <group label="Confirm Password">
+                                    <a-input type="password" v-model="confirmPassword"/>
+                                </group>
+                            </template>
+                            <group label="roles" desc="As a regular user, you may only set vanity roles">
+                                <a-select v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
+                            </group>
+                        </flex>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
-                        <group label="Avatar" column gap="3">
-                            <img-uploader id="avatar" :src="user.avatar" :file.sync="avatarBlob">
-                                <template #label="{ src }">
-                                    <a-avatar size="large" :src="src"/>
-                                    <a-avatar size="medium" :src="src"/>
-                                    <a-avatar size="small" :src="src"/>
-                                </template>
-                            </img-uploader>
-                        </group>
-
-                        <group label="Banner" column gap="3">
-                            <img-uploader id="banner" :src="user.banner" :file.sync="bannerBlob">
-                                <template #label="{ src }">
-                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
-                                </template>
-                            </img-uploader>
-                        </group>
-
-                        <group>
+                        <flex column gap="4">
+                            <group label="Avatar" column gap="3">
+                                <img-uploader id="avatar" :src="user.avatar" :file.sync="avatarBlob">
+                                    <template #label="{ src }">
+                                        <a-avatar size="large" :src="src"/>
+                                        <a-avatar size="medium" :src="src"/>
+                                        <a-avatar size="small" :src="src"/>
+                                    </template>
+                                </img-uploader>
+                            </group>
+    
+                            <group label="Banner" column gap="3">
+                                <img-uploader id="banner" :src="user.banner" :file.sync="bannerBlob">
+                                    <template #label="{ src }">
+                                        <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
+                                    </template>
+                                </img-uploader>
+                            </group>
+    
                             <div>
-                                <a-input type="checkbox" v-model="user.private_profile">Private Profile</a-input>
+                                <a-input label="Private Profile" type="checkbox" v-model="user.private_profile"/>
                                 <br>
                                 <small>Ticking this on will privatize your profile. Only staff members will be able to view it.</small>
                             </div>
-                        </group>
-
-                        <group label="Custom Title">
-                            <a-input v-model="user.custom_title"/>
-                        </group>
-
-                        <group label="Bio" desc="Tell about yourself to people visiting your profile">
-                            <md-editor rows="12" v-model="user.bio"/>
-                        </group>
+    
+                            <a-input label="Custom Title" v-model="user.custom_title"/>
+                            <a-input label="Custom Color" v-model="user.custom_color" type="color"/>
+    
+                            <group label="Bio" desc="Tell about yourself to people visiting your profile">
+                                <md-editor rows="12" v-model="user.bio"/>
+                            </group>
+                        </flex>
                     </a-tab>
                     <a-tab name="options" title="Options">
                         
@@ -67,9 +68,10 @@
     </page-block>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import clone from 'rfdc/default';
 import { useStore } from '../store';
+import { Role, User } from '../types/models';
 
 definePageMeta({
     middleware: 'admins-only'
@@ -84,21 +86,20 @@ const bannerBlob = ref(null);
 
 const route = useRoute();
 
-let user;
-const id = parseInt(route.params.id);
+const password = ref('');
+const confirmPassword = ref('');
+
+const user = ref<User>(null);
+const id = parseInt(route.params.id?.toString());
 if (id && id !== store.user.id) {
-    const { data } = await useGet(`users/${route.params.id}`);
-    user = data;
+    user.value = await useGet<User>(`users/${route.params.id}`);
 }
 else {
-    user = ref(clone(store.user));
+    user.value = clone(store.user);
     isMe.value = true;
 }
 
-const { data: roles } = await useAPIFetch('/roles?only_assignable=1');
-
-user.password = '';
-user.confirm_password = '';
+const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
 
 const canSaveOverride = computed(() => !!avatarBlob.value || !!bannerBlob.value);
 
@@ -114,20 +115,21 @@ async function save() {
             bannerBlob.value = null;
         }
 
-        for (const [k, v] of Object.entries(user.value)) {
-            if (Array.isArray(v)) {
-                for (const arrVal of v) { //Why is this even needed?????
-                    formData.append(k + '[]', arrVal);
-                }
-            } else {
-                formData.append(k, v);
-            }
-        }
+        // for (const [k, v] of Object.entries(user.value)) {
+        //     if (Array.isArray(v)) {
+        //         for (const arrVal of v) { //Why is this even needed?????
+        //             formData.append(k + '[]', arrVal);
+        //         }
+        //     } else {
+        //         formData.append(k, v);
+        //     }
+        // }
 
-        const nextUser = await usePatch(`users/${user.value.id}`, user.value);
-
-        nextUser.password = '';
-        nextUser.confirm_password = '';
+        const nextUser = await usePatch<User>(`users/${user.value.id}`, {
+            ...user.value,
+            password: password.value,
+            confirm_password: password.value
+        });
 
         if (isMe.value) {
             store.user = clone(nextUser);

@@ -1,21 +1,25 @@
+import { User, Section, Tag } from './../types/models';
 import { defineStore } from 'pinia';
-import { reloadToken } from '~~/utils/helpers';
+
+interface MainStore {
+    user?: User,
+    games: Section[],
+    tags: Tag[],
+}
 
 export const useStore = defineStore('main', {
-    state: () => ({
-        csrf: '',
-        user: false,
+    state: (): MainStore => ({
         games: [],
         tags: [],
-        counter: 1,
+        user: null
     }),
     getters: {
         hasPermission(state) {
-            const permissions = state.user && state.user.permissions;
+            const permissions = state.user?.permissions;
             if (!permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
                 return () => false;
             } else {
-                return perm => permissions[perm] === true;
+                return (perm: string) => permissions[perm] === true;
             }
         }
     },
@@ -24,7 +28,7 @@ export const useStore = defineStore('main', {
          * Attempts to login the user (automatically)
          */
         async attemptLoginUser() {
-            const userData = await useGet('/user');
+            const userData = await useGet<User>('/user');
             this.user = userData;
             
             const router = useRouter();
@@ -36,7 +40,8 @@ export const useStore = defineStore('main', {
          */
         async fetchTags() {
             if (this.tags.length === 0) {
-                this.tags = await useGet('/tags');
+                const tags = await useGetMany('/tags');
+                this.tags = tags.data;
             }
         },
         /**
@@ -44,9 +49,11 @@ export const useStore = defineStore('main', {
          */
         async fetchGames() {
             if (this.games.length === 0) {
-                this.games = await useGet('/games');
+                const games = await useGetMany('/games');
+                this.games = games.data;
             }
         },
+
         async nuxtServerInit() {
             try {
                 this.user = await useGet('/user');
@@ -56,7 +63,7 @@ export const useStore = defineStore('main', {
                 console.error(error.message);
             }
         },
-        setUserAvatar(avatar) {
+        setUserAvatar(avatar: string) {
             this.user.avatar = avatar;
         }
     }

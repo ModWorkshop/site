@@ -8,7 +8,7 @@
                 :tab-title="tab.title"
                 ref="tabLinks" 
                 :key="tab.name" 
-                @click="() => setCurrentTab(tab.name)"
+                @click.prevent="() => setCurrentTab(tab.name)"
                 @keydown.left="() => arrowKeysMove(true)"
                 @keydown.right="() => arrowKeysMove(false)"
             />
@@ -83,6 +83,7 @@ function setCurrentTab(name) {
         router.push({ query: { ...route.query, tab: name } });
     }
 
+    console.log(name);
     tabState.current = name;
     tabState.focus = tabs.value.findIndex(tab => tab.name === name);
 }

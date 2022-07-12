@@ -9,7 +9,7 @@
         </a-button>
         <template v-if="pages > 5">
             <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
-            <a-button v-if="pages - modelValue > 2" @click="setPage(pages)">{{pages}}</a-button>
+            <a-button v-if="pages - modelValue > 2" @click="setPage(pages)" :disabled="modelValue == pages">{{pages}}</a-button>
         </template>
     </flex>
 </template>
@@ -17,7 +17,8 @@
 const props = defineProps({
     modelValue: [Number, String],
     total: [Number, String],
-    perPage: [Number, String]
+    perPage: [Number, String],
+    setQuery: [Boolean, String]
 });
 
 const emit = defineEmits([
@@ -38,7 +39,7 @@ const pageNumbers = computed(() => {
     }
 });
 
-async function setPage(newPage) {
+function setPage(newPage) {
     props.modelValue = newPage;
     emit('update:modelValue', newPage);
     emit('update', newPage);

@@ -43,15 +43,16 @@
         </flex>
     </content-block>
 </template>
-<script setup>
+<script setup lang="ts">
+import { Mod } from "~~/types/models";
 import { timeAgo } from "../../utils/helpers";
 
-const { sort, mod, noGame } = defineProps({
-    sort: String,
-    noCategories: Boolean,
-    noGame: Boolean,
-    mod: Object
-});
+const { sort, mod, noGame } = defineProps<{
+    sort?: String,
+    noCategories?: Boolean,
+    noGame?: Boolean,
+    mod: Mod
+}>();
 
 const showGame = computed(() => !noGame && mod.game);
 const date = computed(() => sort == 'publish_date' ? mod.publish_date : mod.bump_date);

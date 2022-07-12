@@ -1,7 +1,7 @@
 import { FetchOptions } from 'ohmyfetch';
 import queryString from 'query-string';
 
-export default async function(url: string, options?: FetchOptions) {
+export default async function<T = unknown>(url: string, options?: FetchOptions) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
 
@@ -12,7 +12,7 @@ export default async function(url: string, options?: FetchOptions) {
         url += '?'+queryString.stringify(options.params, { arrayFormat: 'bracket' })
     }
 
-    return await $fetch(url, {
+    return await $fetch<T>(url, {
         baseURL: 'http://localhost:8000',
         headers: {
             accept: 'application/json', //Avoids redirects and makes sure we get JSON response.

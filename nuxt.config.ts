@@ -18,6 +18,9 @@ export default defineNuxtConfig({
 	],
 
 	hooks: {
+		'autoImports:dirs' (dirs) {
+			dirs.push(resolve(__dirname, 'utils'))
+		},
 		'pages:extend' (routes) {
 			routes.push({
 				name: "mod",
@@ -116,10 +119,6 @@ export default defineNuxtConfig({
 				usePolling: true,
 			},
 		}
-	},
-
-	intlify: {
-		localeDir: 'locales'
 	},
 
 	modules: [

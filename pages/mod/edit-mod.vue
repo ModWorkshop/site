@@ -31,8 +31,9 @@
     </page-block>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import clone from 'rfdc/default';
+    import { Mod } from '~~/types/models';
     const route = useRoute();
 
     const modTemplate = {
@@ -52,11 +53,11 @@
     };
 
     // const store = useStore();
-    const mod = ref(clone(modTemplate));
+    const mod = ref<Mod>(clone(modTemplate));
     const isNew = ref(!route.params.id);
 
     if (route.params.id) {
-        const { data: fetchedMod } = await useAPIFetch(`mods/${route.params.id}/`);
+        const { data: fetchedMod } = await useAPIFetch<Mod>(`mods/${route.params.id}/`);
         mod.value = fetchedMod.value;
         // mod.tag_ids = mod.tags.map(tag => tag.id);
     }
@@ -68,10 +69,10 @@
     async function save() {
         try {
             if (isNew.value) {
-                mod.value = await usePost('mods', mod.value);
+                mod.value = await usePost<Mod>('mods', mod.value);
                 isNew.value = false;
             } else {
-                mod.value = await usePatch(`mods/${mod.value.id}`, mod.value);
+                mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
             }
         } catch (error) {
             console.error(error);

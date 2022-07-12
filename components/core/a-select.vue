@@ -1,21 +1,29 @@
 <template>
-	<va-select 
-		v-model="modelValue"
-		@update:modelValue="update" 
-		:placeholder="placeholder" 
-		:options="fixedOptions" 
-		:value-by="valueBy" 
-		:text-by="textBy" 
-		:multiple="multiple"
-		:clearable="clearable"
-		searchable
-	/>
+    <flex inline column grow gap="2">
+        <label v-if="label">
+            {{label}}
+        </label>
+		<va-select 
+			v-model="modelValue"
+			@update:modelValue="update" 
+			:placeholder="placeholder" 
+			:options="fixedOptions" 
+			:value-by="valueBy" 
+			:text-by="textBy" 
+			:multiple="multiple"
+			:clearable="clearable"
+			searchable
+		/>
+        <small v-if="desc">{{desc}}</small>
+	</flex>
 </template>
 <script setup>
 const props = defineProps({
+	label: String,
 	clearable: [String, Boolean],
 	placeholder: String,
 	options: Array,
+	desc: String,
 	searchable: {type: [String, Boolean], default: true},
 	textBy: {type: [String, Function], default: "name"},
 	valueBy: {type: [String, Function], default: 'value'},
