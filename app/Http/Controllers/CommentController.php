@@ -20,7 +20,7 @@ class CommentController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        $comments = $mod->comments()->paginate(perPage: $request->validated()['limit'] ?? 100);
+        $comments = $mod->comments()->paginate(perPage: min($request->validated()['limit'] ?? 100, 100));
 
         return CommentResource::collection($comments);
     }
