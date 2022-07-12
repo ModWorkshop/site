@@ -67,8 +67,10 @@ class UserController extends Controller
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'role_ids' => 'array',
             'role_ids.*' => 'integer|min:1',
-            'custom_color' => 'string|max:7'
+            'custom_color' => 'string|max:7|nullable'
         ]);
+
+        $val['custom_color'] ??= '';
 
         $valExtra = $request->validate([
             'bio' => 'string|nullable|max:3000',

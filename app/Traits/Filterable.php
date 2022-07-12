@@ -26,7 +26,7 @@ trait Filterable {
             $callback($query, $val);
         }
 
-        return $query->simplePaginate($val['limit'] ?? 50);
+        return $query->paginate($val['limit'] ?? 50);
     }
 
     public function toSearchableArray()
