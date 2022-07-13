@@ -77,8 +77,8 @@ export default {
     sortby: 'Sort by',
     submit: 'Submit',
     upload_mod: 'Upload a Mod',
-    download_changelog: 'Changelog',
-    download_description: 'Description',
+    mod_changelog: 'Changelog',
+    description: 'Description',
     no_name: 'No Name',
     version: 'Version',
     sub_categories: 'Subcategories',
@@ -291,5 +291,6 @@ export default {
     edit_mod: "Edit Mod",
     license: "License",
     unsaved_changes: "You have unsaved changes",
-    login: 'Login'
+    login: 'Login',
+    mod_desc_help: 'Describe your mod in detail here, what it does or any other important details'
 };

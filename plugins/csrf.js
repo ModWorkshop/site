@@ -12,12 +12,4 @@ export default defineNuxtPlugin(nuxtApp => {
         setInterval(check, 30000); // Check every 5 minutes
         check();
     }
-
-    return {
-        provide: {
-            t(str) { //Temporary until i18n module works
-                return str
-            }
-        }
-    }
 });

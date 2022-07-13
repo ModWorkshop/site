@@ -2,7 +2,7 @@
     <flex column gap="4">
         <a-input label="Name" v-model="mod.name" maxlength="150" minlength="3" desc="Maximum of 150 letters and minimum of 3 letters"/>
 
-        <md-editor label="Description" desc="Describe your mod in detail here, what it does or any other important details" v-model="mod.desc" rows="12"/>
+        <md-editor :label="$t('description')" :desc="$t('mod_desc_help')" v-model="mod.desc" rows="12"/>
 
         <a-input label="Short Description" type="textarea" v-model="mod.short_desc" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
