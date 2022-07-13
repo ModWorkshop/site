@@ -49,7 +49,7 @@
                     </template>
                 </Popper>
             </template>
-            <flex gap="2" v-else>
+            <flex class="my-auto" gap="2" v-else>
                 <NuxtLink to="/login">Login</NuxtLink>
                 <NuxtLink to="/register">Register</NuxtLink>
             </flex>
