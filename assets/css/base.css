@@ -153,6 +153,10 @@ p {
     margin-bottom: 1rem;
 }
 
+a {
+    display: inline-block;
+}
+
 /* Animation stuff */
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.25s;
