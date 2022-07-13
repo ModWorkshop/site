@@ -81,20 +81,18 @@ export default defineNuxtConfig({
 						name: "admin-page-users",
 						path: "/admin/users",
 						file: resolve(__dirname, "pages/admin/admin-users.vue")
+					},
+					{
+						name: "admin-page-edit-role",
+						path: "/admin/roles/:id",
+						file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
+					},
+					{
+						name: "admin-page-new-role",
+						path: "/admin/roles/new",
+						file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
 					}
 				]
-			});
-
-			routes.push({
-				name: "admin-page-edit-role",
-				path: "/admin/roles/:id",
-				file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
-			});      
-
-			routes.push({
-				name: "admin-page-new-role",
-				path: "/admin/roles/new",
-				file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
 			});
 		}
 	},
@@ -112,7 +110,6 @@ export default defineNuxtConfig({
 		]
 	},
 
-	
 	vite: {
 		server: {
 			watch: {

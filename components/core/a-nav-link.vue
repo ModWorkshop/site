@@ -1,6 +1,6 @@
 <template>
     <nuxt-link
-        :class="{'tab-link': true, 'tab-link-side': side, selected: $route.path == to}"
+        :class="{'tab-link': true, 'tab-link-side': side, selected: to == root ? $route.path == root : $route.path.startsWith(to)}"
         :to="to">
         {{title}}
     </nuxt-link>
@@ -14,6 +14,7 @@
     });
 
     const side = inject('side');
+    const root = inject('root');
 </script>
 
 <style>

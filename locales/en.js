@@ -292,5 +292,6 @@ export default {
     license: "License",
     unsaved_changes: "You have unsaved changes",
     login: 'Login',
-    mod_desc_help: 'Describe your mod in detail here, what it does or any other important details'
+    mod_desc_help: 'Describe your mod in detail here, what it does or any other important details',
+    tag_help : "If this role is special (Example: Moderator) what tag should it show? (Shows up near usernames)",
 };

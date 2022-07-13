@@ -12,11 +12,13 @@
 <script setup>
     const props = defineProps({
         side: Boolean,
+        root: String,
         padding: {
             default: 2,
             type: [String, Number]
         }
     });
 
+    provide('root', props.root);
     provide('side', props.route);
 </script>

@@ -10,8 +10,8 @@
     <form @submit.prevent="submit">
         <transition name="fade" v-if="floatSaveGui">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
-                <small>{{currentSaveText}}</small>
-                <a-button type="submit">{{currentSaveButtonText}}</a-button>
+                {{$t('unsaved_changes')}}
+                <a-button class="ml-2" type="submit">{{currentSaveButtonText}}</a-button>
             </div>
         </transition>
         <slot/>
@@ -53,7 +53,6 @@
         return props.saveButtonText || (props.created ? 'save' : 'upload');
     });
 
-    const currentSaveText = computed(() => $t('unsaved_changes'));
     function submit() {
         emit('submit');
     }

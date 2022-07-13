@@ -1,17 +1,17 @@
 <template>
-    <admin-page route="roles">
-        <div class="mb-3">
-            <a-button icon="arrow-left" to="/admin/roles">Back to Roles</a-button>
-        </div>
+    <div>
         <a-form :model="role" @submit="save" :created="role.id != -1" float-save-gui>
             <flex column gap="3">
+                <div>
+                    <a-button icon="arrow-left" to="/admin/roles">Back to Roles</a-button>
+                </div>
                 <a-input label="Name" v-model="role.name" maxlength="100" minlength="3"/>
-                <a-input label="Tag" desc="If this role is special (Example: Moderator) what tag should it show?" v-model="role.tag" maxlength="100" minlength="3"/>
+                <a-input label="Tag" :desc="$t('tag_help')" v-model="role.tag" maxlength="100" minlength="3"/>
                 <a-input label="Color" desc="The color of the role" type="color" v-model="role.color"/>
                 <a-input label="Permissions">
-                    <flex class="p-4" gap="1" column grow>
-                        <flex gap="1" v-for="perm of permissions" :key="perm.key">
-                            <span class="flex-grow">{{perm.name}}</span>
+                    <flex class="p-4" style="background-color: #22262a" column grow>
+                        <flex v-for="perm of permissions" :key="perm.key" class="perm p-2">
+                            <span class="flex-grow my-auto">{{perm.name}}</span>
                             <a-button icon="check" @click="setPermission(perm.id, true)" :disabled="getPermissionState(perm.id) === true"/>
                             <a-button icon="question" @click="setPermission(perm.id)" :disabled="getPermissionState(perm.id) === null"/>
                             <a-button icon="xmark" @click="setPermission(perm.id, false)" :disabled="getPermissionState(perm.id) === false"/>
@@ -20,7 +20,7 @@
                 </a-input>
             </flex>
         </a-form>
-    </admin-page>
+    </div>
 </template>
 
 <script setup>
@@ -75,3 +75,9 @@ function setPermission(id, allow=null) {
     }
 }
 </script>
+
+<style>
+.perm:nth-child(odd) {
+    background-color: var(--input-bg-color);
+}
+</style>
