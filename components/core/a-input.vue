@@ -42,6 +42,7 @@
         background-color: var(--input-bg-color);
         border: 1px solid var(--input-border-color);
         border-radius: var(--border-radius);
+        resize: vertical;
     }
 
     .input[type='checkbox'] {
