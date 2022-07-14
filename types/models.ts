@@ -13,15 +13,15 @@ export interface Category {
     grid: boolean;
     disporder: number;
     parent_id: number | null;
-    game_id: number | null;
-    thumbnail: string;
+    game_id: number;
+    thumbnail?: string;
     banner: string;
     buttons: string;
     webhook_url: string;
     approval_only: boolean;
     last_date: string;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     game?: Category | null;
     parent?: Category | null;
     readonly path?: any;
@@ -141,7 +141,7 @@ export interface Role {
     permissions_count?: number | null;
 }
 
-export interface Section {
+export interface Game {
     id: number;
     name: string;
     short_name: string | null;
@@ -176,7 +176,7 @@ export interface Tag {
     created_at: string | null;
     updated_at: string | null;
     categories?: Array<Category> | null;
-    sections?: Array<Section> | null;
+    sections?: Array<Game> | null;
     categories_count?: number | null;
     sections_count?: number | null;
 }
