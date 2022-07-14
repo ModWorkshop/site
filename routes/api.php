@@ -4,11 +4,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -95,8 +95,8 @@ Route::resource('tags', TagController::class);
  */
 Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
-Route::resource('categories', TagController::class);
-Route::resource('games', SectionController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('games', GameController::class);
 Route::get('games/{game}/categories', [CategoryController::class, 'getCategories']);
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);

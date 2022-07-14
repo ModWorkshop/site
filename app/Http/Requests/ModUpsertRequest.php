@@ -32,7 +32,7 @@ class ModUpsertRequest extends FormRequest
             'donation' => 'string|nullable|max:100',
             'version' => 'string|nullable|max:100',
             'visibility' => 'integer|min:1|max:4',
-            'game_id' => 'integer|nullable|min:1|exists:sections,id',
+            'game_id' => 'integer|nullable|min:1|exists:games,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
             'tag_ids' => 'array',

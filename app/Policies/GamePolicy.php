@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Category;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-//TODO: let people create/edit/delete categories only if they're part of a section they moderate
-class CategoryPolicy
+class GamePolicy
 {
     use HandlesAuthorization;
 
@@ -27,10 +26,10 @@ class CategoryPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Game  $game
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, Category $category)
+    public function view(?User $user, Game $game)
     {
         return Response::allow();
     }
@@ -43,41 +42,41 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot create categories');
+        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot create games');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Game  $game
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Category $category)
+    public function update(User $user, Game $game)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot update categories');
+        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot update games');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Game  $game
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Category $category)
+    public function delete(User $user, Game $game)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot delete categories');
+        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot delete games');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Game  $game
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Category $category)
+    public function restore(User $user, Game $game)
     {
         //
     }
@@ -86,10 +85,10 @@ class CategoryPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Game  $game
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Category $category)
+    public function forceDelete(User $user, Game $game)
     {
         //
     }

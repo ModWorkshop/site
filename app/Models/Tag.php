@@ -47,8 +47,8 @@ class Tag extends Model
         return $this->morphedByMany(Category::class, 'taggable');
     }
 
-    public function sections() {
-        return $this->morphedByMany(Section::class, 'taggable');
+    public function games() {
+        return $this->morphedByMany(Game::class, 'taggable');
     }
 
     public function toSearchableArray()

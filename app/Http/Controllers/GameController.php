@@ -5,33 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\Section;
+use App\Models\Game;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
 /**
- * @group Sections
+ * @group Games
  * 
  * API routes for interacting with game sections.
  */
-class SectionController extends Controller
+class GameController extends Controller
 {
-    public function update(Request $request, Section $section=null)
+    public function __construct() {
+        $this->authorizeResource(Game::class, 'game');
+    }
+
+    public function update(Request $request, Game $game=null)
     {
         $val = $request->validate([
             'name' => 'string|max:150|required',
         ]);
 
         
-        if (isset($section)) {
+        if (isset($game)) {
             //TODO
         } else {
             $val['last_date'] = Date::now();
-            $section = Section::create($val);
+            $game = Game::create($val);
         }
 
-        return $section;
+        return $game;
     }
 
     /**
@@ -49,7 +53,7 @@ class SectionController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $sections = Section::queryGet($val, function(Builder $query, array $val) {
+        $games = Game::queryGet($val, function(Builder $query, array $val) {
             if (($val['only_names'] ?? false)) {
                 $query->select(['id', 'name']);
             }
@@ -57,10 +61,10 @@ class SectionController extends Controller
             $query->orderBy('name');
         });
 
-        return CategoryResource::collection($sections);
+        return CategoryResource::collection($games);
     }
 
-    public function show(Section $game)
+    public function show(Game $game)
     {
         return new CategoryResource($game);
     }

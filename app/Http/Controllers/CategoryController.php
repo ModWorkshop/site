@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\Section;
+use App\Models\Game;
 use App\Services\APIService;
 use Date;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -16,12 +15,16 @@ use Illuminate\Http\Request;
  */
 class CategoryController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Category::class, 'category');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request, Section $game=null)
+    public function index(FilteredRequest $request, Game $game=null)
     {
         // Query parameters
         $val = $request->val([
@@ -31,7 +34,7 @@ class CategoryController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $categories = Category::queryGet($val, function(Builder $query, array $val) {
+        $categories = Category::queryGet($val, function($query, array $val) {
             $query->orderBy('name');
 
             if (($val['only_names'] ?? false)) {

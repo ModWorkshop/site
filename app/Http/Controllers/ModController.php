@@ -40,7 +40,7 @@ class ModController extends Controller
         // Query parameters
         $val = $request->validate([
             // How many mods should this return. 
-            'game_id' => 'integer|nullable|min:1|exists:sections,id',
+            'game_id' => 'integer|nullable|min:1|exists:games,id',
             'tags' => 'array',
             'tags.*' => 'integer|min:1|nullable',
             'categories' => 'array',

@@ -23,7 +23,7 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           vary: Origin
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IkNQbGt4T1hyVXF0Y1hVaDNIdFRxV3c9PSIsInZhbHVlIjoiY2tuVXJ2QUx5dmxhVlpDeGlLS0RjTTl4TXQ0VHdOdFI0QzZiOHNseDhXK1N5Y29XR29CV2lxSjRDYXZyOCtVNUExbndGWUtGa3RZZ3ZtZUswM1ZnWEhPNGNoS0FmbFJzUDJsTHcranpndFdjVDNYT0FUNXdtcmJaYnMxam1YZUsiLCJtYWMiOiJiNTk5NGJhYTQ5MjY2YTM2MmIyYjczM2Q5OGZmYjIyMjBiNDBkM2MzY2NhOGM3Njg1NGIxYWM1MDA1NThmNjc5IiwidGFnIjoiIn0%3D; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; samesite=lax; laravel_session=eyJpdiI6IlhaZHFKbVRNSzJ3QUFlbVgyanJ3VkE9PSIsInZhbHVlIjoiU0dhUldqTzVUQU9aYm00dXNYQU9BRGh0UmFQclQ2d2wyT0JMOS85d0kyb29NZ08vUHZYUzQ1d2ovcVVkTjlNaGZGUDB4RThqZ29WbGhXcUJsMGFFMC82T2Q0S24wbUJrT3lZUExzaTRNRmhienBNOS9zN3Y2TnpLWW92NU1sM0EiLCJtYWMiOiJjN2VlM2MxYTFjMTkyNDZjMTQ1ZmRhYzg1MWNjMTExYjUzZDhjNDY5N2QyYWE1YmNkYzkzM2RkOGY5N2QyMTQ4IiwidGFnIjoiIn0%3D; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax; JzJ6memHpSNh2b7pN9XJ6pn2wkB73rJ8HfSpKy9Y=eyJpdiI6IjJ0dk9wNXZIL3AxcDZIUFIvdFM1MkE9PSIsInZhbHVlIjoiSW5wdDNzT3ExWmVsS1JlQ2ZZblRxV2ZLOFplLy9QUWZkTWNUeFVIQksvUmwyUGJaVHQ2d0d6a0JFNDg4Mlk0bE5qcHJ0R3gzNGFYakg4amRZdEorSVBYTUtEWFM4QnpBcWFJVkVyTUdIOHFVTHdiOTZIWExXTU4vWWtjM2pGOTVpczFiaW9IblYyVmV3VHhrWTJzYWpaUnM5d0NjTS8xNUpWWDJVU0R2OVpBNm8zRDdVRVlCUkVWK1k5Mmw2eUczODNMcFFWSGVlVElpOFRzeldKbHJyVkhPZkZBMnZuU01CR3kzNEZucEhaSGxWS2dDNmFyeFlzTmZjQVFWZG9lZkIyNzFqM3dhOENVVDV2eC9iSUZYN1dCYUJRbjhhT1doUVpMM241VCtEaG9GSDBNM0E1bk1LTHZmV1JReGY4eXF5bGhjTzJPTmJQTVNjUmVMZCtIRlNXWmpRakJsOHRBVlkvVUNjaGM3QUs3cE1MTVVDR0dwbmlnQS81R2gzT2NQZmRrT1FCa2w2VWg2TDQwanRGdXVWdz09IiwibWFjIjoiNTkxNTMzNzViNWIzMGFlNTdkNDhlNGU2ZWI4NzhiNDcxYTVkNGMxYTI0MTQ4ZmRmN2NiMGU4OWEwMmU0YzkxZiIsInRhZyI6IiJ9; expires=Thu, 07-Jul-2022 05:10:23 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IjM0eUpnZnRlcFFYZjlrSG0xYmo3Snc9PSIsInZhbHVlIjoiNXgvTU56UHRrVGx4M29IbGNlM2o5RDBoc0ZBYUdPd1JwZStVY25wYUJtaDJuQzRiM1FxUklhTlpCeDc3dmkza0I2UWtIWWZLY3dza3pJbkFRNllYZzFmSTNDak15YWpaWHdQWXViYmdLYVhTSC9vUTUyeVdjVnRzOUFOZzJpaUMiLCJtYWMiOiIwZjZmZWY4YWMzMTM3NmUyMzM2ODM0Mzk2ZWYyYzk4NzM1ZmM2M2U0ZjcyZWMxNjVhZWE5NjI1YWExYTc0OWYwIiwidGFnIjoiIn0%3D; expires=Thu, 14-Jul-2022 02:30:44 GMT; Max-Age=7200; path=/; domain=localhost; samesite=lax; laravel_session=eyJpdiI6ImRCdkx2eHExeTR1Sk5FZ3M0ano4Nmc9PSIsInZhbHVlIjoiK0NORTN2aVpsbTViS3JGK1BLUjFENUtwbEF4eTdURE10Q3ZXb2srbjkyb3R2M0t2dGg2VjdJblRIeTRjbHJxbm52bFJWcUVKZTlmWU82bklhTFdXRG5jdk9ObmdacUc0bXQ3dWdKT2RIUDRpdW1adGNWR2ZGOVB2WExodmN0cjMiLCJtYWMiOiI3MDllM2ZkYTViNTY3MDdhMzZkY2FiZDU2MDc3MGNhNDI2ZjM4NTI0YmVkMTAwYWJiMjhlY2U5NjczZDdmM2U1IiwidGFnIjoiIn0%3D; expires=Thu, 14-Jul-2022 02:30:44 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax; t8Fd55KB4LDNuKGNohrWvTEdzEJNriXVMgwQ6vEO=eyJpdiI6Im9zcFRLMmxGU1QyazhLUDUwbm03YXc9PSIsInZhbHVlIjoiL1YybGVSSXRRVW53MTRkSVlmcjd4WU1SR25HRTZYc3lndjRxa0F6MWx5dWRncDFoaWR0eWw4Z0pzcVdiME8rVjJOYTdnZlgrMWh0NVkyQ05ObDZVUWdtT0haajVETTlYeCt2MzRHc3FEbHgrdExKNktVSWU4SVFEZ2x0S3BnV09RNEFjZ1JDZUw0Zy8wcTIrMy9jRkxIbjR2cDBTbndueEZyUmdLRmxQTjlSS1lXcDR3K0l6dWVKUGo5QXVua0tuKy9XYnF5dmVrcmo3VmhVMDlJVDZMM1pWa284VFJtR1ovbzRmcGlUamlTVnROUVpJNFgrUlpYRGpFa0FDYTZqaDZ5eStFU1N5K3dURmxrRytaY1N3VE4vQlUwcERmRW5BOFY4TFNxSnpKVWhGYVkxMGp4cDhhd1lFa05MSGdaeDFZSTBvRlk1TlAxejZuL1dhQjNtZ3lscEFYbGkrazhIdktxemdQUHd2UVVwNnFwaDFMeDJiY0R5ajBpQTdLOW5yb0h4TUlwV0g3TVBmQkQ2YjlJVVp5dz09IiwibWFjIjoiZTAwYzI5NTAyMDliMzU1ZTVjYmNjYjk2ZTFmYzFkZGQ2NzAzY2I1Y2E5ZTVhM2FlMWM0NmUyOTU3YzcyN2RmMyIsInRhZyI6IiJ9; expires=Thu, 14-Jul-2022 02:30:44 GMT; Max-Age=7200; path=/; domain=localhost; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -43,7 +43,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 11
+        example: 14
         type: integer
         custom: []
     queryParameters: []
@@ -52,14 +52,14 @@ endpoints:
         name: query
         description: ''
         required: false
-        example: qui
+        example: architecto
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 1000.'
         required: false
-        example: 874
+        example: 462
         type: integer
         custom: []
     responses:
@@ -519,7 +519,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '30'
+          x-ratelimit-remaining: '1'
           vary: Origin
         description: null
     responseFields: []
@@ -574,7 +574,7 @@ endpoints:
         name: content
         description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: true
-        example: wexstmooqnuhxvktpejnktzpwltdiqbzgwlndpbqguofrsqnatpscpzqyexfzqwtbxgrdagbktrsmxsvewhfhjlhbraoubdmrmijarolxwzrgicpsskqilwsjlzesyfjxryeascnucrsoeqqtqqkacqhbewkepgjfsnzbawidyldjbyxwvjyurwfergosdfsvkkmkankxehiymbvgqynqnditqedgniyihlwbfsanmyjfntyvofavjttqvgtkqdvhjyjytuhxewudrnujidnrmnuefhvcivlbpowmr
+        example: lstkkybqihhkffkkjlmtujkripcnmlqfnbxwzxmwgadtmvmejsbzuxepmvzgloakgotrwaudivzuaizrxmddwaseffsuubmqpoksmfejepoxygubuaydubvjrfpnsjqyqzvxxrckrnrmnxbpccrrygmnbdlmzyirbrclxjbdslgktmyprgvhizothexgargbjuyuukpfxeojsvgftmmxfdvnxumuzlefxknngpoosextwnqtdromwibmiexfzpcbatweskbpehdltzhwtqrbrvygeftcqylvnsrkdiadcmwwfbgtmofzaipzjnzkctuzosudlxeocotfhmdvldnaizakxyvjpqxnfzgboatfktdkkovuxnbkjkwzuhnqxjxhxevdmipsoxzbpnnodqbiflnymwoelsyybnihyydephcrckdaddtjhkrrpswxgntzdkkneemjtulkkwvbnhwzulqnugsguudxrhumgwhirsnlqozmcaogukafccbiolfpsmlicqphyphuiehxxnjhuctgrvagahdgcthlldmbszkrfbiukhbukttkmubcyywxgqhyuwodivpcncpmxozxpomkwxkjijfxxtcvwqbobedisb
         type: string
         custom: []
       reply_to:
@@ -605,7 +605,7 @@ endpoints:
         name: solution
         description: ''
         required: true
-        example: voluptate
+        example: molestiae
         type: string
         custom: []
       parameters:
@@ -613,7 +613,7 @@ endpoints:
         description: ''
         required: false
         example:
-          - perspiciatis
+          - mollitia
         type: 'string[]'
         custom: []
     responses: []
@@ -635,7 +635,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 16
+        example: 5
         type: integer
         custom: []
       id:
@@ -1104,7 +1104,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '29'
+          x-ratelimit-remaining: '0'
           vary: Origin
         description: null
     responseFields: []
@@ -1127,21 +1127,21 @@ endpoints:
         name: theme
         description: 'Must be one of <code>light</code>, <code>dark</code>, or <code>auto</code>.'
         required: true
-        example: auto
+        example: light
         type: string
         custom: []
       editor:
         name: editor
         description: ''
         required: true
-        example: sint
+        example: delectus
         type: string
         custom: []
       hide_solutions:
         name: hide_solutions
         description: ''
         required: true
-        example: true
+        example: false
         type: boolean
         custom: []
     responses: []
@@ -1164,7 +1164,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 1
+        example: 7
         type: integer
         custom: []
       id:
@@ -1180,14 +1180,14 @@ endpoints:
         name: content
         description: 'This field is required when <code>pinned</code> is not present. Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: false
-        example: nwlcxjpjqzcyskwbupivdesoixitjazwkeovynqnndijctbjkixuipleniksdtmujasorkpuisamklxaahxjjgpubktctetmhesysgkdaddcwywtqufkiukhabiwzpfkicxuarfpmmrmmwcunqfgaaldmtyyhlswyionlgijxhpalhzhfyiekabalhbgmiobolohntgulepesyzehldkaybaxwezawbnyiwfslmcboxpizuuafnrgprsvilblibggvccabxzkcakxtmgkxuwcguboijgzuyeaezuotayqnsorjcuwsyizsmkjhsilitctejdrvmpftshgfjxwhdvfzdvwxpjteiuijsdxuisrcbaeidzicmkauvkldvjzypsuoqqwcbxfawxptwlzpvngyybcbjsbizxxtenimohyneivtmnkyfvaxikjjdmotmaditsewbtmpjpywiibkpstdlhovhajrovrlihibncebcyniwebbebcfxgwezrmjilmtbkjpmdteskucmkfjzkffcoglhwrxzdyvvzutotqhfupopzpuhljzatqojjwvoqitflokzhgykfibdgubwsdrsbiycwnvlijaupwjzdkbaiuumezhuxrivfjwtattcvyfaxqpbxowwhogomkertwqqrdvvnjfzmbskerujweumnklaesswxtioohuvnjnwlvxeipqcukmqlontpitpkxtbpsclvqgagmvkmgkeexxvfikprwakywlkaslzpbqsfcptbxkwpeqggmpnndpqxdnedxptunhcqbquplbijevdglrqcqytxqijjycsvtkqlwrsqwgivvtvgdshxvatblrrujfjzvrsfkoqdpugvqsxruenxgfnizhwygvjpebalehqhljozwnoredbxnjhimbfhivxbngimjbnuetyfaglls
+        example: zgawvgpzdqwmnqzwxldqbnhzaxmjjymrghpakdcszdzmpxkyuuvhkhimyazudzxzpvkaxqbevjnyiwyntajteobqutwnysxbqpiaewojhalgzyjiwejwoybjbqzewxakffdsqjukajlfnnoosywgxwcoikfmnfabcsqoxieyovlfqmzfbkdqsntglvnvkxwbiqfehuagryjfyblmacknvnkdwnfltogvjooxqumioofkrfalhecxiutvxjalowroahxokvxgizcpqbkgjllrrldtpknkmgsfxyyucscukfhkwhgiapezsqpejmzzwxbyfvareeqlolbzemf
         type: string
         custom: []
       pinned:
         name: pinned
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
     responses: []
@@ -1209,7 +1209,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 16
+        example: 19
         type: integer
         custom: []
       id:

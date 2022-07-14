@@ -20,7 +20,7 @@ endpoints:
         name: query
         description: ''
         required: false
-        example: numquam
+        example: tempora
         type: string
         custom: []
       only_assignable:
@@ -38,7 +38,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '40'
+          x-ratelimit-remaining: '11'
           vary: Origin
         description: null
     responseFields: []
@@ -89,7 +89,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '39'
+          x-ratelimit-remaining: '10'
           vary: Origin
         description: null
     responseFields: []
@@ -120,28 +120,28 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: akgybsssyu
+        example: cssoyzeewgxtxouuzmnnoxvvlaplmxaqbjxwpycxexthdiyrnrzypewqcdzzb
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: mbulnikqhzrqupjwtpedaehrlramfaperetnsfpuyzlmwtmqdhdxzgmwlq
+        example: oeqyymrxsccprxqjugksmz
         type: string
         custom: []
       color:
         name: color
         description: '''desc'' => ''string|max:1000'',. Must not be greater than 8 characters.'
         required: false
-        example: o
+        example: fkx
         type: string
         custom: []
       order:
         name: order
         description: 'Must be at least -1. Must not be greater than 1000.'
         required: false
-        example: 267
+        example: 655
         type: integer
         custom: []
       permissions:
@@ -149,7 +149,7 @@ endpoints:
         description: ''
         required: false
         example:
-          - nostrum
+          - cum
         type: 'string[]'
         custom: []
     responses: []
