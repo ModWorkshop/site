@@ -148,11 +148,6 @@ small {
     color: var(--secondary-text-color);
 }
 
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
 a {
     display: inline-block;
 }
@@ -194,4 +189,8 @@ a {
     color: var(--text-color);
     background-color: var(--alt-bg-color);
     padding: 1rem;
+}
+
+* {
+    unicode-bidi: bidi-override;
 }
