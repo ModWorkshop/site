@@ -9,7 +9,7 @@
 			:placeholder="placeholder" 
 			:options="fixedOptions" 
 			:value-by="valueBy" 
-			:text-by="textBy" 
+			:text-by="textBy"
 			:multiple="multiple"
 			:clearable="clearable"
 			searchable

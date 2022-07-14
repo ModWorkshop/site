@@ -33,7 +33,13 @@ export default defineNuxtConfig({
 				path: "/mod/:id/edit",
 				file: resolve(__dirname, "pages/mod/edit-mod.vue")
 			});
-			
+
+			routes.push({
+				name: "upload-mod",
+				path: "/upload",
+				file: resolve(__dirname, "pages/mod/edit-mod.vue")
+			});
+
 			routes.push({
 				name: "category",
 				path: "/category/:id",
@@ -88,9 +94,9 @@ export default defineNuxtConfig({
 						file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
 					},
 					{
-						name: "admin-page-new-role",
-						path: "/admin/roles/new",
-						file: resolve(__dirname, "pages/admin/admin-edit-role.vue")
+						name: "admin-page-edit-category",
+						path: "/admin/categories/:id",
+						file: resolve(__dirname, "pages/admin/admin-edit-category.vue")
 					}
 				]
 			});
