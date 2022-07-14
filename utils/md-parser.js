@@ -1,7 +1,7 @@
 import MarkdownIt  from 'markdown-it';
 import hljs from 'highlight.js';
 import DOMPurify from 'isomorphic-dompurify';
-// import { escapeHtml } from 'markdown-it/lib/common/utils';
+import { escapeHtml } from 'markdown-it/lib/common/utils';
 import parseBBCode from './bbcode-parser';
 
 const md = MarkdownIt({
@@ -31,7 +31,7 @@ export function parseMarkdown(text) {
 		return '';
 	}
     //TODO: consider disabling BBCode for new/updated mods
-	// text = escapeHtml(text); //First escape the ugly shit
+	text = escapeHtml(text); //First escape the ugly shit
     text = parseBBCode(text); //Handle BBCode
     text = md.render(text); //Parse using markdown it
     return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
