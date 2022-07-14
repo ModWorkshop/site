@@ -265,7 +265,7 @@ export default {
     error_moderator_page: 'This page is only for moderators!',
     error_404: 'This page does not exist',
     registration_date: 'Registration Date',
-    lastvisit: 'Last Visit',
+    last_visit: 'Last Visit:',
     post: 'Post',
     join: 'Join',
     leave: 'Leave',

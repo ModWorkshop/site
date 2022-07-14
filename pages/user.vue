@@ -1,62 +1,67 @@
 <template>
     <page-block :error="error" error-string="This user does not exist!">
-        <flex column class="user-banner p-2 round" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`}">
+        <flex column :class="{'user-banner': true, 'p-2': true, round: true, 'default-banner': true}" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`, backgroundRepeat: !user.banner && 'repeat'}">
             <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
         </flex>
-        <flex :column="false" gap="3" class="md:flex-row">
+        <flex gap="3" class="md:flex-row">
             <content-block id="details" class="p-4">
                 <flex column>
                     <div id="main-info" style="min-width: 300px;">
-                        <h4>
+                        <flex class="text-xl">
                             <a-user :user="user" :avatar="false"/>
-                            <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"></div>
-                        </h4>
+                            <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status my-auto" :style="{backgroundColor: statusColor}"></div>
+                        </flex>
                         <span v-if="!userInvisible">{{user.custom_title}}</span>
-                        <span v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</span>
+                        <!-- <span v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</span> -->
                     </div>
                     <div v-if="isPublic" id="extra-info" style="word-break: break-word;">
                         <div v-if="user.created_at">{{$t('registration_date')}} {{fullDate(user.created_at)}}</div>
-                        <div>{{$t('lastvisit')}} {{timeAgo(user.last_online)}}</div>
-                        <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div>
-                        <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
+                        <div>{{$t('last_visit')}} {{timeAgo(user.last_online)}}</div>
+                        <!-- <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div> -->
+                        <!-- <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
                             {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
-                        </div>
-                        <div v-if="user.bday || user.age">
+                        </div> -->
+                        <!-- <div v-if="user.bday || user.age">
                             {{$t('date_of_birth')}} {{user.bday}} {{user.age}}
-                        </div>
+                        </div> -->
                     </div>
                 </flex>
             </content-block>
-            <content-block id="bio" class="p-4" style="flex-grow:1;">
-                <markdown v-if="isPublic" :text="user.bio"/>
-                <div v-else>
-                    This profile is private
-                </div>
+            <content-block id="bio" class="p-4 w-full">
+                <span class="text-lg">
+                    <template v-if="isPublic">
+                        <markdown v-if="user.bio" :text="user.bio"/>
+                        <div v-else class="w-full">{{$t('no_bio')}}</div>
+                    </template>
+                    <div v-else>{{$t('private_profile_notice')}}</div>
+                </span>
             </content-block>
         </flex>
         <mod-list v-if="isPublic" :user-id="user.id"/>
     </page-block>
 </template>
-<script setup>
+<script setup lang="ts">
 import { timeAgo, fullDate } from '../utils/helpers';
 import { DateTime } from 'luxon';
+import { useI18n } from 'vue-i18n';
+import { User } from '../types/models';
 
 const route = useRoute();
-const { $t } = useNuxtApp();
+const { t } = useI18n();
 
-const { data: user, error } = await useAPIFetch(`users/${route.params.id}`);
+const { data: user, error } = await useAPIFetch<User>(`users/${route.params.id}`);
 
 const isMod = computed(() => true);
-const userBanner = computed(() => user.banner || 'banners/default_banner.webp');
+const userBanner = computed(() => user.value.banner || 'banners/default_banner.webp');
 const isOnline = computed(() => {
-    const last = DateTime.fromISO(user.last_online);
+    const last = DateTime.fromISO(user.value.last_online);
     const now = DateTime.now();
     return now.diff(last, 'minutes').toObject().minutes < 5;
 });
 const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
-const statusString = computed(() => isOnline.value ? $t('online') : $t('offline'));
+const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => false);
-const isPublic = computed(() => !user.private_profile);
+const isPublic = computed(() => !user.value.private_profile);
 </script>
 <style scoped>
     .user-status {
@@ -64,5 +69,10 @@ const isPublic = computed(() => !user.private_profile);
         width: 12px;
         border-radius: 1em;
         display: inline-block;
+    }
+
+    .default-banner {
+        background-repeat: repeat;
+        background-size: auto;
     }
 </style>

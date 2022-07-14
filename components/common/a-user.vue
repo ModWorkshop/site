@@ -20,7 +20,7 @@ import { User } from '~~/types/models';
 withDefaults(defineProps<{
     details?: string,
     user: User,
-    avatar: boolean,
+    avatar?: boolean,
     avatarSize?: string
 }>(), { avatar: true });
 </script>
