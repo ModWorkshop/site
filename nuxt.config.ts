@@ -100,8 +100,6 @@ export default defineNuxtConfig({
 	//This converts these libraries to work with es6 import or something like that
 	build: {
 		transpile: [
-		//   'linkify-it',
-		//   'uc.micro',
 		  'luxon',
 		  '@fortawesome/vue-fontawesome',
 		  '@fortawesome/fontawesome-svg-core',
