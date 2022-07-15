@@ -73,4 +73,10 @@ class GameController extends Controller
     {
         
     }
+
+    public function getGameByShortName(string $shortName)
+    {
+        $game = Game::where('short_name', $shortName)->first();
+        return $this->show($game);
+    }
 }
