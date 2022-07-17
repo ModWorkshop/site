@@ -5,7 +5,7 @@
         </nuxt-link>
         <flex gap="1" column class="my-auto">
             <nuxt-link :to="`/user/${user.id}`" :style="{color: user.color}">
-                {{user.name}}<a-tag small v-if="user.tag" color="#2169ff">{{user.tag}}</a-tag>
+                {{user.name}} <a-tag small v-if="user.tag" color="#2169ff">{{user.tag}}</a-tag>
             </nuxt-link>
             <template v-if="details">
                 <span>{{details}}</span>

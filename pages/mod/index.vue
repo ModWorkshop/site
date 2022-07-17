@@ -62,7 +62,7 @@
     const store = useStore();
     const route = useRoute();
 
-    const { data: mod } = await useAPIFetch(`mods/${route.params.id}/`);
+    const { data: mod } = await useFetchData(`mods/${route.params.id}/`);
 
     const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
     const updateDateAgo = computed(() => timeAgo(mod.value.bump_date));

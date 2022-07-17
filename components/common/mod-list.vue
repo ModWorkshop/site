@@ -2,11 +2,11 @@
     <flex column gap="3">
         <flex>
             <flex>
-                <a-button @click="setSortBy('bump_date')" icon="clock" :no-bg="sortBy != 'bump_date'">{{$t('last_updated')}}</a-button>
-                <a-button @click="setSortBy('publish_date')" icon="upload" :no-bg="sortBy != 'publish_date'">{{$t('publish_date')}}</a-button>
-                <a-button @click="setSortBy('score')" icon="star" :no-bg="sortBy != 'score'">{{$t('popular_now')}}</a-button>
+                <a-button @click="setSortBy('bump_date')" icon="clock" :disabled="sortBy == 'bump_date'">{{$t('last_updated')}}</a-button>
+                <a-button @click="setSortBy('publish_date')" icon="upload" :disabled="sortBy == 'publish_date'">{{$t('publish_date')}}</a-button>
+                <a-button @click="setSortBy('score')" icon="star" :disabled="sortBy == 'score'">{{$t('popular_now')}}</a-button>
                 <Popper arrow>
-                    <a-button icon="ellipsis" :no-bg="!['likes', 'downloads', 'views', 'name'].includes(sortBy)"/>
+                    <a-button icon="ellipsis"/>
                     <template #content>
                         <a-dropdown-item icon="heart" @click="setSortBy('likes')">Likes</a-dropdown-item>
                         <a-dropdown-item icon="download" @click="setSortBy('downloads')">Downloads</a-dropdown-item>
@@ -17,9 +17,9 @@
             </flex>
             <flex class="ml-auto" gap="3">
                 <flex gap="1">
-                    <a-button icon="th"/>
-                    <a-button icon="list"/>
-                    <a-button icon="bars"/>
+                    <a-button icon="th" :disabled="true"/>
+                    <a-button icon="list" :disabled="false"/>
+                    <a-button icon="bars" :disabled="false"/>
                 </flex>
             </flex>
         </flex>
@@ -49,7 +49,7 @@
                             {{error}}
                         </div>
                         <template v-else>
-                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="forcedGame" :sort="sortBy"/>
+                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="!!forcedGame" :sort="sortBy"/>
                         </template>
                     </div>
                     <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
@@ -60,7 +60,7 @@
                 <content-block class="self-start" style="flex:2;">
                     <a-input label="Search" type="text" v-model="query"/>
                     <a-select v-if="!forcedGame" label="Game" v-model="selectedGame" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
-                    <a-select label="Categories" v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="selectedGame && categories || []" @update="refresh"/>
+                    <a-select label="Categories" v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="categories && categories.data" @update="refresh"/>
                     <a-select label="Tags" v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
                     <a-select label="Filter Out Tags" v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
                     <!-- <a-button color="none" icon="ellipsis-v"/> -->
@@ -120,10 +120,14 @@
         }
     }), { initialCache: false });
 
-    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories`);
+    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories`, { immediate: !!selectedGame.value });
     
     function gameChanged() {
-        refetchCats();
+        if (selectedGame.value) {
+            refetchCats();
+        } else {
+            categories.value = null;
+        }
         refresh();
     }
 

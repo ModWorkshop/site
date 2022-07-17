@@ -38,7 +38,7 @@ const role = ref({
 });
 
 if (route.params.id) {
-    const { data: fetchedRole, error } = await useAPIFetch(`roles/${route.params.id}/`);
+    const { data: fetchedRole, error } = await useFetchData(`roles/${route.params.id}/`);
     role.value = fetchedRole.value;
 
     if (error) {

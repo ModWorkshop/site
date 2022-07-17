@@ -20,5 +20,5 @@
     });
 
     provide('root', props.root);
-    provide('side', props.route);
+    provide('side', props.side);
 </script>

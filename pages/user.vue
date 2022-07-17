@@ -49,7 +49,10 @@ import { User } from '../types/models';
 const route = useRoute();
 const { t } = useI18n();
 
-const { data: user, error } = await useAPIFetch<User>(`users/${route.params.id}`);
+const { data: user, error } = await useFetchData<User>(`users/${route.params.id}`);
+
+console.log(user);
+
 
 const isMod = computed(() => true);
 const userBanner = computed(() => user.value.banner || 'banners/default_banner.webp');

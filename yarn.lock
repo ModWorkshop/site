@@ -3575,6 +3575,11 @@ object-inspect@^1.9.0:
   resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.2.tgz#c0641f26394532f28ab8d796ab954e43c009a8ea"
   integrity sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==
 
+object-to-formdata@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/object-to-formdata/-/object-to-formdata-4.4.2.tgz#f89013f90493c58cb5f6ab9f50b7aeec30745ea6"
+  integrity sha512-fu6UDjsqIfFUu/B3GXJ2IFnNAL/YbsC1PPzqDIFXcfkhdYjTD3K4zqhyD/lZ6+KdP9O/64YIPckIOiS5ouXwLA==
+
 ohash@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ohash/-/ohash-0.1.0.tgz#cde74db91cfb7259477a93e0959221c4e20a5881"
@@ -5102,7 +5107,7 @@ vue@^3.2.25, vue@^3.2.37:
     "@vue/server-renderer" "3.2.37"
     "@vue/shared" "3.2.37"
 
-vuestic-ui@1.4.6, vuestic-ui@latest:
+vuestic-ui@^1.4.6, vuestic-ui@latest:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/vuestic-ui/-/vuestic-ui-1.4.6.tgz#d9e59dcc65e34d64c20ecca1ba736a17141cd6e3"
   integrity sha512-dWl+bKHh8jl2jhljUyNrP0wan4lm8Pj9LS6CAO3A30HHEb58pLbyd3I3SUIBtCXB2584WODn9yAEwkAEFOnY0Q==

@@ -51,7 +51,7 @@ const games = store.games;
 const route = useRoute();
 
 if (route.params.id) {
-    const { data } = await useAPIFetch<Category>(`categories/${route.params.id}`);
+    const { data } = await useFetchData<Category>(`categories/${route.params.id}`);
     category = data;
 } else if(route.params.id == 'new') {
     category = ref<Category>(categoryTemplate);

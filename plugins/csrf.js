@@ -1,4 +1,3 @@
-import { $fetch } from 'ohmyfetch';
 import { reloadToken } from '../utils/helpers';
 export default defineNuxtPlugin(nuxtApp => {
     if (process.client) {
@@ -9,7 +8,7 @@ export default defineNuxtPlugin(nuxtApp => {
                 reloadToken();
             }
         }
-        setInterval(check, 30000); // Check every 5 minutes
+        setInterval(check, 300000); // Check every 5 minutes
         check();
     }
 });

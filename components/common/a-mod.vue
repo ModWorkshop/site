@@ -21,8 +21,6 @@
                 </template>
             </div>
 
-            <br v-if="!(showGame || mod.category)">
-
             <flex gap="1">
                 <div class="inline-block">
                     <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
@@ -34,7 +32,7 @@
                     <font-awesome-icon icon="eye"/> <span>{{views}}</span>
                 </div>
     
-                <span class="inline-block ml-auto">
+                <span class="inline-block ml-auto" v-if="date">
                     <span :title="date">
                         <font-awesome-icon icon="clock"/> {{timeAgoText}}
                     </span>

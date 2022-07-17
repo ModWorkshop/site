@@ -1,8 +1,8 @@
 <template>
-<page-block>
+<page-block :error="error" error-string="This game does not exist!">
     <div v-if="game">
         <img v-if="game.banner" :src="`/images/${game.banner}`" class="d-flex card-img-top" style="width: 100%;height: 265px;object-fit: cover;">
-        <div v-else class="d-flex card-img-top" style="background-image: url('/mws/assets/images/default_banner.webp');background-position: center;height: 265px;100%;">
+        <div v-else class="d-flex card-img-top" style="background-image: url('http://localhost:8000/storage/banners/default_banner.webp');background-position: center;height: 265px;100%;">
             <strong style="font-size: 42pt;" class="ml-2 align-self-end">
                 {{game.name}}
             </strong>
@@ -49,5 +49,5 @@
 const isModerator = false;
 const cats = [];
 const route = useRoute();
-const { data: game } = await useAPIFetch(`games/${route.params.id}`);
+const { data: game, error } = await useFetchData(`games/${route.params.id}`);
 </script>

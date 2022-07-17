@@ -21,7 +21,6 @@
 <script setup>
     import clone from 'rfdc/default';
     import { deepEqual } from 'fast-equals';
-    const { $t } = useNuxtApp();
 
     let props = defineProps({
         floatSaveGui: Boolean,
@@ -33,13 +32,14 @@
         saveText: String,
         saveButtonText: String,
         rules: Object,
-        model: Object
+        model: Object,
+        models: Array
     });
     
     const modelCopy = ref();
     watch(() => props.model, val => {
         modelCopy.value = clone(val);
-    }, {immediate: true});
+    }, { immediate: true });
 
     const currentCanSave = computed(() => {
         return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);

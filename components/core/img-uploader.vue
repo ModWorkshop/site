@@ -10,11 +10,12 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
+    modelValue: Blob,
     id: String,
     src: String
 });
 
-const emit = defineEmits(['update:file']);
+const emit = defineEmits(['update:modelValue']);
 
 const fileRef = ref();
 const blob = ref();
@@ -28,7 +29,9 @@ function onChange() {
         blob.value = reader.result;
     };
     fileRef.value = file;
-    emit('update:file', file);
+    emit('update:modelValue', file);
+    console.log(file);
+    
     if (file instanceof Blob) {
         reader.readAsDataURL(file);    
     }

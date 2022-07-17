@@ -1,7 +1,7 @@
 <template>
     <page-block size="med">
         <content-block class="p-8">
-            <a-form @submit="save" :model="user" :can-save="canSaveOverride" float-save-gui>
+            <a-form @submit="save" :model="models" :can-save="canSaveOverride" float-save-gui>
                 <a-tabs side type="query">
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
@@ -19,7 +19,7 @@
                     </a-tab>
                     <a-tab name="profile" title="Profile">
                         <flex column gap="4">
-                            <img-uploader label="Avatar" id="avatar" :src="user.avatar" :file.sync="avatarBlob">
+                            <img-uploader label="Avatar" id="avatar" :src="user.avatar" v-model="avatarBlob">
                                 <template #label="{ src }">
                                     <a-avatar size="large" :src="src"/>
                                     <a-avatar size="medium" :src="src"/>
@@ -27,7 +27,7 @@
                                 </template>
                             </img-uploader>
     
-                            <img-uploader label="Banner" column gap="3" id="banner" :src="user.banner" :file.sync="bannerBlob">
+                            <img-uploader label="Banner" column gap="3" id="banner" :src="user.banner" v-model="bannerBlob">
                                 <template #label="{ src }">
                                     <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
                                 </template>
@@ -77,6 +77,8 @@ const confirmPassword = ref('');
 
 const user = ref<User>(null);
 const id = parseInt(route.params.id?.toString());
+
+
 if (id && id !== store.user.id) {
     user.value = await useGet<User>(`users/${route.params.id}`);
 }
@@ -85,37 +87,26 @@ else {
     isMe.value = true;
 }
 
+//Reactive unwraps the refs allowing us to watch these for a-form.
+const models = reactive({user, avatarBlob, bannerBlob, password, confirmPassword});
+
 const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
 
 const canSaveOverride = computed(() => !!avatarBlob.value || !!bannerBlob.value);
 
 async function save() {
     try {
-        const formData = new FormData();
-        if (avatarBlob.value) {
-            formData.append('avatar_file', avatarBlob.value);
-            avatarBlob.value = null;
-        }
-        if (bannerBlob.value) {
-            formData.append('banner_file', bannerBlob.value);
-            bannerBlob.value = null;
-        }
-
-        // for (const [k, v] of Object.entries(user.value)) {
-        //     if (Array.isArray(v)) {
-        //         for (const arrVal of v) { //Why is this even needed?????
-        //             formData.append(k + '[]', arrVal);
-        //         }
-        //     } else {
-        //         formData.append(k, v);
-        //     }
-        // }
-
-        const nextUser = await usePatch<User>(`users/${user.value.id}`, {
+        const nextUser = await usePatch<User>(`users/${user.value.id}`, serializeObject({
             ...user.value,
             password: password.value,
-            confirm_password: password.value
-        });
+            confirm_password: password.value,
+            avatar_file: avatarBlob.value,
+            banner_file: bannerBlob.value
+        }));
+
+        //Clear the image upload after success
+        avatarBlob.value = null;
+        bannerBlob.value = null;
 
         if (isMe.value) {
             store.user = clone(nextUser);
@@ -124,7 +115,6 @@ async function save() {
         user.value = nextUser;
     } catch (error) {
         console.log(error);
-        // Notification.error('Failed saving user settings');
     }
 }
 </script>

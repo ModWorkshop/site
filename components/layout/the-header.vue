@@ -6,8 +6,8 @@
         <flex gap="4" class="ml-3">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
-            <a href="https://discord.gg/Eear4JW">Discord</a>
             <NuxtLink to="/blog">Blog</NuxtLink>
+            <a href="https://discord.gg/Eear4JW">Discord</a>
             <NuxtLink to="/forum">Forum</NuxtLink>
             <NuxtLink to="/support">Support Us</NuxtLink>
             <Popper arrow>

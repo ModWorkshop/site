@@ -10,8 +10,8 @@ import { useStore } from '../store';
 const store = useStore();
 const router = useRouter();
 
-await useAPIFetch(`/auth/steam/callback${window.location.search}`);
-const { data: userData } = await useAPIFetch('/user');
+await useFetchData(`/auth/steam/callback${window.location.search}`);
+const { data: userData } = await useFetchData('/user');
 store.user = userData;
 router.push('/');
 </script>

@@ -1,7 +1,6 @@
 import fileSize from "filesize";
-import { Router } from "h3";
 import { DateTime } from 'luxon';
-import { RouteLocationNormalizedLoaded } from "vue-router";
+import { serialize } from "object-to-formdata";
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -34,4 +33,11 @@ export function setQuery(key: string, value: string) {
     const route = useRoute();
     const router = useRouter();
     router.push({ query: { ...route.query, [key]: value } });
+}
+
+/**
+ * Converts JS objects to FormData. Necessary if you want to uplaod files basically
+ */
+export function serializeObject(data: Object) {
+    return serialize(data, { booleansAsIntegers: true });
 }

@@ -57,7 +57,7 @@
     const isNew = ref(!route.params.id);
 
     if (route.params.id) {
-        const { data: fetchedMod } = await useAPIFetch<Mod>(`mods/${route.params.id}/`);
+        const { data: fetchedMod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
         mod.value = fetchedMod.value;
         // mod.tag_ids = mod.tags.map(tag => tag.id);
     }
