@@ -34,7 +34,7 @@ class CategoryController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $categories = Category::queryGet($val, function($query, array $val) {
+        $categories = Category::queryGet($val, function($query, array $val) use ($game) {
             $query->orderBy('name');
 
             if (($val['only_names'] ?? false)) {
