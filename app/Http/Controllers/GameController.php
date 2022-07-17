@@ -74,9 +74,17 @@ class GameController extends Controller
         
     }
 
-    public function getGameByShortName(string $shortName)
+    public function getGame(string|int $shortNameOrId)
     {
-        $game = Game::where('short_name', $shortName)->first();
+        $game = null;
+
+        var_dump($shortNameOrId);
+
+        if (is_numeric($shortNameOrId)) {
+            $game = Game::find($shortNameOrId);
+        } else {
+            $game = Game::where('short_name', $shortNameOrId)->first();
+        }
         return $this->show($game);
     }
 }

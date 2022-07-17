@@ -97,8 +97,8 @@ Route::resource('mods.comments', CommentController::class);
 Route::resource('users', UserController::class)->except('store');
 Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
-Route::get('games/{game}', [GameController::class, 'getGameByShortName'])->where('game', '[0-9a-z\-]+');
-Route::get('games/{game}/categories', [CategoryController::class, 'getCategories']);
+Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
+Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
