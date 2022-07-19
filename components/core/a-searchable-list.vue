@@ -2,7 +2,7 @@
     <flex column gap="2">
         <flex>
             <a-input placeholder="Search" v-model="query" @update:modelValue="onSearch"/>
-            <a-button class="my-auto" to="/admin/tags/new">New</a-button>
+            <a-button v-if="newButton" class="my-auto" :to="newButton">New</a-button>
         </flex>
 
         <a-pagination v-model="page" :total="items.meta.total" :perPage="limit" @update="refresh"/>
