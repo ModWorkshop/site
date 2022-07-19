@@ -1,13 +1,13 @@
 <template>
-    <!-- 
-        The point of this form is as follows: nice save UI (optional) & validation rules
-        The save UI uses deep checking to make sure things are equal and triggers a save when things are not.
-        Note: items that shouldn't be tracked should be plucked from the model
-        For example, if we get files & images for a mod, we are not interested
-        in saving them with the mod (as these are handled separately)
-        So we should pluck them from the mod we get from the API and save them elsewhere.
-    -->
     <form @submit.prevent="submit">
+        <!-- 
+            The point of this form is as follows: nice save UI (optional) & validation rules
+            The save UI uses deep checking to make sure things are equal and triggers a save when things are not.
+            Note: items that shouldn't be tracked should be plucked from the model
+            For example, if we get files & images for a mod, we are not interested
+            in saving them with the mod (as these are handled separately)
+            So we should pluck them from the mod we get from the API and save them elsewhere.
+        -->
         <transition name="fade" v-if="floatSaveGui">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                 {{$t('unsaved_changes')}}
