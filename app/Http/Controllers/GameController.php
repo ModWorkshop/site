@@ -6,6 +6,8 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Game;
+use App\Services\APIService;
+use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -24,18 +26,48 @@ class GameController extends Controller
     public function update(Request $request, Game $game=null)
     {
         $val = $request->validate([
-            'name' => 'string|max:150|required',
+            'name' => 'string|max:150',
+            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'short_name' => 'string|nullable|max:30',
+            'webhook_url' => 'string|nullable|max:1000',
         ]);
 
-        
-        if (isset($game)) {
-            //TODO
-        } else {
+        $val['webhook_url'] ??= '';
+
+        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
+        $bannerFile = Arr::pull($val, 'banner_file');
+
+        $wasCreated = false;
+        if (!isset($game)) {
             $val['last_date'] = Date::now();
+            /**
+             * @var Game
+             */
             $game = Game::create($val);
+            $val = [];//Empty so we don't update it again.
+            $wasCreated = true;
+        }
+
+        APIService::tryUploadFile($thumbnailFile, 'games/thumbnails', $game->thumbnail, fn($path) => $game->thumbnail = $path);
+        APIService::tryUploadFile($bannerFile, 'games/banners', $game->banner, fn($path) => $game->banner = $path);
+
+        if (!$wasCreated || isset($thumbnailFile) || isset($bannerFile)) {
+            $game->update($val);
         }
 
         return $game;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        return $this->update($request);
     }
 
     /**
@@ -77,8 +109,6 @@ class GameController extends Controller
     public function getGame(string|int $shortNameOrId)
     {
         $game = null;
-
-        var_dump($shortNameOrId);
 
         if (is_numeric($shortNameOrId)) {
             $game = Game::find($shortNameOrId);

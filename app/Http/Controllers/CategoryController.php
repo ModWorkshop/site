@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Services\APIService;
+use Arr;
 use Date;
 use Illuminate\Http\Request;
 
@@ -90,17 +91,33 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category=null)
     {
         $val = $request->validate([
-            'name' => 'string|max:150|required',
+            'name' => 'string|max:150',
             'game_id' => 'integer|min:1|nullable|exists:categories,id',
             'parent_id' => 'integer|min:1|nullable|exists:categories,id',
+            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'approval_only' => 'boolean',
+            'webhook_url' => 'string|nullable|max:1000',
         ]);
 
-        
-        if (isset($category)) {
-            //TODO
-        } else {
+        $val['webhook_url'] ??= '';
+
+        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
+
+        $wasCreated = false;
+        if (!isset($category)) {
             $val['last_date'] = Date::now();
+            /**
+             * @var Category
+             */
             $category = Category::create($val);
+            $val = [];//Empty so we don't update it again.
+            $wasCreated = true;
+        }
+
+        APIService::tryUploadFile($thumbnailFile, 'categories/thumbnails', $category->thumbnail, fn($path) => $category->thumbnail = $path);
+
+        if (!$wasCreated || isset($thumbnailFile)) {
+            $category->update($val);
         }
 
         return $category;
