@@ -5,9 +5,7 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
-        <a-form @submit="save" :model="mod" :rules="rules"
-                :created="!isNew" :save-text="saveText" 
-                :can-save="isNew" float-save-gui>
+        <a-form @submit="save" :model="mod" :created="mod.id == -1" :save-text="saveText" float-save-gui>
             <content-block class="p-8">
                 <a-tabs padding="4" side>
                     <a-tab name="main" title="Main">
@@ -35,8 +33,10 @@
     import clone from 'rfdc/default';
     import { Mod } from '~~/types/models';
     const route = useRoute();
+    const router = useRouter();
 
     const modTemplate = {
+        id: -1,
         name: '',
         desc: '',
         images: [],
@@ -54,7 +54,6 @@
 
     // const store = useStore();
     const mod = ref<Mod>(clone(modTemplate));
-    const isNew = ref(!route.params.id);
 
     if (route.params.id) {
         const { data: fetchedMod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
@@ -62,15 +61,12 @@
         // mod.tag_ids = mod.tags.map(tag => tag.id);
     }
 
-    const rules = {
-        name: {min: 3}
-    };
-    const saveText = computed(() => isNew.value ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
+    const saveText = computed(() => mod.value.id == -1 ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
     async function save() {
         try {
-            if (isNew.value) {
+            if (mod.value.id == -1) {
                 mod.value = await usePost<Mod>('mods', mod.value);
-                isNew.value = false;
+                history.replaceState(null, null, `/mod/${mod.value.id}/edit`)
             } else {
                 mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
             }
