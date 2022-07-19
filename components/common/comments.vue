@@ -7,7 +7,7 @@
                     <a-button icon="comment" @click="setCommentDialog(true)">Comment</a-button>
                 </div>
             </flex>
-            <flex column gap="2" v-if="comments.data.length > 0">
+            <flex column gap="2" v-if="comments">
                 <a-comment v-for="comment of comments.data" 
                     :key="comment.id"
                     :data="comment"
@@ -41,18 +41,21 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+    import { Comment } from '~~/types/models';
+    import { Paginator } from '~~/types/paginator';
+
     const props = defineProps({
         url: String,
         canEditAll: Boolean
     });
 
     const isLoaded = ref(false);
-    const comments = ref({ data: [] });
+    const comments = ref<Paginator<Comment>>();
     const commentContent = ref('');
     const showCommentDialog = ref(false);
-    const replyingComment = ref();
-    const editingComment = ref();
+    const replyingComment = ref<Comment>();
+    const editingComment = ref<Comment>();
 
     function setCommentDialog(open) {
         showCommentDialog.value = open;
@@ -65,7 +68,7 @@
         const content = commentContent.value;
         try {
             commentContent.value = '';
-            const comment = await usePost(props.url, {
+            const comment = await usePost<Comment>(props.url, {
                 content,
                 reply_to: replyingComment.value?.id
             });
@@ -105,18 +108,17 @@
     }
 
     async function loadComments() {
-        const data = await useGet(props.url);
-        comments.value = data;
+        comments.value = await useGetMany<Comment>(props.url);
         isLoaded.value = true;
     }
 
-    function onVisChange(isVisible) {
+    function onVisChange(isVisible: boolean) {
         if (!isLoaded.value && isVisible) {
             loadComments();
         }
     }
 
-    async function deleteComment(commentId, isReply=false) {
+    async function deleteComment(commentId: number, isReply=false) {
         await useDelete(props.url + '/' + commentId);
         if (!isReply) {
             const allComments = comments.value.data;
@@ -124,7 +126,7 @@
         }
     }
     
-    function replyToComment(replyTo, mention) {
+    function replyToComment(replyTo: Comment, mention) {
         setCommentDialog(true);
         
         if (replyTo) {
