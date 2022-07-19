@@ -57,7 +57,7 @@
     const replyingComment = ref<Comment>();
     const editingComment = ref<Comment>();
 
-    function setCommentDialog(open) {
+    function setCommentDialog(open: boolean) {
         showCommentDialog.value = open;
         commentContent.value = '';
         replyingComment.value = undefined;
@@ -140,12 +140,12 @@
 
     //This really just reloads the comments(will later reset pages)
     //Pretty much because this isn't as frequent and so it's sorted well.
-    async function setCommentPinState(comment) {
+    async function setCommentPinState(comment: Comment) {
         await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
         loadComments();
     }
 
-    function beginEditingComment(comment) {
+    function beginEditingComment(comment: Comment) {
         setCommentDialog(true);
         commentContent.value = comment.content;
         editingComment.value = comment;
