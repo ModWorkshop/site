@@ -124,6 +124,7 @@ export interface Permission {
     desc: string;
     created_at: string | null;
     updated_at: string | null;
+    allow: boolean;
 }
 
 export interface PermissionsRolesLink {}
@@ -138,14 +139,12 @@ export interface Role {
     created_at: string | null;
     updated_at: string | null;
     permissions?: Array<Permission> | null;
-    permissions_count?: number | null;
 }
 
 export interface Game {
     id: number;
     name: string;
-    short_name: string | null;
-    disporder: number;
+    short_name?: string;
     thumbnail: string;
     banner: string;
     buttons: string;
