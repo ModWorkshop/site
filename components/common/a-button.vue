@@ -44,7 +44,8 @@
         padding: 0.5rem 0.75rem;
         border: 1px solid transparent;
         border-radius: var(--border-radius);
-        transition: background-color, color, border-color 0.15s ease-in-out;
+        transition: 0.15s ease-in-out;
+        transition-property: background-color, color, border-color;
     }
 
     .button-none {
@@ -54,6 +55,11 @@
     .button-primary {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
+    }
+
+    .button-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
     }
 
     .button-no-bg {
@@ -76,13 +82,17 @@
     }
 
     .button:hover:enabled {
-        transition: background-color, color, border-color 0.15s ease-in-out;
+        color: var(--button-text-color);
+        transition: 0.15s ease-in-out;
+        transition-property: background-color, color, border-color;
         cursor: pointer;
     }
 
     .button-primary:hover:enabled {
         background-color: var(--primary-hover-color);
-        color: var(--button-text-color);
-        cursor: pointer;
+    }
+
+    .button-danger:hover:enabled {
+        background-color: var(--danger-hover-color);
     }
 </style>
