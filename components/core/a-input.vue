@@ -1,5 +1,5 @@
 <template>
-    <flex inline grow :column="!isCheckbox" gap="2">
+    <flex inline grow wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
         <label v-if="!isCheckbox && label" :for="input?.id">
             {{label}}
         </label>
@@ -7,8 +7,8 @@
         <va-color-input v-else-if="type == 'color'" v-model="modelValue" @input="$emit('update:modelValue',  modelValue);" v-bind="$attrs"/>
         <slot v-else-if="$slots.default"/>
         <input v-else v-model="modelValue" @input="$emit('update:modelValue',  modelValue);" class="input" :type="type" :maxlength="maxlength" v-bind="$attrs" v-uid ref="input"/>
-        <label v-if="isCheckbox && label" :for="input?.id">
-            {{label}}
+        <label v-if="isCheckbox && label" :for="input?.id" class="basis-11/12">
+            <span class="align-middle">{{label}}</span>
         </label>
         <small v-if="desc"><br v-if="isCheckbox">{{desc}}</small>
     </flex>
@@ -47,5 +47,6 @@
 
     .input[type='checkbox'] {
         width: revert;
+        margin-top: 3px;
     }
 </style>
