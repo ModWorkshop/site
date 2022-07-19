@@ -48,6 +48,8 @@ use Illuminate\Notifications\Notifiable;
  * @method static Builder|User withPermissions()
  * @mixin \Eloquent
  * @property-read \App\Models\UserExtra|null $extra
+ * @property string $custom_color
+ * @method static Builder|User whereCustomColor($value)
  */
 class User extends Authenticatable
 {

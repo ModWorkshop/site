@@ -104,6 +104,7 @@ abstract class Visibility {
  * @property-read int|null $comments_count
  * @property-read Model|\Eloquent $download
  * @method static Builder|Mod whereSubmitterId($value)
+ * @property-read \App\Models\Image|null $thumbnail
  */
 class Mod extends Model
 {
