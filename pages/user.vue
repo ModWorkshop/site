@@ -1,6 +1,6 @@
 <template>
     <page-block :error="error" error-string="This user does not exist!">
-        <flex column :class="{'user-banner': true, 'p-2': true, round: true, 'default-banner': true}" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`, backgroundRepeat: !user.banner && 'repeat'}">
+        <flex column :class="{'user-banner': true, 'p-2': true, round: true, 'default-banner': !user.banner}" :style="{backgroundImage: `url(http://localhost:8000/storage/${userBanner})`}">
             <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
         </flex>
         <flex gap="3" class="md:flex-row">
@@ -66,7 +66,7 @@ const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => false);
 const isPublic = computed(() => !user.value.private_profile);
 </script>
-<style scoped>
+<style>
     .user-status {
         height: 12px;
         width: 12px;

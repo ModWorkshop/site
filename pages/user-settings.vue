@@ -27,9 +27,9 @@
                                 </template>
                             </img-uploader>
     
-                            <img-uploader label="Banner" column gap="3" id="banner" :src="user.banner" v-model="bannerBlob">
+                            <img-uploader label="Banner" id="banner" :src="user.banner" v-model="bannerBlob">
                                 <template #label="{ src }">
-                                    <div class="w-full round user-banner" :style="{backgroundImage: `url(${src || 'http://localhost:8000/storage/default_banner.webp'})`}"/>
+                                    <div class="w-full round banner" :style="{backgroundImage: `url(${src || 'https://localhost:8000/storage/default_banner.webp'})`}"/>
                                 </template>
                             </img-uploader>
     
