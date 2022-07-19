@@ -1,22 +1,36 @@
 <template>
-    <a-form @submit="save">
+    <a-form @submit="save" :model="category" :can-save="canSaveOverride" :created="category.id != -1" float-save-gui>
         <flex column gap="3">
             <div>
                 <a-button icon="arrow-left" to="/admin/categories">Back to Categories</a-button>
             </div>
+            <img-uploader label="Thumbnail" id="thumbnail" :src="(category.thumbnail && `categories/thumbnails/${category.thumbnail}`) || 'assets/nopreview.webp'" v-model="thumbnailBlob">
+                <template #label="{ src }">
+                    <a-img class="round" :src="src"/>
+                </template>
+            </img-uploader>
             <a-input label="Name" v-model="category.name"/>
-            <a-input :label="$t('short_name')" v-model="category.short_name"/>
             <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="category.webhook_url"/>
-            <md-editor :label="$t('description')" v-model="category.desc"/>
+            <a-input :label="$t('approval_only')" v-model="category.approval_only" type="checkbox" desc="Whether or not mods uploaded to this category need to first be approved by a moderator"/>
+            <!-- <md-editor :label="$t('description')" v-model="category.desc"/> -->
             <flex>
                 <a-select label="Game" v-model="category.game_id" placeholder="Select a game" clearable :options="games"/>
                 <a-select label="Parent Category" v-model="category.parent_id" placeholder="Select a parent category" clearable :options="categories"/>
             </flex>
+            <va-alert class="w-full" color="warning">
+                <details>
+                    <summary>DANGER ZONE</summary>
+                    <div class="p-4 mt-2">
+                        <a-button color="danger">Delete</a-button>
+                    </div>
+                </details>
+            </va-alert>
         </flex>
     </a-form>
 </template>
 
 <script setup lang="ts">
+import { Ref } from "vue";
 import { useStore } from "~~/store";
 import { Category } from "~~/types/models";
 
@@ -42,24 +56,28 @@ const categoryTemplate: Category = {
     updated_at: ""
 };
 
-let category;
+let category: Ref<Category>;
 
 await store.fetchGames();
 
 const categories = ref<Category[]>([]);
 const games = store.games;
 const route = useRoute();
+const thumbnailBlob = ref(null);
+const canSaveOverride = computed(() => !!thumbnailBlob.value);
+const router = useRouter();
 
-if (route.params.id) {
+if (route.params.id == 'new') {
+    category = ref<Category>(categoryTemplate);
+}
+else if (route.params.id) {
     const { data } = await useFetchData<Category>(`categories/${route.params.id}`);
     category = data;
-} else if(route.params.id == 'new') {
-    category = ref<Category>(categoryTemplate);
 }
 
 watch(() => category.value.game_id, async () => {
     if (category.value.game_id) {
-        const cats = await useGetMany<Category>(`/games/${category.game_id}/categories?include_paths=1`);
+        const cats = await useGetMany<Category>(`/games/${category.value.game_id}/categories?include_paths=1`);
         categories.value = cats.data;
     } else {
         categories.value = [];
@@ -69,10 +87,18 @@ watch(() => category.value.game_id, async () => {
 async function save() {
     try {
         if (category.value.id == -1) {
-            category.value = await usePatch<Category>(`categories/${category.value.id}`, category.value);
+            category.value = await usePost<Category>('categories', serializeObject({
+                ...category.value,
+                thumbnail_file: thumbnailBlob.value
+            }));
+            history.replaceState(null, null, `/admin/categories/${category.value.id}`)
         } else {
-            category.value = await usePost<Category>('categories', category.value);
+            category.value = await usePatch<Category>(`categories/${category.value.id}`, serializeObject({
+                ...category.value,
+                thumbnail_file: thumbnailBlob.value
+            }));
         }
+        thumbnailBlob.value = null;
     } catch (error) {
         console.error(error);
         return;

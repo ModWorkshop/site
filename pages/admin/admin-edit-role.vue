@@ -10,11 +10,11 @@
                 <a-input label="Color" desc="The color of the role" type="color" v-model="role.color"/>
                 <a-input label="Permissions">
                     <flex class="p-4" style="background-color: #22262a" column grow>
-                        <flex v-for="perm of permissions" :key="perm.key" class="perm p-2">
+                        <flex v-for="perm of permissions.data" :key="perm.id" class="perm p-2">
                             <span class="flex-grow my-auto">{{perm.name}}</span>
-                            <a-button icon="check" @click="setPermission(perm.id, true)" :disabled="getPermissionState(perm.id) === true"/>
-                            <a-button icon="question" @click="setPermission(perm.id)" :disabled="getPermissionState(perm.id) === null"/>
-                            <a-button icon="xmark" @click="setPermission(perm.id, false)" :disabled="getPermissionState(perm.id) === false"/>
+                            <a-button icon="check" @click="setPermission(perm, true)" :disabled="getPermissionState(perm.id) === true"/>
+                            <a-button icon="question" @click="setPermission(perm)" :disabled="getPermissionState(perm.id) === null"/>
+                            <a-button icon="xmark" @click="setPermission(perm, false)" :disabled="getPermissionState(perm.id) === false"/>
                         </flex>
                     </flex>
                 </a-input>
@@ -23,34 +23,34 @@
     </div>
 </template>
 
-<script setup>
-definePageMeta({
-    middleware: 'admins-only'
-});
+<script setup lang="ts">
+import { Permission, Role } from '~~/types/models';
+import clone from 'rfdc/default';
+import { Ref } from 'vue';
 
 const route = useRoute();
-const role = ref({
-    id: -1,
-    name: '',
-    tag: '',
-    color: null,
-    permissions: {}
-});
+let role: Ref<Role>;
 
 if (route.params.id) {
-    const { data: fetchedRole, error } = await useFetchData(`roles/${route.params.id}/`);
-    role.value = fetchedRole.value;
-
-    if (error) {
-        
-    }
+    const { data: fetchedRole, error } = await useFetchData<Role>(`roles/${route.params.id}/`);
+    role = fetchedRole;
+} else {
+    role = clone({
+        id: -1,
+        name: '',
+        tag: '',
+        desc: '',
+        color: null,
+        permissions: []
+    });
 }
 
-const permissions = await useGet('/permissions');
+const { data: permissions } = await useFetchMany<Permission>('/permissions');
 
 async function save() {
     if (role.value.id == -1) {
         role.value = await usePost('roles', this.role);
+        window.location.replace(`/admin/roles/${role.value.id}`);
     } else {
         role.value = await usePatch(`roles/${this.role.id}`, this.role);
     }
@@ -61,8 +61,8 @@ function getPermissionState(id) {
     return perm ? perm.allow : null;
 }
 
-function setPermission(id, allow=null) {
-    console.log(id, allow);
+function setPermission(perm: Permission, allow=null) {
+    const id = perm.id;
 
     if (role.value.permissions[id]) {
         if (allow !== null) {
@@ -71,7 +71,7 @@ function setPermission(id, allow=null) {
             delete role.value.permissions[id];
         }
     } else {
-        role.value.permissions[id] = { allow };
+        role.value.permissions[id] = { ...perm, allow };
     }
 }
 </script>

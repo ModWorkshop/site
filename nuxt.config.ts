@@ -97,6 +97,11 @@ export default defineNuxtConfig({
 						name: "admin-page-edit-category",
 						path: "/admin/categories/:id",
 						file: resolve(__dirname, "pages/admin/admin-edit-category.vue")
+					},
+					{
+						name: "admin-page-edit-game",
+						path: "/admin/games/:id",
+						file: resolve(__dirname, "pages/admin/admin-edit-game.vue")
 					}
 				]
 			});
