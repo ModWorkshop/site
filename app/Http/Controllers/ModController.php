@@ -220,7 +220,7 @@ class ModController extends Controller
         $file = $val['file'];
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('images', $fileName, 'public');
+        $file->storePubliclyAs('mods/images', $fileName, 'public');
         
         $img = Image::create([
             'user_id' => $user->id,
@@ -284,7 +284,7 @@ class ModController extends Controller
         $file = $val['file'];
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('files', $fileName);
+        $file->storePubliclyAs('mods/files', $fileName);
         
         $file = File::create([
             'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.

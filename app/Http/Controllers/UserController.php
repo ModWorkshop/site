@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\APIService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -80,24 +81,10 @@ class UserController extends Controller
         ]);
 
         $avatarFile = Arr::pull($val, 'avatar_file');
-        if (isset($avatarFile)) {
-            if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
-                $oldAvatar = preg_replace('/\?t=\d+/', '', $user->avatar);
-                Storage::disk('public')->delete($oldAvatar); // Delete old avatar before uploading
-            }
-            $path = $avatarFile->storePubliclyAs('avatars', $user->id.'.'.$avatarFile->extension(), 'public');
-            $user->avatar = $path.'?t='.time();
-        }
+        APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);
 
         $bannerFile = Arr::pull($valExtra, 'banner_file');
-        if (isset($bannerFile)) {
-            $oldBanner  = preg_replace('/\?t=\d+/', '', $user->extra->banner);
-            if (isset($oldBanner)) {
-                Storage::disk('public')->delete($oldBanner); // Delete old avatar before uploading
-            }
-            $path = $bannerFile->storePubliclyAs('banners', $user->id.'.'.$bannerFile->extension(), 'public');
-            $userExtra->banner = $path.'?t='.time();
-        }
+        APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
 
         //Get all roles first
         $roles = Arr::pull($val, 'role_ids');

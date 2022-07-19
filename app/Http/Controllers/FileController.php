@@ -80,6 +80,6 @@ class FileController extends Controller
      */
     public function downloadFile(File $file)
     {
-        return Storage::download('files/'.$file->file);
+        return Storage::download('mods/files/'.$file->file);
     }
 }
