@@ -31,7 +31,7 @@
             fileList.value.push({
                 id: image.id,
                 name: image.file,
-                url: `http://localhost:8000/storage/images/${image.file}`
+                url: `http://localhost:8000/storage/mods/images/${image.file}`
             });
         });
     }, {immediate: true});

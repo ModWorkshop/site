@@ -38,7 +38,7 @@
     const images = computed(() => {
         const images = [];
         for (const image of props.mod.images) {
-            images.push(`http://localhost:8000/storage/images/${image.file}`);
+            images.push(`http://localhost:8000/storage/mods/images/${image.file}`);
         }
         return images;
     });
