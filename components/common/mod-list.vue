@@ -2,9 +2,9 @@
     <flex column gap="3">
         <flex>
             <flex>
-                <a-button @click="setSortBy('bump_date')" icon="clock" :disabled="sortBy == 'bump_date'">{{$t('last_updated')}}</a-button>
-                <a-button @click="setSortBy('publish_date')" icon="upload" :disabled="sortBy == 'publish_date'">{{$t('publish_date')}}</a-button>
-                <a-button @click="setSortBy('score')" icon="star" :disabled="sortBy == 'score'">{{$t('popular_now')}}</a-button>
+                <a-button :disabled="sortBy == 'bump_date'" icon="clock" @click="setSortBy('bump_date')">{{$t('last_updated')}}</a-button>
+                <a-button :disabled="sortBy == 'publish_date'" icon="upload" @click="setSortBy('publish_date')">{{$t('publish_date')}}</a-button>
+                <a-button icon="star" :disabled="sortBy == 'score'" @click="setSortBy('score')">{{$t('popular_now')}}</a-button>
                 <Popper arrow>
                     <a-button icon="ellipsis"/>
                     <template #content>
@@ -25,12 +25,12 @@
         </flex>
 
         <flex column gap="3">
-            <a-pagination v-model="page" :total="fetchedMods.meta.total" perPage="40" @update="page => setPage(page, true)" v-model:pages="pages"/>
+            <a-pagination v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" per-page="40" @update="page => setPage(page, true)"/>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex gap="6">
                 <flex wrap column gap="3" class="mods justify-content-start" style="flex:10;">
                     <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
-                        <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"></div>
+                        <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"/>
                         <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
                         <div style="flex: 3">{{$t('author')}}</div>
                         <!-- <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div> -->
@@ -49,7 +49,7 @@
                             {{error}}
                         </div>
                         <template v-else>
-                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :noGame="!!forcedGame" :sort="sortBy"/>
+                            <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :no-game="!!forcedGame" :sort="sortBy"/>
                         </template>
                     </div>
                     <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
@@ -58,11 +58,11 @@
                     </span>
                 </flex>
                 <content-block class="self-start" style="flex:2;">
-                    <a-input label="Search" type="text" v-model="query"/>
-                    <a-select v-if="!forcedGame" label="Game" v-model="selectedGame" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
-                    <a-select label="Categories" v-model="selectedCategories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="categories && categories.data" @update="refresh"/>
-                    <a-select label="Tags" v-model="selectedTags" placeholder="Select Tags" multiple :options="tags"/>
-                    <a-select label="Filter Out Tags" v-model="selectedBlockTags" placeholder="Select Tags" multiple :options="tags"/>
+                    <a-input v-model="query" label="Search" type="text"/>
+                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
+                    <a-select v-model="selectedCategories" label="Categories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="categories && categories.data" @update="refresh"/>
+                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple :options="tags"/>
+                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple :options="tags"/>
                     <!-- <a-button color="none" icon="ellipsis-v"/> -->
                 </content-block>
             </flex>
@@ -140,7 +140,7 @@
 
     const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
     const currentMods = computed<Mod[]>(() => {
-        return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || []
+        return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [];
     });
     
     let lastTimeout = null;

@@ -1,21 +1,21 @@
 <template>
-    <a-form @submit="save" :model="category" :can-save="canSaveOverride" :created="category.id != -1" float-save-gui>
+    <a-form :model="category" :can-save="canSaveOverride" :created="category.id != -1" float-save-gui @submit="save">
         <flex column gap="3">
             <div>
                 <a-button icon="arrow-left" to="/admin/categories">Back to Categories</a-button>
             </div>
-            <img-uploader label="Thumbnail" id="thumbnail" :src="(category.thumbnail && `categories/thumbnails/${category.thumbnail}`) || 'assets/nopreview.webp'" v-model="thumbnailBlob">
+            <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="(category.thumbnail && `categories/thumbnails/${category.thumbnail}`) || 'assets/nopreview.webp'">
                 <template #label="{ src }">
                     <a-img class="round" :src="src"/>
                 </template>
             </img-uploader>
-            <a-input label="Name" v-model="category.name"/>
-            <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="category.webhook_url"/>
-            <a-input :label="$t('approval_only')" v-model="category.approval_only" type="checkbox" desc="Whether or not mods uploaded to this category need to first be approved by a moderator"/>
+            <a-input v-model="category.name" label="Name"/>
+            <a-input v-model="category.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
+            <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" desc="Whether or not mods uploaded to this category need to first be approved by a moderator"/>
             <!-- <md-editor :label="$t('description')" v-model="category.desc"/> -->
             <flex>
-                <a-select label="Game" v-model="category.game_id" placeholder="Select a game" clearable :options="games"/>
-                <a-select label="Parent Category" v-model="category.parent_id" placeholder="Select a parent category" clearable :options="categories"/>
+                <a-select v-model="category.game_id" label="Game" placeholder="Select a game" clearable :options="games"/>
+                <a-select v-model="category.parent_id" label="Parent Category" placeholder="Select a parent category" clearable :options="categories"/>
             </flex>
             <va-alert class="w-full" color="warning">
                 <details>
@@ -65,7 +65,6 @@ const games = store.games;
 const route = useRoute();
 const thumbnailBlob = ref(null);
 const canSaveOverride = computed(() => !!thumbnailBlob.value);
-const router = useRouter();
 
 if (route.params.id == 'new') {
     category = ref<Category>(categoryTemplate);
@@ -91,7 +90,7 @@ async function save() {
                 ...category.value,
                 thumbnail_file: thumbnailBlob.value
             }));
-            history.replaceState(null, null, `/admin/categories/${category.value.id}`)
+            history.replaceState(null, null, `/admin/categories/${category.value.id}`);
         } else {
             category.value = await usePatch<Category>(`categories/${category.value.id}`, serializeObject({
                 ...category.value,
@@ -103,5 +102,5 @@ async function save() {
         console.error(error);
         return;
     }
-};
+}
 </script>

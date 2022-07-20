@@ -1,14 +1,14 @@
 <template>
     <flex column gap="2">
         <flex>
-            <a-input placeholder="Search" v-model="query" @update:modelValue="onSearch"/>
+            <a-input v-model="query" placeholder="Search" @update:model-value="onSearch"/>
             <a-button v-if="newButton" class="my-auto" :to="newButton">New</a-button>
         </flex>
 
-        <a-pagination v-model="page" :total="items.meta.total" :perPage="limit" @update="refresh"/>
+        <a-pagination v-model="page" :total="items.meta.total" :per-page="limit" @update="refresh"/>
 
         <flex column>
-            <nuxt-link class="list-button flexbox gap-1" v-for="item of items.data" :key="item.id" :to="itemLink(item)">
+            <nuxt-link v-for="item of items.data" :key="item.id" class="list-button flexbox gap-1" :to="itemLink(item)">
                 <slot name="before-item" :item="item"/>
                 <span class="my-auto">{{item.name}}<slot name="item" :item="item"/></span>
                 <slot name="after-item" :item="item"/>
@@ -24,7 +24,7 @@ const props = defineProps({
     newButton: [String, Boolean],
     url: String,
     limit: {
-        type: [String, Boolean],
+        type: [Number, Boolean],
         default: 50
     },
     itemLink: Function

@@ -1,21 +1,21 @@
 <template>
-    <a-form @submit="save" :model="game" :can-save="canSaveOverride" :created="game.id != -1" float-save-gui>
+    <a-form :model="game" :can-save="canSaveOverride" :created="game.id != -1" float-save-gui @submit="save">
         <flex column gap="3">
             <div>
                 <a-button icon="arrow-left" to="/admin/games">Back to Games</a-button>
             </div>
-            <img-uploader label="Thumbnail" id="thumbnail" :src="(game.thumbnail && `games/thumbnails/${game.thumbnail}`) || 'assets/nopreview.webp'" v-model="thumbnailBlob">
+            <img-uploader id="thumbnail" label="Thumbnail" :src="(game.thumbnail && `games/thumbnails/${game.thumbnail}`) || 'assets/nopreview.webp'" v-model="thumbnailBlob">
                 <template #label="{ src }">
                     <a-img class="round" :src="src"/>
                 </template>
             </img-uploader>
-            <img-uploader label="Banner" id="banner" :src="(game.banner && `games/banners/${game.banner}`) || 'banners/default_banner.webp'" v-model="bannerBlob">
+            <img-uploader id="banner" label="Banner" :src="(game.banner && `games/banners/${game.banner}`) || 'banners/default_banner.webp'" v-model="bannerBlob">
                 <template #label="{ src }">
                     <div :class="{'banner': true, 'p-2': true, round: true, 'default-banner': !src}" :style="{backgroundImage: `url(${src})`}"/>
                 </template>
             </img-uploader>
-            <a-input label="Name" v-model="game.name"/>
-            <a-input :label="$t('short_name')" v-model="game.short_name"/>
+            <a-input v-model="game.name" label="Name"/>
+            <a-input v-model="game.short_name" :label="$t('short_name')"/>
             <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="game.webhook_url"/>
             <va-alert class="w-full" color="warning">
                 <details>
@@ -74,7 +74,7 @@ async function save() {
                 thumbnail_file: thumbnailBlob.value,
                 banner_file: bannerBlob.value
             }));
-            history.replaceState(null, null, `/admin/categories/${game.value.id}`)
+            history.replaceState(null, null, `/admin/categories/${game.value.id}`);
         } else {
             game.value = await usePatch<Game>(`games/${game.value.id}`, serializeObject({
                 ...game.value,
@@ -86,5 +86,5 @@ async function save() {
         console.error(error);
         return;
     }
-};
+}
 </script>

@@ -5,7 +5,7 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
-        <a-form @submit="save" :model="mod" :created="mod.id == -1" :save-text="saveText" float-save-gui>
+        <a-form :model="mod" :created="mod.id == -1" :save-text="saveText" float-save-gui @submit="save">
             <content-block class="p-8">
                 <a-tabs padding="4" side>
                     <a-tab name="main" title="Main">
@@ -17,12 +17,8 @@
                     <a-tab name="images" title="Images">
                         <edit-mod-images :mod="mod"/>
                     </a-tab>
-                    <a-tab name="contributors" title="Contributors">
-
-                    </a-tab>
-                    <a-tab name="instructions" title="Instructions">
-
-                    </a-tab>
+                    <a-tab name="contributors" title="Contributors"/>
+                    <a-tab name="instructions" title="Instructions"/>
                 </a-tabs>
             </content-block>
         </a-form>
@@ -33,7 +29,6 @@
     import clone from 'rfdc/default';
     import { Mod } from '~~/types/models';
     const route = useRoute();
-    const router = useRouter();
 
     const modTemplate = {
         id: -1,
@@ -66,7 +61,7 @@
         try {
             if (mod.value.id == -1) {
                 mod.value = await usePost<Mod>('mods', mod.value);
-                history.replaceState(null, null, `/mod/${mod.value.id}/edit`)
+                history.replaceState(null, null, `/mod/${mod.value.id}/edit`);
             } else {
                 mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
             }

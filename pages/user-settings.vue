@@ -1,25 +1,25 @@
 <template>
     <page-block size="med">
         <content-block class="p-8">
-            <a-form @submit="save" :model="models" :can-save="canSaveOverride" float-save-gui>
+            <a-form :model="models" :can-save="canSaveOverride" float-save-gui @submit="save">
                 <a-tabs side type="query">
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
-                            <a-input label="Username" v-model="user.name"/>
-                            <a-input label="Email" v-if="user.email || isMe" :disabled="!isMe" v-model="user.email"/>
+                            <a-input v-model="user.name" label="Username"/>
+                            <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
                             <template v-if="isMe">
                                 <h3>Change Password</h3>
                                 <flex>
-                                    <a-input label="New Password" type="password" v-model="password"/>
-                                    <a-input label="Confirm Password" type="password" v-model="confirmPassword"/>
+                                    <a-input v-model="password" label="New Password" type="password"/>
+                                    <a-input v-model="confirmPassword" label="Confirm Password" type="password"/>
                                 </flex>
                             </template>
-                            <a-select label="roles" desc="As a regular user, you may only set vanity roles" v-model="user.role_ids" placeholder="Select Roles" multiple :options="roles.data"/>
+                            <a-select v-model="user.role_ids" label="roles" desc="As a regular user, you may only set vanity roles" placeholder="Select Roles" multiple :options="roles.data"/>
                         </flex>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
                         <flex column gap="4">
-                            <img-uploader label="Avatar" id="avatar" :src="user.avatar" v-model="avatarBlob">
+                            <img-uploader id="avatar" v-model="avatarBlob" label="Avatar" :src="user.avatar">
                                 <template #label="{ src }">
                                     <a-avatar size="large" :src="src"/>
                                     <a-avatar size="medium" :src="src"/>
@@ -27,26 +27,23 @@
                                 </template>
                             </img-uploader>
     
-                            <img-uploader label="Banner" id="banner" :src="user.banner" v-model="bannerBlob">
+                            <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="user.banner">
                                 <template #label="{ src }">
                                     <div class="w-full round banner" :style="{backgroundImage: `url(${src || 'https://localhost:8000/storage/default_banner.webp'})`}"/>
                                 </template>
                             </img-uploader>
     
                             <div>
-                                <a-input label="Private Profile" type="checkbox" v-model="user.private_profile"/>
+                                <a-input v-model="user.private_profile" label="Private Profile" type="checkbox"/>
                                 <br>
                                 <small>Ticking this on will privatize your profile. Only staff members will be able to view it.</small>
                             </div>
     
-                            <a-input label="Custom Title" v-model="user.custom_title"/>
-                            <a-input label="Custom Color" v-model="user.custom_color" type="color"/>
+                            <a-input v-model="user.custom_title" label="Custom Title"/>
+                            <a-input v-model="user.custom_color" label="Custom Color" type="color"/>
     
-                            <md-editor rows="12" v-model="user.bio" label="Bio" desc="Tell about yourself to people visiting your profile"/>
+                            <md-editor v-model="user.bio" rows="12" label="Bio" desc="Tell about yourself to people visiting your profile"/>
                         </flex>
-                    </a-tab>
-                    <a-tab name="options" title="Options">
-                        
                     </a-tab>
                 </a-tabs>
             </a-form>

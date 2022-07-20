@@ -9,7 +9,7 @@
                     <div id="main-info" style="min-width: 300px;">
                         <flex class="text-xl">
                             <a-user :user="user" :avatar="false"/>
-                            <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status my-auto" :style="{backgroundColor: statusColor}"></div>
+                            <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status my-auto" :style="{backgroundColor: statusColor}"/>
                         </flex>
                         <span v-if="!userInvisible">{{user.custom_title}}</span>
                         <!-- <span v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</span> -->
@@ -53,8 +53,6 @@ const { data: user, error } = await useFetchData<User>(`users/${route.params.id}
 
 console.log(user);
 
-
-const isMod = computed(() => true);
 const userBanner = computed(() => user.value.banner || 'banners/default_banner.webp');
 const isOnline = computed(() => {
     const last = DateTime.fromISO(user.value.last_online);

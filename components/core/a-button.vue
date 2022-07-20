@@ -7,7 +7,7 @@
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </nuxt-link>
-    <button v-else :disabled="disabled" :class="clss" @click="$emit('click', $event)" :type="type"> 
+    <button v-else :disabled="disabled" :class="clss" :type="type"> 
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/>
         <slot/>
     </button>

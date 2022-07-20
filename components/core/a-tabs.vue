@@ -4,10 +4,10 @@
             <!--ARIA compliant, I hope xd-->
             <a-tab-link 
                 v-for="tab of tabs"
-                :tab-name="tab.name"
-                :tab-title="tab.title"
-                ref="tabLinks" 
-                :key="tab.name" 
+                ref="tabLinks"
+                :key="tab.name"
+                :tab-name="tab.name" 
+                :tab-title="tab.title" 
                 @click.prevent="() => setCurrentTab(tab.name)"
                 @keydown.left="() => arrowKeysMove(true)"
                 @keydown.right="() => arrowKeysMove(false)"

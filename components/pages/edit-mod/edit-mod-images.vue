@@ -14,20 +14,20 @@
 </template>
 
 <script setup>
-    const { mod } = defineProps({
+    const props = defineProps({
         mod: Object
     });
     
-    const uploadLink = computed(() => mod ? `mods/${mod.id}/images`: '');
+    const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');
     const fileList = ref([]);
 
     function setThumbnail(file) {
-        mod.thumbnail_id = file.id;
+        props.mod.thumbnail_id = file.id;
     }
 
-    watch(() => mod.images, function() {
+    watch(() => props.mod.images, function() {
         fileList.value = [];
-        mod.images.forEach(image => {
+        props.mod.images.forEach(image => {
             fileList.value.push({
                 id: image.id,
                 name: image.file,

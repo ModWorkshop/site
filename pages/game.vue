@@ -9,22 +9,22 @@
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark2">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"/>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div id="navbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
-                <li v-for="button in buttons" class="nav-item">
+                <li v-for="button in buttons" :key="button[0]" class="nav-item">
                     <a class="nav-link" href="{{button[1]}}">{{button[0]}}</a>
                 </li>
             </ul>
         </div>
         </nav>
     </div>
-    <div v-if="cats.length > 0" class="mt-3 p-2 bg-dark2">
+    <!-- <div v-if="cats.length > 0" class="mt-3 p-2 bg-dark2">
         <h4 class="text-center text-primary">{{type == 2 ? lang.categories : type == 1 ? lang.mods_games : lang.subcategories}}</h4>
         <br>
         <div class="cats_grid">
-            <div v-for="cat in cats" class="category">
+            <div v-for="cat in cats" :key="cat.id" class="category">
                 <a v-if="cat.thumbnail" class="d-block ratio-image-cat-thumb" href="category/{{id}}">
                     <img data-src="{{cat.thumbnail}}" class="ratio-image lazy">
                 </a>
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <mod-list :forced-game="game.id"/>
 </page-block>
 </template>

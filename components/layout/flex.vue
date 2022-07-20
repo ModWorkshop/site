@@ -6,7 +6,10 @@
         'flex-wrap': wrap,
         [`gap-${gap}`]: !!gap,
         'flex-grow': grow
-    }"><slot/></div>
+    }"
+    >
+        <slot/>
+    </div>
 </template>
 <script setup>
     defineProps({

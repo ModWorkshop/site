@@ -9,7 +9,7 @@
                 <h2>Drop files here or click the area to upload files</h2>
             </div>
         </label>
-        <input :id="`${name}-file-browser-open`" type="file" @change="e => upload(e.target.files)" hidden multiple/>
+        <input :id="`${name}-file-browser-open`" type="file" hidden multiple @change="e => upload(e.target.files)">
         <div v-if="list" class="p-3 alt-bg-color">
             <table class="w-full">
                 <thead>
@@ -39,12 +39,12 @@
             </table>
         </div>
         <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
-            <div class="file-item" v-for="[i, file] of files.entries()" :key="i" @click.prevent>
+            <div v-for="[i, file] of files.entries()" :key="i" class="file-item" @click.prevent>
                 <img class="file-thumbnail" :src="file.url" alt="">
                 <flex class="file-options">
                     <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
-                        <a-button class="file-button cursor-pointer" @click.prevent="handleRemove(file)" icon="trash">
+                        <a-button class="file-button cursor-pointer" icon="trash" @click.prevent="handleRemove(file)">
                             Delete
                         </a-button>
                         <slot name="buttons" :file="file"/>

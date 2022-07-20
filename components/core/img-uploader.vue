@@ -5,7 +5,7 @@
                 <a-img class="w-full round" :src="currentSrc"/>
             </slot>
         </label>
-        <input class="mt-1" ref="input" type="file" :id="id" @change="onChange"/>
+        <input :id="id" ref="input" class="mt-1" type="file" @change="onChange">
     </a-input>
 </template>
 <script setup lang="ts">

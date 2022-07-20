@@ -1,5 +1,5 @@
 <template>
-    <content-block :alt-background="isReply" :gap="null" :class="{comment: true, reply: isReply, focus: currentFocus && currentFocus.id == comment.id}" :id="`comment-cid${comment.id}`">
+    <content-block :id="`comment-cid${comment.id}`" :alt-background="isReply" :gap="null" :class="{comment: true, reply: isReply, focus: currentFocus && currentFocus.id == comment.id}">
         <flex class="comment-body p-1">
             <div class="mr-1">
                 <nuxt-link :to="`/user/${comment.user_id}`">
@@ -9,9 +9,9 @@
             <flex column wrap class="overflow-hidden w-full mt-2">
                 <flex :key="updateKey">
                     <a-user :avatar="false" :user="comment.user"/>
-                    <span v-if="comment.special_type" class="text-success">({{comment.special_type}})</span>
+                    <span v-if="comment.special_type" class="text-success">{{comment.special_type}}</span>
                     <a class="ml-1 text-secondary" :title="comment.created_at" :href="`/post/${comment.id}`">{{timeAgo(comment.created_at)}}</a>
-                    <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">({{$t('edited')}})</span>
+                    <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
                 <div class="comment-message my-2 text-break markdown w-full">

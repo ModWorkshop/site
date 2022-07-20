@@ -1,5 +1,5 @@
 <template>
-    <flex column v-if="error">
+    <flex v-if="error" column>
         <h1 class="mx-auto">Error</h1>
         <br>
         {{errorString}}

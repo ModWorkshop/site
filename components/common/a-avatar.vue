@@ -1,17 +1,17 @@
 <template>
-    <a-img :src="src" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img :src="src || 'assets/nopreview.png'" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script setup>
 defineProps({
     src: {
-        default: '',
+        default: 'assets/nopreview.png',
         type: String
     },
     size: {
         default: null,
         type:  String
     }
-})
+});
 </script>
 <style scoped>
     .avatar {

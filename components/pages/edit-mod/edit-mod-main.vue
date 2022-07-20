@@ -1,21 +1,21 @@
 <template>
     <flex column gap="4">
-        <a-input label="Name" v-model="mod.name" maxlength="150" minlength="3" desc="Maximum of 150 letters and minimum of 3 letters"/>
+        <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" desc="Maximum of 150 letters and minimum of 3 letters"/>
 
-        <md-editor :label="$t('description')" :desc="$t('mod_desc_help')" v-model="mod.desc" rows="12"/>
+        <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" rows="12"/>
 
-        <a-input label="Short Description" type="textarea" v-model="mod.short_desc" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
+        <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
         <flex>
-            <a-select label="Game" v-model="mod.game_id" placeholder="Select a game" :options="store.games.data" @update="refetchCats"/>
-            <a-select label="Category" v-model="mod.category_id" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
+            <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games.data" @update="refetchCats"/>
+            <a-select v-model="mod.category_id" label="Category" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
         </flex>
 
         <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
 
-        <a-select label="Visiblity" v-model="mod.visibility" placeholder="Select a category" :options="visItems"/>
+        <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
 
-        <a-input label="Donation" desc="A donation link, currently supports PayPal, Ko-fi, and Patreon" v-model="mod.donation"/>
+        <a-input v-model="mod.donation" label="Donation" desc="A donation link, currently supports PayPal, Ko-fi, and Patreon"/>
 
         <details>
             <summary>{{$t('license')}}</summary>

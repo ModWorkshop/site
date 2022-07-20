@@ -20,7 +20,7 @@
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
             <div class="colllaborators-block">
-                <a-user avatarSize="medium" :user="mod.submitter" :details="$t('submitter')"/>
+                <a-user avatar-size="medium" :user="mod.submitter" :details="$t('submitter')"/>
             </div>
         </flex>
     </flex>

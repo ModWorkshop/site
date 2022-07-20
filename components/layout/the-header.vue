@@ -1,7 +1,7 @@
 <template>
     <header>
         <NuxtLink to="/">
-            <img :src="logo" width="36"/>
+            <img :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
@@ -21,7 +21,7 @@
         </flex>
         <flex class="user-items mr-2" gap="6"> 
             <div>
-                <a-input placeholder="Search" style="width: 250px;" v-model="search"/>
+                <a-input v-model="search" placeholder="Search" style="width: 250px;"/>
                 <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
             </div>
             <template v-if="user">
@@ -49,7 +49,7 @@
                     </template>
                 </Popper>
             </template>
-            <flex class="my-auto" gap="2" v-else>
+            <flex v-else class="my-auto" gap="2">
                 <NuxtLink to="/login">Login</NuxtLink>
                 <NuxtLink to="/register">Register</NuxtLink>
             </flex>

@@ -2,11 +2,11 @@
     <page-block class="!w-1/3">
         <a-form @submit="register">
             <flex column gap="3">
-                <a-input label="Name" v-model="user.name"/>
-                <a-input label="Email" v-model="user.email"/>
+                <a-input v-model="user.name" label="Name"/>
+                <a-input v-model="user.email" label="Email"/>
                 <flex>
-                    <a-input label="Password" type="password" v-model="user.current_password"/>
-                    <a-input label="Confirm Password" type="password" v-model="user.password_confirm" @input="checkConfirm"/>
+                    <a-input v-model="user.current_password" label="Password" type="password"/>
+                    <a-input v-model="user.password_confirm" label="Confirm Password" type="password" @input="checkConfirm"/>
                 </flex>
                 <flex column gap="2">
                     Or register using one the following
@@ -16,7 +16,7 @@
                         <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
                     </flex>
                 </flex>
-                <va-alert color="danger" class="w-full" v-if="error">{{error}}</va-alert>
+                <va-alert v-if="error" color="danger" class="w-full">{{error}}</va-alert>
                 <div>
                     <a-button type="submit" large>{{$t('register')}}</a-button>
                 </div>

@@ -4,12 +4,13 @@
 <script setup>
 import { getContrast } from 'polished';
 
-const { color } = defineProps({
+const props = defineProps({
     small: Boolean,
     color: String
 });
 
 const textColor = computed(() => {
+    const color = props.color;
     if (color) {
         try {
             const contrast = getContrast('#000', color.replaceAll(' ', ''));

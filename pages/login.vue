@@ -2,8 +2,8 @@
     <page-block class="!w-1/3">
         <a-form @submit="login">
             <flex column gap="3">
-                <a-input label="Email" v-model="user.email"/>
-                <a-input label="Password" type="password" v-model="user.current_password"/>
+                <a-input v-model="user.email" label="Email"/>
+                <a-input v-model="user.current_password" label="Password" type="password"/>
                 <flex column gap="2">
                     Or register using one the following
                     <flex>
@@ -12,7 +12,7 @@
                         <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
                     </flex>
                 </flex>
-                <a-input label="Remember Me" type="checkbox" v-model="user.remember"/>
+                <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>
                 <div>
                     <a-button type="submit" large>{{$t('login')}}</a-button>
                 </div>

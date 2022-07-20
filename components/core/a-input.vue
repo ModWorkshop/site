@@ -3,10 +3,10 @@
         <label v-if="!isCheckbox && label" :for="input?.id">
             {{label}}
         </label>
-        <textarea v-if="type == 'textarea'" class="input" :maxlength="maxlength" :rows="rows" @input="$emit('update:modelValue', modelValue)" v-bind="$attrs">{{modelValue}}</textarea>
-        <va-color-input v-else-if="type == 'color'" v-model="modelValue" @input="$emit('update:modelValue',  modelValue);" v-bind="$attrs"/>
+        <textarea v-if="type == 'textarea'" v-model="modelValue" class="input" :maxlength="maxlength" :rows="rows" v-bind="$attrs" @input="$emit('update:modelValue', modelValue)"/>
+        <va-color-input v-else-if="type == 'color'" v-model="modelValue" v-bind="$attrs" @input="$emit('update:modelValue', modelValue);"/>
         <slot v-else-if="$slots.default"/>
-        <input v-else v-model="modelValue" @input="$emit('update:modelValue',  modelValue);" class="input" :type="type" :maxlength="maxlength" v-bind="$attrs" v-uid ref="input"/>
+        <input v-else v-bind="$attrs" ref="input" v-model="modelValue" v-uid class="input" :type="type" :maxlength="maxlength" @input="$emit('update:modelValue', modelValue);">
         <label v-if="isCheckbox && label" :for="input?.id" class="basis-11/12">
             <span class="align-middle">{{label}}</span>
         </label>
@@ -25,7 +25,7 @@
         value: String,
     });
 
-    const emit = defineEmits([
+    defineEmits([
         'update:modelValue', 
     ]);
 

@@ -2,14 +2,14 @@
     <flex>
         <template v-if="pages > 5">
             <a-button v-if="modelValue > 3" @click="setPage(1)">1</a-button>
-            <a-button disabled v-if="pageNumbers[0] > 2">...</a-button>
+            <a-button v-if="pageNumbers[0] > 2" disabled>...</a-button>
         </template>
-        <a-button :disabled="modelValue == n" @click="setPage(n)" v-for="n in pageNumbers">
+        <a-button v-for="n in pageNumbers" :key="n" :disabled="modelValue == n" @click="setPage(n)">
             {{n}}
         </a-button>
         <template v-if="pages > 5">
             <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
-            <a-button v-if="pages - modelValue > 2" @click="setPage(pages)" :disabled="modelValue == pages">{{pages}}</a-button>
+            <a-button v-if="pages - modelValue > 2" :disabled="modelValue == pages" @click="setPage(pages)">{{pages}}</a-button>
         </template>
     </flex>
 </template>

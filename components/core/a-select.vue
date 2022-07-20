@@ -5,14 +5,14 @@
         </label>
 		<va-select 
 			v-model="modelValue"
-			@update:modelValue="update" 
 			:placeholder="placeholder" 
 			:options="fixedOptions" 
 			:value-by="valueBy" 
-			:text-by="textBy"
+			:text-by="textBy" 
 			:multiple="multiple"
 			:clearable="clearable"
 			searchable
+			@update:model-value="update"
 		/>
         <small v-if="desc">{{desc}}</small>
 	</flex>

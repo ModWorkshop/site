@@ -8,8 +8,15 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "@vueuse/core": "^8.9.4",
+    "@vueuse/nuxt": "^8.9.4",
+    "eslint": "^8.20.0",
+    "eslint-plugin-vue": "^9.2.0",
     "nuxt": "npm:nuxt3@latest",
-    "pinia": "^2.0.16"
+    "pinia": "^2.0.16",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "@css-render/vue3-ssr": "^0.15.10",

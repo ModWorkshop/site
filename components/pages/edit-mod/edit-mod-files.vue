@@ -1,15 +1,15 @@
 <template>
     <flex column gap="4">
-        <a-input label="Version" v-model="mod.version"/>
-        <md-editor label="Changelog" v-model="mod.changelog" rows="12"/>
-        <a-select label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses" v-model="mod.download_id" placeholder="Select file or link" clearable :options="fileList"/>
+        <a-input v-model="mod.version" label="Version"/>
+        <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
+        <a-select v-model="mod.download_id" label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses" placeholder="Select file or link" clearable :options="fileList"/>
         <uploader list name="files" :url="uploadLink" :files="fileList">
             <template #headers>
                 <td class="text-center">Primary</td>
             </template>
             <template #rows="{file}">
                 <td class="text-center">
-                    <input type="radio" v-model="mod.download_id" :value="file.id" @change="mod.download_type = 'file'">
+                    <input v-model="mod.download_id" type="radio" :value="file.id" @change="mod.download_type = 'file'">
                 </td>
             </template>
             <template #buttons="{file}">
@@ -22,15 +22,12 @@
 </template>
 
 <script setup>
-    const { mod } = defineProps({
+    const props = defineProps({
         mod: Object
     });
 
-    const uploadLink = computed(() => mod.value !== null ? `mods/${mod.id}/files`: '');
+    const uploadLink = computed(() => props.mod.value !== null ? `mods/${props.mod.id}/files`: '');
     const fileList = ref([]);
-
-    function editFile(file) {
-    }
 
     watch(() => mod.files, function() {
         mod.files.forEach(file => {
