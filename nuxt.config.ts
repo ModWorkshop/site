@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt';
 import { resolve } from 'path';
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
@@ -8,18 +8,15 @@ export default defineNuxtConfig({
 	],
 
 	css: [
-		// '@fortawesome/fontawesome-svg-core/styles.css',
 		"@/assets/css/base.css",
-		// "@/styles/element.scss",
 		"@/assets/css/helpers.css",
-		"@/assets/css/github-dark.css",
 		"@/assets/css/vuestic-changes.css",
-		// "@/assets/css/markdown.css",
+		"@/assets/css/github-dark.css",
 	],
 
 	hooks: {
 		'autoImports:dirs' (dirs) {
-			dirs.push(resolve(__dirname, 'utils'))
+			dirs.push(resolve(__dirname, 'utils'));
 		},
 		'pages:extend' (routes) {
 			routes.push({
@@ -55,6 +52,12 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "user",
 				path: "/user/:id",
+				file: resolve(__dirname, "pages/user.vue")
+			});
+
+			routes.push({
+				name: "user-at",
+				path: "/@:id",
 				file: resolve(__dirname, "pages/user.vue")
 			});
 
@@ -111,11 +114,11 @@ export default defineNuxtConfig({
 	//This converts these libraries to work with es6 import or something like that
 	build: {
 		transpile: [
-		  'luxon',
-		  '@fortawesome/vue-fontawesome',
-		  '@fortawesome/fontawesome-svg-core',
-		  '@fortawesome/free-solid-svg-icons',
-		  '@fortawesome/free-brands-svg-icons',
+			'luxon',
+			'@fortawesome/vue-fontawesome',
+			'@fortawesome/fontawesome-svg-core',
+			'@fortawesome/free-solid-svg-icons',
+			'@fortawesome/free-brands-svg-icons'
 		]
 	},
 
@@ -132,4 +135,4 @@ export default defineNuxtConfig({
 		'nuxt-windicss',
 		'@vuestic/nuxt',
 	],
-})
+});

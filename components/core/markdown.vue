@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-    import { parseMarkdown } from "../../utils/md-parser";
+    import { parseMarkdown } from "~~/utils/md-parser";
     defineProps({
         text: String        
     });

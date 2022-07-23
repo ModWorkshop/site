@@ -2,8 +2,16 @@
     width: 100%;
 }
 
+.va-input-wrapper--solid {
+    --va-input-wrapper-border-color: var(--input-border-color) !important;
+}
+
+.va-input-wrapper--focused {
+    --va-input-wrapper-border-color: var(--va-input-wrapper-color) !important;
+}
+
 :root {
-    --va-input-color: var(--input-bg-color) !important;
+    --va-input-wrapper-background: var(--input-bg-color) !important;
     --va-input-text-color: var(--text-color) !important;
 
     --popper-theme-background-color: var(--dropdown-bg);
