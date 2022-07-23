@@ -38,7 +38,7 @@ class ModController extends Controller
     public function index(FilteredRequest $request)
     {
         // Query parameters
-        $val = $request->validate([
+        $val = $request->val([
             // How many mods should this return. 
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'tags' => 'array',
