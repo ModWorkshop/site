@@ -25,6 +25,13 @@ const currentSrc = computed(() => blob.value || props.src && `http://localhost:8
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
+
+watch(() => props.modelValue, (value, oldValue) => {
+    if (input.value && oldValue && !value) {
+        input.value.value = null;
+    }
+});
+
 function onChange() {
     const file = input.value.files[0];
     const reader = new FileReader();
