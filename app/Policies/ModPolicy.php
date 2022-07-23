@@ -42,6 +42,12 @@ class ModPolicy
         return false;
     }
 
+    public function like(User $user, Mod $mod)
+    {
+        //TODO: handle bans and such
+        return $user->id !== $mod->submitter_id;
+    }
+
     /**
      * Determine whether the user can create models.
      *

@@ -50,6 +50,8 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \App\Models\UserExtra|null $extra
  * @property string $custom_color
  * @method static Builder|User whereCustomColor($value)
+ * @property string|null $unique_name
+ * @method static Builder|User whereUniqueName($value)
  */
 class User extends Authenticatable
 {

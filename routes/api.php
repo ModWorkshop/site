@@ -89,6 +89,10 @@ Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('files', FileController::class);
 Route::resource('mods', ModController::class);
+Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
+Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
+Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
+
 Route::resource('tags', TagController::class);
 /**
  * @group Mods

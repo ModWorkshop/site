@@ -8,6 +8,9 @@ use App\Http\Resources\ModResource;
 use App\Models\Image;
 use App\Models\Mod;
 use App\Models\File;
+use App\Models\ModDownload;
+use App\Models\ModLike;
+use App\Models\ModView;
 use Arr;
 use Carbon\Carbon;
 use DB;
@@ -299,5 +302,109 @@ class ModController extends Controller
         $mod->save();
 
         return $file;
+    }
+
+    /**
+     * Registers a view for a mod, doesn't let you 'view' it twice
+     * Works with guests
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function registerView(Request $request, Mod $mod)
+    {
+        $user = $request->user();
+        $ip = $request->ip();
+
+        if (
+            (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
+        || (!isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        ) {
+            return;
+        }
+
+        $view = new ModView();
+        $view->mod_id = $mod->id;
+        if (isset($user)) {
+            $view->user_id = $user->id;
+        }
+
+        $view->ip_address = $ip;
+
+        $view->save();
+        $mod->views++;
+        $mod->save();
+        
+        return response()->noContent(201);
+    }
+
+    /**
+     * Registers a download for a mod, doesn't let you 'download' it twice
+     * Works with guests
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function registerDownload(Request $request, Mod $mod)
+    {
+        $user = $request->user();
+        $ip = $request->ip();
+
+        if (
+            (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
+        || (!isset($user) && ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        ) {
+            return;
+        }
+
+        $download = new ModDownload();
+        $download->mod_id = $mod->id;
+        if (isset($user)) {
+            $download->user_id = $user->id;
+        }
+
+        $download->ip_address = $ip;
+        
+        $download->save();
+        $mod->downloads++;
+        $mod->save();
+
+        return response()->noContent(201);
+    }
+
+    /**
+     * Toggles the state of the like of the mod
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function toggleLike(Request $request, Mod $mod)
+    {
+        $user = $request->user();
+
+        $liked = true;
+
+        /**
+         * @var ModLike
+         */
+        $like = ModLike::where('user_id', $user->id)->where('mod_id', $mod->id)->first();
+        if (isset($like)) {
+            $like->delete();
+            $liked = false;
+            $mod->likes--;
+        } else {
+            $like = new ModLike;
+            $like->mod_id = $mod->id;
+            $like->user_id = $user->id;
+            $like->save();
+            $mod->likes++;
+        }
+
+        $mod->save();
+
+        return ['liked' => $liked, 'likes' => $mod->likes];
     }
 }

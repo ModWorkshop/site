@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\ModService;
 use App\Traits\Filterable;
 use App\Traits\RelationsListener;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +41,7 @@ abstract class Visibility {
  * @property string $url
  * @property int $downloads
  * @property int $views
+ * @property int $likes
  * @property string $version
  * @property string $donation
  * @property string $access_ids
@@ -119,7 +121,7 @@ class Mod extends Model
     protected $guarded = ['download_type', 'download_id'];
 
     protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'thumbnail'];
-    protected $appends = ['breadcrumb'];
+    protected $appends = ['breadcrumb', 'liked'];
     protected $hidden = ['download_type'];
 
     protected $casts = [
@@ -186,7 +188,7 @@ class Mod extends Model
     /**
      * Returns an array with breadcrumbs
      *
-     * @return void
+     * @return array
      */
     public function getBreadcrumbAttribute($includeGame=null)
     {
@@ -195,5 +197,20 @@ class Mod extends Model
             'is_mod' => true,
             'href' => "/mod/{$this->id}"
         ], $this->game_id, $this->category_id, $includeGame ?? true);
+    }
+
+
+    /**
+     * Returns whether or not the user has liked the mod, if the user is not logged in automatically returns false
+     *
+     * @return boolean
+     */
+    public function getLikedAttribute()
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return ModLike::where('user_id', Auth::id())->where('mod_id', $this->id)->exists();
     }
 }
