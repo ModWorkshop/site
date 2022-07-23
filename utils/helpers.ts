@@ -38,6 +38,14 @@ export function setQuery(key: string, value: string) {
 /**
  * Converts JS objects to FormData. Necessary if you want to uplaod files basically
  */
-export function serializeObject(data: Object) {
+export function serializeObject(data: Record<string, unknown>) {
     return serialize(data, { booleansAsIntegers: true });
+}
+
+/**
+ * Replaces a specific range of a string with another string
+ */
+export function strReplacRange(str: string, start: number, end: number, replacement: string) {
+    return str.substring(0, start)+replacement+str.substring(end);
+
 }
