@@ -94,7 +94,9 @@ Route::resource('tags', TagController::class);
  * @group Mods
  */
 Route::resource('mods.comments', CommentController::class);
-Route::resource('users', UserController::class)->except('store');
+Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
+
 Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');

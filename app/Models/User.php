@@ -62,6 +62,14 @@ class User extends Authenticatable
     private $permissions  = [];
     private $roleNames = [];
 
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'unique_name' => $this->unique_name,
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -72,7 +80,8 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
-        'custom_color'
+        'custom_color',
+        'unique_name'
     ];
 
     /**

@@ -16,6 +16,7 @@ class CreateAuthUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             //Note: changed password & email to be nullable to allow for social login
             $table->id();
+            $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
@@ -34,6 +35,6 @@ class CreateAuthUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auth_users');
+        Schema::dropIfExists('users');
     }
 }

@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Str;
 
 /**
  * @group Users
@@ -41,13 +42,21 @@ class UserController extends Controller
      * 
      * @urlParam user integer required The ID of the user
      *
-     * @param User $user
+     * @param string $user
      * @return User
      */
-    public function show(User $user)
+    public function getUser(string $user)
     {
-        $user->load('extra');
-        return new UserResource($user);
+        $foundUser = null;
+
+        if (is_numeric($user)) {
+            $foundUser = User::where('id', $user)->orWhere('unique_name', $user)->firstOrFail();
+        } else {
+            $foundUser = User::where('unique_name', Str::lower($user))->firstOrFail();
+        }
+
+        $foundUser->load('extra');
+        return new UserResource($foundUser);
     }
 
     /**
@@ -65,6 +74,7 @@ class UserController extends Controller
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
+            'unique_name' => 'string|nullable|min:3|max:50',
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'role_ids' => 'array',
             'role_ids.*' => 'integer|min:1',
