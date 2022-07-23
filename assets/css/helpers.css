@@ -21,11 +21,6 @@
     padding-top: calc(100% * 1/2);
 }
 
-.mods-grid .mod {
-    width: 100%;
-    min-height: 220px;
-}
-
 
 @media (max-width:600px) {
     .cats-grid {

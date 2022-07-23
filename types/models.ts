@@ -89,11 +89,13 @@ export interface Mod {
     banner: string;
     url: string;
     downloads: number;
+    likes: number;
     views: number;
     version: string;
     donation: string;
     access_ids: string;
     suspended: boolean;
+    liked: boolean;
     comments_disabled: boolean;
     file_status: number;
     score: number;

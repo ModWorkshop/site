@@ -29,11 +29,11 @@
 <script setup lang="ts">
     import { Mod } from '~~/types/models';
 
-    defineProps<{
+    const props = defineProps<{
         mod: Mod
     }>();
 
-    const likes = computed(() => 0);
-    const downloads = computed(() => 0);
-    const views = computed(() => 0);
+    const likes = computed(() => props.mod.likes);
+    const downloads = computed(() => props.mod.downloads);
+    const views = computed(() => props.mod.views);
 </script>

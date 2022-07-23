@@ -31,11 +31,8 @@
                             </span>
                         </div>
                         <flex class="md:ml-auto">
-                            <a v-if="canLike" id="like-button" class="btn btn-lg d-flex align-items-center flex-grow px-2 py-2 btn-danger">
-                                <i v-if="mod.liked" class="ri-heart-fill mx-1"/>
-                                <i v-else class="ri-heart-line mx-1"/>
-                            </a>
-                            <a-button v-if="mod.download" class="download-button w-full text-center" icon="download" :href="`http://localhost:8000/files/${mod.download.id}/download`" download>
+                            <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" @click="toggleLiked"/>
+                            <a-button v-if="mod.download" class="large-button w-full text-center" icon="download" :href="`http://localhost:8000/files/${mod.download.id}/download`" download @click="registerDownload">
                                 Download
                                 <br>
                                 <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
@@ -68,6 +65,16 @@ const { t } = useI18n();
 
 const { data: mod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
 
+if (mod.value) {
+    usePost(`mods/${mod.value.id}/register-view`, null, {
+        async onResponse({ response }) {
+            if (response.status == 201) {
+                mod.value.views++;
+            }
+        }
+    });
+}
+
 const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
 const updateDateAgo = computed(() => timeAgo(mod.value.bump_date));
 const modStatus = computed(() => '');
@@ -79,6 +86,22 @@ function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.submitter_id) {
         return `(${t('author')})`;
     } //TODO: Collaborators
+}
+
+function registerDownload() {
+    usePost(`mods/${mod.value.id}/register-download`, null, {
+        async onResponse({ response }) {
+            if (response.status == 201) {
+                mod.value.downloads++;
+            }
+        }
+    });
+}
+
+async function toggleLiked() {
+    const data = await usePost<{ liked: boolean, likes: number }>(`mods/${mod.value.id}/toggle-liked`);
+    mod.value.likes = data.likes;
+    mod.value.liked = data.liked;
 }
 </script>
 
@@ -150,29 +173,11 @@ function commentSpecialTag(comment: Comment) {
         }
     }
 
-    a.like-button {
-        border-bottom: 2px solid var(--primary);
+    .large-button {
+        font-size: 1.5rem;
+        padding: 0.5rem 1.5rem !important;
     }
 
-    a.like-button.unliked {
-        border-color: var(--secondary);
-    }
-
-    a.like-button:hover {
-        border-color: var(--a-hover);
-    }
-    a.like-button.unliked:hover {
-        border-color: var(--primary);
-    }
-
-    .download-button {
-        font-size: 1.25rem;
-        padding: 0.5rem 2rem !important;
-    }
-
-    .unliked {
-        color: var(--white);
-    }
 
     .mod-banner a > span {
         text-shadow: 1px 1px rgba(0, 0, 0, 0.3);

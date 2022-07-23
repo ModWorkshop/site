@@ -1,5 +1,5 @@
 <template>
-    <content-block gap="0" class="mod !p-0" :title="mod.short_desc">
+    <content-block gap="0" class="mod self-start !p-0" :title="mod.short_desc">
         <nuxt-link class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
         </nuxt-link>
@@ -55,7 +55,7 @@ const props = defineProps<{
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'publish_date' ? props.mod.publish_date : props.mod.bump_date);
 const timeAgoText = computed(() => timeAgo(date.value));
-const likes = computed(() => 0);
+const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);
 const views = computed(() => props.mod.views);
 
@@ -72,5 +72,11 @@ const views = computed(() => props.mod.views);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+}
+
+.mod {
+    width: 100%;
+    min-height: 220px;
+    justify-content: flex-start;
 }
 </style>
