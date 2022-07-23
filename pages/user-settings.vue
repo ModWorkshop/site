@@ -19,7 +19,7 @@
                     </a-tab>
                     <a-tab name="profile" title="Profile">
                         <flex column gap="4">
-                            <img-uploader id="avatar" v-model="avatarBlob" label="Avatar" :src="user.avatar">
+                            <img-uploader v-model="avatarBlob" label="Avatar" :src="avatarUrl">
                                 <template #label="{ src }">
                                     <a-avatar size="large" :src="src"/>
                                     <a-avatar size="medium" :src="src"/>
@@ -27,9 +27,9 @@
                                 </template>
                             </img-uploader>
     
-                            <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="user.banner">
+                            <img-uploader v-model="bannerBlob" label="Banner" :src="bannerUrl">
                                 <template #label="{ src }">
-                                    <div class="w-full round banner" :style="{backgroundImage: `url(${src || 'https://localhost:8000/storage/default_banner.webp'})`}"/>
+                                    <div class="w-full round banner" :style="{backgroundImage: `url(${src})`}"/>
                                 </template>
                             </img-uploader>
     
@@ -75,6 +75,19 @@ const confirmPassword = ref('');
 const user = ref<User>(null);
 const id = parseInt(route.params.id?.toString());
 
+const bannerUrl = computed(function() {
+    if (user.value.banner) {
+        return `users/banners/${user.value.banner}`;
+    } else {
+        return 'default_banner.webp';
+    }
+});
+
+const avatarUrl = computed(function() {
+    if (user.value.avatar) {
+        return `users/avatars/${user.value.avatar}`;
+    }
+});
 
 if (id && id !== store.user.id) {
     user.value = await useGet<User>(`users/${route.params.id}`);

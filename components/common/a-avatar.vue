@@ -1,15 +1,20 @@
 <template>
-    <a-img :src="src || 'assets/nopreview.png'" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img :src="avatar" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
-<script setup>
-defineProps({
-    src: {
-        default: 'assets/nopreview.png',
-        type: String
-    },
+<script setup lang="ts">
+const props = defineProps({
+    src: String,
     size: {
         default: null,
         type:  String
+    }
+});
+
+const avatar = computed(() => {
+    if (props.src) {
+        return (props.src.startsWith('http') || props.src.startsWith('data:image')) ? props.src : `users/avatars/${props.src}`;
+    } else {
+        return 'assets/nopreview.png';
     }
 });
 </script>
