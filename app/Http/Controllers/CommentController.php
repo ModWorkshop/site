@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Mod;
 use Auth;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -20,7 +21,10 @@ class CommentController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        $comments = $mod->comments()->paginate(perPage: min($request->validated()['limit'] ?? 100, 100));
+        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($mod) {
+            $query->orderByDesc('created_at');
+            $query->whereMorphedTo('commentable', $mod);
+        });
 
         return CommentResource::collection($comments);
     }
