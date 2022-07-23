@@ -5,7 +5,7 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </nuxt-link> 
         </flex>
-        <a-form :model="mod" :created="mod.id == -1" :save-text="saveText" float-save-gui @submit="save">
+        <a-form :model="mod" :created="mod.id != -1" :save-text="saveText" float-save-gui @submit="save">
             <content-block class="p-8">
                 <a-tabs padding="4" side>
                     <a-tab name="main" title="Main">

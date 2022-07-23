@@ -21,16 +21,22 @@
     </flex>
 </template>
 
-<script setup>
-    const props = defineProps({
-        mod: Object
-    });
+<script setup lang="ts">
+    import { File, Mod } from '~~/types/models';
 
-    const uploadLink = computed(() => props.mod.value !== null ? `mods/${props.mod.id}/files`: '');
+    const props = defineProps<{
+        mod: Mod
+    }>();
+
+    const uploadLink = computed(() => props.mod !== null ? `mods/${props.mod.id}/files`: '');
     const fileList = ref([]);
 
-    watch(() => mod.files, function() {
-        mod.files.forEach(file => {
+    function editFile(file: File) {
+        //TODO
+    }
+
+    watch(() => props.mod.files, function() {
+        props.mod.files.forEach(file => {
             fileList.value.push({
                 id: file.id,
                 date: file.created_at,
