@@ -6,6 +6,7 @@
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
                             <a-input v-model="user.name" label="Username"/>
+                            <a-input v-model="user.unique_name" label="Unique Username" desc="A unique name for your profile and to allow people to mention you."/>
                             <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
                             <template v-if="isMe">
                                 <h3>Change Password</h3>
