@@ -3,13 +3,13 @@
         <flex class="comment-body p-1">
             <div class="mr-1">
                 <nuxt-link :to="`/user/${comment.user_id}`">
-                    <a-avatar :src="`http://localhost:8000/storage/${comment.user.avatar}`" size="medium"/>
+                    <a-avatar :src="comment.user.avatar" size="medium"/>
                 </nuxt-link>
             </div>
             <flex column wrap class="overflow-hidden w-full mt-2">
                 <flex :key="updateKey">
                     <a-user :avatar="false" :user="comment.user"/>
-                    <span v-if="comment.special_type" class="text-success">{{comment.special_type}}</span>
+                    <span v-if="specialTag" class="text-success">{{specialTag}}</span>
                     <a class="ml-1 text-secondary" :title="comment.created_at" :href="`/post/${comment.id}`">{{timeAgo(comment.created_at)}}</a>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
@@ -47,9 +47,10 @@
                     :data="reply"
                     :can-edit-all="canEditAll"
                     :current-focus="currentFocus"
+                    :get-special-tag="getSpecialTag"
                     is-reply
                     @edit="() => $emit('edit', reply)"
-                    @reply="$emit('reply', comment, reply.user.name)"
+                    @reply="$emit('reply', comment, reply.user.unique_name)"
                     @delete="deleteComment"
                 />
             </flex>
@@ -60,19 +61,22 @@
     </content-block>
 </template>
 
-<script setup>
-import { timeAgo } from '../../utils/helpers';
-import { useStore } from '../../store';
+<script setup lang="ts">
+import { timeAgo } from '~~/utils/helpers';
+import { useStore } from '~~/store';
 
 const props = defineProps({
     data: Object,
     parent: Object,
     canEditAll: Boolean,
     isReply: Boolean,
+    getSpecialTag: Function,
     currentFocus: Object
 });
 
 const comment = computed(() => props.data);
+
+const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(comment.value));
 
 const emit = defineEmits([
     'reply',
@@ -106,7 +110,7 @@ function setActionsVisible(visible) {
 }
 
 //Deletes a reply in the comment
-function deleteComment(commentId, isReply) {
+function deleteComment(commentId: number, isReply: boolean) {
     const lastReplies = comment.value.last_replies;
     lastReplies.splice(lastReplies.findIndex(com => com.id === commentId));
     emit('delete', commentId, isReply);

@@ -2,18 +2,26 @@
     <a-input>
         <a-tabs class="md-editor p-2" padding="0" type="none">
             <a-tab name="write" title="Write">
-                <textarea type="textarea" ref="textArea" class="textarea" :id="labelId" v-model="modelValue" @change="$emit('update:modelValue', modelValue)" :rows="rows"/>
+                <textarea 
+                    :id="labelId"
+                    ref="textArea"
+                    v-model="modelValue"
+                    type="textarea" 
+                    class="textarea" 
+                    v-bind="$attrs" 
+                    :rows="rows" @input="$emit('update:modelValue', modelValue)"
+                />
             </a-tab>
             <a-tab name="preview" title="Preview" :style="{'min-height': previewHeight}">
                 <markdown :text="modelValue"/>
             </a-tab>
-            <template v-slot:buttons>
+            <template #buttons>
                 <flex gap="1" class="ml-auto my-auto items-center">
                     <template v-for="[i, group] of toolGroups.entries()">
-                        <button v-for="tool of group.tools" class="md-tool" @click="clickedTool(tool)" :key="tool.icon">
+                        <button v-for="tool of group.tools" :key="tool.icon" class="md-tool" @click="clickedTool(tool)">
                             <font-awesome-icon :icon="tool.icon"/>
                         </button>
-                        <span class="tools-splitter" :key="group.name" v-if="i != toolGroups.length - 1"/>
+                        <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
                     </template>
                 </flex>
             </template>
@@ -63,7 +71,7 @@ defineProps({
     rows: String
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
 
 onMounted(() => {
     const textarea = textArea.value;

@@ -13,7 +13,7 @@
         </template>
     </flex>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     modelValue: [Number, String],
     total: [Number, String],
@@ -27,12 +27,12 @@ const emit = defineEmits([
     'update:pages'
 ]);
 
-const pages = computed(() => parseInt(props.total / props.perPage || 0));
+const pages = computed(() => Math.ceil(props.total / props.perPage));
 watch(pages, val => emit('update:pages', val), { immediate: true });
 const pageNumbers = computed(() => {
     if (props.modelValue < 4) {
         return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
-    } else if (pages.value - page.value > 2) {
+    } else if (pages.value - props.modelValue > 2) {
         return [...Array(5).keys()].map(x => x + props.modelValue-2);
     } else {
         return [...Array(5).keys()].map(x => pages.value - 4 + x);
@@ -40,7 +40,6 @@ const pageNumbers = computed(() => {
 });
 
 function setPage(newPage) {
-    props.modelValue = newPage;
     emit('update:modelValue', newPage);
     emit('update', newPage);
 }

@@ -51,25 +51,35 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-        <comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEdit"/>
+        <the-comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEdit" :get-special-tag="commentSpecialTag"/>
     </page-block>
 </template>
 
-<script setup>
-    import { friendlySize, timeAgo } from '../../utils/helpers';
-    import { useStore } from '../../store';
+<script setup lang="ts">
+import { friendlySize, timeAgo } from '~~/utils/helpers';
+import { useStore } from '~~/store';
+import { Mod, Comment } from '~~/types/models';
+import { useI18n } from 'vue-i18n';
 
-    const store = useStore();
-    const route = useRoute();
+const store = useStore();
+const route = useRoute();
 
-    const { data: mod } = await useFetchData(`mods/${route.params.id}/`);
+const { t } = useI18n();
 
-    const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
-    const updateDateAgo = computed(() => timeAgo(mod.value.bump_date));
-    const modStatus = computed(() => '');
-    //Guests can't actually like the mod, it's just a redirect.
-    const canLike = computed(() => !store.user || store.user.id !== mod.value.submitter_id);
-    const canEdit = computed(() => (store.user && mod.value.submitter_id == store.user.id) || store.hasPermission('admin'));
+const { data: mod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
+
+const publishDateAgo = computed(() => timeAgo(mod.value.publish_date));
+const updateDateAgo = computed(() => timeAgo(mod.value.bump_date));
+const modStatus = computed(() => '');
+//Guests can't actually like the mod, it's just a redirect.
+const canLike = computed(() => !store.user || store.user.id !== mod.value.submitter_id);
+const canEdit = computed(() => (store.user && mod.value.submitter_id == store.user.id) || store.hasPermission('admin'));
+
+function commentSpecialTag(comment: Comment) {
+    if (comment.user_id === mod.value.submitter_id) {
+        return `(${t('author')})`;
+    } //TODO: Collaborators
+}
 </script>
 
 <style>

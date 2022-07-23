@@ -33,6 +33,7 @@ body {
     --secondary-text-color: #d8d8d8;
     --text-inactive: #6d6d6d;
     --primary-color: #107ef4;
+    --success-color: #2dd63b;
     --danger-color: #f81c1c;
     --danger-hover-color: #f20707;
     --secondary-color: #5f5f5f;
@@ -195,4 +196,8 @@ a {
 
 * {
     unicode-bidi: bidi-override;
+}
+
+.text-success {
+    color: var(--success-color);
 }

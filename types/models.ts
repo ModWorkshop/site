@@ -73,6 +73,7 @@ export interface Image {
 
 export interface Mod {
     id: number;
+    breadcrumb: Array<Breadcrumb>,
     thumbnail_id: number | null;
     category_id: number | null;
     game_id: number | null;
@@ -115,6 +116,11 @@ export interface Mod {
     images_count?: number | null;
     files_count?: number | null;
     comments_count?: number | null;
+}
+
+export interface Breadcrumb {
+    href: string,
+    name: string
 }
 
 export interface Permission {
@@ -183,6 +189,7 @@ export interface Tag {
 export interface User {
     id: number;
     name: string;
+    unique_name: string;
     email: string | null;
     email_verified_at: string | null;
     created_at: string | null;

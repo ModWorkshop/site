@@ -5,7 +5,9 @@
         </nuxt-link>
         <flex gap="1" column class="my-auto">
             <nuxt-link :to="!noLinks && `/user/${user.id}`" :style="{color: user.color}">
-                {{user.name}} <a-tag v-if="user.tag" small color="#2169ff">{{user.tag}}</a-tag>
+                {{user.name}}
+                <a-tag v-if="user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
+                <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
             </nuxt-link>
             <template v-if="details">
                 <span>{{details}}</span>
@@ -22,6 +24,13 @@ withDefaults(defineProps<{
     user: User,
     avatar?: boolean,
     avatarSize?: string,
+    showAt?: boolean,
     noLinks?: boolean,
 }>(), { avatar: true });
 </script>
+
+<style>
+.user-at {
+    color: var(--text-inactive);
+}
+</style>
