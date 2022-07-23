@@ -1,7 +1,7 @@
 <template>
     <page-block size="med">
         <content-block class="p-8">
-            <a-form :model="models" :can-save="canSaveOverride" float-save-gui @submit="save">
+            <a-form :model="user" :can-save="canSaveOverride" float-save-gui @submit="save">
                 <a-tabs side type="query">
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
@@ -99,11 +99,10 @@ else {
 }
 
 //Reactive unwraps the refs allowing us to watch these for a-form.
-const models = reactive({user, avatarBlob, bannerBlob, password, confirmPassword});
 
 const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
 
-const canSaveOverride = computed(() => !!avatarBlob.value || !!bannerBlob.value);
+const canSaveOverride = computed(() => !!(avatarBlob.value || bannerBlob.value || password.value || confirmPassword.value));
 
 async function save() {
     try {
