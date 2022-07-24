@@ -9,7 +9,7 @@
             </template>
             <template #rows="{file}">
                 <td class="text-center">
-                    <input :checked="file.id === mod.download_id ? 'checked' : null" type="radio" @change="setPrimaryDownload('file', file.id)">
+                    <input :checked="file.id === mod.download_id ? true : null" type="radio" @change="setPrimaryDownload('file', file.id)">
                 </td>
             </template>
             <template #buttons="{file}">
