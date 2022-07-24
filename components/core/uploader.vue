@@ -22,11 +22,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="[i, file] of files.entries()" :key="i">
+                    <tr v-for="file of files" :key="file.trackingId || file.id">
                         <td>{{file.name}}</td>
                         <td>{{friendlySize(file.size)}}</td>
-                        <td v-if="file.date">{{fullDate(file.date)}}</td>
-                        <td v-else>Uploading: {{file.progress}}% </td>
+                        <td v-if="file.created_at">{{fullDate(file.created_at)}}</td>
+                        <td v-else>Uploading</td>
                         <td class="text-center">
                             <slot name="buttons" :file="file"/>
                             <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
@@ -39,7 +39,7 @@
             </table>
         </div>
         <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
-            <div v-for="[i, file] of files.entries()" :key="i" class="file-item" @click.prevent>
+            <div v-for="file of files" :key="file.trackingId || file.id" class="file-item" @click.prevent>
                 <img class="file-thumbnail" :src="file.url" alt="">
                 <flex class="file-options">
                     <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
@@ -55,93 +55,105 @@
     </flex>
 </template>
 
-<script setup>
-    import { friendlySize, fullDate } from '../../utils/helpers';
+<script setup lang="ts">
+import { friendlySize, fullDate } from '~~/utils/helpers';
+import { File } from '~~/types/models';
 
-    const props = defineProps({
-        list: Boolean,
-        buttons: {type: Array, default: () => []},
-        url: { required: true, type: String },
-        name: { required: true,  type: String },
-        files: { required: true, type: Array }
-    });
+const { init } = useToast();
 
-    const computedFiles = computed(() => props.files);
+type UploadFile = File & {
+    trackingId?: number,
+    signal: AbortSignal,
+    progress: number,
+    url: string,
+    cancel: number
+}
 
-    /**
-     * Handles the actual upload of the file(s)
-     */
-    async function upload(files) {
-        for (const file of files) {
-            let insertFile = {
-                id: -1,
-                name: file.name,
-                url: '',
-                size: file.size,
-                progress: -1,
-                cancel: null
-            };
-            try {
-                //Read the file and get blob src
-                let reader = new FileReader(file);
-                reader.onload = () => {
-                    insertFile.url = reader.result;
-                    computedFiles.value.push(insertFile);
-                };
-                reader.readAsDataURL(file);
+const emit = defineEmits([
+    'file-begin',
+    'file-uploaded',
+]);
 
-                const formData = new FormData();
-                formData.append('file', file);
-                const controller = new AbortController();
-                const { data } = await usePost(props.url, formData, {
-                    // onUploadProgress: function(progressEvent) {
-                    //     insertFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
-                    // },
-                    signal: controller.signal
-                });
+const props = defineProps<{
+    list: boolean,
+    url: string,
+    name: string,
+    files: Array<UploadFile>,
+}>();
 
-                insertFile.progress = -1;
-                Object.assign(insertFile, {
-                    id: data.id,
-                    name: data.name || data.file,
-                    date: data.created_at,
-                    size: data.size,
-                    url: `http://localhost:8000/storage/images/${data.file}`
-                });
-            } catch (error) {
-                console.log(error);
-                    // Notification.error({
-                    //     title: 'Error',
-                    //     message: 'File failed to upload: ' + error.message
-                    // });
-                removeFile.call(this, insertFile);
-            }
+const filesArr = toRef(props, 'files');
+
+function removeFile(file: UploadFile) {
+    for (const [k, f] of Object.entries(props.files)) {
+        if (toRaw(f) == toRaw(file)) {
+            filesArr.value.splice(parseInt(k), 1);
         }
     }
+}
 
-    function removeFile(file) {
-        for (const [k, f] of Object.entries(computedFiles.value)) {
-            if (f == file) {
-                computedFiles.value.splice(k);
-            }
+/**
+ * Handles the actual upload of the file(s)
+ */
+async function upload(files) {
+    for (const file of files) {
+        let fileIndex = -1;
+        let insertFile: UploadFile = {
+            trackingId: Date.now(),
+            name: file.name,
+            url: '',
+            size: file.size,
+            progress: -1,
+            signal: null
+        };
+
+       //Read the file and get blob src
+        let reader = new FileReader();
+        reader.onload = () => {
+            insertFile.url = reader.result as string;
+            filesArr.value.push(insertFile);
+            emit('file-begin', insertFile);
+            fileIndex = filesArr.value.length - 1;
+        };
+        reader.readAsDataURL(file);
+
+        const formData = new FormData();
+        formData.append('file', file);
+        const controller = new AbortController();
+        const data = await usePost<File>(props.url, formData, {
+            // onUploadProgress: function(progressEvent) {
+            //     insertFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+            // },
+            signal: controller.signal
+        }).catch(err => {
+            removeFile(insertFile);
+            console.log(err.data.message);
+            
+            init('File failed to upload: ' + err.data.message);
+        });
+
+        if (data) {
+            const reactiveFile = filesArr.value[fileIndex];
+            reactiveFile.id = data.id;
+            reactiveFile.name = data.name || data.file;
+            reactiveFile.size = data.size;
+            reactiveFile.created_at = data.created_at;
+            reactiveFile.url = `http://localhost:8000/storage/images/${data.file}`;
+            reactiveFile.signal = null;
+
+            emit('file-uploaded', reactiveFile);
         }
     }
+}
 
-    /**
-     * Handles removing files
-     */
-    async function handleRemove(file) {
-        if (file.cancel) {
-            file.cancel('Cancelled by user');
-        } else {
-            try {
-                await useDelete(`${props.url}/${file.id}`);
-                removeFile.call(this, file);
-            } catch (error) {
-                console.log(error);
-            }
-        }
+/**
+ * Handles removing files
+ */
+async function handleRemove(file) {
+    if (!file.signal) {
+        await useDelete(`${props.url}/${file.id}`);
     }
+    removeFile(file);
+}
 </script>
 
 <style scoped>

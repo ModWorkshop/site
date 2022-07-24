@@ -49,6 +49,7 @@ export interface File {
     mod_id: number;
     name: string;
     desc: string;
+    label: string;
     file: string;
     type: string;
     image_id: number | null;

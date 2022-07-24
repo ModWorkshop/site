@@ -8,7 +8,7 @@
             in saving them with the mod (as these are handled separately)
             So we should pluck them from the mod we get from the API and save them elsewhere.
         -->
-        <transition name="fade" v-if="floatSaveGui">
+        <transition v-if="floatSaveGui" name="fade">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                 {{$t('unsaved_changes')}}
                 <a-button class="ml-2" type="submit">{{currentSaveButtonText}}</a-button>
@@ -35,7 +35,9 @@
         model: Object,
         models: Array
     });
-    
+
+    const emit = defineEmits(['submit', 'state-changed']);
+
     const modelCopy = ref();
     watch(() => props.model, val => {
         modelCopy.value = clone(val);
@@ -45,7 +47,10 @@
         return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
     });
 
-    const emit = defineEmits(['submit']);
+    watch(() => currentCanSave, val => {
+        emit('state-changed', val);
+    });
+
     provide('rules', props.rules);
     provide('model', props.model);
 

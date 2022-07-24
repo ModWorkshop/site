@@ -22,7 +22,7 @@ export function timeAgo(t: string) {
  * @returns String
  */
 export function fullDate(t: string) {
-    return DateTime.fromISO(t).toLocaleString(DateTime.DATE_SHORT);
+    return DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT);
 }
 
 export async function reloadToken() {
