@@ -4,14 +4,14 @@
         <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
         <a-select v-model="mod.download_id" label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses" placeholder="Select file or link" clearable :options="files"/>
         <uploader list name="files" :url="uploadLink" :files="files" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
-            <!-- <template #headers>
+            <template #headers>
                 <td class="text-center">Primary</td>
             </template>
             <template #rows="{file}">
                 <td class="text-center">
-                    <input :checked="file.id === mod.download_id ? 1 : 0" type="radio" @change="setPrimaryDownload('file', file.id)">
+                    <input :checked="file.id === mod.download_id ? 'checked' : null" type="radio" @change="setPrimaryDownload('file', file.id)">
                 </td>
-            </template> -->
+            </template>
             <template #buttons="{file}">
                 <span class="file-button cursor-pointer" @click.prevent="editFile(file)">
                     <font-awesome-icon icon="cog"/>
