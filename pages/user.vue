@@ -1,8 +1,8 @@
 <template>
     <page-block :error="error" error-string="This user does not exist!">
-        <flex column :class="{banner: true, 'p-2': true, round: true, 'default-banner': !user.banner}" :style="{height: '300px', backgroundImage: `url(http://localhost:8000/storage/${userBanner})`}">
+        <a-banner :src="user.banner" url-prefix="users/banners">
             <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
-        </flex>
+        </a-banner>
         <flex gap="3" class="md:flex-row">
             <content-block id="details" class="p-4">
                 <flex column>
@@ -51,7 +51,6 @@ const { t } = useI18n();
 
 const { data: user, error } = await useFetchData<User>(`users/${route.params.id}`);
 
-const userBanner = computed(() => `users/banners/${user.value.banner}` || 'banners/default_banner.webp');
 const isOnline = computed(() => {
     const last = DateTime.fromISO(user.value.last_online);
     const now = DateTime.now();
@@ -68,10 +67,5 @@ const isPublic = computed(() => !user.value.private_profile);
         width: 12px;
         border-radius: 1em;
         display: inline-block;
-    }
-
-    .default-banner {
-        background-repeat: repeat;
-        background-size: auto;
     }
 </style>

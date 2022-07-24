@@ -2,11 +2,15 @@
     <img :src="compSrc" :width="width" :height="height" :alt="alt">
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     src: {
         default: '',
         type: String,
+    },
+    urlPrefix: {
+        type: String,
+        default: ''
     },
     width: [Number, String],
     height: [Number, String],
@@ -19,7 +23,7 @@ const compSrc = computed(function() {
     if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
         return src;
     } else {
-        return `http://localhost:8000/storage/${src}`;
+        return `http://localhost:8000/storage/${props.urlPrefix || ''}${src}`;
     }
 });
 </script>

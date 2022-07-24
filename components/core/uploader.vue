@@ -40,7 +40,7 @@
         </div>
         <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
             <div v-for="file of files" :key="file.trackingId || file.id" class="file-item" @click.prevent>
-                <img class="file-thumbnail" :src="file.url" alt="">
+                <a-img class="file-thumbnail" :src="file.thumbnail || (useFileAsThumb && file.file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
                     <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
@@ -65,7 +65,7 @@ type UploadFile = File & {
     trackingId?: number,
     signal: AbortSignal,
     progress: number,
-    url: string,
+    thumbnail: string,
     cancel: number
 }
 
@@ -77,6 +77,8 @@ const emit = defineEmits([
 const props = defineProps<{
     list: boolean,
     url: string,
+    urlPrefix: string,
+    useFileAsThumb: boolean,
     name: string,
     files: Array<UploadFile>,
 }>();
@@ -100,7 +102,7 @@ async function upload(files) {
         let insertFile: UploadFile = {
             trackingId: Date.now(),
             name: file.name,
-            url: '',
+            thumbnail: '',
             size: file.size,
             progress: -1,
             signal: null
@@ -137,7 +139,7 @@ async function upload(files) {
             reactiveFile.name = data.name || data.file;
             reactiveFile.size = data.size;
             reactiveFile.created_at = data.created_at;
-            reactiveFile.url = `http://localhost:8000/storage/images/${data.file}`;
+            reactiveFile.thumbnail = data.file;
             reactiveFile.signal = null;
 
             emit('file-uploaded', reactiveFile);

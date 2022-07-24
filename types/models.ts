@@ -76,6 +76,7 @@ export interface Mod {
     id: number;
     breadcrumb: Array<Breadcrumb>,
     thumbnail_id: number | null;
+    banner_id?: number;
     category_id: number | null;
     game_id: number | null;
     submitter_id: number;
@@ -87,7 +88,7 @@ export interface Mod {
     instructions: string;
     depends_on: Array<any> | any | null;
     visibility: number;
-    banner: string;
+    legacy_banner_url: string;
     url: string;
     downloads: number;
     likes: number;
@@ -109,7 +110,8 @@ export interface Mod {
     submitter?: User | null;
     category?: Category | null;
     game?: Category | null;
-    thumbnail?: Image | null;
+    thumbnail?: Image;
+    banner?: Image;
     tags?: Array<Tag> | null;
     images?: Array<Image> | null;
     files?: Array<File> | null;

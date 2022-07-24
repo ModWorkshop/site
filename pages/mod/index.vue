@@ -11,7 +11,7 @@
             </nuxt-link>
         </flex>
         <flex style="border-radius: 0.25rem">
-            <div class="mod-banner flex-grow" :style="`background:url('${mod.banner || 'https://modworkshop.net/images/default_banner.png'}');`">
+            <a-banner class="mod-banner" :src="mod.legacy_banner_url || (mod.banner && mod.banner.file)" height="250" url-prefix="mods/images">
                 <flex column class="flex-grow p-3 data">
                     <div style="font-weight: normal;overflow: hidden;height: 148px;word-break: break-word;">
                         <span id="title">{{mod.name}}</span>
@@ -42,7 +42,7 @@
                         </flex>
                     </flex>
                 </flex>
-            </div>
+            </a-banner>
         </flex>
         <div class="mod-main">
             <mod-tabs :mod="mod"/>
@@ -107,11 +107,8 @@ async function toggleLiked() {
 
 <style>
     .mod-banner {
-        background-size: cover;
         box-shadow: 1px 1px 5px #000;
         box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
-        height: 250px;
-        border-radius: .25rem;
     }
 
     .mod-banner .data {
