@@ -17,7 +17,7 @@ class CreateModsTable extends Migration
             $table->id();
 
             $table->bigInteger('thumbnail_id')->unsigned()->nullable();
-            $table->foreign('thumbnail_id')->references('id')->on('images')->onDelete('cascade');
+            $table->foreign('thumbnail_id')->references('id')->on('images');
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->bigInteger('game_id')->unsigned()->nullable();
@@ -35,7 +35,7 @@ class CreateModsTable extends Migration
             $table->text('instructions')->default('');
             $table->json('depends_on')->nullable();
             $table->tinyInteger('visibility')->default(0); // Was hidden
-            $table->tinyText('banner')->default('');
+            $table->tinyText('legacy_banner_url')->default(''); //Only to be used for old mods, all new mods will have to move to banner_id.
             $table->string('url')->default('');
             $table->bigInteger('downloads')->unsigned()->default(0);
             $table->bigInteger('likes')->unsigned()->default(0);
@@ -49,6 +49,9 @@ class CreateModsTable extends Migration
             $table->float('score')->default(0);
             $table->timestamp('bump_date')->nullable(); // Was just 'date'
             $table->timestamp('publish_date')->nullable();
+
+            $table->bigInteger('download_id')->nullable();
+            $table->tinyText('download_type')->nullable();
 
             // These are more general table tracking dates.
             // They can be used, but bump_date should be used for ordering so we don't bump a mod for every little edit.

@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('mod_downloads', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('mod_id')->unsigned();
-            $table->foreign('mod_id')->references('id')->on('mods');
+            $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');;
             $table->bigInteger('user_id')->unsigned()->nullable();;
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->ipAddress();
             $table->timestamps();
         });

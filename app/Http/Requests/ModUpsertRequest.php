@@ -35,6 +35,7 @@ class ModUpsertRequest extends FormRequest
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
+            'banner_id' => 'integer|min:1|nullable|exists:images,id',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
             'download_id' => 'integer|min:1|nullable',

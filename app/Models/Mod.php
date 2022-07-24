@@ -37,7 +37,7 @@ abstract class Visibility {
  * @property string $instructions
  * @property mixed|null $depends_on
  * @property int $visibility
- * @property string $banner
+ * @property string $legacy_banner_url
  * @property string $url
  * @property int $downloads
  * @property int $views
@@ -64,7 +64,7 @@ abstract class Visibility {
  * @method static Builder|Mod newQuery()
  * @method static Builder|Mod query()
  * @method static Builder|Mod whereAccessIds($value)
- * @method static Builder|Mod whereBanner($value)
+ * @method static Builder|Mod whereLegacyBannerUrl($value)
  * @method static Builder|Mod whereBumpDate($value)
  * @method static Builder|Mod whereCategoryId($value)
  * @method static Builder|Mod whereChangelog($value)
@@ -120,7 +120,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'thumbnail'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'thumbnail', 'banner'];
     protected $appends = ['breadcrumb', 'liked'];
     protected $hidden = ['download_type'];
 
@@ -152,6 +152,11 @@ class Mod extends Model
     public function thumbnail() : HasOne
     {
         return $this->hasOne(Image::class, 'id', 'thumbnail_id');
+    }
+        
+    public function banner() : HasOne
+    {
+        return $this->hasOne(Image::class, 'id', 'banner_id');
     }
 
     public function tags() : BelongsToMany

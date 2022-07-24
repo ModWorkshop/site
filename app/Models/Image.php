@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Storage;
 
 /**
@@ -38,10 +39,30 @@ class Image extends Model
 
     protected $guarded = [];
 
+    public function mod() : BelongsTo
+    {
+        return $this->belongsTo(Mod::class);
+    }
+
     protected static function booted() {
         static::deleting(function (Image $image)
         {
-            //TODO: make sure to handle a case that it's the mod's thumbnail or banner
+            $mod = $image->mod;
+            $updatedMod = false;
+            if ($mod->banner && $mod->banner->id === $image->id) {
+                $mod->banner_id = null;
+                $updatedMod = true;
+            }
+
+            if ($mod->thumbnail && $mod->thumbnail->id === $image->id) {
+                $mod->thumbnail_id = null;
+                $updatedMod = true;
+            }
+
+            if ($updatedMod) {
+                $mod->save();
+            }
+
             Storage::disk('public')->delete('images/'.$image->file);
         });
     }

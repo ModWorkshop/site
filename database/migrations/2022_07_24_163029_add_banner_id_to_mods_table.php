@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateModsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class UpdateModsTable extends Migration
     public function up()
     {
         Schema::table('mods', function (Blueprint $table) {
-            $table->bigInteger('download_id')->nullable();
-            $table->tinyText('download_type')->nullable();
+            $table->bigInteger('banner_id')->unsigned()->nullable();
+            $table->foreign('banner_id')->references('id')->on('images');
         });
     }
 
@@ -27,8 +27,7 @@ class UpdateModsTable extends Migration
     public function down()
     {
         Schema::table('mods', function (Blueprint $table) {
-            $table->dropcolumn('download_id');
-            $table->dropcolumn('download_type');
+            $table->dropColumn('banner_id');
         });
     }
-}
+};
