@@ -27,7 +27,15 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
+import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+
+const { hasPermission, user } = useStore();
+
+definePageMeta({
+    middleware: 'users-only',
+});
+
 const route = useRoute();
 
 const modTemplate = {
@@ -55,6 +63,10 @@ if (route.params.id) {
     const { data: fetchedMod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
     mod.value = fetchedMod.value;
     // mod.tag_ids = mod.tags.map(tag => tag.id);
+
+    if (!hasPermission('edit-mod') && mod.value.submitter_id !== user.id) {
+        throwError("You don't have permission to view this page");
+    }
 }
 
 /**

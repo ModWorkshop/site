@@ -1,9 +1,9 @@
-import { User, Section, Tag } from './../types/models';
+import { User, Game, Tag } from './../types/models';
 import { defineStore } from 'pinia';
 
 interface MainStore {
     user?: User,
-    games: Section[],
+    games: Game[],
     tags: Tag[],
 }
 
@@ -16,8 +16,11 @@ export const useStore = defineStore('main', {
     getters: {
         hasPermission(state) {
             const permissions = state.user?.permissions;
+
             if (!permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
                 return () => false;
+            } else if (permissions.admin) {
+                return () => true;
             } else {
                 return (perm: string) => permissions[perm] === true;
             }
