@@ -61,7 +61,7 @@ class ModController extends Controller
         $mods = Mod::queryGet($val, function(Builder $query, array $val) {
             $sortBy = $val['sort_by'] ?? 'bump_date';
 
-            $query->orderByRaw("{$sortBy} IS NOT NULL DESC");
+            $query->orderByRaw("{$sortBy} DESC NULLS LAST");
             
             if (isset($val['game_id'])) {
                 $query->where('game_id', $val['game_id']);
@@ -159,8 +159,6 @@ class ModController extends Controller
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
         $val['bump_date'] = Carbon::now();
-
-        var_dump($val);
 
         if (isset($mod)) {
             $mod->update($val);

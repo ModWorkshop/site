@@ -44,7 +44,7 @@ class FilePolicy
      */
     public function create(User $user)
     {
-        //
+        return $this->authorize('create');
     }
 
     /**
@@ -56,7 +56,7 @@ class FilePolicy
      */
     public function update(User $user, File $file)
     {
-        //
+        return $this->authorize('update', $file->mod); 
     }
 
     /**
@@ -68,7 +68,7 @@ class FilePolicy
      */
     public function delete(User $user, File $file)
     {
-        //
+        return $this->authorize('update', $file->mod);
     }
 
     /**

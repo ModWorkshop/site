@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Storage;
@@ -56,7 +57,18 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        //
+        $val = $request->validate([
+            'name' => 'string|min:3|max:100',
+            'label' => 'string|nullable|max:100',
+            'desc' => 'string|nullable|max:1000',
+        ]);
+
+        $val['label'] ??= '';
+        $val['desc'] ??= '';
+
+        $file->update($val);
+
+        return new FileResource($file);
     }
 
     /**
