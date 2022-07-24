@@ -211,7 +211,7 @@ class ModController extends Controller
      */
     public function uploadModImage(Request $request, Mod $mod) {
         $val = $request->validate([
-            'file' => 'required|max:512000|mimes:png,webp,gif'
+            'file' => 'required|max:512000|mimes:png,jpg,webp,gif'
         ]);
 
         $user = $request->user();
