@@ -134,5 +134,6 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'nuxt-windicss',
 		'@vuestic/nuxt',
+		'@vueuse/nuxt'
 	],
 });

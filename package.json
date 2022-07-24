@@ -1,15 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxi build",
     "dev": "nuxt dev",
-    "start": "nuxt start",
+    "start": "nuxi start",
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
+    "@vuestic/nuxt": "^1.0.3",
+    "@vueuse/core": "^8.9.4",
+    "@vueuse/nuxt": "^8.9.4",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
     "nuxt": "3.0.0-rc.6",
@@ -25,7 +28,6 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "@koddsson/textarea-caret": "^4.0.1",
     "@pinia/nuxt": "^0.3.0",
-    "@vuestic/nuxt": "^1.0.3",
     "caret-pos": "^2.0.0",
     "caret-xy": "^2.0.3",
     "click-outside-vue3": "^4.0.1",
