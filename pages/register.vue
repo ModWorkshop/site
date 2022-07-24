@@ -5,7 +5,7 @@
                 <a-input v-model="user.name" label="Name"/>
                 <a-input v-model="user.email" label="Email"/>
                 <flex>
-                    <a-input v-model="user.current_password" label="Password" type="password"/>
+                    <a-input v-model="user.password" label="Password" type="password"/>
                     <a-input v-model="user.password_confirm" label="Confirm Password" type="password" @input="checkConfirm"/>
                 </flex>
                 <flex column gap="2">
@@ -35,7 +35,7 @@ definePageMeta({
 const user = reactive({
     name: '',
     email: '',
-    current_password: '',
+    password: '',
     password_confirm: '',
 });
 
@@ -44,23 +44,21 @@ const error = ref('');
 const store = useStore();
 
 async function register() {
-    if (user.password_confirm !== user.current_password) {
+    if (user.password_confirm !== user.password) {
         return;
     }
     error.value = '';
-    try {
-        await usePost('/register', user);
-    } catch (error) {
+
+    await usePost('/register', user).catch(err => {
         error.value = 'Something went wrong';
-        console.log(error);
-        return;
-    }
+        console.log(err);
+    });
 
     store.attemptLoginUser();
 }
 
 function checkConfirm() {
-    if (user.password_confirm !== user.current_password) {
+    if (user.password_confirm !== user.password) {
         error.value = "Passwords must match!";
     } else {
         error.value = '';
