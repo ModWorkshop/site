@@ -1,26 +1,8 @@
 .ratio-image {
-    object-fit:cover;
-    position: absolute;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
-    width:100%;
-    height:100%;
-}
-
-.ratio-image-mod-thumb {
-    position: relative;
+    object-fit: cover;
+    aspect-ratio: 2/1;
     width: 100%;
-    padding-top: calc(100% * 1/2);
 }
-
-.ratio-image-cat-thumb {
-    position: relative;
-    width: 100%;
-    padding-top: calc(100% * 1/2);
-}
-
 
 @media (max-width:600px) {
     .cats-grid {
@@ -105,10 +87,6 @@
     bottom: 0;
     right: 0;
     position: absolute;
-}
-
-.mods {
-    width: 100%;
 }
 
 .cats-grid,

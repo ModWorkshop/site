@@ -1,6 +1,6 @@
 <template>
     <content-block gap="0" class="mod self-start !p-0" :title="mod.short_desc">
-        <nuxt-link class="block ratio-image-mod-thumb" :to="`/mod/${mod.id}`">
+        <nuxt-link class="block" :to="`/mod/${mod.id}`">
             <mod-thumbnail :mod="mod"/>
         </nuxt-link>
         <flex gap="1" column class="p-2 text-secondary">
