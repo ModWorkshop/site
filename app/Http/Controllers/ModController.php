@@ -173,6 +173,7 @@ class ModController extends Controller
             $mod->tags()->sync($tags);
         }
 
+        $mod->refresh();
         return new ModResource($mod);
     }
 
