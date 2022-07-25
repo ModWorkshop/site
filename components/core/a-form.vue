@@ -11,6 +11,7 @@
         <transition v-if="floatSaveGui" name="fade">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                 {{$t('unsaved_changes')}}
+                <a-button v-if="created" color="danger" class="ml-2" @click="undo">Undo</a-button>
                 <a-button class="ml-2" type="submit">{{currentSaveButtonText}}</a-button>
             </div>
         </transition>
@@ -60,5 +61,9 @@
 
     function submit() {
         emit('submit');
+    }
+
+    function undo() {
+        Object.assign(props.model, modelCopy.value);
     }
 </script>
