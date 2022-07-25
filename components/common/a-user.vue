@@ -4,7 +4,7 @@
             <a-avatar :size="avatarSize" :src="user.avatar"/>
         </nuxt-link>
         <flex gap="1" column class="my-auto">
-            <nuxt-link :to="!noLinks && `/user/${user.id}`" :style="{color: user.color}">
+            <nuxt-link :to="!static && `/user/${user.id}`" :style="{color: user.color}">
                 {{user.name}}
                 <a-tag v-if="user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
@@ -25,7 +25,7 @@ withDefaults(defineProps<{
     avatar?: boolean,
     avatarSize?: string,
     showAt?: boolean,
-    noLinks?: boolean,
+    static?: boolean,
 }>(), { avatar: true });
 </script>
 

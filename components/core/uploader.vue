@@ -9,7 +9,7 @@
                 <h2>Drop files here or click the area to upload files</h2>
             </div>
         </label>
-        <input :id="`${name}-file-browser-open`" type="file" hidden multiple @change="e => upload(e.target.files)">
+        <input :id="`${name}-file-browser-open`" ref="input" type="file" hidden multiple @change="e => upload((e.target as HTMLInputElement).files)">
         <div v-if="list" class="p-3 alt-bg-color">
             <table class="w-full">
                 <thead>
@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="file of files" :key="file.trackingId || file.id">
+                    <tr v-for="file of files" :key="file.created_at">
                         <td>{{file.name}}</td>
                         <td>{{friendlySize(file.size)}}</td>
                         <td v-if="file.created_at">{{fullDate(file.created_at)}}</td>
@@ -39,7 +39,7 @@
             </table>
         </div>
         <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
-            <div v-for="file of files" :key="file.trackingId || file.id" class="file-item" @click.prevent>
+            <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
                 <a-img class="file-thumbnail" :src="file.thumbnail || (useFileAsThumb && file.file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
                     <div v-if="file.progress != -1" class="file-progress" :style="{width: file.progress + '%'}"/>
@@ -58,20 +58,24 @@
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
 import { File } from '~~/types/models';
+import { DateTime } from 'luxon';
 
 const { init } = useToast();
 
-type UploadFile = File & {
-    trackingId?: number,
-    signal: AbortSignal,
+type UploadFile = {
+    name: string,
+    file?: string,
+    size: number,
+    signal?: AbortSignal,
     progress: number,
-    thumbnail: string,
-    cancel: number
+    thumbnail?: string,
+    created_at?: string
 }
 
 const emit = defineEmits([
     'file-begin',
     'file-uploaded',
+    'file-deleted',
 ]);
 
 const props = defineProps<{
@@ -84,6 +88,7 @@ const props = defineProps<{
 }>();
 
 const filesArr = toRef(props, 'files');
+const input = ref();
 
 function removeFile(file: UploadFile) {
     for (const [k, f] of Object.entries(props.files)) {
@@ -100,18 +105,16 @@ async function upload(files) {
     for (const file of files) {
         let fileIndex = -1;
         let insertFile: UploadFile = {
-            trackingId: Date.now(),
+            created_at: DateTime.now().toISO(),
             name: file.name,
-            thumbnail: '',
             size: file.size,
-            progress: -1,
-            signal: null
+            progress: -1
         };
 
        //Read the file and get blob src
         let reader = new FileReader();
         reader.onload = () => {
-            insertFile.url = reader.result as string;
+            insertFile.thumbnail = reader.result as string;
             filesArr.value.push(insertFile);
             emit('file-begin', insertFile);
             fileIndex = filesArr.value.length - 1;
@@ -135,16 +138,13 @@ async function upload(files) {
 
         if (data) {
             const reactiveFile = filesArr.value[fileIndex];
-            reactiveFile.id = data.id;
-            reactiveFile.name = data.name || data.file;
-            reactiveFile.size = data.size;
-            reactiveFile.created_at = data.created_at;
-            reactiveFile.thumbnail = data.file;
+            Object.assign(reactiveFile, data);
             reactiveFile.signal = null;
 
             emit('file-uploaded', reactiveFile);
         }
     }
+    input.value.value = null;
 }
 
 /**
@@ -155,6 +155,7 @@ async function handleRemove(file) {
         await useDelete(`${props.url}/${file.id}`);
     }
     removeFile(file);
+    emit('file-deleted', file);
 }
 </script>
 

@@ -9,7 +9,7 @@
             </template>
             <template #rows="{file}">
                 <td class="text-center">
-                    <input :checked="file.id === mod.download_id ? true : null" type="radio" @change="setPrimaryDownload('file', file.id)">
+                    <input :checked="file.id === mod.download_id ? true : null" type="radio" @change="setPrimaryDownload('file', file)">
                 </td>
             </template>
             <template #buttons="{file}">
@@ -90,13 +90,19 @@ function fileDeleted(file: File) {
         }
     }
 
+    if (props.mod.download_id === file.id) {
+        setPrimaryDownload(null, null);
+    }
+
     if (!props.canSave) {
         ignoreChanges();
     }
 }
-function setPrimaryDownload(type: string, id: number) {
+
+function setPrimaryDownload(type: string, download: File) {
     props.mod.download_type = type;
-    props.mod.download_id = id;
+    props.mod.download_id = download && download.id;
+    props.mod.download = download;
 }
 </script>
 <style scoped>

@@ -36,7 +36,7 @@
                     <div v-show="showMentions" class="fixed" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]}px`}">
                         <flex v-if="users" column class="mention-float">
                             <template v-if="users.data.length">
-                                <a-user v-for="user in users.data" :key="user.id" :user="user" avatar no-links show-at class="cursor-pointer" @click="e => onClickMention(e, user)"/>
+                                <a-user v-for="user in users.data" :key="user.id" :user="user" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, user)"/>
                             </template>
                             <div v-else>
                                 No users found!
