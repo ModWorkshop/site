@@ -2,7 +2,7 @@
     <a-input :id="labelId">
         <label class="flexbox items-end gap-2" :for="labelId">
             <slot name="label" :src="currentSrc">
-                <a-img class="w-full round" :src="currentSrc"/>
+                <a-img class="w-full round" :src="currentSrc" :url-prefix="urlPrefix"/>
             </slot>
         </label>
         <input :id="labelId" ref="input" class="mt-1" type="file" @change="onChange">
@@ -13,7 +13,8 @@
 const props = defineProps({
     modelValue: Blob,
     id: String,
-    src: String
+    src: String,
+    urlPrefix: String,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -21,7 +22,7 @@ const emit = defineEmits(['update:modelValue']);
 const fileRef = ref();
 const blob = ref();
 const input = ref<HTMLInputElement>();
-const currentSrc = computed(() => blob.value || props.src && `http://localhost:8000/storage/${props.src}` || '');
+const currentSrc = computed(() => blob.value || props.src);
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
