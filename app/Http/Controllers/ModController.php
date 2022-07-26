@@ -143,7 +143,7 @@ class ModController extends Controller
                 if ($type == 'file') {
                     $download = $mod->files->find($downloadId);
                 } else if($type == 'link') {
-    
+                    $download = $mod->links->find($downloadId);
                 }
     
                 if (isset($download)) {
@@ -249,21 +249,6 @@ class ModController extends Controller
         $image->delete(); //Deletion of files handled in the model class.
     }
 
-
-    /**
-     * Delete File
-     * 
-     * Deletes a file from a mod
-     *
-     * @param Mod $mod
-     * @param File $img
-     * @return void
-     */
-    public function deleteModFile(Request $request, Mod $mod, File $file)
-    {
-        $file->delete(); //Deletion of files handled in the model class.
-    }
-
     /**
      * Upload File
      * 
@@ -275,32 +260,7 @@ class ModController extends Controller
      */
     public function uploadModFile(Request $request, Mod $mod)
     {
-        $val = $request->validate([
-            'file' => 'required|max:512000|mimes:zip,rar,7z'
-        ]);
 
-        $user = $request->user();
-        /**
-         * @var UploadedFile $file
-         */
-        $file = $val['file'];
-        $fileType = $file->extension();
-        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('mods/files', $fileName);
-        
-        $file = File::create([
-            'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
-            'desc' => '', //TODO: Should be nullable
-            'user_id' => $user->id,
-            'mod_id' => $mod->id,
-            'file' => $fileName,
-            'type' => $fileType,
-            'size' => $file->getSize()
-        ]);
-
-        $mod->save();
-
-        return $file;
     }
 
     /**

@@ -46,22 +46,26 @@ class File extends Model
 
     protected $guarded = [];
     protected $hidden = ['mod'];
+    protected $with = ['user'];
 
     public function mod() : BelongsTo
     {
         return $this->belongsTo(Mod::class);
     }
 
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected static function booted() {
         static::deleting(function (File $file)
         {
-            //TODO: make sure to handle a case that it's the mod's thumbnail or banner
             Storage::delete('files/'.$file->file);
 
             $mod = $file->mod;
             
             if ($mod->download_type === File::class && $mod->download_id === $file->id) {
-                var_dump('ok');
                 $mod->download_id = null;
                 $mod->download_type = null;
                 $mod->save();   

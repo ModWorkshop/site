@@ -44,7 +44,7 @@ class FilePolicy
      */
     public function create(User $user)
     {
-        return $this->authorize('create');
+        return $this->authorize('create', Mod::class);
     }
 
     /**

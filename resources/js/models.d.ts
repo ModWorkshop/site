@@ -57,7 +57,10 @@ declare namespace App.Models {
         approved: boolean;
         created_at: string | null;
         updated_at: string | null;
+        label: string;
+        version: string;
         mod?: App.Models.Mod | null;
+        user?: App.Models.User | null;
     }
 
     export interface Image {

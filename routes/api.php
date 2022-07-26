@@ -87,7 +87,7 @@ Route::get('/auth/steam/callback', function(Request $request) {
 // Resources
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
-Route::resource('files', FileController::class);
+Route::resource('mods.files', FileController::class);
 Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
@@ -116,9 +116,5 @@ Route::middleware('auth:sanctum')->group(function () {
         //Images
         Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
         Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
-    
-        //Files
-        Route::post('/mods/{mod}/files', [ModController::class, 'uploadModFile']);
-        Route::delete('/mods/{mod}/files/{file}', [ModController::class, 'deleteModFile']);
     });
 });
