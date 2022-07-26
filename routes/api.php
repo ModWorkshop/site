@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\PermissionController;
@@ -88,6 +89,7 @@ Route::get('/auth/steam/callback', function(Request $request) {
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::resource('mods.files', FileController::class);
+Route::resource('mods.links', LinkController::class);
 Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);

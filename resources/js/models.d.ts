@@ -63,6 +63,21 @@ declare namespace App.Models {
         user?: App.Models.User | null;
     }
 
+    export interface Game {
+        id: number;
+        name: string;
+        short_name: string | null;
+        disporder: number;
+        thumbnail: string;
+        banner: string;
+        buttons: string;
+        webhook_url: string;
+        last_date: string;
+        created_at: string | null;
+        updated_at: string | null;
+        readonly breadcrumb?: any;
+    }
+
     export interface Image {
         id: number;
         user_id: number;
@@ -73,6 +88,19 @@ declare namespace App.Models {
         created_at: string | null;
         updated_at: string | null;
         mod_id: number;
+        mod?: App.Models.Mod | null;
+    }
+
+    export interface Link {
+        id: number;
+        user_id: number;
+        mod_id: number;
+        name: string;
+        desc: string;
+        url: string;
+        image_id: number | null;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface Mod {
@@ -89,7 +117,7 @@ declare namespace App.Models {
         instructions: string;
         depends_on: Array<any> | any | null;
         visibility: number;
-        banner: string;
+        legacy_banner_url: string;
         url: string;
         downloads: number;
         views: number;
@@ -106,10 +134,13 @@ declare namespace App.Models {
         updated_at: string | null;
         download_id: number | null;
         download_type: string | null;
+        likes: number;
+        banner_id: number | null;
         submitter?: App.Models.User | null;
         category?: App.Models.Category | null;
         game?: App.Models.Category | null;
         thumbnail?: App.Models.Image | null;
+        banner?: App.Models.Image | null;
         tags?: Array<App.Models.Tag> | null;
         images?: Array<App.Models.Image> | null;
         files?: Array<App.Models.File> | null;
@@ -119,6 +150,33 @@ declare namespace App.Models {
         images_count?: number | null;
         files_count?: number | null;
         comments_count?: number | null;
+        readonly liked?: any;
+    }
+
+    export interface ModDownload {
+        id: number;
+        mod_id: number;
+        user_id: number | null;
+        ip_address: string;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
+    export interface ModLike {
+        id: number;
+        mod_id: number;
+        user_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
+    export interface ModView {
+        id: number;
+        mod_id: number;
+        user_id: number | null;
+        ip_address: string;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface Permission {
@@ -145,21 +203,6 @@ declare namespace App.Models {
         permissions_count?: number | null;
     }
 
-    export interface Section {
-        id: number;
-        name: string;
-        short_name: string | null;
-        disporder: number;
-        thumbnail: string;
-        banner: string;
-        buttons: string;
-        webhook_url: string;
-        last_date: string;
-        created_at: string | null;
-        updated_at: string | null;
-        readonly path?: any;
-    }
-
     export interface SocialLogin {
         id: number;
         user_id: number | null;
@@ -180,9 +223,9 @@ declare namespace App.Models {
         created_at: string | null;
         updated_at: string | null;
         categories?: Array<App.Models.Category> | null;
-        sections?: Array<App.Models.Section> | null;
+        games?: Array<App.Models.Game> | null;
         categories_count?: number | null;
-        sections_count?: number | null;
+        games_count?: number | null;
     }
 
     export interface User {
@@ -196,6 +239,7 @@ declare namespace App.Models {
         updated_at: string | null;
         avatar: string;
         custom_color: string;
+        unique_name: string | null;
         extra?: App.Models.UserExtra | null;
         roles?: Array<App.Models.Role> | null;
         roles_count?: number | null;

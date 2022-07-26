@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\File;
+use App\Models\Link;
 use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 const downloadTypeSimple = [
     File::class => 'file',
+    Link::class => 'link',
 ];
 
 class ModResource extends JsonResource
@@ -25,16 +27,20 @@ class ModResource extends JsonResource
      */
     public function toArray($request)
     {
+        $download = null;
+        if ($this->download_type === File::class) {
+            $download = $this->whenLoaded('files', fn() => $this->files->find($this->download_id));
+        } else if ($this->download_type === Link::class) {
+            $download = $this->whenLoaded('links', fn() => $this->links->find($this->download_id));
+        }
+
         return array_merge(parent::toArray($request), [
             'submitter' => new UserResource($this->submitter),
             'files' => $this->files,
+            'links' => $this->links,
             'images' => $this->images,
             'tags' => TagResource::collection($this->whenLoaded('tags')),
-            'download' => $this->whenLoaded('files', function() {
-                if ($this->download_type === File::class) {
-                    return $this->files->find($this->download_id);
-                }
-            }),
+            'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'download_type' => downloadTypeSimple[$this->download_type] ?? null,
         ]);

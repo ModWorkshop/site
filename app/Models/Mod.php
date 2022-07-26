@@ -120,7 +120,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'thumbnail', 'banner'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'links', 'thumbnail', 'banner'];
     protected $appends = ['breadcrumb', 'liked'];
     protected $hidden = ['download_type'];
 
@@ -171,7 +171,12 @@ class Mod extends Model
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(File::class)->orderByDesc('updated_at');
+    }
+
+    public function links() : HasMany
+    {
+        return $this->hasMany(Link::class)->orderByDesc('updated_at');
     }
 
     public function comments() : MorphMany
