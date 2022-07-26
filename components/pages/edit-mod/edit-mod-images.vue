@@ -34,7 +34,7 @@ import clone from 'rfdc/default';
 
 const props = defineProps<{
     mod: Mod,
-    canSave: boolean
+    canSave?: boolean
 }>();
 
 const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');

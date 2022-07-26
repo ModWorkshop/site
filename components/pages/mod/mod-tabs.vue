@@ -10,7 +10,45 @@
                 </a>
                 <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
             </a-tab>
-            <a-tab name="downloads" :title="$t('downloads')">Nothing for now!</a-tab>
+            <a-tab name="downloads" :title="$t('downloads')">
+                <div v-for="labeled of labeledFiles" :key="labeled.label" class="mt-3">                       
+                    <h2 v-if="labeled.label != 'all'">{{labeled.label}}</h2>
+                    <flex column gap="2">
+                        <flex v-for="file of labeled.files" :key="file.id" class="alt-bg-color p-3 items-center">
+                            <div class="mr-2">
+                                <a-img src="https://modworkshop.net/mydownloads/previews/fileimages/file_dl_big.png" width="128" height="128"/>
+                            </div>
+                            <flex grow column>
+                                <strong style="font-size: 13px;">{{file.name}}</strong>
+                                <span>Version {{file.version}}</span>
+                                <flex>
+                                    <span class="my-auto">{{timeAgo(file.created_at)}} by</span>
+                                    <a-user :user="file.user" avatar-size="xs"/>
+                                </flex>
+                                <markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
+                            </flex>
+                            <div>
+                                <a-button v-if="file.size" :href="`http://localhost:8000/files/${file.id}/download`" icon="download" download large>
+                                    {{$t('download')}}
+                                    <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
+                                </a-button>
+                                <va-popover v-else trigger="click">
+                                    <template #body>
+                                        <div style="width: 250px;">
+                                            {{$t('show_download_link_warn')}}
+                                            <br>
+                                            <a :href="file.url">{{file.url}}</a>
+                                        </div>
+                                    </template>
+                                    <a-button class="large-button w-full text-center" icon="download">
+                                        {{$t('show_download_link')}}
+                                    </a-button>
+                                </va-popover>
+                            </div>
+                        </flex>
+                    </flex>
+                </div>
+            </a-tab>
             <a-tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
                 <markdown :text="mod.changelog"/>
             </a-tab>
@@ -22,24 +60,43 @@
     </flex>
 </template>
 
-<script setup>
-    const props = defineProps({
-        mod: Object
-    });
+<script setup lang="ts">
+import { Mod } from '~~/types/models';
 
-    const imageIndex = ref(0);
-    const galleryVisible = ref(false);
+const props = defineProps<{
+    mod: Mod
+}>();
 
-    function showImage(nextIndex) {
-        imageIndex.value = nextIndex;
-        galleryVisible.value = true;
-    }
+const imageIndex = ref(0);
+const galleryVisible = ref(false);
 
-    const images = computed(() => {
-        const images = [];
-        for (const image of props.mod.images) {
-            images.push(`http://localhost:8000/storage/mods/images/${image.file}`);
+const labeledFiles = computed(() => {
+    const sorted = [];
+    for (const file of [...props.mod.files, ...props.mod.links]) {
+        const label = file.label ?? 'all';
+        let labeled = sorted.find(curr => curr.label == label);
+
+        if (!labeled) {
+            labeled = { label, files: [] };
+            sorted.push(labeled);
         }
-        return images;
-    });
+
+        labeled.files.push(file);
+    }
+    
+    return sorted;
+});
+
+function showImage(nextIndex) {
+    imageIndex.value = nextIndex;
+    galleryVisible.value = true;
+}
+
+const images = computed(() => {
+    const images = [];
+    for (const image of props.mod.images) {
+        images.push(`http://localhost:8000/storage/mods/images/${image.file}`);
+    }
+    return images;
+});
 </script>

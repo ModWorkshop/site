@@ -27,11 +27,11 @@
                         <td>{{friendlySize(file.size)}}</td>
                         <td v-if="file.created_at">{{fullDate(file.created_at)}}</td>
                         <td v-else>Uploading</td>
-                        <td class="text-center">
-                            <slot name="buttons" :file="file"/>
-                            <span class="file-button cursor-pointer" @click.prevent="handleRemove(file)">
-                                <font-awesome-icon icon="trash"/>
-                            </span>
+                        <td class="text-center p-1">
+                            <flex inline>
+                                <slot name="buttons" :file="file"/>
+                                <a-button icon="trash" @click.prevent="handleRemove(file)"/>
+                            </flex>
                         </td>
                         <slot name="rows" :file="file"/>
                     </tr>
@@ -79,10 +79,10 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps<{
-    list: boolean,
+    list?: boolean,
     url: string,
-    urlPrefix: string,
-    useFileAsThumb: boolean,
+    urlPrefix?: string,
+    useFileAsThumb?: boolean,
     name: string,
     files: Array<UploadFile>,
 }>();

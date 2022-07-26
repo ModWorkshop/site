@@ -48,6 +48,7 @@ export interface File {
     user_id: number;
     mod_id: number;
     name: string;
+    version: string;
     desc: string;
     label: string;
     file: string;
@@ -58,6 +59,7 @@ export interface File {
     created_at: string | null;
     updated_at: string | null;
     mod?: Mod | null;
+    user: User;
 }
 
 export interface Image {
@@ -89,7 +91,6 @@ export interface Mod {
     depends_on: Array<any> | any | null;
     visibility: number;
     legacy_banner_url: string;
-    url: string;
     downloads: number;
     likes: number;
     views: number;
@@ -115,8 +116,9 @@ export interface Mod {
     tags?: Array<Tag> | null;
     images?: Array<Image> | null;
     files?: Array<File> | null;
+    links?: Array<Link> | null;
     comments?: Array<Comment> | null;
-    download?: any | null;
+    download?: File|Link;
     tags_count?: number | null;
     images_count?: number | null;
     files_count?: number | null;
@@ -217,3 +219,17 @@ export interface User {
 }
 
 export interface UsersRolesLink {}
+
+export interface Link {
+    id: number;
+    user_id: number;
+    mod_id: number;
+    name: string;
+    desc: string;
+    label: string;
+    url: string;
+    version: string;
+    image_id: number | null;
+    created_at: string | null;
+    updated_at: string | null;
+}

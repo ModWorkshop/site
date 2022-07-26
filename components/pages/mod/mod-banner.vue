@@ -18,13 +18,25 @@
                 </div>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" @click="toggleLiked"/>
-                    <a-button v-if="mod.download" class="large-button w-full text-center" icon="download" :href="!static && `http://localhost:8000/files/${mod.download.id}/download`" download @click="registerDownload">
+                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && `http://localhost:8000/files/${mod.download.id}/download`" download @click="registerDownload">
                         Download
                         <br>
-                        <span class="text-sm">{{mod.download.type}} - {{friendlySize(mod.download.size)}}</span>
+                        <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
                     </a-button>
-                    <a-button v-else-if="mod.files && mod.files.length > 0" href="#downloads" class="download-button" icon="download">Downloads</a-button>
-                    <a-button v-else class="download-button" disabled>No Files</a-button>
+                     <va-popover v-if="mod.download && mod.download_type == 'link'" trigger="click">
+                        <template #body>
+                            <div style="width: 250px;">
+                                {{$t('show_download_link_warn')}}
+                                <br>
+                                <a :href="(mod.download as any).url">{{(mod.download as any).url}}</a>
+                            </div>
+                        </template>
+                        <a-button class="large-button w-full text-center" icon="download" @click="registerDownload">
+                            {{$t('show_download_link')}}
+                        </a-button>
+                    </va-popover>
+                    <a-button v-else-if="mod.files && mod.files.length > 0" class="large-button" icon="download" @click="switchToFiles">Downloads</a-button>
+                    <a-button v-else class="large-button" disabled>No Files</a-button>
                 </flex>
             </flex>
         </flex>
@@ -37,7 +49,7 @@ import { friendlySize, timeAgo } from '~~/utils/helpers';
 
 const props = defineProps<{
     mod: Mod,
-    static: boolean
+    static?: boolean
 }>();
 
 const publishDateAgo = computed(() => timeAgo(props.mod.publish_date));
@@ -45,6 +57,7 @@ const updateDateAgo = computed(() => timeAgo(props.mod.bump_date));
 const modStatus = computed(() => '');
 
 const store = useStore();
+const router = useRouter();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !store.user || store.user.id !== props.mod.submitter_id);
@@ -72,7 +85,13 @@ async function toggleLiked() {
     props.mod.likes = data.likes;
     props.mod.liked = data.liked;
 }
+
+function switchToFiles() {
+    setQuery('tab', 'downloads');
+}
 </script>
 <style>
-    
+    .download-button {
+        font-size: 1.5rem;
+    }
 </style>
