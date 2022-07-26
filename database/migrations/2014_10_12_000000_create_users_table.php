@@ -20,9 +20,16 @@ class CreateAuthUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->char('custom_color', 6)->default('');
             $table->rememberToken();
 
             $table->text('avatar')->default('');
+
+            /**
+             * Will be used for mentions and profile name, while this might create some small issues, this also adds a lot of benefits
+             * !!THIS IS NOT USED FOR LOGING INTO ACCOUNTS!!
+             */
+            $table->string('unique_name')->nullable()->unique();
 
             $table->timestamps();
         });

@@ -53,6 +53,10 @@ class CreateModsTable extends Migration
             $table->bigInteger('download_id')->nullable();
             $table->tinyText('download_type')->nullable();
 
+            $table->bigInteger('banner_id')->unsigned()->nullable();
+            $table->foreign('banner_id')->references('id')->on('images');
+            $table->bigInteger('likes')->unsigned()->default(0);
+
             // These are more general table tracking dates.
             // They can be used, but bump_date should be used for ordering so we don't bump a mod for every little edit.
             // To explain further, created_at is when the mod was created. updated_at is when the mod data was updated, regardless of anything.
