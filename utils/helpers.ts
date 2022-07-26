@@ -30,9 +30,8 @@ export async function reloadToken() {
 }
 
 export function setQuery(key: string, value: string) {
-    const route = useRoute();
     const router = useRouter();
-    router.push({ query: { ...route.query, [key]: value } });
+    router.replace({ query: { [key]: value } });
 }
 
 /**
