@@ -1,27 +1,28 @@
 <template>
-    <content-block gap="0" class="mod self-start !p-0" :title="mod.short_desc">
-        <nuxt-link class="block" :to="!static && `/mod/${mod.id}`">
+    <flex column gap="0" class="mod self-start !p-0" :title="mod.short_desc">
+        <nuxt-link class="block" :to="!static && `/mod/${mod.id}` || null">
             <mod-thumbnail :mod="mod"/>
         </nuxt-link>
         <flex gap="1" column class="p-2 text-secondary">
-            <nuxt-link class="mod-title" :to="!static && `/mod/${mod.id}`" :title="mod.name">
+            <nuxt-link class="mod-title" :to="!static && `/mod/${mod.id}` || null" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
             </nuxt-link>
 
             <div>
-                <font-awesome-icon icon="user"/> <a-user :avatar="false" :static="static" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">
-                <font-awesome-icon icon="map-marker-alt"/> <nuxt-link v-if="showGame" class="text-secondary" :to="!static && `/game/${mod.game.short_name || mod.game.id}`" :title="mod.game">{{mod.game.name}}</nuxt-link>
+                <font-awesome-icon icon="map-marker-alt"/> <nuxt-link v-if="showGame" class="text-secondary" :to="!static && `/game/${mod.game.short_name || mod.game.id}` || null" :title="mod.game">{{mod.game.name}}</nuxt-link>
                 <template v-if="mod.category">
                     <span v-if="showGame" class="text-secondary"> / </span>
-                    <nuxt-link class="text-secondary" :to="!static && `/category/${mod.category_id}`" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
+                    <nuxt-link class="text-secondary" :to="!static && `/category/${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
                 </template>
             </div>
 
-            <flex gap="1">
+
+            <flex>
                 <div class="inline-block">
                     <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
                 </div>
@@ -39,7 +40,7 @@
                 </span>
             </flex>
         </flex>
-    </content-block>
+    </flex>
 </template>
 <script setup lang="ts">
 import { Mod } from "~~/types/models";
@@ -50,7 +51,7 @@ const props = defineProps<{
     noCategories?: boolean,
     noGame?: boolean,
     mod: Mod,
-    static: boolean
+    static?: boolean
 }>();
 
 const showGame = computed(() => !props.noGame && props.mod.game);

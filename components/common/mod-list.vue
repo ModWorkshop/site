@@ -28,7 +28,7 @@
             <a-pagination v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" per-page="40" @update="page => setPage(page, true)"/>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex gap="6">
-                <flex wrap column gap="3" class="mods justify-content-start" style="flex:10;">
+                <flex column class="mods justify-content-start" style="flex:10;">
                     <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
                         <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"/>
                         <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
@@ -43,7 +43,7 @@
                             <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
                         </template>
                     </div>
-                    <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'}`">
+                    <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'} gap-2 p-2 content-block`">
                         <div v-if="error">
                             There was an error fetching mods
                             {{error}}

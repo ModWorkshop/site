@@ -1,5 +1,5 @@
 <template>
-    <a-img :src="props.src" :url-prefix="urlPrefix" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img :src="avatarUrl" :url-prefix="urlPrefix" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -13,6 +13,15 @@ const props = defineProps({
         type:  String
     }
 });
+
+const avatarUrl = computed(() => {
+    const src = props.src;
+    if (src) {
+        return src;
+    } else {
+        return 'http://localhost:8000/storage/assets/nopreview.webp';
+    }
+});
 </script>
 <style scoped>
     .avatar {
@@ -21,6 +30,11 @@ const props = defineProps({
         width: 38px;
         height: 38px;
         border-radius: 10%;
+    }
+
+    .avatar-xs {
+        width: 28px;
+        height: 28px;
     }
 
     .avatar-small {
