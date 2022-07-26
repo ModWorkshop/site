@@ -13,5 +13,5 @@ library.add(fab);
 
 export default defineNuxtPlugin(nuxtApp => {
     // Register the component globally
-    nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon)
+    nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon);
 });

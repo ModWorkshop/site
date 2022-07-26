@@ -39,7 +39,6 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	state.pos = start + 1;
 	
 	while (end < max) {
-		console.log(end + ' , ' + state.src.charCodeAt(end) + ' = ' + (state.src as string).charAt(end));
 		if (/([^a-zA-Z0-9_-]+)/g.test(state.src.charAt(end))) {
 			break;
 		}

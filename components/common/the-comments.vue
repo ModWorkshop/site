@@ -82,7 +82,6 @@
 
     function onTextareaKeyup(event: KeyboardEvent) {
         if (!(event.target instanceof HTMLTextAreaElement)) {
-            console.log(event.target);
             return;
         }
 
@@ -103,7 +102,6 @@
             if (event.data == '@') {
                 mentionRange.value = [textArea.selectionEnd, textArea.selectionEnd];
                 showMentions.value = true;
-                console.log('at');
             } else if (showMentions.value) {
                 mentionRange.value[1] = textArea.selectionEnd;
             }

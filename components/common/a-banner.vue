@@ -8,7 +8,7 @@ const props = defineProps({
     src: String,
     urlPrefix: String,
     height: {
-        type: Number,
+        type: [Number, String],
         default: 300,
     }
 });

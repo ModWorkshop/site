@@ -93,5 +93,4 @@
 .games-grid,
 .mods-grid {
     display: grid;
-    grid-gap: 1rem;
 }
