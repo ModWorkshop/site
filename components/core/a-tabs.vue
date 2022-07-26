@@ -20,9 +20,11 @@
     </flex>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { useRouteQuery } from '@vueuse/router';
+
 const route = useRoute();
-const router = useRouter();
+const queryTab = useRouteQuery('tab');
 
 const props = defineProps({
     side: Boolean,
@@ -51,14 +53,16 @@ const tabState = reactive({
 });
 
 // Check if our current tab exists, otherwise fallback to the first.
-if (tabs.value.length > 0 && (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current))) {
-    tabState.current = tabs.value[0].name;
+if (tabs.value.length > 0) {
+    if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current, true)) {
+        tabState.current = tabs.value[0].name;
+    }
 }
 
 provide('tabState', tabState);
 provide('side', props.side);
 
-function arrowKeysMove(left) {
+function arrowKeysMove(left: boolean) {
     let focus = tabState.focus;
 
     if (left) {
@@ -77,14 +81,19 @@ function arrowKeysMove(left) {
     tabLinks.value[focus].$el.focus();
 }
 
-function setCurrentTab(name) {
-    if (props.type == 'query') {
+function setCurrentTab(name: string, skipSetQuery = false) {
+    if (props.type == 'query' && !skipSetQuery) {
         //We only want to set the query
-        router.push({ query: { ...route.query, tab: name } });
+        queryTab.value = name;
     }
 
-    console.log(name);
     tabState.current = name;
     tabState.focus = tabs.value.findIndex(tab => tab.name === name);
+}
+
+if (props.type == 'query') {
+    watch(queryTab, val => {
+        setCurrentTab(val as string, true);
+    });
 }
 </script>
