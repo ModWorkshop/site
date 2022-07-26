@@ -8,12 +8,16 @@
 </template>
 
 <script setup>
+import { Settings } from 'luxon';
+
 useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
 	title: undefined,
 });
+
+Settings.defaultLocale = 'en-US';
 </script>
 
 <style>
