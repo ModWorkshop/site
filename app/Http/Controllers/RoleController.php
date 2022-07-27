@@ -77,14 +77,22 @@ class RoleController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
-            'tag' => 'string|min:3|max:100',
+            'tag' => 'string|nullable|min:3|max:100',
             // 'desc' => 'string|max:1000',
             'color' => 'string|nullable|max:8',
             'order' => 'integer|nullable|min:-1|max:1000',
             'permissions' => 'array|nullable'
         ]);
 
+        $val['tag'] ??= '';
+        $val['color'] ??= '';
+
         $permissions = Arr::pull($val, 'permissions');
+        $syncPerms = [];
+
+        foreach ($permissions as $id => $allow) {
+            $syncPerms[$id] = ['allow' => $allow];
+        }
         
         if (isset($role)) {
             $role->update($val);
@@ -95,7 +103,7 @@ class RoleController extends Controller
             $role = Role::create($val);
         }
         
-        $role->permissions()->sync($permissions);
+        $role->permissions()->sync($syncPerms);
         $role->load('permissions');
 
         return new RoleResource($role);
