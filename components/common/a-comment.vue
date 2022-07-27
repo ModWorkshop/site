@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import { timeAgo } from '~~/utils/helpers';
 import { useStore } from '~~/store';
+const { init: openModal } = useModal();
 
 const props = defineProps({
     data: Object,
@@ -117,12 +118,15 @@ function deleteComment(commentId: number, isReply: boolean) {
 }
 
 function openDeleteModal() {
-    // MessageBox.confirm('This will delete the comment', 'Warning', {
-    //     confirmButtonText: 'OK',
-    //     cancelButtonText: 'Cancel',
-    //     type: 'warning'
-    // }).then(() => emit('delete', comment.value.id, props.isReply));
+    openModal({
+        message: 'This will delete the comment',
+        onOk() {
+            emit('delete', comment.value.id, props.isReply);
+        }
+    });
+
     //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
+    
 }
 </script>
 
