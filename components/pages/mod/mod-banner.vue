@@ -23,7 +23,7 @@
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
                     </a-button>
-                     <va-popover v-if="mod.download && mod.download_type == 'link'" trigger="click">
+                     <va-popover v-else-if="mod.download && mod.download_type == 'link'" trigger="click">
                         <template #body>
                             <div style="width: 250px;">
                                 {{$t('show_download_link_warn')}}
