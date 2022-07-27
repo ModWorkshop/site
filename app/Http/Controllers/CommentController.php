@@ -14,6 +14,10 @@ use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Comment::class, 'comment');
+    }
+
     /**
      * Display a listing of the resource.
      *
