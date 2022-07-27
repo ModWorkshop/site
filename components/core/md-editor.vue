@@ -1,5 +1,5 @@
 <template>
-    <a-input>
+    <a-input v-model="modelValue">
         <a-tabs class="md-editor p-2" padding="0" type="none">
             <a-tab name="write" title="Write">
                 <textarea 
@@ -7,7 +7,7 @@
                     ref="textArea"
                     v-model="modelValue"
                     type="textarea" 
-                    class="textarea" 
+                    :class="{textarea: true, 'input-error': !!err}"
                     v-bind="$attrs" 
                     :rows="rows" @input="$emit('update:modelValue', modelValue)"
                 />
@@ -26,12 +26,19 @@
                 </flex>
             </template>
         </a-tabs>
+        <span v-if="err" class="text-danger">{{err}}</span>
     </a-input>
 </template>
 
-<script setup>
-const textArea = ref([]);
-const previewHeight = ref(0);
+<script setup lang="ts">
+const props = defineProps({
+    labelId: String,
+    modelValue: String,
+    rows: String
+});
+
+const textArea = ref<HTMLTextAreaElement>();
+const previewHeight = ref('0');
 const toolGroups = [ 
     {
         name: 'main',
@@ -65,13 +72,9 @@ const toolGroups = [
     }
 ];
 
-defineProps({
-    labelId: String,
-    modelValue: String,
-    rows: String
-});
-
+const vm = toRef(props, 'modelValue');
 const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
+const err = useWatchValidation(vm, textArea);
 
 onMounted(() => {
     const textarea = textArea.value;
@@ -82,7 +85,12 @@ onMounted(() => {
     }).observe(textarea);
 });
 
-function clickedTool(tool) {
+interface Tool {
+    icon: string,
+    insert: string
+}
+
+function clickedTool(tool: Tool) {
     const textarea = textArea.value;
     //textarea.focus(); //Force focus
     const [start, end] = [textarea.selectionStart, textarea.selectionEnd];

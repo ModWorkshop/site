@@ -3,13 +3,14 @@
         <label v-if="!isCheckbox && label" :for="labelId">
             {{label}}
         </label>
-        <textarea v-if="type == 'textarea'" v-model="modelValue" class="input" :maxlength="maxlength" :rows="rows" v-bind="$attrs" @input="$emit('update:modelValue', modelValue)"/>
-        <va-color-input v-else-if="type == 'color'" v-model="modelValue" v-bind="$attrs" @input="$emit('update:modelValue', modelValue);"/>
+        <textarea v-if="type == 'textarea'" v-model="(modelValue as string)" class="input" :rows="rows" v-bind="$attrs" @input="$emit('update:modelValue', modelValue)"/>
+        <va-color-input v-else-if="type == 'color'" v-model="(modelValue as string)" v-bind="$attrs" @input="$emit('update:modelValue', modelValue);"/>
         <slot v-else-if="$slots.default"/>
-        <input v-else :id="labelId" v-bind="$attrs" ref="input" v-model="modelValue" class="input" :type="type" :maxlength="maxlength" @input="$emit('update:modelValue', modelValue);">
+        <input v-else :id="labelId" v-bind="$attrs" ref="input" v-model="modelValue" :class="{input: true, 'input-error': !!err}" :type="type" @input="$emit('update:modelValue', modelValue);">
         <label v-if="isCheckbox && label" :for="labelId" class="basis-9/12">
             <span class="align-middle">{{label}}</span>
         </label>
+        <span v-if="err" class="text-danger">{{err}}</span>
         <small v-if="desc"><br v-if="isCheckbox">{{desc}}</small>
     </flex>
 </template>
@@ -20,13 +21,14 @@
         desc: String,
         label: String,
         modelValue: [String, Boolean],
-        maxlength: [Number, String],
         rows: [Number, String],
         type: String,
         value: String,
     });
 
-    const input = ref<HTMLElement>(null);
+    const vm = toRef(props, 'modelValue');
+    const input = ref<HTMLInputElement>(null);
+    const err = useWatchValidation(vm, input);
 
     const uniqueId = useGetUniqueId();
     const labelId = computed(() => props.id || uniqueId);

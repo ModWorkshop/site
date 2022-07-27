@@ -201,3 +201,12 @@ a {
 .text-success {
     color: var(--success-color);
 }
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+.input-error {
+    outline-style: groove !important;
+    outline-color: var(--danger-color) !important;
+}

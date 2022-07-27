@@ -59,7 +59,7 @@
                         <h2>Edit Link</h2>
                         <a-input v-model="currentLink.name" label="name"/>
                         <a-input v-model="currentLink.label" label="label"/>
-                        <a-input v-model="currentLink.url" label="url"/>
+                        <a-input v-model="currentLink.url" type="url" label="url"/>
                         <a-input v-model="currentLink.version" label="version"/>
                         <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
                         <a-error-alert :error="linksError"/>
@@ -78,7 +78,7 @@
                         <a-input v-model="currentFile.label" label="label"/>
                         <a-input v-model="currentFile.version" label="version"/>
                         <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
-                        <a-error-alert :error="filesError"/>
+                        <a-error-alert :error="linksError"/>
                         <flex>
                             <a-button @click="saveEditFile(currentFile, ok)">Save</a-button>
                             <a-button color="danger" @click="closeModals(ok)">Cancel</a-button>

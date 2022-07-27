@@ -1,12 +1,13 @@
 <template>
-    <va-alert v-if="error && description" class="w-full whitespace-pre" color="danger">
-        <h4>{{$t('error')}}</h4>{{description}}
+    <va-alert v-if="errorStr || error && description" class="w-full whitespace-pre" color="danger">
+        <h4>{{$t('error')}}</h4>{{errorStr || description}}
     </va-alert>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-    error: Object
+    error: Object,
+    errorStr: String
 });
 
 const description = computed(() => {

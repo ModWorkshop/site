@@ -1,8 +1,8 @@
 <template>
     <flex column gap="4">
-        <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" desc="Maximum of 150 letters and minimum of 3 letters"/>
+        <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
 
-        <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" rows="12"/>
+        <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
         <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
