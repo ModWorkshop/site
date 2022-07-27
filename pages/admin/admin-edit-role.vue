@@ -1,20 +1,20 @@
 <template>
     <div>
-        <a-form :model="role" @submit="save" :created="role.id != -1" float-save-gui>
+        <a-form :model="role" :created="role.id != -1" float-save-gui @submit="save">
             <flex column gap="3">
                 <div>
                     <a-button icon="arrow-left" to="/admin/roles">Back to Roles</a-button>
                 </div>
-                <a-input label="Name" v-model="role.name" maxlength="100" minlength="3"/>
-                <a-input label="Tag" :desc="$t('tag_help')" v-model="role.tag" maxlength="100" minlength="3"/>
-                <a-input label="Color" desc="The color of the role" type="color" v-model="role.color"/>
+                <a-input v-model="role.name" label="Name" maxlength="100" minlength="3"/>
+                <a-input v-model="role.tag" label="Tag" :desc="$t('tag_help')" maxlength="100" minlength="3"/>
+                <a-input v-model="role.color" label="Color" desc="The color of the role" type="color"/>
                 <a-input label="Permissions">
                     <flex class="p-4" style="background-color: #22262a" column grow>
                         <flex v-for="perm of permissions.data" :key="perm.id" class="perm p-2">
                             <span class="flex-grow my-auto">{{perm.name}}</span>
-                            <a-button icon="check" @click="setPermission(perm, true)" :disabled="getPermissionState(perm.id) === true"/>
-                            <a-button icon="question" @click="setPermission(perm)" :disabled="getPermissionState(perm.id) === null"/>
-                            <a-button icon="xmark" @click="setPermission(perm, false)" :disabled="getPermissionState(perm.id) === false"/>
+                            <a-button icon="check" :disabled="getPermissionState(perm.id) === true" @click="setPermission(perm, true)"/>
+                            <a-button icon="question" :disabled="getPermissionState(perm.id) === undefined" @click="setPermission(perm)"/>
+                            <a-button icon="xmark" :disabled="getPermissionState(perm.id) === false" @click="setPermission(perm, false)"/>
                         </flex>
                     </flex>
                 </a-input>
@@ -35,43 +35,38 @@ if (route.params.id) {
     const { data: fetchedRole, error } = await useFetchData<Role>(`roles/${route.params.id}/`);
     role = fetchedRole;
 } else {
-    role = clone({
+    role = ref(clone({
         id: -1,
         name: '',
         tag: '',
         desc: '',
         color: null,
         permissions: []
-    });
+    }));
 }
 
 const { data: permissions } = await useFetchMany<Permission>('/permissions');
 
 async function save() {
     if (role.value.id == -1) {
-        role.value = await usePost('roles', this.role);
+        role.value = await usePost('roles', role.value);
         window.location.replace(`/admin/roles/${role.value.id}`);
     } else {
-        role.value = await usePatch(`roles/${this.role.id}`, this.role);
+        role.value = await usePatch(`roles/${role.value.id}`, role.value);
     }
 }
 
-function getPermissionState(id) {
-    const perm = role.value.permissions[id];
-    return perm ? perm.allow : null;
+function getPermissionState(id: number) {
+    return role.value.permissions[id];
 }
 
 function setPermission(perm: Permission, allow=null) {
     const id = perm.id;
 
-    if (role.value.permissions[id]) {
-        if (allow !== null) {
-            role.value.permissions[id].allow = allow;
-        } else {
-            delete role.value.permissions[id];
-        }
-    } else {
-        role.value.permissions[id] = { ...perm, allow };
+    if (allow !== null) {
+        role.value.permissions[id] = allow;
+    } else if (Object.hasOwn(role.value.permissions, id)) {
+        delete role.value.permissions[id];
     }
 }
 </script>

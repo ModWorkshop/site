@@ -31,6 +31,7 @@ import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
 const { hasPermission, user } = useStore();
+const { init } = useToast();
 
 definePageMeta({
     middleware: 'users-only',
@@ -44,6 +45,7 @@ const modTemplate = {
     desc: '',
     images: [],
     files: [],
+    links: [],
     short_desc: '',
     game_id: null,
     category_id: null,
@@ -66,7 +68,7 @@ if (route.params.id) {
     // mod.tag_ids = mod.tags.map(tag => tag.id);
 
     if (!hasPermission('edit-mod') && mod.value.submitter_id !== user.id) {
-        throwError("You don't have permission to view this page");
+        throw throwError("You don't have permission to view this page");
     }
 }
 
@@ -80,13 +82,23 @@ function ignoreChanges() {
 provide('ignoreChanges', ignoreChanges);
 
 const saveText = computed(() => mod.value.id == -1 ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
+function catchError(error) {
+    init({ message: error.data.message, color: 'danger' });
+}
+
 async function save() {
     try {
+        let fetchedMod;
         if (mod.value.id == -1) {
-            mod.value = await usePost<Mod>('mods', mod.value);
-            history.replaceState(null, null, `/mod/${mod.value.id}/edit`);
+            fetchedMod = await usePost<Mod>('mods', mod.value).catch(catchError);
+            if (fetchedMod) {
+                history.replaceState(null, null, `/mod/${mod.value.id}/edit`);
+            }
         } else {
-            mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
+            fetchedMod = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value).catch(catchError);
+        }
+        if (fetchedMod) {
+            mod.value = fetchedMod;
         }
     } catch (error) {
         console.error(error);

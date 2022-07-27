@@ -140,8 +140,6 @@ export interface Permission {
     allow: boolean;
 }
 
-export interface PermissionsRolesLink {}
-
 export interface Role {
     id: number;
     name: string;
@@ -151,7 +149,7 @@ export interface Role {
     order: number;
     created_at: string | null;
     updated_at: string | null;
-    permissions?: Array<Permission> | null;
+    permissions?: Record<string, boolean>
 }
 
 export interface Game {
@@ -217,8 +215,6 @@ export interface User {
     last_online: string | null;
     user_id: number | null;
 }
-
-export interface UsersRolesLink {}
 
 export interface Link {
     id: number;
