@@ -11,6 +11,8 @@ use App\Models\File;
 use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
+use App\Models\User;
+use App\Models\Visibility;
 use Arr;
 use Carbon\Carbon;
 use DB;
@@ -56,13 +58,27 @@ class ModController extends Controller
         ]);
         
         /**
+         * @var User
+         */
+        $user = $request->user();
+        
+        /**
          * @var Builder
          */
-        $mods = Mod::queryGet($val, function(Builder $query, array $val) {
+        $mods = Mod::queryGet($val, function(Builder $query, array $val) use ($user) {
             $sortBy = $val['sort_by'] ?? 'bump_date';
 
             $query->orderByRaw("{$sortBy} DESC NULLS LAST");
-            
+
+            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
+            if (!isset($user) || !$user->hasPermission('edit-mod')) {
+                $query->where('visibility', Visibility::pub)->where('suspended', false);
+                
+                if (isset($user)) {
+                    $query->orWhere('submitter_id', $user->id);
+                }
+            }
+
             if (isset($val['game_id'])) {
                 $query->where('game_id', $val['game_id']);
             }

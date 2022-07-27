@@ -32,12 +32,19 @@ class ModPolicy
      */
     public function view(?User $user, Mod $mod)
     {
+        if ($mod->suspended && (!isset($user) || !$this->update($user, $mod))) {
+            return false;
+        }
+
         switch ($mod->visibility) {
             case Visibility::unlisted:
             case Visibility::pub:
-                return !$mod->suspended;
+                return true;
             case Visibility::hidden:
-                return $mod->submitter->id === $user?->id; //TODO: account for collaborators & Invitees
+                if (!isset($user)) {
+                    return false;
+                }
+                return $this->update($user, $mod);
         }
         return false;
     }
@@ -56,7 +63,7 @@ class ModPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-mod');
+        return $user->hasPermission('edit-own-mod');
     }
 
     /**
@@ -68,7 +75,7 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod)
     {
-        return $user->id === $mod->submitter_id || $user->hasPermission('edit-all-mod');
+        return ($user->hasPermission('edit-own-mod') && $user->id === $mod->submitter_id) || $user->hasPermission('edit-mod');
     }
 
     /**
