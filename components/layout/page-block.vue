@@ -1,18 +1,17 @@
 <template>
-    <flex v-if="error" column>
-        <h1 class="mx-auto">Error</h1>
-        <br>
-        {{errorString}}
-    </flex>
-    <flex v-else :gap="gap" column :class="{'page-block': true, 'page-block-full': size == 'full', 'page-block-med': size == 'med'}">
+    <flex :gap="gap" column :class="{'page-block': true, 'page-block-full': size == 'full', 'page-block-med': size == 'med'}">
         <slot/>
     </flex>
 </template>
 
-<script setup>
-    defineProps({
+<script setup lang="ts">
+    import { FetchError } from 'ohmyfetch';
+    import { createError } from 'h3';
+
+    const props = defineProps({
         errorString: String,
-        error: [Boolean, Error],
+        errorStrings: Object,
+        error: [Boolean, FetchError],
         gap: {
             type: Number,
             default: 3
@@ -22,6 +21,17 @@
             default: 'large'
         }
     });
+
+    const error = toRef(props, 'error');
+
+    if (error.value instanceof Error) {
+        if (props.errorString) {
+            throw createError(props.errorString);
+        } else if (props.errorStrings) {
+            const code = error.value.response.status;
+            throw createError({ statusCode: code, statusMessage: props.errorStrings[code], fatal: true});
+        }
+    }
 </script>
 
 <style scoped>
