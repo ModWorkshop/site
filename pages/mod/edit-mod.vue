@@ -12,7 +12,7 @@
                         <edit-mod-main :mod="mod"/>
                     </a-tab>
                     <a-tab name="files" title="Downloads & Updates">
-                        <edit-mod-files :mod="mod" :canSave="canSave"/>
+                        <edit-mod-files :mod="mod" :can-save="canSave"/>
                     </a-tab>
                     <a-tab name="images" title="Images">
                         <edit-mod-images :mod="mod"/>
