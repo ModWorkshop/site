@@ -26,7 +26,7 @@ class CommentController extends Controller
     public function index(FilteredRequest $request, Mod $mod)
     {
         $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($mod) {
-            $query->orderByDesc('created_at');
+            $query->orderByRaw('pinned DESC, created_at DESC');
             $query->whereMorphedTo('commentable', $mod);
         });
 
