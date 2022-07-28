@@ -40,6 +40,7 @@ export interface Comment {
     user?: User | null;
     commentable?: any | null;
     last_replies?: any | null;
+    total_replies: number,
     replying_comment?: Comment | null;
 }
 
