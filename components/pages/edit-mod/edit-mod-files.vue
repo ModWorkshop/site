@@ -27,7 +27,7 @@
                             <td class="text-center p-1">
                                 <flex inline>
                                     <a-button icon="cog" @click.prevent="editLink(link)"/>
-                                    <a-button icon="trash" @click.prevent="editLink(link)"/>
+                                    <a-button icon="trash" @click.prevent="deleteLink(link)"/>
                                 </flex>
                             </td>
                             <td class="text-center">
@@ -144,6 +144,15 @@ async function saveEditFile(file: File, ok: () => void) {
 function editLink(link: Link) {
     showEditLink.value = true;
     currentLink.value = link;
+}
+
+async function deleteLink(link: Link) {
+    await useDelete(`mods/${props.mod.id}/links/${link.id}`);
+    props.mod.links = props.mod.links.filter(l => l.id !== link.id);
+
+    if (!props.canSave) {
+        ignoreChanges();
+    }
 }
 
 function createNewLink() {
