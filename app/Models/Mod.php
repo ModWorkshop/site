@@ -107,6 +107,15 @@ abstract class Visibility {
  * @property-read Model|\Eloquent $download
  * @method static Builder|Mod whereSubmitterId($value)
  * @property-read \App\Models\Image|null $thumbnail
+ * @property int|null $banner_id
+ * @property-read \App\Models\Image|null $banner
+ * @property-read bool $liked
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
+ * @property-read int|null $links_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ModMember[] $members
+ * @property-read int|null $members_count
+ * @method static Builder|Mod whereBannerId($value)
+ * @method static Builder|Mod whereLikes($value)
  */
 class Mod extends Model
 {
@@ -120,7 +129,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'links', 'thumbnail', 'banner'];
+    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'links', 'members', 'thumbnail', 'banner'];
     protected $appends = ['breadcrumb', 'liked'];
     protected $hidden = ['download_type'];
 
@@ -177,6 +186,11 @@ class Mod extends Model
     public function links() : HasMany
     {
         return $this->hasMany(Link::class)->orderByDesc('updated_at');
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
     public function comments() : MorphMany

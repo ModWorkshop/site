@@ -39,6 +39,19 @@ class ModResource extends JsonResource
             'files' => $this->files,
             'links' => $this->links,
             'images' => $this->images,
+            'members' => $this->whenLoaded('members', function() {
+                $members = [];
+                foreach ($this->members as $member) {
+                    $memberCopy = $member->toArray();
+                    $memberCopy['accepted'] = $memberCopy['pivot']['accepted'];
+                    $memberCopy['level'] = $memberCopy['pivot']['level'];
+                    $memberCopy['pivot'] = null;
+
+                    $members[] = $memberCopy;
+                }
+
+                return $members;
+            }),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),

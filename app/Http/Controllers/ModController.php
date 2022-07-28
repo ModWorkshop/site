@@ -74,7 +74,9 @@ class ModController extends Controller
             if (!isset($user) || !$user->hasPermission('edit-mod')) {
                 $query->where('visibility', Visibility::pub)->where('suspended', false);
                 
+                
                 if (isset($user)) {
+                    $query->orWhereRelation('members', 'user_id', $user->id);
                     $query->orWhere('submitter_id', $user->id);
                 }
             }

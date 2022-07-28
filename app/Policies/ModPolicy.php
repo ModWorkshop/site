@@ -51,8 +51,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        //TODO: handle bans and such
-        return $user->id !== $mod->submitter_id;
+        return $user->id !== $mod->submitter_id && $user->hasPermission('like-mod');
     }
 
     /**
@@ -75,7 +74,20 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod)
     {
-        return ($user->hasPermission('edit-own-mod') && $user->id === $mod->submitter_id) || $user->hasPermission('edit-mod');
+        if ($user->hasPermission('edit-mod')) {
+            return true;
+        }
+
+        if (!$user->hasPermission('edit-own-mod')) {
+            return false;
+        }
+
+        if ($user->id === $mod->submitter_id) {
+            return true;
+        }
+
+        $ourMembership = $mod->members()->wherePivot('user_id', $user->id)->first();
+        return $ourMembership?->level <= 1; //Maintainer or Collaborator
     }
 
     /**
@@ -87,7 +99,20 @@ class ModPolicy
      */
     public function delete(User $user, Mod $mod)
     {
-        return $this->update($user, $mod); //TODO: && Only maintainer level contributor should be allowed to delete
+        if ($user->hasPermission('edit-mod')) {
+            return true;
+        }
+
+        if (!$user->hasPermission('edit-own-mod')) {
+            return false;
+        }
+
+        if ($user->id === $mod->submitter_id) {
+            return true;
+        }
+
+        $ourMembership = $mod->members()->wherePivot('user_id', $user->id)->first();
+        return $ourMembership?->level == 0; //Maintainer
     }
 
     /**
