@@ -40,7 +40,7 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Link $link)
+    public function show(Mod $mod, Link $link)
     {
         return $link;
     }
@@ -84,7 +84,7 @@ class LinkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Link $link)
+    public function destroy(Mod $mod, Link $link)
     {
         $link->delete();
     }
