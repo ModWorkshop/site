@@ -32,6 +32,7 @@ use Storage;
  * @mixin \Eloquent
  * @property int $mod_id
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereModId($value)
+ * @property-read \App\Models\Mod $mod
  */
 class Image extends Model
 {

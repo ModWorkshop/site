@@ -39,6 +39,11 @@ use Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
+ * @property string $label
+ * @property string $version
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereVersion($value)
  */
 class File extends Model
 {
