@@ -41,11 +41,20 @@ const props = defineProps({
 const slots = useSlots();
 const tabLinks = ref();
 
-const tabs = ref(slots.default().map(tab => {
-    if (tab.props) {
-        return { name: tab.props.name, title: tab.props.title };
-    }
-}).filter(tab => typeof tab == 'object'));
+
+function getCurrentTabs() {
+    return slots.default().map(tab => {
+        if (tab.props) {
+            return { name: tab.props.name, title: tab.props.title };
+        }
+    }).filter(tab => typeof tab == 'object')
+}
+
+const tabs = ref(getCurrentTabs());
+
+onUpdated(() => {
+    tabs.value = getCurrentTabs();
+});
 
 const tabState = reactive({
     current: props.type == 'query' ? route.query.tab : null, 
