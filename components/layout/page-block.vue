@@ -5,33 +5,16 @@
 </template>
 
 <script setup lang="ts">
-    import { FetchError } from 'ohmyfetch';
-    import { createError } from 'h3';
-
-    const props = defineProps({
-        errorString: String,
-        errorStrings: Object,
-        error: [Boolean, FetchError],
-        gap: {
-            type: Number,
-            default: 3
-        },
-        size: {
-            type: String,
-            default: 'large'
-        }
-    });
-
-    const error = toRef(props, 'error');
-
-    if (error.value instanceof Error) {
-        if (props.errorString) {
-            throw createError(props.errorString);
-        } else if (props.errorStrings) {
-            const code = error.value.response.status;
-            throw createError({ statusCode: code, statusMessage: props.errorStrings[code], fatal: true});
-        }
+defineProps({
+    gap: {
+        type: Number,
+        default: 3
+    },
+    size: {
+        type: String,
+        default: 'large'
     }
+});
 </script>
 
 <style scoped>

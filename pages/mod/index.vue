@@ -1,5 +1,5 @@
 <template>
-    <page-block :error="error" :error-strings="errors">
+    <page-block>
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
@@ -33,11 +33,10 @@ const route = useRoute();
 const { t } = useI18n();
 
 const { data: mod, error } = await useFetchData<Mod>(`mods/${route.params.id}/`);
-
-const errors = {
+useHandleError(error.value, {
     404: "This mod doesn't exist",
-    403: "You don't have permission to view this mod"
-};
+    401: "You don't have permission to view this mod"
+});
 
 if (mod.value) {
     usePost(`mods/${mod.value.id}/register-view`, null, {
