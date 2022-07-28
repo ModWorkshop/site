@@ -76,6 +76,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, Mod $mod, Comment $comment)
     {
+        $user = $request->user();
         $val = $request->validate([
             'content' => 'string|required_without:pinned|min:3|max:1000',
             'pinned' => 'boolean'
@@ -83,6 +84,11 @@ class CommentController extends Controller
 
         if ($comment->reply_to && isset($val['pinned'])) {
             throw new Exception('Only regular comments can be pinned!');
+        }
+
+        //While we allow mod members to pin comments, we should NEVER allow them to edit them!
+        if (isset($val['content']) && (!$user->hasPermission('edit-comment') && $comment->user->id !== $user->id)) {
+            throw new Exception('You cannot edit the comment!');
         }
 
         /**
