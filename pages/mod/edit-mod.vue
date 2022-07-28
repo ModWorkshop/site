@@ -29,6 +29,7 @@
 import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+import canEditMod from '~~/utils/mod-helpers';
 
 const { hasPermission, user } = useStore();
 const { init } = useToast();
@@ -67,7 +68,7 @@ if (route.params.id) {
     mod.value = fetchedMod.value;
     // mod.tag_ids = mod.tags.map(tag => tag.id);
 
-    if (!hasPermission('edit-mod') && mod.value.submitter_id !== user.id) {
+    if (!canEditMod(mod.value)) {
         throw throwError("You don't have permission to view this page");
     }
 }

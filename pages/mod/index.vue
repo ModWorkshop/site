@@ -17,7 +17,7 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-        <the-comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEdit" :get-special-tag="commentSpecialTag"/>
+        <the-comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEditComments" :can-delete-all="canDeleteComments" :get-special-tag="commentSpecialTag"/>
     </page-block>
 </template>
 
@@ -25,8 +25,9 @@
 import { useStore } from '~~/store';
 import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
+import canEditMod from '~~/utils/mod-helpers';
 
-const store = useStore();
+const { hasPermission } = useStore();
 const route = useRoute();
 
 const { t } = useI18n();
@@ -48,7 +49,9 @@ if (mod.value) {
     });
 }
 
-const canEdit = computed(() => (store.user && mod.value.submitter_id == store.user.id) || store.hasPermission('admin'));
+const canEdit = computed(() => canEditMod(mod.value));
+const canEditComments = computed(() => hasPermission('edit-comment'));
+const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
 
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.submitter_id) {

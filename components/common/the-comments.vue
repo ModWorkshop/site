@@ -11,8 +11,9 @@
             <flex v-if="comments && comments.data.length > 0" column gap="2">
                 <a-comment v-for="comment of comments.data" 
                     :key="comment.id"
-                    :data="comment"
+                    :comment="comment"
                     :can-edit-all="canEditAll"
+                    :can-delete-all="canDeleteAll"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
                     @delete="deleteComment"
@@ -32,7 +33,7 @@
                     <h3 v-if="replyingComment">Replying Comment</h3>
                     <h3 v-else-if="editingComment">Editing Comment</h3>
                     <h3 v-else>Commenting</h3>
-                    <md-editor v-model="commentContent" rows="12" @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
+                    <md-editor v-model="commentContent" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <div v-show="showMentions" class="fixed" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]}px`}">
                         <flex v-if="users" column class="mention-float">
                             <template v-if="users.data.length">
@@ -60,7 +61,8 @@
     const props = defineProps({
         url: { type: String, required: true },
         getSpecialTag: Function,
-        canEditAll: Boolean
+        canEditAll: Boolean,
+        canDeleteAll: Boolean
     });
 
     const { $caretXY } = useNuxtApp();
@@ -207,7 +209,7 @@
         await useDelete(props.url + '/' + commentId);
         if (!isReply) {
             const allComments = comments.value.data;
-            allComments.splice(allComments.findIndex(com => com.id == commentId));
+            allComments.splice(allComments.findIndex(com => com.id == commentId), 1);
         }
     }
     

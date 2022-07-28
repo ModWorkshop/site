@@ -17,7 +17,7 @@
                     </flex>
                 </div>
                 <flex class="md:ml-auto">
-                    <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" @click="toggleLiked"/>
+                    <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user && '/login'" @click="toggleLiked"/>
                     <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && `http://localhost:8000/files/${mod.download.id}/download`" download @click="registerDownload">
                         Download
                         <br>
@@ -56,11 +56,11 @@ const publishDateAgo = computed(() => timeAgo(props.mod.publish_date));
 const updateDateAgo = computed(() => timeAgo(props.mod.bump_date));
 const modStatus = computed(() => '');
 
-const store = useStore();
+const { user, hasPermission } = useStore();
 const router = useRouter();
 
 //Guests can't actually like the mod, it's just a redirect.
-const canLike = computed(() => !store.user || store.user.id !== props.mod.submitter_id);
+const canLike = computed(() => !user || (user.id !== props.mod.submitter_id && hasPermission('like-mod')));
 
 function registerDownload() {
     if (props.static) {

@@ -23,9 +23,9 @@
                     <a v-if="canReply" class="reply-button text-body mr-1 cursor-pointer" title="Reply" role="button" @click="$emit('reply', comment)">
                         <font-awesome-icon icon="reply"/>
                     </a>
-                    <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
+                    <!-- <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
                         <font-awesome-icon :icon="comment.subbed ? 'slash' : 'bell'"/>
-                    </a>
+                    </a> -->
                     <Popper arrow @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
                         <a class="cursor-pointer text-body">
                             <font-awesome-icon icon="ellipsis-h"/>
@@ -33,7 +33,7 @@
                         <template #content>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
-                            <a-dropdown-item v-if="canEdit" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
+                            <a-dropdown-item v-if="canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
                             <a-dropdown-item>{{$t('report')}}</a-dropdown-item>
                         </template>
                     </Popper>
@@ -44,8 +44,9 @@
             <flex column class="replies px-6">
                 <a-comment v-for="reply of comment.last_replies" 
                     :key="reply.id"
-                    :data="reply"
+                    :comment="reply"
                     :can-edit-all="canEditAll"
+                    :can-delete-all="canDeleteAll"
                     :current-focus="currentFocus"
                     :get-special-tag="getSpecialTag"
                     is-reply
@@ -64,20 +65,20 @@
 <script setup lang="ts">
 import { timeAgo } from '~~/utils/helpers';
 import { useStore } from '~~/store';
+import { Comment } from '~~/types/models';
 const { init: openModal } = useModal();
 
-const props = defineProps({
-    data: Object,
-    parent: Object,
-    canEditAll: Boolean,
-    isReply: Boolean,
-    getSpecialTag: Function,
-    currentFocus: Object
-});
+const props = defineProps<{
+    comment: Comment,
+    canEditAll: boolean,
+    canDeleteAll: boolean,
+    isReply: boolean,
+    getSpecialTag: (comment: Comment) => string,
+    currentFocus: Comment
+}>();
 
-const comment = computed(() => props.data);
 
-const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(comment.value));
+const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 
 const emit = defineEmits([
     'reply',
@@ -86,12 +87,12 @@ const emit = defineEmits([
     'edit'
 ]);
 
-const { user } = useStore();
+const { user, hasPermission } = useStore();
 
 const areActionsVisible = ref(false);
 const updateKey = ref(0);
 
-const canEdit = computed(() => user.id === comment.value.user_id || props.canEditAll);
+const canEdit = computed(() => user && (hasPermission('edit-own-comment') && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => true);
 
@@ -102,18 +103,18 @@ onMounted(() => {
 });
 
 async function togglePinnedState() {
-    comment.value.pinned = !comment.value.pinned;
-    emit('pin', comment.value);
+    props.comment.pinned = !props.comment.pinned;
+    emit('pin', props.comment);
 }
 
-function setActionsVisible(visible) {
+function setActionsVisible(visible: boolean) {
     areActionsVisible.value = visible;
 }
 
 //Deletes a reply in the comment
 function deleteComment(commentId: number, isReply: boolean) {
-    const lastReplies = comment.value.last_replies;
-    lastReplies.splice(lastReplies.findIndex(com => com.id === commentId));
+    const lastReplies = props.comment.last_replies;
+    lastReplies.splice(lastReplies.findIndex(com => com.id === commentId), 1);
     emit('delete', commentId, isReply);
 }
 
@@ -121,7 +122,7 @@ function openDeleteModal() {
     openModal({
         message: 'This will delete the comment',
         onOk() {
-            emit('delete', comment.value.id, props.isReply);
+            emit('delete', props.comment.id, props.isReply);
         }
     });
 
