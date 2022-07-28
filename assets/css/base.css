@@ -139,6 +139,12 @@ small {
     line-height: 1.2;
 }
 
+hr {
+    height: 1px !important;
+    background: #f9f9f91a;
+    width: 100%;
+}
+
 .markdown {
     word-break: break-word;
 }
