@@ -56,7 +56,18 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment)
     {
-        return ($user->hasPermission('edit-own-comment') && $comment->user->id === $user->id) || $user->hasPermission('edit-comment');
+        if ($user->hasPermission('edit-comment') || ($user->hasPermission('edit-own-comment') && $comment->user->id === $user->id)) {
+            return true;
+        }
+
+        //If we are able to edit a mod and we have the delete own mod comment permission, we should be able to delete the comment
+        if ($comment->commentable instanceof Mod && $user->hasPermission('delete-own-mod-comment')) {
+            if ($this->authorize('update', $comment->commentable)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
