@@ -17,7 +17,9 @@
                     <a-tab name="images" title="Images">
                         <edit-mod-images :mod="mod"/>
                     </a-tab>
-                    <a-tab name="contributors" title="Contributors"/>
+                    <a-tab name="members" title="Members">
+                        <edit-mod-members :mod="mod"/>
+                    </a-tab>
                     <a-tab name="instructions" title="Instructions"/>
                 </a-tabs>
             </content-block>

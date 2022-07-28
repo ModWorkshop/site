@@ -74,6 +74,11 @@ export interface Image {
     mod_id: number;
 }
 
+export interface ModMember extends User {
+    level: number,
+    accepted: boolean,
+}
+
 export interface Mod {
     id: number;
     breadcrumb: Array<Breadcrumb>,
@@ -123,6 +128,7 @@ export interface Mod {
     images_count?: number | null;
     files_count?: number | null;
     comments_count?: number | null;
+    members: Array<ModMember>
 }
 
 export interface Breadcrumb {
