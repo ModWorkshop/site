@@ -19,9 +19,10 @@
                 <!-- TODO: Don't forget to make them link -->
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
-            <div class="colllaborators-block">
-                <a-user avatar-size="medium" :user="mod.submitter" :details="$t('submitter')"/>
-            </div>
+            <flex class="colllaborators-block" column>
+                <a-user :user="mod.submitter" :details="$t('submitter')"/>
+                <a-user v-for="member of members" :key="member.id" :user="member" :details="levels[member.level]"/>
+            </flex>
         </flex>
     </flex>
 </template>
@@ -29,9 +30,18 @@
 <script setup lang="ts">
     import { Mod } from '~~/types/models';
 
+    const levels = [
+        'Maintainer',
+        'Collaborator',
+        'Viewer',
+        'Contributor',
+    ];
+
     const props = defineProps<{
         mod: Mod
     }>();
+
+    const members = computed(() => props.mod.members.filter(member => member.level !== 2));
 
     const likes = computed(() => props.mod.likes);
     const downloads = computed(() => props.mod.downloads);

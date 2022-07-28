@@ -5,14 +5,10 @@ import { Ref } from "vue";
 // https://github.com/nuxt/framework/pull/5500
 
 export interface MoreFetchOptions extends FetchOptions {
-    immediate: boolean; //Let's you not automatically execute the API call. Returns an empty ref instead
+    immediate?: boolean; //Let's you not automatically execute the API call. Returns an empty ref instead
 }
 
-export default function<T>(url: string|Function, options?: MoreFetchOptions) {
-    if (options) {
-        console.log(options.immediate);
-    }
-    
+export default function<T>(url: string|(() => string), options?: MoreFetchOptions) {
     if (!options || options.immediate) {
         const key = typeof url == 'function' ? url() : url;
         return useAsyncData(key, () => {
@@ -23,10 +19,10 @@ export default function<T>(url: string|Function, options?: MoreFetchOptions) {
         //For example we can't use it for mods, they constantly change and unless we have time option it'll cause a lot of issues.
     } else {
         const data = ref<T>(null) as Ref<T>;
-        async function refresh() {
+        const refresh = async function() {
             const current = typeof url == 'function' ? url() : url;
             data.value = await useGet<T>(current, options);
-        }
+        };
 
         return {
             data,

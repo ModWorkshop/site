@@ -10,14 +10,16 @@
 			:value-by="valueBy" 
 			:text-by="textBy" 
 			:multiple="multiple"
-			:clearable="clearable"
+			:clearable="(clearable as boolean)"
+			v-bind="$attrs"
 			searchable
 			@update:model-value="update"
 		/>
         <small v-if="desc">{{desc}}</small>
 	</flex>
 </template>
-<script setup>
+<script setup lang="ts">
+
 const props = defineProps({
 	label: String,
 	clearable: [String, Boolean],
@@ -41,12 +43,16 @@ function update(value) {
 const fixedOptions = computed(() => {
 	const o = [];
 	if (props.options != null) {
-		props.options.forEach(item => {
+		props.options.forEach((item: any) => {
 			//VASelect does not like to use ID as value (value-by="id")
-			o.push({
-				value: item.id,
-				...item,
-			});
+			if (item.id) {
+				o.push({
+					value: item.id,
+					...item,
+				});
+			} else {
+				o.push(item);
+			}
 		});
 
 		return o;
