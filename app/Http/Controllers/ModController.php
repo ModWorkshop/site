@@ -179,6 +179,7 @@ class ModController extends Controller
         $val['bump_date'] = Carbon::now();
 
         if (isset($mod)) {
+            $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {
             // Never put something like $request->all(); in create.

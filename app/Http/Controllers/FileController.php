@@ -57,7 +57,7 @@ class FileController extends Controller
             'size' => $file->getSize()
         ]);
 
-        $mod->save();
+        $mod->calculateFileStatus();
 
         return $file;
     }

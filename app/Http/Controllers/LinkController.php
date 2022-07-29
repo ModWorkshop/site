@@ -75,6 +75,8 @@ class LinkController extends Controller
             $link = Link::create($val);
         }
 
+        $mod->calculateFileStatus();
+
         return $link;
     }
 

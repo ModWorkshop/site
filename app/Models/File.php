@@ -73,7 +73,7 @@ class File extends Model
             if ($mod->download_type === File::class && $mod->download_id === $file->id) {
                 $mod->download_id = null;
                 $mod->download_type = null;
-                $mod->save();   
+                $mod->calculateFileStatus();
             }
         });
     }

@@ -237,4 +237,48 @@ class Mod extends Model
 
         return ModLike::where('user_id', Auth::id())->where('mod_id', $this->id)->exists();
     }
+
+    /**
+     * Checks the files/links of the mod and sets the file status accordingly
+     *
+     * @param boolean $save
+     * @return void
+     */
+    public function calculateFileStatus(bool $save=true)
+    {
+        $foundOneActive = false;
+        $foundOneWaiting = false;
+
+        //Links have no approval state for now.
+        //For music mods we generally disable this feature due to problems regarding the uncertainty of the file
+        if (count($this->links) > 0) {
+            $foundOneActive = true;
+        }
+
+        foreach ($this->files as $file) {
+            if ($file->approved) {
+                $foundOneActive = true;
+                break;
+            } else {
+                $foundOneWaiting = true;
+            }
+        }
+
+        if ($foundOneActive) {
+            $this->file_status = 1;
+        } elseif ($foundOneWaiting) {
+            $this->file_status = 2;
+        } else {
+            $this->file_status = 0;
+        }
+
+        //If we don't have a publish date and status is 1
+        if (!$this->publish_date && $this->file_status == 1) {
+            $this->publish_date = $this->freshTimestampString();
+        }
+
+        if ($save) {
+            $this->save();
+        }
+    }
 }

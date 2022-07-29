@@ -65,7 +65,7 @@ class Link extends Model
             if ($mod->download_type === Link::class && $mod->download_id === $link->id) {
                 $mod->download_id = null;
                 $mod->download_type = null;
-                $mod->save();   
+                $mod->calculateFileStatus();
             }
         });
     }
