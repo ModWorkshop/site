@@ -1,32 +1,34 @@
 <template>
-    <span v-if="false">
-        <i v-if="mod.suspended || mod.file_status == 0" :class="`ri-spam-fill text-${mod.suspended ? 'danger' : 'warning'}`" :title="statusText"/>
-        <i v-else-if="mod.file_status == 2" class="ri-time-fill text-secondary" :title="statusText"/>
-        <i v-else-if="mod.visibility != 0 || mod.file_status == 0" class="ri-eye-off-fill text-secondary" :title="statusText"/>
+    <span>
+        <font-awesome-icon v-if="mod.suspended" icon="ban" class="text-danger" :title="statusText"/>
+        <font-awesome-icon v-else-if="mod.file_status == 0" icon="circle-exclamation" class="text-warning" :title="statusText"/>
+        <font-awesome-icon v-else-if="mod.file_status == 2" icon="clock" class="text-secondary" :title="statusText"/>
+        <font-awesome-icon v-else-if="mod.visibility == 2 || mod.visibility == 3" icon="eye-slash" class="text-secondary" :title="statusText"/>
     </span>
 </template>
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Mod } from '~~/types/models';
 
 const props = defineProps<{
     mod: Mod
 }>();
 
+const { t } = useI18n();
+
 const statusText = computed(() => {
+    let str: string;
     if (props.mod.suspended) {
-        return props.mod.suspended ? 'Sus' : 'No files';
+        str = 'suspended';
     } else if (props.mod.file_status == 2) {
-        return 'Files waiting for approval';
-    } else {
-        switch (props.mod.visibility) {
-            case 1:
-                return 'Hidden';
-            case 2:
-                return 'Unlisted';
-            case 4:
-                return 'Invite Only';
-        }
+        str = 'files_waiting';
+    } else if (props.mod.file_status == 0) {
+        str = 'no_files';
+    } else if (props.mod.visibility == 2) {
+        str = 'hidden';
+    } else if (props.mod.visibility == 3) {
+        str = 'unlisted';
     }
-    return null;
+    return str ? t(str) : null;
 });
 </script>
