@@ -11,9 +11,14 @@
             <flex column class="mt-auto md:flex-row">
                 <div class="p-0 version mt-auto">
                     <flex gap="2">
-                        <strong v-if="modStatus">{{modStatus}}</strong>
-                        <strong v-if="mod.version && mod.version.length <= 24">{{$t('version')}} {{mod.version}}</strong>
-                        <strong>{{$t('last_updated')}}</strong> <span :title="mod.bump_date">{{updateDateAgo}}</span>
+                        <mod-status :mod="mod"/>
+                        <span v-if="mod.version">
+                            <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
+                        </span>
+                        <span>|</span>
+                        <span v-if="mod.bump_date">
+                            <font-awesome-icon icon="clock" :title="$t('last_updated')"/> <time-ago :time="mod.bump_date"/>
+                        </span>
                     </flex>
                 </div>
                 <flex class="md:ml-auto">
@@ -45,7 +50,6 @@
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-import { friendlySize, timeAgo } from '~~/utils/helpers';
 
 const props = defineProps<{
     mod: Mod,
@@ -54,7 +58,6 @@ const props = defineProps<{
 
 const publishDateAgo = computed(() => timeAgo(props.mod.publish_date));
 const updateDateAgo = computed(() => timeAgo(props.mod.bump_date));
-const modStatus = computed(() => '');
 
 const { user, hasPermission } = useStore();
 const router = useRouter();

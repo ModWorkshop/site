@@ -1,25 +1,27 @@
 <template>
-    <flex column gap="3" class="mod-info content-block p-2 self-start">
-        <div class="thumbnail overflow-hidden ratio-image-mod-thumb">
-            <mod-thumbnail :mod="mod"/>
-        </div>
-        <flex column class="p-2" gap="4">
-            <flex style="font-size: 1.5rem;" gap="3">
-                <flex inline>
-                    <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
-                </flex>
-                <flex inline>
+    <flex column gap="3" class="mod-info content-block self-start">
+        <mod-thumbnail :mod="mod"/>
+        <flex column class="p-4" gap="4">
+            <flex gap="2">
+                <span>
+                    <font-awesome-icon icon="heart"/> {{likes}}
+                </span>
+                <span>
                     <font-awesome-icon icon="download"/> {{downloads}}
-                </flex>
-                <flex inline>
+                </span>
+                <span>
                     <font-awesome-icon icon="eye"/> {{views}}
-                </flex>
+                </span>
+                <span class="ml-auto">
+                    <font-awesome-icon v-if="mod.created_at" icon="calendar-plus" :title="$t('publish_date')"/> <time-ago :time="mod.created_at"/>
+                </span>
             </flex>
+
             <flex v-if="mod.tags.length > 0">
-                <!-- TODO: Don't forget to make them link -->
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
-            <flex class="colllaborators-block" column>
+
+            <flex class="colllaborators-block" wrap>
                 <a-user :user="mod.submitter" :details="$t('submitter')"/>
                 <a-user v-for="member of members" :key="member.id" :user="member" :details="levels[member.level]"/>
             </flex>
