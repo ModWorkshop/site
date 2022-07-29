@@ -16,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user of mod.members" :key="user.id">
+                        <tr v-for="user of members" :key="user.id">
                             <td><a-user :user="user"/></td>
                             <td>{{levels[user.level]}}</td>
                             <td>{{fullDate(user.created_at)}}</td>
@@ -53,6 +53,8 @@
 
 <script setup lang="ts">
 import { Mod, ModMember, User } from '~~/types/models';
+import clone from 'rfdc/default';
+const { init: openModal } = useModal();
 
 const props = defineProps<{
     mod: Mod,
@@ -75,23 +77,30 @@ const levelOptions = [
     {name: 'Contributor', value: 3},
 ];
 
-
 const showModal = ref(false);
 const error = ref();
-const currentMember = ref<ModMember>({ level: 1 });
+const members = ref<ModMember[]>(clone(props.mod.members));
+const currentMember = ref<ModMember>(clone({ level: 1 }));
 const newMemberUser = ref<User>();
 
 async function deleteMember(member: ModMember) {
-    await useDelete(`mods/${props.mod.id}/members/${member.id}`);
-    props.mod.links = props.mod.links.filter(l => l.id !== member.id);
+    openModal({
+        message: 'Are you sure you want to remove member?',
+        async onOk() {
+            await useDelete(`mods/${props.mod.id}/members/${member.id}`);
+            members.value = members.value.filter(l => l.id !== member.id);
+            props.mod.members = clone(members.value);
+        
+            if (!props.canSave) {
+                ignoreChanges();
+            }
+        }
+    });
 
-    if (!props.canSave) {
-        ignoreChanges();
-    }
 }
 
 function newMember() {
-    currentMember.value = { level: 1 };
+    currentMember.value = clone({ level: 1 });
     showModal.value = true;
 }
 
@@ -108,7 +117,8 @@ async function saveMember(member: ModMember, ok: () => void) {
     if (member.created_at) {
         await usePatch(`mods/${props.mod.id}/members/${member.id}`, data).catch(err => error.value = err);
     } else {
-        await usePost(`mods/${props.mod.id}/members`, data).catch(err => error.value = err);
+        const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data).catch(err => error.value = err);
+        members.value.push(newMember);
     }
     
     if(error.value) {
