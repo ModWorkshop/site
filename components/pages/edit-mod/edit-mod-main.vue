@@ -37,8 +37,7 @@
     const visItems = [
         { name: 'Public', value: 1 },
         { name: 'Hidden', value: 2 },
-        { name: 'Unlisted', value: 3 },
-        { name: 'Invite Only', value: 4 },
+        { name: 'Unlisted', value: 3 }
     ];
 
     const store = useStore();

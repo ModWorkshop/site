@@ -43,7 +43,6 @@ export default {
     non_secure_banner: "You entered a banner that is not supplied via HTTPS. Our site is set to only use HTTPS. Please enter a banner that uses HTTPS.",
     invalid_extension: "The image file can only have one the following extensions: jpeg, png, webp, apng, or gif.",
     invalid_url: "The following URL is invalid: ",
-    invite_only: "Invite Only",
     last_updated: "Last Updated",
     last_updated_by: "Last Updated By",
     log_in_register: "To leave a comment, you must log in.",
