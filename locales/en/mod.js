@@ -111,5 +111,5 @@ export default {
     url: "URL",
     modpage: "Mod Page",
     mws_mod: "ModWorkshop Mod",
-    submitter: "Submitter"
+    owner: "Owner"
 };
