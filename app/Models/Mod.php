@@ -137,6 +137,13 @@ class Mod extends Model
         'bump_date' => 'datetime',
         'publish_date' => 'datetime',
     ];
+    
+    protected static function booted() {
+        static::creating(function (Mod $mod)
+        {
+            $mod->bump_date = $mod->freshTimestampString();
+        });
+    }
 
     public function scopeList(Builder $query)
     {

@@ -176,9 +176,14 @@ class ModController extends Controller
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
-        $val['bump_date'] = Carbon::now();
-
+        
         if (isset($mod)) {
+            if (!$request->boolean('silent')) {
+                //We changed the version, update mod.
+                if ($val['version'] !== $mod->version) {
+                    $val['bump_date'] = Carbon::now();
+                }
+            }
             $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {

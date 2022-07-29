@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Mod;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 
@@ -57,6 +58,7 @@ class FileController extends Controller
             'size' => $file->getSize()
         ]);
 
+        $val['bump_date'] = Carbon::now();
         $mod->calculateFileStatus();
 
         return $file;
@@ -88,6 +90,10 @@ class FileController extends Controller
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255'
         ]);
+
+        if ($val['veriosn'] !== $file->version) {
+            $val['bump_date'] = Carbon::now();
+        }
 
         $val['label'] ??= '';
         $val['desc'] ??= '';
