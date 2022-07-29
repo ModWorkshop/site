@@ -191,8 +191,8 @@ namespace App\Models{
  * @property bool $comments_disabled
  * @property int $file_status
  * @property float $score
- * @property string|null $bump_date
- * @property string|null $publish_date
+ * @property string|null $bumped_at
+ * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category

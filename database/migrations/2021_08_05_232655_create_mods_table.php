@@ -47,8 +47,8 @@ class CreateModsTable extends Migration
             $table->boolean('comments_disabled')->default(false);
             $table->tinyInteger('file_status')->default(0);
             $table->float('score')->default(0);
-            $table->timestamp('bump_date')->nullable(); // Was just 'date'
-            $table->timestamp('publish_date')->nullable();
+            $table->timestamp('bumped_at')->nullable(); // Was just 'date'
+            $table->timestamp('published_at')->nullable();
 
             $table->bigInteger('download_id')->nullable();
             $table->tinyText('download_type')->nullable();
@@ -58,9 +58,9 @@ class CreateModsTable extends Migration
             $table->bigInteger('likes')->unsigned()->default(0);
 
             // These are more general table tracking dates.
-            // They can be used, but bump_date should be used for ordering so we don't bump a mod for every little edit.
+            // They can be used, but bumped_at should be used for ordering so we don't bump a mod for every little edit.
             // To explain further, created_at is when the mod was created. updated_at is when the mod data was updated, regardless of anything.
-            // bump_date is when the mod was updated well enough to deserve a bump in the list. publish_date is when the mod was published for the first time.
+            // bumped_at is when the mod was updated well enough to deserve a bump in the list. published_at is when the mod was published for the first time.
             $table->timestamps();
 
             $table->index([
@@ -68,8 +68,8 @@ class CreateModsTable extends Migration
                 'game_id',
                 'submitter_id',
                 'name',
-                'bump_date', 
-                'publish_date'
+                'bumped_at', 
+                'published_at'
             ]);
             $table->index('name');
             $table->index('score');

@@ -58,7 +58,7 @@ class FileController extends Controller
             'size' => $file->getSize()
         ]);
 
-        $val['bump_date'] = Carbon::now();
+        $val['bumped_at'] = Carbon::now();
         $mod->calculateFileStatus();
 
         return $file;
@@ -92,7 +92,7 @@ class FileController extends Controller
         ]);
 
         if ($val['veriosn'] !== $file->version) {
-            $val['bump_date'] = Carbon::now();
+            $val['bumped_at'] = Carbon::now();
         }
 
         $val['label'] ??= '';

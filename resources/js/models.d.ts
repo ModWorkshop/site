@@ -128,8 +128,8 @@ declare namespace App.Models {
         comments_disabled: boolean;
         file_status: number;
         score: number;
-        bump_date: string | null;
-        publish_date: string | null;
+        bumped_at: string | null;
+        published_at: string | null;
         created_at: string | null;
         updated_at: string | null;
         download_id: number | null;

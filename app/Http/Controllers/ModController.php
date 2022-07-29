@@ -54,7 +54,7 @@ class ModController extends Controller
             // Filter out mods that are in these tags
             'block_tags.*' => 'integer|min:1|exists:tags,id',
             'submitter_id' => 'integer|nullable|min:1',
-            'sort_by' => Rule::in(['bump_date', 'publish_date', 'likes', 'downloads', 'views', 'score'])
+            'sort_by' => Rule::in(['bumped_at', 'published_at', 'likes', 'downloads', 'views', 'score'])
         ]);
         
         /**
@@ -66,7 +66,7 @@ class ModController extends Controller
          * @var Builder
          */
         $mods = Mod::queryGet($val, function(Builder $query, array $val) use ($user) {
-            $sortBy = $val['sort_by'] ?? 'bump_date';
+            $sortBy = $val['sort_by'] ?? 'bumped_at';
 
             $query->orderByRaw("{$sortBy} DESC NULLS LAST");
 
@@ -181,7 +181,7 @@ class ModController extends Controller
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
                 if ($val['version'] !== $mod->version) {
-                    $val['bump_date'] = Carbon::now();
+                    $val['bumped_at'] = Carbon::now();
                 }
             }
             $mod->calculateFileStatus(false);

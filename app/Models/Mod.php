@@ -49,8 +49,8 @@ abstract class Visibility {
  * @property bool $comments_disabled
  * @property int $file_status
  * @property float $score
- * @property string|null $bump_date
- * @property string|null $publish_date
+ * @property string|null $bumped_at
+ * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category
@@ -134,14 +134,14 @@ class Mod extends Model
     protected $hidden = ['download_type'];
 
     protected $casts = [
-        'bump_date' => 'datetime',
-        'publish_date' => 'datetime',
+        'bumped_at' => 'datetime',
+        'published_at' => 'datetime',
     ];
     
     protected static function booted() {
         static::creating(function (Mod $mod)
         {
-            $mod->bump_date = $mod->freshTimestampString();
+            $mod->bumped_at = $mod->freshTimestampString();
         });
     }
 
@@ -280,8 +280,8 @@ class Mod extends Model
         }
 
         //If we don't have a publish date and status is 1
-        if (!$this->publish_date && $this->file_status == 1) {
-            $this->publish_date = $this->freshTimestampString();
+        if (!$this->published_at && $this->file_status == 1) {
+            $this->published_at = $this->freshTimestampString();
         }
 
         if ($save) {
