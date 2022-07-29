@@ -4,8 +4,8 @@
             <div class="mod-data-top">
                 <span id="title">{{mod.name}}</span>
                 <br>
-                <span v-if="mod.publish_date">
-                    <strong>{{$t('submitted')}}</strong> <span :title="mod.publish_date">{{publishDateAgo}}</span>
+                <span v-if="mod.published_at">
+                    <strong>{{$t('submitted')}}</strong> <span :title="mod.published_at">{{publishDateAgo}}</span>
                 </span>
             </div>
             <flex column class="mt-auto md:flex-row">
@@ -16,8 +16,8 @@
                             <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
                         </span>
                         <span>|</span>
-                        <span v-if="mod.bump_date">
-                            <font-awesome-icon icon="clock" :title="$t('last_updated')"/> <time-ago :time="mod.bump_date"/>
+                        <span v-if="mod.bumped_at">
+                            <font-awesome-icon icon="clock" :title="$t('last_updated')"/> <time-ago :time="mod.bumped_at"/>
                         </span>
                     </flex>
                 </div>
@@ -56,8 +56,8 @@ const props = defineProps<{
     static?: boolean
 }>();
 
-const publishDateAgo = computed(() => timeAgo(props.mod.publish_date));
-const updateDateAgo = computed(() => timeAgo(props.mod.bump_date));
+const publishDateAgo = computed(() => timeAgo(props.mod.published_at));
+const updateDateAgo = computed(() => timeAgo(props.mod.bumped_at));
 
 const { user, hasPermission } = useStore();
 const router = useRouter();

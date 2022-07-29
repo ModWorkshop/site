@@ -55,7 +55,7 @@ const props = defineProps<{
 }>();
 
 const showGame = computed(() => !props.noGame && props.mod.game);
-const date = computed(() => props.sort == 'publish_date' ? props.mod.publish_date : props.mod.bump_date);
+const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
 const timeAgoText = computed(() => timeAgo(date.value));
 const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);

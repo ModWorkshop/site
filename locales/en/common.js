@@ -163,7 +163,7 @@ export default {
     view_steam_profile: "View Steam Profile",
     home: "Home",
     all: "All",
-    publish_date: "Publish Date",
+    published_at: "Publish Date",
     ie_warn: "We've detected that you're running Internet Explorer, our site does not support IE at all and you will run into problems. It is highly recommended to upgrade to a modern browser! ",
     return_to_top: "Return to Top",
     search_mods_global: "Search Mods Globally",

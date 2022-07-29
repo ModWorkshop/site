@@ -2,8 +2,8 @@
     <flex column gap="3">
         <flex>
             <flex>
-                <a-button :disabled="sortBy == 'bump_date'" icon="clock" @click="setSortBy('bump_date')">{{$t('last_updated')}}</a-button>
-                <a-button :disabled="sortBy == 'publish_date'" icon="upload" @click="setSortBy('publish_date')">{{$t('publish_date')}}</a-button>
+                <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
+                <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
                 <a-button icon="star" :disabled="sortBy == 'score'" @click="setSortBy('score')">{{$t('popular_now')}}</a-button>
                 <Popper arrow>
                     <a-button icon="ellipsis"/>
@@ -40,7 +40,7 @@
                         <div v-if="justDate" style="flex: 2;">{{$t('date')}}</div>
                         <template v-else>
                             <div id="date" style="flex: 2;">{{$t('last_updated')}}</div>
-                            <div id="pub-date" class="d-none" style="flex: 2;">{{$t('publish_date')}}</div>
+                            <div id="pub-date" class="d-none" style="flex: 2;">{{$t('published_at')}}</div>
                         </template>
                     </div>
                     <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'} gap-2 p-2 content-block`">
@@ -101,7 +101,7 @@
     const tags = computed(() => store.tags);
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
-    const sortBy = ref('bump_date');
+    const sortBy = ref('bumped_at');
     const pages = ref(0);
 
     await store.fetchGames();

@@ -13,7 +13,7 @@
                     <font-awesome-icon icon="eye"/> {{views}}
                 </span>
                 <span class="ml-auto">
-                    <font-awesome-icon v-if="mod.created_at" icon="calendar-plus" :title="$t('publish_date')"/> <time-ago :time="mod.created_at"/>
+                    <font-awesome-icon v-if="mod.created_at" icon="calendar-plus" :title="$t('published_at')"/> <time-ago :time="mod.created_at"/>
                 </span>
             </flex>
 
