@@ -29,6 +29,8 @@ class ModMemberController extends Controller
         $user = User::find($val['user_id']);
 
         $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => true]);
+
+        return $mod->members()->where('user_id', $val['user_id'])->first();
     }
 
     /**
@@ -71,6 +73,6 @@ class ModMemberController extends Controller
             abort(401);
         }
 
-        $member->delete();
+        $mod->members()->detach($member);
     }
 }
