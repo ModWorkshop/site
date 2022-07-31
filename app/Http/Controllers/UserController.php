@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\APIService;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +32,16 @@ class UserController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        $users = User::queryGet($request->validated());
+        $val = $request->val([
+            'id' => 'integer|min:1'
+        ]);
+
+        $users = User::queryGet($val, function(Builder $query) use ($val) {
+            if (isset($val['id'])) {
+                $query->orWhere('id', $val['id']);
+            }
+
+        });
         return UserResource::collection($users);
     }
 
