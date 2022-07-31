@@ -59,6 +59,7 @@ class UserResource extends JsonResource
                     'private_profile' => $extra->private_profile,
                     'custom_title' => $extra->custom_title,
                     'last_online' => $extra->last_online,
+                    'donation_url' => $extra->donation_url
                 ];
             }),
         ];

@@ -88,6 +88,7 @@ class UserController extends Controller
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'required|boolean',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'donation_url' => 'url|nullable|max:255'
         ]);
 
         $avatarFile = Arr::pull($val, 'avatar_file');
