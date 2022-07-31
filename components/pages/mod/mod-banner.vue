@@ -3,10 +3,6 @@
         <flex column class="mod-data">
             <div class="mod-data-top">
                 <span id="title">{{mod.name}}</span>
-                <br>
-                <span v-if="mod.published_at">
-                    <strong>{{$t('submitted')}}</strong> <span :title="mod.published_at">{{publishDateAgo}}</span>
-                </span>
             </div>
             <flex column class="mt-auto md:flex-row">
                 <div class="p-0 version mt-auto">
@@ -56,11 +52,7 @@ const props = defineProps<{
     static?: boolean
 }>();
 
-const publishDateAgo = computed(() => timeAgo(props.mod.published_at));
-const updateDateAgo = computed(() => timeAgo(props.mod.bumped_at));
-
 const { user, hasPermission } = useStore();
-const router = useRouter();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.submitter_id && hasPermission('like-mod')));
