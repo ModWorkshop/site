@@ -7,9 +7,13 @@ export default defineNuxtConfig({
 		"~/components", "~/components/common", "~/components/core", "~/components/layout", "~/components/pages"
 	],
 
+	vuestic: {
+		css: ['typography']
+	},
+
 	css: [
 		"@/assets/css/base.css",
-		"@/assets/css/helpers.css",
+		"@/assets/css/markdown.css",
 		"@/assets/css/vuestic-changes.css",
 		"@/assets/css/github-dark.css",
 	],
