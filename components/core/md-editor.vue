@@ -80,7 +80,7 @@ onMounted(() => {
     const textarea = textArea.value;
     new ResizeObserver(() => {
         if (textarea.parentElement.style.display != 'none') {
-            previewHeight.value = textarea.clientHeight + 2 + 'px';
+            previewHeight.value = textarea.clientHeight + 4 + 'px';
         }
     }).observe(textarea);
 });
