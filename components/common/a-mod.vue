@@ -10,7 +10,7 @@
             </nuxt-link>
 
             <div>
-                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.submitter"/> <!--span>{{mod.collaborators.length}}</span-->
+                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/> <!--span>{{mod.collaborators.length}}</span-->
             </div>
 
             <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">

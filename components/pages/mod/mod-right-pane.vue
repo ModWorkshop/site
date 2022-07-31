@@ -22,7 +22,7 @@
             </flex>
 
             <flex class="colllaborators-block" column>
-                <a-user :user="mod.submitter" :details="$t('submitter')"/>
+                <a-user :user="mod.user" :details="$t('owner')"/>
                 <a-user v-for="member of members" :key="member.id" :user="member" :details="levels[member.level]"/>
             </flex>
         </flex>

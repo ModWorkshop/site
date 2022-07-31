@@ -54,7 +54,7 @@ const modTemplate = {
     category_id: null,
     tag_ids: [],
     version: '',
-    submitter: user,
+    user: user,
     nsfwMod: false,
     download_id: null,
     download_type: null,
