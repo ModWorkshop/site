@@ -1,5 +1,8 @@
 <template>
     <flex column gap="4">
+        <flex>
+            <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
+        </flex>
         <div>
             <flex class="items-center">
                 <label>Members</label>
@@ -34,20 +37,14 @@
     </flex>
 
     <client-only>
-        <va-modal v-model="showModal" size="large" background-color="#2b3036" no-outside-dismiss>
-            <template #content="{ ok }">
-                <flex v-if="currentMember" column gap="2">
-                    <h2>Edit Member</h2>
-                    <a-user-select v-if="currentMember.created_at == null" v-model="newMemberUser" label="User"/>
-                    <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
-                    <a-error-alert :error="error"/>
-                    <flex>
-                        <a-button @click="saveMember(currentMember, ok)">Save</a-button>
-                        <a-button color="danger" @click="ok">Cancel</a-button>
-                    </flex>
-                </flex>
-            </template>
-        </va-modal>
+        <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember()">
+            <a-user-select v-if="currentMember.created_at == null" v-model="newMemberUser" label="User"/>
+            <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
+        </a-modal-form>
+        <a-modal-form v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @save="transferOwnership()">
+            <a-user-select v-model="transferOwner.owner_id" label="User"/>
+            <a-select v-model="transferOwner.keep_owner_level" :options="levelOptions" clearable label="Keep as Member of level"/>
+        </a-modal-form>
     </client-only>
 </template>
 
@@ -75,13 +72,15 @@ const levelOptions = [
     {name: 'Collaborator', value: 1},
     {name: 'Viewer', value: 2},
     {name: 'Contributor', value: 3},
+    {name: 'Contributor 2', value: 121},
 ];
 
 const showModal = ref(false);
-const error = ref();
+const showTransferOwner = ref(false);
 const members = ref<ModMember[]>(clone(props.mod.members));
 const currentMember = ref<ModMember>(clone({ level: 1 }));
 const newMemberUser = ref<User>();
+const transferOwner = ref({owner_id: null, keep_owner_level: null});
 
 async function deleteMember(member: ModMember) {
     openModal({
@@ -109,20 +108,24 @@ function editMember(member: ModMember) {
     currentMember.value = member;
 }
 
-async function saveMember(member: ModMember, ok: () => void) {
-    error.value = null;
+async function saveMember() {
+    let error = null;
 
+    const member = currentMember.value;
     const data = { user_id: member.user_id || newMemberUser.value, level: member.level };
 
     if (member.created_at) {
-        await usePatch(`mods/${props.mod.id}/members/${member.id}`, data).catch(err => error.value = err);
+        await usePatch(`mods/${props.mod.id}/members/${member.id}`, data).catch(err => error = err);
     } else {
-        const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data).catch(err => error.value = err);
+        const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data).catch(err => error = err);
+        if (error) {
+            throw error;
+        }
         members.value.push(newMember);
     }
-    
-    if(error.value) {
-        return;
+
+    if (error) {
+        throw error;
     }
 
     for (const m of props.mod.members) {
@@ -134,8 +137,14 @@ async function saveMember(member: ModMember, ok: () => void) {
     if (!props.canSave) {
         ignoreChanges();
     }
+}
 
-    ok();
+async function transferOwnership() {
+    let error = null;
+    await usePatch(`mods/${props.mod.id}/owner`, transferOwner.value).catch(err => error = err);
+    if (error) {
+        throw error;
+    }
 }
 </script>
 

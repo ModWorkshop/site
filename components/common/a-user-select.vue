@@ -5,30 +5,42 @@
 <script setup lang="ts">
 import { User } from '~~/types/models';
 
-defineProps<{
+const props = defineProps<{
     modelValue: User|Array<User>,
 }>();
 
 defineEmits(['update:modelValue']);
 
 let lastTimetout: NodeJS.Timeout;
-const users = ref([]);
+const query = ref('');
 
 interface SearchUser extends User {
     text: string
 }
 
-function searchUsers(query) {
+const { data: paginatedUsers, refresh } = await useAsyncData('get-users', () => {
+    let user_id;
+
+    if (typeof(props.modelValue) == 'number') {
+        user_id = props.modelValue;
+    }
+
+    return useGetMany<SearchUser>('users', { params: { query: query.value, user_id } });
+});
+
+async function searchUsers(q: string) {
+    query.value = q;
+
     if (lastTimetout) {
         clearTimeout(lastTimetout);
     }
-    lastTimetout = setTimeout(async () => {
-        const usersPaginated = await useGetMany<SearchUser>('users', { params: { query } });
-        users.value = usersPaginated.data.filter(user => {
-            user.text = user.name + ` (${user.unique_name}#${user.id})`;
-            return user;
-        });
-    }, 200);
+    lastTimetout = setTimeout(() => refresh, 200);
 }
 
+const users = computed(() => {
+    return paginatedUsers.value.data.filter(user => {
+        user.text = user.name + ` (${user.unique_name}#${user.id})`;
+        return user;
+    });
+});
 </script>

@@ -100,7 +100,7 @@ export default {
     profile_pm: "Private Message",
     report: "Report",
     report_desc: `
-        If you think this {1} is breaking our rules, you can report that to us and a moderator will check it out as soon as possible.<br>
+        If you think this {1} is breaking our rules, you can report that to us and a moderator will check it out as soon as possible.
         Mass or false flagging will not be tolerated!
     `,
     no_perms: "You don't have permission to perform this action",

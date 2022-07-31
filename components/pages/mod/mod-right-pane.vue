@@ -43,7 +43,7 @@
         mod: Mod
     }>();
 
-    const members = computed(() => props.mod.members.filter(member => member.level !== 2));
+    const members = computed(() => props.mod.members.filter(member => member.accepted && member.level !== 2));
 
     const likes = computed(() => props.mod.likes);
     const downloads = computed(() => props.mod.downloads);

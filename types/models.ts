@@ -129,7 +129,8 @@ export interface Mod {
     images_count?: number | null;
     files_count?: number | null;
     comments_count?: number | null;
-    members: Array<ModMember>
+    members: Array<ModMember>,
+    transfer_request: TransferRequest,
 }
 
 export interface Breadcrumb {
@@ -236,4 +237,15 @@ export interface Link {
     image_id: number | null;
     created_at: string | null;
     updated_at: string | null;
+}
+
+export interface TransferRequest {
+    id: number;
+    keep_owner_level: number | null;
+    mod_id: number;
+    user_id: number;
+    created_at: string | null;
+    updated_at: string | null;
+    mod?: Mod | null;
+    user?: User | null;
 }

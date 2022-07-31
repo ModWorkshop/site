@@ -32,16 +32,12 @@ export default {
     offsite_mod: "Off-site Mod",
     dependencies: "Dependencies",
     optional: "Optional",
-    outdated_notice: `
-        ⚠ Mod was tagged as outdated! <br>
-        The mod might not work as the author intended it to and might cause unwanted bugs or crashes.  
-    `,
+    outdated_notice: `⚠ Mod was tagged as outdated! <br>
+The mod might not work as the author intended it to and might cause unwanted bugs or crashes.`,
     instructions_tab: "Dependencies & Instructions",
-    transfer_request: `
-        The author has sent a request to transfer the mod to you.<br>
-        If you accept, the mod will be under your name, including the responsiblity of the mod fitting our rules. <br>
-        If the author sent this request to you maliciously, you may decline the request and report the mod or author to the moderators.  
-    `,
+    transfer_request: `The author has sent a request to transfer the mod to you.
+If you accept, the mod will be under your name, including the responsiblity of the mod fitting our rules.
+If the author sent this request to you maliciously, you may decline the request and report the mod or author to the moderators.`,
     replies: "replies",
     downloading_file: "Downloading File...",
     downloading_file_should: "The download should begin shortly.",
@@ -72,11 +68,9 @@ export default {
     submit_download_bannerurl: "Banner URL",
     disable_comments: "Disable Comments",
     transfer_ownership: "Transfer Ownership",
-    transfer_mod_warning: `
-        Transferring ownership of a mod is a dangerous procedure and cannot be undone. <br>
-        The user will receive a request for them to accept or decline. <br>
-        The request will expire a day after you send the request. In the mean time, you will not be able to send additional requests for this mod.  
-    `,
+    transfer_mod_warning: `Transferring ownership of a mod is a dangerous procedure and cannot be undone.
+The user will receive a request for them to accept or decline.
+The request will expire a day after you send the request. In the mean time, you will not be able to send additional requests for this mod.`,
     delete_mod: "Delete Mod",
     leave_collab: "Leave Collaboration",
     submit_rules_warn: '(By clicking the submit button, you agree to our submission <a href="/rules">rules</a>)',
@@ -111,5 +105,8 @@ export default {
     url: "URL",
     modpage: "Mod Page",
     mws_mod: "ModWorkshop Mod",
-    owner: "Owner"
+    owner: "Owner",
+    mod_request: `You have been invited to become one of the members of this mod with the following role: {0}.
+If you accept, you will be able to contribute to the mod and edit its content.
+Do note however, that all members with editing permissions including the owner are responsible for the mod.`
 };
