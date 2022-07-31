@@ -282,6 +282,7 @@ class Mod extends Model
         //If we don't have a publish date and status is 1
         if (!$this->published_at && $this->file_status == 1) {
             $this->published_at = $this->freshTimestampString();
+            $this->bumped_at = $this->published_at;
         }
 
         if ($save) {
