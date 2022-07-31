@@ -7359,7 +7359,7 @@ vary: Origin
         }
     ],
     &quot;tags&quot;: [],
-    &quot;submitter&quot;: {
+    &quot;user&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Luffy&quot;,
         &quot;created_at&quot;: null,

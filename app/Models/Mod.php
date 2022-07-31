@@ -55,7 +55,7 @@ abstract class Visibility {
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category
  * @property-read \App\Models\Category|null $game
- * @property-read \App\Models\User|null $submitter
+ * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\ModFactory factory(...$parameters)
@@ -83,7 +83,7 @@ abstract class Visibility {
  * @method static Builder|Mod wherePublishDate($value)
  * @method static Builder|Mod whereScore($value)
  * @method static Builder|Mod whereShortDesc($value)
- * @method static Builder|Mod whereSubmitterUid($value)
+ * @method static Builder|Mod whereUserUid($value)
  * @method static Builder|Mod whereSuspended($value)
  * @method static Builder|Mod whereThumbnailId($value)
  * @method static Builder|Mod whereUpdatedAt($value)
@@ -105,7 +105,7 @@ abstract class Visibility {
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read Model|\Eloquent $download
- * @method static Builder|Mod whereSubmitterId($value)
+ * @method static Builder|Mod whereUserId($value)
  * @property-read \App\Models\Image|null $thumbnail
  * @property int|null $banner_id
  * @property-read \App\Models\Image|null $banner
@@ -132,7 +132,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'submitter', 'game', 'category', 'images', 'files', 'links', 'members', 'thumbnail', 'banner'];
+    protected $with = ['tags', 'user', 'game', 'category', 'images', 'files', 'links', 'members', 'thumbnail', 'banner'];
     protected $appends = ['breadcrumb', 'liked'];
     protected $hidden = ['download_type'];
 
@@ -153,7 +153,7 @@ class Mod extends Model
         return $query->without(['tags']);
     }
 
-    public function submitter() : HasOne 
+    public function user() : HasOne 
     {
         return $this->hasOne(User::class, "id", 'user_id');
     }

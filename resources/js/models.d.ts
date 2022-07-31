@@ -140,7 +140,7 @@ declare namespace App.Models {
         download_type: string | null;
         likes: number;
         banner_id: number | null;
-        submitter?: App.Models.User | null;
+        user?: App.Models.User | null;
         category?: App.Models.Category | null;
         game?: App.Models.Category | null;
         thumbnail?: App.Models.Image | null;
