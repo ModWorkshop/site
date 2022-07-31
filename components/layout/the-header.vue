@@ -14,7 +14,7 @@
                 <a href="#"><font-awesome-icon icon="ellipsis"/> </a>
                 <template #content>
                     <a-dropdown-item>Rules</a-dropdown-item>
-                    <a-dropdown-item>About Us</a-dropdown-item>
+                    <a-dropdown-item to="/about">About Us</a-dropdown-item>
                     <a-dropdown-item>Steam Group</a-dropdown-item>
                 </template>
             </Popper>
