@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\PermissionController;
@@ -101,7 +102,7 @@ Route::resource('tags', TagController::class);
 /**
  * @group Mods
  */
-Route::resource('mods.comments', CommentController::class);
+Route::resource('mods.comments', ModCommentsController::class);
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 

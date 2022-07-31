@@ -6,11 +6,22 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Models\Thread;
 use Auth;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+/**
+ * Rant time:
+ * Why the actual fuck does PHP not support generics?
+ * Why the fuck does PHP not let me overload metohds?!?!?!
+ * 
+ * FUN
+ * 
+ * Hey at least auto properties are coming!!!! 
+ */
 
 class CommentController extends Controller
 {
@@ -23,11 +34,11 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request, Mod $mod)
+    public function _index(FilteredRequest $request, Model $commnetable)
     {
-        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($mod) {
+        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($commnetable) {
             $query->orderByRaw('pinned DESC, created_at DESC');
-            $query->whereMorphedTo('commentable', $mod);
+            $query->whereMorphedTo('commentable', $commnetable);
         });
 
         return CommentResource::collection($comments);
@@ -39,7 +50,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Mod $mod)
+    public function _store(Request $request, Model $commentable)
     {
         $val = $request->validate([
             'content' => 'string|required|min:3|max:1000',
@@ -50,7 +61,7 @@ class CommentController extends Controller
         /**
          * @var Comment
          */
-        $comment = $mod->comments()->create($val);
+        $comment = $commentable->comments()->create($val);
 
         return new CommentResource($comment);
     }
@@ -61,7 +72,7 @@ class CommentController extends Controller
      * @param  Mod  $mod
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod, Comment $comment)
+    public function _show(Model $commentable, Comment $comment)
     {
         //
     }
@@ -74,7 +85,7 @@ class CommentController extends Controller
      * @param Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mod $mod, Comment $comment)
+    public function _update(Request $request, Model $commentable, Comment $comment)
     {
         $user = $request->user();
         $val = $request->validate([
@@ -104,7 +115,7 @@ class CommentController extends Controller
      *
      * @param  Comment  $comment
      */
-    public function destroy(Mod $mod, Comment $comment)
+    public function _destroy(Model $commentable, Comment $comment)
     {
         $comment->delete();
     }
