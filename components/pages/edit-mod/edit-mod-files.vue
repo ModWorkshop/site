@@ -52,41 +52,19 @@
                 <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
             </template>
         </uploader>
-        <client-only>
-            <va-modal v-model="showEditLink" size="large" background-color="#2b3036" no-outside-dismiss>
-                <template #content="{ ok }">
-                    <flex v-if="currentLink" column gap="2">
-                        <h2>Edit Link</h2>
-                        <a-input v-model="currentLink.name" label="name"/>
-                        <a-input v-model="currentLink.label" label="label"/>
-                        <a-input v-model="currentLink.url" type="url" label="url"/>
-                        <a-input v-model="currentLink.version" label="version"/>
-                        <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
-                        <a-error-alert :error="linksError"/>
-                        <flex>
-                            <a-button @click="saveEditLink(currentLink, ok)">Save</a-button>
-                            <a-button color="danger" @click="closeModals(ok)">Cancel</a-button>
-                        </flex>
-                    </flex>
-                </template>
-            </va-modal>
-            <va-modal v-model="showEditFile" size="large" background-color="#2b3036" no-outside-dismiss>
-                <template #content="{ ok }">
-                    <flex v-if="currentFile" column gap="2">
-                        <h2>Edit File</h2>
-                        <a-input v-model="currentFile.name" label="name"/>
-                        <a-input v-model="currentFile.label" label="label"/>
-                        <a-input v-model="currentFile.version" label="version"/>
-                        <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
-                        <a-error-alert :error="linksError"/>
-                        <flex>
-                            <a-button @click="saveEditFile(currentFile, ok)">Save</a-button>
-                            <a-button color="danger" @click="closeModals(ok)">Cancel</a-button>
-                        </flex>
-                    </flex>
-                </template>
-            </va-modal>
-        </client-only>
+        <a-modal-form v-model="showEditLink" title="Edit Link" @save="saveEditLink">
+            <a-input v-model="currentLink.name" label="name"/>
+            <a-input v-model="currentLink.label" label="label"/>
+            <a-input v-model="currentLink.url" type="url" label="url"/>
+            <a-input v-model="currentLink.version" label="version"/>
+            <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
+        </a-modal-form>
+        <a-modal-form v-model="showEditFile" title="Edit File" @save="saveEditFile">
+            <a-input v-model="currentFile.name" label="name"/>
+            <a-input v-model="currentFile.label" label="label"/>
+            <a-input v-model="currentFile.version" label="version"/>
+            <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
+        </a-modal-form>
     </flex>
 </template>
 
@@ -119,7 +97,8 @@ function editFile(file: File) {
     currentFile.value = file;
 }
 
-async function saveEditFile(file: File, ok: () => void) {
+async function saveEditFile() {
+    const file = currentFile.value;
     filesError.value = null;
 
     await usePatch(`mods/${props.mod.id}/files/${file.id}`, file).catch(err => filesError.value = err);
@@ -137,8 +116,6 @@ async function saveEditFile(file: File, ok: () => void) {
     if (!props.canSave) {
         ignoreChanges();
     }
-
-    ok();
 }
 
 function editLink(link: Link) {
@@ -164,12 +141,8 @@ function createNewLink() {
     }));
 }
 
-function closeModals(ok: () => void) {
-    linksError.value = null;
-    filesError.value = null;
-    ok();
-}
-async function saveEditLink(link: Link, ok: () => void) {
+async function saveEditLink() {
+    const link = currentLink.value;
     linksError.value = null;
 
     if (link.id == -1) {
@@ -194,8 +167,6 @@ async function saveEditLink(link: Link, ok: () => void) {
     if (!props.canSave) {
         ignoreChanges();
     }
-
-    ok();
 }
 
 function fileUploaded(file: File) {
