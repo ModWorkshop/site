@@ -55,7 +55,7 @@ const props = defineProps<{
 const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
-const canLike = computed(() => !user || (user.id !== props.mod.submitter_id && hasPermission('like-mod')));
+const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mod')));
 
 function registerDownload() {
     if (props.static) {

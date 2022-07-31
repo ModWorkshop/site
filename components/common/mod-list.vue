@@ -110,7 +110,7 @@
     const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGetMany<Mod>('mods', { 
         params: {
             limit: 40,
-            submitter_id: props.userId,
+            user_id: props.userId,
             page: page.value,
             query: query.value,
             game_id: selectedGame.value,

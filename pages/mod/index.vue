@@ -91,7 +91,7 @@ const canEditComments = computed(() => hasPermission('edit-comment'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
 
 function commentSpecialTag(comment: Comment) {
-    if (comment.user_id === mod.value.submitter_id) {
+    if (comment.user_id === mod.value.user_id) {
         return `(${t('author')})`;
     } //TODO: Collaborators
 }

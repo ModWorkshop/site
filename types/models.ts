@@ -87,7 +87,7 @@ export interface Mod {
     banner_id?: number;
     category_id: number | null;
     game_id: number | null;
-    submitter_id: number;
+    user_id: number;
     name: string;
     desc: string;
     short_desc: string;

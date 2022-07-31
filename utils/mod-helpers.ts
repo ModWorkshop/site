@@ -8,7 +8,7 @@ export default function canEditMod(mod: Mod) {
         return false;
     }
 
-    if (hasPermission('edit-mod') || user.id === mod.submitter_id) {
+    if (hasPermission('edit-mod') || user.id === mod.user_id) {
         return true;
     }
 
