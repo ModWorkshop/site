@@ -14,7 +14,7 @@
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
-                <div class="comment-message my-2 text-break markdown w-full">
+                <div class="comment-message ml-2 mt-2 text-break markdown w-full">
                     <markdown :text="comment.content"/>
                 </div>
             </flex>

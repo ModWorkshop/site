@@ -79,6 +79,12 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
+				name: "about",
+				path: "/about",
+				file: resolve(__dirname, "pages/about.vue")
+			});
+
+			routes.push({
 				name: "admin-page",
 				path: "/admin",
 				file: resolve(__dirname, "pages/admin/index.vue"),
