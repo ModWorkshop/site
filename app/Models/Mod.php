@@ -116,6 +116,9 @@ abstract class Visibility {
  * @property-read int|null $members_count
  * @method static Builder|Mod whereBannerId($value)
  * @method static Builder|Mod whereLikes($value)
+ * @method static Builder|Mod whereBumpedAt($value)
+ * @method static Builder|Mod wherePublishedAt($value)
+ * @property-read \App\Models\TransferRequest|null $transferRequest
  */
 class Mod extends Model
 {
@@ -200,9 +203,27 @@ class Mod extends Model
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
+    public function getActiveMember(User $user)
+    {
+        $members = $this->members();
+        
+        foreach ($members as $member) {
+            if ($member->pivot->active && $member->user->id === $user->id) {
+                return $member;
+            }
+        }
+
+        return null;
+    }
+
     public function comments() : MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('reply_to');
+    }
+
+    public function transferRequest()
+    {
+        return $this->hasOne(TransferRequest::class);
     }
 
     /**

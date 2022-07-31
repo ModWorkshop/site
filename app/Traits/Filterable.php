@@ -9,6 +9,7 @@ trait Filterable {
 
     /**
      * Handles searching via query string and paginating to avoid copypasting code.
+     * query - use Illuminate\Database\Eloquent\Builder;
      *
      * @param array $val
      * @param \Closure|null $callback

@@ -10,7 +10,9 @@ use App\Models\Mod;
 use App\Models\File;
 use App\Models\ModDownload;
 use App\Models\ModLike;
+use App\Models\ModMember;
 use App\Models\ModView;
+use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Visibility;
 use Arr;
@@ -125,6 +127,7 @@ class ModController extends Controller
      */
     public function show(Mod $mod)
     {
+        $mod->load('transferRequest');
         return new ModResource($mod);
     }
 
@@ -389,5 +392,54 @@ class ModController extends Controller
         $mod->save();
 
         return ['liked' => $liked, 'likes' => $mod->likes];
+    }
+
+    /**
+     * Creates a transfer request, only once a user accepts can the mod be fully transfered. 
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function transferOwnership(Request $request, Mod $mod)
+    {
+        $val = $request->validate([
+            'owner_id' => 'integer|required|min:1|exists:users,id',
+            'keep_owner_level' => 'integer|nullable|min:0|max:3'
+        ]);
+
+        $user = User::find($val['owner_id']);
+
+        if ($mod->transferRequest()->exists()) {
+            abort(401, 'Transfer request in progress.');
+        }
+
+        $transferRequest = new TransferRequest(['keep_owner_level' => $val['keep_owner_level']]);
+        $transferRequest->mod()->associate($mod);
+        $transferRequest->user()->associate($user);
+
+        $transferRequest->save();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @return void
+     */
+    public function acceptTransferRequest(Request $request, Mod $mod)
+    {
+        $val = $request->validate([
+            'accept' => 'boolean|required'
+        ]);
+
+        $user = $request->user();
+        $transferRequest = $mod->transferRequest()->where('user_id', $user->id)->findOrFail();
+
+        $transferRequest->delete();
+        if ($val['accept']) {
+            $mod->update(['submitter_id' => $user->id]);
+        }
     }
 }

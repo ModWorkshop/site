@@ -86,8 +86,20 @@ class ModPolicy
             return true;
         }
 
-        $ourMembership = $mod->members()->wherePivot('user_id', $user->id)->first();
+        $ourMembership = $mod->getActiveMember($user);
         return $ourMembership?->level <= 1; //Maintainer or Collaborator
+    }
+
+    /**
+     * Essentially the highest permission for a mod; owner or moderator.
+     *
+     * @param User $user
+     * @param Mod $mod
+     * @return void
+     */
+    public function superUpdate(User $user, Mod $mod)
+    {
+        return $user->id === $mod->submitter_id || $user->hasPermission('edit-mod');
     }
 
     /**
@@ -111,7 +123,7 @@ class ModPolicy
             return true;
         }
 
-        $ourMembership = $mod->members()->wherePivot('user_id', $user->id)->first();
+        $ourMembership = $mod->getActiveMember($user);
         return $ourMembership?->level == 0; //Maintainer
     }
 

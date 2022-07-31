@@ -28,7 +28,7 @@ class ModMemberController extends Controller
 
         $user = User::find($val['user_id']);
 
-        $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => true]);
+        $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => false]);
 
         return $mod->members()->where('user_id', $val['user_id'])->first();
     }
@@ -74,5 +74,33 @@ class ModMemberController extends Controller
         }
 
         $mod->members()->detach($member);
+    }
+
+    /**
+     * Accepts incoming member request and make it active or deletes it if rejected.
+     *
+     * @param Request $request
+     * @param Mod $mod
+     * @param User $member
+     * @return void
+     */
+    public function accept(Request $request, Mod $mod, User $member)
+    {
+        $ourUserId = $request->user()->id;
+        $val = $request->validate([
+            'accept' => 'boolean|required'
+        ]);
+
+        $ourMembership = $mod->members()->wherePivot('user_id', $ourUserId)->wherePivot('accepted', false)->exists();
+
+        if (!$ourMembership) {
+            abort(401);
+        }
+
+        if ($val['accept']) {
+            $mod->members()->updateExistingPivot($member, ['accepted' => true]);
+        } else {
+            $mod->members()->detach($member);
+        }
     }
 }

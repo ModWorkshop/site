@@ -6,7 +6,7 @@ use App\Models\File;
 use App\Models\Link;
 use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Since we don't want to give the API something like download_type = App\Models\File
@@ -27,35 +27,40 @@ class ModResource extends JsonResource
      */
     public function toArray($request)
     {
-        $download = null;
+        //Basically nothing, no "key": null just nothing!
+        $missingValue = new MissingValue;
+
+        $download = $missingValue;
         if ($this->download_type === File::class) {
             $download = $this->whenLoaded('files', fn() => $this->files->find($this->download_id));
         } else if ($this->download_type === Link::class) {
             $download = $this->whenLoaded('links', fn() => $this->links->find($this->download_id));
         }
 
+
         return array_merge(parent::toArray($request), [
             'submitter' => new UserResource($this->submitter),
             'files' => $this->files,
             'links' => $this->links,
             'images' => $this->images,
-            'members' => $this->whenLoaded('members', function() {
+            'members' => $this->whenLoaded('members', function() use ($missingValue) {
                 $members = [];
                 foreach ($this->members as $member) {
                     $memberCopy = $member->toArray();
                     $memberCopy['accepted'] = $memberCopy['pivot']['accepted'];
                     $memberCopy['level'] = $memberCopy['pivot']['level'];
-                    $memberCopy['pivot'] = null;
+                    $memberCopy['pivot'] = $missingValue;
 
                     $members[] = $memberCopy;
                 }
 
                 return $members;
             }),
+            'transfer_request' => $this->whenLoaded('transferRequest'),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
-            'download_type' => downloadTypeSimple[$this->download_type] ?? null,
+            'download_type' => downloadTypeSimple[$this->download_type] ?? $missingValue,
         ]);
     }
 }

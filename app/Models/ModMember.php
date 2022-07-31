@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereUserId($value)
  * @mixin \Eloquent
+ * @property bool $accepted
+ * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereAccepted($value)
  */
 class ModMember extends Model
 {

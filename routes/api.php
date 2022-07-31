@@ -93,6 +93,9 @@ Route::resource('permissions', PermissionController::class)->only(['index', 'sho
 Route::resource('mods.files', FileController::class);
 Route::resource('mods.links', LinkController::class);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
+Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
+Route::middleware('can:super-update,mod')->patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
+Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
 Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);

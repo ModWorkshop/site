@@ -97,10 +97,14 @@ declare namespace App.Models {
         mod_id: number;
         name: string;
         desc: string;
+        label: string;
         url: string;
+        version: string;
         image_id: number | null;
         created_at: string | null;
         updated_at: string | null;
+        mod?: App.Models.Mod | null;
+        user?: App.Models.User | null;
     }
 
     export interface Mod {
@@ -144,11 +148,16 @@ declare namespace App.Models {
         tags?: Array<App.Models.Tag> | null;
         images?: Array<App.Models.Image> | null;
         files?: Array<App.Models.File> | null;
+        links?: Array<App.Models.Link> | null;
+        members?: Array<App.Models.User> | null;
         comments?: Array<App.Models.Comment> | null;
+        transfer_request?: App.Models.TransferRequest | null;
         download?: any | null;
         tags_count?: number | null;
         images_count?: number | null;
         files_count?: number | null;
+        links_count?: number | null;
+        members_count?: number | null;
         comments_count?: number | null;
         readonly liked?: any;
     }
@@ -170,6 +179,16 @@ declare namespace App.Models {
         updated_at: string | null;
     }
 
+    export interface ModMember {
+        id: number;
+        level: number;
+        accepted: boolean;
+        mod_id: number;
+        user_id: number | null;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
     export interface ModView {
         id: number;
         mod_id: number;
@@ -177,6 +196,22 @@ declare namespace App.Models {
         ip_address: string;
         created_at: string | null;
         updated_at: string | null;
+    }
+
+    export interface Notification {
+        id: number;
+        notifiable_type: string;
+        notifiable_id: number;
+        context_type: string;
+        context_id: number;
+        type: string;
+        seen: boolean;
+        data: Array<any> | any;
+        created_at: string | null;
+        updated_at: string | null;
+        notifiable?: any | null;
+        context?: any | null;
+        user?: App.Models.User | null;
     }
 
     export interface Permission {
@@ -226,6 +261,17 @@ declare namespace App.Models {
         games?: Array<App.Models.Game> | null;
         categories_count?: number | null;
         games_count?: number | null;
+    }
+
+    export interface TransferRequest {
+        id: number;
+        keep_owner_level: number | null;
+        mod_id: number;
+        user_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        mod?: App.Models.Mod | null;
+        user?: App.Models.User | null;
     }
 
     export interface User {
