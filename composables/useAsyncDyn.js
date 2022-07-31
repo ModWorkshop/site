@@ -8,5 +8,5 @@
  */
 export default function(key, func, options={}) {
     options.initialCache = false;
-    return useAsyncData(key, func, options)
+    return useAsyncData(key, func, options);
 }
