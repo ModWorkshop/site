@@ -21,7 +21,7 @@
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
 
-            <flex class="colllaborators-block" wrap>
+            <flex class="colllaborators-block" column>
                 <a-user :user="mod.submitter" :details="$t('submitter')"/>
                 <a-user v-for="member of members" :key="member.id" :user="member" :details="levels[member.level]"/>
             </flex>
