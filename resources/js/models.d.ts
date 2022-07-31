@@ -112,7 +112,7 @@ declare namespace App.Models {
         thumbnail_id: number | null;
         category_id: number | null;
         game_id: number | null;
-        submitter_id: number;
+        user_id: number;
         name: string;
         desc: string;
         short_desc: string;

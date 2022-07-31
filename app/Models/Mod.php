@@ -28,7 +28,7 @@ abstract class Visibility {
  * @property int|null $thumbnail_id
  * @property int|null $category_id
  * @property int|null $game_id
- * @property int $submitter_id
+ * @property int $user_id
  * @property string $name
  * @property string $desc
  * @property string $short_desc
@@ -155,7 +155,7 @@ class Mod extends Model
 
     public function submitter() : HasOne 
     {
-        return $this->hasOne(User::class, "id", 'submitter_id');
+        return $this->hasOne(User::class, "id", 'user_id');
     }
 
     public function category() : HasOne 

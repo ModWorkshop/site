@@ -47,7 +47,7 @@ class ModMemberController extends Controller
             'level' => 'integer|min:0|max:3'
         ]);
 
-        if ($mod->submitter_id !== $ourUserId) {
+        if ($mod->user_id !== $ourUserId) {
             $ourMembership = $mod->members()->wherePivot('id', $ourUserId)->first();
             if ($ourMembership->level <= $val['level'] || $ourMembership->level <= $member->pivot->level) {
                 abort(401);

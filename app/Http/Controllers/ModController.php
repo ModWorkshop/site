@@ -55,7 +55,7 @@ class ModController extends Controller
             'block_tags' => 'array',
             // Filter out mods that are in these tags
             'block_tags.*' => 'integer|min:1|exists:tags,id',
-            'submitter_id' => 'integer|nullable|min:1',
+            'user_id' => 'integer|nullable|min:1',
             'sort_by' => Rule::in(['bumped_at', 'published_at', 'likes', 'downloads', 'views', 'score'])
         ]);
         
@@ -79,7 +79,7 @@ class ModController extends Controller
                 
                 if (isset($user)) {
                     $query->orWhereRelation('members', 'user_id', $user->id);
-                    $query->orWhere('submitter_id', $user->id);
+                    $query->orWhere('user_id', $user->id);
                 }
             }
 
@@ -87,8 +87,8 @@ class ModController extends Controller
                 $query->where('game_id', $val['game_id']);
             }
 
-            if (isset($val['submitter_id'])) {
-                $query->where('submitter_id', $val['submitter_id']);
+            if (isset($val['user_id'])) {
+                $query->where('user_id', $val['user_id']);
             }
 
             if (isset($val['tags'])) {
@@ -192,7 +192,7 @@ class ModController extends Controller
         } else {
             // Never put something like $request->all(); in create.
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
-            $val['submitter_id'] = $request->user()->id;
+            $val['user_id'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
         }
 
@@ -439,7 +439,7 @@ class ModController extends Controller
 
         $transferRequest->delete();
         if ($val['accept']) {
-            $mod->update(['submitter_id' => $user->id]);
+            $mod->update(['user_id' => $user->id]);
         }
     }
 }

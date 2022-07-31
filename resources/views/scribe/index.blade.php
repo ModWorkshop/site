@@ -6018,7 +6018,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "localhost:3000/mods?game_id=1&amp;tags[]=0&amp;categories[]=1&amp;block_tags[]=0&amp;submitter_id=0" \
+    --get "localhost:3000/mods?game_id=1&amp;tags[]=0&amp;categories[]=1&amp;block_tags[]=0&amp;user_id=0" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -6038,7 +6038,7 @@ const params = {
     "tags[]": "0",
     "categories[]": "1",
     "block_tags[]": "0",
-    "submitter_id": "0",
+    "user_id": "0",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -6807,9 +6807,9 @@ vary: Origin
 <p>Filter out mods that are in these tags. Must be at least 1.</p>
             </p>
                     <p>
-                <b><code>submitter_id</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <b><code>user_id</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
                 <input type="number"
-               name="submitter_id"
+               name="user_id"
                data-endpoint="GETmods"
                value="0"
                data-component="query" hidden>
@@ -7321,7 +7321,7 @@ vary: Origin
     &quot;thumbnail_id&quot;: null,
     &quot;category_id&quot;: null,
     &quot;game_id&quot;: 2,
-    &quot;submitter_id&quot;: 1,
+    &quot;user_id&quot;: 1,
     &quot;name&quot;: &quot;xDD should change &amp;lt;strong&amp;gt;hello&amp;lt;/strong&amp;gt;&quot;,
     &quot;desc&quot;: &quot;**fdgdfgdf**&quot;,
     &quot;short_desc&quot;: &quot;&quot;,

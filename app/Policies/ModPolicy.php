@@ -51,7 +51,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        return $user->id !== $mod->submitter_id && $user->hasPermission('like-mod');
+        return $user->id !== $mod->user_id && $user->hasPermission('like-mod');
     }
 
     /**
@@ -82,7 +82,7 @@ class ModPolicy
             return false;
         }
 
-        if ($user->id === $mod->submitter_id) {
+        if ($user->id === $mod->user_id) {
             return true;
         }
 
@@ -99,7 +99,7 @@ class ModPolicy
      */
     public function superUpdate(User $user, Mod $mod)
     {
-        return $user->id === $mod->submitter_id || $user->hasPermission('edit-mod');
+        return $user->id === $mod->user_id || $user->hasPermission('edit-mod');
     }
 
     /**
@@ -119,7 +119,7 @@ class ModPolicy
             return false;
         }
 
-        if ($user->id === $mod->submitter_id) {
+        if ($user->id === $mod->user_id) {
             return true;
         }
 
