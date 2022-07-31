@@ -221,6 +221,7 @@ export interface User {
     custom_title: string;
     last_online: string | null;
     user_id: number | null;
+    donation_url: string
 }
 
 export interface Link {
