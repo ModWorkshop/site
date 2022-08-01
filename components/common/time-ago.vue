@@ -1,9 +1,12 @@
 <template>
-    <span :title="fullDate(time)">{{timeAgo(time)}}</span>
+    <span :title="fullDateStr">{{timeAgoStr}}</span>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     time: String
 });
+
+const timeAgoStr = computed(() => timeAgo(props.time));
+const fullDateStr = computed(() => fullDate(props.time));
 </script>

@@ -1,4 +1,17 @@
 <template>
+    <va-modal v-model="showNotifications" size="large" background-color="#2b3036">
+        <template #content="{ ok }">
+            <flex column gap="4">
+                <h2>Notifications</h2>
+                <flex column>
+                    <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok"/>
+                </flex>
+                <div>
+                    <a-button icon="eye">{{$t('browse_all_notifications')}}</a-button>
+                </div>
+            </flex>
+        </template>
+    </va-modal>
     <header>
         <NuxtLink to="/">
             <img :src="logo" width="36">
@@ -26,7 +39,7 @@
             </div>
             <template v-if="user">
                 <flex class="my-auto text-lg" gap="4">
-                    <span><font-awesome-icon icon="bell"/> 0</span>
+                    <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notifications && notifications.total_unseen}}</span>
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
                 <Popper arrow>
@@ -57,18 +70,19 @@
     </header>
 </template>
 <script setup>
+import { storeToRefs } from 'pinia';
 import { reloadToken } from '~~/utils/helpers';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
-const store = useStore();
-const user = computed(() => store.user);
+const { user, notifications } = storeToRefs(useStore());
 const search = ref('');
+const showNotifications = ref(false);
 
 async function logout() {
     await usePost('/logout');
     reloadToken();
-    store.user = null;
+    user.value = null;
 }
 </script>
 <style>

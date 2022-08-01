@@ -249,3 +249,20 @@ export interface TransferRequest {
     mod?: Mod | null;
     user?: User | null;
 }
+
+export interface Notification {
+    id: number;
+    notifiable_type: string;
+    notifiable_id: number;
+    context_type: string;
+    context_id: number;
+    type: string;
+    seen: boolean;
+    data: Array<any> | any | null;
+    created_at: string | null;
+    updated_at: string | null;
+    user_id: number;
+    notifiable?: any | null;
+    context?: any | null;
+    user?: User | null;
+}

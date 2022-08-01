@@ -1,14 +1,23 @@
-import { User, Game, Tag } from './../types/models';
+import { User, Game, Tag, Notification } from './../types/models';
 import { defineStore } from 'pinia';
+import { Paginator } from '../types/paginator';
+
+type NotificationsPaginator = Paginator<Notification> & {
+    total_unseen: number;
+}
 
 interface MainStore {
     user?: User,
+    notifications: NotificationsPaginator,
     games: Game[],
     tags: Tag[],
 }
 
+let lastTimeout;
+
 export const useStore = defineStore('main', {
     state: (): MainStore => ({
+        notifications: null,
         games: [],
         tags: [],
         user: null
@@ -27,17 +36,34 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
+        async init() {
+            if (this.user) {
+                await this.getNotifications();
+            }
+        },
         /**
          * Attempts to login the user (automatically)
          */
         async attemptLoginUser() {
+            await reloadToken();
+
             const userData = await useGet<User>('/user');
             this.user = userData;
-            
+
             const router = useRouter();
             await reloadToken();
+
             router.push('/');
         },
+
+        async getNotifications() {
+            this.notifications = await useGet<NotificationsPaginator>('/notifications');
+            if (lastTimeout) {
+                clearTimeout(lastTimeout);
+            }
+            lastTimeout = setTimeout(() => this.getNotifications(), 10 * 1000);
+        },
+
         /**
          * Fetches the tags for quick use around the site
          */
