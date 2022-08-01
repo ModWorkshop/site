@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Models\Notification;
 use App\Models\Thread;
 use Auth;
 use Exception;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 /**
  * Rant time:
  * Why the actual fuck does PHP not support generics?
@@ -62,6 +64,23 @@ class CommentController extends Controller
          * @var Comment
          */
         $comment = $commentable->comments()->create($val);
+
+        if ($val['user_id'] !== $commentable->user_id) {
+            //TODO: implement subs for discussions
+
+            $isReply = isset($val['reply_id']);
+            $notifiable = $commentable;
+            if ($isReply) {
+                $notifiable = Comment::find($val['reply_id']);
+            }
+
+            Notification::send(
+                notifiable: $notifiable,
+                context: $comment,
+                user: $isReply ? $notifiable->user : $commentable->user,
+                type: $isReply ? 'comment_reply' : 'mod_comment'
+            );
+        }
 
         return new CommentResource($comment);
     }

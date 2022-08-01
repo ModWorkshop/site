@@ -206,9 +206,10 @@ declare namespace App.Models {
         context_id: number;
         type: string;
         seen: boolean;
-        data: Array<any> | any;
+        data: Array<any> | any | null;
         created_at: string | null;
         updated_at: string | null;
+        user_id: number;
         notifiable?: any | null;
         context?: any | null;
         user?: App.Models.User | null;
@@ -263,6 +264,8 @@ declare namespace App.Models {
         games_count?: number | null;
     }
 
+    export interface Thread {}
+
     export interface TransferRequest {
         id: number;
         keep_owner_level: number | null;
@@ -303,6 +306,7 @@ declare namespace App.Models {
         user_id: number | null;
         created_at: string | null;
         updated_at: string | null;
+        donation_url: string | null;
     }
 
     export interface UsersRolesLink {}

@@ -77,4 +77,18 @@ class Comment extends Model
             'content' => $this->content
         ];
     }
+
+    public static function booted()
+    {
+        self::deleted(function(Comment $comment) {
+            $type = Comment::class;
+            $id = $comment->id;
+            $notifications = Notification::where('notifiable_type', $type)->where('notifiable_id', $id)
+                ->orWhere('context_type', $type)->where('context_id', $id)->get();
+
+            foreach ($notifications as $notif) {
+                $notif->delete();
+            }
+        });
+    }
 }
