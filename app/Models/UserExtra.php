@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereLastOnlineAt($value)
  * @property Carbon|null $last_online
+ * @property string|null $donation_url
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDonationUrl($value)
  */
 class UserExtra extends Model
 {
