@@ -101,6 +101,10 @@ class UserController extends Controller
             'donation_url' => 'url|nullable|max:255'
         ]);
 
+        $valExtra['bio'] ??= '';
+        $valExtra['custom_title'] ??= '';
+        $valExtra['donation_url'] ??= '';
+
         $avatarFile = Arr::pull($val, 'avatar_file');
         APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);
 
@@ -109,7 +113,9 @@ class UserController extends Controller
 
         //Get all roles first
         $roles = Arr::pull($val, 'role_ids');
-        $user->syncRoles($roles);
+        if (isset($roles)) {
+            $user->syncRoles($roles);
+        }
         $user->update($val);
         $userExtra->update($valExtra);
 
