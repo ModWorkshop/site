@@ -8,10 +8,10 @@
                 <Popper arrow>
                     <a-button icon="ellipsis"/>
                     <template #content>
-                        <a-dropdown-item icon="heart" @click="setSortBy('likes')">Likes</a-dropdown-item>
-                        <a-dropdown-item icon="download" @click="setSortBy('downloads')">Downloads</a-dropdown-item>
-                        <a-dropdown-item icon="eye" @click="setSortBy('views')">Views</a-dropdown-item>
-                        <a-dropdown-item icon="pencil" @click="setSortBy('name')">Name</a-dropdown-item>
+                        <a-dropdown-item icon="heart" @click="setSortBy('likes')">{{$t('likes')}}</a-dropdown-item>
+                        <a-dropdown-item icon="download" @click="setSortBy('downloads')">{{$t('downloads')}}</a-dropdown-item>
+                        <a-dropdown-item icon="eye" @click="setSortBy('views')">{{$t('views')}}</a-dropdown-item>
+                        <a-dropdown-item icon="pencil" @click="setSortBy('name')">{{$t('name')}}</a-dropdown-item>
                     </template>
                 </Popper>
             </flex>
