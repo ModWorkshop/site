@@ -11,6 +11,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotificationController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Notification::class, 'notification');
+    }
+
+    public function unseenCount(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        return Notification::where('user_id', $userId)->where('seen', false)->count();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,21 +29,21 @@ class NotificationController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        $val = $request->validate([
+        $val = $request->val([
             'unseen_only' => 'boolean',
         ]);
-        $notifications = Notification::queryGet($val, function(Builder $query, array $val) use ($request) {
-            $query->where('user_id', $request->user()->id);
+
+        $userId = $request->user()->id;
+
+        $notifications = Notification::queryGet($val, function(Builder $query, array $val) use ($request, $userId) {
+            $query->where('user_id', $userId);
             $query->orderByDesc('id');
             if (isset($val['unseen_only'])) {
                 $query->where('seen', false);
             }
         });
         
-        $resource = NotificationResource::collection($notifications);
-        $resource->additional(['total_unseen' => Notification::where('seen', false)->count()]);
-
-        return $resource;
+        return NotificationResource::collection($notifications);
     }
 
     /**

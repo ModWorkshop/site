@@ -53,7 +53,7 @@ class NotificationPolicy
      */
     public function update(User $user, Notification $notification)
     {
-        return $user->id === $notification->user->id;
+        return $user->id === $notification->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class NotificationPolicy
      */
     public function delete(User $user, Notification $notification)
     {
-        return $user->id === $notification->user->id;
+        return $user->id === $notification->user_id;
     }
 
     /**

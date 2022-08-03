@@ -43,6 +43,8 @@ class Notification extends Model
 {
     use HasFactory, Filterable;
 
+    protected $with = ['user', 'notifiable', 'context'];
+    
     public static function send(string $type, User $user, Model $notifiable = null, Model $context = null)
     {
         $notif = new Notification([
@@ -66,6 +68,29 @@ class Notification extends Model
         return $notif;
     }
     
+    /**
+     * Handy way of deleting related notifications to notifiable or context models
+     * For example: User deletes comment -> Related notifications are deleted -> User is not confused by dead notifications
+     *
+     * @param Model|null $notifiable
+     * @param Model|null $context
+     * @return void
+     */
+    public static function deleteRelated(Model $model, string $notifType=null)
+    {
+        $q = Notification::query();
+        $id = $model->id;
+        $type = $model->getMorphClass();
+
+        if (isset($type)) {
+            $q->where('type', $notifType);
+        }
+
+        $q->where(fn($q) => $q->where('notifiable_type', $type)->where('notifiable_id', $id));
+        $q->orWhere(fn($q) => $q->where('context_type', $type)->where('context_id', $id));
+        $q->delete();
+    }
+
     protected $guarded = [];
 
     public function notifiable()

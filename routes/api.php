@@ -107,6 +107,8 @@ Route::resource('tags', TagController::class);
  */
 Route::resource('mods.comments', ModCommentsController::class);
 Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
+Route::middleware('can:viewAny,App\Models\Notification')->get('notifications/unseen', [NotificationController::class, 'unseenCount']);
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 
 Route::resource('categories', CategoryController::class);

@@ -7,6 +7,8 @@ use App\Models\Mod;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
+
 const notificationObjectTypes = [
     User::class => 'user',
     Mod::class => 'mod',
@@ -28,7 +30,7 @@ class NotificationResource extends JsonResource
             'notifiable' => $this->notifiable,
             'context' => $this->context,
             'notifiable_type' => notificationObjectTypes[$this->notifiable_type],
-            'context_type' => notificationObjectTypes[$this->context_type],
+            'context_type' => isset($this->context_type) ? notificationObjectTypes[$this->context_type] : new MissingValue,
         ]);
     }
 }
