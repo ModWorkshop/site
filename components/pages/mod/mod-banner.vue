@@ -1,13 +1,13 @@
 <template>
     <a-banner class="mod-banner" :src="mod.legacy_banner_url || (mod.banner && mod.banner.file)" height="250" url-prefix="mods/images">
         <flex column class="mod-data">
-            <div class="mod-data-top">
+            <flex class="mod-data-top">
                 <span id="title">{{mod.name}}</span>
-            </div>
+                <mod-status class="ml-auto" :mod="mod"/>
+            </flex>
             <flex column class="mt-auto md:flex-row">
                 <div class="p-0 version mt-auto">
                     <flex gap="2">
-                        <mod-status :mod="mod"/>
                         <span v-if="mod.version">
                             <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
                         </span>
