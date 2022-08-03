@@ -13,7 +13,7 @@
             </flex>
         </template>
     </va-modal>
-    <header>
+    <header class="nav">
         <NuxtLink to="/">
             <img :src="logo" width="36">
         </NuxtLink>
@@ -116,7 +116,7 @@ async function logout() {
         gap: 0.75rem;
     }
 
-    header a {
+    .nav a {
         color: var(--text-color);
     }
 

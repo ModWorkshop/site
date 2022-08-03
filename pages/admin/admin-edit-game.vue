@@ -16,6 +16,7 @@
             </img-uploader>
             <a-input v-model="game.name" label="Name"/>
             <a-input v-model="game.short_name" :label="$t('short_name')"/>
+            <a-input v-model="game.buttons" :label="$t('game_buttons')"/>
             <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="game.webhook_url"/>
             <va-alert class="w-full" color="warning">
                 <details>
