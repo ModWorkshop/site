@@ -1,23 +1,9 @@
 <template>
-    <page-block>
+    <page-block v-if="mod">
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
         <breadcrumbs :items="mod.breadcrumb"/>
-        <content-block v-if="waitingMemberRequestRole" class="whitespace-pre p-4">
-            {{$t('mod_request', [waitingMemberRequestRole])}}
-            <flex>
-                <a-button @click="acceptMembership(true)">{{$t('accept')}}</a-button>
-                <a-button @click="acceptMembership(false)">{{$t('decline')}}</a-button>
-            </flex>
-        </content-block>
-        <content-block v-if="mod.transfer_request" class="whitespace-pre p-4">
-            {{$t('transfer_request')}}
-            <flex>
-                <a-button @click="acceptTransferRequest(true)">{{$t('accept')}}</a-button>
-                <a-button @click="acceptTransferRequest(false)">{{$t('decline')}}</a-button>
-            </flex>
-        </content-block>
         <flex>
             <!-- TODO: make our own buttons -->
             <nuxt-link v-if="canEdit" :to="`/mod/${mod.id}/edit`">
@@ -39,9 +25,9 @@
 import { useStore } from '~~/store';
 import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
-import canEditMod from '~~/utils/mod-helpers';
+import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
-const { hasPermission, user } = useStore();
+const { hasPermission } = useStore();
 const route = useRoute();
 
 const { t } = useI18n();
@@ -49,32 +35,9 @@ const { t } = useI18n();
 const { data: mod, error } = await useFetchData<Mod>(`mods/${route.params.id}/`);
 useHandleError(error.value, {
     404: "This mod doesn't exist",
-    401: "You don't have permission to view this mod"
+    401: "You don't have permission to view this mod",
+    403: "You don't have permission to view this mod"
 });
-
-const levels = [
-    'Maintainer',
-    'Collaborator',
-    'Viewer',
-    'Contributor',
-];
-
-const waitingMemberRequestRole = computed(() => {
-    for (const member of mod.value.members) {
-        if (!member.accepted && member.id === user.id) {
-            return levels[member.level];
-        }
-    }
-    return null;
-});
-
-function acceptMembership(accept: boolean) {
-    usePatch(`mods/${mod.value.id}/members/${user.id}/accept`, { accept });
-}
-
-function acceptTransferRequest(accept: boolean) {
-    usePatch(`mods/${mod.value.id}/transfer-request/accept`, { accept });
-}
 
 if (mod.value) {
     usePost(`mods/${mod.value.id}/register-view`, null, {
@@ -92,8 +55,13 @@ const canDeleteComments = computed(() => canEditComments.value || (canEdit.value
 
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.user_id) {
-        return `(${t('author')})`;
-    } //TODO: Collaborators
+        return `${t('owner')}`;
+    } else {
+        const member = mod.value.members.find(member => comment.user_id === member.id);
+        if (member) {
+            return memberLevels[member.level];
+        }
+    }
 }
 </script>
 

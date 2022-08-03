@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="mod" size="med">
+    <page-block v-if="mod" size="md">
         <flex>
             <nuxt-link v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
@@ -32,9 +32,8 @@ import clone from 'rfdc/default';
 import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-import canEditMod from '~~/utils/mod-helpers';
 
-const { hasPermission, user } = useStore();
+const { user } = useStore();
 const { init } = useToast();
 
 definePageMeta({
