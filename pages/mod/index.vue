@@ -3,7 +3,7 @@
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
-        <breadcrumbs :items="mod.breadcrumb"/>
+        <the-breadcrumbs :items="mod.breadcrumb"/>
         <flex>
             <!-- TODO: make our own buttons -->
             <nuxt-link v-if="canEdit" :to="`/mod/${mod.id}/edit`">

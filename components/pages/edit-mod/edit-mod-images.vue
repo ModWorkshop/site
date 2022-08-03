@@ -15,7 +15,7 @@
             <a-mod :mod="mod" static/>
         </div>
 
-        <uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
             <template #buttons="{file}">
                 <a-button class="file-button cursor-pointer" icon="image" @click.prevent="setThumbnail(file)">
                     Make Thumbnail
@@ -24,7 +24,7 @@
                     Make Banner
                 </a-button>
             </template>
-        </uploader>
+        </file-uploader>
     </flex>
 </template>
 

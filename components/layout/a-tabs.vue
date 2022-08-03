@@ -23,8 +23,8 @@
 <script setup lang="ts">
 import { useRouteQuery } from '@vueuse/router';
 
+const queryTab = ref(); // useRouteQuery('tab');
 const route = useRoute();
-const queryTab = useRouteQuery('tab');
 
 const props = defineProps({
     side: Boolean,
@@ -47,7 +47,7 @@ function getCurrentTabs() {
         if (tab.props) {
             return { name: tab.props.name, title: tab.props.title };
         }
-    }).filter(tab => typeof tab == 'object')
+    }).filter(tab => typeof tab == 'object');
 }
 
 const tabs = ref(getCurrentTabs());

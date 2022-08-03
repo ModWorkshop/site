@@ -4,7 +4,7 @@ import { resolve } from 'path';
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
 	components: [
-		"~/components", "~/components/common", "~/components/core", "~/components/layout", "~/components/pages"
+		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],
 
 	vuestic: {

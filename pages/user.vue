@@ -30,7 +30,7 @@
             <content-block id="bio" class="p-4 w-full">
                 <span class="text-lg">
                     <template v-if="isPublic">
-                        <markdown v-if="user.bio" :text="user.bio"/>
+                        <a-markdown v-if="user.bio" :text="user.bio"/>
                         <div v-else class="w-full">{{$t('no_bio')}}</div>
                     </template>
                     <div v-else>{{$t('private_profile_notice')}}</div>

@@ -13,7 +13,7 @@
                 />
             </a-tab>
             <a-tab name="preview" title="Preview" :style="{'min-height': previewHeight}">
-                <markdown :text="modelValue"/>
+                <a-markdown :text="modelValue"/>
             </a-tab>
             <template #buttons>
                 <flex gap="1" class="ml-auto my-auto items-center">

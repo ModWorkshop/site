@@ -39,7 +39,7 @@
             </flex>
         </div>
         <label>Files</label>
-        <uploader list name="files" :url="uploadLink" :files="files" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <file-uploader list name="files" :url="uploadLink" :files="files" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
             <template #headers>
                 <td class="text-center">Primary</td>
             </template>
@@ -51,7 +51,7 @@
             <template #buttons="{file}">
                 <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
             </template>
-        </uploader>
+        </file-uploader>
         <a-modal-form v-model="showEditLink" title="Edit Link" @save="saveEditLink">
             <a-input v-model="currentLink.name" label="name"/>
             <a-input v-model="currentLink.label" label="label"/>

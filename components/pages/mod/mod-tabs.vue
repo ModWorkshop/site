@@ -2,7 +2,7 @@
     <flex grow>
         <a-tabs class="content-block p-2 flex-grow">
             <a-tab name="description" :title="$t('description')">
-                <markdown :text="mod.desc"/>
+                <a-markdown :text="mod.desc"/>
             </a-tab>
             <a-tab v-if="mod.images.length > 0" name="images" :title="$t('images')" style="width: 100%; margin: 0 auto; text-align: center">
                 <a v-for="(image, i) of mod.images" :key="image.id" class="cursor-pointer mb-1 inline-block overflow-hidden" @click="showImage(i)">
@@ -25,7 +25,7 @@
                                     <span class="my-auto">{{timeAgo(file.created_at)}} by</span>
                                     <a-user :user="file.user" avatar-size="xs"/>
                                 </flex>
-                                <markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
+                                <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                             </flex>
                             <div>
                                 <a-button v-if="file.size" :href="`http://localhost:8000/files/${file.id}/download`" icon="download" download large>
@@ -50,10 +50,10 @@
                 </div>
             </a-tab>
             <a-tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
-                <markdown :text="mod.changelog"/>
+                <a-markdown :text="mod.changelog"/>
             </a-tab>
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
-                <markdown :text="mod.license"/>
+                <a-markdown :text="mod.license"/>
             </a-tab>
             <a-tab name="instructions" :title="$t('instructions')">Nothing for now!</a-tab>
         </a-tabs>

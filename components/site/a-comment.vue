@@ -15,7 +15,7 @@
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
                 <div class="comment-message ml-2 mt-2 text-break markdown w-full">
-                    <markdown :text="comment.content"/>
+                    <a-markdown :text="comment.content"/>
                 </div>
             </flex>
             <div class="float-right">
