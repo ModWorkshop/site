@@ -21,7 +21,7 @@
             <NuxtLink to="/upload">Upload a Mod</NuxtLink>
             <NuxtLink to="/games">Games</NuxtLink>
             <NuxtLink to="/blog">Blog</NuxtLink>
-            <a href="https://discord.gg/Eear4JW">Discord</a>
+            <NuxtLink to="https://discord.gg/Eear4JW">Discord</NuxtLink>
             <NuxtLink to="/forum">Forum</NuxtLink>
             <NuxtLink to="/support">Support Us</NuxtLink>
             <Popper arrow>

@@ -1,8 +1,8 @@
 <template>
-    <a v-if="href && !disabled" :href="href" :class="clss" :download="download">
+    <NuxtLink v-if="download && !disabled" :href="href" :class="clss" :download="download">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
-    </a>
-    <nuxt-link v-else-if="to && !disabled" :to="to" :class="clss">
+    </NuxtLink>
+    <nuxt-link v-else-if="to && !disabled" :to="to || href" :class="clss">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </nuxt-link>
     <button v-else :disabled="disabled" :class="clss" :type="type"> 

@@ -10,7 +10,7 @@
                 <flex :key="updateKey">
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
-                    <a class="ml-1 text-secondary" :title="comment.created_at" :href="`/post/${comment.id}`">{{timeAgo(comment.created_at)}}</a>
+                    <NuxtLink class="ml-1 text-secondary" :title="comment.created_at" :to="`/post/${comment.id}`">{{timeAgo(comment.created_at)}}</NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
