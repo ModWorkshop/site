@@ -23,7 +23,7 @@
 
             <flex class="colllaborators-block" column>
                 <a-user :user="mod.user" :details="$t('owner')"/>
-                <a-user v-for="member of members" :key="member.id" :user="member" :details="levels[member.level]"/>
+                <a-user v-for="member of members" :key="member.id" :user="member" :details="memberLevels[member.level]"/>
             </flex>
         </flex>
     </flex>
@@ -31,14 +31,7 @@
 
 <script setup lang="ts">
     import { Mod } from '~~/types/models';
-
-    const levels = [
-        'Maintainer',
-        'Collaborator',
-        'Viewer',
-        'Contributor',
-    ];
-
+    import { memberLevels } from '~~/utils/mod-helpers';
     const props = defineProps<{
         mod: Mod
     }>();

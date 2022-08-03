@@ -1,7 +1,7 @@
 import { useStore } from "~~/store";
 import { Mod } from "~~/types/models";
 
-export default function canEditMod(mod: Mod) {
+export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();
     
     if (!user || !hasPermission('edit-own-mod')) {
@@ -15,3 +15,9 @@ export default function canEditMod(mod: Mod) {
     const membership = mod.members.find(member => member.id === user.id);
     return membership && membership.level <= 1;
 }
+export const memberLevels = [
+    'Maintainer',
+    'Collaborator',
+    'Viewer',
+    'Contributor',
+];
