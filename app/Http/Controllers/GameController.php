@@ -27,6 +27,7 @@ class GameController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|max:150',
+            'buttons' => 'string|max:1000',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'short_name' => 'string|nullable|max:30',
@@ -34,6 +35,7 @@ class GameController extends Controller
         ]);
 
         $val['webhook_url'] ??= '';
+        $val['buttons'] ??= '';
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
         $bannerFile = Arr::pull($val, 'banner_file');
