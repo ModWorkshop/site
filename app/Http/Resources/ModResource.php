@@ -37,12 +37,11 @@ class ModResource extends JsonResource
             $download = $this->whenLoaded('links', fn() => $this->links->find($this->download_id));
         }
 
-
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->user),
-            'files' => $this->files,
-            'links' => $this->links,
-            'images' => $this->images,
+            'files' => $this->whenLoaded('files'),
+            'links' => $this->whenLoaded('links'),
+            'images' => $this->whenLoaded('images'),
             'members' => $this->whenLoaded('members', function() use ($missingValue) {
                 $members = [];
                 foreach ($this->members as $member) {
@@ -61,6 +60,7 @@ class ModResource extends JsonResource
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'download_type' => downloadTypeSimple[$this->download_type] ?? $missingValue,
+            'liked' => $this->whenLoaded('liked', fn () => isset($this->liked)),
         ]);
     }
 }

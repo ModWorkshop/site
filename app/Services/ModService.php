@@ -2,26 +2,11 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Models\Game;
 use Log;
 
 class ModService {
     static $categories = [];
-
-    public static function categoryCrumb($category)
-    {
-        $id = $category['id'];
-        $isGame = false;
-        if (!isset($category['parent_id'])) {
-            $id = $category['short_name'] || $id;
-            $isGame = true;
-        }
-
-        return [
-            'name' => $category['name'],
-            'is_game' => $isGame,
-            'href' => $isGame ? "/game/{$id}" : "/category/{$id}"
-        ];
-    }
 
     /**
      * Makes breadcrumb for a mod or a category.
@@ -36,76 +21,31 @@ class ModService {
      * @param integer|null $categoryId
      * @return array
      */
-    static public function makeBreadcrumb(array $head, int $gameId=null, int $categoryId=null, bool $includeGame=false) : array {
-        if (!isset($gameId)) {
-            return [$head];
-        }
-        $parentCategory = null;
-        $nextCrumb = null;
-
-        // Try getting the category, if current category is the game then avoid calling the function
-        $parentCategory = self::getCategory($gameId, $categoryId, $includeGame);
-        if (!isset($parentCategory)) {
-            return [$head];
-        }
-
-        $nextCrumb =  self::categoryCrumb($parentCategory);
-
-        if (!isset($parentCategory['parent_id'])) { //It's a game
-            if ($includeGame) {
-                return [
-                    $head,
-                    $nextCrumb
+    static public function makeBreadcrumb(Game $game=null, Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
+        if (isset($category)) {
+            if (!isset($loopCheck[$category->id])) {
+                $loopCheck[$category->id] = true;
+                $arr = [
+                    ...$arr,
+                    ...self::makeBreadcrumb(null, $category->parent, [[
+                        'name' => $category->name,
+                        'href' => "/category/{$category->id}"
+                    ]], $loopCheck),
                 ];
             } else {
-                return [$head];
+                Log::alert('Category loop detected! Please look into the database.', $category->toArray());
             }
-        } else {
-            return [
-                $head,
-                ...self::makeBreadcrumb($nextCrumb, $gameId, $parentCategory['parent_id'], $includeGame)
+        }
+
+        if (isset($game)) {
+            $gameUrl = $game->short_name ?? $game->id;
+            $arr[] = [
+                'name' => $game->name,
+                'href' => "/game/{$gameUrl}"
             ];
         }
-    }
 
-    /**
-     * Gets a category by its ID
-     * Shouldn't be used directly, this is only used for cases we need to loop through many categories.
-     * For example makeBreadcrumb
-     *
-     * @param Category $game To reduce how many categories we need to loop, we only want to focus on a single game at a time
-     * @param integer $categoryId
-     * @return array
-     */
-    static function getCategory(int $gameId, int $categoryId=null, bool $includeGame=false) {
-        if (!isset(self::$categories[$gameId])) {
-            $query = Category::where('game_id', $gameId);
-            
-            Log::debug('Getting categories');
-            if ($includeGame) {
-                $query->orWhere('id', $gameId);
-            }
-
-            self::$categories[$gameId] = $query->get()->each->setAppends([])->toArray();
-        }
         
-        $categories = self::$categories[$gameId];
-
-        $game = null;
-        foreach ($categories as $category) {
-            if ($gameId === $category['id']) {
-                $game = $category;
-            }
-            if ($categoryId === $category['id']) {
-                return $category;
-            }
-        }
-
-        if ($includeGame) {
-            return $game;
-        }
-        else {
-            return null;
-        }
+        return $arr;
     }
 }

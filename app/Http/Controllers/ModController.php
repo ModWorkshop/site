@@ -127,7 +127,7 @@ class ModController extends Controller
      */
     public function show(Mod $mod)
     {
-        $mod->load('transferRequest');
+        $mod->withAllRest();
         return new ModResource($mod);
     }
 

@@ -132,8 +132,9 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    protected $with = ['tags', 'user', 'game', 'category', 'images', 'files', 'links', 'members', 'thumbnail', 'banner'];
-    protected $appends = ['breadcrumb', 'liked'];
+    private $withFull = ['tags', 'images', 'files', 'links', 'members', 'banner'];
+    protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
+    protected $appends = [];
     protected $hidden = ['download_type'];
 
     protected $casts = [
@@ -141,6 +142,13 @@ class Mod extends Model
         'published_at' => 'datetime',
     ];
     
+    public function withAllRest()
+    {
+        $this->append('breadcrumb');
+        $this->load($this->withFull);
+        $this->category?->loadMissing('parent');
+    }
+
     protected static function booted() {
         static::creating(function (Mod $mod)
         {
@@ -165,7 +173,7 @@ class Mod extends Model
 
     public function game() : HasOne
     {
-        return $this->hasOne(Category::class, "id", 'game_id');
+        return $this->hasOne(Game::class, "id", 'game_id');
     }
     
     public function thumbnail() : HasOne
@@ -203,13 +211,13 @@ class Mod extends Model
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
-    public function getActiveMember(User $user)
+    public function getMemberLevel(int $userId, $acceptedOnly=true)
     {
-        $members = $this->members();
+        $members = $this->members;
         
         foreach ($members as $member) {
-            if ($member->pivot->active && $member->user->id === $user->id) {
-                return $member;
+            if ((!$acceptedOnly || $member->pivot->accepted) && $member->id === $userId) {
+                return $member->pivot->level;
             }
         }
 
@@ -242,28 +250,21 @@ class Mod extends Model
      *
      * @return array
      */
-    public function getBreadcrumbAttribute($includeGame=null)
+    public function getBreadcrumbAttribute()
     {
-        return ModService::makeBreadcrumb([
-            'name' => $this->name,
-            'is_mod' => true,
-            'href' => "/mod/{$this->id}"
-        ], $this->game_id, $this->category_id, $includeGame ?? true);
+        return [
+            [
+                'name' => $this->name,
+                'is_mod' => true,
+                'href' => "/mod/{$this->id}"
+            ],
+            ...ModService::makeBreadcrumb($this->game, $this->category)
+        ];
     }
 
-
-    /**
-     * Returns whether or not the user has liked the mod, if the user is not logged in automatically returns false
-     *
-     * @return boolean
-     */
-    public function getLikedAttribute()
+    public function liked()
     {
-        if (!Auth::check()) {
-            return false;
-        }
-
-        return ModLike::where('user_id', Auth::id())->where('mod_id', $this->id)->exists();
+        return $this->hasOne(ModLike::class)->where('user_id', Auth::id());
     }
 
     /**

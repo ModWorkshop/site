@@ -50,6 +50,13 @@ class Game extends Model
 
     public function getBreadcrumbAttribute()
     {
-        return ModService::categoryCrumb($this);
+        $gameUrl = $this->short_name ?? $this->id;
+
+        return [
+            [
+                'name' => $this->name,
+                'href' => "/game/{$gameUrl}"
+            ]
+        ];
     }
 }
