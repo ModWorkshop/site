@@ -1,10 +1,10 @@
 <template>
     <flex column gap="4">
-        <flex>
+        <flex v-if="canSuperUpdate">
             <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
         </flex>
         <div>
-            <flex class="items-center">
+            <flex class="items-center mb-2">
                 <label>Members</label>
                 <a-button class="ml-auto" @click="newMember()">New</a-button>
             </flex>
@@ -36,15 +36,15 @@
         </div>
     </flex>
 
-        <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember()">
-            <a-user-select v-if="currentMember.created_at == null" v-model="newMemberUser" label="User"/>
-            <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
-        </a-modal-form>
+    <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember()">
+        <a-user-select v-if="currentMember.created_at == null" v-model="newMemberUser" label="User"/>
+        <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
+    </a-modal-form>
 
-        <a-modal-form v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @save="transferOwnership()">
-            <a-user-select v-model="transferOwner.owner_id" label="User"/>
-            <a-select v-model="transferOwner.keep_owner_level" :options="levelOptions" clearable label="Keep as Member of level"/>
-        </a-modal-form>
+    <a-modal-form v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @save="transferOwnership()">
+        <a-user-select v-model="transferOwner.owner_id" label="User"/>
+        <a-select v-model="transferOwner.keep_owner_level" :options="levelOptions" clearable label="Keep as Member of level"/>
+    </a-modal-form>
 </template>
 
 <script setup lang="ts">

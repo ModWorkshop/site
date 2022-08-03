@@ -1,5 +1,5 @@
 <template>
-    <page-block size="med">
+    <page-block v-if="user" size="md">
         <content-block class="p-8">
             <a-form :model="user" :can-save="canSaveOverride" float-save-gui @submit="save">
                 <a-tabs side type="query">

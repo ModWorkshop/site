@@ -7,7 +7,7 @@
         <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
         <flex>
-            <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games.data" @update="refetchCats"/>
+            <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
             <a-select v-model="mod.category_id" label="Category" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
         </flex>
 
@@ -27,21 +27,28 @@
     </flex>
 </template>
 
-<script setup>
-    import { useStore } from '~~/store';
+<script setup lang="ts">
+import { useStore } from '~~/store';
+import { Mod } from '~~/types/models.js';
 
-    const props = defineProps({
-        mod: Object
-    });
+const props = defineProps<{
+    mod: Mod
+}>();
 
-    const visItems = [
-        { name: 'Public', value: 1 },
-        { name: 'Hidden', value: 2 },
-        { name: 'Unlisted', value: 3 }
-    ];
+const visItems = [
+    { name: 'Public', value: 1 },
+    { name: 'Hidden', value: 2 },
+    { name: 'Unlisted', value: 3 }
+];
 
-    const store = useStore();
-    const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-categories', () => useGet(`games/${props.mod.game_id}/categories`));
-    const { data: tags } = await useAsyncData('getTagsAndGames', () => useGet('/tags'));
-    await store.fetchGames();
+const store = useStore();
+const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-categories', () => useGet(`games/${props.mod.game_id}/categories`));
+const { data: tags } = await useAsyncData('getTagsAndGames', () => useGet('/tags'));
+await store.fetchGames();
+
+watch(() => props.mod.game_id, val => {
+    if (val) {
+        refetchCats();
+    }
+});
 </script>

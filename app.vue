@@ -4,10 +4,10 @@
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>
 		</NuxtLayout>
-  </div>
+	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Settings } from 'luxon';
 
 useHead({

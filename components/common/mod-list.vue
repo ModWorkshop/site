@@ -59,10 +59,10 @@
                 </flex>
                 <content-block class="self-start" style="flex:2;">
                     <a-input v-model="query" label="Search" type="text"/>
-                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games" @update="gameChanged"/>
-                    <a-select v-model="selectedCategories" label="Categories" placeholder="Select categories" multiple :disabled="!selectedGame" :options="categories && categories.data" @update="refresh"/>
-                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple :options="tags"/>
-                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple :options="tags"/>
+                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games?.data" @update:model-value="gameChanged"/>
+                    <a-select v-model="selectedCategories" label="Categories" text-by="path" placeholder="Select categories" multiple :disabled="!selectedGame" :options="categories && categories.data" @update:model-value="refresh"/>
+                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple :options="tags.data"/>
+                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple :options="tags.data"/>
                     <!-- <a-button color="none" icon="ellipsis-v"/> -->
                 </content-block>
             </flex>
@@ -70,7 +70,7 @@
     </flex>
 </template>
 <script setup lang="ts">
-    import { Category, Mod } from '~~/types/models';
+    import { Category, Mod, Tag } from '~~/types/models';
     import { useStore } from '../../store';
 
     const sortOptions = [
@@ -98,14 +98,16 @@
     const selectedTags = ref([]);
     const selectedBlockTags = ref([]);
     const loading = ref(true);
-    const tags = computed(() => store.tags);
     const selectedGame = ref(props.forcedGame);
     const selectedCategories = ref([]);
     const sortBy = ref('bumped_at');
     const pages = ref(0);
 
     await store.fetchGames();
-    await store.fetchTags();
+
+    const { data: tags } = await useFetchMany<Tag>(() => 'tags');
+
+    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
     const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGetMany<Mod>('mods', { 
         params: {
@@ -121,8 +123,7 @@
         }
     }), { initialCache: false });
 
-    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories`, { immediate: !!selectedGame.value });
-    
+        
     function gameChanged() {
         if (selectedGame.value) {
             refetchCats();

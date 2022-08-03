@@ -108,5 +108,6 @@ The request will expire a day after you send the request. In the mean time, you 
     owner: "Owner",
     mod_request: `You have been invited to become one of the members of this mod with the following role: {0}.
 If you accept, you will be able to contribute to the mod and edit its content.
-Do note however, that all members with editing permissions including the owner are responsible for the mod.`
+Do note however, that all members with editing permissions including the owner are responsible for the mod.`,
+    notification_membership_request: "You have been invited to join the members of: {notifiable}. Click on the notification to accept or decline."
 };

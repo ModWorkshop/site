@@ -2,15 +2,13 @@ import { User, Game, Tag, Notification } from './../types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 
-type NotificationsPaginator = Paginator<Notification> & {
-    total_unseen: number;
-}
-
 interface MainStore {
     user?: User,
-    notifications: NotificationsPaginator,
-    games: Game[],
-    tags: Tag[],
+    userIsLoading: boolean,
+    notifications: Paginator<Notification>,
+    notificationCount: number,
+    games: Paginator<Game>,
+    tags: Paginator<Tag>,
 }
 
 let lastTimeout;
@@ -18,8 +16,10 @@ let lastTimeout;
 export const useStore = defineStore('main', {
     state: (): MainStore => ({
         notifications: null,
-        games: [],
-        tags: [],
+        notificationCount: null,
+        userIsLoading: false,
+        games: null,
+        tags: null,
         user: null
     }),
     getters: {
@@ -37,55 +37,67 @@ export const useStore = defineStore('main', {
     },
     actions: {
         async init() {
-            if (this.user) {
-                await this.getNotifications();
+            try {
+                // If for some reason (cough current poor error handling) it doesn't work on SSR
+                if (!this.user) {
+                    await this.attemptLoginUser(false);
+                }
+                if (this.user) {
+                    await this.getNotificationCount();
+                }
+            } catch (error) {
+                console.log(error);
+                this.userIsLoading = false;
             }
         },
         /**
          * Attempts to login the user (automatically)
          */
-        async attemptLoginUser() {
+        async attemptLoginUser(redirect: string|boolean='/') {
+            console.log('Attempting to fetch user data');
+
+            this.userIsLoading = true;
+
             await reloadToken();
 
             const userData = await useGet<User>('/user');
             this.user = userData;
+            this.userIsLoading = false;
 
             const router = useRouter();
             await reloadToken();
 
-            router.push('/');
+            if (typeof(redirect) == 'string') {
+                router.push(redirect);
+            }
         },
 
-        async getNotifications() {
-            this.notifications = await useGet<NotificationsPaginator>('/notifications');
+        async getNotifications(page: 1, limit = 40) {
+            this.notifications = await useGetMany<Notification>('/notifications', { params: { page, limit } });
+        },
+
+        async getNotificationCount() {
+            this.notificationCount = await useGet<number>('/notifications/unseen');
             if (lastTimeout) {
                 clearTimeout(lastTimeout);
             }
-            lastTimeout = setTimeout(() => this.getNotifications(), 10 * 1000);
-        },
-
-        /**
-         * Fetches the tags for quick use around the site
-         */
-        async fetchTags() {
-            if (this.tags.length === 0) {
-                const tags = await useGetMany('/tags');
-                this.tags = tags.data;
+            if (process.client) { //!!Avoid loooping on server side!!
+                lastTimeout = setTimeout(() => this.getNotificationCount(), 60 * 1000);
             }
         },
+
         /**
          * Fetches all games of the site
          */
         async fetchGames() {
-            if (this.games.length === 0) {
-                const games = await useGetMany('/games');
-                this.games = games.data;
+            if (!this.games) {
+                this.games = await useGetMany('/games');
             }
         },
 
         async nuxtServerInit() {
             try {
-                this.user = await useGet('/user');
+                await this.attemptLoginUser(false, false);
             } catch (error) {
                 console.log("ERR");
                 console.log(error.req);

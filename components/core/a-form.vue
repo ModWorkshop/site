@@ -37,7 +37,7 @@
         models: Array
     });
 
-    const emit = defineEmits(['submit', 'state-changed']);
+    const emit = defineEmits(['submit', 'stateChanged']);
 
     const modelCopy = ref();
     watch(() => props.model, val => {
@@ -48,8 +48,8 @@
         return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
     });
 
-    watch(() => currentCanSave, val => {
-        emit('state-changed', val);
+    watch(currentCanSave, val => {
+        emit('stateChanged', val);
     });
 
     provide('rules', props.rules);

@@ -1,13 +1,14 @@
 <template>
     <va-modal v-model="showNotifications" size="large" background-color="#2b3036">
         <template #content="{ ok }">
-            <flex column gap="4">
+            <va-inner-loading v-if="!notifications" loading class="mb-4 mt-2"/>
+            <flex v-else column gap="4" class="h-full">
                 <h2>Notifications</h2>
-                <flex column>
+                <flex column class="overflow-y-scroll">
                     <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok"/>
                 </flex>
                 <div>
-                    <a-button icon="eye">{{$t('browse_all_notifications')}}</a-button>
+                    <a-button icon="eye" to="notifications">{{$t('browse_all_notifications')}}</a-button>
                 </div>
             </flex>
         </template>
@@ -39,7 +40,7 @@
             </div>
             <template v-if="user">
                 <flex class="my-auto text-lg" gap="4">
-                    <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notifications && notifications.total_unseen}}</span>
+                    <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
                 <Popper arrow>
@@ -55,16 +56,19 @@
                         <a-dropdown-item icon="plus">Followed Mods</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="cog" to="/user-settings">User Settings</a-dropdown-item>
-                        <a-dropdown-item icon="users-gear">ModCP</a-dropdown-item>
+                        <a-dropdown-item icon="users-gear" to="/admin">Admin</a-dropdown-item>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="logout">Log Out</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
                 </Popper>
             </template>
+            <div v-else-if="userIsLoading" class="mr-2 my-auto">
+                <va-inner-loading :loading="true"/>
+            </div>
             <flex v-else class="my-auto" gap="2">
-                <NuxtLink to="/login">Login</NuxtLink>
-                <NuxtLink to="/register">Register</NuxtLink>
+                <NuxtLink to="/login">{{$t('login')}}</NuxtLink>
+                <NuxtLink to="/register">{{$t('register')}}</NuxtLink>
             </flex>
         </flex>
     </header>
@@ -75,9 +79,16 @@ import { reloadToken } from '~~/utils/helpers';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
-const { user, notifications } = storeToRefs(useStore());
+const store = useStore();
+const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
+
+watch(showNotifications, async () => {
+    if (!notifications.value) {
+        await store.getNotifications(1, 20);
+    }
+});
 
 async function logout() {
     await usePost('/logout');

@@ -9,8 +9,9 @@
         </a-button>
         <template v-if="pages > 5">
             <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
-            <a-button v-if="pages - modelValue > 2" :disabled="modelValue == pages" @click="setPage(pages)">{{pages}}</a-button>
+            <a-button v-if="pages - (modelValue as number) > 2" :disabled="modelValue == pages" @click="setPage(pages)">{{pages}}</a-button>
         </template>
+        <slot/>
     </flex>
 </template>
 <script setup lang="ts">
@@ -27,13 +28,13 @@ const emit = defineEmits([
     'update:pages'
 ]);
 
-const pages = computed(() => Math.ceil(props.total / props.perPage));
+const pages = computed(() => Math.ceil((props.total as number) / (props.perPage as number)));
 watch(pages, val => emit('update:pages', val), { immediate: true });
 const pageNumbers = computed(() => {
     if (props.modelValue < 4) {
         return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
-    } else if (pages.value - props.modelValue > 2) {
-        return [...Array(5).keys()].map(x => x + props.modelValue-2);
+    } else if (pages.value - (props.modelValue as number) > 2) {
+        return [...Array(5).keys()].map(x => x + (props.modelValue as number)-2);
     } else {
         return [...Array(5).keys()].map(x => pages.value - 4 + x);
     }

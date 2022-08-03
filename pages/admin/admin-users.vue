@@ -1,10 +1,10 @@
 <template>
-    <a-searchable-list url="users" :item-link="item => `/admin/users/${item.id}`">
+    <a-list url="users" :item-link="item => `/admin/users/${item.id}`">
         <template #before-item="{ item }">
             <a-avatar :src="item.avatar || 'assets/nopreview.png'"/>
         </template>
-        <template #item="{ item }">#{{item.id}}</template>
-    </a-searchable-list>
+        <template #item-item="{ item }">({{item.unique_name}}#{{item.id}})</template>
+    </a-list>
 </template>
 
 <script setup>

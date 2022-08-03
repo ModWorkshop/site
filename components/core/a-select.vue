@@ -43,17 +43,19 @@ function update(value) {
 const fixedOptions = computed(() => {
 	const o = [];
 	if (props.options != null) {
-		props.options.forEach((item: any) => {
-			//VASelect does not like to use ID as value (value-by="id")
-			if (item.id) {
-				o.push({
-					value: item.id,
-					...item,
-				});
-			} else {
-				o.push(item);
-			}
-		});
+		if (props.options.forEach) {
+			props.options.forEach((item: any) => {
+				//VASelect does not like to use ID as value (value-by="id")
+				if (item.id) {
+					o.push({
+						value: item.id,
+						...item,
+					});
+				} else {
+					o.push(item);
+				}
+			});
+		}
 
 		return o;
 	}

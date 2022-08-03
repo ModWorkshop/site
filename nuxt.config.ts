@@ -66,6 +66,11 @@ export default defineNuxtConfig({
 				file: resolve(__dirname, "pages/user.vue")
 			});
 
+			routes.push({
+				name: "api",
+				path: "/api",
+				file: resolve(__dirname, "pages/api.vue")
+			});
 		
 			routes.push({
 				name: "blog",
@@ -83,6 +88,12 @@ export default defineNuxtConfig({
 				name: "about",
 				path: "/about",
 				file: resolve(__dirname, "pages/about.vue")
+			});
+
+			routes.push({
+				name: "notifications",
+				path: "/notifications",
+				file: resolve(__dirname, "pages/notifications.vue")
 			});
 
 			routes.push({

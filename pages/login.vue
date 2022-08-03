@@ -52,6 +52,6 @@ async function login() {
         return;
     }
 
-    store.attemptLoginUser(true);
+    store.attemptLoginUser();
 }
 </script>

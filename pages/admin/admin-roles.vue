@@ -1,6 +1,6 @@
 <template>
-    <a-searchable-list url="roles" :item-link="item => `/admin/roles/${item.id}`" new-button="/admin/roles/new">
-        <template #item="{ item }">
+    <a-list url="roles" :item-link="item => `/admin/roles/${item.id}`" new-button="/admin/roles/new">
+        <template #item-name="{ item }">
             <template v-if="item.id == 1">
                 <br>
                 <small>
@@ -8,7 +8,7 @@
                 </small>
             </template>
         </template>
-    </a-searchable-list>
+    </a-list>
 </template>
 
 <script setup>

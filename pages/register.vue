@@ -54,7 +54,7 @@ async function register() {
         console.log(err);
     });
 
-    store.attemptLoginUser();
+    store.attemptLoginUser(true);
 }
 
 function checkConfirm() {

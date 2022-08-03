@@ -14,6 +14,6 @@ export default {
     read_all_notifications: "Mark All Notifications as Read",
     delete_read_notifications: "Delete Read Notifications",
     delete_all_notifications: "Delete All Notifications",
-    alert_transfer_request: "{1} has sent a request to transfer the mod {2} to you. Click the notification to accept or decline.",
+    notification_transfer_ownership: "{user} has sent a request to transfer the mod {notifiable} to you. Click the notification to accept or decline.",
     alert_subbed_comment_replies: "{1} replied in a comment that you're subscribed to in the mod {2}"
 };

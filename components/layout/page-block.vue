@@ -1,5 +1,5 @@
 <template>
-    <flex :gap="gap" column :class="{'page-block': true, 'page-block-full': size == 'full', 'page-block-med': size == 'med'}">
+    <flex :gap="gap" column :class="{'page-block': true, 'page-block-full': size == 'full', 'page-block-md': size == 'md', 'page-block-sm': size == 'sm'}">
         <slot/>
     </flex>
 </template>
@@ -15,6 +15,7 @@ defineProps({
         default: 'large'
     }
 });
+
 </script>
 
 <style scoped>
@@ -27,7 +28,11 @@ defineProps({
     width: 100%;
 }
 
-.page-block-med {
+.page-block-md {
     width: 75%;
+}
+
+.page-block-sm {
+    width: 70%;
 }
 </style>

@@ -40,6 +40,18 @@
     --va-select-dropdown-background: var(--dropdown-bg) !important;
 }
 
+.va-modal__dialog, .va-modal__inner, .va-modal__inner > div {
+    height: 100% !important;
+}
+
+.va-modal__container {
+    max-height: auto;
+}
+
+.va-modal__inner {
+    overflow: hidden !important;
+}
+
 .va-modal--size-large, .va-modal--size-large .va-modal__inner {
     min-width: 992px;
     max-width: 100%  !important;

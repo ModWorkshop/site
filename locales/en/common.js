@@ -305,5 +305,6 @@ export default {
         We use ads to continue serving you mods and further develop the site.
         Whitelisting us in your ad blocker can help us a lot ❤
         If you dislike ads, consider <a href="/support">supporting us</a>.  
-    `
+    `,
+    back_to_home: 'Back to Home'
   };

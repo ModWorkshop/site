@@ -14,7 +14,7 @@
             <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" desc="Whether or not mods uploaded to this category need to first be approved by a moderator"/>
             <!-- <md-editor :label="$t('description')" v-model="category.desc"/> -->
             <flex>
-                <a-select v-model="category.game_id" label="Game" placeholder="Select a game" clearable :options="games"/>
+                <a-select v-model="category.game_id" label="Game" placeholder="Select a game" clearable :options="games.data"/>
                 <a-select v-model="category.parent_id" label="Parent Category" placeholder="Select a parent category" clearable :options="categories"/>
             </flex>
             <va-alert class="w-full" color="warning">

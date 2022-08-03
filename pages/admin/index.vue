@@ -1,5 +1,5 @@
 <template>
-    <page-block size="med">
+    <page-block size="md">
         <content-block class="p-6">
             <a-nav side root="/admin">
                 <a-nav-link to="/admin" title="Home"/>
