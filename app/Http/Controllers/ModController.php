@@ -159,6 +159,7 @@ class ModController extends Controller
         $val['license'] ??= '';
         $val['changelog'] ??= '';
         $val['version'] ??= '';
+        $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
 
         if (isset($mod) && array_key_exists('download_id', $val)) {
             $downloadId = Arr::pull($val, 'download_id');
