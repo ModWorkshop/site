@@ -73,9 +73,9 @@
     </flex>
 </template>
 <script setup lang="ts">
+import { DateTime } from 'luxon';
 import { Category, Mod, Tag } from '~~/types/models';
 import { useStore } from '../../store';
-import { useStorage } from '@vueuse/core';
 
 const props = defineProps({
     title: String,
@@ -87,7 +87,7 @@ const store = useStore();
 
 const query = ref('');
 const page = ref(1);
-const displayMode = await useStorage('mods-displaymode');
+const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
 const selectedTags = ref([]);
 const selectedBlockTags = ref([]);
 const loading = ref(true);
