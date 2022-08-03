@@ -10,7 +10,7 @@
             </nuxt-link>
 
             <div>
-                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/> <!--span>{{mod.collaborators.length}}</span-->
+                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
             </div>
 
             <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">
@@ -20,7 +20,6 @@
                     <nuxt-link class="text-secondary" :to="!static && `/category/${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
                 </template>
             </div>
-
 
             <flex>
                 <div class="inline-block">
@@ -34,9 +33,7 @@
                 </div>
     
                 <span v-if="date" class="inline-block ml-auto">
-                    <span :title="date">
-                        <font-awesome-icon icon="clock"/> {{timeAgoText}}
-                    </span>
+                    <font-awesome-icon icon="clock"/> <time-ago :time="date"/>
                 </span>
             </flex>
         </flex>
@@ -44,7 +41,6 @@
 </template>
 <script setup lang="ts">
 import { Mod } from "~~/types/models";
-import { timeAgo } from "../../utils/helpers";
 
 const props = defineProps<{
     sort?: string,
@@ -56,14 +52,12 @@ const props = defineProps<{
 
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
-const timeAgoText = computed(() => timeAgo(date.value));
 const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);
 const views = computed(() => props.mod.views);
-
 </script>
 
-<style scoped>
+<style>
 .mod-title {
     font-size: 1.2rem;
     overflow: hidden;

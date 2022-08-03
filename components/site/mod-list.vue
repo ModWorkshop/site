@@ -17,9 +17,9 @@
             </flex>
             <flex class="ml-auto" gap="3">
                 <flex gap="1">
-                    <a-button icon="th" :disabled="true"/>
-                    <a-button icon="list" :disabled="false"/>
-                    <a-button icon="bars" :disabled="false"/>
+                    <a-button icon="th" :disabled="displayMode == 0" @click="displayMode = 0"/>
+                    <a-button icon="list" :disabled="displayMode == 1" @click="displayMode = 1"/>
+                    <a-button icon="bars" :disabled="displayMode == 2" @click="displayMode = 2"/>
                 </flex>
             </flex>
         </flex>
@@ -28,22 +28,8 @@
             <a-pagination v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" per-page="40" @update="page => setPage(page, true)"/>
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex gap="6">
-                <flex column class="mods justify-content-start" style="flex:10;">
-                    <div v-if="isList" id="mod_list_head" class="p-3 list_mod align-items-center content-bg" style="height:40px;">
-                        <div id="thumbnail" class="{% if cookies.mods_displaymode == 3 %} d-none{% endif %}" style="min-width: 200px;"/>
-                        <div class="ml-2" style="flex: 4;">{{$t('mod_name')}}</div>
-                        <div style="flex: 3">{{$t('author')}}</div>
-                        <!-- <div v-if="type != 3" style="flex: 3">{{type == 2 ? $t('category') : $t('game_category')}}</div> -->
-                        <div>{{$t('likes')}}</div>
-                        <div>{{$t('downloads')}}</div>
-                        <div>{{$t('download_views')}}</div>
-                        <div v-if="justDate" style="flex: 2;">{{$t('date')}}</div>
-                        <template v-else>
-                            <div id="date" style="flex: 2;">{{$t('last_updated')}}</div>
-                            <div id="pub-date" class="d-none" style="flex: 2;">{{$t('published_at')}}</div>
-                        </template>
-                    </div>
-                    <div id="content" :class="`mods ${isList ? 'mods-list' : 'mods-grid'} gap-2 p-2 content-block`">
+                <flex column class="mods justify-content-start content-block p-2" style="flex:10;">
+                    <div v-if="displayMode == 0" class="mods mods-grid gap-2">
                         <div v-if="error">
                             There was an error fetching mods
                             {{error}}
@@ -52,6 +38,23 @@
                             <a-mod v-for="mod in currentMods" :key="mod.id" :mod="mod" :no-game="!!forcedGame" :sort="sortBy"/>
                         </template>
                     </div>
+                    <table v-else style="border-spacing: 0.5rem 0.25rem;">
+                        <thead>
+                            <tr>
+                                <th v-if="displayMode == 1">{{$t('thumbnail')}}</th>
+                                <th>{{$t('mod_name')}}</th>
+                                <th>{{$t('owner')}}</th>
+                                <th>{{!!forcedGame ? $t('category') : $t('game_category')}}</th>
+                                <th>{{$t('likes')}}</th>
+                                <th>{{$t('downloads')}}</th>
+                                <th>{{$t('views')}}</th>
+                                <th>{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <mod-row v-for="mod in currentMods" :key="mod.id" :mod="mod" :no-game="!!forcedGame" :sort="sortBy" :display-mode="displayMode"/>
+                        </tbody>
+                    </table>
                     <a-button v-if="hasMore" id="load-more" color="none" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
                     <span v-else-if="currentMods.length == 0" class="text-center">
                         No mods found
@@ -70,103 +73,93 @@
     </flex>
 </template>
 <script setup lang="ts">
-    import { Category, Mod, Tag } from '~~/types/models';
-    import { useStore } from '../../store';
+import { Category, Mod, Tag } from '~~/types/models';
+import { useStore } from '../../store';
+import { useStorage } from '@vueuse/core';
 
-    const sortOptions = [
-        'Last Updated',
-        'Popularity',
-        'Likes',
-        'Downloads',
-        'Views',
-        'Name',
-        'Publish Date',
-    ];
+const props = defineProps({
+    title: String,
+    forcedGame: Number,
+    userId: Number
+});
 
-    const props = defineProps({
-        title: String,
-        forcedGame: Number,
-        userId: Number
-    });
+const store = useStore();
 
-    const store = useStore();
+const query = ref('');
+const page = ref(1);
+const displayMode = await useStorage('mods-displaymode');
+const selectedTags = ref([]);
+const selectedBlockTags = ref([]);
+const loading = ref(true);
+const selectedGame = ref(props.forcedGame);
+const selectedCategories = ref([]);
+const sortBy = ref('bumped_at');
+const pages = ref(0);
 
-    const query = ref('');
-    const page = ref(1);
-    const isList = ref(false);
-    const justDate = ref(false);
-    const selectedTags = ref([]);
-    const selectedBlockTags = ref([]);
-    const loading = ref(true);
-    const selectedGame = ref(props.forcedGame);
-    const selectedCategories = ref([]);
-    const sortBy = ref('bumped_at');
-    const pages = ref(0);
+await store.fetchGames();
 
-    await store.fetchGames();
+const { data: tags } = await useFetchMany<Tag>(() => 'tags');
 
-    const { data: tags } = await useFetchMany<Tag>(() => 'tags');
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
-    const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
-
-    const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGetMany<Mod>('mods', { 
-        params: {
-            limit: 40,
-            user_id: props.userId,
-            page: page.value,
-            query: query.value,
-            game_id: selectedGame.value,
-            tags: selectedTags.value,
-            categories: selectedCategories.value,
-            block_tags: selectedBlockTags.value,
-            sort_by: sortBy.value
-        }
-    }), { initialCache: false });
-
-        
-    function gameChanged() {
-        if (selectedGame.value) {
-            refetchCats();
-        } else {
-            categories.value = null;
-        }
-        refresh();
+const { data: fetchedMods, refresh, error } = await useAsyncData('get-mods', () => useGetMany<Mod>('mods', { 
+    params: {
+        limit: 40,
+        user_id: props.userId,
+        page: page.value,
+        query: query.value,
+        game_id: selectedGame.value,
+        tags: selectedTags.value,
+        categories: selectedCategories.value,
+        block_tags: selectedBlockTags.value,
+        sort_by: sortBy.value
     }
+}), { initialCache: false });
 
-    function setSortBy(sort) {
-        sortBy.value = sort;
-        refresh();
-    }
-
-    const savedMods = ref<Mod[]>([]);
-
-    const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
-    const currentMods = computed<Mod[]>(() => {
-        return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [];
-    });
     
-    let lastTimeout = null;
-    watch([query, selectedTags, selectedBlockTags], () => {
-        if (lastTimeout) {
-            clearTimeout(lastTimeout);
-            lastTimeout = null;
-        }
-        lastTimeout = setTimeout(refresh, 250);
-    });
-
-    function incrementPage() {
-        setPage(page.value++, false);
+function gameChanged() {
+    if (selectedGame.value) {
+        refetchCats();
+    } else {
+        categories.value = null;
     }
+    refresh();
+}
 
-    async function setPage(newPage: number, reload=false) {
-        page.value = newPage;
-        if (reload) {
-            savedMods.value = [];
-        } else {
-            savedMods.value = currentMods.value;
-        }
-        loading.value = true;
-        await refresh();
-        loading.value = false;
+function setSortBy(sort) {
+    sortBy.value = sort;
+    refresh();
+}
+
+const savedMods = ref<Mod[]>([]);
+
+const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
+const currentMods = computed<Mod[]>(() => {
+    return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [];
+});
+
+let lastTimeout = null;
+watch([query, selectedTags, selectedBlockTags], () => {
+    if (lastTimeout) {
+        clearTimeout(lastTimeout);
+        lastTimeout = null;
     }
+    lastTimeout = setTimeout(refresh, 250);
+});
+
+function incrementPage() {
+    setPage(page.value++, false);
+}
+
+async function setPage(newPage: number, reload=false) {
+    page.value = newPage;
+    if (reload) {
+        savedMods.value = [];
+    } else {
+        savedMods.value = currentMods.value;
+    }
+    loading.value = true;
+    await refresh();
+    loading.value = false;
+}
 </script>
