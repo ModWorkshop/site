@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
+import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 import canEditMod from '~~/utils/mod-helpers';
@@ -61,7 +62,6 @@ const modTemplate = {
     visibility: 1
 };
 
-// const store = useStore();
 const mod = ref<Mod>(clone(modTemplate));
 const canSave = ref(false);
 
@@ -74,6 +74,10 @@ if (route.params.id) {
         throw throwError("You don't have permission to view this page");
     }
 }
+
+provide('canSuperUpdate', canSuperUpdate(mod.value));
+provide('canSave', canSave);
+provide('mod', mod.value);
 
 /**
  * Only used in cases the changes were saved but AForm doesn't know about it

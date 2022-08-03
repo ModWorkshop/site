@@ -50,21 +50,13 @@
 <script setup lang="ts">
 import { Mod, ModMember, User } from '~~/types/models';
 import clone from 'rfdc/default';
+import { Ref } from 'vue';
 const { init: openModal } = useModal();
 
-const props = defineProps<{
-    mod: Mod,
-    canSave: boolean
-}>();
-
 const ignoreChanges: () => void = inject('ignoreChanges');
-
-const levels = [
-    'Maintainer',
-    'Collaborator',
-    'Viewer',
-    'Contributor',
-];
+const mod = inject<Mod>('mod');
+const canSave = inject<Ref<boolean>>('canSave');
+const canSuperUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
     {name: 'Maintainer', value: 0},
@@ -75,7 +67,7 @@ const levelOptions = [
 
 const showModal = ref(false);
 const showTransferOwner = ref(false);
-const members = ref<ModMember[]>(clone(props.mod.members));
+const members = ref<ModMember[]>(clone(mod.members));
 const currentMember = ref<ModMember>(clone({ level: 1 }));
 const newMemberUser = ref<User>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
@@ -84,11 +76,11 @@ async function deleteMember(member: ModMember) {
     openModal({
         message: 'Are you sure you want to remove member?',
         async onOk() {
-            await useDelete(`mods/${props.mod.id}/members/${member.id}`);
+            await useDelete(`mods/${mod.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
-            props.mod.members = clone(members.value);
+            mod.members = clone(members.value);
         
-            if (!props.canSave) {
+            if (!canSave.value) {
                 ignoreChanges();
             }
         }
@@ -113,9 +105,9 @@ async function saveMember() {
     const data = { user_id: member.user_id || newMemberUser.value, level: member.level };
 
     if (member.created_at) {
-        await usePatch(`mods/${props.mod.id}/members/${member.id}`, data).catch(err => error = err);
+        await usePatch(`mods/${mod.id}/members/${member.id}`, data).catch(err => error = err);
     } else {
-        const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data).catch(err => error = err);
+        const newMember = await usePost<ModMember>(`mods/${mod.id}/members`, data).catch(err => error = err);
         if (error) {
             throw error;
         }
@@ -126,20 +118,20 @@ async function saveMember() {
         throw error;
     }
 
-    for (const m of props.mod.members) {
+    for (const m of mod.members) {
         if (m.id === member.id) {
             Object.assign(m, member);
         }
     }
 
-    if (!props.canSave) {
+    if (!canSave.value) {
         ignoreChanges();
     }
 }
 
 async function transferOwnership() {
     let error = null;
-    await usePatch(`mods/${props.mod.id}/owner`, transferOwner.value).catch(err => error = err);
+    await usePatch(`mods/${mod.id}/owner`, transferOwner.value).catch(err => error = err);
     if (error) {
         throw error;
     }
