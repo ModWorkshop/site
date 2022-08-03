@@ -5,10 +5,10 @@
         </Head>
         <the-breadcrumbs :items="mod.breadcrumb"/>
         <flex>
-            <!-- TODO: make our own buttons -->
-            <nuxt-link v-if="canEdit" :to="`/mod/${mod.id}/edit`">
-                <a-button icon="cog">{{$t('edit_mod')}}</a-button>
-            </nuxt-link>
+            <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
+            <a-button color="danger">{{$t('report_mod')}}</a-button>
+            <a-button>{{$t('follow')}}</a-button>
+            <a-button @click="openShare">{{$t('share')}}</a-button>
         </flex>
         <div>
             <mod-banner :mod="mod"/>
@@ -62,6 +62,12 @@ function commentSpecialTag(comment: Comment) {
             return memberLevels[member.level];
         }
     }
+}
+
+function openShare() {
+    navigator.share({
+        url: `http://localhost:3000/mod/${mod.value.id}`
+    });
 }
 </script>
 
