@@ -38,6 +38,7 @@
     --popper-theme-background-color-hover: var(--dropdown-bg);
     --va-modal-dialog-box-shadow: 0 !important;
     --va-select-dropdown-background: var(--dropdown-bg) !important;
+    --va-font-family: initial;
 }
 
 .va-modal__dialog, .va-modal__inner, .va-modal__inner > div {
