@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Services\APIService;
 use Arr;
 use Date;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 /**
@@ -29,13 +30,15 @@ class CategoryController extends Controller
     {
         // Query parameters
         $val = $request->val([
-            'game_id' => 'integer|min:1|exists:sections,id',
+            'game_id' => 'integer|min:1|exists:games,id',
             //Returns only the names of the categories
             'only_names' => 'boolean',
             'include_paths' => 'boolean'
         ]);
 
-        $categories = Category::queryGet($val, function($query, array $val) use ($game) {
+        $categories = Category::queryGet($val, function(Builder $query, array $val) use ($game) {
+            $query->with(['parent', 'game']);
+
             $query->orderBy('name');
 
             if (($val['only_names'] ?? false)) {
@@ -92,7 +95,7 @@ class CategoryController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|max:150',
-            'game_id' => 'integer|min:1|nullable|exists:categories,id',
+            'game_id' => 'integer|min:1|nullable|exists:games,id',
             'parent_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'approval_only' => 'boolean',
