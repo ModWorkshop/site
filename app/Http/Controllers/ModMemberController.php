@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mod;
 use App\Models\ModMember;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,15 +23,25 @@ class ModMemberController extends Controller
             'level' => 'integer|min:0|max:4'
         ]);
 
-        if ($mod->members()->where('user_id', $val['user_id'])->exists()) {
+
+        $exists = $mod->getMemberLevel($val['user_id'], false);
+
+        if (isset($exists)) {
             abort(403, 'member already exists. If you wish to change their level, either use PATCH/PUT or DELETE first.');
         }
 
         $user = User::find($val['user_id']);
-
+        
         $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => false]);
+        $member = $mod->members()->where('user_id', $val['user_id'])->first();
 
-        return $mod->members()->where('user_id', $val['user_id'])->first();
+        Notification::send(
+            notifiable: $mod,
+            user: $user,
+            type: 'membership_request'
+        );
+
+        return $member;
     }
 
     /**
@@ -44,12 +55,12 @@ class ModMemberController extends Controller
     {
         $ourUserId = $request->user()->id;
         $val = $request->validate([
-            'level' => 'integer|min:0|max:3'
+            'level' => 'integer|required|min:0|max:3'
         ]);
 
         if ($mod->user_id !== $ourUserId) {
-            $ourMembership = $mod->members()->wherePivot('id', $ourUserId)->first();
-            if ($ourMembership->level <= $val['level'] || $ourMembership->level <= $member->pivot->level) {
+            $ourLevel = $mod->getMemberLevel($ourUserId);
+            if (isset($ourLevel) && ($ourLevel <= $val['level'] || $ourLevel <= $member->pivot->level)) {
                 abort(401);
             }
         }
@@ -66,7 +77,7 @@ class ModMemberController extends Controller
     public function destroy(Request $request, Mod $mod, User $member)
     {
         $ourUserId = $request->user()->id;
-        $ourLevel = $mod->members->where('id', $ourUserId);
+        $ourLevel = $mod->getMemberLevel($ourUserId);
 
         //We should be able to delete ourselves from members!
         if ($ourUserId !== $member->id && $ourLevel <= $member->level) {
@@ -91,9 +102,9 @@ class ModMemberController extends Controller
             'accept' => 'boolean|required'
         ]);
 
-        $ourMembership = $mod->members()->wherePivot('user_id', $ourUserId)->wherePivot('accepted', false)->exists();
+        $ourLevel = $mod->getMemberLevel($ourUserId, false);
 
-        if (!$ourMembership) {
+        if (!isset($ourLevel)) {
             abort(401);
         }
 
@@ -102,5 +113,7 @@ class ModMemberController extends Controller
         } else {
             $mod->members()->detach($member);
         }
+
+        Notification::deleteRelated($member, 'membership_request');
     }
 }

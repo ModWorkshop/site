@@ -51,7 +51,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        return $user->id !== $mod->user_id && $user->hasPermission('like-mod');
+        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mod');
     }
 
     /**
@@ -86,8 +86,8 @@ class ModPolicy
             return true;
         }
 
-        $ourMembership = $mod->getActiveMember($user);
-        return $ourMembership?->level <= 1; //Maintainer or Collaborator
+        $ourLevel = $mod->getMemberLevel($user->id);
+        return ($ourLevel === 1 || $ourLevel === 0); //Maintainer or Collaborator
     }
 
     /**
@@ -123,8 +123,7 @@ class ModPolicy
             return true;
         }
 
-        $ourMembership = $mod->getActiveMember($user);
-        return $ourMembership?->level == 0; //Maintainer
+        return $mod->getMemberLevel($user->id) === 0; //Maintainer
     }
 
     /**

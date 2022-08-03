@@ -12,6 +12,7 @@ use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModMember;
 use App\Models\ModView;
+use App\Models\Notification;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Visibility;
@@ -78,7 +79,10 @@ class ModController extends Controller
                 
                 
                 if (isset($user)) {
-                    $query->orWhereRelation('members', 'user_id', $user->id);
+                    //let members see mods if they've accepted their membership
+                    $query->orWhereRelation('members', function($q) use ($user) {
+                        $q->where('user_id', $user->id)->where('accepted', true);
+                    });
                     $query->orWhere('user_id', $user->id);
                 }
             }
@@ -418,6 +422,12 @@ class ModController extends Controller
         $transferRequest->mod()->associate($mod);
         $transferRequest->user()->associate($user);
 
+        Notification::send(
+            notifiable: $mod,
+            user: $user,
+            type: 'transfer_ownership'
+        );
+
         $transferRequest->save();
     }
 
@@ -435,11 +445,23 @@ class ModController extends Controller
         ]);
 
         $user = $request->user();
-        $transferRequest = $mod->transferRequest()->where('user_id', $user->id)->findOrFail();
+        $userId = $user->id;
+        $transferRequest = $mod->transferRequest()->where('user_id', $userId)->firstOrFail();
+
+        //Keep owner as a member
+        if (isset($transferRequest->keep_owner_level)) {
+            $mod->members()->attach($mod->user->id, ['level' => $transferRequest->keep_owner_level, 'accepted' => true]);
+        }
+
+        Notification::deleteRelated($mod, 'transfer_ownership');
 
         $transferRequest->delete();
         if ($val['accept']) {
-            $mod->update(['user_id' => $user->id]);
+            $mod->update(['user_id' => $userId]);
         }
+
+        //Remove the new owner from the members
+        $mod->members()->detach($user);
+        Notification::deleteRelated($user, 'membership_request'); //Just to be sure
     }
 }
