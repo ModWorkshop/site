@@ -80,7 +80,6 @@ export default {
     no_name: "No Name",
     version: "Version",
     sub_categories: "Subcategories",
-    suspended: "Suspended",
     suspended_error: "The mod you are trying to reach is suspended and is currently inaccessible.",
     tags: "Tags",
     unlisted: "Unlisted",

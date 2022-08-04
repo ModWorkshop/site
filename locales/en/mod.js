@@ -6,11 +6,11 @@ export default {
     collaborators_desc: "Collaborators are users who you, the author, give permission to edit the mod. They cannot delete the mod, transfer ownership of it, nor edit additional/existing collaborators",
     delete_confirm: "Are you sure you want to delete this comment?",
     download_description: "Description",
-    download_is_suspended: `
-        This mod has been suspended and is only visible to its author and the site staff.<br/>
-        The suspension is either temporarily or permanent, depending on the severity, for investigation to a violation to the <a style="text-decoration:underline;" href="/rules">rules</a>.<br/>
-        Should you wish to contact the staff for information, or if your mod has been updated to follow the rules, you can send a suspension appeal <a style="text-decoration:underline;" href="/forumdisplay.php?fid=66">here</a>.
-    `,
+    suspended: 'Suspended',
+    mod_suspended: `
+This mod has been suspended and is only visible to its author and the site staff.
+The suspension is either temporarily or permanent, depending on the severity, for investigation to a violation to the {rules}
+Should you wish to contact the staff for information, or if your mod has been updated to follow the rules, you can send a suspension appeal in the forum.`,
     download: "Download",
     license: "License",
     report_download: "Report Mod",
@@ -23,8 +23,10 @@ export default {
     download_comments: "Comments",
     unsuspend_it: "Unsuspend",
     suspend_it: "Suspend",
-    files_alert: "<strong>NO FILES</strong> | If a mod does not have files, the mod is marked as invisible to the public.",
-    files_alert_waiting: "<strong>NO APPROVED FILES</strong> | This mod is currently invisible until the files you uploaded are approved by a staff member.",
+    files_alert_title: "No Files",
+    files_alert: "If a mod does not have files, the mod is marked as invisible to the public.",
+    files_alert_waiting_title: "No Approved Files",
+    files_alert_waiting: "This mod is currently invisible until the files you uploaded are approved by a staff member.",
     share: "Share",
     comment: "Comment",
     report_comment: "Report Comment",

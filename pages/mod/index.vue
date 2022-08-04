@@ -4,6 +4,15 @@
             <Title>{{mod.name}}</Title>
         </Head>
         <the-breadcrumbs :items="mod.breadcrumb"/>
+        <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
+            <i18n-t keypath="mod_suspended" tag="span">
+                <template #rules>
+                    <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
+                </template>
+            </i18n-t>
+        </a-alert>
+        <a-alert v-if="mod.file_status === 0" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
+        <a-alert v-if="mod.file_status === 2" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-button color="danger">{{$t('report_mod')}}</a-button>
