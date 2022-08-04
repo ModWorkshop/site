@@ -15,8 +15,6 @@
 
         <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
 
-        <a-input v-model="mod.donation" label="Donation" desc="A donation link, currently supports PayPal, Ko-fi, and Patreon"/>
-
         <details>
             <summary>{{$t('license')}}</summary>
             <flex class="mt-3" column gap="2">

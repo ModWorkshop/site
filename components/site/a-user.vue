@@ -8,11 +8,13 @@
                 {{user.name}}
                 <a-tag v-if="user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
+                <slot name="after-name" :user="user"/>
             </nuxt-link>
-            <template v-if="details">
+            <slot name="details" :user="user">
                 <span>{{details}}</span>
-            </template>
+            </slot>
         </flex>
+        <slot name="attach"/>
     </flex>
 </template>
 

@@ -7,7 +7,7 @@
                         <flex column gap="4">
                             <a-input v-model="user.name" label="Username"/>
                             <a-input v-model="user.unique_name" label="Unique Username" desc="A unique name for your profile and to allow people to mention you."/>
-                            <a-input v-model="user.donation_url" label="Donation Link" desc="A donation link to show near your name in mods you own or showcased in"/>
+                            <a-input v-model="user.donation_url" label="Donation Link" desc="Supports PayPal, Ko-Fi, and Buy Me a Coffee. Shows in your profile and mod pages."/>
                             <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
                             <template v-if="isMe">
                                 <h3>Change Password</h3>

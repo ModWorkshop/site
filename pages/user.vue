@@ -6,25 +6,24 @@
         <flex gap="3" class="md:flex-row">
             <content-block id="details" class="p-4">
                 <flex column>
-                    <div id="main-info" style="min-width: 300px;">
-                        <flex class="text-xl">
-                            <a-user :user="user" :avatar="false"/>
-                            <div v-if="!userInvisible && isPublic" id="status" :title="statusString" class="user-status my-auto" :style="{backgroundColor: statusColor}"/>
-                        </flex>
+                    <flex column style="min-width: 300px;">
+                        <a-user class="text-xl" :user="user" :avatar="false">
+                            <template #after-name>
+                                <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"/>
+                            </template>
+                        </a-user>
                         <span v-if="!userInvisible">{{user.custom_title}}</span>
                         <!-- <span v-if="user.roletitle && user.roletitle != user.usertitle">{{user.roletitle}}</span> -->
-                    </div>
-                    <div v-if="isPublic" id="extra-info" style="word-break: break-word;">
+                    </flex>
+                    <flex v-if="isPublic" gap="2" column class="mt-1">
                         <div v-if="user.created_at">{{$t('registration_date')}} {{fullDate(user.created_at)}}</div>
                         <div>{{$t('last_visit')}} {{timeAgo(user.last_online)}}</div>
                         <!-- <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div> -->
                         <!-- <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
                             {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
                         </div> -->
-                        <!-- <div v-if="user.bday || user.age">
-                            {{$t('date_of_birth')}} {{user.bday}} {{user.age}}
-                        </div> -->
-                    </div>
+                        <donation-button :link="user.donation_url"/>
+                    </flex>
                 </flex>
             </content-block>
             <content-block id="bio" class="p-4 w-full">

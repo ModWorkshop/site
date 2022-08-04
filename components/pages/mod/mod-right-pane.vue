@@ -22,8 +22,16 @@
             </flex>
 
             <flex class="colllaborators-block" column>
-                <a-user :user="mod.user" :details="$t('owner')"/>
-                <a-user v-for="member of members" :key="member.id" :user="member" :details="memberLevels[member.level]"/>
+                <a-user :user="mod.user" :details="$t('owner')">
+                    <template #attach>
+                        <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
+                    </template>
+                </a-user>
+                <a-user v-for="member of members" :key="member.id" :user="member" :details="memberLevels[member.level]">
+                    <template #attach>
+                        <donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
+                    </template>
+                </a-user>
             </flex>
         </flex>
     </flex>
@@ -41,4 +49,7 @@
     const likes = computed(() => props.mod.likes);
     const downloads = computed(() => props.mod.downloads);
     const views = computed(() => props.mod.views);
+
+    //If the user set their own donation, show that.
+    const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
 </script>
