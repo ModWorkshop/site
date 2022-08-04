@@ -98,7 +98,11 @@ function switchToFiles() {
 }
 </script>
 <style>
-    .download-button {
-        font-size: 1.5rem;
-    }
+.download-button {
+    font-size: 1.5rem;
+}
+
+.mod-banner {
+    text-shadow: 2px 1px 3px black;
+}
 </style>
