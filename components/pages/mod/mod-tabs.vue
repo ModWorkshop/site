@@ -97,7 +97,7 @@ function showImage(nextIndex) {
 const images = computed(() => {
     const images = [];
     for (const image of props.mod.images) {
-        images.push(`${config.apiUrl}/mods/images/${image.file}`);
+        images.push(`${config.apiUrl}/storage/mods/images/${image.file}`);
     }
     return images;
 });
