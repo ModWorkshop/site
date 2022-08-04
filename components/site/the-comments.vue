@@ -1,5 +1,5 @@
 <template>
-    <div v-observe-visibility="onVisChange">
+    <div v-intersection-observer="onVisChange">
         <flex column gap="2">
             <flex>
                 <h3>Comments</h3>
@@ -55,188 +55,188 @@
 </template>
 
 <script setup lang="ts">
-    import { Comment, User } from '~~/types/models';
-    import { Paginator } from '~~/types/paginator';
+import { Comment, User } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
+import { vIntersectionObserver } from '@vueuse/components';
+const props = defineProps({
+    url: { type: String, required: true },
+    getSpecialTag: Function,
+    canEditAll: Boolean,
+    canDeleteAll: Boolean
+});
 
-    const props = defineProps({
-        url: { type: String, required: true },
-        getSpecialTag: Function,
-        canEditAll: Boolean,
-        canDeleteAll: Boolean
-    });
+const { $caretXY } = useNuxtApp();
 
-    const { $caretXY } = useNuxtApp();
+const isLoaded = ref(false);
+const comments = ref<Paginator<Comment>>();
+const page = ref(1);
+const pages = ref(1);
+const commentContent = ref('');
+const showCommentDialog = ref(false);
+const replyingComment = ref<Comment>();
+const editingComment = ref<Comment>();
 
-    const isLoaded = ref(false);
-    const comments = ref<Paginator<Comment>>();
-    const page = ref(1);
-    const pages = ref(1);
-    const commentContent = ref('');
-    const showCommentDialog = ref(false);
-    const replyingComment = ref<Comment>();
-    const editingComment = ref<Comment>();
+//Mention stuff
+const mentionPos = ref([0, 0]);
+const showMentions = ref(false);
+const mentionRange = ref([-1,-1]);
+const users = ref<Paginator<User>>();
 
-    //Mention stuff
-    const mentionPos = ref([0, 0]);
-    const showMentions = ref(false);
-    const mentionRange = ref([-1,-1]);
-    const users = ref<Paginator<User>>();
-
-    function onTextareaKeyup(event: KeyboardEvent) {
-        if (!(event.target instanceof HTMLTextAreaElement)) {
-            return;
-        }
-
-        const textArea = event.target as HTMLTextAreaElement;
-        const coords = $caretXY(textArea);
-        
-        mentionPos.value = [coords.left, coords.top];
-
-        if (event.key == 'Enter' || event.key == 'ArrowUp' || event.key == 'Ctrl' || event.key == 'ArrowDown') {
-            showMentions.value = false;
-        }
+function onTextareaKeyup(event: KeyboardEvent) {
+    if (!(event.target instanceof HTMLTextAreaElement)) {
+        return;
     }
 
-    function onTextareaInput(event: InputEvent) {
-        const textArea = event.target as HTMLTextAreaElement;
-
-        if (event.inputType == 'insertText') {
-            if (event.data == '@') {
-                mentionRange.value = [textArea.selectionEnd, textArea.selectionEnd];
-                showMentions.value = true;
-            } else if (showMentions.value) {
-                mentionRange.value[1] = textArea.selectionEnd;
-            }
-        }
-    }
-
-    function onTextareaMouseDown(event: MouseEvent) {
-        if (event.button == 0) {
-            showMentions.value = false;
-        }
-    }
-
-    function onClickMention(e: MouseEvent, user: User) {
-        showMentions.value = false;
-        const range = mentionRange.value;
-
-        commentContent.value = strReplacRange(commentContent.value, range[0]-1, range[1], `@${user.unique_name}`);
-    }
-
-    let lastTimeout: NodeJS.Timeout;
-    watch(commentContent, async (val: string) => {
-        if (lastTimeout) {
-            clearTimeout(lastTimeout);
-        }
-        if (showMentions.value) {
-            const query = val.substring(mentionRange.value[0], mentionRange.value[1]);
-            
-            lastTimeout = setTimeout(async () => {
-                users.value = null;
-                users.value = await useGetMany<User>('users', { params: { query } });
-            }, 500);
-        }
-
-    });
-
-    function setCommentDialog(open: boolean) {
-        showCommentDialog.value = open;
-        commentContent.value = '';
-        replyingComment.value = undefined;
-        editingComment.value = undefined;
-    }
-
-    async function postComment() {
-        const content = commentContent.value;
-        try {
-            commentContent.value = '';
-            const comment = await usePost<Comment>(props.url, {
-                content,
-                reply_to: replyingComment.value?.id
-            });
-            if (replyingComment.value) {
-                replyingComment.value.last_replies.push(comment);
-            } else {
-                comments.value.data.unshift(comment);
-            }
-            setCommentDialog(false);
-        } catch (error) {
-            commentContent.value = content; //We failed, let's not eat the user's draft
-            // Notification.error('Failed to post the comment');
-            console.log(error);
-        }                
-    }
-
-    async function editComment() {
-        const content = commentContent.value;
-        try {
-            commentContent.value = '';
-            await usePatch(props.url + '/' + editingComment.value.id, { content });
-            editingComment.value.content = content;
-            setCommentDialog(false);
-        } catch (error) {
-            commentContent.value = content; //We failed, let's not eat the user's draft
-            // Notification.error('Failed to edit the comment');
-            console.log(error);
-        }
-    }
-
-    function commentDialogConfirm() {
-        if (editingComment.value) {
-            editComment();
-        } else {
-            postComment();
-        }
-    }
-
-    async function loadComments() {
-        comments.value = await useGetMany<Comment>(props.url, {
-            params: {
-                page: page.value,
-                limit: 20,
-            }
-        });
-        isLoaded.value = true;
-    }
-
-    function onVisChange(isVisible: boolean) {
-        if (!isLoaded.value && isVisible) {
-            loadComments();
-        }
-    }
-
-    async function deleteComment(commentId: number, isReply=false) {
-        await useDelete(props.url + '/' + commentId);
-        if (!isReply) {
-            const allComments = comments.value.data;
-            allComments.splice(allComments.findIndex(com => com.id == commentId), 1);
-        }
-    }
+    const textArea = event.target as HTMLTextAreaElement;
+    const coords = $caretXY(textArea);
     
-    function replyToComment(replyTo: Comment, mention: string) {
-        setCommentDialog(true);
-        
-        if (replyTo) {
-            replyingComment.value = replyTo;
-            if (mention) {
-                replyingComment.value = replyTo;
-                commentContent.value = `@${mention} `;
-            }
+    mentionPos.value = [coords.left, coords.top];
+
+    if (event.key == 'Enter' || event.key == 'ArrowUp' || event.key == 'Ctrl' || event.key == 'ArrowDown') {
+        showMentions.value = false;
+    }
+}
+
+function onTextareaInput(event: InputEvent) {
+    const textArea = event.target as HTMLTextAreaElement;
+
+    if (event.inputType == 'insertText') {
+        if (event.data == '@') {
+            mentionRange.value = [textArea.selectionEnd, textArea.selectionEnd];
+            showMentions.value = true;
+        } else if (showMentions.value) {
+            mentionRange.value[1] = textArea.selectionEnd;
         }
     }
+}
 
-    //This really just reloads the comments(will later reset pages)
-    //Pretty much because this isn't as frequent and so it's sorted well.
-    async function setCommentPinState(comment: Comment) {
-        await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
+function onTextareaMouseDown(event: MouseEvent) {
+    if (event.button == 0) {
+        showMentions.value = false;
+    }
+}
+
+function onClickMention(e: MouseEvent, user: User) {
+    showMentions.value = false;
+    const range = mentionRange.value;
+
+    commentContent.value = strReplacRange(commentContent.value, range[0]-1, range[1], `@${user.unique_name}`);
+}
+
+let lastTimeout: NodeJS.Timeout;
+watch(commentContent, async (val: string) => {
+    if (lastTimeout) {
+        clearTimeout(lastTimeout);
+    }
+    if (showMentions.value) {
+        const query = val.substring(mentionRange.value[0], mentionRange.value[1]);
+        
+        lastTimeout = setTimeout(async () => {
+            users.value = null;
+            users.value = await useGetMany<User>('users', { params: { query } });
+        }, 500);
+    }
+
+});
+
+function setCommentDialog(open: boolean) {
+    showCommentDialog.value = open;
+    commentContent.value = '';
+    replyingComment.value = undefined;
+    editingComment.value = undefined;
+}
+
+async function postComment() {
+    const content = commentContent.value;
+    try {
+        commentContent.value = '';
+        const comment = await usePost<Comment>(props.url, {
+            content,
+            reply_to: replyingComment.value?.id
+        });
+        if (replyingComment.value) {
+            replyingComment.value.last_replies.push(comment);
+        } else {
+            comments.value.data.unshift(comment);
+        }
+        setCommentDialog(false);
+    } catch (error) {
+        commentContent.value = content; //We failed, let's not eat the user's draft
+        // Notification.error('Failed to post the comment');
+        console.log(error);
+    }                
+}
+
+async function editComment() {
+    const content = commentContent.value;
+    try {
+        commentContent.value = '';
+        await usePatch(props.url + '/' + editingComment.value.id, { content });
+        editingComment.value.content = content;
+        setCommentDialog(false);
+    } catch (error) {
+        commentContent.value = content; //We failed, let's not eat the user's draft
+        // Notification.error('Failed to edit the comment');
+        console.log(error);
+    }
+}
+
+function commentDialogConfirm() {
+    if (editingComment.value) {
+        editComment();
+    } else {
+        postComment();
+    }
+}
+
+async function loadComments() {
+    comments.value = await useGetMany<Comment>(props.url, {
+        params: {
+            page: page.value,
+            limit: 20,
+        }
+    });
+    isLoaded.value = true;
+}
+
+function onVisChange(isVisible: boolean) {
+    if (!isLoaded.value && isVisible) {
         loadComments();
     }
+}
 
-    function beginEditingComment(comment: Comment) {
-        setCommentDialog(true);
-        commentContent.value = comment.content;
-        editingComment.value = comment;
+async function deleteComment(commentId: number, isReply=false) {
+    await useDelete(props.url + '/' + commentId);
+    if (!isReply) {
+        const allComments = comments.value.data;
+        allComments.splice(allComments.findIndex(com => com.id == commentId), 1);
     }
+}
+
+function replyToComment(replyTo: Comment, mention: string) {
+    setCommentDialog(true);
+    
+    if (replyTo) {
+        replyingComment.value = replyTo;
+        if (mention) {
+            replyingComment.value = replyTo;
+            commentContent.value = `@${mention} `;
+        }
+    }
+}
+
+//This really just reloads the comments(will later reset pages)
+//Pretty much because this isn't as frequent and so it's sorted well.
+async function setCommentPinState(comment: Comment) {
+    await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
+    loadComments();
+}
+
+function beginEditingComment(comment: Comment) {
+    setCommentDialog(true);
+    commentContent.value = comment.content;
+    editingComment.value = comment;
+}
 </script>
 
 <style>

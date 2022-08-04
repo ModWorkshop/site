@@ -1,9 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "build": "nuxi build",
+    "build": "nuxt build",
     "dev": "nuxt dev",
-    "start": "nuxi start",
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },
@@ -21,7 +20,6 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@css-render/vue3-ssr": "^0.15.10",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@fortawesome/free-regular-svg-icons": "^6.1.2",
@@ -29,7 +27,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@koddsson/textarea-caret": "^4.0.1",
     "@pinia/nuxt": "^0.3.1",
-    "async-validator": "^4.2.5",
+    "@vueuse/components": "^9.1.0",
     "caret-pos": "^2.0.0",
     "caret-xy": "^2.0.3",
     "click-outside-vue3": "^4.0.1",
@@ -39,9 +37,8 @@
     "isomorphic-dompurify": "latest",
     "lodash": "^4.17.21",
     "luxon": "^3.0.1",
-    "markdown-it": "^12.3.2",
-    "markdown-it-mentions": "^1.0.0",
-    "nuxt-windicss": "^2.2.10",
+    "markdown-it": "^13.0.1",
+    "nuxt-windicss": "^2.5.0",
     "object-to-formdata": "^4.4.2",
     "pinia": "^2.0.17",
     "polished": "^4.2.2",
