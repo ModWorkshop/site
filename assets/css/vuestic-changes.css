@@ -38,22 +38,22 @@
     --popper-theme-background-color-hover: var(--dropdown-bg);
     --va-modal-dialog-box-shadow: 0 !important;
     --va-select-dropdown-background: var(--dropdown-bg) !important;
-    --va-font-family: initial;
-}
-
-.va-modal__dialog, .va-modal__inner, .va-modal__inner > div {
-    height: 100% !important;
-}
-
-.va-modal__container {
-    max-height: auto;
-}
-
-.va-modal__inner {
-    overflow: hidden !important;
+    --va-font-family: initial  !important;
 }
 
 .va-modal--size-large, .va-modal--size-large .va-modal__inner {
     min-width: 992px;
     max-width: 100%  !important;
+}
+.va-modal__dialog {
+    color: var(--text-color) !important;
+    background-color: var(--secondary-bg-color) !important;
+}
+
+.va-modal__dialog, .va-modal__inner, .va-modal__inner > div {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
 }

@@ -2,15 +2,15 @@
     <va-modal v-model="showNotifications" size="large" background-color="#2b3036">
         <template #content="{ ok }">
             <va-inner-loading v-if="!notifications" loading class="mb-4 mt-2"/>
-            <flex v-else column gap="4" class="h-full">
+            <template v-else>
                 <h2>Notifications</h2>
                 <flex column class="overflow-y-scroll">
                     <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok"/>
                 </flex>
-                <div>
-                    <a-button icon="eye" to="notifications">{{$t('browse_all_notifications')}}</a-button>
+                <div class="mt-4">
+                    <a-button icon="eye" to="/notifications">{{$t('browse_all_notifications')}}</a-button>
                 </div>
-            </flex>
+            </template>
         </template>
     </va-modal>
     <header class="nav">
