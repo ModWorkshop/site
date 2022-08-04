@@ -29,6 +29,7 @@ import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
 const { hasPermission } = useStore();
 const route = useRoute();
+const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
@@ -66,7 +67,7 @@ function commentSpecialTag(comment: Comment) {
 
 function openShare() {
     navigator.share({
-        url: `http://localhost:3000/mod/${mod.value.id}`
+        url: `${config.siteUrl}/${mod.value.id}`
     });
 }
 </script>

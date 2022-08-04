@@ -1,12 +1,11 @@
 <template>
     <page-block v-if="game">
         <div class="content-block">
-            <a-banner v-if="game.banner" :src="game.banner" url-prefix="games/banners" style="height: 265px"/>
-            <div v-else class="d-flex card-img-top" style="background-image: url('http://localhost:8000/storage/banners/default_banner.webp');background-position: center;height: 265px;100%;">
-                <strong style="font-size: 2rem;" class="ml-2 align-self-end">
+            <a-banner :src="game.banner" url-prefix="games/banners" style="height: 265px">
+                <strong v-if="!game.banner" style="font-size: 2rem;" class="ml-2 align-self-end">
                     {{game.name}}
                 </strong>
-            </div>
+            </a-banner>
             <flex class="nav p-5" gap="4">
                 <NuxtLink v-for="button in buttons" :key="button[0]" class="nav-item" href="{{button[1]}}">{{button[0]}}</NuxtLink>
             </flex>

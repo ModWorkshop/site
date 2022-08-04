@@ -4,7 +4,8 @@ import queryString from 'query-string';
 export default async function<T = unknown>(url: string, options?: FetchOptions) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
-
+    const {public: config} = useRuntimeConfig();
+    
     //No point running this for non GET
     if (options && options.params && (!options.method || options.method == 'GET')) {
         //This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
@@ -13,10 +14,10 @@ export default async function<T = unknown>(url: string, options?: FetchOptions) 
     }
 
     return await $fetch<T>(url, {
-        baseURL: 'http://localhost:8000',
+        baseURL: config.apiUrl,
         headers: {
             accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
-            referer: 'localhost:3000', //Uneeded in production
+            referer: config.siteUrl, //Uneeded in production
             cookie: headers.cookie,
             'X-XSRF-TOKEN': token.value
         },

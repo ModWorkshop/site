@@ -1,5 +1,5 @@
 <template>
-    <a-img :src="avatarUrl" :url-prefix="urlPrefix" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -19,7 +19,7 @@ const avatarUrl = computed(() => {
     if (src) {
         return src;
     } else {
-        return 'http://localhost:8000/storage/assets/nopreview.webp';
+        return '/assets/nopreview.webp';
     }
 });
 </script>

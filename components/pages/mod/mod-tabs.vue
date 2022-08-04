@@ -6,7 +6,7 @@
             </a-tab>
             <a-tab v-if="mod.images.length > 0" name="images" :title="$t('images')" style="width: 100%; margin: 0 auto; text-align: center">
                 <a v-for="(image, i) of mod.images" :key="image.id" class="cursor-pointer mb-1 inline-block overflow-hidden" @click="showImage(i)">
-                    <img :src="`http://localhost:8000/storage/mods/images/${image.file}`" style="max-width:100%;height: 210px;object-fit: cover;">
+                    <a-img :src="`/mods/images/${image.file}`" style="max-width:100%;height: 210px;object-fit: cover;"/>
                 </a>
                 <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
             </a-tab>
@@ -28,7 +28,7 @@
                                 <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                             </flex>
                             <div>
-                                <a-button v-if="file.size" :href="`http://localhost:8000/files/${file.id}/download`" icon="download" download large>
+                                <a-button v-if="file.size" :href="`${config.apiUrl}/files/${file.id}/download`" icon="download" download large>
                                     {{$t('download')}}
                                     <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
                                 </a-button>
@@ -67,6 +67,8 @@ const props = defineProps<{
     mod: Mod
 }>();
 
+const { public: config } = useRuntimeConfig();
+
 const imageIndex = ref(0);
 const galleryVisible = ref(false);
 
@@ -95,7 +97,7 @@ function showImage(nextIndex) {
 const images = computed(() => {
     const images = [];
     for (const image of props.mod.images) {
-        images.push(`http://localhost:8000/storage/mods/images/${image.file}`);
+        images.push(`${config.apiUrl}/mods/images/${image.file}`);
     }
     return images;
 });

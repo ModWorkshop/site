@@ -11,7 +11,7 @@
                 <flex column gap="2">
                     Or register using one the following
                     <flex>
-                        <a-button href="http://localhost:8000/auth/steam/redirect" :icon="['fab', 'steam']" icon-size="lg"/>
+                        <a-button :href="`${config.apiUrl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
                         <a-button :icon="['fab', 'google']" icon-size="lg"/>
                         <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
                     </flex>

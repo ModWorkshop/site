@@ -3,6 +3,8 @@
 </template>
 
 <script setup lang="ts">
+const { public: config } = useRuntimeConfig();
+
 const props = defineProps({
     src: {
         default: '',
@@ -23,7 +25,7 @@ const compSrc = computed(function() {
     if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
         return src;
     } else {
-        return `http://localhost:8000/storage/${props.urlPrefix || ''}${src}`;
+        return `${config.apiUrl}/storage/${props.urlPrefix || ''}${src}`;
     }
 });
 </script>

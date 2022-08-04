@@ -3,6 +3,13 @@ import { resolve } from 'path';
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+	runtimeConfig: {
+		public: {
+			apiUrl: '',
+			siteUrl: ''
+		}
+	},
+
 	components: [
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],

@@ -19,7 +19,7 @@
                 </div>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user && '/login'" @click="toggleLiked"/>
-                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && `http://localhost:8000/files/${mod.download.id}/download`" download @click="registerDownload">
+                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && downloadUrl" download @click="registerDownload">
                         Download
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
@@ -46,6 +46,7 @@
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+const { public: config } = useRuntimeConfig();
 
 const props = defineProps<{
     mod: Mod,
@@ -56,6 +57,7 @@ const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mod')));
+const downloadUrl = computed(() => `${config.apiUrl}/files/${props.mod.download.id}/download`);
 
 function registerDownload() {
     if (props.static) {
