@@ -72,7 +72,7 @@ const props = defineProps<{
     comment: Comment,
     canEditAll: boolean,
     canDeleteAll: boolean,
-    isReply: boolean,
+    isReply?: boolean,
     getSpecialTag: (comment: Comment) => string,
     currentFocus: Comment
 }>();
