@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         JsonResource::withoutWrapping();
+
+        Validator::extend('email_or_url', function ($attribute, $value, $parameters, $validator) {
+            if (!$validator->validateEmail($attribute, $value, ['rfc']) && !$validator->validateUrl($attribute, $value)) {
+                return false;
+            }
+            return true;
+        });
     }
 }

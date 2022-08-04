@@ -138,7 +138,7 @@ class Mod extends Model
     protected $guarded = ['download_type', 'download_id'];
 
     private $withFull = ['tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser'];
-    protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
+    protected $with = ['user.extra', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
     protected $hidden = ['download_type'];
 
@@ -152,6 +152,7 @@ class Mod extends Model
         $this->append('breadcrumb');
         $this->load($this->withFull);
         $this->category?->loadMissing('parent');
+        $this->members?->loadMissing('extra');
     }
 
     protected static function booted() {

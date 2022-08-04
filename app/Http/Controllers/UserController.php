@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Validator;
 use Str;
 
 /**
@@ -98,7 +99,7 @@ class UserController extends Controller
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'required|boolean',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
-            'donation_url' => 'url|nullable|max:255'
+            'donation_url' => 'email_or_url|nullable|max:255',
         ]);
 
         $valExtra['bio'] ??= '';

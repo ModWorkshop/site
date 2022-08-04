@@ -42,12 +42,12 @@ class ModResource extends JsonResource
             'files' => $this->whenLoaded('files'),
             'links' => $this->whenLoaded('links'),
             'images' => $this->whenLoaded('images'),
-            'members' => $this->whenLoaded('members', function() use ($missingValue) {
+            'members' => $this->whenLoaded('members', function() use ($missingValue, $request) {
                 $members = [];
                 foreach ($this->members as $member) {
-                    $memberCopy = $member->toArray();
-                    $memberCopy['accepted'] = $memberCopy['pivot']['accepted'];
-                    $memberCopy['level'] = $memberCopy['pivot']['level'];
+                    $memberCopy = (new UserResource($member))->toArray($request);
+                    $memberCopy['accepted'] = $member->pivot->accepted;
+                    $memberCopy['level'] = $member->pivot->level;
                     $memberCopy['pivot'] = $missingValue;
 
                     $members[] = $memberCopy;
