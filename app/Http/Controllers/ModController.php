@@ -189,7 +189,7 @@ class ModController extends Controller
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
                 if ($val['version'] !== $mod->version) {
-                    $val['bumped_at'] = Carbon::now();
+                    $mod->bump(false);
                 }
             }
             $mod->calculateFileStatus(false);

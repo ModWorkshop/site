@@ -6,9 +6,11 @@ use App\Services\ModService;
 use App\Traits\Filterable;
 use App\Traits\RelationsListener;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -119,6 +121,9 @@ abstract class Visibility {
  * @method static Builder|Mod whereBumpedAt($value)
  * @method static Builder|Mod wherePublishedAt($value)
  * @property-read \App\Models\TransferRequest|null $transferRequest
+ * @property int|null $last_user_id
+ * @property-read \App\Models\User|null $lastUser
+ * @method static Builder|Mod whereLastUserId($value)
  */
 class Mod extends Model
 {
@@ -132,7 +137,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    private $withFull = ['tags', 'images', 'files', 'links', 'members', 'banner'];
+    private $withFull = ['tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser'];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
     protected $hidden = ['download_type'];
@@ -161,47 +166,52 @@ class Mod extends Model
         return $query->without(['tags']);
     }
 
-    public function user() : HasOne 
+    public function user()
     {
-        return $this->hasOne(User::class, "id", 'user_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function category() : HasOne 
+    public function lastUser()
     {
-        return $this->hasOne(Category::class, "id", 'category_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function game() : HasOne
+    public function category() 
     {
-        return $this->hasOne(Game::class, "id", 'game_id');
+        return $this->belongsTo(Category::class);
+    }
+
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
     }
     
-    public function thumbnail() : HasOne
+    public function thumbnail()
     {
-        return $this->hasOne(Image::class, 'id', 'thumbnail_id');
+        return $this->hasOne(Image::class);
     }
         
-    public function banner() : HasOne
+    public function banner()
     {
-        return $this->hasOne(Image::class, 'id', 'banner_id');
+        return $this->hasOne(Image::class);
     }
 
-    public function tags() : BelongsToMany
+    public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function images() : HasMany
+    public function images()
     {
         return $this->hasMany(Image::class);
     }
 
-    public function files() : HasMany
+    public function files()
     {
         return $this->hasMany(File::class)->orderByDesc('updated_at');
     }
 
-    public function links() : HasMany
+    public function links()
     {
         return $this->hasMany(Link::class)->orderByDesc('updated_at');
     }
@@ -305,6 +315,24 @@ class Mod extends Model
         if (!$this->published_at && $this->file_status == 1) {
             $this->published_at = $this->freshTimestampString();
             $this->bumped_at = $this->published_at;
+        }
+
+        if ($save) {
+            $this->save();
+        }
+    }
+
+    public function bump($save=true)
+    {
+        $this->bumped_at = Carbon::now();
+
+        $userId = Auth::user()->id;
+
+        //If we are the owner or one of the members, show ourselves as the last updater. Otherwise, show no one.
+        if ($this->user->id === $userId || $this->getMemberLevel($userId) !== null) {
+            $this->last_user_id = $userId;
+        } else {
+            $this->last_user_id = null;
         }
 
         if ($save) {
