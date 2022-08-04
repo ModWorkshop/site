@@ -5,7 +5,7 @@
         </span>
         <flex column>
             <strong v-if="title" class="text-xl">{{title}}</strong>
-            <slot/>
+            <slot>{{desc}}</slot>
         </flex>
     </flex>
 </template>
@@ -13,7 +13,8 @@
 <script setup lang="ts">
 const props = defineProps({
     color: String,
-    title: String
+    title: String,
+    desc: String,
 });
 
 const icons = {
