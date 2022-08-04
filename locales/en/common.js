@@ -44,7 +44,7 @@ export default {
     invalid_extension: "The image file can only have one the following extensions: jpeg, png, webp, apng, or gif.",
     invalid_url: "The following URL is invalid: ",
     last_updated: "Last Updated",
-    last_updated_by: "Last Updated By",
+    by_user_time_ago: "{time} by {user} ",
     log_in_register: "To leave a comment, you must log in.",
     max_height: "The height of your image is larger than {1}px.",
     max_files: "You can upload a maximum of {1} files for each mod.",
