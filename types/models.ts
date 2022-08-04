@@ -115,6 +115,7 @@ export interface Mod {
     download_id: number | null;
     download_type: string | null;
     user?: User | null;
+    last_user?: User;
     category?: Category | null;
     game?: Category | null;
     thumbnail?: Image;
