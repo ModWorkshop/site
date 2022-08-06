@@ -156,6 +156,20 @@ class Mod extends Model
     }
 
     protected static function booted() {
+        static::deleting(function (Mod $mod)
+        {
+            foreach ($mod->comments as $comment) {
+                $comment->delete();
+            }
+            //While there's onDelete cascade, this unfortunately doesn't work with event hooking.
+            //Basically we must do this or images won't be deleted!
+            foreach ($mod->images as $image) {
+                $image->delete();
+            }
+            foreach ($mod->files as $file) {
+                $file->delete();
+            }
+        });
         static::creating(function (Mod $mod)
         {
             $mod->bumped_at = $mod->freshTimestampString();

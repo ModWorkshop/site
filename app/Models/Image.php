@@ -64,7 +64,7 @@ class Image extends Model
                 $mod->save();
             }
 
-            Storage::disk('public')->delete('images/'.$image->file);
+            Storage::disk('public')->delete('mods/images/'.$image->file);
         });
     }
 }

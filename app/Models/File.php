@@ -66,7 +66,7 @@ class File extends Model
     protected static function booted() {
         static::deleting(function (File $file)
         {
-            Storage::delete('files/'.$file->file);
+            Storage::delete('mods/files/'.$file->file);
 
             $mod = $file->mod;
             
