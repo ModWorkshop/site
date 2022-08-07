@@ -49,6 +49,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/auth/steam/redirect', function(Request $request) {
     return Socialite::driver('steam')->redirect();
 });
+Route::get('/auth/twitter/redirect', function(Request $request) {
+    return Socialite::driver('twitter')->redirect();
+});
 
 /**
  * @hideFromAPIDocumentation
@@ -87,6 +90,41 @@ Route::get('/auth/steam/callback', function(Request $request) {
     // return redirect('http://localhost:3000');
 });
 
+/**
+ * @hideFromAPIDocumentation
+ */
+Route::get('/auth/twitter/callback', function(Request $request) {
+    $twitterUser = Socialite::driver('twitter')->user();
+
+    /**
+     * @var SocialLogin
+     */
+    $socialLogin = SocialLogin::where('social_id', 'twitter')->where('special_id', $twitterUser->id)->first();
+    $user = null;
+    if (isset($socialLogin)) {
+        $user = $socialLogin->user;
+    } else {
+        //Create a user
+        $user = User::create([
+            'name' => $twitterUser->nickname,
+            'avatar' => $twitterUser->avatar,
+        ]);
+
+        //Create a social login so the user can login with it later
+        SocialLogin::create([
+            'social_id' => 'twitter',
+            'special_id' => $twitterUser->id,
+            'user_id' => $user->id
+        ]);
+    }
+
+    if (Auth::login($user, true)) {
+        $request->session()->regenerate();
+    }
+
+    // return redirect('http://localhost:3000');
+});
+
 // https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
 // Resources
 Route::resource('roles', RoleController::class);
@@ -96,6 +134,7 @@ Route::resource('mods.links', LinkController::class);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
 Route::middleware('can:super-update,mod')->patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
+Route::middleware('can:super-update,mod')->patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
 Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
