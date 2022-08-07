@@ -385,15 +385,16 @@ class ModController extends Controller
         if (isset($like)) {
             $like->delete();
             $liked = false;
-            $mod->likes--;
+            $mod->decrement('likes');
         } else {
             $like = new ModLike;
             $like->mod_id = $mod->id;
             $like->user_id = $user->id;
             $like->save();
-            $mod->likes++;
+            $mod->increment('likes');
         }
 
+        $mod->likes = max(0, $mod->likes);
         $mod->save();
 
         return ['liked' => $liked, 'likes' => $mod->likes];
