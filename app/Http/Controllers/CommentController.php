@@ -138,4 +138,28 @@ class CommentController extends Controller
     {
         $comment->delete();
     }
+
+    /**
+     * Finds the page of the comment
+     *
+     * @param Request $request
+     * @param Model $commentable
+     * @param integer $comment
+     * @return void
+     */
+    public function _page(Request $request, Model $commentable, int $comment)
+    {
+        $limit = $request->query->getInt('limit', 20);
+
+        $comments = DB::table('comments')
+            ->select(['id', 'commentable_id', 'commentable_type', 'reply_to', DB::raw('row_number() over(ORDER BY pinned DESC, created_at DESC) AS position')])
+            ->orderByRaw('pinned DESC, created_at DESC')
+            ->whereNull('reply_to')
+            ->where('commentable_type', $commentable->getMorphClass())
+            ->where('commentable_id', $commentable->id);
+
+        $comment = Comment::from($comments, 'coms')->where('coms.id', $comment)->first();
+
+        return ceil($comment->position / $limit);
+    }
 }

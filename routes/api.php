@@ -106,6 +106,7 @@ Route::resource('tags', TagController::class);
  * @group Mods
  */
 Route::resource('mods.comments', ModCommentsController::class);
+Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->get('notifications/unseen', [NotificationController::class, 'unseenCount']);
