@@ -22,7 +22,11 @@ class EventServiceProvider extends ServiceProvider
             // add your listeners (aka providers) here
             //'SocialiteProviders\\Zoho\\ZohoExtendSocialite@handle',
             'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
+            \SocialiteProviders\Twitter\TwitterExtendSocialite::class.'@handle'
         ],
+        'Illuminate\Auth\Events\Authenticated' => [
+            'App\Listeners\UserAuthenticated'
+        ]
     ];
 
     /**
