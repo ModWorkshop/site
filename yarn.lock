@@ -1135,14 +1135,6 @@
     local-pkg "^0.4.2"
     vue-demi "*"
 
-"@vueuse/router@^9.0.2":
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-9.1.0.tgz#91deeb9fb779677cbaf4826c6de588ed294a7b69"
-  integrity sha512-ub2B8XfHCQXX4Migab9bBnFjJI+NmqeLbQox1UdhWhy9cZIpgKx40aW7eq/LLUMGVIKAdriDI6YsD0LZrZFeaA==
-  dependencies:
-    "@vueuse/shared" "9.1.0"
-    vue-demi "*"
-
 "@vueuse/shared@9.1.0":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-9.1.0.tgz#d8459a45324f32fb05a2a56ed754637c3d0efaeb"
@@ -5681,6 +5673,15 @@ vuestic-ui@^1.4.8:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/vuestic-ui/-/vuestic-ui-1.4.8.tgz#7ed8d50d13878ba8f4c24fdcda984386943263d3"
   integrity sha512-1DUq1SAlUyHrOkMz5kTAJIT3PGdPbgLViwSc9Uqn+PY800iyQBMF+c+z4jDc01drerWmFxR8QjmUV5rzDZEESg==
+  dependencies:
+    cleave.js "^1.6.0"
+    colortranslator "^1.9.2"
+    lodash "^4.17.21"
+
+vuestic-ui@^1.4.9:
+  version "1.4.9"
+  resolved "https://registry.yarnpkg.com/vuestic-ui/-/vuestic-ui-1.4.9.tgz#dd4996b9b9fb397d7c86987453f40f8e811e37a0"
+  integrity sha512-Pc+qCBwycMQKaaGhPz012oYnbIga5gsG0LsjWFMfaWxe8YP9EAiYKzrTSz4fDllk2xcHHF06GgaMw0bMFW+Bbw==
   dependencies:
     cleave.js "^1.6.0"
     colortranslator "^1.9.2"
