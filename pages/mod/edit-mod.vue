@@ -20,7 +20,7 @@
                     <a-tab name="members" title="Members">
                         <edit-mod-members :mod="mod"/>
                     </a-tab>
-                    <a-tab name="instructions" title="Instructions"/>
+                    <a-tab name="instructions" title="Dependencies & Instructions"/>
                 </a-tabs>
             </content-block>
         </a-form>
