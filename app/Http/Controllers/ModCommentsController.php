@@ -64,4 +64,9 @@ class ModCommentsController extends CommentController
     {
         return self::_destroy($mod, $comment);
     }
+
+    public function page(Request $request, Mod $mod, int $comment)
+    {
+        return self::_page($request, $mod, $comment);
+    }
 }

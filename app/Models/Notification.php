@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Traits\Filterable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Notification
@@ -41,8 +44,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Notification extends Model
 {
-    use HasFactory, Filterable;
+    use HasFactory, Filterable, QueryCacheable;
 
+    public $cacheFor = 10;
+    
     protected $with = ['user', 'notifiable', 'context'];
     
     public static function send(string $type, User $user, Model $notifiable = null, Model $context = null)
@@ -82,7 +87,7 @@ class Notification extends Model
         $id = $model->id;
         $type = $model->getMorphClass();
 
-        if (isset($type)) {
+        if (isset($notifType)) {
             $q->where('type', $notifType);
         }
 
@@ -93,11 +98,21 @@ class Notification extends Model
 
     protected $guarded = [];
 
+    /**
+     * The thing that we got notified by. We are subscribed to a mod discussion, our comment.
+     * Essentially, what *triggered* the notification.
+     */
     public function notifiable()
     {
-        return $this->morphTo();
+        return $this->morphTo()->morphWith([
+            Comment::class => 'commentable'
+        ]);
     }
 
+    /**
+     * Context for the notification, if we got a comment in a mod we subscribed to, we need to know what comment it is.
+     * In some cases notifiable is enoough. For example a mod got updated, we don't need anything else.
+     */
     public function context()
     {
         return $this->morphTo();

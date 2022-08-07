@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laravel\Scout\Attributes\SearchUsingFullText;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
@@ -46,9 +47,10 @@ class Comment extends Model
 {
     use HasFactory, HasEagerLimit, Filterable;
 
-    protected $with = ['user', 'lastReplies'];
+
+    protected $with = ['user'];
     protected $guarded = [];
-    protected $hidden = ['commentable', 'commentable_id', 'commentable_type'];
+    protected $hidden = ['commentable_type'];
 
     public function user() : BelongsTo
     {
@@ -68,6 +70,11 @@ class Comment extends Model
     public function replyingComment() : BelongsTo
     {
         return $this->belongsTo(Comment::class, 'id', 'reply_to');
+    }
+
+    public function mentions()
+    {
+        return $this->belongsToMany(User::class, Mention::class);
     }
 
     #[SearchUsingFullText(['content'])]

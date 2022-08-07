@@ -8,12 +8,16 @@ use App\Models\Comment;
 use App\Models\Mod;
 use App\Models\Notification;
 use App\Models\Thread;
+use App\Models\User;
+use Arr;
 use Auth;
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Rant time:
@@ -36,11 +40,13 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function _index(FilteredRequest $request, Model $commnetable)
+    public function _index(FilteredRequest $request, Model $commentable)
     {
-        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($commnetable) {
+        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($commentable) {
+            $query->with(['lastReplies', 'mentions']);
             $query->orderByRaw('pinned DESC, created_at DESC');
-            $query->whereMorphedTo('commentable', $commnetable);
+            $query->whereNull('reply_to');
+            $query->whereMorphedTo('commentable', $commentable);
         });
 
         return CommentResource::collection($comments);
@@ -55,32 +61,58 @@ class CommentController extends Controller
     public function _store(Request $request, Model $commentable)
     {
         $val = $request->validate([
-            'content' => 'string|required|min:3|max:1000',
+            'content' => 'string|required|min:2|max:1000',
+            'mentions' => 'array',
+            'mentions.*' => 'string',
             'reply_to' => 'integer|nullable|min:1|exists:comments,id,reply_to,NULL'
         ]);
-        
-        $val['user_id'] = Auth::user()->id;
+
+        $user = Auth::user();
+
+        //Make sure to limit this to 20 users and not include ourselves!
+        $uniqueNames = array_slice(Arr::pull($val, 'mentions'), 0, 10);
+        $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->get();
+
+        $val['user_id'] = $user->id;
         /**
          * @var Comment
          */
         $comment = $commentable->comments()->create($val);
 
-        if ($val['user_id'] !== $commentable->user_id) {
-            //TODO: implement subs for discussions
-
-            $isReply = isset($val['reply_id']);
-            $notifiable = $commentable;
-            if ($isReply) {
-                $notifiable = Comment::find($val['reply_id']);
+        $mentionedIds = [];
+        foreach ($mentionedUsers as $mentionedUser) {
+            $mentionedIds[] = $mentionedUser->id;
+            if ($mentionedUser->id !== $user->id) { //Let's not mention ourselves
+                Notification::send(
+                    notifiable: $comment,
+                    context: $commentable,
+                    user: $mentionedUser,
+                    type: 'comment_mention'
+                );
             }
+        }
 
+        $comment->mentions()->sync($mentionedIds);
+
+        //TODO: implement subs for discussions
+
+        $isReply = isset($val['reply_to']);
+        $notifiable = $commentable;
+        if ($isReply) {
+            $notifiable = Comment::find($val['reply_to']);
+        }
+
+        $toUser = $isReply ? $notifiable->user : $commentable->user;
+        if ($val['user_id'] != $toUser->id) {
             Notification::send(
                 notifiable: $notifiable,
                 context: $comment,
-                user: $isReply ? $notifiable->user : $commentable->user,
+                user: $toUser,
                 type: $isReply ? 'comment_reply' : 'mod_comment'
             );
         }
+
+        $comment->loadMissing('mentions');
 
         return new CommentResource($comment);
     }
@@ -108,9 +140,20 @@ class CommentController extends Controller
     {
         $user = $request->user();
         $val = $request->validate([
+            'mentions' => 'array',
             'content' => 'string|required_without:pinned|min:3|max:1000',
             'pinned' => 'boolean'
         ]);
+
+        $uniqueNames = array_slice(Arr::pull($val, 'mentions'), 0, 10);
+        $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->without('roles')->get('id');
+        $mentionedIds = [];
+        foreach ($mentionedUsers as $mentionedUser) {
+            $mentionedIds[] = $mentionedUser->id;
+        }
+
+        //Update the mentions, but avoid sending any notifications to avoid spam.
+        $comment->mentions()->sync($mentionedIds);
 
         if ($comment->reply_to && isset($val['pinned'])) {
             throw new Exception('Only regular comments can be pinned!');
