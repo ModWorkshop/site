@@ -12,7 +12,7 @@ export function canEditMod(mod: Mod) {
         return true;
     }
 
-    const membership = mod.members.find(member => member.id === user.id);
+    const membership = mod.members.find(member => member.accepted && member.id === user.id);
     return membership && membership.level <= 1;
 }
 
