@@ -35,13 +35,14 @@ class ModMemberController extends Controller
         $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => false]);
         $member = $mod->members()->where('user_id', $val['user_id'])->first();
 
+        
         Notification::send(
             notifiable: $mod,
             user: $user,
             type: 'membership_request'
         );
 
-        return $member;
+        return [...$member->toArray(), 'level' => $member->pivot->level];
     }
 
     /**
