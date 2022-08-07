@@ -33,7 +33,7 @@ class CommentPolicy
      */
     public function view(?User $user, Comment $comment)
     {
-        return Response::allow();
+        return $this->authorize('view', $comment->commentable);
     }
 
     /**
@@ -42,9 +42,13 @@ class CommentPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Mod $mod)
     {
-        return $user->hasPermission('edit-own-comment');
+        if ($mod->comments_disabled) {
+            return $user->hasPermission('edit-own-comment');
+        } else {
+            return $this->authorize('view', $mod);
+        }
     }
 
     /**
@@ -57,7 +61,7 @@ class CommentPolicy
     public function update(User $user, Comment $comment)
     {
         if ($user->hasPermission('edit-comment') || ($user->hasPermission('edit-own-comment') && $comment->user->id === $user->id)) {
-            return true;
+            return $this->authorize('view', $comment->commentable);
         }
 
         //If we are able to edit a mod and we have the delete own mod comment permission, we should be able to delete the comment
@@ -82,11 +86,7 @@ class CommentPolicy
         if ($comment->user->id === $user->id) {
             return true;
         } else {
-
-            
             if ($comment->commentable instanceof Mod && $this->authorize('update', $comment->commentable)) {
-
-
                 return $user->hasPermission('delete-own-mod-comment');
             } else {
                 return $user->hasPermission('delete-comment');

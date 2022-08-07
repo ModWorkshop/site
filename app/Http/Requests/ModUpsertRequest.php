@@ -39,7 +39,8 @@ class ModUpsertRequest extends FormRequest
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
             'download_id' => 'integer|min:1|nullable',
-            'download_type' => 'string|nullable|in:file,link'
+            'download_type' => 'string|nullable|in:file,link',
+            'comments_disabled' => 'boolean'
         ];
     }
 }
