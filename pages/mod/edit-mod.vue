@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
-import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
