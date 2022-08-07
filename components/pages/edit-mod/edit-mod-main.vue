@@ -15,6 +15,8 @@
 
         <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
 
+        <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
+
         <details>
             <summary>{{$t('license')}}</summary>
             <flex class="mt-3" column gap="2">

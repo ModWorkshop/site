@@ -170,6 +170,7 @@ export default {
     search_mods_game: "Search Mods in Game",
     search_mods: "Search Mods",
     search_users: "Search Users",
+    disable_comments: 'Disable Comments',
     comments_disabled: "Comments have been disabled; Only the mod author, collaborators, and staff members can comment.",
     files_waiting: "File(s) Waiting for Approval",
     file_waiting: "Waiting for Approval",

@@ -4,7 +4,9 @@
             <flex>
                 <h3>Comments</h3>
                 <div class="ml-auto my-auto">
-                    <a-button icon="comment" @click="setCommentDialog(true)">Comment</a-button>
+                    <va-popover stick-to-edges :message="$t('comments_disabled')" :readonly="canComment">
+                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">Comment</a-button>
+                    </va-popover>
                 </div>
             </flex>
             <a-pagination v-if="comments" v-model="page" v-model:pages="pages" :total="comments.meta.total" :per-page="comments.meta.per_page" @update="loadComments"/>
@@ -58,14 +60,19 @@
 import { Comment, User } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
+import { useStore } from '~~/store';
 const props = defineProps({
     url: { type: String, required: true },
+    canComment: Boolean,
     getSpecialTag: Function,
     canEditAll: Boolean,
     canDeleteAll: Boolean
 });
 
 const { $caretXY } = useNuxtApp();
+
+const { user } = useStore();
+const router = useRouter();
 
 const isLoaded = ref(false);
 const comments = ref<Paginator<Comment>>();
@@ -82,6 +89,14 @@ const showMentions = ref(false);
 const mentionRange = ref([-1,-1]);
 const users = ref<Paginator<User>>();
 const usersCache: Record<string, User> = {};
+
+function onClickComment() {
+    if (user) {
+        setCommentDialog(true);
+    } else {
+        router.push('/login');
+    }
+} 
 
 function onTextareaKeyup(event: KeyboardEvent) {
     if (!(event.target instanceof HTMLTextAreaElement)) {

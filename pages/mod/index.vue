@@ -26,7 +26,13 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-        <the-comments :url="`mods/${mod.id}/comments`" :can-edit-all="canEditComments" :can-delete-all="canDeleteComments" :get-special-tag="commentSpecialTag"/>
+        <the-comments 
+            :url="`mods/${mod.id}/comments`" 
+            :can-edit-all="canEditComments"
+            :can-delete-all="canDeleteComments"
+            :get-special-tag="commentSpecialTag"
+            :can-comment="canComment"
+        />
     </page-block>
 </template>
 
@@ -62,6 +68,7 @@ if (mod.value) {
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => hasPermission('edit-comment'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
+const canComment = computed(() => !mod.value.comments_disabled || canEdit.value);
 
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.user_id) {

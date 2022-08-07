@@ -79,6 +79,7 @@
     .button:disabled {
         background-color: var(--disabled-color);
         border-color: var(--disabled-color);
+        opacity: 0.75;
     }
 
     .button:hover:enabled {
