@@ -30,11 +30,14 @@ const md = MarkdownIt({
 
 md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	let end = state.pos+1;
-	const max = state.posMax, start = state.pos;
+	const max = state.posMax, start = state.pos;	
 
-	if (state.src.charCodeAt(start) !== 64/* @ */) { return false; }
-	if (silent) { return false; } // don't run any pairs in validation mode
-	if (start + 2 >= max) { return false; }
+	if (silent || state.src.charCodeAt(start) !== 64/* @ */ || state.src.charCodeAt(start-1) === 59) { 
+		return false;
+	}
+	if (start + 2 >= max) { 
+		return false;
+	}
 
 	state.pos = start + 1;
 	

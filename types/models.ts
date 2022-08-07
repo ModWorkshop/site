@@ -34,6 +34,7 @@ export interface Comment {
     user_id: number;
     content: string;
     pinned: boolean;
+    mentions: User[],
     reply_to: number | null;
     created_at: string | null;
     updated_at: string | null;

@@ -69,7 +69,7 @@ const { $caretXY } = useNuxtApp();
 
 const isLoaded = ref(false);
 const comments = ref<Paginator<Comment>>();
-const page = ref(1);
+const page = useRouteQuery('page', 1);
 const pages = ref(1);
 const commentContent = ref('');
 const showCommentDialog = ref(false);
@@ -81,6 +81,7 @@ const mentionPos = ref([0, 0]);
 const showMentions = ref(false);
 const mentionRange = ref([-1,-1]);
 const users = ref<Paginator<User>>();
+const usersCache: Record<string, User> = {};
 
 function onTextareaKeyup(event: KeyboardEvent) {
     if (!(event.target instanceof HTMLTextAreaElement)) {
@@ -107,6 +108,8 @@ function onTextareaInput(event: InputEvent) {
         } else if (showMentions.value) {
             mentionRange.value[1] = textArea.selectionEnd;
         }
+    } else if (event.inputType == 'deleteContentBackward' && commentContent.value.charAt(textArea.selectionEnd) == '@') {
+        showMentions.value = false;
     }
 }
 
@@ -134,9 +137,11 @@ watch(commentContent, async (val: string) => {
         lastTimeout = setTimeout(async () => {
             users.value = null;
             users.value = await useGetMany<User>('users', { params: { query } });
-        }, 500);
+            for (const user of users.value.data) {
+                usersCache[user.unique_name] = user;
+            }
+        }, 200);
     }
-
 });
 
 function setCommentDialog(open: boolean) {
@@ -146,12 +151,37 @@ function setCommentDialog(open: boolean) {
     editingComment.value = undefined;
 }
 
+//In order to prevent loss of mentions for users, we convert the mentions to IDs we could easily replace later
+function processMentions(content: string) {
+    const mentions = [];
+    content = content.replace(/@([a-zA-Z-_0-9]+)/g, (match, uniqueName, offset) => {
+        //Don't allow more than 10 people to be mentioned
+        if (mentions.length < 10 && content.charAt(offset-1) !== '\\') { //Avoid selecting escaped at's
+            if (!mentions.find(name => name === uniqueName)) {
+                mentions.push(uniqueName);
+            }
+            const user = usersCache[uniqueName];
+            //TODO: search for user if they weren't cached yet.
+            if (user) {
+                return `<@${user.id}>`;
+            }
+        }
+
+        return match;
+    });
+
+    return { mentions, content };
+}
+
 async function postComment() {
-    const content = commentContent.value;
+    let content = commentContent.value;
+    commentContent.value = '';
     try {
-        commentContent.value = '';
+        const { mentions, content: processedContent } = processMentions(content);
+
         const comment = await usePost<Comment>(props.url, {
-            content,
+            content: processedContent,
+            mentions,
             reply_to: replyingComment.value?.id
         });
         if (replyingComment.value) {
@@ -171,7 +201,9 @@ async function editComment() {
     const content = commentContent.value;
     try {
         commentContent.value = '';
-        await usePatch(props.url + '/' + editingComment.value.id, { content });
+        const { mentions, content: processedContent } = processMentions(content);
+
+        await usePatch(props.url + '/' + editingComment.value.id, { content: processedContent, mentions });
         editingComment.value.content = content;
         setCommentDialog(false);
     } catch (error) {
@@ -213,14 +245,15 @@ async function deleteComment(commentId: number, isReply=false) {
     }
 }
 
-function replyToComment(replyTo: Comment, mention: string) {
+function replyToComment(replyTo: Comment, mention: User) {
     setCommentDialog(true);
     
     if (replyTo) {
         replyingComment.value = replyTo;
         if (mention) {
             replyingComment.value = replyTo;
-            commentContent.value = `@${mention} `;
+            commentContent.value = `@${mention.unique_name} `;
+            usersCache[mention.id] = mention;
         }
     }
 }

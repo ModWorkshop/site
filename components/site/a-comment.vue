@@ -51,7 +51,7 @@
                     :get-special-tag="getSpecialTag"
                     is-reply
                     @edit="() => $emit('edit', reply)"
-                    @reply="$emit('reply', comment, reply.user.unique_name)"
+                    @reply="$emit('reply', comment, reply.user)"
                     @delete="deleteComment"
                 />
             </flex>
@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { timeAgo } from '~~/utils/helpers';
 import { useStore } from '~~/store';
-import { Comment } from '~~/types/models';
+import { Comment, User } from '~~/types/models';
 const { init: openModal } = useModal();
 
 const props = defineProps<{
@@ -79,6 +79,18 @@ const props = defineProps<{
 
 
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
+
+onBeforeMount(() => {
+    props.comment.content = props.comment.content.replace(/<@([0-9]+)>/g, (match, id) => {
+        const user: User = props.comment.mentions.find(user => user.id == id);
+
+        if (user) {
+            return `@${user.unique_name}`;
+        } else {
+            return `<\\@${id}>`;
+        }
+    });
+});
 
 const emit = defineEmits([
     'reply',
