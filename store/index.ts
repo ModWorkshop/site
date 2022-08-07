@@ -82,7 +82,7 @@ export const useStore = defineStore('main', {
                 clearTimeout(lastTimeout);
             }
             if (process.client) { //!!Avoid loooping on server side!!
-                lastTimeout = setTimeout(() => this.getNotificationCount(), 60 * 1000);
+                lastTimeout = setTimeout(() => this.getNotificationCount(), 300 * 1000);
             }
         },
 
