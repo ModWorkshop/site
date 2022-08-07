@@ -83,11 +83,11 @@ export interface ModMember extends User {
 
 export interface Mod {
     id: number;
-    breadcrumb: Array<Breadcrumb>,
-    thumbnail_id: number | null;
+    breadcrumb?: Array<Breadcrumb>,
+    thumbnail_id?: number;
     banner_id?: number;
-    category_id: number | null;
-    game_id: number | null;
+    category_id?: number;
+    game_id: number;
     user_id: number;
     name: string;
     desc: string;
@@ -95,7 +95,7 @@ export interface Mod {
     changelog: string;
     license: string;
     instructions: string;
-    depends_on: Array<any> | any | null;
+    depends_on?: unknown;
     visibility: number;
     legacy_banner_url: string;
     downloads: number;
@@ -103,36 +103,34 @@ export interface Mod {
     views: number;
     version: string;
     donation: string;
-    access_ids: string;
     suspended: boolean;
-    liked: boolean;
+    liked?: boolean;
     comments_disabled: boolean;
     file_status: number;
-    score: number;
-    bumped_at: string | null;
-    published_at: string | null;
-    created_at: string | null;
-    updated_at: string | null;
-    download_id: number | null;
-    download_type: string | null;
-    user?: User | null;
+    bumped_at?: string;
+    published_at?: string;
+    created_at?: string;
+    updated_at?: string;
+    download_id?: number;
+    download_type?: string;
+    user?: User;
     last_user?: User;
-    category?: Category | null;
-    game?: Category | null;
+    category?: Category;
+    game?: Category;
     thumbnail?: Image;
     banner?: Image;
-    tags?: Array<Tag> | null;
-    images?: Array<Image> | null;
-    files?: Array<File> | null;
-    links?: Array<Link> | null;
-    comments?: Array<Comment> | null;
+    tags?: Array<Tag>;
+    images?: Array<Image>;
+    files?: Array<File>;
+    links?: Array<Link>;
+    comments?: Array<Comment>;
     download?: File|Link;
-    tags_count?: number | null;
-    images_count?: number | null;
-    files_count?: number | null;
-    comments_count?: number | null;
+    tags_count?: number;
+    images_count?: number;
+    files_count?: number;
+    comments_count?: number;
     members: Array<ModMember>,
-    transfer_request: TransferRequest,
+    transfer_request?: TransferRequest,
 }
 
 export interface Breadcrumb {
@@ -206,24 +204,23 @@ export interface User {
     name: string;
     unique_name: string;
     email: string | null;
-    email_verified_at: string | null;
-    created_at: string | null;
-    updated_at: string | null;
+    email_verified_at?: string;
+    created_at?: string;
+    updated_at?: string;
     avatar: string;
-    roles?: Array<Role> | null;
-    roles_count?: number | null;
+    roles?: Array<Role>;
+    roles_count?: number;
     role_ids: Array<number>;
     custom_color: string;
     color: string;
     tag: string;
-    readonly role_names?: any;
-    readonly permissions?: any;
+    readonly role_names?: string[];
+    readonly permissions?: string[];
     banner: string;
     bio: string;
     private_profile: boolean;
     custom_title: string;
-    last_online: string | null;
-    user_id: number | null;
+    last_online?: string;
     donation_url: string
 }
 
@@ -236,9 +233,9 @@ export interface Link {
     label: string;
     url: string;
     version: string;
-    image_id: number | null;
-    created_at: string | null;
-    updated_at: string | null;
+    image_id?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface TransferRequest {

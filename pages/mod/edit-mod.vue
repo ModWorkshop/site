@@ -48,16 +48,24 @@ const modTemplate = {
     images: [],
     files: [],
     links: [],
+    members: [],
     short_desc: '',
-    game_id: null,
-    category_id: null,
-    tag_ids: [],
+    changelog: '',
+    license: '',
+    instructions: '',
+    donation: '',
+    legacy_banner_url: '',
+    game_id: -1,
     version: '',
-    user: user,
-    nsfwMod: false,
-    download_id: null,
-    download_type: null,
-    visibility: 1
+    user_id: user.id,
+    downloads: 0,
+    likes: 0,
+    views: 0,
+    visibility: 1,
+    suspended: false,
+    comments_disabled: false,
+    file_status: 0,
+    
 };
 
 const mod = ref<Mod>(clone(modTemplate));
@@ -81,7 +89,9 @@ provide('mod', mod.value);
  * Only used in cases the changes were saved but AForm doesn't know about it
  */
 function ignoreChanges() {
-    mod.value = clone(mod.value);
+    if (!canSave.value) {
+        mod.value = clone(mod.value);
+    }
 }
 
 provide('ignoreChanges', ignoreChanges);
