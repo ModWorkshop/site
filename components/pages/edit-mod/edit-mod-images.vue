@@ -58,9 +58,7 @@ function fileUploaded(image: Image) {
     props.mod.images.push(image);
     //If we have changes already we don't want to ignore the changes
     //We ignore them since the changes are already "applied" due to files being instantly uploaded.
-    if (!props.canSave) {
-        ignoreChanges();
-    }
+    ignoreChanges();
 }
 
 function fileDeleted(image: Image) {
@@ -78,8 +76,6 @@ function fileDeleted(image: Image) {
         setBanner(null);
     }
 
-    if (!props.canSave) {
-        ignoreChanges();
-    }
+    ignoreChanges();
 }
 </script>

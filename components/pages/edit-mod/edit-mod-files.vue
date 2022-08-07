@@ -82,8 +82,6 @@ const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
-const linksError = ref(null);
-const filesError = ref(null);
 
 const downloads = computed(() => {
     return [...files.value, ...props.mod.links];
@@ -97,24 +95,21 @@ function editFile(file: File) {
     currentFile.value = file;
 }
 
-async function saveEditFile() {
-    const file = currentFile.value;
-    filesError.value = null;
+async function saveEditFile(ok, error) {
+    try {
+        const file = currentFile.value;
+        await usePatch(`mods/${props.mod.id}/files/${file.id}`, file);
 
-    await usePatch(`mods/${props.mod.id}/files/${file.id}`, file).catch(err => filesError.value = err);
-    
-    if(filesError.value) {
-        return;
-    }
-
-    for (const f of props.mod.files) {
-        if (f.id === file.id) {
-            Object.assign(f, file);
+        for (const f of props.mod.files) {
+            if (f.id === file.id) {
+                Object.assign(f, file);
+            }
         }
-    }
 
-    if (!props.canSave) {
         ignoreChanges();
+        ok();
+    } catch (e) {
+        error(e);
     }
 }
 
@@ -127,45 +122,43 @@ async function deleteLink(link: Link) {
     await useDelete(`mods/${props.mod.id}/links/${link.id}`);
     props.mod.links = props.mod.links.filter(l => l.id !== link.id);
 
-    if (!props.canSave) {
-        ignoreChanges();
-    }
+    ignoreChanges();
 }
 
 function createNewLink() {
     editLink(clone({
         id: -1,
-        url: '',
+        user_id: -1,
+        mod_id: -1,
+        name: '',
         desc: '',
+        url: '',
         label: '',
+        version: ''
     }));
 }
 
-async function saveEditLink() {
+async function saveEditLink(ok, error) {
     const link = currentLink.value;
-    linksError.value = null;
 
-    if (link.id == -1) {
-        const newLink = await usePost<Link>(`mods/${props.mod.id}/links`, link).catch(err => linksError.value = err);
-        if (newLink) {
+    try {
+        if (link.id == -1) {
+            const newLink = await usePost<Link>(`mods/${props.mod.id}/links`, link);
             props.mod.links.push(newLink);
+        } else {
+            await usePatch(`mods/${props.mod.id}/links/${link.id}`, link);
         }
-    } else {
-        await usePatch(`mods/${props.mod.id}/links/${link.id}`, link).catch(err => linksError.value = err);
-    }
-    
-    if(linksError.value) {
-        return;
-    }
 
-    for (const f of props.mod.links) {
-        if (f.id === link.id) {
-            Object.assign(f, link);
+        for (const f of props.mod.links) {
+            if (f.id === link.id) {
+                Object.assign(f, link);
+            }
         }
-    }
-
-    if (!props.canSave) {
+        
         ignoreChanges();
+        ok();
+    } catch (e) {
+        error(e);
     }
 }
 
@@ -173,9 +166,7 @@ function fileUploaded(file: File) {
     props.mod.files.push(file);
     //If we have changes already we don't want to ignore the changes
     //We ignore them since the changes are already "applied" due to files being instantly uploaded.
-    if (!props.canSave) {
-        ignoreChanges();
-    }
+    ignoreChanges();
 }
 
 function fileDeleted(file: File) {
@@ -189,9 +180,7 @@ function fileDeleted(file: File) {
         setPrimaryDownload(null, null);
     }
 
-    if (!props.canSave) {
-        ignoreChanges();
-    }
+    ignoreChanges();
 }
 
 function setPrimaryDownload(type: 'file'|'link', download: File|Link) {

@@ -47,8 +47,8 @@
         </div>
     </flex>
 
-    <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember()">
-        <a-user-select v-if="currentMember.created_at == null" v-model="newMemberUser" label="User"/>
+    <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember">
+        <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" label="User"/>
         <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
     </a-modal-form>
 
@@ -59,14 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { Mod, ModMember, TransferRequest, User } from '~~/types/models';
+import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
-import { Ref } from 'vue';
 const { init: openModal } = useModal();
+const { init: openToast } = useToast();
 
 const ignoreChanges: () => void = inject('ignoreChanges');
 const mod = inject<Mod>('mod');
-const canSave = inject<Ref<boolean>>('canSave');
 const canSuperUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
@@ -76,11 +75,16 @@ const levelOptions = [
     {name: 'Contributor', value: 3},
 ];
 
+interface EditModMember {
+    level: number;
+    created_at?: string,
+    user?: ModMember;
+}
+
 const showModal = ref(false);
 const showTransferOwner = ref(false);
 const members = ref<ModMember[]>(clone(mod.members));
-const currentMember = ref<ModMember>(clone({ level: 1 }));
-const newMemberUser = ref<User>();
+const currentMember = ref<EditModMember>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
 
 async function deleteMember(member: ModMember) {
@@ -91,52 +95,44 @@ async function deleteMember(member: ModMember) {
             members.value = members.value.filter(l => l.id !== member.id);
             mod.members = clone(members.value);
         
-            if (!canSave.value) {
-                ignoreChanges();
-            }
+            ignoreChanges();
         }
     });
 
 }
 
 function newMember() {
-    currentMember.value = clone({ level: 1 });
+    currentMember.value = { level: 1 };
     showModal.value = true;
 }
 
 function editMember(member: ModMember) {
     showModal.value = true;
-    currentMember.value = member;
+    currentMember.value = { level: member.level, user: member };
 }
 
-async function saveMember() {
-    let error = null;
-
+async function saveMember(ok: () => void, error: (e) => void) {
     const member = currentMember.value;
-    const data = { user_id: member.user_id || newMemberUser.value, level: member.level };
+    const data = { user_id: member.user.id, level: member.level };
 
-    if (member.created_at) {
-        await usePatch(`mods/${mod.id}/members/${member.id}`, data).catch(err => error = err);
-    } else {
-        const newMember = await usePost<ModMember>(`mods/${mod.id}/members`, data).catch(err => error = err);
-        if (error) {
-            throw error;
+    try {
+        if (member.created_at) {
+            await usePatch(`mods/${mod.id}/members/${member.user.id}`, data);
+        } else {
+            const newMember = await usePost<ModMember>(`mods/${mod.id}/members`, data);
+            members.value.push(newMember);
         }
-        members.value.push(newMember);
-    }
-
-    if (error) {
-        throw error;
-    }
-
-    for (const m of mod.members) {
-        if (m.id === member.id) {
-            Object.assign(m, member);
+    
+        for (const m of mod.members) {
+            if (m.id === member.user.id) {
+                Object.assign(m, member);
+            }
         }
-    }
-
-    if (!canSave.value) {
+    
         ignoreChanges();
+        ok();
+    } catch(e) {
+        error(e);
     }
 }
 
@@ -148,7 +144,7 @@ async function transferOwnership() {
     } else {
         mod.transfer_request = request;
         if (!canSave.value) {
-            ignoreChanges();
+        ignoreChanges();
         }
     }
 }
@@ -161,7 +157,7 @@ async function cancelTransferRequest() {
     } else {
         mod.transfer_request = null;
         if (!canSave.value) {
-            ignoreChanges();
+        ignoreChanges();
         }
     }
 }

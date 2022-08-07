@@ -1,7 +1,7 @@
 <template>
-    <va-alert v-if="errorStr || error && description" class="w-full whitespace-pre" color="danger">
+    <a-alert v-if="errorStr || description" class="w-full whitespace-pre" color="danger">
         <h4>{{$t('error')}}</h4>{{errorStr || description}}
-    </va-alert>
+    </a-alert>
 </template>
 
 <script setup lang="ts">
@@ -11,9 +11,12 @@ const props = defineProps({
 });
 
 const description = computed(() => {
-    const data = props.error.data;
     let i = 1;
-    if (data) {
+    console.log(props.error.data);
+    
+    if (props.error.data && props.error.data.message) {
+        const data = props.error.data;
+
         if (data.errors) {
             let errStr = '';
             for (const err of Object.values(data.errors)) {
@@ -30,6 +33,8 @@ const description = computed(() => {
         } else if (data.message) {
             return data.message;
         }
+    } else {
+        return props.error.message;
     }
 });
 </script>

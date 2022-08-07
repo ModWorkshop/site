@@ -27,15 +27,9 @@ const emit = defineEmits(['save', 'cancel', 'update:modelValue']);
 const error = ref(null);
 
 function onSave(ok: () => void) {
-    try {
-        console.log(emit('save'));
-        
-        ok();
-    } catch (e) {
-        console.log('error!' + e);
-        
+    emit('save', ok, e => {
         error.value = e;
-    }
+    });
 }
 
 function onCancel(ok: () => void) {
