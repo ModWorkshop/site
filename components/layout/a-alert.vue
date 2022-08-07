@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    color: String,
+    color: { type: String, default: 'info' },
     title: String,
     desc: String,
 });
