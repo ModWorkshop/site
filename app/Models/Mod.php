@@ -141,7 +141,7 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    private $withFull = ['user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked'];
+    private $withFull = ['user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest'];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
     protected $hidden = ['download_type'];

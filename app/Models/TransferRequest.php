@@ -31,6 +31,8 @@ class TransferRequest extends Model
 {
     use HasFactory;
 
+    protected $with = ['user'];
+
     protected $fillable = [
         'keep_owner_level',
     ];

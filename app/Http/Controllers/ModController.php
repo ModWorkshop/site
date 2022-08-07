@@ -466,4 +466,10 @@ class ModController extends Controller
         $mod->members()->detach($user);
         Notification::deleteRelated($user, 'membership_request'); //Just to be sure
     }
+
+    public function cancelTransferRequest(Request $request, Mod $mod)
+    {
+        $mod->transferRequest()->delete();
+        Notification::deleteRelated($mod, 'transfer_ownership');
+    }
 }
