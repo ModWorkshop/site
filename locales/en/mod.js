@@ -13,7 +13,7 @@ The suspension is either temporarily or permanent, depending on the severity, fo
 Should you wish to contact the staff for information, or if your mod has been updated to follow the rules, you can send a suspension appeal in the forum.`,
     download: "Download",
     license: "License",
-    report_download: "Report Mod",
+    report_mod: "Report Mod",
     show_download_link_warn: "Be careful of suspicious links. If you think the link is malicious, please report the mod",
     show_download_link: "Show Download Link",
     show_files: "Show Files",
