@@ -9,7 +9,7 @@
                 </div>
             </a-alert>
             <div v-else>
-            <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
+                <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
             </div>
         </flex>
         <div>
@@ -23,6 +23,7 @@
                         <tr>
                             <th>User</th>
                             <th>Level</th>
+                            <th>Accepted</th>
                             <th>Add Date</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -31,6 +32,7 @@
                         <tr v-for="user of members" :key="user.id">
                             <td><a-user :user="user"/></td>
                             <td>{{memberLevels[user.level]}}</td>
+                            <td>{{user.accepted ? '✔' : '❌'}}</td>
                             <td>{{fullDate(user.created_at)}}</td>
                             <td class="text-center p-1">
                                 <flex inline>
