@@ -22,12 +22,21 @@
                 <md-editor v-model="mod.license" rows="6"/>
             </flex>
         </details>
+
+        <a-alert class="w-full" color="danger" title="DANGER ZONE">
+            <div>
+                <a-button color="danger" @click="deleteMod">Delete</a-button>
+            </div>
+        </a-alert>
     </flex>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models.js';
+const { init: openModal } = useModal();
+
+const router = useRouter();
 
 const props = defineProps<{
     mod: Mod
@@ -38,6 +47,16 @@ const visItems = [
     { name: 'Hidden', value: 2 },
     { name: 'Unlisted', value: 3 }
 ];
+
+function deleteMod() {
+    openModal({
+        message: 'Are you sure you want to delete the mod?',
+        async onOk() {
+            await useDelete(`mods/${props.mod.id}`);
+            router.push('/');
+        }
+    });
+}
 
 const store = useStore();
 const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-categories', () => useGet(`games/${props.mod.game_id}/categories`));
