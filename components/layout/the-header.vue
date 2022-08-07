@@ -5,7 +5,7 @@
             <template v-else>
                 <h2>Notifications</h2>
                 <flex column class="overflow-y-scroll">
-                    <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok"/>
+                    <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok" :notifications="notifications"/>
                 </flex>
                 <div class="mt-4">
                     <a-button icon="eye" to="/notifications">{{$t('browse_all_notifications')}}</a-button>

@@ -15,5 +15,6 @@ export default {
     delete_read_notifications: "Delete Read Notifications",
     delete_all_notifications: "Delete All Notifications",
     notification_transfer_ownership: "{user} has sent a request to transfer the mod {notifiable} to you. Click the notification to accept or decline.",
-    alert_subbed_comment_replies: "{1} replied in a comment that you're subscribed to in the mod {2}"
+    notification_comment_reply: "{user} replied in a comment that you're subscribed to in {mod}",
+    notification_comment_mention: "You were mentioned in a comment posted in {context} by {user}"
 };

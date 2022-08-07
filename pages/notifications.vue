@@ -8,8 +8,8 @@
                         <a-button color="danger" icon="clock">{{$t('delete_read_notifications')}}</a-button>
                     </flex>
                 </template>
-                <template #item="{ item }">
-                    <a-notification :notification="item"/>
+                <template #item="{ item, items }">
+                    <a-notification :notification="item" :notifications="items"/>
                 </template>
             </a-list>
         </content-block>

@@ -12,7 +12,7 @@
 
         <flex column>
             <template v-for="item of items.data" :key="item.id">
-                <slot name="item" :item="item">
+                <slot name="item" :item="item" :items="items">
                     <nuxt-link class="list-button flexbox gap-1" :to="itemLink(item)">
                         <slot name="before-item" :item="item"/>
                         <slot :item="item">
