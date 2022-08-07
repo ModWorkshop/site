@@ -2,12 +2,18 @@ import { defineNuxtConfig } from 'nuxt';
 import { resolve } from 'path';
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
+
 export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			apiUrl: '',
 			siteUrl: ''
 		}
+	},
+
+	//Fixes build, remove when pinia fixes this
+	alias: { 
+		'pinia/dist/pinia.mjs': resolve('./node_modules/pinia/dist/pinia.mjs'),
 	},
 
 	components: [
@@ -156,6 +162,8 @@ export default defineNuxtConfig({
 	//This converts these libraries to work with es6 import or something like that
 	build: {
 		transpile: [
+			'markdown-it',
+			'markdown-it/lib/common/utils.js',
 			'@fortawesome/vue-fontawesome',
 			'@fortawesome/fontawesome-svg-core',
 			'@fortawesome/free-solid-svg-icons',
