@@ -47,7 +47,8 @@ class Notification extends Model
     use HasFactory, Filterable, QueryCacheable;
 
     public $cacheFor = 10;
-    
+    public static $flushCacheOnUpdate = true;
+
     protected $with = ['user', 'notifiable', 'context'];
     
     public static function send(string $type, User $user, Model $notifiable = null, Model $context = null)

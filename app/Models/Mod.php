@@ -131,6 +131,7 @@ class Mod extends Model
     use HasFactory, RelationsListener, Filterable, QueryCacheable;
 
     public $cacheFor = 1;
+    public static $flushCacheOnUpdate = true;
 
     /**
      * The attributes that aren't mass assignable.

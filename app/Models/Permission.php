@@ -31,4 +31,5 @@ class Permission extends Model
     use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
+    public static $flushCacheOnUpdate = true;
 }

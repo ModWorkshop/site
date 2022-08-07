@@ -37,6 +37,7 @@ class Role extends Model
     use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
+    public static $flushCacheOnUpdate = true;
 
     protected $with = [];
 

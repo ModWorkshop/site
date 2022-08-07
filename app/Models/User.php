@@ -58,6 +58,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, Filterable, QueryCacheable;
 
     public $cacheFor = 1;
+    public static $flushCacheOnUpdate = true;
 
     public static $membersRole = null;
     
