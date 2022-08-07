@@ -62,7 +62,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $role->load('permissions');
+        $role->loadMissing('permissions');
         return new RoleResource($role);
     }
 
@@ -104,7 +104,7 @@ class RoleController extends Controller
         }
         
         $role->permissions()->sync($syncPerms);
-        $role->load('permissions');
+        $role->loadMissing('permissions');
 
         return new RoleResource($role);
     }

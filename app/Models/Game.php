@@ -7,6 +7,7 @@ use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Game
@@ -41,7 +42,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Game extends Model
 {
-    use HasFactory, Filterable;
+    use HasFactory, Filterable, QueryCacheable;
+
+    public $cacheFor = 10;
+
     protected $guarded = [];
 
     protected $hidden = [];

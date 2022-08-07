@@ -20,12 +20,15 @@
         "meilisearch/meilisearch-php": "^0.20.0",
         "mpyw/eloquent-has-by-join": "^2.0",
         "mpyw/eloquent-has-by-non-dependent-subquery": "^2.0",
+        "rennokki/laravel-eloquent-query-cache": "^3.3",
         "socialiteproviders/steam": "^4.1",
+        "socialiteproviders/twitter": "^4.1",
         "socialiteproviders/zoho": "^4.1",
         "staudenmeir/eloquent-eager-limit": "^1.6"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
+        "beyondcode/laravel-query-detector": "^1.6",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^3.9",
         "laravel/sail": "^1.0.1",

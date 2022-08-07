@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Role
@@ -33,7 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
+
+    public $cacheFor = 10;
 
     protected $with = [];
 

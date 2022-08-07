@@ -37,7 +37,7 @@ class UserController extends Controller
             'id' => 'integer|min:1'
         ]);
 
-        $users = User::queryGet($val, function(Builder $query) use ($val) {
+        $users = User::queryGet($val, function($query) use ($val) {
             if (isset($val['id'])) {
                 $query->orWhere('id', $val['id']);
             }
@@ -66,7 +66,7 @@ class UserController extends Controller
             $foundUser = User::where('unique_name', Str::lower($user))->firstOrFail();
         }
 
-        $foundUser->load('extra');
+        $foundUser->loadMissing('extra');
         return new UserResource($foundUser);
     }
 
@@ -146,9 +146,6 @@ class UserController extends Controller
     public function currentUser(Request $request)
     {
         $user = $request->user();
-        $user->load('extra');
-        $user->load('roles.permissions');
-        $user->extra;
         return new UserResource($user);
     }
 }

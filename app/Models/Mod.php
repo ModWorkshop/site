@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
     const pub = 1;
@@ -127,7 +128,9 @@ abstract class Visibility {
  */
 class Mod extends Model
 {
-    use HasFactory, RelationsListener, Filterable;
+    use HasFactory, RelationsListener, Filterable, QueryCacheable;
+
+    public $cacheFor = 1;
 
     /**
      * The attributes that aren't mass assignable.
@@ -137,8 +140,8 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    private $withFull = ['tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser'];
-    protected $with = ['user.extra', 'game', 'category', 'thumbnail', 'members'];
+    private $withFull = ['user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser'];
+    protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
     protected $hidden = ['download_type'];
 
@@ -150,7 +153,7 @@ class Mod extends Model
     public function withAllRest()
     {
         $this->append('breadcrumb');
-        $this->load($this->withFull);
+        $this->loadMissing($this->withFull);
         $this->category?->loadMissing('parent');
         $this->members?->loadMissing('extra');
     }

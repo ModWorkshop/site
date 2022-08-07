@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Rennokki\QueryCache\Traits\QueryCacheable;
 /**
  * App\Models\User
  *
@@ -55,7 +55,9 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Filterable;
+    use HasFactory, Notifiable, Filterable, QueryCacheable;
+
+    public $cacheFor = 1;
 
     public static $membersRole = null;
     
@@ -127,18 +129,6 @@ class User extends Authenticatable
     public function roles() : BelongsToMany
     {
         return $this->belongsToMany(Role::class)->orderBy('order');
-    }
-
-    /**
-     * A scope to select permissions for users
-     * In most cases, we don't really have a need to know a user's permissions.
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeWithPermissions(Builder $query) : Builder
-    {
-        return $query->without('roles')->with(['roles.permissions']);
     }
 
     public function getRoleNames()
@@ -251,7 +241,7 @@ class User extends Authenticatable
         $this->permissions[$toWhat] = true;
     }
 
-    protected $appends = ['role_names', 'permissions'];
+    protected $appends = ['role_names'];
 
     public function getRoleNamesAttribute() {
         return $this->getRoleNames();
@@ -362,18 +352,18 @@ class User extends Authenticatable
         //TODO: Vanity roles are roles any user can apply to themselves, vanity roles DO NOT have permissions.
         foreach ($roles as $role) {
             if (!$this->hasRole($role->id)) {
-            if ($me->hasPermission('admin')) { //$role->vanity
-                // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
-                if ($role->id !== 1 && $myHighestOrder < $role->order) {
-                        $this->roles()->attach($role->id); //Alright, great.
-                        $this->roles[] = $role;
+                if ($me->hasPermission('admin')) { //$role->vanity
+                    // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
+                    if ($role->id !== 1 && $myHighestOrder < $role->order) {
+                            $this->roles()->attach($role->id); //Alright, great.
+                            $this->roles[] = $role;
+                    } else {
+                        throw new Exception("You don't have the right permissions to add this role to any user. #2");
+                    }
                 } else {
-                    throw new Exception("You don't have the right permissions to add this role to any user. #2");
+                    throw new Exception("You don't have the right permissions to add this role to any user.");
                 }
-            } else {
-                throw new Exception("You don't have the right permissions to add this role to any user.");
             }
-        }
         }
 
         $this->relations['roles'] = $this->roles->sortBy('order');
