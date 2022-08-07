@@ -137,28 +137,22 @@ async function saveMember(ok: () => void, error: (e) => void) {
 }
 
 async function transferOwnership() {
-    let error = null;
-    const request = await usePatch<TransferRequest>(`mods/${mod.id}/owner`, transferOwner.value).catch(err => error = err);
-    if (error) {
-        throw error;
-    } else {
+    try {
+        const request = await usePatch<TransferRequest>(`mods/${mod.id}/owner`, transferOwner.value);
         mod.transfer_request = request;
-        if (!canSave.value) {
         ignoreChanges();
-        }
+    } catch (error) {
+        openToast(error.message);
     }
 }
 
 async function cancelTransferRequest() {
-    let error = null;
-    await usePatch(`mods/${mod.id}/transfer-request/cancel`).catch(err => error = err);
-    if (error) {
-        throw error;
-    } else {
+    try {
+        await usePatch(`mods/${mod.id}/transfer-request/cancel`);
         mod.transfer_request = null;
-        if (!canSave.value) {
         ignoreChanges();
-        }
+    } catch (error) {
+        openToast(error.message);
     }
 }
 </script>
