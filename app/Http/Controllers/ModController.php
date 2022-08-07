@@ -458,6 +458,12 @@ class ModController extends Controller
 
     public function cancelTransferRequest(Request $request, Mod $mod)
     {
+        $transferRequest = $mod->transferRequest;
+        
+        if (!isset($transferRequest)) {
+            abort(401, 'No transfer request exists');
+        }
+
         $mod->transferRequest()->delete();
         Notification::deleteRelated($mod, 'transfer_ownership');
     }
