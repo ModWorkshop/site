@@ -21,10 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouteQuery } from '@vueuse/router';
-
-const queryTab = ref(); // useRouteQuery('tab');
 const route = useRoute();
+const queryTab = useRouteQuery('tab');
 
 const props = defineProps({
     side: Boolean,
@@ -102,7 +100,7 @@ function setCurrentTab(name: string, skipSetQuery = false) {
 
 if (props.type == 'query') {
     watch(queryTab, val => {
-        setCurrentTab(val as string, true);
+        setCurrentTab(val, true);
     });
 }
 </script>

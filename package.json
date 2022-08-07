@@ -13,7 +13,6 @@
     "@vuestic/nuxt": "^1.0.4",
     "@vueuse/core": "^9.0.2",
     "@vueuse/nuxt": "^9.0.2",
-    "@vueuse/router": "^9.0.2",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
     "nuxt": "npm:nuxt3@latest",

@@ -31,7 +31,9 @@ export async function reloadToken() {
 
 export function setQuery(key: string, value: string) {
     const router = useRouter();
-    router.replace({ query: { [key]: value } });
+    const route = useRoute();
+
+    router.replace({ query: { ...route.query, [key]: value } });
 }
 
 /**
