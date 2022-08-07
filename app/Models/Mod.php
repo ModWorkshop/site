@@ -47,7 +47,6 @@ abstract class Visibility {
  * @property int $likes
  * @property string $version
  * @property string $donation
- * @property string $access_ids
  * @property bool $suspended
  * @property bool $comments_disabled
  * @property int $file_status
