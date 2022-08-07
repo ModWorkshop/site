@@ -242,6 +242,10 @@ class Mod extends Model
 
     public function getMemberLevel(int $userId, $acceptedOnly=true)
     {
+        if ($userId === $this->user_id) {
+            return -1;
+        }
+
         $members = $this->members;
         
         foreach ($members as $member) {

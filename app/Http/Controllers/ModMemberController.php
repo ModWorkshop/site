@@ -74,13 +74,14 @@ class ModMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Mod $mod, User $member)
+    public function destroy(Request $request, Mod $mod, int $member)
     {
         $ourUserId = $request->user()->id;
-        $ourLevel = $mod->getMemberLevel($ourUserId);
+        $ourLevel = $mod->getMemberLevel($ourUserId, false);
+        $memberLevel = $mod->getMemberLevel($member, false);
 
         //We should be able to delete ourselves from members!
-        if ($ourUserId !== $member->id && $ourLevel <= $member->level) {
+        if (!isset($ourLevel) || ($ourUserId !== $member && $ourLevel >= $memberLevel)) {
             abort(401);
         }
 
