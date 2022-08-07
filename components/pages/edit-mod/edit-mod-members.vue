@@ -1,7 +1,16 @@
 <template>
     <flex column gap="4">
-        <flex v-if="canSuperUpdate">
+        <flex v-if="canSuperUpdate" column>
+            <a-alert v-if="mod.transfer_request">
+                You've sent a transfer request to the user: <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
+                If you wish to transfer it to a different person, or have changed your mind, cancel the request.
+                <div class="mt-2">
+                    <a-button @click="cancelTransferRequest">Cancel Transfer Request</a-button>
+                </div>
+            </a-alert>
+            <div v-else>
             <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
+            </div>
         </flex>
         <div>
             <flex class="items-center mb-2">
@@ -48,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mod, ModMember, User } from '~~/types/models';
+import { Mod, ModMember, TransferRequest, User } from '~~/types/models';
 import clone from 'rfdc/default';
 import { Ref } from 'vue';
 const { init: openModal } = useModal();
@@ -131,9 +140,27 @@ async function saveMember() {
 
 async function transferOwnership() {
     let error = null;
-    await usePatch(`mods/${mod.id}/owner`, transferOwner.value).catch(err => error = err);
+    const request = await usePatch<TransferRequest>(`mods/${mod.id}/owner`, transferOwner.value).catch(err => error = err);
     if (error) {
         throw error;
+    } else {
+        mod.transfer_request = request;
+        if (!canSave.value) {
+            ignoreChanges();
+        }
+    }
+}
+
+async function cancelTransferRequest() {
+    let error = null;
+    await usePatch(`mods/${mod.id}/transfer-request/cancel`).catch(err => error = err);
+    if (error) {
+        throw error;
+    } else {
+        mod.transfer_request = null;
+        if (!canSave.value) {
+            ignoreChanges();
+        }
     }
 }
 </script>
