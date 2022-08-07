@@ -281,19 +281,6 @@ class ModController extends Controller
         $image->delete(); //Deletion of files handled in the model class.
     }
 
-    /**
-     * Upload File
-     * 
-     * Uploads a single file to a mod
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
-     */
-    public function uploadModFile(Request $request, Mod $mod)
-    {
-
-    }
 
     /**
      * Registers a view for a mod, doesn't let you 'view' it twice
@@ -431,6 +418,8 @@ class ModController extends Controller
         );
 
         $transferRequest->save();
+
+        return $transferRequest;
     }
 
     /**
