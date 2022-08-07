@@ -22,7 +22,7 @@
                         <!-- <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
                             {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
                         </div> -->
-                        <donation-button :link="user.donation_url"/>
+                        <donation-button v-if="user.donation_url" :link="user.donation_url"/>
                     </flex>
                 </flex>
             </content-block>
