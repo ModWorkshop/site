@@ -27,6 +27,7 @@
     "@koddsson/textarea-caret": "^4.0.1",
     "@pinia/nuxt": "^0.3.1",
     "@vueuse/components": "^9.1.0",
+    "axios": "^0.27.2",
     "caret-pos": "^2.0.0",
     "caret-xy": "^2.0.3",
     "click-outside-vue3": "^4.0.1",
