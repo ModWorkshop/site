@@ -65,6 +65,7 @@ class Image extends Model
             }
 
             Storage::disk('public')->delete('mods/images/'.$image->file);
+            Storage::disk('public')->delete('mods/images/thumb_'.$image->file);
         });
     }
 }

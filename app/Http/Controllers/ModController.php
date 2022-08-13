@@ -22,9 +22,20 @@ use DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Str;
+use Jcupitt\Vips;
+
+const animated = [
+    'gif' => true,
+    'webp' => true,
+    'avif' => true,
+    'jxl' => true
+    // 'png' => true, https://github.com/libvips/libvips/issues/2537
+    // 'apng' => true
+];
 
 /**
  * @group Mods
@@ -247,21 +258,30 @@ class ModController extends Controller
             'file' => 'required|max:512000|mimes:png,jpg,webp,gif'
         ]);
 
+        $dir = Storage::disk('public')->path('mods/images');
+
         $user = $request->user();
         /**
          * @var UploadedFile $file
          */
         $file = $val['file'];
+        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.webp';
         $fileType = $file->extension();
-        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('mods/images', $fileName, 'public');
-        
+        $opts = isset(animated[$fileType]) ? '[n=-1]' : '';
+
+        $img = Vips\Image::newFromFile($file->path().$opts);
+        $img->writeToFile($dir.'/'.$fileName, ["Q" => 80]);
+
+        $thumb = $img->thumbnail_image(300);
+        $thumb->writeToFile($dir.'/thumb_'.$fileName);
+
         $img = Image::create([
             'user_id' => $user->id,
             'mod_id' => $mod->id,
             'file' => $fileName,
-            'type' => $fileType,
-            'size' => $file->getSize()
+            'has_thumb' => true,
+            'type' => $file->extension(),
+            'size' => filesize($dir.'/'.$fileName)
         ]);
 
         return $img;
