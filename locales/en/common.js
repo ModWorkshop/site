@@ -302,9 +302,10 @@ export default {
     error_no_transfer_request: "Transfer request doesn't exist!",
     error_wait_for_transfer: "You must wait for the previous request to expire to send additional transfer requests for this mod.",
     ad_blocker_message: `
-        We use ads to continue serving you mods and further develop the site.
-        Whitelisting us in your ad blocker can help us a lot ❤
-        If you dislike ads, consider <a href="/support">supporting us</a>.  
+We use ads to continue serving you mods and further develop the site.
+Whitelisting us in your ad blocker can help us a lot ❤
+If you dislike ads, consider <a href="/support">supporting us</a>.  
     `,
-    back_to_home: 'Back to Home'
+    back_to_home: 'Back to Home',
+    unsaved_changes: 'You have unsaved changes'
   };
