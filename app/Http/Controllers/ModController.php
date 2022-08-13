@@ -217,6 +217,8 @@ class ModController extends Controller
         }
 
         $mod->refresh();
+        $mod->withAllRest();
+
         return new ModResource($mod);
     }
 
