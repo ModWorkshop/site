@@ -110,12 +110,14 @@ function clickedTool(tool: Tool) {
     .textarea {
         color: var(--text-color);
         background-color: var(--input-bg-color);
+        border-radius: var(--border-radius);
         resize : vertical;
         width: 100%;
     }
 
     .md-editor {
         background-color: #22262a;
+        border-radius: var(--border-radius);
     }
 
     textarea:focus-visible {
