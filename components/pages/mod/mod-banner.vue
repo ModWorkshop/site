@@ -6,27 +6,25 @@
                 <mod-status class="ml-auto" :mod="mod"/>
             </flex>
             <flex column class="mt-auto md:flex-row">
-                <div class="mt-auto">
-                    <flex gap="3" class="items-center">
-                        <span v-if="mod.version">
-                            <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
+                <flex gap="3" class="items-center mt-auto">
+                    <span v-if="mod.version">
+                        <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
+                    </span>
+                    <span v-if="mod.bumped_at">
+                        <font-awesome-icon icon="clock" :title="$t('last_updated')" class="mr-1"/>
+                        <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
+                        <span v-else class="items-center inline-flex gap-1">
+                            <i18n-t keypath="by_user_time_ago">
+                                <template #user>
+                                    <a-user avatar-size="xs" :user="mod.last_user"/>
+                                </template>
+                                <template #time>
+                                    <time-ago :time="mod.bumped_at"/>
+                                </template>
+                            </i18n-t>
                         </span>
-                        <span v-if="mod.bumped_at">
-                            <font-awesome-icon icon="clock" :title="$t('last_updated')" class="mr-1"/>
-                            <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
-                            <span v-else class="items-center inline-flex gap-1">
-                                <i18n-t keypath="by_user_time_ago">
-                                    <template #user>
-                                        <a-user avatar-size="xs" :user="mod.last_user"/>
-                                    </template>
-                                    <template #time>
-                                        <time-ago :time="mod.bumped_at"/>
-                                    </template>
-                                </i18n-t>
-                            </span>
-                        </span>
-                    </flex>
-                </div>
+                    </span>
+                </flex>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user && '/login'" @click="toggleLiked"/>
                     <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && downloadUrl" download @click="registerDownload">
