@@ -15,7 +15,7 @@
     "@vueuse/nuxt": "^9.0.2",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
-    "nuxt": "npm:nuxt3@latest",
+    "nuxt": "npm:nuxt3@3.0.0-rc.8-27673198.b4bea51",
     "typescript": "^4.7.4"
   },
   "dependencies": {
@@ -25,7 +25,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@koddsson/textarea-caret": "^4.0.1",
-    "@pinia/nuxt": "^0.3.1",
+    "@pinia/nuxt": "^0.4",
     "@vueuse/components": "^9.1.0",
     "axios": "^0.27.2",
     "caret-pos": "^2.0.0",
@@ -40,14 +40,14 @@
     "markdown-it": "^13.0.1",
     "nuxt-windicss": "^2.5.0",
     "object-to-formdata": "^4.4.2",
-    "pinia": "^2.0.17",
+    "pinia": "^2.0.18",
     "polished": "^4.2.2",
     "query-string": "^7.1.1",
     "rfdc": "^1.3.0",
     "vue-easy-lightbox": "^1.7.1",
     "vue-i18n": "9.2.0-beta.40",
     "vue3-observe-visibility2": "^0.0.3",
-    "vue3-popper": "^1.4.2",
+    "vue3-popper": "^1.5.0",
     "vuestic-ui": "^1.4.9"
   }
 }

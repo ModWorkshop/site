@@ -11,11 +11,6 @@ export default defineNuxtConfig({
 		}
 	},
 
-	//Fixes build, remove when pinia fixes this
-	alias: { 
-		'pinia/dist/pinia.mjs': resolve('./node_modules/pinia/dist/pinia.mjs'),
-	},
-
 	components: [
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],
