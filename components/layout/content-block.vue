@@ -21,7 +21,7 @@
 <style>
 .content-block {
     background-color: var(--secondary-bg-color);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
 }
 
 .content-bg {
