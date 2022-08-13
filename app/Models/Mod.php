@@ -206,12 +206,12 @@ class Mod extends Model
     
     public function thumbnail()
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
         
     public function banner()
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
 
     public function tags()
