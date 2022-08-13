@@ -17,14 +17,14 @@
                 <a-select v-model="category.game_id" label="Game" placeholder="Select a game" clearable :options="games.data"/>
                 <a-select v-model="category.parent_id" label="Parent Category" placeholder="Select a parent category" clearable :options="categories"/>
             </flex>
-            <va-alert class="w-full" color="warning">
+            <a-alert class="w-full" color="warning">
                 <details>
                     <summary>DANGER ZONE</summary>
                     <div class="p-4 mt-2">
                         <a-button color="danger">Delete</a-button>
                     </div>
                 </details>
-            </va-alert>
+            </a-alert>
         </flex>
     </a-form>
 </template>

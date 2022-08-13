@@ -40,7 +40,7 @@ const classes = computed(() => {
 </script>
 
 <style scoped>
-.alert-success {
+.color-success {
     background-color: #22c31f;
     color: #000;
 }

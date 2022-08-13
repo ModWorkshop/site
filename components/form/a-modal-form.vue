@@ -3,7 +3,7 @@
         <template #content="{ ok }">
             <flex column gap="4">
                 <h2 v-if="title">{{title}}</h2>
-                <va-alert v-if="desc" class="whitespace-pre" color="danger" :description="desc"/>
+                <a-alert v-if="desc" color="danger" :description="desc"/>
                 <slot/>
                 <a-error-alert :error="error"/>
                 <flex gap="1">

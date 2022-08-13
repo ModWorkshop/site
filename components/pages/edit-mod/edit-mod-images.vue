@@ -1,6 +1,6 @@
 <template>
     <flex column gap="4">
-        <va-alert v-if="mod.legacy_banner_url" color="warning" class="mb-4">
+        <a-alert v-if="mod.legacy_banner_url" color="warning" class="mb-4">
             <i18n-t keypath="banner_url_warning" tag="span">
                 <template #url>
                     <NuxtLink :href="mod.legacy_banner_url">{{mod.legacy_banner_url}}</NuxtLink>
@@ -8,7 +8,7 @@
             </i18n-t>
             <br>
             <strong class="text-lg">Saving the mod will remove the banner URL!</strong>
-        </va-alert>
+        </a-alert>
         
         <label>Banner Preview</label>
         <mod-banner class="w-full" :mod="mod" static/>

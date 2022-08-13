@@ -18,14 +18,14 @@
             <a-input v-model="game.short_name" :label="$t('short_name')"/>
             <a-input v-model="game.buttons" :label="$t('game_buttons')"/>
             <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="game.webhook_url"/>
-            <va-alert class="w-full" color="warning">
+            <a-alert class="w-full" color="warning">
                 <details>
                     <summary>DANGER ZONE</summary>
                     <div class="p-4 mt-2">
                         <a-button color="danger">Delete</a-button>
                     </div>
                 </details>
-            </va-alert>
+            </a-alert>
         </flex>
     </a-form>
 </template>

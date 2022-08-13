@@ -16,7 +16,7 @@
                         <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
                     </flex>
                 </flex>
-                <va-alert v-if="error" color="danger" class="w-full">{{error}}</va-alert>
+                <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
                 <div>
                     <a-button type="submit" large>{{$t('register')}}</a-button>
                 </div>
