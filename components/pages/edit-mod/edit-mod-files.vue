@@ -39,7 +39,9 @@
             </flex>
         </div>
         <label>Files</label>
-        <file-uploader list name="files" :url="uploadLink" :files="files" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
+        <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
+        <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="maxSize / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
             <template #headers>
                 <td class="text-center">Primary</td>
             </template>
@@ -82,6 +84,16 @@ const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
+
+const maxSize = 262144000; //250MiB
+const usedFileSize = computed(() => props.mod.files.reduce((prev, curr) => prev + curr.size, 0));
+const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize));
+const usedSizeText = computed(() => {
+    const current = friendlySize(usedFileSize.value), total = friendlySize(maxSize);
+    const percent = usedSizePercent.value.toPrecision(4);
+    return `${current}/${total} (${percent}%)`;
+});
+const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
 
 const downloads = computed(() => {
     return [...files.value, ...props.mod.links];
@@ -171,7 +183,7 @@ function fileUploaded(file: File) {
 
 function fileDeleted(file: File) {
     for (const [i, f] of Object.entries(props.mod.files)) {
-        if (toRaw(f) === toRaw(file)) {
+        if (f.id === file.id) {
             props.mod.files.splice(parseInt(i), 1);
         }
     }

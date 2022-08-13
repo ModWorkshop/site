@@ -1,6 +1,6 @@
 <template>
     <picture>
-        <source v-if="mod.thumbnail" :srcset="`${config.apiUrl}/storage/mods/images/${mod.thumbnail.file}`">
+        <source v-if="src" :srcset="src">
         <source :srcset="`${config.apiUrl}/storage/assets/nopreview.png`" type="image/png">
         <img :src="`${config.apiUrl}/storage/assets/nopreview.png`" class="ratio-image round" alt="thumbnail">
     </picture>
@@ -11,7 +11,17 @@ import { Mod } from '~~/types/models';
 
 const { public: config } = useRuntimeConfig();
 
-defineProps<{
-    mod: Mod
+const props = defineProps<{
+    mod: Mod,
+    preferHq?: boolean
 }>();
+
+const src = computed(() => {
+    const thumb = props.mod.thumbnail;
+    if (thumb) {
+        return `${config.apiUrl}/storage/mods/images/${(thumb.has_thumb && !props.preferHq) ? 'thumb_' : ''}${props.mod.thumbnail.file}`;
+    } else {
+        return null;
+    }
+});
 </script>

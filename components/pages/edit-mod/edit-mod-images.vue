@@ -18,14 +18,11 @@
             <a-mod :mod="mod" static/>
         </div>
 
-        <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <label>{{$t('images')}}</label>
+        <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" max-files="20" max-file-size="5" max-size="50" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
             <template #buttons="{file}">
-                <a-button class="file-button cursor-pointer" icon="image" @click.prevent="setThumbnail(file)">
-                    Make Thumbnail
-                </a-button>
-                <a-button class="file-button cursor-pointer" icon="image" @click.prevent="setBanner(file)">
-                    Make Banner
-                </a-button>
+                <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">Thumbnail</a-button>
+                <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">Banner</a-button>
             </template>
         </file-uploader>
     </flex>

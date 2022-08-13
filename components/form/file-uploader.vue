@@ -1,11 +1,20 @@
 <template>
     <flex column gap="1" class="w-full" style="min-height: 150px;" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
-        <label class="alt-bg-color round" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
-            <div class="p-6 cursor-pointer text-center ">
-                <h2>Drop files here or click the area to upload files</h2>
-            </div>
+        <label :class="classes" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
+            <span class="text-2xl">
+                Drop files here or click the area to upload files
+                <template v-if="maxFiles">({{files.length}}/{{maxFiles}})</template>
+            </span>
         </label>
-        <input :id="`${name}-file-browser-open`" ref="input" type="file" hidden multiple @change="e => upload((e.target as HTMLInputElement).files)">
+        <input 
+            :id="`${name}-file-browser-open`"
+            ref="input" 
+            :disabled="reachedMaxFiles"
+            type="file"
+            hidden
+            multiple
+            @change="e => upload((e.target as HTMLInputElement).files)"
+        >
         <div v-if="list" class="p-3 alt-bg-color round">
             <table class="w-full">
                 <thead>
@@ -40,10 +49,9 @@
                 <flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
-                        <a-button class="file-button cursor-pointer" icon="trash" @click.prevent="handleRemove(file)">
-                            Delete
-                        </a-button>
+                        <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
+                        <a-button icon="trash" @click="handleRemove(file)">{{$t('delete')}}</a-button>
                     </flex>
                 </flex>
             </div>
@@ -53,12 +61,23 @@
 
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
-import { File } from '~~/types/models';
+import { File as MWSFile } from '~~/types/models';
 import { DateTime } from 'luxon';
 import axios, { Canceler } from 'axios';
 const { public: config } = useRuntimeConfig();
 
-const { init } = useToast();
+const { init: showToast } = useToast();
+
+const classes = computed(() => {
+    return {
+        'alt-bg-color': true,
+        round: true,
+        'p-6': true,
+        'text-center': true,
+        'upload-area': true,
+        'upload-area-disabled': reachedMaxFiles.value
+    };
+});
 
 type UploadFile = {
     id: number,
@@ -83,11 +102,20 @@ const props = defineProps<{
     urlPrefix?: string,
     useFileAsThumb?: boolean,
     name: string,
-    files: Array<UploadFile>,
+    files: UploadFile[],
+    extensions?: string[]
+    maxFileSize?: number|string,
+    maxSize: number|string,
+    maxFiles?: number|string
 }>();
 
 const filesArr = toRef(props, 'files');
 const input = ref();
+const reachedMaxFiles = computed(() => props.maxFiles && filesArr.value.length >= props.maxFiles);
+const usedSize = computed(() => filesArr.value.reduce((prev, curr) => prev + curr.size, 0));
+
+const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
+const maxSizeBytes = computed(() => parseInt(props.maxSize as string) * Math.pow(1024, 2));
 
 function removeFile(file: UploadFile) {
     for (const [k, f] of Object.entries(props.files)) {
@@ -100,53 +128,66 @@ function removeFile(file: UploadFile) {
 /**
  * Handles the actual upload of the file(s)
  */
-async function upload(files) {
+async function upload(files: FileList) {
     for (const file of files) {
-        let fileIndex = -1;
-        let insertFile: UploadFile = {
-            id: -1,
-            created_at: DateTime.now().toISO(),
-            name: file.name,
-            size: file.size,
-        };
+        if (file.size > maxFileSizeBytes.value) {
+            showToast({ message: `File ${file.name} is too large!`, color: 'danger' });
+            continue;
+        }
 
-       //Read the file and get blob src
-        let reader = new FileReader();
-        reader.onload = () => {
-            insertFile.thumbnail = reader.result as string;
-            filesArr.value.push(insertFile);
-            emit('file-begin', insertFile);
-            fileIndex = filesArr.value.length - 1;
-        };
-        reader.readAsDataURL(file);
+        if (file.size + usedSize.value > maxSizeBytes.value) {
+            showToast({ message: `File ${file.name} is too large, try clearing out some space`, color: 'danger' });
+            continue;
+        }
 
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        try {
-
-            const { data } = await axios.post<File>(props.url, formData, {
-                withCredentials: true,
-                baseURL: config.apiUrl,
-                headers: {'Content-Type': 'multipart/form-data'},
-                onUploadProgress: function(progressEvent) {
-                    const reactiveFile = filesArr.value[fileIndex];
-                    reactiveFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
-                },
-                cancelToken: new axios.CancelToken(c => insertFile.cancel = c)
-            });
-
-            const reactiveFile = filesArr.value[fileIndex];
-            Object.assign(reactiveFile, data);
-            reactiveFile.cancel = null;
-            reactiveFile.progress = null;
-
-            emit('file-uploaded', reactiveFile);
-        } catch (err) {
-            removeFile(insertFile);
-            console.log(err.data.message);
+        if (reachedMaxFiles.value) {
+            showToast({ message: `You cannot upload more files`, color: 'danger' });
+        }
+        else {
+            const insertFile: UploadFile = {
+                id: -1,
+                created_at: DateTime.now().toISO(),
+                name: file.name,
+                size: file.size,
+            };
+    
+           //Read the file and get blob src
+            let reader = new FileReader();
+            reader.onload = () => {
+                insertFile.thumbnail = reader.result as string;
+                filesArr.value.unshift(insertFile);
+                emit('file-begin', insertFile);
+            };
+            reader.readAsDataURL(file);
+    
+            const formData = new FormData();
+            formData.append('file', file);
             
-            init('File failed to upload: ' + err.data.message);
+            try {
+    
+                const { data } = await axios.post<MWSFile>(props.url, formData, {
+                    withCredentials: true,
+                    baseURL: config.apiUrl,
+                    headers: {'Content-Type': 'multipart/form-data'},
+                    onUploadProgress: function(progressEvent) {
+                        const reactiveFile = filesArr.value[0];
+                        reactiveFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+                    },
+                    cancelToken: new axios.CancelToken(c => insertFile.cancel = c)
+                });
+    
+                const reactiveFile = filesArr.value[0];
+                Object.assign(reactiveFile, data);
+                reactiveFile.cancel = null;
+                reactiveFile.progress = null;
+    
+                emit('file-uploaded', reactiveFile);
+            } catch (err) {
+                removeFile(insertFile);
+                const data = err.response.data;
+                console.log(err);
+                showToast('File failed to upload: ' + data?.message);
+            }
         }
     }
     input.value.value = null;
@@ -168,18 +209,29 @@ async function handleRemove(file: UploadFile) {
 </script>
 
 <style scoped>
+    .upload-area {
+        cursor: pointer;
+    }
+
+    .upload-area-disabled {
+        cursor: inherit;
+        opacity: 0.5;
+    }
+
     .file-list {
-        grid-template-columns: repeat(auto-fill, 150px);
         justify-content: center;
+        grid-template-columns: repeat(auto-fill, 200px);
+        gap: 0.25rem;
     }
 
     .file-thumbnail {
         width: 100%;
-        height: 150px;
+        height: 200px;
     }
 
     .file-item {
         display: flex;
+        position: relative;
     }
 
     .file-progress {
@@ -191,23 +243,27 @@ async function handleRemove(file: UploadFile) {
 
     .file-options {
         position: absolute;
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        height: 100%;
     }
 
     .file-buttons {
         position: absolute;
         justify-content: center;
-        align-items: center;
+        align-items: stretch;
         gap: 0.25rem;
         width: 100%;
         height: 100%;
-        background-color: rgba(36, 36, 36, 0.5);
-        display: none;
-    }
+        padding: 1.25rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: opacity 0.25s ease-in-out;
+        opacity: flex;
+        opacity: 0;
+    }  
 
     .file-item:hover .file-buttons {
-        display: flex;
+        opacity: 1;
+        transition: opacity 0.25s ease-in-out;
     }
 
     .file-item img {
