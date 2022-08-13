@@ -156,11 +156,18 @@ export default defineNuxtConfig({
 
 	//This converts these libraries to work with es6 import or something like that
 	build: {
-		transpile: [
+		transpile: process.env.NODE_ENV === 'production' ? [
+			'markdown-it',
+			'markdown-it/lib/common/utils.js',
 			'@fortawesome/vue-fontawesome',
 			'@fortawesome/fontawesome-svg-core',
 			'@fortawesome/free-solid-svg-icons',
 			'@fortawesome/free-brands-svg-icons'
+		] : [
+			'@fortawesome/vue-fontawesome',
+			'@fortawesome/fontawesome-svg-core',
+			'@fortawesome/free-solid-svg-icons',
+			'@fortawesome/free-brands-svg-icons'	
 		]
 	},
 
