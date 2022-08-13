@@ -35,15 +35,34 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
+        //TODO: unhardcode
+        $maxSize = 262144000; //250MiB 
+
         $val = $request->validate([
-            'file' => 'required|max:512000|mimes:zip,rar,7z'
+            'file' => "required|max:{$maxSize}|mimes:zip,rar,7z"
         ]);
 
-        $user = $request->user();
         /**
          * @var UploadedFile $file
          */
         $file = $val['file'];
+        $fileSize = $file->getSize();
+
+        $files = $mod->files;
+        $accumulatedSize = $fileSize;
+        if ($files) {
+            foreach ($files as $f) {
+                $accumulatedSize += $f->size;   
+            }
+        }
+
+        //TODO: Unhardcode this value by introducing site settings of sort
+        $maxSize = 262144000; //250MiB
+        if ($accumulatedSize > $maxSize) {
+            abort(406, 'Reached maximum allowed file size for the mod!');
+        }
+
+        $user = $request->user();
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
         $file->storePubliclyAs('mods/files', $fileName);
@@ -55,7 +74,7 @@ class FileController extends Controller
             'mod_id' => $mod->id,
             'file' => $fileName,
             'type' => $fileType,
-            'size' => $file->getSize()
+            'size' => $fileSize
         ]);
 
         $mod->bump(false);
