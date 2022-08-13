@@ -20,6 +20,10 @@ export function canEditMod(mod: Mod) {
  * Either owner or moderator basically
  */
 export function canSuperUpdate(mod: Mod) {
+    if (!mod) {
+        return false;
+    }
+
     const { user, hasPermission } = useStore();
 
     return (mod.user_id === user.id && hasPermission('edit-own-mod')) || hasPermission('edit-mod');

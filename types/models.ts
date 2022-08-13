@@ -131,6 +131,7 @@ export interface Mod {
     comments_count?: number;
     members: Array<ModMember>,
     transfer_request?: TransferRequest,
+    tag_ids?: number[]
 }
 
 export interface Breadcrumb {
@@ -214,8 +215,8 @@ export interface User {
     custom_color: string;
     color: string;
     tag: string;
-    readonly role_names?: string[];
-    readonly permissions?: string[];
+    readonly role_names?: Record<string, boolean>;
+    readonly permissions?: Record<string, boolean>;
     banner: string;
     bio: string;
     private_profile: boolean;

@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
+import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
@@ -68,22 +69,26 @@ const modTemplate = {
     
 };
 
-const mod = ref<Mod>(clone(modTemplate));
+let mod: Ref<Mod>;
 const canSave = ref(false);
 
 if (route.params.id) {
     const { data: fetchedMod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
+    mod = fetchedMod;
+
     mod.value = fetchedMod.value;
-    // mod.tag_ids = mod.tags.map(tag => tag.id);
 
     if (!canEditMod(mod.value)) {
-        throw throwError("You don't have permission to view this page");
+        showError("You don't have permission to view this page");
     }
+} else {
+    mod = ref(clone(modTemplate));
 }
 
 provide('canSuperUpdate', canSuperUpdate(mod.value));
 provide('canSave', canSave);
 provide('mod', mod.value);
+
 
 /**
  * Only used in cases the changes were saved but AForm doesn't know about it
@@ -124,4 +129,5 @@ async function save() {
 function formStateChanged(canSaveState: boolean) {
     canSave.value = canSaveState;
 }
+
 </script>

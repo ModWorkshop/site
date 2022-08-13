@@ -36,20 +36,6 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
-        async init() {
-            try {
-                // If for some reason (cough current poor error handling) it doesn't work on SSR
-                if (!this.user) {
-                    await this.attemptLoginUser(false);
-                }
-                if (this.user) {
-                    await this.getNotificationCount();
-                }
-            } catch (error) {
-                console.log(error);
-                this.userIsLoading = false;
-            }
-        },
         /**
          * Attempts to login the user (automatically)
          */
@@ -58,16 +44,21 @@ export const useStore = defineStore('main', {
 
             this.userIsLoading = true;
 
-            await reloadToken();
+            //https://github.com/nuxt/framework/discussions/5655
+            //https://github.com/nuxt/framework/issues/6475
+            const [ userData ] = await Promise.all([
+                useGet<User>('/user'),
+                reloadToken()
+            ]);
 
-            const userData = await useGet<User>('/user');
             this.user = userData;
             this.userIsLoading = false;
 
-            const router = useRouter();
-            await reloadToken();
-
+            console.log('Trying to reload token');
+            
             if (typeof(redirect) == 'string') {
+                console.log('Trying to use router');
+                const router = useRouter();
                 router.push(redirect);
             }
         },
@@ -77,7 +68,10 @@ export const useStore = defineStore('main', {
         },
 
         async getNotificationCount() {
-            this.notificationCount = await useGet<number>('/notifications/unseen');
+            if (this.user) {
+                this.notificationCount = await useGet<number>('/notifications/unseen');
+            }
+
             if (lastTimeout) {
                 clearTimeout(lastTimeout);
             }
@@ -95,15 +89,6 @@ export const useStore = defineStore('main', {
             }
         },
 
-        async nuxtServerInit() {
-            try {
-                await this.attemptLoginUser(false, false);
-            } catch (error) {
-                console.log("ERR");
-                console.log(error.req);
-                console.error(error.message);
-            }
-        },
         setUserAvatar(avatar: string) {
             this.user.avatar = avatar;
         }
