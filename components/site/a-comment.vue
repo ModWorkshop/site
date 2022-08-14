@@ -15,7 +15,7 @@
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
                 <div class="comment-message ml-2 mt-2 text-break markdown w-full">
-                    <a-markdown :text="comment.content"/>
+                    <a-markdown :text="content"/>
                 </div>
             </flex>
             <div class="float-right">
@@ -77,19 +77,16 @@ const props = defineProps<{
     currentFocus: Comment
 }>();
 
-
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
+const content = toRef(props.comment, 'content');
+content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
+    const user: User = props.comment.mentions.find(user => user.id == id);
 
-onBeforeMount(() => {
-    props.comment.content = props.comment.content.replace(/<@([0-9]+)>/g, (match, id) => {
-        const user: User = props.comment.mentions.find(user => user.id == id);
-
-        if (user) {
-            return `@${user.unique_name}`;
-        } else {
-            return `<\\@${id}>`;
-        }
-    });
+    if (user) {
+        return `@${user.unique_name}`;
+    } else {
+        return `<\\@${id}>`;
+    }
 });
 
 const emit = defineEmits([
