@@ -68,14 +68,17 @@ class LinkController extends Controller
         $user = $request->user();
         
         if (isset($link)) {
+            if ($link->version !== $val['version']) {
+                $mod->bump(true);
+            }
             $link->update($val);
         } else {
             $val['user_id'] = $user->id;
-            $val['mod_id'] = $mod->id;
-            $link = Link::create($val);
+            $mod->links()->create($val);
+            $mod->bump(false);
+            $mod->refresh();
+            $mod->calculateFileStatus();
         }
-
-        $mod->calculateFileStatus();
 
         return $link;
     }

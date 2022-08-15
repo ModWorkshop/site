@@ -255,7 +255,7 @@ class ModController extends Controller
      * @param Mod $mod
      * @return void
      */
-    public function uploadImage(Request $request, Mod $mod) {
+    public function uploadModImage(Request $request, Mod $mod) {
         if ($mod->images()->count() >= 20) {
             abort(406, 'Reached maximum allowed images for the mod!');
         }

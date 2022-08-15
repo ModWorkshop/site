@@ -67,16 +67,16 @@ class FileController extends Controller
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
         $file->storePubliclyAs('mods/files', $fileName);
         
-        $file = File::create([
+        $file = $mod->files()->create([
             'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
             'desc' => '',
             'user_id' => $user->id,
-            'mod_id' => $mod->id,
             'file' => $fileName,
             'type' => $fileType,
             'size' => $fileSize
         ]);
 
+        $mod->refresh();
         $mod->bump(false);
         $mod->calculateFileStatus(); //Here it saves
 
@@ -110,7 +110,7 @@ class FileController extends Controller
             'version' => 'string|nullable|max:255'
         ]);
 
-        if ($val['veriosn'] !== $file->version) {
+        if ($val['version'] !== $file->version) {
             $mod->bump();
         }
 

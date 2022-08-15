@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ModService;
+use App\Services\Utils;
 use App\Traits\Filterable;
 use App\Traits\RelationsListener;
 use Auth;
@@ -224,7 +225,7 @@ class Mod extends Model
         return $this->hasMany(Image::class);
     }
 
-    public function files()
+    public function files() : HasMany
     {
         return $this->hasMany(File::class)->orderByDesc('updated_at');
     }
@@ -335,12 +336,39 @@ class Mod extends Model
 
         //If we don't have a publish date and status is 1
         if (!$this->published_at && $this->file_status == 1) {
-            $this->published_at = $this->freshTimestampString();
-            $this->bumped_at = $this->published_at;
+            $this->publish();
         }
 
         if ($save) {
             $this->save();
+        }
+    }
+
+    public function publish()
+    {
+        $this->published_at = $this->freshTimestampString();
+        $this->bumped_at = $this->published_at;
+        $game = $this->game;
+        $category = $this->category;
+        
+        $send = function($url) use($game, $category) {
+            Utils::sendDiscordMessage($url, 'The mod **%s** is now public for the first time in **%s**. https://modworkshop.net/mod/%s', [
+                $this->name,
+                ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''), 
+                $this->id
+            ]);
+        };
+
+        //TODO: Unhardcode this
+        $send('https://discord.com/api/webhooks/1008645782276157482/uAp9fbenxqxd_WGCk1ACTaP4VItUKsoSVaoSKamhFUv3tyOC5yjgo4OOl4g-JItGRmZ7');
+
+        //Send to webhooks that were set by game or category
+        if (!empty($game->webhook_url)) {
+            $send($game->webhook_url);
+        }
+
+        if (!empty($category->webhook_url)) {
+            $send($category->webhook_url);
         }
     }
 
