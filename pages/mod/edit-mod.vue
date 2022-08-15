@@ -59,6 +59,7 @@ const modTemplate = {
     game_id: -1,
     version: '',
     user_id: user.id,
+    user,
     downloads: 0,
     likes: 0,
     views: 0,
