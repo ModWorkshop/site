@@ -6,6 +6,7 @@
         <textarea v-if="type == 'textarea'" v-model="(modelValue as string)" class="input" :rows="rows" v-bind="$attrs" @input="$emit('update:modelValue', modelValue)"/>
         <va-color-input v-else-if="type == 'color'" v-model="(modelValue as string)" v-bind="$attrs" @input="$emit('update:modelValue', modelValue);"/>
         <slot v-else-if="$slots.default"/>
+        <input v-else-if="isCheckbox" :id="labelId" v-bind="$attrs" ref="input" v-model="(modelValue as boolean)" :class="{input: true, 'input-error': !!err}" type="checkbox" @change="$emit('update:modelValue', modelValue);">
         <input v-else :id="labelId" v-bind="$attrs" ref="input" v-model="modelValue" :class="{input: true, 'input-error': !!err}" :type="type" @input="$emit('update:modelValue', modelValue);">
         <label v-if="isCheckbox && label" :for="labelId" class="basis-9/12">
             <span class="align-middle">{{label}}</span>
