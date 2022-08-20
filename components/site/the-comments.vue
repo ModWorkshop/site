@@ -29,9 +29,9 @@
                 <h4>No Comments</h4>
             </div>
         </flex>
-        <transition name="fade">
             <div v-if="showCommentDialog" class="fixed bottom-0 left-0 right-0 p-3">
                 <flex column class="mx-auto w-7/12" gap="2">
+        <transition>
                     <h3 v-if="replyingComment">Replying Comment</h3>
                     <h3 v-else-if="editingComment">Editing Comment</h3>
                     <h3 v-else>Commenting</h3>

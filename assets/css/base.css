@@ -141,10 +141,13 @@ a {
 }
 
 /* Animation stuff */
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.25s;
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
 }
-.fade-enter, .fade-leave-to {
+
+.v-enter-from,
+.v-leave-to {
     opacity: 0;
 }
 

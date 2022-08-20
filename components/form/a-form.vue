@@ -8,7 +8,7 @@
             in saving them with the mod (as these are handled separately)
             So we should pluck them from the mod we get from the API and save them elsewhere.
         -->
-        <transition v-if="floatSaveGui" name="fade">
+        <transition v-if="floatSaveGui">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                 {{$t('unsaved_changes')}}
                 <a-button v-if="created" color="danger" class="ml-2" @click="undo">Undo</a-button>
