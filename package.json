@@ -15,7 +15,7 @@
     "@vueuse/nuxt": "^9.0.2",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
-    "nuxt": "npm:nuxt3@3.0.0-rc.8-27673198.b4bea51",
+    "nuxt": "npm:nuxt3@latest",
     "typescript": "^4.7.4"
   },
   "dependencies": {
