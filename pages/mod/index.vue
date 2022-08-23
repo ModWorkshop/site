@@ -3,7 +3,7 @@
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
-        <the-breadcrumbs :items="mod.breadcrumb"/>
+        <the-breadcrumb :items="mod.breadcrumb"/>
         <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
             <i18n-t keypath="mod_suspended" tag="span">
                 <template #rules>

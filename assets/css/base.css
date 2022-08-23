@@ -2,6 +2,7 @@ body, html {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
+    font-size: 14px;
     font-family: 
         -apple-system,
         BlinkMacSystemFont,
@@ -22,9 +23,8 @@ body {
 }
 
 :root {
-    font-size: 14px;
     --bg-color: #212529;
-    --secondary-bg-color: #2b3036;
+    --content-bg-color: #2b3036;
     --alt-bg-color: #212121;
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
@@ -44,7 +44,7 @@ body {
     --input-border-hover-color: #505762;
     --header-footer-color: #394047;
     --button-text-color: #fff;
-    --tab-selected-color: #363d44;
+    --tab-selected-color: rgb(255 255 255 / 5%);
     --border-radius: 4px;
 
     --vs-controls-color: #afafaf !important;
@@ -61,7 +61,7 @@ body {
 
 html.light-mode {
     --bg-color: #e3e6e8;
-    --secondary-bg-color: #d5dadd;
+    --content-bg-color: #d5dadd;
     --text-color: #000;
     --dropdown-bg: #e6e6e6;
     --dropdown-hover-bg: #d9d9d9;
@@ -148,7 +148,7 @@ a {
 
 .v-enter-from,
 .v-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .round {
@@ -275,7 +275,7 @@ a {
     }
 
     .games-grid {
-        grid-template-columns: repeat(8, 1fr)
+        grid-template-columns: repeat(5, 1fr)
     }
 }
 
@@ -296,4 +296,8 @@ p {
 
 p:last-child {
     margin-bottom: 0;
+}
+
+.md-editor-open {
+    overflow: hidden;
 }

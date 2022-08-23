@@ -3,7 +3,7 @@
         ModWorkshop v3.0 Alpha
         <br>
         <span>
-            Made with ❤ by <nuxt-link to="/@Luffy">Luffy</nuxt-link>
+            Made with ❤ by <NuxtLink to="/@Luffy">Luffy</NuxtLink>
         </span>
     </footer>
 </template>

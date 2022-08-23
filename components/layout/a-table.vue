@@ -1,5 +1,5 @@
 <template>
-    <table class="table">
+    <table :class="{table: true, 'table-bg': background}">
         <thead>
             <tr>
                 <slot name="head"/>
@@ -11,11 +11,28 @@
     </table>
 </template>
 
+<script setup>
+defineProps({
+    background: {
+        type: Boolean,
+        default: true
+    }
+});
+</script>
+
 <style scoped>
 .table {
     width: 100%;
-    background-color: var(--alt-bg-color);
     border-radius: var(--border-radius);
-    padding: 1rem;
+}
+
+.table-bg {
+    background-color: var(--alt-bg-color);
+}
+</style>
+
+<style>
+.table td, .table th {
+    padding: 0.5rem;
 }
 </style>

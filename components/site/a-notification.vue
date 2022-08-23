@@ -12,11 +12,11 @@
                         <a-user v-if="mod" :avatar="false" :user="mod" @click.stop="ok"/>
                     </template>
                     <template #context>
-                        <nuxt-link v-if="contextLink" :href="contextLink" @click.stop="ok">{{contextName}}</nuxt-link>
+                        <NuxtLink v-if="contextLink" :href="contextLink" @click.stop="ok">{{contextName}}</NuxtLink>
                         <span v-else>{{contextName}}</span>
                     </template>
                     <template #notifiable>
-                        <nuxt-link :href="notifiableLink" @click.stop="ok">{{notifiableName}}</nuxt-link>
+                        <NuxtLink :href="notifiableLink" @click.stop="ok">{{notifiableName}}</NuxtLink>
                     </template>
                 </i18n-t>
                 <br>

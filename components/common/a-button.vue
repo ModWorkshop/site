@@ -2,9 +2,9 @@
     <NuxtLink v-if="download && !disabled" :href="href" :class="clss" :download="download">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </NuxtLink>
-    <nuxt-link v-else-if="to && !disabled" :to="to || href" :class="clss">
+    <NuxtLink v-else-if="to && !disabled" :to="to || href" :class="clss">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
-    </nuxt-link>
+    </NuxtLink>
     <button v-else :disabled="disabled" :class="clss" :type="type"> 
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </button>
@@ -14,6 +14,7 @@
     const props = defineProps({
         href: String,
         large: Boolean,
+        unstyled: Boolean,
         color: {
             default: 'primary',
             type: String,
@@ -31,10 +32,11 @@
     });
 
     const clss = computed(() => ({
-        button: true,
-        [`button-${props.color}`]: true,
+        button: !props.unstyled,
+        [`button-${props.color}`]: !props.unstyled,
         'button-no-bg': props.noBg,
-        'button-large': props.large
+        'button-large': props.large,
+        'cursor-pointer': props.unstyled
     }));
 </script>
 
@@ -55,6 +57,14 @@
     .button-primary {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
+    }
+
+    .button-subtle {
+        background-color: transparent;
+    }
+
+    .button-subtle:hover {
+        background-color: var(--tab-selected-color);
     }
 
     .button-danger {

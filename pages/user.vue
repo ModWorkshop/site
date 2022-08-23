@@ -1,7 +1,7 @@
 <template>
     <page-block :error="error" error-string="This user does not exist!">
         <a-banner :src="user.banner" url-prefix="users/banners">
-            <a-avatar class="mt-auto d-inline-block" size="largest" :src="user.avatar"/>
+            <a-avatar class="mt-auto d-inline-block" size="md" :src="user.avatar"/>
         </a-banner>
         <flex gap="3" class="md:flex-row">
             <content-block id="details" class="p-4">

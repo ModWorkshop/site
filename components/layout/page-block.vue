@@ -1,5 +1,5 @@
 <template>
-    <flex :gap="gap" column :class="{'page-block': true, 'page-block-full': size == 'full', 'page-block-md': size == 'md', 'page-block-sm': size == 'sm'}">
+    <flex :gap="gap" column :class="{'page-block': true, 'h-full': true, 'page-block-full': size == 'full', 'page-block-md': size == 'md', 'page-block-sm': size == 'sm'}">
         <slot/>
     </flex>
 </template>

@@ -1,9 +1,11 @@
 <template>
-    <nuxt-link
+    <NuxtLink
         :class="{'nav-link': true, 'nav-link-side': side, selected: to == root ? $route.path == root : $route.path.startsWith(to)}"
         :to="to">
-        {{title}}
-    </nuxt-link>
+        <slot>
+            {{title}}
+        </slot>
+    </NuxtLink>
 </template>
 
 <script setup>

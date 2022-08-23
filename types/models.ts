@@ -36,8 +36,8 @@ export interface Comment {
     pinned: boolean;
     mentions: User[],
     reply_to: number | null;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     user?: User | null;
     commentable?: any | null;
     last_replies?: any | null;
@@ -58,8 +58,8 @@ export interface File {
     image_id: number | null;
     size: number;
     approved: boolean;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     mod?: Mod | null;
     user: User;
 }
@@ -71,8 +71,8 @@ export interface Image {
     file: string;
     type: string;
     size: number;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     mod_id: number;
 }
 
@@ -135,8 +135,10 @@ export interface Mod {
 }
 
 export interface Breadcrumb {
-    href: string,
-    name: string
+    id?: string|number,
+    type?: string,
+    attachToPrev?: string,
+    name: string,
 }
 
 export interface Permission {
@@ -144,8 +146,8 @@ export interface Permission {
     slug: string;
     name: string;
     desc: string;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     allow: boolean;
 }
 
@@ -156,8 +158,8 @@ export interface Role {
     desc: string;
     color: string;
     order: number;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     permissions?: Record<string, boolean>
 }
 
@@ -170,8 +172,9 @@ export interface Game {
     buttons: string;
     webhook_url: string;
     last_date: string;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
+    forum?: Forum,
     readonly path?: any;
 }
 
@@ -180,8 +183,8 @@ export interface SocialLogin {
     user_id: number | null;
     social_id: string;
     special_id: string;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     user?: User | null;
 }
 
@@ -192,8 +195,8 @@ export interface Tag {
     notice: string;
     notice_type: number;
     notice_localized: boolean;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     categories?: Array<Category> | null;
     sections?: Array<Game> | null;
     categories_count?: number | null;
@@ -244,8 +247,8 @@ export interface TransferRequest {
     keep_owner_level: number | null;
     mod_id: number;
     user_id: number;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     mod?: Mod | null;
     user?: User | null;
 }
@@ -259,10 +262,49 @@ export interface Notification {
     type: string;
     seen: boolean;
     data: Array<any> | any | null;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     user_id: number;
     notifiable?: any | null;
     context?: any | null;
     user?: User | null;
+}
+
+export interface Thread {
+    id: number;
+    name: string;
+    content: string;
+    views: number;
+    archived: boolean;
+    bumped_at: string;
+    pinned_at: string;
+    forum_id: number;
+    category_id?: number;
+    user_id: number;
+    created_at?: string;
+    updated_at?: string;
+    comments?: Comment[];
+    comments_count?: number;
+    user: User;
+    last_user: User;
+    forum: Forum;
+    category: ForumCategory;
+}
+
+export interface Forum {
+    id: number;
+    game: Game,
+    game_id?: number;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface ForumCategory {
+    id: number;
+    name: string;
+    desc: string;
+    emoji: string;
+    forum_id: number;
+    created_at?: string;
+    updated_at?: string;
 }

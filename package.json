@@ -11,11 +11,11 @@
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "@vuestic/nuxt": "^1.0.4",
-    "@vueuse/core": "^9.0.2",
-    "@vueuse/nuxt": "^9.0.2",
+    "@vueuse/core": "^9.1.0",
+    "@vueuse/nuxt": "^9.1.0",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
-    "nuxt": "npm:nuxt3@latest",
+    "nuxt": "npm:nuxt3@3.0.0-rc.8-27679131.405629d",
     "typescript": "^4.7.4"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "@koddsson/textarea-caret": "^4.0.1",
     "@pinia/nuxt": "^0.4",
     "@vueuse/components": "^9.1.0",
+    "@vueuse/router": "^9.1.0",
     "axios": "^0.27.2",
     "caret-pos": "^2.0.0",
     "caret-xy": "^2.0.3",

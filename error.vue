@@ -5,7 +5,7 @@
 			<h3>{{error.statusCode}}</h3>
 			<h3>{{error.statusMessage}}</h3>
 			<a-button @click="clearError({ redirect: '/' })">{{$t('back_to_home')}}</a-button>
-			<div v-if="dev" class="mt-4" v-html="error.description"/>
+			<div v-if="dev && error.description" class="mt-4" v-html="error.description"/>
 		</flex>
 		<NuxtLoadingIndicator/>
 	</NuxtLayout>

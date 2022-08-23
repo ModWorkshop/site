@@ -1,6 +1,6 @@
 <template>
-    <flex :column="!side" :gap="side ? 8 : 1">
-        <flex class="tab-list mb-2" role="tablist" :column="side">
+    <flex :column="!side" :gap="gap ?? (side ? 8 : 2)">
+        <flex class="tab-list" role="tablist" :column="side">
             <!--ARIA compliant, I hope xd-->
             <a-tab-link 
                 v-for="tab of tabs"
@@ -30,6 +30,7 @@ const props = defineProps({
         default: 'query',
         type: String
     },
+    gap: [String, Number],
     padding: {
         default: 2,
         type: [String, Number]

@@ -9,7 +9,7 @@
                     <flex>
                         <a-button :href="`${config.apiurl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
                         <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
+                        <a-button :href="`${config.apiurl}/auth/twitter/redirect`" :icon="['fab', 'twitter']" icon-size="lg"/>
                     </flex>
                 </flex>
                 <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>

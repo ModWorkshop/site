@@ -23,9 +23,9 @@
                         <flex column gap="4">
                             <img-uploader v-model="avatarBlob" label="Avatar" :src="user.avatar">
                                 <template #label="{ src }">
-                                    <a-avatar size="large" :src="src"/>
-                                    <a-avatar size="medium" :src="src"/>
-                                    <a-avatar size="small" :src="src"/>
+                                    <a-avatar size="lg" :src="src"/>
+                                    <a-avatar size="sm" :src="src"/>
+                                    <a-avatar size="xs" :src="src"/>
                                 </template>
                             </img-uploader>
     

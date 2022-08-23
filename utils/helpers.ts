@@ -1,6 +1,8 @@
 import fileSize from "filesize";
 import { DateTime } from 'luxon';
 import { serialize } from "object-to-formdata";
+import queryString from 'query-string';
+import { LocationQueryRaw, LocationQueryValueRaw } from "vue-router";
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -29,9 +31,12 @@ export async function reloadToken() {
     await useGet('/sanctum/csrf-cookie');
 }
 
-export function setQuery(key: string, value: string) {
+export function setQuery(key: string, value: LocationQueryValueRaw | LocationQueryValueRaw[]) {
     const router = useRouter();
     const route = useRoute();
+
+    console.log({ ...route.query, [key]: value });
+    
 
     router.replace({ query: { ...route.query, [key]: value } });
 }

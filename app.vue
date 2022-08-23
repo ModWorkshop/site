@@ -21,7 +21,7 @@ Settings.defaultLocale = 'en-US';
 </script>
 
 <style>
-h1, h2 {
+.markdown h1, .markdown h2 {
 	border-bottom: 1px solid #424242;
 	padding-bottom: .3em;
 }

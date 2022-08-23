@@ -1,6 +1,6 @@
 <template>
     <a-input v-model="modelValue">
-        <a-tabs class="md-editor p-2" padding="0" type="none">
+        <a-tabs :class="classes" type="none">
             <a-tab name="write" title="Write">
                 <textarea 
                     :id="labelId"
@@ -12,17 +12,17 @@
                     :rows="rows" @input="$emit('update:modelValue', modelValue)"
                 />
             </a-tab>
-            <a-tab name="preview" title="Preview" :style="{'min-height': previewHeight}">
-                <a-markdown :text="modelValue"/>
+            <a-tab name="preview" title="Preview" class="preview p-2" :style="{'height': previewHeight}">
+                <a-markdown class="h-100" :text="modelValue"/>
             </a-tab>
             <template #buttons>
-                <flex gap="1" class="ml-auto my-auto items-center">
+                <flex class="ml-auto my-auto items-center">
                     <template v-for="[i, group] of toolGroups.entries()">
-                        <button v-for="tool of group.tools" :key="tool.icon" class="md-tool" @click="clickedTool(tool)">
-                            <font-awesome-icon :icon="tool.icon"/>
-                        </button>
+                        <a-button v-for="tool of group.tools" :key="tool.icon" :icon="tool.icon" color="none" @click="clickedTool(tool)"/>
                         <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
                     </template>
+                    <span class="tools-splitter"/>
+                    <a-button color="none" :icon="fullscreen ? 'xmark' : 'arrows-up-down-left-right'" @click="toggleFullscreen"/>
                 </flex>
             </template>
         </a-tabs>
@@ -34,9 +34,16 @@
 const props = defineProps({
     labelId: String,
     modelValue: String,
-    rows: String
+    rows: { type: [String, Number], default: 12 }
 });
 
+const classes = computed(() => ({
+    'md-editor': true,
+    'p-2': true,
+    'md-editor-fullscreen': fullscreen.value
+}));
+
+const fullscreen = ref(false);
 const textArea = ref<HTMLTextAreaElement>();
 const previewHeight = ref('0');
 const toolGroups = [ 
@@ -79,8 +86,9 @@ const err = useWatchValidation(vm, textArea);
 onMounted(() => {
     const textarea = textArea.value;
     new ResizeObserver(() => {
+        const textarea = textArea.value;
         if (textarea.parentElement.style.display != 'none') {
-            previewHeight.value = textarea.clientHeight + 4 + 'px';
+            previewHeight.value = textarea.clientHeight + 3 + 'px';
         }
     }).observe(textarea);
 });
@@ -101,41 +109,85 @@ function clickedTool(tool: Tool) {
     textarea.focus();
     textarea.setSelectionRange(focus, focus);
 }
+
+function toggleFullscreen() {
+    fullscreen.value = !fullscreen.value;
+    if (fullscreen.value) {
+        document.body.classList.add('md-editor-open');
+    } else {
+        document.body.classList.remove('md-editor-open');
+    }
+}
 </script>
 
+<style>
+.tab-panel, .tab-panels {
+    height: 100%;
+}
+</style>
+
 <style scoped>
-    .preview {
-        background: var(--secondary-bg-color);
-    }
-    .textarea {
-        color: var(--text-color);
-        background-color: var(--input-bg-color);
-        border-radius: var(--border-radius);
-        resize : vertical;
-        width: 100%;
-    }
+.preview {
+    display: flex;
+    flex-direction: column;
+    background: var(--content-bg-color);
+    overflow-y: scroll;
+    resize : vertical;
+}
 
-    .md-editor {
-        background-color: #22262a;
-        border-radius: var(--border-radius);
-    }
+.md-editor-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    z-index: 9999;
+}
 
-    textarea:focus-visible {
-        outline-color: #107ef4;
-        outline-style: groove;
-    }
+.textarea {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border-radius: var(--border-radius);
+    resize : vertical;
+    width: 100%;
+}
 
-    .md-tool {
-        background: none;
-        color: var(--text-color);
-        padding: 0.5rem;
-    }
+.md-editor-fullscreen .textarea {
+    resize: none;
+    height: 100% !important;
+}
 
-    .tools-splitter {
-        width: 2px;
-        height: 16px;
-        opacity: 0.5;
-        vertical-align: middle;
-        background: var(--secondary-text-color);
-    }
+.md-editor-fullscreen .preview {
+    resize: none;
+    height: 100% !important;
+}
+
+.md-editor {
+    background-color: #22262a;
+    border-radius: var(--border-radius);
+    resize: vertical;
+}
+
+textarea {
+    height: 100%;
+}
+
+textarea:focus-visible {
+    outline-color: #107ef4;
+    outline-style: groove;
+}
+
+.md-tool {
+    background: none;
+    color: var(--text-color);
+    padding: 0.5rem;
+}
+
+.tools-splitter {
+    width: 2px;
+    height: 16px;
+    opacity: 0.5;
+    vertical-align: middle;
+    background: var(--secondary-text-color);
+}
 </style>

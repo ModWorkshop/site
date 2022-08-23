@@ -1,7 +1,7 @@
 <template>
-    <nuxt-link class="dropdown-item cursor-pointer" :to="to" @click="click">
+    <NuxtLink class="dropdown-item cursor-pointer" :to="to" @click="click">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
-    </nuxt-link>
+    </NuxtLink>
 </template>
 
 <script setup>

@@ -37,22 +37,27 @@ const avatarUrl = computed(() => {
         height: 28px;
     }
 
-    .avatar-small {
+    .avatar-sm {
         width: 32px;
         height: 32px;
     }
 
-    .avatar-medium {
+    .avatar-md {
         width: 48px;
         height: 48px;
     }
 
-    .avatar-large {
+    .avatar-lg {
+        width: 64px;
+        height: 64px;
+    }
+
+    .avatar-xl {
         width: 150px;
         height: 150px;
     }
     
-    .avatar-largest {
+    .avatar-2xl {
         width: 200px;
         height: 200px;
     }

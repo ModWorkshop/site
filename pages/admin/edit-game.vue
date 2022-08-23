@@ -4,12 +4,12 @@
             <div>
                 <a-button icon="arrow-left" to="/admin/games">Back to Games</a-button>
             </div>
-            <img-uploader id="thumbnail" label="Thumbnail" :src="(game.thumbnail && `games/thumbnails/${game.thumbnail}`) || 'assets/nopreview.webp'" v-model="thumbnailBlob">
+            <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="(game.thumbnail && `games/thumbnails/${game.thumbnail}`) || 'assets/nopreview.webp'">
                 <template #label="{ src }">
                     <a-img class="round" :src="src"/>
                 </template>
             </img-uploader>
-            <img-uploader id="banner" label="Banner" :src="(game.banner && `games/banners/${game.banner}`) || 'banners/default_banner.webp'" v-model="bannerBlob">
+            <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="(game.banner && `games/banners/${game.banner}`) || 'banners/default_banner.webp'">
                 <template #label="{ src }">
                     <div :class="{'banner': true, 'p-2': true, round: true, 'default-banner': !src}" :style="{backgroundImage: `url(${src})`}"/>
                 </template>
@@ -17,7 +17,11 @@
             <a-input v-model="game.name" label="Name"/>
             <a-input v-model="game.short_name" :label="$t('short_name')"/>
             <a-input v-model="game.buttons" :label="$t('game_buttons')"/>
-            <a-input :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)" v-model="game.webhook_url"/>
+            <a-input v-model="game.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
+            <div v-if="game.id">
+                Categories
+                <category-tree :categories="categories.data"/>
+            </div>
             <a-alert class="w-full" color="warning">
                 <details>
                     <summary>DANGER ZONE</summary>
@@ -33,7 +37,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { useStore } from "~~/store";
-import { Game } from "~~/types/models";
+import { Category, Game } from "~~/types/models";
 
 const store = useStore();
 
@@ -66,6 +70,8 @@ else if (route.params.id) {
     const { data } = await useFetchData<Game>(`games/${route.params.id}`);
     game = data;
 }
+
+const { data: categories } = await useFetchMany<Category>(() => `games/${game.value.id}/categories?include_paths=1`, { immediate: !!game.value.id });
 
 async function save() {
     try {

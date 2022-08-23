@@ -1,9 +1,9 @@
 <template>
     <page-block v-if="mod" size="md">
         <flex>
-            <nuxt-link v-if="mod.id" :to="`/mod/${mod.id}`">
+            <NuxtLink v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
-            </nuxt-link> 
+            </NuxtLink> 
         </flex>
         <a-form :model="mod" :created="mod.id != -1" :save-text="saveText" float-save-gui @submit="save" @state-changed="formStateChanged">
             <content-block class="p-8">

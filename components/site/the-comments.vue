@@ -2,7 +2,7 @@
     <div v-intersection-observer="onVisChange">
         <flex column gap="2">
             <flex>
-                <h3>Comments</h3>
+                <h3 class="my-auto">Comments</h3>
                 <div class="ml-auto my-auto">
                     <va-popover stick-to-edges :message="$t('comments_disabled')" :readonly="canComment">
                         <a-button icon="comment" :disabled="!canComment" @click="onClickComment">Comment</a-button>
@@ -29,9 +29,9 @@
                 <h4>No Comments</h4>
             </div>
         </flex>
-            <div v-if="showCommentDialog" class="fixed bottom-0 left-0 right-0 p-3">
-                <flex column class="mx-auto w-7/12" gap="2">
         <transition>
+            <div v-if="showCommentDialog" class="floating-editor">
+                <flex column class="mx-auto w-8/12" gap="2">
                     <h3 v-if="replyingComment">Replying Comment</h3>
                     <h3 v-else-if="editingComment">Editing Comment</h3>
                     <h3 v-else>Commenting</h3>
@@ -288,6 +288,21 @@ function beginEditingComment(comment: Comment) {
 </script>
 
 <style>
+.floating-editor {
+    max-height: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;    
+}
+
+.floating-editor > div {
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
 .mention-float {
     background-color: #22262a;
     padding: 1rem;

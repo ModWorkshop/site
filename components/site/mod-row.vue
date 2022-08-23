@@ -1,16 +1,16 @@
 <template>
     <tr class="items-center mt-2" :title="mod.short_desc">
         <td v-if="displayMode == 1" width="200px;">
-            <nuxt-link class="block" :to="!static && `/mod/${mod.id}` || null">
+            <NuxtLink class="block" :to="!static && `/mod/${mod.id}` || null">
                 <mod-thumbnail :mod="mod"/>
-            </nuxt-link>
+            </NuxtLink>
         </td>
 
         <td>
-            <nuxt-link class="mod-title" :to="!static && `/mod/${mod.id}` || null" :title="mod.name">
+            <NuxtLink class="mod-title" :to="!static && `/mod/${mod.id}` || null" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
-            </nuxt-link>
+            </NuxtLink>
         </td>
 
         <td>
@@ -19,10 +19,10 @@
 
         <td v-if="!noCategories">
             <template v-if="(mod.game && showGame) || mod.category">
-                <nuxt-link v-if="showGame" class="text-secondary" :to="!static && `/game/${mod.game.short_name || mod.game.id}` || null" :title="mod.game">{{mod.game.name}}</nuxt-link>
+                <NuxtLink v-if="showGame" class="text-secondary" :to="!static && `/g/${mod.game.short_name || mod.game.id}` || null" :title="mod.game">{{mod.game.name}}</NuxtLink>
                 <template v-if="mod.category">
                     <span v-if="showGame" class="text-secondary"> / </span>
-                    <nuxt-link class="text-secondary" :to="!static && `/category/${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</nuxt-link>
+                    <NuxtLink class="text-secondary" :to="!static && `/g/${mod.game.short_name}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                 </template>
             </template>
             <span v-else>
@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { useStorage } from '@vueuse/core';
 import { Mod } from "~~/types/models";
 
 const props = defineProps<{

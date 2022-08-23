@@ -1,5 +1,5 @@
 <template>
-    <flex inline grow wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
+    <flex inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
         <label v-if="!isCheckbox && label" :for="labelId">
             {{label}}
         </label>

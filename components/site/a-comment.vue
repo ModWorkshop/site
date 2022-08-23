@@ -1,35 +1,27 @@
 <template>
-    <content-block :id="`comment-cid${comment.id}`" :alt-background="isReply" :gap="null" :class="{comment: true, reply: isReply, focus: currentFocus && currentFocus.id == comment.id}">
-        <flex class="comment-body p-1">
-            <div class="mr-1">
-                <nuxt-link :to="`/user/${comment.user_id}`">
-                    <a-avatar :src="comment.user.avatar" size="medium"/>
-                </nuxt-link>
-            </div>
-            <flex column wrap class="overflow-hidden w-full mt-2">
-                <flex :key="updateKey">
+    <content-block :alt-background="isReply" :gap="0" :padding="3" :class="{comment: true, reply: isReply, focus: currentFocus && currentFocus.id == comment.id}">
+        <flex class="comment-body" gap="2">
+            <NuxtLink class="mr-1" :to="`/user/${comment.user_id}`">
+                <a-avatar class="align-middle" :src="comment.user.avatar" size="md"/>
+            </NuxtLink>
+            <flex column wrap class="overflow-hidden w-full">
+                <flex>
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
-                    <NuxtLink class="ml-1 text-secondary" :title="comment.created_at" :to="`/post/${comment.id}`">{{timeAgo(comment.created_at)}}</NuxtLink>
+                    <NuxtLink class="ml-1 text-secondary" :to="`/post/${comment.id}`">
+                        <time-ago :time="comment.created_at"/>
+                    </NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
-                <div class="comment-message ml-2 mt-2 text-break markdown w-full">
-                    <a-markdown :text="content"/>
-                </div>
+                <a-markdown class="mt-1" :text="content"/>
             </flex>
             <div class="float-right">
-                <flex class="comment-actions" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a v-if="canReply" class="reply-button text-body mr-1 cursor-pointer" title="Reply" role="button" @click="$emit('reply', comment)">
-                        <font-awesome-icon icon="reply"/>
-                    </a>
-                    <!-- <a v-if="!isReply" class="subscribe text-body mr-1 cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" role="button">
-                        <font-awesome-icon :icon="comment.subbed ? 'slash' : 'bell'"/>
-                    </a> -->
-                    <Popper arrow @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
-                        <a class="cursor-pointer text-body">
-                            <font-awesome-icon icon="ellipsis-h"/>
-                        </a>
+                <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
+                    <font-awesome-icon v-if="canReply" class="cursor-pointer" title="Reply" icon="reply" @click="$emit('reply', comment)"/>
+                    <font-awesome-icon v-if="!isReply" class="cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" :icon="comment.subbed ? 'slash' : 'bell'"/>
+                    <Popper arrow style="margin: 0; border: 0;" @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
+                        <font-awesome-icon class="cursor-pointer" icon="ellipsis-h"/>
                         <template #content>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
@@ -41,7 +33,7 @@
             </div>
         </flex>
         <template v-if="!isReply">
-            <flex column class="replies px-6">
+            <flex v-if="comment.last_replies.length > 0" column class="replies px-6 mt-2">
                 <a-comment v-for="reply of comment.last_replies" 
                     :key="reply.id"
                     :comment="reply"
@@ -63,7 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import { timeAgo } from '~~/utils/helpers';
 import { useStore } from '~~/store';
 import { Comment, User } from '~~/types/models';
 const { init: openModal } = useModal();
@@ -99,17 +90,9 @@ const emit = defineEmits([
 const { user, hasPermission } = useStore();
 
 const areActionsVisible = ref(false);
-const updateKey = ref(0);
-
 const canEdit = computed(() => user && (hasPermission('edit-own-comment') && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => true);
-
-onMounted(() => {
-    setInterval(() => { //TODO: don't do this for things that were posted long ago
-        updateKey.value++; //I'm not sure if I wanna keep this but lol this is piss easy to implement
-    }, 5000);
-});
 
 async function togglePinnedState() {
     props.comment.pinned = !props.comment.pinned;
@@ -145,7 +128,7 @@ function openDeleteModal() {
         transition: border, background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
     }
     .reply {
-        background-color: #151719;
+        background-color: #22262a;
     }
 
     .focus {

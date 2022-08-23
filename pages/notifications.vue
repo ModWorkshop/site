@@ -6,6 +6,7 @@
                     <flex class="ml-auto">
                         <a-button color="danger" icon="trash">{{$t('delete_all_notifications')}}</a-button>
                         <a-button color="danger" icon="clock">{{$t('delete_read_notifications')}}</a-button>
+                        <a-button icon="clock">{{$t('read_all_notifications')}}</a-button>
                     </flex>
                 </template>
                 <template #item="{ item, items }">

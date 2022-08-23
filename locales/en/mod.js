@@ -115,5 +115,8 @@ Do note however, that all members with editing permissions including the owner a
 notification_membership_request: "You have been invited to join the members of: {notifiable}. Click on the notification to accept or decline.",
 banner_url_warning: `Banner URLs are being phased out. While old mods will still function, we expect new/updated mods
 to upload their banners to the site directly. Current banner URL: {url}`,
-allowed_size_per_mod: 'You are allowed to upload up to {0} of files in a mod.'
+allowed_size_per_mod: 'You are allowed to upload up to {0} of files in a mod.',
+mod_desc_help: "The description defines what your mod does in words, it is the first thing people will see.",
+mod_creation_desc: `First things first, let's set up the basics.
+Once done, click on the 'Create' button to move to the edit page where you will be able to add more information and upload files and images.`
 };

@@ -7,6 +7,9 @@
                 </strong>
             </a-banner>
             <flex class="nav p-5" gap="4">
+                <NuxtLink :to="`/g/${game.short_name}`">Home</NuxtLink>
+                <NuxtLink :to="`/g/${game.short_name}/forum`">Forum</NuxtLink>
+                <NuxtLink :to="`/g/${game.short_name}/mods`">Mods</NuxtLink>
                 <NuxtLink v-for="button in buttons" :key="button[0]" class="nav-item" href="{{button[1]}}">{{button[0]}}</NuxtLink>
             </flex>
         </div>
@@ -17,11 +20,13 @@
 import { Game } from '~~/types/models';
 
 const route = useRoute();
-const { data: game, error } = await useFetchData<Game>(`games/${route.params.id}`);
+const { data: game, error } = await useFetchData<Game>(`http://localhost:8000/games/${route.params.id}`);
 
-useHandleError(error, {
+useHandleError(error.value, {
     404: 'This game does not exist!'
 });
+
+// const { data: lastThreads } = await useFetchMany<Thread>(`threads?forum_id=${game.value.forum.id}`);
 
 const buttons = computed(() => {
     const btns = game.value.buttons.split(',');

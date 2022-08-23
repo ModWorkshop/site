@@ -48,7 +48,7 @@
 }
 .va-modal__dialog {
     color: var(--text-color) !important;
-    background-color: var(--secondary-bg-color) !important;
+    background-color: var(--content-bg-color) !important;
 }
 
 .va-modal__dialog, .va-modal__inner, .va-modal__inner > div {

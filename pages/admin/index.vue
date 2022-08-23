@@ -7,6 +7,7 @@
                 <a-nav-link to="/admin/tags" title="Tags"/>
                 <a-nav-link to="/admin/users" title="Users"/>
                 <a-nav-link to="/admin/categories" title="Categories"/>
+                <a-nav-link to="/admin/forum-categories" title="Forum Categories"/>
                 <a-nav-link to="/admin/games" title="Games"/>
                 <template #content>
                     <NuxtPage/>

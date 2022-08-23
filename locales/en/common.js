@@ -137,7 +137,7 @@ export default {
         As such, we have a rule requiring mods to be open source to some degree.
         
         We absolutely love modding, and if you want to host any mod for any game, feel free to do so! 
-        If the '[Other Games](/game/other)' section is not enough, contact us and we can discuss about making a section dedicated for that game!  
+        If the '[Other Games](/g/other)' section is not enough, contact us and we can discuss about making a section dedicated for that game!  
     `,
     my_profile: "Profile",
     user_settings: "User Settings",
@@ -307,5 +307,7 @@ Whitelisting us in your ad blocker can help us a lot ❤
 If you dislike ads, consider <a href="/support">supporting us</a>.  
     `,
     back_to_home: 'Back to Home',
-    unsaved_changes: 'You have unsaved changes'
+    unsaved_changes: 'You have unsaved changes',
+    latest_mods: 'Latest Updated Mods',
+    latest_discussions: 'Latest Discussions'
   };

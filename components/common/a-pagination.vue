@@ -1,20 +1,16 @@
 <template>
-    <flex>
-        <template v-if="pages > 5">
-            <a-button v-if="modelValue > 3" @click="setPage(1)">1</a-button>
-            <a-button v-if="pageNumbers[0] > 2" disabled>...</a-button>
+    <flex v-if="pageNumbers.length > 1">
+        <template v-for="[i, n] in pageNumbers.entries()" :key="n">
+            <a-button :disabled="modelValue == n" @click="setPage(n)">{{n}}</a-button>
+            <a-button v-if="i == 0 && pageNumbers[1] > 2 || i == 5 && pageNumbers[6] - n > 1" disabled>...</a-button>
         </template>
-        <a-button v-for="n in pageNumbers" :key="n" :disabled="modelValue == n" @click="setPage(n)">
-            {{n}}
-        </a-button>
-        <template v-if="pages > 5">
-            <a-button v-if="pages - pageNumbers[pageNumbers.length-1] > 1" disabled>...</a-button>
-            <a-button v-if="pages - (modelValue as number) > 2" :disabled="modelValue == pages" @click="setPage(pages)">{{pages}}</a-button>
-        </template>
+        {{pages}}
         <slot/>
     </flex>
 </template>
 <script setup lang="ts">
+import { clamp } from '@vueuse/shared';
+
 const props = defineProps({
     modelValue: [Number, String],
     total: [Number, String],
@@ -31,13 +27,54 @@ const emit = defineEmits([
 const pages = computed(() => Math.ceil((props.total as number) / (props.perPage as number)));
 watch(pages, val => emit('update:pages', val), { immediate: true });
 const pageNumbers = computed(() => {
-    if (props.modelValue < 4) {
-        return [...Array(Math.min(5, pages.value)).keys()].map(x => x + 1);
-    } else if (pages.value - (props.modelValue as number) > 2) {
-        return [...Array(5).keys()].map(x => x + (props.modelValue as number)-2);
-    } else {
-        return [...Array(5).keys()].map(x => pages.value - 4 + x);
+    if (!pages.value) {
+        return [];
     }
+
+    const page = clamp(parseInt(props.modelValue as string), 1, pages.value);
+    const numbers = [page];
+
+    const pagesToShow = Math.min(7, pages.value);
+    const eachSide = (pagesToShow - 1)/2;
+    const eachSideFollowing = pagesToShow/eachSide;
+
+    let diffFromCenter = page < eachSide || pages.value < pagesToShow ? page - eachSide : 0;
+
+    const diffFromEnd = pages.value - page;
+    if (diffFromEnd < eachSide) {
+        diffFromCenter = eachSide - diffFromEnd;
+    }
+
+    //Back
+    let firstAdded = page === 1;
+    for (let i = 1; i <= eachSideFollowing + diffFromCenter; i++) {
+        if (page-1 === 1) {
+            firstAdded = true;
+        }
+        numbers.unshift(page-i);
+    }
+
+    if (!firstAdded) {
+        numbers.unshift(1);
+    }
+
+    //Front
+
+    let lastAdded = page === pages.value;
+    for (let i = 1; i <= eachSideFollowing - diffFromCenter; i++) {
+        if (page+1 === 1) {
+            lastAdded = true;
+        }
+
+        numbers.push(page+i);
+    }
+
+    if (!lastAdded) {
+        numbers.push(pages.value);
+    }
+
+
+    return numbers;
 });
 
 function setPage(newPage) {

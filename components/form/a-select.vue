@@ -6,8 +6,9 @@
 		<va-select 
 			v-model="modelValue"
 			:placeholder="placeholder" 
-			:options="fixedOptions" 
+			:options="options" 
 			:value-by="valueBy" 
+			:track-by="valueBy"
 			:text-by="textBy" 
 			:multiple="multiple"
 			:clearable="(clearable as boolean)"
@@ -20,15 +21,15 @@
 </template>
 <script setup lang="ts">
 
-const props = defineProps({
+defineProps({
 	label: String,
 	clearable: [String, Boolean],
 	placeholder: String,
 	options: Array,
 	desc: String,
 	searchable: {type: [String, Boolean], default: true},
-	textBy: {type: [String, Function], default: "name"},
-	valueBy: {type: [String, Function], default: 'value'},
+	textBy: {type: String, default: "name"},
+	valueBy: {type: String, default: 'id'},
 	modelValue: [Object, Number, String],
 	multiple: Boolean,
 });
@@ -39,28 +40,4 @@ function update(value) {
 	emit('update:modelValue', value);
 	emit('update', value);
 }
-
-const fixedOptions = computed(() => {
-	const o = [];
-	if (props.options != null) {
-		if (props.options.forEach) {
-			props.options.forEach((item: any) => {
-				//VASelect does not like to use ID as value (value-by="id")
-				if (item.id) {
-					o.push({
-						value: item.id,
-						...item,
-					});
-				} else {
-					o.push(item);
-				}
-			});
-		}
-
-		return o;
-	}
-	
-	return props.options ?? o;
-});
-
 </script>

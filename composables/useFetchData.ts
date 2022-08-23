@@ -4,15 +4,24 @@ import { Ref } from "vue";
 //TODO: replace immediate with a better solution by someone else.
 // https://github.com/nuxt/framework/pull/5500
 
-export interface MoreFetchOptions extends FetchOptions {
-    immediate?: boolean; //Let's you not automatically execute the API call. Returns an empty ref instead
+interface SearchParams {
+    [key: string]: unknown;
 }
 
-export default function<T>(url: string|(() => string), options?: MoreFetchOptions) {
-    if (!options || options.immediate) {
+export interface MoreFetchOptions extends FetchOptions {
+    //Let's you not automatically execute the API call. Returns an empty ref instead
+    immediate?: boolean;
+    //Like regular params however you can return a function in case they contain ref values that chan change
+    params?: SearchParams;
+    //Seconds before watched params should trigger a refetch. Return params as an object to disable refetching.
+}
+
+export default async function<T>(url: string|(() => string), options: MoreFetchOptions = {}) {
+    if (options.immediate !== false) {
         const key = typeof url == 'function' ? url() : url;
-        return useAsyncData(key, () => {
+        return await useAsyncData(key, () => {
             const current = typeof url == 'function' ? url() : url;            
+
             return useGet<T>(current, options);
         }, { initialCache: false });
         //TODO: decide the thing with caching. Caching can be useful in certain situations, however we can't use it for a few things.
