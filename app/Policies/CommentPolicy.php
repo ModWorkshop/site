@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -42,13 +43,9 @@ class CommentPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, Mod $mod)
+    public function create(User $user)
     {
-        if ($mod->comments_disabled) {
-            return $user->hasPermission('edit-own-comment');
-        } else {
-            return $this->authorize('view', $mod);
-        }
+        return $user->hasPermission('create-comment');
     }
 
     /**

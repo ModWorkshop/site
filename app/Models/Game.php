@@ -39,6 +39,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereWebhookUrl($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Forum|null $forum
  */
 class Game extends Model
 {
@@ -53,6 +54,11 @@ class Game extends Model
     
     protected $with = [];
 
+    public function forum() : HasOne
+    {
+        return $this->hasOne(Forum::class);
+    }
+
     public function getBreadcrumbAttribute()
     {
         $gameUrl = $this->short_name ?? $this->id;
@@ -60,7 +66,7 @@ class Game extends Model
         return [
             [
                 'name' => $this->name,
-                'href' => "/game/{$gameUrl}"
+                'href' => "/g/{$gameUrl}"
             ]
         ];
     }

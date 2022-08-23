@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Comment;
 use App\Models\Thread;
+use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class ThreadCommentsController extends CommentController
+class ThreadCommentsController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Comment::class, 'comment');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class ThreadCommentsController extends CommentController
      */
     public function index(FilteredRequest $request, Thread $thread)
     {
-        return self::_index($request, $thread);
+        return CommentService::index($request, $thread);
     }
 
     /**
@@ -28,7 +33,11 @@ class ThreadCommentsController extends CommentController
      */
     public function store(Request $request, Thread $thread)
     {
-        return self::_store($request, $thread);
+        $this->authorize('createComment', $thread);
+
+        $thread->update(['last_user_id' => $request->user()->id]);
+
+        return CommentService::store($request, $thread);
     }
 
     /**
@@ -39,7 +48,7 @@ class ThreadCommentsController extends CommentController
      */
     public function show(Thread $thread, Comment $comment)
     {
-        return self::_show($thread, $comment);
+        return $comment;
     }
 
     /**
@@ -51,7 +60,7 @@ class ThreadCommentsController extends CommentController
      */
     public function update(Request $request, Thread $thread, Comment $comment)
     {
-        return self::_update($request, $thread, $comment);
+        return CommentService::update($request, $thread, $comment);
     }
 
     /**
@@ -62,6 +71,6 @@ class ThreadCommentsController extends CommentController
      */
     public function destroy(Thread $thread, Comment $comment)
     {
-        return self::_destroy($thread, $comment);
+        return CommentService::destroy($thread, $comment);
     }
 }

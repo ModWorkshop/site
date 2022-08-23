@@ -33,7 +33,7 @@ class FilteredRequest extends FormRequest
         ];
     }
 
-    public function val(array $rules, ...$params)
+    public function val(array $rules=[], ...$params)
     {
         return [...$this->validated(), ...$this->validate($rules, ...$params)];
     }

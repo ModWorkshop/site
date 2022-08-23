@@ -125,10 +125,11 @@ abstract class Visibility {
  * @property int|null $last_user_id
  * @property-read \App\Models\User|null $lastUser
  * @method static Builder|Mod whereLastUserId($value)
+ * @property string $access_ids
  */
 class Mod extends Model
 {
-    use HasFactory, RelationsListener, Filterable, QueryCacheable;
+    use HasFactory, RelationsListener, Filterable;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;
@@ -286,12 +287,12 @@ class Mod extends Model
     public function getBreadcrumbAttribute()
     {
         return [
+            ...ModService::makeBreadcrumb($this->game, $this->category),
             [
                 'name' => $this->name,
-                'is_mod' => true,
-                'href' => "/mod/{$this->id}"
-            ],
-            ...ModService::makeBreadcrumb($this->game, $this->category)
+                'id' => $this->id,
+                'type' => 'mod'
+            ]
         ];
     }
 

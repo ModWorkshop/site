@@ -42,6 +42,8 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $mentions
+ * @property-read int|null $mentions_count
  */
 class Comment extends Model
 {

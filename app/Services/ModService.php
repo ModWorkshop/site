@@ -22,6 +22,14 @@ class ModService {
      * @return array
      */
     static public function makeBreadcrumb(Game $game=null, Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
+        if (isset($game)) {
+            $arr = [[
+                'name' => $game->name,
+                'id' => $game->short_name ?? $game->id,
+                'type' => 'game'
+            ]];
+        }
+
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {
                 $loopCheck[$category->id] = true;
@@ -29,22 +37,14 @@ class ModService {
                     ...$arr,
                     ...self::makeBreadcrumb(null, $category->parent, [[
                         'name' => $category->name,
-                        'href' => "/category/{$category->id}"
+                        'id' => $category->id,
+                        'type' => 'category'
                     ]], $loopCheck),
                 ];
             } else {
                 Log::alert('Category loop detected! Please look into the database.', $category->toArray());
             }
         }
-
-        if (isset($game)) {
-            $gameUrl = $game->short_name ?? $game->id;
-            $arr[] = [
-                'name' => $game->name,
-                'href' => "/game/{$gameUrl}"
-            ];
-        }
-
         
         return $arr;
     }

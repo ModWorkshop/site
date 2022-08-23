@@ -102,4 +102,13 @@ class Category extends Model
     {
         return ModService::makeBreadcrumb($includeGame ? $this->game : null, $this);
     }
+
+    public function toSearchableArray()
+    {
+        $this->with(['parent', 'game']);
+
+        return [
+            'name' => $this->name
+        ];
+     }
 }

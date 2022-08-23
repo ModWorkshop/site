@@ -4,6 +4,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ForumCategoryController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LoginController;
@@ -14,8 +16,11 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\ThreadCommentsController;
+use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
+use App\Models\ForumCategory;
 use App\Models\Mod;
 use App\Models\Permission;
 use App\Models\SocialLogin;
@@ -129,6 +134,12 @@ Route::get('/auth/twitter/callback', function(Request $request) {
 // Resources
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
+
+Route::resource('tags', TagController::class);
+
+/**
+ * @group Mods
+ */
 Route::resource('mods.files', FileController::class);
 Route::resource('mods.links', LinkController::class);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
@@ -140,13 +151,21 @@ Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
-
-Route::resource('tags', TagController::class);
-/**
- * @group Mods
- */
 Route::resource('mods.comments', ModCommentsController::class);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
+
+/**
+ * @group Forums
+ */
+Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
+Route::resource('forum-categories', ForumCategoryController::class);
+Route::resource('threads', ThreadController::class);
+Route::resource('threads.comments', ThreadCommentsController::class);
+Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
+
+/**
+ * @group Users
+ */
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->get('notifications/unseen', [NotificationController::class, 'unseenCount']);

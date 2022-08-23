@@ -7,10 +7,11 @@ use App\Models\User;
 use App\Models\Visibility;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ModPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, AuthorizesRequests;
 
     /**
      * Determine whether the user can view any models.
@@ -148,5 +149,14 @@ class ModPolicy
     public function forceDelete(User $user, Mod $mod)
     {
         //
+    }
+
+    public function createComment(User $user, Mod $mod)
+    {
+        if ($mod->comments_disabled) {
+            return $user->hasPermission('edit-own-comment');
+        } else {
+            return $this->view($user, $mod);
+        }
     }
 }

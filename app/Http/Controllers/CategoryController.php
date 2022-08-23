@@ -36,9 +36,7 @@ class CategoryController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $categories = Category::queryGet($val, function(Builder $query, array $val) use ($game) {
-            $query->with(['parent', 'game']);
-
+        $categories = Category::queryGet($val, function($query, array $val) use ($game) {
             $query->orderBy('name');
 
             if (($val['only_names'] ?? false)) {
@@ -134,6 +132,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
     }
 }

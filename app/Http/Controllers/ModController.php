@@ -60,6 +60,7 @@ class ModController extends Controller
         $val = $request->val([
             // How many mods should this return. 
             'game_id' => 'integer|nullable|min:1|exists:games,id',
+            'category_id' => 'integer|nullable|min:1|exists:categories,id',
             'tags' => 'array',
             'tags.*' => 'integer|min:1|nullable',
             'categories' => 'array',
@@ -79,7 +80,7 @@ class ModController extends Controller
         /**
          * @var Builder
          */
-        $mods = Mod::queryGet($val, function(Builder $query, array $val) use ($user) {
+        $mods = Mod::queryGet($val, function($query, array $val) use ($user) {
             $sortBy = $val['sort_by'] ?? 'bumped_at';
 
             $query->orderByRaw("{$sortBy} DESC NULLS LAST");
@@ -87,8 +88,7 @@ class ModController extends Controller
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
             if (!isset($user) || !$user->hasPermission('edit-mod')) {
                 $query->where('visibility', Visibility::pub)->where('suspended', false);
-                
-                
+
                 if (isset($user)) {
                     //let members see mods if they've accepted their membership
                     $query->orWhereRelation('members', function($q) use ($user) {
@@ -100,6 +100,10 @@ class ModController extends Controller
 
             if (isset($val['game_id'])) {
                 $query->where('game_id', $val['game_id']);
+            }
+
+            if (isset($val['category_id'])) {
+                $query->where('category_id', $val['category_id']);
             }
 
             if (isset($val['user_id'])) {
@@ -120,10 +124,6 @@ class ModController extends Controller
                 $query->whereHasIn('tags', function(Builder $q) use ($val) {
                     $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
                 });
-            }
-
-            if (isset($val['query']) && !empty($val['query'])) {
-                $query->whereRaw("name % ?", [$val['query']]);
             }
         });
 

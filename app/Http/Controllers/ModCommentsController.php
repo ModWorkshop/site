@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class ModCommentsController extends CommentController
+class ModCommentsController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Comment::class, 'comment');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class ModCommentsController extends CommentController
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        return self::_index($request, $mod);
+        return CommentService::index($request, $mod);
     }
 
     /**
@@ -28,7 +33,9 @@ class ModCommentsController extends CommentController
      */
     public function store(Request $request, Mod $mod)
     {
-        return self::_store($request, $mod);
+        $this->authorize('createComment', $mod);
+
+        return CommentService::store($request, $mod);
     }
 
     /**
@@ -39,7 +46,7 @@ class ModCommentsController extends CommentController
      */
     public function show(Mod $mod, Comment $comment)
     {
-        return self::_show($mod, $comment);
+        return $comment;
     }
 
     /**
@@ -51,7 +58,7 @@ class ModCommentsController extends CommentController
      */
     public function update(Request $request, Mod $mod, Comment $comment)
     {
-        return self::_update($request, $mod, $comment);
+        return CommentService::update($request, $mod, $comment);
     }
 
     /**
@@ -62,11 +69,11 @@ class ModCommentsController extends CommentController
      */
     public function destroy(Mod $mod, Comment $comment)
     {
-        return self::_destroy($mod, $comment);
+        return CommentService::destroy($mod, $comment);
     }
 
     public function page(Request $request, Mod $mod, int $comment)
     {
-        return self::_page($request, $mod, $comment);
+        return CommentService::page($request, $mod, $comment);
     }
 }

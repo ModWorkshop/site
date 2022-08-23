@@ -1,48 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
-use App\Models\Mod;
 use App\Models\Notification;
-use App\Models\Thread;
 use App\Models\User;
 use Arr;
 use Auth;
 use DB;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
-/**
- * Rant time:
- * Why the actual fuck does PHP not support generics?
- * Why the fuck does PHP not let me overload metohds?!?!?!
- * 
- * FUN
- * 
- * Hey at least auto properties are coming!!!! 
- */
-
-class CommentController extends Controller
-{
-    public function __construct() {
-        $this->authorizeResource(Comment::class, 'comment');
-    }
-
+class CommentService { 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function _index(FilteredRequest $request, Model $commentable)
+    public static function index(FilteredRequest $request, Model $commentable)
     {
-        $comments = Comment::queryGet($request->validated(), function(Builder $query, array $val) use ($commentable) {
+        $comments = Comment::queryGet($request->validated(), function($query, array $val) use ($commentable) {
             $query->with(['lastReplies', 'mentions']);
             $query->orderByRaw('pinned DESC, created_at DESC');
             $query->whereNull('reply_to');
@@ -58,7 +38,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function _store(Request $request, Model $commentable)
+    public static function store(Request $request, Model $commentable, array $extraSet=null)
     {
         $val = $request->validate([
             'content' => 'string|required|min:2|max:1000',
@@ -74,6 +54,21 @@ class CommentController extends Controller
         $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->get();
 
         $val['user_id'] = $user->id;
+
+        $isReply = isset($val['reply_to']);
+        $replyToComment = $isReply ? Comment::find($val['reply_to']) : null;
+
+        //Make sure that whatever we are trying to reply to is a comment that is on the same commentable object (mod/thread).
+        if ($replyToComment) {
+            if ($replyToComment->commentable_type !== $commentable->getMorphClass() || $replyToComment->commentable_id !== $commentable->id) {
+                throw new Exception("Invalid comment to reply to");
+            }
+        }
+
+        if (isset($extraSet)) {
+            $val = [...$val, ...$extraSet];
+        }
+        
         /**
          * @var Comment
          */
@@ -96,10 +91,9 @@ class CommentController extends Controller
 
         //TODO: implement subs for discussions
 
-        $isReply = isset($val['reply_to']);
         $notifiable = $commentable;
         if ($isReply) {
-            $notifiable = Comment::find($val['reply_to']);
+            $notifiable = $replyToComment;
         }
 
         $toUser = $isReply ? $notifiable->user : $commentable->user;
@@ -118,17 +112,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Mod  $mod
-     * @return \Illuminate\Http\Response
-     */
-    public function _show(Model $commentable, Comment $comment)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -136,7 +119,7 @@ class CommentController extends Controller
      * @param Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function _update(Request $request, Model $commentable, Comment $comment)
+    public static function update(Request $request, Model $commentable, Comment $comment)
     {
         $user = $request->user();
         $val = $request->validate([
@@ -177,7 +160,7 @@ class CommentController extends Controller
      *
      * @param  Comment  $comment
      */
-    public function _destroy(Model $commentable, Comment $comment)
+    public static function destroy(Model $commentable, Comment $comment)
     {
         $comment->delete();
     }
@@ -190,7 +173,7 @@ class CommentController extends Controller
      * @param integer $comment
      * @return void
      */
-    public function _page(Request $request, Model $commentable, int $comment)
+    public static function page(Request $request, Model $commentable, int $comment)
     {
         $limit = $request->query->getInt('limit', 20);
 

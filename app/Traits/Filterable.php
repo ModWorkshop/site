@@ -5,8 +5,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Laravel\Scout\Searchable as ScoutSearchable;
 
 trait Filterable {
-    use ScoutSearchable;
-
     /**
      * Handles searching via query string and paginating to avoid copypasting code.
      * query - use Illuminate\Database\Eloquent\Builder;
@@ -17,8 +15,11 @@ trait Filterable {
      */
     public static function queryGet(array $val, \Closure $callback = null) : Paginator {
         $query = null;
+
+
         if (isset($val['query']) && !empty($val['query'])) {
-            $query = self::search($val['query']);
+            $query = self::whereRaw('name % ?', $val['query']);
+            $query->orWhere('name', 'ILIKE', '%'.$val['query'].'%');
         } else {
             $query = self::query();
         }
@@ -28,12 +29,5 @@ trait Filterable {
         }
 
         return $query->paginate($val['limit'] ?? 50);
-    }
-
-    public function toSearchableArray()
-    {
-        return [
-            'name' => $this->name
-        ];
     }
 }

@@ -112,11 +112,17 @@ class GameController extends Controller
     {
         $game = null;
 
+        $q = Game::with('forum');
+
         if (is_numeric($shortNameOrId)) {
-            $game = Game::find($shortNameOrId);
+            $game = $q->find($shortNameOrId);
         } else {
-            $game = Game::where('short_name', $shortNameOrId)->first();
+            $game = $q->where('short_name', $shortNameOrId)->first();
         }
-        return $this->show($game);
+        if (isset($game)) {
+            return $this->show($game);
+        } else {
+            abort(404);
+        }
     }
 }

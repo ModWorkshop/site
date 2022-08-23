@@ -23,7 +23,7 @@ declare namespace App.Models {
         last_date: string;
         created_at: string | null;
         updated_at: string | null;
-        game?: App.Models.Category | null;
+        game?: App.Models.Game | null;
         parent?: App.Models.Category | null;
         readonly path?: any;
     }
@@ -42,6 +42,7 @@ declare namespace App.Models {
         commentable?: any | null;
         last_replies?: any | null;
         replying_comment?: App.Models.Comment | null;
+        mentions?: any | null;
     }
 
     export interface File {
@@ -63,6 +64,25 @@ declare namespace App.Models {
         user?: App.Models.User | null;
     }
 
+    export interface Forum {
+        id: number;
+        game_id: number | null;
+        created_at: string | null;
+        updated_at: string | null;
+        game?: App.Models.Game | null;
+        threads?: Array<App.Models.Thread> | null;
+        threads_count?: number | null;
+    }
+
+    export interface ForumCategory {
+        id: number;
+        name: string;
+        desc: string;
+        forum_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
     export interface Game {
         id: number;
         name: string;
@@ -75,6 +95,7 @@ declare namespace App.Models {
         last_date: string;
         created_at: string | null;
         updated_at: string | null;
+        forum?: App.Models.Forum | null;
         readonly breadcrumb?: any;
     }
 
@@ -105,6 +126,14 @@ declare namespace App.Models {
         updated_at: string | null;
         mod?: App.Models.Mod | null;
         user?: App.Models.User | null;
+    }
+
+    export interface Mention {
+        id: number;
+        user_id: number;
+        comment_id: number;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface Mod {
@@ -140,9 +169,11 @@ declare namespace App.Models {
         download_type: string | null;
         likes: number;
         banner_id: number | null;
+        last_user_id: number | null;
         user?: App.Models.User | null;
+        last_user?: App.Models.User | null;
         category?: App.Models.Category | null;
-        game?: App.Models.Category | null;
+        game?: App.Models.Game | null;
         thumbnail?: App.Models.Image | null;
         banner?: App.Models.Image | null;
         tags?: Array<App.Models.Tag> | null;
@@ -153,13 +184,14 @@ declare namespace App.Models {
         comments?: Array<App.Models.Comment> | null;
         transfer_request?: App.Models.TransferRequest | null;
         download?: any | null;
+        liked?: App.Models.ModLike | null;
         tags_count?: number | null;
         images_count?: number | null;
         files_count?: number | null;
         links_count?: number | null;
         members_count?: number | null;
         comments_count?: number | null;
-        readonly liked?: any;
+        readonly breadcrumb?: any;
     }
 
     export interface ModDownload {
@@ -202,8 +234,8 @@ declare namespace App.Models {
         id: number;
         notifiable_type: string;
         notifiable_id: number;
-        context_type: string;
-        context_id: number;
+        context_type: string | null;
+        context_id: number | null;
         type: string;
         seen: boolean;
         data: Array<any> | any | null;
@@ -264,7 +296,27 @@ declare namespace App.Models {
         games_count?: number | null;
     }
 
-    export interface Thread {}
+    export interface Thread {
+        id: number;
+        name: string;
+        content: string;
+        views: number;
+        comments_count: number;
+        archived: boolean;
+        bumped_at: string | null;
+        pinned_at: string | null;
+        forum_id: number;
+        category_id: number | null;
+        user_id: number;
+        last_user_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+        last_user?: App.Models.User | null;
+        forum?: App.Models.Forum | null;
+        comments?: Array<App.Models.Comment> | null;
+        comments_count?: number | null;
+    }
 
     export interface TransferRequest {
         id: number;
