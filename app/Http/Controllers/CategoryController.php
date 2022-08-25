@@ -93,6 +93,7 @@ class CategoryController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|max:150',
+            'desc' => 'string|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'parent_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
@@ -100,6 +101,7 @@ class CategoryController extends Controller
             'webhook_url' => 'string|nullable|max:1000',
         ]);
 
+        $val['desc'] ??= '';
         $val['webhook_url'] ??= '';
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
