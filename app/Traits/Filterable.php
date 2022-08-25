@@ -14,14 +14,10 @@ trait Filterable {
      * @return Paginator
      */
     public static function queryGet(array $val, \Closure $callback = null) : Paginator {
-        $query = null;
-
+        $query = self::query();
 
         if (isset($val['query']) && !empty($val['query'])) {
-            $query = self::whereRaw('name % ?', $val['query']);
-            $query->orWhere('name', 'ILIKE', '%'.$val['query'].'%');
-        } else {
-            $query = self::query();
+            $query->where(fn($q) => $q->whereRaw('name % ?', $val['query'])->orWhere('name', 'ILIKE', '%'.$val['query'].'%'));
         }
 
         if (isset($callback)) {
