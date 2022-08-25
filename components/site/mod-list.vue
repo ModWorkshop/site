@@ -25,7 +25,7 @@
         </flex>
 
         <flex column gap="3">
-            <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" per-page="40">
+            <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40">
                 <flex class="ml-auto">
                     <a-button icon="filter" @click="filtersVisible = !filtersVisible"/>
                 </flex>
@@ -81,12 +81,12 @@ const props = defineProps({
 const store = useStore();
 
 const query = useRouteQuery('query', '');
-const page = useRouteQuery('page', 1);
+const page = useRouteQuery('page', '1');
 const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
 const selectedTags = ref([]);
 const selectedBlockTags = ref([]);
 const loading = ref(false);
-const selectedGame = useRouteQuery('game', props.forcedGame);
+const selectedGame = useRouteQuery('game', props.forcedGame?.toString());
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
 const sortBy = useRouteQuery('sort-by', 'bumped_at');
@@ -100,7 +100,9 @@ const { data: tags } = await useFetchMany<Tag>('tags');
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
 const currentCategory = computed(() => selectedCategory.value ? categories.value.data.find(cat => cat.id == selectedCategory.value) : null);
+
 const searchParams = reactive({
+    limit: 40,
     user_id: props.userId,
     page: page,
     query: query,

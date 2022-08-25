@@ -1,10 +1,9 @@
 <template>
     <flex v-if="pageNumbers.length > 1">
         <template v-for="[i, n] in pageNumbers.entries()" :key="n">
-            <a-button :disabled="modelValue == n" @click="setPage(n)">{{n}}</a-button>
-            <a-button v-if="i == 0 && pageNumbers[1] > 2 || i == 5 && pageNumbers[6] - n > 1" disabled>...</a-button>
+            <a-button :disabled="actualPage == n" @click="setPage(n)">{{n}}</a-button>
+            <a-button v-if="i == 0 && pageNumbers[1] > 2 || i == defaultMaxNumbers-2 && pages - n > 1" disabled>...</a-button>
         </template>
-        {{pages}}
         <slot/>
     </flex>
 </template>
@@ -24,55 +23,32 @@ const emit = defineEmits([
     'update:pages'
 ]);
 
+const defaultMaxNumbers = 7; //Should be an odd number so the current page shows in the middle, minimum of 3.
+
 const pages = computed(() => Math.ceil((props.total as number) / (props.perPage as number)));
+
+//Make sure whatever page we got is valid
+const actualPage = computed(() => clamp(parseInt(props.modelValue as string), 1, pages.value));
+
 watch(pages, val => emit('update:pages', val), { immediate: true });
 const pageNumbers = computed(() => {
-    if (!pages.value) {
+    if (pages.value <= 1) {
         return [];
     }
 
-    const page = clamp(parseInt(props.modelValue as string), 1, pages.value);
-    const numbers = [page];
+    //How many more numbers we should insert to handle cases we have less pages than max
+    const maxNumbers = Math.min(defaultMaxNumbers - 2, pages.value - 2);
+    const numbersEachSide = (defaultMaxNumbers - 3) / 2; //Excluding the edges
+    
+    const startingPoint = clamp(actualPage.value-numbersEachSide, 2, pages.value - maxNumbers);
 
-    const pagesToShow = Math.min(7, pages.value);
-    const eachSide = (pagesToShow - 1)/2;
-    const eachSideFollowing = pagesToShow/eachSide;
+    const numbers = [1];
 
-    let diffFromCenter = page < eachSide || pages.value < pagesToShow ? page - eachSide : 0;
-
-    const diffFromEnd = pages.value - page;
-    if (diffFromEnd < eachSide) {
-        diffFromCenter = eachSide - diffFromEnd;
+    for (let i = 0; i < maxNumbers; i++) {
+        numbers.push(startingPoint+i);
     }
 
-    //Back
-    let firstAdded = page === 1;
-    for (let i = 1; i <= eachSideFollowing + diffFromCenter; i++) {
-        if (page-1 === 1) {
-            firstAdded = true;
-        }
-        numbers.unshift(page-i);
-    }
-
-    if (!firstAdded) {
-        numbers.unshift(1);
-    }
-
-    //Front
-
-    let lastAdded = page === pages.value;
-    for (let i = 1; i <= eachSideFollowing - diffFromCenter; i++) {
-        if (page+1 === 1) {
-            lastAdded = true;
-        }
-
-        numbers.push(page+i);
-    }
-
-    if (!lastAdded) {
-        numbers.push(pages.value);
-    }
-
+    numbers.push(pages.value);
 
     return numbers;
 });
