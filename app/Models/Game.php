@@ -70,4 +70,12 @@ class Game extends Model
             ]
         ];
     }
+
+    public static function booted()
+    {
+        return self::created(function(Game $game) {
+            $forum = $game->forum()->create();
+            $game->forum_id = $forum->id;
+        });
+    }
 }
