@@ -153,6 +153,11 @@ Route::post('mods/{mod}/register-download', [ModController::class, 'registerDown
 Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
 Route::resource('mods.comments', ModCommentsController::class);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
+Route::middleware('can:create,App\Mod')->group(function () {
+    //Images
+    Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
+    Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
+});
 
 /**
  * @group Forums
@@ -181,10 +186,4 @@ Route::middleware('can:view,file')->get('files/{file}/download', [FileController
 // Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'currentUser']);
-    
-    Route::middleware('can:create,App\Mod')->group(function () {
-        //Images
-        Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
-        Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
-    });
 });
