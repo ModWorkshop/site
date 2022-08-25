@@ -22,12 +22,16 @@ class ForumCategoryController extends Controller
     public function index(FilteredRequest $request)
     {
         $val = $request->val([
-            'forum_id' => 'integer|min:1|exists:forums,id'
+            'forum_id' => 'integer|min:1|exists:forums,id',
+            'game_id' => 'integer|min:1|nullable|exists:games,id'
         ]);
 
         return JsonResource::collection(ForumCategory::queryGet($val, function($query, array $val) {
             if (isset($val['forum_id'])) {
                 $query->where('forum_id', $val['forum_id']);
+            }
+            if (isset($val['game_id'])) {
+                $query->whereRelation('forum', fn($q) => $q->where('game_id', $val['game_id']));
             }
         }));
     }
