@@ -1,38 +1,50 @@
 <template>
     <template v-if="currentCategories.length">
         <details v-if="category" class="category" :open="open">
-            <summary :class="classes" @click.prevent="onClickCategory(category)">
-                <font-awesome-icon class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click.stop="open = !open"/>
-                <div>
-                    <strong>{{category.name}}</strong>
-                </div>
+            <summary :class="classes" @click="e => onClickCategory(e, category)">
+                <font-awesome-icon class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click.self="open = !open"/>
+                <strong>{{category.name}}</strong> 
+                <slot name="button" :category="category"/>
             </summary>
             <flex column class="px-5 py-1">
-                <category-tree v-for="c in currentCategories" :key="c.id" :root="false" :category="c" :categories="categories"/>
+                <category-tree v-for="c in currentCategories" :key="c.id" :category="c" :categories="categories" :set-query="setQuery">
+                    <template #button="{ category: cat }">
+                        <slot name="button" :category="cat"/>
+                    </template>
+                </category-tree>
             </flex>
         </details>
         <template v-else>
-            <category-tree v-for="c in currentCategories" :key="c.id" :root="false" :category="c" :categories="categories"/>
+            <category-tree v-for="c in currentCategories" :key="c.id" :category="c" :categories="categories" :set-query="setQuery">
+                <template #button="{ category: cat }">
+                    <slot name="button" :category="cat"/>
+                </template>
+            </category-tree>
         </template>
     </template>
     <template v-else>
-        <strong :class="classes" @click="onClickCategory(category)">{{category.name}}</strong>
+        <div :class="classes" @click="e => onClickCategory(e, category)">
+            <strong>
+                {{category.name}}
+            </strong>
+            <slot name="button" :category="category"/>
+        </div>
     </template>
 </template>
 
 <script setup lang="ts">
 import { Category } from '~~/types/models';
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
     categories: Category[],
     category?: Category,
-    root?: boolean
-}>(), { root: true });
+    setQuery?: boolean
+}>();
 
 const currentCategories = computed(() => {
     const cats = [];
     for (const category of props.categories) {
-        if (props.root && !category.parent_id || (!props.root && category.parent_id === props.category.id)) {
+        if (!props.category && !category.parent_id || (props.category && category.parent_id === props.category.id)) {
             cats.push(category);
         }
     }
@@ -70,11 +82,15 @@ const open = computed(() => {
     return selected.value || isRelatedParent(props.category, currentCategory);
 });
 
-function onClickCategory(category: Category) {
-    if (parseInt(currentCategoryId.value) === category.id) {
-        currentCategoryId.value = undefined;    
-    } else {
-        currentCategoryId.value = category.id.toString();
+function onClickCategory(e: Event, category: Category) {
+    if (props.setQuery) {
+        e.preventDefault();
+
+        if (parseInt(currentCategoryId.value) === category.id) {
+            currentCategoryId.value = undefined;    
+        } else {
+            currentCategoryId.value = category.id.toString();
+        }
     }
 }
 
@@ -89,6 +105,8 @@ const classes = computed(() => ({'cursor-pointer': true, 'tree-button': true, se
 
 <style scoped>
 .tree-button {
+    display: flex;
+    align-items: center;
     padding: 0.5rem;
     flex: 1;
     border-radius: var(--border-radius);

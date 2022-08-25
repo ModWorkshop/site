@@ -55,3 +55,10 @@ export function strReplacRange(str: string, start: number, end: number, replacem
     return str.substring(0, start)+replacement+str.substring(end);
 
 }
+
+/**
+ * Returns whether or not the src URL is external. If it begins with a URL http/https or data: it's "external"
+ */
+export function isSrcExternal(src: string) {
+    return src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"));
+}

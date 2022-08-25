@@ -47,10 +47,17 @@
                     </template>
                 </flex>
                 <content-block v-if="filtersVisible" class="self-start" style="flex:2;">
+                    <small v-if="currentCategory">
+                        <h3>
+                            Category: {{currentCategory.path}}
+                        </h3>
+                        {{currentCategory.desc}}
+                    </small>
+
                     <a-input v-model="query" label="Search"/>
                     <flex v-if="categories && categories.data.length" column>
                         <span>{{$t('categories')}}</span>
-                        <category-tree :categories="categories.data"/>
+                        <category-tree :categories="categories.data" set-query/>
                     </flex>
                     <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games?.data" @update:model-value="gameChanged"/>
                     <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data"/>
@@ -63,7 +70,7 @@
 <script setup lang="ts">
 import { DateTime } from 'luxon';
 import { Category, Mod, Tag } from '~~/types/models';
-import { useStore } from '../../store';
+import { useStore } from '~~/store';
 
 const props = defineProps({
     title: String,
@@ -92,6 +99,7 @@ const { data: tags } = await useFetchMany<Tag>('tags');
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
+const currentCategory = computed(() => selectedCategory.value ? categories.value.data.find(cat => cat.id == selectedCategory.value) : null);
 const searchParams = reactive({
     user_id: props.userId,
     page: page,

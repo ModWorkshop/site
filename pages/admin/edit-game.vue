@@ -1,17 +1,14 @@
 <template>
     <a-form :model="game" :can-save="canSaveOverride" :created="game.id != -1" float-save-gui @submit="save">
         <flex column gap="3">
-            <div>
-                <a-button icon="arrow-left" to="/admin/games">Back to Games</a-button>
-            </div>
-            <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="(game.thumbnail && `games/thumbnails/${game.thumbnail}`) || 'assets/nopreview.webp'">
+            <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="game.thumbnail">
                 <template #label="{ src }">
-                    <a-img class="round" :src="src"/>
+                    <game-thumbnail :src="src"/>
                 </template>
             </img-uploader>
-            <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="(game.banner && `games/banners/${game.banner}`) || 'banners/default_banner.webp'">
+            <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="game.banner">
                 <template #label="{ src }">
-                    <div :class="{'banner': true, 'p-2': true, round: true, 'default-banner': !src}" :style="{backgroundImage: `url(${src})`}"/>
+                    <a-banner :src="src" url-prefix="games/banners"/>
                 </template>
             </img-uploader>
             <a-input v-model="game.name" label="Name"/>
@@ -20,7 +17,9 @@
             <a-input v-model="game.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
             <div v-if="game.id">
                 Categories
-                <category-tree :categories="categories.data"/>
+                <flex v-if="categories" column>
+                    <category-tree :categories="categories.data"/>
+                </flex>
             </div>
             <a-alert class="w-full" color="warning">
                 <details>
@@ -63,15 +62,19 @@ const thumbnailBlob = ref(null);
 const bannerBlob = ref(null);
 const canSaveOverride = computed(() => !!thumbnailBlob.value || !!bannerBlob.value);
 
-if (route.params.id == 'new') {
+if (route.params.gameId == 'new') {
     game = ref<Game>(categoryTemplate);
 }
-else if (route.params.id) {
-    const { data } = await useFetchData<Game>(`games/${route.params.id}`);
+else if (route.params.gameId) {
+    const { data, error } = await useFetchData<Game>(`http://localhost:8000/games/${route.params.gameId}`);
     game = data;
+
+    useHandleError(error.value, {
+        404: 'This game does not exist!'
+    });
 }
 
-const { data: categories } = await useFetchMany<Category>(() => `games/${game.value.id}/categories?include_paths=1`, { immediate: !!game.value.id });
+const { data: categories } = await useFetchMany<Category>(`http://localhost:8000/games/${game.value.id}/categories?include_paths=1`);
 
 async function save() {
     try {

@@ -2,7 +2,7 @@
     <tr class="items-center mt-2" :title="mod.short_desc">
         <td v-if="displayMode == 1" width="200px;">
             <NuxtLink class="block" :to="!static && `/mod/${mod.id}` || null">
-                <mod-thumbnail :mod="mod"/>
+                <mod-thumbnail :thumbnail="mod.thumbnail"/>
             </NuxtLink>
         </td>
 

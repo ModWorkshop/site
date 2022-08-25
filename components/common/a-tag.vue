@@ -27,6 +27,7 @@ const textColor = computed(() => {
 </script>
 <style scoped>
     .tag {
+        display: inline-block;
         color: #000;
         padding: 0.5rem 0.75rem;
         font-size: 70%;

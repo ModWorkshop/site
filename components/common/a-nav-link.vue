@@ -1,7 +1,7 @@
 <template>
     <NuxtLink
-        :class="{'nav-link': true, 'nav-link-side': side, selected: to == root ? $route.path == root : $route.path.startsWith(to)}"
-        :to="to">
+        :class="{'nav-link': true, 'nav-link-side': side, selected: compTo == root ? $route.path == root : $route.path.startsWith(compTo)}"
+        :to="compTo">
         <slot>
             {{title}}
         </slot>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-    defineProps({
+    const props = defineProps({
         name: String,
         to: String,
         title: String,
@@ -17,6 +17,8 @@
 
     const side = inject('side');
     const root = inject('root');
+
+    const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 </script>
 
 <style>

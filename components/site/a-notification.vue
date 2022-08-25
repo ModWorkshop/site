@@ -1,7 +1,7 @@
 <template>
     <flex :class="{'alt-bg-color': !notification.seen, 'p-4': true, 'cursor-pointer': true}" gap="2" @click.stop="onClick">
         <a-avatar v-if="thumbnail == 'user'" :src="showUser?.avatar"/>
-        <mod-thumbnail v-if="thumbnail == 'mod'" style="width: 84px;" :mod="mod"/>
+        <mod-thumbnail v-if="thumbnail == 'mod'" style="width: 84px;" :thumbnail="mod.thumbnail"/>
         <flex class="my-auto" grow>
             <div>
                 <i18n-t :keypath="`notification_${notification.type}`" tag="span" class="whitespace-pre">

@@ -12,29 +12,30 @@ const props = defineProps({
 
 const description = computed(() => {
     let i = 1;
-    console.log(props.error.data);
     
-    if (props.error.data && props.error.data.message) {
-        const data = props.error.data;
+    if (props.error) {
+        if (props.error.data && props.error.data.message) {
+            const data = props.error.data;
 
-        if (data.errors) {
-            let errStr = '';
-            for (const err of Object.values(data.errors)) {
-                for (const str of (err as string[])) {
-                    if (errStr) {
-                        errStr += '\n' + i + '. ' + str;
-                    } else {
-                        errStr = i + '. ' + str;
+            if (data.errors) {
+                let errStr = '';
+                for (const err of Object.values(data.errors)) {
+                    for (const str of (err as string[])) {
+                        if (errStr) {
+                            errStr += '\n' + i + '. ' + str;
+                        } else {
+                            errStr = i + '. ' + str;
+                        }
+                        i++;
                     }
-                    i++;
                 }
+                return errStr;
+            } else if (data.message) {
+                return data.message;
             }
-            return errStr;
-        } else if (data.message) {
-            return data.message;
+        } else {
+            return props.error.message;
         }
-    } else {
-        return props.error.message;
     }
 });
 </script>

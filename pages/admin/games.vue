@@ -1,6 +1,11 @@
 <template>
-    <a-list url="games" :item-link="item => `/admin/games/${item.id}`" new-button="/admin/games/new"/>
+    <a-list url="games" :item-link="item => `/admin/games/${item.id}`" new-button="/admin/games/new">
+        <template #before-item="{ item }">
+            <game-thumbnail :src="item.thumbnail" style="width: 100px;"/>
+        </template>
+    </a-list>
 </template>
 
 <script setup>
+console.log('ok');
 </script>

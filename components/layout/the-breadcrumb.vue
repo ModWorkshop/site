@@ -1,5 +1,4 @@
 <template>
-    {{items}}
     <flex gap="2" class="breadcrumb">
         <template v-for="(item, i) in items" :key="`${item.name}-${i}`">
             <breadcrumb-link :item="item" :items="items" :last="i == (items.length - 1)"/>

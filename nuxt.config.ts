@@ -64,12 +64,6 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
-				name: "game-mods",
-				path: "/g/:id/mods",
-				file: resolve(__dirname, "pages/game-mods.vue")
-			});
-
-			routes.push({
 				name: "user",
 				path: "/user/:id",
 				file: resolve(__dirname, "pages/user.vue")
@@ -136,59 +130,92 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
+				name: "admin-game",
+				path: "/admin/games/:gameId",
+				file: resolve(__dirname, "pages/admin/game.vue"),
+				children: [
+					{
+						name: "admin-edit-game",
+						path: "",
+						file: resolve(__dirname, "pages/admin/edit-game.vue")
+					},
+					{
+						name: "admin-game-tags",
+						path: "tags",
+						file: resolve(__dirname, "pages/admin/tags.vue")
+					},
+					{
+						name: "admin-game-forum-categories",
+						path: "forum-categories",
+						file: resolve(__dirname, "pages/admin/forum-categories.vue")
+					},
+					{
+						name: "admin-game-edit-forum-category",
+						path: "forum-categories/:categoryId",
+						file: resolve(__dirname, "pages/admin/edit-forum-category.vue")
+					},
+					{
+						name: "admin-game-categories",
+						path: "categories",
+						file: resolve(__dirname, "pages/admin/categories.vue")
+					},
+					{
+						name: "admin-game-mods",
+						path: "mods",
+						file: resolve(__dirname, "pages/admin/mods.vue")
+					},
+					{
+						name: "admin-game-edit-category",
+						path: "categories/:categoryId",
+						file: resolve(__dirname, "pages/admin/edit-category.vue")
+					},
+				]
+			});
+
+			routes.push({
 				name: "admin-page",
 				path: "/admin",
 				file: resolve(__dirname, "pages/admin/index.vue"),
 				children: [
 					{
 						name: "admin-roles",
-						path: "/admin/roles",
+						path: "roles",
 						file: resolve(__dirname, "pages/admin/roles.vue")
 					},
 					{
 						name: "admin-tags",
-						path: "/admin/tags",
+						path: "tags",
 						file: resolve(__dirname, "pages/admin/tags.vue")
 					},
 					{
-						name: "admin-categories",
-						path: "/admin/categories",
-						file: resolve(__dirname, "pages/admin/categories.vue")
-					},
-					{
 						name: "admin-games",
-						path: "/admin/games",
+						path: "games",
 						file: resolve(__dirname, "pages/admin/games.vue")
 					},
 					{
+						name: "admin-mods",
+						path: "mods",
+						file: resolve(__dirname, "pages/admin/mods.vue")
+					},
+					{
+						name: "admin-forum-categories",
+						path: "forum-categories",
+						file: resolve(__dirname, "pages/admin/forum-categories.vue")
+					},
+					{
 						name: "admin-users",
-						path: "/admin/users",
+						path: "users",
 						file: resolve(__dirname, "pages/admin/users.vue")
 					},
 					{
 						name: "admin-edit-role",
-						path: "/admin/roles/:id",
+						path: "roles/:id",
 						file: resolve(__dirname, "pages/admin/edit-role.vue")
 					},
 					{
-						name: "admin-edit-category",
-						path: "/admin/categories/:id",
-						file: resolve(__dirname, "pages/admin/edit-category.vue")
-					},
-					{
-						name: "admin-forum-categories",
-						path: "/admin/forum-categories",
-						file: resolve(__dirname, "pages/admin/forum-categories.vue")
-					},
-					{
 						name: "admin-edit-forum-category",
-						path: "/admin/forum-categories/:id",
+						path: "forum-categories/:categoryId",
 						file: resolve(__dirname, "pages/admin/edit-forum-category.vue")
-					},
-					{
-						name: "admin-edit-game",
-						path: "/admin/games/:id",
-						file: resolve(__dirname, "pages/admin/edit-game.vue")
 					}
 				]
 			});

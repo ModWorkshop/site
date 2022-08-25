@@ -18,7 +18,7 @@ const props = defineProps({
 const bannerUrl = computed(() => {
     const src = props.src;
     if (src) {
-        if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+        if (isSrcExternal(src)) {
             return src;
         } else {
             return `${config.apiUrl}/storage/${props.urlPrefix}/${src}`;

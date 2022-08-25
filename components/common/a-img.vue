@@ -21,8 +21,7 @@ const props = defineProps({
 
 const compSrc = computed(function() {
     const src = props.src;
-    //This sucks lol
-    if (src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"))) {
+    if (isSrcExternal(src)) {
         return src;
     } else {
         return `${config.apiUrl}/storage/${props.urlPrefix || ''}${src}`;

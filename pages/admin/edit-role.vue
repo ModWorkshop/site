@@ -2,9 +2,6 @@
     <div>
         <a-form :model="role" :created="role.id != -1" float-save-gui @submit="save">
             <flex column gap="3">
-                <div>
-                    <a-button icon="arrow-left" to="/admin/roles">Back to Roles</a-button>
-                </div>
                 <a-input v-model="role.name" label="Name" maxlength="100" minlength="3"/>
                 <a-input v-model="role.tag" label="Tag" :desc="$t('tag_help')" maxlength="100" minlength="3"/>
                 <a-input v-model="role.color" label="Color" desc="The color of the role" type="color"/>

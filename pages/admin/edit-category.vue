@@ -1,22 +1,16 @@
 <template>
     <a-form :model="category" :can-save="canSaveOverride" :created="category.id != -1" float-save-gui @submit="save">
         <flex column gap="3">
-            <div>
-                <a-button icon="arrow-left" to="/admin/categories">Back to Categories</a-button>
-            </div>
-            <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="(category.thumbnail && `categories/thumbnails/${category.thumbnail}`) || 'assets/nopreview.webp'">
+            <!-- <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="category.thumbnail">
                 <template #label="{ src }">
-                    <a-img class="round" :src="src"/>
+                    <a-thumbnail :src="src" url-prefix="categories/thumbnails"/>
                 </template>
-            </img-uploader>
+            </img-uploader> -->
             <a-input v-model="category.name" label="Name"/>
             <a-input v-model="category.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
             <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" desc="Whether or not mods uploaded to this category need to first be approved by a moderator"/>
-            <!-- <md-editor :label="$t('description')" v-model="category.desc"/> -->
-            <flex>
-                <a-select v-model="category.game_id" label="Game" placeholder="Select a game" clearable :options="games.data"/>
-                <a-select v-model="category.parent_id" label="Parent Category" placeholder="Select a parent category" clearable :options="categories"/>
-            </flex>
+            <md-editor v-model="category.desc" :label="$t('description')"/>
+            <a-select v-model="category.parent_id" label="Parent Category" placeholder="Select a parent category" clearable :options="categories"/>
             <a-alert class="w-full" color="warning">
                 <details>
                     <summary>DANGER ZONE</summary>
@@ -61,16 +55,15 @@ let category: Ref<Category>;
 await store.fetchGames();
 
 const categories = ref<Category[]>([]);
-const games = store.games;
 const route = useRoute();
 const thumbnailBlob = ref(null);
 const canSaveOverride = computed(() => !!thumbnailBlob.value);
 
-if (route.params.id == 'new') {
+if (route.params.categoryId == 'new') {
     category = ref<Category>(categoryTemplate);
 }
-else if (route.params.id) {
-    const { data } = await useFetchData<Category>(`categories/${route.params.id}`);
+else if (route.params.categoryId) {
+    const { data } = await useFetchData<Category>(`categories/${route.params.categoryId}`);
     category = data;
 }
 

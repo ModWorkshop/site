@@ -1,7 +1,7 @@
 <template>
     <flex column gap="0" class="mod self-start !p-0" :title="mod.short_desc">
         <NuxtLink class="block" :to="link">
-            <mod-thumbnail :mod="mod"/>
+            <mod-thumbnail :thumbnail="mod.thumbnail"/>
         </NuxtLink>
         <flex gap="1" column class="p-2 text-secondary">
             <NuxtLink class="mod-title" :to="link" :title="mod.name">
