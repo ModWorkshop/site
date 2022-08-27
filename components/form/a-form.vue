@@ -11,8 +11,8 @@
         <transition v-if="floatSaveGui">
             <div v-if="currentCanSave" class="fixed p-2" style="right: 32px; bottom: 32px; background-color: #00000040; border-radius: 3px;">
                 {{$t('unsaved_changes')}}
-                <a-button v-if="created" color="danger" class="ml-2" @click="undo">Undo</a-button>
-                <a-button class="ml-2" type="submit">{{currentSaveButtonText}}</a-button>
+                <a-button v-if="created" :disabled="disableButtons" color="danger" class="ml-2" @click="undo">Undo</a-button>
+                <a-button class="ml-2" :disabled="disableButtons" type="submit">{{currentSaveButtonText}}</a-button>
             </div>
         </transition>
         <slot/>
@@ -39,8 +39,10 @@
 
     const emit = defineEmits(['submit', 'stateChanged']);
 
+    const disableButtons = ref(false);
     const modelCopy = ref();
     watch(() => props.model, val => {
+        disableButtons.value = false;
         modelCopy.value = clone(val);
     }, { immediate: true });
 
@@ -60,6 +62,7 @@
     });
 
     function submit() {
+        disableButtons.value = true;
         emit('submit');
     }
 

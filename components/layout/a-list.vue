@@ -12,19 +12,28 @@
 
         <flex column>
             <slot name="items" :items="items">
-                <template v-for="item of items.data" :key="item.id">
-                    <slot name="item" :item="item" :items="items">
-                        <NuxtLink class="list-button flexbox gap-2" :to="itemLink(item)">
-                            <slot name="before-item" :item="item"/>
-                            <slot :item="item">
-                                <span class="my-auto">{{item.name}}<slot name="item-name" :item="item"/></span>
-                            </slot>
-                            <slot name="after-item" :item="item"/>
-                        </NuxtLink>
-                    </slot>
+                <template v-if="items.data.length">
+                    <template v-for="item of items.data" :key="item.id">
+                        <slot name="item" :item="item" :items="items">
+                            <NuxtLink class="list-button flexbox gap-2" :to="itemLink(item)">
+                                <slot name="before-item" :item="item"/>
+                                <slot :item="item">
+                                    <span class="my-auto">{{item.name}}<slot name="item-name" :item="item"/></span>
+                                </slot>
+                                <slot name="after-item" :item="item"/>
+                            </NuxtLink>
+                        </slot>
+                    </template>
                 </template>
+                <span v-else class="p-4">
+                    {{$t('nothing_found')}}
+                </span>
             </slot>
         </flex>
+
+        <a-pagination v-model="page" :total="items.meta.total" :per-page="limit" @update="refresh">
+            <slot name="pagination"/>
+        </a-pagination>
     </flex>
 </template>
 
@@ -46,7 +55,7 @@ const props = defineProps({
     itemLink: Function
 });
 
-const page = ref(1);
+const page = useRouteQuery('page', 1);
 const route = useRoute();
 const query = ref(route.query.query);
 

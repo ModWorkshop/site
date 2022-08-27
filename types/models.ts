@@ -165,6 +165,7 @@ export interface Role {
 
 export interface Game {
     id: number;
+    forum_id: number;
     name: string;
     short_name?: string;
     thumbnail: string;
@@ -190,6 +191,7 @@ export interface SocialLogin {
 
 export interface Tag {
     id: number;
+    game_id?: number;
     name: string;
     color: string;
     notice: string;
@@ -201,6 +203,7 @@ export interface Tag {
     sections?: Array<Game> | null;
     categories_count?: number | null;
     sections_count?: number | null;
+    type: string;
 }
 
 export interface User {
@@ -303,7 +306,6 @@ export interface ForumCategory {
     id: number;
     name: string;
     desc: string;
-    emoji: string;
     forum_id: number;
     created_at?: string;
     updated_at?: string;

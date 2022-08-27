@@ -5,7 +5,7 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
         </flex>
-        <a-form :model="mod" :created="mod.id != -1" :save-text="saveText" float-save-gui @submit="save" @state-changed="formStateChanged">
+        <a-form :model="mod" :created="!!mod.id" :save-text="saveText" float-save-gui @submit="save" @state-changed="formStateChanged">
             <content-block class="p-8">
                 <a-tabs padding="4" side>
                     <a-tab name="main" title="Main">
@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
-import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
@@ -40,9 +39,11 @@ definePageMeta({
     middleware: 'users-only',
 });
 
-const route = useRoute();
+const router = useRouter();
 
-const modTemplate = {
+const canSave = ref(false);
+
+const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     id: -1,
     name: '',
     desc: '',
@@ -67,23 +68,10 @@ const modTemplate = {
     suspended: false,
     comments_disabled: false,
     file_status: 0,
-    
-};
+});
 
-let mod: Ref<Mod>;
-const canSave = ref(false);
-
-if (route.params.id) {
-    const { data: fetchedMod } = await useFetchData<Mod>(`mods/${route.params.id}/`);
-    mod = fetchedMod;
-
-    mod.value = fetchedMod.value;
-
-    if (!canEditMod(mod.value)) {
-        showError("You don't have permission to view this page");
-    }
-} else {
-    mod = ref(clone(modTemplate));
+if (!canEditMod(mod.value)) {
+    showError("You don't have permission to view this page");
 }
 
 provide('canSuperUpdate', canSuperUpdate(mod.value));
@@ -111,18 +99,18 @@ async function save() {
     try {
         let fetchedMod;
         if (mod.value.id == -1) {
-            fetchedMod = await usePost<Mod>('mods', mod.value).catch(catchError);
+            fetchedMod = await usePost<Mod>('mods', mod.value);
             if (fetchedMod) {
-                history.replaceState(null, null, `/mod/${mod.value.id}/edit`);
+                router.replace({ path: `/mod/${mod.value.id}/edit` });
             }
         } else {
-            fetchedMod = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value).catch(catchError);
+            fetchedMod = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
         }
         if (fetchedMod) {
             mod.value = fetchedMod;
         }
     } catch (error) {
-        console.error(error);
+        catchError(error);
         return;
     }
 }

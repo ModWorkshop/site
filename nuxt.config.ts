@@ -35,19 +35,19 @@ export default defineNuxtConfig({
 	],
 
 	hooks: {
-		'autoImports:dirs' (dirs) {
+		'imports:dirs' (dirs) {
 			dirs.push(resolve(__dirname, 'utils'));
 		},
 		'pages:extend' (routes) {
 			routes.push({
 				name: "mod",
-				path: "/mod/:id",
+				path: "/mod/:modId",
 				file: resolve(__dirname, "pages/mod/index.vue")
 			});
 
 			routes.push({
 				name: "edit-mod",
-				path: "/mod/:id/edit",
+				path: "/mod/:modId/edit",
 				file: resolve(__dirname, "pages/mod/edit-mod.vue")
 			});
 
@@ -80,12 +80,6 @@ export default defineNuxtConfig({
 				path: "/api",
 				file: resolve(__dirname, "pages/api.vue")
 			});
-		
-			routes.push({
-				name: "blog",
-				path: "/blog",
-				file: resolve(__dirname, "pages/blog.vue")
-			});
 
 			routes.push({
 				name: "forum",
@@ -113,13 +107,13 @@ export default defineNuxtConfig({
 			
 			routes.push({
 				name: "game-forum",
-				path: "/g/:id/forum",
+				path: "/g/:gameId/forum",
 				file: resolve(__dirname, "pages/forum.vue")
 			});
 
 			routes.push({
 				name: "edit-thread",
-				path: "/g/:id/forum/post",
+				path: "/g/:gameId/forum/post",
 				file: resolve(__dirname, "pages/edit-thread.vue")
 			});
 
@@ -169,6 +163,11 @@ export default defineNuxtConfig({
 						path: "categories/:categoryId",
 						file: resolve(__dirname, "pages/admin/edit-category.vue")
 					},
+					{
+						name: "admin-game-edit-tag",
+						path: "tags/:tagId",
+						file: resolve(__dirname, "pages/admin/edit-tag.vue")
+					},
 				]
 			});
 
@@ -216,7 +215,12 @@ export default defineNuxtConfig({
 						name: "admin-edit-forum-category",
 						path: "forum-categories/:categoryId",
 						file: resolve(__dirname, "pages/admin/edit-forum-category.vue")
-					}
+					},
+					{
+						name: "admin-edit-tag",
+						path: "tags/:tagId",
+						file: resolve(__dirname, "pages/admin/edit-tag.vue")
+					},
 				]
 			});
 		}

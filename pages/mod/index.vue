@@ -43,17 +43,11 @@ import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
 const { hasPermission } = useStore();
-const route = useRoute();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
-const { data: mod, error } = await useFetchData<Mod>(`mods/${route.params.id}/`);
-useHandleError(error.value, {
-    404: "This mod doesn't exist",
-    401: "You don't have permission to view this mod",
-    403: "You don't have permission to view this mod"
-});
+const { data: mod } = await useResource<Mod>('mod', 'mods');
 
 if (mod.value) {
     usePost(`mods/${mod.value.id}/register-view`, null, {

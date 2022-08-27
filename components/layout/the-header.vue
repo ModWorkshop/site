@@ -4,7 +4,7 @@
             <template #content="{ ok }">
                 <va-inner-loading v-if="!notifications" loading class="mb-4 mt-2"/>
                 <template v-else>
-                    <h2>Notifications</h2>
+                    <h2>{{$t('notifications')}}</h2>
                     <flex column class="overflow-y-scroll">
                         <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok" :notifications="notifications"/>
                     </flex>
@@ -20,20 +20,12 @@
             <img :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
-            <NuxtLink to="/upload">Upload a Mod</NuxtLink>
-            <NuxtLink to="/games">Games</NuxtLink>
-            <NuxtLink to="/blog">Blog</NuxtLink>
-            <NuxtLink to="https://discord.gg/Eear4JW">Discord</NuxtLink>
-            <NuxtLink to="/forum">Forum</NuxtLink>
-            <NuxtLink to="/support">Support Us</NuxtLink>
-            <Popper arrow>
-                <a href="#"><font-awesome-icon icon="ellipsis"/> </a>
-                <template #content>
-                    <a-dropdown-item>Rules</a-dropdown-item>
-                    <a-dropdown-item to="/about">About Us</a-dropdown-item>
-                    <a-dropdown-item>Steam Group</a-dropdown-item>
-                </template>
-            </Popper>
+            <NuxtLink to="/upload">{{$t('upload_mod')}}</NuxtLink>
+            <NuxtLink to="/games">{{$t('games')}}</NuxtLink>
+            <NuxtLink to="/forum?category=news">{{$t('news')}}</NuxtLink>
+            <NuxtLink to="https://discord.gg/Eear4JW">{{$t('discord')}}</NuxtLink>
+            <NuxtLink to="/forum">{{$t('forum')}}</NuxtLink>
+            <NuxtLink to="/support">{{$t('support_us')}}</NuxtLink>
         </flex>
         <flex class="user-items mr-2" gap="6"> 
             <div>

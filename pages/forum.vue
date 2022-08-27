@@ -45,25 +45,15 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue';
 import { ForumCategory, Game, Thread } from '~~/types/models';
 
-const route = useRoute();
 const router = useRouter();
-let game: Ref<Game>;
 const query = ref('');
 const categoryName = useRouteQuery('category');
 
-if (route.params.id) {
-    const { data, error } = await useFetchData<Game>(`games/${route.params.id}`);
-    useHandleError(error, {
-        404: 'This game does not exist!'
-    });
+const { data: game } = await useResource<Game>('game', 'games');
 
-    game = data;
-}
-
-const forumId = game ? game.value.forum.id : 1;
+const forumId = game.value ? game.value.forum_id : 1;
 
 const { data: threads } = await useFetchMany<Thread>('threads', {
     params: {
@@ -86,7 +76,7 @@ const { data: categories } = await useFetchMany<ForumCategory>('forum-categories
     }
 });
 
-const newThreadLink = computed(() => game ? `/g/${game.value.short_name}/forum/post` : '/forum/post');
+const newThreadLink = computed(() => game.value ? `/g/${game.value.short_name}/forum/post` : '/forum/post');
 
 function clickThread(thread: Thread) {
     router.push(`/thread/${thread.id}`);

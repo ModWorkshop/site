@@ -26,7 +26,7 @@
                     </span>
                 </flex>
                 <flex class="md:ml-auto">
-                    <a-button v-if="canLike" id="like-button" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user && '/login'" @click="toggleLiked"/>
+                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : null" @click="toggleLiked"/>
                     <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :href="!static && downloadUrl" download @click="registerDownload">
                         Download
                         <br>

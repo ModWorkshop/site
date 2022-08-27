@@ -25,9 +25,9 @@
             </flex>
         </details>
 
-        <a-alert class="w-full" color="danger" title="DANGER ZONE">
+        <a-alert class="w-full" color="danger" :title="$t('delete_zone')">
             <div>
-                <a-button color="danger" @click="deleteMod">Delete</a-button>
+                <a-button color="danger" @click="deleteMod">{{$t('delete')}}</a-button>
             </div>
         </a-alert>
     </flex>
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod } from '~~/types/models.js';
+import { Category, Mod, Tag } from '~~/types/models.js';
 const { init: openModal } = useModal();
 
 const router = useRouter();
@@ -60,14 +60,16 @@ function deleteMod() {
     });
 }
 
+const gameId = computed(() => props.mod.game_id);
 const store = useStore();
-const { data: categories, refresh: refetchCats } = await useAsyncData('fetch-categories', () => useGet(`games/${props.mod.game_id}/categories`));
-const { data: tags } = await useAsyncData('getTagsAndGames', () => useGet('/tags'));
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`);
+const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { params: reactive({ game_id: gameId, global: 1 }) });
 await store.fetchGames();
 
-watch(() => props.mod.game_id, val => {
+watch(gameId, val => {
     if (val) {
         refetchCats();
+        refreshTags();
     }
 });
 </script>
