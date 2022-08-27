@@ -2,7 +2,7 @@
     <simple-resource-form v-model="game" :can-save="canSaveOverride" :merge-params="mergeParams" url="games" redirect-to="/admin/games" @submit="submit">
         <img-uploader id="thumbnail" v-model="thumbnailBlob" label="Thumbnail" :src="game.thumbnail">
             <template #label="{ src }">
-                <game-thumbnail :src="src"/>
+                <game-thumbnail :src="src" style="height: 250px;"/>
             </template>
         </img-uploader>
         <img-uploader id="banner" v-model="bannerBlob" label="Banner" :src="game.banner">
