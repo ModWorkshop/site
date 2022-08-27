@@ -1,45 +1,39 @@
 <template>
-    <template v-if="currentCategories.length">
-        <details v-if="category" class="category" :open="open">
-            <summary :class="classes" @click="e => onClickCategory(e, category)">
-                <font-awesome-icon class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click.self="open = !open"/>
-                <strong>{{category.name}}</strong> 
-                <slot name="button" :category="category"/>
-            </summary>
-            <flex column class="px-5 py-1">
-                <category-tree v-for="c in currentCategories" :key="c.id" :category="c" :categories="categories" :set-query="setQuery">
-                    <template #button="{ category: cat }">
-                        <slot name="button" :category="cat"/>
-                    </template>
-                </category-tree>
-            </flex>
-        </details>
-        <template v-else>
-            <category-tree v-for="c in currentCategories" :key="c.id" :category="c" :categories="categories" :set-query="setQuery">
+    <div class="category">
+        <div v-if="category" :class="classes" @click.self="onClickCategory(category)">
+            <font-awesome-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
+            <strong @click="onClickCategory(category)">{{category.name}}</strong> 
+            <slot name="button" :category="category"/>
+        </div>
+        <flex v-if="open" column :class="{'px-5': !!category}">
+            <category-tree 
+                v-for="c in currentCategories" 
+                :key="c.id" 
+                v-model="modelValue" 
+                :category="c" 
+                :categories="categories" 
+                :set-query="setQuery" 
+                @update:model-value="value => $emit('update:modelValue', value)"
+            >
                 <template #button="{ category: cat }">
                     <slot name="button" :category="cat"/>
                 </template>
             </category-tree>
-        </template>
-    </template>
-    <template v-else>
-        <div :class="classes" @click="e => onClickCategory(e, category)">
-            <strong>
-                {{category.name}}
-            </strong>
-            <slot name="button" :category="category"/>
-        </div>
-    </template>
+        </flex>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { Category } from '~~/types/models';
 
 const props = defineProps<{
+    modelValue?: number,
     categories: Category[],
     category?: Category,
     setQuery?: boolean
 }>();
+
+defineEmits(['update:modelValue']);
 
 const currentCategories = computed(() => {
     const cats = [];
@@ -68,30 +62,32 @@ function isRelatedParent(category: Category, otherCategory: Category) {
     return false;
 }
 
-const currentCategoryId = useRouteQuery('category');
-const selected = computed(() => props.category.id == parseInt(currentCategoryId.value));
+const currentCategoryId = props.setQuery ? useRouteQuery('category') : useVModel(props);
+const selected = computed(() => props.category?.id == parseInt(currentCategoryId.value));
 
-const open = computed(() => {
+const open = ref(!props.category);
+
+if (props.category) {
     const currentId = parseInt(currentCategoryId.value);
     
-    if (!currentId) {
-        return false;
+    if (currentId) {
+        const currentCategory = props.categories.find(c => c.id == currentId);
+        open.value = selected.value || isRelatedParent(props.category, currentCategory);
+    }
+}
+
+function onClickCategory(category: Category) {
+    if (parseInt(currentCategoryId.value) === parseInt(category.id)) {
+        currentCategoryId.value = undefined;
+        open.value = false;
+    } else {
+        console.log('set');
+        
+        currentCategoryId.value = category.id;
+        open.value = true;
     }
 
-    const currentCategory = props.categories.find(c => c.id == currentId);
-    return selected.value || isRelatedParent(props.category, currentCategory);
-});
-
-function onClickCategory(e: Event, category: Category) {
-    if (props.setQuery) {
-        e.preventDefault();
-
-        if (parseInt(currentCategoryId.value) === category.id) {
-            currentCategoryId.value = undefined;    
-        } else {
-            currentCategoryId.value = category.id.toString();
-        }
-    }
+    console.log(currentCategoryId.value);
 }
 
 const classes = computed(() => ({'cursor-pointer': true, 'tree-button': true, selected: selected.value}));
