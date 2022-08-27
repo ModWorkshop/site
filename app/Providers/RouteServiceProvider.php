@@ -19,14 +19,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
 
-    /**
-     * The controller namespace for the application.
-     *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var string|null
-     */
-    // protected $namespace = 'App\\Http\\Controllers';
+    protected const MODEL_ID_BINDINGS = [
+        'user',
+        'tag',
+        'game',
+        'category',
+        'role',
+        'file',
+        'image',
+        'comment',
+        'link',
+        'case',
+        'modMember',
+        'thread',
+        'mod'
+    ];
+
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -37,11 +45,15 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        //https://github.com/laravel/framework/issues/26239)
+        //Thank you Laravel for not fixing this when it should be.
+        //Ah yes SQL errors, why yes it makes entirely sense to keep that behavior!
+        Route::patterns(array_merge(array_fill_keys(self::MODEL_ID_BINDINGS, '[0-9]{1,10}')));
+
         $this->routes(function () {
             Route::middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
-
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
