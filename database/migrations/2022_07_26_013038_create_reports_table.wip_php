@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->morphs('notifiable'); //Any model that can be notified for. For example: Mod, Comment, Thread.
-            $table->morphs('context'); //Context for the notification. "You got a reply in a comment (notifiable) from user (context).
-            $table->tinyText('type'); //Type of notification, reply_comment.
-            $table->boolean('seen')->default(false);
-            $table->json('data')->nullable(); //Extra context if necessary, hopefully not.
+            $table->tinyText('reported_name'); //Was username/name. Used to track name changes.
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->tinyText('reason');
+            $table->boolean('marked')->default(false);
+            $table->morphs('reportable'); //Was type
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('reports');
     }
 };

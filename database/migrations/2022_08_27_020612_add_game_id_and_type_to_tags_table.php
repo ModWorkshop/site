@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('mods', function (Blueprint $table) {
-            $table->bigInteger('last_user_id')->unsigned()->nullable();
-            $table->foreign('last_user_id')->references('id')->on('users');
+        Schema::table('tags', function (Blueprint $table) {
+            $table->bigInteger('game_id')->nullable()->unsigned();
+            $table->foreign('game_id')->references('id')->on('forums');
+            $table->tinyText('only_for')->nullable();
         });
     }
 
@@ -26,8 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('mods', function (Blueprint $table) {
-            $table->dropColumn('last_user_id');
+        Schema::table('tags', function (Blueprint $table) {
+            $table->dropColumn('game_id');
+            $table->dropColumn('type');
         });
     }
 };

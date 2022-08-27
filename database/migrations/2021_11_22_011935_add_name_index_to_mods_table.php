@@ -13,7 +13,8 @@ class AddNameIndexToModsTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE INDEX mods_name_trigram ON mods USING gin (lower(name) gin_trgm_ops);');
+        DB::statement('CREATE EXTENSION IF NOT EXISTS pg_trgm');
+        DB::statement('CREATE INDEX mods_name_trigram ON mods USING gist(name gist_trgm_ops);');
     }
 
     /**
@@ -23,6 +24,7 @@ class AddNameIndexToModsTable extends Migration
      */
     public function down()
     {
+        DB::statement('DROP EXTENSION IF EXISTS pg_trgm');
         DB::statement('DROP INDEX IF EXISTS mods_name_trigram');
     }
 }

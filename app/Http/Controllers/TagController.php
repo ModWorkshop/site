@@ -23,7 +23,21 @@ class TagController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        $tags = Tag::queryGet($request->validated());
+        $val = $request->val([
+            'game_id' => 'integer|min:1|nullable|exists:games,id',
+            'global' => 'boolean|nullable'
+        ]);
+
+        $tags = Tag::queryGet($val, function($query, array $val) {
+            $query->where(function($q) use ($val) {
+                if (isset($val['game_id'])) {
+                    $q->where('game_id', $val['game_id']);
+                }
+                if (isset($val['global']) && $val['global']) {
+                    $q->orWhereNull('game_id');
+                }
+            });
+        });
 
         return TagResource::collection($tags);
     }
@@ -36,7 +50,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->update($request);
     }
 
     /**
@@ -57,9 +71,25 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag=null)
     {
-        //
+        $val = $request->validate([
+            'name' => 'string|required|min:2|max:100',
+            'color' => 'string|required|max:8',
+            'notice' => 'string|nullable|min:3|max:1000',
+            'notice_type' => 'integer|min:1|max:3',
+            'notice_localized' => 'boolean|nullable',
+            'game_id' => 'integer|min:1|nullable|exists:games,id'
+        ]);
+
+        $val['notice'] ??= '';
+        if (isset($tag)) {
+            $tag->update($val);
+        } else {
+            $tag = Tag::create($val);
+        }
+
+        return $tag;
     }
 
     /**
@@ -68,8 +98,8 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
     }
 }

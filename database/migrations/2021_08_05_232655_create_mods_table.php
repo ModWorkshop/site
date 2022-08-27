@@ -57,6 +57,9 @@ class CreateModsTable extends Migration
             $table->foreign('banner_id')->references('id')->on('images');
             $table->bigInteger('likes')->unsigned()->default(0);
 
+            $table->bigInteger('last_user_id')->unsigned()->nullable();
+            $table->foreign('last_user_id')->references('id')->on('users');
+
             // These are more general table tracking dates.
             // They can be used, but bumped_at should be used for ordering so we don't bump a mod for every little edit.
             // To explain further, created_at is when the mod was created. updated_at is when the mod data was updated, regardless of anything.

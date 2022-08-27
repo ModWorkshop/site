@@ -42,17 +42,18 @@ class Tag extends Model
 
     protected $hidden = ['pivot'];
 
-    protected $fillable = [
-        'name',
-        'color'
-    ];
-    
-    public function categories() {
-        return $this->morphedByMany(Category::class, 'taggable');
+    protected $guarded = [];
+
+    public function game() {
+        return $this->belongsTo(Game::class);
     }
 
-    public function games() {
-        return $this->morphedByMany(Game::class, 'taggable');
+    public function mods() {
+        return $this->morphedByMany(Mod::class, 'taggable');
+    }
+
+    public function threads() {
+        return $this->morphedByMany(Thread::class, 'taggable');
     }
 
     public function toSearchableArray()
