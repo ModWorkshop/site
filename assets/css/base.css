@@ -46,17 +46,6 @@ body {
     --button-text-color: #fff;
     --tab-selected-color: rgb(255 255 255 / 5%);
     --border-radius: 4px;
-
-    --vs-controls-color: #afafaf !important;
-    --vs-border-color: #afafaf !important;
-    --vs-dropdown-bg: #282c34 !important;
-    --vs-dropdown-color: #cc99cd !important;
-    --vs-dropdown-option-color: #cc99cd !important;
-    --vs-selected-bg: #664cc3 !important;
-    --vs-selected-color: #eeeeee !important;
-    --vs-search-input-color: #eeeeee !important;
-    --vs-dropdown-option--active-bg: #664cc3 !important;
-    --vs-dropdown-option--active-color: #eeeeee !important;  
 }
 
 html.light-mode {
