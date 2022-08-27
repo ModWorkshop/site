@@ -47,13 +47,6 @@
                     </template>
                 </flex>
                 <content-block v-if="filtersVisible" class="self-start" style="flex:2;">
-                    <small v-if="currentCategory">
-                        <h3>
-                            Category: {{currentCategory.path}}
-                        </h3>
-                        {{currentCategory.desc}}
-                    </small>
-
                     <a-input v-model="query" label="Search"/>
                     <flex v-if="categories && categories.data.length" column>
                         <span>{{$t('categories')}}</span>
