@@ -2,7 +2,7 @@
     <picture>
         <source v-if="compSrc" :srcset="compSrc">
         <source :srcset="`${config.apiUrl}/storage/assets/nopreview.png`" type="image/png">
-        <img :src="`${config.apiUrl}/storage/assets/nopreview.png`" class="ratio-image round" alt="thumbnail">
+        <img :src="`${config.apiUrl}/storage/assets/nopreview.png`" class="ratio-image round" alt="thumbnail" v-bind="$attrs">
     </picture>
 </template>
 
