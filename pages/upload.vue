@@ -10,9 +10,10 @@
                 <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-                <flex>
-                    <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
-                    <a-select v-model="mod.category_id" label="Category" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
+                <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
+                <flex v-if="categories" column gap="2">
+                    <label>Category</label>
+                    <category-tree v-model="mod.category_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="categories.data"/>
                 </flex>
 
                 <flex class="mx-auto">
@@ -61,7 +62,7 @@ const mod: Ref<Mod> = ref({
     
 });
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories`);
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories?include_paths=1`);
 
 watch(() => mod.value.game_id, val => {
     if (val) {

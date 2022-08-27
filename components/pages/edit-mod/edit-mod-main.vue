@@ -6,9 +6,10 @@
 
         <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
-        <flex>
-            <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
-            <a-select v-model="mod.category_id" label="Category" placeholder="Select a category" :disabled="!mod.game_id" :options="mod.game_id && categories?.data"/>
+        <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
+        <flex v-if="categories" column gap="2">
+            <label>Category</label>
+            <category-tree v-model="mod.category_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="categories.data"/>
         </flex>
 
         <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
