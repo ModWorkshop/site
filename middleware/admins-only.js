@@ -4,6 +4,6 @@ export default defineNuxtRouteMiddleware((to) => {
     const { user, hasPermission } = useStore();
     
     if (!user || !hasPermission('admin')) {
-        throwError("You don't have permission to view this page");
+        showError({ statusCode: 401, statusMessage: "You don't have permission to view this page", fatal: true});
     }
 });

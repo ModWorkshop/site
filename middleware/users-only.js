@@ -4,6 +4,6 @@ import { useStore } from '../store';
 export default defineNuxtRouteMiddleware((to) => {
     const { user } = useStore();
     if (!user) {
-        throwError("You must be logged in to access this page");
+        showError({ statusCode: 401, statusMessage: "You must be logged in to access this page", fatal: true});
     }
 });
