@@ -50,7 +50,7 @@
                         <a-dropdown-item icon="plus">Followed Mods</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="cog" to="/user-settings">User Settings</a-dropdown-item>
-                        <a-dropdown-item icon="users-gear" to="/admin">Admin</a-dropdown-item>
+                        <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">Admin</a-dropdown-item>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="logout">Log Out</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
@@ -77,6 +77,8 @@ const store = useStore();
 const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
+
+const isAdmin = computed(() => store.hasPermission('admin'));
 
 watch(showNotifications, async () => {
     if (!notifications.value) {
