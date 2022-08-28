@@ -65,13 +65,19 @@ export default defineNuxtConfig({
 
 			routes.push({
 				name: "user",
-				path: "/user/:id",
+				path: "/user/:userId",
 				file: resolve(__dirname, "pages/user.vue")
 			});
 
 			routes.push({
+				name: "specific-user-settings",
+				path: "/user/:userId/edit",
+				file: resolve(__dirname, "pages/user-settings.vue")
+			});
+
+			routes.push({
 				name: "user-at",
-				path: "/@:id",
+				path: "/@:userId",
 				file: resolve(__dirname, "pages/user.vue")
 			});
 

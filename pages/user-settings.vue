@@ -23,9 +23,9 @@
                         <flex column gap="4">
                             <img-uploader v-model="avatarBlob" label="Avatar" :src="user.avatar">
                                 <template #label="{ src }">
+                                    <a-avatar size="xl" :src="src"/>
                                     <a-avatar size="lg" :src="src"/>
-                                    <a-avatar size="sm" :src="src"/>
-                                    <a-avatar size="xs" :src="src"/>
+                                    <a-avatar size="md" :src="src"/>
                                 </template>
                             </img-uploader>
     
@@ -34,16 +34,9 @@
                                     <a-banner :src="src" url-prefix="users/banners"/>
                                 </template>
                             </img-uploader>
-    
-                            <div>
-                                <a-input v-model="user.private_profile" label="Private Profile" type="checkbox"/>
-                                <br>
-                                <small>Ticking this on will privatize your profile. Only staff members will be able to view it.</small>
-                            </div>
-    
+                            <a-input v-model="user.private_profile" label="Private Profile" type="checkbox" desc="Ticking this on will privatize your profile. Only staff members will be able to view it."/>
                             <a-input v-model="user.custom_title" label="Custom Title"/>
                             <a-input v-model="user.custom_color" label="Custom Color" type="color"/>
-    
                             <md-editor v-model="user.bio" rows="12" label="Bio" desc="Tell about yourself to people visiting your profile"/>
                         </flex>
                     </a-tab>
@@ -59,7 +52,7 @@ import { useStore } from '../store';
 import { Role, User } from '../types/models';
 
 definePageMeta({
-    middleware: 'admins-only'
+    middleware: 'users-only'
 });
 
 const store = useStore();
@@ -74,16 +67,8 @@ const route = useRoute();
 const password = ref('');
 const confirmPassword = ref('');
 
-const user = ref<User>(null);
-const id = parseInt(route.params.id?.toString());
-
-if (id && id !== store.user.id) {
-    user.value = await useGet<User>(`users/${route.params.id}`);
-}
-else {
-    user.value = clone(store.user);
-    isMe.value = true;
-}
+const { data: user } = await useResource<User>('user', 'users', clone(store.user));
+isMe.value = !route.params.userId;
 
 //Reactive unwraps the refs allowing us to watch these for a-form.
 

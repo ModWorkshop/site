@@ -1,7 +1,7 @@
 <template>
     <page-block :error="error" error-string="This user does not exist!">
         <a-banner :src="user.banner" url-prefix="users/banners">
-            <a-avatar class="mt-auto d-inline-block" size="md" :src="user.avatar"/>
+            <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
         </a-banner>
         <flex gap="3" class="md:flex-row">
             <content-block id="details" class="p-4">
@@ -45,10 +45,9 @@ import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { User } from '../types/models';
 
-const route = useRoute();
 const { t } = useI18n();
 
-const { data: user, error } = await useFetchData<User>(`users/${route.params.id}`);
+const { data: user, error } = await useResource<User>('user', 'users');
 
 const isOnline = computed(() => {
     const last = DateTime.fromISO(user.value.last_online);

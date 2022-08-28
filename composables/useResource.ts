@@ -6,16 +6,17 @@ import { useI18n } from "vue-i18n";
  * 
  * @param name Name of the resource, used for the param name like game -> gameId
  * @param url URL path to fetch stuff from like games -> games/:gameId
+ * @param fallback If ID is optional, falls back to this object
  * @returns 
  */
-export default async function<T>(name: string, url: string) {
+export default async function<T>(name: string, url: string, fallback?: T) {
     const route = useRoute();
     const { t } = useI18n();
 
     const id = route.params[`${name}Id`];
 
     if (!id) {
-        return { data: ref(null) };
+        return { data: ref(fallback), error: false };
     }
 
     const res = await useFetchData<T>(`${url}/${id}`);
