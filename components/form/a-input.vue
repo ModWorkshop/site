@@ -1,5 +1,5 @@
 <template>
-    <flex inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
+    <flex grow inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
         <label v-if="!isCheckbox && label" :for="labelId">
             {{label}}
         </label>
@@ -8,11 +8,12 @@
         <slot v-else-if="$slots.default"/>
         <input v-else-if="isCheckbox" :id="labelId" v-bind="$attrs" ref="input" v-model="(modelValue as boolean)" :class="{input: true, 'input-error': !!err}" type="checkbox" @change="$emit('update:modelValue', modelValue);">
         <input v-else :id="labelId" v-bind="$attrs" ref="input" v-model="modelValue" :class="{input: true, 'input-error': !!err}" :type="type" @input="$emit('update:modelValue', modelValue);">
-        <label v-if="isCheckbox && label" :for="labelId" class="basis-9/12">
+        <label v-if="isCheckbox && label" :for="labelId" class="flex-grow">
             <span class="align-middle">{{label}}</span>
         </label>
         <span v-if="err" class="text-danger">{{err}}</span>
-        <small v-if="desc"><br v-if="isCheckbox">{{desc}}</small>
+        <hr v-if="isCheckbox && desc">
+        <small v-if="desc">{{desc}}</small>
     </flex>
 </template>
 
