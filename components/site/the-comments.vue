@@ -90,6 +90,9 @@ const mentionRange = ref([-1,-1]);
 const users = ref<Paginator<User>>();
 const usersCache: Record<string, User> = {};
 
+const { init: showToast } = useToast();
+
+
 function onClickComment() {
     if (user) {
         setCommentDialog(true);
@@ -206,8 +209,8 @@ async function postComment() {
         }
         setCommentDialog(false);
     } catch (error) {
-        commentContent.value = content; //We failed, let's not eat the user's draft
-        // Notification.error('Failed to post the comment');
+        posting.value = false;
+        showToast({ message: 'Could not post comment', color: 'danger' });
         console.log(error);
     }                
 }
