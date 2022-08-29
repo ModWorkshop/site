@@ -4,9 +4,9 @@ export default async function<T>(name: string, url: string, template: T) {
     const route = useRoute();
     const { t } = useI18n();
 
-    const id = route.params[`${name}Id`] ?? route.params.id;
+    const id = route.params[`${name}Id`];
 
-    if (id == 'new') {
+    if (id === undefined || id == 'new') {
         return { data: ref<T>(template) };
     }
     else {

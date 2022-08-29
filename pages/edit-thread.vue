@@ -1,77 +1,54 @@
 <template>
     <page-block size="sm">
         <the-breadcrumb :items="breadcrumb"/>
-        <a-form>
-            <content-block class="p-8">
+        <content-block class="p-8">
+            <simple-resource-form v-model="thread" url="threads" redirect-to="/thread" :delete-redirect-to="deleteRedirectTo">
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
                 <a-select v-model="thread.category_id" :label="$t('category')" :options="categories.data"/>
-                <flex class="mx-auto">
-                    <a-button type="submit" @click="submit">{{$t('post')}}</a-button>
-                </flex>
-            </content-block>
-        </a-form>
+            </simple-resource-form>
+        </content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~~/store';
 import { ForumCategory, Game, Thread } from '~~/types/models';
 
-
-const route = useRoute();
-const router = useRouter();
-
-const { init: showToast } = useToast();
+const { user } = useStore();
 const { t } = useI18n();
 
-let game: Ref<Game>;
+const { data: game } = await useResource<Game>('game', 'games');
+const forumId = game.value ? game.value.forum_id : 1;
 
-if (route.params.id) {
-    const { data, error } = await useFetchData<Game>(`games/${route.params.id}`);
-    useHandleError(error, {
-        404: 'This game does not exist!'
-    });
-
-    game = data;
-}
-
-const forumId = game ? game.value.forum.id : 1;
-
-const thread = ref({
+const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
     id: 0,
+    views: 0,
+    archived: false,
     name: '',
     content: '',
     category_id: null,
+    user_id: user.id,
     forum_id: forumId,
 });
 
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
     params: {
-        forum_id: forumId
+        forum_id: thread.value.forum_id
     }
 });
 
-async function submit() {
-    if (thread.value.id) {
-      //TODO  
-    } else {
-        const newThread = await usePost<Thread>(`threads`, thread.value);
-        if (newThread) {
-            router.push(`/thread/${newThread.id}`);
-        } else {
-            showToast({ color: 'danger', message: 'Something went wrong' });
-        }
-    }
-}
+const threadGame = computed(() => game.value ?? (thread.value.forum ? thread.value.forum.game : null));
+
+const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.value.short_name}/forum` : `/forum`);
 
 const breadcrumb = computed(() => {
     let crumbs;
 
-    if (game) {
+    if (threadGame.value) {
         crumbs = [
-            { name: game.value.name, id: game.value.short_name },
+            { name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' },
             { name: 'forum', attachToPrev: 'forum' },
         ];
     } else {
@@ -80,7 +57,10 @@ const breadcrumb = computed(() => {
         ];
     }
 
-    crumbs.unshift({ name: thread.value.id ? thread.value.name : t('post') });
+    crumbs.push({ name: thread.value ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });
+    if (thread.value) {
+        crumbs.push({ name: t('edit') });
+    }
 
     return crumbs;
 });

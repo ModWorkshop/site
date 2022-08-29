@@ -6,7 +6,9 @@
         </flex>
         <flex style="flex: 1;" gap="3">
             <content-block style="flex: 1;">
-                <a-input v-model="query" label="Search"/>
+                <flex>
+                    <a-input v-model="query" label="Search"/>
+                </flex>
                 <flex column gap="2">
                     <template v-if="categories.data.length">
                         <a class="nav-link" @click="categoryName = undefined">
@@ -33,7 +35,7 @@
                     <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer" @click="clickThread(thread)">
                         <td><NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink></td>
                         <td><a-user :user="thread.user"/></td>
-                        <td><a>{{thread.category.name}}</a></td>
+                        <td><a>{{thread.category?.name}}</a></td>
                         <td><time-ago :time="thread.bumped_at"/></td>
                         <td v-if="thread.last_user"><a-user :user="thread.last_user"/></td>
                         <td v-else>None</td>
@@ -55,13 +57,16 @@ const { data: game } = await useResource<Game>('game', 'games');
 
 const forumId = game.value ? game.value.forum_id : 1;
 
-const { data: threads } = await useFetchMany<Thread>('threads', {
-    params: {
+const { data: threads, refresh } = await useFetchMany<Thread>('threads', {
+    params: reactive({
         forum_id: forumId,
         category_name: categoryName,
         query: query
-    }
+    })
 });
+
+const { start } = useTimeoutFn(refresh, 200);
+watch([categoryName, query], start);
 
 const breadcrumb = computed(() => {
     return [

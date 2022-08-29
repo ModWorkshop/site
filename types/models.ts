@@ -138,7 +138,7 @@ export interface Breadcrumb {
     id?: string|number,
     type?: string,
     attachToPrev?: string,
-    name: string,
+    name?: string,
 }
 
 export interface Permission {
@@ -290,8 +290,8 @@ export interface Thread {
     content: string;
     views: number;
     archived: boolean;
-    bumped_at: string;
-    pinned_at: string;
+    bumped_at?: string;
+    pinned_at?: string;
     forum_id: number;
     category_id?: number;
     user_id: number;
@@ -299,10 +299,10 @@ export interface Thread {
     updated_at?: string;
     comments?: Comment[];
     comments_count?: number;
-    user: User;
-    last_user: User;
-    forum: Forum;
-    category: ForumCategory;
+    user?: User;
+    last_user?: User;
+    forum?: Forum;
+    category?: ForumCategory;
 }
 
 export interface Forum {

@@ -22,6 +22,7 @@ const props = defineProps({
     modelValue: Object,
     url: String,
     redirectTo: String,
+    deleteRedirectTo: String,
     mergeParams: Object,
     canSave: Boolean,
     deleteButton: {
@@ -46,7 +47,7 @@ async function submit() {
 
         if (!props.modelValue.id) {
             const model = await usePost<{id: number}>(props.url, params);
-            router.replace({ path: `${props.redirectTo}/${model.id}` });
+            router.replace(`${props.redirectTo}/${model.id}`);
         } else {
             emit('update:modelValue', await usePatch(`${props.url}/${props.modelValue.id}`, params));
         }
@@ -62,7 +63,7 @@ async function submit() {
 async function doDelete() {
     try {
         await useDelete(`${props.url}/${props.modelValue.id}`);
-        router.replace({ path: props.redirectTo });
+        router.replace(props.deleteRedirectTo ?? props.redirectTo);
     } catch (error) {
         console.error(error);
         showToast({ message: error.data.message, color: 'danger' });

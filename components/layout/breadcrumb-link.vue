@@ -16,7 +16,9 @@ function getTo(item: Breadcrumb, i: number) {
     if (item.attachToPrev) {
         const prev = props.items[i-1];
         if (prev) {
-            return `${getTo(item, i-1)}/${item.attachToPrev}`;
+            return `${getTo(prev, i-1)}/${item.attachToPrev}`;
+        } else {
+            return `/${item.attachToPrev}`;
         }
     }  else if (item.type == 'game') {
         return `/g/${item.id}`;
@@ -29,8 +31,10 @@ function getTo(item: Breadcrumb, i: number) {
         }
     } else if (item.type == 'mod') {
         return `/mod/${item.id}`;
+    }  else if (item.type == 'thread') {
+        return `/thread/${item.id}`;
     }
 }
 
-const tos = computed(() => getTo(props.item, 0));
+const tos = computed(() => getTo(props.item, props.items.findIndex(i => i == props.item)));
 </script>

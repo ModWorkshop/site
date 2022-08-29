@@ -118,14 +118,20 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
-				name: "edit-thread",
+				name: "game-post-thread",
 				path: "/g/:gameId/forum/post",
 				file: resolve(__dirname, "pages/edit-thread.vue")
 			});
 
 			routes.push({
+				name: "game-edit-thread",
+				path: "/thread/:threadId/edit",
+				file: resolve(__dirname, "pages/edit-thread.vue")
+			});
+
+			routes.push({
 				name: "thread",
-				path: "/thread/:id",
+				path: "/thread/:threadId",
 				file: resolve(__dirname, "pages/thread.vue")
 			});
 
