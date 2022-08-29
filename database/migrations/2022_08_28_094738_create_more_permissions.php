@@ -67,6 +67,11 @@ return new class extends Migration
             'slug' => 'delete-own-mod-comment',
             'name' => 'Delete Own Mod Comments'
         ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'create-thread',
+            'name' => 'Post threads'
+        ]);
     }
 
     /**
