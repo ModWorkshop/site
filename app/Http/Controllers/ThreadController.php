@@ -94,6 +94,9 @@ class ThreadController extends Controller
         ]);
 
         $thread->update($val);
+        $thread->load('forum.game');
+
+        return $thread;
     }
 
     /**
