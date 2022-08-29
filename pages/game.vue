@@ -13,7 +13,7 @@
             <flex class="nav p-5" gap="4">
                 <NuxtLink :to="`/g/${game.short_name}`">Home</NuxtLink>
                 <NuxtLink :to="`/g/${game.short_name}/forum`">Forum</NuxtLink>
-                <NuxtLink v-for="button in buttons" :key="button[0]" class="nav-item" href="{{button[1]}}">{{button[0]}}</NuxtLink>
+                <NuxtLink v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</NuxtLink>
             </flex>
         </div>
         <mod-list :forced-game="game.id"/>
