@@ -56,6 +56,7 @@ use Storage;
  * @method static Builder|User whereCustomColor($value)
  * @property string|null $unique_name
  * @method static Builder|User whereUniqueName($value)
+ * @property-read \App\Models\Ban|null $lastBan
  */
 class User extends Authenticatable
 {

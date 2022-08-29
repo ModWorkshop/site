@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Game|null $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumCategory[] $categories
+ * @property-read int|null $categories_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Forum whereName($value)
  */
 class Forum extends Model
 {

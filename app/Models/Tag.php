@@ -34,6 +34,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $games
  * @property-read int|null $games_count
+ * @property int|null $game_id
+ * @property string|null $only_for
+ * @property-read \App\Models\Game|null $game
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @property-read int|null $mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
+ * @property-read int|null $threads_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOnlyFor($value)
  */
 class Tag extends Model
 {

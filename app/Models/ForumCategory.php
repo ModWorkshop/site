@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $emoji
+ * @property-read \App\Models\Forum $forum
+ * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereEmoji($value)
  */
 class ForumCategory extends Model
 {

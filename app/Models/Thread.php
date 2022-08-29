@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\Models\User $lastUser
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLastUserId($value)
+ * @property-read \App\Models\ForumCategory|null $category
  */
 class Thread extends Model
 {

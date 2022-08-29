@@ -5,6 +5,16 @@
  */
 
 declare namespace App.Models {
+    export interface Ban {
+        id: number;
+        user_id: number | null;
+        reason: string;
+        expire_date: string;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+    }
+
     export interface Category {
         id: number;
         name: string;
@@ -66,12 +76,15 @@ declare namespace App.Models {
 
     export interface Forum {
         id: number;
+        name: string;
         game_id: number | null;
         created_at: string | null;
         updated_at: string | null;
         game?: App.Models.Game | null;
         threads?: Array<App.Models.Thread> | null;
+        categories?: Array<App.Models.ForumCategory> | null;
         threads_count?: number | null;
+        categories_count?: number | null;
     }
 
     export interface ForumCategory {
@@ -81,6 +94,8 @@ declare namespace App.Models {
         forum_id: number;
         created_at: string | null;
         updated_at: string | null;
+        emoji: string;
+        forum?: App.Models.Forum | null;
     }
 
     export interface Game {
@@ -95,6 +110,7 @@ declare namespace App.Models {
         last_date: string;
         created_at: string | null;
         updated_at: string | null;
+        forum_id: number | null;
         forum?: App.Models.Forum | null;
         readonly breadcrumb?: any;
     }
@@ -290,10 +306,13 @@ declare namespace App.Models {
         notice_localized: boolean;
         created_at: string | null;
         updated_at: string | null;
-        categories?: Array<App.Models.Category> | null;
-        games?: Array<App.Models.Game> | null;
-        categories_count?: number | null;
-        games_count?: number | null;
+        game_id: number | null;
+        only_for: string | null;
+        game?: App.Models.Game | null;
+        mods?: Array<App.Models.Mod> | null;
+        threads?: Array<App.Models.Thread> | null;
+        mods_count?: number | null;
+        threads_count?: number | null;
     }
 
     export interface Thread {
@@ -314,6 +333,7 @@ declare namespace App.Models {
         user?: App.Models.User | null;
         last_user?: App.Models.User | null;
         forum?: App.Models.Forum | null;
+        category?: App.Models.ForumCategory | null;
         comments?: Array<App.Models.Comment> | null;
         comments_count?: number | null;
     }
@@ -343,6 +363,7 @@ declare namespace App.Models {
         unique_name: string | null;
         extra?: App.Models.UserExtra | null;
         roles?: Array<App.Models.Role> | null;
+        last_ban?: App.Models.Ban | null;
         roles_count?: number | null;
         readonly role_names?: any;
         readonly permissions?: any;

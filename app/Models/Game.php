@@ -40,6 +40,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereWebhookUrl($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Forum|null $forum
+ * @property int|null $forum_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
  */
 class Game extends Model
 {
