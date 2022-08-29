@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\Comment;
 use App\Models\Thread;
 use App\Services\CommentService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,12 @@ class ThreadCommentsController extends Controller
 
         $thread->update(['last_user_id' => $request->user()->id]);
 
-        return CommentService::store($request, $thread);
+        $comment = CommentService::store($request, $thread);
+        $thread->update([
+            'bumped_at' => Carbon::now()
+        ]);
+
+        return $comment;
     }
 
     /**

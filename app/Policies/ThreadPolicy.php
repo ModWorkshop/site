@@ -98,6 +98,6 @@ class ThreadPolicy
             return false;
         }
 
-        return !$thread->archived_at || $user->hasPermission('edit-thread');
+        return !$thread->archived || ($user->id === $thread->user_id && !$thread->archived_by_mod) || $user->hasPermission('edit-thread');
     }
 }

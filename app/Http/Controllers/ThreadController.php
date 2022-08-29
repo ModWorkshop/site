@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\Forum;
 use App\Models\Thread;
 use App\Services\CommentService;
+use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -30,15 +31,18 @@ class ThreadController extends Controller
         ]);
         
         return JsonResource::collection(Thread::queryGet($val, function($query, array $val) {
-            if (isset($val['category_id'])) {
-                $query->where('category_id', $val['category_id']);
-            }
-            if (isset($val['category_name'])) {
-                $query->orWhereRelation('category', fn($q) => $q->where('name', $val['category_name']));
-            }
-            if (isset($val['forum_id'])) {
-                $query->where('forum_id', $val['forum_id']);
-            }
+            $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
+            $query->where(function($query) use ($val) {
+                if (isset($val['category_id'])) {
+                    $query->where('category_id', $val['category_id']);
+                }
+                if (isset($val['category_name'])) {
+                    $query->orWhereRelation('category', fn($q) => $q->where('name', $val['category_name']));
+                }
+                if (isset($val['forum_id'])) {
+                    $query->where('forum_id', $val['forum_id']);
+                }
+            });
         }));
     }
 
@@ -88,13 +92,50 @@ class ThreadController extends Controller
     public function update(Request $request, Thread $thread)
     {
         $val = $request->validate([
-            'content' => 'string|required_without:pinned|min:2|max:1000',
+            'content' => 'string|required_without_all:pinned,archived|min:2|max:1000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
-            'pinned' => 'boolean'
+            'pinned' => 'boolean|nullable',
+            'archived' => 'boolean|nullable'
         ]);
+        
+        $changePin = Arr::pull($val, 'pinned');
+        $user = $request->user();
+        $canEditThreads = $user->hasPermission('edit-thread');
+        if (!$canEditThreads && $changePin) {
+            abort(401);
+        }
+
+        
+        if (isset($changePin)) {
+            if ($changePin === true) {
+                $thread->pinned_at = Carbon::now();
+            } else if ($changePin === false) {
+                $thread->pinned_at = null;
+            }
+            $thread->timestamps = false;
+        }
+
+        $changeArchive = Arr::pull($val, 'archived');
+        if (isset($changeArchive)) {
+            //Cannot unarchive a thread archived by a moderator!
+            if ($thread->archived_by_mod && !$canEditThreads) {
+                abort(401);
+            }
+
+            $thread->archived = $changeArchive;
+            $thread->timestamps = false;
+
+            //If a moderator archives this, make it so the poster cannot unarchive it.
+            if ($canEditThreads && $thread->user->id !== $user->id) {
+                $thread->archived_by_mod = $changeArchive;
+            } 
+        }
 
         $thread->update($val);
         $thread->load('forum.game');
+
+
+        $thread->timestamps = true;
 
         return $thread;
     }
