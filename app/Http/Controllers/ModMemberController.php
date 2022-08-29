@@ -62,7 +62,7 @@ class ModMemberController extends Controller
         if ($mod->user_id !== $ourUserId) {
             $ourLevel = $mod->getMemberLevel($ourUserId);
             if (isset($ourLevel) && ($ourLevel <= $val['level'] || $ourLevel <= $member->pivot->level)) {
-                abort(401);
+                abort(403);
             }
         }
 
@@ -83,7 +83,7 @@ class ModMemberController extends Controller
 
         //We should be able to delete ourselves from members!
         if (!isset($ourLevel) || ($ourUserId !== $member && $ourLevel >= $memberLevel)) {
-            abort(401);
+            abort(403);
         }
 
         $mod->members()->detach($member);
@@ -107,7 +107,7 @@ class ModMemberController extends Controller
         $ourLevel = $mod->getMemberLevel($ourUserId, false);
 
         if (!isset($ourLevel)) {
-            abort(401);
+            abort(403);
         }
 
         if ($val['accept']) {

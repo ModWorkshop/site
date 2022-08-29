@@ -107,11 +107,11 @@ class ModController extends Controller
                         $q->where('user_id', $user->id)->where('accepted', true);
                     });
                     if (!isset($val['user_id'])) {
-                    $query->orWhere('user_id', $user->id);
+                        $query->orWhere('user_id', $user->id);
+                    }
                 }
             }
-            }
-
+            
             if (isset($val['tags'])) {
                 $query->whereHasIn('tags', function(Builder $q) use ($val) {
                     $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
@@ -432,7 +432,7 @@ class ModController extends Controller
         $user = User::find($val['owner_id']);
 
         if ($mod->transferRequest()->exists()) {
-            abort(401, 'Transfer request in progress.');
+            abort(405, 'Transfer request in progress.');
         }
 
         $transferRequest = new TransferRequest(['keep_owner_level' => $val['keep_owner_level']]);
@@ -489,7 +489,7 @@ class ModController extends Controller
         $transferRequest = $mod->transferRequest;
         
         if (!isset($transferRequest)) {
-            abort(401, 'No transfer request exists');
+            abort(404, 'No transfer request exists');
         }
 
         $mod->transferRequest()->delete();
