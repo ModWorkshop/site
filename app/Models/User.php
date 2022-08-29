@@ -5,15 +5,19 @@ namespace App\Models;
 use App\Traits\Filterable;
 use Arr;
 use Auth;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Storage;
+
 /**
  * App\Models\User
  *
@@ -336,7 +340,7 @@ class User extends Authenticatable
         }
 
         //Make sure we have an order
-        if ($other->hasPermission('admin') && $otherHighestOrder) {
+        if ($other->hasPermission('edit-user') && $otherHighestOrder) {
             //If the user has only Members it's safe to assume we can edit them
             //If they have an order then let's make sure the other's is higher in order.
             if (!$highestOrder || $otherHighestOrder < $highestOrder) {
@@ -344,7 +348,7 @@ class User extends Authenticatable
             }
         }
 
-        return $other->id === $this->id || ($other->hasPermission('admin') && $otherHighestOrder < $highestOrder);
+        return $other->id === $this->id || ($other->hasPermission('edit-user') && $otherHighestOrder < $highestOrder);
     }
 
     /**

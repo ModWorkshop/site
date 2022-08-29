@@ -153,8 +153,12 @@ class ModPolicy
 
     public function createComment(User $user, Mod $mod)
     {
+        if (!$user->hasPermission('comment-mod')) {
+            return false;
+        }
+
         if ($mod->comments_disabled) {
-            return $user->hasPermission('edit-own-comment');
+            return $this->update($user, $mod);
         } else {
             return $this->view($user, $mod);
         }

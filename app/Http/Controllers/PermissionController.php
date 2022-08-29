@@ -18,7 +18,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return PermissionResource::collection(Permission::paginate());
+        return PermissionResource::collection(Permission::orderBy('name')->paginate(100));
     }
 
     /**

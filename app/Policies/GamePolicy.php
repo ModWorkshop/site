@@ -42,7 +42,7 @@ class GamePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot create games');
+        return $user->hasPermission('edit-game') ? Response::allow() : Response::deny('You cannot create games');
     }
 
     /**
@@ -54,7 +54,7 @@ class GamePolicy
      */
     public function update(User $user, Game $game)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot update games');
+        return $user->hasPermission('edit-game') ? Response::allow() : Response::deny('You cannot update games');
     }
 
     /**
@@ -66,7 +66,7 @@ class GamePolicy
      */
     public function delete(User $user, Game $game)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot delete games');
+        return $user->hasPermission('edit-game') ? Response::allow() : Response::deny('You cannot delete games');
     }
 
     /**
