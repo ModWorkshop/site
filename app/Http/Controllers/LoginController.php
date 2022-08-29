@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\APIService;
+use Arr;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,7 +40,7 @@ class LoginController extends Controller
             return response('Email or password are incorrect', Response::HTTP_UNAUTHORIZED);
         }
 
-        return response('Something went wrong :((', Response::HTTP_BAD_REQUEST);
+        return response('Something went wrong', Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -55,7 +57,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return Response::HTTP_OK;
     }
 
     /**
@@ -68,27 +69,36 @@ class LoginController extends Controller
      */
     public function register(Request $request)
     {
-        $credentials = $request->validate([
+        $val = $request->validate([
             'name' => ['required'],
-            'unique_name' => ['required', 'unique:users'],
+            'unique_name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
-        $user = User::create([
-            'name' => $credentials['name'],
-            'unique_name' => $credentials['unique_name'],
-            'email' => $credentials['email'],
-            'password' => Hash::make($credentials['password']),
-        ]);
-            
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], true)) {
-            $request->session()->regenerate();
-            return Response::HTTP_OK;
+        if (User::where('email', $val['email'])->orWhere('unique_name', $val['unique_name'])->exists()) {
+            abort(409);
         }
 
-        return back()->withErrors([
-            'email' => 'Something went wrong',
+        $avatarFile = Arr::pull($val, 'avatar_file');
+        
+        $avatar = APIService::tryUploadFile($avatarFile, 'users/avatars') ?? '';
+
+        $user = User::create([
+            'name' => $val['name'],
+            'unique_name' => $val['unique_name'],
+            'email' => $val['email'],
+            'password' => Hash::make($val['password']),
+            'avatar' => $avatar
         ]);
+
+        if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
+            $request->session()->regenerate();
+            return $user;
+        }
+
+        return response('Something went wrong', Response::HTTP_BAD_REQUEST);
+
     }
 }

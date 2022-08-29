@@ -35,7 +35,7 @@ class APIService {
      * @param callable $onSuccess
      * @return void
      */
-    public static function tryUploadFile(?UploadedFile $file, string $fileDir, ?string $oldFile, ?callable $onSuccess=null)
+    public static function tryUploadFile(?UploadedFile $file, string $fileDir, ?string $oldFile=null, ?callable $onSuccess=null)
     {
         if (isset($file)) {
             if (isset($oldFile) && !str_contains($oldFile, 'http')) {
@@ -44,9 +44,12 @@ class APIService {
             }
             $path = $file->storePubliclyAs($fileDir, $file->hashName(), 'public');
 
+            $storePath = str_replace($fileDir.'/', '', $path);
             if (isset($onSuccess)) {
-                $onSuccess(str_replace($fileDir.'/', '', $path));
+                $onSuccess($storePath);
             }
+
+            return $storePath;
         }
     }
 }
