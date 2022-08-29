@@ -1,5 +1,5 @@
 <template>
-    <div class="_layout">
+    <div class="layout">
         <the-header>Header</the-header>
         <main>
             <slot/>
@@ -7,8 +7,8 @@
         <the-footer>Footer</the-footer>
     </div>
 </template>
-<style scoped>
-    ._layout {
+<style>
+    .layout {
         min-height: 100vh;
         display: grid;
         grid-template-columns: 1fr;
