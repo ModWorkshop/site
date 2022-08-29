@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'permissions' => $this->permissions,
             'tag' => $this->tag,
             'email' => $this->when($user?->id === $this->id, $this->email),
+            'last_ban' => $this->whenLoaded('lastBan'),
             'role_ids' => $this->whenLoaded('roles', function() {
                 $roleIds = Arr::pluck($this->roles, 'id');
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role

@@ -63,7 +63,7 @@ class User extends Authenticatable
     public static $membersRole = null;
     
     // Always return roles for users
-    protected $with = ['roles'];
+    protected $with = ['roles', 'lastBan'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -226,6 +226,8 @@ class User extends Authenticatable
     /**
      * Checks whether the user has a certain permission.
      * First it checks if the user has admin permission, admin bypasses all permissions at the moment.
+     * Guests are permission-less meaning that if we want to let them see something, that thing must have no needed permissions.
+     * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
      *
      * @param string $toWhat
      * @return boolean
@@ -234,6 +236,11 @@ class User extends Authenticatable
         if ($toWhat !== 'admin' && $this->hasPermission('admin')) {
             return true;
         }
+
+        if ($this->lastBan) {
+            return false;
+        }
+
         $permissions = $this->getPermissions(true);
         return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
@@ -268,6 +275,11 @@ class User extends Authenticatable
 
     public function getPermissionsAttribute() {
         return $this->getPermissions();
+    }
+
+    public function lastBan()
+    {
+        return $this->hasOne(Ban::class)->where('expire_date', '>', Carbon::now());
     }
 
     /**

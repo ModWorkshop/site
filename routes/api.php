@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EditModController;
@@ -172,9 +173,11 @@ Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::resource('bans', BanController::class);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->get('notifications/unseen', [NotificationController::class, 'unseenCount']);
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
+
 
 Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);

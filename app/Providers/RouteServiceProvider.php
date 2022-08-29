@@ -32,7 +32,8 @@ class RouteServiceProvider extends ServiceProvider
         'case',
         'modMember',
         'thread',
-        'mod'
+        'mod',
+        'ban'
     ];
 
 
