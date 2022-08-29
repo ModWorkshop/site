@@ -1,7 +1,14 @@
 <template>
-    <page-block class="!w-1/3">
-        <a-form @submit="register">
-            <flex column gap="3">
+    <page-block class="!w-1/2">
+        <a-form autocomplete="off" @submit="register">
+            <content-block column gap="3" class="p-4">
+                <img-uploader v-model="avatarBlob" label="Avatar">
+                    <template #label="{ src }">
+                        <a-avatar size="xl" :src="src"/>
+                        <a-avatar size="lg" :src="src"/>
+                        <a-avatar size="md" :src="src"/>
+                    </template>
+                </img-uploader>
                 <a-input v-model="user.name" label="Display Name"/>
                 <a-input v-model="user.unique_name" label="Unique Name"/>
                 <a-input v-model="user.email" label="Email"/>
@@ -19,14 +26,15 @@
                 </flex>
                 <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
                 <div>
-                    <a-button type="submit" large>{{$t('register')}}</a-button>
+                    <a-button type="submit" :disabled="!canRegister">{{$t('register')}}</a-button>
                 </div>
-            </flex>
+            </content-block>
         </a-form>    
     </page-block>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useStore } from '../store';
 
 definePageMeta({
@@ -42,6 +50,9 @@ const user = reactive({
 });
 
 const error = ref('');
+const avatarBlob = ref(null);
+
+const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm);
 
 const store = useStore();
 const { public: config } = useRuntimeConfig();
@@ -52,12 +63,17 @@ async function register() {
     }
     error.value = '';
 
-    await usePost('/register', user).catch(err => {
-        error.value = 'Something went wrong';
-        console.log(err);
-    });
-
-    store.attemptLoginUser();
+    try {
+        await usePost('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
+        store.attemptLoginUser();
+    } catch (e) {
+        if (e.response.status == 409) {
+            error.value = 'The given unique name or email already exist!';
+        } else {
+            error.value = 'Something went wrong';
+        }
+        console.log(e);
+    }
 }
 
 function checkConfirm() {
