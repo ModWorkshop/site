@@ -27,13 +27,13 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $val = $request->validate([
             'email' => ['required', 'email'], //blalba@email.com
-            'current_password' => ['required'],
+            'password' => ['required'],
             'remember' => ['boolean']
         ]);
 
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['current_password']], $credentials['remember'])) {
+        if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
             $request->session()->regenerate();
             return response('');
         } else {
