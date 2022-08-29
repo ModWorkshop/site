@@ -1077,7 +1077,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.37.tgz#8e6adc3f2759af52f0e85863dfb0b711ecc5c702"
   integrity sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==
 
-"@vuestic/nuxt@^1.0.4":
+"@vuestic/nuxt@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@vuestic/nuxt/-/nuxt-1.0.5.tgz#5c32c574946c8b48bc105d3a0484ede654d718da"
   integrity sha512-9tCBYKb9sQzVx8wjkfV5fbEPxxKnr0na5CN1dE8ACkvrafkNoGPM+1beAx75fDfoxoq14yFRIMuuLcJIHE6LnQ==
