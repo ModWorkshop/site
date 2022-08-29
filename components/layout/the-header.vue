@@ -20,30 +20,33 @@
             <img :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
-            <NuxtLink to="/upload">{{$t('upload_mod')}}</NuxtLink>
+            <NuxtLink v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</NuxtLink>
             <NuxtLink to="/games">{{$t('games')}}</NuxtLink>
             <NuxtLink to="/forum?category=news">{{$t('news')}}</NuxtLink>
             <NuxtLink to="https://discord.gg/Eear4JW">{{$t('discord')}}</NuxtLink>
             <NuxtLink to="/forum">{{$t('forum')}}</NuxtLink>
             <NuxtLink to="/support">{{$t('support_us')}}</NuxtLink>
         </flex>
-        <flex class="user-items mr-2" gap="6"> 
+        <flex class="user-items mr-2 items-center" gap="6"> 
             <div>
                 <a-input v-model="search" placeholder="Search" style="width: 250px;"/>
                 <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
             </div>
             <template v-if="user">
-                <flex class="my-auto text-lg" gap="4">
+                <flex v-if="user.last_ban" column>
+                    <span class="text-danger">
+                        <font-awesome-icon icon="triangle-exclamation"/> Banned
+                    </span>
+                    <span>
+                        Expires: <time-ago :time="user.last_ban.expire_date"/>
+                    </span>
+                </flex>
+                <flex class="text-lg" gap="4">
                     <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
                 <Popper arrow>
-                    <flex>
-                        <a-avatar class="cursor-pointer" :src="user.avatar"/>
-                        <a class="user cursor-pointer">
-                            <span>{{user.name}}</span>
-                        </a>
-                    </flex>
+                    <a-user class="cursor-pointer" :user="user" :tag="false" static/>
                     <template #content>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">Profile</a-dropdown-item>
                         <a-dropdown-item icon="heart">Liked Mods</a-dropdown-item>

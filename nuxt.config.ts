@@ -227,6 +227,11 @@ export default defineNuxtConfig({
 						path: "tags/:tagId",
 						file: resolve(__dirname, "pages/admin/edit-tag.vue")
 					},
+					{
+						name: "admin-cases",
+						path: "cases",
+						file: resolve(__dirname, "pages/admin/cases.vue")
+					},
 				]
 			});
 		}

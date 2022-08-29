@@ -29,6 +29,10 @@ import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { Category, Mod } from '~~/types/models';
 
+definePageMeta({
+    middleware: 'unbanned-users-only'
+});
+
 const { user } = useStore();
 const router = useRouter();
 const store = useStore();

@@ -42,7 +42,7 @@ import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
-const { hasPermission } = useStore();
+const { hasPermission, isBanned } = useStore();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
@@ -62,7 +62,7 @@ if (mod.value) {
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => hasPermission('edit-comment'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
-const canComment = computed(() => !mod.value.comments_disabled || canEdit.value);
+const canComment = computed(() => !isBanned && (!mod.value.comments_disabled || canEdit.value));
 
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.user_id) {

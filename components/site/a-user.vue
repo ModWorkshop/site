@@ -1,12 +1,12 @@
 <template>
     <flex inline :gap="neededGap">
-        <NuxtLink v-if="avatar" :to="`/user/${user.id}`">
+        <NuxtLink v-if="avatar" :to="link">
             <a-avatar :size="avatarSize" :src="user.avatar"/>
         </NuxtLink>
         <flex gap="1" column class="my-auto">
-            <NuxtLink :to="!static && `/user/${user.id}` || null" :style="{color: user.color}">
+            <NuxtLink :to="link" :style="{color: user.color}">
                 {{user.name}}
-                <a-tag v-if="user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
+                <a-tag v-if="tag && user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
                 <slot name="after-name" :user="user"/>
             </NuxtLink>
@@ -25,10 +25,11 @@ const props = withDefaults(defineProps<{
     details?: string,
     user: User,
     avatar?: boolean,
+    tag?: boolean,
     avatarSize?: string,
     showAt?: boolean,
     static?: boolean,
-}>(), { avatar: true });
+}>(), { avatar: true, tag: true });
 
 const neededGap = computed(() => {
     if (props.avatar) {
@@ -37,6 +38,8 @@ const neededGap = computed(() => {
         return null;
     }
 });
+
+const link = computed(() => !props.static && `/user/${props.user.id}` || null);
 </script>
 
 <style>

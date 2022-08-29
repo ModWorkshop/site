@@ -4,9 +4,9 @@
         :sort-by="sortBy"
         :no-game="!!forcedGame"
         :error="error"
-        :mods="fetchedMods.data"
+        :mods="fetchedMods?.data"
     />
-    <span v-if="!fetchedMods.data.length" class="text-center">{{$t('no_mods_found')}}</span>
+    <span v-if="!fetchedMods?.data.length" class="text-center">{{$t('no_mods_found')}}</span>
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon';

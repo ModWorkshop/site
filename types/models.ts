@@ -206,6 +206,16 @@ export interface Tag {
     type: string;
 }
 
+export interface Ban {
+    id: number;
+    user_id: number;
+    reason: string;
+    expire_date: string;
+    created_at: string;
+    updated_at: string;
+    user: User;
+}
+
 export interface User {
     id: number;
     name: string;
@@ -228,7 +238,8 @@ export interface User {
     private_profile: boolean;
     custom_title: string;
     last_online?: string;
-    donation_url: string
+    donation_url: string;
+    last_ban: Ban
 }
 
 export interface Link {

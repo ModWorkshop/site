@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <a-select v-model="modelValue" :options="users" text-by="text" @update-search="searchUsers" @update:model-value="value => $emit('update:modelValue', value)"/>
-    </div>
+    <a-select v-model="modelValue" :options="users" text-by="text" @update-search="searchUsers" @update:model-value="value => $emit('update:modelValue', value)"/>
 </template>
 
 <script setup lang="ts">
@@ -27,17 +25,11 @@ const { data: paginatedUsers, refresh } = await useAsyncData(() => {
         user_id = props.modelValue;
     }
 
-    console.log('..');
-    
-
     return useGetMany<SearchUser>('users', { params: { query: query.value, user_id } });
 });
 
 function searchUsers(q: string) {
     query.value = q;
-
-    console.log('...');
-    
 
     if (lastTimetout) {
         clearTimeout(lastTimetout);
@@ -46,9 +38,9 @@ function searchUsers(q: string) {
 }
 
 const users = computed(() => {
-    return paginatedUsers.value.data.filter(user => {
-        user.text = user.name + ` (${user.unique_name}#${user.id})`;
-        return user;
-    });
+    return paginatedUsers.value.data.map(user => ({
+        text: user.name + ` (${user.unique_name}#${user.id})`,
+        ...user
+    }));
 });
 </script>

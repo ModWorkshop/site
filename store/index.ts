@@ -33,6 +33,9 @@ export const useStore = defineStore('main', {
             } else {
                 return (perm: string) => permissions[perm] === true;
             }
+        },
+        isBanned(state) {
+            return !!state.user?.last_ban;
         }
     },
     actions: {
