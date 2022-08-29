@@ -9,12 +9,12 @@
                         <a-avatar size="md" :src="src"/>
                     </template>
                 </img-uploader>
-                <a-input v-model="user.name" label="Display Name"/>
-                <a-input v-model="user.unique_name" label="Unique Name"/>
-                <a-input v-model="user.email" label="Email"/>
+                <a-input v-model="user.name" autocomplete="off" label="Display Name"/>
+                <a-input v-model="user.unique_name" autocomplete="off" label="Unique Name"/>
+                <a-input v-model="user.email" autocomplete="off" label="Email"/>
                 <flex>
-                    <a-input v-model="user.password" label="Password" type="password"/>
-                    <a-input v-model="user.password_confirm" label="Confirm Password" type="password" @input="checkConfirm"/>
+                    <a-input v-model="user.password" autocomplete="off" label="Password" type="password"/>
+                    <a-input v-model="user.password_confirm" autocomplete="off" label="Confirm Password" type="password" @input="checkConfirm"/>
                 </flex>
                 <flex column gap="2">
                     Or register using one the following
@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ohmyfetch';
 import { useStore } from '../store';
 
 definePageMeta({
