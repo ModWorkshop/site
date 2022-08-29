@@ -70,12 +70,14 @@ class LoginController extends Controller
     {
         $credentials = $request->validate([
             'name' => ['required'],
+            'unique_name' => ['required', 'unique:users'],
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
         $user = User::create([
             'name' => $credentials['name'],
+            'unique_name' => $credentials['unique_name'],
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password']),
         ]);
