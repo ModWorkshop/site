@@ -5,7 +5,7 @@
                 <h3 class="my-auto">Comments</h3>
                 <div class="ml-auto my-auto">
                     <va-popover stick-to-edges :message="$t('comments_disabled')" :readonly="canComment">
-                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">Comment</a-button>
+                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('comment')}}</a-button>
                     </va-popover>
                 </div>
             </flex>
@@ -39,7 +39,7 @@
                     <div v-show="showMentions" class="fixed" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]}px`}">
                         <flex v-if="users" column class="mention-float">
                             <template v-if="users.data.length">
-                                <a-user v-for="user in users.data" :key="user.id" :user="user" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, user)"/>
+                                <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, u)"/>
                             </template>
                             <div v-else>
                                 No users found!
@@ -47,7 +47,7 @@
                         </flex>
                     </div>
                     <flex class="text-right">
-                        <a-button icon="comment" @click="commentDialogConfirm">{{$t('comment')}}</a-button>
+                        <a-button icon="comment" :disabled="!posting && commentContent.length < 2" @click="commentDialogConfirm">{{$t('comment')}}</a-button>
                         <a-button icon="times" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
                     </flex>
                 </flex>
@@ -89,6 +89,8 @@ const showMentions = ref(false);
 const mentionRange = ref([-1,-1]);
 const users = ref<Paginator<User>>();
 const usersCache: Record<string, User> = {};
+
+const posting = ref(false);
 
 const { init: showToast } = useToast();
 
@@ -193,10 +195,9 @@ function processMentions(content: string) {
 
 async function postComment() {
     let content = commentContent.value;
-    commentContent.value = '';
     try {
         const { mentions, content: processedContent } = processMentions(content);
-
+        posting.value = true;
         const comment = await usePost<Comment>(props.url, {
             content: processedContent,
             mentions,
@@ -207,6 +208,8 @@ async function postComment() {
         } else {
             comments.value.data.unshift(comment);
         }
+        posting.value = false;
+        commentContent.value = '';
         setCommentDialog(false);
     } catch (error) {
         posting.value = false;
