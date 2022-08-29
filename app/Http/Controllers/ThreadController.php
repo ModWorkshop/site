@@ -89,7 +89,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'content' => 'string|required_without:pinned|min:2|max:1000',
-            'category_id' => 'integer|min:1|nullable|exists:categories,id',
+            'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
             'pinned' => 'boolean'
         ]);
 
