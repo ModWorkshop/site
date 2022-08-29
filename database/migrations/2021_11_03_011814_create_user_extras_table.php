@@ -21,7 +21,7 @@ class CreateUserExtrasTable extends Migration
             $table->tinyText('custom_title')->default('');
             $table->timestamp('last_online')->nullable();
             $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyText('donation_url')->nullable();
             $table->timestamps();
         });

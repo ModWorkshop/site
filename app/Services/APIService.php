@@ -40,7 +40,7 @@ class APIService {
         if (isset($file)) {
             if (isset($oldFile) && !str_contains($oldFile, 'http')) {
                 $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
-                Storage::disk('public')->delete($oldFile); // Delete old avatar before uploading
+                Storage::disk('public')->delete($fileDir.'/'.$oldFile); // Delete old avatar before uploading
             }
             $path = $file->storePubliclyAs($fileDir, $file->hashName(), 'public');
 

@@ -117,9 +117,27 @@ class User extends Authenticatable
 
     protected static function booted()
     {
-        self::created(function($user) {
-            $user->extra()->create();
+        self::created(fn(User $user) => $user->extra()->create());
+
+        self::deleting(function(User $user) {
+            if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
+                Storage::disk('public')->delete('users/avatars/'.$user->avatar);
+            }
+
+            $banner = $user->extra->banner;
+            if (isset($banner)) {
+                Storage::disk('public')->delete('users/banners/'.$banner);
+            }
+
+            foreach ($user->mods as $mod) {
+                $mod->delete();
+            }
         });
+    }
+
+    public function mods() : HasMany
+    {
+        return $this->hasMany(Mod::class);
     }
 
     public function extra() : HasOne
