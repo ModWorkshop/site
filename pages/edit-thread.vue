@@ -57,8 +57,8 @@ const breadcrumb = computed(() => {
         ];
     }
 
-    crumbs.push({ name: thread.value ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });
-    if (thread.value) {
+    crumbs.push({ name: thread.value.id ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });
+    if (thread.value.id) {
         crumbs.push({ name: t('edit') });
     }
 

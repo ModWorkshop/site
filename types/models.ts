@@ -290,6 +290,7 @@ export interface Thread {
     content: string;
     views: number;
     archived: boolean;
+    archived_by_mod: boolean;
     bumped_at?: string;
     pinned_at?: string;
     forum_id: number;

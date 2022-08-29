@@ -220,7 +220,7 @@ export default defineNuxtConfig({
 					},
 					{
 						name: "admin-edit-role",
-						path: "roles/:id",
+						path: "roles/:roleId",
 						file: resolve(__dirname, "pages/admin/edit-role.vue")
 					},
 					{

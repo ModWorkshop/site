@@ -33,9 +33,15 @@
                         <th>Last Reply</th>
                     </template>
                     <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer" @click="clickThread(thread)">
-                        <td><NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink></td>
+                        <td>
+                            <font-awesome-icon v-if="thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
+                            <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+                        </td>
                         <td><a-user :user="thread.user"/></td>
-                        <td><a>{{thread.category?.name}}</a></td>
+                        <td>
+                            <a v-if="thread.category">{{thread.category.name}}</a>
+                            <span v-else>-</span>
+                        </td>
                         <td><time-ago :time="thread.bumped_at"/></td>
                         <td v-if="thread.last_user"><a-user :user="thread.last_user"/></td>
                         <td v-else>None</td>

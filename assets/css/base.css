@@ -35,10 +35,10 @@ body {
     --primary-color: #006cdf;
     --success-color: #2dd63b;
     --danger-color: #ff0000;
-    --danger-hover-color: #bc2929;
+    --danger-hover-color: #ff3333;
     --secondary-color: #5f5f5f;
     --disabled-color: #3c3c3c;
-    --primary-hover-color: #0a6fdb;
+    --primary-hover-color: #007bff;
     --input-bg-color: #17191c;
     --input-border-color: #393e46;
     --input-border-hover-color: #505762;

@@ -1,12 +1,12 @@
 <template>
     <NuxtLink v-if="download && !disabled" :href="href" :class="clss" :download="download">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </NuxtLink>
     <NuxtLink v-else-if="to && !disabled" :to="to || href" :class="clss">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </NuxtLink>
     <button v-else :disabled="disabled" :class="clss" :type="type"> 
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </button>
 </template>
 
@@ -28,6 +28,7 @@
         to: String,
         iconSize: String,
         icon: [String, Array],
+        iconRotation: Number,
         disabled: Boolean
     });
 
@@ -37,6 +38,10 @@
         'button-no-bg': props.noBg,
         'button-large': props.large,
         'cursor-pointer': props.unstyled
+    }));
+
+    const iconStyle = computed(() => ({
+        transform: props.iconRotation ? `Rotate(${props.iconRotation}deg)` : null
     }));
 </script>
 
@@ -99,7 +104,7 @@
         cursor: pointer;
     }
 
-    .button-primary:hover:enabled {
+    .button-primary:hover:enabled, a.button-primary:hover  {
         background-color: var(--primary-hover-color);
     }
 
