@@ -85,19 +85,6 @@ class ModController extends Controller
 
             $query->orderByRaw("{$sortBy} DESC NULLS LAST");
 
-            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-            if (!isset($user) || !$user->hasPermission('edit-mod')) {
-                $query->where('visibility', Visibility::pub)->where('suspended', false);
-
-                if (isset($user)) {
-                    //let members see mods if they've accepted their membership
-                    $query->orWhereRelation('members', function($q) use ($user) {
-                        $q->where('user_id', $user->id)->where('accepted', true);
-                    });
-                    $query->orWhere('user_id', $user->id);
-                }
-            }
-
             if (isset($val['game_id'])) {
                 $query->where('game_id', $val['game_id']);
             }
@@ -108,6 +95,21 @@ class ModController extends Controller
 
             if (isset($val['user_id'])) {
                 $query->where('user_id', $val['user_id']);
+            }
+
+            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
+            if (!isset($user) || !$user->hasPermission('edit-mod')) {
+                $query->where('visibility', Visibility::pub)->where('suspended', false);
+
+                if (isset($user)) {
+                    //let members see mods if they've accepted their membership
+                    $query->orWhereRelation('members', function($q) use ($user) {
+                        $q->where('user_id', $user->id)->where('accepted', true);
+                    });
+                    if (!isset($val['user_id'])) {
+                    $query->orWhere('user_id', $user->id);
+                }
+            }
             }
 
             if (isset($val['tags'])) {
