@@ -21,7 +21,7 @@ trait Filterable {
         }
 
         if (isset($callback)) {
-            $query->where(fn($q) => $callback($q, $val));
+            $callback($query, $val);
         }
 
         return $query->paginate($val['limit'] ?? 50);
