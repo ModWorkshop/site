@@ -21,7 +21,7 @@ import { Permission, Role } from '~~/types/models';
 import clone from 'rfdc/default';
 
 const { data: role } = await useEditResource<Role>('role', 'roles', clone({
-    id: -1,
+    id: 0,
     name: '',
     tag: '',
     desc: '',
