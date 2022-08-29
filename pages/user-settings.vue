@@ -6,7 +6,7 @@
                     <a-tab name="account" title="Account">
                         <flex column gap="4">
                             <a-input v-model="user.name" label="Username"/>
-                            <a-input v-model="user.unique_name" label="Unique Username" desc="A unique name for your profile and to allow people to mention you."/>
+                            <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>
                             <a-input v-model="user.donation_url" label="Donation Link" desc="Supports PayPal, Ko-Fi, and Buy Me a Coffee. Shows in your profile and mod pages."/>
                             <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
                             <template v-if="isMe">
@@ -17,6 +17,14 @@
                                 </flex>
                             </template>
                             <a-select v-model="user.role_ids" label="roles" desc="As a regular user, you may only set vanity roles" placeholder="Select Roles" multiple :options="roles.data"/>
+                            <a-alert class="w-full" color="warning">
+                                <details>
+                                    <summary class="uppercase">{{$t('danger_zone')}}</summary>
+                                    <div class="p-4 mt-2">
+                                        <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
+                                    </div>
+                                </details>
+                            </a-alert>
                         </flex>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
@@ -63,14 +71,13 @@ const avatarBlob = ref(null);
 const bannerBlob = ref(null);
 
 const route = useRoute();
+const router = useRouter();
 
 const password = ref('');
 const confirmPassword = ref('');
 
 const { data: user } = await useResource<User>('user', 'users', clone(store.user));
 isMe.value = !route.params.userId;
-
-//Reactive unwraps the refs allowing us to watch these for a-form.
 
 const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
 
@@ -97,6 +104,16 @@ async function save() {
         user.value = nextUser;
     } catch (error) {
         console.log(error);
+    }
+}
+
+async function doDelete() {
+    try {
+        await useDelete(`users/${user.value.id}`);
+        await store.logout();
+    } catch (error) {
+        console.log(error);
+                
     }
 }
 </script>

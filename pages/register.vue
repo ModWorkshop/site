@@ -2,7 +2,8 @@
     <page-block class="!w-1/3">
         <a-form @submit="register">
             <flex column gap="3">
-                <a-input v-model="user.name" label="Name"/>
+                <a-input v-model="user.name" label="Display Name"/>
+                <a-input v-model="user.unique_name" label="Unique Name"/>
                 <a-input v-model="user.email" label="Email"/>
                 <flex>
                     <a-input v-model="user.password" label="Password" type="password"/>
@@ -34,6 +35,7 @@ definePageMeta({
 
 const user = reactive({
     name: '',
+    unique_name: '',
     email: '',
     password: '',
     password_confirm: '',
@@ -42,6 +44,7 @@ const user = reactive({
 const error = ref('');
 
 const store = useStore();
+const { public: config } = useRuntimeConfig();
 
 async function register() {
     if (user.password_confirm !== user.password) {
@@ -54,7 +57,7 @@ async function register() {
         console.log(err);
     });
 
-    store.attemptLoginUser(true);
+    store.attemptLoginUser();
 }
 
 function checkConfirm() {

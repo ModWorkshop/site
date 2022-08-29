@@ -54,7 +54,7 @@
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="cog" to="/user-settings">User Settings</a-dropdown-item>
                         <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">Admin</a-dropdown-item>
-                        <a-dropdown-item icon="arrow-right-from-bracket" @click="logout">Log Out</a-dropdown-item>
+                        <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">Log Out</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
@@ -72,7 +72,6 @@
 </template>
 <script setup>
 import { storeToRefs } from 'pinia';
-import { reloadToken } from '~~/utils/helpers';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
@@ -88,12 +87,6 @@ watch(showNotifications, async () => {
         await store.getNotifications(1, 20);
     }
 });
-
-async function logout() {
-    await usePost('/logout');
-    reloadToken();
-    user.value = null;
-}
 </script>
 <style>
     .user {

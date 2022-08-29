@@ -66,6 +66,18 @@ export const useStore = defineStore('main', {
             }
         },
 
+        async logout(redirect: string|boolean='/') {
+            await usePost('/logout');
+            reloadToken();
+
+            if (typeof(redirect) == 'string') {
+                const router = useRouter();
+                router.push(redirect);
+            }
+
+            this.user = null;
+        },
+
         async getNotifications(page: 1, limit = 40) {
             this.notifications = await useGetMany<Notification>('/notifications', { params: { page, limit } });
         },
