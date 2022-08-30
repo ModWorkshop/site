@@ -40,6 +40,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.0.1",
     "markdown-it": "^13.0.1",
+    "markdown-it-html5-media": "^0.7.1",
     "markdown-it-oembed": "^1.1.0",
     "nuxt-windicss": "^2.5.0",
     "object-to-formdata": "^4.4.2",

@@ -4,7 +4,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
-import markdownItVideo from 'markdown-it-oembed';
+import { html5Media } from 'markdown-it-html5-media';
 
 const md = MarkdownIt({
 	html: true,
@@ -48,6 +48,8 @@ const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
 const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
 const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
 const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
+
+md.use(html5Media);
 
 md.use(markdownItRegex(
 	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g,
