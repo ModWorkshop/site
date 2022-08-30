@@ -16,6 +16,7 @@ use App\Models\Notification;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Visibility;
+use App\Services\APIService;
 use Arr;
 use Carbon\Carbon;
 use DB;
@@ -167,11 +168,13 @@ class ModController extends Controller
         //However, Laravel sees this as a null value, while useful for integer filters, usually not so much for updating strings.
         //We should *not* remove the middleware that handles this as it can cause other issues.
         //This is the current solution:
-        $val['short_desc'] ??= '';
-        $val['donation'] ??= '';
-        $val['license'] ??= '';
-        $val['changelog'] ??= '';
-        $val['version'] ??= '';
+
+        APIService::nullToEmptyStr($val, 'short_desc');
+        APIService::nullToEmptyStr($val, 'donation');
+        APIService::nullToEmptyStr($val, 'license');
+        APIService::nullToEmptyStr($val, 'changelog');
+        APIService::nullToEmptyStr($val, 'version');
+
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
 
         if (isset($mod) && array_key_exists('download_id', $val)) {
@@ -196,12 +199,11 @@ class ModController extends Controller
         }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
-
         
         if (isset($mod)) {
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
-                if ($val['version'] !== $mod->version) {
+                if (isset($val['version']) && $val['version'] !== $mod->version) {
                     $mod->bump(false);
                 }
             }

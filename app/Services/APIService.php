@@ -26,6 +26,21 @@ class APIService {
     }
 
     /**
+     * The opposite of ConvertEmptyStringsToNull, this converst nulls we expect to be empty at times.
+     * For example strings, if you send them as empty string, PHP doesn't know if it's null or empty string.
+     *
+     * @param array $arr
+     * @param string $key
+     * @return void
+     */
+    public static function nullToEmptyStr(array $arr, string $key)
+    {
+        if (array_key_exists($key, $arr)) {
+            $arr['key'] ??= '';
+        }
+    }
+
+    /**
      * Attempts to upload a file into the server, deletes the old if $oldFile is present.
      *
      * @param File $file
