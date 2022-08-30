@@ -3,6 +3,8 @@ import hljs from 'highlight.js';
 import DOMPurify from 'isomorphic-dompurify';
 import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
+import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
+import markdownItVideo from 'markdown-it-oembed';
 
 const md = MarkdownIt({
 	html: true,
@@ -27,6 +29,33 @@ const md = MarkdownIt({
 	}
 });
 
+function renderUnderline(tokens, idx, opts, _, slf) {
+	const token = tokens[idx];
+	
+	if (token.markup === '__') {
+		token.tag = 'u';
+	}
+
+	return slf.renderToken(tokens, idx, opts);
+}
+
+md.renderer.rules.strong_open = renderUnderline;
+md.renderer.rules.strong_close = renderUnderline;
+
+const fullYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?(?:youtube|youtu)\.(?:com|be)\/(?:(?:watch\?v=)|(?:embed\/)?)([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
+const shortYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)?youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
+const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
+const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
+const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
+const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
+
+md.use(markdownItRegex(
+	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g,
+	function([, , match]) {
+		match = md.render(match);
+		return `\n\n<div class="center">${match}</div>\n\n`;
+	}
+));
 
 md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	let end = state.pos+1;
@@ -81,9 +110,40 @@ export function parseMarkdown(text: string) {
 	if (!text) {
 		return '';
 	}
+
     //TODO: consider disabling BBCode for new/updated mods
 	text = escapeHtml(text); //First escape the ugly shit
     text = parseBBCode(text); //Handle BBCode
+	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function(wholeStr, delimiter, match) {		
+		match = md.render(match);
+		return `\n\n<div><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
+	});
+	text = text.replace(inlineRegExp, function(wholeMatch, altText, linkId, url, width, height, m5, title) {
+		let m, w = 560, h = 315, src = '';
+		if ((m = shortYoutubeRegex.exec(url)) || (m = fullYoutubeRegex.exec(url))) {
+			src = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
+			if (m[2])
+				src += '&t='+m[2];
+			// if (options.youtubejsapi)
+			// 	src += '&enablejsapi=1';
+		}
+		else if(m = streamableRegex.exec(url)) {
+			src = 'https://streamable.com/s/' + m[1];
+		}
+		else if (m = vimeoRegex.exec(url)) {
+			w = 640;
+			h = 266;
+			src = 'https://player.vimeo.com/video/' + m[1];
+		}
+		else if(m = gyfcatRegex.exec(url)) {
+			src = 'https://gfycat.com/ifr/' + m[1];
+		}
+		else {
+			return wholeMatch;
+		}
+
+		return `<iframe width="${w}" height="${h}" src="${src}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+	});
     text = md.render(text); //Parse using markdown it
     return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
         ADD_TAGS: ['iframe'],

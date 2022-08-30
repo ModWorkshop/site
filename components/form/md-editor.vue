@@ -72,7 +72,7 @@ const toolGroups = [
         name: 'media',
         tools: [
             {icon: 'link', insert: '[$](https://)'},
-            {icon: 'photo-video', insert: '[](https://$)'},
+            {icon: 'photo-video', insert: '![](https://$)'},
             {icon: 'minus', insert: '$\n\n-----'},
             {icon: 'table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
         ]
