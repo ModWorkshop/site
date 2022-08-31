@@ -63,6 +63,7 @@
 
     function submit() {
         disableButtons.value = true;
+        setTimeout(() => disableButtons.value = false, 3000);
         emit('submit');
     }
 
