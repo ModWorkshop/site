@@ -1,8 +1,5 @@
 <template>
-    <NuxtLink v-if="download && !disabled" :href="href" :class="clss" :download="download">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
-    </NuxtLink>
-    <NuxtLink v-else-if="to && !disabled" :to="to || href" :class="clss">
+    <NuxtLink v-if="toOrHref && !disabled" :to="toOrHref" :class="clss" :download="download">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </NuxtLink>
     <button v-else :disabled="disabled" :class="clss" :type="type"> 
@@ -26,11 +23,14 @@
         noBg: Boolean,
         download: [String, Boolean],
         to: String,
+        href: String,
         iconSize: String,
         icon: [String, Array],
         iconRotation: Number,
         disabled: Boolean
     });
+
+    const toOrHref = computed(() => props.to || props.href);
 
     const clss = computed(() => ({
         button: !props.unstyled,
