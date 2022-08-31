@@ -497,4 +497,17 @@ class ModController extends Controller
         $mod->transferRequest()->delete();
         Notification::deleteRelated($mod, 'transfer_ownership');
     }
+
+    /**
+     * Deletes all images of a mod
+     *
+     * @param Mod $mod
+     * @return void
+     */
+    public function deleteAllImages(Mod $mod)
+    {
+        foreach ($mod->images as $image) {
+            $image->delete();
+        }
+    }
 }

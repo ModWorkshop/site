@@ -142,11 +142,24 @@ Route::resource('tags', TagController::class);
  * @group Mods
  */
 Route::resource('mods.files', FileController::class);
+Route::middleware('can:update,mod')->group(function() {
+    Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
+    //Images
+    Route::post('mods/{mod}/images', [ModController::class, 'uploadModImage']);
+    Route::delete('mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
+    Route::delete('mods/{mod}/images', [ModController::class, 'deleteAllImages']);
+});
+
+Route::middleware('can:super-update,mod')->group(function() {
+    Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
+    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
+});
+
+Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
+
 Route::resource('mods.links', LinkController::class);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
-Route::middleware('can:super-update,mod')->patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
-Route::middleware('can:super-update,mod')->patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
 Route::resource('mods', ModController::class);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
@@ -154,11 +167,6 @@ Route::post('mods/{mod}/register-download', [ModController::class, 'registerDown
 Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
 Route::resource('mods.comments', ModCommentsController::class);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
-Route::middleware('can:create,App\Mod')->group(function () {
-    //Images
-    Route::post('/mods/{mod}/images', [ModController::class, 'uploadModImage']);
-    Route::delete('/mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
-});
 
 /**
  * @group Forums
@@ -190,8 +198,6 @@ Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
-
-Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 // Routes that are protected under auth
 Route::middleware('auth:sanctum')->group(function () {

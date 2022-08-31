@@ -146,4 +146,19 @@ class FileController extends Controller
     {
         return Storage::download('mods/files/'.$file->file);
     }
+
+    /**
+     * Deletes all files of a mod
+     *
+     * @param Mod $mod
+     * @return void
+     */
+    public function deleteAllFiles(Mod $mod)
+    {
+        foreach ($mod->files as $file) {
+            $file->delete();
+        }
+
+        $mod->calculateFileStatus();
+    }
 }
