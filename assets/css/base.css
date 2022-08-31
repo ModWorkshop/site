@@ -303,3 +303,27 @@ p:last-child {
     height: 315px;
     width: 560px;
 }
+
+/* So gap works nicely if font size is set as 16px, 
+but we decided to go with 14px so guess what? gap is inconsistent as there is no such thing as float pixel.
+*/
+
+.gap-1 {
+    grid-gap: 4px;
+    gap: 4px;
+}
+
+.gap-2 {
+    grid-gap: 8px;
+    gap: 8px;
+}
+
+.gap-3 {
+    grid-gap: 12px;
+    gap: 12px;
+}
+
+.gap-3 {
+    grid-gap: 16px;
+    gap: 16px;
+}
