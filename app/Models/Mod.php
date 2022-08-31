@@ -161,6 +161,9 @@ class Mod extends Model
     {
         $this->append('breadcrumb');
         $this->loadMissing($this->withFull);
+        if ($this->suspended) {
+            $this->loadMissing('lastSuspension');
+        }
         $this->category?->loadMissing('parent');
         $this->members?->loadMissing('extra');
     }
@@ -304,6 +307,11 @@ class Mod extends Model
     public function liked()
     {
         return $this->hasOne(ModLike::class)->where('user_id', Auth::id());
+    }
+
+    public function lastSuspension() : HasOne
+    {
+        return $this->hasOne(Suspension::class)->where('status', true);
     }
 
     /**

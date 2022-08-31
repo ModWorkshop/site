@@ -13,6 +13,7 @@ use App\Models\ModLike;
 use App\Models\ModMember;
 use App\Models\ModView;
 use App\Models\Notification;
+use App\Models\Suspension;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Visibility;
@@ -496,6 +497,37 @@ class ModController extends Controller
 
         $mod->transferRequest()->delete();
         Notification::deleteRelated($mod, 'transfer_ownership');
+    }
+
+    public function suspend(Request $request, Mod $mod)
+    {
+        $val = $request->validate([
+            'status' => 'boolean|required',
+            'reason' => 'string|min:3|max:1000'
+        ]);
+
+        $lastSuspension = $mod->lastSuspension;
+
+        if ($val['status'] === $mod->suspended) {
+            abort(409);
+        }
+
+        if (isset($lastSuspension)) {
+            $lastSuspension->update(['status' => false]); //Last suspension, if exists, is no longer valid.
+        }
+
+        $suspension = null;
+        if ($val['status'] === true) {
+            $suspension = Suspension::create([
+                'reason' => $val['reason'],
+                'mod_id' => $mod->id,
+                'mod_user_id' => $request->user()->id //The moderator that suspended it
+            ]);
+        }
+
+        $mod->update(['suspended' => $val['status']]);
+
+        return $suspension;
     }
 
     /**

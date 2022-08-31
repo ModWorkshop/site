@@ -167,6 +167,7 @@ Route::post('mods/{mod}/register-download', [ModController::class, 'registerDown
 Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
 Route::resource('mods.comments', ModCommentsController::class);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
+Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
 
 /**
  * @group Forums

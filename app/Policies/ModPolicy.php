@@ -163,4 +163,9 @@ class ModPolicy
             return $this->view($user, $mod);
         }
     }
+
+    public function suspend(User $user, Mod $mod)
+    {
+        return $user->hasPermission('suspend-mod');
+    }
 }

@@ -201,6 +201,7 @@ declare namespace App.Models {
         transfer_request?: App.Models.TransferRequest | null;
         download?: any | null;
         liked?: App.Models.ModLike | null;
+        last_suspension?: App.Models.Suspension | null;
         tags_count?: number | null;
         images_count?: number | null;
         files_count?: number | null;
@@ -297,6 +298,16 @@ declare namespace App.Models {
         user?: App.Models.User | null;
     }
 
+    export interface Suspension {
+        id: number;
+        mod_id: number;
+        mod_user_id: number | null;
+        reason: string;
+        status: boolean;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
     export interface Tag {
         id: number;
         name: string;
@@ -330,6 +341,7 @@ declare namespace App.Models {
         last_user_id: number;
         created_at: string | null;
         updated_at: string | null;
+        archived_by_mod: boolean;
         user?: App.Models.User | null;
         last_user?: App.Models.User | null;
         forum?: App.Models.Forum | null;
@@ -361,12 +373,25 @@ declare namespace App.Models {
         avatar: string;
         custom_color: string;
         unique_name: string | null;
+        mods?: Array<App.Models.Mod> | null;
         extra?: App.Models.UserExtra | null;
         roles?: Array<App.Models.Role> | null;
         last_ban?: App.Models.Ban | null;
+        mods_count?: number | null;
         roles_count?: number | null;
         readonly role_names?: any;
         readonly permissions?: any;
+    }
+
+    export interface UserCase {
+        id: number;
+        user_id: number;
+        mod_user_id: number | null;
+        warning: boolean;
+        reason: string;
+        expire_date: string | null;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface UserExtra {
