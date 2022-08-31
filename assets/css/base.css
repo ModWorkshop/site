@@ -173,10 +173,6 @@ a {
     width: 100%;
 }
 
-.flexbox {
-    display: flex;
-}
-
 .list-button {
     color: var(--text-color);
     background-color: var(--alt-bg-color);

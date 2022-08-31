@@ -15,7 +15,7 @@
                 <template v-if="items.data.length">
                     <template v-for="item of items.data" :key="item.id">
                         <slot name="item" :item="item" :items="items">
-                            <NuxtLink class="list-button flexbox gap-2" :to="itemLink(item)">
+                            <NuxtLink class="list-button flex gap-2" :to="itemLink(item)">
                                 <slot name="before-item" :item="item"/>
                                 <slot :item="item">
                                     <span class="my-auto">{{item.name}}<slot name="item-name" :item="item"/></span>

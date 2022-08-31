@@ -1,6 +1,6 @@
 <template>
     <a-input :id="labelId">
-        <label class="flexbox items-end gap-2" :for="labelId">
+        <label class="flex items-end gap-2" :for="labelId">
             <slot name="label" :src="currentSrc">
                 <a-img class="w-full round" :src="currentSrc" :url-prefix="urlPrefix"/>
             </slot>

@@ -15,7 +15,7 @@ const props = defineProps({
 
 const classes = computed(() => {
     const c = {
-        flexbox: !props.inline,
+        flex: !props.inline,
         'inline-flex': props.inline, 
         'flex-col': props.column,
         'flex-wrap': props.wrap,
