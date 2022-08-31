@@ -16,6 +16,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         } catch (error) {
             console.log(error);
             store.userIsLoading = false;
+            console.log(error.response);
+            
+            if (!error.response) {
+                showError({ statusCode: 502, statusMessage: 'API is unreachable. Please wait a bit and try again.', fatal: true });
+            }
+
+            if (error.response.status === 500) {
+                showError({ statusCode: 500, statusMessage: 'API Error! Please report to the admins!', fatal: true });
+            }
         }
     }
 });
