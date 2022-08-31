@@ -3,11 +3,11 @@
         <flex>
             <a-input v-if="search" v-model="query" placeholder="Search" @update:model-value="onSearch"/>
             <a-button v-if="newButton" class="my-auto" :to="newButton">New</a-button>
-            <slot name="buttons"/>
+            <slot name="buttons" :items="items"/>
         </flex>
 
         <a-pagination v-model="page" :total="items.meta.total" :per-page="limit" @update="refresh">
-            <slot name="pagination"/>
+            <slot name="pagination" :items="items"/>
         </a-pagination>
 
         <flex column>
