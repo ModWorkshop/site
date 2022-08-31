@@ -46,6 +46,18 @@
     min-width: 992px;
     max-width: 100%  !important;
 }
+
+.va-modal__dialog, .va-modal .va-modal__inner {
+    min-width: 800px;
+    max-width: 100%  !important;
+}
+
+
+.va-modal--size-small, .va-modal--size-small .va-modal__inner {
+    min-width: 500px;
+    max-width: 100%  !important;
+}
+
 .va-modal__dialog {
     color: var(--text-color) !important;
     background-color: var(--content-bg-color) !important;

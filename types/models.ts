@@ -83,7 +83,7 @@ export interface ModMember extends User {
 
 export interface Mod {
     id: number;
-    breadcrumb?: Array<Breadcrumb>,
+    breadcrumb?: Array<Breadcrumb>;
     thumbnail_id?: number;
     banner_id?: number;
     category_id?: number;
@@ -130,8 +130,9 @@ export interface Mod {
     files_count?: number;
     comments_count?: number;
     members: Array<ModMember>,
-    transfer_request?: TransferRequest,
-    tag_ids?: number[]
+    transfer_request?: TransferRequest;
+    tag_ids?: number[];
+    last_suspension?: Suspension;
 }
 
 export interface Breadcrumb {
@@ -319,6 +320,16 @@ export interface ForumCategory {
     name: string;
     desc: string;
     forum_id: number;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface Suspension {
+    id: number;
+    mod_id: number;
+    mod_user_id?: number;
+    reason: string;
+    status: boolean;
     created_at?: string;
     updated_at?: string;
 }

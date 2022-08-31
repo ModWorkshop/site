@@ -33,8 +33,10 @@ body {
     --secondary-text-color: #d8d8d8;
     --text-inactive: #6d6d6d;
     --primary-color: #006cdf;
-    --success-color: #2dd63b;
+    --success-color: #00ff15;
     --danger-color: #ff0000;
+    --warning-color: #ffef14;
+    --info-color: #5978ff;
     --danger-hover-color: #ff3333;
     --secondary-color: #5f5f5f;
     --disabled-color: #3c3c3c;

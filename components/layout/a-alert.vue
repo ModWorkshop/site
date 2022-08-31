@@ -3,9 +3,9 @@
         <span class="text-3xl">
             <font-awesome-icon :icon="icon"/>
         </span>
-        <flex column>
+        <flex column class="whitespace-pre">
             <strong v-if="title" class="text-xl">{{title}}</strong>
-            <slot>{{desc}}</slot>
+            <slot><span class="my-auto">{{desc}}</span></slot>
         </flex>
     </flex>
 </template>
@@ -28,8 +28,8 @@ const icon = computed(() => icons[props.color]);
 
 const classes = computed(() => {
     return {
+        alert: true,
         'content-top': true,
-        round: true,
         'p-4': true,
         'alert-success': props.color == 'success',
         'alert-danger': props.color == 'danger',
@@ -40,21 +40,33 @@ const classes = computed(() => {
 </script>
 
 <style scoped>
-.color-success {
-    background-color: #22c31f;
-    color: #000;
+.alert {
+    background-color: var(--content-bg-color);
+    border-radius: var(--border-radius);
+    border-left: solid 4px transparent;
+}
+.alert-success {
+    color: var(--success-color);
+    background-color: rgb(68, 0, 255 / 10%);
+    border-color: var(--success-color);
 }
 
 .alert-danger {
-    background-color: #a12121;
+    color: var(--danger-color);
+    background-color: rgb(255 0 0 / 10%);
+    border-color: var(--danger-color);
 }
 
 .alert-info {
-    background-color: #40474f;
+    color: var(--info-color);
+    background-color: rgb(0 80 255 / 10%);
+    border-color: var(--info-color);
+
 }
 
 .alert-warning {
-    background-color: #d9cd40;
-    color: #000;
+    color: var(--warning-color);
+    background-color: rgb(255, 234, 0 / 10%);
+    border-color: var(--warning-color);
 }
 </style>

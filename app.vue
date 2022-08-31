@@ -4,11 +4,26 @@
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>
 		</NuxtLayout>
+		<a-modal-form 
+			v-if="firstModal"
+			:model-value="true"
+			:title="firstModal.title || 'Are you sure?'"
+			:desc="firstModal.desc"
+			:desc-type="firstModal.descType"
+			save-text="Yes"
+			cancel-text="No" 
+			size="small" 
+			@save="firstModal.yes"
+			@cancel="firstModal.no"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { Settings } from 'luxon';
+
+const yesNoModals = useState('yesNoModals', () => []);
+const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
 
 useHead({
 	titleTemplate: (titleChunk) => {

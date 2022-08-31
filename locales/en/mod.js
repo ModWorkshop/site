@@ -8,10 +8,12 @@ collaborators_desc: "Collaborators are users who you, the author, give permissio
 delete_confirm: "Are you sure you want to delete this comment?",
 download_description: "Description",
 suspended: 'Suspended',
-mod_suspended: `
-This mod has been suspended and is only visible to its author and the site staff.
-The suspension is either temporarily or permanent, depending on the severity, for investigation to a violation to the {rules}
-Should you wish to contact the staff for information, or if your mod has been updated to follow the rules, you can send a suspension appeal in the forum.`,
+mod_suspended: `This mod has been suspended and is only visible to the owner, mod members and moderators.
+The suspension is either temporarily or permanent, depending on the severity. Please read our {rules}.
+Should you wish to contact the moderators for information, or if your mod has been updated to follow the rules, you can send a suspension appeal in the {forum}.
+
+Reason for suspension: "{reason}"
+`,
 download: "Download",
 license: "License",
 report_mod: "Report Mod",

@@ -1,16 +1,32 @@
 <template>
     <page-block v-if="mod">
+        <a-modal-form v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" save-button="" size="medium" @save="suspend">
+            <a-input v-model="suspendForm.reason" label="reason" type="textarea" rows="6"/>
+            <a-input v-model="suspendForm.notify" label="Notify owner and members" type="checkbox"/>
+        </a-modal-form>
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
         <the-breadcrumb :items="mod.breadcrumb"/>
         <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
             <i18n-t keypath="mod_suspended" tag="span">
+                <template #reason>
+                    <span v-if="mod.last_suspension">
+                        {{mod.last_suspension.reason}}
+                    </span>
+                    <span v-else>
+                        No reason stated.
+                    </span>
+                </template>
                 <template #rules>
                     <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
                 </template>
+                <template #forum>
+                    <NuxtLink :to="`/game/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
+                </template>
             </i18n-t>
         </a-alert>
+
         <a-alert v-if="mod.file_status === 0" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
         <a-alert v-if="mod.file_status === 2" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
         <flex>
@@ -18,6 +34,14 @@
             <a-button color="danger">{{$t('report_mod')}}</a-button>
             <a-button>{{$t('follow')}}</a-button>
             <a-button @click="openShare">{{$t('share')}}</a-button>
+            <Popper arrow>
+                <a-button icon="gavel">{{$t('moderation')}}</a-button>
+                <template #content>
+                    <a-dropdown-item @click="showSuspendModal = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="mod.images.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="mod.files.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
+                </template>
+            </Popper>
         </flex>
         <div>
             <mod-banner :mod="mod"/>
@@ -49,6 +73,8 @@ const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods');
 
+const yesNoModal = useYesNoModal();
+
 if (mod.value) {
     usePost(`mods/${mod.value.id}/register-view`, null, {
         async onResponse({ response }) {
@@ -64,6 +90,13 @@ const canEditComments = computed(() => hasPermission('edit-comment'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
 const canComment = computed(() => !isBanned && (!mod.value.comments_disabled || canEdit.value));
 
+const showSuspendModal = ref(false);
+const suspendForm = reactive({
+    status: computed(() => !mod.value.suspended),
+    reason: '',
+    notify: true
+});
+
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.user_id) {
         return `${t('owner')}`;
@@ -78,6 +111,41 @@ function commentSpecialTag(comment: Comment) {
 function openShare() {
     navigator.share({
         url: `${config.siteUrl}/${mod.value.id}`
+    });
+}
+
+async function suspend(ok, onError) {
+    try {
+        await usePatch(`mods/${mod.value.id}/suspended`, suspendForm);
+    
+        mod.value.suspended = !mod.value.suspended;
+        suspendForm.reason = '';
+        ok();
+    } catch (error) {
+        onError(error);
+    }
+}
+
+function deleteAllFiles() {
+    yesNoModal({
+        desc: 'This will delete all files of the mod, this cannot be reversed!',
+        descType: 'warning',
+        async yes() {
+            await useDelete(`mods/${mod.value.id}/files`);
+            mod.value.files = [];
+            mod.value.file_status = 0;
+        }
+    });
+}
+
+function deleteAllImages() {
+    yesNoModal({
+        desc: 'This will delete all images of the mod, this cannot be reversed!',
+        descType: 'warning',
+        async yes() {
+            await useDelete(`mods/${mod.value.id}/images`);
+            mod.value.images = [];
+        }
     });
 }
 </script>
