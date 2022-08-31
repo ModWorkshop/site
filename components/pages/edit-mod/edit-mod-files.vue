@@ -2,7 +2,15 @@
     <flex column gap="4">
         <a-input v-model="mod.version" label="Version"/>
         <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
-        <a-select v-model="mod.download_id" label="Primary Download" desc="If your mod is primarily a single download, you may choose the primary file or link the mod uses" placeholder="Select file or link" clearable :options="downloads"/>
+        <a-select 
+            v-model="primaryDownload"
+            label="Primary Download"
+            :desc="$t('primary_download_desc')"
+            placeholder="Select file or link"
+            clearable :options="downloads"
+            value-by=""
+            @update:model-value="item => setPrimaryDownload(item.download_type, item)"
+        />
         <div>
             <flex class="items-center">
                 <label>Links</label>
@@ -79,7 +87,7 @@ const props = defineProps<{
     canSave: boolean
 }>();
 
-const files = ref(clone(props.mod.files));
+const files = ref<File[]>(clone(props.mod.files));
 const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
@@ -96,8 +104,13 @@ const usedSizeText = computed(() => {
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
 
 const downloads = computed(() => {
-    return [...files.value, ...props.mod.links];
+    const downloads = [];
+    files.value.forEach(file => downloads.push({ download_type: 'file', ...file }));
+    props.mod.links.forEach(link => downloads.push({ download_type: 'link', ...link }));
+    return downloads;
 });
+
+const primaryDownload = computed(() => downloads.value.find(file => file.download_type == props.mod.download_type && file.id === props.mod.download_id));
 
 const uploadLink = computed(() => props.mod !== null ? `mods/${props.mod.id}/files`: '');
 const ignoreChanges: () => void = inject('ignoreChanges');
