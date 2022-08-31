@@ -26,4 +26,8 @@ use Illuminate\Database\Eloquent\Model;
 class ModLike extends Model
 {
     use HasFactory;
+
+    public function getMorphClass(): string {
+        return 'mod_like';
+    }
 }

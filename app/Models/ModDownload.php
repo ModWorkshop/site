@@ -28,4 +28,9 @@ use Illuminate\Database\Eloquent\Model;
 class ModDownload extends Model
 {
     use HasFactory;
+
+    
+    public function getMorphClass(): string {
+        return 'mod_download';
+    }
 }

@@ -37,6 +37,10 @@ class Forum extends Model
 
     protected $guarded = [];
 
+    public function getMorphClass(): string {
+        return 'forum';
+    }
+
     public function game() : BelongsTo
     {
         return $this->belongsTo(Game::class);

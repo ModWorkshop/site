@@ -71,6 +71,10 @@ class Category extends Model
 
     protected $appends = [];
 
+    public function getMorphClass(): string {
+        return 'category';
+    }
+
     public function getPathAttribute()
     {
         // Paths are shown after selecting a game, therefore we don't really need to include the game in them

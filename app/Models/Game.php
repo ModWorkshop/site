@@ -56,6 +56,10 @@ class Game extends Model
     
     protected $with = [];
 
+    public function getMorphClass(): string {
+        return 'game';
+    }
+
     public function forum() : HasOne
     {
         return $this->hasOne(Forum::class);

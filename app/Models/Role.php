@@ -41,10 +41,15 @@ class Role extends Model
 
     protected $with = [];
 
+    protected $guarded = [];
+
+    public function getMorphClass(): string {
+        return 'role';
+    }
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class)->withPivot('allow');
     }
 
-    protected $guarded = [];
 }

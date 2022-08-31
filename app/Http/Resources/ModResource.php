@@ -8,15 +8,6 @@ use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
-/**
- * Since we don't want to give the API something like download_type = App\Models\File
- * we just convert it
- */
-const downloadTypeSimple = [
-    File::class => 'file',
-    Link::class => 'link',
-];
-
 class ModResource extends JsonResource
 {
     /**
@@ -31,9 +22,9 @@ class ModResource extends JsonResource
         $missingValue = new MissingValue;
 
         $download = $missingValue;
-        if ($this->download_type === File::class) {
+        if ($this->download_type === 'file') {
             $download = $this->whenLoaded('files', fn() => $this->files->find($this->download_id));
-        } else if ($this->download_type === Link::class) {
+        } else if ($this->download_type === 'link') {
             $download = $this->whenLoaded('links', fn() => $this->links->find($this->download_id));
         }
 
@@ -60,7 +51,6 @@ class ModResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
-            'download_type' => downloadTypeSimple[$this->download_type] ?? $missingValue,
             'liked' => $this->whenLoaded('liked', fn () => isset($this->liked)),
         ]);
     }

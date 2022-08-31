@@ -53,6 +53,10 @@ class File extends Model
     protected $hidden = ['mod'];
     protected $with = ['user'];
 
+    public function getMorphClass(): string {
+        return 'file';
+    }
+
     public function mod() : BelongsTo
     {
         return $this->belongsTo(Mod::class);

@@ -32,4 +32,8 @@ class Permission extends Model
 
     public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;
+
+    public function getMorphClass(): string {
+        return 'permission';
+    }
 }

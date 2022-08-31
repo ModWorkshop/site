@@ -28,4 +28,9 @@ use Illuminate\Database\Eloquent\Model;
 class ModView extends Model
 {
     use HasFactory;
+
+    
+    public function getMorphClass(): string {
+        return 'mod_view';
+    }
 }

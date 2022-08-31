@@ -146,12 +146,16 @@ class Mod extends Model
     private $withFull = ['user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest'];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
-    protected $hidden = ['download_type'];
+    protected $hidden = [];
 
     protected $casts = [
         'bumped_at' => 'datetime',
         'published_at' => 'datetime',
     ];
+
+    public function getMorphClass(): string {
+        return 'mod';
+    }
     
     public function withAllRest()
     {

@@ -26,4 +26,9 @@ use Illuminate\Database\Eloquent\Model;
 class Mention extends Model
 {
     use HasFactory;
+
+    
+    public function getMorphClass(): string {
+        return 'mention';
+    }
 }

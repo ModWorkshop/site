@@ -37,6 +37,9 @@ class TransferRequest extends Model
         'keep_owner_level',
     ];
     
+    public function getMorphClass(): string {
+        return 'transfer_request';
+    }
 
     public function mod()
     {

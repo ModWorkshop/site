@@ -40,6 +40,10 @@ class Image extends Model
 
     protected $guarded = [];
 
+    public function getMorphClass(): string {
+        return 'image';
+    }
+
     public function mod() : BelongsTo
     {
         return $this->belongsTo(Mod::class);

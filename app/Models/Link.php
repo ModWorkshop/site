@@ -47,6 +47,10 @@ class Link extends Model
     protected $hidden = ['mod'];
     protected $with = ['user'];
 
+    public function getMorphClass(): string {
+        return 'link';
+    }
+
     public function mod() : BelongsTo
     {
         return $this->belongsTo(Mod::class);

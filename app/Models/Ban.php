@@ -36,6 +36,10 @@ class Ban extends Model
     
     protected $with = [];
 
+    public function getMorphClass(): string {
+        return 'ban';
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);

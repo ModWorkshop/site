@@ -35,6 +35,10 @@ class ForumCategory extends Model
 {
     use HasFactory, Filterable;
 
+    public function getMorphClass(): string {
+        return 'forum_category';
+    }
+
     protected $guarded = [];
 
     public function forum() : BelongsTo

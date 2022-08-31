@@ -44,4 +44,8 @@ class UserExtra extends Model
     protected $casts = [
         'last_online' => 'datetime',
     ];
+
+    public function getMorphClass(): string {
+        return 'user_extra';
+    }
 }

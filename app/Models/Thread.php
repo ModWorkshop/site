@@ -61,6 +61,10 @@ class Thread extends Model
         'bumped_at' => 'datetime',
     ];
 
+    public function getMorphClass(): string {
+        return 'thread';
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);

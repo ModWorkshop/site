@@ -33,6 +33,10 @@ class SocialLogin extends Model
 
     protected $guarded = [];
 
+    public function getMorphClass(): string {
+        return 'social_login';
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -50,7 +50,11 @@ class Notification extends Model
     public static $flushCacheOnUpdate = true;
 
     protected $with = ['user', 'notifiable', 'context'];
-    
+
+    public function getMorphClass(): string {
+        return 'notification';
+    }
+
     public static function send(string $type, User $user, Model $notifiable = null, Model $context = null)
     {
         $notif = new Notification([
@@ -106,7 +110,7 @@ class Notification extends Model
     public function notifiable()
     {
         return $this->morphTo()->morphWith([
-            Comment::class => 'commentable'
+            'comment' => 'commentable'
         ]);
     }
 

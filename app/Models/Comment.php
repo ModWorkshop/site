@@ -52,7 +52,11 @@ class Comment extends Model
 
     protected $with = ['user'];
     protected $guarded = [];
-    protected $hidden = ['commentable_type'];
+    protected $hidden = [];
+
+    public function getMorphClass(): string {
+        return 'comment';
+    }
 
     public function user() : BelongsTo
     {

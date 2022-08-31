@@ -53,6 +53,10 @@ class Tag extends Model
 
     protected $guarded = [];
 
+    public function getMorphClass(): string {
+        return 'tag';
+    }
+
     public function game() {
         return $this->belongsTo(Game::class);
     }

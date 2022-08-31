@@ -120,6 +120,10 @@ class User extends Authenticatable
     private $gotPerms = false;
     private $gotRoles = false;
 
+    public function getMorphClass(): string {
+        return 'user';
+    }
+
     protected static function booted()
     {
         self::created(fn(User $user) => $user->extra()->create());

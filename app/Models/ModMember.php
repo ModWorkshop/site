@@ -33,4 +33,9 @@ class ModMember extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    
+    public function getMorphClass(): string {
+        return 'mod_member';
+    }
 }
