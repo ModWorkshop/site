@@ -175,7 +175,14 @@ Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::resource('bans', BanController::class);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
-Route::middleware('can:viewAny,App\Models\Notification')->get('notifications/unseen', [NotificationController::class, 'unseenCount']);
+Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
+    Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);
+    Route::delete('notifications', [NotificationController::class, 'deleteAllNotifications']);
+    Route::post('notifications/read-all', [NotificationController::class, 'readAllNotifications']);
+    Route::delete('notifications/read', [NotificationController::class, 'deleteReadNotifications']);
+});
+
+
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 
 

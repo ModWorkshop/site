@@ -83,4 +83,21 @@ class NotificationController extends Controller
     {
         $notification->delete();
     }
+
+    public function deleteAllNotifications(Request $request)
+    {
+        Notification::where('user_id', $request->user()->id)->delete();
+    }
+
+    public function deleteReadNotifications(Request $request)
+    {
+        Notification::where('user_id', $request->user()->id)->where('seen', true)->delete();
+    }
+
+    public function readAllNotifications(Request $request)
+    {
+        Notification::where('user_id', $request->user()->id)->where('seen', false)->update([
+            'seen' => true
+        ]);
+    }
 }
