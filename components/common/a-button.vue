@@ -21,9 +21,11 @@
             type: String
         },
         noBg: Boolean,
-        download: [String, Boolean],
+        download: {
+            default: undefined,
+            type: [String, Boolean]
+        },
         to: String,
-        href: String,
         iconSize: String,
         icon: [String, Array],
         iconRotation: Number,
