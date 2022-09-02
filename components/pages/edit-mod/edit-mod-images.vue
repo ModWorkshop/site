@@ -1,31 +1,29 @@
 <template>
-    <flex column gap="4">
-        <a-alert v-if="mod.legacy_banner_url" color="warning" class="mb-4">
-            <i18n-t keypath="banner_url_warning" tag="span">
-                <template #url>
-                    <NuxtLink :href="mod.legacy_banner_url">{{mod.legacy_banner_url}}</NuxtLink>
-                </template>
-            </i18n-t>
-            <br>
-            <strong class="text-lg">Saving the mod will remove the banner URL!</strong>
-        </a-alert>
-        
-        <label>Banner Preview</label>
-        <mod-banner class="w-full" :mod="mod" static/>
-
-        <label>Thumbnail/Mod Card Preview</label>
-        <div style="width: 300px;">
-            <a-mod :mod="mod" static/>
-        </div>
-
-        <label>{{$t('images')}}</label>
-        <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" max-files="20" max-file-size="5" max-size="50" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
-            <template #buttons="{file}">
-                <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">Thumbnail</a-button>
-                <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">Banner</a-button>
+    <a-alert v-if="mod.legacy_banner_url" color="warning" class="mb-4">
+        <i18n-t keypath="banner_url_warning" tag="span">
+            <template #url>
+                <NuxtLink :href="mod.legacy_banner_url">{{mod.legacy_banner_url}}</NuxtLink>
             </template>
-        </file-uploader>
-    </flex>
+        </i18n-t>
+        <br>
+        <strong class="text-lg">Saving the mod will remove the banner URL!</strong>
+    </a-alert>
+    
+    <label>Banner Preview</label>
+    <mod-banner class="w-full" :mod="mod" static/>
+
+    <label>Thumbnail/Mod Card Preview</label>
+    <div style="width: 300px;">
+        <a-mod :mod="mod" static/>
+    </div>
+
+    <label>{{$t('images')}}</label>
+    <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" max-files="20" max-file-size="5" max-size="50" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <template #buttons="{file}">
+            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">Thumbnail</a-button>
+            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">Banner</a-button>
+        </template>
+    </file-uploader>
 </template>
 
 <script setup lang="ts">

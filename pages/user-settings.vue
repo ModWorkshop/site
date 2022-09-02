@@ -4,7 +4,6 @@
             <a-form :model="user" :can-save="canSaveOverride" float-save-gui @submit="save">
                 <a-tabs side type="query">
                     <a-tab name="account" title="Account">
-                        <flex column gap="4">
                             <a-input v-model="user.name" label="Username"/>
                             <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>
                             <a-input v-model="user.donation_url" label="Donation Link" desc="Supports PayPal, Ko-Fi, and Buy Me a Coffee. Shows in your profile and mod pages."/>
@@ -25,10 +24,8 @@
                                     </div>
                                 </details>
                             </a-alert>
-                        </flex>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
-                        <flex column gap="4">
                             <img-uploader v-model="avatarBlob" label="Avatar" :src="user.avatar">
                                 <template #label="{ src }">
                                     <a-avatar size="xl" :src="src"/>
@@ -46,7 +43,6 @@
                             <a-input v-model="user.custom_title" label="Custom Title"/>
                             <a-input v-model="user.custom_color" label="Custom Color" type="color"/>
                             <md-editor v-model="user.bio" rows="12" label="Bio" desc="Tell about yourself to people visiting your profile"/>
-                        </flex>
                     </a-tab>
                 </a-tabs>
             </a-form>

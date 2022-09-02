@@ -1,81 +1,79 @@
 <template>
-    <flex column gap="4">
-        <a-input v-model="mod.version" label="Version"/>
-        <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
-        <a-select 
-            v-model="primaryDownload"
-            label="Primary Download"
-            :desc="$t('primary_download_desc')"
-            placeholder="Select file or link"
-            clearable :options="downloads"
-            value-by=""
-            @update:model-value="item => setPrimaryDownload(item.download_type, item)"
-        />
-        <div>
-            <flex class="items-center">
-                <label>Links</label>
-                <a-button class="ml-auto" @click="createNewLink">New</a-button>
-            </flex>
-            <flex column class="alt-bg-color p-3">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>URL</th>
-                            <th>Update Date</th>
-                            <th class="text-center">Actions</th>
-                            <th class="text-center">Primary</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="link of mod.links" :key="link.id">
-                            <td>{{link.name}}</td>
-                            <td>{{link.url}}</td>
-                            <td>{{fullDate(link.updated_at)}}</td>
-                            <td class="text-center p-1">
-                                <flex inline>
-                                    <a-button icon="cog" @click.prevent="editLink(link)"/>
-                                    <a-button icon="trash" @click.prevent="deleteLink(link)"/>
-                                </flex>
-                            </td>
-                            <td class="text-center">
-                                <input :checked="(link.id === mod.download_id && mod.download_type == 'link') ? true : null" type="radio" @change="setPrimaryDownload('link', link)">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </flex>
-        </div>
-        <label>Files</label>
-        <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
-        <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-        <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="maxSize / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
-            <template #headers>
-                <td class="text-center">Primary</td>
-            </template>
-            <template #rows="{file}">
-                <td class="text-center">
-                    <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : null" type="radio" @change="setPrimaryDownload('file', file)">
-                </td>
-            </template>
-            <template #buttons="{file}">
-                <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
-            </template>
-        </file-uploader>
-        <a-modal-form v-model="showEditLink" title="Edit Link" @save="saveEditLink">
-            <a-input v-model="currentLink.name" label="name"/>
-            <a-input v-model="currentLink.label" label="label"/>
-            <a-input v-model="currentLink.url" type="url" label="url"/>
-            <a-input v-model="currentLink.version" label="version"/>
-            <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
-        </a-modal-form>
-        <a-modal-form v-model="showEditFile" title="Edit File" @save="saveEditFile">
-            <a-input v-model="currentFile.name" label="name"/>
-            <a-input v-model="currentFile.label" label="label"/>
-            <a-input v-model="currentFile.version" label="version"/>
-            <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
-        </a-modal-form>
-    </flex>
+    <a-input v-model="mod.version" label="Version"/>
+    <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
+    <a-select 
+        v-model="primaryDownload"
+        label="Primary Download"
+        :desc="$t('primary_download_desc')"
+        placeholder="Select file or link"
+        clearable :options="downloads"
+        value-by=""
+        @update:model-value="item => setPrimaryDownload(item.download_type, item)"
+    />
+    <div>
+        <flex class="items-center">
+            <label>Links</label>
+            <a-button class="ml-auto" @click="createNewLink">New</a-button>
+        </flex>
+        <flex column class="alt-bg-color p-3">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>URL</th>
+                        <th>Update Date</th>
+                        <th class="text-center">Actions</th>
+                        <th class="text-center">Primary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="link of mod.links" :key="link.id">
+                        <td>{{link.name}}</td>
+                        <td>{{link.url}}</td>
+                        <td>{{fullDate(link.updated_at)}}</td>
+                        <td class="text-center p-1">
+                            <flex inline>
+                                <a-button icon="cog" @click.prevent="editLink(link)"/>
+                                <a-button icon="trash" @click.prevent="deleteLink(link)"/>
+                            </flex>
+                        </td>
+                        <td class="text-center">
+                            <input :checked="(link.id === mod.download_id && mod.download_type == 'link') ? true : null" type="radio" @change="setPrimaryDownload('link', link)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </flex>
+    </div>
+    <label>Files</label>
+    <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
+    <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
+    <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="maxSize / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+        <template #headers>
+            <td class="text-center">Primary</td>
+        </template>
+        <template #rows="{file}">
+            <td class="text-center">
+                <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : null" type="radio" @change="setPrimaryDownload('file', file)">
+            </td>
+        </template>
+        <template #buttons="{file}">
+            <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
+        </template>
+    </file-uploader>
+    <a-modal-form v-model="showEditLink" title="Edit Link" @save="saveEditLink">
+        <a-input v-model="currentLink.name" label="name"/>
+        <a-input v-model="currentLink.label" label="label"/>
+        <a-input v-model="currentLink.url" type="url" label="url"/>
+        <a-input v-model="currentLink.version" label="version"/>
+        <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
+    </a-modal-form>
+    <a-modal-form v-model="showEditFile" title="Edit File" @save="saveEditFile">
+        <a-input v-model="currentFile.name" label="name"/>
+        <a-input v-model="currentFile.label" label="label"/>
+        <a-input v-model="currentFile.version" label="version"/>
+        <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
+    </a-modal-form>
 </template>
 
 <script setup lang="ts">

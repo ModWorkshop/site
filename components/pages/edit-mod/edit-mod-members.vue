@@ -1,45 +1,43 @@
 <template>
-    <flex column gap="4">
-        <flex v-if="canSuperUpdate" column>
-            <a-alert v-if="mod.transfer_request">
-                You've sent a transfer request to the user: <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
-                If you wish to transfer it to a different person, or have changed your mind, cancel the request.
-                <div class="mt-2">
-                    <a-button @click="cancelTransferRequest">Cancel Transfer Request</a-button>
-                </div>
-            </a-alert>
-            <div v-else>
-                <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
+    <flex v-if="canSuperUpdate" column>
+        <a-alert v-if="mod.transfer_request">
+            You've sent a transfer request to the user: <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
+            If you wish to transfer it to a different person, or have changed your mind, cancel the request.
+            <div class="mt-2">
+                <a-button @click="cancelTransferRequest">Cancel Transfer Request</a-button>
             </div>
-        </flex>
-        <div>
-            <flex class="items-center mb-2">
-                <label>Members</label>
-                <a-button class="ml-auto" @click="newMember()">New</a-button>
-            </flex>
-            <a-table>
-                <template #head>
-                    <th>User</th>
-                    <th>Level</th>
-                    <th>Accepted</th>
-                    <th>Add Date</th>
-                    <th class="text-center">Actions</th>
-                </template>
-                <tr v-for="user of members" :key="user.id">
-                    <td><a-user :user="user"/></td>
-                    <td>{{memberLevels[user.level]}}</td>
-                    <td>{{user.accepted ? '✔' : '❌'}}</td>
-                    <td>{{fullDate(user.created_at)}}</td>
-                    <td class="text-center p-1">
-                        <flex inline>
-                            <a-button icon="cog" @click.prevent="editMember(user)"/>
-                            <a-button icon="trash" @click.prevent="deleteMember(user)"/>
-                        </flex>
-                    </td>
-                </tr> 
-            </a-table>
+        </a-alert>
+        <div v-else>
+            <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
         </div>
     </flex>
+    <div>
+        <flex class="items-center mb-2">
+            <label>Members</label>
+            <a-button class="ml-auto" @click="newMember()">New</a-button>
+        </flex>
+        <a-table>
+            <template #head>
+                <th>User</th>
+                <th>Level</th>
+                <th>Accepted</th>
+                <th>Add Date</th>
+                <th class="text-center">Actions</th>
+            </template>
+            <tr v-for="user of members" :key="user.id">
+                <td><a-user :user="user"/></td>
+                <td>{{memberLevels[user.level]}}</td>
+                <td>{{user.accepted ? '✔' : '❌'}}</td>
+                <td>{{fullDate(user.created_at)}}</td>
+                <td class="text-center p-1">
+                    <flex inline>
+                        <a-button icon="cog" @click.prevent="editMember(user)"/>
+                        <a-button icon="trash" @click.prevent="deleteMember(user)"/>
+                    </flex>
+                </td>
+            </tr> 
+        </a-table>
+    </div>
 
     <a-modal-form v-model="showModal" title="Edit Member" @save="saveMember">
         <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" label="User"/>
