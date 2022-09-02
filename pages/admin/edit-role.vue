@@ -1,5 +1,9 @@
 <template>
-    <simple-resource-form v-model="role" url="roles" redirect-to="/admin/roles">
+    <simple-resource-form v-model="role" url="roles" redirect-to="/admin/roles" :delete-button="role.id !== 1">
+        <a-alert v-if="role.id == 1" color="warning">
+            This is a special role that <strong>everyone</strong> has, it cannot be deleted.
+            Be careful with what permissions you give it.
+        </a-alert>
         <a-input v-model="role.name" label="Name" maxlength="100" minlength="3"/>
         <a-input v-model="role.tag" label="Tag" :desc="$t('tag_help')" maxlength="100" minlength="3"/>
         <a-input v-model="role.color" label="Color" desc="The color of the role" type="color"/>
