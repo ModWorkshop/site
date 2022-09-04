@@ -51,6 +51,7 @@
 import clone from 'rfdc/default';
 import { useStore } from '../store';
 import { Role, User } from '../types/models';
+const yesNoModal = useYesNoModal();
 
 definePageMeta({
     middleware: 'users-only'
