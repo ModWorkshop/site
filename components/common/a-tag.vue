@@ -1,12 +1,13 @@
 <template>
-    <strong :class="{tag: true, 'tag-small': small}" :style="{backgroundColor: color, color: textColor}"><slot/></strong>
+    <strong :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{backgroundColor: color, color: textColor}"><slot/></strong>
 </template>
 <script setup>
 import { getContrast } from 'polished';
 
 const props = defineProps({
     small: Boolean,
-    color: String
+    color: String,
+    capsule: Boolean
 });
 
 const textColor = computed(() => {
@@ -32,10 +33,13 @@ const textColor = computed(() => {
         padding: 0.5rem 0.75rem;
         font-size: 70%;
         background: var(--primary-color);
-        border-radius: var(--border-radius);
     }
 
     .tag-small {
-        padding: 0.15rem 0.4rem;
+        padding: 0.25rem 0.4rem;
+    }
+
+    .capsule {
+        border-radius: 1rem;
     }
 </style>
