@@ -2,13 +2,10 @@
     <a-form v-if="modelValue" :model="modelValue" :created="modelValue && !!modelValue.id" float-save-gui :can-save="canSave" @submit="submit">
         <flex column gap="3">
             <slot/>
-            <a-alert v-if="deleteButton && modelValue.id" class="w-full" color="warning">
-                <details>
-                    <summary class="uppercase">{{$t('danger_zone')}}</summary>
-                    <div class="p-4 mt-2">
-                        <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
-                    </div>
-                </details>
+            <a-alert v-if="deleteButton && modelValue.id" class="w-full" :title="$t('danger_zone')" color="danger">
+                <div>
+                    <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
+                </div>
             </a-alert>
         </flex>
     </a-form>
@@ -17,6 +14,7 @@
 <script setup lang="ts">
 const router = useRouter();
 const { init: showToast } = useToast();
+const yesNoModal = useYesNoModal();
 
 const props = defineProps({
     modelValue: Object,
@@ -61,13 +59,14 @@ async function submit() {
 }
 
 async function doDelete() {
-    try {
-        await useDelete(`${props.url}/${props.modelValue.id}`);
-        router.replace(props.deleteRedirectTo ?? props.redirectTo);
-    } catch (error) {
-        console.error(error);
-        showToast({ message: error.data.message, color: 'danger' });
-    }
+    yesNoModal({
+        title: 'Are you sure?',
+        desc: 'This action is irreversible!',
+        async yes() {
+            await useDelete(`${props.url}/${props.modelValue.id}`);
+            router.replace(props.deleteRedirectTo ?? props.redirectTo);
+        }
+    });
 }
 </script>
 

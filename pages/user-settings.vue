@@ -16,13 +16,10 @@
                                 </flex>
                             </template>
                             <a-select v-model="user.role_ids" label="roles" desc="As a regular user, you may only set vanity roles" placeholder="Select Roles" multiple :options="roles.data"/>
-                            <a-alert class="w-full" color="warning">
-                                <details>
-                                    <summary class="uppercase">{{$t('danger_zone')}}</summary>
-                                    <div class="p-4 mt-2">
+                        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
+                            <div>
                                         <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
                                     </div>
-                                </details>
                             </a-alert>
                     </a-tab>
                     <a-tab name="profile" title="Profile">
@@ -104,12 +101,13 @@ async function save() {
 }
 
 async function doDelete() {
-    try {
+    yesNoModal({
+        title: 'Are you sure?',
+        desc: 'This action is irreversible!',
+        async yes() {
         await useDelete(`users/${user.value.id}`);
         await store.logout();
-    } catch (error) {
-        console.log(error);
-                
     }
+    });
 }
 </script>
