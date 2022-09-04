@@ -1,12 +1,13 @@
 <template>
-    <flex :class="classes" gap="3">
-        <span class="text-3xl">
+    <flex :class="classes" gap="2">
+        <span class="text-3xl self-start">
             <font-awesome-icon :icon="icon"/>
         </span>
-        <flex column class="whitespace-pre">
+        <div class="whitespace-pre">
             <strong v-if="title" class="text-xl">{{title}}</strong>
-            <slot><span class="my-auto">{{desc}}</span></slot>
-        </flex>
+            <br>
+            <slot>{{desc}}</slot>
+        </div>
     </flex>
 </template>
 
@@ -35,6 +36,7 @@ const classes = computed(() => {
         'alert-danger': props.color == 'danger',
         'alert-info': props.color == 'info',
         'alert-warning': props.color == 'warning',
+        'items-center': true
     };
 });
 </script>
@@ -47,7 +49,7 @@ const classes = computed(() => {
 }
 .alert-success {
     color: var(--success-color);
-    background-color: rgb(68, 0, 255 / 10%);
+    background-color: rgb(68 0 255 / 10%);
     border-color: var(--success-color);
 }
 
@@ -66,7 +68,7 @@ const classes = computed(() => {
 
 .alert-warning {
     color: var(--warning-color);
-    background-color: rgb(255, 234, 0 / 10%);
+    background-color: rgb(255 234 0 / 10%);
     border-color: var(--warning-color);
 }
 </style>
