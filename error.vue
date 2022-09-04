@@ -16,6 +16,13 @@ import { Settings } from 'luxon';
 
 const dev = process.env.NODE_ENV === 'development';
 
+useHead({
+	titleTemplate: (titleChunk) => {
+		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
+    },
+	title: undefined,
+});
+
 defineProps({
 	error: Object
 });
