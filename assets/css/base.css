@@ -323,7 +323,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
     gap: 12px;
 }
 
-.gap-3 {
+.gap-4 {
     grid-gap: 16px;
     gap: 16px;
 }
