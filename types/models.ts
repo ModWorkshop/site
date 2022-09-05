@@ -240,7 +240,9 @@ export interface User {
     custom_title: string;
     last_online?: string;
     donation_url: string;
-    last_ban: Ban
+    last_ban: Ban,
+    blocked_by_me?: { silent: boolean }
+    blocked_me: boolean,
 }
 
 export interface Link {
