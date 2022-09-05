@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 		"@/assets/css/normalize.css",
 		"@/assets/css/base.css",
 		"@/assets/css/markdown.css",
-		"@/assets/css/vuestic-changes.css",
+		"@/assets/css/module-changes.css",
 		"@/assets/css/github-dark.css",
 	],
 
