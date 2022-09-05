@@ -1,21 +1,17 @@
 import { Ref } from 'vue';
 import { FetchError } from 'ohmyfetch';
 
-const strings = {
-    500: 'Server Error. Please report to an admin'
-};
-
-export default function(error: FetchError|true|Ref<FetchError|true>, errorStr: string|Record<number, string>) {
+export default function(error: FetchError|true|Ref<FetchError|true>, errorStrings: string|Record<number|string, string> = {}) {
     error = unref(error);
 
     if (error instanceof Error) {
-        if (typeof(errorStr) == 'string') {
-            showError(errorStr);
-        } else if (typeof(errorStr) == 'object') {
+        if (typeof(errorStrings) == 'string') {
+            throw createError(errorStrings);
+        } else if (typeof(errorStrings) == 'object') {
             const code = error.response.status;
-            showError({ statusCode: code, statusMessage: errorStr[code] || strings[code] || 'Unknown Error', fatal: true});
+            throw createError({ statusCode: code, statusMessage: errorStrings[error.data.message] || errorStrings[code] || 'Unknown Error'});
         }
     } else if (error) {
-        showError({ statusCode: 404, statusMessage: errorStr[404] || 'Err', fatal: true});
+        throw createError({ statusCode: 404, statusMessage: errorStrings[404] || 'Err', fatal: true});
     }
 }
