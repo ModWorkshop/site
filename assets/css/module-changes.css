@@ -1,3 +1,5 @@
+/* Changes to conform the UI modules we use to our design */
+
 .va-input-wrapper__container, .va-input-wrapper, .va-select {
     width: 100% !important;
 }
