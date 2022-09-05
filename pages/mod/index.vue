@@ -56,6 +56,7 @@
             :can-delete-all="canDeleteComments"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
+            :cannot-comment-reason="cannotCommentReason"
         />
     </page-block>
 </template>
@@ -88,7 +89,20 @@ if (mod.value) {
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => hasPermission('edit-comment'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
-const canComment = computed(() => !isBanned && (!mod.value.comments_disabled || canEdit.value));
+const canComment = computed(() => !mod.value.user.blocked_me && !isBanned && (!mod.value.comments_disabled || canEdit.value));
+const cannotCommentReason = computed(() => {
+    if (mod.value.comments_disabled) {
+        return t('comments_disabled');
+    }
+
+    if (isBanned) {
+        return 'Banned users cannot post comments';
+    }
+
+    if (mod.value.user.blocked_me) {
+        return 'You cannot comment on the mod because the owner blocked you.';
+    }
+});
 
 const showSuspendModal = ref(false);
 const suspendForm = reactive({

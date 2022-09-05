@@ -29,7 +29,8 @@
             :can-edit-all="canEditComments"
             :can-delete-all="canDeleteComments"
             :get-special-tag="commentSpecialTag"
-            :can-comment="!thread.archived || canModerate || thread.user_id === user?.id && !thread.archived_by_mod"
+            :can-comment="canComment"
+            :cannot-comment-reason="cannotCommentReason"
         />
     </page-block>
 </template>
@@ -42,12 +43,33 @@ const canEditComments = ref(false);
 const canDeleteComments = ref(false);
 const commentSpecialTag = ref(null);
 
-const { user, hasPermission } = useStore();
+const { user, hasPermission, isBanned } = useStore();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 
 const canModerate = computed(() => hasPermission('edit-thread'));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);
+
+const canComment = computed(() => {
+    if (isBanned || thread.value.user.blocked_me) {
+        return false;
+    }
+    return !thread.value.archived || canModerate || thread.value.user_id === user?.id && !thread.value.archived_by_mod;
+});
+
+const cannotCommentReason = computed(() => {
+    if (thread.value.archived) {
+        return 'This thread has been archived. Only owner and moderators can reply to it';
+    }
+
+    if (isBanned) {
+        return 'Banned users cannot post comments';
+    }
+
+    if (thread.value.user.blocked_me) {
+        return 'You cannot reply to the thread because the owner blocked you.';
+    }
+});
 
 const breadcrumb = computed(() => {
     const forum = thread.value.forum;
