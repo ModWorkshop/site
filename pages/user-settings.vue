@@ -2,7 +2,7 @@
     <page-block v-if="user" size="md">
         <content-block class="p-8">
             <a-form :model="user" :can-save="canSaveOverride" float-save-gui @submit="save">
-                <a-tabs side type="query">
+                <a-tabs side query>
                     <a-tab name="account" title="Account">
                             <a-input v-model="user.name" label="Username"/>
                             <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>

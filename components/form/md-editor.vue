@@ -1,8 +1,8 @@
 <template>
     <a-input v-model="modelValue">
-        <a-tabs :class="classes" type="none">
+        <a-tabs :class="classes">
             <a-tab name="write" title="Write">
-                <textarea 
+                <textarea
                     :id="labelId"
                     ref="textArea"
                     v-model="modelValue"
