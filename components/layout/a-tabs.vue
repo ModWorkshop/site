@@ -1,7 +1,7 @@
 <template>
     <flex :column="!side" :gap="gap ?? (side ? 8 : 2)">
         <flex class="tab-list" role="tablist" :column="side">
-            <!--ARIA compliant, I hope xd-->
+            <!--ARIA compliant, I hope xd -->
             <a-tab-link 
                 v-for="tab of tabs"
                 ref="tabLinks"
@@ -28,6 +28,7 @@ const props = defineProps({
     side: Boolean,
     query: Boolean,
     gap: [String, Number],
+    lazy: Boolean,
     padding: {
         default: 2,
         type: [String, Number]
@@ -66,6 +67,7 @@ if (tabs.value.length > 0) {
 
 provide('tabState', tabState);
 provide('side', props.side);
+provide('lazy', props.lazy);
 
 function arrowKeysMove(left: boolean) {
     let focus = tabState.focus;

@@ -9,7 +9,7 @@
         column
         :gap="gap"
 	>
-        <slot/>
+        <slot v-if="renderedOnce || !lazy || show"/>
     </flex>
 </template>
 
@@ -24,5 +24,10 @@ const props = defineProps({
 });
 
 const tabState = inject('tabState');
+const lazy = inject('lazy');
 const show = computed(() => props.name == tabState.current);
+
+const renderedOnce = ref(false);
+
+watch(show, () => renderedOnce.value = true);
 </script>
