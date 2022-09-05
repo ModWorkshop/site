@@ -59,7 +59,7 @@ export default defineNuxtConfig({
 
 			routes.push({
 				name: "game",
-				path: "/g/:id",
+				path: "/g/:gameId",
 				file: resolve(__dirname, "pages/game.vue")
 			});
 

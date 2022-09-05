@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="game">
+    <page-block>
         <flex>
             <a-button v-if="canEdit" :to="`/admin/games/${game.id}`" icon="cog">{{$t('section_settings')}}</a-button>
             <a-button>{{$t('follow')}}</a-button>
@@ -23,14 +23,9 @@
 import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 
-const route = useRoute();
-const { data: game, error } = await useFetchData<Game>(`http://localhost:8000/games/${route.params.id}`);
+const { data: game } = await useResource<Game>('game', 'games');
 
 const { hasPermission } = useStore();
-
-useHandleError(error.value, {
-    404: 'This game does not exist!'
-});
 
 const canEdit = computed(() => hasPermission('edit-mod'));
 
