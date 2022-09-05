@@ -26,10 +26,7 @@ const queryTab = useRouteQuery('tab');
 
 const props = defineProps({
     side: Boolean,
-    type: {
-        default: 'query',
-        type: String
-    },
+    query: Boolean,
     gap: [String, Number],
     padding: {
         default: 2,
@@ -56,7 +53,7 @@ onUpdated(() => {
 });
 
 const tabState = reactive({
-    current: props.type == 'query' ? route.query.tab : null, 
+    current: props.query ? route.query.tab : null, 
     focus: 0
 });
 
@@ -90,7 +87,7 @@ function arrowKeysMove(left: boolean) {
 }
 
 function setCurrentTab(name: string, skipSetQuery = false) {
-    if (props.type == 'query' && !skipSetQuery) {
+    if (props.query && !skipSetQuery) {
         //We only want to set the query
         queryTab.value = name;
     }
@@ -99,7 +96,7 @@ function setCurrentTab(name: string, skipSetQuery = false) {
     tabState.focus = tabs.value.findIndex(tab => tab.name === name);
 }
 
-if (props.type == 'query') {
+if (props.query) {
     watch(queryTab, val => {
         setCurrentTab(val, true);
     });
