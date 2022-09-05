@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\APIService;
+use Auth;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -67,6 +68,10 @@ class UserController extends Controller
         }
 
         $foundUser->loadMissing('extra');
+        $foundUser->loadMissing('blockedUsers');
+        if (Auth::hasUser()) {
+            $foundUser->loadMissing('followed');
+        }
         return new UserResource($foundUser);
     }
 

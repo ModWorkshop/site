@@ -127,10 +127,13 @@ abstract class Visibility {
  * @property-read \App\Models\User|null $lastUser
  * @method static Builder|Mod whereLastUserId($value)
  * @property string $access_ids
+ * @property-read \App\Models\Follows|null $follows
+ * @property-read \App\Models\Follows|null $followsUsingCategory
+ * @property-read \App\Models\Suspension|null $lastSuspension
  */
 class Mod extends Model
 {
-    use HasFactory, RelationsListener, Filterable;
+    use HasFactory, RelationsListener, Filterable, QueryCacheable;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;
@@ -143,7 +146,9 @@ class Mod extends Model
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    private $withFull = ['user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest'];
+    private $withFull = [
+        'user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest'
+    ];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
     protected $hidden = [];
@@ -161,6 +166,9 @@ class Mod extends Model
     {
         $this->append('breadcrumb');
         $this->loadMissing($this->withFull);
+        if (Auth::hasUser()) {
+            $this->loadMissing('followed');
+        }
         if ($this->suspended) {
             $this->loadMissing('lastSuspension');
         }
@@ -192,6 +200,16 @@ class Mod extends Model
     public function scopeList(Builder $query)
     {
         return $query->without(['tags']);
+    }
+
+    public function follows()
+    {
+        return $this->morphOne(Follows::class, 'followable');
+    }
+
+    public function followsUsingCategory()
+    {
+        return $this->morphOne(Follows::class, 'followable', 'category', null, 'category_id');
     }
 
     public function user()
@@ -307,6 +325,14 @@ class Mod extends Model
     public function liked()
     {
         return $this->hasOne(ModLike::class)->where('user_id', Auth::id());
+    }
+
+    /**
+     * Returns the follow model (if exists) of the mod for the authenticated user
+     */
+    public function followed() : HasOne
+    {
+        return $this->hasOne(FollowedMod::class)->where('user_id', Auth::user()?->id);
     }
 
     public function lastSuspension() : HasOne

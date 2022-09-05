@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Resources\ThreadResource;
 use App\Models\Forum;
 use App\Models\Thread;
 use App\Services\CommentService;
 use Arr;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,9 +32,17 @@ class ThreadController extends Controller
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
         ]);
         
-        return JsonResource::collection(Thread::queryGet($val, function($query, array $val) {
+        return ThreadResource::collection(Thread::queryGet($val, function($query, array $val) use($request) {
+            $user = $request->user();
+
             $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
-            $query->where(function($query) use ($val) {
+            $query->where(function($query) use ($val, $user) {
+                if (!$user->hasPermission('edit-thread')) {
+                    $query->whereNotExists(function($query) use ($user) {
+                        $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
+                        $query->whereColumn('blocked_users.block_user_id', 'threads.user_id');
+                    });
+                }
                 if (isset($val['category_id'])) {
                     $query->where('category_id', $val['category_id']);
                 }
@@ -79,7 +89,7 @@ class ThreadController extends Controller
     public function show(Thread $thread)
     {
         $thread->load('forum.game');
-        return $thread;
+        return new ThreadResource($thread);
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Chelout\RelationshipEvents\BelongsToMany;
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -34,20 +37,20 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Role extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;
 
     protected $with = [];
-
+ 
     protected $guarded = [];
 
     public function getMorphClass(): string {
         return 'role';
     }
 
-    public function permissions()
+    public function permissions() : BelongsToMany
     {
         return $this->belongsToMany(Permission::class)->withPivot('allow');
     }

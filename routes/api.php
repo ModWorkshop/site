@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\BanController;
+use App\Http\Controllers\BlockedUserController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\EditModController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FollowedGameController;
+use App\Http\Controllers\FollowedModController;
+use App\Http\Controllers\FollowedUserController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
@@ -20,19 +22,11 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserController;
-use App\Models\Category;
-use App\Models\ForumCategory;
-use App\Models\Mod;
-use App\Models\Permission;
 use App\Models\SocialLogin;
 use App\Models\User;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use Laravel\Telescope\Http\Controllers\ModelsController;
-use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +38,82 @@ use Symfony\Component\HttpFoundation\Response;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+/**
+ * @group Mods
+ */
+Route::resource('mods.files', FileController::class);
+Route::middleware('can:update,mod')->group(function() {
+    Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
+    //Images
+    Route::post('mods/{mod}/images', [ModController::class, 'uploadModImage']);
+    Route::delete('mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
+    Route::delete('mods/{mod}/images', [ModController::class, 'deleteAllImages']);
+});
+
+Route::middleware('can:super-update,mod')->group(function() {
+    Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
+    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
+});
+
+Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
+
+//General mods
+Route::resource('mods.links', LinkController::class);
+Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
+Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
+Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
+Route::resource('mods', ModController::class);
+Route::get('mods/followed', [ModController::class, 'followed']);
+Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
+Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
+Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
+Route::resource('mods.comments', ModCommentsController::class);
+Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
+Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+
+//Games/categories/tags
+Route::resource('categories', CategoryController::class);
+Route::resource('games', GameController::class);
+Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
+Route::get('games/{game}/categories', [CategoryController::class, 'index']);
+Route::resource('tags', TagController::class);
+
+/**
+ * @group Forums
+ */
+Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
+Route::resource('forum-categories', ForumCategoryController::class);
+Route::resource('threads', ThreadController::class);
+Route::resource('threads.comments', ThreadCommentsController::class);
+Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
+
+/**
+ * @group Users
+ */
+Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::resource('bans', BanController::class);
+Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
+Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
+    Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);
+    Route::delete('notifications', [NotificationController::class, 'deleteAllNotifications']);
+    Route::post('notifications/read-all', [NotificationController::class, 'readAllNotifications']);
+    Route::delete('notifications/read', [NotificationController::class, 'deleteReadNotifications']);
+});
+Route::resource('blocked-users', BlockedUserController::class)->except('show');
+
+Route::resource('followed-mods', FollowedModController::class)->except('show');
+Route::resource('followed-users', FollowedUserController::class)->except('show');
+Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
+Route::resource('followed-games', FollowedGameController::class)->except('show');
+Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
+
+Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
+
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'currentUser']);
+
+Route::resource('roles', RoleController::class);
+Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
@@ -129,78 +199,4 @@ Route::get('/auth/twitter/callback', function(Request $request) {
     }
 
     // return redirect('http://localhost:3000');
-});
-
-// https://laravel.com/docs/8.x/authorization#middleware-actions-that-dont-require-models
-// Resources
-Route::resource('roles', RoleController::class);
-Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
-
-Route::resource('tags', TagController::class);
-
-/**
- * @group Mods
- */
-Route::resource('mods.files', FileController::class);
-Route::middleware('can:update,mod')->group(function() {
-    Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
-    //Images
-    Route::post('mods/{mod}/images', [ModController::class, 'uploadModImage']);
-    Route::delete('mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
-    Route::delete('mods/{mod}/images', [ModController::class, 'deleteAllImages']);
-});
-
-Route::middleware('can:super-update,mod')->group(function() {
-    Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
-    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
-});
-
-Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
-
-Route::resource('mods.links', LinkController::class);
-Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
-Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
-Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
-Route::resource('mods', ModController::class);
-Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
-Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
-Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
-Route::resource('mods.comments', ModCommentsController::class);
-Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
-Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
-
-/**
- * @group Forums
- */
-Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
-Route::resource('forum-categories', ForumCategoryController::class);
-Route::resource('threads', ThreadController::class);
-Route::resource('threads.comments', ThreadCommentsController::class);
-Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
-
-/**
- * @group Users
- */
-Route::resource('users', UserController::class)->except(['store', 'show']);
-Route::resource('bans', BanController::class);
-Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
-Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
-    Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);
-    Route::delete('notifications', [NotificationController::class, 'deleteAllNotifications']);
-    Route::post('notifications/read-all', [NotificationController::class, 'readAllNotifications']);
-    Route::delete('notifications/read', [NotificationController::class, 'deleteReadNotifications']);
-});
-
-
-Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
-
-
-Route::resource('categories', CategoryController::class);
-Route::resource('games', GameController::class);
-Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
-Route::get('games/{game}/categories', [CategoryController::class, 'index']);
-
-// Routes that are protected under auth
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [UserController::class, 'currentUser']);
 });

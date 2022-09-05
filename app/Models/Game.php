@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\ModService;
 use App\Traits\Filterable;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -63,6 +64,14 @@ class Game extends Model
     public function forum() : HasOne
     {
         return $this->hasOne(Forum::class);
+    }
+
+    /**
+     * Returns whether the game is followed by the authenticated user
+     */
+    public function followed() : HasOne
+    {
+        return $this->hasOne(FollowedGame::class)->where('user_id', Auth::user()?->id);
     }
 
     public function getBreadcrumbAttribute()

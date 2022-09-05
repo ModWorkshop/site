@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
+use Request;
 
 class UserResource extends JsonResource
 {
@@ -16,6 +18,9 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        /**
+         * @var User
+         */
         $user = $request->user();
         return [
             'id' => $this->id,
@@ -29,11 +34,14 @@ class UserResource extends JsonResource
             'tag' => $this->tag,
             'email' => $this->when($user?->id === $this->id, $this->email),
             'last_ban' => $this->whenLoaded('lastBan'),
+            'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', function() {
                 $roleIds = Arr::pluck($this->roles, 'id');
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
                 return $roleIds;
             }),
+            'blocked_by_me' => $this->when(isset($user) && $user->id !== $this->id, fn() => $this->blockedByMe),
+            'blocked_me' => $this->when(isset($user) && $user->id !== $this->id, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'tag' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {

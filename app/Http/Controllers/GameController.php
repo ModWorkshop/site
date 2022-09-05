@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\GameResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Services\APIService;
 use Arr;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -95,12 +96,15 @@ class GameController extends Controller
             $query->orderBy('name');
         });
 
-        return CategoryResource::collection($games);
+        return GameResource::collection($games);
     }
 
     public function show(Game $game)
     {
-        return new CategoryResource($game);
+        if (Auth::hasUser()) {
+            $game->loadMissing('followed');
+        }
+        return new GameResource($game);
     }
 
     public function delete()

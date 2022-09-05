@@ -6,15 +6,19 @@ use App\Traits\Filterable;
 use Arr;
 use Auth;
 use Carbon\Carbon;
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
@@ -57,12 +61,21 @@ use Storage;
  * @property string|null $unique_name
  * @method static Builder|User whereUniqueName($value)
  * @property-read \App\Models\Ban|null $lastBan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedTag[] $blockedTags
+ * @property-read int|null $blocked_tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $blockedUsers
+ * @property-read int|null $blocked_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $fullyBlockedUsers
+ * @property-read int|null $fully_blocked_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @property-read int|null $mods_count
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Filterable, QueryCacheable;
+    use HasFactory, Notifiable, Filterable;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 1;
+    public $cacheFor = 30;
     public static $flushCacheOnUpdate = true;
 
     public static $membersRole = null;
@@ -120,6 +133,39 @@ class User extends Authenticatable
     private $gotPerms = false;
     private $gotRoles = false;
 
+    public function blockedByMe()
+    {
+        return $this->hasOneThrough(User::class, BlockedUser::class, 'block_user_id', 'id', 'id', 'block_user_id')->where('blocked_users.user_id', Auth::user()->id)->limit(1);
+    }
+
+    public function blockedMe()
+    {
+        return $this->hasOneThrough(User::class, BlockedUser::class, 'user_id', 'id', 'id', 'user_id')->where('blocked_users.block_user_id', Auth::user()->id)->limit(1);
+    }
+
+    /**
+     * Returns the follow model (if exists) of the user for the authenticated user
+     */
+    public function followed() : HasOne
+    {
+        return $this->hasOne(FollowedUser::class, 'follow_user_id')->where('user_id', Auth::user()->id);
+    }
+
+    public function followingGames() : HasMany
+    {
+        return $this->hasMany(FollowedGame::class);
+    }
+
+    public function followingMods() : HasMany
+    {
+        return $this->hasMany(FollowedMod::class);
+    }
+
+    public function followingUsers() : HasMany
+    {
+        return $this->hasMany(FollowedUser::class);
+    }
+
     public function getMorphClass(): string {
         return 'user';
     }
@@ -142,6 +188,31 @@ class User extends Authenticatable
                 $mod->delete();
             }
         });
+    }
+
+    /**
+     * The users the user has blocked fully. No mods no communication
+     */
+    public function fullyBlockedUsers() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->where('silent', false);
+    }
+
+    /**
+     * The users the user "soft blocked" i.e. hid their mods (also includes fully blocked)
+     * 
+     */
+    public function blockedUsers() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent');
+    }
+
+    /**
+     * The user's blocked tags. Not loaded normally
+     */
+    public function blockedTags() : HasMany
+    {
+        return $this->hasMany(BlockedTag::class);        
     }
 
     public function mods() : HasMany

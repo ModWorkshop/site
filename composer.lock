@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fa8c452e229a0a92178006adc90c6c3",
+    "content-hash": "04eca3b15c6fc8b61c27d664c7cfd11b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -244,6 +244,68 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "chelout/laravel-relationship-events",
+            "version": "v1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chelout/laravel-relationship-events.git",
+                "reference": "fa47732c7e584655a4ae1331f378dcf5245da746"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chelout/laravel-relationship-events/zipball/fa47732c7e584655a4ae1331f378dcf5245da746",
+                "reference": "fa47732c7e584655a4ae1331f378dcf5245da746",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/database": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/events": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0|dev-remove-nice-to-have-deps",
+                "phpunit/phpunit": "^8.3|^9.0|^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Chelout\\RelationshipEvents\\RelationshipEventsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Chelout\\RelationshipEvents\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chelout",
+                    "email": "chelout@gmail.com"
+                }
+            ],
+            "description": "Missing relationship events for Laravel",
+            "homepage": "https://github.com/chelout/laravel-relationship-events",
+            "keywords": [
+                "events",
+                "laravel",
+                "relations",
+                "relationship"
+            ],
+            "support": {
+                "issues": "https://github.com/chelout/laravel-relationship-events/issues",
+                "source": "https://github.com/chelout/laravel-relationship-events/tree/v1.5.0"
+            },
+            "time": "2022-02-11T17:35:13+00:00"
         },
         {
             "name": "clue/stream-filter",

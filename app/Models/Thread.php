@@ -48,6 +48,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLastUserId($value)
  * @property-read \App\Models\ForumCategory|null $category
+ * @property bool $archived_by_mod
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereArchivedByMod($value)
  */
 class Thread extends Model
 {

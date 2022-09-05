@@ -29,7 +29,7 @@ class FilteredRequest extends FormRequest
     {
         return [
             'query' => 'string|nullable',
-            'limit' => 'integer|min:1|max:1000'
+            'limit' => 'integer|min:1|max:50'
         ];
     }
 

@@ -94,7 +94,7 @@ class ThreadPolicy
 
     public function createComment(User $user, Thread $thread)
     {
-        if (!$user->hasPermission('reply-thread')) {
+        if ($thread->user->blockedMe) {
             return false;
         }
 

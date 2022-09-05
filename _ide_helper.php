@@ -16900,6 +16900,177 @@
         }
          
     }
+            /**
+     * 
+     *
+     */ 
+        class BelongsTo {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class BelongsToMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class HasMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class HasOneOrMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class HasOne {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class MorphToMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class MorphMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class MorphOneOrMany {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class MorphOne {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class MorphTo {
+         
+    }
+     
+}
+
+    namespace Chelout\RelationshipEvents { 
+            /**
+     * Class BelongsTo.
+     *
+     * @property-read \Chelout\RelationshipEvents\Concerns\HasBelongsToEvents $parent
+     */ 
+        class BelongsTo {
+         
+    }
+            /**
+     * Class BelongsToMany.
+     *
+     * @property-read \Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents $parent
+     */ 
+        class BelongsToMany {
+         
+    }
+            /**
+     * Class HasMany.
+     *
+     */ 
+        class HasMany {
+         
+    }
+            /**
+     * Class HasOne.
+     *
+     */ 
+        class HasOne {
+         
+    }
+            /**
+     * Class MorphedByMany.
+     *
+     * @property-read \Chelout\RelationshipEvents\Concerns\HasMorphedByManyEvents $parent
+     */ 
+        class MorphedByMany {
+         
+    }
+            /**
+     * Class MorphMany.
+     *
+     */ 
+        class MorphMany {
+         
+    }
+            /**
+     * Class MorphOne.
+     *
+     */ 
+        class MorphOne {
+         
+    }
+            /**
+     * Class MorphTo.
+     *
+     * @property-read \Chelout\RelationshipEvents\Concerns\HasMorphToEvents $parent
+     */ 
+        class MorphTo {
+         
+    }
+            /**
+     * Class MorphToMany.
+     *
+     * @property-read \Chelout\RelationshipEvents\Concerns\HasMorphToManyEvents $parent
+     */ 
+        class MorphToMany {
+         
+    }
+     
+}
+
+    namespace App\Http\Requests { 
+            /**
+     * Essentially used to filter results and control pagination of stuff to avoid copypasting
+     *
+     */ 
+        class FilteredRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class ModUpsertRequest {
+         
+    }
+     
+}
+
+    namespace Illuminate\Foundation\Http { 
+            /**
+     * 
+     *
+     */ 
+        class FormRequest {
+         
+    }
      
 }
 

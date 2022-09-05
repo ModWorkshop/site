@@ -34,7 +34,7 @@ class ModPolicy
     public function view(?User $user, Mod $mod)
     {
         if ($mod->suspended && (!isset($user) || !$this->update($user, $mod))) {
-            return false;
+            return Response::deny('suspended');
         }
 
         switch ($mod->visibility) {
@@ -153,7 +153,7 @@ class ModPolicy
 
     public function createComment(User $user, Mod $mod)
     {
-        if (!$user->hasPermission('comment-mod')) {
+        if (!$user->hasPermission('create-comment') || $mod->user->blockedMe) {
             return false;
         }
 

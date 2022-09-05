@@ -13,16 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cases', function (Blueprint $table) {
+        Schema::create('user_cases', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->bigInteger('mod_user_id')->unsigned();
-            $table->foreign('mod_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('mod_user_id')->unsigned()->nullable();
+            $table->foreign('mod_user_id')->references('id')->on('users');
 
-            $table->tinyInteger('strikes')->default(0);
-            $table->string('notes');
+            $table->boolean('warning')->default(false);
+            $table->string('reason');
+
+            $table->timestamp('expire_date')->nullable();
 
             $table->timestamps();
         });
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cases');
+        Schema::dropIfExists('user_cases');
     }
 };

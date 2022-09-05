@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::table('permissions')->insert([
-            'slug' => 'like-mod',
-            'name' => 'Give a like to a mod'
-        ]);
+        Schema::create('blocked_keywords', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->tinyText('keyword');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('like_mod_permission');
+        Schema::dropIfExists('blocked_keywords');
     }
 };

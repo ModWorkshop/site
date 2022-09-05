@@ -58,10 +58,15 @@ class CommentService {
         $isReply = isset($val['reply_to']);
         $replyToComment = $isReply ? Comment::find($val['reply_to']) : null;
 
-        //Make sure that whatever we are trying to reply to is a comment that is on the same commentable object (mod/thread).
         if ($replyToComment) {
+            //Make sure that whatever we are trying to reply to is a comment that is on the same commentable object (mod/thread).
             if ($replyToComment->commentable_type !== $commentable->getMorphClass() || $replyToComment->commentable_id !== $commentable->id) {
-                throw new Exception("Invalid comment to reply to");
+                abort(409, "Invalid comment to reply to");
+            }
+            
+            //Make sure we are not blocked
+            if (!$user->hasPermission('edit-comment') && $replyToComment->user->blockedMe) {
+                abort(401);
             }
         }
 
@@ -75,6 +80,10 @@ class CommentService {
         $comment = $commentable->comments()->create($val);
 
         $mentionedIds = [];
+        /**
+         * PHP is such a pain holy fucking shit
+         * @var User $mentionedUser
+         */
         foreach ($mentionedUsers as $mentionedUser) {
             $mentionedIds[] = $mentionedUser->id;
             if ($mentionedUser->id !== $user->id) { //Let's not mention ourselves

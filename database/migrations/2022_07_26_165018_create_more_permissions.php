@@ -43,6 +43,65 @@ return new class extends Migration
             'name' => 'Edit Own Comment'
         ]);
 
+        DB::table('permissions')->insert([
+            'slug' => 'like-mod',
+            'name' => 'Give a like to a mod'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'create-comment',
+            'name' => 'Reply to threads or post comments'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-thread',
+            'name' => 'Manage Threads'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'ban-user',
+            'name' => 'Ban Users'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-game',
+            'name' => 'Manage Games'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-category',
+            'name' => 'Manage Categories'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-roles',
+            'name' => 'Manage Roles'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-tag',
+            'name' => 'Manage Tags'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-user',
+            'name' => 'Manage Users'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'edit-forum-category',
+            'name' => 'Manage Forum Categories'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'delete-own-mod-comment',
+            'name' => 'Delete Own Mod Comments'
+        ]);
+
+        DB::table('permissions')->insert([
+            'slug' => 'create-thread',
+            'name' => 'Post threads'
+        ]);
     }
 
     /**

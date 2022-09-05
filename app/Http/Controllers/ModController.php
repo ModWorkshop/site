@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Image;
@@ -18,7 +19,9 @@ use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Visibility;
 use App\Services\APIService;
+use App\Services\ModService;
 use Arr;
+use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Validation\Rule;
@@ -56,81 +59,10 @@ class ModController extends Controller
      * @param ModUpsertRequest $request
      * return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(GetModsRequest $request)
     {
-        // Query parameters
-        $val = $request->val([
-            // How many mods should this return. 
-            'game_id' => 'integer|nullable|min:1|exists:games,id',
-            'category_id' => 'integer|nullable|min:1|exists:categories,id',
-            'tags' => 'array',
-            'tags.*' => 'integer|min:1|nullable',
-            'categories' => 'array',
-            'categories.*' => 'integer|min:1|nullable',
-            'block_tags' => 'array',
-            // Filter out mods that are in these tags
-            'block_tags.*' => 'integer|min:1|exists:tags,id',
-            'user_id' => 'integer|nullable|min:1',
-            'sort_by' => Rule::in(['bumped_at', 'published_at', 'likes', 'downloads', 'views', 'score'])
-        ]);
-        
-        /**
-         * @var User
-         */
-        $user = $request->user();
-        
-        /**
-         * @var Builder
-         */
-        $mods = Mod::queryGet($val, function($query, array $val) use ($user) {
-            $sortBy = $val['sort_by'] ?? 'bumped_at';
-
-            $query->orderByRaw("{$sortBy} DESC NULLS LAST");
-
-            if (isset($val['game_id'])) {
-                $query->where('game_id', $val['game_id']);
-            }
-
-            if (isset($val['category_id'])) {
-                $query->where('category_id', $val['category_id']);
-            }
-
-            if (isset($val['user_id'])) {
-                $query->where('user_id', $val['user_id']);
-            }
-
-            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-            if (!isset($user) || !$user->hasPermission('edit-mod')) {
-                $query->where('visibility', Visibility::pub)->where('suspended', false);
-
-                if (isset($user)) {
-                    //let members see mods if they've accepted their membership
-                    $query->orWhereRelation('members', function($q) use ($user) {
-                        $q->where('user_id', $user->id)->where('accepted', true);
-                    });
-                    if (!isset($val['user_id'])) {
-                        $query->orWhere('user_id', $user->id);
-                    }
-                }
-            }
-            
-            if (isset($val['tags'])) {
-                $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                    $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
-                });
-            }
-
-            if (!empty($val['categories'])) {
-                $query->whereIn('category_id', $val['categories']);
-            }
-
-            if (!empty($val['block_tags'])) { //Broken for some reason
-                $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                    $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
-                });
-            }
-        });
-
+        $val = $request->val();
+        $mods = Mod::queryGet($val, ModService::filters(...));
         return ModResource::collection($mods);
     }
 

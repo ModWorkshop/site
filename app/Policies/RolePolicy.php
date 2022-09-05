@@ -66,7 +66,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermission('edit-role');
+        return $user->hasPermission('edit-role') && $role->id !== 1;
     }
 
     /**

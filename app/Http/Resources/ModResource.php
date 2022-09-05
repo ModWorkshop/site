@@ -33,6 +33,7 @@ class ModResource extends JsonResource
             'files' => $this->whenLoaded('files'),
             'links' => $this->whenLoaded('links'),
             'images' => $this->whenLoaded('images'),
+            'followed' => $this->whenLoaded('followed'),
             'members' => $this->whenLoaded('members', function() use ($missingValue, $request) {
                 $members = [];
                 foreach ($this->members as $member) {
