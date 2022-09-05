@@ -68,7 +68,11 @@ import { useStore } from '~~/store';
 const props = defineProps({
     title: String,
     forcedGame: Number,
-    userId: Number
+    userId: Number,
+    url: {
+        type: String,
+        default: 'mods'
+    }
 });
 
 const store = useStore();
@@ -107,11 +111,17 @@ const searchParams = reactive({
     sort_by: sortBy
 });
 
-const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>('mods', { 
+const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
     params: searchParams
 });
 
 let lastTimeout;
+
+watch(() => props.url, async () => {
+    loading.value = true;
+    await refresh();
+    loading.value = false;
+});
 
 watch(page, () =>  {
     savedMods.value = [];

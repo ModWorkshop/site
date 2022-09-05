@@ -32,7 +32,15 @@
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-button color="danger">{{$t('report_mod')}}</a-button>
-            <a-button>{{$t('follow')}}</a-button>
+            <Popper :disabled="mod.followed">
+                <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && follow()">
+                    {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>
+                </a-button>
+                <template #content>
+                    <a-dropdown-item @click="follow(true)">Follow and get notified for updates</a-dropdown-item>
+                    <a-dropdown-item @click="follow(false)">{{$t('follow')}}</a-dropdown-item>
+                </template>
+            </Popper>
             <a-button @click="openShare">{{$t('share')}}</a-button>
             <Popper arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
@@ -72,7 +80,9 @@ const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
-const { data: mod } = await useResource<Mod>('mod', 'mods');
+const { data: mod } = await useResource<Mod>('mod', 'mods', {
+    suspended: t('suspended_error')
+});
 
 const yesNoModal = useYesNoModal();
 
@@ -161,6 +171,20 @@ function deleteAllImages() {
             mod.value.images = [];
         }
     });
+}
+
+async function follow(notify?: boolean) {
+    try {
+        if (!mod.value.followed) {
+            await usePost('followed-mods', { mod_id: mod.value.id, notify });
+            mod.value.followed = { notify: false };
+        } else {
+            await useDelete(`followed-mods/${mod.value.id}`);
+            mod.value.followed = null;
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 </script>
 

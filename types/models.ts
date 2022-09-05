@@ -133,6 +133,7 @@ export interface Mod {
     transfer_request?: TransferRequest;
     tag_ids?: number[];
     last_suspension?: Suspension;
+    followed: { notify: boolean }
 }
 
 export interface Breadcrumb {
@@ -177,7 +178,8 @@ export interface Game {
     created_at?: string;
     updated_at?: string;
     forum?: Forum,
-    readonly path?: any;
+    path?: string;
+    followed: boolean
 }
 
 export interface SocialLogin {
@@ -243,6 +245,7 @@ export interface User {
     last_ban: Ban,
     blocked_by_me?: { silent: boolean }
     blocked_me: boolean,
+    followed?: { notify: boolean }
 }
 
 export interface Link {

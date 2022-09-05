@@ -2,7 +2,7 @@
     <page-block>
         <flex>
             <a-button v-if="canEdit" :to="`/admin/games/${game.id}`" icon="cog">{{$t('section_settings')}}</a-button>
-            <a-button>{{$t('follow')}}</a-button>
+            <a-button :icon="game.followed ? 'minus' : 'plus'" @click="follow">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-button>
         </flex>
         <div class="content-block">
             <a-banner :src="game.banner" url-prefix="games/banners" style="height: 265px">
@@ -42,4 +42,17 @@ const buttons = computed(() => {
     return res;
 });
 
+async function follow() {
+    try {
+        if (!game.value.followed) {
+            await usePost('followed-games', { game_id: game.value.id });
+            game.value.followed = true;
+        } else {
+            await useDelete(`followed-games/${game.value.id}`);
+            game.value.followed = false;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 </script>
