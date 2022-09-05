@@ -2,7 +2,7 @@
     <a-banner class="mod-banner" :src="mod.legacy_banner_url || (mod.banner && mod.banner.file)" height="250" url-prefix="mods/images">
         <flex column class="mod-data">
             <flex class="mod-data-top">
-                <span id="title">{{mod.name}}</span>
+                <span class="mod-title">{{mod.name}}</span>
                 <mod-status class="ml-auto" :mod="mod"/>
             </flex>
             <flex column class="mt-auto md:flex-row">
@@ -95,12 +95,41 @@ function switchToFiles() {
     setQuery('tab', 'downloads');
 }
 </script>
-<style>
-.download-button {
-    font-size: 1.5rem;
+<style scoped>
+.mod-banner {
+    box-shadow: 1px 1px 5px #000;
+    box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
+    text-shadow: 2px 1px 3px black;
 }
 
-.mod-banner {
-    text-shadow: 2px 1px 3px black;
+.mod-banner a > span {
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.mod-data {
+    height: 100%;
+    color: var(--MAIN_COLOR_TEXT);
+    padding: 0.75rem;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+}
+
+.mod-data-top {
+    overflow: hidden;
+    height: 148px;
+    word-break: break-word;
+}
+
+.mod-title {
+    font-size: 2rem;
+}
+
+.mod-banner .data .version {
+    font-weight: normal;
+}
+
+
+.large-button {
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem !important;
 }
 </style>

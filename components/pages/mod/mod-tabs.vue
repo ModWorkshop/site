@@ -11,7 +11,7 @@
                 <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
             </a-tab>
             <a-tab name="downloads" :title="$t('downloads')">
-                <div v-for="labeled of labeledFiles" :key="labeled.label" class="mt-3">                       
+                <div v-for="labeled of labeledFiles" :key="labeled.label" class="flex-grow">
                     <h2 v-if="labeled.label != 'all'">{{labeled.label}}</h2>
                     <flex column gap="2">
                         <flex v-for="file of labeled.files" :key="file.id" class="alt-bg-color p-3 items-center">

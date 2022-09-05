@@ -150,84 +150,39 @@ function deleteAllImages() {
 }
 </script>
 
-<style>
+<style scoped>
+.mod-main {
+    display: grid;
+    grid-gap: .75rem;
+    margin-right: .75rem;
+    grid-template-columns: 70% 30%
+}
+
+@media (min-width:600px) and (max-width:850px) {
+    .mod-info .thumbnail {
+        display: none;
+    }
+}
+
+@media (max-width:850px) {
     .mod-banner {
-        box-shadow: 1px 1px 5px #000;
-        box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
+        height: 295px;
     }
 
-    .mod-data {
-        height: 100%;
-        color: var(--MAIN_COLOR_TEXT);
-        padding: 0.75rem;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
-    }
-
-    .mod-data-top {
-        overflow: hidden;
-        height: 148px;
-        word-break: break-word;
-    }
-
-    .mod-banner #title {
-        font-size: 2rem;
-    }
-
-    .mod-banner .data .version {
-        font-weight: normal;
+    .mod-info {
+        order: -1;
     }
 
     .mod-main {
-        display: grid;
-        grid-gap: .75rem;
-        margin-right: .75rem;
-        grid-template-columns: 70% 30%
+        grid-template-columns: auto;
+        margin-right: 0;
     }
-
-    .desc-content img {
-        max-width: 100%;
+    .contributor-block .info{
+        line-height: 32px;
     }
-
-    .fixed-anchor {
-        position: relative;
-        top: -64px;
+    .contributor-block .avatar {
+        height: 64px;
+        width: 64px;
     }
-
-    @media (min-width:600px) and (max-width:850px) {
-        .mod-info .thumbnail {
-            display: none;
-        }
-    }
-
-    @media (max-width:850px) {
-        .mod-banner {
-            height: 295px;
-        }
-
-        .mod-info {
-            order: -1;
-        }
-
-        .mod-main {
-            grid-template-columns: auto;
-            margin-right: 0;
-        }
-        .contributor-block .info{
-            line-height: 32px;
-        }
-        .contributor-block .avatar {
-            height: 64px;
-            width: 64px;
-        }
-    }
-
-    .large-button {
-        font-size: 1.5rem;
-        padding: 0.5rem 1.5rem !important;
-    }
-
-
-    .mod-banner a > span {
-        text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-    }
+}
 </style>
