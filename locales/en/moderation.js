@@ -1,5 +1,7 @@
 export default {
 moderation: "Moderation",
 suspend: "Suspend",
-unsuspend: "Unsuspend"
+unsuspend: "Unsuspend",
+warn: "Warn",
+ban: "Ban"
 };
