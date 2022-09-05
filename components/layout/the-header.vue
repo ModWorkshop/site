@@ -25,7 +25,7 @@
             <NuxtLink to="/forum">{{$t('forum')}}</NuxtLink>
             <NuxtLink to="/support">{{$t('support_us')}}</NuxtLink>
         </flex>
-        <flex class="user-items mr-2 items-center" gap="6"> 
+        <flex class="user-items mr-2 items-center" gap="4"> 
             <div>
                 <a-input v-model="search" placeholder="Search" style="width: 250px;"/>
                 <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
