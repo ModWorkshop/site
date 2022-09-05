@@ -1,5 +1,5 @@
 <template>
-    <strong :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{backgroundColor: color, color: textColor}"><slot/></strong>
+    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{backgroundColor: color, color: textColor}"><slot/></span>
 </template>
 <script setup>
 import { getContrast } from 'polished';
@@ -32,7 +32,9 @@ const textColor = computed(() => {
         color: #000;
         padding: 0.5rem 0.75rem;
         font-size: 70%;
+        font-weight: 500;
         background: var(--primary-color);
+        line-height: 1.25;
     }
 
     .tag-small {

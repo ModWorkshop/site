@@ -22,7 +22,7 @@
             <content-block id="details" class="p-4">
                 <flex column>
                     <flex column style="min-width: 300px;">
-                        <a-user class="text-xl" :user="user" :avatar="false">
+                            <a-user class="text-2xl" :user="user" :avatar="false" static>
                             <template #after-name>
                                 <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"/>
                             </template>

@@ -4,9 +4,9 @@
             <a-avatar :size="avatarSize" :src="user.avatar"/>
         </NuxtLink>
         <flex gap="1" column class="my-auto">
-            <NuxtLink :to="link" :style="{color: user.color}">
+            <NuxtLink class="flex gap-1 items-center" :to="link" :style="{color: user.color}">
                 {{user.name}}
-                <a-tag v-if="tag && user.tag" small color="#2169ff" class="mr-1">{{user.tag}}</a-tag>
+                <a-tag v-if="tag && user.tag" small color="#2169ff">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
                 <slot name="after-name" :user="user"/>
             </NuxtLink>
