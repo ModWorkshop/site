@@ -1,35 +1,35 @@
 <template>
-        <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
+    <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
 
-        <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
+    <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-        <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
+    <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
-        <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
-        <flex v-if="categories" column gap="2">
-            <label>Category</label>
-            <category-tree v-model="mod.category_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="categories.data"/>
+    <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
+    <flex v-if="categories" column gap="2">
+        <label>Category</label>
+        <category-tree v-model="mod.category_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="categories.data"/>
+    </flex>
+
+    <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
+
+    <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
+
+    <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
+
+    <details>
+        <summary>{{$t('license')}}</summary>
+        <flex class="mt-3" column gap="2">
+            <small><a href="https://choosealicense.com/" target="_blank">Can't choose?</a></small>
+            <md-editor v-model="mod.license" rows="6"/>
         </flex>
+    </details>
 
-        <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
-
-        <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
-
-        <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
-
-        <details>
-            <summary>{{$t('license')}}</summary>
-            <flex class="mt-3" column gap="2">
-                <small><a href="https://choosealicense.com/" target="_blank">Can't choose?</a></small>
-                <md-editor v-model="mod.license" rows="6"/>
-            </flex>
-        </details>
-
-        <a-alert class="w-full" color="danger" :title="$t('delete_zone')">
-            <div>
-                <a-button color="danger" @click="deleteMod">{{$t('delete')}}</a-button>
-            </div>
-        </a-alert>
+    <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
+        <div>
+            <a-button color="danger" @click="deleteMod">{{$t('delete')}}</a-button>
+        </div>
+    </a-alert>
 </template>
 
 <script setup lang="ts">
