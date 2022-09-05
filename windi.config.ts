@@ -11,8 +11,6 @@ for (const side of sideStrings) {
     safelist.push(range(16).map(i => `m${side}-${i}`));
 }
 
-safelist.push(range(16).map(i => `gap-${i}`));
-
 export default defineConfig({
     preflight: false,
     safelist: safelist
