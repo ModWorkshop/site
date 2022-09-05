@@ -4,9 +4,9 @@
             <flex>
                 <h3 class="my-auto">Comments</h3>
                 <div class="ml-auto my-auto">
-                    <va-popover stick-to-edges :message="$t('comments_disabled')" :readonly="canComment">
+                    <Popper :content="cannotCommentReason" hover :disabled="canComment">
                         <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('comment')}}</a-button>
-                    </va-popover>
+                    </Popper>
                 </div>
             </flex>
             <a-pagination v-if="comments" v-model="page" v-model:pages="pages" :total="comments.meta.total" :per-page="comments.meta.per_page" @update="loadComments"/>
@@ -66,6 +66,7 @@ const props = defineProps({
     canComment: Boolean,
     getSpecialTag: Function,
     canEditAll: Boolean,
+    cannotCommentReason: String,
     canDeleteAll: Boolean
 });
 

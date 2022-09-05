@@ -17,7 +17,7 @@
                 <a-markdown class="mt-1" :text="content"/>
             </flex>
             <div class="float-right">
-                <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
+                <flex class="comment-actions text-body" gap="2" :style="{visibility: areActionsVisible ? 'visible' : null}">
                     <font-awesome-icon v-if="canReply" class="cursor-pointer" title="Reply" icon="reply" @click="$emit('reply', comment)"/>
                     <font-awesome-icon v-if="!isReply" class="cursor-pointer" :title="comment.subbed ? $t('unsubscribe') : $t('subscribe')" :icon="comment.subbed ? 'slash' : 'bell'"/>
                     <Popper arrow style="margin: 0; border: 0;" @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
@@ -92,7 +92,7 @@ const { user, hasPermission } = useStore();
 const areActionsVisible = ref(false);
 const canEdit = computed(() => user && (hasPermission('edit-own-comment') && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
-const canReply = computed(() => true);
+const canReply = computed(() => !props.comment.user.blocked_me);
 
 async function togglePinnedState() {
     props.comment.pinned = !props.comment.pinned;
@@ -114,12 +114,10 @@ function openDeleteModal() {
     openModal({
         message: 'This will delete the comment',
         onOk() {
+            //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
             emit('delete', props.comment.id, props.isReply);
         }
-    });
-
-    //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
-    
+    });    
 }
 </script>
 
