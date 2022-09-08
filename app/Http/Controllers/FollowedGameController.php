@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetModsRequest;
+use App\Http\Resources\GameResource;
 use App\Http\Resources\ModResource;
 use App\Models\FollowedGame;
 use App\Models\Mod;
@@ -23,13 +24,13 @@ class FollowedGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Authenticatable $user)
+    public function index(Request $request)
     {
         $val = $request->validate([
             'limit' => 'integer|min:1|max:50'
         ]);
 
-        return FollowedGame::queryGet($val, fn($query) => $query->where('user_id', $user->id));
+        return GameResource::collection($this->user()->followedGames()->queryGet($val));
     }
 
     public function mods(GetModsRequest $request, Authenticatable $user)
@@ -42,7 +43,7 @@ class FollowedGameController extends Controller
             });
 
             ModService::filters($query, $val);
-        });
+        }, true);
         return ModResource::collection($mods);
     }
 
@@ -72,8 +73,8 @@ class FollowedGameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id, Authenticatable $user)
+    public function destroy(int $id)
     {
-        FollowedGame::where('user_id', $user->id)->where('game_id', $id)->delete();
+        $this->user()->followedGames()->where('game_id', $id)->delete();
     }
 }

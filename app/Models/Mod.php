@@ -132,6 +132,8 @@ abstract class Visibility {
  * @property-read \App\Models\FollowedMod|null $followed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
  * @property-read int|null $tags_special_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
  */
 class Mod extends Model
 {
@@ -242,6 +244,11 @@ class Mod extends Model
     public function banner()
     {
         return $this->belongsTo(Image::class);
+    }
+
+    public function tagsSpecial(): HasMany
+    {
+        return $this->hasMany(Taggable::class, 'taggable_id')->where('taggable_type', 'mod');
     }
 
     public function tags(): MorphToMany

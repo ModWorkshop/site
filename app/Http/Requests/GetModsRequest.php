@@ -30,13 +30,12 @@ class GetModsRequest extends FilteredRequest
             // How many mods should this return. 
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'category_id' => 'integer|nullable|min:1|exists:categories,id',
-            'tags' => 'array',
+            'tags' => 'array|max:10',
             'tags.*' => 'integer|min:1|nullable',
-            'categories' => 'array',
+            'categories' => 'array|max:10',
             'categories.*' => 'integer|min:1|nullable',
-            'block_tags' => 'array',
-            // Filter out mods that are in these tags
-            'block_tags.*' => 'integer|min:1|exists:tags,id',
+            'block_tags' => 'array|max:10',
+            'block_tags.*' => 'integer|min:1|nullable',
             'user_id' => 'integer|nullable|min:1',
             'sort_by' => Rule::in(['bumped_at', 'published_at', 'likes', 'downloads', 'views', 'score'])
         ];

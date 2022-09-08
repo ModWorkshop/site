@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Models\BlockedUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class BlockedUserController extends Controller
 {
@@ -20,7 +22,7 @@ class BlockedUserController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        //
+        return JsonResource::collection($this->user()->blockedUsers()->queryGet($request->val()));
     }
 
     /**
@@ -31,10 +33,7 @@ class BlockedUserController extends Controller
      */
     public function store(Request $request)
     {
-        /**
-         * @var User
-         */
-        $user = $request->user();
+        $user = $this->user();
 
         $val = $request->validate([
             'user_id' => "int|min:0|exists:users,id|not_in:{$user->id}",
@@ -54,18 +53,6 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -73,7 +60,7 @@ class BlockedUserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $user = $request->user();
+        $user = $this->user();
         $user->blockedUsers()->detach($id);
     }
 }

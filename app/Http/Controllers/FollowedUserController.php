@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Resources\ModResource;
+use App\Http\Resources\UserResource;
 use App\Models\FollowedUser;
 use App\Models\Mod;
 use App\Services\ModService;
@@ -23,13 +25,9 @@ class FollowedUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Authenticatable $user)
+    public function index(FilteredRequest $request)
     {
-        $val = $request->validate([
-            'limit' => 'integer|min:1|max:50'
-        ]);
-
-        return FollowedUser::queryGet($val, fn($query) => $query->where('user_id', $user->id));
+        return UserResource::collection($this->user()->followedUsers()->queryGet($request->val()));
     }
 
     public function mods(GetModsRequest $request, Authenticatable $user)

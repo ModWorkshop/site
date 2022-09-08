@@ -61,57 +61,67 @@ class ModService {
 
         $sortBy = $val['sort_by'] ?? 'bumped_at';
 
-        $query->orderByRaw("{$sortBy} DESC NULLS LAST");
+        $query->orderByDesc($sortBy);
 
-        //Hide blocked user's mods (unless a moderator)
-        if (isset($user) && !$user->hasPermission('edit-mod')) {
-            $query->whereNotExists(function($query) use ($user) {
-                $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
-                $query->whereColumn('blocked_users.block_user_id', 'mods.user_id');
-            });
-        }
-
-        if (isset($val['game_id'])) {
-            $query->where('game_id', $val['game_id']);
-        }
-
-        if (isset($val['category_id'])) {
-            $query->where('category_id', $val['category_id']);
-        }
-
-        if (isset($val['user_id'])) {
-            $query->where('user_id', $val['user_id']);
-        }
-
-        // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-        if (!isset($user) || !$user->hasPermission('edit-mod')) {
-            $query->where('visibility', Visibility::pub)->where('suspended', false);
-
+        //These are global filters. Either things user has blocked or limits in general.
+        $query->where(function($query) use ($val, $user) {
+            //Hide blocked user's mods (unless a moderator)
+            if (isset($user) && !$user->hasPermission('edit-mod')) {
+                $query->whereNotExists(function($query) use ($user) {
+                    $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
+                    $query->whereColumn('blocked_users.block_user_id', 'mods.user_id');
+                });
+            }
+    
+            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
+            if (!isset($user) || !$user->hasPermission('edit-mod')) {
+                $query->where('visibility', Visibility::pub)->where('suspended', false);
+            }
+            
             if (isset($user)) {
+                $query->whereDoesntHave('tagsSpecial', function($q) use ($user) {
+                    $q->join('blocked_tags', 'taggables.tag_id', '=', 'blocked_tags.tag_id');
+                    $q->where('blocked_tags.user_id', $user->id);
+                });
+    
+                $query->orWhere('user_id', $user->id);
+    
                 //let members see mods if they've accepted their membership
-                $query->orWhereRelation('members', function($q) use ($user) {
+                $query->orWhereHas('members', function($q) use ($user) {
                     $q->where('user_id', $user->id)->where('accepted', true);
                 });
-                if (!isset($val['user_id'])) {
-                    $query->orWhere('user_id', $user->id);
-                }
             }
-        }
+        });
 
-        if (isset($val['tags'])) {
-            $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                $q->limit(1)->whereIn('tags.id', array_map('intval', $val['tags']));
-            });
-        }
-
-        if (!empty($val['categories'])) {
-            $query->whereIn('category_id', $val['categories']);
-        }
-
-        if (!empty($val['block_tags'])) { //Broken for some reason
-            $query->whereHasIn('tags', function(Builder $q) use ($val) {
-                $q->whereIn('tags.id', array_map('intval', $val['block_tags']));
-            });
-        }
+        //These are filters the user inputted
+        $query->where(function($query) use ($val, $user) {
+            if (isset($val['game_id'])) {
+                $query->where('game_id', $val['game_id']);
+            }
+    
+            if (isset($val['category_id'])) {
+                $query->where('category_id', $val['category_id']);
+            }
+    
+            if (isset($val['user_id'])) {
+                $query->where('user_id', $val['user_id']);
+            }
+    
+            if (!empty($val['categories'])) {
+                $query->whereIn('category_id', $val['categories']);
+            }
+    
+            if (!empty($val['tags'])) { //Broken for some reason
+                $query->whereHas('tagsSpecial', function($q) use ($val) {
+                    $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
+                });
+            }
+    
+            if (!empty($val['block_tags'])) { //Broken for some reason
+                $query->whereDoesntHave('tagsSpecial', function($q) use ($val) {
+                    $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
+                });
+            }
+        });
     }
 }

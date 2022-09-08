@@ -156,19 +156,19 @@ class User extends Authenticatable
         return $this->hasOne(FollowedUser::class, 'follow_user_id')->where('user_id', Auth::user()->id);
     }
 
-    public function followingGames() : HasMany
+    public function followedGames() : BelongsToMany
     {
-        return $this->hasMany(FollowedGame::class);
+        return $this->belongsToMany(Game::class, FollowedGame::class);
+    }
+ 
+    public function followedMods() : BelongsToMany
+    {
+        return $this->belongsToMany(Mod::class, FollowedMod::class)->select('mods.*');
     }
 
-    public function followingMods() : HasMany
+    public function followedUsers() : BelongsToMany
     {
-        return $this->hasMany(FollowedMod::class);
-    }
-
-    public function followingUsers() : HasMany
-    {
-        return $this->hasMany(FollowedUser::class);
+        return $this->belongsToMany(User::class, FollowedUser::class, null, 'follow_user_id')->select('users.*');
     }
 
     public function getMorphClass(): string {
@@ -215,9 +215,9 @@ class User extends Authenticatable
     /**
      * The user's blocked tags. Not loaded normally
      */
-    public function blockedTags() : HasMany
+    public function blockedTags() : BelongsToMany
     {
-        return $this->hasMany(BlockedTag::class);        
+        return $this->belongsToMany(Tag::class, BlockedTag::class);        
     }
 
     public function mods() : HasMany

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BanController;
+use App\Http\Controllers\BlockedTagController;
 use App\Http\Controllers\BlockedUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FileController;
@@ -100,17 +101,20 @@ Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
     Route::post('notifications/read-all', [NotificationController::class, 'readAllNotifications']);
     Route::delete('notifications/read', [NotificationController::class, 'deleteReadNotifications']);
 });
-Route::resource('blocked-users', BlockedUserController::class)->except('show');
-
-Route::resource('followed-mods', FollowedModController::class)->except('show');
-Route::resource('followed-users', FollowedUserController::class)->except('show');
-Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
-Route::resource('followed-games', FollowedGameController::class)->except('show');
-Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 
-Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'currentUser']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/user', [UserController::class, 'currentUser']);
+
+    Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
+    Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');
+    Route::resource('followed-mods', FollowedModController::class)->except('show');
+    Route::resource('followed-users', FollowedUserController::class)->except('show');
+    Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
+    Route::resource('followed-games', FollowedGameController::class)->except('show');
+    Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
+});
 
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
