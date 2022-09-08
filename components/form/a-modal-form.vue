@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
     title?: string;
     desc?: string,
     descType?: string,
@@ -30,6 +30,8 @@ withDefaults(defineProps<{
 const emit = defineEmits(['save', 'cancel', 'update:modelValue']);
 
 const error = ref(null);
+
+watch(() => props.modelValue, () => error.value = null);
 
 function onSave(ok: () => void) {
     emit('save', ok, e => {
