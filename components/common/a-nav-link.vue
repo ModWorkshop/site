@@ -33,10 +33,13 @@ const classes = computed(() => ({
     border-radius: 4px;
     padding: 0.75rem 2rem;
     color: var(--secondary-text-color);
+    transition: ease-in-out 0.15s;
+    transition-property: color, background-color;
 }
 
 .nav-link:hover {
     cursor: pointer;
+    color: var(--primary-color);
 }
 
 .nav-link.selected {
