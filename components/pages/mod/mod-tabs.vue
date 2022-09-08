@@ -32,18 +32,18 @@
                                     {{$t('download')}}
                                     <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
                                 </a-button>
-                                <va-popover v-else trigger="click">
-                                    <template #body>
+                                <Popper v-else arrow>
+                                    <a-button class="large-button w-full text-center" icon="download">
+                                        {{$t('show_download_link')}}
+                                    </a-button>
+                                    <template #content>
                                         <div style="width: 250px;">
                                             {{$t('show_download_link_warn')}}
                                             <br>
                                             <a :href="file.url">{{file.url}}</a>
                                         </div>
                                     </template>
-                                    <a-button class="large-button w-full text-center" icon="download">
-                                        {{$t('show_download_link')}}
-                                    </a-button>
-                                </va-popover>
+                                </Popper>
                             </div>
                         </flex>
                     </flex>
