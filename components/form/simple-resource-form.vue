@@ -45,7 +45,9 @@ async function submit() {
 
         if (!props.modelValue.id) {
             const model = await usePost<{id: number}>(props.url, params);
-            router.replace(`${props.redirectTo}/${model.id}`);
+            if (props.redirectTo) {
+                router.replace(`${props.redirectTo}/${model.id}`);
+            }
         } else {
             emit('update:modelValue', await usePatch(`${props.url}/${props.modelValue.id}`, params));
         }

@@ -10,12 +10,13 @@
     "@types/luxon": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
-    "@vuestic/nuxt": "^1.0.5",
+    "@vuestic/nuxt": "^1.0.6",
     "@vueuse/core": "^9.1.0",
     "@vueuse/nuxt": "^9.1.0",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
     "nuxt": "npm:nuxt3@latest",
+    "nuxt-windicss": "^2.5.1",
     "typescript": "^4.7.4"
   },
   "dependencies": {
@@ -41,7 +42,6 @@
     "luxon": "^3.0.2",
     "markdown-it": "^13.0.1",
     "markdown-it-html5-media": "^0.7.1",
-    "nuxt-windicss": "^2.5.1",
     "object-to-formdata": "^4.4.2",
     "pinia": "^2.0.21",
     "polished": "^4.2.2",

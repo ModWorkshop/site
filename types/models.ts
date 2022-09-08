@@ -133,7 +133,7 @@ export interface Mod {
     transfer_request?: TransferRequest;
     tag_ids?: number[];
     last_suspension?: Suspension;
-    followed: { notify: boolean }
+    followed?: { notify: boolean }
 }
 
 export interface Breadcrumb {

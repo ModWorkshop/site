@@ -1,5 +1,5 @@
 <template>
-    <a-list url="users" :item-link="item => `/user/${item.id}/edit`">
+    <a-list url="users" query :item-link="item => `/user/${item.id}/edit`">
         <template #before-item="{ item }">
             <a-avatar :src="item.avatar"/>
         </template>

@@ -33,12 +33,12 @@
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-button color="danger">{{$t('report_mod')}}</a-button>
             <Popper :disabled="mod.followed">
-                <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && follow()">
+                <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
                     {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>
                 </a-button>
                 <template #content>
-                    <a-dropdown-item @click="follow(true)">Follow and get notified for updates</a-dropdown-item>
-                    <a-dropdown-item @click="follow(false)">{{$t('follow')}}</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowMod(mod, true)">Follow and get notified for updates</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </Popper>
             <a-button @click="openShare">{{$t('share')}}</a-button>
@@ -74,6 +74,7 @@ import { useStore } from '~~/store';
 import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
+import { setFollowMod } from '~~/utils/follow-helpers';
 
 const { hasPermission, isBanned } = useStore();
 const { public: config } = useRuntimeConfig();
@@ -171,20 +172,6 @@ function deleteAllImages() {
             mod.value.images = [];
         }
     });
-}
-
-async function follow(notify?: boolean) {
-    try {
-        if (!mod.value.followed) {
-            await usePost('followed-mods', { mod_id: mod.value.id, notify });
-            mod.value.followed = { notify: false };
-        } else {
-            await useDelete(`followed-mods/${mod.value.id}`);
-            mod.value.followed = null;
-        }
-    } catch (error) {
-        console.log(error);
-    }
 }
 </script>
 

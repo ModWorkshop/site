@@ -3,7 +3,7 @@
         <span class="text-3xl self-start">
             <font-awesome-icon :icon="icon"/>
         </span>
-        <flex column class="whitespace-pre">
+        <flex column>
             <strong v-if="title" class="text-xl">{{title}}</strong>
             <slot>{{desc}}</slot>
         </flex>

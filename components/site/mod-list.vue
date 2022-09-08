@@ -53,8 +53,8 @@
                         <category-tree :categories="categories.data" set-query/>
                     </flex>
                     <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games?.data" @update:model-value="gameChanged"/>
-                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data"/>
-                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple :options="tags.data"/>
+                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
+                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
                 </content-block>
             </flex>
         </flex>
@@ -95,8 +95,6 @@ await store.fetchGames();
 const { data: tags } = await useFetchMany<Tag>('tags');
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
-
-const currentCategory = computed(() => selectedCategory.value ? categories.value.data.find(cat => cat.id == selectedCategory.value) : null);
 
 const searchParams = reactive({
     limit: 40,
@@ -144,13 +142,14 @@ watch([page, searchParams], (value, newValue) => {
     }, 250);
 });
 
-function gameChanged() {
+async function gameChanged() {
+    await refresh();
+
     if (selectedGame.value) {
-        refetchCats();
+        await refetchCats();
     } else {
         categories.value = null;
     }
-    refresh();
 }
 
 function setSortBy(sort) {

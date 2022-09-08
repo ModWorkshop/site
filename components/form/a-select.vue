@@ -28,7 +28,7 @@ defineProps({
 	options: Array,
 	desc: String,
 	searchable: {type: [String, Boolean], default: true},
-	textBy: {type: String, default: "name"},
+	textBy: {type: [String, Function], default: "name"},
 	valueBy: {type: String, default: 'id'},
 	modelValue: [Object, Number, String],
 	multiple: Boolean,

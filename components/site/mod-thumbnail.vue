@@ -6,7 +6,7 @@
 import { Image } from '~~/types/models';
 
 defineProps<{
-    thumbnail: Image,
+    thumbnail?: Image,
     preferHq?: boolean
 }>();
 </script>

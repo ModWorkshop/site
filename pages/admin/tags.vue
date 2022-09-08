@@ -1,5 +1,5 @@
 <template>
-    <a-list url="tags" :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: $route.params.gameId}">
+    <a-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: $route.params.gameId}">
         <template #default="{ item }">
             <div>
                 <a-tag :color="item.color">{{item.name}}</a-tag> 

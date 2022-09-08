@@ -1,7 +1,7 @@
 <template>
     <page-block size="md">
         <content-block>
-            <a-list url="notifications" limit="20" :search="false" class="p-4">
+            <a-list url="notifications" limit="20" :search="false" class="p-4" query>
                 <template #buttons="{ items }">
                     <flex class="ml-auto">
                         <a-button color="danger" icon="trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>

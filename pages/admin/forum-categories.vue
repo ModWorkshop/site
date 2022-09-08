@@ -1,5 +1,5 @@
 <template>
-    <a-list url="forum-categories" :params="{ game_id: gameId, forum_id: !gameId ? 1 : undefined }" :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`"/>
+    <a-list url="forum-categories" query :params="{ game_id: gameId, forum_id: !gameId ? 1 : undefined }" :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`"/>
 </template>
 
 <script setup>

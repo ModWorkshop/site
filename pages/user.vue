@@ -4,12 +4,12 @@
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-button icon="bullhorn">{{$t('report')}}</a-button>
             <Popper :disabled="user.followed">
-                <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && follow()">
+                <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
                     {{$t(user.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!user.followed" icon="caret-down"/>
                 </a-button>
                 <template #content>
-                    <a-dropdown-item @click="follow(true)">Follow and get notified for new mods</a-dropdown-item>
-                    <a-dropdown-item @click="follow(false)">{{$t('follow')}}</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowUser(user, true)">Follow and get notified for new mods</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowUser(user, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </Popper>
             <a-button icon="user-xmark" title="Entirely blocks communication with the user and hides their mods" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-button>
@@ -80,6 +80,7 @@
 </template>
 <script setup lang="ts">
 import { timeAgo, fullDate } from '../utils/helpers';
+import { setFollowUser } from '../utils/follow-helpers';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { User } from '../types/models';
@@ -113,19 +114,7 @@ const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => false);
 const isPublic = computed(() => !user.value.private_profile);
 
-async function follow(notify?: boolean) {
-    try {
-        if (!user.value.followed) {
-            await usePost('followed-users', { user_id: user.value.id, notify });
-            user.value.followed = { notify: false };
-        } else {
-            await useDelete(`followed-users/${user.value.id}`);
-            user.value.followed = null;
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
+
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;

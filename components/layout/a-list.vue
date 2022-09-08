@@ -2,7 +2,7 @@
     <flex column gap="2">
         <flex>
             <a-input v-if="search" v-model="query" placeholder="Search" @update:model-value="onSearch"/>
-            <a-button v-if="newButton" class="my-auto" :to="newButton">New</a-button>
+            <a-button v-if="typeof newButton == 'string'" class="my-auto" :to="newButton">New</a-button>
             <slot name="buttons" :items="items"/>
         </flex>
 
@@ -11,16 +11,20 @@
         </a-pagination>
 
         <flex column>
-            <slot name="items" :items="items">
+            <a-loading v-if="loading"/>
+            <slot v-else name="items" :items="items">
                 <template v-if="items.data.length">
                     <template v-for="item of items.data" :key="item.id">
                         <slot name="item" :item="item" :items="items">
-                            <NuxtLink class="list-button flex gap-2" :to="itemLink(item)">
-                                <slot name="before-item" :item="item"/>
+                            <NuxtLink class="list-button flex gap-2" :to="itemLink ? itemLink(item) : null">
+                                <slot name="before-item" :item="item" :items="items"/>
                                 <slot :item="item">
-                                    <span class="my-auto">{{item.name}}<slot name="item-name" :item="item"/></span>
+                                    <span class="my-auto">{{item[textBy]}}<slot name="item-name" :item="item"/></span>
                                 </slot>
-                                <slot name="after-item" :item="item"/>
+                                <slot name="after-item" :item="item" :items="items"/>
+                                <flex class="ml-auto my-auto">
+                                    <slot name="item-buttons" :item="item" :items="items"/>
+                                </flex>
                             </NuxtLink>
                         </slot>
                     </template>
@@ -47,17 +51,28 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
+    textBy: {
+        type: String,
+        default: 'name'
+    },
     limit: {
         type: [Number, String],
         default: 50
+    },
+    query: {
+        type: Boolean,
+        default: false
     },
     params: Object,
     itemLink: Function
 });
 
-const page = useRouteQuery('page', 1);
+const emit = defineEmits(['update:modelValue']);
+
+const page = props.query ? useRouteQuery('page', 1) : ref(1);
 const route = useRoute();
-const query = ref(route.query.query);
+const query = props.query ? ref(route.query.query) : ref('');
+const loading = ref(true);
 
 const { data: items, refresh } = await useFetchMany(props.url, { 
     params: reactive(Object.assign({
@@ -67,8 +82,14 @@ const { data: items, refresh } = await useFetchMany(props.url, {
     }, props.params))
 });
 
+watch(items, val => {
+    emit('update:modelValue', val);
+}, { immediate: true });
+
+loading.value = false;
+
 function onSearch(value: string) {
-    setQuery('query', value);
+    query.value = value;
     page.value = 1;
     refresh();
 }

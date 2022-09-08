@@ -14,6 +14,7 @@
             />
             <slot name="buttons"/>
         </flex>
+        <slot name="pre-panels"/>
         <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': side}">
             <slot/>
         </div>

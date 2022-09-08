@@ -1,5 +1,5 @@
 <template>
-    <a-list :url="url" new-button="/admin/categories/new">
+    <a-list :url="url" new-button="/admin/categories/new" query>
         <template #items="{ items }">
             <category-tree :categories="items.data">
                 <template #button="{category}">
