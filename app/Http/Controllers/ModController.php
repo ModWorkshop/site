@@ -62,7 +62,7 @@ class ModController extends Controller
     public function index(GetModsRequest $request)
     {
         $val = $request->val();
-        $mods = Mod::queryGet($val, ModService::filters(...));
+        $mods = Mod::queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
     }
 

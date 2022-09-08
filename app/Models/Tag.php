@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Tag
@@ -46,8 +46,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tag extends Model
 {
-    use HasFactory;
-    use Filterable;
+    use HasFactory, QueryCacheable;
+
+    public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 
     protected $hidden = ['pivot'];
 

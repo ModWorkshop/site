@@ -34,7 +34,7 @@ class FollowedModController extends Controller
             });
 
             ModService::filters($query, $val);
-        });
+        }, true);
         return ModResource::collection($mods);
     }
 

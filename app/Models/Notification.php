@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +43,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Notification extends Model
 {
-    use HasFactory, Filterable, QueryCacheable;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;

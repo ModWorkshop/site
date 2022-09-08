@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\ModService;
-use App\Traits\Filterable;
 use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,12 +42,13 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property-read \App\Models\Forum|null $forum
  * @property int|null $forum_id
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
+ * @property-read \App\Models\FollowedGame|null $followed
  */
 class Game extends Model
 {
-    use HasFactory, Filterable, QueryCacheable;
+    use HasFactory, QueryCacheable;
 
-    public $cacheFor = 10;
+    public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
 
     protected $guarded = [];

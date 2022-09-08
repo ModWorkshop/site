@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Services\ModService;
 use App\Services\Utils;
-use App\Traits\Filterable;
 use App\Traits\RelationsListener;
 use Auth;
 use Carbon\Carbon;
@@ -130,10 +129,13 @@ abstract class Visibility {
  * @property-read \App\Models\Follows|null $follows
  * @property-read \App\Models\Follows|null $followsUsingCategory
  * @property-read \App\Models\Suspension|null $lastSuspension
+ * @property-read \App\Models\FollowedMod|null $followed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
+ * @property-read int|null $tags_special_count
  */
 class Mod extends Model
 {
-    use HasFactory, RelationsListener, Filterable, QueryCacheable;
+    use HasFactory, RelationsListener, QueryCacheable;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;

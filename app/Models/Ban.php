@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +30,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Ban extends Model
 {
-    use HasFactory, Filterable, QueryCacheable;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;

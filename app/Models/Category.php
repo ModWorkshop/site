@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\ModService;
-use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -58,7 +57,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Category extends Model
 {
-    use HasFactory, Filterable, QueryCacheable;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;

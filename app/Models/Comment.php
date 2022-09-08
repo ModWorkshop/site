@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Filterable;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,7 +48,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  */
 class Comment extends Model
 {
-    use HasFactory, Filterable, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;

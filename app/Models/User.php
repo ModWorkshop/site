@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Filterable;
 use Arr;
 use Auth;
 use Carbon\Carbon;
@@ -69,13 +68,19 @@ use Storage;
  * @property-read int|null $fully_blocked_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
  * @property-read int|null $mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $followedGames
+ * @property-read int|null $followed_games_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $followedMods
+ * @property-read int|null $followed_mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
+ * @property-read int|null $followed_users_count
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Filterable;
+    use HasFactory, Notifiable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 30;
+    public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;
 
     public static $membersRole = null;
