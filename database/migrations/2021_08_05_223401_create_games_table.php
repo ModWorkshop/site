@@ -25,6 +25,9 @@ return new class extends Migration
             $table->tinyText('webhook_url')->default(''); // Was background
             $table->timestamp('last_date');
 
+            $table->bigInteger('forum_id')->nullable()->unsigned();
+            $table->foreign('forum_id')->references('id')->on('forums');
+
             $table->timestamps();
         });
     }

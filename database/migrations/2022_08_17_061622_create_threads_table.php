@@ -34,6 +34,8 @@ return new class extends Migration
             $table->bigInteger('last_user_id')->unsigned();
             $table->foreign('last_user_id')->references('id')->on('users');
 
+            $table->boolean('archived_by_mod')->default(false);
+
             $table->timestamps();
         });
     }

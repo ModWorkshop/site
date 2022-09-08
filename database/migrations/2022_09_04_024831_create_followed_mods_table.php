@@ -20,6 +20,8 @@ return new class extends Migration
             $table->bigInteger('mod_id')->unsigned();
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
             $table->boolean('notify');
+            $table->index('user_id');
+            $table->index('mod_id');
             $table->timestamps();
         });
     }

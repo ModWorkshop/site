@@ -24,6 +24,8 @@ return new class extends Migration
 
             $table->boolean('silent');
 
+            $table->index('user_id');
+
             $table->timestamps();
         });
     }

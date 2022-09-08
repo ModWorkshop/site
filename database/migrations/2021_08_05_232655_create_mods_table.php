@@ -13,6 +13,8 @@ class CreateModsTable extends Migration
      */
     public function up()
     {
+        DB::statement('CREATE EXTENSION IF NOT EXISTS pg_trgm');
+
         Schema::create('mods', function (Blueprint $table) {
             $table->id();
 
@@ -66,20 +68,20 @@ class CreateModsTable extends Migration
             // bumped_at is when the mod was updated well enough to deserve a bump in the list. published_at is when the mod was published for the first time.
             $table->timestamps();
 
-            $table->index([
-                'category_id',
-                'game_id',
-                'user_id',
-                'name',
-                'bumped_at', 
-                'published_at'
-            ]);
+            $table->index('published_at');
             $table->index('name');
             $table->index('score');
             $table->index('views');
             $table->index('downloads');
             $table->index('updated_at');
+            $table->index('user_id');
+            $table->index('game_id');
+            $table->index('category_id');
+            $table->index('bumped_at');
+            $table->index('likes');
         });
+
+        DB::statement('CREATE INDEX mods_name_trigram ON mods USING gist(name gist_trgm_ops);');
     }
 
     /**
@@ -89,6 +91,9 @@ class CreateModsTable extends Migration
      */
     public function down()
     {
+        DB::statement('DROP EXTENSION IF EXISTS pg_trgm');
+        DB::statement('DROP INDEX IF EXISTS mods_name_trigram');
+
         Schema::dropIfExists('mods');
     }
 }

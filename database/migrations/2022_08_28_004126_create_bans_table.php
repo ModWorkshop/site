@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('reason');
             $table->timestamp('expire_date');
             $table->timestamps();
+            $table->index('expire_date');
+            $table->index('user_id');
         });
     }
 
