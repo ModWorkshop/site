@@ -24,7 +24,7 @@
                     @edit="beginEditingComment"
                 />
             </flex>
-            <va-inner-loading v-else-if="!isLoaded" class="mb-4" :loading="true"/>
+            <a-loading v-else-if="!isLoaded"/>
             <div v-else class="text-center">
                 <h4>No Comments</h4>
             </div>

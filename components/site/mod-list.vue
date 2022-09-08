@@ -33,7 +33,7 @@
             <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
             <flex gap="3">
                 <flex column gap="4" class="mods place-content-between content-block p-3" style="flex:10; min-height: 250px;">
-                    <va-inner-loading v-if="loading" loading class="my-auto"/>
+                    <a-loading v-if="loading" class="my-auto"/>
                     <template v-else>
                         <mod-list-skeleton
                             :display-mode="displayMode"

@@ -1,7 +1,7 @@
 <template>
     <va-modal v-model="showNotifications" size="large" background-color="#2b3036">
         <template #content="{ ok }">
-            <va-inner-loading v-if="!notifications" loading class="mb-4 mt-2"/>
+            <a-loading v-if="!notifications"/>
             <template v-else>
                 <h2>{{$t('notifications')}}</h2>
                 <flex column class="overflow-y-scroll">
@@ -58,9 +58,7 @@
                     </template>
                 </Popper>
             </template>
-            <div v-else-if="userIsLoading" class="mr-2 my-auto">
-                <va-inner-loading :loading="true"/>
-            </div>
+            <a-loading v-else-if="userIsLoading"/>
             <flex v-else class="my-auto" gap="2">
                 <NuxtLink to="/login">{{$t('login')}}</NuxtLink>
                 <NuxtLink to="/register">{{$t('register')}}</NuxtLink>
