@@ -337,3 +337,13 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
     grid-gap: 24px;
     gap: 24px;
 }
+
+.gap-7 {
+    grid-gap: 28px;
+    gap: 28px;
+}
+
+.gap-8 {
+    grid-gap: 32px;
+    gap: 32px;
+}
