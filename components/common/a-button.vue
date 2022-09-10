@@ -99,7 +99,7 @@
         opacity: 0.75;
     }
 
-    .button:hover:enabled {
+    .button:hover:enabled, .button:hover:link {
         color: var(--button-text-color);
         transition: 0.15s ease-in-out;
         transition-property: background-color, color, border-color;
