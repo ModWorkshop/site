@@ -2,8 +2,8 @@ interface YesNoModalOptions {
     title?: string,
     desc?: string,
     descType?: string,
-    yes?: (ok?: () => void, error?: (e) => void) => Promise<void>,
-    no?: () => void
+    yes?: (close?: () => void, error?: (e) => void) => Promise<void>,
+    no?: (close?: () => void, error?: (e) => void) => Promise<void>
 }
 
 export default function() {
@@ -12,19 +12,24 @@ export default function() {
     return function(options: YesNoModalOptions) {
         const length = yesNoModals.value.push({
             ...options,
-            async yes(ok, error) {
+            async yes(close, error) {
                 try {
                     if (options.yes) {
-                        await options.yes(ok, error);
+                        await options.yes(close, error);
                     }
                     yesNoModals.value.splice(length-1, 1);
                 } catch (e) {
                     error(e);
                 }
             },
-            no() {
-                if (options.no) {
-                    options.no();
+            async no(close, error) {
+                try {
+                    if (options.no) {
+                        await options.yes(close, error);
+                    }
+                    yesNoModals.value.splice(length-1, 1);
+                } catch (e) {
+                    error(e);
                 }
                 yesNoModals.value.splice(length-1, 1);
             },
