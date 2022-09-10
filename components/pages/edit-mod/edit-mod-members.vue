@@ -61,10 +61,10 @@ const mod = inject<Mod>('mod');
 const canSuperUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
-    {name: 'Maintainer', value: 0},
-    {name: 'Collaborator', value: 1},
-    {name: 'Viewer', value: 2},
-    {name: 'Contributor', value: 3},
+    {name: 'Maintainer', id: 0},
+    {name: 'Collaborator', id: 1},
+    {name: 'Viewer', id: 2},
+    {name: 'Contributor', id: 3},
 ];
 
 interface EditModMember {
