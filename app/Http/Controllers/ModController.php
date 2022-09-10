@@ -126,6 +126,16 @@ class ModController extends Controller
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
                 if (isset($val['version']) && $val['version'] !== $mod->version) {
+                    $followers = $mod->followers;
+                    foreach ($followers as $follow) {
+                        Notification::send(
+                            notifiable: $mod,
+                            user: $follow->user,
+                            type: "follow_mod_new_version",
+                            data: ['version' => $val['version']]
+                        );
+                    }
+
                     $mod->bump(false);
                 }
             }

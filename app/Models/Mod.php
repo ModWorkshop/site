@@ -209,14 +209,9 @@ class Mod extends Model implements SubscribableInterface
         return $query->without(['tags']);
     }
 
-    public function follows()
+    public function followers()
     {
-        return $this->morphOne(Follows::class, 'followable');
-    }
-
-    public function followsUsingCategory()
-    {
-        return $this->morphOne(Follows::class, 'followable', 'category', null, 'category_id');
+        return $this->hasMany(FollowedMod::class)->with('user');
     }
 
     public function user()
