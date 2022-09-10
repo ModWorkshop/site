@@ -20,6 +20,7 @@
             default: 'button',
             type: String
         },
+        size: String,
         noBg: Boolean,
         download: {
             default: undefined,
@@ -38,7 +39,7 @@
         button: !props.unstyled,
         [`button-${props.color}`]: !props.unstyled,
         'button-no-bg': props.noBg,
-        'button-large': props.large,
+        'button-small': props.size == 'small',
         'cursor-pointer': props.unstyled
     }));
 
@@ -55,6 +56,11 @@
         border-radius: var(--border-radius);
         transition: 0.15s ease-in-out;
         transition-property: background-color, color, border-color;
+    }
+
+    .button-small {
+        padding: 0.3rem 0.6rem;
+        font-size: 12px;
     }
 
     .button-none {
@@ -87,10 +93,6 @@
     .button-secondary {
         background-color: var(--secondary-color);
         border-color: var(--secondary-color);
-    }
-
-    .button-large {
-        font-size: 1.5rem;
     }
 
     .button:disabled {
