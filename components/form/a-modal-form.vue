@@ -1,5 +1,5 @@
 <template>
-    <va-modal v-model="modelValue" :size="size" background-color="#2b3036" no-outside-dismiss @update:model-value="emit('update:modelValue', modelValue)">
+    <va-modal v-model="modelValue" :size="size" background-color="#2b3036" @update:model-value="emit('update:modelValue', modelValue)">
         <template #content="{ ok }">
             <flex column gap="4">
                 <h2 v-if="title">{{title}}</h2>
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
     title?: string;
     desc?: string,
     descType?: string,
-    size?: 'large'| 'medium' | 'small',
+    size?: 'large' | 'medium' | 'small',
     modelValue: boolean,
     saveText?: string
     cancelText?: string
