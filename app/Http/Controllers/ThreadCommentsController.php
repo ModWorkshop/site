@@ -100,6 +100,11 @@ class ThreadCommentsController extends Controller
         CommentService::unsubscribe($thread);
     }
 
+    public function page(Request $request, Thread $thread, Comment $comment)
+    {
+        return CommentService::page($request, $thread, $comment);
+    }
+
     /**
      * Returns replies of a comment
      *
