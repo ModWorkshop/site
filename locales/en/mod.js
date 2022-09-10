@@ -43,7 +43,6 @@ instructions_tab: "Dependencies & Instructions",
 transfer_request: `The author has sent a request to transfer the mod to you.
 If you accept, the mod will be under your name, including the responsiblity of the mod fitting our rules.
 If the author sent this request to you maliciously, you may decline the request and report the mod or author to the moderators.`,
-replies: "replies",
 downloading_file: "Downloading File...",
 downloading_file_should: "The download should begin shortly.",
 downloading_file_help: 'Unsure how to install? Click <a href="{1}">here</a>',

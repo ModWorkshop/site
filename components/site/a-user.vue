@@ -5,7 +5,7 @@
         </NuxtLink>
         <flex gap="1" column class="my-auto">
             <NuxtLink class="flex gap-1 items-center" :to="link" :style="{color: user.color}">
-                {{user.name}}
+                <span>{{user.name}}</span>
                 <a-tag v-if="tag && user.tag" small color="#2169ff">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
                 <slot name="after-name" :user="user"/>

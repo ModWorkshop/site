@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="mod" size="md">
+    <page-block size="md">
         <flex>
             <NuxtLink v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
@@ -7,7 +7,7 @@
         </flex>
         <a-form :model="mod" :created="!!mod.id" :save-text="saveText" float-save-gui @submit="save" @state-changed="formStateChanged">
             <content-block class="p-8">
-                <a-tabs padding="4" side>
+                <a-tabs padding="4" side query>
                     <a-tab name="main" title="Main">
                         <edit-mod-main :mod="mod"/>
                     </a-tab>

@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="user">
+    <page-block>
         <flex v-if="authUser && user.id != authUser.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-button icon="bullhorn">{{$t('report')}}</a-button>
@@ -41,10 +41,6 @@
                         <flex v-if="isPublic" gap="2" column class="mt-1">
                             <div v-if="user.created_at">{{$t('registration_date')}} {{fullDate(user.created_at)}}</div>
                             <div>{{$t('last_visit')}} {{timeAgo(user.last_online)}}</div>
-                            <!-- <div v-if="isMod && user.strikes > 0">Strikes: {{user.strikes}}</div> -->
-                            <!-- <div v-if="user.steamid && ((!user.prefs.hide_steam_link && mybb.user.uid != user.uid) || isMod)">
-                                {{$t('steam_profile')}}: <a :href="`https://steamcommunity.com/profiles/${user.steamid}`" target="_blank">https://steamcommunity.com/profiles/{{user.steamid}}</a>
-                            </div> -->
                             <donation-button v-if="user.donation_url" :link="user.donation_url"/>
                         </flex>
                     </flex>
@@ -113,8 +109,6 @@ const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => false);
 const isPublic = computed(() => !user.value.private_profile);
-
-
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;

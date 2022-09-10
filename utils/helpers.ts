@@ -62,3 +62,19 @@ export function strReplacRange(str: string, start: number, end: number, replacem
 export function isSrcExternal(src: string) {
     return src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"));
 }
+
+export function getObjectLink(type: string, object: Record<string, unknown>) {
+    if (!object) {
+        return null;
+    }
+    switch(type) {
+        case 'mod':
+            return `/mod/${object.id}`;
+        case 'thread':
+            return `/thread/${object.id}`;
+        case 'game':
+            return `g/${object.short_name}`;
+    }
+
+    return null;
+}

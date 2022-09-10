@@ -1,12 +1,7 @@
 export default {
-    myalerts_pm: '{1} sent you a new private message titled <b>"{2}"</b>.',
-    myalerts_quoted: '{1} quoted you in <b>"{2}"</b>.',
-    myalerts_post_threadauthor: '{1} replied to your thread <b>"{2}"</b>. There may be more posts after this.',
-    myalerts_subscribed_thread: '{1} replied to your subscribed thread <b>"{2}"</b>.',
-    myalerts_rated_threadauthor: '{1} rated your thread <b>"{2}"</b>.',
-    myalerts_voted_threadauthor: '{1} voted in your poll in <b>"{2}"</b>.',
-    alert_mod_updated: "{1} has updated the followed mod {2}",
-    notification_mod_comment: "{user} posted a comment in the mod {notifiable} which you are subscribed to",
+    notification_sub_mod: "{user} posted a comment in {notifiable}",
+    notification_sub_thread: "{user} replied to {notifiable}",
+    notification_sub_comment: "{user} replied to {notifiable} in {extra}",
     no_alerts_found: "No notifications found",
     no_more_alerts_found: "Couldn't get more notifications",
     notifications: "Notifications",
@@ -16,5 +11,6 @@ export default {
     delete_all_notifications: "Delete All Notifications",
     notification_transfer_ownership: "{user} has sent a request to transfer the mod {notifiable} to you. Click the notification to accept or decline.",
     notification_comment_reply: "{user} replied in a comment that you're subscribed to in {mod}",
-    notification_comment_mention: "You were mentioned in a comment posted in {context} by {user}"
+    notification_comment_mention: "You were mentioned in a comment posted in {context} by {user}",
+    notification_follow_mod_new_version: "{user} released a new version for {notifiable}: {extra}"
 };

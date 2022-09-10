@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="mod">
+    <page-block>
         <a-modal-form v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" save-button="" size="medium" @save="suspend">
             <a-input v-model="suspendForm.reason" label="reason" type="textarea" rows="6"/>
             <a-input v-model="suspendForm.notify" label="Notify owner and members" type="checkbox"/>
@@ -58,8 +58,11 @@
             <mod-tabs :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
-        <the-comments 
-            :url="`mods/${mod.id}/comments`" 
+        <the-comments
+            lazy
+            :url="`mods/${mod.id}/comments`"
+            :page-url="`/mod/${mod.id}`"
+            :commentable="mod"
             :can-edit-all="canEditComments"
             :can-delete-all="canDeleteComments"
             :get-special-tag="commentSpecialTag"

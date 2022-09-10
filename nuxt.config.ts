@@ -46,6 +46,12 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
+				name: "mod-comment",
+				path: "/mod/:modId/post/:commentId",
+				file: resolve(__dirname, "pages/mod/index.vue")
+			});
+
+			routes.push({
 				name: "edit-mod",
 				path: "/mod/:modId/edit",
 				file: resolve(__dirname, "pages/mod/edit-mod.vue")
@@ -132,6 +138,12 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "thread",
 				path: "/thread/:threadId",
+				file: resolve(__dirname, "pages/thread.vue")
+			});
+
+			routes.push({
+				name: "thread-reply",
+				path: "/thread/:threadId/post/:commentId",
 				file: resolve(__dirname, "pages/thread.vue")
 			});
 

@@ -1,3 +1,4 @@
+import { Paginator } from './paginator';
 /**
  * This file is auto generated using 'php artisan typescript:generate'
  *
@@ -39,10 +40,11 @@ export interface Comment {
     created_at?: string;
     updated_at?: string;
     user?: User | null;
-    commentable?: any | null;
-    last_replies?: any | null;
-    total_replies: number,
+    commentable?: Mod|Thread;
+    last_replies?: Comment[];
+    total_replies?: number;
     replying_comment?: Comment | null;
+    subscribed: boolean;
 }
 
 export interface File {
@@ -287,7 +289,8 @@ export interface Notification {
     user_id: number;
     notifiable?: any | null;
     context?: any | null;
-    user?: User | null;
+    user?: User;
+    from_user?: User;
 }
 
 export interface Thread {

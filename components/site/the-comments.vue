@@ -1,28 +1,48 @@
 <template>
     <div v-intersection-observer="onVisChange">
         <flex column gap="2">
-            <flex>
-                <h3 class="my-auto">Comments</h3>
-                <div class="ml-auto my-auto">
-                    <Popper :content="cannotCommentReason" hover :disabled="canComment">
-                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('comment')}}</a-button>
+            <flex class="items-center">
+                <h3>{{$t(resourceName)}}</h3>
+                <flex class="ml-auto">
+                    <a-button v-if="viewingComment" icon="arrow-left" :to="pageUrl">{{$t(`return_to_${resourceName}`)}}</a-button>
+                    <Popper v-else :content="cannotCommentReason" hover :disabled="canComment">
+                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('post')}}</a-button>
                     </Popper>
-                </div>
+                    <a-button :icon="commentable.subscribed ? 'bell-slash' : 'bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
+                </flex>
             </flex>
-            <a-pagination v-if="comments" v-model="page" v-model:pages="pages" :total="comments.meta.total" :per-page="comments.meta.per_page" @update="loadComments"/>
-            <flex v-if="comments && comments.data.length > 0" column gap="2">
-                <a-comment v-for="comment of comments.data" 
-                    :key="comment.id"
-                    :comment="comment"
+            <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page" @update="loadComments"/>
+            <flex v-if="viewingComment || (comments && comments.data.length)" column gap="2">
+                <a-comment v-if="viewingComment"
+                    :url="url"
+                    :page-url="pageUrl"
+                    :comment="viewingComment"
                     :can-edit-all="canEditAll"
                     :can-delete-all="canDeleteAll"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
+                    fetch-replies
                     @delete="deleteComment"
                     @reply="replyToComment"
                     @pin="setCommentPinState"
                     @edit="beginEditingComment"
                 />
+                <template v-else>
+                    <a-comment v-for="comment of comments.data" 
+                        :key="comment.id"
+                        :url="url"
+                        :page-url="pageUrl"
+                        :comment="comment"
+                        :can-edit-all="canEditAll"
+                        :can-delete-all="canDeleteAll"
+                        :current-focus="replyingComment || editingComment"
+                        :get-special-tag="getSpecialTag"
+                        @delete="deleteComment"
+                        @reply="replyToComment"
+                        @pin="setCommentPinState"
+                        @edit="beginEditingComment"
+                    />
+                </template>
             </flex>
             <a-loading v-else-if="!isLoaded"/>
             <div v-else class="text-center">
@@ -32,9 +52,8 @@
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
                 <flex column class="mx-auto w-8/12" gap="2">
-                    <h3 v-if="replyingComment">Replying Comment</h3>
-                    <h3 v-else-if="editingComment">Editing Comment</h3>
-                    <h3 v-else>Commenting</h3>
+                    <h3 v-if="replyingComment">{{$t('replying')}}</h3>
+                    <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
                     <md-editor v-model="commentContent" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <div v-show="showMentions" class="fixed" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]}px`}">
                         <flex v-if="users" column class="mention-float">
@@ -47,7 +66,7 @@
                         </flex>
                     </div>
                     <flex class="text-right">
-                        <a-button icon="comment" :disabled="!posting && commentContent.length < 2" @click="commentDialogConfirm">{{$t('comment')}}</a-button>
+                        <a-button icon="comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
                         <a-button icon="times" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
                     </flex>
                 </flex>
@@ -61,24 +80,29 @@ import { Comment, User } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
-const props = defineProps({
-    url: { type: String, required: true },
-    canComment: Boolean,
-    getSpecialTag: Function,
-    canEditAll: Boolean,
-    cannotCommentReason: String,
-    canDeleteAll: Boolean
-});
+import { remove } from '@vue/shared';
+const props = withDefaults(defineProps<{
+    lazy: boolean,
+    url: string,
+    pageUrl: string,
+    resourceName?: string,
+    commentable: { subscribed: boolean },
+    canComment?: boolean,
+    getSpecialTag?: (comment: Comment) => string,
+    canEditAll?: boolean,
+    cannotCommentReason?: string,
+    canDeleteAll?: boolean
+}>(), { resourceName: 'comments' });
 
 const { $caretXY } = useNuxtApp();
 
 const { user } = useStore();
 const router = useRouter();
+const route = useRoute();
 
 const isLoaded = ref(false);
-const comments = ref<Paginator<Comment>>();
 const page = useRouteQuery('page', 1);
-const pages = ref(1);
+
 const commentContent = ref('');
 const showCommentDialog = ref(false);
 const replyingComment = ref<Comment>();
@@ -95,6 +119,30 @@ const posting = ref(false);
 
 const { init: showToast } = useToast();
 
+const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
+    immediate: !props.lazy && !route.params.commentId,
+    params: reactive({
+        page,
+        limit: 20
+    })
+});
+
+const { data: viewingComment } = await useFetchData<Comment>(`${props.url}/${route.params.commentId}`, {
+    immediate: !!route.params.commentId
+});
+
+async function subscribe() {
+    try {
+        if (props.commentable.subscribed) {
+            await useDelete(`${props.url}/subscription`);
+        } else {
+            await usePost(`${props.url}/subscription`);
+        }
+        props.commentable.subscribed = !props.commentable.subscribed;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function onClickComment() {
     if (user) {
@@ -165,6 +213,9 @@ watch(commentContent, async (val: string) => {
     }
 });
 
+/**
+ * Sets visiblity of the comments float
+ */
 function setCommentDialog(open: boolean) {
     showCommentDialog.value = open;
     commentContent.value = '';
@@ -172,7 +223,10 @@ function setCommentDialog(open: boolean) {
     editingComment.value = undefined;
 }
 
-//In order to prevent loss of mentions for users, we convert the mentions to IDs we could easily replace later
+/**
+ * Here we process the text and search for mentions.
+ * In order to prevent loss of mentions for users, we convert the mentions to IDs we could easily replace later 
+ */
 function processMentions(content: string) {
     const mentions = [];
     content = content.replace(/@([a-zA-Z-_0-9]+)/g, (match, uniqueName, offset) => {
@@ -235,7 +289,7 @@ async function editComment() {
     }
 }
 
-function commentDialogConfirm() {
+function submit() {
     if (editingComment.value) {
         editComment();
     } else {
@@ -243,27 +297,19 @@ function commentDialogConfirm() {
     }
 }
 
-async function loadComments() {
-    comments.value = await useGetMany<Comment>(props.url, {
-        params: {
-            page: page.value,
-            limit: 20,
-        }
-    });
-    isLoaded.value = true;
-}
-
+/**
+ * Called when the comments come into view so we can load them lazily
+ */
 function onVisChange(isVisible: boolean) {
     if (!isLoaded.value && isVisible) {
         loadComments();
     }
 }
 
-async function deleteComment(commentId: number, isReply=false) {
-    await useDelete(props.url + '/' + commentId);
+async function deleteComment(comment: Comment, isReply=false) {
+    await useDelete(props.url + '/' + comment.id);
     if (!isReply) {
-        const allComments = comments.value.data;
-        allComments.splice(allComments.findIndex(com => com.id == commentId), 1);
+        remove(comments.value.data, comment);
     }
 }
 
@@ -280,8 +326,10 @@ function replyToComment(replyTo: Comment, mention: User) {
     }
 }
 
-//This really just reloads the comments(will later reset pages)
-//Pretty much because this isn't as frequent and so it's sorted well.
+/**
+ * This really just reloads the comments
+ * Pretty much because this isn't as frequent and so it's sorted well.
+ */
 async function setCommentPinState(comment: Comment) {
     await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
     loadComments();
