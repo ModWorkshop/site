@@ -82,12 +82,14 @@ const transferOwner = ref({owner_id: null, keep_owner_level: null});
 async function deleteMember(member: ModMember) {
     openModal({
         message: 'Are you sure you want to remove member?',
-        async onOk() {
+        async onOk(ok) {
             await useDelete(`mods/${mod.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
             mod.members = clone(members.value);
         
             ignoreChanges();
+
+            ok();
         }
     });
 
