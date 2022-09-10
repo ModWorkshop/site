@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Interfaces\SubscribableInterface;
 use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
+use App\Traits\Subscribable;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -135,9 +137,9 @@ abstract class Visibility {
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
  */
-class Mod extends Model
+class Mod extends Model implements SubscribableInterface
 {
-    use HasFactory, RelationsListener, QueryCacheable;
+    use HasFactory, RelationsListener, QueryCacheable, Subscribable;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;
@@ -151,7 +153,7 @@ class Mod extends Model
     protected $guarded = ['download_type', 'download_id'];
 
     private $withFull = [
-        'user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest'
+        'user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest', 'subscribed'
     ];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
@@ -194,6 +196,7 @@ class Mod extends Model
             foreach ($mod->files as $file) {
                 $file->delete();
             }
+            $mod->subscriptions()->delete();
         });
         static::creating(function (Mod $mod)
         {

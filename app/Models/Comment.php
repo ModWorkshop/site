@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\SubscribableInterface;
+use App\Traits\Subscribable;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,15 +50,18 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $mentions
  * @property-read int|null $mentions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
  */
-class Comment extends Model
+class Comment extends Model implements SubscribableInterface
 {
-    use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    use HasFactory, Subscribable;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
 
-    protected $with = ['user'];
+    protected $with = ['user', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
 
@@ -98,6 +106,7 @@ class Comment extends Model
     {
         self::deleted(function(Comment $comment) {
             Notification::deleteRelated($comment);
+            $comment->subscriptions()->delete();
         });
     }
 }

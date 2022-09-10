@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -48,16 +49,28 @@ class Notification extends Model
     public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;
 
-    protected $with = ['user', 'notifiable', 'context'];
+    protected $with = ['user', 'notifiable', 'context', 'fromUser'];
+
+    protected $casts = [
+        'data' => 'array'
+    ];
 
     public function getMorphClass(): string {
         return 'notification';
     }
 
-    public static function send(string $type, User $user, Model $notifiable = null, Model $context = null)
+    public static function send(string $type, User $user, Model $notifiable = null, Model $context = null, array $data=null)
     {
+        $authUser = Auth::user();
+
+        if ($authUser->id === $user->id) {
+            return null;
+        }
+
         $notif = new Notification([
-            'type' => $type
+            'type' => $type,
+            'from_user_id' => $authUser->id,
+            'data' => $data
         ]);
 
         if (isset($notifiable)) {
@@ -69,7 +82,7 @@ class Notification extends Model
         }
 
         if (isset($user)) {
-            $notif->user()->associate($user);
+            $notif->user_id = $user->id;
         }
 
         $notif->save();
@@ -109,7 +122,7 @@ class Notification extends Model
     public function notifiable()
     {
         return $this->morphTo()->morphWith([
-            'comment' => 'commentable'
+            Comment::class => 'commentable'
         ]);
     }
 
@@ -125,5 +138,10 @@ class Notification extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function fromUser()
+    {
+        return $this->hasOne(User::class, 'id', 'from_user_id');
     }
 }

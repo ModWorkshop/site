@@ -13,8 +13,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function user() : User
+    public function user() : ?User
     {
         return Auth::user();
+    }
+
+    public function userId() : ?int
+    {
+        return Auth::user()?->id;
     }
 }

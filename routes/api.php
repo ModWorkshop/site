@@ -68,10 +68,16 @@ Route::resource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
-Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
 Route::resource('mods.comments', ModCommentsController::class);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
 Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
+    Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
+    Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
+    Route::post('mods/{mod}/comments/{comment}/subscription', [ModCommentsController::class, 'subscribeComment']);
+    Route::delete('mods/{mod}/comments/{comment}/subscription', [ModCommentsController::class, 'unsubscribeComment']);
+});
 
 //Games/categories/tags
 Route::resource('categories', CategoryController::class);
@@ -88,6 +94,12 @@ Route::resource('forum-categories', ForumCategoryController::class);
 Route::resource('threads', ThreadController::class);
 Route::resource('threads.comments', ThreadCommentsController::class);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
+    Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
+    Route::post('threads/{thread}/comments/{comment}/subscription', [ThreadCommentsController::class, 'subscribeComment']);
+    Route::delete('threads/{thread}/comments/{comment}/subscription', [ThreadCommentsController::class, 'unsubscribeomment']);
+});
 
 /**
  * @group Users

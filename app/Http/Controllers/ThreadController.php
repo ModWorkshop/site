@@ -89,6 +89,7 @@ class ThreadController extends Controller
     public function show(Thread $thread)
     {
         $thread->load('forum.game');
+        $thread->load('subscribed');
         return new ThreadResource($thread);
     }
 

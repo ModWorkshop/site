@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Interfaces\SubscribableInterface;
+use App\Traits\Subscribable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,10 +51,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\Models\ForumCategory|null $category
  * @property bool $archived_by_mod
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereArchivedByMod($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read int|null $subscriptions_count
  */
-class Thread extends Model
+class Thread extends Model implements SubscribableInterface
 {
-    use HasFactory;
+    use HasFactory, Subscribable;
 
     protected $with = ['user', 'lastUser', 'category'];
 
@@ -97,6 +101,8 @@ class Thread extends Model
             foreach ($thread->comments as $comment) {
                 $comment->delete();
             }
+
+            $thread->subscriptions()->delete();
         });
     }
 }

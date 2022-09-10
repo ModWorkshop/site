@@ -79,4 +79,24 @@ class ThreadCommentsController extends Controller
     {
         return CommentService::destroy($thread, $comment);
     }
+
+    public function subscribeComment(Thread $thread, Comment $comment)
+    {
+        CommentService::subscribe($comment);
+    }
+
+    public function unsubscribeComment(Thread $thread, Comment $comment)
+    {
+        CommentService::unsubscribe($comment);
+    }
+
+    public function subscribe(Thread $thread)
+    {
+        CommentService::subscribe($thread);
+    }
+
+    public function unsubscribe(Thread $thread)
+    {
+        CommentService::unsubscribe($thread);
+    }
 }

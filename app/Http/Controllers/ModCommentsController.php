@@ -76,4 +76,24 @@ class ModCommentsController extends Controller
     {
         return CommentService::page($request, $mod, $comment);
     }
+
+    public function subscribeComment(Mod $mod, Comment $comment)
+    {
+        CommentService::subscribe($comment);
+    }
+
+    public function unsubscribeComment(Mod $mod, Comment $comment)
+    {
+        CommentService::unsubscribe($comment);
+    }
+
+    public function subscribe(Mod $mod)
+    {
+        CommentService::subscribe($mod);
+    }
+
+    public function unsubscribe(Mod $mod)
+    {
+        CommentService::unsubscribe($mod);
+    }
 }

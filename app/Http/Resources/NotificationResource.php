@@ -22,6 +22,7 @@ class NotificationResource extends JsonResource
         return array_merge(parent::toArray($request), [
             'notifiable' => $this->notifiable,
             'context' => $this->context,
+            'fromUser' => $this->fromUser
         ]);
     }
 }

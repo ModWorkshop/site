@@ -98,20 +98,14 @@ class CommentService {
 
         $comment->mentions()->sync($mentionedIds);
 
-        //TODO: implement subs for discussions
-
-        $notifiable = $commentable;
-        if ($isReply) {
-            $notifiable = $replyToComment;
-        }
-
-        $toUser = $isReply ? $notifiable->user : $commentable->user;
-        if ($val['user_id'] != $toUser->id) {
+        $notifiable = ($isReply ? $replyToComment : $commentable);
+        $subs = $notifiable->subscriptions;
+        foreach ($subs as $sub) {
             Notification::send(
                 notifiable: $notifiable,
                 context: $comment,
-                user: $toUser,
-                type: $isReply ? 'comment_reply' : 'mod_comment'
+                user: $sub->user,
+                type: "sub_{$sub->subscribable_type}"
             );
         }
 
@@ -196,5 +190,23 @@ class CommentService {
         $comment = Comment::from($comments, 'coms')->where('coms.id', $comment)->first();
 
         return ceil($comment->position / $limit);
+
+    public static function subscribe(SubscribableInterface $sub)
+    {
+        $subs = $sub->subscriptions();
+        $userId = Auth::user()->id;
+
+        if ($subs->where('user_id', $userId)->exists()) {
+            abort(409, 'Already subscribed');
+        }
+
+        $subs->create([
+            'user_id' => $userId
+        ]);
+    }
+
+    public static function unsubscribe(SubscribableInterface $sub)
+    {
+        $sub->subscriptions()->where('user_id', Auth::user()->id)->delete();
     }
 }

@@ -2,35 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FilteredRequest;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Image;
 use App\Models\Mod;
-use App\Models\File;
 use App\Models\ModDownload;
 use App\Models\ModLike;
-use App\Models\ModMember;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\Suspension;
 use App\Models\TransferRequest;
 use App\Models\User;
-use App\Models\Visibility;
 use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
-use Auth;
-use Carbon\Carbon;
-use DB;
-use Illuminate\Validation\Rule;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use Log;
-use Str;
 use Jcupitt\Vips;
 
 const animated = [

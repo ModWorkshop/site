@@ -52,7 +52,8 @@ class ModResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
-            'liked' => $this->whenLoaded('liked', fn () => isset($this->liked)),
+            'liked' => $this->whenLoaded('liked'),
+            'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),
         ]);
     }
 }

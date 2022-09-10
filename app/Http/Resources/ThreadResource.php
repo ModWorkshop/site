@@ -15,7 +15,8 @@ class ThreadResource extends JsonResource
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
+            'subscribed' => $this->when($this->relationLoaded('subscribed'), fn() => isset($this->subscribed)),
         ]);
     }
 }
