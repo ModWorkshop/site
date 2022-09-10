@@ -79,11 +79,39 @@ class Comment extends Model implements SubscribableInterface
         return $this->morphTo();
     }
 
-    public function lastReplies() : HasMany
+    public function replies()
     {
-        return $this->hasMany(Comment::class, 'reply_to')->oldest()->limit(3);
+        return $this->hasMany(Comment::class, 'reply_to', 'id');
     }
 
+    protected function lastReplies() : Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                if (isset($this->reply_id)) {
+                    return null;
+                }
+
+                /** @var Builder */
+                $replies = $this->replies();
+                return $replies->oldest()->paginate(3);
+            }
+        );
+    }
+    
+    protected function totalReplies() : Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes) {
+                if (isset($this->reply_id)) {
+                    return null;
+                }
+
+                return $this->last_replies->total();
+            }
+        );
+    }
+    
     public function replyingComment() : BelongsTo
     {
         return $this->belongsTo(Comment::class, 'id', 'reply_to');

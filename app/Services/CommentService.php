@@ -4,13 +4,16 @@ namespace App\Services;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
+use App\Interfaces\SubscribableInterface;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\User;
+use App\Traits\Subscribable;
 use Arr;
 use Auth;
 use DB;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -20,14 +23,30 @@ class CommentService {
      *
      * @return \Illuminate\Http\Response
      */
-    public static function index(FilteredRequest $request, Model $commentable)
+    public static function index(FilteredRequest $request, Model $commentable, array $options=[], $replies=null)
     {
-        $comments = Comment::queryGet($request->validated(), function($query, array $val) use ($commentable) {
-            $query->with(['lastReplies', 'mentions']);
-            $query->orderByRaw('pinned DESC, created_at DESC');
+        /**
+         * @var Builder
+         */
+        $query = null;
+        if (isset($replies)) {
+            $query = $replies;
+        } else {
+            $query = Comment::query();
+        }
+        
+
+        $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
+            $query->with(['mentions']);
+            $query->orderByRaw($options['orderBy'] ?? 'pinned DESC, created_at DESC');
+            if (!isset($replies)) {
             $query->whereNull('reply_to');
+            }
             $query->whereMorphedTo('commentable', $commentable);
         });
+
+        APIService::appendToItems($comments, 'last_replies');
+        APIService::appendToItems($comments, 'total_replies');
 
         return CommentResource::collection($comments);
     }

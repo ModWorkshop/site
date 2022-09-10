@@ -72,7 +72,7 @@ class ModCommentsController extends Controller
         return CommentService::destroy($mod, $comment);
     }
 
-    public function page(Request $request, Mod $mod, int $comment)
+    public function page(Request $request, Mod $mod, Comment $comment)
     {
         return CommentService::page($request, $mod, $comment);
     }
@@ -95,5 +95,17 @@ class ModCommentsController extends Controller
     public function unsubscribe(Mod $mod)
     {
         CommentService::unsubscribe($mod);
+    }
+
+    /**
+     * Returns replies of a comment
+     *
+     * @param FilteredRequest $request
+     * @param Mod $mod
+     * @param Comment $comment
+     */
+    public function replies(FilteredRequest $request, Mod $mod, Comment $comment)
+    {
+        return CommentService::index($request, $mod, [], $comment->replies());
     }
 }

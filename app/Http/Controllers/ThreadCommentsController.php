@@ -23,7 +23,7 @@ class ThreadCommentsController extends Controller
      */
     public function index(FilteredRequest $request, Thread $thread)
     {
-        return CommentService::index($request, $thread);
+        return CommentService::index($request, $thread, ['orderBy' => 'pinned DESC, created_at ASC']);
     }
 
     /**
@@ -98,5 +98,17 @@ class ThreadCommentsController extends Controller
     public function unsubscribe(Thread $thread)
     {
         CommentService::unsubscribe($thread);
+    }
+
+    /**
+     * Returns replies of a comment
+     *
+     * @param FilteredRequest $request
+     * @param Mod $mod
+     * @param Comment $comment
+     */
+    public function replies(FilteredRequest $request, Thread $thread, Comment $comment)
+    {
+        return CommentService::index($request, $thread, [], $comment->replies());
     }
 }
