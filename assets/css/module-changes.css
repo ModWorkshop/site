@@ -54,18 +54,14 @@
 
 .va-modal--size-large, .va-modal--size-large .va-modal__inner {
     min-width: 992px;
-    max-width: 100%  !important;
 }
 
 .va-modal__dialog, .va-modal .va-modal__inner {
     min-width: 800px;
-    max-width: 100%  !important;
 }
-
 
 .va-modal--size-small, .va-modal--size-small .va-modal__inner {
     min-width: 500px;
-    max-width: 100%  !important;
 }
 
 .va-modal__dialog {
@@ -82,8 +78,4 @@
 .va-toast {
     border-radius: var(--border-radius) !important;
     border: none !important;
-}
-
-.va-popover__content {
-    max-width: 300px;
 }
