@@ -1,22 +1,24 @@
 <template>
-    <flex :class="{'alt-bg-color': !notification.seen, 'p-4': true, 'cursor-pointer': true}" gap="2" @click.stop="onClick">
-        <a-avatar v-if="thumbnail == 'user'" :src="showUser?.avatar"/>
-        <mod-thumbnail v-if="thumbnail == 'mod'" style="width: 84px;" :thumbnail="mod.thumbnail"/>
+    <component :is="to ? 'NuxtLink' : 'div'" :class="classes" @click.stop="onClick">
+        <a-avatar v-if="!defintion.thumbnail" :src="fromUser?.avatar"/>
+        <template v-else>
+            <mod-thumbnail v-if="defintion.thumbnail.type == 'mod'" style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
+        </template>
         <flex class="my-auto" grow>
             <div>
-                <i18n-t :keypath="`notification_${notification.type}`" tag="span" class="whitespace-pre">
+                <i18n-t :keypath="`notification_${notification.type}`" tag="span" vclass="whitespace-pre">
                     <template #user>
-                        <a-user v-if="showUser" :avatar="false" :user="showUser" @click.stop="ok"/>
-                    </template>
-                    <template #mod>
-                        <a-user v-if="mod" :avatar="false" :user="mod" @click.stop="ok"/>
+                        <a-notification-slot type="user" :object="fromUser"/>
                     </template>
                     <template #context>
-                        <NuxtLink v-if="contextLink" :href="contextLink" @click.stop="ok">{{contextName}}</NuxtLink>
-                        <span v-else>{{contextName}}</span>
+                        <a-notification-slot :type="notification.context_type" :object="context"/>
                     </template>
                     <template #notifiable>
-                        <NuxtLink :href="notifiableLink" @click.stop="ok">{{notifiableName}}</NuxtLink>
+                        <a-notification-slot :type="notification.notifiable_type" :object="notifiable"/>
+                    </template>
+                    <template #extra>
+                        <a-notification-slot v-if="defintion.extra" :type="defintion.extra.type" :object="defintion.extra.object"/>
+                        <span v-else>N/A</span>
                     </template>
                 </i18n-t>
                 <br>
@@ -27,7 +29,7 @@
                 <a-button icon="trash" color="danger" title="Delete" @click.stop="deleteNotification()"/>
             </flex>
         </flex>
-    </flex>
+    </component>
 </template>
 
 <script setup lang="ts">
@@ -36,7 +38,9 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Comment, Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
-const { init: openModal } = useModal();
+const yesNoModal = useYesNoModal();
+
+const { t } = useI18n();
 
 const props = defineProps<{
     notification: Notification,
@@ -48,109 +52,97 @@ const router = useRouter();
 const { user, notificationCount } = storeToRefs(useStore());
 const notifiable = computed(() => props.notification.notifiable);
 const context = computed(() => props.notification.context);
+const fromUser = computed(() => props.notification.from_user);
+const data = computed(() => props.notification.data || {});
 
-const notifiableName = computed(() => notifiable.value.name || 'ERR');
-const contextName = computed(() => context.value?.name || 'ERR');
-const notifiableLink = computed(() => objectLink(props.notification.notifiable_type, notifiable.value));
-const contextLink = computed(() => objectLink(props.notification.context_type, context.value));
+const defintion = computed(() => (typeDefintions[props.notification.type] || typeDefintions.default)());
+const to = computed(() => !defintion.value.onClick ? getObjectLink(props.notification.notifiable_type, notifiable.value) : null);
 
-const { t } = useI18n();
-
-function objectLink(type: string, o: Record<string, unknown>) {
-    if (!o) {
-        return null;
-    }
-    switch(type) {
-        case 'mod':
-            return `/mod/${o.id}`;
-        case 'user':
-            return `/@${o.unique_name}`;
-    }
-
-    return null;
-}
-
-const typeDefintion = computed(() => typeDefintions[props.notification.type] || typeDefintions.default);
-const showUser = computed(() => typeDefintion.value?.user?.());
-const mod = computed(() => typeDefintion.value?.mod?.());
-const thumbnail = computed(() => typeDefintion.value?.thumbnail || 'user');
+const classes = computed(() => ({
+    'alt-bg-color': !props.notification.seen,
+    'p-4': true,
+    'gap-2': true,
+    'flex': true,
+    'cursor-pointer': true
+}));
 
 async function clickComment(comment: Comment) {
-    //TODO: threads
-    const page = await useGet(`/mods/${comment.commentable_id}/comments/${comment.id}/page`);
-    router.push(`/mod/${comment.commentable_id}?page=${page}`);
+    const page = await useGet(`/${comment.commentable_type}s/${comment.commentable_id}/comments/${comment.id}/page`);
+    if (comment.reply_to) {
+        router.push(`/${comment.commentable_type}/${comment.commentable_id}/post/${comment.reply_to}?page=${page}`);
+    } else {
+        router.push(`/${comment.commentable_type}/${comment.commentable_id}?page=${page}`);
+    }
     if (props.ok) {
         props.ok();
     }
 }
 
 const typeDefintions = {
-    default: {
+    default: () => ({
         user() {
             return null;
         }
-    },
-    mod_comment: {
+    }),
+    follow_mod_new_version: () => ({
+        extra: {
+            object: data.value.version
+        }
+    }),
+    sub_mod: () => ({
         onClick() {
             clickComment(context.value);
         },
-        user() {
-            return context.value?.user;
+    }),
+    sub_thread: () => ({
+        onClick() {
+            clickComment(context.value);
+        },
+    }),
+    sub_comment: () => ({
+        onClick() {
+            clickComment(context.value);
+        },
+        extra: {
+            type: notifiable.value.commentable_type,
+            object: notifiable.value.commentable
         }
-    },
-    transfer_ownership: {
+    }),
+    transfer_ownership: () => ({
         onClick() {
-            function answer(accept: boolean) {
-                usePatch(`mods/${notifiable.value.id}/transfer-request/accept`, { accept });
+            async function answer(accept: boolean) {
+                await usePatch(`mods/${notifiable.value.id}/transfer-request/accept`, { accept });
                 deleteNotification(true);
             }
-            openModal({
-                message: t('transfer_request'),
-                onOk: () => answer(true),
-                onCancel: () => answer(false),
+            yesNoModal({
+                desc: t('transfer_request'),
+                yes: async () => await answer(true),
+                no: async () => await answer(false),
             });
         },
-        mod() {
-            return notifiable.value;
-        },
+        mod: notifiable.value,
         thumbnail: 'mod'
-    },
-    membership_request: {
+    }),
+    membership_request: () => ({
         onClick() {
-            function answer(accept: boolean) {
-                usePatch(`mods/${notifiable.value.id}/members/${user.value.id}/accept`, { accept });
+            async function answer(accept: boolean) {
+                await usePatch(`mods/${notifiable.value.id}/members/${user.value.id}/accept`, { accept });
                 deleteNotification(true);
             }
-            openModal({
-                message: t('mod_request'),
-                onOk: () => answer(true),
-                onCancel: () => answer(false),
+            yesNoModal({
+                desc: t('mod_request'),
+                yes: async () => await answer(true),
+                no: async () => await answer(false),
             });
         },
-        mod() {
-            return notifiable.value;
-        },
+        mod: notifiable.value,
         thumbnail: 'mod'
-    },
-    comment_mention: {
-        user() {
-            return notifiable.value?.user;
-        },
+    }),
+    comment_mention: () => ({
         async onClick() {
             await clickComment(notifiable.value);
         },
-    },
-    comment_reply: {
-        onClick() {
-            clickComment(notifiable.value);
-        },
-        mod() {
-            return notifiable.value?.commentable;
-        },
-        user() {
-            return context.value?.user;
-        },
-    }
+    }),
 };
 
 async function markAsSeen() {
@@ -171,12 +163,10 @@ async function onClick() {
     }
     props.notification.seen = true;
 
-    const click = typeDefintions[props.notification.type].onClick;
+    const click = defintion.value.onClick;
     
     if (click) {
         click();
-    } else {
-        router.push(notifiableLink.value);
     }
 }
 
