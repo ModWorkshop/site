@@ -12,6 +12,7 @@ use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\Suspension;
+use App\Models\Tag;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Services\APIService;
@@ -147,6 +148,9 @@ class ModController extends Controller
             $val['user_id'] = $request->user()->id;
             $mod = Mod::create($val); // Validate handles the important stuff already.
         }
+
+        Mod::flushQueryCache();
+        Tag::flushQueryCache();
 
         if(isset($tags)) {
             $mod->tags()->sync($tags);

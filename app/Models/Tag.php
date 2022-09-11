@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -46,7 +48,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Tag extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
