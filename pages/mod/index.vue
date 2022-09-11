@@ -8,6 +8,7 @@
             <Title>{{mod.name}}</Title>
         </Head>
         <the-breadcrumb :items="mod.breadcrumb"/>
+        <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
         <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
             <i18n-t keypath="mod_suspended" tag="span">
                 <template #reason>
@@ -99,6 +100,17 @@ if (mod.value) {
         }
     });
 }
+
+const notices = computed(() => {
+    const notices: { id: number, type: string, notice: string, localized: boolean }[] = [];
+    for (const tag of mod.value.tags) {
+        if (tag.notice && tag.notice.length > 0 && notices.length < 2) {
+            notices.push({ id: tag.id, type: tag.notice_type, notice: tag.notice, localized: tag.notice_localized });
+        }
+    }
+
+    return notices;
+});
 
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => hasPermission('edit-comment'));

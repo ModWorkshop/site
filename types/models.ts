@@ -200,7 +200,7 @@ export interface Tag {
     name: string;
     color: string;
     notice: string;
-    notice_type: number;
+    notice_type: string;
     notice_localized: boolean;
     created_at?: string;
     updated_at?: string;
