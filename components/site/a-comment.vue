@@ -46,6 +46,7 @@
                     :url="url"
                     :page-url="pageUrl"
                     :comment="reply"
+                    :can-comment="canReply"
                     :can-edit-all="canEditAll"
                     :can-delete-all="canDeleteAll"
                     :current-focus="currentFocus"
@@ -81,6 +82,7 @@ const props = defineProps<{
     comment: Comment,
     url: string,
     pageUrl: string,
+    canComment: boolean,
     canEditAll: boolean,
     canDeleteAll: boolean,
     isReply?: boolean,
@@ -127,7 +129,7 @@ const { user, hasPermission } = useStore();
 const areActionsVisible = ref(false);
 const canEdit = computed(() => user && (hasPermission('edit-own-comment') && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
-const canReply = computed(() => !props.comment.user.blocked_me);
+const canReply = computed(() => props.canComment && !props.comment.user.blocked_me);
 
 const classes = computed(() => ({
     comment: true,

@@ -61,12 +61,12 @@ const canComment = computed(() => {
     if (isBanned || thread.value.user.blocked_me) {
         return false;
     }
-    return !thread.value.archived || canModerate || thread.value.user_id === user?.id && !thread.value.archived_by_mod;
+    return !thread.value.archived || canModerate.value || thread.value.user_id === user?.id && !thread.value.archived_by_mod;
 });
 
 const cannotCommentReason = computed(() => {
     if (thread.value.archived) {
-        return 'This thread has been archived. Only owner and moderators can reply to it';
+        return 'This thread has been archived.';
     }
 
     if (isBanned) {

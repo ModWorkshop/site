@@ -10,7 +10,6 @@
 <script setup>
     const props = defineProps({
         href: String,
-        large: Boolean,
         unstyled: Boolean,
         color: {
             default: 'primary',
