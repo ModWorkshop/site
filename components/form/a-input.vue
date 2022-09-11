@@ -1,5 +1,5 @@
 <template>
-    <flex grow inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
+    <flex class="input-container" inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
         <label v-if="!isCheckbox && label" :for="labelId">
             {{label}}
         </label>
@@ -76,10 +76,17 @@ const isCheckbox = computed(() => props.type == 'checkbox');
 const classes = computed(() => ({input: true, 'input-error': !!err.value}));
 </script>
 
+<style>
+.flex > .input-container:not(.flex-col > .input-container) {
+    flex: 1;
+}
+</style>
+
 <style scoped>
 .input {
     padding: 0.6rem;
     flex: 1;
+    height: auto;
     color: var(--text-color);
     background-color: var(--input-bg-color);
     border: 1px solid var(--input-border-color);

@@ -1,5 +1,5 @@
 <template>
-    <flex inline column grow gap="2">
+    <flex class="input-container" inline column gap="2">
         <label v-if="label">
             {{label}}
         </label>
