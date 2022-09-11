@@ -76,11 +76,8 @@ const { data: user } = await useResource<User>('user', 'users', null, clone(stor
 isMe.value = !route.params.userId;
 
 const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
-const blockedTags = ref([]);
 
 const canSaveOverride = computed(() => !!(avatarBlob.value || bannerBlob.value || password.value || confirmPassword.value));
-
-const { data: tags } = await useFetchMany<Tag>('tags');
 
 async function save() {
     try {
