@@ -25,6 +25,7 @@ class TagController extends Controller
     {
         $val = $request->val([
             'game_id' => 'integer|min:1|nullable|exists:games,id',
+            'type' => 'string|in:mod,forum',
             'global' => 'boolean|nullable'
         ]);
 
@@ -35,6 +36,9 @@ class TagController extends Controller
                 }
                 if (isset($val['global']) && $val['global']) {
                     $q->orWhereNull('game_id');
+                }
+                if (isset($val['type'])) {
+                    $q->where('type', $val['type'])->orWhere('type', '')->orWhereNull('type');
                 }
             });
         });

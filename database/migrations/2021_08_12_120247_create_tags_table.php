@@ -22,6 +22,7 @@ class CreateTagsTable extends Migration
             $table->boolean('notice_localized')->default(true);
             $table->bigInteger('game_id')->nullable()->unsigned();
             $table->foreign('game_id')->references('id')->on('forums');
+            $table->string('type')->default('');
             $table->timestamps();
         });
     }

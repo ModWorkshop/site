@@ -111,13 +111,13 @@ class ModService {
                 $query->whereIn('category_id', $val['categories']);
             }
     
-            if (!empty($val['tags'])) { //Broken for some reason
+            if (!empty($val['tags'])) {
                 $query->whereHas('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
                 });
             }
     
-            if (!empty($val['block_tags'])) { //Broken for some reason
+            if (!empty($val['block_tags'])) {
                 $query->whereDoesntHave('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
                 });

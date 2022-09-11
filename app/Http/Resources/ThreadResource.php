@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ThreadResource extends JsonResource
@@ -16,6 +17,7 @@ class ThreadResource extends JsonResource
     {
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->user),
+            'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'subscribed' => $this->when($this->relationLoaded('subscribed'), fn() => isset($this->subscribed)),
         ]);
     }

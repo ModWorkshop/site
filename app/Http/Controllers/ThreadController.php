@@ -29,6 +29,8 @@ class ThreadController extends Controller
         $val = $request->val([
             'category_name' => 'string|max:100|nullable',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
+            'tags' => 'array|max:10',
+            'tags.*' => 'integer|min:1|nullable',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
         ]);
         
@@ -51,6 +53,12 @@ class ThreadController extends Controller
                 }
                 if (isset($val['forum_id'])) {
                     $query->where('forum_id', $val['forum_id']);
+                }
+
+                if (!empty($val['tags'])) {
+                    $query->whereHas('tagsSpecial', function($q) use ($val) {
+                        $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
+                    });
                 }
             });
         }));
@@ -77,7 +85,7 @@ class ThreadController extends Controller
 
         $thread = Thread::create($val);
 
-        return $thread;
+        return new ThreadResource($thread);
     }
 
     /**
@@ -89,6 +97,7 @@ class ThreadController extends Controller
     public function show(Thread $thread)
     {
         $thread->load('forum.game');
+        $thread->load('tags');
         $thread->load('subscribed');
         return new ThreadResource($thread);
     }
@@ -105,6 +114,8 @@ class ThreadController extends Controller
         $val = $request->validate([
             'content' => 'string|required_without_all:pinned,archived|min:2|max:1000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
+            'tag_ids' => 'array',
+            'tag_ids.*' => 'integer|min:1',
             'pinned' => 'boolean|nullable',
             'archived' => 'boolean|nullable'
         ]);
@@ -115,7 +126,6 @@ class ThreadController extends Controller
         if (!$canEditThreads && $changePin) {
             abort(401);
         }
-
         
         if (isset($changePin)) {
             if ($changePin === true) {
@@ -142,13 +152,20 @@ class ThreadController extends Controller
             } 
         }
 
+        $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
+
         $thread->update($val);
         $thread->load('forum.game');
 
+        if(isset($tags)) {
+            $thread->tags()->sync($tags);
+        }
 
         $thread->timestamps = true;
 
-        return $thread;
+        $thread->loadMissing('tags');
+
+        return new ThreadResource($thread);
     }
 
     /**
