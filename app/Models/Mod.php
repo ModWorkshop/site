@@ -9,6 +9,8 @@ use App\Traits\RelationsListener;
 use App\Traits\Subscribable;
 use Auth;
 use Carbon\Carbon;
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -139,7 +141,8 @@ abstract class Visibility {
  */
 class Mod extends Model implements SubscribableInterface
 {
-    use HasFactory, RelationsListener, QueryCacheable, Subscribable;
+    use HasFactory, RelationsListener, Subscribable;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 1;
     public static $flushCacheOnUpdate = true;

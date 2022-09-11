@@ -81,11 +81,12 @@ class TagController extends Controller
             'name' => 'string|required|min:2|max:100',
             'color' => 'string|required|max:8',
             'notice' => 'string|nullable|min:3|max:1000',
-            'notice_type' => 'integer|min:1|max:3',
+            'notice_type' => 'string|nullable|in:info,warning,danger',
             'notice_localized' => 'boolean|nullable',
             'game_id' => 'integer|min:1|nullable|exists:games,id'
         ]);
 
+        $val['notice_type'] ??= 'info';
         $val['notice'] ??= '';
         if (isset($tag)) {
             $tag->update($val);
