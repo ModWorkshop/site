@@ -114,6 +114,6 @@ class ThreadCommentsController extends Controller
      */
     public function replies(FilteredRequest $request, Thread $thread, Comment $comment)
     {
-        return CommentService::index($request, $thread, [], $comment->replies());
+        return CommentService::index($request, $thread, ['orderBy' => 'created_at ASC'], $comment->replies());
     }
 }

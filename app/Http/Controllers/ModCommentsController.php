@@ -106,6 +106,6 @@ class ModCommentsController extends Controller
      */
     public function replies(FilteredRequest $request, Mod $mod, Comment $comment)
     {
-        return CommentService::index($request, $mod, [], $comment->replies());
+        return CommentService::index($request, $mod, ['orderBy' => 'created_at ASC'], $comment->replies());
     }
 }
