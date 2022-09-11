@@ -8,19 +8,24 @@
             <a-button icon="flag" color="danger">{{$t('report')}}</a-button>
         </flex>
         <div class="text-3xl">{{thread.name}}</div>
-        <content-block :column="false" :gap="1" :padding="4">
-            <NuxtLink class="mr-1" :to="`/user/${thread.user_id}`">
-                <a-avatar class="align-middle" :src="thread.user.avatar" size="lg"/>
-            </NuxtLink>
-            <flex column wrap class="overflow-hidden w-full">
-                <flex>
-                    <a-user :avatar="false" :user="thread.user"/>
-                    <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
-                        <time-ago :time="thread.created_at"/>
-                    </NuxtLink>
-                    <span v-if="thread.updated_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
+        <content-block :padding="4">
+            <flex>
+                <NuxtLink class="mr-1" :to="`/user/${thread.user_id}`">
+                    <a-avatar class="align-middle" :src="thread.user.avatar" size="lg"/>
+                </NuxtLink>
+                <flex column wrap class="overflow-hidden w-full">
+                    <flex>
+                        <a-user :avatar="false" :user="thread.user"/>
+                        <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
+                            <time-ago :time="thread.created_at"/>
+                        </NuxtLink>
+                        <span v-if="thread.updated_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
+                    </flex>
+                    <a-markdown class="mt-1" :text="thread.content"/>
                 </flex>
-                <a-markdown class="mt-1" :text="thread.content"/>
+            </flex>
+            <flex v-if="thread.tags.length">
+                <a-tag v-for="tag in thread.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
         </content-block>
         <the-comments

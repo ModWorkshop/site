@@ -6,10 +6,10 @@
         </flex>
         <flex style="flex: 1;" gap="3">
             <content-block style="flex: 1;">
-                <flex>
-                    <a-input v-model="query" label="Search"/>
-                </flex>
+                <a-input v-model="query" label="Search"/>
+                <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
                 <flex column gap="2">
+                    <label>{{$t('category')}}</label>
                     <template v-if="categories.data.length">
                         <a class="nav-link" @click="categoryName = undefined">
                             All
@@ -38,7 +38,7 @@
                             <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
                         </td>
                         <td><a-user :user="thread.user"/></td>
-                        <td>
+                        <td v-if="!categoryName">
                             <a v-if="thread.category">{{thread.category.name}}</a>
                             <span v-else>-</span>
                         </td>
@@ -53,38 +53,49 @@
 </template>
 
 <script setup lang="ts">
-import { ForumCategory, Game, Thread } from '~~/types/models';
+import { useI18n } from 'vue-i18n';
+import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
 const router = useRouter();
+const { t } = useI18n();
+
 const query = ref('');
 const categoryName = useRouteQuery('category');
+const selectedTags = useRouteQuery('selected-tags', []);
 
 const { data: game } = await useResource<Game>('game', 'games');
 
 const forumId = game.value ? game.value.forum_id : 1;
 
-const { data: threads, refresh } = await useFetchMany<Thread>('threads', {
-    params: reactive({
-        forum_id: forumId,
-        category_name: categoryName,
-        query: query
-    })
+const params = reactive({
+    forum_id: forumId,
+    tags: selectedTags,
+    category_name: categoryName,
+    query: query
+});
+
+const { data: threads, refresh } = await useFetchMany<Thread>('threads', { params });
+
+const { data: tags } = await useFetchMany<Tag>('tags', { 
+    params: { 
+        game_id: game.value?.id,
+        type: 'forum',
+        global: 1
+    }
 });
 
 const { start } = useTimeoutFn(refresh, 200);
-watch([categoryName, query], start);
+watch(params, start);
 
 const breadcrumb = computed(() => {
     return [
         { name: game.value.name, id: game.value.short_name, type: 'game' },
-        { name: 'forum' },
+        { name: t('forum') },
     ];
 });
 
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
-    params: {
-        forum_id: forumId
-    }
+    params: { forum_id: forumId }
 });
 
 const newThreadLink = computed(() => game.value ? `/g/${game.value.short_name}/forum/post` : '/forum/post');

@@ -313,6 +313,8 @@ export interface Thread {
     last_user?: User;
     forum?: Forum;
     category?: ForumCategory;
+    tag_ids?: number[];
+    tags?: Tag[];
 }
 
 export interface Forum {

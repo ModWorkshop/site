@@ -6,6 +6,7 @@
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
                 <a-select v-model="thread.category_id" :label="$t('category')" :options="categories.data"/>
+                <a-select v-model="thread.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags"/>
             </simple-resource-form>
         </content-block>
     </page-block>
@@ -14,7 +15,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { ForumCategory, Game, Thread } from '~~/types/models';
+import { Breadcrumb, ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
 const { user } = useStore();
 const { t } = useI18n();
@@ -26,11 +27,21 @@ const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
     id: 0,
     views: 0,
     archived: false,
+    archived_by_mod: false,
     name: '',
     content: '',
+    tag_ids: [],
     category_id: null,
     user_id: user.id,
     forum_id: forumId,
+});
+
+const { data: tags } = await useFetchMany<Tag>('tags', { 
+    params: { 
+        game_id: game.value?.id,
+        type: 'forum',
+        global: 1
+    }
 });
 
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
@@ -44,17 +55,12 @@ const threadGame = computed(() => game.value ?? (thread.value.forum ? thread.val
 const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.value.short_name}/forum` : `/forum`);
 
 const breadcrumb = computed(() => {
-    let crumbs;
+    let crumbs: Breadcrumb[] = [
+        { name: t('forum'), attachToPrev: 'forum' }
+    ];
 
     if (threadGame.value) {
-        crumbs = [
-            { name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' },
-            { name: 'forum', attachToPrev: 'forum' },
-        ];
-    } else {
-        crumbs = [
-            { name: 'forum', href: `forum` }
-        ];
+        crumbs.push({ name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' });
     }
 
     crumbs.push({ name: thread.value.id ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });
