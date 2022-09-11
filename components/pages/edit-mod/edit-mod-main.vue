@@ -62,7 +62,13 @@ function deleteMod() {
 const gameId = computed(() => props.mod.game_id);
 const store = useStore();
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`);
-const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { params: reactive({ game_id: gameId, global: 1 }) });
+const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { 
+    params: reactive({ 
+        game_id: gameId,
+        type: 'mod',
+        global: 1
+    })
+});
 await store.fetchGames();
 
 watch(gameId, val => {

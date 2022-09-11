@@ -92,7 +92,7 @@ const filtersVisible = ref(true);
 
 await store.fetchGames();
 
-const { data: tags } = await useFetchMany<Tag>('tags');
+const { data: tags } = await useFetchMany<Tag>('tags', { params: { type: 'mod' } });
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
