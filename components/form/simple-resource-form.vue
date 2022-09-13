@@ -1,5 +1,5 @@
 <template>
-    <a-form v-if="modelValue" :model="modelValue" :created="modelValue && !!modelValue.id" float-save-gui :can-save="canSave" @submit="submit">
+    <a-form :model="modelValue" :created="modelValue && !!modelValue.id" float-save-gui :can-save="canSave" @submit="submit">
         <flex column gap="3">
             <slot/>
             <a-alert v-if="deleteButton && modelValue.id" class="w-full" :title="$t('danger_zone')" color="danger">

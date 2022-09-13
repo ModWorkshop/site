@@ -343,3 +343,14 @@ export interface Suspension {
     created_at?: string;
     updated_at?: string;
 }
+export interface Document {
+    id: number;
+    name: string;
+    url_name: string;
+    desc: string;
+    game_id: number;
+    last_user_id?: number;
+    last_user?: User;
+    created_at?: string;
+    updated_at?: string;
+}

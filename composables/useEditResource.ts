@@ -1,6 +1,7 @@
+import { SearchParams } from "ohmyfetch";
 import { useI18n } from "vue-i18n";
 
-export default async function<T>(name: string, url: string, template: T) {
+export default async function<T>(name: string, url: string, template: T, params: SearchParams=null) {
     const route = useRoute();
     const { t } = useI18n();
 
@@ -10,7 +11,7 @@ export default async function<T>(name: string, url: string, template: T) {
         return { data: ref<T>(template) };
     }
     else {
-        const res = await useFetchData<T>(`${url}/${id}`);
+        const res = await useFetchData<T>(`${url}/${id}`, { params });
         const { error } = res;
 
         useHandleError(error, {

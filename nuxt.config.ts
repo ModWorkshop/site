@@ -148,6 +148,30 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
+				name: "document",
+				path: "/docs/:documentId",
+				file: resolve(__dirname, "pages/document.vue")
+			});
+
+			routes.push({
+				name: "documents",
+				path: "/docs",
+				file: resolve(__dirname, "pages/docs.vue")
+			});
+
+			routes.push({
+				name: "game-documents",
+				path: "/g/:gameId/docs",
+				file: resolve(__dirname, "pages/docs.vue")
+			});
+
+			routes.push({
+				name: "game-document",
+				path: "/g/:gameId/docs/:documentId",
+				file: resolve(__dirname, "pages/document.vue")
+			});
+
+			routes.push({
 				name: "admin-game",
 				path: "/admin/games/:gameId",
 				file: resolve(__dirname, "pages/admin/game.vue"),
@@ -192,6 +216,16 @@ export default defineNuxtConfig({
 						path: "tags/:tagId",
 						file: resolve(__dirname, "pages/admin/edit-tag.vue")
 					},
+					{
+						name: "admin-game-docs",
+						path: "docs",
+						file: resolve(__dirname, "pages/admin/docs.vue")
+					},
+					{
+						name: "admin-game-edit-document",
+						path: "docs/:documentId",
+						file: resolve(__dirname, "pages/admin/edit-document.vue")
+					},
 				]
 			});
 
@@ -204,6 +238,11 @@ export default defineNuxtConfig({
 						name: "admin-settings",
 						path: "settings",
 						file: resolve(__dirname, "pages/admin/settings.vue")
+					},
+					{
+						name: "admin-roles",
+						path: "roles",
+						file: resolve(__dirname, "pages/admin/roles.vue")
 					},
 					{
 						name: "admin-roles",
@@ -254,6 +293,16 @@ export default defineNuxtConfig({
 						name: "admin-cases",
 						path: "cases",
 						file: resolve(__dirname, "pages/admin/cases.vue")
+					},
+					{
+						name: "admin-docs",
+						path: "docs",
+						file: resolve(__dirname, "pages/admin/docs.vue")
+					},
+					{
+						name: "admin-edit-document",
+						path: "docs/:documentId",
+						file: resolve(__dirname, "pages/admin/edit-document.vue")
 					},
 				]
 			});

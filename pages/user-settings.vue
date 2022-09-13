@@ -72,7 +72,7 @@ const route = useRoute();
 const password = ref('');
 const confirmPassword = ref('');
 
-const { data: user } = await useResource<User>('user', 'users', null, clone(store.user));
+const { data: user } = await useResource<User>('user', 'users', null, null, clone(store.user));
 isMe.value = !route.params.userId;
 
 const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');

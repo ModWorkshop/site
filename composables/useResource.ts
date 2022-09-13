@@ -1,3 +1,4 @@
+import { SearchParams } from 'ohmyfetch';
 import { useI18n } from "vue-i18n";
 
 /**
@@ -9,7 +10,7 @@ import { useI18n } from "vue-i18n";
  * @param fallback If ID is optional, falls back to this object
  * @returns 
  */
-export default async function<T>(name: string, url: string, errorMessages: Record<number|string, string> = {}, fallback?: T) {
+export default async function<T>(name: string, url: string, errorMessages: Record<number|string, string> = {}, params: SearchParams = null, fallback?: T) {
     const route = useRoute();
     
     const { t } = useI18n();
@@ -20,7 +21,7 @@ export default async function<T>(name: string, url: string, errorMessages: Recor
         return { data: ref(fallback), error: false };
     }
 
-    const res = await useFetchData<T>(`${url}/${id}`);
+    const res = await useFetchData<T>(`${url}/${id}`, { params });
     const { error } = res;
 
     useHandleError(error, {

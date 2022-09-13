@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submit">
         <!-- 
-            The point of this form is as follows: nice save UI (optional) & validation rules
+            The point of this form is as follows: nice save UI (optional)
             The save UI uses deep checking to make sure things are equal and triggers a save when things are not.
             Note: items that shouldn't be tracked should be plucked from the model
             For example, if we get files & images for a mod, we are not interested
@@ -26,13 +26,13 @@
     let props = defineProps({
         floatSaveGui: Boolean,
         canSave: Boolean,
+        ignoreChanges: Object,
         created: {
             default: true,
             type: Boolean
         },
         saveText: String,
         saveButtonText: String,
-        rules: Object,
         model: Object,
         models: Array
     });
@@ -50,11 +50,16 @@
         return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
     });
 
+    if (props.ignoreChanges) {
+        watch(props.ignoreChanges.listen, () => {
+            modelCopy.value = clone(props.model);
+        });
+    }
+
     watch(currentCanSave, val => {
         emit('stateChanged', val);
     });
 
-    provide('rules', props.rules);
     provide('model', props.model);
 
     const currentSaveButtonText = computed(function() {
