@@ -5,7 +5,3 @@
         </template>
     </a-list>
 </template>
-
-<script setup>
-console.log('ok');
-</script>

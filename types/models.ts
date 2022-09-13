@@ -181,7 +181,7 @@ export interface Game {
     updated_at?: string;
     forum?: Forum,
     path?: string;
-    followed: boolean
+    followed?: boolean
 }
 
 export interface SocialLogin {
