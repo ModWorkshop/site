@@ -53,7 +53,7 @@ class Game extends Model
 
     protected $guarded = [];
 
-    protected $hidden = [];
+    protected $hidden = ['webhook_url'];
     
     protected $with = [];
 
