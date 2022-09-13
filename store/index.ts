@@ -1,4 +1,4 @@
-import { User, Game, Tag, Notification } from './../types/models';
+import { User, Game, Tag, Notification, Settings } from './../types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 
@@ -9,6 +9,7 @@ interface MainStore {
     notificationCount: number,
     games: Paginator<Game>,
     tags: Paginator<Tag>,
+    settings: Settings,
 }
 
 let lastTimeout;
@@ -18,6 +19,7 @@ export const useStore = defineStore('main', {
         notifications: null,
         notificationCount: null,
         userIsLoading: false,
+        settings: null,
         games: null,
         tags: null,
         user: null
@@ -49,13 +51,16 @@ export const useStore = defineStore('main', {
 
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
-            const [ userData ] = await Promise.all([
-                useGet<User>('/user'),
+            const [ userData, settings ] = await Promise.all([
+                useGet<User>('user'),
+                useGet<Settings>('settings'),
                 reloadToken()
             ]);
 
             this.user = userData;
             this.userIsLoading = false;
+
+            this.settings = settings;
 
             console.log('Trying to reload token');
             

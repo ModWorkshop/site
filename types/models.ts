@@ -343,6 +343,15 @@ export interface Suspension {
     created_at?: string;
     updated_at?: string;
 }
+
+export interface Settings {
+    max_file_size: number,
+    mod_storage_size: number;
+    image_max_file_size: number;
+    mod_max_image_count: number;
+    discord_webhook: string;
+}
+
 export interface Document {
     id: number;
     name: string;
