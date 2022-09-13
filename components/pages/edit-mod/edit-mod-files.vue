@@ -48,7 +48,7 @@
     <label>Files</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="maxSize / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="settings.max_file_size / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
             <td class="text-center">Primary</td>
         </template>
@@ -79,6 +79,9 @@
 <script setup lang="ts">
 import { File, Link, Mod } from '~~/types/models';
 import clone from 'rfdc/default';
+import { useStore } from '~~/store';
+
+const { settings } = useStore();
 
 const props = defineProps<{
     mod: Mod,
@@ -91,7 +94,8 @@ const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
 
-const maxSize = 262144000; //250MiB
+const maxSize = settings.mod_storage_size;
+
 const usedFileSize = computed(() => props.mod.files.reduce((prev, curr) => prev + curr.size, 0));
 const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize));
 const usedSizeText = computed(() => {

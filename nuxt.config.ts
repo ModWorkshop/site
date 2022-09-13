@@ -201,6 +201,11 @@ export default defineNuxtConfig({
 				file: resolve(__dirname, "pages/admin/index.vue"),
 				children: [
 					{
+						name: "admin-settings",
+						path: "settings",
+						file: resolve(__dirname, "pages/admin/settings.vue")
+					},
+					{
 						name: "admin-roles",
 						path: "roles",
 						file: resolve(__dirname, "pages/admin/roles.vue")

@@ -18,7 +18,18 @@
     </div>
 
     <label>{{$t('images')}}</label>
-    <file-uploader name="images" :url="uploadLink" :files="images" url-prefix="mods/images/" max-files="20" max-file-size="5" max-size="50" use-file-as-thumb @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader 
+            name="images"
+            :url="uploadLink"
+            :files="images"
+            url-prefix="mods/images/" 
+            :max-files="settings.mod_max_image_count" 
+            :max-file-size="settings.image_max_file_size" 
+            max-size="50" 
+            use-file-as-thumb 
+            @file-uploaded="fileUploaded" 
+            @file-deleted="fileDeleted"
+        >
         <template #buttons="{file}">
             <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">Thumbnail</a-button>
             <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">Banner</a-button>
@@ -29,6 +40,9 @@
 <script setup lang="ts">
 import { Mod, Image } from '~~/types/models';
 import clone from 'rfdc/default';
+import { useStore } from '~~/store';
+
+const { settings } = useStore();
 
 const props = defineProps<{
     mod: Mod,
