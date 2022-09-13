@@ -4,6 +4,7 @@ use App\Http\Controllers\BanController;
 use App\Http\Controllers\BlockedTagController;
 use App\Http\Controllers\BlockedUserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FollowedGameController;
 use App\Http\Controllers\FollowedModController;
@@ -132,6 +133,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::resource('roles', RoleController::class);
+Route::resource('documents', DocumentController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);
