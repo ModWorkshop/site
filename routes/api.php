@@ -19,6 +19,7 @@ use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
@@ -132,6 +133,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
+Route::get('settings', [SettingsController::class, 'index']);
+Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);

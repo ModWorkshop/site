@@ -11,6 +11,7 @@ use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
+use App\Models\Setting;
 use App\Models\Suspension;
 use App\Models\Tag;
 use App\Models\TransferRequest;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Jcupitt\Vips;
+use Illuminate\Validation\Rules\File;
 
 const animated = [
     'gif' => true,
@@ -196,12 +198,12 @@ class ModController extends Controller
      * @return void
      */
     public function uploadModImage(Request $request, Mod $mod) {
-        if ($mod->images()->count() >= 20) {
+        if ($mod->images()->count() >= Setting::getValue('mod_max_image_count')) {
             abort(406, 'Reached maximum allowed images for the mod!');
         }
 
         $val = $request->validate([
-            'file' => 'required|max:512000|mimes:png,jpg,webp,gif'
+            'file' => ['required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
         ]);
 
         $dir = Storage::disk('public')->path('mods/images');

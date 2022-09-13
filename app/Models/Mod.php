@@ -138,6 +138,9 @@ abstract class Visibility {
  * @property-read int|null $tags_special_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $followers
+ * @property-read int|null $followers_count
+ * @property-read \App\Models\Subscription|null $subscribed
  */
 class Mod extends Model implements SubscribableInterface
 {
@@ -410,7 +413,10 @@ class Mod extends Model implements SubscribableInterface
         };
 
         //TODO: Unhardcode this
-        $send('https://discord.com/api/webhooks/1008645782276157482/uAp9fbenxqxd_WGCk1ACTaP4VItUKsoSVaoSKamhFUv3tyOC5yjgo4OOl4g-JItGRmZ7');
+        $webhook = Setting::getValue('discord_webhook');
+        if (isset($webhook)) {
+            $send($webhook);
+        }
 
         //Send to webhooks that were set by game or category
         if (!empty($game->webhook_url)) {
