@@ -45,6 +45,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property-read int|null $threads_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOnlyFor($value)
+ * @property string|null $type
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  */
 class Tag extends Model
 {

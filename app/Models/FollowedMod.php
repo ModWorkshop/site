@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 class FollowedMod extends Model
 {

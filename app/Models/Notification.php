@@ -41,6 +41,9 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property-read \App\Models\User $user
  * @property int $user_id
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
+ * @property int|null $from_user_id
+ * @property-read \App\Models\User|null $fromUser
+ * @method static Builder|Notification whereFromUserId($value)
  */
 class Notification extends Model
 {

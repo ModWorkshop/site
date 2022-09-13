@@ -55,6 +55,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereArchivedByMod($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property-read \App\Models\Subscription|null $subscribed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
+ * @property-read int|null $tags_special_count
  */
 class Thread extends Model implements SubscribableInterface
 {

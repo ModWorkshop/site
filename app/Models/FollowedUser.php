@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 class FollowedUser extends Model
 {

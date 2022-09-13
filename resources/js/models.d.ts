@@ -15,6 +15,23 @@ declare namespace App.Models {
         user?: App.Models.User | null;
     }
 
+    export interface BlockedTag {
+        id: number;
+        user_id: number;
+        tag_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
+    export interface BlockedUser {
+        id: number;
+        user_id: number;
+        block_user_id: number;
+        silent: boolean;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
     export interface Category {
         id: number;
         name: string;
@@ -50,9 +67,21 @@ declare namespace App.Models {
         updated_at: string | null;
         user?: App.Models.User | null;
         commentable?: any | null;
-        last_replies?: any | null;
+        replies?: Array<App.Models.Comment> | null;
         replying_comment?: App.Models.Comment | null;
         mentions?: any | null;
+        replies_count?: number | null;
+    }
+
+    export interface Document {
+        id: number;
+        name: string;
+        url_name: string;
+        desc: string;
+        game_id: number;
+        last_user_id: number;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface File {
@@ -71,6 +100,35 @@ declare namespace App.Models {
         label: string;
         version: string;
         mod?: App.Models.Mod | null;
+        user?: App.Models.User | null;
+    }
+
+    export interface FollowedGame {
+        id: number;
+        user_id: number;
+        game_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+    }
+
+    export interface FollowedMod {
+        id: number;
+        user_id: number;
+        mod_id: number;
+        notify: boolean;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+    }
+
+    export interface FollowedUser {
+        id: number;
+        user_id: number;
+        follow_user_id: number;
+        notify: boolean;
+        created_at: string | null;
+        updated_at: string | null;
         user?: App.Models.User | null;
     }
 
@@ -112,6 +170,7 @@ declare namespace App.Models {
         updated_at: string | null;
         forum_id: number | null;
         forum?: App.Models.Forum | null;
+        followed?: App.Models.FollowedGame | null;
         readonly breadcrumb?: any;
     }
 
@@ -186,27 +245,31 @@ declare namespace App.Models {
         likes: number;
         banner_id: number | null;
         last_user_id: number | null;
+        followers?: Array<App.Models.FollowedMod> | null;
         user?: App.Models.User | null;
         last_user?: App.Models.User | null;
         category?: App.Models.Category | null;
         game?: App.Models.Game | null;
         thumbnail?: App.Models.Image | null;
         banner?: App.Models.Image | null;
+        tags_special?: Array<App.Models.Taggable> | null;
         tags?: Array<App.Models.Tag> | null;
         images?: Array<App.Models.Image> | null;
         files?: Array<App.Models.File> | null;
         links?: Array<App.Models.Link> | null;
-        members?: Array<App.Models.User> | null;
+        members?: any | null;
         comments?: Array<App.Models.Comment> | null;
         transfer_request?: App.Models.TransferRequest | null;
         download?: any | null;
         liked?: App.Models.ModLike | null;
+        followed?: App.Models.FollowedMod | null;
         last_suspension?: App.Models.Suspension | null;
+        followers_count?: number | null;
+        tags_special_count?: number | null;
         tags_count?: number | null;
         images_count?: number | null;
         files_count?: number | null;
         links_count?: number | null;
-        members_count?: number | null;
         comments_count?: number | null;
         readonly breadcrumb?: any;
     }
@@ -259,9 +322,11 @@ declare namespace App.Models {
         created_at: string | null;
         updated_at: string | null;
         user_id: number;
+        from_user_id: number | null;
         notifiable?: any | null;
         context?: any | null;
         user?: App.Models.User | null;
+        from_user?: App.Models.User | null;
     }
 
     export interface Permission {
@@ -273,8 +338,6 @@ declare namespace App.Models {
         updated_at: string | null;
     }
 
-    export interface PermissionsRolesLink {}
-
     export interface Role {
         id: number;
         name: string;
@@ -284,8 +347,17 @@ declare namespace App.Models {
         order: number;
         created_at: string | null;
         updated_at: string | null;
-        permissions?: Array<App.Models.Permission> | null;
-        permissions_count?: number | null;
+        permissions?: any | null;
+    }
+
+    export interface Setting {
+        id: number;
+        name: string;
+        type: string;
+        value: string;
+        public: boolean;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface SocialLogin {
@@ -293,6 +365,16 @@ declare namespace App.Models {
         user_id: number | null;
         social_id: string;
         special_id: string;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+    }
+
+    export interface Subscription {
+        id: number;
+        user_id: number;
+        subscribable_type: string;
+        subscribable_id: number;
         created_at: string | null;
         updated_at: string | null;
         user?: App.Models.User | null;
@@ -313,17 +395,26 @@ declare namespace App.Models {
         name: string;
         color: string;
         notice: string;
-        notice_type: number;
         notice_localized: boolean;
         created_at: string | null;
         updated_at: string | null;
         game_id: number | null;
-        only_for: string | null;
+        type: string | null;
+        notice_type: string | null;
         game?: App.Models.Game | null;
         mods?: Array<App.Models.Mod> | null;
         threads?: Array<App.Models.Thread> | null;
         mods_count?: number | null;
         threads_count?: number | null;
+    }
+
+    export interface Taggable {
+        id: number;
+        tag_id: number;
+        taggable_type: string;
+        taggable_id: number;
+        created_at: string | null;
+        updated_at: string | null;
     }
 
     export interface Thread {
@@ -347,7 +438,11 @@ declare namespace App.Models {
         forum?: App.Models.Forum | null;
         category?: App.Models.ForumCategory | null;
         comments?: Array<App.Models.Comment> | null;
+        tags?: Array<App.Models.Tag> | null;
+        tags_special?: Array<App.Models.Taggable> | null;
         comments_count?: number | null;
+        tags_count?: number | null;
+        tags_special_count?: number | null;
     }
 
     export interface TransferRequest {
@@ -373,12 +468,17 @@ declare namespace App.Models {
         avatar: string;
         custom_color: string;
         unique_name: string | null;
+        followed_games?: any | null;
+        followed_mods?: any | null;
+        followed_users?: any | null;
+        fully_blocked_users?: any | null;
+        blocked_users?: any | null;
+        blocked_tags?: any | null;
         mods?: Array<App.Models.Mod> | null;
         extra?: App.Models.UserExtra | null;
-        roles?: Array<App.Models.Role> | null;
+        roles?: any | null;
         last_ban?: App.Models.Ban | null;
         mods_count?: number | null;
-        roles_count?: number | null;
         readonly role_names?: any;
         readonly permissions?: any;
     }
@@ -406,7 +506,5 @@ declare namespace App.Models {
         updated_at: string | null;
         donation_url: string | null;
     }
-
-    export interface UsersRolesLink {}
 
 }
