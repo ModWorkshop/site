@@ -18,10 +18,11 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        /**
-         * @var User
-         */
+        /** @var User */
         $user = $request->user();
+
+        $isMe = $user?->id === $this->id;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -32,7 +33,7 @@ class UserResource extends JsonResource
             'role_names' => $this->role_names,
             'permissions' => $this->permissions,
             'tag' => $this->tag,
-            'email' => $this->when($user?->id === $this->id, $this->email),
+            'email' => $this->when($isMe, $this->email),
             'last_ban' => $this->whenLoaded('lastBan'),
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', function() {
@@ -40,8 +41,8 @@ class UserResource extends JsonResource
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
                 return $roleIds;
             }),
-            'blocked_by_me' => $this->when(isset($user) && $user->id !== $this->id, fn() => $this->blockedByMe),
-            'blocked_me' => $this->when(isset($user) && $user->id !== $this->id, fn() => $this->blockedMe),
+            'blocked_by_me' => $this->when(!$isMe, fn() => $this->blockedByMe),
+            'blocked_me' => $this->when(!$isMe, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'tag' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
