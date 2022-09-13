@@ -105,17 +105,19 @@ img, svg, video, canvas, audio, iframe, embed, object {
 a {
     color: var(--primary-color);
     text-decoration: none;
+    transition: color 0.15s ease-in-out;
 }
 
 a:link:hover {
     color: var(--primary-hover-color);
+    transition: color 0.15s ease-in-out;
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     margin-bottom: .5rem;
     margin-top: 0;
-    font-weight: 500;
-    line-height: 1.2;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
 .markdown hr {
