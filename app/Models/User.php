@@ -10,6 +10,7 @@ use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -137,6 +138,13 @@ class User extends Authenticatable
 
     private $gotPerms = false;
     private $gotRoles = false;
+
+    public function customColor() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) =>  preg_replace('/\s+/', '', $value)
+        );
+    }
 
     public function blockedByMe()
     {

@@ -5,6 +5,7 @@ namespace App\Models;
 use Chelout\RelationshipEvents\BelongsToMany;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -48,6 +49,13 @@ class Role extends Model
 
     public function getMorphClass(): string {
         return 'role';
+    }
+
+    public function color() : Attribute
+    {
+        return Attribute::make(
+            get: fn($value) =>  preg_replace('/\s+/', '', $value)
+        );
     }
 
     public function permissions() : BelongsToMany
