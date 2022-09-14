@@ -94,6 +94,18 @@ const typeDefintions = {
             object: data.value.version
         }
     }),
+    mod_suspended: () => ({
+        thumbnail: {
+            type: 'mod',
+            src: notifiable.value.thumbnail
+        }
+    }),
+    mod_unsuspended: () => ({
+        thumbnail: {
+            type: 'mod',
+            src: notifiable.value.thumbnail
+        }
+    }),
     sub_mod: () => ({
         onClick() {
             clickComment(context.value);
