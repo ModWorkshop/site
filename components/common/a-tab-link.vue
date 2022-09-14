@@ -20,5 +20,5 @@ defineProps({
 });
 
 const tabState = inject('tabState');
-const side = inject('side');
+const side = inject('side', false);
 </script>

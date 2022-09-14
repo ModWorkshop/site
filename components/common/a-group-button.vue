@@ -15,7 +15,7 @@ const props = defineProps({
     icon: String,
 });
 
-const buttonStyle = inject('buttonStyle');
+const buttonStyle = inject('buttonStyle', 'button');
 const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 

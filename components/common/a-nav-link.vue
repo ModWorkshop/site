@@ -1,6 +1,6 @@
 <template>
     <NuxtLink :class="classes" :to="compTo">
-        <font-awesome-icon :icon="icon"/> <slot>{{title}}</slot>
+        <font-awesome-icon v-if="icon" :icon="icon"/> <slot>{{title}}</slot>
     </NuxtLink>
 </template>
 
@@ -15,8 +15,8 @@ const props = defineProps({
 
 const route = useRoute();
 
-const side = inject<boolean>('side');
-const root = inject<string>('root');
+const side = inject<boolean>('side', false);
+const root = inject<string>('root', '');
 
 const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 

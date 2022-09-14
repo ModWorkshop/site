@@ -4,7 +4,7 @@
             <flex column gap="4">
                 <h2 v-if="title">{{title}}</h2>
                 <a-alert v-if="descType" :color="descType" :desc="desc"/>
-                <span v-else>{{desc}}</span>
+                <span v-else-if="desc">{{desc}}</span>
                 <slot/>
                 <a-error-alert :error="error"/>
                 <flex gap="1">
