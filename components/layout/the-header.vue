@@ -8,7 +8,7 @@
                     <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok" :notifications="notifications"/>
                 </flex>
                 <div class="mt-4">
-                    <a-button icon="eye" to="/notifications">{{$t('browse_all_notifications')}}</a-button>
+                    <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
                 </div>
             </template>
         </template>
