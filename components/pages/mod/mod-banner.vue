@@ -44,7 +44,7 @@
                             </div>
                         </template>
                     </Popper>
-                    <a-button v-else-if="mod.files && mod.files.length > 0" class="large-button" icon="download" @click="switchToFiles">Downloads</a-button>
+                    <a-button v-else-if="mod.files.length || mod.links.length" class="large-button" icon="download" @click="switchToFiles">Downloads</a-button>
                     <a-button v-else class="large-button" disabled>No Files</a-button>
                 </flex>
             </flex>
