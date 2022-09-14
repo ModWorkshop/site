@@ -18,12 +18,13 @@
             <img :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
-            <NuxtLink v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</NuxtLink>
-            <NuxtLink to="/games">{{$t('games')}}</NuxtLink>
-            <NuxtLink to="/forum?category=news">{{$t('news')}}</NuxtLink>
-            <NuxtLink to="https://discord.gg/Eear4JW">{{$t('discord')}}</NuxtLink>
-            <NuxtLink to="/forum">{{$t('forum')}}</NuxtLink>
-            <NuxtLink to="/support">{{$t('support_us')}}</NuxtLink>
+            <a-link-button v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
+            <a-link-button to="/games">{{$t('games')}}</a-link-button>
+            <a-link-button to="/forum?category=news">{{$t('news')}}</a-link-button>
+            <a-link-button to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
+            <a-link-button to="/forum">{{$t('forum')}}</a-link-button>
+            <a-link-button to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
+            <a-link-button to="/support">{{$t('support_us')}}</a-link-button>
         </flex>
         <flex class="user-items mr-2 items-center" gap="4"> 
             <div>
@@ -85,41 +86,37 @@ watch(showNotifications, async () => {
 });
 </script>
 <style>
-    .user {
-        display: flex;
-        gap: 0.25rem;
-        align-items: center;
-    }
+.user {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
 
-    .user:hover {
-        color: var(--text-color);
-    }
+.user:hover {
+    color: var(--text-color);
+}
 
-    .user-items {
-        margin-left: auto;
-    }
-    
-    .header-items {
-        display: flex;
-        gap: 0.75rem;
-    }
+.user-items {
+    margin-left: auto;
+}
 
-    .nav a {
-        color: var(--text-color);
-    }
+.header-items {
+    display: flex;
+    gap: 0.75rem;
+}
 
-    header {
-        top: 0;
-        z-index: 100;
-        align-items: center;
-        position: sticky;
-        padding: 0.75rem;
-        display: flex;
-        background-color: var(--header-footer-color);
-        grid-area: header;
-    }
+header {
+    top: 0;
+    z-index: 100;
+    align-items: center;
+    position: sticky;
+    padding: 0.75rem;
+    display: flex;
+    background-color: var(--header-footer-color);
+    grid-area: header;
+}
 
-    .md-editor-open header {
-        z-index: 0;
-    }
+.md-editor-open header {
+    z-index: 0;
+}
 </style>
