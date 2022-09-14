@@ -45,7 +45,7 @@
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
                 <Popper arrow>
-                    <a-user class="cursor-pointer" :user="user" :tag="false" static/>
+                    <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
                     <template #content>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">Profile</a-dropdown-item>
                         <a-dropdown-item icon="heart">Liked Mods</a-dropdown-item>
