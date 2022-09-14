@@ -89,6 +89,7 @@ class User extends Authenticatable
     
     // Always return roles for users
     protected $with = ['roles', 'lastBan'];
+    protected $appends = ['color', 'role_names'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -144,6 +145,23 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn($value) =>  preg_replace('/\s+/', '', $value)
+        );
+    }
+
+    public function color() : Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes) {
+                Log::info($this->roles);
+                if ($attributes['custom_color']) {
+                    return $attributes['custom_color'];
+                }
+                foreach ($this->roles as $role) {
+                    if ($role->color) {
+                        return $role->color;
+                    }
+                }
+            }
         );
     }
 
@@ -360,8 +378,6 @@ class User extends Authenticatable
     {
         $this->permissions[$toWhat] = true;
     }
-
-    protected $appends = ['role_names'];
 
     public function getRoleNamesAttribute() {
         return $this->getRoleNames();

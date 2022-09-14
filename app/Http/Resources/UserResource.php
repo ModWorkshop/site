@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'unique_name' => $this->unique_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'color' => $this->color,
             'avatar' => $this->avatar,
             'role_names' => $this->role_names,
             'permissions' => $this->permissions,
@@ -51,16 +52,6 @@ class UserResource extends JsonResource
                     }
                 }
             }),
-            'color' => $this->whenLoaded('roles', function() {
-                if ($this->custom_color) {
-                    return $this->custom_color;
-                }
-                foreach ($this->roles as $role) {
-                    if ($role->color) {
-                        return $role->color;
-                    }
-                }
-            }, $this->custom_color),
             $this->mergeWhen($this->relationLoaded('extra'), function() {
                 $extra = $this->extra;
                 return [
