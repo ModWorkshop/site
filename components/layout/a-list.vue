@@ -42,11 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { setQuery } from '~~/utils/helpers';
-
 const props = defineProps({
     newButton: [String, Boolean],
     url: String,
+    modelValue: Object,
     search: {
         type: Boolean,
         default: true
@@ -84,7 +83,9 @@ const { data: items, refresh } = await useFetchMany(props.url, {
 
 watch(items, val => {
     emit('update:modelValue', val);
-}, { immediate: true });
+});
+
+emit('update:modelValue', items.value);
 
 loading.value = false;
 
