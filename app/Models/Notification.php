@@ -62,7 +62,7 @@ class Notification extends Model
         return 'notification';
     }
 
-    public static function send(string $type, User $user, Model $notifiable = null, Model $context = null, array $data=null)
+    public static function send(string $type, User $user, Model $notifiable = null, Model $context = null, bool $hideSender = false, array $data=null)
     {
         $authUser = Auth::user();
 
@@ -72,7 +72,7 @@ class Notification extends Model
 
         $notif = new Notification([
             'type' => $type,
-            'from_user_id' => $authUser->id,
+            'from_user_id' => !$hideSender ? $authUser->id : null,
             'data' => $data
         ]);
 

@@ -440,6 +440,7 @@ class ModController extends Controller
     {
         $val = $request->validate([
             'status' => 'boolean|required',
+            'notify' => 'boolean',
             'reason' => 'string|min:3|max:1000'
         ]);
 
@@ -454,6 +455,10 @@ class ModController extends Controller
         }
 
         $suspension = null;
+
+        $suspend = $val['status'];
+        $notify = $val['notify'] ?? true;
+
         if ($val['status'] === true) {
             $suspension = Suspension::create([
                 'reason' => $val['reason'],
@@ -462,7 +467,20 @@ class ModController extends Controller
             ]);
         }
 
-        $mod->update(['suspended' => $val['status']]);
+        if ($notify) {
+            $members = [$mod->user, ...$mod->membersThatCanEdit];
+
+            foreach ($members as $member) {
+                Notification::send(
+                    type: $suspend ? 'mod_suspended' : 'mod_unsuspended',
+                    user: $member,
+                    hideSender: true,
+                    notifiable: $mod
+                );
+            }
+        }
+
+        $mod->update(['suspended' => $suspend]);
 
         return $suspension;
     }
