@@ -331,4 +331,6 @@ comments: 'Comments',
 return_to_replies: 'Return to Replies',
 return_to_comments: 'Return to Comments',
 docs: 'Documents',
+archive: 'Archive',
+unarchive: 'Unarchive',
 };

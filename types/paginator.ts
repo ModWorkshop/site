@@ -1,4 +1,4 @@
-export class Paginator<T> {
+export class Paginator<T = unknown> {
     data: Array<T>;
     meta: {
         current_page: number;

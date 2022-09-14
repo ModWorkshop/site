@@ -5,7 +5,7 @@
             <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="cog">{{$t('edit')}}</a-button>
             <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
             <a-button v-if="canModerate" :disabled="thread.archived_by_mod && !canModerate" icon="box-archive" @click="archiveThread">{{thread.archived ? $t('unarchive') : $t('archive')}}</a-button>
-            <a-button icon="flag" color="danger">{{$t('report')}}</a-button>
+            <a-report :url="`/threads/${thread.id}/reports`"/>
         </flex>
         <div class="text-3xl">{{thread.name}}</div>
         <content-block :padding="4">

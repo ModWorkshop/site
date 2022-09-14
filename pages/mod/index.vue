@@ -32,7 +32,7 @@
         <a-alert v-if="mod.file_status === 2" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
-            <a-button color="danger">{{$t('report_mod')}}</a-button>
+            <a-report :url="`/mods/${mod.id}/reports`"/>
             <Popper :disabled="mod.followed">
                 <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
                     {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>

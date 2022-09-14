@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from 'nuxt';
 import { resolve } from 'path';
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
@@ -222,6 +221,11 @@ export default defineNuxtConfig({
 						file: resolve(__dirname, "pages/admin/docs.vue")
 					},
 					{
+						name: "admin-game-reports",
+						path: "reports",
+						file: resolve(__dirname, "pages/admin/reports.vue")
+					},
+					{
 						name: "admin-game-edit-document",
 						path: "docs/:documentId",
 						file: resolve(__dirname, "pages/admin/edit-document.vue")
@@ -298,6 +302,11 @@ export default defineNuxtConfig({
 						name: "admin-docs",
 						path: "docs",
 						file: resolve(__dirname, "pages/admin/docs.vue")
+					},
+					{
+						name: "admin-reports",
+						path: "reports",
+						file: resolve(__dirname, "pages/admin/reports.vue")
 					},
 					{
 						name: "admin-edit-document",

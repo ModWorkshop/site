@@ -2,7 +2,7 @@
     <page-block>
         <flex v-if="authUser && user.id != authUser.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
-            <a-button icon="bullhorn">{{$t('report')}}</a-button>
+            <a-report :url="`users/${user.id}/reports`"/>
             <Popper :disabled="user.followed">
                 <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
                     {{$t(user.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!user.followed" icon="caret-down"/>

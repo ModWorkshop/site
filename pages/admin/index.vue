@@ -8,6 +8,7 @@
                 <a-nav-link to="users" title="Users"/>
                 <a-nav-link to="cases" title="Cases"/>
                 <a-nav-link to="docs" title="Documents"/>
+                <a-nav-link to="reports" title="Reports"/>
                 <a-nav-link to="settings" title="Settings"/>
                 <a-nav-link to="forum-categories" title="Global Forum Categories"/>
                 <a-nav-link to="games" title="Games"/>
@@ -25,7 +26,3 @@ definePageMeta({
     middleware: 'admins-only',
 });
 </script>
-
-<style scoped>
-
-</style>
