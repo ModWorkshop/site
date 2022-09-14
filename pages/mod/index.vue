@@ -28,8 +28,8 @@
             </i18n-t>
         </a-alert>
 
-        <a-alert v-if="mod.file_status === 0" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
-        <a-alert v-if="mod.file_status === 2" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
+        <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
+        <a-alert v-if="!mod.approved" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-report :url="`/mods/${mod.id}/reports`"/>
@@ -173,7 +173,7 @@ function deleteAllFiles() {
         async yes() {
             await useDelete(`mods/${mod.value.id}/files`);
             mod.value.files = [];
-            mod.value.file_status = 0;
+            mod.value.has_download = mod.value.links.length > 0;
         }
     });
 }

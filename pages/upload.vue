@@ -62,8 +62,8 @@ const mod: Ref<Mod> = ref({
     visibility: 1,
     suspended: false,
     comments_disabled: false,
-    file_status: 0,
-    
+    approved: false,
+    has_download: false,
 });
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories?include_paths=1`);

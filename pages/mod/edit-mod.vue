@@ -67,7 +67,8 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     visibility: 1,
     suspended: false,
     comments_disabled: false,
-    file_status: 0,
+    has_download: false,
+    approved: false,
 });
 
 if (!canEditMod(mod.value)) {
