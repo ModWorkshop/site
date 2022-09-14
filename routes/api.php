@@ -19,6 +19,7 @@ use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TagController;
@@ -70,10 +71,14 @@ Route::resource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
+Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
+
 Route::resource('mods.comments', ModCommentsController::class);
+Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModCommentsController::class, 'report']);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
 Route::get('mods/{mod}/comments/{comment}/replies', [ModCommentsController::class, 'replies']);
-Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
     Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
@@ -96,8 +101,10 @@ Route::resource('forums', ForumController::class)->only(['index', 'show', 'updat
 Route::resource('forum-categories', ForumCategoryController::class);
 Route::resource('threads', ThreadController::class);
 Route::resource('threads.comments', ThreadCommentsController::class);
+Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
+Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/comments/{comment}/reports', [ThreadCommentsController::class, 'report']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
     Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
@@ -110,6 +117,7 @@ Route::middleware('auth:sanctum')->group(function() {
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::resource('bans', BanController::class);
+Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
     Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);
@@ -132,8 +140,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });
 
+Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
 Route::resource('documents', DocumentController::class);
+Route::resource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);

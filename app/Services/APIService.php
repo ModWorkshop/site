@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Storage;
 
@@ -66,5 +68,14 @@ class APIService {
 
             return $storePath;
         }
+    }
+
+    public static function report(Request $request, Model $model)
+    {
+        $val = $request->validate([
+            'reason' => 'string|min:3|max:1000'
+        ]);
+
+        $model->report($val['reason']);
     }
 }

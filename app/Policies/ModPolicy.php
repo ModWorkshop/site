@@ -34,8 +34,8 @@ class ModPolicy
     public function view(?User $user, Mod $mod)
     {
         if ($mod->suspended && (!isset($user) || !$this->update($user, $mod))) {
-            return Response::deny('suspended');
-        }
+                return Response::deny('suspended');
+            }
 
         switch ($mod->visibility) {
             case Visibility::unlisted:
@@ -167,5 +167,10 @@ class ModPolicy
     public function suspend(User $user, Mod $mod)
     {
         return $user->hasPermission('suspend-mod');
+    }
+
+    public function report(User $user, Mod $mod)
+    {
+        return !$mod->suspended && $user->hasPermission('create-report');
     }
 }

@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUrlName($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $lastUser
  */
 class Document extends Model
 {

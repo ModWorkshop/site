@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Reportable;
 use Arr;
 use Auth;
 use Carbon\Carbon;
@@ -78,7 +79,7 @@ use Storage;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 10;

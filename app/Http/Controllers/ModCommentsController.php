@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Services\APIService;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -107,5 +108,13 @@ class ModCommentsController extends Controller
     public function replies(FilteredRequest $request, Mod $mod, Comment $comment)
     {
         return CommentService::index($request, $mod, ['orderBy' => 'created_at ASC'], $comment->replies());
+    }
+
+    /**
+     * Reports the resource for moderators to look at.
+     */
+    public function report(Request $request, Mod $mod, Comment $comment)
+    {
+        APIService::report($request, $comment);
     }
 }

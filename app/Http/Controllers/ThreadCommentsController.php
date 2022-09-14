@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Comment;
 use App\Models\Thread;
+use App\Services\APIService;
 use App\Services\CommentService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -115,5 +116,13 @@ class ThreadCommentsController extends Controller
     public function replies(FilteredRequest $request, Thread $thread, Comment $comment)
     {
         return CommentService::index($request, $thread, ['orderBy' => 'created_at ASC'], $comment->replies());
+    }
+
+    /**
+     * Reports the resource for moderators to look at.
+     */
+    public function report(Request $request, Thread $thread, Comment $comment)
+    {
+        APIService::report($request, $comment);
     }
 }

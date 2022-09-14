@@ -479,4 +479,12 @@ class ModController extends Controller
             $image->delete();
         }
     }
+
+    /**
+     * Reports the resource for moderators to look at.
+     */
+    public function report(Request $request, Mod $mod)
+    {
+        APIService::report($request, $mod);
+    }
 }

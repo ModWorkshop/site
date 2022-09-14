@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\ThreadResource;
 use App\Models\Forum;
 use App\Models\Thread;
+use App\Services\APIService;
 use App\Services\CommentService;
 use Arr;
 use Carbon\Carbon;
@@ -177,5 +178,13 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         $thread->delete();
+    }
+
+    /**
+     * Reports the resource for moderators to look at.
+     */
+    public function report(Request $request, Thread $thread)
+    {
+        APIService::report($request, $thread);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
+use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,7 +64,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 class Thread extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable;
+    use HasFactory, Subscribable, Reportable;
 
     protected $with = ['user', 'lastUser', 'category'];
 

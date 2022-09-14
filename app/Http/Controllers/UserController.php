@@ -153,4 +153,12 @@ class UserController extends Controller
         $user = $request->user();
         return new UserResource($user);
     }
+
+    /**
+     * Reports the resource for moderators to look at.
+     */
+    public function report(Request $request, User $user)
+    {
+        APIService::report($request, $user);
+    }
 }

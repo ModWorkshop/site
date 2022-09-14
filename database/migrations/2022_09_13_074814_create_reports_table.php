@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('reported_name'); //Was username/name. Used to track name changes.
+            $table->tinyText('name')->nullable();
+            $table->json('data'); //Data saved to the table of the reported content
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('game_id')->unsigned()->nullable();
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->tinyText('reason');
-            $table->boolean('marked')->default(false);
+            $table->boolean('archived')->default(false); //Was marked
             $table->morphs('reportable'); //Was type
             $table->timestamps();
         });

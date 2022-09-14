@@ -6,6 +6,7 @@ use App\Interfaces\SubscribableInterface;
 use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
+use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Auth;
 use Carbon\Carbon;
@@ -144,7 +145,7 @@ abstract class Visibility {
  */
 class Mod extends Model implements SubscribableInterface
 {
-    use HasFactory, RelationsListener, Subscribable;
+    use HasFactory, RelationsListener, Subscribable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 1;

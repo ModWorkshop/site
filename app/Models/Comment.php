@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
+use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
@@ -58,7 +59,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  */
 class Comment extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable;
+    use HasFactory, Subscribable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
