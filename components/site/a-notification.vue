@@ -1,5 +1,5 @@
 <template>
-    <component :is="to ? 'NuxtLink' : 'div'" :class="classes" @click.stop="onClick">
+    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.stop="onClick">
         <a-avatar v-if="!defintion.thumbnail" :src="fromUser?.avatar"/>
         <template v-else>
             <mod-thumbnail v-if="defintion.thumbnail.type == 'mod'" style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
@@ -25,20 +25,23 @@
                 <time-ago :time="notification.created_at"/>
             </div>
             <flex class="ml-auto my-auto">
-                <a-button v-if="!notification.seen" icon="check" title="Mark as Seen" @click.stop="markAsSeen"/>
-                <a-button icon="trash" color="danger" title="Delete" @click.stop="deleteNotification()"/>
+                <a-button v-if="!notification.seen" icon="check" title="Mark as Seen" @click.prevent="markAsSeen"/>
+                <a-button icon="trash" color="danger" title="Delete" @click.prevent="deleteNotification()"/>
             </flex>
         </flex>
     </component>
 </template>
 
 <script setup lang="ts">
+import { remove } from '@vue/shared';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Comment, Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 const yesNoModal = useYesNoModal();
+
+const NuxtLink = resolveComponent('NuxtLink');
 
 const { t } = useI18n();
 
@@ -49,20 +52,22 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
+const notif = toRef(props, 'notification');
 const { user, notificationCount } = storeToRefs(useStore());
-const notifiable = computed(() => props.notification.notifiable);
-const context = computed(() => props.notification.context);
-const fromUser = computed(() => props.notification.from_user);
-const data = computed(() => props.notification.data || {});
+const notifiable = computed(() => notif.value.notifiable);
+const context = computed(() => notif.value.context);
+const fromUser = computed(() => notif.value.from_user);
+const data = computed(() => notif.value.data || {});
 
-const defintion = computed(() => (typeDefintions[props.notification.type] || typeDefintions.default)());
-const to = computed(() => !defintion.value.onClick ? getObjectLink(props.notification.notifiable_type, notifiable.value) : null);
+const defintion = computed(() => (typeDefintions[notif.value.type] || typeDefintions.default)());
+const to = computed(() => !defintion.value.onClick ? getObjectLink(notif.value.notifiable_type, notifiable.value) : null);
 
 const classes = computed(() => ({
-    'alt-bg-color': !props.notification.seen,
+    notification: true,
+    flex: true,
+    'alt-bg-color': !notif.value.seen,
     'p-4': true,
     'gap-2': true,
-    'flex': true,
     'cursor-pointer': true
 }));
 
@@ -146,22 +151,29 @@ const typeDefintions = {
 };
 
 async function markAsSeen() {
-    await usePatch(`/notifications/${props.notification.id}`, { seen: true });
-    props.notification.seen = true;
+    await usePatch(`/notifications/${notif.value.id}`, { seen: true });
+    notif.value.seen = true;
 }
 
 async function deleteNotification(onlyVisually=false) {
     if (!onlyVisually) {
-        await useDelete(`/notifications/${props.notification.id}`);
+        await useDelete(`/notifications/${notif.value.id}`);
     }
-    props.notifications.data = props.notifications.data.filter(notif => notif.id !== props.notification.id);
+
+    remove(props.notifications.data, notif.value);
 }
 
 async function onClick() {
-    if (!props.notification.seen) {
+    if (!notif.value.seen) {
         notificationCount.value--;
     }
-    props.notification.seen = true;
+    notif.value.seen = true;
+
+    if (!notif.value.seen) {
+        await usePatch(`notifications/${notif.value.id}`, {
+            seen: true
+        });
+    }
 
     const click = defintion.value.onClick;
     
@@ -171,3 +183,13 @@ async function onClick() {
 }
 
 </script>
+
+<style>
+.notification {
+    color: var(--text-color);
+}
+
+.notification:hover {
+    color: var(--text-color) !important;
+}
+</style>
