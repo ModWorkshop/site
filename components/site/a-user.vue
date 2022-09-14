@@ -4,7 +4,7 @@
             <a-avatar :size="avatarSize" :src="user.avatar"/>
         </NuxtLink>
         <flex gap="1" column class="my-auto">
-            <NuxtLink class="flex gap-1 items-center" :to="link" :style="{color: user.color}">
+            <NuxtLink class="flex gap-1 items-center" :to="link" :style="{color: color && user.color || 'var(--text-color)'}">
                 <span>{{user.name}}</span>
                 <a-tag v-if="tag && user.tag" small color="#2169ff">{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
@@ -23,13 +23,18 @@ import { User } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     details?: string,
+    color: boolean,
     user: User,
     avatar?: boolean,
     tag?: boolean,
     avatarSize?: string,
     showAt?: boolean,
     static?: boolean,
-}>(), { avatar: true, tag: true });
+}>(), { 
+    avatar: true,
+    tag: true,
+    color: true
+});
 
 const neededGap = computed(() => {
     if (props.avatar) {
