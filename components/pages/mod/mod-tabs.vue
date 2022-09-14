@@ -1,6 +1,6 @@
 <template>
     <flex grow>
-        <a-tabs class="content-block p-2 flex-grow">
+        <a-tabs class="content-block p-2 flex-grow" query>
             <a-tab name="description" :title="$t('description')">
                 <a-markdown :text="mod.desc"/>
             </a-tab>
