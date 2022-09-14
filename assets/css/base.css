@@ -177,6 +177,7 @@ a {
 
 .list-button {
     color: var(--text-color);
+    border-radius: var(--border-radius);
     background-color: var(--alt-bg-color);
     padding: 1rem;
 }
