@@ -47,9 +47,7 @@
                 </template>
             </flex>
             <a-loading v-else-if="!isLoaded"/>
-            <div v-else class="text-center">
-                <h4>No Comments</h4>
-            </div>
+            <h4 v-else class="text-center">No Comments</h4>
         </flex>
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
@@ -128,6 +126,8 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
         limit: 20
     })
 });
+
+watch(comments, () => isLoaded.value = true);
 
 const { data: viewingComment } = await useFetchData<Comment>(`${props.url}/${route.params.commentId}`, {
     immediate: !!route.params.commentId
