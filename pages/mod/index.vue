@@ -8,25 +8,28 @@
             <Title>{{mod.name}}</Title>
         </Head>
         <the-breadcrumb :items="mod.breadcrumb"/>
-        <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
-        <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
-            <i18n-t keypath="mod_suspended" tag="span">
-                <template #reason>
-                    <span v-if="mod.last_suspension">
-                        {{mod.last_suspension.reason}}
-                    </span>
-                    <span v-else>
-                        No reason stated.
-                    </span>
-                </template>
-                <template #rules>
-                    <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
-                </template>
-                <template #forum>
-                    <NuxtLink :to="`/game/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
-                </template>
-            </i18n-t>
-        </a-alert>
+
+        <flex column gap="2">
+            <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
+            <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
+                <i18n-t keypath="mod_suspended" tag="span">
+                    <template #reason>
+                        <span v-if="mod.last_suspension">
+                            {{mod.last_suspension.reason}}
+                        </span>
+                        <span v-else>
+                            No reason stated.
+                        </span>
+                    </template>
+                    <template #rules>
+                        <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
+                    </template>
+                    <template #forum>
+                        <NuxtLink :to="`/game/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
+                    </template>
+                </i18n-t>
+            </a-alert>
+        </flex>
 
         <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
         <a-alert v-if="!mod.approved" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
@@ -42,7 +45,7 @@
                     <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </Popper>
-            <a-button @click="openShare">{{$t('share')}}</a-button>
+            <a-button icon="share-nodes" @click="openShare">{{$t('share')}}</a-button>
             <Popper arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
                 <template #content>
@@ -157,7 +160,7 @@ function openShare() {
 async function suspend(ok, onError) {
     try {
         await usePatch(`mods/${mod.value.id}/suspended`, suspendForm);
-    
+
         mod.value.suspended = !mod.value.suspended;
         suspendForm.reason = '';
         ok();
