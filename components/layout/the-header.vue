@@ -42,7 +42,7 @@
                 </flex>
                 <flex class="text-lg" gap="4">
                     <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
-                    <span><font-awesome-icon icon="message"/> 0</span>
+                    <!-- <span><font-awesome-icon icon="message"/> 0</span> -->
                 </flex>
                 <Popper arrow>
                     <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
