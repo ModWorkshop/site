@@ -142,6 +142,10 @@ abstract class Visibility {
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $followers
  * @property-read int|null $followers_count
  * @property-read \App\Models\Subscription|null $subscribed
+ * @property bool $has_download
+ * @property bool $approved
+ * @method static Builder|Mod whereApproved($value)
+ * @method static Builder|Mod whereHasDownload($value)
  */
 class Mod extends Model implements SubscribableInterface
 {
@@ -281,6 +285,14 @@ class Mod extends Model implements SubscribableInterface
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
+    public function membersThatCanEdit()
+    {
+        return $this->belongsToMany(User::class, 'mod_members')
+            ->withPivot(['level', 'accepted', 'created_at'])
+            ->wherePivot('level', '<=', 1)
+            ->wherePivot('accepted', true);
+    }
+
     public function getMemberLevel(int $userId, $acceptedOnly=true)
     {
         if ($userId === $this->user_id) {
@@ -362,34 +374,10 @@ class Mod extends Model implements SubscribableInterface
      */
     public function calculateFileStatus(bool $save=true)
     {
-        $foundOneActive = false;
-        $foundOneWaiting = false;
-
-        //Links have no approval state for now.
-        //For music mods we generally disable this feature due to problems regarding the uncertainty of the file
-        if (count($this->links) > 0) {
-            $foundOneActive = true;
-        }
-
-        foreach ($this->files as $file) {
-            if ($file->approved) {
-                $foundOneActive = true;
-                break;
-            } else {
-                $foundOneWaiting = true;
-            }
-        }
-
-        if ($foundOneActive) {
-            $this->file_status = 1;
-        } elseif ($foundOneWaiting) {
-            $this->file_status = 2;
-        } else {
-            $this->file_status = 0;
-        }
+        $this->has_download = !empty($this->files) || !empty($this->links);
 
         //If we don't have a publish date and status is 1
-        if (!$this->published_at && $this->file_status == 1) {
+        if (!$this->published_at && $this->approved && $this->has_download) {
             $this->publish();
         }
 

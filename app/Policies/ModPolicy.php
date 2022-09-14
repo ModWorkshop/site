@@ -33,9 +33,15 @@ class ModPolicy
      */
     public function view(?User $user, Mod $mod)
     {
-        if ($mod->suspended && (!isset($user) || !$this->update($user, $mod))) {
+        if (!isset($user) || !$this->update($user, $mod)) {
+            if ($mod->suspended) {
                 return Response::deny('suspended');
             }
+
+            if (!$mod->approved) {
+                return Response::deny('unapproved');
+            }
+        }
 
         switch ($mod->visibility) {
             case Visibility::unlisted:
