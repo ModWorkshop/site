@@ -51,15 +51,8 @@ async function deleteReadNotifications(items: Notification[]) {
 }
 
 async function markAllAsRead(items: Notification[]) {
-    yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action cannot be undone!',
-        descType: 'warning',
-        async yes() {
-            await usePost('notifications/read-all');
-            items.forEach(item => item.seen = true);
-        }
-    });
+    await usePost('notifications/read-all');
+    items.forEach(item => item.seen = true);
 }
 
 </script>
