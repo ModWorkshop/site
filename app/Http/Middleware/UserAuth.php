@@ -25,11 +25,8 @@ class UserAuth
 
         // Update the last online every 5 minutes or so.
         if (isset($user)) {
-            $extra = $user->extra;
-            $lastOnline = $extra->last_online;
-
-            if (!isset($lastOnline) || $lastOnline->diffInMinutes(Carbon::now()) > 1) {
-                $extra->update([
+            if (!isset($user->last_online) || $user->last_online->diffInMinutes(Carbon::now()) > 1) {
+                $user->update([
                     'last_online' => Carbon::now(),
                 ]);
             }

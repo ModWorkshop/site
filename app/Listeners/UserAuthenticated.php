@@ -27,7 +27,6 @@ class UserAuthenticated
     public function handle($event)
     {
         $user = Auth::user();
-        $user->loadMissing('extra');
         $user->roles->loadMissing('permissions');
         $user->append('permissions');
     }

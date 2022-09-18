@@ -38,7 +38,7 @@ class UserController extends Controller
             'id' => 'integer|min:1'
         ]);
 
-        $users = User::queryGet($val, function($query) use ($val) {
+        $users = User::queryGet($val, function($query, $val) {
             if (isset($val['id'])) {
                 $query->orWhere('id', $val['id']);
             }
@@ -151,6 +151,7 @@ class UserController extends Controller
     public function currentUser(Request $request)
     {
         $user = $request->user();
+        $user->loadMissing('extra');
         return new UserResource($user);
     }
 

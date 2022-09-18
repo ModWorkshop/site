@@ -52,7 +52,7 @@ class UserResource extends JsonResource
                     }
                 }
             }),
-            $this->mergeWhen($this->relationLoaded('extra'), function() {
+            $this->whenLoaded('extra', function() {
                 $extra = $this->extra;
                 return [
                     'banner' => $extra->banner,
