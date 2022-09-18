@@ -4,10 +4,15 @@
             <a-tab name="description" :title="$t('description')">
                 <a-markdown :text="mod.desc"/>
             </a-tab>
-            <a-tab v-if="mod.images.length > 0" name="images" :title="$t('images')" style="width: 100%; margin: 0 auto; text-align: center">
-                <a v-for="(image, i) of mod.images" :key="image.id" class="cursor-pointer mb-1 inline-block overflow-hidden" @click="showImage(i)">
-                    <a-img :src="`/mods/images/${image.file}`" style="max-width:100%;height: 210px;object-fit: cover;"/>
-                </a>
+            <a-tab v-if="mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
+                <a-img 
+                    v-for="(image, i) of mod.images"
+                    :key="image.id" 
+                    class="cursor-pointer" 
+                    :src="`/mods/images/${image.file}`" 
+                    style="max-height: 200px;" 
+                    @click="showImage(i)"
+                />
                 <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
             </a-tab>
             <a-tab name="downloads" :title="$t('downloads')">
