@@ -32,13 +32,18 @@ class ThreadController extends Controller
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
             'tags' => 'array|max:10',
             'tags.*' => 'integer|min:1|nullable',
+            'no_pins' => 'boolean|nullable',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
         ]);
         
         return ThreadResource::collection(Thread::queryGet($val, function($query, array $val) use($request) {
             $user = $request->user();
 
-            $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
+            if (isset($val['no_pins']) && $val['no_pins']) {
+                $query->orderByDesc('bumped_at');
+            } else {
+                $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
+            }
             $query->where(function($query) use ($val, $user) {
                 if (!$user->hasPermission('edit-thread')) {
                     $query->whereNotExists(function($query) use ($user) {
