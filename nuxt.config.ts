@@ -304,6 +304,11 @@ export default defineNuxtConfig({
 						file: resolve(__dirname, "pages/admin/edit-tag.vue")
 					},
 					{
+						name: "admin-bans",
+						path: "bans",
+						file: resolve(__dirname, "pages/admin/bans.vue")
+					},
+					{
 						name: "admin-cases",
 						path: "cases",
 						file: resolve(__dirname, "pages/admin/cases.vue")

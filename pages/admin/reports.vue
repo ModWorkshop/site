@@ -2,23 +2,17 @@
     <div>
         <a-list v-model="reports" url="reports" query :params="{ game_id: $route.params.gameId }">
             <template #item="{ item }">
-                <flex column class="list-button">
-                    <flex>
-                        <flex :class="{'items-center': true, archived: item.archived}">
-                            <a-tag class="capitalize">{{item.reportable_type}}</a-tag>
-                            <strong v-if="item.name" :class="{ archived: item.archived }">Name: {{getName(item)}}</strong>
-                        </flex>
-                        <flex class="ml-auto">
-                            <a-button v-if="item.archived" icon="trash" @click="deleteReport(item)">{{$t('delete')}}</a-button>
-                            <a-button style="opacity: 1;" @click="toggleArchiveReport(item)">{{$t(item.archived ? 'unarchive' : 'archive')}}</a-button>
-                        </flex>
+                <flex class="list-button">
+                    <flex column :class="{archived: item.archived}">
+                        <a-tag class="capitalize mr-auto">{{item.reportable_type}}</a-tag>
+                        <strong v-if="item.name" :class="{ archived: item.archived }">Name: {{getName(item)}}</strong>
+                        <flex class="items-center">Reported by <a-user :user="item.user" avatar-size="xs"/> <time-ago :time="item.created_at"/></flex>
+                        <div>Reason: "{{item.reason}}"</div>
                     </flex>
-                    <div :class="{ archived: item.archived }">
-                        <flex class="items-center">
-                            Reported by <a-user :user="item.user" avatar-size="xs"/> <time-ago :time="item.created_at"/>
-                        </flex>
-                        Reason: "{{item.reason}}"
-                    </div>
+                    <flex class="ml-auto my-auto">
+                        <a-button v-if="item.archived" icon="trash" @click="deleteReport(item)">{{$t('delete')}}</a-button>
+                        <a-button style="opacity: 1;" @click="toggleArchiveReport(item)">{{$t(item.archived ? 'unarchive' : 'archive')}}</a-button>
+                    </flex>
                 </flex>
             </template>
         </a-list>
