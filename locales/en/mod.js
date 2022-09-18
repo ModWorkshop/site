@@ -28,8 +28,6 @@ unsuspend_it: "Unsuspend",
 suspend_it: "Suspend",
 files_alert_title: "No Files",
 files_alert: "If a mod does not have files, the mod is marked as invisible to the public.",
-files_alert_waiting_title: "No Approved Files",
-files_alert_waiting: "This mod is currently invisible until the files you uploaded are approved by a staff member.",
 share: "Share",
 comment: "Comment",
 report_comment: "Report Comment",
@@ -120,5 +118,15 @@ allowed_size_per_mod: 'You are allowed to upload up to {0} of files in a mod.',
 mod_desc_help: "The description defines what your mod does in words, it is the first thing people will see.",
 mod_creation_desc: `First things first, let's set up the basics.
 Once done, click on the 'Create' button to move to the edit page where you will be able to add more information and upload files and images.`,
-primary_download_desc: 'If your mod is primarily a single download, you may choose the primary file or link the mod uses'
+primary_download_desc: 'If your mod is primarily a single download, you may choose the primary file or link the mod uses',
+send_for_approval: 'Send for Approval',
+send_for_approval_desc: `
+ome mods like music mods, or mods that contain music need to be approved before they're fully published. 
+Some categories force this option.`,
+mod_waiting: 'The mod is waiting for approval',
+mod_waiting_desc: 'The mod will be inivisible until it will be approved by a moderator. Make sure the mod satisfies our rules.',
+mod_rejected: 'The mod has been rejected!',
+mod_rejected_desc: "The mod has been rejected due to not conforming to our rules. For example: not including sources for music, copyrighted music.",
+approve: 'Approve',
+reject: 'Reject',
 };

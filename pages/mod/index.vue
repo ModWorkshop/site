@@ -27,7 +27,13 @@
         </flex>
 
         <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
-        <a-alert v-if="!mod.approved" color="info" :title="$t('files_alert_waiting_title')" :desc="$t('files_alert_waiting')"/>
+        <a-alert v-else-if="mod.approved === null" color="info" :title="$t('mod_waiting')">
+            <span>
+                {{$t('mod_waiting_desc')}}
+            </span>
+            <mod-approve v-if="canManage" :mod="mod"/>
+        </a-alert>
+        <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-report :url="`/mods/${mod.id}/reports`"/>

@@ -1,13 +1,21 @@
 <template>
-    <a-select v-model="modelValue" :options="users" text-by="text" @update-search="searchUsers" @update:model-value="value => $emit('update:modelValue', value)"/>
+    <a-select 
+        v-model="modelValue"
+        :options="users"
+        text-by="text"
+        :placeholder="placeholder"
+        @update-search="searchUsers"
+        @update:model-value="value => $emit('update:modelValue', value)"
+    />
 </template>
 
 <script setup lang="ts">
 import { User } from '~~/types/models';
 
-const props = defineProps<{
-    modelValue: User|Array<User>,
-}>();
+const props = withDefaults(defineProps<{
+    modelValue: number|User|Array<User>,
+    placeholder: string
+}>(), { placeholder: 'Select a user...' });
 
 defineEmits(['update:modelValue']);
 

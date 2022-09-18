@@ -73,19 +73,23 @@ const route = useRoute();
 const query = props.query ? ref(route.query.query) : ref('');
 const loading = ref(true);
 
-const { data: items, refresh } = await useFetchMany(props.url, { 
-    params: reactive(Object.assign({
-        query: query,
-        page: page,
-        limit: props.limit,
-    }, props.params))
-});
+const params = reactive(Object.assign(props.params || {}, {
+    query: query,
+    page: page,
+    limit: props.limit,
+}));
+
+const { data: items, refresh, error } = await useFetchMany(props.url, { params });
+
+useHandleError(error);
 
 watch(items, val => {
     emit('update:modelValue', val);
 });
 
 emit('update:modelValue', items.value);
+
+watch(params, refresh);
 
 loading.value = false;
 
