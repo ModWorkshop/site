@@ -1,6 +1,8 @@
 //This is only added due to VueUse's one breaking on Nuxt 3.
 
-export default function<T extends number | string | string[]>(name: string, defaultValue?: T, cast?: (data: string|string[]) => T) {
+//Trying to make this work with typescript is just... No
+
+export default function(name, defaultValue, cast) {
     const router = useRouter();
     const route = useRoute();
     return computed({
