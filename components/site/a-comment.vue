@@ -199,7 +199,7 @@ function openDeleteModal() {
 
 .focus {
     background-color: #ffd4001a !important;
-    border-left: solid 2px #ffd400;
+    border-left: solid 3px #ffd400;
 }
 
 .comment-body .comment-actions {

@@ -44,7 +44,7 @@ const classes = computed(() => {
 .alert {
     background-color: var(--content-bg-color);
     border-radius: var(--border-radius);
-    border-left: solid 4px transparent;
+    border-left: solid 3px transparent;
 }
 .alert-success {
     color: var(--success-color);
