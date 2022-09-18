@@ -17,7 +17,7 @@
             <a-user :static="static" class="text-secondary" :user="mod.user"/>
         </td>
 
-        <td v-if="!noCategories">
+        <td v-if="!lite && !noCategories">
             <template v-if="(mod.game && showGame) || mod.category">
                 <NuxtLink v-if="showGame" class="text-secondary" :to="!static && `/g/${mod.game.short_name || mod.game.id}` || null" :title="mod.game">{{mod.game.name}}</NuxtLink>
                 <template v-if="mod.category">
@@ -29,26 +29,28 @@
                 {{$t('na')}}
             </span>
         </td>
-        <td>{{likes}}</td>
-        <td>{{downloads}}</td>
-        <td>{{views}}</td>
-        <td>
+        <td v-if="!lite">{{likes}}</td>
+        <td v-if="!lite">{{downloads}}</td>
+        <td v-if="!lite">{{views}}</td>
+        <td v-if="!lite">
             <time-ago :time="date"/>
         </td>
+        <slot name="definitions"/>
     </tr>
 </template>
 
 <script setup lang="ts">
 import { Mod } from "~~/types/models";
 
-const props = defineProps<{
-    displayMode: number,
+const props = withDefaults(defineProps<{
+    displayMode?: number,
     sort?: string,
     noCategories?: boolean,
     noGame?: boolean,
     mod: Mod,
-    static?: boolean
-}>();
+    static?: boolean,
+    lite?: boolean
+}>(), { displayMode: 1, lite: false });
 
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);

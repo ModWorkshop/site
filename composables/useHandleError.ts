@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { FetchError } from 'ohmyfetch';
 
-export default function(error: FetchError|true|Ref<FetchError|true>, errorStrings: string|Record<number|string, string> = {}) {
+export default function(error: Error|FetchError|true|Ref<FetchError|true>, errorStrings: string|Record<number|string, string> = {}) {
     error = unref(error);
 
     if (error instanceof Error) {
