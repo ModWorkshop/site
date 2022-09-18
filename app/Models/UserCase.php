@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserCase
@@ -32,10 +33,24 @@ use Illuminate\Database\Eloquent\Model;
 class UserCase extends Model
 {
     protected $guarded = [];
+    protected $with = ['user', 'ban'];
+    protected $casts = [
+        'expire_date' => 'datetime',
+    ];
 
     use HasFactory;
 
     public function getMorphClass(): string {
         return 'user_case';
+    }
+
+    public function ban(): BelongsTo
+    {
+        return $this->belongsTo(Ban::class, 'id', 'case_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

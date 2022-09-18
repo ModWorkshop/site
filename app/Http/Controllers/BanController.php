@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Ban;
 use App\Models\User;
+use App\Models\UserCase;
+use Arr;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +27,7 @@ class BanController extends Controller
         
         return JsonResource::collection(Ban::queryGet($val, function($query) {
             $query->with('user');
+            $query->where(fn($q) => $q->where('expire_date', '>', Carbon::now())->orWhereNull('expire_date'));
             if (isset($val['user_id'])) {
                 $query->where('user_id', $val['user_id']);
             }
@@ -40,7 +44,8 @@ class BanController extends Controller
     {
         $val = $request->validate([
             'user_id' => 'int|min:0|required|exists:users,id',
-            'expire_date' => 'date|required|after:now',
+            'expire_date' => 'date|after:now|nullable',
+            'warn_expire_date' => 'date|after:now|nullable',
             'reason' => 'string|min:3|max:1000'
         ]);
 
@@ -50,15 +55,27 @@ class BanController extends Controller
          */
         $banUser = User::find($val['user_id']);
         
-        if (!$banUser->lastBan) {
-            abort(405); //Already banned
+        if ($banUser->lastBan) {
+            abort(405, 'Already banned'); //Already banned
         }
 
         if (!$banUser->canBeEdited($user)) {
-            abort(403);
+            abort(403, 'Cannot ban user');
         }
 
-        Ban::create($val);
+        $reason = Arr::pull($val, 'reason');
+        $warnExpireDate = Arr::pull($val, 'warn_expire_date');
+        $case = UserCase::create([
+            'reason' => $reason,
+            'user_id' => $val['user_id'],
+            'expire_date' => $warnExpireDate
+        ]);
+
+        $val['case_id'] = $case->id;
+
+        $ban = Ban::create($val);
+
+        return $ban->load(['user', 'case']);
     }
 
     /**

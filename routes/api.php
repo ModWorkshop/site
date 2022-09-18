@@ -25,6 +25,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Models\SocialLogin;
 use App\Models\User;
@@ -117,6 +118,7 @@ Route::middleware('auth:sanctum')->group(function() {
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
 Route::resource('bans', BanController::class);
+Route::resource('user-cases', UserCaseController::class);
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {

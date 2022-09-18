@@ -26,6 +26,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'ban' => $this->last_ban,
             'unique_name' => $this->unique_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -35,7 +36,6 @@ class UserResource extends JsonResource
             'permissions' => $this->permissions,
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),
-            'last_ban' => $this->whenLoaded('lastBan'),
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', function() {
                 $roleIds = Arr::pluck($this->roles, 'id');

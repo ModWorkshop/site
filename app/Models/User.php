@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -88,8 +89,8 @@ class User extends Authenticatable
     public static $membersRole = null;
     
     // Always return roles for users
-    protected $with = ['roles', 'lastBan'];
-    protected $appends = ['color', 'role_names'];
+    protected $with = ['roles', 'ban'];
+    protected $appends = ['color', 'role_names', 'lastBan'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -349,7 +350,7 @@ class User extends Authenticatable
             return true;
         }
 
-        if ($this->lastBan) {
+        if ($this->getLastBanAttribute()) {
             return false;
         }
 
@@ -387,9 +388,23 @@ class User extends Authenticatable
         return $this->getPermissions();
     }
 
-    public function lastBan()
+    public function getLastBanAttribute()
     {
-        return $this->hasOne(Ban::class)->where('expire_date', '>', Carbon::now());
+        $ban = $this->ban;
+        if (isset($ban)) {
+            if (!isset($ban->expire_date) || $ban->expire_date > Carbon::now()) {
+                return $ban;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public function ban() : BelongsTo
+    {
+        return $this->belongsTo(Ban::class);
     }
 
     /**

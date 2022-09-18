@@ -37,7 +37,11 @@ class Ban extends Model
 
     protected $guarded = [];
     
-    protected $with = [];
+    protected $with = ['case'];
+
+    protected $casts = [
+        'expire_date' => 'datetime',
+    ];
 
     public function getMorphClass(): string {
         return 'ban';
@@ -48,7 +52,8 @@ class Ban extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected $casts = [
-        'expire_date' => 'datetime',
-    ];
+    public function case() : BelongsTo
+    {
+        return $this->belongsTo(UserCase::class, 'case_id')->without(['user', 'ban']);
+    }
 }
