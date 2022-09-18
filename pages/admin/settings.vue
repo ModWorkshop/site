@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { Settings } from '~~/types/models';
 
-const { init: showToast } = useToast();
+const { showToast } = useToaster();
 
 const ignoreChanges = useRaiseEvent();
 
@@ -29,7 +29,7 @@ async function submit() {
         ignoreChanges.execute();
     } catch (error) {
         console.error(error);
-        showToast({ message: error.data.message, color: 'danger' });
+        showToast({ desc: error.data.message, color: 'danger' });
         return;
     }
 }

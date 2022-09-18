@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 const router = useRouter();
-const { init: showToast } = useToast();
+const { showToast } = useToaster();
 const yesNoModal = useYesNoModal();
 
 const props = defineProps({
@@ -55,7 +55,7 @@ async function submit() {
         emit('submit');
     } catch (error) {
         console.error(error);
-        showToast({ message: error.data.message, color: 'danger' });
+        showToast({ desc: error.data.message, color: 'danger' });
         return;
     }
 }

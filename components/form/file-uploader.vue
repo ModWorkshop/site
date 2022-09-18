@@ -66,7 +66,7 @@ import { DateTime } from 'luxon';
 import axios, { Canceler } from 'axios';
 const { public: config } = useRuntimeConfig();
 
-const { init: showToast } = useToast();
+const { showToast } = useToaster();
 
 const classes = computed(() => {
     return {
@@ -131,17 +131,17 @@ function removeFile(file: UploadFile) {
 async function upload(files: FileList) {
     for (const file of files) {
         if (file.size > maxFileSizeBytes.value) {
-            showToast({ message: `File ${file.name} is too large!`, color: 'danger' });
+            showToast({ desc: `File ${file.name} is too large!`, color: 'danger' });
             continue;
         }
 
         if (file.size + usedSize.value > maxSizeBytes.value) {
-            showToast({ message: `File ${file.name} is too large, try clearing out some space`, color: 'danger' });
+            showToast({ desc: `File ${file.name} is too large, try clearing out some space`, color: 'danger' });
             continue;
         }
 
         if (reachedMaxFiles.value) {
-            showToast({ message: `You cannot upload more files`, color: 'danger' });
+            showToast({ desc: `You cannot upload more files`, color: 'danger' });
         }
         else {
             const insertFile: UploadFile = {
@@ -186,7 +186,7 @@ async function upload(files: FileList) {
                 removeFile(insertFile);
                 const data = err.response.data;
                 console.log(err);
-                showToast('File failed to upload: ' + data?.message);
+                showToast({ desc: 'File failed to upload: ' + data?.message, color: 'danger' });
             }
         }
     }

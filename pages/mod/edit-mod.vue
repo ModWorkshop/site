@@ -32,8 +32,8 @@ import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
-const { user } = useStore();
-const { init } = useToast();
+const { user, setGame } = useStore();
+const { showToast } = useToaster();
 
 definePageMeta({
     middleware: 'users-only',
@@ -93,7 +93,7 @@ provide('ignoreChanges', ignoreChanges);
 
 const saveText = computed(() => mod.value.id == -1 ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
 function catchError(error) {
-    init({ message: error.data.message, color: 'danger' });
+    showToast({ desc: error.data.message, color: 'danger' });
 }
 
 async function save() {

@@ -7,6 +7,7 @@
             <strong v-if="title" class="text-xl">{{title}}</strong>
             <slot>{{desc}}</slot>
         </flex>
+        <slot name="attach"/>
     </flex>
 </template>
 
