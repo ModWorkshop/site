@@ -1,14 +1,9 @@
 <template>
     <page-block>
-        <a-modal-form v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" save-button="" size="medium" @save="suspend">
-            <a-input v-model="suspendForm.reason" label="reason" type="textarea" rows="6"/>
-            <a-input v-model="suspendForm.notify" label="Notify owner and members" type="checkbox"/>
-        </a-modal-form>
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
         <the-breadcrumb :items="mod.breadcrumb"/>
-
         <flex column gap="2">
             <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
             <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
@@ -46,10 +41,12 @@
                 </template>
             </Popper>
             <a-button icon="share-nodes" @click="openShare">{{$t('share')}}</a-button>
-            <Popper arrow>
+            <Popper v-if="canManage" arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
                 <template #content>
-                    <a-dropdown-item @click="showSuspendModal = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
+                    <mod-suspend :mod="mod">
+                        <a-dropdown-item>{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
+                    </mod-suspend>
                     <a-dropdown-item v-if="mod.images.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
                     <a-dropdown-item v-if="mod.files.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
                 </template>
@@ -117,6 +114,7 @@ const notices = computed(() => {
 
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => hasPermission('edit-comment'));
+const canManage = computed(() => hasPermission('manage-mod'));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
 const canComment = computed(() => !mod.value.user.blocked_me && !isBanned && (!mod.value.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
@@ -131,13 +129,6 @@ const cannotCommentReason = computed(() => {
     if (mod.value.user.blocked_me) {
         return 'You cannot comment on the mod because the owner blocked you.';
     }
-});
-
-const showSuspendModal = ref(false);
-const suspendForm = reactive({
-    status: computed(() => !mod.value.suspended),
-    reason: '',
-    notify: true
 });
 
 function commentSpecialTag(comment: Comment) {
@@ -155,18 +146,6 @@ function openShare() {
     navigator.share({
         url: `${config.siteUrl}/${mod.value.id}`
     });
-}
-
-async function suspend(ok, onError) {
-    try {
-        await usePatch(`mods/${mod.value.id}/suspended`, suspendForm);
-
-        mod.value.suspended = !mod.value.suspended;
-        suspendForm.reason = '';
-        ok();
-    } catch (error) {
-        onError(error);
-    }
 }
 
 function deleteAllFiles() {

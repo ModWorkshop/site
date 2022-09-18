@@ -1,0 +1,42 @@
+<template>
+<Teleport to="body">
+    <Transition>
+        <a-modal-form v-if="showSuspendModal" v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" save-button="" size="medium" @save="suspend">
+            <a-input v-model="suspendForm.reason" label="reason" type="textarea" rows="6"/>
+            <a-input v-model="suspendForm.notify" label="Notify owner and members" type="checkbox"/>
+        </a-modal-form>
+    </Transition>
+</Teleport>
+<div @click="showSuspendModal = true">
+    <slot>
+        <a-button>{{$t(mod.suspended ? 'unsuspend' : 'suspend')}}</a-button>
+    </slot>
+</div>
+</template>
+
+<script setup lang="ts">
+import { Mod } from '~~/types/models';
+
+const props = defineProps<{
+    mod: Mod
+}>();
+
+const showSuspendModal = ref(false);
+const suspendForm = reactive({
+    status: computed(() => !props.mod.suspended),
+    reason: '',
+    notify: true
+});
+
+async function suspend(ok, onError) {
+    try {
+        await usePatch(`mods/${props.mod.id}/suspended`, suspendForm);
+
+        props.mod.suspended = !props.mod.suspended;
+        suspendForm.reason = '';
+        ok();
+    } catch (error) {
+        onError(error);
+    }
+}
+</script>
