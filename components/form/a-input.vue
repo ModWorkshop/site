@@ -94,6 +94,11 @@ const classes = computed(() => ({input: true, 'input-error': !!err.value}));
     resize: vertical;
 }
 
+.input:focus-visible {
+    outline: none;
+    border-color: var(--primary-color)
+}
+
 .input[type='color'] {
     flex: 6;
 }

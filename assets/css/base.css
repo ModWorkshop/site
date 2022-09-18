@@ -65,11 +65,6 @@ html.light-mode {
     --tab-selected-color: #e3e6e8;
 }
 
-.input {
-    background-color: var(--input-bg-color);
-    border-radius: var(--border-radius);
-}
-
 .bg-success {
     background-color: var(--success-color);
 }
