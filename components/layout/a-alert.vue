@@ -48,26 +48,26 @@ const classes = computed(() => {
 }
 .alert-success {
     color: var(--success-color);
-    background-color: rgb(68 0 255 / 10%);
+    background-color: #1e3b28;
     border-color: var(--success-color);
 }
 
 .alert-danger {
     color: var(--danger-color);
-    background-color: rgb(255 0 0 / 10%);
+    background-color: #382125;
     border-color: var(--danger-color);
 }
 
 .alert-info {
     color: var(--info-color);
-    background-color: rgb(0 80 255 / 10%);
+    background-color: #1e293f;
     border-color: var(--info-color);
 
 }
 
 .alert-warning {
     color: var(--warning-color);
-    background-color: rgb(255 234 0 / 10%);
+    background-color: #383925;
     border-color: var(--warning-color);
 }
 </style>
