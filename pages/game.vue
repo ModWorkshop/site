@@ -23,10 +23,10 @@
 import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
+const { hasPermission, setGame } = useStore();
 
 const { data: game } = await useResource<Game>('game', 'games');
-
-const { hasPermission } = useStore();
+setGame(game.value);
 
 const canEdit = computed(() => hasPermission('edit-mod'));
 

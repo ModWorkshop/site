@@ -1,5 +1,5 @@
 <template>
-    <flex :column="!side" :gap="side ? 8 : 1">
+    <flex :column="!side" :gap="side ? 8 : 2">
         <flex class="nav" :column="side">
             <slot/>
         </flex>

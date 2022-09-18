@@ -27,10 +27,35 @@
             <a-link-button to="/support">{{$t('support_us')}}</a-link-button>
         </flex>
         <flex class="user-items mr-2 items-center" gap="4"> 
-            <div>
-                <a-input v-model="search" placeholder="Search" style="width: 250px;"/>
-                <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
-            </div>
+            <Popper offset-distance="8" :show="showSearch">
+                <div>
+                    <a-input 
+                        v-model="search"
+                        v-click-outside="() => showSearch = false"
+                        class="search"
+                        placeholder="Search"
+                        style="width: 250px;"
+                        maxlength="150"
+                        @click="showSearch = true"
+                        @keyup.up.self="setSelectedSearch(-1)"
+                        @keyup.down.self="setSelectedSearch(1)"
+                        @keyup.enter="clickSelectedSearch"
+                    />
+                    <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
+                </div>
+                <template #content>
+                    <flex class="popper-big" column>
+                        <a-button
+                            v-for="[i, button] in searchButtons.entries()"
+                            :key="button.text"
+                            :to="`${button.to}?query=${search}`"
+                            :color="selectedSearch == i ? 'primary' : 'subtle'"
+                            class="search-button">
+                            {{$t(button.text, [search])}}
+                        </a-button>
+                    </flex>
+                </template>
+            </Popper>
             <template v-if="user">
                 <flex v-if="user.last_ban" column>
                     <span class="text-danger">
@@ -67,15 +92,30 @@
         </flex>
     </header>
 </template>
-<script setup>
+<script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useStore } from '../../store';
 const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();
+const router = useRouter();
 const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
+const showSearch = ref(false);
+const selectedSearch = ref(1);
+const searchButtons = computed(() => {
+    const buttons = [
+        { to: `/search/mods`, text: 'search_mods' },
+        { to: `/search/threads`, text: 'search_threads' },
+        { to: `/search/users`, text: 'search_users' },
+    ];
+    if (store.currentGame) {
+        buttons.unshift({ to: `/g/${store.currentGame.short_name}/forum`, text: 'search_threads_game' });
+        buttons.unshift({ to: `/g/${store.currentGame.short_name}`, text: 'search_mods_game' });
+    }
+    return buttons;
+});
 
 const isAdmin = computed(() => store.hasPermission('admin'));
 
@@ -84,8 +124,42 @@ watch(showNotifications, async () => {
         await store.getNotifications(1, 20);
     }
 });
+
+watch(search, val => {
+    if (val) {
+        showSearch.value = true;
+    }
+});
+
+function setSelectedSearch(direction: number) {
+    selectedSearch.value += direction;
+
+    if (selectedSearch.value >= searchButtons.value.length) {
+        selectedSearch.value = 0;
+    }
+
+    if (selectedSearch.value < 0) {
+        selectedSearch.value = searchButtons.value.length - 1;
+    }
+}
+
+function clickSelectedSearch(e) {
+    router.push((searchButtons[selectedSearch.value]?.to ?? '/search/mods') + `?query=${search.value}`);
+}
 </script>
+<style scoped>
+.selected-search {
+    background-color: var(--primary-color);
+}
+
+.search-button {
+    padding: 1rem;
+}
+</style>
 <style>
+.search .input {
+    border-right: none;
+}
 .user {
     display: flex;
     gap: 0.25rem;

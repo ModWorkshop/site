@@ -7,6 +7,7 @@ interface MainStore {
     userIsLoading: boolean,
     notifications: Paginator<Notification>,
     notificationCount: number,
+    currentGame: Game,
     games: Paginator<Game>,
     tags: Paginator<Tag>,
     settings: Settings,
@@ -19,6 +20,7 @@ export const useStore = defineStore('main', {
         notifications: null,
         notificationCount: null,
         userIsLoading: false,
+        currentGame: null,
         settings: null,
         games: null,
         tags: null,
@@ -41,6 +43,9 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
+        setGame(game: Game) {
+            this.currentGame = game;
+        },
         /**
          * Attempts to login the user (automatically)
          */

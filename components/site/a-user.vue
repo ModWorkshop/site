@@ -23,7 +23,7 @@ import { User } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     details?: string,
-    color: boolean,
+    color?: boolean,
     user: User,
     avatar?: boolean,
     tag?: boolean,

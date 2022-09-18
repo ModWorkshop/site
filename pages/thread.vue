@@ -50,9 +50,11 @@ const canEditComments = ref(false);
 const canDeleteComments = ref(false);
 const commentSpecialTag = ref(null);
 
-const { user, hasPermission, isBanned } = useStore();
+const { user, hasPermission, isBanned, setGame } = useStore();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
+
+setGame(thread.value.forum.game);
 
 const canModerate = computed(() => hasPermission('edit-thread'));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);

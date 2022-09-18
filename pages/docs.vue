@@ -10,11 +10,15 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 
 const { t } = useI18n();
+const store = useStore();
 
 const { data: game } = await useResource<Game>('game', 'games');
+
+store.setGame(game.value);
 
 const url = computed(() => game.value ? `/g/${game.value.short_name}/docs` : '/docs');
 

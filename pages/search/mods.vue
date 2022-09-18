@@ -1,0 +1,3 @@
+<template>
+    <mod-list/>
+</template>

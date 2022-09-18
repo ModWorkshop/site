@@ -86,7 +86,7 @@ import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 import { setFollowMod } from '~~/utils/follow-helpers';
 
-const { hasPermission, isBanned } = useStore();
+const { hasPermission, isBanned, setGame } = useStore();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
@@ -94,6 +94,8 @@ const { t } = useI18n();
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
     suspended: t('suspended_error')
 });
+
+setGame(mod.value.game);
 
 const yesNoModal = useYesNoModal();
 

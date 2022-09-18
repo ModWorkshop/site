@@ -17,10 +17,13 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Breadcrumb, ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
-const { user } = useStore();
+const { user, setGame } = useStore();
 const { t } = useI18n();
 
 const { data: game } = await useResource<Game>('game', 'games');
+
+setGame(game.value);
+
 const forumId = game.value ? game.value.forum_id : 1;
 
 const { data: thread } = await useEditResource<Thread>('thread', 'threads', {

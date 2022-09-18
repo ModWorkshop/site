@@ -119,7 +119,7 @@ export interface Mod {
     user?: User;
     last_user?: User;
     category?: Category;
-    game?: Category;
+    game?: Game;
     thumbnail?: Image;
     banner?: Image;
     tags?: Array<Tag>;

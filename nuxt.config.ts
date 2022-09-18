@@ -171,6 +171,34 @@ export default defineNuxtConfig({
 			});
 
 			routes.push({
+				name: "search",
+				path: "/search",
+				file: resolve(__dirname, "pages/search/index.vue"),
+				children: [
+					{
+						name: "search-mods",
+						path: "mods",
+						file: resolve(__dirname, "pages/search/mods.vue")
+					},
+					{
+						name: "search-mods",
+						path: "mods",
+						file: resolve(__dirname, "pages/search/mods.vue")
+					},
+					{
+						name: "search-threads",
+						path: "threads",
+						file: resolve(__dirname, "pages/search/threads.vue")
+					},
+					{
+						name: "search-users",
+						path: "users",
+						file: resolve(__dirname, "pages/search/users.vue")
+					},
+				]
+			});
+
+			routes.push({
 				name: "admin-game",
 				path: "/admin/games/:gameId",
 				file: resolve(__dirname, "pages/admin/game.vue"),
