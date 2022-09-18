@@ -235,6 +235,11 @@ export default defineNuxtConfig({
 						path: "suspensions",
 						file: resolve(__dirname, "pages/admin/suspensions.vue")
 					},
+					{
+						name: "admin-game-approvals",
+						path: "approvals",
+						file: resolve(__dirname, "pages/admin/approvals.vue")
+					},
 				]
 			});
 
@@ -322,6 +327,11 @@ export default defineNuxtConfig({
 						name: "admin-edit-document",
 						path: "docs/:documentId",
 						file: resolve(__dirname, "pages/admin/edit-document.vue")
+					},
+					{
+						name: "admin-approvals",
+						path: "approvals",
+						file: resolve(__dirname, "pages/admin/approvals.vue")
 					},
 				]
 			});

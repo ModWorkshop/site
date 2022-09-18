@@ -21,6 +21,9 @@
                         <edit-mod-members :mod="mod"/>
                     </a-tab>
                     <a-tab name="instructions" title="Dependencies & Instructions"/>
+                    <a-tab name="extra" title="Extra">
+                        <edit-mod-extra :mod="mod"/>
+                    </a-tab>
                 </a-tabs>
             </content-block>
         </a-form>
@@ -71,6 +74,8 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     approved: false,
 });
 
+mod.value.send_for_approval ??= false;
+
 if (!canEditMod(mod.value)) {
     showError("You don't have permission to view this page");
 }
@@ -79,6 +84,9 @@ provide('canSuperUpdate', canSuperUpdate(mod.value));
 provide('canSave', canSave);
 provide('mod', mod.value);
 
+watch(() => mod.value.game, () => {
+    setGame(mod.value.game);
+}, { immediate: true });
 
 /**
  * Only used in cases the changes were saved but AForm doesn't know about it
