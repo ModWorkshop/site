@@ -28,7 +28,6 @@ class CreateFilesTable extends Migration
             $table->bigInteger('size');
             $table->tinyText('label')->default(''); //Was type, now a free label the user can label their files with
             $table->tinyText('version')->default('');
-            $table->boolean('approved')->default(true);
             $table->timestamps();
         });
     }

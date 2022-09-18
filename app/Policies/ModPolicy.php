@@ -38,8 +38,12 @@ class ModPolicy
                 return Response::deny('suspended');
             }
 
-            if (!$mod->approved) {
+            if ($mod->approved === null) {
                 return Response::deny('unapproved');
+            }
+
+            if ($mod->approved === false) {
+                return Response::deny('rejected');
             }
         }
 
@@ -81,7 +85,7 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod)
     {
-        if ($user->hasPermission('edit-mod')) {
+        if ($user->hasPermission('manage-mod')) {
             return true;
         }
 
@@ -106,7 +110,7 @@ class ModPolicy
      */
     public function superUpdate(User $user, Mod $mod)
     {
-        return $user->id === $mod->user_id || $user->hasPermission('edit-mod');
+        return $user->id === $mod->user_id || $user->hasPermission('manage-mod');
     }
 
     /**
@@ -118,7 +122,7 @@ class ModPolicy
      */
     public function delete(User $user, Mod $mod)
     {
-        if ($user->hasPermission('edit-mod')) {
+        if ($user->hasPermission('manage-mod')) {
             return true;
         }
 
@@ -170,9 +174,9 @@ class ModPolicy
         }
     }
 
-    public function suspend(User $user, Mod $mod)
+    public function manage(User $user)
     {
-        return $user->hasPermission('suspend-mod');
+        return $user->hasPermission('manage-mod');
     }
 
     public function report(User $user, Mod $mod)

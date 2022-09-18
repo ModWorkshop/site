@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Suspension
@@ -37,5 +38,10 @@ class Suspension extends Model
 
     public function getMorphClass(): string {
         return 'suspension';
+    }
+
+    public function mod(): BelongsTo
+    {
+        return $this->belongsTo(Mod::class);
     }
 }

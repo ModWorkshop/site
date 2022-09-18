@@ -22,6 +22,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SuspensionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
@@ -72,7 +73,9 @@ Route::resource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
-Route::middleware('can:suspend,mod')->patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+Route::middleware('can:manage,App\Mod')->group(function() {
+    Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+});
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
 
 Route::resource('mods.comments', ModCommentsController::class);
@@ -144,6 +147,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
+Route::resource('suspensions', SuspensionController::class);
 Route::resource('documents', DocumentController::class);
 Route::resource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
