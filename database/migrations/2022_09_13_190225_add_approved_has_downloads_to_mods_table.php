@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::table('mods', function (Blueprint $table) {
             $table->boolean('has_download')->default(false);
-            $table->boolean('approved')->default(true);
+            $table->boolean('approved')->nullable()->default(true);
             $table->dropColumn('file_status');
         });
 

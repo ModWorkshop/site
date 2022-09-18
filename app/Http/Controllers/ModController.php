@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\Mod;
 use App\Models\ModDownload;
@@ -56,6 +57,20 @@ class ModController extends Controller
         $val = $request->val();
         $mods = Mod::queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
+    }
+
+    /**
+     * Returns mods waiting for approval (approval == null)
+     */
+    public function waiting(GetModsRequest $request)
+    {
+        $val = $request->val();
+        $mods = Mod::queryGet($val, function($q, $val) {
+            $q->whereNull('approved');
+            ModService::filters($q, $val);
+        }, true);
+        return ModResource::collection($mods);
+
     }
 
     /**
@@ -125,6 +140,20 @@ class ModController extends Controller
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
         
+        $sendForApproval = Arr::pull($val, 'send_for_approval', false);
+        if ($sendForApproval) {
+            $val['approved'] = null;
+        } else {
+            $categoryId = $val['category_id'];
+            if (isset($categoryId) && (!isset($mod) || $mod->category_id !== $categoryId)) {
+                $category = Category::find($categoryId);
+                if ($category->approval_only) {
+                    $val['approved'] = null;
+                }
+            }
+        }
+
+
         if (isset($mod)) {
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
@@ -142,6 +171,7 @@ class ModController extends Controller
                     $mod->bump(false);
                 }
             }
+
             $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {
@@ -434,6 +464,32 @@ class ModController extends Controller
 
         $mod->transferRequest()->delete();
         Notification::deleteRelated($mod, 'transfer_ownership');
+    }
+
+    public function approve(Request $request, Mod $mod)
+    {
+        $val = $request->validate([
+            'status' => 'boolean|required',
+            'notify' => 'boolean',
+            'reason' => 'string|max:1000'
+        ]);
+
+        $approve = $val['status'];
+        if ($val['notify'] ?? true) {
+            $members = [$mod->user, ...$mod->membersThatCanEdit];
+
+            foreach ($members as $member) {
+                Notification::send(
+                    type: $approve ? 'mod_approved' : 'mod_rejected',
+                    user: $member,
+                    hideSender: true,
+                    notifiable: $mod,
+                    data: ['reason' => $val['reason']],
+                );
+            }
+        }
+
+        $mod->update(['approved' => $approve]);
     }
 
     public function suspend(Request $request, Mod $mod)

@@ -74,7 +74,9 @@ Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::middleware('can:manage,App\Mod')->group(function() {
+    Route::get('mods/waiting', [ModController::class, 'waiting']);
     Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+    Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
 });
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
 
