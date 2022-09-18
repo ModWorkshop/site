@@ -28,7 +28,7 @@ class FilteredRequest extends FormRequest
     public function rules()
     {
         return [
-            'query' => 'string|nullable',
+            'query' => 'string|nullable|max:150',
             'limit' => 'integer|min:1|max:50'
         ];
     }
