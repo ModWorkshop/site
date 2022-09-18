@@ -55,4 +55,23 @@ dl, ol, ul {
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
+#toaster {
+    position: fixed;
+    width: 300px;
+	z-index: 9999;
+    right: 8px;
+}
+
+.toasts-move, /* apply transition to moving elements */
+.toasts-enter-active,
+.toasts-leave-active {
+  transition: all 0.25s ease;
+}
+
+.toasts-enter-from,
+.toasts-leave-to {
+  opacity: 0;
+  transform: translateX(300px);
+}
 </style>

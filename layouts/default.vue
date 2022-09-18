@@ -2,11 +2,21 @@
     <div class="layout">
         <the-header>Header</the-header>
         <main>
+            <flex id="toaster" column gap="2">
+				<TransitionGroup name="toasts">
+					<a-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
+				</TransitionGroup>
+			</flex>
             <slot/>
         </main>
         <the-footer>Footer</the-footer>
     </div>
 </template>
+
+<script setup>
+const toasts = useState('toasts', () => []);
+</script>
+
 <style>
     .layout {
         min-height: 100vh;

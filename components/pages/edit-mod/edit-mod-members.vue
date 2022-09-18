@@ -54,7 +54,7 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 const { init: openModal } = useModal();
-const { init: openToast } = useToast();
+const { showToast } = useToaster();
 
 const ignoreChanges: () => void = inject('ignoreChanges');
 const mod = inject<Mod>('mod');
@@ -136,7 +136,7 @@ async function transferOwnership() {
         mod.transfer_request = request;
         ignoreChanges();
     } catch (error) {
-        openToast(error.message);
+        showToast({ desc: error.message, color: 'danger' });
     }
 }
 
@@ -146,7 +146,7 @@ async function cancelTransferRequest() {
         mod.transfer_request = null;
         ignoreChanges();
     } catch (error) {
-        openToast(error.message);
+        showToast({ desc: error.message, color: 'danger' });
     }
 }
 </script>

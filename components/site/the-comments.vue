@@ -117,7 +117,7 @@ const usersCache: Record<string, User> = {};
 
 const posting = ref(false);
 
-const { init: showToast } = useToast();
+const { showToast } = useToaster();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
     immediate: !props.lazy && !route.params.commentId,
@@ -270,7 +270,7 @@ async function postComment() {
         setCommentDialog(false);
     } catch (error) {
         posting.value = false;
-        showToast({ message: 'Could not post comment', color: 'danger' });
+        showToast({ desc: 'Could not post comment', color: 'danger' });
         console.log(error);
     }                
 }
