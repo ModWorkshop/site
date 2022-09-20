@@ -29,6 +29,9 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
+	htmlAttrs: {
+        class: 'dark'
+    },
 	title: undefined,
 });
 

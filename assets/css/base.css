@@ -22,7 +22,7 @@ body {
     overflow-y: scroll;
 }
 
-:root {
+html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
     --alt-bg-color: #212121;
@@ -48,21 +48,36 @@ body {
     --button-text-color: #fff;
     --tab-selected-color: rgb(255 255 255 / 5%);
     --border-radius: 4px;
+    color-scheme: dark;
 }
 
-html.light-mode {
-    --bg-color: #e3e6e8;
-    --content-bg-color: #d5dadd;
+html.light {
+    --bg-color: #dddddd;
+    --content-bg-color: #cccccc;
+    --alt-bg-color: #212121;
+    --dropdown-bg: #292d32;
+    --dropdown-hover-bg: #32383e;
+    --dropdown-text-color: #ccc;
     --text-color: #000;
-    --dropdown-bg: #e6e6e6;
-    --dropdown-hover-bg: #d9d9d9;
-    --dropdown-text-color: #252525;
-    --secondary-text-color: #333;
-    --input-bg-color: #f5f5f5;
-    --input-border-color: #d8d8d8;
-    --input-border-hover-color: #b3b3b3;
-    --header-footer-color: #f1f3f4;
-    --tab-selected-color: #e3e6e8;
+    --secondary-text-color: #666666;
+    --text-inactive: #6d6d6d;
+    --primary-color: #006cdf;
+    --success-color: #00ff15;
+    --danger-color: #ff0000;
+    --warning-color: #ffef14;
+    --info-color: #5978ff;
+    --danger-hover-color: #ff3333;
+    --secondary-color: #5f5f5f;
+    --disabled-color: #3c3c3c;
+    --primary-hover-color: #007bff;
+    --input-bg-color: #c9c9c9;
+    --input-border-color: #393e46;
+    --input-border-hover-color: #505762;
+    --header-footer-color: #b7b7b7;
+    --button-text-color: #fff;
+    --tab-selected-color: rgb(255 255 255 / 5%);
+    --border-radius: 4px;
+    color-scheme: light;
 }
 
 .bg-success {
