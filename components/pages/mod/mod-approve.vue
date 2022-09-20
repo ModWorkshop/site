@@ -1,7 +1,7 @@
 <template>
 <Teleport to="body">
     <Transition>
-        <a-modal-form v-if="showModal" v-model="showModal" :title="approve ? $t('approve') : $t('reject')" save-button="" size="medium" @save="submit">
+        <a-modal-form v-if="showModal" v-model="showModal" :title="approve ? $t('approve') : $t('reject')" save-button="" size="medium" @submit="submit">
             {{approve}}
             <a-input v-model="form.reason" label="reason" type="textarea" rows="6"/>
             <a-input v-model="form.notify" label="Notify owner and members" type="checkbox"/>

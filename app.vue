@@ -13,7 +13,7 @@
 			save-text="Yes"
 			cancel-text="No" 
 			size="small" 
-			@save="firstModal.yes"
+			@submit="firstModal.yes"
 			@cancel="firstModal.no"
 		/>
 	</div>

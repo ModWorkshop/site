@@ -61,14 +61,14 @@
             <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
         </template>
     </file-uploader>
-    <a-modal-form v-model="showEditLink" title="Edit Link" @save="saveEditLink">
+    <a-modal-form v-model="showEditLink" title="Edit Link" @submit="saveEditLink">
         <a-input v-model="currentLink.name" label="name"/>
         <a-input v-model="currentLink.label" label="label"/>
         <a-input v-model="currentLink.url" type="url" label="url"/>
         <a-input v-model="currentLink.version" label="version"/>
         <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
     </a-modal-form>
-    <a-modal-form v-model="showEditFile" title="Edit File" @save="saveEditFile">
+    <a-modal-form v-model="showEditFile" title="Edit File" @submit="saveEditFile">
         <a-input v-model="currentFile.name" label="name"/>
         <a-input v-model="currentFile.label" label="label"/>
         <a-input v-model="currentFile.version" label="version"/>

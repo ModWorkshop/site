@@ -5,7 +5,7 @@
         </slot>
     </div>
     <Teleport to="body">
-        <a-modal-form v-model="showModal" :title="$t('report')" save-button="" size="medium" @save="report">
+        <a-modal-form v-model="showModal" :title="$t('report')" save-button="" size="medium" @submit="report">
             <a-input v-model="reason" label="reason" type="textarea" rows="6"/>
         </a-modal-form>
     </Teleport>
