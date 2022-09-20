@@ -107,4 +107,8 @@ const classes = computed(() => ({input: true, 'input-error': !!err.value}));
     width: revert;
     margin-top: 3px;
 }
+
+.input:disabled {
+    opacity: 0.4;
+}
 </style>
