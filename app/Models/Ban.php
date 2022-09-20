@@ -49,7 +49,7 @@ class Ban extends Model
 
     public function user() : BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->without('ban');
     }
 
     public function case() : BelongsTo

@@ -90,7 +90,7 @@ class User extends Authenticatable
     
     // Always return roles for users
     protected $with = ['roles', 'ban'];
-    protected $appends = ['color', 'role_names', 'lastBan'];
+    protected $appends = ['color', 'role_names'];
     private $permissions  = [];
     private $roleNames = [];
 
@@ -390,21 +390,23 @@ class User extends Authenticatable
 
     public function getLastBanAttribute()
     {
-        $ban = $this->ban;
-        if (isset($ban)) {
-            if (!isset($ban->expire_date) || $ban->expire_date > Carbon::now()) {
-                return $ban;
-            } else {
-                return null;
+        if ($this->relationLoaded('ban')) {
+            $ban = $this->ban;
+            if (isset($ban) && isset($ban->case)) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
+                    return $ban;
+                } else {
+                    return null;
+                }
             }
-        } else {
-            return null;
         }
+
+        return null;
     }
 
-    public function ban() : BelongsTo
+    public function ban() : HasOne
     {
-        return $this->belongsTo(Ban::class);
+        return $this->hasOne(Ban::class);
     }
 
     /**

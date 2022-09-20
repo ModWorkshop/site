@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\UserCase
@@ -44,13 +45,13 @@ class UserCase extends Model
         return 'user_case';
     }
 
-    public function ban(): BelongsTo
+    public function ban(): HasOne
     {
-        return $this->belongsTo(Ban::class, 'id', 'case_id');
+        return $this->hasOne(Ban::class, 'case_id')->without('case');
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->without('ban');
     }
 }

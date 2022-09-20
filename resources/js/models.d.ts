@@ -8,11 +8,12 @@ declare namespace App.Models {
     export interface Ban {
         id: number;
         user_id: number | null;
-        reason: string;
-        expire_date: string;
+        expire_date: string | null;
         created_at: string | null;
         updated_at: string | null;
+        case_id: number | null;
         user?: App.Models.User | null;
+        case?: App.Models.UserCase | null;
     }
 
     export interface BlockedTag {
@@ -78,10 +79,11 @@ declare namespace App.Models {
         name: string;
         url_name: string;
         desc: string;
-        game_id: number;
+        game_id: number | null;
         last_user_id: number;
         created_at: string | null;
         updated_at: string | null;
+        last_user?: App.Models.User | null;
     }
 
     export interface File {
@@ -234,7 +236,6 @@ declare namespace App.Models {
         access_ids: string;
         suspended: boolean;
         comments_disabled: boolean;
-        file_status: number;
         score: number;
         bumped_at: string | null;
         published_at: string | null;
@@ -245,6 +246,8 @@ declare namespace App.Models {
         likes: number;
         banner_id: number | null;
         last_user_id: number | null;
+        has_download: boolean;
+        approved: boolean | null;
         followers?: Array<App.Models.FollowedMod> | null;
         user?: App.Models.User | null;
         last_user?: App.Models.User | null;
@@ -258,6 +261,7 @@ declare namespace App.Models {
         files?: Array<App.Models.File> | null;
         links?: Array<App.Models.Link> | null;
         members?: any | null;
+        members_that_can_edit?: any | null;
         comments?: Array<App.Models.Comment> | null;
         transfer_request?: App.Models.TransferRequest | null;
         download?: any | null;
@@ -338,6 +342,22 @@ declare namespace App.Models {
         updated_at: string | null;
     }
 
+    export interface Report {
+        id: number;
+        name: string | null;
+        data: Array<any> | any;
+        user_id: number;
+        game_id: number | null;
+        reason: string;
+        archived: boolean;
+        reportable_type: string;
+        reportable_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        user?: App.Models.User | null;
+        reportable?: any | null;
+    }
+
     export interface Role {
         id: number;
         name: string;
@@ -388,6 +408,7 @@ declare namespace App.Models {
         status: boolean;
         created_at: string | null;
         updated_at: string | null;
+        mod?: App.Models.Mod | null;
     }
 
     export interface Tag {
@@ -468,6 +489,7 @@ declare namespace App.Models {
         avatar: string;
         custom_color: string;
         unique_name: string | null;
+        last_online: string | null;
         followed_games?: any | null;
         followed_mods?: any | null;
         followed_users?: any | null;
@@ -477,10 +499,11 @@ declare namespace App.Models {
         mods?: Array<App.Models.Mod> | null;
         extra?: App.Models.UserExtra | null;
         roles?: any | null;
-        last_ban?: App.Models.Ban | null;
+        ban?: App.Models.Ban | null;
         mods_count?: number | null;
         readonly role_names?: any;
         readonly permissions?: any;
+        readonly last_ban?: any;
     }
 
     export interface UserCase {
@@ -492,6 +515,9 @@ declare namespace App.Models {
         expire_date: string | null;
         created_at: string | null;
         updated_at: string | null;
+        pardon_reason: string | null;
+        ban?: App.Models.Ban | null;
+        user?: App.Models.User | null;
     }
 
     export interface UserExtra {

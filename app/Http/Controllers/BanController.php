@@ -45,7 +45,6 @@ class BanController extends Controller
         $val = $request->validate([
             'user_id' => 'int|min:0|required|exists:users,id',
             'expire_date' => 'date|after:now|nullable',
-            'warn_expire_date' => 'date|after:now|nullable',
             'reason' => 'string|min:3|max:1000'
         ]);
 
@@ -55,7 +54,7 @@ class BanController extends Controller
          */
         $banUser = User::find($val['user_id']);
         
-        if ($banUser->lastBan) {
+        if ($banUser->ban) {
             abort(405, 'Already banned'); //Already banned
         }
 
@@ -64,11 +63,12 @@ class BanController extends Controller
         }
 
         $reason = Arr::pull($val, 'reason');
-        $warnExpireDate = Arr::pull($val, 'warn_expire_date');
+
         $case = UserCase::create([
+            'warning' => false,
             'reason' => $reason,
             'user_id' => $val['user_id'],
-            'expire_date' => $warnExpireDate
+            'expire_date' => $val['expire_date']
         ]);
 
         $val['case_id'] = $case->id;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Models\UserCase;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,7 +12,7 @@ class UserCaseController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(UserCase::class, 'user_Case');
+        $this->authorizeResource(UserCase::class, 'user_case');
     }
 
     /**
@@ -25,6 +26,7 @@ class UserCaseController extends Controller
             'user_id' => 'int|min:0|nullable|exists:users,id'
         ]);
         return JsonResource::collection(UserCase::queryGet($val, function($query, $val) {
+            $query->orderByDesc('created_at');
             if (isset($val['user_id'])) {
                 $query->where('user_id', $val['user_id']);
             }
@@ -42,10 +44,11 @@ class UserCaseController extends Controller
         $val = $request->validate([
             'user_id' => 'int|min:0|nullable|exists:users,id',
             'reason' => 'string|min:3|max:1000',
-            'expire_date' => 'date|required|after:now'
+            'expire_date' => 'date|required|nullable|after:now'
         ]);
 
         $val['mod_user_id'] = $this->userId();
+        $val['warning'] = true;
 
         UserCase::create($val);
     }
@@ -72,10 +75,26 @@ class UserCaseController extends Controller
     {
         $val = $request->validate([
             'reason' => 'string|min:3|max:1000',
-            'expire_date' => 'date|required|after:now'
+            'pardon_reason' => 'string|max:1000',
+            'expire_date' => 'date|nullable|after:now',
+            'pardoned' => 'boolean'
         ]);
 
         $userCase->update($val);
+
+        if (!$userCase->warning) {
+            if ($userCase->expire_date < Carbon::now() || $userCase->pardoned) {
+                $userCase->ban()->delete();
+            } else {
+                if (!isset($userCase->ban)) {
+                    $userCase->ban()->create([
+                        'user_id' => $userCase->user_id
+                    ]);
+                }
+            }
+        }
+
+        return $userCase;
     }
 
     /**
