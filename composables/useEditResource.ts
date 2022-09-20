@@ -1,13 +1,13 @@
 import { SearchParams } from "ohmyfetch";
 import { useI18n } from "vue-i18n";
 
-export default async function<T>(name: string, url: string, template: T, params: SearchParams=null) {
+export default async function<T>(name: string, url: string, template: T=null, params: SearchParams=null) {
     const route = useRoute();
     const { t } = useI18n();
 
     const id = route.params[`${name}Id`];
 
-    if (id === undefined || id == 'new') {
+    if (template && (id === undefined || id == 'new')) {
         return { data: ref<T>(template) };
     }
     else {

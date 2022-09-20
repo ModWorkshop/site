@@ -342,6 +342,11 @@ export default defineNuxtConfig({
 						file: resolve(__dirname, "pages/admin/cases.vue")
 					},
 					{
+						name: "admin-edit-case",
+						path: "cases/:caseId",
+						file: resolve(__dirname, "pages/admin/edit-case.vue")
+					},
+					{
 						name: "admin-docs",
 						path: "docs",
 						file: resolve(__dirname, "pages/admin/docs.vue")

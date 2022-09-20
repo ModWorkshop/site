@@ -3,6 +3,7 @@
         <template #attach>
             <font-awesome-icon class="cursor-pointer ml-auto" icon="xmark" @click="show = false"/>
         </template>
+        <slot/>
     </a-alert>
 </template>
 

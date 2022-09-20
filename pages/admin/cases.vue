@@ -1,57 +1,58 @@
 <template>
     <flex column gap="3">
-        <h2>Warn User</h2>
-        <a-user-select v-model="user" label="User"/>
-        <flex>
-            <a-select v-model="warnDuration" :options="durations" label="Warning Duration"/>
-            <a-input v-model="warnDurationCount" label="Count"/>
-        </flex>
-        <a-input v-model="reason" type="textarea" label="Reason"/>
-        <a-button class="mr-auto" @click="warn">{{$t('warn')}}</a-button>
+        <a-form @submit="warn">
+            <h2>Warn User</h2>
+            <flex column>
+                <a-user-select v-model="user" required label="User"/>
+                <a-duration v-model="warnDuration" required label="Warning Duration"/>
+                <a-input v-model="reason" required type="textarea" label="Reason"/>
+                <a-button type="submit" class="mr-auto">{{$t('warn')}}</a-button>
+            </flex>
+        </a-form>
 
         <h2>Cases</h2>
 
-        <a-list url="user-cases" query>
+        <a-list v-model="cases" url="user-cases" query>
             <template #item="{ item }">
-                <flex class="list-button">
-                    <flex column>
-                        <flex class="items-center">User: <a-user :user="item.user" avatar-size="xs"/></flex>
-                        <div>Reason: "{{item.reason}}"</div>
-                        <div>Expires: <time-ago null-is-never :time="item.expire_date"/></div>
-                        <div v-if="item.ban">
-                            Action: Ban (Expires: <time-ago null-is-never :time="item.ban.expire_date"/>)
-                        </div>
-                    </flex>
-                    <flex class="ml-auto my-auto">
-                        <a-button>{{$t('edit')}}</a-button>
-                        <a-button>{{$t('pardon')}}</a-button>
-                    </flex>
-                </flex>
+                <admin-case :user-case="item" @delete="deleteCase"/>
             </template>
         </a-list>
     </flex>
 </template>
 
 <script setup lang="ts">
-import { DateTime } from 'luxon';
+import { remove } from '@vue/shared';
+import { UserCase } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
 
 const user = useRouteQuery('user', null, (data: string) => parseInt(data));
 
-const now = DateTime.now();
+const { showToast } = useToaster();
 
-const durations = [
-    { name: 'Days', id: 'days' },
-    { name: 'Weeks', id: 'weeks' },
-    { name: 'Months', id: 'months' },
-    { name: 'Years', id: 'years' },
-    { name: 'Permanent', id: '-' },
-];
-
-const warnDuration = ref('days');
-const warnDurationCount = ref(1);
+const cases = ref<Paginator<UserCase>>(null);
 const reason = ref('');
+const warnDuration = ref();
 
 async function warn() {
-    await usePost('user-cases', { user_id: user.value, reason: reason.value, expire_date: warnDuration.value,  });
+    try {
+        const userCase = await usePost<UserCase>('user-cases', { 
+            user_id: user.value,
+            reason: reason.value,
+            expire_date: warnDuration.value,
+        });
+        reason.value = '';
+        cases.value.data.push(userCase);
+        showToast({
+            color: 'success',
+            desc: 'Successfully warned user. Do you wish to ban them?',
+            duration: 15000,
+        });
+    } catch (error) {
+        //TODO
+    }
+}
+
+function deleteCase(userCase: UserCase) {
+    remove(cases.value.data, userCase);
 }
 </script>

@@ -3,6 +3,7 @@
         <flex column gap="3">
             <slot/>
             <a-alert v-if="deleteButton && modelValue.id" class="w-full" :title="$t('danger_zone')" color="danger">
+                <slot name="danger-zone"/>
                 <div>
                     <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
                 </div>

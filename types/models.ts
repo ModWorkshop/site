@@ -366,3 +366,18 @@ export interface Document {
     created_at?: string;
     updated_at?: string;
 }
+
+export interface UserCase {
+    id: number;
+    user_id: number;
+    mod_user_id: number;
+    warning: boolean;
+    reason: string;
+    expire_date: string;
+    created_at?: string;
+    updated_at?: string;
+    pardon_reason?: string;
+    pardoned: boolean;
+    ban?: Ban;
+    user?: User;
+}

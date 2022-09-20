@@ -1,0 +1,19 @@
+<template>
+    <simple-resource-form v-model="userCase" url="user-cases">
+        <a-input v-model="userCase.pardoned" type="checkbox" :label="$t('pardoned')"/>
+        <a-input v-if="userCase.pardoned" v-model="userCase.pardon_reason" type="textarea" :label="$t('pardon_reason')" required/>
+        <a-duration v-else v-model="userCase.expire_date" label="Duration"/>
+        <a-input v-model="userCase.reason" type="textarea" :label="$t('reason')"/>
+        <template #danger-zone>
+            <span v-if="userCase.ban">
+                This case is a ban. Deleting will also cancel the ban.
+            </span>
+        </template>
+    </simple-resource-form>
+</template>
+
+<script setup lang="ts">
+import { UserCase } from '~~/types/models';
+
+const { data: userCase } = await useEditResource<UserCase>('case', 'user-cases');
+</script>
