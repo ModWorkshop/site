@@ -22,6 +22,7 @@ class UserResource extends JsonResource
         $user = $request->user();
 
         $isMe = $user?->id === $this->id;
+        $notMeNotGuest = isset($user) && !$isMe;
 
         return [
             'id' => $this->id,
@@ -42,8 +43,9 @@ class UserResource extends JsonResource
                 unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
                 return $roleIds;
             }),
-            'blocked_by_me' => $this->when(!$isMe, fn() => $this->blockedByMe),
-            'blocked_me' => $this->when(!$isMe, fn() => $this->blockedMe),
+            'last_online' => $this->last_online,
+            'blocked_by_me' => $this->when($notMeNotGuest, fn() => $this->blockedByMe),
+            'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'tag' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
@@ -52,14 +54,13 @@ class UserResource extends JsonResource
                     }
                 }
             }),
-            $this->whenLoaded('extra', function() {
+            $this->mergeWhen($this->relationLoaded('extra'), function() {
                 $extra = $this->extra;
                 return [
                     'banner' => $extra->banner,
                     'bio' => $extra->bio,
                     'private_profile' => $extra->private_profile,
                     'custom_title' => $extra->custom_title,
-                    'last_online' => $extra->last_online,
                     'donation_url' => $extra->donation_url
                 ];
             }),

@@ -112,6 +112,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'last_online',
         'custom_color',
         'unique_name'
     ];
@@ -137,6 +138,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_online' => 'datetime',
     ];
 
     private $gotPerms = false;
