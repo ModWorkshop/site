@@ -60,12 +60,12 @@
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
                 <a-markdown :text="mod.license"/>
             </a-tab>
-            <a-tab v-if="dependencies.length || mod.instructions.length" name="instructions" :title="$t('instructions_tab')">
+            <a-tab v-if="dependencies.length || mod.instructions.length" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
                     <h2>{{$t('dependencies')}}</h2>
                     <ol style="padding-inline-start: 8px;">
-                        <li v-for="dep in dependencies" :key="dep.id" class="align-middle">
-                            <flex gap="2" class="items-center">
+                        <li v-for="dep in dependencies" :key="dep.id" class="mb-1 align-middle">
+                            <flex gap="2" inline class="items-center align-middle">
                                 <NuxtLink :to="dep.mod ? `/mod/${dep.mod_id}` : dep.url">
                                     <mod-thumbnail :thumbnail="dep.mod?.thumbnail" style="height: 64px;"/>
                                 </NuxtLink>
