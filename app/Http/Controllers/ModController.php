@@ -560,5 +560,5 @@ class ModController extends Controller
     public function report(Request $request, Mod $mod)
     {
         APIService::report($request, $mod);
-    }
+    } 
 }
