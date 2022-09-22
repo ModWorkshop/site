@@ -102,7 +102,7 @@ class UserController extends Controller
         $valExtra = $request->validate([
             'bio' => 'string|nullable|max:3000',
             'custom_title' => 'string|nullable|max:100',
-            'private_profile' => 'required|boolean',
+            'private_profile' => 'boolean',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'donation_url' => 'email_or_url|nullable|max:255',
         ]);
