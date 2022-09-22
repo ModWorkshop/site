@@ -1,3 +1,4 @@
+import { remove } from '@antfu/utils';
 interface YesNoModalOptions {
     title?: string,
     desc?: string,
@@ -10,14 +11,15 @@ export default function() {
     const yesNoModals = useState<YesNoModalOptions[]>('yesNoModals', () => []);
 
     return function(options: YesNoModalOptions) {
-        const length = yesNoModals.value.push({
+        const modal = {
+            modelValue: ref(true),
             ...options,
             async yes(close, error) {
                 try {
                     if (options.yes) {
                         await options.yes(close, error);
                     }
-                    yesNoModals.value.splice(length-1, 1);
+                    modal.modelValue.value = false;
                 } catch (e) {
                     error(e);
                 }
@@ -25,14 +27,17 @@ export default function() {
             async no(close, error) {
                 try {
                     if (options.no) {
-                        await options.yes(close, error);
+                        await options.no(close, error);
                     }
-                    yesNoModals.value.splice(length-1, 1);
+                    modal.modelValue.value = false;
                 } catch (e) {
                     error(e);
                 }
-                yesNoModals.value.splice(length-1, 1);
             },
-        });
+            closed() {
+                remove(yesNoModals.value, modal);
+            }
+        };
+        yesNoModals.value.push(modal);
     };
 }

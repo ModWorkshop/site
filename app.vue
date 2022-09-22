@@ -6,13 +6,13 @@
 		</NuxtLayout>
 		<a-modal-form 
 			v-if="firstModal"
-			:model-value="true"
+			v-model="firstModal.modelValue"
 			:title="firstModal.title || 'Are you sure?'"
 			:desc="firstModal.desc"
 			:desc-type="firstModal.descType"
 			save-text="Yes"
 			cancel-text="No" 
-			size="small" 
+			size="sm" 
 			@submit="firstModal.yes"
 			@cancel="firstModal.no"
 		/>

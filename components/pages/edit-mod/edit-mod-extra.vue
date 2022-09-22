@@ -23,13 +23,13 @@ const props = defineProps<{
     mod: Mod
 }>();
 
-const { init: openModal } = useModal();
+const yesNoModal = useYesNoModal();
 const router = useRouter();
 
 function deleteMod() {
-    openModal({
-        message: 'Are you sure you want to delete the mod?',
-        async onOk() {
+    yesNoModal({
+        desc: 'Are you sure you want to delete the mod?',
+        async yes() {
             await useDelete(`mods/${props.mod.id}`);
             router.push('/');
         }

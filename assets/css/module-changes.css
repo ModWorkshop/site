@@ -45,6 +45,8 @@
     --va-select-dropdown-background: var(--dropdown-bg) !important;
     --va-font-family: initial !important;
     --va-toast-width: 350px !important;
+
+    --va-dropdown-content-wrapper-z-index: 500 !important;
 }
 
 .popper {
@@ -52,30 +54,36 @@
     max-width: 300px;
 }
 
-.va-modal--size-large, .va-modal--size-large .va-modal__inner {
-    min-width: 992px;
+:root {
+    --vs-dropdown-bg: var(--dropdown-bg) !important;
+    --vs-dropdown-option--active-bg: var(--dropdown-hover-bg) !important;
+    --vs-controls-color: var(--text-color) !important;
+    --vs-dropdown-option-padding: 8px 16px !important;
 }
 
-.va-modal__dialog, .va-modal .va-modal__inner {
-    min-width: 800px;
-}
-
-.va-modal--size-small, .va-modal--size-small .va-modal__inner {
-    min-width: 500px;
-}
-
-.va-modal__dialog {
+.v-select {
+    background-color: var(--input-bg-color) !important;
     color: var(--text-color) !important;
-    background-color: var(--content-bg-color) !important;
 }
 
-.va-modal__dialog, .va-modal__inner, .va-modal__inner > div {
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
+.vs__search, .vs__search:focus {
+    padding: 0 !important;
+    margin: 0px 4px !important;
 }
 
-.va-toast {
-    border-radius: var(--border-radius) !important;
-    border: none !important;
+.vs__dropdown-option {
+    line-height: inherit !important;
+}
+
+.vs__dropdown-toggle {
+    padding: 0 !important;
+}
+
+.vs__selected-options {
+    gap: 4px;
+    padding: 0.25rem !important;
+}
+
+.vs--open .vs__open-indicator {
+    margin-bottom: 4px;
 }

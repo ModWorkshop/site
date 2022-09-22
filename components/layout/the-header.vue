@@ -1,18 +1,16 @@
 <template>
-    <va-modal v-model="showNotifications" size="large" background-color="#2b3036">
-        <template #content="{ ok }">
-            <a-loading v-if="!notifications"/>
-            <template v-else>
-                <h2>{{$t('notifications')}}</h2>
-                <flex column class="overflow-y-scroll">
-                    <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="ok" :notifications="notifications"/>
-                </flex>
-                <div class="mt-4">
-                    <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
-                </div>
-            </template>
+    <a-modal v-model="showNotifications" size="md" background-color="#2b3036">
+        <a-loading v-if="!notifications"/>
+        <template v-else>
+            <h2>{{$t('notifications')}}</h2>
+            <flex column class="overflow-y-scroll">
+                <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="() => showNotifications = false" :notifications="notifications"/>
+            </flex>
+            <div class="mt-4">
+                <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
+            </div>
         </template>
-    </va-modal>
+    </a-modal>
     <header class="nav">
         <NuxtLink to="/">
             <img :src="logo" width="36">
