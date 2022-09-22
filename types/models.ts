@@ -139,6 +139,9 @@ export interface Mod {
     followed?: { notify: boolean };
     subscribed?: boolean;
     send_for_approval?: boolean;
+    dependencies?: Dependency[],
+    instructs_template_id?: number
+    instructs_template?: InstructsTemplate
 }
 
 export interface Breadcrumb {
@@ -380,4 +383,30 @@ export interface UserCase {
     pardoned: boolean;
     ban?: Ban;
     user?: User;
+}
+
+export interface Dependency {
+    id: number;
+    name?: string;
+    url?: string;
+    mod_id?: number;
+    optional: boolean;
+    dependable_type: string;
+    dependable_id: number;
+    order: number;
+    created_at?: string;
+    updated_at?: string;
+    mod?: Mod
+}
+
+export interface InstructsTemplate {
+    id: number;
+    name: string;
+    instructions: string;
+    localized: boolean;
+    game_id: number;
+    created_at?: string;
+    updated_at?: string;
+    dependencies?: Dependency[];
+    dependencies_count?: number | null;
 }

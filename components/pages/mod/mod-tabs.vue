@@ -60,7 +60,40 @@
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
                 <a-markdown :text="mod.license"/>
             </a-tab>
-            <a-tab name="instructions" :title="$t('instructions')">Nothing for now!</a-tab>
+            <a-tab v-if="dependencies.length || mod.instructions.length" name="instructions" :title="$t('instructions_tab')">
+                <div v-if="dependencies.length">
+                    <h2>{{$t('dependencies')}}</h2>
+                    <ol style="padding-inline-start: 8px;">
+                        <li v-for="dep in dependencies" :key="dep.id" class="align-middle">
+                            <flex gap="2" class="items-center">
+                                <NuxtLink :to="dep.mod ? `/mod/${dep.mod_id}` : dep.url">
+                                    <mod-thumbnail :thumbnail="dep.mod?.thumbnail" style="height: 64px;"/>
+                                </NuxtLink>
+                                <flex column>
+                                    <template v-if="dep.mod">
+                                        <NuxtLink :to="`/mod/${dep.mod_id}`">
+                                            {{dep.mod.name}}
+                                        </NuxtLink>
+                                        <a-user avatar-size="sm" :user="dep.mod.user"/>
+                                    </template>
+                                    <template v-else>
+                                        <NuxtLink :to="dep.url">
+                                            {{dep.name}} <a-tag v-if="dep.optional">{{$t('optional')}}</a-tag>
+                                        </NuxtLink>
+                                        <span>
+                                            {{$t('offsite_mod')}}
+                                        </span>
+                                    </template>
+                                </flex>
+                            </flex>
+                        </li>
+                    </ol>
+                </div>
+                <div v-if="mod.instructions.length">
+                    <h2>{{$t('instructions')}}</h2>
+                    <a-markdown class="mb-3" :text="mod.instructs_template.instructions + '\n' + mod.instructions"/>
+                </div>
+            </a-tab>
         </a-tabs>
     </flex>
 </template>
@@ -73,6 +106,15 @@ const props = defineProps<{
 }>();
 
 const { public: config } = useRuntimeConfig();
+
+const dependencies = computed(() => {
+    const deps = props.mod.dependencies;
+    const templateDeps = props.mod.instructs_template.dependencies;
+
+    const combinedDeps = [...deps, ...templateDeps];
+
+    return combinedDeps.sort((a,b) => a.order - b.order);
+});
 
 const imageIndex = ref(0);
 const galleryVisible = ref(false);

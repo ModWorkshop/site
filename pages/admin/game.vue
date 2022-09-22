@@ -8,6 +8,7 @@
                 <a-nav-link to="docs" title="Documents"/>
                 <a-nav-link to="categories" title="Categories"/>
                 <a-nav-link to="forum-categories" title="Forum Categories"/>
+                <a-nav-link to="instructions-templates" title="Instructions Templates"/>
                 <a-nav-link to="mods" title="Mods"/>
                 <template #content>
                     <NuxtPage/>

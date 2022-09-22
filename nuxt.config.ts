@@ -268,6 +268,16 @@ export default defineNuxtConfig({
 						path: "approvals",
 						file: resolve(__dirname, "pages/admin/approvals.vue")
 					},
+					{
+						name: "admin-game-templates",
+						path: "instructions-templates",
+						file: resolve(__dirname, "pages/admin/instructs-templates.vue")
+					},
+					{
+						name: "admin-game-template",
+						path: "instructions-templates/:templateId",
+						file: resolve(__dirname, "pages/admin/edit-instructs-template.vue")
+					},
 				]
 			});
 

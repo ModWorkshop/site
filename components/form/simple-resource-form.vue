@@ -1,5 +1,12 @@
 <template>
-    <a-form :model="modelValue" :created="modelValue && !!modelValue.id" float-save-gui :can-save="canSave" @submit="submit">
+    <a-form 
+        :model="modelValue"
+        :created="modelValue && !!modelValue.id"
+        float-save-gui
+        :can-save="canSave"
+        :ignore-changes="ignoreChanges"
+        @submit="submit"
+    >
         <flex column gap="3">
             <slot/>
             <a-alert v-if="deleteButton && modelValue.id" class="w-full" :title="$t('danger_zone')" color="danger">
@@ -24,6 +31,7 @@ const props = defineProps({
     deleteRedirectTo: String,
     mergeParams: Object,
     canSave: Boolean,
+    ignoreChanges: Object,
     deleteButton: {
         type: Boolean,
         default: true

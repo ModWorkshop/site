@@ -20,7 +20,9 @@
                     <a-tab name="members" title="Members">
                         <edit-mod-members :mod="mod"/>
                     </a-tab>
-                    <a-tab name="instructions" title="Dependencies & Instructions"/>
+                    <a-tab name="instructions" title="Dependencies & Instructions">
+                        <edit-mod-deps :mod="mod"/>
+                    </a-tab>
                     <a-tab name="extra" title="Extra">
                         <edit-mod-extra :mod="mod"/>
                     </a-tab>

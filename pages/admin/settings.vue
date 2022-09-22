@@ -15,7 +15,7 @@ import { Settings } from '~~/types/models';
 
 const { showToast } = useToaster();
 
-const ignoreChanges = useRaiseEvent();
+const ignoreChanges = useEventRaiser();
 
 definePageMeta({
     middleware: 'admins-only',
