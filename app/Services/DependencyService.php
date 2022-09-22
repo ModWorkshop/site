@@ -16,7 +16,8 @@ class DependecyService {
             'name' => 'string|exclude_with:mod_id|required_without:mod_id|min:3|max:150',
             'url' => 'url|exclude_with:mod_id|required_without:mod_id|min:3|max:1000',
             'mod_id' => 'integer|min:0|required_without:name,url|exists:mods,id',
-            'optional' => 'boolean'
+            'optional' => 'boolean',
+            'order' => 'integer'
         ]);
 
         $dependency = null;
@@ -49,12 +50,14 @@ class DependecyService {
             $val = $request->validate([
                 'name' => 'string|min:3|max:150',
                 'url' => 'url|min:3|max:1000',    
-                'optional' => 'boolean'
+                'optional' => 'boolean',
+                'order' => 'integer'
             ]);
         } else {
             $val = $request->validate([
                 'optional' => 'boolean',
                 'mod_id' => 'integer|min:0|exists:mods,id',
+                'order' => 'integer'
             ]);
         }
 
