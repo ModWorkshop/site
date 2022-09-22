@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Mod;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
@@ -35,8 +36,9 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
-        //TODO: unhardcode
-        $maxSize = 262144000; //250MiB 
+        $maxSize = Setting::get('max_file_size');
+        $storageSize = Setting::get('mod_storage_size');
+
 
         $val = $request->validate([
             'file' => "required|max:{$maxSize}|mimes:zip,rar,7z"
@@ -56,10 +58,8 @@ class FileController extends Controller
             }
         }
 
-        //TODO: Unhardcode this value by introducing site settings of sort
-        $maxSize = 262144000; //250MiB
-        if ($accumulatedSize > $maxSize) {
-            abort(406, 'Reached maximum allowed file size for the mod!');
+        if ($accumulatedSize > $storageSize) {
+            abort(406, 'Reached maximum allowed storage usage for the mod!');
         }
 
         $user = $request->user();
