@@ -164,7 +164,19 @@ class Mod extends Model implements SubscribableInterface
     protected $guarded = ['download_type', 'download_id'];
 
     private $withFull = [
-        'user.extra', 'tags', 'images', 'files', 'links', 'members', 'banner', 'lastUser', 'liked', 'transferRequest', 'subscribed'
+        'user.extra',
+        'tags',
+        'images',
+        'files',
+        'links',
+        'members',
+        'banner',
+        'lastUser',
+        'liked', 
+        'transferRequest',
+        'subscribed',
+        'dependencies',
+        'instructsTemplate',
     ];
     protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
     protected $appends = [];
@@ -285,6 +297,22 @@ class Mod extends Model implements SubscribableInterface
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
+    /**
+     * Depenencies of the mod for the instructions
+     */
+    public function dependencies() : MorphMany
+    {
+        return $this->morphMany(Dependency::class, 'dependable');
+    }
+
+    /**
+     * Instructions template in the mod
+     */
+    public function instructsTemplate() : BelongsTo
+    {
+        return $this->belongsTo(InstructsTemplate::class);
+    }
+
     public function membersThatCanEdit()
     {
         return $this->belongsToMany(User::class, 'mod_members')
@@ -401,7 +429,6 @@ class Mod extends Model implements SubscribableInterface
             ]);
         };
 
-        //TODO: Unhardcode this
         $webhook = Setting::getValue('discord_webhook');
         if (isset($webhook)) {
             $send($webhook);

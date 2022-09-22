@@ -31,6 +31,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $case_id
+ * @property-read \App\Models\UserCase|null $case
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
  */
 	class Ban extends \Eloquent {}
 }
@@ -167,9 +170,73 @@ namespace App\Models{
  * @property-read int|null $mentions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $replies
+ * @property-read int|null $replies_count
  * @property-read \App\Models\Subscription|null $subscribed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
  */
 	class Comment extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Dependency
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $url
+ * @property int|null $mod_id
+ * @property bool $optional
+ * @property string $dependable_type
+ * @property int $dependable_id
+ * @property int $order
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereDependableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereDependableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereModId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOptional($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUrl($value)
+ */
+	class Dependency extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Document
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $url_name
+ * @property string $desc
+ * @property int $game_id
+ * @property int $last_user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Document newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Document newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Document query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereLastUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereUrlName($value)
+ * @mixin \Eloquent
+ * @property-read \App\Models\User $lastUser
+ */
+	class Document extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -232,6 +299,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 	class FollowedGame extends \Eloquent {}
 }
@@ -256,6 +324,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 	class FollowedMod extends \Eloquent {}
 }
@@ -280,34 +349,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  */
 	class FollowedUser extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Follows
- *
- * @property int $id
- * @property int $user_id
- * @property string $followable_type
- * @property int $followable_id
- * @property bool $following
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Follows newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Follows newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Follows query()
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereFollowableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereFollowableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereFollowing($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Follows whereUserId($value)
- * @mixin \Eloquent
- */
-	class Follows extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -432,6 +476,33 @@ namespace App\Models{
  * @property-read \App\Models\Mod $mod
  */
 	class Image extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\InstructsTemplate
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $instructions
+ * @property bool $localized
+ * @property int $game_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
+ * @property-read int|null $dependencies_count
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereInstructions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereLocalized($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
+ */
+	class InstructsTemplate extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -602,7 +673,22 @@ namespace App\Models{
  * @property-read int|null $tags_special_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $followers
+ * @property-read int|null $followers_count
  * @property-read \App\Models\Subscription|null $subscribed
+ * @property bool $has_download
+ * @property bool $approved
+ * @method static Builder|Mod whereApproved($value)
+ * @method static Builder|Mod whereHasDownload($value)
+ * @property int|null $instructs_template_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
+ * @property-read int|null $dependencies_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $instructsTemplate
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $membersThatCanEdit
+ * @property-read int|null $members_that_can_edit_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Mod whereInstructsTemplateId($value)
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -736,6 +822,9 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @property int $user_id
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
+ * @property int|null $from_user_id
+ * @property-read \App\Models\User|null $fromUser
+ * @method static Builder|Notification whereFromUserId($value)
  */
 	class Notification extends \Eloquent {}
 }
@@ -766,6 +855,42 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Report
+ *
+ * @property int $id
+ * @property mixed $data
+ * @property int $user_id
+ * @property string $reason
+ * @property bool $archived
+ * @property string $reportable_type
+ * @property int $reportable_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Report newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Report newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Report query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereArchived($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereUserId($value)
+ * @mixin \Eloquent
+ * @property string|null $name
+ * @property int|null $game_id
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reportable
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
+ */
+	class Report extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Role
  *
  * @property int $id
@@ -792,6 +917,32 @@ namespace App\Models{
  * @mixin \Eloquent
  */
 	class Role extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Setting
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $type
+ * @property string $value
+ * @property bool $public
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting wherePublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereValue($value)
+ * @mixin \Eloquent
+ */
+	class Setting extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -866,6 +1017,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Mod $mod
  */
 	class Suspension extends \Eloquent {}
 }
@@ -908,6 +1060,8 @@ namespace App\Models{
  * @property-read int|null $threads_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOnlyFor($value)
+ * @property string|null $type
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  */
 	class Tag extends \Eloquent {}
 }
@@ -982,6 +1136,12 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
  * @property-read \App\Models\Subscription|null $subscribed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
+ * @property-read int|null $tags_special_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1066,6 +1226,12 @@ namespace App\Models{
  * @property-read int|null $followed_mods_count
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
+ * @property \Illuminate\Support\Carbon|null $last_online
+ * @property-read \App\Models\Ban|null $ban
+ * @property-read mixed $last_ban
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastOnline($value)
  */
 	class User extends \Eloquent {}
 }
@@ -1094,6 +1260,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereWarning($value)
  * @mixin \Eloquent
+ * @property string|null $pardon_reason
+ * @property bool $pardoned
+ * @property-read \App\Models\Ban|null $ban
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardonReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardoned($value)
  */
 	class UserCase extends \Eloquent {}
 }

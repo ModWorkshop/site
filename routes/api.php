@@ -12,10 +12,13 @@ use App\Http\Controllers\FollowedUserController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\InstructsTemplateController;
+use App\Http\Controllers\InstructsTemplateDependencyController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
+use App\Http\Controllers\ModDependencyController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
@@ -67,6 +70,7 @@ Route::middleware('can:view,file')->get('files/{file}/download', [FileController
 //General mods
 Route::resource('mods.links', LinkController::class);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
+Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
 Route::resource('mods', ModController::class);
@@ -99,6 +103,8 @@ Route::resource('games', GameController::class);
 Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::resource('tags', TagController::class);
+Route::resource('games.instructs-templates', InstructsTemplateController::class);
+Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
 
 /**
  * @group Forums

@@ -26,8 +26,6 @@ class CreateModsTable extends Migration
             $table->foreign('game_id')->references('id')->on('categories');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            //$table->bigInteger('instid')->default(0); Implement later
-            //$table->foreign('instid')->references('id')->on('instructions'); //TODO: make table
 
             $table->tinyText('name');
             $table->text('desc'); // Was description
@@ -38,7 +36,6 @@ class CreateModsTable extends Migration
             $table->json('depends_on')->nullable();
             $table->tinyInteger('visibility')->default(0); // Was hidden
             $table->tinyText('legacy_banner_url')->default(''); //Only to be used for old mods, all new mods will have to move to banner_id.
-            $table->string('url')->default('');
             $table->bigInteger('downloads')->unsigned()->default(0);
             $table->bigInteger('likes')->unsigned()->default(0);
             $table->bigInteger('views')->unsigned()->default(0);

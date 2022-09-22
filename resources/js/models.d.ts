@@ -74,6 +74,19 @@ declare namespace App.Models {
         replies_count?: number | null;
     }
 
+    export interface Dependency {
+        id: number;
+        name: string | null;
+        url: string | null;
+        mod_id: number | null;
+        optional: boolean;
+        dependable_type: string;
+        dependable_id: number;
+        order: number;
+        created_at: string | null;
+        updated_at: string | null;
+    }
+
     export interface Document {
         id: number;
         name: string;
@@ -189,6 +202,18 @@ declare namespace App.Models {
         mod?: App.Models.Mod | null;
     }
 
+    export interface InstructsTemplate {
+        id: number;
+        name: string;
+        instructions: string;
+        localized: boolean;
+        game_id: number;
+        created_at: string | null;
+        updated_at: string | null;
+        dependencies?: Array<App.Models.Dependency> | null;
+        dependencies_count?: number | null;
+    }
+
     export interface Link {
         id: number;
         user_id: number;
@@ -248,6 +273,7 @@ declare namespace App.Models {
         last_user_id: number | null;
         has_download: boolean;
         approved: boolean | null;
+        instructs_template_id: number | null;
         followers?: Array<App.Models.FollowedMod> | null;
         user?: App.Models.User | null;
         last_user?: App.Models.User | null;
@@ -261,6 +287,8 @@ declare namespace App.Models {
         files?: Array<App.Models.File> | null;
         links?: Array<App.Models.Link> | null;
         members?: any | null;
+        dependencies?: Array<App.Models.Dependency> | null;
+        instructs_template?: App.Models.InstructsTemplate | null;
         members_that_can_edit?: any | null;
         comments?: Array<App.Models.Comment> | null;
         transfer_request?: App.Models.TransferRequest | null;
@@ -274,6 +302,7 @@ declare namespace App.Models {
         images_count?: number | null;
         files_count?: number | null;
         links_count?: number | null;
+        dependencies_count?: number | null;
         comments_count?: number | null;
         readonly breadcrumb?: any;
     }
