@@ -545,6 +545,7 @@ declare namespace App.Models {
         created_at: string | null;
         updated_at: string | null;
         pardon_reason: string | null;
+        pardoned: boolean;
         ban?: App.Models.Ban | null;
         user?: App.Models.User | null;
     }
