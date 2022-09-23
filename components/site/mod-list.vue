@@ -25,7 +25,6 @@
         </flex>
 
         <flex column gap="3">
-            {{fetchPage}}
             <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40">
                 <flex class="ml-auto">
                     <a-button icon="filter" @click="filtersVisible = !filtersVisible"/>
