@@ -81,8 +81,6 @@ function onClickCategory(category: Category) {
         currentCategoryId.value = undefined;
         open.value = false;
     } else {
-        console.log('set');
-        
         currentCategoryId.value = category.id;
         open.value = true;
     }

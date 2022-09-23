@@ -80,6 +80,15 @@ const classes = computed(() => ({input: true, 'input-error': !!err.value}));
 .flex > .input-container:not(.flex-col > .input-container) {
     flex: 1;
 }
+
+.input-bg {
+    flex: 1;
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+}
+
 </style>
 
 <style scoped>

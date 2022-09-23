@@ -55,6 +55,7 @@ html.dark {
     --info-bg-color: #1e293f;
     --warning-bg-color: #383925;
     --success-bg-color: #1e3b28;
+    --float-bg-color: #00000040;
     color-scheme: dark;
 }
 
@@ -87,6 +88,7 @@ html.light {
     --info-bg-color: #aac2f3;
     --warning-bg-color: #c1b72d;
     --success-bg-color: #4fc541;
+    --float-bg-color: #99999980;
     color-scheme: light;
 }
 

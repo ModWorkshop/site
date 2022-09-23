@@ -11,7 +11,7 @@
 const props = withDefaults(defineProps<{
     href?: string,
     unstyled?: boolean,
-    color?: 'primary' | 'sbutle' | 'secondary' | 'danger',
+    color?: 'primary' | 'subtle' | 'secondary' | 'danger' | 'none',
     type?: 'button' | 'submit' | 'reset',
     size?: string,
     noBg?: boolean,
@@ -42,75 +42,77 @@ const iconStyle = computed(() => ({
 </script>
 
 <style scoped>
-    .button {
-        color: var(--button-text-color);
-        padding: 0.5rem 0.75rem;
-        border: 1px solid transparent;
-        border-radius: var(--border-radius);
-        transition: 0.15s ease-in-out;
-        transition-property: background-color, color, border-color;
-    }
+.button {
+    color: var(--button-text-color);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    transition: 0.15s ease-in-out;
+    transition-property: background-color, color, border-color;
+}
 
-    .button-small {
-        padding: 0.3rem 0.6rem;
-        font-size: 12px;
-    }
+.button-small {
+    padding: 0.3rem 0.6rem;
+    font-size: 12px;
+}
 
-    .button-none {
-        background-color: transparent;
-        color: var(--text-color);
-    }
+.button-none {
+    background-color: transparent;
+    color: var(--text-color);
+}
 
-    .button-none:hover {
-        color: var(--primary-color) !important;
-    }
+.button-none:hover {
+    color: var(--primary-color) !important;
+}
 
-    .button-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
+.button-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
 
-    .button-subtle {
-        background-color: transparent;
-    }
+.button-subtle {
+    background-color: transparent;
+    color: var(--text-color);
+}
 
-    .button-subtle:hover {
-        background-color: var(--tab-selected-color);
-    }
+.button-subtle:hover {
+    background-color: var(--tab-selected-color);
+    color: var(--text-color) !important;
+}
 
-    .button-danger {
-        background-color: var(--danger-color);
-        border-color: var(--danger-color);
-    }
+.button-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
 
-    .button-no-bg {
-        background-color: transparent;
-        color: var(--primary-color);
-    }
+.button-no-bg {
+    background-color: transparent;
+    color: var(--primary-color);
+}
 
-    .button-secondary {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
-    }
+.button-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
 
-    .button:disabled {
-        background-color: var(--disabled-color);
-        border-color: var(--disabled-color);
-        opacity: 0.75;
-    }
+.button:disabled {
+    background-color: var(--disabled-color);
+    border-color: var(--disabled-color);
+    opacity: 0.75;
+}
 
-    .button:hover:enabled, .button:hover:link {
-        color: var(--button-text-color);
-        transition: 0.15s ease-in-out;
-        transition-property: background-color, color, border-color;
-        cursor: pointer;
-    }
+.button:hover:enabled, .button:hover:link {
+    color: var(--button-text-color);
+    transition: 0.15s ease-in-out;
+    transition-property: background-color, color, border-color;
+    cursor: pointer;
+}
 
-    .button-primary:hover:enabled, a.button-primary:hover  {
-        background-color: var(--primary-hover-color);
-    }
+.button-primary:hover:enabled, a.button-primary:hover  {
+    background-color: var(--primary-hover-color);
+}
 
-    .button-danger:hover:enabled {
-        background-color: var(--danger-hover-color);
-    }
+.button-danger:hover:enabled {
+    background-color: var(--danger-hover-color);
+}
 </style>

@@ -18,7 +18,7 @@
         </NuxtLink>
         <flex gap="4" class="ml-3">
             <a-link-button v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
-            <a-link-button to="/games">{{$t('games')}}</a-link-button>
+            button<a-link- to="/games">{{$t('games')}}</a-link->
             <a-link-button to="/forum?category=news">{{$t('news')}}</a-link-button>
             <a-link-button to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
             <a-link-button to="/forum">{{$t('forum')}}</a-link-button>
@@ -85,9 +85,10 @@
                 </Popper>
             </template>
             <a-loading v-else-if="userIsLoading"/>
-            <flex v-else class="my-auto" gap="2">
-                <NuxtLink to="/login">{{$t('login')}}</NuxtLink>
-                <NuxtLink to="/register">{{$t('register')}}</NuxtLink>
+            <flex v-else class="my-auto" gap="4">
+                <a-link-button to="/login">{{$t('login')}}</a-link-button>
+                <a-link-button to="/register">{{$t('register')}}</a-link-button>
+                <a-link-button :icon="lightTheme ? 'moon' : 'sun'" @click="toggleTheme"/>
             </flex>
         </flex>
     </header>
