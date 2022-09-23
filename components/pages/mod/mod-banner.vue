@@ -88,20 +88,19 @@ function switchToFiles() {
 </style>
 <style scoped>
 .mod-banner {
-    box-shadow: 1px 1px 5px #000;
     box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.45);
     text-shadow: 2px 1px 3px black;
 }
 
-.mod-banner a > span {
-    text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-}
-
 .mod-data {
     height: 100%;
-    color: var(--MAIN_COLOR_TEXT);
     padding: 0.75rem;
+    color: white;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+}
+
+.light .mod-data {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
 
 .mod-data-top {

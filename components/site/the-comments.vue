@@ -361,7 +361,7 @@ function beginEditingComment(comment: Comment) {
 }
 
 .mention-float {
-    background-color: #22262a;
+    background-color: var(--alt-content-bg-color);
     padding: 1rem;
     width: 250px;
     height: 180px;

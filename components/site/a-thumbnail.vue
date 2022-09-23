@@ -1,13 +1,16 @@
 <template>
     <picture>
         <source v-if="compSrc" :srcset="compSrc">
-        <source :srcset="`${config.apiUrl}/storage/assets/nopreview.png`" type="image/png">
-        <img :src="`${config.apiUrl}/storage/assets/nopreview.png`" class="ratio-image round" alt="thumbnail" v-bind="$attrs">
+        <source :srcset="noPreviewSrc" type="image/png">
+        <img :src="noPreviewSrc" class="ratio-image round" alt="thumbnail" v-bind="$attrs">
     </picture>
 </template>
 
 <script setup lang="ts">
+import { useStore } from '~~/store';
+
 const { public: config } = useRuntimeConfig();
+const store = useStore();
 
 const props = defineProps<{
     src?: string,
@@ -15,6 +18,8 @@ const props = defineProps<{
     hasThumb?: boolean,
     urlPrefix: string,
 }>();
+
+const noPreviewSrc = computed(() => `${config.apiUrl}/storage/assets/${store.lightTheme ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const compSrc = computed(() => {
     if (!props.src || isSrcExternal(props.src)) {

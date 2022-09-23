@@ -33,4 +33,8 @@ const bannerUrl = computed(() => {
     background-repeat: repeat;
     background-size: auto;
 }
+
+.light .default-banner {
+    background-color: #000;
+}
 </style>

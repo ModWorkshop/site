@@ -1,5 +1,6 @@
 <template>
-    <a-modal v-model="showNotifications" size="md" background-color="#2b3036">
+    <Html :class="lightTheme ? 'light' : 'dark'"/>
+    <a-modal v-model="showNotifications" size="md">
         <a-loading v-if="!notifications"/>
         <template v-else>
             <h2>{{$t('notifications')}}</h2>
@@ -70,14 +71,15 @@
                 <Popper arrow>
                     <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
                     <template #content>
-                        <a-dropdown-item icon="user" :to="`/user/${user.id}`">Profile</a-dropdown-item>
-                        <a-dropdown-item icon="heart">Liked Mods</a-dropdown-item>
-                        <a-dropdown-item icon="plus">Followed Mods</a-dropdown-item>
+                        <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
+                        <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
+                        <a-dropdown-item icon="eye" to="/user-settings?tab=content">{{$t('content_settings')}}</a-dropdown-item>
+                        <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">{{$t('admin')}}</a-dropdown-item>
+                        <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                         <div class="dropdown-splitter"/>
-                        <a-dropdown-item icon="cog" to="/user-settings">User Settings</a-dropdown-item>
-                        <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">Admin</a-dropdown-item>
-                        <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">Log Out</a-dropdown-item>
-                        <div class="dropdown-splitter"/>
+                        <a-dropdown-item :icon="lightTheme ? 'moon' : 'sun'" @click="toggleTheme">
+                            {{$t(lightTheme ? 'dark_theme' : 'light_theme')}}
+                        </a-dropdown-item>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
                 </Popper>
@@ -93,15 +95,36 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useStore } from '../../store';
-const logo = computed(() => '/mws_logo_white.svg'); //TODO: redo color mode
 
 const store = useStore();
 const router = useRouter();
-const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
+const { user, notifications, userIsLoading, notificationCount, lightTheme } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(1);
+const savedTheme = useCookie('theme');
+
+const computedlightTheme = computed(() => {
+    if (savedTheme.value) {
+        return savedTheme.value === 'light';
+    } else {
+        return false;
+    }
+});
+
+watch(computedlightTheme, () => lightTheme.value = computedlightTheme.value, { immediate: true });
+
+const logo = computed(() => lightTheme.value ? '/mws_logo_black.svg' : '/mws_logo_white.svg');
+
+function toggleTheme() {
+    if (!savedTheme.value || savedTheme.value == 'dark') {
+        savedTheme.value = 'light';
+    } else if (savedTheme.value == 'light') {
+        savedTheme.value = null;
+    }
+}
+
 const searchButtons = computed(() => {
     const buttons = [
         { to: `/search/mods`, text: 'search_mods' },

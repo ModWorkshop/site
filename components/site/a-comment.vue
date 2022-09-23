@@ -194,7 +194,7 @@ function openDeleteModal() {
     transition: border, background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 }
 .reply {
-    background-color: #22262a;
+    background-color: var(--alt-content-bg-color);
 }
 
 .focus {

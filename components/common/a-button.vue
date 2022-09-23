@@ -58,6 +58,11 @@ const iconStyle = computed(() => ({
 
     .button-none {
         background-color: transparent;
+        color: var(--text-color);
+    }
+
+    .button-none:hover {
+        color: var(--primary-color) !important;
     }
 
     .button-primary {

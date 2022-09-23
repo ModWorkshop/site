@@ -8,7 +8,7 @@
         <a-input v-model="role.tag" label="Tag" :desc="$t('tag_help')" maxlength="100" minlength="3"/>
         <a-input v-model="role.color" label="Color" desc="The color of the role" type="color"/>
         <a-input label="Permissions">
-            <flex class="p-4" style="background-color: #22262a" column grow>
+            <flex class="p-4" style="background-color: var(--alt-content-bg-color)" column grow>
                 <flex v-for="perm of permissions.data" :key="perm.id" class="perm p-2">
                     <span class="flex-grow my-auto">{{perm.name}}</span>
                     <a-button icon="check" :disabled="getPermissionState(perm.id) === true" @click="setPermission(perm, true)"/>

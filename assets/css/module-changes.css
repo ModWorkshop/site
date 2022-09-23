@@ -87,3 +87,7 @@
 .vs--open .vs__open-indicator {
     margin-bottom: 4px;
 }
+
+.va-select-option-list__option:hover {
+    background-color: var(--dropdown-hover-bg) !important;
+}

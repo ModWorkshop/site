@@ -145,7 +145,6 @@ function toggleFullscreen() {
 }
 
 .textarea {
-    color: var(--text-color);
     background-color: var(--input-bg-color);
     border-radius: var(--border-radius);
     resize : vertical;
@@ -163,7 +162,7 @@ function toggleFullscreen() {
 }
 
 .md-editor {
-    background-color: #22262a;
+    background-color: var(--alt-content-bg-color);
     border-radius: var(--border-radius);
     resize: vertical;
 }
@@ -179,7 +178,6 @@ textarea:focus-visible {
 
 .md-tool {
     background: none;
-    color: var(--text-color);
     padding: 0.5rem;
 }
 

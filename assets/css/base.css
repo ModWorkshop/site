@@ -22,10 +22,14 @@ body {
     overflow-y: scroll;
 }
 
+:root {
+    --border-radius: 4px;
+}
+
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
-    --alt-bg-color: #212121;
+    --alt-content-bg-color: #22262a;
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;
@@ -47,19 +51,22 @@ html.dark {
     --header-footer-color: #394047;
     --button-text-color: #fff;
     --tab-selected-color: rgb(255 255 255 / 5%);
-    --border-radius: 4px;
+    --danger-bg-color: #382125;
+    --info-bg-color: #1e293f;
+    --warning-bg-color: #383925;
+    --success-bg-color: #1e3b28;
     color-scheme: dark;
 }
 
 html.light {
-    --bg-color: #dddddd;
-    --content-bg-color: #cccccc;
-    --alt-bg-color: #212121;
-    --dropdown-bg: #292d32;
-    --dropdown-hover-bg: #32383e;
+    --bg-color: rgb(240, 240, 240);
+    --content-bg-color: #d6d8db;
+    --alt-content-bg-color: #e4e5e7;
+    --dropdown-bg: #c9cbcf;
+    --dropdown-hover-bg: #aeb1b7;
     --dropdown-text-color: #ccc;
     --text-color: #000;
-    --secondary-text-color: #666666;
+    --secondary-text-color: #4d4d4d;
     --text-inactive: #6d6d6d;
     --primary-color: #006cdf;
     --success-color: #00ff15;
@@ -71,12 +78,15 @@ html.light {
     --disabled-color: #3c3c3c;
     --primary-hover-color: #007bff;
     --input-bg-color: #c9c9c9;
-    --input-border-color: #393e46;
+    --input-border-color: #adadad;
     --input-border-hover-color: #505762;
-    --header-footer-color: #b7b7b7;
+    --header-footer-color: #bbbec3;
     --button-text-color: #fff;
-    --tab-selected-color: rgb(255 255 255 / 5%);
-    --border-radius: 4px;
+    --tab-selected-color: rgb(0 0 0 / 5%);
+    --danger-bg-color: #ffa7a7;
+    --info-bg-color: #aac2f3;
+    --warning-bg-color: #c1b72d;
+    --success-bg-color: #4fc541;
     color-scheme: light;
 }
 
@@ -178,7 +188,7 @@ a {
 }
 
 .alt-bg-color {
-    background-color: var(--alt-bg-color);
+    background-color: var(--alt-content-bg-color);
 }
 
 .v-select {
@@ -188,7 +198,7 @@ a {
 .list-button {
     color: var(--text-color);
     border-radius: var(--border-radius);
-    background-color: var(--alt-bg-color);
+    background-color: var(--alt-content-bg-color);
     padding: 1rem;
 }
 

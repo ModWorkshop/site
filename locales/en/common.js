@@ -139,7 +139,7 @@ about_desc: `
     We absolutely love modding, and if you want to host any mod for any game, feel free to do so! 
     If the '[Other Games](/g/other)' section is not enough, contact us and we can discuss about making a section dedicated for that game!  
 `,
-my_profile: "Profile",
+profile: "Profile",
 user_settings: "User Settings",
 logout: "Log Out",
 last_updates_games: "Recently Updated Games",
@@ -333,4 +333,7 @@ return_to_comments: 'Return to Comments',
 docs: 'Documents',
 archive: 'Archive',
 unarchive: 'Unarchive',
+dark_theme: 'Dark Theme',
+light_theme: 'Light Theme',
+content_settings: 'Content Settings'
 };
