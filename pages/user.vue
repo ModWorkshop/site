@@ -12,8 +12,13 @@
                     <a-dropdown-item @click="setFollowUser(user, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </Popper>
-            <a-button icon="user-xmark" title="Entirely blocks communication with the user and hides their mods" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-button>
-            <a-button v-if="!isBlocked" icon="eye-slash" title="Only hides their mods" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-button>
+            <Popper :disabled="isBlocked">
+                <a-button icon="user-xmark" @click="isBlocked && blockUser()">{{isBlocked ? $t('unblock') : `${$t('block')}/${$t('hide_mods')}`}}</a-button>
+                <template #content>
+                    <a-dropdown-item icon="user-xmark" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-dropdown-item>
+                    <a-dropdown-item icon="eye-slash" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-dropdown-item>
+                </template>
+            </Popper>
             <Popper v-if="canModerateUser" arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
                 <template #content>
@@ -113,20 +118,22 @@ const isPublic = computed(() => !user.value.private_profile);
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;
 
-    yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This will block all communication with the user and hide their mods from showing up',
-        async yes() {
-            if (block) {
+    if (block) {
+        yesNoModal({
+            title: 'Are you sure?',
+            desc: 'This will block all communication with the user and hide their mods from showing up',
+            async yes() {
                 await usePost('blocked-users', { user_id: user.value.id, silent: false });
-            } else {
-                await useDelete(`blocked-users/${user.value.id}`);
+                
+                tempBlockOverride.value = false;
+                user.value.blocked_by_me = { silent: false };
             }
-            
-            tempBlockOverride.value = false;
-            user.value.blocked_by_me = block ? { silent: false } : null;
-        }
-    });
+        });
+    } else {
+        await useDelete(`blocked-users/${user.value.id}`);
+        tempBlockOverride.value = false;
+        user.value.blocked_by_me = null;
+    }
 
 }
 
