@@ -45,7 +45,7 @@
         </div>
         <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
-                <a-img class="file-thumbnail" :src="file.thumbnail || (useFileAsThumb && file.file)" :url-prefix="urlPrefix"/>
+                <a-img class="file-thumbnail" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
@@ -64,9 +64,37 @@ import { friendlySize, fullDate } from '~~/utils/helpers';
 import { File as MWSFile } from '~~/types/models';
 import { DateTime } from 'luxon';
 import axios, { Canceler } from 'axios';
-const { public: config } = useRuntimeConfig();
 
+const emit = defineEmits([
+    'file-begin',
+    'file-uploaded',
+    'file-deleted',
+]);
+
+const props = defineProps<{
+    list?: boolean,
+    url: string,
+    urlPrefix?: string,
+    useFileAsThumb?: boolean,
+    name: string,
+    files: UploadFile[],
+    extensions?: string[]
+    maxFileSize?: number|string,
+    maxSize: number|string,
+    maxFiles?: number|string
+}>();
+
+const { public: config } = useRuntimeConfig();
 const { showToast } = useToaster();
+
+function getFileThumb(file) {
+    let thumb = file.thumbnail || (props.useFileAsThumb && file.file);
+    if (file.has_thumb) {
+        thumb = 'thumb_' + thumb;
+    }
+
+    return thumb;
+}
 
 const classes = computed(() => {
     return {
@@ -89,25 +117,6 @@ type UploadFile = {
     thumbnail?: string,
     created_at?: string
 }
-
-const emit = defineEmits([
-    'file-begin',
-    'file-uploaded',
-    'file-deleted',
-]);
-
-const props = defineProps<{
-    list?: boolean,
-    url: string,
-    urlPrefix?: string,
-    useFileAsThumb?: boolean,
-    name: string,
-    files: UploadFile[],
-    extensions?: string[]
-    maxFileSize?: number|string,
-    maxSize: number|string,
-    maxFiles?: number|string
-}>();
 
 const filesArr = toRef(props, 'files');
 const input = ref();
@@ -209,64 +218,64 @@ async function handleRemove(file: UploadFile) {
 </script>
 
 <style scoped>
-    .upload-area {
-        cursor: pointer;
-    }
+.upload-area {
+    cursor: pointer;
+}
 
-    .upload-area-disabled {
-        cursor: inherit;
-        opacity: 0.5;
-    }
+.upload-area-disabled {
+    cursor: inherit;
+    opacity: 0.5;
+}
 
-    .file-list {
-        justify-content: center;
-        grid-template-columns: repeat(auto-fill, 200px);
-        gap: 0.25rem;
-    }
+.file-list {
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 200px);
+    gap: 0.25rem;
+}
 
-    .file-thumbnail {
-        width: 100%;
-        height: 200px;
-    }
+.file-thumbnail {
+    width: 100%;
+    height: 200px;
+}
 
-    .file-item {
-        display: flex;
-        position: relative;
-    }
+.file-item {
+    display: flex;
+    position: relative;
+}
 
-    .file-progress {
-        margin-top: auto;
-        height: 3px;
-        z-index: 10;
-        background-color: var(--primary-color);
-    }
+.file-progress {
+    margin-top: auto;
+    height: 3px;
+    z-index: 10;
+    background-color: var(--primary-color);
+}
 
-    .file-options {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
+.file-options {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 
-    .file-buttons {
-        position: absolute;
-        justify-content: center;
-        align-items: stretch;
-        gap: 0.25rem;
-        width: 100%;
-        height: 100%;
-        padding: 1.25rem;
-        background-color: rgba(0, 0, 0, 0.5);
-        transition: opacity 0.25s ease-in-out;
-        opacity: flex;
-        opacity: 0;
-    }  
+.file-buttons {
+    position: absolute;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.25rem;
+    width: 100%;
+    height: 100%;
+    padding: 1.25rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.25s ease-in-out;
+    opacity: flex;
+    opacity: 0;
+}  
 
-    .file-item:hover .file-buttons {
-        opacity: 1;
-        transition: opacity 0.25s ease-in-out;
-    }
+.file-item:hover .file-buttons {
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+}
 
-    .file-item img {
-        object-fit: cover;
-    }
+.file-item img {
+    object-fit: cover;
+}
 </style>
