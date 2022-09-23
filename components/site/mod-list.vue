@@ -25,6 +25,7 @@
         </flex>
 
         <flex column gap="3">
+            {{fetchPage}}
             <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40">
                 <flex class="ml-auto">
                     <a-button icon="filter" @click="filtersVisible = !filtersVisible"/>
@@ -42,7 +43,7 @@
                             :error="error"
                             :mods="currentMods"
                         />
-                        <a-button v-if="hasMore" color="subtle" icon="chevron-down" @click="() => incrementPage()">{{$t('load_more')}}</a-button>
+                        <a-button v-if="hasMore" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
                         <h1 v-else-if="currentMods.length == 0" class="text-center my-auto">{{$t('no_mods_found')}}</h1>
                     </template>
                 </flex>
@@ -78,7 +79,8 @@ const props = defineProps({
 const store = useStore();
 
 const query = useRouteQuery('query', '');
-const page = useRouteQuery('page', '1');
+const page = useRouteQuery('page', 1, val => parseInt(val));
+const pageOverride = ref(null);
 const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
 const selectedTags = useRouteQuery('selected-tags', []);
 const selectedBlockTags = useRouteQuery('filtered-tags', []);
@@ -96,10 +98,12 @@ const { data: tags } = await useFetchMany<Tag>('tags', { params: { type: 'mod' }
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
+const fetchPage = computed(() => pageOverride.value ?? page.value);
+
 const searchParams = reactive({
     limit: 40,
     user_id: props.userId,
-    page: page,
+    page: fetchPage,
     query: query,
     game_id: selectedGame,
     category_id: selectedCategory,
@@ -113,7 +117,10 @@ const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => prop
     params: searchParams
 });
 
-let lastTimeout;
+let { start: planLoad } = useTimeoutFn(async () => {
+    await refresh();
+    loading.value = false;
+}, 250, { immediate: false });
 
 watch(() => props.url, async () => {
     loading.value = true;
@@ -123,23 +130,17 @@ watch(() => props.url, async () => {
 
 watch(page, () =>  {
     savedMods.value = [];
+    pageOverride.value = null;
 });
 
-watch([page, searchParams], (value, newValue) => {
-    loading.value = true;
+watch([page, pageOverride, searchParams], (value, newValue) => {
+    loading.value = savedMods.value.length == 0;
 
-    if (value[0] == newValue[0]) {
+    if (loading.value && value[0] == newValue[0]) {
         page.value = undefined;
     }
 
-    if (lastTimeout) {
-        clearTimeout(lastTimeout);
-    }
-
-    lastTimeout = setTimeout(async () => {
-        await refresh();
-        loading.value = false;
-    }, 250);
+    planLoad();
 });
 
 async function gameChanged() {
@@ -159,14 +160,18 @@ function setSortBy(sort) {
 
 const savedMods = ref<Mod[]>([]);
 
-const hasMore = computed(() => pages.value > 0); //TODO: actually detect when there's no more
+const hasMore = computed(() => fetchPage.value < fetchedMods.value.meta.last_page); //TODO: actually detect when there's no more
 const currentMods = computed<Mod[]>(() => {
-    return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [];
+    return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [...savedMods.value];
 });
 
-function incrementPage() {
+function loadMore() {
+    
     const save = currentMods.value;
-    page.value++;
+    pageOverride.value = fetchPage.value + 1;
+    console.log(fetchPage.value + 1);
+    console.log(pageOverride.value);
+
     savedMods.value = save;
 }
 </script>
