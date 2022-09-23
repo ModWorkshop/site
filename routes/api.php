@@ -91,6 +91,8 @@ Route::get('mods/{mod}/comments/{comment}/replies', [ModCommentsController::clas
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
+    Route::get('mods/liked', [ModController::class, 'liked']);
+
     Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
     Route::post('mods/{mod}/comments/{comment}/subscription', [ModCommentsController::class, 'subscribeComment']);

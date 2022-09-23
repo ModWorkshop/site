@@ -31,6 +31,7 @@ class GetModsRequest extends FilteredRequest
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'category_id' => 'integer|nullable|min:1|exists:categories,id',
             'tags' => 'array|max:10',
+            'liked' => 'boolean',
             'tags.*' => 'integer|min:1|nullable',
             'categories' => 'array|max:10',
             'categories.*' => 'integer|min:1|nullable',

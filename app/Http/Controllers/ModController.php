@@ -60,6 +60,20 @@ class ModController extends Controller
     }
 
     /**
+     * Returns mods the user liked
+     */
+    public function liked(GetModsRequest $request)
+    {
+        $val = $request->val();
+        $mods = Mod::queryGet($val, function($q, $val) {
+            $q->whereHas('liked');
+            ModService::filters($q, $val);
+        }, true);
+        return ModResource::collection($mods);
+
+    }
+
+    /**
      * Returns mods waiting for approval (approval == null)
      */
     public function waiting(GetModsRequest $request)
