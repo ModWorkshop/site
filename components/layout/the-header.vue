@@ -18,7 +18,7 @@
         </NuxtLink>
         <flex gap="4" class="ml-3">
             <a-link-button v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
-            button<a-link- to="/games">{{$t('games')}}</a-link->
+            <a-link-button to="/games">{{$t('games')}}</a-link-button>
             <a-link-button to="/forum?category=news">{{$t('news')}}</a-link-button>
             <a-link-button to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
             <a-link-button to="/forum">{{$t('forum')}}</a-link-button>
