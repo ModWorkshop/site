@@ -5,6 +5,7 @@
                 <a-group-button name="games" icon="chess-board">Followed Games</a-group-button>
                 <a-group-button name="mods" icon="tools">Followed Mods</a-group-button>
                 <a-group-button name="users" icon="users">Followed Users</a-group-button>
+                <a-group-button name="liked" icon="heart">Liked Mods</a-group-button>
             </button-group>
             <mod-list :url="currentFollowUrl"/>
         </template>
@@ -53,6 +54,8 @@ const currentFollowUrl = computed(() => {
         return 'followed-users/mods';
     } else if (selectedFollow.value === 'mods') {
         return 'followed-mods';
+    } else if (selectedFollow.value === 'liked') {
+        return 'mods/liked';
     }
 });
 
