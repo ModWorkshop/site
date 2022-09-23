@@ -44,7 +44,7 @@ export interface Comment {
     last_replies?: Comment[];
     total_replies?: number;
     replying_comment?: Comment | null;
-    subscribed: boolean;
+    subscribed?: boolean;
 }
 
 export interface File {

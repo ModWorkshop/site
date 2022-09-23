@@ -27,13 +27,13 @@
                 </flex>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : null" @click="toggleLiked"/>
-                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :to="!static ? downloadUrl : null" download @click="registerDownload">
-                        Download
+                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :to="!static ? downloadUrl : null">
+                        {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
                     </a-button>
                      <Popper v-else-if="mod.download && mod.download_type == 'link'" arrow>
-                        <a-button class="large-button w-full text-center" icon="download" @click="registerDownload">
+                        <a-button class="large-button w-full text-center" icon="download" @click="!!static && registerDownload">
                             {{$t('show_download_link')}}
                         </a-button>
                         <template #content>
@@ -54,7 +54,6 @@
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-const { public: config } = useRuntimeConfig();
 
 const props = defineProps<{
     mod: Mod,
@@ -65,21 +64,7 @@ const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mod')));
-const downloadUrl = computed(() => `${config.apiUrl}/files/${props.mod.download.id}/download`);
-
-function registerDownload() {
-    if (props.static) {
-        return;
-    }
-
-    usePost(`mods/${props.mod.id}/register-download`, null, {
-        async onResponse({ response }) {
-            if (response.status == 201) {
-                props.mod.downloads++;
-            }
-        }
-    });
-}
+const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.mod.download.id}`);
 
 async function toggleLiked() {
     if (props.static) {
@@ -95,6 +80,12 @@ function switchToFiles() {
     setQuery('tab', 'downloads');
 }
 </script>
+<style>
+.large-button {
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem !important;
+}
+</style>
 <style scoped>
 .mod-banner {
     box-shadow: 1px 1px 5px #000;
@@ -125,11 +116,5 @@ function switchToFiles() {
 
 .mod-banner .data .version {
     font-weight: normal;
-}
-
-
-.large-button {
-    font-size: 1.5rem;
-    padding: 0.5rem 1.5rem !important;
 }
 </style>

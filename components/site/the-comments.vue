@@ -86,7 +86,7 @@ const props = withDefaults(defineProps<{
     url: string,
     pageUrl: string,
     resourceName?: string,
-    commentable: { subscribed: boolean },
+    commentable: { subscribed?: boolean },
     canComment?: boolean,
     getSpecialTag?: (comment: Comment) => string,
     canEditAll?: boolean,

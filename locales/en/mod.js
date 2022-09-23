@@ -43,7 +43,7 @@ If you accept, the mod will be under your name, including the responsiblity of t
 If the author sent this request to you maliciously, you may decline the request and report the mod or author to the moderators.`,
 downloading_file: "Downloading File...",
 downloading_file_should: "The download should begin shortly.",
-downloading_file_help: 'Unsure how to install? Click <a href="{1}">here</a>',
+downloading_file_help: 'How to Install',
 downloading_file_force: "Force Download",  
 collaborators: "Collaborators",
 delete_files: "Delete Files",

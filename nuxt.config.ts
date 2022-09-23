@@ -41,7 +41,19 @@ export default defineNuxtConfig({
 			routes.push({
 				name: "mod",
 				path: "/mod/:modId",
-				file: resolve(__dirname, "pages/mod/index.vue")
+				file: resolve(__dirname, "pages/mod/index.vue"),
+				children: [
+					{
+						name: "view-mod",
+						path: "",
+						file: resolve(__dirname, "pages/mod/view.vue")
+					},
+					{
+						name: "download-file",
+						path: "download/:fileId",
+						file: resolve(__dirname, "pages/mod/download-file.vue")
+					},
+				]
 			});
 
 			routes.push({

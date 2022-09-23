@@ -7,44 +7,38 @@
     </button>
 </template>
 
-<script setup>
-    const props = defineProps({
-        href: String,
-        unstyled: Boolean,
-        color: {
-            default: 'primary',
-            type: String,
-        },
-        type: {
-            default: 'button',
-            type: String
-        },
-        size: String,
-        noBg: Boolean,
-        download: {
-            default: undefined,
-            type: [String, Boolean]
-        },
-        to: String,
-        iconSize: String,
-        icon: [String, Array],
-        iconRotation: Number,
-        disabled: Boolean
-    });
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+    href?: string,
+    unstyled?: boolean,
+    color?: 'primary' | 'sbutle' | 'secondary' | 'danger',
+    type?: 'button' | 'submit' | 'reset',
+    size?: string,
+    noBg?: boolean,
+    download?: string|boolean,
+    to?: string,
+    iconSize?: string,
+    icon?: string | Array<any>,
+    iconRotation?: number,
+    disabled?: boolean
+}>(), {
+    color: 'primary',
+    download: undefined
+});
 
-    const toOrHref = computed(() => props.to || props.href);
+const toOrHref = computed(() => props.to || props.href);
 
-    const clss = computed(() => ({
-        button: !props.unstyled,
-        [`button-${props.color}`]: !props.unstyled,
-        'button-no-bg': props.noBg,
-        'button-small': props.size == 'small',
-        'cursor-pointer': props.unstyled
-    }));
+const clss = computed(() => ({
+    button: !props.unstyled,
+    [`button-${props.color}`]: !props.unstyled,
+    'button-no-bg': props.noBg,
+    'button-small': props.size == 'small',
+    'cursor-pointer': props.unstyled
+}));
 
-    const iconStyle = computed(() => ({
-        transform: props.iconRotation ? `Rotate(${props.iconRotation}deg)` : null
-    }));
+const iconStyle = computed(() => ({
+    transform: props.iconRotation ? `Rotate(${props.iconRotation}deg)` : null
+}));
 </script>
 
 <style scoped>

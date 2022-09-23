@@ -33,7 +33,7 @@
                                 <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                             </flex>
                             <div>
-                                <a-button v-if="file.size" :href="`${config.apiUrl}/files/${file.id}/download`" icon="download" download large>
+                                <a-button v-if="file.size" class="large-button" :to="`${modUrl}/download/${file.id}`" icon="download">
                                     {{$t('download')}}
                                     <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
                                 </a-button>
@@ -63,7 +63,7 @@
             <a-tab v-if="dependencies.length || mod.instructions.length" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
                     <h2>{{$t('dependencies')}}</h2>
-                    <ol style="padding-inline-start: 8px;">
+                    <ol style="padding-inline-start: 32px;">
                         <li v-for="dep in dependencies" :key="dep.id" class="mb-1 align-middle">
                             <flex gap="2" inline class="items-center align-middle">
                                 <NuxtLink :to="dep.mod ? `/mod/${dep.mod_id}` : dep.url">
@@ -108,13 +108,15 @@ const props = defineProps<{
 const { public: config } = useRuntimeConfig();
 
 const dependencies = computed(() => {
-    const deps = props.mod.dependencies;
-    const templateDeps = props.mod.instructs_template.dependencies;
+    const deps = props.mod.dependencies ?? [];
+    const templateDeps = props.mod.instructs_template?.dependencies ?? [];
 
     const combinedDeps = [...deps, ...templateDeps];
 
     return combinedDeps.sort((a,b) => a.order - b.order);
 });
+
+const modUrl = computed(() => `/mod/${props.mod.id}`);
 
 const imageIndex = ref(0);
 const galleryVisible = ref(false);

@@ -29,6 +29,16 @@ export function canSuperUpdate(mod: Mod) {
     return (mod.user_id === user.id && hasPermission('edit-own-mod')) || hasPermission('edit-mod');
 }
 
+export function registerDownload(mod) {
+    usePost(`mods/${mod.id}/register-download`, null, {
+        async onResponse({ response }) {
+            if (response.status == 201) {
+                mod.downloads++;
+            }
+        }
+    });
+}
+
 export const memberLevels = [
     'Maintainer',
     'Collaborator',
