@@ -19,10 +19,9 @@ class ModMemberController extends Controller
     public function store(Request $request, Mod $mod)
     {
         $val = $request->validate([
-            'user_id' => 'integer|min:1|exists:users,id',
-            'level' => 'integer|min:0|max:4'
+            'user_id' => 'integer|required|min:1|exists:users,id',
+            'level' => 'integer|required|min:0|max:4'
         ]);
-
 
         $exists = $mod->getMemberLevel($val['user_id'], false);
 
