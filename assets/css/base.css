@@ -24,6 +24,51 @@ body {
 
 :root {
     --border-radius: 4px;
+
+    --mws-blue: #006ce0;
+    --mws-blue-hover: #007bff;
+    --mws-blue-text: #fff;
+
+    --mws-green: #29a847;
+    --mws-green-hover: #2fc151; 
+    --mws-green-text: #fff;
+
+    --mws-pink: #e93f8e;
+    --mws-pink-hover: #ec5b9e;
+    --mws-pink-text: #fff;
+
+    --mws-red: #dc3848;
+    --mws-red-hover: #e05260;
+    --mws-red-text: #fff;
+
+    --mws-teal: #20cb98;
+    --mws-teal-hover: #2bdea8;
+    --mws-teal-text: #000;
+
+    --mws-purple: #6f42c1;
+    --mws-purple-hover: #8159c9;
+    --mws-purple-text: #fff;
+
+    --mws-gray: #879097;
+    --mws-gray-hover: #979fa5;
+    --mws-gray-text: #fff;
+
+    --mws-orange: #fd7e17;
+    --mws-orange-hover: #fd8f35;
+    --mws-orange-text: #fff;
+
+    --mws-cyan: #17a2b8;
+    --mws-cyan-hover: #1abcd5;
+    --mws-cyan-text: #fff;
+
+    --primary-color: var(--mws-blue);
+    --primary-hover-color: var(--mws-blue-hover);
+    --primary-color-text: #fff;
+    --success-color: #00ff15;
+    --danger-color: #ff0000;
+    --warning-color: #ffef14;
+    --info-color: #5978ff;
+    --danger-hover-color: #ff3333;
 }
 
 html.dark {
@@ -36,15 +81,8 @@ html.dark {
     --text-color: #fff;
     --secondary-text-color: #d8d8d8;
     --text-inactive: #6d6d6d;
-    --primary-color: #006cdf;
-    --success-color: #00ff15;
-    --danger-color: #ff0000;
-    --warning-color: #ffef14;
-    --info-color: #5978ff;
-    --danger-hover-color: #ff3333;
     --secondary-color: #5f5f5f;
     --disabled-color: #3c3c3c;
-    --primary-hover-color: #007bff;
     --input-bg-color: #17191c;
     --input-border-color: #393e46;
     --input-border-hover-color: #505762;
@@ -69,15 +107,8 @@ html.light {
     --text-color: #000;
     --secondary-text-color: #4d4d4d;
     --text-inactive: #6d6d6d;
-    --primary-color: #006cdf;
-    --success-color: #00ff15;
-    --danger-color: #ff0000;
-    --warning-color: #ffef14;
-    --info-color: #5978ff;
-    --danger-hover-color: #ff3333;
     --secondary-color: #5f5f5f;
     --disabled-color: #3c3c3c;
-    --primary-hover-color: #007bff;
     --input-bg-color: #c9c9c9;
     --input-border-color: #adadad;
     --input-border-hover-color: #505762;

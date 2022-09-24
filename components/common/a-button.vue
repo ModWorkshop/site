@@ -43,7 +43,7 @@ const iconStyle = computed(() => ({
 
 <style scoped>
 .button {
-    color: var(--button-text-color);
+    color: #fff;
     padding: 0.5rem 0.75rem;
     border: 1px solid transparent;
     border-radius: var(--border-radius);
@@ -66,6 +66,7 @@ const iconStyle = computed(() => ({
 }
 
 .button-primary {
+    color: var(--primary-color-text);
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }
@@ -109,6 +110,7 @@ const iconStyle = computed(() => ({
 }
 
 .button-primary:hover:enabled, a.button-primary:hover  {
+    color: var(--primary-color-text);
     background-color: var(--primary-hover-color);
 }
 
