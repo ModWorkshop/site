@@ -36,7 +36,7 @@
         <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
-            <a-report :url="`/mods/${mod.id}/reports`"/>
+            <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
             <Popper :disabled="mod.followed">
                 <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
                     {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>

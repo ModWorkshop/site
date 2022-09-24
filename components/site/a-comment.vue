@@ -33,7 +33,7 @@
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
-                            <a-report :url="`${url}/${comment.id}/reports`">
+                            <a-report resource-name="comment" :url="`${url}/${comment.id}/reports`">
                                 <a-dropdown-item>{{$t('report')}}</a-dropdown-item>
                             </a-report>
                         </template>
