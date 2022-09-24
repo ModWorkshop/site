@@ -27,21 +27,21 @@ const textColor = computed(() => {
 
 </script>
 <style scoped>
-    .tag {
-        display: inline-block;
-        color: #000;
-        padding: 0.5rem 0.75rem;
-        font-size: 70%;
-        font-weight: 500;
-        background: var(--primary-color);
-        line-height: 1.25;
-    }
+.tag {
+    display: inline-block;
+    color: #000;
+    padding: 0.5rem 0.75rem;
+    font-size: 70%;
+    font-weight: 500;
+    background: var(--primary-color);
+    line-height: 1.25;
+}
 
-    .tag-small {
-        padding: 0.25rem 0.4rem;
-    }
+.tag-small {
+    padding: 0.25rem 0.4rem;
+}
 
-    .capsule {
-        border-radius: 1rem;
-    }
+.capsule {
+    border-radius: 1rem;
+}
 </style>

@@ -8,6 +8,18 @@ import { LocationQueryValueRaw } from "vue-router";
  */
 export const friendlySize = fileSize.partial({base: 2});
 
+export const colorSchemes = [
+    'blue',
+    'green',
+    'pink',
+    'red',
+    'teal',
+    'purple',
+    'gray',
+    'orange',
+    'cyan',
+];
+
 /**
  * Converts ISO8601 date to relative 'time ago' format.
  * @param {String} t 

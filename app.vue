@@ -33,6 +33,13 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
+	bodyAttrs: {
+		style: computed(() => `
+			--primary-color: var(--mws-${store.colorScheme});
+			--primary-hover-color: var(--mws-${store.colorScheme}-hover); 
+			--primary-color-text: var(--mws-${store.colorScheme}-text)` 
+		)
+	},
 	title: undefined,
 });
 
