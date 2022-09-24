@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<Html :class="store.theme === 'light' ? 'light' : 'dark'"/>
+
 		<NuxtLayout>
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>
@@ -21,7 +23,9 @@
 
 <script setup lang="ts">
 import { Settings } from 'luxon';
+import { useStore } from './store';
 
+const store = useStore();
 const yesNoModals = useState('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
 
@@ -31,6 +35,7 @@ useHead({
     },
 	title: undefined,
 });
+
 
 Settings.defaultLocale = 'en-US';
 </script>

@@ -19,7 +19,7 @@ const props = defineProps<{
     urlPrefix: string,
 }>();
 
-const noPreviewSrc = computed(() => `${config.apiUrl}/storage/assets/${store.lightTheme ? 'no-preview-light' : 'no-preview-dark'}.png`);
+const noPreviewSrc = computed(() => `${config.apiUrl}/storage/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const compSrc = computed(() => {
     if (!props.src || isSrcExternal(props.src)) {

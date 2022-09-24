@@ -1,5 +1,4 @@
 <template>
-    <Html :class="lightTheme ? 'light' : 'dark'"/>
     <a-modal v-model="showNotifications" size="md">
         <a-loading v-if="!notifications"/>
         <template v-else>
@@ -77,8 +76,8 @@
                         <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">{{$t('admin')}}</a-dropdown-item>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                         <div class="dropdown-splitter"/>
-                        <a-dropdown-item :icon="lightTheme ? 'moon' : 'sun'" @click="toggleTheme">
-                            {{$t(lightTheme ? 'dark_theme' : 'light_theme')}}
+                        <a-dropdown-item :icon="store.theme === 'light' ? 'moon' : 'sun'" @click="store.toggleTheme">
+                            {{$t(store.theme === 'light' ? 'dark_theme' : 'light_theme')}}
                         </a-dropdown-item>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
@@ -88,7 +87,7 @@
             <flex v-else class="my-auto" gap="4">
                 <a-link-button to="/login">{{$t('login')}}</a-link-button>
                 <a-link-button to="/register">{{$t('register')}}</a-link-button>
-                <a-link-button :icon="lightTheme ? 'moon' : 'sun'" @click="toggleTheme"/>
+                <a-link-button :icon="store.theme === 'light' ? 'moon' : 'sun'" @click="store.toggleTheme"/>
             </flex>
         </flex>
     </header>
@@ -99,32 +98,13 @@ import { useStore } from '../../store';
 
 const store = useStore();
 const router = useRouter();
-const { user, notifications, userIsLoading, notificationCount, lightTheme } = storeToRefs(store);
+const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(1);
-const savedTheme = useCookie('theme');
 
-const computedlightTheme = computed(() => {
-    if (savedTheme.value) {
-        return savedTheme.value === 'light';
-    } else {
-        return false;
-    }
-});
-
-watch(computedlightTheme, () => lightTheme.value = computedlightTheme.value, { immediate: true });
-
-const logo = computed(() => lightTheme.value ? '/mws_logo_black.svg' : '/mws_logo_white.svg');
-
-function toggleTheme() {
-    if (!savedTheme.value || savedTheme.value == 'dark') {
-        savedTheme.value = 'light';
-    } else if (savedTheme.value == 'light') {
-        savedTheme.value = null;
-    }
-}
+const logo = computed(() => store.theme === 'light' ? '/mws_logo_black.svg' : '/mws_logo_white.svg');
 
 const searchButtons = computed(() => {
     const buttons = [

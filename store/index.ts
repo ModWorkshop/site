@@ -1,6 +1,7 @@
 import { User, Game, Tag, Notification, Settings } from './../types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
+import { CookieRef } from '#app';
 
 interface MainStore {
     user?: User,
@@ -8,7 +9,7 @@ interface MainStore {
     notifications: Paginator<Notification>,
     notificationCount: number,
     currentGame: Game,
-    lightTheme: boolean,
+    savedTheme: CookieRef<string>,
     games: Paginator<Game>,
     tags: Paginator<Tag>,
     settings: Settings,
@@ -21,7 +22,7 @@ export const useStore = defineStore('main', {
         notifications: null,
         notificationCount: null,
         userIsLoading: false,
-        lightTheme: false,
+        savedTheme: useCookie('theme'),
         currentGame: null,
         settings: null,
         games: null,
@@ -29,6 +30,9 @@ export const useStore = defineStore('main', {
         user: null
     }),
     getters: {
+        theme(state) {
+            return state.savedTheme === 'light' ? 'light' : 'dark';
+        },
         hasPermission(state) {
             const permissions = state.user?.permissions;
 
@@ -45,6 +49,10 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
+        toggleTheme() {
+            this.savedTheme = this.theme === 'light' ? undefined : 'light';
+            useCookie('theme').value = this.savedTheme;
+        },
         setGame(game: Game) {
             this.currentGame = game;
         },
