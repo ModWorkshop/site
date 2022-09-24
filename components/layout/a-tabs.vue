@@ -1,7 +1,6 @@
 <template>
     <flex :column="!side" :gap="gap ?? (side ? 8 : 2)">
         <flex class="tab-list" role="tablist" :column="side">
-            <!--ARIA compliant, I hope xd -->
             <a-tab-link 
                 v-for="tab of tabs"
                 ref="tabLinks"

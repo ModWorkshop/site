@@ -5,7 +5,7 @@
 
     <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
     <flex v-if="categories" column gap="2">
-        <a-input :label="$t('categry')">
+        <a-input :label="$t('category')">
             <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
         </a-input>
     </flex>

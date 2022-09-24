@@ -1,7 +1,7 @@
 <template>
 <Teleport to="body">
     <Transition>
-        <a-modal-form v-if="showSuspendModal" v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" save-button="" size="medium" @submit="suspend">
+        <a-modal-form v-if="showSuspendModal" v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" @submit="suspend">
             <a-input v-model="suspendForm.reason" label="reason" type="textarea" rows="6"/>
             <a-input v-model="suspendForm.notify" label="Notify owner and members" type="checkbox"/>
         </a-modal-form>

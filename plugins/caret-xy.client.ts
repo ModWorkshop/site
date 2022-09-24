@@ -5,5 +5,5 @@ export default defineNuxtPlugin(() => {
         provide: {
             caretXY
         }
-    }
+    };
 });

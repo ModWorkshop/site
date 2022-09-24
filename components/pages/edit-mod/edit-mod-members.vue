@@ -40,7 +40,8 @@
     </div>
 
     <a-modal-form v-model="showModal" title="Edit Member" @submit="saveMember">
-        <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" label="User"/>
+        {{currentMember.user}}
+        <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" value-by="" label="User"/>
         <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
     </a-modal-form>
 
@@ -53,11 +54,13 @@
 <script setup lang="ts">
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
-const { init: openModal } = useModal();
+const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
 
 const ignoreChanges: () => void = inject('ignoreChanges');
-const mod = inject<Mod>('mod');
+const props = defineProps<{
+    mod: Mod,
+}>();
 const canSuperUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
@@ -75,24 +78,21 @@ interface EditModMember {
 
 const showModal = ref(false);
 const showTransferOwner = ref(false);
-const members = ref<ModMember[]>(clone(mod.members));
+const members = ref<ModMember[]>(clone(props.mod.members));
 const currentMember = ref<EditModMember>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
 
 async function deleteMember(member: ModMember) {
-    openModal({
-        message: 'Are you sure you want to remove member?',
-        async onOk(ok) {
-            await useDelete(`mods/${mod.id}/members/${member.id}`);
+    yesNoModal({
+        desc: 'Are you sure you want to remove member?',
+        async yes() {
+            await useDelete(`mods/${props.mod.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
-            mod.members = clone(members.value);
-        
-            ignoreChanges();
+            props.mod.members = clone(members.value);
 
-            ok();
+            ignoreChanges();
         }
     });
-
 }
 
 function newMember() {
@@ -105,26 +105,26 @@ function editMember(member: ModMember) {
     currentMember.value = { level: member.level, user: member };
 }
 
-async function saveMember(ok: () => void, error: (e) => void) {
+async function saveMember(error: (e) => void) {
     const member = currentMember.value;
     const data = { user_id: member.user.id, level: member.level };
 
     try {
         if (member.created_at) {
-            await usePatch(`mods/${mod.id}/members/${member.user.id}`, data);
+            await usePatch(`mods/${props.mod.id}/members/${member.user.id}`, data);
         } else {
-            const newMember = await usePost<ModMember>(`mods/${mod.id}/members`, data);
+            const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data);
             members.value.push(newMember);
         }
     
-        for (const m of mod.members) {
+        for (const m of props.mod.members) {
             if (m.id === member.user.id) {
                 Object.assign(m, member);
             }
         }
     
         ignoreChanges();
-        ok();
+        showModal.value = false;
     } catch(e) {
         error(e);
     }
@@ -132,8 +132,8 @@ async function saveMember(ok: () => void, error: (e) => void) {
 
 async function transferOwnership() {
     try {
-        const request = await usePatch<TransferRequest>(`mods/${mod.id}/owner`, transferOwner.value);
-        mod.transfer_request = request;
+        const request = await usePatch<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
+            props.mod.transfer_request = request;
         ignoreChanges();
     } catch (error) {
         showToast({ desc: error.message, color: 'danger' });
@@ -142,8 +142,8 @@ async function transferOwnership() {
 
 async function cancelTransferRequest() {
     try {
-        await usePatch(`mods/${mod.id}/transfer-request/cancel`);
-        mod.transfer_request = null;
+        await usePatch(`mods/${props.mod.id}/transfer-request/cancel`);
+        props.mod.transfer_request = null;
         ignoreChanges();
     } catch (error) {
         showToast({ desc: error.message, color: 'danger' });

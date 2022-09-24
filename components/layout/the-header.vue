@@ -42,16 +42,18 @@
                     <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
                 </div>
                 <template #content>
-                    <flex class="popper-big" column>
-                        <a-button
-                            v-for="[i, button] in searchButtons.entries()"
-                            :key="button.text"
-                            :to="`${button.to}?query=${search}`"
-                            :color="selectedSearch == i ? 'primary' : 'subtle'"
-                            class="search-button">
-                            {{$t(button.text, [search])}}
-                        </a-button>
-                    </flex>
+                    <ClientOnly>
+                        <flex class="popper-big" column>
+                            <a-button
+                                v-for="[i, button] in searchButtons.entries()"
+                                :key="button.text"
+                                :to="`${button.to}?query=${search}`"
+                                :color="selectedSearch == i ? 'primary' : 'subtle'"
+                                class="search-button">
+                                {{$t(button.text, [search])}}
+                            </a-button>
+                        </flex>
+                    </ClientOnly>
                 </template>
             </Popper>
             <template v-if="user">
@@ -65,9 +67,9 @@
                 </flex>
                 <flex class="text-lg" gap="4">
                     <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
-                    <!-- <span><font-awesome-icon icon="message"/> 0</span> -->
+                    <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
-                <Popper arrow>
+                <Popper arrow visible>
                     <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
                     <template #content>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>

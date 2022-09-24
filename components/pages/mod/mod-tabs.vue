@@ -13,7 +13,9 @@
                     style="max-height: 200px;" 
                     @click="showImage(i)"
                 />
-                <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
+                <ClientOnly>
+                    <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
+                </ClientOnly>
             </a-tab>
             <a-tab name="downloads" :title="$t('downloads')">
                 <div v-for="labeled of labeledFiles" :key="labeled.label" class="flex-grow">
