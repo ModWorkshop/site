@@ -153,9 +153,7 @@ export interface Breadcrumb {
 
 export interface Permission {
     id: number;
-    slug: string;
     name: string;
-    desc: string;
     created_at?: string;
     updated_at?: string;
     allow: boolean;
@@ -170,7 +168,7 @@ export interface Role {
     order: number;
     created_at?: string;
     updated_at?: string;
-    permissions?: Record<string, boolean>
+    permissions?: Record<number, boolean>
 }
 
 export interface Game {
