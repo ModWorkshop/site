@@ -18,7 +18,7 @@ class SuspensionPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     /**
@@ -30,7 +30,7 @@ class SuspensionPolicy
      */
     public function view(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     /**
@@ -41,7 +41,7 @@ class SuspensionPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     /**
@@ -53,7 +53,7 @@ class SuspensionPolicy
      */
     public function update(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     /**
@@ -65,7 +65,7 @@ class SuspensionPolicy
      */
     public function delete(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     /**

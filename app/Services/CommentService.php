@@ -84,7 +84,7 @@ class CommentService {
             }
             
             //Make sure we are not blocked
-            if (!$user->hasPermission('edit-comment') && $replyToComment->user->blockedMe) {
+            if (!$user->hasPermission('manage-discussions') && $replyToComment->user->blockedMe) {
                 abort(401);
             }
         }
@@ -165,7 +165,7 @@ class CommentService {
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
-        if (isset($val['content']) && (!$user->hasPermission('edit-comment') && $comment->user->id !== $user->id)) {
+        if (isset($val['content']) && (!$user->hasPermission('manage-discussions') && $comment->user->id !== $user->id)) {
             throw new Exception('You cannot edit the comment!');
         }
 

@@ -43,7 +43,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot create categories');
+        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot create categories');
     }
 
     /**
@@ -55,7 +55,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot update categories');
+        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot update categories');
     }
 
     /**
@@ -67,7 +67,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->hasPermission('edit-category') ? Response::allow() : Response::deny('You cannot delete categories');
+        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot delete categories');
     }
 
     /**

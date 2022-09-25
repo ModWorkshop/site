@@ -42,7 +42,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-role');
+        return $user->hasPermission('manage-roles');
     }
 
     /**
@@ -54,7 +54,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasPermission('edit-role');
+        return $user->hasPermission('manage-roles');
     }
 
     /**
@@ -66,7 +66,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermission('edit-role') && $role->id !== 1;
+        return $user->hasPermission('manage-roles') && $role->id !== 1;
     }
 
     /**

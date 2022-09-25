@@ -62,7 +62,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mod');
+        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mods');
     }
 
     /**
@@ -73,7 +73,7 @@ class ModPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-own-mod');
+        return $user->hasPermission('create-mods');
     }
 
     /**
@@ -85,11 +85,11 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod)
     {
-        if ($user->hasPermission('manage-mod')) {
+        if ($user->hasPermission('manage-mods')) {
             return true;
         }
 
-        if (!$user->hasPermission('edit-own-mod')) {
+        if (!$user->hasPermission('create-mods')) {
             return false;
         }
 
@@ -110,7 +110,7 @@ class ModPolicy
      */
     public function superUpdate(User $user, Mod $mod)
     {
-        return $user->id === $mod->user_id || $user->hasPermission('manage-mod');
+        return $user->id === $mod->user_id || $user->hasPermission('manage-mods');
     }
 
     /**
@@ -122,16 +122,18 @@ class ModPolicy
      */
     public function delete(User $user, Mod $mod)
     {
-        if ($user->hasPermission('manage-mod')) {
+        if ($user->hasPermission('manage-mods')) {
             return true;
         }
 
-        if (!$user->hasPermission('edit-own-mod')) {
-            return false;
-        }
-
+        //Users should be able to delete their own mods unconditionally.
         if ($user->id === $mod->user_id) {
             return true;
+        }
+
+        //Maintainers shouldn't be able to do anything if they can't create mods.
+        if (!$user->hasPermission('create-mods')) {
+            return false;
         }
 
         return $mod->getMemberLevel($user->id) === 0; //Maintainer
@@ -163,7 +165,7 @@ class ModPolicy
 
     public function createComment(User $user, Mod $mod)
     {
-        if (!$user->hasPermission('create-comment') || $mod->user->blockedMe) {
+        if (!$user->hasPermission('create-discussions') || $mod->user->blockedMe) {
             return false;
         }
 
@@ -176,11 +178,11 @@ class ModPolicy
 
     public function manage(User $user)
     {
-        return $user->hasPermission('manage-mod');
+        return $user->hasPermission('manage-mods');
     }
 
     public function report(User $user, Mod $mod)
     {
-        return !$mod->suspended && $user->hasPermission('create-report');
+        return !$mod->suspended && $user->hasPermission('create-reports');
     }
 }

@@ -18,7 +18,7 @@ class UserCasePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('moderate-user');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -30,7 +30,7 @@ class UserCasePolicy
      */
     public function view(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-user');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -41,7 +41,7 @@ class UserCasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('moderate-user');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -53,7 +53,7 @@ class UserCasePolicy
      */
     public function update(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-user');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -65,7 +65,7 @@ class UserCasePolicy
      */
     public function delete(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-user');
+        return $user->hasPermission('moderate-users');
     }
 
     /**

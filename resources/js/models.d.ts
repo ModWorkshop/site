@@ -364,9 +364,7 @@ declare namespace App.Models {
 
     export interface Permission {
         id: number;
-        slug: string;
         name: string;
-        desc: string;
         created_at: string | null;
         updated_at: string | null;
     }

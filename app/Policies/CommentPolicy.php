@@ -45,7 +45,7 @@ class CommentPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('create-comment');
+        return $user->hasPermission('create-discussions');
     }
 
     /**
@@ -57,12 +57,12 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment)
     {
-        if ($user->hasPermission('edit-comment') || ($user->hasPermission('edit-own-comment') && $comment->user->id === $user->id)) {
+        if ($user->hasPermission('manage-discussions') || ($user->hasPermission('create-discussions') && $comment->user->id === $user->id)) {
             return $this->authorize('view', $comment->commentable);
         }
 
         //If we are able to edit a mod and we have the delete own mod comment permission, we should be able to delete the comment
-        if ($comment->commentable instanceof Mod && $user->hasPermission('delete-own-mod-comment')) {
+        if ($comment->commentable instanceof Mod && $user->hasPermission('delete-own-mod-comments')) {
             if ($this->authorize('update', $comment->commentable)) {
                 return true;
             }
@@ -84,9 +84,9 @@ class CommentPolicy
             return true;
         } else {
             if ($comment->commentable instanceof Mod && $this->authorize('update', $comment->commentable)) {
-                return $user->hasPermission('delete-own-mod-comment');
+                return $user->hasPermission('delete-own-mod-comments');
             } else {
-                return $user->hasPermission('delete-comment');
+                return $user->hasPermission('manage-discussions');
             }
         }
     }

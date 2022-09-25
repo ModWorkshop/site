@@ -41,7 +41,7 @@ class DocumentPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-document');
+        return $user->hasPermission('manage-documents');
     }
 
     /**
@@ -53,7 +53,7 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document)
     {
-        return $user->hasPermission('edit-document');
+        return $user->hasPermission('manage-documents');
     }
 
     /**
@@ -65,7 +65,7 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document)
     {
-        return $user->hasPermission('edit-document');
+        return $user->hasPermission('manage-documents');
     }
 
     /**

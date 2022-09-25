@@ -18,7 +18,7 @@ class BanPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('ban-users');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -30,7 +30,7 @@ class BanPolicy
      */
     public function view(User $user, Ban $ban)
     {
-        return $user->hasPermission('ban-users');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -41,7 +41,7 @@ class BanPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('ban-users');
+        return $user->hasPermission('moderate-users');
     }
 
     /**
@@ -53,7 +53,7 @@ class BanPolicy
      */
     public function update(User $user, Ban $ban)
     {
-        return $user->hasPermission('ban-users') && $ban->user->canBeEdited($user);
+        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited($user);
     }
 
     /**
@@ -65,7 +65,7 @@ class BanPolicy
      */
     public function delete(User $user, Ban $ban)
     {
-        return $user->hasPermission('ban-users') && $ban->user->canBeEdited($user);
+        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited($user);
     }
 
     /**

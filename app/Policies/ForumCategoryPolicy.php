@@ -42,7 +42,7 @@ class ForumCategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-forum-category');
+        return $user->hasPermission('manage-forum-categories');
     }
 
     /**
@@ -54,7 +54,7 @@ class ForumCategoryPolicy
      */
     public function update(User $user, ForumCategory $forumCategory)
     {
-        return $user->hasPermission('edit-forum-category');
+        return $user->hasPermission('manage-forum-categories');
     }
 
     /**
@@ -66,7 +66,7 @@ class ForumCategoryPolicy
      */
     public function delete(User $user, ForumCategory $forumCategory)
     {
-        return $user->hasPermission('edit-forum-category');
+        return $user->hasPermission('manage-forum-categories');
     }
 
     /**

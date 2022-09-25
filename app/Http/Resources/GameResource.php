@@ -19,7 +19,7 @@ class GameResource extends JsonResource
 
         return [...parent::toArray($request),
             $this->whenLoaded('followed', fn() => isset($this->followed)),
-            'webhook_url' => $this->when($user?->hasPermission('edit-game'), $this->webhook_url)
+            'webhook_url' => $this->when($user?->hasPermission('manage-games'), $this->webhook_url)
         ];
     }
 }

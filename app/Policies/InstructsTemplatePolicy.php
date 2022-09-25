@@ -41,7 +41,7 @@ class InstructsTemplatePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('manage_instructions');
+        return $user->hasPermission('manage-instructions');
     }
 
     /**
@@ -53,7 +53,7 @@ class InstructsTemplatePolicy
      */
     public function update(User $user, InstructsTemplate $InstructsTemplate)
     {
-        return $user->hasPermission('manage_instructions');
+        return $user->hasPermission('manage-instructions');
     }
 
     /**
@@ -65,7 +65,7 @@ class InstructsTemplatePolicy
      */
     public function delete(User $user, InstructsTemplate $InstructsTemplate)
     {
-        return $user->hasPermission('manage_instructions');
+        return $user->hasPermission('manage-instructions');
     }
 
     /**

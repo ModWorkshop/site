@@ -15,11 +15,9 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            // Unlike roles, permissions have a 'slug'. Slugs let's us check for permissions by just using a readable name
+            // Unlike roles, permissions have a unique 'name'.
             // For example: 'edit mod' permission then using the can:edit mod check in routes.
-            $table->tinyText('slug')->unique();
-            $table->tinyText('name');
-            $table->text('desc')->default('');
+            $table->tinyText('name')->unique();
             $table->timestamps();
         });
     }

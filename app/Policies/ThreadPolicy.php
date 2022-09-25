@@ -41,7 +41,7 @@ class ThreadPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('edit-thread') || $user->hasPermission('create-thread');
+        return $user->hasPermission('manage-discussions') || $user->hasPermission('create-discussions');
     }
 
     /**
@@ -53,7 +53,7 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread)
     {
-        return $user->hasPermission('edit-thread') || ($user->hasPermission('create-thread') && $thread->user_id === $user->id);
+        return $user->hasPermission('manage-discussions') || ($user->hasPermission('create-discussions') && $thread->user_id === $user->id);
     }
 
     /**
@@ -65,7 +65,7 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread)
     {
-        return $user->hasPermission('edit-thread') || $thread->user_id === $user->id;
+        return $user->hasPermission('manage-discussions') || $thread->user_id === $user->id;
     }
 
     /**
@@ -98,6 +98,6 @@ class ThreadPolicy
             return false;
         }
 
-        return !$thread->archived || ($user->id === $thread->user_id && !$thread->archived_by_mod) || $user->hasPermission('edit-thread');
+        return !$thread->archived || ($user->id === $thread->user_id && !$thread->archived_by_mod) || $user->hasPermission('manage-discussions');
     }
 }

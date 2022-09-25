@@ -45,7 +45,7 @@ class ThreadController extends Controller
                 $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
             }
             $query->where(function($query) use ($val, $user) {
-                if (!$user->hasPermission('edit-thread')) {
+                if (!$user->hasPermission('manage-discussions')) {
                     $query->whereNotExists(function($query) use ($user) {
                         $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
                         $query->whereColumn('blocked_users.block_user_id', 'threads.user_id');
@@ -128,7 +128,7 @@ class ThreadController extends Controller
         
         $changePin = Arr::pull($val, 'pinned');
         $user = $request->user();
-        $canEditThreads = $user->hasPermission('edit-thread');
+        $canEditThreads = $user->hasPermission('manage-discussions');
         if (!$canEditThreads && $changePin) {
             abort(401);
         }
