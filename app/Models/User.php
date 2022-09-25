@@ -91,8 +91,9 @@ class User extends Authenticatable
     // Always return roles for users
     protected $with = ['roles', 'ban'];
     protected $appends = ['color', 'role_names'];
-    private $permissions  = [];
-    private $roleNames = [];
+
+    private $permissions = [];
+    private $permissionsLoaded = false;
 
     public function toSearchableArray()
     {
@@ -155,7 +156,6 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: function($value, $attributes) {
-                Log::info($this->roles);
                 if ($attributes['custom_color']) {
                     return $attributes['custom_color'];
                 }
@@ -265,71 +265,84 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->orderBy('order');
     }
 
-    public function getRoleNames()
+    /**
+     * User roles but with assured members role.
+     *
+     * @return Attribute
+     */
+    public function roleList(): Attribute
     {
-        if ($this->gotRoles) {
-            return $this->roleNames;
-        }
+        return Attribute::make(
+            get: function() {
+                self::$membersRole ??= Role::with('permissions')->find(1);
+                $roles = [...$this->roles];
+                if (in_array(self::$membersRole, $roles)) {
+                    $roles[] = self::$membersRole;
+                }
 
-        self::$membersRole ??= Role::with('permissions')->find(1);
-        $roles = $this->roles;
-        if (!$roles->contains(self::$membersRole)) {
-            $roles[] = self::$membersRole;
-        }
-
-        $rolesNames = [];
-
-        foreach ($roles as $role) {
-            $rolesNames[] = $role->name;
-        }
-
-        $this->gotRoles = true;
-
-        return $rolesNames;
+                return $roles;
+            }
+        );
     }
 
-    public function getPermissions(bool $forceLoad=false)
+    public function roleNames(): Attribute
     {
-        if ($this->gotPerms) {
-            return $this->permissions;
-        }
-
-        $this->gotPerms = true;
-
-        self::$membersRole ??= Role::with('permissions')->find(1);
-        $roles = $this->roles;
-        if (!$roles->contains(self::$membersRole)) {
-            $roles[] = self::$membersRole;
-        }
-
-        /**
-         * THIS IS TEMPORARY
-         * the system should not allow for "permission racing", basically if we deny permission once, it should NOT give it again.
-         * Same thing goes with granting, if we give a permission (aside members role), it should not be denied.
-         * The purpose of the allow variable is only take away permissions when necessary and not have to do give - take - give.
-         * Only give and take with the first give being pretty much the members role.
-         */
-
-        foreach ($roles as $role) {
-            if ($forceLoad || $role->relationLoaded('permissions')) {
-                foreach ($role->permissions as $perm) {
-                    $name = $perm->name;
-                    if ($perm->pivot->allow) {
-                        if (!$this->hasPermission($perm->name)) {
-                            $this->grantPermission($name);
-                        }
-                    } else {
-                        if ($this->hasPermission($perm->name)) {
-                            $this->denyPermission($name);
-                        }
-                    }
+        return Attribute::make(
+            get: function() {
+                $rolesNames = [];
+        
+                $roles = $this->roleList;
+                foreach ($roles as $role) {
+                    $rolesNames[] = $role->name;
                 }
-           } else {
-              return null;
-           }
-        }
+        
+                return $rolesNames;
+            }
+        );
+    }
 
-        return $this->permissions;
+    public function permissionList(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                if ($this->permissionsLoaded) {
+                    return $this->permissions;
+                }
+
+                $roles = $this->roleList;
+                $memberPerms = [];
+                foreach ($roles as $i => $role) {
+                    if ($role->relationLoaded('permissions')) {
+                        foreach ($role->permissions as $perm) {
+                            $name = $perm->name;
+
+                            /**
+                             * Permissions can be given or denied, but only member permissions can be taken away, nothing else.
+                             * This avoids "permission racing" where a role would give a permission and then reject it and so on.
+                             * Once a role rejects a permission, it cannot be given again.
+                             * 
+                             * Additionally, the member role cannot reject permissions, as it starts without any anyway.
+                             */
+                            if ($perm->pivot->allow) {
+                                if (!isset($this->permissions[$name])) {
+                                    $this->permissions[$name] = true;
+                                }
+                            } else if (isset($memberPerms[$name])) { //Only member role's permissions can be removed
+                                $this->permissions[$name] = false;
+                            }
+
+                            if ($i === 0) {
+                                $memberPerms[$name] = true;
+                            }
+                        }
+                   }
+                }
+
+                $this->permissionsLoaded = true;
+        
+                return $this->permissions;
+            }
+        );
     }
 
     public function hasRole(int $id)
@@ -356,38 +369,19 @@ class User extends Authenticatable
             return false;
         }
 
-        $permissions = $this->getPermissions(true);
+        $this->roles->loadMissing('permissions');
+        $permissions = $this->permissionList;
         return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
 
-    /**
-     * Takes away a permission from a user
-     *
-     * @param string $toWhat
-     * @return void
-     */
-    private function denyPermission(string $toWhat)
-    {
-        $this->permissions[$toWhat] = false;
-    }
+    function hasGamePerm(Game $game, string $toWhat) {
+        if ($this->getLastBanAttribute()) {
+            return false;
+        }
 
-    /**
-     * Grants permission to a user
-     *
-     * @param string $toWhat
-     * @return void
-     */
-    private function grantPermission(string $toWhat)
-    {
-        $this->permissions[$toWhat] = true;
-    }
-
-    public function getRoleNamesAttribute() {
-        return $this->getRoleNames();
-    }
-
-    public function getPermissionsAttribute() {
-        return $this->getPermissions();
+        //TODO: game bans
+        $permissions = $this->getGamePermissions(true);
+        return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
     }
 
     public function getLastBanAttribute()
