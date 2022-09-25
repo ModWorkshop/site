@@ -25,7 +25,7 @@ class RoleResource extends JsonResource
                 $permissions = [];
 
                 foreach ($this->permissions as $permission) {
-                    $permissions[$permission->id] = $permission['pivot']['allow'];
+                    $permissions[$permission->id] = true;
                 }
 
                 return (object)$permissions; //Forces JSON to treat this as an object and NOT an array for some dumb reason.

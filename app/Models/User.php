@@ -310,30 +310,10 @@ class User extends Authenticatable
                 }
 
                 $roles = $this->roleList;
-                $memberPerms = [];
-                foreach ($roles as $i => $role) {
+                foreach ($roles as $role) {
                     if ($role->relationLoaded('permissions')) {
                         foreach ($role->permissions as $perm) {
-                            $name = $perm->name;
-
-                            /**
-                             * Permissions can be given or denied, but only member permissions can be taken away, nothing else.
-                             * This avoids "permission racing" where a role would give a permission and then reject it and so on.
-                             * Once a role rejects a permission, it cannot be given again.
-                             * 
-                             * Additionally, the member role cannot reject permissions, as it starts without any anyway.
-                             */
-                            if ($perm->pivot->allow) {
-                                if (!isset($this->permissions[$name])) {
-                                    $this->permissions[$name] = true;
-                                }
-                            } else if (isset($memberPerms[$name])) { //Only member role's permissions can be removed
-                                $this->permissions[$name] = false;
-                            }
-
-                            if ($i === 0) {
-                                $memberPerms[$name] = true;
-                            }
+                            $this->permissions[$perm->name] = true;
                         }
                    }
                 }

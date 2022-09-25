@@ -91,8 +91,8 @@ class RoleController extends Controller
         $permissions = Arr::pull($val, 'permissions');
         $syncPerms = [];
 
-        foreach ($permissions as $id => $allow) {
-            $syncPerms[$id] = ['allow' => $allow];
+        foreach (array_keys($permissions) as $id) {
+            $syncPerms[] = $id;
         }
         
         if (isset($role)) {
