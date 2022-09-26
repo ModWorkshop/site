@@ -5,6 +5,8 @@
         </template>
     </md-editor>
 
+    <a-select v-if="isModerator" v-model="mod.game_id" label="Game" placeholder="Select a game" :options="games.data"/>
+
     <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
 
     <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
@@ -17,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import { useStore } from '~~/store';
+import { Game, Mod } from '~~/types/models';
 
 const props = defineProps<{
     mod: Mod
@@ -25,6 +28,11 @@ const props = defineProps<{
 
 const yesNoModal = useYesNoModal();
 const router = useRouter();
+const { hasPermission } = useStore();
+
+const isModerator = computed(() => hasPermission('manage-mods'));
+
+const { data: games } = await useFetchMany<Game>('games', { immediate: isModerator.value });
 
 function deleteMod() {
     yesNoModal({

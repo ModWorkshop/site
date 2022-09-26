@@ -3,7 +3,6 @@
 
     <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-    <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
     <flex v-if="categories" column gap="2">
         <a-input :label="$t('category')">
             <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
@@ -33,7 +32,6 @@ const visItems = [
 ];
 
 const gameId = computed(() => props.mod.game_id);
-const store = useStore();
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`);
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { 
     params: reactive({ 
@@ -42,7 +40,6 @@ const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
         global: 1
     })
 });
-await store.fetchGames();
 
 const approvalOnlyForced = computed(() => {
     const category = categories.value.data.find(cat => cat.id === props.mod.category_id);
