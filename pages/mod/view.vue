@@ -46,8 +46,8 @@ if (props.mod) {
 }
 
 const canEdit = computed(() => canEditMod(props.mod));
-const canEditComments = computed(() => hasPermission('edit-comment'));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comment')));
+const canEditComments = computed(() => hasPermission('manage-discussions'));
+const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comments')));
 const canComment = computed(() => !props.mod.user.blocked_me && !isBanned && (!props.mod.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
     if (props.mod.comments_disabled) {

@@ -99,7 +99,7 @@ if (!user.value) {
 
 const { hasPermission, user: authUser } = useStore();
 
-const canModerateUser = computed(() => hasPermission('edit-user'));
+const canModerateUser = computed(() => hasPermission('moderate-users'));
 const isOwnOrModerator = computed(() => user.value.id === authUser.id || canModerateUser.value);
 const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);

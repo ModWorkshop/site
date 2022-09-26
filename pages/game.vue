@@ -28,7 +28,7 @@ const { hasPermission, setGame } = useStore();
 const { data: game } = await useResource<Game>('game', 'games');
 setGame(game.value);
 
-const canEdit = computed(() => hasPermission('edit-mod'));
+const canEdit = computed(() => hasPermission('manage-mods'));
 
 // const { data: lastThreads } = await useFetchMany<Thread>(`threads?forum_id=${game.value.forum.id}`);
 

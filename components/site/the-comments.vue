@@ -82,7 +82,7 @@ import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
 import { remove } from '@vue/shared';
 const props = withDefaults(defineProps<{
-    lazy: boolean,
+    lazy?: boolean,
     url: string,
     pageUrl: string,
     resourceName?: string,
@@ -92,7 +92,7 @@ const props = withDefaults(defineProps<{
     canEditAll?: boolean,
     cannotCommentReason?: string,
     canDeleteAll?: boolean
-}>(), { resourceName: 'comments' });
+}>(), { resourceName: 'comments', lazy: false });
 
 const { $caretXY } = useNuxtApp();
 

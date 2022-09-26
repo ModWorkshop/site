@@ -8,7 +8,7 @@ export function canEditMod(mod: Mod) {
         return false;
     }
 
-    if (hasPermission('edit-mod') || user.id === mod.user_id) {
+    if (hasPermission('manage-mods') || user.id === mod.user_id) {
         return true;
     }
 
@@ -26,7 +26,7 @@ export function canSuperUpdate(mod: Mod) {
 
     const { user, hasPermission } = useStore();
 
-    return (mod.user_id === user.id && hasPermission('edit-own-mod')) || hasPermission('edit-mod');
+    return (mod.user_id === user.id && hasPermission('create-mods')) || hasPermission('manage-mods');
 }
 
 export function registerDownload(mod) {

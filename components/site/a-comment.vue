@@ -129,7 +129,7 @@ const emit = defineEmits([
 const { user, hasPermission } = useStore();
 
 const areActionsVisible = ref(false);
-const canEdit = computed(() => user && (hasPermission('edit-own-comment') && user.id === props.comment.user_id) || props.canEditAll);
+const canEdit = computed(() => user && (hasPermission('create-comments') && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => props.canComment && !props.comment.user.blocked_me);
 

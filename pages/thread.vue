@@ -56,7 +56,7 @@ const { data: thread } = await useResource<Thread>('thread', 'threads');
 
 setGame(thread.value.forum.game);
 
-const canModerate = computed(() => hasPermission('edit-thread'));
+const canModerate = computed(() => hasPermission('manage-discussions'));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);
 
 const canComment = computed(() => {
