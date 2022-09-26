@@ -49,17 +49,16 @@ export default defineNuxtConfig({
 						file: resolve(__dirname, "pages/mod/view.vue")
 					},
 					{
+						name: "mod-comment",
+						path: "post/:commentId",
+						file: resolve(__dirname, "pages/mod/view.vue")
+					},
+					{
 						name: "download-file",
 						path: "download/:fileId",
 						file: resolve(__dirname, "pages/mod/download-file.vue")
 					},
 				]
-			});
-
-			routes.push({
-				name: "mod-comment",
-				path: "/mod/:modId/post/:commentId",
-				file: resolve(__dirname, "pages/mod/index.vue")
 			});
 
 			routes.push({
