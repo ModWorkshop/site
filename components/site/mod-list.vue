@@ -78,7 +78,7 @@ const props = defineProps({
 const store = useStore();
 
 const query = useRouteQuery('query', '');
-const page = useRouteQuery('page', 1, val => parseInt(val));
+const page = useRouteQuery('page', 1, 'number');
 const pageOverride = ref(null);
 const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
 const selectedTags = useRouteQuery('selected-tags', []);

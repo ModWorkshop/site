@@ -25,7 +25,7 @@ import { remove } from '@vue/shared';
 import { UserCase } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
-const user = useRouteQuery('user', null, (data: string) => parseInt(data));
+const user = useRouteQuery('user', null, 'number');
 
 const { showToast } = useToaster();
 

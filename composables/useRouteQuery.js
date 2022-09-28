@@ -15,7 +15,9 @@ export default function(name, defaultValue, cast) {
                 return data.filter(Boolean);
             }
             
-            if (cast) {
+            if (cast === 'number') {
+                return parseInt(data);
+            } else if (cast) {
                 return cast(data);
             }
 

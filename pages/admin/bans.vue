@@ -38,7 +38,7 @@ const { showToast } = useToaster();
 
 const bans = ref<Paginator<Ban>>({ data: [], meta: null });
 
-const user = useRouteQuery('user', null, (data: string) => parseInt(data));
+const user = useRouteQuery('user', null, 'number');
 
 const banDuration = ref(null);
 const reason = ref('');
