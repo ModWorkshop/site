@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
-    src: String,
+    src: [String, Blob],
     urlPrefix: {
         type: String,
         default: 'users/avatars/'

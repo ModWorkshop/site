@@ -7,7 +7,7 @@
 const { public: config } = useRuntimeConfig();
 
 const props = defineProps({
-    src: String,
+    src: [String, Blob],
     urlPrefix: String,
     height: {
         type: [Number, String],
