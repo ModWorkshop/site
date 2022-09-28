@@ -74,7 +74,7 @@
                     <template #content>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
                         <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
-                        <a-dropdown-item icon="eye" to="/user-settings?tab=content">{{$t('content_settings')}}</a-dropdown-item>
+                        <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
                         <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">{{$t('admin')}}</a-dropdown-item>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                         <div class="dropdown-splitter"/>
