@@ -33,6 +33,6 @@
 }
 
 .alt-content-bg {
-    background-color: var(--alt-bg-color);
+    background-color: var(--alt-content-bg-color);
 }
 </style>
