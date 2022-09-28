@@ -1,7 +1,7 @@
 <template>
     <page-block>
         <flex>
-            <a-button v-if="canEdit" :to="`/admin/games/${game.id}`" icon="cog">{{$t('section_settings')}}</a-button>
+            <a-button v-if="canEdit" :to="`/admin/games/${game.id}`" icon="cog">{{$t('game_settings')}}</a-button>
             <a-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-button>
         </flex>
         <div class="content-block">
