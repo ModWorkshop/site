@@ -1,3 +1,5 @@
 <template>
-    <thread-list no-pins/>
+    <div>
+        <thread-list no-pins/>
+    </div>
 </template>

@@ -1,50 +1,15 @@
 <template>
     <page-block size="sm">
         <content-block class="p-8">
-            <a-form :model="user" :can-save="canSaveOverride" float-save-gui @submit="save">
-                <a-tabs side query lazy>
-                    <a-tab name="account" title="Account">
-                        <a-input v-model="user.name" label="Username"/>
-                        <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>
-                        <a-input v-model="user.donation_url" label="Donation Link" desc="Supports PayPal, Ko-Fi, and Buy Me a Coffee. Shows in your profile and mod pages."/>
-                        <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
-                        <template v-if="isMe">
-                            <h3>Change Password</h3>
-                            <flex>
-                                <a-input v-model="password" label="New Password" type="password"/>
-                                <a-input v-model="confirmPassword" label="Confirm Password" type="password"/>
-                            </flex>
-                        </template>
-                        <a-select v-model="user.role_ids" label="roles" desc="As a regular user, you may only set vanity roles" placeholder="Select Roles" multiple :options="roles.data"/>
-                        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
-                            <div>
-                                <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
-                            </div>
-                        </a-alert>
-                    </a-tab>
-                    <a-tab name="profile" title="Profile">
-                        <img-uploader v-model="avatarBlob" label="Avatar" :src="user.avatar">
-                            <template #label="{ src }">
-                                <a-avatar size="xl" :src="src"/>
-                                <a-avatar size="lg" :src="src"/>
-                                <a-avatar size="md" :src="src"/>
-                            </template>
-                        </img-uploader>
-
-                        <img-uploader v-model="bannerBlob" label="Banner" :src="user.banner">
-                            <template #label="{ src }">
-                                <a-banner :src="src" url-prefix="users/banners"/>
-                            </template>
-                        </img-uploader>
-                        <a-input v-model="user.private_profile" label="Private Profile" type="checkbox" desc="Ticking this on will privatize your profile. Only staff members will be able to view it."/>
-                        <a-input v-model="user.custom_title" label="Custom Title"/>
-                        <a-input v-model="user.custom_color" label="Custom Color" type="color"/>
-                        <md-editor v-model="user.bio" rows="12" label="Bio" desc="Tell about yourself to people visiting your profile"/>
-                    </a-tab>
-                    <a-tab name="content" title="Content">
-                        <user-settings-content/>
-                    </a-tab>
-                </a-tabs>
+            <a-form :model="user" float-save-gui @submit="save">
+                <a-nav side root="/user-settings">
+                    <a-nav-link to="" title="Account"/>
+                    <a-nav-link to="profile" title="Profile"/>
+                    <a-nav-link to="content" title="Content"/>
+                    <template #content>
+                        <NuxtPage keepalive :user="user"/>
+                    </template>
+                </a-nav>
             </a-form>
         </content-block>
     </page-block>
@@ -53,8 +18,7 @@
 <script setup lang="ts">
 import clone from 'rfdc/default';
 import { useStore } from '../store';
-import { Role, Tag, User } from '../types/models';
-const yesNoModal = useYesNoModal();
+import { User, UserForm } from '../types/models';
 
 definePageMeta({
     middleware: 'users-only'
@@ -63,54 +27,36 @@ definePageMeta({
 const store = useStore();
 
 const isMe = ref(false);
-
-const avatarBlob = ref(null);
-const bannerBlob = ref(null);
-
 const route = useRoute();
 
-const password = ref('');
-const confirmPassword = ref('');
+provide('isMe', isMe);
 
-const { data: user } = await useResource<User>('user', 'users', null, null, clone(store.user));
+const { data } = await useResource<User>('user', 'users', null, null, clone(store.user));
+const user = ref<UserForm>({
+    ...data.value,
+    password: '',
+    confirm_password: '',
+    avatar_file: null,
+    banner_file: null,
+});
+
 isMe.value = !route.params.userId;
-
-const { data: roles } = await useFetchMany<Role>('/roles?only_assignable=1');
-
-const canSaveOverride = computed(() => !!(avatarBlob.value || bannerBlob.value || password.value || confirmPassword.value));
 
 async function save() {
     try {
-        const nextUser = await usePatch<User>(`users/${user.value.id}`, serializeObject({
-            ...user.value,
-            password: password.value,
-            confirm_password: password.value,
-            avatar_file: avatarBlob.value,
-            banner_file: bannerBlob.value
-        }));
-
-        //Clear the image upload after success
-        avatarBlob.value = null;
-        bannerBlob.value = null;
+        const nextUser = await usePatch<User>(`users/${user.value.id}`, serializeObject(user.value));
 
         if (isMe.value) {
             store.user = clone(nextUser);
         }
 
-        user.value = nextUser;
+        user.value = {
+            ...nextUser,
+            password: '',
+            confirm_password: ''
+        };
     } catch (error) {
         console.log(error);
     }
-}
-
-async function doDelete() {
-    yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action is irreversible!',
-        async yes() {
-            await useDelete(`users/${user.value.id}`);
-            await store.logout();
-        }
-    });
 }
 </script>

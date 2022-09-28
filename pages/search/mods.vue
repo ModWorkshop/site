@@ -1,3 +1,5 @@
 <template>
-    <mod-list/>
+    <div>
+        <mod-list/>
+    </div>
 </template>

@@ -254,6 +254,13 @@ export interface User {
     followed?: { notify: boolean }
 }
 
+export interface UserForm extends User {
+    password: string,
+    confirm_password: string,
+    avatar_file?: Blob,
+    banner_file?: Blob
+
+}
 export interface Link {
     id: number;
     user_id: number;
