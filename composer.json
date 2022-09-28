@@ -27,6 +27,7 @@
         "socialiteproviders/twitter": "^4.1",
         "socialiteproviders/zoho": "^4.1",
         "spatie/laravel-morph-map-generator": "^1.0",
+        "spatie/laravel-validation-rules": "^3.2",
         "staudenmeir/eloquent-eager-limit": "^1.6"
     },
     "require-dev": {

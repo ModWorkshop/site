@@ -33,7 +33,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
             'color' => $this->color,
             'avatar' => $this->avatar,
-            'role_names' => $this->roleNames,
+            'role_names' => Arr::pluck($this->roleList, 'name'),
             'permissions' => $this->permissionList,
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),

@@ -6,6 +6,7 @@ use App\Services\ModService;
 use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
@@ -64,6 +65,16 @@ class Game extends Model
     public function forum() : HasOne
     {
         return $this->hasOne(Forum::class);
+    }
+
+    public function mods(): HasMany
+    {
+        return $this->hasMany(Mod::class);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(GameRole::class);
     }
 
     /**

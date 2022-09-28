@@ -54,4 +54,18 @@ class Utils {
             curl_close($handle);
         }
 	}
+
+    public static function collectPermissions($roles)
+    {
+        $permissions = [];
+        foreach ($roles as $role) {
+            if ($role->relationLoaded('permissions')) {
+                foreach ($role->permissions as $perm) {
+                    $permissions[$perm->name] = true;
+                }
+            }
+        }
+
+        return $permissions;
+    }
 }

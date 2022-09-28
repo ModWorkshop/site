@@ -6,6 +6,7 @@ use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Category;
+use App\Models\Game;
 use App\Models\Image;
 use App\Models\Mod;
 use App\Models\ModDownload;
@@ -40,8 +41,12 @@ const animated = [
  */
 class ModController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Mod::class, 'mod');
+    public function __construct(Request $request) {
+        if ($request->route('game')) {
+            $this->authorizeResource([Mod::class, 'game'], 'mod, game');
+        } else {
+            $this->authorizeResource(Mod::class, 'mod');
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ class ModController extends Controller
      * @param ModUpsertRequest $request
      * return \Illuminate\Http\Response
      */
-    public function index(GetModsRequest $request)
+    public function index(GetModsRequest $request, Game $game=null)
     {
         $val = $request->val();
         $mods = Mod::queryGet($val, ModService::filters(...), true);
@@ -97,7 +102,7 @@ class ModController extends Controller
      * @param Mod $mod
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod)
+    public function show(Game $game=null, Mod $mod)
     {
         $mod->withAllRest();
         return new ModResource($mod);
@@ -114,7 +119,7 @@ class ModController extends Controller
      * @param Mod|null $mod
      * @return \Illuminate\Http\Response
      */
-    public function update(ModUpsertRequest $request, Mod $mod=null)
+    public function update(ModUpsertRequest $request, Game $game=null, Mod $mod=null)
     {
         $val = $request->validated();
 
@@ -127,6 +132,7 @@ class ModController extends Controller
         APIService::nullToEmptyStr($val, 'donation');
         APIService::nullToEmptyStr($val, 'license');
         APIService::nullToEmptyStr($val, 'changelog');
+        APIService::nullToEmptyStr($val, 'instructions');
         APIService::nullToEmptyStr($val, 'version');
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
@@ -158,7 +164,7 @@ class ModController extends Controller
         if ($sendForApproval) {
             $val['approved'] = null;
         } else {
-            $categoryId = $val['category_id'];
+            $categoryId = $val['category_id'] ?? null;
             if (isset($categoryId) && (!isset($mod) || $mod->category_id !== $categoryId)) {
                 $category = Category::find($categoryId);
                 if ($category->approval_only) {
@@ -166,7 +172,6 @@ class ModController extends Controller
                 }
             }
         }
-
 
         if (isset($mod)) {
             if (!$request->boolean('silent')) {
@@ -192,6 +197,8 @@ class ModController extends Controller
             // Never put something like $request->all(); in create.
             //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
             $val['user_id'] = $request->user()->id;
+            $val['game_id'] = $game->id;
+
             $mod = Mod::create($val); // Validate handles the important stuff already.
         }
 
@@ -218,9 +225,9 @@ class ModController extends Controller
      * @param ModUpsertRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ModUpsertRequest $request)
+    public function store(ModUpsertRequest $request, Game $game)
     {
-        return $this->update($request);
+        return $this->update($request, $game);
     }
 
     /**
@@ -229,7 +236,7 @@ class ModController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mod $mod)
+    public function destroy(Mod $mod, Game $game=null)
     {
         $mod->delete();
     }

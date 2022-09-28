@@ -186,6 +186,7 @@ namespace App\Models{
  * @property int $id
  * @property string|null $name
  * @property string|null $url
+ * @property bool $offsite
  * @property int|null $mod_id
  * @property bool $optional
  * @property string $dependable_type
@@ -193,6 +194,7 @@ namespace App\Models{
  * @property int $order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Mod|null $mod
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency query()
@@ -202,6 +204,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOffsite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOptional($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
@@ -443,8 +446,44 @@ namespace App\Models{
  * @property int|null $forum_id
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
  * @property-read \App\Models\FollowedGame|null $followed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @property-read int|null $mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
+ * @property-read int|null $roles_count
  */
 	class Game extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\GameRole
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $tag
+ * @property string $desc
+ * @property string $color
+ * @property int $game_id
+ * @property int $order
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Game $game
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereTag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereUpdatedAt($value)
+ */
+	class GameRole extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -683,7 +722,7 @@ namespace App\Models{
  * @property int|null $instructs_template_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
  * @property-read int|null $dependencies_count
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $instructsTemplate
+ * @property-read \App\Models\InstructsTemplate|null $instructsTemplate
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $membersThatCanEdit
  * @property-read int|null $members_that_can_edit_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
@@ -1228,6 +1267,8 @@ namespace App\Models{
  * @property-read int|null $followed_users_count
  * @property \Illuminate\Support\Carbon|null $last_online
  * @property-read \App\Models\Ban|null $ban
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read int|null $game_roles_count
  * @property-read mixed $last_ban
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count

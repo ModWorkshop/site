@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\RoleResource;
+use App\Models\Game;
+use App\Models\GameRole;
 use App\Models\Permission;
-use App\Models\Role;
 use Arr;
 use Illuminate\Http\Request;
 
-/**
- * @group Roles
- */
-class RoleController extends Controller
+class GameRoleController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Role::class, 'role');
+        $this->authorizeResource([GameRole::class, 'game'], 'game_role, game');
     }
 
     /**
@@ -23,17 +21,19 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game)
     {
         $val = $request->validate([
             'only_assignable' => 'boolean|nullable',
             'limit' => 'integer|min:1|max:50'
         ]);
 
-        return RoleResource::collection(Role::queryGet($val, function($query, $val) {
+        return RoleResource::collection(GameRole::queryGet($val, function($query, $val) use ($game) {
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
             }
+
+            $query->where('game_id', $game->id);
         }));
     }
 
@@ -43,9 +43,9 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
-        return $this->update($request);
+        return $this->update($request, $game);
     }
 
     /**
@@ -54,10 +54,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(Game $game, GameRole $gameRole)
     {
-        $role->loadMissing('permissions');
-        return new RoleResource($role);
+        $gameRole->loadMissing('permissions');
+        return new RoleResource($gameRole);
     }
 
     /**
@@ -67,7 +67,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role=null)
+    public function update(Request $request, Game $game, GameRole $gameRole=null)
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
@@ -89,21 +89,21 @@ class RoleController extends Controller
             $syncPerms[] = $id;
         }
         
-        if (isset($role)) {
-            $role->update($val);
+        if (isset($gameRole)) {
+            $gameRole->update($val);
         } else {
-            $biggestOrder = Role::orderByDesc('order')->first()->order;    
+            $biggestOrder = GameRole::orderByDesc('order')->first()?->order ?? 0;
             $val['order'] = $biggestOrder + 1;
 
-            $role = Role::create($val);
+            $gameRole = $game->roles()->create($val);
         }
         
-        $role->permissions()->sync($syncPerms);
+        $gameRole->permissions()->sync($syncPerms);
         Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
-        $role->load('permissions');
-        $role->refresh();
+        $gameRole->load('permissions');
+        $gameRole->refresh();
 
-        return new RoleResource($role);
+        return new RoleResource($gameRole);
     }
 
     /**
@@ -112,8 +112,8 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(Game $game, GameRole $gameRole)
     {
-        $role->delete();
+        $gameRole->delete();
     }
 }

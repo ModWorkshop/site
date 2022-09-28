@@ -40,7 +40,7 @@ class Role extends Model
 {
     use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 10;
+    public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
 
     protected $with = [];
@@ -60,7 +60,7 @@ class Role extends Model
 
     public function permissions() : BelongsToMany
     {
-        return $this->belongsToMany(Permission::class)->withPivot('allow');
+        return $this->belongsToMany(Permission::class);
     }
 
 }

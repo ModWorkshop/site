@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Utils;
 use App\Traits\Reportable;
 use Arr;
 use Auth;
@@ -90,9 +91,10 @@ class User extends Authenticatable
     
     // Always return roles for users
     protected $with = ['roles', 'ban'];
-    protected $appends = ['color', 'role_names'];
+    protected $appends = ['color'];
 
     private $permissions = [];
+    private $gamePermissions = [];
     private $permissionsLoaded = false;
 
     public function toSearchableArray()
@@ -264,6 +266,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class)->orderBy('order');
     }
+    
+    public function gameRoles() : BelongsToMany
+    {
+        return $this->belongsToMany(GameRole::class)->orderBy('order');
+    }
 
     /**
      * User roles but with assured members role.
@@ -272,57 +279,52 @@ class User extends Authenticatable
      */
     public function roleList(): Attribute
     {
-        return Attribute::make(
-            get: function() {
-                self::$membersRole ??= Role::with('permissions')->find(1);
-                $roles = [...$this->roles];
-                if (in_array(self::$membersRole, $roles)) {
-                    $roles[] = self::$membersRole;
-                }
-
-                return $roles;
+        return Attribute::make(function() {
+            self::$membersRole ??= Role::with('permissions')->find(1);
+            $roles = [...$this->roles];
+            if (!in_array(self::$membersRole, $roles)) {
+                $roles[] = self::$membersRole;
             }
-        );
+
+            return $roles;
+        });
     }
 
-    public function roleNames(): Attribute
+    public function getGameRoleList(Game $game)
     {
-        return Attribute::make(
-            get: function() {
-                $rolesNames = [];
-        
-                $roles = $this->roleList;
-                foreach ($roles as $role) {
-                    $rolesNames[] = $role->name;
-                }
-        
-                return $rolesNames;
-            }
-        );
+        self::$membersRole ??= Role::with('permissions')->find(1);
+        $gameRoles = $this->gameRoles->where('game_id', $game->id)->with('permissions')->all();
+        $roles = [...$gameRoles];
+        if (!in_array(self::$membersRole, $roles)) {
+            $roles[] = self::$membersRole;
+        }
+
+        return $roles;
+    }
+
+    public function getGamePerms(Game $game)
+    {
+        if (isset($this->gamePermissions[$game->id])) {
+            return $this->gamePermissions[$game->id];
+        }
+
+        $this->gamePermissions[$game->id] = Utils::collectPermissions($this->roleList);
+
+        return $this->gamePermissions[$game->id];
     }
 
     public function permissionList(): Attribute
     {
-        return Attribute::make(
-            get: function() {
-                if ($this->permissionsLoaded) {
-                    return $this->permissions;
-                }
-
-                $roles = $this->roleList;
-                foreach ($roles as $role) {
-                    if ($role->relationLoaded('permissions')) {
-                        foreach ($role->permissions as $perm) {
-                            $this->permissions[$perm->name] = true;
-                        }
-                   }
-                }
-
-                $this->permissionsLoaded = true;
-        
+        return Attribute::make(function() {
+            if ($this->permissionsLoaded) {
                 return $this->permissions;
             }
-        );
+
+            $this->permissions = Utils::collectPermissions($this->roleList);
+            $this->permissionsLoaded = true;
+    
+            return $this->permissions;
+        });
     }
 
     public function hasRole(int $id)
@@ -340,7 +342,7 @@ class User extends Authenticatable
      * @param string $toWhat
      * @return boolean
      */
-    function hasPermission(string $toWhat) {
+    function hasPermission(string $toWhat, Game $game=null) {
         if ($toWhat !== 'admin' && $this->hasPermission('admin')) {
             return true;
         }
@@ -349,19 +351,19 @@ class User extends Authenticatable
             return false;
         }
 
+        //TODO: check game bans
+
         $this->roles->loadMissing('permissions');
         $permissions = $this->permissionList;
-        return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
-    }
-
-    function hasGamePerm(Game $game, string $toWhat) {
-        if ($this->getLastBanAttribute()) {
-            return false;
+        //Has global permission to do the action, no need to check game (bans are checked beforehand)
+        if (isset($permissions[$toWhat]) && $permissions[$toWhat] === true) {
+            return true;
+        } else if (isset($game)) { //Maybe they have permission to do so in the game?
+            $permissions = $this->getGamePerms($game);
+            return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
         }
 
-        //TODO: game bans
-        $permissions = $this->getGamePermissions(true);
-        return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
+        return false;
     }
 
     public function getLastBanAttribute()

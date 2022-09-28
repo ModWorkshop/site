@@ -2,12 +2,14 @@
 
 namespace App\Policies;
 
+use App\Models\Game;
 use App\Models\Mod;
 use App\Models\User;
 use App\Models\Visibility;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Log;
 
 class ModPolicy
 {
@@ -71,9 +73,9 @@ class ModPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game)
     {
-        return $user->hasPermission('create-mods');
+        return $user->hasPermission('create-mods', $game);
     }
 
     /**
@@ -85,11 +87,13 @@ class ModPolicy
      */
     public function update(User $user, Mod $mod)
     {
-        if ($user->hasPermission('manage-mods')) {
+        $game = $mod->game;
+
+        if ($user->hasPermission('manage-mods', $game)) {
             return true;
         }
 
-        if (!$user->hasPermission('create-mods')) {
+        if (!$user->hasPermission('create-mods', $game)) {
             return false;
         }
 
@@ -110,7 +114,7 @@ class ModPolicy
      */
     public function superUpdate(User $user, Mod $mod)
     {
-        return $user->id === $mod->user_id || $user->hasPermission('manage-mods');
+        return $user->id === $mod->user_id || $user->hasPermission('manage-mods', $mod->game);
     }
 
     /**
@@ -122,7 +126,8 @@ class ModPolicy
      */
     public function delete(User $user, Mod $mod)
     {
-        if ($user->hasPermission('manage-mods')) {
+        $game = $mod->game;
+        if ($user->hasPermission('manage-mods', $game)) {
             return true;
         }
 
@@ -132,7 +137,7 @@ class ModPolicy
         }
 
         //Maintainers shouldn't be able to do anything if they can't create mods.
-        if (!$user->hasPermission('create-mods')) {
+        if (!$user->hasPermission('create-mods', $game)) {
             return false;
         }
 
@@ -165,7 +170,7 @@ class ModPolicy
 
     public function createComment(User $user, Mod $mod)
     {
-        if (!$user->hasPermission('create-discussions') || $mod->user->blockedMe) {
+        if (!$user->hasPermission('create-discussions', $mod->game) || $mod->user->blockedMe) {
             return false;
         }
 
@@ -183,6 +188,6 @@ class ModPolicy
 
     public function report(User $user, Mod $mod)
     {
-        return !$mod->suspended && $user->hasPermission('create-reports');
+        return !$mod->suspended && $user->hasPermission('create-reports', $mod->game);
     }
 }

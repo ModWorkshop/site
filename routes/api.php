@@ -12,6 +12,7 @@ use App\Http\Controllers\FollowedUserController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameRoleController;
 use App\Http\Controllers\InstructsTemplateController;
 use App\Http\Controllers\InstructsTemplateDependencyController;
 use App\Http\Controllers\LinkController;
@@ -49,6 +50,21 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 /**
+ * Registers a game resource with also a direct resource link.
+ * store method still requires a game so that's not available in the global one.
+ */
+function gameResource(string $resource, string $class, array $except=[], bool $shallow=true) {
+    $reg = Route::resource("games.{$resource}", $class);
+    Route::resource($resource, $class)->only(['index']);
+    if ($shallow) {
+        $reg->shallow();
+    }
+    $reg->except(['create', 'edit', ...$except]);
+
+    return $reg;
+}
+
+/**
  * @group Mods
  */
 Route::resource('mods.files', FileController::class);
@@ -73,7 +89,7 @@ Route::resource('mods.members', ModMemberController::class)->only(['store', 'des
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
-Route::resource('mods', ModController::class);
+gameResource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
@@ -107,6 +123,9 @@ Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::resource('tags', TagController::class);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
+gameResource('roles', GameRoleController::class, shallow: false)->parameters([
+    'roles' => 'game-role'
+]);
 
 /**
  * @group Forums
