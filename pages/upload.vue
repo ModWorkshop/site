@@ -66,7 +66,9 @@ const mod: Ref<Mod> = ref({
     has_download: false,
 });
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories?include_paths=1`);
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories?include_paths=1`, {
+    immediate: !!mod.value.game_id
+});
 
 watch(() => mod.value.game_id, val => {
     if (val) {
