@@ -10,13 +10,13 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
     href?: string,
+    to?: string,
     unstyled?: boolean,
     color?: 'primary' | 'subtle' | 'secondary' | 'danger' | 'none',
     type?: 'button' | 'submit' | 'reset',
     size?: string,
     noBg?: boolean,
     download?: string|boolean,
-    to?: string,
     iconSize?: string,
     icon?: string | Array<any>,
     iconRotation?: number,
@@ -32,7 +32,8 @@ const clss = computed(() => ({
     button: !props.unstyled,
     [`button-${props.color}`]: !props.unstyled,
     'button-no-bg': props.noBg,
-    'button-small': props.size == 'small',
+    'button-sm': props.size == 'sm',
+    'button-xs': props.size == 'xs',
     'cursor-pointer': props.unstyled
 }));
 
@@ -51,9 +52,12 @@ const iconStyle = computed(() => ({
     transition-property: background-color, color, border-color;
 }
 
-.button-small {
+.button-sm {
     padding: 0.3rem 0.6rem;
-    font-size: 12px;
+}
+
+.button-xs {
+    padding: 0.2rem 0.4rem;
 }
 
 .button-none {

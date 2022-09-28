@@ -18,17 +18,17 @@
             </flex>
             <div class="float-right">
                 <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a-button v-if="canReply" class="cursor-pointer" title="Reply" icon="reply" size="small" @click="$emit('reply', comment)"/>
+                    <a-button v-if="canReply" class="cursor-pointer" title="Reply" icon="reply" size="sm" @click="$emit('reply', comment)"/>
                     <a-button
                         v-if="!isReply"
                         class="cursor-pointer"
-                        size="small"
+                        size="sm"
                         :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
                         :icon="comment.subscribed ? 'bell-slash' : 'bell'"
                         @click="subscribe"
                     />
                     <Popper arrow style="margin: 0; border: 0;" @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
-                        <a-button class="cursor-pointer" icon="ellipsis-h" size="small"/>
+                        <a-button class="cursor-pointer" icon="ellipsis-h" size="sm"/>
                         <template #content>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
