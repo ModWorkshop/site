@@ -54,7 +54,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasPermission('manage-roles');
+        return $user->hasPermission('manage-roles') && $role->canBeEdited();
     }
 
     /**
@@ -66,7 +66,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermission('manage-roles') && $role->id !== 1;
+        return $this->update($user, $role) && $role->id !== 1;
     }
 
     /**

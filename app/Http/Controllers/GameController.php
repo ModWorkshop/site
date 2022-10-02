@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\GameResource;
+use App\Http\Resources\RoleResource;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\User;
 use App\Services\APIService;
 use Arr;
 use Auth;
@@ -128,5 +130,29 @@ class GameController extends Controller
         } else {
             abort(404);
         }
+    }
+
+    public function setGameUserData(Request $request, Game $game, User $user)
+    {
+        $this->authorize('manageRoles', [$game, $user]);
+
+        $val = $request->validate([
+            'role_ids' => 'array',
+            'role_ids.*' => 'integer|min:1|exists:game_roles,id',
+        ]);
+
+        $user->syncGameRoles($game, array_filter($val['role_ids'], fn($val) => is_numeric($val)));
+    }
+
+    /**
+     * Returns game data for a user. Currently used for roles.
+     */
+    public function getGameUserData(Game $game, User $user)
+    {
+        $roles = $user->getGameRoles($game);
+        return [
+            'role_ids' => array_values(array_unique(Arr::pluck($roles, 'id'))),
+            'highest_role_order' => $user->getGameHighestOrder($game),
+        ];
     }
 }

@@ -120,6 +120,8 @@ Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
+Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
+Route::patch('games/{game}/users/{user}', [GameController::class, 'setGameUserData']);
 Route::resource('tags', TagController::class);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);

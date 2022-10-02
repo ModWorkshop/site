@@ -38,15 +38,12 @@ class UserResource extends JsonResource
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),
             'followed' => $this->whenLoaded('followed'),
-            'role_ids' => $this->whenLoaded('roles', function() {
-                $roleIds = Arr::pluck($this->roles, 'id');
-                unset($roleIds[array_search(1, $roleIds)]); //Remove Members role
-                return $roleIds;
-            }),
+            'role_ids' => $this->whenLoaded('roles', fn() => array_filter(Arr::pluck($this->roles, 'id'), fn($id) => $id !== 1)),
             'last_online' => $this->last_online,
             'blocked_by_me' => $this->when($notMeNotGuest, fn() => $this->blockedByMe),
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
+            'highest_role_order' => $this->highestRoleOrder,
             'tag' => $this->whenLoaded('roles', function() {
                 foreach ($this->roles as $role) {
                     if ($role->tag) {

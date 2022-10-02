@@ -25,6 +25,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $type
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereType($value)
  */
 class Permission extends Model
 {

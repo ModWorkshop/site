@@ -56,6 +56,8 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $replies
  * @property-read int|null $replies_count
  * @property-read \App\Models\Subscription|null $subscribed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
  */
 class Comment extends Model implements SubscribableInterface
 {

@@ -54,8 +54,7 @@ class GameRolePolicy
      */
     public function update(User $user, GameRole $gameRole)
     {
-        //TODO: can we edit this role?
-        return $user->hasPermission('manage-roles', $gameRole->game);
+        return $user->hasPermission('manage-roles', $gameRole->game) && $gameRole->canBeEdited();
     }
 
     /**
@@ -67,8 +66,7 @@ class GameRolePolicy
      */
     public function delete(User $user, GameRole $gameRole)
     {
-        //TODO can we delete this role?
-        return $user->hasPermission('manage-roles', $gameRole->game);
+        return $this->update($user, $gameRole);
     }
 
     /**

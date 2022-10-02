@@ -92,4 +92,9 @@ class GamePolicy
     {
         //
     }
+
+    public function manageRoles(User $user, Game $game, User $model)
+    {
+        return $user->id === $model->id || $user->hasPermission('manage-roles', $game);
+    }
 }

@@ -27,6 +27,9 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $case_id
+ * @property-read \App\Models\UserCase|null $case
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
  */
 class Ban extends Model
 {

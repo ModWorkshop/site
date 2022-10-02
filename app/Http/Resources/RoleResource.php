@@ -21,11 +21,13 @@ class RoleResource extends JsonResource
             'tag' => $this->tag,
             'color' => $this->color,
             'order' => $this->order,
+            'is_vanity' => $this->is_vanity,
+            'assignable' => $this->is_vanity || $this->canBeEdited(),
             'permissions' => $this->whenLoaded('permissions', function() {
                 $permissions = [];
 
                 foreach ($this->permissions as $permission) {
-                    $permissions[$permission->id] = true;
+                    $permissions[$permission->name] = true;
                 }
 
                 return (object)$permissions; //Forces JSON to treat this as an object and NOT an array for some dumb reason.

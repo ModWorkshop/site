@@ -61,6 +61,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
  * @property-read int|null $tags_special_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
  */
 class Thread extends Model implements SubscribableInterface
 {

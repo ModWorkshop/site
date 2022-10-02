@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\UpsertRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Services\APIService;
+use App\Services\RoleService;
 use Arr;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * @group Roles
@@ -25,12 +29,19 @@ class RoleController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        $val = $request->validate([
+        $val = $request->val([
             'only_assignable' => 'boolean|nullable',
+            'with_permissions' => 'boolean|nullable',
             'limit' => 'integer|min:1|max:50'
         ]);
 
         return RoleResource::collection(Role::queryGet($val, function($query, $val) {
+            $query->orderByDesc('order');
+
+            if ($val['with_permissions'] ?? false) {
+                $query->with('permissions');
+            }
+
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
             }
@@ -62,45 +73,46 @@ class RoleController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role=null)
+    public function update(UpsertRoleRequest $request, Role $role=null)
     {
-        $val = $request->validate([
-            'name' => 'string|min:3|max:100',
-            'tag' => 'string|nullable|min:3|max:100',
-            'desc' => 'string|nullable|max:1000',
-            'color' => 'string|nullable|max:8',
-            'order' => 'integer|nullable|min:-1|max:1000',
-            'permissions' => 'array|nullable'
-        ]);
+        $val = $request->validate();
+        APIService::nullToEmptyStr($val, 'name', 'tag', 'desc', 'color');
 
-        $val['tag'] ??= '';
-        $val['desc'] ??= '';
-        $val['color'] ??= '';
-
+        $order = Arr::get($val, 'order');
+        $isVanity = Arr::pull($val, 'is_vanity');
         $permissions = Arr::pull($val, 'permissions');
-        $syncPerms = [];
 
-        foreach (array_keys($permissions) as $id) {
-            $syncPerms[] = $id;
+        if ((isset($order) && !RoleService::canEdit($order))) {
+            abort(403, 'You cannot edit or create roles with an order equal or higher than your highest');
         }
-        
+
         if (isset($role)) {
             $role->update($val);
         } else {
-            $biggestOrder = Role::orderByDesc('order')->first()->order;    
-            $val['order'] = $biggestOrder + 1;
+            if (!isset($val['order'])) {
+                $lowestOrder = Role::orderBy('order')->first()->order;    
+                $val['order'] = $lowestOrder - 2;
+            }
 
-            $role = Role::create($val);
+            $role = new Role($val);
+            $role->is_vanity = $isVanity ?? false;
+
+            $role->save();
         }
-        
-        $role->permissions()->sync($syncPerms);
-        Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
-        $role->load('permissions');
+
+        RoleService::reorderRoles();
+
+        if (isset($permissions)) {
+            if ($role->is_vanity) {
+                $role->permissions()->sync([]); //Make sure vanity roles don't have permissions
+            } else {
+                $role->syncPerms(array_keys($permissions));
+            }
+            Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
+            $role->load('permissions');
+        }
+
         $role->refresh();
 
         return new RoleResource($role);

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Auth;
 use Chelout\RelationshipEvents\BelongsToMany;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
+use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +37,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $is_vanity
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
  */
 class Role extends Model
 {
@@ -45,7 +49,9 @@ class Role extends Model
 
     protected $with = [];
  
-    protected $guarded = [];
+    protected $guarded = [
+        'is_vanity'
+    ];
 
     public function getMorphClass(): string {
         return 'role';
@@ -63,4 +69,46 @@ class Role extends Model
         return $this->belongsToMany(Permission::class);
     }
 
+    /**
+     * Returns whether or not the role can be edited by the user.
+     */
+    public function canBeEdited()
+    {
+        $me = Auth::user();
+
+        //Not signed in? BTFU
+        if (!isset($me)) {
+            return false;
+        }
+
+        $myHighestOrder = $me->highestRoleOrder;
+
+        if ($me->id === 1) {
+            return true;
+        } else {
+            return $me->hasPermission('manage-roles') && $myHighestOrder > $this->order;
+        }
+    }
+
+    /**
+     * Syncs the permissions of the role with the given $perms
+     * If you don't have the permission you cannot give or deny them.
+     */
+    public function syncPerms(array $perms)
+    {
+        $me = Auth::user();
+        foreach ($perms as $perm) {
+            if (!$me->hasPermission($perm)) {
+                throw new Exception("You can't assign permissions you don't have yourself to roles.");
+            }
+        }
+
+        foreach ($this->permissions as $perm) {
+            if (!isset($perms[$perm->name]) && !$me->hasPermission($perm)) {
+                throw new Exception("You can't deny permissions you don't have yourself to roles.");
+            }
+        }
+
+        $this->permissions()->sync(Permission::whereIn('name', $perms)->get());
+    }
 }

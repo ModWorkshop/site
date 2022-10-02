@@ -35,10 +35,12 @@ class APIService {
      * @param string $key
      * @return void
      */
-    public static function nullToEmptyStr(array &$arr, string $key)
+    public static function nullToEmptyStr(array &$arr, string ...$keys)
     {
-        if (array_key_exists($key, $arr)) {
-            $arr[$key] ??= '';
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $arr)) {
+                $arr[$key] ??= '';
+            }
         }
     }
 

@@ -30,6 +30,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereWarning($value)
  * @mixin \Eloquent
+ * @property string|null $pardon_reason
+ * @property bool $pardoned
+ * @property-read \App\Models\Ban|null $ban
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardonReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardoned($value)
  */
 class UserCase extends Model
 {

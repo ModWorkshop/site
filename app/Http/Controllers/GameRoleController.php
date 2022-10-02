@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\UpsertRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Game;
 use App\Models\GameRole;
 use App\Models\Permission;
+use App\Services\APIService;
+use App\Services\RoleService;
 use Arr;
 use Illuminate\Http\Request;
 
@@ -23,17 +26,22 @@ class GameRoleController extends Controller
      */
     public function index(FilteredRequest $request, Game $game)
     {
-        $val = $request->validate([
+        $val = $request->val([
             'only_assignable' => 'boolean|nullable',
+            'with_permissions' => 'boolean|nullable',
             'limit' => 'integer|min:1|max:50'
         ]);
 
-        return RoleResource::collection(GameRole::queryGet($val, function($query, $val) use ($game) {
+        return RoleResource::collection(GameRole::queryGet($val, function($query, $val) {
+            $query->orderByDesc('order');
+
+            if ($val['with_permissions'] ?? false) {
+                $query->with('permissions');
+            }
+
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
             }
-
-            $query->where('game_id', $game->id);
         }));
     }
 
@@ -43,7 +51,7 @@ class GameRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Game $game)
+    public function store(UpsertRoleRequest $request, Game $game)
     {
         return $this->update($request, $game);
     }
@@ -67,40 +75,46 @@ class GameRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Game $game, GameRole $gameRole=null)
+    public function update(UpsertRoleRequest $request, Game $game, GameRole $gameRole=null)
     {
-        $val = $request->validate([
-            'name' => 'string|min:3|max:100',
-            'tag' => 'string|nullable|min:3|max:100',
-            'desc' => 'string|nullable|max:1000',
-            'color' => 'string|nullable|max:8',
-            'order' => 'integer|nullable|min:-1|max:1000',
-            'permissions' => 'array|nullable'
-        ]);
+        $val = $request->validated();
+        APIService::nullToEmptyStr($val, 'name', 'tag', 'desc', 'color');
 
-        $val['tag'] ??= '';
-        $val['desc'] ??= '';
-        $val['color'] ??= '';
-
+        $order = Arr::get($val, 'order');
+        $isVanity = Arr::pull($val, 'is_vanity');
         $permissions = Arr::pull($val, 'permissions');
-        $syncPerms = [];
 
-        foreach (array_keys($permissions) as $id) {
-            $syncPerms[] = $id;
+        if ((isset($order) && !RoleService::canEditGameRole($game, $order))) {
+            abort(403, 'You cannot edit or create roles with an order equal or higher than your highest');
         }
         
         if (isset($gameRole)) {
             $gameRole->update($val);
         } else {
-            $biggestOrder = GameRole::orderByDesc('order')->first()?->order ?? 0;
-            $val['order'] = $biggestOrder + 1;
+            if (!isset($val['order'])) {
+                $lowestOrder = GameRole::orderBy('order')->first()->order;    
+                $val['order'] = $lowestOrder - 2;
+            }
 
-            $gameRole = $game->roles()->create($val);
+            $val['game_id'] = $game->id;
+            $gameRole = new GameRole($val);
+            $gameRole->is_vanity = $isVanity ?? false;
+
+            $gameRole->save();
         }
-        
-        $gameRole->permissions()->sync($syncPerms);
-        Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
-        $gameRole->load('permissions');
+
+        RoleService::reordrGameRoles($game);
+
+        if (isset($permissions)) {
+            if ($gameRole->is_vanity) {
+                $gameRole->permissions()->sync([]); //Make sure vanity roles don't have permissions
+            } else {
+                $gameRole->syncPerms(array_keys($permissions));
+            }
+            Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
+            $gameRole->load('permissions');
+        }
+
         $gameRole->refresh();
 
         return new RoleResource($gameRole);

@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Mod $mod
  */
 class Suspension extends Model
 {

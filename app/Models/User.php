@@ -4,24 +4,20 @@ namespace App\Models;
 
 use App\Services\Utils;
 use App\Traits\Reportable;
-use Arr;
 use Auth;
 use Carbon\Carbon;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
@@ -78,6 +74,14 @@ use Storage;
  * @property-read int|null $followed_mods_count
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
+ * @property \Illuminate\Support\Carbon|null $last_online
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $allGameRoles
+ * @property-read int|null $all_game_roles_count
+ * @property-read \App\Models\Ban|null $ban
+ * @property-read mixed $last_ban
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
+ * @method static Builder|User whereLastOnline($value)
  */
 class User extends Authenticatable
 {
@@ -85,30 +89,21 @@ class User extends Authenticatable
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 10;
-    public static $flushCacheOnUpdate = true;
-
     public static $membersRole = null;
+    public static $flushCacheOnUpdate = true;
     
     // Always return roles for users
-    protected $with = ['roles', 'ban'];
     protected $appends = ['color'];
+    protected $with = ['roles', 'ban'];
 
+    //Permissions and roles stuff
+    private $gameRoles = [];
     private $permissions = [];
     private $gamePermissions = [];
     private $permissionsLoaded = false;
 
-    public function toSearchableArray()
-    {
-        return [
-            'name' => $this->name,
-            'unique_name' => $this->unique_name,
-        ];
-    }
-
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected $fillable = [
         'name',
@@ -122,8 +117,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for arrays.
-     *
-     * @var array
      */
     protected $hidden = [
         'roles',
@@ -136,48 +129,24 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast to native types.
-     *
-     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_online' => 'datetime',
     ];
 
-    private $gotPerms = false;
-    private $gotRoles = false;
+    #region Relations
 
-    public function customColor() : Attribute
+    public function blockedByMe(): HasOneThrough
     {
-        return Attribute::make(
-            get: fn($value) =>  preg_replace('/\s+/', '', $value)
-        );
+        return $this->hasOneThrough(User::class, BlockedUser::class, 'block_user_id', 'id', 'id', 'block_user_id')
+            ->where('blocked_users.user_id', Auth::user()->id)->limit(1);
     }
 
-    public function color() : Attribute
+    public function blockedMe(): HasOneThrough
     {
-        return Attribute::make(
-            get: function($value, $attributes) {
-                if ($attributes['custom_color']) {
-                    return $attributes['custom_color'];
-                }
-                foreach ($this->roles as $role) {
-                    if ($role->color) {
-                        return $role->color;
-                    }
-                }
-            }
-        );
-    }
-
-    public function blockedByMe()
-    {
-        return $this->hasOneThrough(User::class, BlockedUser::class, 'block_user_id', 'id', 'id', 'block_user_id')->where('blocked_users.user_id', Auth::user()->id)->limit(1);
-    }
-
-    public function blockedMe()
-    {
-        return $this->hasOneThrough(User::class, BlockedUser::class, 'user_id', 'id', 'id', 'user_id')->where('blocked_users.block_user_id', Auth::user()->id)->limit(1);
+        return $this->hasOneThrough(User::class, BlockedUser::class, 'user_id', 'id', 'id', 'user_id')
+            ->where('blocked_users.block_user_id', Auth::user()->id)->limit(1);
     }
 
     /**
@@ -239,7 +208,7 @@ class User extends Authenticatable
      * The users the user "soft blocked" i.e. hid their mods (also includes fully blocked)
      * 
      */
-    public function blockedUsers() : BelongsToMany
+    public function blockedUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent');
     }
@@ -247,35 +216,65 @@ class User extends Authenticatable
     /**
      * The user's blocked tags. Not loaded normally
      */
-    public function blockedTags() : BelongsToMany
+    public function blockedTags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, BlockedTag::class);        
     }
 
-    public function mods() : HasMany
+    public function mods(): HasMany
     {
         return $this->hasMany(Mod::class);
     }
 
-    public function extra() : HasOne
+    public function extra(): HasOne
     {
         return $this->hasOne(UserExtra::class);
     }
 
-    public function roles() : BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)->orderBy('order');
     }
     
-    public function gameRoles() : BelongsToMany
+    public function allGameRoles(): BelongsToMany
     {
         return $this->belongsToMany(GameRole::class)->orderBy('order');
     }
 
+    public function ban() : HasOne
+    {
+        return $this->hasOne(Ban::class);
+    }
+
+    #endregion
+
+    #region Attributes
+    
+    public function customColor(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) =>  preg_replace('/\s+/', '', $value)
+        );
+    }
+
+    public function color(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes) {
+                if ($attributes['custom_color']) {
+                    return $attributes['custom_color'];
+                }
+                foreach ($this->roles as $role) {
+                    if ($role->color) {
+                        return $role->color;
+                    }
+                }
+            }
+        );
+    }
+
     /**
      * User roles but with assured members role.
-     *
-     * @return Attribute
      */
     public function roleList(): Attribute
     {
@@ -290,29 +289,6 @@ class User extends Authenticatable
         });
     }
 
-    public function getGameRoleList(Game $game)
-    {
-        self::$membersRole ??= Role::with('permissions')->find(1);
-        $gameRoles = $this->gameRoles->where('game_id', $game->id)->with('permissions')->all();
-        $roles = [...$gameRoles];
-        if (!in_array(self::$membersRole, $roles)) {
-            $roles[] = self::$membersRole;
-        }
-
-        return $roles;
-    }
-
-    public function getGamePerms(Game $game)
-    {
-        if (isset($this->gamePermissions[$game->id])) {
-            return $this->gamePermissions[$game->id];
-        }
-
-        $this->gamePermissions[$game->id] = Utils::collectPermissions($this->roleList);
-
-        return $this->gamePermissions[$game->id];
-    }
-
     public function permissionList(): Attribute
     {
         return Attribute::make(function() {
@@ -321,16 +297,125 @@ class User extends Authenticatable
             }
 
             $this->permissions = Utils::collectPermissions($this->roleList);
+            
+            if ($this->id === 1) {
+                return ['admin' => true];
+            }
+
             $this->permissionsLoaded = true;
     
             return $this->permissions;
         });
     }
 
-    public function hasRole(int $id)
+    /**
+     * Returns the "highest" order role
+     * Highest goes from lowest to highest. So 0 is the highest.
+     * -1, or Members, is returned as null, it could be seen as "infinite" as it will awlays be the lowest.
+     * @return int|null
+     */
+    public function highestRoleOrder(): Attribute
     {
-        $ids = Arr::pluck($this->roles, 'id');
-        return in_array($id, $ids);
+        return Attribute::make(function() {
+            //!Special case for the Super Admin!//
+            if ($this->id === 1) {
+                return pow(10, 10);
+            } else {
+                $highest = null;
+                foreach ($this->roles as $role) {
+                    $roleOrder = $role->order;
+                    if ($role->id != 1 && $roleOrder !== null && ($highest === null || $roleOrder > $highest)) {
+                        $highest = $roleOrder;
+                    }
+                }
+
+                return $highest;
+            }
+    
+        });
+    }
+    
+    public function getLastBanAttribute()
+    {
+        if ($this->relationLoaded('ban')) {
+            $ban = $this->ban;
+            if (isset($ban) && isset($ban->case)) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
+                    return $ban;
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    #endregion
+
+    #region Methods
+    /**
+     * Returns specific game's roles
+     *
+     * @return Collection<Game>
+     */
+    public function getGameRoles(Game $game, bool $withPerms=false)
+    {
+        if (isset($this->gameRoles[$game->id])) {
+            return $this->gameRoles[$game->id];
+        }
+
+        $query = $this->allGameRoles();
+        
+        if ($withPerms) {
+            $query->with('permissions');
+        }
+
+        $gameRoles = $query->where('game_id', $game->id)->with('permissions')->get();
+        $this->gameRoles[$game->id] = $gameRoles;
+
+        return $gameRoles;
+    }
+
+    public function getGamePerms(Game $game): array
+    {
+        if (isset($this->gamePermissions[$game->id])) {
+            return $this->gamePermissions[$game->id];
+        }
+
+        $this->gamePermissions[$game->id] = Utils::collectPermissions($this->getGameRoles($game, true));
+
+        return $this->gamePermissions[$game->id];
+    }
+
+
+    public function hasGameRole(Game $game, int $id): bool
+    {
+        $gameRoles = $this->getGameRoles($game);
+
+        foreach ($gameRoles as $role) {
+            if ($role->id === $id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasRole(int $id): bool
+    {
+        //Everyone has the member role, always.
+        if ($id === 1) {
+            return true;
+        }
+
+        foreach ($this->roles as $role) {
+            if ($role->id === $id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -338,11 +423,8 @@ class User extends Authenticatable
      * First it checks if the user has admin permission, admin bypasses all permissions at the moment.
      * Guests are permission-less meaning that if we want to let them see something, that thing must have no needed permissions.
      * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
-     *
-     * @param string $toWhat
-     * @return boolean
      */
-    function hasPermission(string $toWhat, Game $game=null) {
+    function hasPermission(string $toWhat, Game $game=null): bool {
         if ($toWhat !== 'admin' && $this->hasPermission('admin')) {
             return true;
         }
@@ -360,148 +442,182 @@ class User extends Authenticatable
             return true;
         } else if (isset($game)) { //Maybe they have permission to do so in the game?
             $permissions = $this->getGamePerms($game);
+            //Game version of the admin permission
+            if ($toWhat !== 'manage-game' && $this->hasPermission('manage-game', $game)) {
+                return true;
+            }
             return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
         }
 
         return false;
     }
 
-    public function getLastBanAttribute()
+    public function getGameHighestOrder(Game $game)
     {
-        if ($this->relationLoaded('ban')) {
-            $ban = $this->ban;
-            if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
-                    return $ban;
-                } else {
-                    return null;
+        //!Special case for the Super Admin!//
+        if ($this->id === 1) {
+            return pow(10, 10);
+        } else {
+            $highest = null;
+            $gameRoles = $this->getGameRoles($game);
+            foreach ($gameRoles as $role) {
+                if ($highest === null || $role->order > $highest) {
+                    $highest = $role->order;
                 }
             }
+
+            return $highest;
         }
 
-        return null;
-    }
-
-    public function ban() : HasOne
-    {
-        return $this->hasOne(Ban::class);
-    }
-
-    /**
-     * Returns the "highest" order role
-     * Highest goes from lowest to highest. So 0 is the highest.
-     * -1, or Members, is returned as null, it could be seen as "infinite" as it will awlays be the lowest.
-     * @return int|null
-     */
-    public function getHighestRoleOrder()
-    {
-        $highest = null;
-        foreach ($this->roles as $role) {
-            if ($role->id != 1 && (!$highest || $role->order < $highest->order)) {
-                $highest = $role;
-            }
-        }
-
-        if (!isset($highest)) {
-            return null;
-        }
-
-        $order = $highest?->order ?? 9999;
-
-        //Special case for the Super Admin
-        if ($this->id === 1) {
-            $order--;
-        }
-
-        return $order;
     }
 
     /**
      * Returns whether or not the user can be edited by the "other" user.
      * The other user defaults to the currently authenticated user
-     *
-     * @param User|null $other
-     * @return boolean
      */
-    public function canBeEdited(User $other=null)
+    public function canBeEdited()
     {
-        $other ??= Auth::user();
+        $me = Auth::user();
 
         //Not signed in? BTFU
-        if (!isset($other)) {
+        if (!isset($me)) {
             return false;
         }
 
-        $otherHighestOrder = $other->getHighestRoleOrder();
-        $highestOrder = $this->getHighestRoleOrder();
-
         //If we try to edit ourselves then return true
-        if ($other->id === $this->id) {
+        if ($me->id === $this->id) {
             return true;
         }
 
-        //Make sure we have an order
-        if ($other->hasPermission('manage-users') && $otherHighestOrder) {
-            //If the user has only Members it's safe to assume we can edit them
-            //If they have an order then let's make sure the other's is higher in order.
-            if (!$highestOrder || $otherHighestOrder < $highestOrder) {
-                return true;
-            }
+        $myHighestOrder = $me->highestRoleOrder;
+        $highestOrder = $this->highestRoleOrder;
+
+        //We can't edit other users without permission and order
+        //A role without an order is invalid, the only one that's allowed to not have one is Member.
+        if (!$me->hasPermission('manage-users') || !isset($myHighestOrder)) {
+            return false;
         }
 
-        return $other->id === $this->id || ($other->hasPermission('manage-users') && $otherHighestOrder < $highestOrder);
+        //We have permission to manage user and now let's make sure our order is higher.
+        return !$highestOrder || $myHighestOrder > $highestOrder;
     }
 
     /**
      * A safe way of setting and saving roles
      * The function makes sure that whoever gives the role (the runner) has permissions to do so!
+     * !The only roles users are able to give to themselves are vanity roles!
      *
-     * @param array $newRoles
-     * @return void
+     * !See syncGameRoles if you update this function!
      */
     public function syncRoles(array $newRoles)
     {
-        $roles = Role::whereIn('id', $newRoles)->get();
-        $me = Auth::user();
-        $myHighestOrder = $me->getHighestRoleOrder();
+        $detach = [];
+        $attach = [];
 
-        //TODO: A permission to edit roles, similar to Discord.
-        if (!$this->canBeEdited($me)) {
-            throw new Exception("You cannot edit this user");
+        $me = Auth::user();
+        $canManageRoles = $me->hasPermission('manage-roles');
+        $myHighestOrder = $me->highestRoleOrder;
+
+        if ($me->id !== $this->id && !$canManageRoles) {
+            throw new Exception("You cannot edit roles of other users.");
         }
 
-        //Let's get rid of roles that aren't in the list
-        $detach = [];
-        foreach ($this->roles as $key => $role) {
+        //Make sure the roles we try to fetch match the roles we are trying to set!
+        $roles = Role::whereIn('id', $newRoles)->get();
+        if (count($roles) !== count($newRoles)) {
+            throw new Exception("One or more of the roles given are invalid! " . count($roles) . ' != ' . count($newRoles) );
+        }
+
+        //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
+        foreach ($this->roles as $role) {
             if (!in_array($role->id, $newRoles) && $role->id !== 1) {
-                if ($myHighestOrder < $role->order) {
+                if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
-                    unset($this->roles[$key]);
                 } else {
                     throw new Exception("You don't have the right permissions to remove this role from any user.");
                 }
             }
         }
-        $this->roles()->detach($detach);
 
-        //Make sure the roles in this list are valid for us to add/remove and then attach them.
-        //TODO: Vanity roles are roles any user can apply to themselves, vanity roles DO NOT have permissions.
+        //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
         foreach ($roles as $role) {
             if (!$this->hasRole($role->id)) {
-                if ($me->hasPermission('admin')) { //$role->vanity
-                    // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
-                    if ($role->id !== 1 && $myHighestOrder < $role->order) {
-                            $this->roles()->attach($role->id); //Alright, great.
-                            $this->roles[] = $role;
-                    } else {
-                        throw new Exception("You don't have the right permissions to add this role to any user. #2");
-                    }
+                // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
+                if ($role->id !== 1 && (($canManageRoles && $myHighestOrder > $role->order) || $role->is_vanity)) {
+                    $attach[] = $role->id;
                 } else {
                     throw new Exception("You don't have the right permissions to add this role to any user.");
                 }
             }
         }
 
-        $this->relations['roles'] = $this->roles->sortBy('order');
+        //Finally, let's detach and attach the roles we collected. All should be checked properly.
+        $rolesRelation = $this->roles();
+        $rolesRelation->detach($detach);
+        $rolesRelation->attach($attach);
+
+        Role::flushQueryCache();
+        $this->load('roles');
     }
+
+    /**
+     * Sets the game roles of a user while making sure the auth user can do so.
+     * Makes sure not to remove other game's roles. 
+     * $newRoles must be valid with all roles being from said game.
+     * 
+     * It is very similar to the regular syncRoles function, but to keep proper separation, I decided to not use the same code.
+     * It makes sure things don't just mixed up.
+     * 
+     * !See syncRoles if you update this function!
+     */
+    public function syncGameRoles(Game $game, array $newRoles)
+    {
+        $detach = [];
+        $attach = [];
+
+        $me = Auth::user();
+        $canManageRoles = $me->hasPermission('manage-roles', $game);
+        $myHighestOrder = $me->getGameHighestOrder($game);
+
+        if ($me->id !== $this->id && !$canManageRoles) {
+            throw new Exception("You cannot edit roles of other users.");
+        }
+
+        //Make sure the roles we try to fetch are the game's roles and nothing else. The count must match!
+        $roles = GameRole::where('game_id', $game->id)->whereIn('id', $newRoles)->get();
+        if (count($roles) !== count($newRoles)) {
+            throw new Exception("One or more of the roles given are invalid!");
+        }
+
+        //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
+        foreach ($this->getGameRoles($game) as $role) {
+            if (!in_array($role->id, $newRoles)) {
+                if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
+                    $detach[] = $role->id;
+                } else {
+                    throw new Exception("You don't have the right permissions to remove this role from any user.");
+                }
+            }
+        }
+
+        //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
+        foreach ($roles as $role) {
+            if (!$this->hasRole($role->id)) {
+                if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
+                    $attach[] = $role->id;
+                } else {
+                    throw new Exception("You don't have the right permissions to add this role to any user.");
+                }
+            }
+        }
+
+        //Finally, let's detach and attach the roles we collected. All should be checked properly.
+        $gameRolesRelation = $this->allGameRoles();
+        $gameRolesRelation->detach($detach);
+        $gameRolesRelation->attach($attach);
+
+        GameRole::flushQueryCache();
+    }
+
+    #endregion
 }

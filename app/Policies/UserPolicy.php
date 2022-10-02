@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->id === $model->id || $model->canBeEdited($user);
+        return $user->id === $model->id || $model->canBeEdited();
     }
 
     /**

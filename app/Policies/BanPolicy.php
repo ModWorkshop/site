@@ -53,7 +53,7 @@ class BanPolicy
      */
     public function update(User $user, Ban $ban)
     {
-        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited($user);
+        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited();
     }
 
     /**
@@ -65,7 +65,7 @@ class BanPolicy
      */
     public function delete(User $user, Ban $ban)
     {
-        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited($user);
+        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited();
     }
 
     /**

@@ -31,6 +31,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $name
+ * @property int|null $game_id
+ * @property-read Model|\Eloquent $reportable
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereGameId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
  */
 class Report extends Model
 {

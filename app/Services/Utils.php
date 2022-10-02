@@ -55,11 +55,14 @@ class Utils {
         }
 	}
 
+    /**
+     * Collects permissions into a nice hash table
+     */
     public static function collectPermissions($roles)
     {
         $permissions = [];
         foreach ($roles as $role) {
-            if ($role->relationLoaded('permissions')) {
+            if (!$role->is_vanity && $role->relationLoaded('permissions')) {
                 foreach ($role->permissions as $perm) {
                     $permissions[$perm->name] = true;
                 }

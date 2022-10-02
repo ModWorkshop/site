@@ -128,12 +128,14 @@ class ModController extends Controller
         //We should *not* remove the middleware that handles this as it can cause other issues.
         //This is the current solution:
 
-        APIService::nullToEmptyStr($val, 'short_desc');
-        APIService::nullToEmptyStr($val, 'donation');
-        APIService::nullToEmptyStr($val, 'license');
-        APIService::nullToEmptyStr($val, 'changelog');
-        APIService::nullToEmptyStr($val, 'instructions');
-        APIService::nullToEmptyStr($val, 'version');
+        APIService::nullToEmptyStr($val,
+            'short_desc',
+            'donation',
+            'license',
+            'changelog',
+            'instructions',
+            'version',
+        );
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
 use Auth;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Validator;
 use Str;
 
@@ -87,29 +89,28 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $userExtra = $user->extra;
+        $fileSize = Setting::getValue('image_max_file_size') / 1024;
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
             'unique_name' => 'string|nullable|min:3|max:50',
-            'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'avatar_file' => ['nullable', File::image()->max($fileSize)],
             'role_ids' => 'array',
-            'role_ids.*' => 'integer|min:1',
+            'role_ids.*' => 'integer|nullable|min:2',
             'custom_color' => 'string|max:7|nullable'
         ]);
 
-        $val['custom_color'] ??= '';
+        APIService::nullToEmptyStr($val, 'custom_color');
 
         $valExtra = $request->validate([
             'bio' => 'string|nullable|max:3000',
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'boolean',
-            'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
         ]);
 
-        $valExtra['bio'] ??= '';
-        $valExtra['custom_title'] ??= '';
-        $valExtra['donation_url'] ??= '';
+        APIService::nullToEmptyStr($valExtra, 'bio', 'custom_title', 'donation_url');
 
         $avatarFile = Arr::pull($val, 'avatar_file');
         APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);
@@ -120,7 +121,7 @@ class UserController extends Controller
         //Get all roles first
         $roles = Arr::pull($val, 'role_ids');
         if (isset($roles)) {
-            $user->syncRoles($roles);
+            $user->syncRoles(array_filter($roles, fn($val) => is_numeric($val)));
         }
         $user->update($val);
         $userExtra->update($valExtra);

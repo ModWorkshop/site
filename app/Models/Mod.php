@@ -146,6 +146,15 @@ abstract class Visibility {
  * @property bool $approved
  * @method static Builder|Mod whereApproved($value)
  * @method static Builder|Mod whereHasDownload($value)
+ * @property int|null $instructs_template_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
+ * @property-read int|null $dependencies_count
+ * @property-read \App\Models\InstructsTemplate|null $instructsTemplate
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $membersThatCanEdit
+ * @property-read int|null $members_that_can_edit_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read int|null $reports_count
+ * @method static Builder|Mod whereInstructsTemplateId($value)
  */
 class Mod extends Model implements SubscribableInterface
 {

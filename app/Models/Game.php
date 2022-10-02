@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Services\ModService;
+use Arr;
 use Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\Resources\MissingValue;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
@@ -44,6 +46,10 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property int|null $forum_id
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
  * @property-read \App\Models\FollowedGame|null $followed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @property-read int|null $mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
+ * @property-read int|null $roles_count
  */
 class Game extends Model
 {
@@ -55,6 +61,8 @@ class Game extends Model
     protected $guarded = [];
 
     protected $hidden = ['webhook_url'];
+    
+    protected $appends = ['user_data'];
     
     protected $with = [];
 
@@ -83,6 +91,16 @@ class Game extends Model
     public function followed() : HasOne
     {
         return $this->hasOne(FollowedGame::class)->where('user_id', Auth::user()?->id);
+    }
+
+    public function getUserDataAttribute()
+    {
+        $user = Auth::user();
+        return isset($user) ? [
+            'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this), 'id'))),
+            'highest_role_order' => $user->getGameHighestOrder($this),
+            'permissions' => $user->getGamePerms($this),
+        ] : new MissingValue;
     }
 
     public function getBreadcrumbAttribute()
