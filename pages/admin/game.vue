@@ -1,16 +1,21 @@
 <template>
-    <page-block size="md">
+    <page-block :size="game.id ? 'md' : 'sm'">
         <content-block class="p-6">
-            {{game.name}} Game Settings
+            <h3 v-if="game.id">
+                {{game.name}} Game Settings
+            </h3>
             <a-nav side :root="`/admin/games/${id}`">
-                <a-nav-link to="" title="Main"/>
-                <a-nav-link to="tags" title="Tags"/>
-                <a-nav-link to="docs" title="Documents"/>
-                <a-nav-link to="categories" title="Categories"/>
-                <a-nav-link to="roles" title="Roles"/>
-                <a-nav-link to="forum-categories" title="Forum Categories"/>
-                <a-nav-link to="instructions-templates" title="Instructions Templates"/>
-                <a-nav-link to="mods" title="Mods"/>
+                <template v-if="game.id">
+                    <a-nav-link to="" title="Home"/>
+                    <a-nav-link to="settings" title="Settings"/>
+                    <a-nav-link to="tags" title="Tags"/>
+                    <a-nav-link to="docs" title="Documents"/>
+                    <a-nav-link to="categories" title="Categories"/>
+                    <a-nav-link to="roles" title="Roles"/>
+                    <a-nav-link to="forum-categories" title="Forum Categories"/>
+                    <a-nav-link to="instructions-templates" title="Instructions Templates"/>
+                    <a-nav-link to="mods" title="Mods"/>
+                </template>
                 <template #content>
                     <NuxtPage :game="game"/>
                 </template>

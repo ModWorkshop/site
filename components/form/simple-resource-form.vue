@@ -27,6 +27,7 @@ const yesNoModal = useYesNoModal();
 const props = defineProps({
     modelValue: Object,
     url: String,
+    createUrl: String,
     redirectTo: String,
     deleteRedirectTo: String,
     mergeParams: Object,
@@ -53,7 +54,7 @@ async function submit() {
         }
 
         if (!props.modelValue.id) {
-            const model = await usePost<{id: number}>(props.url, params);
+            const model = await usePost<{id: number}>(props.createUrl ?? props.url, params);
             if (props.redirectTo) {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }

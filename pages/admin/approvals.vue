@@ -1,5 +1,5 @@
 <template>
-    <a-list url="mods/waiting" query :params="{ game_id: $route.params.gameId, user_id: userId }">
+    <a-list :url="url" query :params="{ user_id: userId }">
         <template #buttons>
             <a-user-select v-model="userId" clearable/>
         </template>
@@ -33,6 +33,8 @@ const props = defineProps<{
 }>();
 
 useNeedsPermission('manage-mods', props.game);
+
+const url = computed(() => props.game ? `games/${props.game.id}/mods/waiting` : 'mods/waiting');
 
 const userId = useRouteQuery('user');
 </script>

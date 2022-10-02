@@ -2,7 +2,13 @@
     <page-block size="sm">
         <the-breadcrumb :items="breadcrumb"/>
         <content-block class="p-8">
-            <simple-resource-form v-model="thread" url="threads" redirect-to="/thread" :delete-redirect-to="deleteRedirectTo">
+            <simple-resource-form 
+                v-model="thread"
+                url="threads"
+                redirect-to="/thread"
+                :create-url="`forums/${forumId}/threads`"
+                :delete-redirect-to="deleteRedirectTo"
+            >
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
                 <a-select v-model="thread.category_id" :label="$t('category')" :options="categories.data"/>
@@ -22,8 +28,6 @@ const { t } = useI18n();
 
 const { data: game } = await useResource<Game>('game', 'games');
 
-setGame(game.value);
-
 const forumId = game.value ? game.value.forum_id : 1;
 
 const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
@@ -38,6 +42,14 @@ const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
     user_id: user.id,
     forum_id: forumId,
 });
+
+const g = game.value ?? thread.value.forum.game;
+
+setGame(g);
+
+if (!useCanEditThread(thread.value, g)) {
+    useNoPermsPage();
+}
 
 const { data: tags } = await useFetchMany<Tag>('tags', { 
     params: { 

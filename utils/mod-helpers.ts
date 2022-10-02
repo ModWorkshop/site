@@ -4,15 +4,12 @@ import { Mod } from "~~/types/models";
 export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();
     
-    console.log(hasPermission('edit-own-mod', mod.game));
-    
-
-    if (!user || !hasPermission('edit-own-mod', mod.game)) {
-        return false;
+    if (hasPermission('manage-mods', mod.game) || user?.id === mod.user_id) {
+        return true;
     }
 
-    if (hasPermission('manage-mods', mod.game) || user.id === mod.user_id) {
-        return true;
+    if (!hasPermission('create-mods', mod.game)) {
+        return false;
     }
 
     const membership = mod.members.find(member => member.accepted && member.id === user.id);

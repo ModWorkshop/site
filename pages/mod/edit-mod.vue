@@ -79,7 +79,7 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
 mod.value.send_for_approval ??= false;
 
 if (!canEditMod(mod.value)) {
-    showError({statusMessage: "You don't have permission to view this page", statusCode: 403});
+    useNoPermsPage();
 }
 
 provide('canSuperUpdate', canSuperUpdate(mod.value));

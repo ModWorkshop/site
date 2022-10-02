@@ -125,13 +125,30 @@ export default <RouterOptions> {
             component: () => import('~/pages/document.vue')
         },
         {
+            name: "admin-new-game",
+            path: "/admin/games/new",
+            component: () => import('~/pages/admin/game.vue'),
+            children: [
+                {
+                    name: "new-game-settings",
+                    path: "",
+                    component: () => import('~/pages/admin/edit-game.vue')
+                },
+            ]
+        },
+        {
             name: "admin-game",
             path: "/admin/games/:gameId",
             component: () => import('~/pages/admin/game.vue'),
             children: [
                 {
-                    name: "admin-edit-game",
+                    name: "admin-game-home",
                     path: "",
+                    component: () => import('~/pages/admin/game-home.vue')
+                },
+                {
+                    name: "admin-edit-game",
+                    path: "settings",
                     component: () => import('~/pages/admin/edit-game.vue')
                 },
                 {
