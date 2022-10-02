@@ -11,7 +11,7 @@
                     <a-button :icon="commentable.subscribed ? 'bell-slash' : 'bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
                 </flex>
             </flex>
-            <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page" @update="loadComments"/>
+            <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
             <flex v-if="viewingComment || (comments && comments.data.length)" column gap="2">
                 <a-comment v-if="viewingComment"
                     :url="url"
@@ -130,6 +130,7 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
 });
 
 watch(comments, () => isLoaded.value = true);
+watch(page, loadComments);
 
 const { data: viewingComment } = await useFetchData<Comment>(`${props.url}/${route.params.commentId}`, {
     immediate: !!route.params.commentId
