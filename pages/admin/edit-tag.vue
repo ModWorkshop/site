@@ -13,7 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { Tag } from "~~/types/models";
+import { Game, Tag } from "~~/types/models";
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-tags', props.game);
 
 const route = useRoute();
 

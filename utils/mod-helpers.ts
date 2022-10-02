@@ -4,11 +4,14 @@ import { Mod } from "~~/types/models";
 export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();
     
-    if (!user || !hasPermission('edit-own-mod')) {
+    console.log(hasPermission('edit-own-mod', mod.game));
+    
+
+    if (!user || !hasPermission('edit-own-mod', mod.game)) {
         return false;
     }
 
-    if (hasPermission('manage-mods') || user.id === mod.user_id) {
+    if (hasPermission('manage-mods', mod.game) || user.id === mod.user_id) {
         return true;
     }
 
@@ -26,7 +29,7 @@ export function canSuperUpdate(mod: Mod) {
 
     const { user, hasPermission } = useStore();
 
-    return (mod.user_id === user.id && hasPermission('create-mods')) || hasPermission('manage-mods');
+    return (mod.user_id === user.id && hasPermission('create-mods', mod.game)) || hasPermission('manage-mods', mod.game);
 }
 
 export function registerDownload(mod) {

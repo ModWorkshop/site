@@ -64,12 +64,12 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod, Comment } from '~~/types/models';
+import { Mod } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
-import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
+import { canEditMod } from '~~/utils/mod-helpers';
 import { setFollowMod } from '~~/utils/follow-helpers';
 
-const { hasPermission, isBanned, setGame } = useStore();
+const { hasPermission, setGame } = useStore();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
@@ -104,7 +104,7 @@ const notices = computed(() => {
 });
 
 const canEdit = computed(() => canEditMod(mod.value));
-const canManage = computed(() => hasPermission('manage-mod'));
+const canManage = computed(() => hasPermission('manage-mod', mod.value.game));
 
 function openShare() {
     navigator.share({

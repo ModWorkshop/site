@@ -22,6 +22,7 @@
                     :can-delete-all="canDeleteAll"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
+                    :commentable="commentable"
                     fetch-replies
                     @delete="deleteComment"
                     @reply="replyToComment"
@@ -39,6 +40,7 @@
                         :can-delete-all="canDeleteAll"
                         :current-focus="replyingComment || editingComment"
                         :get-special-tag="getSpecialTag"
+                        :commentable="commentable"
                         @delete="deleteComment"
                         @reply="replyToComment"
                         @pin="setCommentPinState"
@@ -76,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, User } from '~~/types/models';
+import { Comment, Game, User } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
@@ -86,7 +88,7 @@ const props = withDefaults(defineProps<{
     url: string,
     pageUrl: string,
     resourceName?: string,
-    commentable: { subscribed?: boolean },
+    commentable: { id: number, subscribed?: boolean, game?: Game },
     canComment?: boolean,
     getSpecialTag?: (comment: Comment) => string,
     canEditAll?: boolean,

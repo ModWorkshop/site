@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<Html :class="store.theme === 'light' ? 'light' : 'dark'"/>
-
 		<NuxtLayout>
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>

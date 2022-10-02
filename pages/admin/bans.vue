@@ -31,8 +31,14 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { Ban } from '~~/types/models';
+import { Ban, Game } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('moderate-users', props.game);
 
 const { showToast } = useToaster();
 

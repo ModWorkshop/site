@@ -170,4 +170,6 @@ resource_mod: 'mod',
 resource_thread: 'thread',
 resource_comment: 'comment',
 resource_user: 'user',
+admin_page: 'Admin Page',
+game_admin_page: 'Game Admin Page'
 };

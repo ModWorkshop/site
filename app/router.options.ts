@@ -50,7 +50,29 @@ export default <RouterOptions> {
         {
             name: "specific-user-settings",
             path: "/user/:userId/edit",
-            component: () => import('~/pages/user-settings.vue')
+            component: () => import('~/pages/user-settings.vue'),
+            children: [
+                {
+                    name: "edit-user",
+                    path: "",
+                    component: () => import('~/pages/user-settings/index.vue')
+                },
+                {
+                    name: "edit-user-content",
+                    path: "content",
+                    component: () => import('~/pages/user-settings/content.vue')
+                },
+                {
+                    name: "edit-user-games",
+                    path: "games",
+                    component: () => import('~/pages/user-settings/games.vue')
+                },
+                {
+                    name: "edit-user-profile",
+                    path: "profile",
+                    component: () => import('~/pages/user-settings/profile.vue')
+                },
+            ]
         },
         {
             name: "user-at",
@@ -197,7 +219,7 @@ export default <RouterOptions> {
         {
             name: "admin-page",
             path: "/admin",
-            component: () => import('~/pages/admin/index.vue'),
+            component: () => import('~/pages/admin.vue'),
             children: [
                 {
                     name: "admin-settings",

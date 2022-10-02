@@ -5,3 +5,13 @@
         </template>
     </a-list>
 </template>
+
+<script setup lang="ts">
+import { Game } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-mods', props.game);
+</script>

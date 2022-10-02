@@ -21,7 +21,8 @@ const emit = defineEmits(['update:modelValue']);
 
 const fileRef = ref();
 const input = ref<HTMLInputElement>();
-const currentSrc = computed(() => props.modelValue || props.src);
+const blob = ref();
+const currentSrc = computed(() => blob.value || props.src);
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
@@ -36,7 +37,7 @@ function onChange() {
     const file = input.value.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-        emit('update:modelValue', reader.result);
+        blob.value = reader.result; 
     };
     fileRef.value = file;
     emit('update:modelValue', file);

@@ -49,6 +49,8 @@
 .popper {
     word-break: break-word;
     max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
 }
 
 :root {

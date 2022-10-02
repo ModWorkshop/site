@@ -156,6 +156,7 @@ export interface Permission {
     name: string;
     created_at?: string;
     updated_at?: string;
+    type?: 'game'|'global';
     allow: boolean;
 }
 
@@ -168,7 +169,8 @@ export interface Role {
     order: number;
     created_at?: string;
     updated_at?: string;
-    permissions?: Record<number, boolean>
+    is_vanity: boolean;
+    permissions?: Record<string, boolean>
 }
 
 export interface Game {
@@ -185,7 +187,8 @@ export interface Game {
     updated_at?: string;
     forum?: Forum,
     path?: string;
-    followed?: boolean
+    followed?: boolean;
+    user_data?: GameUserData
 }
 
 export interface SocialLogin {
@@ -251,6 +254,7 @@ export interface User {
     last_ban: Ban,
     blocked_by_me?: { silent: boolean }
     blocked_me: boolean,
+    highest_role_order?: number,
     followed?: { notify: boolean }
 }
 
@@ -326,6 +330,7 @@ export interface Thread {
     category?: ForumCategory;
     tag_ids?: number[];
     tags?: Tag[];
+    subscribed?: boolean;
 }
 
 export interface Forum {
@@ -414,4 +419,10 @@ export interface InstructsTemplate {
     updated_at?: string;
     dependencies?: Dependency[];
     dependencies_count?: number | null;
+}
+
+export interface GameUserData {
+    role_ids: Array<number>;
+    highest_role_order: number;
+    readonly permissions?: Record<string, boolean>;
 }

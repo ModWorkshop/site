@@ -27,7 +27,7 @@ import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
-const { hasPermission, isBanned, setGame } = useStore();
+const { hasPermission, isBanned } = useStore();
 
 const { t } = useI18n();
 
@@ -46,8 +46,8 @@ if (props.mod) {
 }
 
 const canEdit = computed(() => canEditMod(props.mod));
-const canEditComments = computed(() => hasPermission('manage-discussions'));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comments')));
+const canEditComments = computed(() => hasPermission('manage-discussions', props.mod.game));
+const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && hasPermission('delete-own-mod-comments', props.mod.game)));
 const canComment = computed(() => !props.mod.user.blocked_me && !isBanned && (!props.mod.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
     if (props.mod.comments_disabled) {

@@ -8,6 +8,33 @@ import { LocationQueryValueRaw } from "vue-router";
  */
 export const friendlySize = fileSize.partial({base: 2});
 
+/**
+ * Permissions that make the admin page available to the user
+ */
+export const adminPagePerms = [
+    'admin',
+    'manage-roles',
+    'moderate-users',
+    'manage-mods',
+    'manage-tags',
+    'manage-docs',
+    'manage-users',
+    'manage-forum-categories',
+];
+
+/**
+ * Permissions that make the game admin page available to the user
+ */
+export const adminGamePagePerms = [
+    'manage-game',
+    'manage-roles',
+    'moderate-users',
+    'manage-mods',
+    'manage-tags',
+    'manage-docs',
+    'manage-forum-categories',
+];
+
 export const colorSchemes = [
     'blue',
     'green',
@@ -56,7 +83,7 @@ export function setQuery(key: string, value: LocationQueryValueRaw | LocationQue
  * Converts JS objects to FormData. Necessary if you want to uplaod files basically
  */
 export function serializeObject(data: Record<string, unknown>) {
-    return serialize(data, { booleansAsIntegers: true });
+    return serialize(data, { booleansAsIntegers: true, allowEmptyArrays: true, indices: true });
 }
 
 /**

@@ -30,7 +30,7 @@ const yesNoModal = useYesNoModal();
 const router = useRouter();
 const { hasPermission } = useStore();
 
-const isModerator = computed(() => hasPermission('manage-mods'));
+const isModerator = computed(() => hasPermission('manage-mods', props.mod.game));
 
 const { data: games } = await useFetchMany<Game>('games', { immediate: isModerator.value });
 

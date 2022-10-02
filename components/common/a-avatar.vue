@@ -1,5 +1,5 @@
 <template>
-    <a-img :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img alt="user avatar" :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script setup lang="ts">
 const props = defineProps({

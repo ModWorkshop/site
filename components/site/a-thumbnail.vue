@@ -13,7 +13,7 @@ const { public: config } = useRuntimeConfig();
 const store = useStore();
 
 const props = defineProps<{
-    src?: string,
+    src?: string|Blob,
     preferHq?: boolean,
     hasThumb?: boolean,
     urlPrefix: string,
@@ -22,7 +22,10 @@ const props = defineProps<{
 const noPreviewSrc = computed(() => `${config.apiUrl}/storage/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const compSrc = computed(() => {
-    if (!props.src || isSrcExternal(props.src)) {
+    if (typeof props.src == 'object') {
+        return props.src.toString();
+    }
+    else if (!props.src || isSrcExternal(props.src)) {
         return props.src;
     } else {
         return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumb_' : ''}${props.src}`;

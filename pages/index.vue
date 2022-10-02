@@ -2,10 +2,11 @@
     <page-block>
         <template v-if="store.user">
             <button-group v-model:selected="selectedFollow" button-style="nav">
-                <a-group-button name="games" icon="chess-board">Followed Games</a-group-button>
-                <a-group-button name="mods" icon="tools">Followed Mods</a-group-button>
+                <a-group-button name="games" icon="chess-board">Games</a-group-button>
+                <a-group-button name="mods" icon="tools">Followed</a-group-button>
                 <a-group-button name="users" icon="users">Followed Users</a-group-button>
-                <a-group-button name="liked" icon="heart">Liked Mods</a-group-button>
+                <a-group-button name="liked" icon="heart">Liked</a-group-button>
+                <a-group-button name="all" icon="question">All</a-group-button>
             </button-group>
             <mod-list :url="currentFollowUrl"/>
         </template>
@@ -47,17 +48,14 @@ const allGames = ref(false);
 
 const selectedFollow = ref('games');
 
-const currentFollowUrl = computed(() => {
-    if (selectedFollow.value === 'games') {
-        return 'followed-games/mods';
-    } else if (selectedFollow.value === 'users') {
-        return 'followed-users/mods';
-    } else if (selectedFollow.value === 'mods') {
-        return 'followed-mods';
-    } else if (selectedFollow.value === 'liked') {
-        return 'mods/liked';
-    }
-});
+const links = {
+    mods: 'followed-mods',
+    games: 'followed-games/mods',
+    users: 'followed-users/mods',
+    liked: 'mods/liked',
+    all: 'mods',
+};
+const currentFollowUrl = computed(() => links[selectedFollow.value]);
 
 const lastGames = computed(() => {
     if (allGames.value) {

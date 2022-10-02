@@ -13,13 +13,11 @@
 <script setup lang="ts">
 import { Settings } from '~~/types/models';
 
+useNeedsPermission('admin');
+
 const { showToast } = useToaster();
 
 const ignoreChanges = useEventRaiser();
-
-definePageMeta({
-    middleware: 'admins-only',
-});
 
 const { data: settings } = await useFetchData<Settings>('settings');
 

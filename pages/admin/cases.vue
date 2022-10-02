@@ -22,8 +22,14 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { UserCase } from '~~/types/models';
+import { Game, UserCase } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('moderate-users', props.game);
 
 const user = useRouteQuery('user', null, 'number');
 

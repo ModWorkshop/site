@@ -63,7 +63,7 @@ const props = defineProps<{
 const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
-const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods')));
+const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
 const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.mod.download.id}`);
 
 async function toggleLiked() {

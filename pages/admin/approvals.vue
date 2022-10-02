@@ -26,6 +26,13 @@
 </template>
 
 <script setup lang="ts">
-const userId = useRouteQuery('user');
+import { Game } from '~~/types/models';
 
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-mods', props.game);
+
+const userId = useRouteQuery('user');
 </script>

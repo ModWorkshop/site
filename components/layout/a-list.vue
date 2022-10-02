@@ -1,20 +1,20 @@
 <template>
     <flex column gap="2">
         <flex>
-            <a-input v-if="search" v-model="query" placeholder="Search" @update:model-value="onSearch"/>
+            <a-input v-if="search" v-model="query" placeholder="Search"/>
             <a-button v-if="typeof newButton == 'string'" class="my-auto" :to="newButton">New</a-button>
             <slot name="buttons" :items="items"/>
         </flex>
 
-        <a-pagination v-model="page" :total="items.meta.total" :per-page="limit" @update="refresh">
+        <a-pagination v-model="page" :total="items.meta?.total" :per-page="limit" @update="refresh">
             <slot name="pagination" :items="items"/>
         </a-pagination>
 
-        <flex column>
+        <flex column :gap="gap">
             <a-loading v-if="loading"/>
             <slot v-else name="items" :items="items">
                 <template v-if="items.data.length">
-                    <template v-for="item of items.data" :key="item.id">
+                    <div v-for="item of items.data" :key="item.id">
                         <slot name="item" :item="item" :items="items">
                             <NuxtLink class="list-button flex gap-2" :to="itemLink ? itemLink(item) : null">
                                 <slot name="before-item" :item="item" :items="items"/>
@@ -27,7 +27,7 @@
                                 </flex>
                             </NuxtLink>
                         </slot>
-                    </template>
+                    </div>
                 </template>
                 <span v-else class="p-4">
                     {{$t('nothing_found')}}
@@ -42,10 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import { Paginator } from '~~/types/paginator';
+
 const props = defineProps({
     newButton: [String, Boolean],
     url: String,
-    modelValue: Object,
     search: {
         type: Boolean,
         default: true
@@ -53,6 +54,10 @@ const props = defineProps({
     textBy: {
         type: String,
         default: 'name'
+    },
+    gap: {
+        type: Number,
+        default: 1
     },
     limit: {
         type: [Number, String],
@@ -66,16 +71,17 @@ const props = defineProps({
     itemLink: Function
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+    (e: 'fetched', items: Paginator)
+}>();
 
 const page = props.query ? useRouteQuery('page', 1) : ref(1);
-const route = useRoute();
-const query = props.query ? ref(route.query.query) : ref('');
+const query = props.query ? useRouteQuery('query') : ref('');
 const loading = ref(true);
 
 const params = reactive(Object.assign(props.params || {}, {
-    query: query,
     page: page,
+    query: query,
     limit: props.limit,
 }));
 
@@ -83,19 +89,20 @@ const { data: items, refresh, error } = await useFetchMany(props.url, { params }
 
 useHandleError(error);
 
-watch(items, val => {
-    emit('update:modelValue', val);
+emit('fetched', items.value);
+
+let { start: planLoad } = useTimeoutFn(async () => {
+    await refresh();
+    loading.value = false;
+}, 250, { immediate: false });
+
+watch(params, async (val, oldVal) => {
+    if (val.page !== oldVal.page) {
+        page.value = 1;
+    }
+    loading.value = true;
+    planLoad();
 });
 
-emit('update:modelValue', items.value);
-
-watch(params, refresh);
-
 loading.value = false;
-
-function onSearch(value: string) {
-    query.value = value;
-    page.value = 1;
-    refresh();
-}
 </script>

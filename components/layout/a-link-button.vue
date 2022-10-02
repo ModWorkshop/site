@@ -1,15 +1,20 @@
 <template>
-    <NuxtLink class="link-button">
+    <component :is="link ? NuxtLink : 'span'" :to="link" class="link-button">
         <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
-    </NuxtLink>
+    </component>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
+    href?: string,
+    to?: string,
     iconSize?: string,
     icon?: string | Array<any>,
     iconRotation?: number,
 }>();
+
+const link = computed(() => props.to ?? props.href);
+const NuxtLink = resolveComponent('NuxtLink');
 
 const iconStyle = computed(() => ({
     transform: props.iconRotation ? `Rotate(${props.iconRotation}deg)` : null
@@ -18,6 +23,7 @@ const iconStyle = computed(() => ({
 
 <style scoped>
 .link-button {
+    transition: color 0.15s ease-in-out;
     color: var(--text-color);
 }
 

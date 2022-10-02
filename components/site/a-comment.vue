@@ -53,6 +53,7 @@
                     :can-delete-all="canDeleteAll"
                     :current-focus="currentFocus"
                     :get-special-tag="getSpecialTag"
+                    :commentable="commentable"
                     is-reply
                     @edit="() => $emit('edit', reply)"
                     @reply="$emit('reply', comment, reply.user)"
@@ -77,7 +78,7 @@
 <script setup lang="ts">
 import { remove } from '@vue/shared';
 import { useStore } from '~~/store';
-import { Comment, User } from '~~/types/models';
+import { Comment, Game, User } from '~~/types/models';
 const YesNoModal = useYesNoModal();
 
 const props = defineProps<{
@@ -88,6 +89,7 @@ const props = defineProps<{
     canEditAll: boolean,
     canDeleteAll: boolean,
     isReply?: boolean,
+    commentable: { id: number, game?: Game },
     getSpecialTag: (comment: Comment) => string,
     currentFocus: Comment,
     fetchReplies?: boolean
@@ -129,7 +131,7 @@ const emit = defineEmits([
 const { user, hasPermission } = useStore();
 
 const areActionsVisible = ref(false);
-const canEdit = computed(() => user && (hasPermission('create-comments') && user.id === props.comment.user_id) || props.canEditAll);
+const canEdit = computed(() => user && (hasPermission('create-discussions', props.commentable.game) && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
 const canReply = computed(() => props.canComment && !props.comment.user.blocked_me);
 

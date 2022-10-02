@@ -1,17 +1,23 @@
-import { Ref } from 'vue';
 import { FetchError } from 'ohmyfetch';
+import { Ref } from 'vue';
 
-export default function(error: Error|FetchError|true|Ref<FetchError|true>, errorStrings: string|Record<number|string, string> = {}) {
-    error = unref(error);
+function isFetchError(error): error is FetchError {
+    return !!error.response;
+}
 
-    if (error instanceof Error) {
+export default function(error: FetchError|Error|Ref<true | FetchError | Error>, errorStrings: string|Record<number|string, string> = {}) {
+    const err = unref(error);
+
+    if (err instanceof Error) {
         if (typeof(errorStrings) == 'string') {
             throw createError(errorStrings);
-        } else if (typeof(errorStrings) == 'object') {
-            const code = error.response.status;
-            throw createError({ statusCode: code, statusMessage: errorStrings[error.data.message] || errorStrings[code] || 'Unknown Error'});
+        } else if (isFetchError(err)) {
+            const code = err.response.status;
+            throw createError({ statusCode: code, statusMessage: errorStrings[err.data.message] || errorStrings[code] || 'Unknown Error'});
+        } else {
+            throw createError({ statusCode: 418, statusMessage: 'Uhh does this ever hit?'});
         }
-    } else if (error) {
+    } else if (err) {
         throw createError({ statusCode: 404, statusMessage: errorStrings[404] || 'Err', fatal: true});
     }
 }

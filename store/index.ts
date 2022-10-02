@@ -8,7 +8,7 @@ interface MainStore {
     userIsLoading: boolean,
     notifications: Paginator<Notification>,
     notificationCount: number,
-    currentGame: Game,
+    currentGame?: Game,
     savedTheme: CookieRef<string>,
     colorScheme: string,
     games: Paginator<Game>,
@@ -34,17 +34,6 @@ export const useStore = defineStore('main', {
     getters: {
         theme(state) {
             return state.savedTheme === 'light' ? 'light' : 'dark';
-        },
-        hasPermission(state) {
-            const permissions = state.user?.permissions;
-
-            if (!permissions) { //This is cached, basically if no permissions, we never have any permissions! Duh.
-                return () => false;
-            } else if (permissions.admin) {
-                return () => true;
-            } else {
-                return (perm: string) => permissions[perm] === true;
-            }
         },
         isBanned(state) {
             return !!state.user?.last_ban;
@@ -128,6 +117,22 @@ export const useStore = defineStore('main', {
 
         setUserAvatar(avatar: string) {
             this.user.avatar = avatar;
-        }
+        },
+
+        hasPermission(perm: string, game?: Game) {
+            const permissions = this.user?.permissions;
+            if (!this.user) {
+                return false;
+            } else if (permissions.admin === true || permissions[perm] === true) { //Admins have all permissions
+                return true;
+            } else if (game && game.user_data) {
+                //Game managers have all *game* permissions. Don't call this on non game permissions.
+                if (game.user_data.permissions['manage-game'] === true) {
+                    return true;   
+                }
+                return game.user_data.permissions[perm] === true;
+            }
+            return false;
+        },
     }
 });

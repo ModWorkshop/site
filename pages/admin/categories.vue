@@ -10,7 +10,15 @@
     </a-list>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Game } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-categories', props.game);
+
 const route = useRoute();
 
 const url = computed(() => `games/${route.params.gameId}/categories`);

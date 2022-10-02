@@ -13,7 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { UserCase } from '~~/types/models';
+import { Game, UserCase } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('moderate-users', props.game);
 
 const { data: userCase } = await useEditResource<UserCase>('case', 'user-cases');
 </script>

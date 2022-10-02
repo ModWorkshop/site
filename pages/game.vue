@@ -1,7 +1,7 @@
 <template>
     <page-block>
         <flex>
-            <a-button v-if="canEdit" :to="`/admin/games/${game.id}`" icon="cog">{{$t('game_settings')}}</a-button>
+            <a-button to="" icon="cog">{{$t('game_profile')}}</a-button>
             <a-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-button>
         </flex>
         <div class="content-block">
@@ -23,12 +23,11 @@
 import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
-const { hasPermission, setGame } = useStore();
+const store = useStore();
 
 const { data: game } = await useResource<Game>('game', 'games');
-setGame(game.value);
 
-const canEdit = computed(() => hasPermission('manage-mods'));
+store.currentGame = game.value;
 
 // const { data: lastThreads } = await useFetchMany<Thread>(`threads?forum_id=${game.value.forum.id}`);
 

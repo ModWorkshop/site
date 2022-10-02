@@ -13,7 +13,7 @@
     </a-modal>
     <header class="nav">
         <NuxtLink to="/">
-            <img :src="logo" width="36">
+            <img alt="logo" :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
             <a-link-button v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
@@ -39,7 +39,7 @@
                         @keyup.down.self="setSelectedSearch(1)"
                         @keyup.enter="clickSelectedSearch"
                     />
-                    <a-button icon="search" style="padding: 0.6rem 0.75rem;"/>
+                    <a-button icon="search" aria-label="Search" style="padding: 0.6rem 0.75rem;"/>
                 </div>
                 <template #content>
                     <ClientOnly>
@@ -75,7 +75,10 @@
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
                         <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                         <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
-                        <a-dropdown-item v-if="isAdmin" icon="users-gear" to="/admin">{{$t('admin')}}</a-dropdown-item>
+                        <a-dropdown-item v-if="canSeeAdminPage" icon="screwdriver-wrench" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
+                        <ClientOnly>
+                            <a-dropdown-item v-if="canSeeAdminGamePage" icon="gears" :to="`/admin/games/${currentGame.id}`">{{$t('game_admin_page')}}</a-dropdown-item>
+                        </ClientOnly>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                         <div class="dropdown-splitter"/>
                         <a-dropdown-item :icon="store.theme === 'light' ? 'moon' : 'sun'" @click="store.toggleTheme">
@@ -100,13 +103,15 @@ import { useStore } from '../../store';
 
 const store = useStore();
 const router = useRouter();
-const { user, notifications, userIsLoading, notificationCount } = storeToRefs(store);
+const { user, notifications, userIsLoading, notificationCount, currentGame } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(1);
 
 const logo = computed(() => store.theme === 'light' ? '/mws_logo_black.svg' : '/mws_logo_white.svg');
+const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
+const canSeeAdminGamePage = computed(() => currentGame.value && adminGamePagePerms.some(perm => store.hasPermission(perm, currentGame.value)));
 
 const searchButtons = computed(() => {
     const buttons = [
@@ -114,14 +119,12 @@ const searchButtons = computed(() => {
         { to: `/search/threads`, text: 'search_threads' },
         { to: `/search/users`, text: 'search_users' },
     ];
-    if (store.currentGame) {
-        buttons.unshift({ to: `/g/${store.currentGame.short_name}/forum`, text: 'search_threads_game' });
-        buttons.unshift({ to: `/g/${store.currentGame.short_name}`, text: 'search_mods_game' });
+    if (currentGame.value) {
+        buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: 'search_threads_game' });
+        buttons.unshift({ to: `/g/${currentGame.value.short_name}`, text: 'search_mods_game' });
     }
     return buttons;
 });
-
-const isAdmin = computed(() => store.hasPermission('admin'));
 
 watch(showNotifications, async () => {
     if (!notifications.value) {

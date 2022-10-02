@@ -12,7 +12,13 @@
 </template>
 
 <script setup lang="ts">
-import { Category } from "~~/types/models";
+import { Category, Game } from "~~/types/models";
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-categories', props.game);
 
 const route = useRoute();
 const gameId = route.params.gameId;

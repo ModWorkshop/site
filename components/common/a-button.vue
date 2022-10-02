@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
     href?: string,
     to?: string,
     unstyled?: boolean,
-    color?: 'primary' | 'subtle' | 'secondary' | 'danger' | 'none',
+    color?: 'primary' | 'warning' | 'subtle' | 'secondary' | 'danger' | 'none',
     type?: 'button' | 'submit' | 'reset',
     size?: string,
     noBg?: boolean,
@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<{
     disabled?: boolean
 }>(), {
     color: 'primary',
+    type: 'button',
     download: undefined
 });
 
@@ -73,6 +74,12 @@ const iconStyle = computed(() => ({
     color: var(--primary-color-text);
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+}
+
+.button-warning {
+    color: black;
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
 }
 
 .button-subtle {

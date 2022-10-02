@@ -15,7 +15,11 @@
 			v-bind="$attrs"
 			searchable
 			@update:model-value="update"
-		/>
+		>
+			<template #content>
+				<slot name="content"/>
+			</template>
+		</va-select>
         <small v-if="desc">{{desc}}</small>
 	</flex>
 </template>

@@ -7,12 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { Document } from '~~/types/models';
+import { Document, Game } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-docs', props.game);
 
 const route = useRoute();
 
 const gameId = typeof route.params.gameId == 'string' ? parseInt(route.params.gameId) : null;
-
 const redirectTo = computed(() => gameId ? `/admin/games/${gameId}/docs` : `/admin/docs`);
 
 const { data: doc } = await useEditResource<Document>('document', 'documents', {

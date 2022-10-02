@@ -13,7 +13,18 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { useStore } from '~~/store';
+import { Game } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+const store = useStore();
+
+watch(() => props.game, () => store.currentGame = props.game, { immediate: true });
+
 const toasts = useState('toasts', () => []);
 </script>
 

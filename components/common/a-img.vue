@@ -8,7 +8,7 @@ const { public: config } = useRuntimeConfig();
 const props = defineProps({
     src: {
         default: '',
-        type: String,
+        type: [String, Blob],
     },
     urlPrefix: {
         type: String,
@@ -21,7 +21,10 @@ const props = defineProps({
 
 const compSrc = computed(function() {
     const src = props.src;
-    if (isSrcExternal(src)) {
+    if (typeof src === 'object') {
+        return src.toString();
+    }
+    else if (isSrcExternal(src)) {
         return src;
     } else {
         return `${config.apiUrl}/storage/${props.urlPrefix || ''}${src}`;

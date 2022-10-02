@@ -22,7 +22,7 @@
             <Popper v-if="canModerateUser" arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
                 <template #content>
-                    <a-dropdown-item icon="cog">{{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
                     <a-dropdown-item icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
                     <a-dropdown-item icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
                 </template>

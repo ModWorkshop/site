@@ -8,7 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { InstructsTemplate } from '~~/types/models';
+import { Game, InstructsTemplate } from '~~/types/models';
+
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-instructions', props.game);
 
 const route = useRoute();
 const url = computed(() => `games/${route.params.gameId}/instructs-templates`);

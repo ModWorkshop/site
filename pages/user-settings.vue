@@ -2,9 +2,10 @@
     <page-block size="sm">
         <content-block class="p-8">
             <a-form :model="user" float-save-gui @submit="save">
-                <a-nav side root="/user-settings">
+                <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="" title="Account"/>
                     <a-nav-link to="profile" title="Profile"/>
+                    <a-nav-link to="games" title="Games"/>
                     <a-nav-link to="content" title="Content"/>
                     <template #content>
                         <NuxtPage keepalive :user="user"/>

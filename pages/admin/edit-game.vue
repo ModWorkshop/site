@@ -18,34 +18,24 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from "~~/types/models";
+import { Game } from '~~/types/models';
 
 const thumbnailBlob = ref(null);
 const bannerBlob = ref(null);
 const canSaveOverride = computed(() => !!(thumbnailBlob.value || bannerBlob.value));
 
-const { data: game } = await useEditResource<Game>('game', 'games', {
-    id: 0,
-    forum_id: 0,
-    name: '',
-    short_name: "",
-    thumbnail: "",
-    banner: "",
-    buttons: "",
-    webhook_url: "",
-    last_date: "",
-    created_at: "",
-    updated_at: ""
-});
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-game', props.game);
 
 const mergeParams = reactive({
     thumbnail_file: thumbnailBlob,
     banner_file: bannerBlob
 });
 
-function submit() {
-    console.log('..');
-    
+function submit() {    
     thumbnailBlob.value = null;
     bannerBlob.value = null;
 }

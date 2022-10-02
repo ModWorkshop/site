@@ -8,6 +8,12 @@
 <script setup lang="ts">
 import { ForumCategory, Game } from "~~/types/models";
 
+const props = defineProps<{
+    game: Game
+}>();
+
+useNeedsPermission('manage-forum-categories', props.game);
+
 let forumId = 1;
 
 const route = useRoute();

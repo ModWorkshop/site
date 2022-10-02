@@ -5,3 +5,7 @@
         </template>
     </a-list>
 </template>
+
+<script setup>
+useNeedsPermission('manage-games');
+</script>

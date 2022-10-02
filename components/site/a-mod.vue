@@ -1,37 +1,36 @@
 <template>
     <flex column gap="0" class="mod self-start !p-0" :title="mod.short_desc">
-        <NuxtLink class="block" :to="link">
+        <NuxtLink :to="link">
             <mod-thumbnail :thumbnail="mod.thumbnail"/>
         </NuxtLink>
         <flex gap="1" column class="p-2 text-secondary">
             <NuxtLink class="mod-title" :to="link" :title="mod.name">
-                <mod-status :mod="mod"/>
-                {{mod.name}}
+                <mod-status :mod="mod"/> {{mod.name}}
             </NuxtLink>
 
-            <div>
-                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
-            </div>
+            <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
 
             <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">
-                <font-awesome-icon icon="map-marker-alt"/> <NuxtLink v-if="showGame" class="text-secondary" :to="!static && `/g/${mod.game.short_name || mod.game.id}` || null" :title="mod.game">{{mod.game.name}}</NuxtLink>
+                <font-awesome-icon icon="map-marker-alt"/> 
+                <NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
+                    {{mod.game.name}}
+                </NuxtLink>
                 <template v-if="mod.category">
-                    <span v-if="showGame" class="text-secondary"> / </span>
-                    <NuxtLink class="text-secondary" :to="!static && `/g/${mod.game.short_name}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                    <template v-if="showGame"> / </template>
+                    <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                 </template>
             </div>
 
             <flex>
-                <div class="inline-block">
-                    <font-awesome-icon icon="heart"/> <span id="likes">{{likes}}</span>
-                </div>
-                <div class="inline-block">
-                    <font-awesome-icon icon="download"/> <span>{{downloads}}</span>
-                </div>
-                <div class="inline-block">
-                    <font-awesome-icon icon="eye"/> <span>{{views}}</span>
-                </div>
-    
+                <span>
+                    <font-awesome-icon icon="heart"/> {{likes}}
+                </span>
+                <span>
+                    <font-awesome-icon icon="download"/> {{downloads}}
+                </span>
+                <span>
+                    <font-awesome-icon icon="eye"/> {{views}}
+                </span>
                 <span v-if="date" class="inline-block ml-auto">
                     <font-awesome-icon icon="clock"/> <time-ago :time="date"/>
                 </span>
@@ -56,7 +55,9 @@ const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);
 const views = computed(() => props.mod.views);
 
+
 const link = computed(() => !props.static ? `/mod/${props.mod.id}` : null);
+const gameUrl = computed(() => `/g/${props.mod.game.short_name || props.mod.game.id}`);
 </script>
 
 <style>

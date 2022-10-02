@@ -161,7 +161,7 @@ a {
     transition: color 0.15s ease-in-out;
 }
 
-a:link:hover {
+a:link:hover, a:visited:hover {
     color: var(--primary-hover-color);
     transition: color 0.15s ease-in-out;
 }

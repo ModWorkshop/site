@@ -53,10 +53,11 @@ const commentSpecialTag = ref(null);
 const { user, hasPermission, isBanned, setGame } = useStore();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
+const game = computed(() => thread.value.forum.game);
 
-setGame(thread.value.forum.game);
+setGame(game.value);
 
-const canModerate = computed(() => hasPermission('manage-discussions'));
+const canModerate = computed(() => hasPermission('manage-discussions', game.value));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);
 
 const canComment = computed(() => {
