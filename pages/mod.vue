@@ -3,7 +3,7 @@
         <Head>
             <Title>{{mod.name}}</Title>
         </Head>
-        <the-breadcrumb :items="mod.breadcrumb"/>
+        <the-breadcrumb :items="breadcrumb"/>
         <flex column gap="2">
             <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
             <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
@@ -91,6 +91,16 @@ if (mod.value) {
         }
     });
 }
+
+const breadcrumb = computed(() => {
+    return [
+        {
+            name: t('games'),
+            to: 'games'
+        },
+        ...mod.value.breadcrumb
+    ];
+});
 
 const notices = computed(() => {
     const notices: { id: number, type: string, notice: string, localized: boolean }[] = [];

@@ -1,5 +1,6 @@
 <template>
     <page-block size="md">
+        <the-breadcrumb :items="breadcrumb"/>
         <flex>
             <NuxtLink v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
@@ -34,11 +35,13 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 
 const { user, setGame } = useStore();
 const { showToast } = useToaster();
+const { t } = useI18n();
 
 definePageMeta({
     middleware: 'users-only',
@@ -74,6 +77,19 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     comments_disabled: false,
     has_download: false,
     approved: false,
+});
+
+const breadcrumb = computed(() => {
+    return [
+        {
+            name: t('games'),
+            to: 'games'
+        },
+        ...mod.value.breadcrumb,
+        {
+            name: t('edit'),
+        }
+    ];
 });
 
 mod.value.send_for_approval ??= false;
