@@ -16,8 +16,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ThreadController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Thread::class, 'thread');
+    public function __construct(Request $request) {
+        if ($request->route('game')) {
+            $this->authorizeResource([Thread::class, 'forum'], 'thread, forum');
+        } else {
+            $this->authorizeResource(Thread::class, 'thread');
+        }
     }
 
     /**
@@ -125,10 +129,10 @@ class ThreadController extends Controller
             'pinned' => 'boolean|nullable',
             'archived' => 'boolean|nullable'
         ]);
-        
+
         $changePin = Arr::pull($val, 'pinned');
         $user = $request->user();
-        $canEditThreads = $user->hasPermission('manage-discussions');
+        $canEditThreads = $user->hasPermission('manage-discussions', $thread->forum->game);
         if (!$canEditThreads && $changePin) {
             abort(401);
         }

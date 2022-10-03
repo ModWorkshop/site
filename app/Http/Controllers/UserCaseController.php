@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Models\Game;
 use App\Models\UserCase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,9 +11,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserCaseController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->authorizeResource(UserCase::class, 'user_case');
+        $this->authorizeGameResource(UserCase::class, 'user_case');
     }
 
     /**
@@ -20,15 +21,24 @@ class UserCaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Game $game=null)
     {
         $val = $request->validate([
-            'user_id' => 'int|min:0|nullable|exists:users,id'
+            'user_id' => 'int|min:0|nullable|exists:users,id',
+            'all' => 'in:true,false|nullable'
         ]);
-        return JsonResource::collection(UserCase::queryGet($val, function($query, $val) {
-            $query->orderByDesc('created_at');
+
+        return JsonResource::collection(UserCase::queryGet($val, function($q, $val) use($game) {
+            if (isset($game)) {
+                $q->where('game_id', $game->id);
+            } else {
+                if (!($val['all'] ?? false)) {
+                    $q->whereNull('game_id');
+                }
+            }
+
             if (isset($val['user_id'])) {
-                $query->where('user_id', $val['user_id']);
+                $q->where('user_id', $val['user_id']);
             }
         }));
     }
@@ -39,7 +49,7 @@ class UserCaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
         $val = $request->validate([
             'user_id' => 'int|min:0|nullable|exists:users,id',
@@ -47,6 +57,7 @@ class UserCaseController extends Controller
             'expire_date' => 'date|required|nullable|after:now'
         ]);
 
+        $val['game_id'] = $game->id;
         $val['mod_user_id'] = $this->userId();
         $val['warning'] = true;
 

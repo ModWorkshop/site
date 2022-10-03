@@ -12,8 +12,12 @@ use Illuminate\Http\Request;
  */
 class TagController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Tag::class, 'tag');
+    public function __construct(Request $request) {
+        if ($request->route('game')) {
+            $this->authorizeResource([Tag::class, 'game'], 'tag, game');
+        } else {
+            $this->authorizeResource(Tag::class, 'tag');
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Models\Game;
 use App\Models\Suspension;
 use Arr;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class SuspensionController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Suspension::class, 'suspension');
+        $this->authorizeGameResource(Suspension::class, 'suspension');
     }
 
     /**
@@ -19,7 +20,7 @@ class SuspensionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
             'user_id' => 'int|min:0|nullable|exists:users,id',
@@ -28,15 +29,25 @@ class SuspensionController extends Controller
         
         $query = Arr::pull($val, 'query');
 
-        return JsonResource::collection(Suspension::queryGet($val, function($q, array $val) use($query) {
+        return JsonResource::collection(Suspension::queryGet($val, function($q, array $val) use($query, $game) {
             $q->with('mod');
             $q->orderByDesc('created_at');
-            if (isset($val['query'])) {
-                $q->where('mod_id', $val['mod_id']);
+
+            if (isset($val['query']) || isset($game)) {
+                $q->whereRelation('mod', function($q) use($val, $game) {
+                    if (isset($val['query'])) {
+                        $q->where('name', $val['name']);
+                    }
+                    if (isset($game)) {
+                        $q->where('game_id', $game->id);
+                    }
+                });
             }
+
             if (isset($val['mod_id'])) {
                 $q->where('mod_id', $val['mod_id']);
             }
+
             if (isset($val['user_id']) || isset($query)) {
                 $q->whereRelation('mod', function($q) use ($val, $query) {
                     if (isset($val['user_id'])) {

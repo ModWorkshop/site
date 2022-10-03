@@ -34,7 +34,10 @@ class CommentService {
         } else {
             $query = Comment::query();
         }
-        
+
+        if (isset($commentable->game)) {
+            User::setCurrentGame($commentable->game->id);
+        }
 
         $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
             $query->with(['mentions']);
@@ -153,25 +156,22 @@ class CommentService {
         $uniqueNames = array_slice(Arr::pull($val, 'mentions'), 0, 10);
         $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->without('roles')->get('id');
         $mentionedIds = [];
-        foreach ($mentionedUsers as $mentionedUser) {
-            $mentionedIds[] = $mentionedUser->id;
-        }
-
-        //Update the mentions, but avoid sending any notifications to avoid spam.
-        $comment->mentions()->sync($mentionedIds);
 
         if ($comment->reply_to && isset($val['pinned'])) {
             throw new Exception('Only regular comments can be pinned!');
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
-        if (isset($val['content']) && (!$user->hasPermission('manage-discussions') && $comment->user->id !== $user->id)) {
+        if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $commentable->game) && $comment->user->id !== $user->id)) {
             throw new Exception('You cannot edit the comment!');
         }
 
-        /**
-         * @var Comment
-         */
+        foreach ($mentionedUsers as $mentionedUser) {
+            $mentionedIds[] = $mentionedUser->id;
+        }
+
+        //Update the mentions, but avoid sending any notifications to avoid spam.
+        $comment->mentions()->sync($mentionedIds);
         $comment->update($val);
 
         return new CommentResource($comment);

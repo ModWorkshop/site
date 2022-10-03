@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Document
@@ -40,5 +41,10 @@ class Document extends Model
     public function lastUser()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
     }
 }

@@ -64,7 +64,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mods');
+        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mods', $mod->game);
     }
 
     /**
@@ -181,9 +181,14 @@ class ModPolicy
         }
     }
 
-    public function manage(User $user)
+    public function manage(User $user, Mod $mod, Game $game=null)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $mod->game);
+    }
+
+    public function manageAny(User $user, Game $game=null)
+    {
+        return $user->hasPermission('manage-mods', $game);
     }
 
     public function report(User $user, Mod $mod)

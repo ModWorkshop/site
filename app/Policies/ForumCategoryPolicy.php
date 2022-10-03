@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\ForumCategory;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -40,9 +41,9 @@ class ForumCategoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game)
     {
-        return $user->hasPermission('manage-forum-categories');
+        return $user->hasPermission('manage-forum-categories', $game);
     }
 
     /**
@@ -54,7 +55,7 @@ class ForumCategoryPolicy
      */
     public function update(User $user, ForumCategory $forumCategory)
     {
-        return $user->hasPermission('manage-forum-categories');
+        return $user->hasPermission('manage-forum-categories', $forumCategory->forum->game);
     }
 
     /**
@@ -66,7 +67,7 @@ class ForumCategoryPolicy
      */
     public function delete(User $user, ForumCategory $forumCategory)
     {
-        return $user->hasPermission('manage-forum-categories');
+        return $user->hasPermission('manage-forum-categories', $forumCategory->forum->game);
     }
 
     /**

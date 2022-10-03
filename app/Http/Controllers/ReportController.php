@@ -3,20 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Models\Game;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReportController extends Controller
 {
+    public function __construct() {
+        $this->authorizeGameResource(Report::class, 'report');
+    }
+   
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game)
     {
-        return JsonResource::collection(Report::queryGet($request->val()));
+        $val = $request->val([
+            'all' => 'in:true,false|nullable'
+        ]);
+
+        return JsonResource::collection(Report::queryGet($val, function($q, $val) use($game) {
+            if (isset($game)) {
+                $q->where('game_id', $game->id);
+            } else {
+                if (!($val['all'] ?? false)) {
+                    $q->whereNull('game_id');
+                }
+            }
+        }));
     }
 
     /**

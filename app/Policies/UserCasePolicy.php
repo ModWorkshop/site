@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Game;
 use App\Models\User;
 use App\Models\UserCase;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -16,9 +17,9 @@ class UserCasePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Game $game=null)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $game);
     }
 
     /**
@@ -30,7 +31,7 @@ class UserCasePolicy
      */
     public function view(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $userCase->game);
     }
 
     /**
@@ -39,9 +40,9 @@ class UserCasePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game=null)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $game);
     }
 
     /**
@@ -53,7 +54,7 @@ class UserCasePolicy
      */
     public function update(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $userCase->game);
     }
 
     /**
@@ -65,7 +66,7 @@ class UserCasePolicy
      */
     public function delete(User $user, UserCase $userCase)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $userCase->game);
     }
 
     /**

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Setting::class, 'setting');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,8 +38,6 @@ class SettingsController extends Controller
      */
     public function update(Request $request)
     {
-        $this->authorize('update', Setting::class);
-
         $val = $request->validate([
             'max_file_size' => 'integer',
             'mod_storage_size' => 'integer',

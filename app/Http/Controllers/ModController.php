@@ -41,12 +41,8 @@ const animated = [
  */
 class ModController extends Controller
 {
-    public function __construct(Request $request) {
-        if ($request->route('game')) {
-            $this->authorizeResource([Mod::class, 'game'], 'mod, game');
-        } else {
-            $this->authorizeResource(Mod::class, 'mod');
-        }
+    public function __construct() {
+        $this->authorizeGameResource(Mod::class, 'mod');
     }
 
     /**
@@ -60,6 +56,7 @@ class ModController extends Controller
     public function index(GetModsRequest $request, Game $game=null)
     {
         $val = $request->val();
+
         $mods = Mod::queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
     }
@@ -81,9 +78,12 @@ class ModController extends Controller
     /**
      * Returns mods waiting for approval (approval == null)
      */
-    public function waiting(GetModsRequest $request)
+    public function waiting(GetModsRequest $request, Game $game=null)
     {
+        $this->authorize('manageAny', [Mod::class, $game]);
+
         $val = $request->val();
+
         $mods = Mod::queryGet($val, function($q, $val) {
             $q->whereNull('approved');
             ModService::filters($q, $val);
@@ -105,6 +105,7 @@ class ModController extends Controller
     public function show(Game $game=null, Mod $mod)
     {
         $mod->withAllRest();
+        User::setCurrentGame($mod->game->id);
         return new ModResource($mod);
     }
 

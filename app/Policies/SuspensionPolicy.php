@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Game;
 use App\Models\Suspension;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Log;
 
 class SuspensionPolicy
 {
@@ -16,9 +18,9 @@ class SuspensionPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user, Game $game=null)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $game);
     }
 
     /**
@@ -30,7 +32,7 @@ class SuspensionPolicy
      */
     public function view(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $suspension->mod->game);
     }
 
     /**
@@ -39,9 +41,9 @@ class SuspensionPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $game);
     }
 
     /**
@@ -53,7 +55,7 @@ class SuspensionPolicy
      */
     public function update(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $suspension->mod->game);
     }
 
     /**
@@ -65,7 +67,7 @@ class SuspensionPolicy
      */
     public function delete(User $user, Suspension $suspension)
     {
-        return $user->hasPermission('manage-mods');
+        return $user->hasPermission('manage-mods', $suspension->mod->game);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Game;
 use App\Models\InstructsTemplate;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -39,9 +40,9 @@ class InstructsTemplatePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game=null)
     {
-        return $user->hasPermission('manage-instructions');
+        return $user->hasPermission('manage-instructions', $game);
     }
 
     /**
@@ -51,9 +52,9 @@ class InstructsTemplatePolicy
      * @param  \App\Models\InstructsTemplate  $InstructsTemplate
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, InstructsTemplate $InstructsTemplate)
+    public function update(User $user, InstructsTemplate $instructsTemplate)
     {
-        return $user->hasPermission('manage-instructions');
+        return $user->hasPermission('manage-instructions', $instructsTemplate->game);
     }
 
     /**
@@ -63,9 +64,9 @@ class InstructsTemplatePolicy
      * @param  \App\Models\InstructsTemplate  $InstructsTemplate
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, InstructsTemplate $InstructsTemplate)
+    public function delete(User $user, InstructsTemplate $instructsTemplate)
     {
-        return $user->hasPermission('manage-instructions');
+        return $user->hasPermission('manage-instructions', $instructsTemplate->game);
     }
 
     /**

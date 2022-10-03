@@ -10,6 +10,11 @@ class SettingPolicy
 {
     use HandlesAuthorization;
 
+    public function viewAny(?User $user)
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can update the model.
      *

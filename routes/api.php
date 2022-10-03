@@ -53,8 +53,8 @@ use Laravel\Socialite\Facades\Socialite;
  * Registers a game resource with also a direct resource link.
  * store method still requires a game so that's not available in the global one.
  */
-function gameResource(string $resource, string $class, array $except=[], bool $shallow=true) {
-    $reg = Route::resource("games.{$resource}", $class);
+function resource(string $resource, string $class, string $parent, array $except=[], bool $shallow=true) {
+    $reg = Route::resource("${parent}.{$resource}", $class);
     Route::resource($resource, $class)->only(['index']);
     if ($shallow) {
         $reg->shallow();
@@ -62,6 +62,9 @@ function gameResource(string $resource, string $class, array $except=[], bool $s
     $reg->except(['create', 'edit', ...$except]);
 
     return $reg;
+}
+function gameResource(string $resource, string $class, array $except=[], bool $shallow=true) {
+    return resource($resource, $class, 'games', $except, $shallow);
 }
 
 /**
@@ -93,8 +96,9 @@ gameResource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
-Route::middleware('can:manage,App\Mod')->group(function() {
-    Route::get('mods/waiting', [ModController::class, 'waiting']);
+Route::get('mods/waiting', [ModController::class, 'waiting']);
+Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
+Route::middleware('can:manage,mod')->group(function() {
     Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
     Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
 });
@@ -122,7 +126,7 @@ Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
 Route::patch('games/{game}/users/{user}', [GameController::class, 'setGameUserData']);
-Route::resource('tags', TagController::class);
+gameResource('tags', TagController::class);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
 gameResource('roles', GameRoleController::class, shallow: false)->parameters([
@@ -134,7 +138,7 @@ gameResource('roles', GameRoleController::class, shallow: false)->parameters([
  */
 Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
 Route::resource('forum-categories', ForumCategoryController::class);
-Route::resource('threads', ThreadController::class);
+resource('threads', ThreadController::class, 'forums');
 Route::resource('threads.comments', ThreadCommentsController::class);
 Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
@@ -151,8 +155,8 @@ Route::middleware('auth:sanctum')->group(function() {
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
-Route::resource('bans', BanController::class);
-Route::resource('user-cases', UserCaseController::class);
+gameResource('bans', BanController::class);
+gameResource('user-cases', UserCaseController::class);
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
@@ -178,9 +182,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
-Route::resource('suspensions', SuspensionController::class);
-Route::resource('documents', DocumentController::class);
-Route::resource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
+gameResource('suspensions', SuspensionController::class);
+gameResource('documents', DocumentController::class, ['show']);
+Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
+gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);

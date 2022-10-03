@@ -3,8 +3,10 @@
 namespace App\Policies;
 
 use App\Models\Ban;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Log;
 
 class BanPolicy
 {
@@ -16,9 +18,9 @@ class BanPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Game $game=null)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $game);
     }
 
     /**
@@ -30,7 +32,7 @@ class BanPolicy
      */
     public function view(User $user, Ban $ban)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $ban->game);
     }
 
     /**
@@ -39,9 +41,9 @@ class BanPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, ?Game $game)
     {
-        return $user->hasPermission('moderate-users');
+        return $user->hasPermission('moderate-users', $game);
     }
 
     /**
@@ -53,7 +55,7 @@ class BanPolicy
      */
     public function update(User $user, Ban $ban)
     {
-        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited();
+        return $user->hasPermission('moderate-users', $ban->game) && $ban->user->canBeEdited();
     }
 
     /**
@@ -65,7 +67,7 @@ class BanPolicy
      */
     public function delete(User $user, Ban $ban)
     {
-        return $user->hasPermission('moderate-users') && $ban->user->canBeEdited();
+        return $user->hasPermission('moderate-users', $ban->game) && $ban->user->canBeEdited();
     }
 
     /**

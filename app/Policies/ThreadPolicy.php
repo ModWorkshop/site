@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Forum;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -39,9 +40,10 @@ class ThreadPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Forum $forum)
     {
-        return $user->hasPermission('manage-discussions') || $user->hasPermission('create-discussions');
+        $game = $forum->game;
+        return $user->hasPermission('manage-discussions', $game) || $user->hasPermission('create-discussions', $game);
     }
 
     /**
@@ -53,7 +55,8 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread)
     {
-        return $user->hasPermission('manage-discussions') || ($user->hasPermission('create-discussions') && $thread->user_id === $user->id);
+        $game = $thread->forum->game;
+        return $user->hasPermission('manage-discussions', $game) || ($user->hasPermission('create-discussions', $game) && $thread->user_id === $user->id);
     }
 
     /**
@@ -65,7 +68,7 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread)
     {
-        return $user->hasPermission('manage-discussions') || $thread->user_id === $user->id;
+        return $user->hasPermission('manage-discussions', $thread->forum->game) || $thread->user_id === $user->id;
     }
 
     /**

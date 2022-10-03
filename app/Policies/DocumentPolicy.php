@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Document;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -28,7 +29,7 @@ class DocumentPolicy
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, Document $document)
+    public function view(?User $user, $document)
     {
         return true;
     }
@@ -39,9 +40,9 @@ class DocumentPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game)
     {
-        return $user->hasPermission('manage-documents');
+        return $user->hasPermission('manage-documents', $game);
     }
 
     /**
@@ -53,7 +54,7 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document)
     {
-        return $user->hasPermission('manage-documents');
+        return $user->hasPermission('manage-documents', $document->game);
     }
 
     /**
@@ -65,7 +66,7 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document)
     {
-        return $user->hasPermission('manage-documents');
+        return $user->hasPermission('manage-documents', $document->game);
     }
 
     /**

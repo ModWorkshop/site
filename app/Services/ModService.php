@@ -3,7 +3,9 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\User;
 use App\Models\Visibility;
+use Arr;
 use Auth;
 use DB;
 use Illuminate\Database\Query\Builder;
@@ -54,19 +56,31 @@ class ModService {
     }
 
     public static function filters($query, array $val) {
-        /**
-         * @var User
-         */
+        /** @var User */
         $user = Auth::user();
 
         $sortBy = $val['sort_by'] ?? 'bumped_at';
 
         $query->orderByDesc($sortBy);
 
+        $gameId = Arr::get($val, 'game_id');
+        $game = null;
+
+        if (isset($gameId)) {
+            $game = Game::where('id', $gameId)->first();
+            User::setCurrentGame($gameId);
+        } else {
+            $request = request();
+            $game = $request->route('game');
+            if (isset($game)) {
+                User::setCurrentGame($game->id);
+            }
+        }
+
         //These are global filters. Either things user has blocked or limits in general.
-        $query->where(function($query) use ($val, $user) {
+        $query->where(function($query) use ($user, $game) {
             //Hide blocked user's mods (unless a moderator)
-            if (isset($user) && !$user->hasPermission('manage-mods')) {
+            if (isset($user) && !$user->hasPermission('manage-mods', $game)) {
                 $query->whereNotExists(function($query) use ($user) {
                     $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
                     $query->whereColumn('blocked_users.block_user_id', 'mods.user_id');
@@ -74,7 +88,7 @@ class ModService {
             }
     
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-            if (!isset($user) || !$user->hasPermission('manage-mods')) {
+            if (!isset($user) || !$user->hasPermission('manage-mods', $game)) {
                 $query->where('visibility', Visibility::pub)->where('suspended', false)->where('approved', true)->where('has_download', true);
             }
             
@@ -94,9 +108,9 @@ class ModService {
         });
 
         //These are filters the user inputted
-        $query->where(function($query) use ($val, $user) {
-            if (isset($val['game_id'])) {
-                $query->where('game_id', $val['game_id']);
+        $query->where(function($query) use ($val, $gameId) {
+            if (isset($gameId)) {
+                $query->where('game_id', $gameId);
             }
     
             if (isset($val['category_id'])) {

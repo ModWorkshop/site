@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Game;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -39,9 +40,9 @@ class TagPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game=null)
     {
-        return $user->hasPermission('manage-tags');
+        return $user->hasPermission('manage-tags', $game);
     }
 
     /**
@@ -53,7 +54,7 @@ class TagPolicy
      */
     public function update(User $user, Tag $tag)
     {
-        return $user->hasPermission('manage-tags');
+        return $user->hasPermission('manage-tags', $tag->game);
     }
 
     /**
@@ -65,7 +66,7 @@ class TagPolicy
      */
     public function delete(User $user, Tag $tag)
     {
-        return $user->hasPermission('manage-tags');
+        return $user->hasPermission('manage-tags', $tag->game);
     }
 
     /**

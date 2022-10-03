@@ -35,7 +35,7 @@ class ThreadCommentsController extends Controller
      */
     public function store(Request $request, Thread $thread)
     {
-        $this->authorize('createComment', $thread);
+        $this->authorize('createComment', $thread->forum->game);
 
         $thread->update(['last_user_id' => $request->user()->id]);
 

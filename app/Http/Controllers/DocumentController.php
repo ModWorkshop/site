@@ -4,26 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Models\Document;
+use App\Models\Game;
 use Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DocumentController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Document::class, 'document');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game=null)
     {
-        $val = $request->val([
-            'game_id' => 'integer|nullable|min:1|exists:games,id',
-        ]);
-
-        return JsonResource::collection(Document::queryGet($val, function($q, $val) {
-            if (isset($val['game_id'])) {
-                $q->where('game_id', $val['game_id']);
+        return JsonResource::collection(Document::queryGet($request->val(), function($q) use($game) {
+            if (isset($game)) {
+                $q->where('game_id', $game->id);
             } else {
                 $q->whereNull('game_id');
             }
@@ -47,19 +48,9 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, mixed $document)
+    public function getDocument(Request $request, $document)
     {
-        $val = $request->validate([
-            'game_id' => 'integer|nullable|min:1|exists:games,id',
-        ]);
-
         $query = Document::query();
-
-        if (isset($val['game_id'])) {
-            $query->where('game_id', $val['game_id']);
-        } else {
-            $query->whereNull('game_id');
-        }
 
         if (is_numeric($document)) {
             return $query->findOrFail($document);

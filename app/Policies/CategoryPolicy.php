@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Category;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -41,9 +42,9 @@ class CategoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Game $game)
     {
-        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot create categories');
+        return $user->hasPermission('manage-categories', $game) ? Response::allow() : Response::deny('You cannot create categories');
     }
 
     /**
@@ -55,7 +56,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot update categories');
+        return $user->hasPermission('manage-categories', $category->game) ? Response::allow() : Response::deny('You cannot update categories');
     }
 
     /**
@@ -67,7 +68,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->hasPermission('manage-categories') ? Response::allow() : Response::deny('You cannot delete categories');
+        return $user->hasPermission('manage-categories', $category->game) ? Response::allow() : Response::deny('You cannot delete categories');
     }
 
     /**

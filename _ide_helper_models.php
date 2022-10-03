@@ -209,6 +209,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUrl($value)
+ * @mixin \Eloquent
  */
 	class Dependency extends \Eloquent {}
 }
@@ -238,6 +239,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUrlName($value)
  * @mixin \Eloquent
  * @property-read \App\Models\User $lastUser
+ * @property-read \App\Models\Game|null $game
  */
 	class Document extends \Eloquent {}
 }
@@ -450,6 +452,7 @@ namespace App\Models{
  * @property-read int|null $mods_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
  * @property-read int|null $roles_count
+ * @property-read mixed $user_data
  */
 	class Game extends \Eloquent {}
 }
@@ -467,6 +470,7 @@ namespace App\Models{
  * @property int $order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $is_vanity
  * @property-read \App\Models\Game $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
@@ -478,10 +482,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereDesc($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereIsVanity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class GameRole extends \Eloquent {}
 }
@@ -540,6 +546,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereLocalized($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read \App\Models\Game $game
  */
 	class InstructsTemplate extends \Eloquent {}
 }
@@ -727,7 +735,7 @@ namespace App\Models{
  * @property-read int|null $members_that_can_edit_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
- * @method static \Illuminate\Database\Eloquent\Builder|Mod whereInstructsTemplateId($value)
+ * @method static Builder|Mod whereInstructsTemplateId($value)
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -888,6 +896,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $type
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereType($value)
  */
 	class Permission extends \Eloquent {}
 }
@@ -920,7 +930,7 @@ namespace App\Models{
  * @mixin \Eloquent
  * @property string|null $name
  * @property int|null $game_id
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reportable
+ * @property-read Model|\Eloquent $reportable
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
@@ -954,6 +964,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $is_vanity
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
  */
 	class Role extends \Eloquent {}
 }
@@ -1266,13 +1278,13 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
  * @property \Illuminate\Support\Carbon|null $last_online
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $allGameRoles
+ * @property-read int|null $all_game_roles_count
  * @property-read \App\Models\Ban|null $ban
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
- * @property-read int|null $game_roles_count
  * @property-read mixed $last_ban
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastOnline($value)
+ * @method static Builder|User whereLastOnline($value)
  */
 	class User extends \Eloquent {}
 }

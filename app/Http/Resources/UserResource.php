@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'ban' => $this->last_ban,
+            'game_ban' => $this->last_game_ban,
             'unique_name' => $this->unique_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

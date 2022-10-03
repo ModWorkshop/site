@@ -17598,6 +17598,13 @@
         class ModUpsertRequest {
          
     }
+            /**
+     * 
+     *
+     */ 
+        class UpsertRoleRequest {
+         
+    }
      
 }
 

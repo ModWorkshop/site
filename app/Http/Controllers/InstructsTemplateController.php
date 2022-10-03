@@ -10,6 +10,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class InstructsTemplateController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(InstructsTemplate::class, 'instructs_template');
+    }
     /**
      * Display a listing of the resource.
      *

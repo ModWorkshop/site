@@ -17,7 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\Notifiable;
+use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
@@ -91,6 +93,23 @@ class User extends Authenticatable
     public $cacheFor = 10;
     public static $membersRole = null;
     public static $flushCacheOnUpdate = true;
+
+    public static $currentGameId = null;
+    public static $staticWith;
+
+    public function __construct($attributes = []) {
+        if (isset(self::$staticWith)) {
+            $this->with = self::$staticWith;
+        }
+        parent::__construct($attributes);
+    }
+
+    public static function setCurrentGame(int $gameId)
+    {
+        Log::info("setting game as " . $gameId);
+        self::$currentGameId = $gameId;
+        self::$staticWith = ['roles', 'ban', 'gameBan'];
+    }
     
     // Always return roles for users
     protected $appends = ['color'];
@@ -243,7 +262,17 @@ class User extends Authenticatable
 
     public function ban() : HasOne
     {
-        return $this->hasOne(Ban::class);
+        return $this->hasOne(Ban::class)->whereNull('game_id');
+    }
+
+    public function gameBan(): HasOne
+    {
+        return $this->hasOne(Ban::class)->where('game_id', self::$currentGameId);
+    }
+
+    public function gameBans(): HasMany
+    {
+        return $this->hasMany(Ban::class);
     }
 
     #endregion
@@ -335,15 +364,27 @@ class User extends Authenticatable
         });
     }
     
+    public function getLastGameBanAttribute()
+    {
+        if (isset(self::$currentGameId)) {
+            $ban = $this->gameBan;
+            if (isset($ban) && isset($ban->case)) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
+                    return $ban;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public function getLastBanAttribute()
     {
-        if ($this->relationLoaded('ban')) {
+        if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
             $ban = $this->ban;
             if (isset($ban) && isset($ban->case)) {
                 if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
                     return $ban;
-                } else {
-                    return null;
                 }
             }
         }
@@ -354,6 +395,7 @@ class User extends Authenticatable
     #endregion
 
     #region Methods
+
     /**
      * Returns specific game's roles
      *
@@ -425,31 +467,45 @@ class User extends Authenticatable
      * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
      */
     function hasPermission(string $toWhat, Game $game=null): bool {
-        if ($toWhat !== 'admin' && $this->hasPermission('admin')) {
+        $this->roles->loadMissing('permissions');
+        $perms = $this->permissionList;
+
+        //Admin bypasses all
+        if ($this->existsAndTrue($perms, 'admin')) {
             return true;
         }
 
-        if ($this->getLastBanAttribute()) {
+        //Users who moderate users cannot be banned.
+        if (!$this->existsAndTrue($perms, 'moderate-users') && isset($this->last_ban)) {
             return false;
         }
 
-        //TODO: check game bans
-
-        $this->roles->loadMissing('permissions');
-        $permissions = $this->permissionList;
-        //Has global permission to do the action, no need to check game (bans are checked beforehand)
-        if (isset($permissions[$toWhat]) && $permissions[$toWhat] === true) {
-            return true;
-        } else if (isset($game)) { //Maybe they have permission to do so in the game?
-            $permissions = $this->getGamePerms($game);
+        //Check game first
+        if (isset($game)) {
+            if (!isset(self::$currentGameId)) {
+                User::setCurrentGame($game->id);
+            }
+            $gamePerms = $this->getGamePerms($game);
             //Game version of the admin permission
-            if ($toWhat !== 'manage-game' && $this->hasPermission('manage-game', $game)) {
+            Log::info($this->existsAndTrue($gamePerms, 'moderate-users'));
+
+            if ($this->existsAndTrue($gamePerms, 'manage-game')) {
                 return true;
             }
-            return isset($permissions[$toWhat]) && $permissions[$toWhat] === true;
+            if (!$this->existsAndTrue($gamePerms, 'moderate-users') && isset($this->last_game_ban)) {
+                return false;
+            }
+            if ($this->existsAndTrue($gamePerms, $toWhat)) {
+                return true;
+            }
         }
 
-        return false;
+        return $this->existsAndTrue($perms, $toWhat);
+    }
+
+    private function existsAndTrue(array $perms, string $toWhat)
+    {
+        return isset($perms[$toWhat]) && $perms[$toWhat] === true;
     }
 
     public function getGameHighestOrder(Game $game)

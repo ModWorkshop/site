@@ -17,6 +17,9 @@ use Illuminate\Support\ViewErrorBag;
  */
 class LoginController extends Controller
 {
+    public function __construct() {
+        
+    }
     /**
      * Login
      * 
