@@ -14,7 +14,7 @@ import { User } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     modelValue: number|User|Array<User>,
-    placeholder: string
+    placeholder?: string
 }>(), { placeholder: 'Select a user...' });
 
 defineEmits(['update:modelValue']);
