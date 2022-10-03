@@ -1,5 +1,7 @@
 <template>
     <page-block size="sm">
+        <the-breadcrumb v-if="gameName" :items="breadcrumb"/>
+
         <a-form :model="mod" :created="false" @submit="create">
             <content-block class="p-8">
                 <h1>
@@ -10,11 +12,11 @@
                 <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-                <a-select v-model="mod.game_id" label="Game" placeholder="Select a game" :options="store.games?.data"/>
-                <flex v-if="categories" column gap="2">
-                    <label>Category</label>
-                    <category-tree v-model="mod.category_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="categories.data"/>
-                </flex>
+                <a-select v-if="!gameName" v-model="mod.game_id" label="Game" placeholder="Select a game" :options="games.data"/>
+
+                <a-input v-if="categories" :label="$t('category')">
+                    <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
+                </a-input>
 
                 <flex class="mx-auto">
                     <a-button type="submit" :disabled="!mod.name || !mod.desc">Create</a-button>
@@ -26,8 +28,9 @@
 
 <script setup lang="ts">
 import { Ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Category, Mod } from '~~/types/models';
+import { Category, Game, Mod } from '~~/types/models';
 
 definePageMeta({
     middleware: 'unbanned-users-only'
@@ -35,8 +38,8 @@ definePageMeta({
 
 const { user } = useStore();
 const router = useRouter();
-const store = useStore();
-await store.fetchGames();
+const route = useRoute();
+const { t } = useI18n();
 
 const mod: Ref<Mod> = ref({
     id: -1,
@@ -66,8 +69,25 @@ const mod: Ref<Mod> = ref({
     has_download: false,
 });
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${mod.value.game_id}/categories?include_paths=1`, {
-    immediate: !!mod.value.game_id
+const gameName = computed(() => route.params.gameId);
+
+const { data: games } = await useFetchMany<Game>('games', { immediate: !gameName.value });
+const { data: game } = await useResource<Game>('game', 'games');
+
+const breadcrumb = computed(() => {
+    if (game.value) {
+        return [
+            { name: t('games'), to: 'games' },
+            { name: game.value.name, to: `g/${gameName.value}` },
+            { name: t('upload') }
+        ];
+    }
+});
+
+const gameId = computed(() => game.value ? game.value.id : mod.value.game_id);
+
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories?include_paths=1`, {
+    immediate: !!gameId.value
 });
 
 watch(() => mod.value.game_id, val => {

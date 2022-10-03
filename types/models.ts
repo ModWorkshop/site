@@ -148,6 +148,7 @@ export interface Breadcrumb {
     id?: string|number,
     type?: string,
     attachToPrev?: string,
+    to?: string,
     name?: string,
 }
 

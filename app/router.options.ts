@@ -85,6 +85,11 @@ export default <RouterOptions> {
             component: () => import('~/pages/edit-thread.vue')
         },
         {
+            name: "game-upload",
+            path: "/g/:gameId/upload",
+            component: () => import('~/pages/upload.vue')
+        },
+        {
             name: "game-forum",
             path: "/g/:gameId/forum",
             component: () => import('~/pages/forum.vue')
