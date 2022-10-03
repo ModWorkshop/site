@@ -1,3 +1,4 @@
+import { Game } from './../types/models';
 import fileSize from "filesize";
 import { DateTime } from 'luxon';
 import { serialize } from "object-to-formdata";
@@ -115,4 +116,8 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
     }
 
     return null;
+}
+
+export function getGameResourceUrl(resource: string, game?: Game) {
+    return game ? `/games/${game.id}/${resource}` : resource;
 }

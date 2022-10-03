@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-list v-model="reports" url="reports" query :params="{ game_id: $route.params.gameId }">
+        <a-list v-model="reports" :url="url" query :params="{ all }">
             <template #item="{ item }">
                 <flex class="list-button">
                     <flex column :class="{archived: item.archived}">
@@ -29,6 +29,9 @@ const props = defineProps<{
 }>();
 
 useNeedsPermission('moderate-users', props.game);
+
+const url = computed(() => getGameResourceUrl('reports', props.game));
+const all = useRouteQuery('all', false, 'boolean');
 
 const reports = ref<Paginator>({ data: [], meta: null });
 function getName(report) {

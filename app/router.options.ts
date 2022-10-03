@@ -18,12 +18,12 @@ export default <RouterOptions> {
                 {
                     name: "view-mod",
                     path: "",
-                    component: () => import('~/pages/mod/index.vue')
+                    component: () => import('~/pages/mod/view.vue')
                 },
                 {
                     name: "mod-comment",
                     path: "post/:commentId",
-                    component: () => import('~/pages/mod/index.vue')
+                    component: () => import('~/pages/mod/view.vue')
                 },
                 {
                     name: "download-file",
@@ -230,6 +230,21 @@ export default <RouterOptions> {
                     name: "admin-game-edit-role",
                     path: "roles/:roleId",
                     component: () => import('~/pages/admin/edit-role.vue')
+                },
+                {
+                    name: "admin-game-bans",
+                    path: "bans",
+                    component: () => import('~/pages/admin/bans.vue')
+                },
+                {
+                    name: "admin-game-cases",
+                    path: "cases",
+                    component: () => import('~/pages/admin/cases.vue')
+                },
+                {
+                    name: "admin-game-edit-case",
+                    path: "cases/:caseId",
+                    component: () => import('~/pages/admin/edit-case.vue')
                 },
             ]
         },

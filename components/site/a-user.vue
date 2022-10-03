@@ -1,11 +1,11 @@
 <template>
     <flex inline :gap="neededGap">
         <NuxtLink v-if="avatar" :to="link">
-            <a-avatar :size="avatarSize" :src="user.avatar"/>
+            <a-avatar :size="avatarSize" :src="user.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
         </NuxtLink>
         <flex gap="1" column class="my-auto">
             <NuxtLink class="flex gap-1 items-center" :to="link">
-                <span :style="{color: userColor}">{{user.name}}</span>
+                <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user.name}}</component>
                 <a-tag v-if="tag && user.tag" small>{{user.tag}}</a-tag>
                 <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
                 <slot name="after-name" :user="user"/>
@@ -36,13 +36,19 @@ const props = withDefaults(defineProps<{
     color: true
 });
 
-const userColor = computed(() => {
-    let color;
-    if (props.color && props.user.color) {
-        color = props.user.color.replace(/\s+/, '');
-    }
+const isBanned = computed(() => !!(props.user.ban || props.user.game_ban));
 
-    return color || 'var(--text-color)';
+const userColor = computed(() => {
+    if (isBanned.value) {
+        return 'var(--secondary-color)';
+    } else {
+        let color;
+        if (props.color && props.user.color) {
+            color = props.user.color.replace(/\s+/, '');
+        }
+    
+        return color || 'var(--text-color)';
+    }
 });
 
 const neededGap = computed(() => {

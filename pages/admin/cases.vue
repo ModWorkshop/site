@@ -12,7 +12,7 @@
 
         <h2>Cases</h2>
 
-        <a-list v-model="cases" url="user-cases" query>
+        <a-list :url="url" query @fetched="(items: Paginator<UserCase>) => cases = items">
             <template #item="{ item }">
                 <admin-case :user-case="item" @delete="deleteCase"/>
             </template>
@@ -30,6 +30,8 @@ const props = defineProps<{
 }>();
 
 useNeedsPermission('moderate-users', props.game);
+
+const url = computed(() => getGameResourceUrl('user-cases', props.game));
 
 const user = useRouteQuery('user', null, 'number');
 

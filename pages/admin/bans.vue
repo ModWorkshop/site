@@ -8,7 +8,7 @@
 
         <h2>Bans</h2>
 
-        <a-list v-model="bans" url="bans" query>
+        <a-list :url="url" query @fetched="(items: Paginator<Ban>) => bans = items">
             <template #item="{ item }">
                 <flex class="list-button">
                     <flex v-if="item.case" column>
@@ -42,7 +42,8 @@ useNeedsPermission('moderate-users', props.game);
 
 const { showToast } = useToaster();
 
-const bans = ref<Paginator<Ban>>({ data: [], meta: null });
+const url = computed(() => getGameResourceUrl('bans', props.game));
+const bans = ref<Paginator<Ban>>(null);
 
 const user = useRouteQuery('user', null, 'number');
 
@@ -51,7 +52,7 @@ const reason = ref('');
 
 async function ban() {
     try {
-        const ban = await usePost<Ban>('bans', { 
+        const ban = await usePost<Ban>(url.value, { 
             user_id: user.value,
             reason: reason.value,
             expire_date: banDuration.value,

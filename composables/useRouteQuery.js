@@ -17,6 +17,8 @@ export default function(name, defaultValue, cast) {
             
             if (cast === 'number') {
                 return parseInt(data);
+            } else if (cast === 'boolean') {
+                return data ? 1 : 0;
             } else if (cast) {
                 return cast(data);
             }

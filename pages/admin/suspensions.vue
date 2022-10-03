@@ -1,5 +1,5 @@
 <template>
-    <a-list url="suspensions" query :params="{ game_id: $route.params.gameId, user_id: userId }">
+    <a-list :url="url" query :params="{ user_id: userId }">
         <template #buttons>
             <a-user-select v-model="userId" clearable/>
         </template>
@@ -35,6 +35,8 @@ import { Game } from '~~/types/models';
 const props = defineProps<{
     game: Game
 }>();
+
+const url = computed(() => getGameResourceUrl('suspensions', props.game));
 
 useNeedsPermission('manage-mods', props.game);
 

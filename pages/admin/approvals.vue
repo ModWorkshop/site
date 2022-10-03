@@ -34,7 +34,7 @@ const props = defineProps<{
 
 useNeedsPermission('manage-mods', props.game);
 
-const url = computed(() => props.game ? `games/${props.game.id}/mods/waiting` : 'mods/waiting');
+const url = computed(() => getGameResourceUrl('mods/waiting', props.game));
 
 const userId = useRouteQuery('user');
 </script>

@@ -16,7 +16,7 @@
             <img alt="logo" :src="logo" width="36">
         </NuxtLink>
         <flex gap="4" class="ml-3">
-            <a-link-button v-if="!user || !user.last_ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
+            <a-link-button v-if="!user || !user.ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
             <a-link-button to="/games">{{$t('games')}}</a-link-button>
             <a-link-button to="/forum?category=news">{{$t('news')}}</a-link-button>
             <a-link-button to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
@@ -57,12 +57,12 @@
                 </template>
             </Popper>
             <template v-if="user">
-                <flex v-if="user.last_ban" column>
+                <flex v-if="user.ban" column>
                     <span class="text-danger">
                         <font-awesome-icon icon="triangle-exclamation"/> Banned
                     </span>
                     <span>
-                        Expires: <time-ago :time="user.last_ban.expire_date"/>
+                        Expires: <time-ago :time="user.ban.expire_date"/>
                     </span>
                 </flex>
                 <flex class="text-lg" gap="4">

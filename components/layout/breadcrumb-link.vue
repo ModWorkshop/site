@@ -20,7 +20,9 @@ function getTo(item: Breadcrumb, i: number) {
         } else {
             return `/${item.attachToPrev}`;
         }
-    }  else if (item.type == 'game') {
+    } else if (item.to) {
+        return `/${item.to}`;
+    } else if (item.type == 'game') {
         return `/g/${item.id}`;
     } else if (item.type == 'category') {
         const first = props.items[0];

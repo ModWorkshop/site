@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware((to) => {
     const { user } = useStore($pinia);
     if (!user) {
         showError({ statusCode: 401, statusMessage: "You must be logged in to access this page", fatal: true});
-    } else if (user.last_ban) {
+    } else if (user.ban) {
         showError({ statusCode: 401, statusMessage: "Banned users cannot access this page", fatal: true});
     }
 });
