@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
@@ -411,7 +412,7 @@ class Mod extends Model implements SubscribableInterface
      */
     public function calculateFileStatus(bool $save=true)
     {
-        $this->has_download = !empty($this->files) || !empty($this->links);
+        $this->has_download = count($this->files) > 0 || count($this->links) > 0;
 
         //If we don't have a publish date and status is 1
         if (!$this->published_at && $this->approved && $this->has_download) {
