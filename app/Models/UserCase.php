@@ -60,4 +60,9 @@ class UserCase extends Model
     {
         return $this->belongsTo(User::class)->without('ban');
     }
+
+    public function modUser()
+    {
+        return $this->belongsTo(User::class)->without('ban');
+    }
 }

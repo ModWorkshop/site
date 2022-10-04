@@ -38,6 +38,7 @@ class BanController extends Controller
             }
 
             $query->with('user');
+            $query->with('case.modUser');
             $query->where(fn($q) => $q->where('expire_date', '>', Carbon::now())->orWhereNull('expire_date'));
             if (isset($val['user_id'])) {
                 $query->where('user_id', $val['user_id']);
@@ -87,6 +88,7 @@ class BanController extends Controller
             'reason' => $reason,
             'game_id' => $gameId,
             'user_id' => $val['user_id'],
+            'mod_user_id' => $this->userId(),
             'expire_date' => $val['expire_date']
         ]);
 

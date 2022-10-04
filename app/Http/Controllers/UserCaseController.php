@@ -28,7 +28,7 @@ class UserCaseController extends Controller
             'all' => 'in:true,false|nullable'
         ]);
 
-        return JsonResource::collection(UserCase::queryGet($val, function($q, $val) use($game) {
+        return JsonResource::collection(UserCase::with('modUser')->queryGet($val, function($q, $val) use($game) {
             if (isset($game)) {
                 $q->where('game_id', $game->id);
             } else {
