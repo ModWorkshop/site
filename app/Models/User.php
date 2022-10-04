@@ -108,7 +108,7 @@ class User extends Authenticatable
     {
         Log::info("setting game as " . $gameId);
         self::$currentGameId = $gameId;
-        self::$staticWith = ['roles', 'ban', 'gameBan'];
+        self::$staticWith = ['roles', 'gameRoles', 'ban', 'gameBan'];
     }
     
     // Always return roles for users
@@ -116,7 +116,7 @@ class User extends Authenticatable
     protected $with = ['roles', 'ban'];
 
     //Permissions and roles stuff
-    private $gameRoles = [];
+    private $gameRolesCache = [];
     private $permissions = [];
     private $gamePermissions = [];
     private $permissionsLoaded = false;
@@ -260,6 +260,11 @@ class User extends Authenticatable
         return $this->belongsToMany(GameRole::class)->orderBy('order');
     }
 
+    public function gameRoles(): BelongsToMany
+    {
+        return $this->belongsToMany(GameRole::class)->where('game_id', self::$currentGameId)->orderBy('order');
+    }
+
     public function ban() : HasOne
     {
         return $this->hasOne(Ban::class)->whereNull('game_id');
@@ -292,6 +297,13 @@ class User extends Authenticatable
             get: function($value, $attributes) {
                 if ($attributes['custom_color']) {
                     return $attributes['custom_color'];
+                }
+                if (isset(self::$currentGameId)) {
+                    foreach ($this->gameRoles as $role) {
+                        if ($role->color) {
+                            return $role->color;
+                        }
+                    }
                 }
                 foreach ($this->roles as $role) {
                     if ($role->color) {
@@ -403,8 +415,8 @@ class User extends Authenticatable
      */
     public function getGameRoles(Game $game, bool $withPerms=false)
     {
-        if (isset($this->gameRoles[$game->id])) {
-            return $this->gameRoles[$game->id];
+        if (isset($this->gameRolesCache[$game->id])) {
+            return $this->gameRolesCache[$game->id];
         }
 
         $query = $this->allGameRoles();
@@ -414,7 +426,7 @@ class User extends Authenticatable
         }
 
         $gameRoles = $query->where('game_id', $game->id)->with('permissions')->get();
-        $this->gameRoles[$game->id] = $gameRoles;
+        $this->gameRolesCache[$game->id] = $gameRoles;
 
         return $gameRoles;
     }

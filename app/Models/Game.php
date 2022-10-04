@@ -100,6 +100,7 @@ class Game extends Model
             'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this), 'id'))),
             'highest_role_order' => $user->getGameHighestOrder($this),
             'permissions' => $user->getGamePerms($this),
+            'ban' => $user->last_game_ban
         ] : new MissingValue;
     }
 

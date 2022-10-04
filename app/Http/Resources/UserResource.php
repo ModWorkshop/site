@@ -40,12 +40,20 @@ class UserResource extends JsonResource
             'email' => $this->when($isMe, $this->email),
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', fn() => array_filter(Arr::pluck($this->roles, 'id'), fn($id) => $id !== 1)),
+            'game_role_ids' => $this->when(isset(User::$currentGameId), fn() => Arr::pluck($this->gameRoles, 'id')),
             'last_online' => $this->last_online,
             'blocked_by_me' => $this->when($notMeNotGuest, fn() => $this->blockedByMe),
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'highest_role_order' => $this->highestRoleOrder,
             'tag' => $this->whenLoaded('roles', function() {
+                if (isset(User::$currentGameId)) {
+                    foreach ($this->gameRoles as $role) {
+                        if ($role->tag) {
+                            return $role->tag;
+                        }
+                    }    
+                }
                 foreach ($this->roles as $role) {
                     if ($role->tag) {
                         return $role->tag;
