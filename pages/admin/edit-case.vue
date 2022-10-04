@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="userCase" url="user-cases">
+    <simple-resource-form v-model="userCase" url="user-cases" :create-url="createUrl">
         <a-input v-model="userCase.pardoned" type="checkbox" :label="$t('pardoned')"/>
         <a-input v-if="userCase.pardoned" v-model="userCase.pardon_reason" type="textarea" :label="$t('pardon_reason')" required/>
         <a-duration v-else v-model="userCase.expire_date" label="Duration"/>
@@ -20,6 +20,8 @@ const props = defineProps<{
 }>();
 
 useNeedsPermission('moderate-users', props.game);
+
+const createUrl = computed(() => getGameResourceUrl('user-cases', props.game));
 
 const { data: userCase } = await useEditResource<UserCase>('case', 'user-cases');
 </script>

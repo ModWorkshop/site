@@ -14,7 +14,7 @@
 
         <a-list :url="url" query @fetched="(items: Paginator<UserCase>) => cases = items">
             <template #item="{ item }">
-                <admin-case :user-case="item" @delete="deleteCase"/>
+                <admin-case :user-case="item" :cases-url="caseItemsUrl" @delete="deleteCase"/>
             </template>
         </a-list>
     </flex>
@@ -32,6 +32,7 @@ const props = defineProps<{
 useNeedsPermission('moderate-users', props.game);
 
 const url = computed(() => getGameResourceUrl('user-cases', props.game));
+const caseItemsUrl = computed(() => getGameResourceUrl('cases', props.game));
 
 const user = useRouteQuery('user', null, 'number');
 

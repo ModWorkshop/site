@@ -10,20 +10,7 @@
 
         <a-list :url="url" query @fetched="(items: Paginator<Ban>) => bans = items">
             <template #item="{ item }">
-                <flex class="list-button">
-                    <flex v-if="item.case" column>
-                        <flex class="items-center">User: <a-user :user="item.user" avatar-size="xs"/></flex>
-                        <div>Reason: "{{item.case.reason}}"</div>
-                        <div>Expires: <time-ago inline null-is-never :time="item.case.expire_date"/></div>
-                    </flex>
-                    <span v-else>
-                        Invalid ban!
-                    </span>
-                    <flex class="ml-auto my-auto">
-                        <a-button :to="`/admin/cases/${item.case_id}`">{{$t('edit')}}</a-button>
-                        <a-button @click="unban(item)">{{$t('unban')}}</a-button>
-                    </flex>
-                </flex>
+                <admin-ban :ban="item" :cases-url="casesUrl" @delete="unban"/>
             </template>
         </a-list>
     </flex>
@@ -43,6 +30,7 @@ useNeedsPermission('moderate-users', props.game);
 const { showToast } = useToaster();
 
 const url = computed(() => getGameResourceUrl('bans', props.game));
+const casesUrl = computed(() => getGameResourceUrl('cases', props.game));
 const bans = ref<Paginator<Ban>>(null);
 
 const user = useRouteQuery('user', null, 'number');
@@ -72,7 +60,6 @@ async function ban() {
 }
 
 async function unban(ban: Ban) {
-    await useDelete(`bans/${ban.id}`);
     remove(bans.value.data, ban);
 }
 </script>
