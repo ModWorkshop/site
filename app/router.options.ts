@@ -63,11 +63,6 @@ export default <RouterOptions> {
                     component: () => import('~/pages/user-settings/content.vue')
                 },
                 {
-                    name: "edit-user-games",
-                    path: "games",
-                    component: () => import('~/pages/user-settings/games.vue')
-                },
-                {
                     name: "edit-user-profile",
                     path: "profile",
                     component: () => import('~/pages/user-settings/profile.vue')

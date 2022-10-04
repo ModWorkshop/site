@@ -36,7 +36,7 @@ export const useStore = defineStore('main', {
             return state.savedTheme === 'light' ? 'light' : 'dark';
         },
         isBanned(state) {
-            return !!state.user?.ban && !!state.user?.game_ban;
+            return !!state.user?.ban || !!state.currentGame?.user_data?.ban;
         }
     },
     actions: {

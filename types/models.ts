@@ -222,11 +222,11 @@ export interface Tag {
 export interface Ban {
     id: number;
     user_id: number;
-    reason: string;
-    expire_date: string;
     created_at: string;
     updated_at: string;
+    case_id: number;
     user: User;
+    case: UserCase;
 }
 
 export interface User {
@@ -238,9 +238,10 @@ export interface User {
     created_at?: string;
     updated_at?: string;
     avatar: string;
-    roles?: Array<Role>;
+    roles?: Role[];
     roles_count?: number;
-    role_ids: Array<number>;
+    role_ids: number[];
+    game_role_ids: number[];
     custom_color: string;
     color: string;
     tag: string;
@@ -395,6 +396,7 @@ export interface UserCase {
     pardoned: boolean;
     ban?: Ban;
     user?: User;
+    mod_user?: User;
 }
 
 export interface Dependency {
@@ -424,6 +426,7 @@ export interface InstructsTemplate {
 }
 
 export interface GameUserData {
+    ban: Ban;
     role_ids: Array<number>;
     highest_role_order: number;
     readonly permissions?: Record<string, boolean>;

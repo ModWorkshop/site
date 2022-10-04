@@ -36,7 +36,7 @@ definePageMeta({
     middleware: 'unbanned-users-only'
 });
 
-const { user } = useStore();
+const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
@@ -57,8 +57,8 @@ const mod: Ref<Mod> = ref({
     legacy_banner_url: '',
     game_id: null,
     version: '',
-    user_id: user.id,
-    user,
+    user_id: store.user.id,
+    user: store.user,
     downloads: 0,
     likes: 0,
     views: 0,
@@ -73,6 +73,10 @@ const gameName = computed(() => route.params.gameId);
 
 const { data: games } = await useFetchMany<Game>('games', { immediate: !gameName.value });
 const { data: game } = await useResource<Game>('game', 'games');
+
+store.currentGame = game.value;
+
+useUnbannedOnly();
 
 const breadcrumb = computed(() => {
     if (game.value) {

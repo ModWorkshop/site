@@ -119,5 +119,5 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
 }
 
 export function getGameResourceUrl(resource: string, game?: Game) {
-    return game ? `/games/${game.id}/${resource}` : resource;
+    return game ? `games/${game.id}/${resource}` : resource;
 }

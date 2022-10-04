@@ -1,9 +1,11 @@
 <template>
     <a-input>
-        <flex wrap>
-            <a-tag v-for="item of selectedOptions" :key="item.id" :color="item.color">
-                <font-awesome-icon v-if="showItem(item)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectItem(item)"/> {{item.name}}
-            </a-tag>
+        <flex class="px-1 items-center" wrap>
+            <template v-if="selectedOptions.length">
+                <a-tag v-for="item of selectedOptions" :key="item.id" :color="item.color">
+                    <font-awesome-icon v-if="showItem(item)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectItem(item)"/> {{item.name}}
+                </a-tag>
+            </template>
             <VDropdown v-if="!disabled" placement="right-start">
                 <a-button icon="plus" size="sm"/>
                 <template #popper>
@@ -11,6 +13,9 @@
                     <a-dropdown-item v-for="item of filtered" :key="item.id" @click="selectItem(item)">{{item.name}}</a-dropdown-item>
                 </template>
             </VDropdown>
+            <span v-else>
+                No Roles
+            </span>
         </flex>
     </a-input>
 </template>
@@ -20,6 +25,7 @@ import { remove } from '@vue/shared';
 
 const props = withDefaults(defineProps<{
     options: any[];
+    disabled?: boolean,
     modelValue: string|number|any[];
     optionEnabled?: (option) => boolean,
     multiple?: boolean
