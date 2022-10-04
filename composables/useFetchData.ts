@@ -8,7 +8,7 @@ export interface DifferentFetchOptions extends FetchOptions {
 }
 
 export default async function<T>(url: string|(() => string), options: DifferentFetchOptions = {}) {
-    const key = typeof url == 'function' ? url() : url;
+    const key = typeof url == 'function' ? url.toString() : url;
     return await useAsyncData(key, () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
         initialCache: options.initialCache ?? false,
         lazy: options.lazy,
