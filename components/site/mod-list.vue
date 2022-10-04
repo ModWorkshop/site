@@ -5,15 +5,15 @@
                 <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
                 <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
                 <a-button icon="star" :disabled="sortBy == 'score'" @click="setSortBy('score')">{{$t('popular_now')}}</a-button>
-                <Popper arrow>
+                <VDropdown>
                     <a-button icon="ellipsis"/>
-                    <template #content>
+                    <template #popper>
                         <a-dropdown-item icon="heart" @click="setSortBy('likes')">{{$t('likes')}}</a-dropdown-item>
                         <a-dropdown-item icon="download" @click="setSortBy('downloads')">{{$t('downloads')}}</a-dropdown-item>
                         <a-dropdown-item icon="eye" @click="setSortBy('views')">{{$t('views')}}</a-dropdown-item>
                         <a-dropdown-item icon="pencil" @click="setSortBy('name')">{{$t('name')}}</a-dropdown-item>
                     </template>
-                </Popper>
+                </VDropdown>
             </flex>
             <flex class="ml-auto" gap="3">
                 <flex gap="1">

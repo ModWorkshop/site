@@ -39,18 +39,18 @@
                                     {{$t('download')}}
                                     <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
                                 </a-button>
-                                <Popper v-else arrow>
+                                <VDropdown v-else>
                                     <a-button class="large-button w-full text-center" icon="download">
                                         {{$t('show_download_link')}}
                                     </a-button>
-                                    <template #content>
-                                        <div style="width: 250px;">
+                                    <template #popper>
+                                        <div class="p-2">
                                             {{$t('show_download_link_warn')}}
                                             <br>
                                             <a :href="file.url">{{file.url}}</a>
                                         </div>
                                     </template>
-                                </Popper>
+                                </VDropdown>
                             </div>
                         </flex>
                     </flex>

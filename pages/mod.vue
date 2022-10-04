@@ -37,26 +37,26 @@
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
-            <Popper :disabled="mod.followed">
+            <VDropdown :disabled="mod.followed">
                 <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
                     {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>
                 </a-button>
-                <template #content>
+                <template #popper>
                     <a-dropdown-item @click="setFollowMod(mod, true)">Follow and get notified for updates</a-dropdown-item>
                     <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
-            </Popper>
+            </VDropdown>
             <a-button icon="share-nodes" @click="openShare">{{$t('share')}}</a-button>
-            <Popper v-if="canManage" arrow>
+            <VDropdown v-if="canManage" arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
-                <template #content>
+                <template #popper>
                     <mod-suspend :mod="mod">
                         <a-dropdown-item>{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
                     </mod-suspend>
                     <a-dropdown-item v-if="mod.images.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
                     <a-dropdown-item v-if="mod.files.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
                 </template>
-            </Popper>
+            </VDropdown>
         </flex>
         <NuxtPage :mod="mod"/>
     </page-block>

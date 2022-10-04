@@ -48,7 +48,7 @@
 
 .popper {
     word-break: break-word;
-    max-width: 300px;
+    max-width: 400px;
     max-height: 500px;
     overflow: auto;
 }
@@ -60,10 +60,21 @@
     --vs-dropdown-option-padding: 8px 16px !important;
 }
 
-.v-select {
-    background-color: var(--input-bg-color) !important;
-    color: var(--text-color) !important;
-}
 .va-select-option-list__option:hover {
     background-color: var(--dropdown-hover-bg) !important;
+}
+
+.v-popper__inner {
+    background: var(--dropdown-bg) !important;
+    color: var(--text-color) !important;
+    border-radius: var(--border-radius) !important;
+    border-color: var(--input-border-color) !important;
+}
+
+.v-popper__arrow-outer {
+    border-color: var(--dropdown-bg) !important;
+}
+
+.v-popper__arrow-inner {
+    border-color: var(--dropdown-hover-bg) !important;
 }

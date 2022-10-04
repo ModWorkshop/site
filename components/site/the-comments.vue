@@ -5,9 +5,10 @@
                 <h3>{{$t(resourceName)}}</h3>
                 <flex class="ml-auto">
                     <a-button v-if="viewingComment" icon="arrow-left" :to="pageUrl">{{$t(`return_to_${resourceName}`)}}</a-button>
-                    <Popper v-else :content="cannotCommentReason" hover :disabled="canComment">
+                    <VTooltip v-else :disabled="canComment">
                         <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('post')}}</a-button>
-                    </Popper>
+                        <template #popper>{{cannotCommentReason}}</template>
+                    </VTooltip>
                     <a-button :icon="commentable.subscribed ? 'bell-slash' : 'bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
                 </flex>
             </flex>

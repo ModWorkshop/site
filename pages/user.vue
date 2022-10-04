@@ -3,30 +3,30 @@
         <flex v-if="authUser && user.id != authUser.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
-            <Popper :disabled="user.followed">
+            <VDropdown :disabled="user.followed">
                 <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
                     {{$t(user.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!user.followed" icon="caret-down"/>
                 </a-button>
-                <template #content>
+                <template #popper>
                     <a-dropdown-item @click="setFollowUser(user, true)">Follow and get notified for new mods</a-dropdown-item>
                     <a-dropdown-item @click="setFollowUser(user, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
-            </Popper>
-            <Popper :disabled="isBlocked">
+            </VDropdown>
+            <VDropdown :disabled="isBlocked">
                 <a-button icon="user-xmark" @click="isBlocked && blockUser()">{{isBlocked ? $t('unblock') : `${$t('block')}/${$t('hide_mods')}`}}</a-button>
-                <template #content>
+                <template #popper>
                     <a-dropdown-item icon="user-xmark" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-dropdown-item>
                     <a-dropdown-item icon="eye-slash" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-dropdown-item>
                 </template>
-            </Popper>
-            <Popper v-if="canModerateUser" arrow>
+            </VDropdown>
+            <VDropdown v-if="canModerateUser" arrow>
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
-                <template #content>
+                <template #popper>
                     <a-dropdown-item :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
                     <a-dropdown-item icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
                     <a-dropdown-item icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
                 </template>
-            </Popper>
+            </VDropdown>
         </flex>
         <template v-if="tempBlockOverride || !isBlocked">
             <a-banner :src="user.banner" url-prefix="users/banners">

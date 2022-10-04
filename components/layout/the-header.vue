@@ -25,7 +25,7 @@
             <a-link-button to="/support">{{$t('support_us')}}</a-link-button>
         </flex>
         <flex class="user-items mr-2 items-center" gap="4"> 
-            <Popper offset-distance="8" :show="showSearch">
+            <VDropdown offset-distance="8" :show="showSearch">
                 <div>
                     <a-input 
                         v-model="search"
@@ -41,7 +41,7 @@
                     />
                     <a-button icon="search" aria-label="Search" style="padding: 0.6rem 0.75rem;"/>
                 </div>
-                <template #content>
+                <template #popper>
                     <ClientOnly>
                         <flex class="popper-big" column>
                             <a-button
@@ -55,7 +55,7 @@
                         </flex>
                     </ClientOnly>
                 </template>
-            </Popper>
+            </VDropdown>
             <template v-if="user">
                 <flex v-if="user.ban" column>
                     <span class="text-danger">
@@ -69,9 +69,9 @@
                     <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
-                <Popper arrow visible>
+                <VDropdown arrow visible>
                     <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
-                    <template #content>
+                    <template #popper>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
                         <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                         <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
@@ -86,7 +86,7 @@
                         </a-dropdown-item>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
-                </Popper>
+                </VDropdown>
             </template>
             <a-loading v-else-if="userIsLoading"/>
             <flex v-else class="my-auto" gap="4">

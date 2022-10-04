@@ -4,13 +4,13 @@
             <a-tag v-for="item of selectedOptions" :key="item.id" :color="item.color">
                 <font-awesome-icon v-if="showItem(item)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectItem(item)"/> {{item.name}}
             </a-tag>
-            <Popper>
+            <VDropdown>
                 <a-button icon="plus" size="sm"/>
-                <template #content>
+                <template #popper>
                     <a-input v-model="search"/>
                     <a-dropdown-item v-for="item of filtered" :key="item.id" @click="selectItem(item)">{{item.name}}</a-dropdown-item>
                 </template>
-            </Popper>
+            </VDropdown>
         </flex>
     </a-input>
 </template>

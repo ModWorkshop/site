@@ -32,18 +32,18 @@
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
                     </a-button>
-                     <Popper v-else-if="mod.download && mod.download_type == 'link'" arrow>
+                     <VDropdown v-else-if="mod.download && mod.download_type == 'link'">
                         <a-button class="large-button w-full text-center" icon="download" @click="!!static && registerDownload">
                             {{$t('show_download_link')}}
                         </a-button>
-                        <template #content>
+                        <template #popper>
                             <div style="width: 250px;">
                                 {{$t('show_download_link_warn')}}
                                 <br>
                                 <a :href="(mod.download as any).url">{{(mod.download as any).url}}</a>
                             </div>
                         </template>
-                    </Popper>
+                    </VDropdown>
                     <a-button v-else-if="mod.files.length || mod.links.length" class="large-button" icon="download" @click="switchToFiles">Downloads</a-button>
                     <a-button v-else class="large-button" disabled>No Files</a-button>
                 </flex>

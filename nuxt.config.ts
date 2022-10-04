@@ -68,6 +68,7 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'nuxt-windicss',
 		'@vuestic/nuxt',
-		'@vueuse/nuxt'
+		'@vueuse/nuxt',
+		'floating-vue/nuxt'
 	],
 });

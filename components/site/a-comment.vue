@@ -27,9 +27,9 @@
                         :icon="comment.subscribed ? 'bell-slash' : 'bell'"
                         @click="subscribe"
                     />
-                    <Popper arrow style="margin: 0; border: 0;" @open:popper="setActionsVisible(true)" @close:popper="setActionsVisible(false)">
+                    <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
                         <a-button class="cursor-pointer" icon="ellipsis-h" size="sm"/>
-                        <template #content>
+                        <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
@@ -37,7 +37,7 @@
                                 <a-dropdown-item>{{$t('report')}}</a-dropdown-item>
                             </a-report>
                         </template>
-                    </Popper>
+                    </VDropdown>
                 </flex>
             </div>
         </flex>
@@ -166,10 +166,6 @@ async function subscribe() {
 async function togglePinnedState() {
     props.comment.pinned = !props.comment.pinned;
     emit('pin', props.comment);
-}
-
-function setActionsVisible(visible: boolean) {
-    areActionsVisible.value = visible;
 }
 
 //Deletes a reply in the comment
