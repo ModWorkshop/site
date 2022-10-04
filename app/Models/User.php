@@ -369,7 +369,7 @@ class User extends Authenticatable
         if (isset(self::$currentGameId)) {
             $ban = $this->gameBan;
             if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->greaterThan($ban->case->expire_date))) {
                     return $ban;
                 }
             }
@@ -383,7 +383,7 @@ class User extends Authenticatable
         if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
             $ban = $this->ban;
             if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || $ban->case->expire_date > Carbon::now())) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->greaterThan($ban->case->expire_date))) {
                     return $ban;
                 }
             }

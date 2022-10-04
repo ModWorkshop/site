@@ -86,15 +86,15 @@ class UserCaseController extends Controller
     {
         $val = $request->validate([
             'reason' => 'string|min:3|max:1000',
-            'pardon_reason' => 'string|max:1000',
-            'expire_date' => 'date|nullable|after:now',
+            'pardon_reason' => 'string|nullable|max:1000',
+            'expire_date' => 'date|nullable',
             'pardoned' => 'boolean'
         ]);
 
         $userCase->update($val);
 
         if (!$userCase->warning) {
-            if ($userCase->expire_date < Carbon::now() || $userCase->pardoned) {
+            if (Carbon::now()->lessThan($userCase->expire_date) || $userCase->pardoned) {
                 $userCase->ban()->delete();
             } else {
                 if (!isset($userCase->ban)) {
