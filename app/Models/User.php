@@ -658,7 +658,7 @@ class User extends Authenticatable
 
         //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
         foreach ($roles as $role) {
-            if (!$this->hasRole($role->id)) {
+            if (!$this->hasGameRole($game, $role->id)) {
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
                 } else {

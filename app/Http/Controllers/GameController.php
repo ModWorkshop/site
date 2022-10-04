@@ -126,13 +126,14 @@ class GameController extends Controller
             $game = $q->where('short_name', $shortNameOrId)->first();
         }
         if (isset($game)) {
+            User::setCurrentGame($game->id);
             return $this->show($game);
         } else {
             abort(404);
         }
     }
 
-    public function setGameUserData(Request $request, Game $game, User $user)
+    public function setUserGameRoles(Request $request, Game $game, User $user)
     {
         $this->authorize('manageRoles', [$game, $user]);
 
@@ -141,7 +142,7 @@ class GameController extends Controller
             'role_ids.*' => 'integer|min:1|exists:game_roles,id',
         ]);
 
-        $user->syncGameRoles($game, array_filter($val['role_ids'], fn($val) => is_numeric($val)));
+        $user->syncGameRoles($game, array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
     }
 
     /**

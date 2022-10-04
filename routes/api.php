@@ -125,7 +125,7 @@ Route::resource('games', GameController::class);
 Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
-Route::patch('games/{game}/users/{user}', [GameController::class, 'setGameUserData']);
+Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
 gameResource('tags', TagController::class);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
@@ -170,6 +170,7 @@ Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
+    Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
 
     Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
     Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');

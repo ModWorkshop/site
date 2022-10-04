@@ -67,6 +67,11 @@ class UserPolicy
         return $user->id === $model->id || $user->hasPermission('admin');
     }
 
+    public function manageRoles(User $user, User $model)
+    {
+        return $user->id === $model->id || $user->hasPermission('manage-roles');
+    }
+    
     /**
      * Determine whether the user can restore the model.
      *

@@ -95,8 +95,6 @@ class UserController extends Controller
             'name' => 'string|nullable|min:3|max:100',
             'unique_name' => 'string|nullable|min:3|max:50',
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
-            'role_ids' => 'array',
-            'role_ids.*' => 'integer|nullable|min:2',
             'custom_color' => 'string|max:7|nullable'
         ]);
 
@@ -118,15 +116,21 @@ class UserController extends Controller
         $bannerFile = Arr::pull($valExtra, 'banner_file');
         APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
 
-        //Get all roles first
-        $roles = Arr::pull($val, 'role_ids');
-        if (isset($roles)) {
-            $user->syncRoles(array_filter($roles, fn($val) => is_numeric($val)));
-        }
         $user->update($val);
         $userExtra->update($valExtra);
 
         return new UserResource($user);
+    }
+
+    function setUserRoles(Request $request, User $user) {
+        $this->authorize('manageRoles', $user);
+
+        $val = $request->validate([
+            'role_ids' => 'array',
+            'role_ids.*' => 'integer|min:1|exists:game_roles,id',
+        ]);
+
+        $user->syncRoles(array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
     }
 
     /**
