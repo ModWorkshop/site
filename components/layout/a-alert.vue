@@ -1,7 +1,7 @@
 <template>
     <flex :class="classes" gap="2">
         <span v-if="currIcon" class="text-3xl self-start">
-            <font-awesome-icon :icon="icon"/>
+            <font-awesome-icon :icon="currIcon"/>
         </span>
         <flex column>
             <strong v-if="title" class="text-xl">{{title}}</strong>
@@ -29,7 +29,13 @@ const icons = {
     warning: 'circle-exclamation',
 };
 
-const currIcon = computed(() => props.icon !== false ? icons[props.color] : null);
+const currIcon = computed(() =>  {
+    if (typeof props.icon == 'string') {
+        return props.icon;
+    } else if (props.icon !== false) {
+        return icons[props.color];
+    }
+});
 
 const classes = computed(() => {
     return {
