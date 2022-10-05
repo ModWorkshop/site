@@ -39,10 +39,12 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
+import { Game } from '~~/types/models';
+
 
 const store = useStore();
 
-await store.fetchGames();
+const { data: games } = await useFetchMany<Game>('games', { initialCache: true });
 
 const allGames = ref(false);
 
@@ -59,9 +61,9 @@ const currentFollowUrl = computed(() => links[selectedFollow.value]);
 
 const lastGames = computed(() => {
     if (allGames.value) {
-        return store.games.data;
+        return games.value.data;
     } else {
-        return store.games.data.slice(0, 10);
+        return games.value.data.slice(0, 10);
     }
 });
 </script>

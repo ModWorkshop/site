@@ -52,9 +52,9 @@
                         <span>{{$t('categories')}}</span>
                         <category-tree :categories="categories.data" set-query/>
                     </flex>
-                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="store.games?.data" @update:model-value="gameChanged"/>
-                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
-                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
+                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="games.data" @update:model-value="gameChanged"/>
+                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max="10"/>
+                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max="10"/>
                 </content-block>
             </flex>
         </flex>
@@ -62,8 +62,7 @@
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { Category, Mod, Tag } from '~~/types/models';
-import { useStore } from '~~/store';
+import { Category, Game, Mod, Tag } from '~~/types/models';
 
 const props = defineProps({
     title: String,
@@ -75,8 +74,6 @@ const props = defineProps({
     }
 });
 
-const store = useStore();
-
 const query = useRouteQuery('query', '');
 const page = useRouteQuery('page', 1, 'number');
 const pageOverride = ref(null);
@@ -84,16 +81,15 @@ const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: D
 const selectedTags = useRouteQuery('selected-tags', []);
 const selectedBlockTags = useRouteQuery('filtered-tags', []);
 const loading = ref(false);
-const selectedGame = useRouteQuery('game', props.forcedGame?.toString());
+const selectedGame = useRouteQuery('game', props.forcedGame, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
 const sortBy = useRouteQuery('sort-by', 'bumped_at');
 const pages = ref(0);
 const filtersVisible = ref(true);
 
-await store.fetchGames();
-
-const { data: tags } = await useFetchMany<Tag>('tags', { params: { type: 'mod' } });
+const { data: games } = await useFetchMany<Game>('games', { initialCache: true });
+const { data: tags } = await useFetchMany<Tag>('tags', { params: { type: 'mod' }, initialCache: true });
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 

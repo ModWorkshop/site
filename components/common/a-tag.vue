@@ -1,5 +1,8 @@
 <template>
-    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{backgroundColor: color, color: textColor}">
+    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{
+        backgroundColor: color,
+        color: textColor
+    }">
         <slot/>
     </span>
 </template>
@@ -32,7 +35,7 @@ const textColor = computed(() => {
 .tag {
     display: inline-flex;
     color: #000;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem;
     gap: 4px;
     align-items: center;
     justify-content: center;

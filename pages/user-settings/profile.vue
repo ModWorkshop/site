@@ -26,7 +26,7 @@
                     :option-enabled="role => role.assignable"
                     @update:model-value="prepareSaveRoles"
                 />
-                <a-async-select v-model="selectedGame" :label="$t('games')" url="games" clearable/>
+                <a-select v-model="selectedGame" :label="$t('games')" url="games" clearable/>
                 <a-tag-selector 
                     v-if="selectedGame"
                     v-model="gameUserData.role_ids"

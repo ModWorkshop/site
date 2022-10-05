@@ -27,7 +27,7 @@
             <a-input v-model="currentDep.name" :label="$t('name')"/>
             <a-input v-model="currentDep.url" type="url" :label="$t('url')"/>
         </template>
-        <a-async-select v-else v-model="currentDep.mod_id" url="mods" label="Mod"/>
+        <a-select v-else v-model="currentDep.mod_id" url="mods" label="Mod"/>
         <a-input v-model="currentDep.optional" type="checkbox" :label="$t('optional')"/>
         <a-input v-model="currentDep.order" type="number" :label="$t('order')"/>
     </a-modal-form>

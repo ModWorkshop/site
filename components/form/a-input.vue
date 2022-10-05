@@ -15,7 +15,7 @@
             <textarea 
                 v-if="type == 'textarea'"
                 v-model="(modelValue as string)"
-                class="input"
+                class="mw-input"
                 :rows="rows"
                 v-bind="$attrs"
                 @input="$emit('update:modelValue', modelValue)"
@@ -73,7 +73,7 @@ defineEmits(['update:modelValue']);
 
 const isCheckbox = computed(() => props.type == 'checkbox');
 
-const classes = computed(() => ({input: true, 'input-error': !!err.value}));
+const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}));
 </script>
 
 <style>
@@ -89,10 +89,7 @@ const classes = computed(() => ({input: true, 'input-error': !!err.value}));
     border-radius: var(--border-radius);
 }
 
-</style>
-
-<style scoped>
-.input {
+.mw-input {
     padding: 0.6rem;
     flex: 1;
     height: auto;
@@ -103,21 +100,21 @@ const classes = computed(() => ({input: true, 'input-error': !!err.value}));
     resize: vertical;
 }
 
-.input:focus-visible {
+.mw-input:focus-visible {
     outline: none;
     border-color: var(--primary-color)
 }
 
-.input[type='color'] {
+.mw-input[type='color'] {
     flex: 6;
 }
 
-.input[type='checkbox'] {
+.mw-input[type='checkbox'] {
     width: revert;
     margin-top: 3px;
 }
 
-.input:disabled {
+.mw-input:disabled {
     opacity: 0.4;
 }
 </style>

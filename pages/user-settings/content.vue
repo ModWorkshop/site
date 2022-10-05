@@ -59,7 +59,7 @@
             </a-list>
         </a-tab>
         <a-modal-form v-model="showBlockTag" title="Block Tag" @submit="submitBlockTag">
-            <a-async-select v-model="blockTag" url="tags" value-by/>
+            <a-select v-model="blockTag" url="tags" :value-by="false"/>
         </a-modal-form>
     </a-tabs>
 </template>
