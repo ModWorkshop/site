@@ -25,7 +25,7 @@
             <a-link-button to="/support">{{$t('support_us')}}</a-link-button>
         </flex>
         <flex class="user-items mr-2 items-center" gap="4"> 
-            <VDropdown offset-distance="8" :show="showSearch">
+            <VDropdown :show="showSearch">
                 <div>
                     <a-input 
                         v-model="search"
@@ -62,14 +62,14 @@
                         <font-awesome-icon icon="triangle-exclamation"/> Banned
                     </span>
                     <span>
-                        Expires: <time-ago :time="user.ban.expire_date"/>
+                        Expires: <time-ago :time="user.ban.case.expire_date"/>
                     </span>
                 </flex>
                 <flex class="text-lg" gap="4">
                     <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
-                <VDropdown arrow visible>
+                <VDropdown>
                     <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
                     <template #popper>
                         <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
