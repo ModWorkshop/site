@@ -1,6 +1,6 @@
 <template>
     <flex :class="classes" gap="2">
-        <span class="text-3xl self-start">
+        <span v-if="currIcon" class="text-3xl self-start">
             <font-awesome-icon :icon="icon"/>
         </span>
         <flex column>
@@ -14,6 +14,10 @@
 <script setup lang="ts">
 const props = defineProps({
     color: { type: String, default: 'info' },
+    icon: {
+        default: true,
+        type: [String, Boolean]
+    },
     title: String,
     desc: String,
 });
@@ -25,7 +29,7 @@ const icons = {
     warning: 'circle-exclamation',
 };
 
-const icon = computed(() => icons[props.color]);
+const currIcon = computed(() => props.icon !== false ? icons[props.color] : null);
 
 const classes = computed(() => {
     return {
