@@ -14,17 +14,6 @@ export default defineNuxtConfig({
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],
 
-	vuestic: {
-		css: false,
-		config: {
-			components: {
-				VaDropdown: {
-					preventOverflow: true,
-				}
-			}
-		}
-	},
-
 	css: [
 		"@/assets/css/normalize.css",
 		"@/assets/css/base.css",
@@ -67,7 +56,6 @@ export default defineNuxtConfig({
 	modules: [
 		'@pinia/nuxt',
 		'nuxt-windicss',
-		'@vuestic/nuxt',
 		'@vueuse/nuxt',
 		'floating-vue/nuxt'
 	],
