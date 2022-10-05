@@ -92,6 +92,7 @@ const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}))
 .mw-input {
     padding: 0.6rem;
     flex: 1;
+    transition: border-color 0.25s;
     height: auto;
     color: var(--text-color);
     background-color: var(--input-bg-color);
@@ -103,6 +104,10 @@ const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}))
 .mw-input:focus-visible {
     outline: none;
     border-color: var(--primary-color)
+}
+
+.mw-input-invalid {
+    border-color: var(--danger-color)
 }
 
 .mw-input[type='color'] {
