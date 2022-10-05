@@ -34,7 +34,7 @@ defineProps<{
     displayMode: number,
     sortBy: string,
     noGame: boolean,
-    error: Error,
+    error: true|Error,
     mods: Mod[]
 }>();
 </script>

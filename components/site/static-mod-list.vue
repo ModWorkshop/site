@@ -14,11 +14,8 @@ import { SearchParams } from 'ohmyfetch';
 import { Mod } from '~~/types/models';
 
 const props = defineProps<{
-    title: string,
-    forcedGame: number,
-    params: SearchParams,
-    name: string,
-    userId: number
+    forcedGame?: number,
+    params?: SearchParams
 }>();
 
 const sortBy = computed(() => props.params.sort_by);
