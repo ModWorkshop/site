@@ -5,6 +5,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const store = useStore($pinia);
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
+        //Don't keep the game since we could go to the home page where there's no specificed game.
+        store.currentGame = null;
         //https://github.com/nuxt/framework/issues/6475
         try {
             if (!store.user) {
