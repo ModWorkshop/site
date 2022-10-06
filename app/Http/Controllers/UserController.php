@@ -99,6 +99,7 @@ class UserController extends Controller
             'bio' => 'string|nullable|max:3000',
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'boolean',
+            'invisible' => 'boolean',
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
         ]);

@@ -134,6 +134,7 @@ class User extends Authenticatable
         'unique_name',
         'banner',
         'bio',
+        'invisible',
         'private_profile',
         'custom_title',
         'donation_url',
