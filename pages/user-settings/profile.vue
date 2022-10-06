@@ -17,6 +17,7 @@
         <a-input v-model="user.custom_title" label="Custom Title"/>
         <a-input v-model="user.custom_color" label="Custom Color" desc="Let's you change your color to a custom one. Supporters Only." type="color"/>
         <a-input v-model="user.private_profile" label="Private Profile" type="checkbox" desc="Ticking this on will privatize your profile. Only staff members will be able to view it."/>
+        <a-input v-model="user.invisible" label="Invisible" type="checkbox" desc="Hides your online status"/>
         <md-editor v-model="user.bio" rows="12" label="Bio" desc="Tell about yourself to people visiting your profile"/>
     </flex>
 </template>

@@ -112,7 +112,7 @@ const isOnline = computed(() => {
 });
 const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
-const userInvisible = computed(() => false);
+const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile);
 
 async function blockUser() {

@@ -250,6 +250,7 @@ export interface User {
     banner: string;
     bio: string;
     private_profile: boolean;
+    invisible: boolean;
     custom_title: string;
     last_online?: string;
     donation_url: string;
