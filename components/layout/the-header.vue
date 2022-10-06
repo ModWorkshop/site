@@ -13,7 +13,7 @@
     </a-modal>
     <header class="nav">
         <NuxtLink to="/">
-            <img alt="logo" :src="logo" width="36">
+            <a-img alt="logo" :src="logo" width="36" height="36"/>
         </NuxtLink>
         <flex gap="4" class="ml-3">
             <a-link-button v-if="!user || !user.ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
@@ -109,7 +109,7 @@ const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(1);
 
-const logo = computed(() => store.theme === 'light' ? '/mws_logo_black.svg' : '/mws_logo_white.svg');
+const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
 const canSeeAdminGamePage = computed(() => currentGame.value && adminGamePagePerms.some(perm => store.hasPermission(perm, currentGame.value)));
 
