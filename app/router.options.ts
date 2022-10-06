@@ -70,11 +70,6 @@ export default <RouterOptions> {
             ]
         },
         {
-            name: "user-at",
-            path: "/@:userId",
-            component: () => import('~/pages/user.vue')
-        },
-        {
             name: "edit-thread",
             path: "/forum/post",
             component: () => import('~/pages/edit-thread.vue')

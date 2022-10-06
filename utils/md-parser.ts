@@ -95,7 +95,7 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	// Earlier we checked !silent, but this implementation does not need it
 	let token = state.push('link_open', 'a', 1);
 	token.markup  = '@';
-	token.attrs = [['href', `/@${content}`]];
+	token.attrs = [['href', `/user/${content}`]];
 
 	token = state.push('text', '', 0);
 	token.content = '@'+content;

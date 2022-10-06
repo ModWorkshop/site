@@ -11,7 +11,7 @@
             <flex column>
                 ModWorkshop v3.0 Alpha
                 <span>
-                    Made with ❤ by <NuxtLink to="/@Luffy">Luffy</NuxtLink>
+                    Made with ❤ by <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                 </span>
             </flex>
         </flex>
