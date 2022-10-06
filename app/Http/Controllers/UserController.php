@@ -102,6 +102,7 @@ class UserController extends Controller
             'invisible' => 'boolean',
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
+            'show_tag' => 'in:role,supporter_or_role,none|nullable'
         ]);
 
         APIService::nullToEmptyStr($val, 'custom_color');

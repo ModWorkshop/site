@@ -26,6 +26,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SupporterController;
 use App\Http\Controllers\SuspensionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
@@ -180,6 +181,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::resource('followed-games', FollowedGameController::class)->except('show');
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });
+
+Route::resource('supporters', SupporterController::class);
 
 Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);

@@ -55,7 +55,7 @@ class BanController extends Controller
     public function store(Request $request, Game $game)
     {
         $val = $request->validate([
-            'user_id' => 'int|min:0|required|exists:users,id',
+            'user_id' => 'int|min:1|required|exists:users,id',
             'expire_date' => 'date|after:now|nullable',
             'reason' => 'string|min:3|max:1000'
         ]);

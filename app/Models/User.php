@@ -113,7 +113,7 @@ class User extends Authenticatable
     
     // Always return roles for users
     protected $appends = ['color'];
-    protected $with = ['roles', 'ban'];
+    protected $with = ['roles', 'ban', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -138,6 +138,7 @@ class User extends Authenticatable
         'private_profile',
         'custom_title',
         'donation_url',
+        'show_tag'
     ];
 
     /**
@@ -286,38 +287,76 @@ class User extends Authenticatable
         return $this->hasMany(Ban::class);
     }
 
+    public function supporter(): HasOne
+    {
+        return $this->hasOne(Supporter::class)->orderBy('expire_date')->without('user');
+    }
+
     #endregion
 
     #region Attributes
     
     public function customColor(): Attribute
     {
-        return Attribute::make(
-            get: fn($value) =>  preg_replace('/\s+/', '', $value)
-        );
+        return Attribute::make(fn($value) =>  preg_replace('/\s+/', '', $value));
+    }
+
+    public function activeSupporter(): Attribute
+    {
+        return Attribute::make(function($value, $attributes) {
+            $supporter = $this->supporter;
+            if (isset($supporter) && (!isset($supporter->expire_date) || Carbon::now()->lessThan($supporter->expire_date))) {
+                return $supporter;
+            } else {
+                return null;
+            }
+        });
     }
 
     public function color(): Attribute
     {
-        return Attribute::make(
-            get: function($value, $attributes) {
-                if ($attributes['custom_color']) {
-                    return $attributes['custom_color'];
-                }
-                if (isset(self::$currentGameId)) {
-                    foreach ($this->gameRoles as $role) {
-                        if ($role->color) {
-                            return $role->color;
-                        }
-                    }
-                }
-                foreach ($this->roles as $role) {
+        return Attribute::make(function($value, $attributes) {
+            if ($attributes['custom_color'] && $this->supporterActive) {
+                return $attributes['custom_color'];
+            }
+
+            if (isset(self::$currentGameId)) {
+                foreach ($this->gameRoles as $role) {
                     if ($role->color) {
                         return $role->color;
                     }
                 }
             }
-        );
+            foreach ($this->roles as $role) {
+                if ($role->color) {
+                    return $role->color;
+                }
+            }
+        });
+    }
+
+    public function tag(): Attribute
+    {
+        return Attribute::make(function() {
+            //Supporter handled in frontend
+            if ($this->show_tag === 'none' || (isset($this->activeSupporter) && $this->show_tag === 'supporter_or_role')) {
+                return null;
+            }
+
+            if (isset(User::$currentGameId)) {
+                foreach ($this->gameRoles as $role) {
+                    if ($role->tag) {
+                        return $role->tag;
+                    }
+                }    
+            }
+
+            foreach ($this->roles as $role) {
+                if ($role->tag) {
+                    return $role->tag;
+                }
+            }
+        });
     }
 
     /**
@@ -409,6 +448,7 @@ class User extends Authenticatable
 
         return null;
     }
+
 
     #endregion
 

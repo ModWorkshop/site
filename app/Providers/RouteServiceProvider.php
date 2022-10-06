@@ -34,7 +34,11 @@ class RouteServiceProvider extends ServiceProvider
         'thread',
         'mod',
         'ban',
-        'notification'
+        'notification',
+        'supporter',
+        'blockedTag',
+        'blockedUser',
+        'suspension',
     ];
 
 

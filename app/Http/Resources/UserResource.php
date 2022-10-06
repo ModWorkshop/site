@@ -46,20 +46,7 @@ class UserResource extends JsonResource
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'highest_role_order' => $this->highestRoleOrder,
-            'tag' => $this->whenLoaded('roles', function() {
-                if (isset(User::$currentGameId)) {
-                    foreach ($this->gameRoles as $role) {
-                        if ($role->tag) {
-                            return $role->tag;
-                        }
-                    }    
-                }
-                foreach ($this->roles as $role) {
-                    if ($role->tag) {
-                        return $role->tag;
-                    }
-                }
-            }),
+            'tag' => $this->tag,
             'banner' => $this->banner,
             'bio' => $this->bio,
             'invisible' => $this->invisible,
