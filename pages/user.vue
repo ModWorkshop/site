@@ -1,6 +1,6 @@
 <template>
     <page-block>
-        <flex v-if="authUser && user.id != authUser.id">
+        <flex v-if="me && user.id != me.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
             <VDropdown :disabled="user.followed">
@@ -34,20 +34,43 @@
             </a-banner>
             <flex gap="3" class="md:flex-row">
                 <content-block id="details" class="p-4">
-                    <flex column>
-                        <flex column style="min-width: 300px;">
-                            <a-user class="text-2xl" :user="user" :avatar="false" static>
-                                <template #after-name>
-                                    <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"/>
-                                </template>
-                            </a-user>
-                            <span v-if="!userInvisible">{{user.custom_title}}</span>
-                        </flex>
-                        <flex v-if="isPublic" gap="2" column class="mt-1">
-                            <div v-if="user.created_at">{{$t('registration_date')}} {{fullDate(user.created_at)}}</div>
-                            <div>{{$t('last_visit')}} {{timeAgo(user.last_online)}}</div>
-                            <donation-button v-if="user.donation_url" :link="user.donation_url"/>
-                        </flex>
+                    <flex gap="3" column style="min-width: 300px;">
+                        <a-user class="text-2xl" :user="user" :avatar="false" static>
+                            <template #after-name>
+                                <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"/>
+                            </template>
+                            <template #details>
+                                <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
+                            </template>
+                        </a-user>
+                        <template v-if="isPublic">
+                            <flex v-if="user.created_at" column>
+                                {{$t('registration_date')}} 
+                                <span class="text-secondary">{{date(user.created_at)}}</span>
+                            </flex>
+                            <div v-if="!isOnline">{{$t('last_visit')}} <span class="text-secondary">{{timeAgo(user.last_online)}}</span></div>
+                            <flex column>
+                                Mods
+                                <span class="text-secondary">{{mods?.meta.total}}</span>
+                            </flex>
+                            <flex v-if="user.donation_url" column>
+                                Support User
+                                <donation-button :link="user.donation_url"/>
+                            </flex>
+                            <flex column>
+                                {{$t('roles')}}
+                                <a-tag-selector
+                                    v-model="user.role_ids"
+                                    multiple
+                                    url="roles"
+                                    :color-by="item => item.color"
+                                    :fetch-params="{ only_assignable: 1 }"
+                                    :disabled="user.id !== me?.id && !hasPermission('manage-roles')"
+                                    :enabled-by="role => role.assignable"
+                                    @update:model-value="prepareSaveRoles"
+                                />
+                            </flex>
+                        </template>
                     </flex>
                 </content-block>
                 <content-block id="bio" class="p-4 w-full">
@@ -61,7 +84,7 @@
                 </content-block>
             </flex>
             <template v-if="tempBlockOverride || !isHidingMods">
-                <mod-list v-if="isPublic || isOwnOrModerator" :user-id="user.id"/>
+                <mod-list v-if="isPublic || isOwnOrModerator" :user-id="user.id" @fetched="items => mods = items"/>
             </template>
             <content-block v-else>
                 You've hid the user's mods. Do you wish to view their mods?
@@ -84,8 +107,9 @@ import { timeAgo, fullDate } from '../utils/helpers';
 import { setFollowUser } from '../utils/follow-helpers';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
-import { User } from '../types/models';
+import { Mod, User } from '../types/models';
 import { useStore } from '~~/store';
+import { Paginator } from '~~/types/paginator';
 
 const yesNoModal = useYesNoModal();
 
@@ -97,10 +121,10 @@ if (!user.value) {
     throw createError({ statusCode: 404, statusMessage: 'bruh' });
 }
 
-const { hasPermission, user: authUser } = useStore();
+const { hasPermission, user: me } = useStore();
 
 const canModerateUser = computed(() => hasPermission('moderate-users'));
-const isOwnOrModerator = computed(() => user.value.id === authUser.id || canModerateUser.value);
+const isOwnOrModerator = computed(() => user.value.id === me.id || canModerateUser.value);
 const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
@@ -114,6 +138,12 @@ const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile);
+const mods = ref<Paginator<Mod>>(null);
+
+const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
+async function saveRoles() {
+    await usePatch(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
+}
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;
