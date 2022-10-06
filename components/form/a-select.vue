@@ -1,46 +1,42 @@
 <template>
-    <a-input>
-        <VDropdown 
-			v-model:shown="dropdownOpen"
-			class="max-w-full"
-			distance="0"
-			auto-size
-			auto-boundary-max-size
-			handle-resize
-			:overflow-padding="16"
-		>
-            <flex gap="2" :class="{'items-center': true, 'mw-input': true, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
-				<flex class="overflow-hidden">
-					<template v-if="multiple && shownOptions.length">
-						<slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
-							<a-tag :color="optionColor(option)" style="padding: 0.3rem 0.5rem;">
-								<font-awesome-icon v-if="optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
-							</a-tag>
-						</slot>
-						<template v-if="shownOptions.length < selected.length">
-							<a-tag>+{{selected.length - shownOptions.length}}</a-tag>
-						</template>
-					</template>
-					<slot v-else-if="selectedOption" name="option" :option="selectedOption">
-						<span class="selection">{{optionName(selectedOption)}}</span>
-					</slot>
-					<span v-else class="selection text-secondary">{{placeholder}}</span>
-				</flex>
-				<flex class="ml-auto" gap="2">
-					<font-awesome-icon v-if="clearable && (selectedOptions.length || selectedOption)" icon="xmark" @click.prevent="clearAll"/>
-					<font-awesome-icon icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
-				</flex>
-			</flex>
-            <template #popper>
-                <flex column>
-					<a-input v-if="filterable" v-model="search" class="flex-grow"/>
-					<a-dropdown-item v-for="option of filtered" :key="optionValue(option)" :style="{ opacity: optionSelected(option) ? 0.5 : 1 }" @click="toggleOption(option)">
-						<slot name="list-option" :option="option">{{optionName(option)}}</slot>
-					</a-dropdown-item>
-                </flex>
-            </template>
-        </VDropdown>
-    </a-input>
+    <a-select-holder v-model:shown="dropdownOpen" :classic="classic" :disabled="disabled">
+        <flex :gap="classic ? 2 : 0" :class="{'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
+            <flex wrap class="overflow-hidden">
+                <template v-if="multiple && shownOptions.length">
+                    <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
+                        <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
+                            <font-awesome-icon v-if="optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                        </a-tag>
+                    </slot>
+                    <template v-if="shownOptions.length < selected.length">
+                        <a-tag>+{{selected.length - shownOptions.length}}</a-tag>
+                    </template>
+                </template>
+                <slot v-else-if="selectedOption" name="option" :option="selectedOption">
+                    <span class="selection">{{optionName(selectedOption)}}</span>
+                </slot>
+                <span v-else class="selection text-secondary">{{placeholder}}</span>
+            </flex>
+            <flex class="ml-auto" gap="2">
+                <font-awesome-icon v-if="compClearable" icon="xmark" @click.prevent="clearAll"/>
+                <font-awesome-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
+            </flex>
+        </flex>
+        <template #popper>
+            <flex column>
+                <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
+                <a-dropdown-item 
+                    v-for="option of filtered"
+                    :key="optionValue(option)"
+                    :disabled="!props.multiple && !props.clearable && optionSelected(option)"
+                    :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
+                    @click="toggleOption(option)"
+                >
+                    <slot name="list-option" :option="option">{{optionName(option)}}</slot>
+                </a-dropdown-item>
+            </flex>
+        </template>
+    </a-select-holder>
 </template>
 
 <script setup lang="ts">
@@ -48,9 +44,11 @@ import { remove } from '@vue/shared';
 
 const props = withDefaults(defineProps<{
 	url?: string,
+    fetchParams?: Record<string, unknown>,
     modelValue: any,
 	options?: any[],
     clearable?: boolean,
+    classic?: boolean,
     valueBy?: false|string|((option) => string),
     textBy?: false|string|((option) => string),
     colorBy?: false|string|((option) => string),
@@ -65,10 +63,11 @@ const props = withDefaults(defineProps<{
 }>(), {
     valueBy: 'id',
     textBy: 'name',
+    filterable: null,
+    clearable: null,
     filterSelected: false,
+    classic: true,
     placeholder: 'Select...',
-    clearable: true,
-    filterable: true,
 });
 
 const search = ref('');
@@ -84,7 +83,8 @@ const emit = defineEmits<{
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', { 
 	immediate: !!props.url,
 	params: reactive({
-		query: searchDebounced
+		query: searchDebounced,
+        ...props.fetchParams
 	}),
 	initialCache: true
 });
@@ -92,6 +92,67 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 const opts = computed(() => props.options ?? asyncOptions.value?.data);
 const selected = computed(() => typeof props.modelValue == 'object' ? props.modelValue : [props.modelValue]);
 const selectedMax = computed(() => selected.value.length >= props.max);
+const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value.length > 10));
+const filtered = computed(() => {
+    const searchLower = searchDebounced.value.toLowerCase();
+    let options = opts.value;
+
+	if (!options) {
+		return [];
+	}
+
+    if (searchLower) {
+        options = options.filter(option => optionName(option).toLowerCase().match(searchLower));
+    }
+
+    if (props.filterSelected) {
+        if (props.multiple && typeof props.modelValue == 'object') {
+            options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
+        } else {
+            options = options.filter(option => optionEnabled(option) && props.modelValue === optionValue(option));
+        }
+    }
+
+    options.sort((a, b) => {
+        const aSelected = optionSelected(a);
+        const bSelected = optionSelected(b);
+        if (aSelected && bSelected) {
+            return 0;
+        } else {
+            return aSelected ? 1 : -1;
+        }
+    });
+
+    return options;
+});
+
+const selectedOptions = computed(() => {
+	if (opts.value) {
+		return opts.value.filter(option => {
+			if (selected.value && selected.value.includes) {
+				return selected.value.includes(optionValue(option));
+			} else {
+				return false;
+			}
+		});
+	} else {
+		return [];
+	}
+});
+
+const shownOptions = computed(() => selectedOptions.value.filter((_, i) => !props.maxShown || (i + 1) <= props.maxShown));
+
+const selectedOption = computed(() => {
+	if (opts.value) {
+		return opts.value.find(option => props.modelValue === optionValue(option));
+	} else {
+		return null;
+	}
+});
+
+const compClearable = computed(() => {
+    return selectedOptions.value.length && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+});
 
 function defaultBy(option, propName) {
     if (typeof props[propName] === 'string') {
@@ -145,29 +206,6 @@ watch(searchDebounced, async () => {
 	}
 });
 
-const filtered = computed(() => {
-    const searchLower = searchDebounced.value.toLowerCase();
-    let options = opts.value;
-
-	if (!options) {
-		return [];
-	}
-
-    if (searchLower) {
-        options = options.filter(option => optionName(option).toLowerCase().match(searchLower));
-    }
-
-    if (props.filterSelected) {
-        if (props.multiple && typeof props.modelValue == 'object') {
-            options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
-        } else {
-            options = options.filter(option => optionEnabled(option) && props.modelValue === optionValue(option));
-        }
-    }
-
-    return options;
-});
-
 function clearAll() {
     if (props.multiple && typeof props.modelValue == 'object') {
         for (const option of opts.value) {
@@ -182,30 +220,6 @@ function clearAll() {
         deselectOption(selected.value);
     }
 }
-
-const selectedOptions = computed(() => {
-	if (opts.value) {
-		return opts.value.filter(option => {
-			if (selected.value && selected.value.includes) {
-				return selected.value.includes(optionValue(option));
-			} else {
-				return false;
-			}
-		});
-	} else {
-		return [];
-	}
-});
-
-const shownOptions = computed(() => selectedOptions.value.filter((_, i) => (i + 1) <= props.maxShown));
-
-const selectedOption = computed(() => {
-	if (opts.value) {
-		return opts.value.find(option => props.modelValue === optionValue(option));
-	} else {
-		return null;
-	}
-});
 
 function optionSelected(option) {
 	if (selectedOptions.value) {
@@ -247,7 +261,7 @@ function deselectOption(item) {
     if (props.multiple && typeof props.modelValue == 'object') {
         remove(props.modelValue, value);
         emit('update:modelValue', props.modelValue);
-    } else {
+    } else if (props.clearable) {
         emit('update:modelValue', undefined);
         dropdownOpen.value = false;
     } 
