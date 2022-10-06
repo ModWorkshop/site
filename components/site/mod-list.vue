@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { DateTime } from 'luxon';
 import { Category, Game, Mod, Tag } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
 
 const props = defineProps({
     title: String,
@@ -73,6 +74,10 @@ const props = defineProps({
         default: 'mods'
     }
 });
+
+const emit = defineEmits<{
+    (e: 'fetched', mods: Paginator<Mod>)
+}>();
 
 const query = useRouteQuery('query', '');
 const page = useRouteQuery('page', 1, 'number');
@@ -111,6 +116,8 @@ const searchParams = reactive({
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
     params: searchParams
 });
+
+watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 
 let { start: planLoad } = useTimeoutFn(async () => {
     await refresh();
@@ -155,7 +162,7 @@ function setSortBy(sort) {
 
 const savedMods = ref<Mod[]>([]);
 
-const hasMore = computed(() => fetchPage.value < fetchedMods.value.meta.last_page); //TODO: actually detect when there's no more
+const hasMore = computed(() => fetchPage.value < fetchedMods.value.meta.last_page);
 const currentMods = computed<Mod[]>(() => {
     return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [...savedMods.value];
 });
