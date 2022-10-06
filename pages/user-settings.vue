@@ -5,7 +5,6 @@
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="" title="Account"/>
                     <a-nav-link to="profile" title="Profile"/>
-                    <a-nav-link to="games" title="Games"/>
                     <a-nav-link to="content" title="Content"/>
                     <template #content>
                         <NuxtPage keepalive :user="user"/>
