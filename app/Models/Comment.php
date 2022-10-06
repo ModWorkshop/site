@@ -67,7 +67,7 @@ class Comment extends Model implements SubscribableInterface
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
 
-    protected $with = ['user', 'subscribed'];
+    protected $with = ['user', 'replies', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
 
@@ -92,30 +92,27 @@ class Comment extends Model implements SubscribableInterface
 
     protected function lastReplies() : Attribute
     {
-        return Attribute::make(
-            get: function() {
-                if (isset($this->reply_id)) {
-                    return null;
-                }
-
-                /** @var Builder */
-                $replies = $this->replies();
-                return $replies->oldest()->paginate(3);
+        return Attribute::make(function() {
+            if (isset($this->reply_id)) {
+                return null;
             }
-        );
+
+            //Really shit way of doing this, but if you try to load each 3 you'll lose on eagerloading which is significantly slower.
+
+            /** @var Builder */
+            return $this->replies->paginate(3);
+        });
     }
     
     protected function totalReplies() : Attribute
     {
-        return Attribute::make(
-            get: function($value, $attributes) {
-                if (isset($this->reply_id)) {
-                    return null;
-                }
-
-                return $this->last_replies->total();
+        return Attribute::make(function() {
+            if (isset($this->reply_id)) {
+                return null;
             }
-        );
+
+            return $this->last_replies->total();
+        });
     }
     
     public function replyingComment() : BelongsTo
