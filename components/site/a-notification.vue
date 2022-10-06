@@ -179,13 +179,14 @@ async function onClick() {
     if (!notif.value.seen) {
         notificationCount.value--;
     }
-    notif.value.seen = true;
 
     if (!notif.value.seen) {
         await usePatch(`notifications/${notif.value.id}`, {
             seen: true
         });
     }
+
+    notif.value.seen = true;
 
     const click = defintion.value.onClick;
     
