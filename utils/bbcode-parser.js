@@ -265,7 +265,6 @@ function tagLoop(tagsMap, cleanUp, parent) {
 
     // sweep children & matched closing tags
     tagsMap = tagsMap.filter(item => {
-        // TODO: make this more readable
         if ((item.isClosing && !item.foundOpening) || (!item.special && !item.isClosing && !item.closing)) {
             cleanUp.push(item);
             return false;

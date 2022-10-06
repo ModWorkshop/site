@@ -66,6 +66,15 @@ export function fullDate(t: string) {
     return DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT);
 }
 
+/**
+ * Converts ISO8601 date to date format.
+ * @param {String} t 
+ * @returns String
+ */
+export function date(t: string) {
+    return DateTime.fromISO(t).toLocaleString(DateTime.DATE_FULL);
+}
+
 export async function reloadToken() {
     await useGet('/sanctum/csrf-cookie');
 }

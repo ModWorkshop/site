@@ -1,11 +1,11 @@
 <template>
-    <flex :gap="gap" column :class="{'page-block': true, 'h-full': true, 'page-block-full': size == 'full', 'page-block-md': size == 'md', 'page-block-sm': size == 'sm'}">
+    <flex :gap="gap" column :class="classes">
         <slot/>
     </flex>
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     gap: {
         type: Number,
         default: 3
@@ -16,6 +16,13 @@ defineProps({
     }
 });
 
+const classes = computed(() => ({
+    'page-block': true,
+    'h-full': true,
+    'page-block-full': props.size == 'full',
+    'page-block-md': props.size == 'md',
+    'page-block-sm': props.size == 'sm'
+}));
 </script>
 
 <style scoped>

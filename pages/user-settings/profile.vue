@@ -13,6 +13,9 @@
                 <a-banner :src="src" url-prefix="users/banners"/>
             </template>
         </img-uploader>
+
+        <a-select v-model="user.show_tag" :options="showTagOptions" label="Show Tag" desc="The tag appears near your name. Mostly used for moderators or supporters."/>
+
         <a-input v-model="user.donation_url" label="Donation Link" desc="Supports PayPal, Ko-Fi, and Buy Me a Coffee. Shows in your profile and mod pages."/>
         <a-input v-model="user.custom_title" label="Custom Title"/>
         <a-input v-model="user.custom_color" label="Custom Color" desc="Let's you change your color to a custom one. Supporters Only." type="color"/>
@@ -29,6 +32,11 @@ defineProps<{
     user: UserForm
 }>();
 
+const showTagOptions = [
+    { id: 'role', name: 'Role Tag' },
+    { id: 'supporter_or_role', name: 'Supporter Tag (Role fallback)' },
+    { id: 'none', name: 'Hide' },
+];
 </script>
 
 <style scoped>

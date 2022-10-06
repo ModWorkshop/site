@@ -254,12 +254,14 @@ export interface User {
     custom_title: string;
     last_online?: string;
     donation_url: string;
-    ban: Ban,
-    game_ban: Ban,
-    blocked_by_me?: { silent: boolean }
-    blocked_me: boolean,
-    highest_role_order?: number,
-    followed?: { notify: boolean }
+    ban: Ban;
+    game_ban: Ban;
+    blocked_by_me?: { silent: boolean };
+    blocked_me: boolean;
+    highest_role_order?: number;
+    followed?: { notify: boolean };
+    show_tag: 'role'|'supporter_or_role'|'none';
+    supporter?: Supporter
 }
 
 export interface UserForm extends User {
@@ -431,4 +433,14 @@ export interface GameUserData {
     role_ids: Array<number>;
     highest_role_order: number;
     readonly permissions?: Record<string, boolean>;
+}
+
+export interface Supporter {
+    id: number;
+    user_id: number;
+    expire_date?: string;
+    is_cancelled: boolean;
+    created_at: string;
+    updated_at: string;
+    user: User;
 }

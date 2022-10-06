@@ -13,7 +13,7 @@
             >
                 <NuxtLink class="flex gap-1 items-center" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user.name}}</component>
-                    <a-tag v-if="tag && user.tag" small>{{user.tag}}</a-tag>
+                    <a-tag v-if="userTag" small>{{userTag}}</a-tag>
                     <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
@@ -30,9 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
-
-const renderProfile = ref(false);
 
 const props = withDefaults(defineProps<{
     details?: string,
@@ -51,7 +50,19 @@ const props = withDefaults(defineProps<{
     miniProfile: true
 });
 
+const { t } = useI18n();
+
+const renderProfile = ref(false);
 const isBanned = computed(() => !!(props.user.ban || props.user.game_ban));
+const userTag = computed(() => {
+    if (props.user.show_tag !== 'none') {
+        if (props.user.show_tag === 'supporter_or_role' && props.user.supporter) {
+            return t('supporter_tag');
+        } else {
+            return props.user.tag;
+        }
+    }
+});
 
 const userColor = computed(() => {
     if (isBanned.value) {

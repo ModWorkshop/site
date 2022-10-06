@@ -343,6 +343,11 @@ export default <RouterOptions> {
                     path: "approvals",
                     component: () => import('~/pages/admin/approvals.vue')
                 },
+                {
+                    name: "admin-supporters",
+                    path: "supporters",
+                    component: () => import('~/pages/admin/supporters.vue')
+                },
             ]
         }
     ]

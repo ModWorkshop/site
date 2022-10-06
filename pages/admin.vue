@@ -6,6 +6,7 @@
                 <a-nav-link to="" title="Home"/>
                 <a-nav-link v-if="hasPermission('admin')" to="settings" title="Settings"/>
                 <a-nav-link v-if="hasPermission('manage-roles')" to="roles" title="Roles"/>
+                <a-nav-link v-if="hasPermission('manage-users')" to="supporters" title="Supporters"/>
                 <h3>Moderation</h3>
                 <a-nav-link v-if="moderateUsers" to="cases" title="Cases"/>
                 <a-nav-link v-if="moderateUsers" to="approvals" title="Approvals"/>
