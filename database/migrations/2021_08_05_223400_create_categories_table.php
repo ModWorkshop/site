@@ -15,11 +15,11 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name'); //TODO: should this be index?
+            $table->tinyText('name');
             $table->tinyText('desc')->default(''); // Was description
             $table->tinyInteger('disporder')->unsigned()->default(0);
             $table->bigInteger('parent_id')->unsigned()->nullable();
-            $table->foreign('parent_id')->references('id')->on('categories'); // TODO: should categories be cleaned up if their parent is erased?
+            $table->foreign('parent_id')->references('id')->on('categories'); // TODO: should categories be cleaned up if their parent is erased? - NO
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games');
 

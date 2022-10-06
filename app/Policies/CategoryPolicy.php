@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-//TODO: let people create/edit/delete categories only if they're part of a section they moderate
 class CategoryPolicy
 {
     use HandlesAuthorization;
