@@ -3,8 +3,8 @@ interface YesNoModalOptions {
     title?: string,
     desc?: string,
     descType?: string,
-    yes?: (close?: () => void, error?: (e) => void) => Promise<void>,
-    no?: (close?: () => void, error?: (e) => void) => Promise<void>
+    yes?: (error?: (e) => void) => Promise<void>,
+    no?: (error?: (e) => void) => Promise<void>
 }
 
 export default function() {
@@ -14,20 +14,20 @@ export default function() {
         const modal = {
             modelValue: ref(true),
             ...options,
-            async yes(close, error) {
+            async yes(error) {
                 try {
                     if (options.yes) {
-                        await options.yes(close, error);
+                        await options.yes(error);
                     }
                     modal.modelValue.value = false;
                 } catch (e) {
                     error(e);
                 }
             },
-            async no(close, error) {
+            async no(error) {
                 try {
                     if (options.no) {
-                        await options.no(close, error);
+                        await options.no(error);
                     }
                     modal.modelValue.value = false;
                 } catch (e) {

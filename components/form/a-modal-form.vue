@@ -40,7 +40,9 @@ function onSubmit() {
 }
 
 function onCancel() {
-    emit('cancel');
+    emit('cancel', e => {
+        error.value = e;
+    });
     emit('update:modelValue', false);
 }
 </script>
