@@ -16,7 +16,7 @@
                         <span v-else class="items-center inline-flex gap-1">
                             <i18n-t keypath="by_user_time_ago">
                                 <template #user>
-                                    <a-user avatar-size="xs" :user="mod.last_user"/>
+                                    <a-user avatar-size="xs" :user="mod.last_user" :tag="false"/>
                                 </template>
                                 <template #time>
                                     <time-ago :time="mod.bumped_at"/>
@@ -32,7 +32,7 @@
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
                     </a-button>
-                     <VDropdown v-else-if="mod.download && mod.download_type == 'link'">
+                    <VDropdown v-else-if="mod.download && mod.download_type == 'link'">
                         <a-button class="large-button w-full text-center" icon="download" @click="!!static && registerDownload">
                             {{$t('show_download_link')}}
                         </a-button>
