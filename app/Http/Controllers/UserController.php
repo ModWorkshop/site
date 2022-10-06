@@ -95,12 +95,7 @@ class UserController extends Controller
             'name' => 'string|nullable|min:3|max:100',
             'unique_name' => 'string|nullable|min:3|max:50',
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
-            'custom_color' => 'string|max:7|nullable'
-        ]);
-
-        APIService::nullToEmptyStr($val, 'custom_color');
-
-        $valExtra = $request->validate([
+            'custom_color' => 'string|max:7|nullable',
             'bio' => 'string|nullable|max:3000',
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'boolean',
@@ -108,16 +103,17 @@ class UserController extends Controller
             'donation_url' => 'email_or_url|nullable|max:255',
         ]);
 
-        APIService::nullToEmptyStr($valExtra, 'bio', 'custom_title', 'donation_url');
+        APIService::nullToEmptyStr($val, 'custom_color');
+
+        APIService::nullToEmptyStr($val, 'bio', 'custom_title', 'donation_url');
 
         $avatarFile = Arr::pull($val, 'avatar_file');
         APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);
 
-        $bannerFile = Arr::pull($valExtra, 'banner_file');
+        $bannerFile = Arr::pull($val, 'banner_file');
         APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
 
         $user->update($val);
-        $userExtra->update($valExtra);
 
         return new UserResource($user);
     }

@@ -174,7 +174,7 @@ class Mod extends Model implements SubscribableInterface
     protected $guarded = ['download_type', 'download_id'];
 
     private $withFull = [
-        'user.extra',
+        'user',
         'tags',
         'images',
         'files',

@@ -131,7 +131,12 @@ class User extends Authenticatable
         'avatar',
         'last_online',
         'custom_color',
-        'unique_name'
+        'unique_name',
+        'banner',
+        'bio',
+        'private_profile',
+        'custom_title',
+        'donation_url',
     ];
 
     /**

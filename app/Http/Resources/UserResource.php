@@ -60,16 +60,15 @@ class UserResource extends JsonResource
                     }
                 }
             }),
-            $this->mergeWhen($this->relationLoaded('extra'), function() {
-                $extra = $this->extra;
-                return [
-                    'banner' => $extra->banner,
-                    'bio' => $extra->bio,
-                    'private_profile' => $extra->private_profile,
-                    'custom_title' => $extra->custom_title,
-                    'donation_url' => $extra->donation_url
-                ];
-            }),
+            'banner' => $this->banner,
+            'bio' => $this->bio,
+            'invisible' => $this->invisible,
+            'private_profile' => $this->private_profile,
+            'custom_title' => $this->custom_title,
+            'donation_url' => $this->donation_url,
+            'invisible' => $this->invisible,
+            'show_tag' => $this->show_tag,
+            'supporter' => $this->activeSupporter
         ];
     }
 }
