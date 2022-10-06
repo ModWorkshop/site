@@ -10,16 +10,16 @@
 
             <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
 
-            <div v-if="!noCategories && ((mod.game && showGame) || mod.category)">
+            <flex v-if="!noCategories && ((mod.game && showGame) || mod.category)">
                 <font-awesome-icon icon="map-marker-alt"/> 
                 <NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
                     {{mod.game.name}}
                 </NuxtLink>
                 <template v-if="mod.category">
-                    <template v-if="showGame"> / </template>
+                    <template v-if="showGame">/</template>
                     <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                 </template>
-            </div>
+            </flex>
 
             <flex>
                 <span>
