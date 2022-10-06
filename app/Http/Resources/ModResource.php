@@ -48,7 +48,7 @@ class ModResource extends JsonResource
                 return $members;
             }),
             'transfer_request' => $this->whenLoaded('transferRequest'),
-            'last_user' => $this->whenLoaded('lastUser'),
+            'last_user' => $this->whenLoaded('lastUser', fn() => new UserResource($this->lastUser)),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'download' => $download, 
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
