@@ -197,6 +197,9 @@ class ModController extends Controller
             //Only moderators are allowed to change games of mods
             if (!$this->user()->hasPermission('manage-mods')) {
                 unset($val['game_id']);
+            } else if (isset($val['game_id']) && (int)$val['game_id'] !== $mod->game_id) {
+                Game::where('id', $val['game_id'])->increment('mods_count');
+                $mod->game->decrement('mods_count');
             }
 
             $mod->calculateFileStatus(false);

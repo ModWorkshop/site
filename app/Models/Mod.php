@@ -216,8 +216,7 @@ class Mod extends Model implements SubscribableInterface
     }
 
     protected static function booted() {
-        static::deleting(function (Mod $mod)
-        {
+        static::deleting(function(Mod $mod) {
             foreach ($mod->comments as $comment) {
                 $comment->delete();
             }
@@ -229,11 +228,15 @@ class Mod extends Model implements SubscribableInterface
             foreach ($mod->files as $file) {
                 $file->delete();
             }
+            $mod->game->decrement('mods_count');
             $mod->subscriptions()->delete();
         });
-        static::creating(function (Mod $mod)
-        {
+        static::creating(function(Mod $mod) {
             $mod->bumped_at = $mod->freshTimestampString();
+        });
+
+        static::created(function(Mod $mod) {
+            $mod->game->increment('mods_count');
         });
     }
 
