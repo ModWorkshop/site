@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * @group Authentication
@@ -31,9 +32,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $val = $request->validate([
-            'email' => ['required', 'email'], //blalba@email.com
+            'email' => 'required|email', //blabla@email.com
             'password' => ['required'],
-            'remember' => ['boolean']
+            'remember' => 'boolean'
         ]);
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
@@ -76,7 +77,7 @@ class LoginController extends Controller
             'name' => ['required'],
             'unique_name' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'password' => ['required', Password::min(12)->numbers()->mixedCase()->uncompromised()],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
@@ -93,7 +94,7 @@ class LoginController extends Controller
             'unique_name' => $val['unique_name'],
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
-            'avatar' => $avatar
+            'avatar' => $avatar,
         ]);
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
