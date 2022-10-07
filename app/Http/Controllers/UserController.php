@@ -13,8 +13,10 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Validator;
 use Str;
 
@@ -102,7 +104,9 @@ class UserController extends Controller
             'invisible' => 'boolean',
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
-            'show_tag' => 'in:role,supporter_or_role,none|nullable'
+            'show_tag' => 'in:role,supporter_or_role,none|nullable',
+            'current_password' => ['nullable', 'required_with:password', Password::min(12)->numbers()->mixedCase()->uncompromised()],
+            'password' => ['nullable', 'required_with:current_password', Password::min(12)->numbers()->mixedCase()->uncompromised()],
         ]);
 
         APIService::nullToEmptyStr($val, 'custom_color');
@@ -114,6 +118,18 @@ class UserController extends Controller
 
         $bannerFile = Arr::pull($val, 'banner_file');
         APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
+
+        //Change password code
+        $currentPassword = Arr::pull($val, 'current_password');
+        if (isset($currentPassword)) {
+            if (Hash::check($currentPassword, $user->password)) {
+                $user->forceFill([
+                    'password' => Hash::make(Arr::pull($val, 'password'))
+                ])->setRememberToken(Str::random(60));
+            } else {
+                abort(422, 'Current password is incorrect');
+            }
+        }
 
         $user->update($val);
 
