@@ -40,11 +40,7 @@
                 </flex>
                 <flex column gap="2">
                     Or register using one the following
-                    <flex>
-                        <a-button :href="`${config.apiUrl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'discord']" icon-size="lg"/>
-                    </flex>
+                    <the-social-logins/>
                 </flex>
                 <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
                 <div>
@@ -75,6 +71,7 @@ const user = reactive({
 
 const error = ref('');
 const avatarBlob = ref(null);
+const { public: config } = useRuntimeConfig();
 
 const passValidity = computed(() => {
     const validity = passwordValidity(user.password);
@@ -92,7 +89,6 @@ const confirmPassValidity = computed(() => {
 const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm);
 
 const store = useStore();
-const { public: config } = useRuntimeConfig();
 
 async function register() {
     if (user.password_confirm !== user.password) {

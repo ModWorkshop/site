@@ -70,6 +70,11 @@ export default <RouterOptions> {
             ]
         },
         {
+            name: "login-successful",
+            path: "/login-successful/:provider",
+            component: () => import('~/pages/login-successful.vue')
+        },
+        {
             name: "edit-thread",
             path: "/forum/post",
             component: () => import('~/pages/edit-thread.vue')

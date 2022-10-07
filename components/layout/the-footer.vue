@@ -13,6 +13,9 @@
                 <span>
                     Made with ❤ by <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                 </span>
+                <span style="display: flex; align-items: center; gap: 4px;">
+                    Operated by <img style="display: inline-block" src="https://cdn.discordapp.com/attachments/224607499561598976/1027834645171154964/moddocin.png" height="24"/> Milk Deluxe
+                </span>
             </flex>
         </flex>
         <flex class="ml-auto">

@@ -7,11 +7,7 @@
                 <a-input v-model="user.password" label="Password" type="password"/>
                 <flex column gap="2">
                     Or register using one the following
-                    <flex>
-                        <a-button :href="`${config.apiurl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'discord']" icon-size="lg"/>
-                    </flex>
+                    <the-social-logins/>
                 </flex>
                 <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>
                 <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
@@ -39,7 +35,6 @@ const user = reactive({
 const error = ref('');
 const canLogin = computed(() => user.email && user.password);
 const store = useStore();
-const { public: config } = useRuntimeConfig();
 
 async function login() {
     error.value = '';
