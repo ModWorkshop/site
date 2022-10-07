@@ -194,15 +194,18 @@ class ModController extends Controller
                 }
             }
 
+            //Only moderators are allowed to change games of mods
+            if (!$this->user()->hasPermission('manage-mods')) {
+                unset($val['game_id']);
+            }
+
             $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {
-            // Never put something like $request->all(); in create.
-            //Laravel may have guard for this, but there's really no reason what to so ever to give it that.
             $val['user_id'] = $request->user()->id;
             $val['game_id'] = $game->id;
 
-            $mod = Mod::create($val); // Validate handles the important stuff already.
+            $mod = Mod::create($val);
         }
 
         Mod::flushQueryCache();
