@@ -6,6 +6,7 @@
         <flex v-if="!$slots.default">
             <input 
                 v-if="type == 'color'"
+                ref="input"
                 v-bind="$attrs"
                 v-model="modelValue"
                 :class="classes"
@@ -14,6 +15,7 @@
             >
             <textarea 
                 v-if="type == 'textarea'"
+                ref="input"
                 v-model="(modelValue as string)"
                 class="mw-input"
                 :rows="rows"
@@ -57,6 +59,7 @@ const props = defineProps({
     desc: String,
     label: String,
     modelValue: [String, Number, Boolean],
+    validity: String,
     rows: [Number, String],
     type: String,
     value: String,
@@ -65,6 +68,16 @@ const props = defineProps({
 const vm = toRef(props, 'modelValue');
 const input = ref<HTMLInputElement>(null);
 const err = useWatchValidation(vm, input);
+
+watch(() => props.validity, val => {
+    if (input.value) {
+        if (val) {
+            input.value.setCustomValidity(val);
+        } else {
+            input.value.setCustomValidity('');
+        }
+    }
+});
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
