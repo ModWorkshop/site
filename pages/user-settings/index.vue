@@ -32,9 +32,11 @@
         <template v-if="isMe">
             <h3>Change Password</h3>
             <flex>
-                <a-input v-model="user.password" label="New Password" type="password"/>
-                <a-input v-model="user.confirm_password" label="Confirm Password" type="password"/>
+                <a-input v-model="user.current_password" :validity="passValidity" label="Current Password" type="password" minlength="12" maxlength="128"/>
+                <a-input v-model="user.password" :validity="passValidity" label="New Password" type="password" minlength="12" maxlength="128"/>
+                <a-input v-model="user.confirm_password" :validity="confirmPassValidity" label="Confirm Password" type="password" minlength="12" maxlength="128"/>
             </flex>
+            <small>{{$t('password_guide')}}</small>
         </template>
     
         <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
@@ -50,11 +52,13 @@ import { Ref } from 'vue';
 import { useStore } from '~~/store';
 import { GameUserData, Role, UserForm } from '~~/types/models';
 import clone from 'rfdc/default';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
     user: UserForm
 }>();
 
+const { t } = useI18n();
 const { user: me, hasPermission } = useStore();
 const selectedGame = useRouteQuery('game', undefined, 'number');
 
@@ -68,6 +72,19 @@ const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: fa
 const { data: gameRoles, refresh } = await useFetchMany<Role>(() => `games/${selectedGame.value}/roles`, { immediate: !!selectedGame.value });
 const { data: gameUserData, refresh: loadGameData } = await useFetchData<GameUserData>(() => `games/${selectedGame.value}/users/${props.user.id}`, { 
     immediate: !!selectedGame.value
+});
+
+const passValidity = computed(() => {
+    const validity = passwordValidity(props.user.password);
+    if (validity) {
+        return t(validity);
+    }
+});
+
+const confirmPassValidity = computed(() => {
+    if (props.user.confirm_password && props.user.password !== props.user.confirm_password) {
+        return t('password_error_match');
+    }
 });
 
 watch(selectedGame, () => {

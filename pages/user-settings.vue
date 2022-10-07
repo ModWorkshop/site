@@ -20,6 +20,8 @@ import clone from 'rfdc/default';
 import { useStore } from '../store';
 import { User, UserForm } from '../types/models';
 
+const { showToast } = useToaster();
+
 definePageMeta({
     middleware: 'users-only'
 });
@@ -35,6 +37,7 @@ const { data } = await useResource<User>('user', 'users', null, null, clone(stor
 const user = ref<UserForm>({
     ...data.value,
     password: '',
+    current_password: '',
     confirm_password: '',
     avatar_file: null,
     banner_file: null,
@@ -53,10 +56,11 @@ async function save() {
         user.value = {
             ...nextUser,
             password: '',
+            current_password: '',
             confirm_password: ''
         };
     } catch (error) {
-        console.log(error);
+        showToast({ desc: error.message, color: 'danger' });
     }
 }
 </script>

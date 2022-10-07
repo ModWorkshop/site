@@ -1,6 +1,7 @@
 <template>
     <page-block class="!w-1/2">
         <a-form autocomplete="off" @submit="register">
+            <h1>{{$t('register')}}</h1>
             <content-block column gap="3" class="p-4">
                 <img-uploader v-model="avatarBlob" label="Avatar">
                     <template #label="{ src }">
@@ -9,19 +10,40 @@
                         <a-avatar size="md" :src="src"/>
                     </template>
                 </img-uploader>
-                <a-input v-model="user.name" autocomplete="off" label="Display Name"/>
-                <a-input v-model="user.unique_name" autocomplete="off" label="Unique Name"/>
-                <a-input v-model="user.email" autocomplete="off" label="Email"/>
-                <flex>
-                    <a-input v-model="user.password" autocomplete="off" label="Password" type="password"/>
-                    <a-input v-model="user.password_confirm" autocomplete="off" label="Confirm Password" type="password" @input="checkConfirm"/>
+                <a-input v-model="user.name" required autocomplete="off" label="Display Name"/>
+                <a-input v-model="user.unique_name" required autocomplete="off" label="Unique Name"/>
+                <a-input v-model="user.email" required autocomplete="off" label="Email" type="email"/>
+                <flex column>
+                    <flex>
+                        <a-input 
+                            v-model="user.password"
+                            required
+                            autocomplete="off"
+                            :validity="passValidity"
+                            minlength="12"
+                            maxlength="128"
+                            label="Password" 
+                            type="password"
+                        />
+                        <a-input 
+                            v-model="user.password_confirm"
+                            required
+                            autocomplete="off"
+                            :validity="confirmPassValidity"
+                            minlength="12"
+                            maxlength="128"
+                            label="Confirm Password" 
+                            type="password"
+                        />
+                    </flex>
+                    <small>{{$t('password_guide')}}</small>
                 </flex>
                 <flex column gap="2">
                     Or register using one the following
                     <flex>
                         <a-button :href="`${config.apiUrl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
                         <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                        <a-button :icon="['fab', 'twitter']" icon-size="lg"/>
+                        <a-button :icon="['fab', 'discord']" icon-size="lg"/>
                     </flex>
                 </flex>
                 <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
@@ -34,11 +56,14 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
 
 definePageMeta({
     middleware: 'guests-only'
 });
+
+const { t } = useI18n();
 
 const user = reactive({
     name: '',
@@ -50,6 +75,19 @@ const user = reactive({
 
 const error = ref('');
 const avatarBlob = ref(null);
+
+const passValidity = computed(() => {
+    const validity = passwordValidity(user.password);
+    if (validity) {
+        return t(validity);
+    }
+});
+
+const confirmPassValidity = computed(() => {
+    if (user.password_confirm && user.password !== user.password_confirm) {
+        return t('password_error_match');
+    }
+});
 
 const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm);
 
@@ -64,6 +102,13 @@ async function register() {
 
     try {
         await usePost('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
+        Object.assign(user, {
+            name: '',
+            unique_name: '',
+            email: '',
+            password: '',
+            password_confirm: '',
+        });
         store.attemptLoginUser();
     } catch (e) {
         if (e.response.status == 409) {
@@ -72,14 +117,6 @@ async function register() {
             error.value = 'Something went wrong';
         }
         console.log(e);
-    }
-}
-
-function checkConfirm() {
-    if (user.password_confirm !== user.password) {
-        error.value = "Passwords must match!";
-    } else {
-        error.value = '';
     }
 }
 </script>

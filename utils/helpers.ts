@@ -130,3 +130,16 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
 export function getGameResourceUrl(resource: string, game?: Game) {
     return game ? `games/${game.id}/${resource}` : resource;
 }
+
+//Length is checked by input
+export function passwordValidity(password: string) {
+    if (password) {
+        if (!password.match(/[a-z]/)) {
+            return 'password_error_lowercase';
+        } else if (!password.match(/[A-Z]/)) {
+            return 'password_error_uppercase';
+        } else if (!password.match(/[0-9]/)) {
+            return 'password_error_digit';
+        }
+    }
+}

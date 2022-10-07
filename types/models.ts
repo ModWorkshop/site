@@ -266,10 +266,11 @@ export interface User {
 }
 
 export interface UserForm extends User {
-    password: string,
-    confirm_password: string,
-    avatar_file?: Blob,
-    banner_file?: Blob
+    password: string;
+    confirm_password: string;
+    current_password: string;
+    avatar_file?: Blob;
+    banner_file?: Blob;
 
 }
 export interface Link {

@@ -1,7 +1,8 @@
 <template>
     <page-block class="!w-1/3">
         <a-form @submit="login">
-            <flex column gap="3">
+            <h1>{{$t('login')}}</h1>
+            <content-block column gap="3">
                 <a-input v-model="user.email" label="Email"/>
                 <a-input v-model="user.password" label="Password" type="password"/>
                 <flex column gap="2">
@@ -9,7 +10,7 @@
                     <flex>
                         <a-button :href="`${config.apiurl}/auth/steam/redirect`" :icon="['fab', 'steam']" icon-size="lg"/>
                         <a-button :icon="['fab', 'google']" icon-size="lg"/>
-                        <a-button :href="`${config.apiurl}/auth/twitter/redirect`" :icon="['fab', 'twitter']" icon-size="lg"/>
+                        <a-button :icon="['fab', 'discord']" icon-size="lg"/>
                     </flex>
                 </flex>
                 <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>
@@ -17,7 +18,7 @@
                 <div>
                     <a-button type="submit" :disabled="!canLogin">{{$t('login')}}</a-button>
                 </div>
-            </flex>
+            </content-block>
         </a-form>    
     </page-block>
 </template>
