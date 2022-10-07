@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SocialLogin;
 use App\Models\User;
 use App\Services\APIService;
 use Arr;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rules\Password;
+use Socialite;
 
 /**
  * @group Authentication
@@ -104,5 +106,57 @@ class LoginController extends Controller
 
         return response('Something went wrong', Response::HTTP_BAD_REQUEST);
 
+    }
+
+    public function socialiteRedirect(string $provider)
+    {
+        $this->validateProvider($provider);
+        $driver = Socialite::driver($provider)->stateless();
+        if ($provider === 'discord') {
+            $driver = $driver->setScopes(['identify']);
+        } else if ($provider === 'github') {
+            $driver = $driver->setScopes(['read:user']);
+        }
+
+        return $driver->redirect();
+    }
+
+    public function socialiteLogin(Request $request, string $provider)
+    {
+        $this->validateProvider($provider);
+        $providerUser = Socialite::driver($provider)->stateless()->user();
+    
+        /** @var SocialLogin */
+        $socialLogin = SocialLogin::where('social_id', $provider)->where('special_id', $providerUser->id)->first();
+
+        $user = null;
+        if (isset($socialLogin)) {
+            $user = $socialLogin->user;
+        } else {
+            //Create a user
+            $user = User::create([
+                'name' => $providerUser->name,
+                'avatar' => $providerUser->avatar,
+            ]);
+    
+            //Create a social login so the user can login with it later
+            SocialLogin::create([
+                'social_id' => $provider,
+                'special_id' => $providerUser->id,
+                'user_id' => $user->id
+            ]);
+        }
+    
+        //Attention: this only runs AFTER we verify the user has logged in. This data is returned by the provider, therefore we can safely login the user.
+        if (Auth::login($user, true)) {
+            $request->session()->regenerate();
+        }
+    }
+
+    public function validateProvider(string $provider)
+    {
+        if (!in_array($provider, ['steam', 'discord', 'github'])) {
+            abort(404);
+        }
     }
 }

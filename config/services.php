@@ -17,15 +17,23 @@ return [
         'realm' => env('APP_URL'),
         'client_id' => env('APP_NAME'),
         'client_secret' => env('STEAM_CLIENT_SECRET'),
-        'redirect' => env('STEAM_REDIRECT_URI')
+        'redirect' => env('APP_URL').'/login-successful/steam',
     ],
 
-    'twitter' => [    
-        'client_id' => env('TWITTER_CLIENT_ID'),  
-        'client_secret' => env('TWITTER_CLIENT_SECRET'),  
-        'redirect' => env('TWITTER_REDIRECT_URI') 
+    'discord' => [    
+        'client_id' => env('DISCORD_CLIENT_ID'),  
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),  
+        'redirect' => env('APP_URL').'/login-successful/discord',
+        'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
+        'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'webp'), // only pick from jpg, png, webp
     ],
-      
+
+    'github' => [    
+        'client_id' => env('GITHUB_CLIENT_ID'),  
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),  
+        'redirect' => env('APP_URL').'/login-successful/github'
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

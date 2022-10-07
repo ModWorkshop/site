@@ -19,10 +19,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            // add your listeners (aka providers) here
-            //'SocialiteProviders\\Zoho\\ZohoExtendSocialite@handle',
-            'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
-            \SocialiteProviders\Twitter\TwitterExtendSocialite::class.'@handle'
+            // ... other providers
+            \SocialiteProviders\Steam\SteamExtendSocialite::class.'@handle',
+            \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
+            \SocialiteProviders\GitHub\GitHubExtendSocialite::class.'@handle',
         ],
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\UserAuthenticated'
