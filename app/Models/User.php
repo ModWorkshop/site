@@ -316,7 +316,7 @@ class User extends Authenticatable
     public function color(): Attribute
     {
         return Attribute::make(function($value, $attributes) {
-            if ($attributes['custom_color'] && $this->supporterActive) {
+            if (isset($attributes['custom_color']) && $this->supporterActive) {
                 return $attributes['custom_color'];
             }
 
