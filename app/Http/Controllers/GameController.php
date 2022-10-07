@@ -30,15 +30,14 @@ class GameController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|max:150',
-            'buttons' => 'string|max:1000',
+            'buttons' => 'nullable|string|max:1000',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'short_name' => 'string|nullable|max:30',
             'webhook_url' => 'string|nullable|max:1000',
         ]);
 
-        $val['webhook_url'] ??= '';
-        $val['buttons'] ??= '';
+        APIService::nullToEmptyStr($val, 'webhook_url', 'buttons');
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
         $bannerFile = Arr::pull($val, 'banner_file');
@@ -46,9 +45,7 @@ class GameController extends Controller
         $wasCreated = false;
         if (!isset($game)) {
             $val['last_date'] = Date::now();
-            /**
-             * @var Game
-             */
+            /** @var Game */
             $game = Game::create($val);
             $val = [];//Empty so we don't update it again.
             $wasCreated = true;
