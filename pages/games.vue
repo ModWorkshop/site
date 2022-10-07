@@ -6,9 +6,12 @@
         </flex>
         <a-pagination v-model="page" per-page="50" set-query :total="games.meta.total"/>
         <content-block class="games-grid gap-2">
-            <NuxtLink v-for="game of games.data" :key="game.id" :to="`/g/${game.short_name}`">
-                <a-img class="ratio-image round" :src="game.thumbnail ? `games/thumbnails/${game.thumbnail}` : 'assets/nopreview.webp'"/>
-                {{game.name}}
+            <NuxtLink v-for="game of games.data" :key="game.id" class="flex gap-2 flex-col p-1" :to="`/g/${game.short_name}`">
+                <a-thumbnail class="ratio-image round" url-prefix="games/thumbnails" :src="game.thumbnail"/>
+                <flex class="text-lg">
+                    <span>{{game.name}}</span>
+                    <span class="text-secondary ml-auto">{{game.mods_count}} Mods</span>
+                </flex>
             </NuxtLink>
         </content-block>
     </page-block>
@@ -23,7 +26,3 @@ const { data: games, refresh } = await useFetchMany<Game>('games', { params: rea
 watch(page, async () => await refresh());
 
 </script>
-
-<style scoped>
-
-</style>

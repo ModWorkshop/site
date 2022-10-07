@@ -189,6 +189,7 @@ export interface Game {
     forum?: Forum,
     path?: string;
     followed?: boolean;
+    mods_count: number;
     user_data?: GameUserData
 }
 
