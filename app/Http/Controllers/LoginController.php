@@ -155,7 +155,7 @@ class LoginController extends Controller
 
     public function validateProvider(string $provider)
     {
-        if (!in_array($provider, ['steam', 'discord', 'github'])) {
+        if (!in_array($provider, ['steam', 'discord', 'github', 'gitlab'])) {
             abort(404);
         }
     }

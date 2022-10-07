@@ -23,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\Steam\SteamExtendSocialite::class.'@handle',
             \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
             \SocialiteProviders\GitHub\GitHubExtendSocialite::class.'@handle',
+            \SocialiteProviders\GitLab\GitLabExtendSocialite::class.'@handle',
         ],
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\UserAuthenticated'

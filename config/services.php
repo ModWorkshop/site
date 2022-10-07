@@ -34,6 +34,12 @@ return [
         'redirect' => env('APP_URL').'/login-successful/github'
     ],
 
+    'gitlab' => [    
+        'client_id' => env('GITLAB_CLIENT_ID'),  
+        'client_secret' => env('GITLAB_CLIENT_SECRET'),  
+        'redirect' => env('APP_URL').'/login-successful/gitlab'
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
