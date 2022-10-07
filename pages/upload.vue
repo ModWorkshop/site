@@ -102,8 +102,8 @@ watch(() => mod.value.game_id, val => {
 
 async function create() {
     try {
-        const fetchedMod = await usePost<Mod>(`games/${mod.value.game_id}/mods`, mod.value);
-        router.push(`mod/${fetchedMod.id}/edit`);
+        const fetchedMod = await usePost<Mod>(`games/${gameId.value}/mods`, mod.value);
+        router.push(`/mod/${fetchedMod.id}/edit`);
     } catch (error) {
         console.error(error);
         return;
