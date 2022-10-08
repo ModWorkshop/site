@@ -212,7 +212,6 @@ class Mod extends Model implements SubscribableInterface
             $this->loadMissing('lastSuspension');
         }
         $this->category?->loadMissing('parent');
-        $this->members?->loadMissing('extra');
     }
 
     protected static function booted() {

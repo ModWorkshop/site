@@ -9,11 +9,17 @@ use Arr;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rules\Password;
 use Socialite;
+use SplFileInfo;
+use Storage;
+use Str;
+use FileEye\MimeMap\Type;
+use Throwable;
 
 /**
  * @group Authentication
@@ -111,7 +117,12 @@ class LoginController extends Controller
     public function socialiteRedirect(string $provider)
     {
         $this->validateProvider($provider);
-        $driver = Socialite::driver($provider)->stateless();
+        $driver = Socialite::driver($provider);
+
+        if ($provider !== 'steam') {
+            $driver = $driver->stateless(); //For some reason Steam doesn't like this but the others don't like the opposite ¯\_(ツ)_/¯
+        }
+
         if ($provider === 'discord') {
             $driver = $driver->setScopes(['identify']);
         } else if ($provider === 'github') {
@@ -124,8 +135,19 @@ class LoginController extends Controller
     public function socialiteLogin(Request $request, string $provider)
     {
         $this->validateProvider($provider);
-        $providerUser = Socialite::driver($provider)->stateless()->user();
-    
+        $driver = Socialite::driver($provider);
+
+        if ($provider !== 'steam') {
+            $driver = $driver->stateless();
+        }
+
+        $providerUser = null;
+        try {
+            $providerUser = $driver->user();
+        } catch (Throwable $e) {
+            abort(400);
+        }
+
         /** @var SocialLogin */
         $socialLogin = SocialLogin::where('social_id', $provider)->where('special_id', $providerUser->id)->first();
 
@@ -133,10 +155,59 @@ class LoginController extends Controller
         if (isset($socialLogin)) {
             $user = $socialLogin->user;
         } else {
+            $name = $providerUser->name;
+            $uniqueName = null;
+            $avatar = $providerUser->avatar;
+
+            if ($provider === 'steam') {
+                $name = $providerUser->nickname;
+                //Default is too small (64x64)
+                $avatar = $providerUser->user['avatarfull'];
+            } else if ($provider === 'github' || $provider === 'gitlab') {
+                $uniqueName = $providerUser->nickname;
+            }
+
+            $name ??= 'Missing Name';
+
+            //Download the avatar and store it in the site rather than "leeching" off the provider.
+            $avatarFileName = null;
+            if (isset($avatar)) {
+                //TODO: enable exif extension in site
+                $ext = null;
+                if ($provider === 'github') {
+                    //A little pain since the type is not in the given URL
+                    $ext = (new Type(image_type_to_mime_type(exif_imagetype($avatar))))->getDefaultExtension();
+                } else {
+                    $ext = pathinfo($avatar, PATHINFO_EXTENSION);
+                }
+                //Same as hashName https://github.com/laravel/framework/blob/9.x/src/Illuminate/Http/FileHelpers.php#L48
+                $avatarFileName = Str::random(40).'.'.$ext;
+                Storage::disk('public')->put('users/avatars/'.$avatarFileName, file_get_contents($avatar));
+            }
+
+            $uniqueName ??= $name;
+            $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
+            $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
+
+            //Try to make a unique name for the user
+            $num = '';
+            $found = false;
+            while(!$found) {
+                $current = $uniqueName.$num;
+                if (!Arr::first($users, fn($val) => strtolower($val->unique_name) === $current)) {
+                    $uniqueName = $current;
+                    $found = true;
+                } else {
+                    $num ??= 0;
+                    $num++;
+                }
+            }
+
             //Create a user
             $user = User::create([
-                'name' => $providerUser->name,
-                'avatar' => $providerUser->avatar,
+                'name' => $name,
+                'unique_name' => $uniqueName,
+                'avatar' => $avatarFileName,
             ]);
     
             //Create a social login so the user can login with it later

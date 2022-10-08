@@ -291,9 +291,23 @@ class User extends Authenticatable
         return $this->hasOne(Supporter::class)->orderBy('expire_date')->without('user');
     }
 
+    public function socialLogins(): HasMany
+    {
+        return $this->hasMany(SocialLogin::class);
+    }
+
     #endregion
 
     #region Attributes
+
+    /**
+     * Checks if the user has a password and email set to be able to login into the account
+     * Used to check whether the user can remove SSO.
+     */
+    public function signable(): Attribute
+    {
+        return Attribute::make(fn($value, $attrs) => isset($attrs['password']) && isset($attrs['email']));
+    }
     
     public function customColor(): Attribute
     {

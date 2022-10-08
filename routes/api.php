@@ -26,6 +26,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\SupporterController;
 use App\Http\Controllers\SuspensionController;
 use App\Http\Controllers\TagController;
@@ -194,12 +195,18 @@ Route::resource('permissions', PermissionController::class)->only(['index', 'sho
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);
 
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/register', [LoginController::class, 'register']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::post('login', [LoginController::class, 'login']);
+Route::post('register', [LoginController::class, 'register']);
+Route::post('logout', [LoginController::class, 'logout']);
 
 /**
  * @hideFromAPIDocumentation
  */
-Route::get('/auth/{provider}/redirect', [LoginController::class, 'SocialiteRedirect']);
-Route::post('/auth/{provider}/callback', [LoginController::class, 'SocialiteLogin']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('social-logins', [SocialLoginController::class, 'index']);
+    Route::delete('/social-logins/{provider}', [SocialLoginController::class, 'destroy']);
+    Route::post('social-logins/{provider}/link-callback', [SocialLoginController::class, 'linkAccountCallback']);
+});
+Route::get('social-logins/{provider}/link-redirect', [SocialLoginController::class, 'linkAccountRedirect']);
+Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'SocialiteRedirect']);
+Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'SocialiteLogin']);

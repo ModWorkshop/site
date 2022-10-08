@@ -55,7 +55,8 @@ class UserResource extends JsonResource
             'donation_url' => $this->donation_url,
             'invisible' => $this->invisible,
             'show_tag' => $this->show_tag,
-            'supporter' => $this->activeSupporter
+            'supporter' => $this->activeSupporter,
+            'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable)
         ];
     }
 }

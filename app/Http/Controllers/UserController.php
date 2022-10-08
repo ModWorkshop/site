@@ -71,11 +71,15 @@ class UserController extends Controller
             $foundUser = User::where('unique_name', Str::lower($user))->firstOrFail();
         }
 
-        $foundUser->loadMissing('extra');
         $foundUser->loadMissing('blockedUsers');
         if (Auth::hasUser()) {
             $foundUser->loadMissing('followed');
         }
+
+        if ($foundUser->id === $this->userId()) {
+            $foundUser->append('signable');
+        }
+
         return new UserResource($foundUser);
     }
 
@@ -170,7 +174,8 @@ class UserController extends Controller
     public function currentUser(Request $request)
     {
         $user = $request->user();
-        $user->loadMissing('extra');
+        $user->append('signable');
+
         return new UserResource($user);
     }
 
