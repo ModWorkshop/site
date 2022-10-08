@@ -99,7 +99,7 @@ class UserController extends Controller
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
-            'unique_name' => 'string|nullable|min:3|max:50',
+            'unique_name' => 'alpha_dash|nullable|min:3|max:50',
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
             'custom_color' => 'string|max:7|nullable',
             'bio' => 'string|nullable|max:3000',
@@ -112,6 +112,12 @@ class UserController extends Controller
             'current_password' => ['nullable', $user->signable ? 'required_with:password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
             'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
         ]);
+
+        if (isset($val['unique_name'])) {
+            $val['unique_name'] = strtolower($val['unique_name']);
+        }
+
+        //TODO: Should moderators be able to change email for users?
 
         APIService::nullToEmptyStr($val, 'custom_color');
 
