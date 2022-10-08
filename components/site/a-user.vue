@@ -35,7 +35,7 @@ import { User } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     details?: string,
-    color?: boolean,
+    noColor?: boolean,
     user: User,
     miniProfile?: boolean,
     avatar?: boolean,
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<{
 }>(), { 
     avatar: true,
     tag: true,
-    color: true,
+    noColor: false,
     miniProfile: true
 });
 
@@ -69,7 +69,7 @@ const userColor = computed(() => {
         return 'var(--secondary-color)';
     } else {
         let color;
-        if (props.color && props.user.color) {
+        if (props.noColor && props.user.color) {
             color = props.user.color.replace(/\s+/, '');
         }
     
@@ -85,7 +85,15 @@ const neededGap = computed(() => {
     }
 });
 
-const link = computed(() => !props.static && `/user/${props.user.id}` || null);
+const link = computed(() => {
+    if (!props.static) {
+        if (props.user.unique_name) {
+            return `/user/${props.user.unique_name}`;
+        } else {
+            return `/user/${props.user.id}`;
+        }
+    }
+});
 
 function toggleRenderProfile() {
     if (!props.static) {

@@ -70,9 +70,9 @@
                     <span><font-awesome-icon icon="message"/> 0</span>
                 </flex>
                 <VDropdown>
-                    <a-user class="cursor-pointer" :user="user" :tag="false" :color="false" static/>
+                    <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
                     <template #popper>
-                        <a-dropdown-item icon="user" :to="`/user/${user.id}`">{{$t('profile')}}</a-dropdown-item>
+                        <a-dropdown-item icon="user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
                         <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                         <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
                         <a-dropdown-item v-if="canSeeAdminPage" icon="screwdriver-wrench" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
@@ -112,6 +112,13 @@ const selectedSearch = ref(1);
 const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
 const canSeeAdminGamePage = computed(() => currentGame.value && adminGamePagePerms.some(perm => store.hasPermission(perm, currentGame.value)));
+const userLink = computed(() => {
+    if (user.value.unique_name) {
+        return `/user/${user.value.unique_name}`;
+    } else {
+        return `/user/${user.value.id}`;
+    }
+});
 
 const searchButtons = computed(() => {
     const buttons = [
