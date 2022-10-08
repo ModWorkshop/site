@@ -33,9 +33,32 @@
         <template v-if="isMe">
             <h3>Change Password</h3>
             <flex>
-                <a-input v-model="user.current_password" :validity="passValidity" label="Current Password" type="password" minlength="12" maxlength="128"/>
-                <a-input v-model="user.password" :validity="passValidity" label="New Password" type="password" minlength="12" maxlength="128"/>
-                <a-input v-model="user.confirm_password" :validity="confirmPassValidity" label="Confirm Password" type="password" minlength="12" maxlength="128"/>
+                <a-input 
+                    v-if="user.signable"
+                    v-model="user.current_password"
+                    autocomplete="off"
+                    label="Current Password"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
+                <a-input 
+                    v-model="user.password"
+                    :validity="passValidity"
+                    autocomplete="off"
+                    label="New Password"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
+                <a-input
+                    v-model="user.confirm_password"
+                    :validity="confirmPassValidity"
+                    label="Confirm Password"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
             </flex>
             <small>{{$t('password_guide')}}</small>
         </template>
