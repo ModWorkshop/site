@@ -145,7 +145,7 @@ class UserController extends Controller
 
         $val = $request->validate([
             'role_ids' => 'array',
-            'role_ids.*' => 'integer|min:1|exists:game_roles,id',
+            'role_ids.*' => 'integer|min:2|exists:roles,id',
         ]);
 
         $user->syncRoles(array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
