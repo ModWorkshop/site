@@ -5,7 +5,7 @@
                 <template v-if="multiple && shownOptions.length">
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
-                            <font-awesome-icon v-if="optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                            <font-awesome-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
                         </a-tag>
                     </slot>
                     <template v-if="shownOptions.length < selected.length">
@@ -101,9 +101,16 @@ const filtered = computed(() => {
 		return [];
 	}
 
-    if (searchLower) {
-        options = options.filter(option => optionName(option).toLowerCase().match(searchLower));
-    }
+    options = options.filter(option => {
+        if (!optionEnabled(option)) {
+            return false;
+        }
+        if (searchLower) {
+            return optionName(option).toLowerCase().match(searchLower);
+        } else {
+            return true;
+        }
+    });
 
     if (props.filterSelected) {
         if (props.multiple && typeof props.modelValue == 'object') {
