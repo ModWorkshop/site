@@ -67,12 +67,22 @@ export default <RouterOptions> {
                     path: "profile",
                     component: () => import('~/pages/user-settings/profile.vue')
                 },
+                {
+                    name: "edit-user-accounts",
+                    path: "accounts",
+                    component: () => import('~/pages/user-settings/accounts.vue')
+                },
             ]
         },
         {
-            name: "login-successful",
-            path: "/login-successful/:provider",
-            component: () => import('~/pages/login-successful.vue')
+            name: "login-redirect",
+            path: "/login-redirect/:provider",
+            component: () => import('~/pages/login-redirect.vue')
+        },
+        {
+            name: "link-account",
+            path: "/link-account/:provider",
+            component: () => import('~/pages/link-account.vue')
         },
         {
             name: "edit-thread",

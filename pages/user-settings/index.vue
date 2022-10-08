@@ -1,5 +1,6 @@
 <template>
     <flex gap="2" column>
+        <a-alert v-if="!user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
         <a-input v-model="user.name" label="Username"/>
         <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>
         <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>

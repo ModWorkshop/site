@@ -6,6 +6,7 @@
                     <a-nav-link to="" title="Account"/>
                     <a-nav-link to="profile" title="Profile"/>
                     <a-nav-link to="content" title="Content"/>
+                    <a-nav-link to="accounts" title="Connected Accounts"/>
                     <template #content>
                         <NuxtPage keepalive :user="user"/>
                     </template>

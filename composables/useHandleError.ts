@@ -9,11 +9,9 @@ export default function(error: FetchError|Error|Ref<true | FetchError | Error>, 
     const err = unref(error);
 
     if (err instanceof Error) {
-        if (typeof(errorStrings) == 'string') {
-            throw createError(errorStrings);
-        } else if (isFetchError(err)) {
+        if (isFetchError(err)) {
             const code = err.response.status;
-            throw createError({ statusCode: code, statusMessage: errorStrings[err.data.message] || errorStrings[code] || 'Unknown Error'});
+            throw createError({ statusCode: code, statusMessage: errorStrings[err.data.message] || errorStrings[code] || 'Unknown Error', fatal: true});
         } else {
             throw createError({ statusCode: 418, statusMessage: 'Uhh does this ever hit?'});
         }

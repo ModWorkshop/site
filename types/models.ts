@@ -262,7 +262,8 @@ export interface User {
     highest_role_order?: number;
     followed?: { notify: boolean };
     show_tag: 'role'|'supporter_or_role'|'none';
-    supporter?: Supporter
+    supporter?: Supporter;
+    signable?: boolean;
 }
 
 export interface UserForm extends User {
