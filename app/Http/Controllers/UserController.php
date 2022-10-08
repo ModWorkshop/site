@@ -109,8 +109,8 @@ class UserController extends Controller
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
-            'current_password' => ['nullable', 'required_with:password', Password::min(12)->numbers()->mixedCase()->uncompromised()],
-            'password' => ['nullable', 'required_with:current_password', Password::min(12)->numbers()->mixedCase()->uncompromised()],
+            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
+            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
         ]);
 
         APIService::nullToEmptyStr($val, 'custom_color');
@@ -124,11 +124,12 @@ class UserController extends Controller
         APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
 
         //Change password code
-        $currentPassword = Arr::pull($val, 'current_password');
-        if (isset($currentPassword)) {
-            if (Hash::check($currentPassword, $user->password)) {
+        $password = Arr::pull($val, 'password');
+        if (isset($password)) {
+            //We must require current password, but remember that there are accounts that sign in using SSO.
+            if (!isset($user->password) || Hash::check(Arr::pull($val, 'current_password'), $user->password)) {
                 $user->forceFill([
-                    'password' => Hash::make(Arr::pull($val, 'password'))
+                    'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
             } else {
                 abort(422, 'Current password is incorrect');
