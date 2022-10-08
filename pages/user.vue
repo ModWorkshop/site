@@ -48,7 +48,10 @@
                                 {{$t('registration_date')}} 
                                 <span class="text-secondary">{{date(user.created_at)}}</span>
                             </flex>
-                            <div v-if="!isOnline">{{$t('last_visit')}} <span class="text-secondary">{{timeAgo(user.last_online)}}</span></div>
+                            <flex v-if="!isOnline" column>
+                                {{$t('last_visit')}} 
+                                <span class="text-secondary">{{timeAgo(user.last_online)}}</span>
+                            </flex>
                             <flex column>
                                 Mods
                                 <span class="text-secondary">{{mods?.meta.total}}</span>
