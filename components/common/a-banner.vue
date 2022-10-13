@@ -4,7 +4,10 @@
     </flex>
 </template>
 <script setup lang="ts">
+import { useStore } from '~~/store';
+
 const { public: config } = useRuntimeConfig();
+const store = useStore();
 
 const props = defineProps({
     src: [String, Blob],
@@ -18,13 +21,15 @@ const props = defineProps({
 const bannerUrl = computed(() => {
     const src = props.src;
     if (src) {
-        if (isSrcExternal(src)) {
+        if (typeof src === 'object') {
+            return src.toString();
+        } else if (isSrcExternal(src)) {
             return src;
         } else {
             return `${config.apiUrl}/storage/${props.urlPrefix}/${src}`;
         }
     } else {
-        return `${config.apiUrl}/storage/assets/default_banner.webp`;
+        return `${config.apiUrl}/storage/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
     }
 });
 </script>
@@ -35,6 +40,6 @@ const bannerUrl = computed(() => {
 }
 
 .light .default-banner {
-    background-color: #000;
+    background-color: #d6d8db;
 }
 </style>
