@@ -1,6 +1,6 @@
 <template>
     <div v-intersection-observer="onVisChange">
-        <flex column gap="2">
+        <flex column gap="3">
             <flex class="items-center">
                 <h3>{{$t(resourceName)}}</h3>
                 <flex class="ml-auto">
