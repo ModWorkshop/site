@@ -170,7 +170,7 @@ a:link:hover, a:visited:hover {
     margin-bottom: .5rem;
     margin-top: 0;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.15;
 }
 
 .markdown hr {
