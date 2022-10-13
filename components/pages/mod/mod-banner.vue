@@ -84,6 +84,8 @@ function switchToFiles() {
 .large-button {
     font-size: 1.5rem;
     padding: 0.5rem 1.5rem !important;
+    box-shadow: initial;
+    text-shadow: initial;
 }
 </style>
 <style scoped>
