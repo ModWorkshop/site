@@ -28,23 +28,13 @@
         </div>
         <flex :gap="gap" column :class="classes">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
-            <flex v-if="store.announcements && store.announcements.length" column>
+            <flex v-if="announcements.length" column>
                 <h4>📢 Announcements</h4>
-                <NuxtLink v-for="thread of store.announcements" :key="thread.id" :to="`/thread/${thread.id}`" class="text-body no-hover">
-                    <content-block padding="3" gap="0">
-                        <h3> {{thread.name}}</h3>
-                        <span class="ml-2">{{thread.content}}</span>
-                    </content-block>
-                </NuxtLink>
+                <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
             </flex>
-            <flex v-if="store.currentGame && store.currentGame.announcements && store.currentGame.announcements.length" column>
+            <flex v-if="gameAnnouncements.length" column>
                 <h4>📢 Game Announcements</h4>
-                <NuxtLink v-for="thread of store.currentGame.announcements" :key="thread.id" :to="`/thread/${thread.id}`" class="text-body no-hover">
-                    <content-block padding="3" gap="0">
-                        <h3>{{thread.name}}</h3>
-                        <span class="ml-2">{{thread.content}}</span>
-                    </content-block>
-                </NuxtLink>
+                <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
             </flex>
             <slot/>
         </flex>
@@ -53,7 +43,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Breadcrumb, Game } from '~~/types/models';
+import { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
 
 const props = withDefaults(defineProps<{
@@ -67,6 +57,23 @@ const props = withDefaults(defineProps<{
 const store = useStore();
 
 watch(() => props.game, () => store.setGame(props.game), { immediate: true });
+const storedHiddenAns = useCookie('hidden-announcements');
+const hiddenAnnouncements = computed(() => {    
+    if (storedHiddenAns.value) {
+        return storedHiddenAns.value.toString().split(',').map(id => parseInt(id));
+    } else {
+        return [];
+    }
+});
+
+const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
+const gameAnnouncements = computed(() => store.currentGame?.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
+
+function hideAnnouncement(thread: Thread) {
+    const hidden = hiddenAnnouncements.value;
+    hidden.push(thread.id);
+    storedHiddenAns.value = hidden.join(',');
+}
 
 const buttons = computed(() => {
     const btns = props.game.buttons.split(',');
