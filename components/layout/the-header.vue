@@ -81,8 +81,8 @@
                         </ClientOnly>
                         <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                         <div class="dropdown-splitter"/>
-                        <a-dropdown-item :icon="store.theme === 'light' ? 'moon' : 'sun'" @click="store.toggleTheme">
-                            {{$t(store.theme === 'light' ? 'dark_theme' : 'light_theme')}}
+                        <a-dropdown-item :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme">
+                            {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                         </a-dropdown-item>
                         <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
@@ -92,7 +92,7 @@
             <flex v-else class="my-auto" gap="4">
                 <a-link-button to="/login">{{$t('login')}}</a-link-button>
                 <a-link-button to="/register">{{$t('register')}}</a-link-button>
-                <a-link-button :icon="store.theme === 'light' ? 'moon' : 'sun'" @click="store.toggleTheme"/>
+                <a-link-button :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme"/>
             </flex>
         </flex>
     </header>
