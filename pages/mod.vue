@@ -1,7 +1,7 @@
 <template>
     <page-block :game="mod.game" :breadcrumb="breadcrumb">
         <Title>{{mod.name}}</Title>
-        <flex v-if="notices.length || mod.suspended" column gap="2">
+        <flex v-if="!mod.has_download || mod.approved !== true || notices.length || mod.suspended" column gap="2">
             <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
             <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
                 <i18n-t keypath="mod_suspended" tag="span">
@@ -21,16 +21,16 @@
                     </template>
                 </i18n-t>
             </a-alert>
+            <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
+            <a-alert v-else-if="mod.approved === null" color="info" :title="$t('mod_waiting')">
+                <span>
+                    {{$t('mod_waiting_desc')}}
+                </span>
+                <mod-approve v-if="canManage" :mod="mod"/>
+            </a-alert>
+            <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
         </flex>
 
-        <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
-        <a-alert v-else-if="mod.approved === null" color="info" :title="$t('mod_waiting')">
-            <span>
-                {{$t('mod_waiting_desc')}}
-            </span>
-            <mod-approve v-if="canManage" :mod="mod"/>
-        </a-alert>
-        <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
         <flex>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
