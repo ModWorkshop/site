@@ -53,7 +53,7 @@ onBeforeMount(() => {
 
 watch([duration, durationCount, customDate], () => {
     if (duration.value !== 'custom') {
-        emit('update:modelValue', duration.value ? now.plus({ [duration.value]: durationCount.value }) : null);
+        emit('update:modelValue', duration.value ? now.plus({ [duration.value]: durationCount.value }).toString() : null);
     }
 }, { immediate: true });
 </script>

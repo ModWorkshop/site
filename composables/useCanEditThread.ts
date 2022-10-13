@@ -4,7 +4,7 @@ import { Thread, Game } from './../types/models';
 export default function(thread: Thread, game: Game) {
     const { user, hasPermission } = useStore();
     
-    if (!hasPermission('create-threads', game) && thread.id) {
+    if (!hasPermission('create-discussions', game)) {
         return false;
     }
 

@@ -14,20 +14,18 @@
             <a-loading v-if="loading"/>
             <slot v-else name="items" :items="items">
                 <template v-if="items.data.length">
-                    <div v-for="item of items.data" :key="item.id">
-                        <slot name="item" :item="item" :items="items">
-                            <NuxtLink class="list-button flex gap-2" :to="itemLink ? itemLink(item) : null">
-                                <slot name="before-item" :item="item" :items="items"/>
-                                <slot :item="item">
-                                    <span class="my-auto">{{item[textBy]}}<slot name="item-name" :item="item"/></span>
-                                </slot>
-                                <slot name="after-item" :item="item" :items="items"/>
-                                <flex class="ml-auto my-auto">
-                                    <slot name="item-buttons" :item="item" :items="items"/>
-                                </flex>
-                            </NuxtLink>
-                        </slot>
-                    </div>
+                    <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
+                        <NuxtLink class="list-button flex gap-2" :to="itemLink ? itemLink(item) : null">
+                            <slot name="before-item" :item="item" :items="items"/>
+                            <slot :item="item">
+                                <span class="my-auto">{{item[textBy]}}<slot name="item-name" :item="item"/></span>
+                            </slot>
+                            <slot name="after-item" :item="item" :items="items"/>
+                            <flex class="ml-auto my-auto">
+                                <slot name="item-buttons" :item="item" :items="items"/>
+                            </flex>
+                        </NuxtLink>
+                    </slot>
                 </template>
                 <span v-else class="p-4">
                     {{$t('nothing_found')}}

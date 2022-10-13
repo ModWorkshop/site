@@ -10,11 +10,11 @@
 <template>
     <form @submit.prevent="submit">
         <Transition v-if="floatSaveGui">
-            <div v-if="currentCanSave" class="fixed float-save p-2">
+            <flex v-if="currentCanSave" class="fixed float-save items-center">
                 {{$t('unsaved_changes')}}
-                <a-button v-if="created" :disabled="disableButtons" color="danger" class="ml-2" @click="undo">{{$t('undo')}}</a-button>
-                <a-button class="ml-2" :disabled="disableButtons" type="submit">{{currentSaveButtonText}}</a-button>
-            </div>
+                <a-button v-if="created" :disabled="disableButtons" color="danger" class="ml-2" @click="discard">{{$t('discard')}}</a-button>
+                <a-button :disabled="disableButtons" type="submit">{{currentSaveButtonText}}</a-button>
+            </flex>
         </Transition>
         <slot/>
     </form>
@@ -72,7 +72,7 @@ function submit() {
     emit('submit');
 }
 
-function undo() {
+function discard() {
     Object.assign(props.model, modelCopy.value);
 }
 </script>
@@ -83,6 +83,7 @@ function undo() {
     bottom: 32px;
     background-color: var(--float-bg-color);
     border-radius: 3px;
+    padding: 0.75rem;
     z-index: 100;
 }
 </style>

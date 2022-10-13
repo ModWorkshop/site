@@ -1,10 +1,8 @@
 <template>
-    <page-block size="sm">
-        <the-breadcrumb v-if="gameName" :items="breadcrumb"/>
-
+    <page-block size="sm" :game="game" :breadcrumb="game ? breadcrumb : null">
         <Title>{{$t('upload_mod')}}</Title>
         <a-form :model="mod" :created="false" @submit="create">
-            <content-block class="p-8">
+            <content-block>
                 <h1>
                     Upload Mod
                 </h1>
@@ -13,7 +11,14 @@
                 <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-                <a-select v-if="!gameName" v-model="mod.game_id" label="Game" placeholder="Select a game" :options="games.data"/>
+                <a-select v-if="!gameName" v-model="mod.game_id" label="Game" placeholder="Select a game" :options="games.data">
+                    <template #option="{ option }">
+                        <a-simple-game :game="option"/>
+                    </template>
+                    <template #list-option="{ option }">
+                        <a-simple-game :game="option"/>
+                    </template>
+                </a-select>
 
                 <a-input v-if="categories" :label="$t('category')">
                     <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>

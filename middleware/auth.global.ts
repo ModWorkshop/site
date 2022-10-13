@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 await store.attemptLoginUser(false);
             }
             if (store.user) {
-                await store.getNotificationCount();
+                await store.getNotificationCount(true);
             }
         } catch (error) {
             console.log(error);

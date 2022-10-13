@@ -188,6 +188,10 @@ a:link:hover, a:visited:hover {
     color: var(--text-color);
 }
 
+.no-hover:hover {
+    color: inherit !important;
+}
+
 .text-secondary {
     color: var(--secondary-text-color);
 }

@@ -58,6 +58,7 @@ function scrollToTop() {
 
 <style>
 footer {
+    margin-top: 8px;
     padding: 1.5rem 2rem;
     display: flex;
     background-color: var(--header-footer-color);

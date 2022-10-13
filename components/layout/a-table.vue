@@ -1,13 +1,6 @@
 <template>
     <table :class="{table: true, 'table-bg': background}">
-        <thead>
-            <tr>
-                <slot name="head"/>
-            </tr>
-        </thead>
-        <tbody>
-            <slot/>
-        </tbody>
+        <slot/>
     </table>
 </template>
 
@@ -27,7 +20,7 @@ defineProps({
 }
 
 .table-bg {
-    background-color: var(--alt-bg-color);
+    background-color: var(--alt-content-bg-color);
 }
 </style>
 

@@ -1,6 +1,5 @@
 <template>
-    <page-block size="sm">
-        <the-breadcrumb v-if="game" :items="breadcrumb"/>
+    <page-block :game="game" :breadcrumb="game ? breadcrumb : null" size="sm">
         <h2>Documents</h2>
         <content-block>
             <a-list url="documents" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>

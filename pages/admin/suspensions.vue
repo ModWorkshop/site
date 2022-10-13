@@ -5,7 +5,7 @@
         </template>
         <template #items="{ items }">
             <a-table>
-                <template #head>
+                <thead>
                     <th>Thumbnail</th>
                     <th>Name</th>
                     <th>Owner</th>
@@ -13,17 +13,19 @@
                     <th>Active</th>
                     <th style="width: 300px;">Reason</th>
                     <th>Actions</th>
-                </template>
-                <mod-row v-for="suspension in items.data" :key="suspension.id" :mod="suspension.mod" lite>
-                    <template #definitions>
-                        <td><time-ago :time="suspension.created_at"/></td>
-                        <td>{{suspension.status ? '✔' : '❌'}}</td>
-                        <td>{{suspension.reason}}</td>
-                        <td>
-                            <mod-suspend :mod="suspension.mod"/>
-                        </td>
-                    </template>
-                </mod-row>
+                </thead>
+                <tbody>
+                    <mod-row v-for="suspension in items.data" :key="suspension.id" :mod="suspension.mod" lite>
+                        <template #definitions>
+                            <td><time-ago :time="suspension.created_at"/></td>
+                            <td>{{suspension.status ? '✔' : '❌'}}</td>
+                            <td>{{suspension.reason}}</td>
+                            <td>
+                                <mod-suspend :mod="suspension.mod"/>
+                            </td>
+                        </template>
+                    </mod-row>
+                </tbody>
             </a-table>
         </template>
     </a-list>

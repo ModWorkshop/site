@@ -1,7 +1,7 @@
 <template>
     <flex inline :gap="neededGap">
         <NuxtLink v-if="avatar" :to="link">
-            <a-avatar :size="avatarSize" :src="user.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }" @mouseover="toggleRenderProfile"/>
+            <a-avatar :size="avatarSize" :src="user.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
         </NuxtLink>
 
         <flex gap="1" column class="my-auto">
@@ -69,7 +69,7 @@ const userColor = computed(() => {
         return 'var(--secondary-color)';
     } else {
         let color;
-        if (props.noColor && props.user.color) {
+        if (!props.noColor && props.user.color) {
             color = props.user.color.replace(/\s+/, '');
         }
     

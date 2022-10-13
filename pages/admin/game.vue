@@ -1,5 +1,5 @@
 <template>
-    <page-block :size="game.id ? 'md' : 'sm'">
+    <page-block :size="game.id ? 'md' : 'sm'" :game="game">
         <content-block class="p-6">
             <h3 v-if="game.id">
                 {{game.name}} Game Settings
@@ -54,7 +54,7 @@ const { data: game } = await useEditResource<Game>('game', 'games', {
     last_date: "",
     created_at: "",
     updated_at: ""
-});
+}, { include: 'roles' });
 
 if (!user || !adminGamePagePerms.some(perm => hasPermission(perm, game.value))) {
     throw createError({ statusCode: 403, statusMessage: t('error_403'), fatal: true });

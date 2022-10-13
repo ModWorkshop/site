@@ -1,6 +1,5 @@
 <template>
     <div class="layout">
-        <the-header>Header</the-header>
         <main>
             <flex id="toaster" column gap="2">
 				<TransitionGroup name="toasts">
@@ -9,22 +8,12 @@
 			</flex>
             <slot/>
         </main>
+        <the-header>Header</the-header>
         <the-footer>Footer</the-footer>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~~/store';
-import { Game } from '~~/types/models';
-
-const props = defineProps<{
-    game: Game
-}>();
-
-const store = useStore();
-
-watch(() => props.game, () => store.currentGame = props.game, { immediate: true });
-
 const toasts = useState('toasts', () => []);
 </script>
 
@@ -44,7 +33,6 @@ main {
     grid-area: main;
     display: flex;
     flex-direction: column;
-    padding: 8px;
     align-items: center;
 }
 </style>

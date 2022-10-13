@@ -189,8 +189,10 @@ export interface Game {
     forum?: Forum,
     path?: string;
     followed?: boolean;
-    mods_count: number;
-    user_data?: GameUserData
+    mods_count?: number;
+    roles?: Role[];
+    user_data?: GameUserData;
+    announcements?: Thread[];
 }
 
 export interface SocialLogin {
@@ -226,6 +228,7 @@ export interface Ban {
     created_at: string;
     updated_at: string;
     case_id: number;
+    can_appeal: boolean;
     user: User;
     case: UserCase;
 }
@@ -322,8 +325,10 @@ export interface Thread {
     name: string;
     content: string;
     views: number;
-    archived: boolean;
-    archived_by_mod: boolean;
+    locked: boolean;
+    locked_by_mod: boolean;
+    announce: boolean;
+    announce_until: string;
     bumped_at?: string;
     pinned_at?: string;
     forum_id: number;
@@ -350,13 +355,25 @@ export interface Forum {
     updated_at?: string;
 }
 
+export interface RolePolicy {
+    can_view: boolean;
+    can_post: boolean;
+}
+
 export interface ForumCategory {
     id: number;
     name: string;
     desc: string;
+    emoji: string;
     forum_id: number;
     created_at?: string;
     updated_at?: string;
+    role_policies?: Record<number, RolePolicy>;
+    game_role_policies?: Record<number, RolePolicy>;
+    banned_can_post: boolean;
+    is_private: boolean;
+    private_threads: boolean;
+    can_post?: boolean;
 }
 
 export interface Suspension {

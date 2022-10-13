@@ -17,25 +17,27 @@
             <a-button class="ml-auto" @click="newMember()">New</a-button>
         </flex>
         <a-table>
-            <template #head>
+            <thead>
                 <th>User</th>
                 <th>Level</th>
                 <th>Accepted</th>
                 <th>Add Date</th>
                 <th class="text-center">Actions</th>
-            </template>
-            <tr v-for="user of members" :key="user.id">
-                <td><a-user :user="user"/></td>
-                <td>{{memberLevels[user.level]}}</td>
-                <td>{{user.accepted ? '✔' : '❌'}}</td>
-                <td>{{fullDate(user.created_at)}}</td>
-                <td class="text-center p-1">
-                    <flex inline>
-                        <a-button icon="cog" @click.prevent="editMember(user)"/>
-                        <a-button icon="trash" @click.prevent="deleteMember(user)"/>
-                    </flex>
-                </td>
-            </tr> 
+            </thead>
+            <tbody>
+                <tr v-for="user of members" :key="user.id">
+                    <td><a-user :user="user"/></td>
+                    <td>{{memberLevels[user.level]}}</td>
+                    <td>{{user.accepted ? '✔' : '❌'}}</td>
+                    <td>{{fullDate(user.created_at)}}</td>
+                    <td class="text-center p-1">
+                        <flex inline>
+                            <a-button icon="cog" @click.prevent="editMember(user)"/>
+                            <a-button icon="trash" @click.prevent="deleteMember(user)"/>
+                        </flex>
+                    </td>
+                </tr> 
+            </tbody>
         </a-table>
     </div>
 

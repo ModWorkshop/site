@@ -1,4 +1,4 @@
-import { User, Game, Tag, Notification, Settings } from './../types/models';
+import { User, Game, Tag, Notification, Settings, Thread } from './../types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import { CookieRef } from '#app';
@@ -10,6 +10,7 @@ interface MainStore {
     notificationCount: number,
     currentGame?: Game,
     savedTheme: CookieRef<string>,
+    announcements: Thread[],
     colorScheme: string,
     games: Paginator<Game>,
     tags: Paginator<Tag>,
@@ -25,6 +26,7 @@ export const useStore = defineStore('main', {
         userIsLoading: false,
         savedTheme: useCookie('theme'),
         colorScheme: useCookie('color-scheme').value ?? 'blue',
+        announcements: [],
         currentGame: null,
         settings: null,
         games: null,
@@ -35,8 +37,14 @@ export const useStore = defineStore('main', {
         theme(state) {
             return state.savedTheme === 'light' ? 'light' : 'dark';
         },
-        isBanned(state) {
-            return !!state.user?.ban || !!state.currentGame?.user_data?.ban;
+        isBanned() {
+            return !!this.ban || !!this.gameBan;
+        },
+        ban(state) {
+            return state.user?.ban;
+        },
+        gameBan(state) {
+            return state.currentGame?.user_data?.ban;
         }
     },
     actions: {
@@ -57,19 +65,25 @@ export const useStore = defineStore('main', {
 
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
-            const [ userData, settings ] = await Promise.all([
+            const [ userData, siteData ] = await Promise.all([
                 useGet<User>('user'),
-                useGet<Settings>('settings'),
+                useGet<{
+                    settings: Settings,
+                    announcements: Thread[],
+                    unseen_notifications: number
+                }>('site-data'),
                 reloadToken()
             ]);
 
             this.user = userData;
             this.userIsLoading = false;
-
-            this.settings = settings;
+            
+            this.settings = siteData.settings;
+            this.announcements = siteData.announcements;
+            this.notificationCount = siteData.unseen_notifications;
 
             console.log('Trying to reload token');
-            
+
             if (typeof(redirect) == 'string') {
                 console.log('Trying to use router');
                 const router = useRouter();
@@ -93,8 +107,8 @@ export const useStore = defineStore('main', {
             this.notifications = await useGetMany<Notification>('/notifications', { params: { page, limit } });
         },
 
-        async getNotificationCount() {
-            if (this.user) {
+        async getNotificationCount(first = false) {
+            if (this.user && !first) {
                 this.notificationCount = await useGet<number>('/notifications/unseen');
             }
 
@@ -119,7 +133,7 @@ export const useStore = defineStore('main', {
             this.user.avatar = avatar;
         },
 
-        hasPermission(perm: string, game?: Game) {
+        hasPermission(perm: string, game?: Game, bypassBan = false) {
             const permissions = this.user?.permissions;
             if (!this.user) {
                 return false;

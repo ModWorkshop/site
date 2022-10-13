@@ -39,7 +39,10 @@
     </flex>
 </template>
 <script setup lang="ts">
+import { useStore } from "~~/store";
 import { Mod } from "~~/types/models";
+
+const store = useStore();
 
 const props = defineProps<{
     sort?: string,
@@ -57,7 +60,7 @@ const views = computed(() => props.mod.views);
 
 
 const link = computed(() => !props.static ? `/mod/${props.mod.id}` : null);
-const gameUrl = computed(() => `/g/${props.mod.game.short_name || props.mod.game.id}`);
+const gameUrl = computed(() => `/g/${store.currentGame?.short_name || props.mod.game.short_name || props.mod.game.id}`);
 </script>
 
 <style>

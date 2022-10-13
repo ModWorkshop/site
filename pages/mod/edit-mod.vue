@@ -1,6 +1,5 @@
 <template>
-    <page-block size="md">
-        <the-breadcrumb :items="breadcrumb"/>
+    <page-block size="md" :game="mod.game" :breadcrumb="breadcrumb">
         <flex>
             <NuxtLink v-if="mod.id" :to="`/mod/${mod.id}`">
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>

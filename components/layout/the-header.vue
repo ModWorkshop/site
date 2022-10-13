@@ -11,11 +11,11 @@
             </div>
         </template>
     </a-modal>
-    <header class="nav">
+    <header class="navbar">
         <NuxtLink to="/">
             <a-img alt="logo" :src="logo" width="36" height="36"/>
         </NuxtLink>
-        <flex gap="4" class="ml-3">
+        <flex id="header-buttons" gap="4" class="ml-3">
             <a-link-button v-if="!user || !user.ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
             <a-link-button to="/games">{{$t('games')}}</a-link-button>
             <a-link-button to="/forum?category=news">{{$t('news')}}</a-link-button>
@@ -122,9 +122,9 @@ const userLink = computed(() => {
 
 const searchButtons = computed(() => {
     const buttons = [
-        { to: `/search/mods`, text: 'search_mods' },
-        { to: `/search/threads`, text: 'search_threads' },
-        { to: `/search/users`, text: 'search_users' },
+        { to: `/search/mods`, text: 'search_mods_matching' },
+        { to: `/search/threads`, text: 'search_threads_matching' },
+        { to: `/search/users`, text: 'search_users_matching' },
     ];
     if (currentGame.value) {
         buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: 'search_threads_game' });
@@ -169,6 +169,16 @@ function clickSelectedSearch(e) {
 .search-button {
     padding: 1rem;
 }
+
+header {
+    top: 0;
+    z-index: 100;
+    align-items: center;
+    position: sticky;
+    padding: 0.75rem;
+    display: flex;
+    grid-area: header;
+}
 </style>
 <style>
 .search .input {
@@ -193,15 +203,8 @@ function clickSelectedSearch(e) {
     gap: 0.75rem;
 }
 
-header {
-    top: 0;
-    z-index: 100;
-    align-items: center;
-    position: sticky;
-    padding: 0.75rem;
-    display: flex;
+.navbar {
     background-color: var(--header-footer-color);
-    grid-area: header;
 }
 
 .md-editor-open header {

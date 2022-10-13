@@ -4,23 +4,25 @@
         <a-button @click="openOffsiteDepModal">{{$t('add_offsite_mod')}}</a-button>
     </flex>
     <a-table>
-        <template #head>
+        <thead>
             <th>Name</th>
             <th>URL</th>
             <th>Optional</th>
             <th>Actions</th>
-        </template>
-        <tr v-for="dep in dependable.dependencies" :key="dep.id">
-            <td v-if="dep.mod">{{dep.mod.name}}</td>
-            <td v-else>{{dep.name}}</td>
-            <td v-if="dep.mod"><NuxtLink :to="`/mod/${dep.mod.id}`">{{$t('mod_page')}}</NuxtLink></td>
-            <td v-else><NuxtLink :to="dep.url">{{dep.url}}</NuxtLink></td>
-            <td>{{dep.optional ? '✔' : '❌'}}</td>
-            <td class="flex gap-1">
-                <a-button icon="cog" @click="editDep(dep)">{{$t('edit')}}</a-button>
-                <a-button color="danger" icon="trash" @click="deleteDep(dep)">{{$t('remove')}}</a-button>
-            </td>
-        </tr>
+        </thead>
+        <tbody>
+            <tr v-for="dep in dependable.dependencies" :key="dep.id">
+                <td v-if="dep.mod">{{dep.mod.name}}</td>
+                <td v-else>{{dep.name}}</td>
+                <td v-if="dep.mod"><NuxtLink :to="`/mod/${dep.mod.id}`">{{$t('mod_page')}}</NuxtLink></td>
+                <td v-else><NuxtLink :to="dep.url">{{dep.url}}</NuxtLink></td>
+                <td>{{dep.optional ? '✔' : '❌'}}</td>
+                <td class="flex gap-1">
+                    <a-button icon="cog" @click="editDep(dep)">{{$t('edit')}}</a-button>
+                    <a-button color="danger" icon="trash" @click="deleteDep(dep)">{{$t('remove')}}</a-button>
+                </td>
+            </tr>
+        </tbody>
     </a-table>
     <a-modal-form v-model="showAddModModal" :title="$t('add_offsite_mod')" @submit="addDependency">
         <template v-if="currentDep.offsite">

@@ -1,36 +1,38 @@
 <template>
-    <Suspense>
-        <flex style="width: 350px;">
-            <content-block alt-background padding="5" grow>
-                <span class="text-xl">
-                    <a-user :user="user" avatar-size="lg" :mini-profile="false"/>
-                </span>
-                <a-tag-selector
-                    v-model="user.role_ids"
-                    multiple
-                    url="roles"
-                    :fetch-params="{ only_assignable: 1 }"
-                    :label="$t('roles')"
-                    :disabled="user.id !== me?.id && !hasPermission('manage-roles')"
-                    :enabled-by="role => role.assignable"
-                    :color-by="item => item.color"
-                    @update:model-value="prepareSaveRoles"
-                />
-                <a-tag-selector 
-                    v-if="currentGame"
-                    v-model="user.game_role_ids"
-                    :url="`games/${currentGame?.id}/roles`"
-                    :fetch-params="{ only_assignable: 1 }"
-                    multiple
-                    :disabled="user.id !== me?.id && !hasPermission('manage-roles', currentGame)"
-                    :label="$t('game_roles')"
-                    :enabled-by="role => role.assignable"
-                    :color-by="item => item.color"
-                    @update:model-value="prepareSaveGameRoles"
-                />
-            </content-block>
-        </flex>
-    </Suspense>
+    <div>
+        <Suspense>
+            <flex style="width: 350px;">
+                <content-block alt-background padding="5" grow>
+                    <span class="text-xl">
+                        <a-user :user="user" avatar-size="lg" :mini-profile="false"/>
+                    </span>
+                    <a-tag-selector
+                        v-model="user.role_ids"
+                        multiple
+                        url="roles"
+                        :fetch-params="{ only_assignable: 1 }"
+                        :label="$t('roles')"
+                        :disabled="user.id !== me?.id && !hasPermission('manage-roles')"
+                        :enabled-by="role => role.assignable"
+                        :color-by="item => item.color"
+                        @update:model-value="prepareSaveRoles"
+                    />
+                    <a-tag-selector 
+                        v-if="currentGame"
+                        v-model="user.game_role_ids"
+                        :url="`games/${currentGame?.id}/roles`"
+                        :fetch-params="{ only_assignable: 1 }"
+                        multiple
+                        :disabled="user.id !== me?.id && !hasPermission('manage-roles', currentGame)"
+                        :label="$t('game_roles')"
+                        :enabled-by="role => role.assignable"
+                        :color-by="item => item.color"
+                        @update:model-value="prepareSaveGameRoles"
+                    />
+                </content-block>
+            </flex>
+        </Suspense>
+    </div>
 </template>
 
 <script setup lang="ts">

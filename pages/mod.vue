@@ -1,10 +1,7 @@
 <template>
-    <page-block>
-        <Head>
-            <Title>{{mod.name}}</Title>
-        </Head>
-        <the-breadcrumb :items="breadcrumb"/>
-        <flex column gap="2">
+    <page-block :game="mod.game" :breadcrumb="breadcrumb">
+        <Title>{{mod.name}}</Title>
+        <flex v-if="notices.length || mod.suspended" column gap="2">
             <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
             <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
                 <i18n-t keypath="mod_suspended" tag="span">
@@ -94,10 +91,7 @@ if (mod.value) {
 
 const breadcrumb = computed(() => {
     return [
-        {
-            name: t('games'),
-            to: 'games'
-        },
+        { name: t('games'), to: 'games' },
         ...mod.value.breadcrumb
     ];
 });

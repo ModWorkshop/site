@@ -1,6 +1,5 @@
 <template>
-    <page-block size="sm">
-        <the-breadcrumb :items="breadcrumb"/>
+    <page-block size="sm" :game="g" :breadcrumb="breadcrumb">
         <content-block class="p-8">
             <simple-resource-form 
                 v-model="thread"
@@ -11,19 +10,26 @@
             >
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
-                <a-select v-model="thread.category_id" :label="$t('category')" :options="categories.data"/>
+                <a-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories"/>
                 <a-select v-model="thread.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags"/>
+                <template v-if="canManage">
+                    <a-input v-model="thread.announce" type="checkbox" label="Announce"/>
+                    <a-duration v-if="thread.announce" v-model="thread.announce_until" label="Announcement Duration"/>
+                </template>
             </simple-resource-form>
         </content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Breadcrumb, ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
-const { user, setGame } = useStore();
+const store = useStore();
+const { isBanned, ban, gameBan, user } = storeToRefs(store);
+
 const { t } = useI18n();
 
 const { data: game } = await useResource<Game>('game', 'games');
@@ -33,23 +39,26 @@ const forumId = game.value ? game.value.forum_id : 1;
 const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
     id: 0,
     views: 0,
-    archived: false,
-    archived_by_mod: false,
+    locked: false,
+    locked_by_mod: false,
+    announce: false,
+    announce_until: null,
     name: '',
     content: '',
     tag_ids: [],
     category_id: null,
-    user_id: user.id,
+    user_id: user.value.id,
     forum_id: forumId,
 });
 
-const g = game.value ?? thread.value.forum.game;
-
-setGame(g);
+const g = game.value ?? thread.value?.forum?.game;
+store.setGame(g);
 
 if (!useCanEditThread(thread.value, g)) {
     useNoPermsPage();
 }
+
+const canManage = computed(() => store.hasPermission('manage-discussions'));
 
 const { data: tags } = await useFetchMany<Tag>('tags', { 
     params: { 
@@ -65,6 +74,17 @@ const { data: categories } = await useFetchMany<ForumCategory>('forum-categories
     }
 });
 
+const allowedCategories = computed(() => {
+    const canAppeal = ban.value?.can_appeal ?? true;
+    const canAppealGame = gameBan.value?.can_appeal ?? true;
+
+    return categories.value.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame)));
+});
+
+if (!thread.value.id && isBanned.value && !allowedCategories.value.length) {
+    useNoPermsPage();
+}
+
 const threadGame = computed(() => game.value ?? (thread.value.forum ? thread.value.forum.game : null));
 
 const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.value.short_name}/forum` : `/forum`);
@@ -75,9 +95,13 @@ const breadcrumb = computed(() => {
     ];
 
     if (threadGame.value) {
-        crumbs.push({ name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' });
+        crumbs.unshift({ name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' });
     }
 
+    if (thread.value.id) {
+        crumbs.push({ name: thread.value.category.name, id: thread.value.category.name, type: 'forum_category' });
+    }
+    
     crumbs.push({ name: thread.value.id ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });
     if (thread.value.id) {
         crumbs.push({ name: t('edit') });

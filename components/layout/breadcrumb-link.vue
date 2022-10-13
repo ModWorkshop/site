@@ -31,6 +31,13 @@ function getTo(item: Breadcrumb, i: number) {
         } else {
             return `/category/${item.id}`;
         }
+    } else if (item.type == 'forum_category') {
+        const first = props.items[0];
+        if (first && first.type == 'game') {
+            return getTo(first, 0)+`/forum?category=${item.id}`;
+        } else {
+            return `/forum?category=${item.id}`;
+        }
     } else if (item.type == 'mod') {
         return `/mod/${item.id}`;
     }  else if (item.type == 'thread') {

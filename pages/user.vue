@@ -24,8 +24,8 @@
                 <a-button icon="gavel">{{$t('moderation')}}</a-button>
                 <template #popper>
                     <a-dropdown-item :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
-                    <a-dropdown-item icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
-                    <a-dropdown-item icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
+                    <a-dropdown-item :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
+                    <a-dropdown-item :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
                 </template>
             </VDropdown>
         </flex>

@@ -12,7 +12,7 @@
                     by <a-user :user="userCase.mod_user" avatar-size="xs"/>
                 </template>
             </flex>
-            <div>Duration: {{duration}}</div>
+            <div v-if="userCase.expire_date">Duration: {{duration}}</div>
             <div v-if="!isExpired">Expires: <time-ago null-is-never :time="userCase.expire_date"/></div>
             <div v-else-if="userCase.pardoned">Pardoned: {{userCase.pardon_reason}}</div>
             <div v-else>Expired</div>

@@ -1,6 +1,5 @@
 <template>
-    <page-block>
-        <the-breadcrumb :items="breadcrumb"/>
+    <page-block :game="game" :breadcrumb="breadcrumb">
         <content-block padding="6">
             <h1>{{document.name}}</h1>
             <flex class="items-center">
