@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use App\Models\User;
+use App\Services\APIService;
 use Auth;
 use Error;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -22,12 +24,11 @@ class Controller extends BaseController
 
     public function authorizeGameResource(string $class, string $resource)
     {
-        $request = request();
-        $game = $request->route('game');
+        $game = app(Game::class)->resolveRouteBinding(request()->route('game'));
 
         if (isset($game)) {
             $this->authorizeResource([$class, 'game'], "{$resource}, game");
-            User::setCurrentGame($game);
+            APIService::setCurrentGame($game);
         } else {
             $this->authorizeResource($class, $resource);
         }

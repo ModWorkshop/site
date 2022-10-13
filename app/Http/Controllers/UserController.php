@@ -119,10 +119,7 @@ class UserController extends Controller
         }
 
         //TODO: Should moderators be able to change email for users?
-
-        APIService::nullToEmptyStr($val, 'custom_color');
-
-        APIService::nullToEmptyStr($val, 'bio', 'custom_title', 'donation_url');
+        APIService::nullToEmptyStr($val, 'custom_color', 'bio', 'custom_title', 'donation_url');
 
         $avatarFile = Arr::pull($val, 'avatar_file');
         APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);

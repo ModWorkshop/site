@@ -33,6 +33,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Game $game
  */
 class InstructsTemplate extends Model
 {

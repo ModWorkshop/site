@@ -33,7 +33,7 @@ class RoleService {
             return false;
         }
 
-        return $user->getGameHighestOrder($game) > $order;
+        return $user->getGameHighestOrder($game->id) > $order;
     }
 
     /**

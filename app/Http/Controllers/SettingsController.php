@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Services\APIService;
 use Arr;
 use Illuminate\Http\Request;
 
@@ -19,14 +20,7 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $query = Setting::query();
-
-        $user = $this->user();
-        if (!$user?->hasPermission('admin')) {
-            $query->where('public', true);
-        }
-
-        return Arr::pluck($query->get(), 'value', 'name');
+        return APIService::getSettings();
     }
 
     /**

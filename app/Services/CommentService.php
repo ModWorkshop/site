@@ -36,7 +36,7 @@ class CommentService {
         }
 
         if (isset($commentable->game)) {
-            User::setCurrentGame($commentable->game->id);
+            APIService::setCurrentGame($commentable->game);
         }
 
         $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {

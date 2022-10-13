@@ -2,6 +2,15 @@
 
 namespace App\Services;
 
+use App\Http\Resources\AnnouncementResource;
+use App\Models\Game;
+use App\Models\Notification;
+use App\Models\Setting;
+use App\Models\Thread;
+use App\Models\User;
+use Arr;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -79,5 +88,48 @@ class APIService {
         ]);
 
         $model->report($val['reason']);
+    }
+
+    public static function getUnseenNotifications()
+    {
+        $userId = Auth::user()?->id;
+
+        if (!isset($userId)) {
+            return null;
+        }
+
+        return Notification::where('user_id', $userId)->where('seen', false)->count();
+    }
+
+    public static function getAnnouncements(Game $game=null)
+    {
+        $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)->where('announce', true)->get();
+
+        $now = Carbon::now();
+        foreach ($announcements as $annoucement) {
+            if (isset($annoucement->annouce_until) && $now->greaterThan($annoucement->annouce_until)) {
+                $annoucement->update(['announce' => false]);
+            }
+        }
+
+        return AnnouncementResource::collection($announcements->take(2));
+    }
+
+    public static function setCurrentGame(Game $game)
+    {
+        User::setCurrentGame($game->id);
+        $game->append('announcements');
+    }
+
+    public static function getSettings()
+    {
+        $query = Setting::query();
+
+        $user = Auth::user();
+        if (!$user?->hasPermission('admin')) {
+            $query->where('public', true);
+        }
+
+        return Arr::pluck($query->get(), 'value', 'name');
     }
 }

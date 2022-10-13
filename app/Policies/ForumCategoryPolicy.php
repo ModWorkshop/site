@@ -31,8 +31,7 @@ class ForumCategoryPolicy
      */
     public function view(?User $user, ForumCategory $forumCategory)
     {
-        return true;
-
+        return $forumCategory->can_view;
     }
 
     /**

@@ -52,18 +52,17 @@ class BanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Game $game)
+    public function store(Request $request, Game $game=null)
     {
         $val = $request->validate([
             'user_id' => 'int|min:1|required|exists:users,id',
             'expire_date' => 'date|after:now|nullable',
-            'reason' => 'string|min:3|max:1000'
+            'reason' => 'string|min:3|max:1000',
+            'cannot_appeal' => 'boolean'
         ]);
 
         $user = $request->user();
-        /**
-         * @var User
-         */
+        /** @var User */
         $banUser = User::find($val['user_id']);
         
         if (isset($game)) {

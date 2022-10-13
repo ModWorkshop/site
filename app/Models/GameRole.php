@@ -88,7 +88,7 @@ class GameRole extends Model
             return false;
         }
 
-        $myHighestOrder = $me->getGameHighestOrder($this->game);
+        $myHighestOrder = $me->getGameHighestOrder($this->game->id);
 
         if ($me->id === 1) {
             return true;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
+use App\Services\APIService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,11 +16,9 @@ class NotificationController extends Controller
         $this->authorizeResource(Notification::class, 'notification');
     }
 
-    public function unseenCount(Request $request)
+    public function unseenCount()
     {
-        $userId = $request->user()->id;
-
-        return Notification::where('user_id', $userId)->where('seen', false)->count();
+        return APIService::getUnseenNotifications();
     }
 
     /**

@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Forum;
 use App\Models\ForumCategory;
+use App\Models\Game;
+use App\Models\GameRole;
+use App\Models\Role;
+use App\Services\APIService;
+use Arr;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ForumCategoryController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(ForumCategory::class, 'forum_category');
+        $this->authorizeGameResource(ForumCategory::class, 'forum_category');
     }
 
     /**
@@ -26,12 +32,32 @@ class ForumCategoryController extends Controller
             'game_id' => 'integer|min:1|nullable|exists:games,id'
         ]);
 
+        
         return JsonResource::collection(ForumCategory::queryGet($val, function($query, array $val) {
             if (isset($val['forum_id'])) {
                 $query->where('forum_id', $val['forum_id']);
             }
             if (isset($val['game_id'])) {
                 $query->whereRelation('forum', fn($q) => $q->where('game_id', $val['game_id']));
+            }
+            $user = Auth::user();
+            $roleIds = [1];
+            $gameRoleIds = null;
+
+            if (isset($user)) {
+                $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
+                $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
+            }
+
+            if (!isset($user) || !$user->hasPermission('manage-discussions')) {
+                $query->where(function($q) use($roleIds, $gameRoleIds) {
+                    $q->where(
+                        fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
+                            ->when(isset($gameRoleIds))->whereDoesntHave('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
+                    );
+                    $q->orWhereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds));
+                    $q->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds));
+                });
             }
         }));
     }
@@ -42,7 +68,7 @@ class ForumCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
         return $this->update($request);
     }
@@ -71,13 +97,63 @@ class ForumCategoryController extends Controller
             'name' => 'string|nullable|min:3|max:150',
             'emoji' => 'string|nullable|max:1',
             'desc' => 'string|nullable|max:1000|',
-            'forum_id' => 'integer|min:1|exists:forums,id'
+            'forum_id' => 'integer|min:1|exists:forums,id',
+            'is_private' => 'boolean',
+            'banned_can_post' => 'boolean',
+            'private_threads' => 'boolean',
+            'role_policies' => 'array',
+            'game_role_policies' => 'array',
         ]);
+
+        $rolesArr = Arr::pull($val, 'role_policies');
+        $rolesArr = Arr::pull($val, 'role_policies');
+        $gameRolesArr = Arr::pull($val, 'game_role_policies');
  
+        APIService::nullToEmptyStr($val, 'desc', 'emoji');
+
         if (isset($forumCategory)) {
             $forumCategory->update($val);
         } else {
             $forumCategory = ForumCategory::create($val);
+        }
+
+        $syncRoles = [];
+        $syncGameRoles = [];
+
+        if (isset($rolesArr)) {
+            foreach ($rolesArr as $id => $perms) {
+                $canView = Arr::get($perms, 'can_view');
+                $canPost = Arr::get($perms, 'can_post');
+
+                if (is_bool($canView) && is_bool($canPost)) {
+                    $syncRoles[$id] = ['can_view' => $canView, 'can_post' => $canPost];
+                } else {
+                    abort(400, 'roles is invallid');
+                }
+            }
+        }
+        if (isset($gameRolesArr)) {
+            foreach ($gameRolesArr as $id => $perms) {
+                $canView = Arr::get($perms, 'can_view');
+                $canPost = Arr::get($perms, 'can_post');
+
+                if (is_bool($canView) && is_bool($canPost)) {
+                    $syncGameRoles[$id] = ['can_view' => $canView, 'can_post' => $canPost];
+                } else {
+                    abort(400, 'game_roles is invallid');
+                }
+            }
+        }
+
+        if (isset($rolesArr)) {
+            $forumCategory->roles()->sync($syncRoles);
+            Role::flushQueryCache();
+            $forumCategory->load('roles');
+        }
+        if (isset($gameRolesArr)) {
+            $forumCategory->gameRoles()->sync($syncGameRoles);
+            GameRole::flushQueryCache();
+            $forumCategory->load('gameRoles');
         }
 
         return $forumCategory;

@@ -64,7 +64,7 @@ class ModPolicy
 
     public function like(User $user, Mod $mod)
     {
-        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mods', $mod->game);
+        return $user->id !== $mod->user_id && $this->view($user, $mod) && $user->hasPermission('like-mods', $mod->game, true);
     }
 
     /**

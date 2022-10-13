@@ -41,7 +41,7 @@ class BanPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, ?Game $game)
+    public function create(User $user, Game $game=null)
     {
         return $user->hasPermission('moderate-users', $game);
     }

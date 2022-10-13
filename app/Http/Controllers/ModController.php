@@ -57,7 +57,13 @@ class ModController extends Controller
     {
         $val = $request->val();
 
-        $mods = Mod::queryGet($val, ModService::filters(...), true);
+        if (isset($game)) {
+            $mods = $game->mods()->without('game');
+        } else {
+            $mods = Mod::query();
+        }
+        
+        $mods = $mods->queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
     }
 
@@ -105,7 +111,7 @@ class ModController extends Controller
     public function show(Game $game=null, Mod $mod)
     {
         $mod->withAllRest();
-        User::setCurrentGame($mod->game->id);
+        APIService::setCurrentGame($mod->game);
         return new ModResource($mod);
     }
 

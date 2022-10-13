@@ -36,6 +36,7 @@ use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Models\SocialLogin;
 use App\Models\User;
+use App\Services\APIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -55,18 +56,18 @@ use Laravel\Socialite\Facades\Socialite;
  * Registers a game resource with also a direct resource link.
  * store method still requires a game so that's not available in the global one.
  */
-function resource(string $resource, string $class, string $parent, array $except=[], bool $shallow=true) {
+function resource(string $resource, string $class, string $parent, array $config=[]) {
     $reg = Route::resource("${parent}.{$resource}", $class);
-    Route::resource($resource, $class)->only(['index']);
-    if ($shallow) {
+    Route::resource($resource, $class)->only($config['selfOnly'] ?? ['index']);
+    if ($config['shallow'] ?? true) {
         $reg->shallow();
     }
-    $reg->except(['create', 'edit', ...$except]);
+    $reg->except(['create', 'edit', ...($config['except'] ?? [])]);
 
     return $reg;
 }
-function gameResource(string $resource, string $class, array $except=[], bool $shallow=true) {
-    return resource($resource, $class, 'games', $except, $shallow);
+function gameResource(string $resource, string $class, array $config=[]) {
+    return resource($resource, $class, 'games', $config);
 }
 
 /**
@@ -124,14 +125,13 @@ Route::middleware('auth:sanctum')->group(function() {
 //Games/categories/tags
 Route::resource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
-Route::get('games/{game}', [GameController::class, 'getGame'])->where('game', '[0-9a-z\-]+');
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
 Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
 gameResource('tags', TagController::class);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
-gameResource('roles', GameRoleController::class, shallow: false)->parameters([
+gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
     'roles' => 'game-role'
 ]);
 
@@ -139,7 +139,7 @@ gameResource('roles', GameRoleController::class, shallow: false)->parameters([
  * @group Forums
  */
 Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
-Route::resource('forum-categories', ForumCategoryController::class);
+gameResource('forum-categories', ForumCategoryController::class);
 resource('threads', ThreadController::class, 'forums');
 Route::resource('threads.comments', ThreadCommentsController::class);
 Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
@@ -157,7 +157,7 @@ Route::middleware('auth:sanctum')->group(function() {
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
-gameResource('bans', BanController::class);
+gameResource('bans', BanController::class, ['selfOnly' => ['index', 'store']]);
 gameResource('user-cases', UserCaseController::class);
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
@@ -210,3 +210,15 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::get('social-logins/{provider}/link-redirect', [SocialLoginController::class, 'linkAccountRedirect']);
 Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'SocialiteRedirect']);
 Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'SocialiteLogin']);
+
+Route::get('site-data', function() {
+    $unseen = APIService::getUnseenNotifications();
+    $announcements = APIService::getAnnouncements();
+    $settings = APIService::getSettings();
+
+    return [
+        'unseen_notifications' => $unseen,
+        'announcements' => $announcements,
+        'settings' => $settings,
+    ];
+});

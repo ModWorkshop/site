@@ -34,6 +34,8 @@ namespace App\Models{
  * @property int|null $case_id
  * @property-read \App\Models\UserCase|null $case
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
+ * @property int|null $game_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereGameId($value)
  */
 	class Ban extends \Eloquent {}
 }
@@ -453,6 +455,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
  * @property-read int|null $roles_count
  * @property-read mixed $user_data
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereModsCount($value)
  */
 	class Game extends \Eloquent {}
 }
@@ -1048,6 +1051,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Supporter
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $expire_date
+ * @property bool $is_cancelled
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereExpireDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereIsCancelled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUserId($value)
+ */
+	class Supporter extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Suspension
  *
  * @property int $id
@@ -1285,6 +1312,29 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|User whereLastOnline($value)
+ * @property string $banner
+ * @property string $bio
+ * @property bool $private_profile
+ * @property string $custom_title
+ * @property bool $invisible
+ * @property string|null $donation_url
+ * @property string $show_tag
+ * @property-read \App\Models\Ban|null $gameBan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ban[] $gameBans
+ * @property-read int|null $game_bans_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read int|null $game_roles_count
+ * @property-read mixed $last_game_ban
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SocialLogin[] $socialLogins
+ * @property-read int|null $social_logins_count
+ * @property-read \App\Models\Supporter|null $supporter
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBanner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCustomTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDonationUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereInvisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePrivateProfile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereShowTag($value)
  */
 	class User extends \Eloquent {}
 }
@@ -1319,6 +1369,9 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardonReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardoned($value)
+ * @property int|null $game_id
+ * @property-read \App\Models\User|null $modUser
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
  */
 	class UserCase extends \Eloquent {}
 }

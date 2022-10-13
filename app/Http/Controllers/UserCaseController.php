@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Models\Ban;
 use App\Models\Game;
 use App\Models\UserCase;
+use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -40,6 +42,8 @@ class UserCaseController extends Controller
             if (isset($val['user_id'])) {
                 $q->where('user_id', $val['user_id']);
             }
+
+            $q->orderByDesc('expire_date');
         }));
     }
 
@@ -88,13 +92,22 @@ class UserCaseController extends Controller
             'reason' => 'string|min:3|max:1000',
             'pardon_reason' => 'string|nullable|max:1000',
             'expire_date' => 'date|nullable',
-            'pardoned' => 'boolean'
+            'pardoned' => 'boolean',
+            'can_appeal' => 'boolean|nullable'
         ]);
 
+        $canAppeal = Arr::pull($val, 'can_appeal');
         $userCase->update($val);
 
         if (!$userCase->warning) {
-            if (Carbon::now()->lessThan($userCase->expire_date) || $userCase->pardoned) {
+            if (isset($canAppeal)) {
+                $userCase->ban()->update([
+                    'can_appeal' => $canAppeal
+                ]);
+
+                $userCase->ban->can_appeal = $canAppeal;
+            }
+            if (isset($userCase->expire_date) && Carbon::now()->greaterThanOrEqualTo($userCase->expire_date) || $userCase->pardoned) {
                 $userCase->ban()->delete();
             } else {
                 if (!isset($userCase->ban)) {

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('content');
             $table->bigInteger('views')->default(0);
             $table->bigInteger('comments_count')->default(0);
-            $table->boolean('archived')->default(false);
+            $table->boolean('locked')->default(false);
             $table->timestamp('bumped_at')->nullable();
             $table->timestamp('pinned_at')->nullable();
             $table->bigInteger('forum_id')->unsigned();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->bigInteger('last_user_id')->unsigned();
             $table->foreign('last_user_id')->references('id')->on('users');
 
-            $table->boolean('archived_by_mod')->default(false);
+            $table->boolean('locked_by_mod')->default(false);
 
             $table->timestamps();
         });

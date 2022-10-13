@@ -63,6 +63,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read int|null $tags_special_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
+ * @property bool $locked
+ * @property bool $locked_by_mod
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLocked($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLockedByMod($value)
  */
 class Thread extends Model implements SubscribableInterface
 {
@@ -74,6 +78,7 @@ class Thread extends Model implements SubscribableInterface
     
     protected $casts = [
         'bumped_at' => 'datetime',
+        'announce_until' => 'datetime',
     ];
 
     public function getMorphClass(): string {

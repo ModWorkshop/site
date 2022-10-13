@@ -22,7 +22,6 @@ class RouteServiceProvider extends ServiceProvider
     protected const MODEL_ID_BINDINGS = [
         'user',
         'tag',
-        'game',
         'category',
         'role',
         'file',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\APIService;
 use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
@@ -84,6 +85,29 @@ use Storage;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|User whereLastOnline($value)
+ * @property string $banner
+ * @property string $bio
+ * @property bool $private_profile
+ * @property string $custom_title
+ * @property bool $invisible
+ * @property string|null $donation_url
+ * @property string $show_tag
+ * @property-read \App\Models\Ban|null $gameBan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ban[] $gameBans
+ * @property-read int|null $game_bans_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read int|null $game_roles_count
+ * @property-read mixed $last_game_ban
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SocialLogin[] $socialLogins
+ * @property-read int|null $social_logins_count
+ * @property-read \App\Models\Supporter|null $supporter
+ * @method static Builder|User whereBanner($value)
+ * @method static Builder|User whereBio($value)
+ * @method static Builder|User whereCustomTitle($value)
+ * @method static Builder|User whereDonationUrl($value)
+ * @method static Builder|User whereInvisible($value)
+ * @method static Builder|User wherePrivateProfile($value)
+ * @method static Builder|User whereShowTag($value)
  */
 class User extends Authenticatable
 {
@@ -439,7 +463,7 @@ class User extends Authenticatable
         if (isset(self::$currentGameId)) {
             $ban = $this->gameBan;
             if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->greaterThan($ban->case->expire_date))) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->lessThan($ban->case->expire_date))) {
                     return $ban;
                 }
             }
@@ -453,7 +477,7 @@ class User extends Authenticatable
         if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
             $ban = $this->ban;
             if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->greaterThan($ban->case->expire_date))) {
+                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->lessThan($ban->case->expire_date))) {
                     return $ban;
                 }
             }
@@ -472,39 +496,38 @@ class User extends Authenticatable
      *
      * @return Collection<Game>
      */
-    public function getGameRoles(Game $game, bool $withPerms=false)
+    public function getGameRoles(int $gameId, bool $withPerms=false)
     {
-        if (isset($this->gameRolesCache[$game->id])) {
-            return $this->gameRolesCache[$game->id];
+        if (isset($this->gameRolesCache[$gameId])) {
+            return $this->gameRolesCache[$gameId];
         }
 
-        $query = $this->allGameRoles();
-        
-        if ($withPerms) {
-            $query->with('permissions');
+        if ($withPerms && !$this->relationLoaded('allGameRoles.permission')) {
+            $this->load('allGameRoles.permission');
         }
 
-        $gameRoles = $query->where('game_id', $game->id)->with('permissions')->get();
-        $this->gameRolesCache[$game->id] = $gameRoles;
+        $gameRoles = $this->allGameRoles;
+
+        $gameRoles = $gameRoles->where('game_id', $gameId);
+        $this->gameRolesCache[$gameId] = $gameRoles;
 
         return $gameRoles;
     }
 
-    public function getGamePerms(Game $game): array
+    public function getGamePerms(int $gameId): array
     {
-        if (isset($this->gamePermissions[$game->id])) {
-            return $this->gamePermissions[$game->id];
+        if (isset($this->gamePermissions[$gameId])) {
+            return $this->gamePermissions[$gameId];
         }
 
-        $this->gamePermissions[$game->id] = Utils::collectPermissions($this->getGameRoles($game, true));
+        $this->gamePermissions[$gameId] = Utils::collectPermissions($this->getGameRoles($gameId, true));
 
-        return $this->gamePermissions[$game->id];
+        return $this->gamePermissions[$gameId];
     }
 
-
-    public function hasGameRole(Game $game, int $id): bool
+    public function hasGameRole(int $gameId, int $id): bool
     {
-        $gameRoles = $this->getGameRoles($game);
+        $gameRoles = $this->getGameRoles($gameId);
 
         foreach ($gameRoles as $role) {
             if ($role->id === $id) {
@@ -537,7 +560,7 @@ class User extends Authenticatable
      * Guests are permission-less meaning that if we want to let them see something, that thing must have no needed permissions.
      * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
      */
-    function hasPermission(string $toWhat, Game $game=null): bool {
+    function hasPermission(string $toWhat, Game $game=null, bool $byPassBanCheck=false): bool {
         $this->roles->loadMissing('permissions');
         $perms = $this->permissionList;
 
@@ -547,23 +570,23 @@ class User extends Authenticatable
         }
 
         //Users who moderate users cannot be banned.
-        if (!$this->existsAndTrue($perms, 'moderate-users') && isset($this->last_ban)) {
+        if (!$byPassBanCheck && !$this->existsAndTrue($perms, 'moderate-users') && isset($this->last_ban)) {
             return false;
         }
 
         //Check game first
         if (isset($game)) {
             if (!isset(self::$currentGameId)) {
-                User::setCurrentGame($game->id);
+                APIService::setCurrentGame($game);
             }
-            $gamePerms = $this->getGamePerms($game);
+            $gamePerms = $this->getGamePerms($game->id);
             //Game version of the admin permission
             Log::info($this->existsAndTrue($gamePerms, 'moderate-users'));
 
             if ($this->existsAndTrue($gamePerms, 'manage-game')) {
                 return true;
             }
-            if (!$this->existsAndTrue($gamePerms, 'moderate-users') && isset($this->last_game_ban)) {
+            if (!$byPassBanCheck && !$this->existsAndTrue($gamePerms, 'moderate-users') && isset($this->last_game_ban)) {
                 return false;
             }
             if ($this->existsAndTrue($gamePerms, $toWhat)) {
@@ -579,14 +602,14 @@ class User extends Authenticatable
         return isset($perms[$toWhat]) && $perms[$toWhat] === true;
     }
 
-    public function getGameHighestOrder(Game $game)
+    public function getGameHighestOrder(int $gameId)
     {
         //!Special case for the Super Admin!//
         if ($this->id === 1) {
             return pow(10, 10);
         } else {
             $highest = null;
-            $gameRoles = $this->getGameRoles($game);
+            $gameRoles = $this->getGameRoles($gameId);
             foreach ($gameRoles as $role) {
                 if ($highest === null || $role->order > $highest) {
                     $highest = $role->order;
@@ -704,7 +727,7 @@ class User extends Authenticatable
 
         $me = Auth::user();
         $canManageRoles = $me->hasPermission('manage-roles', $game);
-        $myHighestOrder = $me->getGameHighestOrder($game);
+        $myHighestOrder = $me->getGameHighestOrder($game->id);
 
         if ($me->id !== $this->id && !$canManageRoles) {
             throw new Exception("You cannot edit roles of other users.");
@@ -717,7 +740,7 @@ class User extends Authenticatable
         }
 
         //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
-        foreach ($this->getGameRoles($game) as $role) {
+        foreach ($this->getGameRoles($game->id) as $role) {
             if (!in_array($role->id, $newRoles)) {
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
@@ -729,7 +752,7 @@ class User extends Authenticatable
 
         //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
         foreach ($roles as $role) {
-            if (!$this->hasGameRole($game, $role->id)) {
+            if (!$this->hasGameRole($game->id, $role->id)) {
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
                 } else {

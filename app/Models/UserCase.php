@@ -36,6 +36,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardonReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase wherePardoned($value)
+ * @property int|null $game_id
+ * @property-read \App\Models\User|null $modUser
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
  */
 class UserCase extends Model
 {
@@ -43,6 +46,7 @@ class UserCase extends Model
     protected $with = ['user', 'ban'];
     protected $casts = [
         'expire_date' => 'datetime',
+        'pardoned' => 'boolean'
     ];
 
     use HasFactory;

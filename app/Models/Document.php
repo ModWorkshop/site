@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUrlName($value)
  * @mixin \Eloquent
  * @property-read \App\Models\User $lastUser
+ * @property-read \App\Models\Game|null $game
  */
 class Document extends Model
 {

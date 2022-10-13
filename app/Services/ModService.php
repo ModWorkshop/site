@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\Mod;
 use App\Models\User;
 use App\Models\Visibility;
 use Arr;
@@ -10,9 +11,15 @@ use Auth;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Log;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ModService {
     static $categories = [];
+    
+    public function mods()
+    {
+        QueryBuilder::for(Mod::class)->allowedIncludes(['roles']);
+    }
 
     /**
      * Makes breadcrumb for a mod or a category.
@@ -68,12 +75,12 @@ class ModService {
 
         if (isset($gameId)) {
             $game = Game::where('id', $gameId)->first();
-            User::setCurrentGame($gameId);
+            APIService::setCurrentGame($game);
         } else {
             $request = request();
             $game = $request->route('game');
             if (isset($game)) {
-                User::setCurrentGame($game->id);
+                APIService::setCurrentGame($game);
             }
         }
 

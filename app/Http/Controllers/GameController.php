@@ -14,6 +14,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Games
@@ -87,7 +88,7 @@ class GameController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $games = Game::queryGet($val, function(Builder $query, array $val) {
+        $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
             if (($val['only_names'] ?? false)) {
                 $query->select(['id', 'name']);
             }
@@ -103,31 +104,13 @@ class GameController extends Controller
         if (Auth::hasUser()) {
             $game->loadMissing('followed');
         }
-        return new GameResource($game);
+        APIService::setCurrentGame($game);
+        return $game;
     }
 
     public function delete()
     {
         
-    }
-
-    public function getGame(string|int $shortNameOrId)
-    {
-        $game = null;
-
-        $q = Game::with('forum');
-
-        if (is_numeric($shortNameOrId)) {
-            $game = $q->find($shortNameOrId);
-        } else {
-            $game = $q->where('short_name', $shortNameOrId)->first();
-        }
-        if (isset($game)) {
-            User::setCurrentGame($game->id);
-            return $this->show($game);
-        } else {
-            abort(404);
-        }
     }
 
     public function setUserGameRoles(Request $request, Game $game, User $user)
@@ -147,10 +130,10 @@ class GameController extends Controller
      */
     public function getGameUserData(Game $game, User $user)
     {
-        $roles = $user->getGameRoles($game);
+        $roles = $user->getGameRoles($game->id);
         return [
             'role_ids' => array_values(array_unique(Arr::pluck($roles, 'id'))),
-            'highest_role_order' => $user->getGameHighestOrder($game),
+            'highest_role_order' => $user->getGameHighestOrder($game->id),
         ];
     }
 }

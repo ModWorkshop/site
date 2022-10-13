@@ -16731,6 +16731,31 @@
         class Str {
          
     }
+            /**
+     * 
+     *
+     * @template TKey of array-key
+     * @template TValue
+     * @implements \ArrayAccess<TKey, TValue>
+     * @implements \Illuminate\Support\Enumerable<TKey, TValue>
+     */ 
+        class Collection {
+                    /**
+         * 
+         *
+         * @see \App\Providers\AppServiceProvider::boot()
+         * @param mixed $perPage
+         * @param mixed $total
+         * @param mixed $page
+         * @param mixed $pageName
+         * @static 
+         */ 
+        public static function paginate($perPage, $total = null, $page = null, $pageName = 'page')
+        {
+                        return \Illuminate\Support\Collection::paginate($perPage, $total, $page, $pageName);
+        }
+         
+    }
      
 }
 
