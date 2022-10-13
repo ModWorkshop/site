@@ -51,7 +51,7 @@
                             </flex>
                             <flex v-if="!isOnline" column>
                                 {{$t('last_visit')}} 
-                                <span class="text-secondary">{{timeAgo(user.last_online)}}</span>
+                                <span class="text-secondary">{{getTimeAgo(user.last_online)}}</span>
                             </flex>
                             <flex column>
                                 Mods
@@ -107,7 +107,6 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { timeAgo, fullDate } from '../utils/helpers';
 import { setFollowUser } from '../utils/follow-helpers';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';

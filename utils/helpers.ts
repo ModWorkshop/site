@@ -53,7 +53,7 @@ export const colorSchemes = [
  * @param {String} t 
  * @returns String
  */
-export function timeAgo(t: string) {
+export function getTimeAgo(t: string) {
     return DateTime.fromISO(t).toRelative();
 }
 

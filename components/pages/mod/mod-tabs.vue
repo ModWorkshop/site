@@ -29,7 +29,7 @@
                                 <strong style="font-size: 13px;">{{file.name}}</strong>
                                 <span>Version {{file.version}}</span>
                                 <flex>
-                                    <span class="my-auto">{{timeAgo(file.created_at)}} by</span>
+                                    <span class="my-auto">{{getTimeAgo(file.created_at)}} by</span>
                                     <a-user :user="file.user" avatar-size="xs"/>
                                 </flex>
                                 <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
