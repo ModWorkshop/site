@@ -113,6 +113,10 @@ const iconStyle = computed(() => ({
     opacity: 0.75;
 }
 
+.button:disabled:hover {
+    cursor: not-allowed;
+}
+
 .button:hover:enabled, .button:hover:link {
     color: var(--button-text-color);
     transition: 0.15s ease-in-out;
