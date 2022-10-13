@@ -1,6 +1,7 @@
 <template>
     <page-block>
         <the-breadcrumb v-if="game" :items="breadcrumb"/>
+        <Title>{{game ? `${game.name} Forum` : $t('forum')}}</Title>
         <flex>
             <a-button :to="newThreadLink">{{$t('new_thread')}}</a-button>
         </flex>

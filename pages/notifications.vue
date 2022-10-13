@@ -1,5 +1,6 @@
 <template>
     <page-block size="md">
+        <Title>{{$t('notifications')}}</Title>
         <content-block>
             <a-list url="notifications" limit="20" :search="false" class="p-4" query>
                 <template #buttons="{ items }">

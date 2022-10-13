@@ -1,6 +1,7 @@
 <template>
     <page-block>
         <the-breadcrumb :items="breadcrumb"/>
+        <Title>{{thread.name}}</Title>
         <flex>
             <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="cog">{{$t('edit')}}</a-button>
             <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>

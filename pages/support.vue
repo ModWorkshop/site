@@ -1,5 +1,6 @@
 <template>
     <page-block>
+        <Title>{{$t('support_us')}}</Title>
         <flex gap="3" class="items-center" column>
             <a-img alt="logo" :src="logo" width="128" height="128"/>
             <h1 class="text-primary m-auto">{{$t('support_mws')}}!</h1>

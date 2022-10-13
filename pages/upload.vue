@@ -2,6 +2,7 @@
     <page-block size="sm">
         <the-breadcrumb v-if="gameName" :items="breadcrumb"/>
 
+        <Title>{{$t('upload_mod')}}</Title>
         <a-form :model="mod" :created="false" @submit="create">
             <content-block class="p-8">
                 <h1>

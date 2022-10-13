@@ -1,5 +1,6 @@
 <template>
     <page-block>
+        <Title>{{$t('games')}}</Title>
         <flex column class="items-center">
             <h2>We host {{games.meta.total}} games as of now.</h2>
             <h3>Want your favorite game to be added? Want to moderate it? Submit a request <a>here</a></h3>

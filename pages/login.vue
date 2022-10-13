@@ -1,5 +1,6 @@
 <template>
     <page-block class="!w-1/3">
+        <Title>{{$t('login')}}</Title>
         <a-form @submit="login">
             <h1>{{$t('login')}}</h1>
             <content-block column gap="3">

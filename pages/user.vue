@@ -1,5 +1,6 @@
 <template>
     <page-block>
+        <Title>{{user.name}}</Title>
         <flex v-if="me && user.id != me.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>

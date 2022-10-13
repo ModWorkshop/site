@@ -1,5 +1,6 @@
 <template>
     <page-block size="sm">
+        <Title>{{$t('user_settings')}}</Title>
         <content-block class="p-8">
             <a-form :model="user" float-save-gui @submit="save">
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
