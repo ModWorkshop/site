@@ -1,10 +1,10 @@
 import { FetchOptions } from 'ohmyfetch';
-import queryString from 'query-string';
+import qs from 'qs';
 
 export default async function<T = unknown>(url: string, options?: FetchOptions) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
-    const {public: config} = useRuntimeConfig();
+    const { public: config } = useRuntimeConfig();
     
     const headersToSend = {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
@@ -21,7 +21,11 @@ export default async function<T = unknown>(url: string, options?: FetchOptions) 
         //This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
         //tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
         
-        url += '?'+queryString.stringify(options.params, { arrayFormat: 'bracket' });
+        url += qs.stringify(options.params, { 
+            arrayFormat: 'brackets',
+            encode: false,
+            addQueryPrefix: true
+        });
     }
 
     const res = await $fetch<T>(url, {
