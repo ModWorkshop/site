@@ -66,5 +66,7 @@ approve: 'Approve',
 reject: 'Reject',
 add_offsite_mod: 'Add Off-site Mod',
 add_mod: 'Add Mod',
-mod_page: 'Mod Page'
+mod_page: 'Mod Page',
+mod_name_desc: "Maximum of 150 letters and minimum of 3 letters",
+game_placeholder: "Select a Game...",
 };
