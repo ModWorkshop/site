@@ -1,9 +1,9 @@
 <template>
     <flex gap="2" column>
         <a-alert v-if="!user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
-        <a-input v-model="user.name" label="Username"/>
-        <a-input v-model="user.unique_name" label="Unique Name" desc="A unique name for your profile and to allow people to mention you."/>
-        <a-input v-if="user.email || isMe" v-model="user.email" label="Email" :disabled="!isMe"/>
+        <a-input v-model="user.name" :label="$t('username')"/>
+        <a-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
+        <a-input v-if="user.email || isMe" v-model="user.email" :label="$t('email')" :disabled="!isMe"/>
         <a-input :label="$t('roles')">
             <flex gap="3" class="p-4 input-bg" column>
                 <a-tag-selector
@@ -37,7 +37,7 @@
                     v-if="user.signable"
                     v-model="user.current_password"
                     autocomplete="off"
-                    label="Current Password"
+                    :label="$t('current_password')"
                     type="password"
                     minlength="12"
                     maxlength="128"
@@ -46,7 +46,7 @@
                     v-model="user.password"
                     :validity="passValidity"
                     autocomplete="off"
-                    label="New Password"
+                    :label="$t('new_password')"
                     type="password"
                     minlength="12"
                     maxlength="128"
@@ -54,7 +54,7 @@
                 <a-input
                     v-model="user.confirm_password"
                     :validity="confirmPassValidity"
-                    label="Confirm Password"
+                    :label="$t('confirm_password')"
                     type="password"
                     minlength="12"
                     maxlength="128"
@@ -132,8 +132,8 @@ const isMe = inject<Ref<boolean>>('isMe');
 
 async function doDelete() {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action is irreversible!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         async yes() {
             await useDelete(`users/${props.user.id}`);
             await store.logout();

@@ -1,14 +1,10 @@
 <template>
     <a-tabs>
         <template #pre-panels>
-            <a-alert class="my-1" type="info">
-                Here you can view your followed and blocked content.
-                Any blocked content will not display anywhere unless entered explictly.
-                Followed content is displayed on the home page.
-            </a-alert>
+            <a-alert class="my-1" type="info">{{$t('content_page_info')}}</a-alert>
         </template>
         <a-tab name="follow" title="Following">
-            <h2>Followed Games</h2>
+            <h2>{{$t('followed_games')}}</h2>
             <a-list v-model="followedGames" url="followed-games" limit="10" :item-link="item => `g/${item.short_name}`">
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="height: 64px;"/>
@@ -17,7 +13,7 @@
                     <a-button icon="remove" @click="unfollowGame(item)">{{$t('unfollow')}}</a-button>
                 </template>
             </a-list>
-            <h2>Followed Users</h2>
+            <h2>{{$t('followed_users')}}</h2>
             <a-list v-model="followedUsers" url="followed-users" limit="10">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
@@ -27,7 +23,7 @@
                     </a-user>
                 </template>
             </a-list>            
-            <h2>Followed Mods</h2>
+            <h2>{{$t('followed_mods')}}</h2>
             <a-list v-model="followedMods" url="followed-mods" limit="10" :item-link="item => `mod/${item.id}`">
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="height: 64px;"/>
@@ -38,7 +34,10 @@
             </a-list>
         </a-tab>
         <a-tab name="block" title="Blocking">
-            <h2>Blocked Users</h2>
+            <h2>{{$t('blocked_users')}}</h2>
+            <a-modal-form v-model="showBlockTag" title="Block Tag" @submit="submitBlockTag">
+                <a-select v-model="blockTag" url="tags" :value-by="false"/>
+            </a-modal-form>
             <a-list url="blocked-users" limit="10">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
@@ -48,19 +47,16 @@
                     </a-user>
                 </template>
             </a-list>
-            <h2>Blocked Tags</h2>
+            <h2>{{$t('blocked_tags')}}</h2>
             <a-list v-model="blockedTags" url="blocked-tags" limit="10">
                 <template #buttons>
-                    <a-button @click="showBlockTag = true">Block</a-button>
+                    <a-button @click="showBlockTag = true">{{$t('block')}}</a-button>
                 </template>
                 <template #item-buttons="{ item }">
                     <a-button icon="remove" @click="unblockTag(item)">{{$t('unblock')}}</a-button>
                 </template>
             </a-list>
         </a-tab>
-        <a-modal-form v-model="showBlockTag" title="Block Tag" @submit="submitBlockTag">
-            <a-select v-model="blockTag" url="tags" :value-by="false"/>
-        </a-modal-form>
     </a-tabs>
 </template>
 

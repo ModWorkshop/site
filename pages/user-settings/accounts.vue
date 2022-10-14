@@ -1,6 +1,6 @@
 <template>
     <flex column gap="2">
-        <a-alert desc="Connect accounts from supported services in order to sign-in using them." color="info"/>
+        <a-alert :desc="$t('accounts_desc')" color="info"/>
         <flex column>
             <flex v-for="[name, provider] of Object.entries(providers)" :key="name" class="list-button items-center">
                 <flex column>
@@ -9,7 +9,11 @@
                         {{provider.name}}
                     </flex>
                     <span v-if="provider.account">
-                        Linked <time-ago :time="provider.account.created_at"/>
+                        <i18n-t v-if="provider.account" keypath="linked_time_ago" tag="span">
+                            <template #time_ago>
+                                <time-ago :time="provider.account.created_at"/>
+                            </template>
+                        </i18n-t>
                     </span>
                 </flex>
                 
@@ -17,7 +21,7 @@
                     <div>
                         <a-button :disabled="!canUnlink" @click="unlink(name)">{{$t('unlink')}}</a-button>
                     </div>
-                    <template #popper>To unlink this account you must setup email and password or link a different service.</template>
+                    <template #popper>{{$t('cannot_unlink_reason')}}</template>
                 </VTooltip>
                 <a-button 
                     v-else
@@ -34,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { SocialLogin, UserForm } from '~~/types/models';
 
 const props = defineProps<{
@@ -43,6 +48,7 @@ const props = defineProps<{
 const { public: config } = useRuntimeConfig();
 const yesNoModal = useYesNoModal();
 const listenToTabs = ref(false);
+const { t } = useI18n();
 
 const { data: accounts, refresh } = await useFetchData<SocialLogin[]>('social-logins');
 const canUnlink = computed(() =>  accounts.value.length > 1 || props.user.signable);
@@ -64,7 +70,8 @@ const providers = computed(() => {
 
 function unlink(provider: string) {
     yesNoModal({
-        desc: 'This will unlink the account from your ModWorkshop account and you will not be able to use it to login to this account anymore!',
+        title: t('are_you_sure'),
+        desc: t('unlink_desc'),
         async yes() {
             await useDelete(`social-logins/${provider}`);
             accounts.value = accounts.value.filter(account => account.social_id !== provider);
