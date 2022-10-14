@@ -1,5 +1,5 @@
 import { Game } from './../types/models';
-import fileSize from "filesize";
+import { partial } from "filesize";
 import { DateTime } from 'luxon';
 import { serialize } from "object-to-formdata";
 import { LocationQueryValueRaw } from "vue-router";
@@ -7,7 +7,7 @@ import { LocationQueryValueRaw } from "vue-router";
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
  */
-export const friendlySize = fileSize.partial({base: 2});
+export const friendlySize = partial({base: 2});
 
 /**
  * Permissions that make the admin page available to the user
