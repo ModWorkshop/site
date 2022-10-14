@@ -30,7 +30,7 @@
         <flex v-if="game" column class="p-1">
             <label>Game Role Policies</label>
             <flex>
-                <a-select v-model="addGameRole" :options="game.roles"/>
+                <a-select v-model="addGameRole" :options="validGameRoles"/>
                 <a-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
@@ -70,7 +70,13 @@ const addRole = ref<number>(null);
 const addGameRole = ref<number>(null);
 const createUrl = computed(() => getGameResourceUrl('forum-categories', props.game));
 
-const { data: roles } = await useFetchMany<Role>('roles', { initialCache: true });
+const { data: roles } = await useFetchMany<Role>('roles', { 
+    initialCache: true,
+    params: {
+        filter: { is_vanity: false }
+    }
+});
+
 const { data: category } = await useEditResource<ForumCategory>('category', 'forum-categories', {
     id: 0,
     name: '',
@@ -107,6 +113,8 @@ const addedGameRoles = computed(() => {
 
     return arr;
 });
+
+const validGameRoles = computed(() => props.game.roles.filter(role => !role.is_vanity));
 
 function addRolePolicy() {
     category.value.role_policies[addRole.value] = { can_view: false, can_post: false };
