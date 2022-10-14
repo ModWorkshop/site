@@ -2,10 +2,7 @@
 
 export default defineNuxtConfig({
 	runtimeConfig: {
-		public: {
-			apiUrl: '',
-			siteUrl: ''
-		}
+		public: { apiUrl: '', siteUrl: '' }
 	},
 
 	components: [
@@ -39,9 +36,7 @@ export default defineNuxtConfig({
 
 	vite: {
 		server: {
-			watch: {
-				usePolling: true,
-			},
+			watch: { usePolling: true },
 		}
 	},
 
