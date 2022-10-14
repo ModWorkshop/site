@@ -27,7 +27,7 @@
                 </flex>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : null" @click="toggleLiked"/>
-                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button w-full text-center" icon="download" :to="!static ? downloadUrl : null">
+                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button text-center" icon="download" :to="!static ? downloadUrl : null">
                         {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
@@ -44,8 +44,8 @@
                             </div>
                         </template>
                     </VDropdown>
-                    <a-button v-else-if="mod.files.length || mod.links.length" class="large-button" icon="download" @click="switchToFiles">Downloads</a-button>
-                    <a-button v-else class="large-button" disabled>No Files</a-button>
+                    <a-button v-else-if="mod.files.length || mod.links.length" class="large-button" icon="download" @click="switchToFiles">{{$t('downloads')}}</a-button>
+                    <a-button v-else class="large-button" disabled>{{$t('no_downloads')}}</a-button>
                 </flex>
             </flex>
         </flex>

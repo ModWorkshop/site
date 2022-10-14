@@ -17,18 +17,19 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~~/store';
+import { useI18n } from 'vue-i18n';
 import { Category, Mod, Tag } from '~~/types/models.js';
 
+const { t } = useI18n();
 
 const props = defineProps<{
     mod: Mod
 }>();
 
 const visItems = [
-    { name: 'Public', id: 1 },
-    { name: 'Hidden', id: 2 },
-    { name: 'Unlisted', id: 3 }
+    { name: t('public'), id: 1 },
+    { name: t('hidden'), id: 2 },
+    { name: t('unlisted'), id: 3 }
 ];
 
 const gameId = computed(() => props.mod.game_id);

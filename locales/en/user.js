@@ -1,6 +1,6 @@
 export default {
 online: 'Online',
-last_visit: 'Last Online',
+last_visit: 'Last Visit',
 block: "Block",
 unblock: "Unblock",
 hide_mods: "Hide Mods",
@@ -15,5 +15,6 @@ password_error_uppercase: 'Password must contain at least one uppercase characte
 password_error_digit: 'Password must contain at least one digit',
 password_error_match: 'Passwords must match!',
 sso_only_warning: "Social Login Only!",
-sso_only_warning_desc: "You don't have an email or password set and so you won't be able to sign in without social login. It is recommended that you setup an email and password!"
+sso_only_warning_desc: "You don't have an email or password set and so you won't be able to sign in without social login. It is recommended that you setup an email and password!",
+private_profile_notice: "This profile is private",
 };
