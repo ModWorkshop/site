@@ -11,9 +11,9 @@
                         <a-avatar size="md" :src="src"/>
                     </template>
                 </img-uploader>
-                <a-input v-model="user.name" required autocomplete="off" label="Display Name"/>
-                <a-input v-model="user.unique_name" required autocomplete="off" label="Unique Name"/>
-                <a-input v-model="user.email" required autocomplete="off" label="Email" type="email"/>
+                <a-input v-model="user.name" required autocomplete="off" :label="$t('display_name')"/>
+                <a-input v-model="user.unique_name" required autocomplete="off" :label="$t('unique_name')"/>
+                <a-input v-model="user.email" required autocomplete="off" :label="$t('email')" type="email"/>
                 <flex column>
                     <flex>
                         <a-input 
@@ -23,7 +23,7 @@
                             :validity="passValidity"
                             minlength="12"
                             maxlength="128"
-                            label="Password" 
+                            :label="$t('password')" 
                             type="password"
                         />
                         <a-input 
@@ -33,17 +33,16 @@
                             :validity="confirmPassValidity"
                             minlength="12"
                             maxlength="128"
-                            label="Confirm Password" 
+                            :label="$t('confirm_password')" 
                             type="password"
                         />
                     </flex>
                     <small>{{$t('password_guide')}}</small>
                 </flex>
                 <flex column gap="2">
-                    Or register using one the following
+                    {{$t('login_using_services')}}
                     <the-social-logins/>
                 </flex>
-                <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
                 <div>
                     <a-button type="submit" :disabled="!canRegister">{{$t('register')}}</a-button>
                 </div>
@@ -61,6 +60,7 @@ definePageMeta({
 });
 
 const { t } = useI18n();
+const showErrorToast = useQuickErrorToast();
 
 const user = reactive({
     name: '',
@@ -70,9 +70,7 @@ const user = reactive({
     password_confirm: '',
 });
 
-const error = ref('');
 const avatarBlob = ref(null);
-const { public: config } = useRuntimeConfig();
 
 const passValidity = computed(() => {
     const validity = passwordValidity(user.password);
@@ -95,7 +93,6 @@ async function register() {
     if (user.password_confirm !== user.password) {
         return;
     }
-    error.value = '';
 
     try {
         await usePost('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
@@ -108,12 +105,9 @@ async function register() {
         });
         store.attemptLoginUser();
     } catch (e) {
-        if (e.response.status == 409) {
-            error.value = 'The given unique name or email already exist!';
-        } else {
-            error.value = 'Something went wrong';
-        }
-        console.log(e);
+        showErrorToast(e, {
+            409: t('register_error_409'),
+        });
     }
 }
 </script>

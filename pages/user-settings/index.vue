@@ -1,7 +1,7 @@
 <template>
     <flex gap="2" column>
         <a-alert v-if="!user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
-        <a-input v-model="user.name" :label="$t('username')"/>
+        <a-input v-model="user.name" :label="$t('display_name')"/>
         <a-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
         <a-input v-if="user.email || isMe" v-model="user.email" :label="$t('email')" :disabled="!isMe"/>
         <a-input :label="$t('roles')">

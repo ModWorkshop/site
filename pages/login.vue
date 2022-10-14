@@ -4,14 +4,13 @@
         <a-form @submit="login">
             <h1>{{$t('login')}}</h1>
             <content-block column gap="3">
-                <a-input v-model="user.email" label="Email"/>
-                <a-input v-model="user.password" label="Password" type="password"/>
+                <a-input v-model="user.email" :label="$t('email')" type="email"/>
+                <a-input v-model="user.password" :label="$t('password')" type="password"/>
                 <flex column gap="2">
-                    Or register using one the following
+                    {{$t('login_using_services')}}
                     <the-social-logins/>
                 </flex>
                 <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>
-                <a-alert v-if="error" color="danger" class="w-full">{{error}}</a-alert>
                 <div>
                     <a-button type="submit" :disabled="!canLogin">{{$t('login')}}</a-button>
                 </div>
@@ -21,11 +20,16 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 
 definePageMeta({
     middleware: 'guests-only'
 });
+
+const showErrorToast = useQuickErrorToast();
+
+const { t } = useI18n();
 
 const user = reactive({
     email: '',
@@ -33,25 +37,18 @@ const user = reactive({
     remember: true,
 });
 
-const error = ref('');
 const canLogin = computed(() => user.email && user.password);
 const store = useStore();
 
 async function login() {
-    error.value = '';
     try {
         await usePost('/login', user);
         store.attemptLoginUser();
     } catch (e) {
-        const codes = {
-            401: 'Incorrect email or password',
-            422: 'Given email or password are invalid'
-        };
-        console.log(e.response);
-        console.log(codes[e.response.status] || 'Something went wrong');
-        
-        error.value = codes[e.response.status] || 'Something went wrong';
-        return;
+        showErrorToast(e, {
+            401: t('login_error_401'),
+            422: t('login_error_422')
+        });
     }
 }
 </script>
