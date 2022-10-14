@@ -19,14 +19,16 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Notification } from '~~/types/models';
 
 const yesNoModal = useYesNoModal();
+const { t } = useI18n();
 
 async function deleteAll(items: Notification[]) {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action cannot be undone!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications');
@@ -37,8 +39,8 @@ async function deleteAll(items: Notification[]) {
 
 async function deleteReadNotifications(items: Notification[]) {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action cannot be undone!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications/read');
