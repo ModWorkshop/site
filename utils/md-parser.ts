@@ -103,9 +103,9 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 
 const fullYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?(?:youtube|youtu)\.(?:com|be)\/(?:(?:watch\?v=)|(?:embed\/)?)([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
 const shortYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)?youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
-const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
-const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
-const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
+const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/i;
+const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/i;
+const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/i;
 const soundcloudRegex = /https?:\/\/(?:www.)?soundcloud.com\/([\w-]+\/[\w-]+)/i;
 const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
 
