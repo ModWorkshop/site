@@ -130,7 +130,7 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
     })
 });
 
-watch(comments, () => isLoaded.value = true);
+watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
 watch(page, loadComments);
 
 const { data: viewingComment } = await useFetchData<Comment>(`${props.url}/${route.params.commentId}`, {
