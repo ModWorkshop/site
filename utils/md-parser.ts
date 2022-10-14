@@ -106,6 +106,7 @@ const shortYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)?youtu\.be\/([a-zA-Z0-9_-]{1
 const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
 const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
 const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
+const soundcloudRegex = /https?:\/\/(?:www.)?soundcloud.com\/([\w-]+\/[\w-]+)/i;
 const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
 
 function makeIFrame(src: string, w = 560, h = 315) {
@@ -138,6 +139,11 @@ function parseMedia(wholeMatch, altText, linkId, url) {
 	const gyfyCat = gyfcatRegex.exec(url);
 	if (gyfyCat) {
 		return makeIFrame(`https://gfycat.com/ifr/${gyfyCat[1]}`);
+	}
+
+	const soundCloud = soundcloudRegex.exec(url);
+	if (soundCloud) {
+		return makeIFrame(`https://w.soundcloud.com/player/?url=https://soundcloud.com/${soundCloud[1]}`, 560, 166);
 	}
 
 	return wholeMatch;
