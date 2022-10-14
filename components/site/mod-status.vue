@@ -26,7 +26,7 @@ const statusText = computed(() => {
     } else if (props.mod.approved === false) {
         str = 'mod_rejected';
     } else if (!props.mod.has_download) {
-        str = 'no_files';
+        str = 'no_downloads';
     } else if (props.mod.visibility == 2) {
         str = 'hidden';
     } else if (props.mod.visibility == 3) {

@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { passwordValidity, serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
 
 definePageMeta({

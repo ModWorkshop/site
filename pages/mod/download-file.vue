@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
+import { registerDownload } from '~~/utils/mod-helpers';
 
 const { public: config } = useRuntimeConfig();
 

@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { Game } from '~~/types/models';
+import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
     game: Game

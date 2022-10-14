@@ -20,6 +20,7 @@
 import { remove } from '@vue/shared';
 import { Ban, Game } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
+import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
     game: Game

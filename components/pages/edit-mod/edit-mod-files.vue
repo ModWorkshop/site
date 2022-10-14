@@ -54,11 +54,11 @@
         </template>
         <template #rows="{file}">
             <td class="text-center">
-                <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : null" type="radio" @change="setPrimaryDownload('file', file)">
+                <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : null" type="radio" @change="setPrimaryDownload('file', file as File)">
             </td>
         </template>
         <template #buttons="{file}">
-            <a-button class="file-button" icon="cog" @click.prevent="editFile(file)"/>
+            <a-button class="file-button" icon="cog" @click.prevent="editFile(file as File)"/>
         </template>
     </file-uploader>
     <a-modal-form v-model="showEditLink" title="Edit Link" @submit="saveEditLink">
@@ -80,6 +80,7 @@
 import { File, Link, Mod } from '~~/types/models';
 import clone from 'rfdc/default';
 import { useStore } from '~~/store';
+import { friendlySize, fullDate } from '~~/utils/helpers';
 
 const { settings } = useStore();
 

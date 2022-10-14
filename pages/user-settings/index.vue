@@ -77,6 +77,7 @@ import { useStore } from '~~/store';
 import { GameUserData, Role, UserForm } from '~~/types/models';
 import clone from 'rfdc/default';
 import { useI18n } from 'vue-i18n';
+import { passwordValidity } from '~~/utils/helpers';
 
 const props = defineProps<{
     user: UserForm

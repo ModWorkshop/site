@@ -37,6 +37,7 @@ import clone from 'rfdc/default';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
 const { user, setGame } = useStore();
 const { showToast } = useToaster();

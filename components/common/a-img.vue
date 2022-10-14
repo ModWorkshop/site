@@ -3,6 +3,8 @@
 </template>
 
 <script setup lang="ts">
+import { isSrcExternal } from '~~/utils/helpers';
+
 const { public: config } = useRuntimeConfig();
 
 const props = defineProps({

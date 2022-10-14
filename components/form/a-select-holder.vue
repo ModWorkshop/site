@@ -8,7 +8,7 @@
             auto-size
             auto-boundary-max-size
             handle-resize
-            :overflow-padding="16"
+            :overflow-padding="64"
             @update:shown="(val: boolean) => $emit('update:shown', val)"
         >
             <slot/>

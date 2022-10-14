@@ -113,6 +113,7 @@ import { useI18n } from 'vue-i18n';
 import { Mod, User } from '../types/models';
 import { useStore } from '~~/store';
 import { Paginator } from '~~/types/paginator';
+import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
 

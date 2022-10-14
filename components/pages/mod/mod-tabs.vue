@@ -102,6 +102,7 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
+import { friendlySize, getTimeAgo } from '~~/utils/helpers';
 
 const props = defineProps<{
     mod: Mod

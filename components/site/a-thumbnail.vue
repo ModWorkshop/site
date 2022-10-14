@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
+import { isSrcExternal } from '~~/utils/helpers';
 
 const { public: config } = useRuntimeConfig();
 const store = useStore();
@@ -22,13 +23,16 @@ const props = defineProps<{
 const noPreviewSrc = computed(() => `${config.apiUrl}/storage/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const compSrc = computed(() => {
-    if (typeof props.src == 'object') {
-        return props.src.toString();
-    }
-    else if (!props.src || isSrcExternal(props.src)) {
-        return props.src;
-    } else {
-        return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumb_' : ''}${props.src}`;
+    const src = props.src;
+    if (src) {
+        if (typeof src == 'object') {
+            return src.toString();
+        }
+        else if (!src || isSrcExternal(src)) {
+            return src;
+        } else {
+            return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumb_' : ''}${props.src}`;
+        }
     }
 });
 </script>

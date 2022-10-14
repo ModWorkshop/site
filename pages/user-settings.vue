@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
+import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
 import { User, UserForm } from '../types/models';
 

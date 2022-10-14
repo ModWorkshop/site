@@ -5,6 +5,7 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
+import { isSrcExternal } from '~~/utils/helpers';
 
 const { public: config } = useRuntimeConfig();
 const store = useStore();

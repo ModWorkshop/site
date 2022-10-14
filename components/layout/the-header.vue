@@ -99,6 +99,7 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { adminGamePagePerms, adminPagePerms } from '~~/utils/helpers';
 import { useStore } from '../../store';
 
 const store = useStore();

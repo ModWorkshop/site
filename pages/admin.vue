@@ -30,6 +30,7 @@
 
 <script setup>
 import { useStore } from '~~/store';
+import { adminPagePerms } from '~~/utils/helpers';
 
 const { user, hasPermission } = useStore();
     

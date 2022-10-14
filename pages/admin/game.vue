@@ -36,6 +36,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
+import { adminGamePagePerms } from '~~/utils/helpers';
 
 const route = useRoute();
 const id = computed(() => route.params.gameId);

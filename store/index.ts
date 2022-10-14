@@ -2,6 +2,7 @@ import { User, Game, Tag, Notification, Settings, Thread } from './../types/mode
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import { CookieRef } from '#app';
+import { reloadToken } from '~~/utils/helpers';
 
 interface MainStore {
     user?: User,

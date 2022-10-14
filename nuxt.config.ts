@@ -1,5 +1,3 @@
-import { resolve } from 'path';
-
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 
 export default defineNuxtConfig({
@@ -21,12 +19,6 @@ export default defineNuxtConfig({
 		"@/assets/css/module-changes.css",
 		"@/assets/css/github-dark.css",
 	],
-
-	hooks: {
-		'imports:dirs' (dirs) { //TODO: do we really want to autoimport this?
-			dirs.push(resolve(__dirname, 'utils'));
-		}
-	},
 
 	//This converts these libraries to work with es6 import or something like that
 	build: {

@@ -16,10 +16,10 @@
 <script setup lang="ts">
 import { User } from '~~/types/models';
 
-withDefaults(defineProps<{
+defineProps<{
     modelValue: number|User|Array<User>,
     placeholder?: string
-}>(), { placeholder: 'Select a user...' });
+}>();
 
 defineEmits(['update:modelValue']);
 </script>
