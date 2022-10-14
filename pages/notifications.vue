@@ -6,8 +6,8 @@
                 <template #buttons="{ items }">
                     <flex class="ml-auto">
                         <a-button color="danger" icon="trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>
-                        <a-button color="danger" icon="clock" @click="deleteReadNotifications(items.data)">{{$t('delete_read_notifications')}}</a-button>
-                        <a-button icon="clock" @click="markAllAsRead(items.data)">{{$t('read_all_notifications')}}</a-button>
+                        <a-button color="danger" icon="clock" @click="deleteReadNotifications(items.data)">{{$t('delete_seen_notifications')}}</a-button>
+                        <a-button icon="clock" @click="markAllAsRead(items.data)">{{$t('mark_all_notifications')}}</a-button>
                     </flex>
                 </template>
                 <template #item="{ item, items }">
@@ -19,14 +19,16 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Notification } from '~~/types/models';
 
 const yesNoModal = useYesNoModal();
+const { t } = useI18n();
 
 async function deleteAll(items: Notification[]) {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action cannot be undone!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications');
@@ -37,8 +39,8 @@ async function deleteAll(items: Notification[]) {
 
 async function deleteReadNotifications(items: Notification[]) {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action cannot be undone!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications/read');

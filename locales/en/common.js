@@ -121,4 +121,5 @@ view: "View",
 are_you_sure: "Are you sure?",
 irreversible_action: "This action is irreversible!",
 something_went_wrong: "Something went wrong",
+not_available: "N/A",
 };

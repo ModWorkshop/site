@@ -1,5 +1,5 @@
 <template>
-    <a-user v-if="type == 'user' && object" :user="object" :avatar="false"/>
+    <a-user v-if="type == 'user' && typeof object == 'object'" :user="(object as User)" :avatar="false"/>
     <template v-else>
         <NuxtLink v-if="link" :to="link">{{name}}</NuxtLink>
         <span v-else>{{name}}</span><span v-if="typeHint"> ({{typeHint}})</span>
@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { User } from '~~/types/models';
 
 const props = defineProps({
     type: {

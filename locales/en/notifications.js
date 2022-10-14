@@ -6,13 +6,14 @@ export default {
     no_more_alerts_found: "Couldn't get more notifications",
     notifications: "Notifications",
     browse_all_notifications: "Browse All Notifications",
-    read_all_notifications: "Mark All Notifications as Read",
-    delete_read_notifications: "Delete Read Notifications",
+    mark_all_notifications: "Mark All Notifications as Seen",
+    delete_seen_notifications: "Delete Seen Notifications",
     delete_all_notifications: "Delete All Notifications",
     notification_transfer_ownership: "{user} has sent a request to transfer the mod {notifiable} to you. Click the notification to accept or decline.",
     notification_comment_reply: "{user} replied in a comment that you're subscribed to in {mod}",
     notification_comment_mention: "You were mentioned in a comment posted in {context} by {user}",
     notification_follow_mod_new_version: "{user} released a new version for {notifiable}: {extra}",
     notification_mod_suspended: "{notifiable} has been suspended. See reason in the mod page.",
-    notification_mod_unsuspended: "{notifiable} has been unsuspended."
+    notification_mod_unsuspended: "{notifiable} has been unsuspended.",
+    mark_as_seen: "Mark as Seen",
 };

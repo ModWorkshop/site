@@ -18,15 +18,15 @@
                     </template>
                     <template #extra>
                         <a-notification-slot v-if="defintion.extra" :type="defintion.extra.type" :object="defintion.extra.object"/>
-                        <span v-else>N/A</span>
+                        <span v-else>{{'not_available'}}</span>
                     </template>
                 </i18n-t>
                 <br>
                 <time-ago :time="notification.created_at"/>
             </div>
             <flex class="ml-auto my-auto">
-                <a-button v-if="!notification.seen" icon="check" title="Mark as Seen" @click.prevent="markAsSeen"/>
-                <a-button icon="trash" color="danger" title="Delete" @click.prevent="deleteNotification()"/>
+                <a-button v-if="!notification.seen" icon="check" :title="$t('mark_as_seen')" @click.prevent="markAsSeen"/>
+                <a-button icon="trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
             </flex>
         </flex>
     </component>
