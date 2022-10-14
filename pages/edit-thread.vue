@@ -11,10 +11,10 @@
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
                 <a-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories"/>
-                <a-select v-model="thread.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags"/>
+                <a-select v-model="thread.tag_ids" :options="tags.data" multiple :label="$t('tags')"/>
                 <template v-if="canManage">
-                    <a-input v-model="thread.announce" type="checkbox" label="Announce"/>
-                    <a-duration v-if="thread.announce" v-model="thread.announce_until" label="Announcement Duration"/>
+                    <a-input v-model="thread.announce" type="checkbox" :label="$t('announce')"/>
+                    <a-duration v-if="thread.announce" v-model="thread.announce_until" :label="$t('announcement_duration')"/>
                 </template>
             </simple-resource-form>
         </content-block>

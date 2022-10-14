@@ -72,15 +72,15 @@ const canComment = computed(() => {
 
 const cannotCommentReason = computed(() => {
     if (thread.value.locked) {
-        return 'This thread has been locked.';
+        return t('cannot_comment_locked');
     }
 
     if (isBanned) {
-        return 'Banned users cannot post comments';
+        return t('cannot_comment_banned');
     }
 
     if (thread.value.user.blocked_me) {
-        return 'You cannot reply to the thread because the owner blocked you.';
+        return t('cannot_comment_blocked');
     }
 });
 
