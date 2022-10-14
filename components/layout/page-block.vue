@@ -67,7 +67,7 @@ const hiddenAnnouncements = computed(() => {
 });
 
 const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
-const gameAnnouncements = computed(() => store.currentGame?.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
+const gameAnnouncements = computed(() => store.currentGame?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
 
 function hideAnnouncement(thread: Thread) {
     const hidden = hiddenAnnouncements.value;
