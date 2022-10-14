@@ -12,6 +12,8 @@ use App\Services\APIService;
 use App\Services\RoleService;
 use Arr;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class GameRoleController extends Controller
 {
@@ -31,14 +33,13 @@ class GameRoleController extends Controller
             'with_permissions' => 'boolean|nullable',
             'limit' => 'integer|min:1|max:50'
         ]);
+        
+        $gameRoles = QueryBuilder::for(GameRole::class)
+            ->allowedFilters([AllowedFilter::exact('is_vanity')])
+            ->allowedIncludes('permissions')
+            ->orderByDesc('order');
 
-        return RoleResource::collection(GameRole::queryGet($val, function($query, $val) {
-            $query->orderByDesc('order');
-
-            if ($val['with_permissions'] ?? false) {
-                $query->with('permissions');
-            }
-
+        return RoleResource::collection($gameRoles->queryGet($val, function($query, $val) {
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
             }

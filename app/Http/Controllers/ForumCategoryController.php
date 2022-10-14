@@ -121,24 +121,40 @@ class ForumCategoryController extends Controller
         $syncGameRoles = [];
 
         if (isset($rolesArr)) {
-            foreach ($rolesArr as $id => $perms) {
+            $roles = Role::whereIn('id', array_keys($rolesArr))->where('is_vanity', false)->get();
+
+            if (count($roles) !== count($rolesArr)) {
+                abort(400, 'roles is invalid');
+            }
+
+            foreach ($roles as $role) {
+                $perms = $rolesArr[$role->id];
                 $canView = Arr::get($perms, 'can_view');
                 $canPost = Arr::get($perms, 'can_post');
 
                 if (is_bool($canView) && is_bool($canPost)) {
-                    $syncRoles[$id] = ['can_view' => $canView, 'can_post' => $canPost];
+                    $syncRoles[$role->id] = ['can_view' => $canView, 'can_post' => $canPost];
                 } else {
                     abort(400, 'roles is invallid');
                 }
             }
         }
+
         if (isset($gameRolesArr)) {
-            foreach ($gameRolesArr as $id => $perms) {
+            $gameRoles = GameRole::whereIn('id', array_keys($gameRolesArr))->where('is_vanity', false)->get();
+
+            if (count($gameRoles) !== count($gameRolesArr)) {
+                abort(400, 'game_roles is invalid');
+            }
+
+            foreach ($gameRoles as $role) {
+                $perms = $gameRolesArr[$role->id];
+
                 $canView = Arr::get($perms, 'can_view');
                 $canPost = Arr::get($perms, 'can_post');
 
                 if (is_bool($canView) && is_bool($canPost)) {
-                    $syncGameRoles[$id] = ['can_view' => $canView, 'can_post' => $canPost];
+                    $syncGameRoles[$role->id] = ['can_view' => $canView, 'can_post' => $canPost];
                 } else {
                     abort(400, 'game_roles is invallid');
                 }
