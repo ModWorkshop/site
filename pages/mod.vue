@@ -21,7 +21,7 @@
                     </template>
                 </i18n-t>
             </a-alert>
-            <a-alert v-if="!mod.has_download" color="warning" :title="$t('files_alert_title')" :desc="$t('files_alert')"/>
+            <a-alert v-if="!mod.has_download" color="warning" :title="$t('downloads_alert')" :desc="$t('downloads_alert_desc')"/>
             <a-alert v-else-if="mod.approved === null" color="info" :title="$t('mod_waiting')">
                 <span>
                     {{$t('mod_waiting_desc')}}

@@ -117,4 +117,6 @@ discard: 'Discard',
 never: 'Never',
 title: 'Title',
 name: "Name",
+view: "View",
+are_you_sure: "Are you sure?",
 };

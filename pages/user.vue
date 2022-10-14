@@ -9,7 +9,7 @@
                     {{$t(user.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!user.followed" icon="caret-down"/>
                 </a-button>
                 <template #popper>
-                    <a-dropdown-item @click="setFollowUser(user, true)">Follow and get notified for new mods</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowUser(user, true)">{{$t('follow_with_notifs')}}</a-dropdown-item>
                     <a-dropdown-item @click="setFollowUser(user, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </VDropdown>
@@ -38,7 +38,7 @@
                     <flex gap="3" column style="min-width: 300px;">
                         <a-user class="text-2xl" :user="user" :avatar="false" static>
                             <template #after-name>
-                                <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status" :style="{backgroundColor: statusColor}"/>
+                                <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status mt-1" :style="{backgroundColor: statusColor}"/>
                             </template>
                             <template #details>
                                 <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
@@ -54,11 +54,11 @@
                                 <span class="text-secondary">{{getTimeAgo(user.last_online)}}</span>
                             </flex>
                             <flex column>
-                                Mods
+                                {{$t('mods')}}
                                 <span class="text-secondary">{{mods?.meta.total}}</span>
                             </flex>
                             <flex v-if="user.donation_url" column>
-                                Support User
+                                {{$t('support_user')}}
                                 <donation-button :link="user.donation_url"/>
                             </flex>
                             <flex column>
@@ -91,17 +91,17 @@
                 <mod-list v-if="isPublic || isOwnOrModerator" :user-id="user.id" @fetched="items => mods = items"/>
             </template>
             <content-block v-else>
-                You've hid the user's mods. Do you wish to view their mods?
+                {{$t('hiding_mods_view')}}
                 <div>
-                    <a-button @click="tempBlockOverride = true">View</a-button>
+                    <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
                 </div>
             </content-block>
         </template>
         <content-block v-else>
-            You've blocked this user. Do you wish to view their profile?
+            {{$t('blocked_user_view')}}
             <flex>
-                <a-button @click="tempBlockOverride = true">View</a-button>
-                <a-button to="/">Back Home</a-button>
+                <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
+                <a-button to="/">{{$t('back_to_home')}}</a-button>
             </flex>
         </content-block>
     </page-block>
@@ -119,10 +119,6 @@ const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 
 const { data: user } = await useResource<User>('user', 'users');
-
-if (!user.value) {
-    throw createError({ statusCode: 404, statusMessage: 'bruh' });
-}
 
 const { hasPermission, user: me } = useStore();
 
@@ -153,8 +149,8 @@ async function blockUser() {
 
     if (block) {
         yesNoModal({
-            title: 'Are you sure?',
-            desc: 'This will block all communication with the user and hide their mods from showing up',
+            title: t('are_you_sure'),
+            desc: t('block_user_desc'),
             async yes() {
                 await usePost('blocked-users', { user_id: user.value.id, silent: false });
                 
@@ -172,8 +168,8 @@ async function blockUser() {
 
 function hideUserMods() {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: "This will hide the user's mods from showing up",
+        title: t('are_you_sure'),
+        desc: t('hide_user_mods_desc'),
         async yes() {
             const block = !user.value.blocked_by_me;
 
