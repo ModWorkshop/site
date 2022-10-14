@@ -42,13 +42,6 @@ function renderUnderline(tokens, idx, opts, _, slf) {
 md.renderer.rules.strong_open = renderUnderline;
 md.renderer.rules.strong_close = renderUnderline;
 
-const fullYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?(?:youtube|youtu)\.(?:com|be)\/(?:(?:watch\?v=)|(?:embed\/)?)([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
-const shortYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)?youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
-const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
-const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
-const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
-const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
-
 md.use(html5Media);
 
 md.use(markdownItRegex(
@@ -108,6 +101,48 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	return true;
 });
 
+const fullYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?(?:youtube|youtu)\.(?:com|be)\/(?:(?:watch\?v=)|(?:embed\/)?)([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
+const shortYoutubeRegex = /(?:(?:https?:)?(?:\/\/)?)?youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?t=(\d+))?/i;
+const vimeoRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?vimeo.com\/(\d+)/;
+const gyfcatRegex = /(?:(?:https?:)?(?:\/\/)?)(?:(?:www)?\.)?gfycat.com\/([a-zA-Z]+)/;
+const streamableRegex = /https:\/\/streamable.com(?:\/\w+)?\/(\w+)/;
+const inlineRegExp = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g;
+
+function makeIFrame(src: string, w = 560, h = 315) {
+	return `<iframe 
+		width="${w}"
+		height="${h}"
+		src="${src}"
+		frameborder="0"
+		allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+		allowfullscreen
+	/>`;
+}
+
+function parseMedia(wholeMatch, altText, linkId, url) {
+	const youtubeData = shortYoutubeRegex.exec(url) || fullYoutubeRegex.exec(url);
+	if (youtubeData) {
+		return makeIFrame(`https://www.youtube.com/embed/${youtubeData[1]}?rel=0${youtubeData[2] ? '&t='+youtubeData[2] : ''}`);
+	}
+
+	const streamable = streamableRegex.exec(url);
+	if (streamable) {
+		return makeIFrame(`https://streamable.com/s/${streamable[1]}`);
+	}
+
+	const vimeo = vimeoRegex.exec(url);
+	if (vimeo) {
+		return makeIFrame(`https://player.vimeo.com/video/${vimeoRegex[1]}`, 640, 266);
+	}
+
+	const gyfyCat = gyfcatRegex.exec(url);
+	if (gyfyCat) {
+		return makeIFrame(`https://gfycat.com/ifr/${gyfyCat[1]}`);
+	}
+
+	return wholeMatch;
+}
+
 export function parseMarkdown(text: string) {
 	if (!text) {
 		return '';
@@ -120,32 +155,7 @@ export function parseMarkdown(text: string) {
 		match = md.render(match);
 		return `\n\n<div><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
 	});
-	text = text.replace(inlineRegExp, function(wholeMatch, altText, linkId, url, width, height, m5, title) {
-		let m, w = 560, h = 315, src = '';
-		if ((m = shortYoutubeRegex.exec(url)) || (m = fullYoutubeRegex.exec(url))) {
-			src = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
-			if (m[2])
-				src += '&t='+m[2];
-			// if (options.youtubejsapi)
-			// 	src += '&enablejsapi=1';
-		}
-		else if(m = streamableRegex.exec(url)) {
-			src = 'https://streamable.com/s/' + m[1];
-		}
-		else if (m = vimeoRegex.exec(url)) {
-			w = 640;
-			h = 266;
-			src = 'https://player.vimeo.com/video/' + m[1];
-		}
-		else if(m = gyfcatRegex.exec(url)) {
-			src = 'https://gfycat.com/ifr/' + m[1];
-		}
-		else {
-			return wholeMatch;
-		}
-
-		return `<iframe width="${w}" height="${h}" src="${src}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-	});
+	text = text.replace(inlineRegExp, parseMedia);
     text = md.render(text); //Parse using markdown it
     return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
         ADD_TAGS: ['iframe'],
