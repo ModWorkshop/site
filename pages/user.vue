@@ -38,7 +38,7 @@
                     <flex gap="3" column style="min-width: 300px;">
                         <a-user class="text-2xl" :user="user" :avatar="false" static>
                             <template #after-name>
-                                <div v-if="!userInvisible && isPublic" :title="statusString" class="user-status mt-1" :style="{backgroundColor: statusColor}"/>
+                                <div v-if="!userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
                             </template>
                             <template #details>
                                 <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
@@ -187,11 +187,3 @@ function hideUserMods() {
 
 }
 </script>
-<style>
-.user-status {
-    height: 12px;
-    width: 12px;
-    border-radius: 1em;
-    display: inline-block;
-}
-</style>

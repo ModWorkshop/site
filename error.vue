@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { Settings } from 'luxon';
+import { useI18n } from 'vue-i18n';
 import { useStore } from './store';
 import { User } from './types/models';
 
@@ -21,12 +22,16 @@ const props = defineProps({
 });
 
 const store = useStore();
+const { locale } = useI18n();
 
 if (props.error.data) {
-	const data: { user: User, theme?: 'light'|'dark', scheme: string } = JSON.parse(props.error.data);
+	const data: { user: User, theme?: 'light'|'dark', scheme: string, locale: string } = JSON.parse(props.error.data);
 	store.user = data.user;
 	store.savedTheme = data.theme;
 	store.colorScheme = data.scheme;
+
+	Settings.defaultLocale = data.locale;
+	locale.value = data.locale;
 }
 
 const dev = process.env.NODE_ENV === 'development';
@@ -44,6 +49,4 @@ useHead({
 	},
 	title: undefined,
 });
-
-Settings.defaultLocale = 'en-US';
 </script>

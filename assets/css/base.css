@@ -406,3 +406,10 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
     grid-gap: 32px;
     gap: 32px;
 }
+
+.circle {
+    height: 12px;
+    width: 12px;
+    border-radius: 1em;
+    display: inline-flex;
+}

@@ -18,24 +18,50 @@
                 </flex>
             </flex>
         </flex>
-        <flex class="ml-auto">
-            <div class="ml-auto">
-                <a-select v-model="store.colorScheme" style="width: 200px;" :options="colors"/>
-            </div>
+        <flex class="ml-auto mb-auto items-center">
+            <a-select v-model="store.colorScheme" style="width: 250px;" :options="colors">
+                <template #option="{option}">
+                    <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
+                </template>
+                <template #list-option="{option}">
+                    <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
+                </template>
+            </a-select>
+            <a-select v-model="$i18n.locale" :options="locales">
+                <template #any-option="{option}">
+                    <a-img :src="getLocaleImg(option)" height="16"/> {{langNames[option]}}
+                </template>
+            </a-select>
         </flex>
     </footer>
 </template>
 
 <script setup lang="ts">
+import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { colorSchemes } from '~~/utils/helpers';
 
-const { t } = useI18n();
+const unlockedOwO = useState('unlockedOwO');
+const i18n = useI18n();
 const store = useStore();
 
 const inaLongFuckingTime = DateTime.now().plus({ years: 99 }).toJSDate();
 const savedColorScheme = useCookie('color-scheme', { expires: inaLongFuckingTime });
+const savedLocale = useCookie('locale', { expires: inaLongFuckingTime });
+
+function getLocaleImg(option: string) {
+    return `assets/locales/${option}.${option === 'owo' ? 'webp' : 'svg'}`;
+}
+
+const locales = computed(() => i18n.availableLocales.filter(option => i18n.locale.value == 'owo' || option != 'owo' || unlockedOwO.value));
+const langNames = {
+    'en-US': "English",
+    'owo': 'OwO',
+    'de-DE': "Deutsch"
+};
+
+watch(i18n.locale, val => savedLocale.value = val);
 
 watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
@@ -46,7 +72,7 @@ const colors = [];
 for (const key of colorSchemes) {
     colors.push({
         id: key,
-        name: t(`color_${key}`)
+        name: i18n.t(`color_${key}`)
     });
 }
 

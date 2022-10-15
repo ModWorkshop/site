@@ -4,16 +4,20 @@
             <flex wrap class="overflow-hidden">
                 <template v-if="multiple && shownOptions.length">
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
-                        <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
-                            <font-awesome-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
-                        </a-tag>
+                        <slot name="any-option" :option="option">
+                            <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
+                                <font-awesome-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                            </a-tag>
+                        </slot>
                     </slot>
                     <template v-if="shownOptions.length < selected.length">
                         <a-tag>+{{selected.length - shownOptions.length}}</a-tag>
                     </template>
                 </template>
                 <slot v-else-if="selectedOption" name="option" :option="selectedOption">
-                    <span class="selection">{{optionName(selectedOption)}}</span>
+                    <slot name="any-option" :option="selectedOption">
+                        <span class="selection">{{optionName(selectedOption)}}</span>
+                    </slot>
                 </slot>
                 <span v-else class="selection text-secondary">{{placeholder}}</span>
             </flex>
@@ -32,7 +36,11 @@
                     :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
                     @click="toggleOption(option)"
                 >
-                    <slot name="list-option" :option="option">{{optionName(option)}}</slot>
+                    <slot name="list-option" :option="option">
+                        <slot name="any-option" :option="option">
+                            {{optionName(option)}}
+                        </slot>
+                    </slot>
                 </a-dropdown-item>
             </flex>
         </template>

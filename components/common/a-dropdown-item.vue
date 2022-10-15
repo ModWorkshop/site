@@ -37,7 +37,8 @@ function click() {
     font-size: 0.9rem;
     text-align: left;
     padding: 0.65rem 1.5rem;
-    display: block;
+    display: flex;
+    gap: 4px;
     user-select: none;
 }
 

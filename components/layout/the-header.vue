@@ -84,7 +84,6 @@
                         <a-dropdown-item :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme">
                             {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                         </a-dropdown-item>
-                        <a-dropdown-item icon="globe">English</a-dropdown-item>
                     </template>
                 </VDropdown>
             </template>
@@ -109,6 +108,7 @@ const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(1);
+const unlockedOwO = useState('unlockedOwO');
 
 const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
@@ -141,6 +141,7 @@ watch(showNotifications, async () => {
 });
 
 watch(search, val => {
+    unlockedOwO.value = val.toLowerCase() === 'owo';
     if (val) {
         showSearch.value = true;
     }

@@ -5,6 +5,7 @@
             v-model:shown="shown"
             class="max-w-full"
             distance="0"
+            :placement="placement"
             auto-size
             auto-boundary-max-size
             handle-resize
@@ -40,6 +41,7 @@
 defineProps({
     shown: Boolean,
     disabled: Boolean,
+    placement: String,
     classic: {
         default: true,
         type: Boolean

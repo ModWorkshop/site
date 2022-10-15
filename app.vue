@@ -21,12 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { Settings } from 'luxon';
+import { DateTime, Settings } from 'luxon';
+import { useI18n } from 'vue-i18n';
 import { useStore } from './store';
 
 const store = useStore();
 const yesNoModals = useState('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
+const { locale } = useI18n();
+const savedLocale = useCookie('locale');
 
 useHead({
 	titleTemplate: (titleChunk) => {
@@ -42,8 +45,8 @@ useHead({
 	title: undefined,
 });
 
-
-Settings.defaultLocale = 'en-US';
+locale.value = savedLocale.value;
+Settings.defaultLocale = savedLocale.value;
 </script>
 
 <style>
