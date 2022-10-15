@@ -18,7 +18,7 @@
 
         <a-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
         <a-input v-model="user.custom_title" :label="$t('custom_title')"/>
-        <a-input v-model="user.custom_color" :label="$t('custom_color')" :desc="$t('custom_color_desc')" type="color"/>
+        <a-input v-if="user.supporter" v-model="user.custom_color" :label="$t('custom_color')" :desc="$t('custom_color_desc')" type="color"/>
         <a-input v-model="user.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
         <a-input v-model="user.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
         <md-editor v-model="user.bio" rows="12" :label="$t('bio')" :desc="$t('bio_desc')"/>
