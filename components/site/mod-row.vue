@@ -26,7 +26,7 @@
                 </template>
             </template>
             <span v-else>
-                {{$t('na')}}
+                {{$t('not_available')}}
             </span>
         </td>
         <td v-if="!lite">{{likes}}</td>

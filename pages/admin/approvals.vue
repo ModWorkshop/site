@@ -6,11 +6,11 @@
         <template #items="{ items }">
             <a-table>
                 <thead>
-                    <th>Thumbnail</th>
-                    <th>Name</th>
-                    <th>Owner</th>
-                    <th>Date</th>
-                    <th>Actions</th>
+                    <th>{{$t('thumbnail')}}</th>
+                    <th>{{$t('name')}}</th>
+                    <th>{{$t('owner')}}</th>
+                    <th>{{$t('date')}}</th>
+                    <th>{{$t('actions')}}</th>
                 </thead>
                 <tbody>
                     <mod-row v-for="mod in items.data" :key="mod.id" :mod="mod" lite>

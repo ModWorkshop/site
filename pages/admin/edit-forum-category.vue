@@ -1,21 +1,21 @@
 <template>
     <simple-resource-form v-model="category" url="forum-categories" :create-url="createUrl" redirect-to="/admin/forum-categories">
-        <a-input v-model="category.name" required label="Name"/>
-        <a-input v-model="category.emoji" max="1" label="Emoji"/>
+        <a-input v-model="category.name" required :label="$t('name')"/>
+        <a-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
 
         <md-editor v-model="category.desc" :label="$t('description')"/>
         <flex column>
-            <label>Role Policies</label>
+            <label>{{$t('role_policies')}}</label>
             <flex>
                 <a-select v-model="addRole" :options="roles.data"/>
                 <a-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
                 <thead>
-                    <th>Role</th>
-                    <th>Can View</th>
-                    <th>Can Post</th>
-                    <th>Actions</th>
+                    <th>{{$t('role')}}</th>
+                    <th>{{$t('forum_category_can_view')}}</th>
+                    <th>{{$t('forum_category_can_post')}}</th>
+                    <th>{{$t('actions')}}</th>
                 </thead>
                 <tbody>
                     <tr v-for="addedRole in addedRoles" :key="addedRole.id">
@@ -28,17 +28,17 @@
             </a-table>
         </flex>
         <flex v-if="game" column class="p-1">
-            <label>Game Role Policies</label>
+            <label>{{$t('game_role_policies')}}</label>
             <flex>
                 <a-select v-model="addGameRole" :options="validGameRoles"/>
                 <a-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
                 <thead>
-                    <th>Role</th>
-                    <th>Can View</th>
-                    <th>Can Post</th>
-                    <th>Actions</th>
+                    <th>{{$t("role")}}</th>
+                    <th>{{$t('forum_category_can_view')}}</th>
+                    <th>{{$t('forum_category_can_post')}}</th>
+                    <th>{{$t('actions')}}</th>
                 </thead>
                 <tbody>
                     <tr v-for="addedRole in addedGameRoles" :key="addedRole.id">

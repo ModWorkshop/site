@@ -1,7 +1,7 @@
 <template>
     <a-input v-model="modelValue">
         <a-tabs :class="classes">
-            <a-tab name="write" title="Write">
+            <a-tab name="write" :title="$t('write_tab')">
                 <textarea
                     :id="labelId"
                     ref="textArea"
@@ -12,7 +12,7 @@
                     :rows="rows" @input="$emit('update:modelValue', modelValue)"
                 />
             </a-tab>
-            <a-tab name="preview" title="Preview" class="preview p-2" :style="{'height': previewHeight}">
+            <a-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
                 <a-markdown class="h-100" :text="modelValue"/>
             </a-tab>
             <template #buttons>

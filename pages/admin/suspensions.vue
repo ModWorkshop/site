@@ -1,18 +1,18 @@
 <template>
     <a-list :url="url" query :params="{ user_id: userId }">
         <template #buttons>
-            <a-user-select v-model="userId" clearable/>
+            <a-user-select v-model="userId" :label="$t('user')" clearable/>
         </template>
         <template #items="{ items }">
             <a-table>
                 <thead>
-                    <th>Thumbnail</th>
-                    <th>Name</th>
-                    <th>Owner</th>
-                    <th>Date</th>
-                    <th>Active</th>
-                    <th style="width: 300px;">Reason</th>
-                    <th>Actions</th>
+                    <th>{{$t('thumbnail')}}</th>
+                    <th>{{$t('name')}}</th>
+                    <th>{{$t('owner')}}</th>
+                    <th>{{$t('date')}}</th>
+                    <th>{{$t('active')}}</th>
+                    <th style="width: 300px;">{{$t('reason')}}</th>
+                    <th>{{$t('actions')}}</th>
                 </thead>
                 <tbody>
                     <mod-row v-for="suspension in items.data" :key="suspension.id" :mod="suspension.mod" lite>
@@ -43,5 +43,5 @@ const url = computed(() => getGameResourceUrl('suspensions', props.game));
 
 useNeedsPermission('manage-mods', props.game);
 
-const userId = useRouteQuery('user');
+const userId = useRouteQuery('user', null, 'number');
 </script>

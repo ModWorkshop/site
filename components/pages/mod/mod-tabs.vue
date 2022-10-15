@@ -26,11 +26,20 @@
                                 <a-img src="https://modworkshop.net/mydownloads/previews/fileimages/file_dl_big.png" width="128" height="128"/>
                             </div>
                             <flex grow column>
-                                <strong style="font-size: 13px;">{{file.name}}</strong>
-                                <span>Version {{file.version}}</span>
-                                <flex>
-                                    <span class="my-auto">{{getTimeAgo(file.created_at)}} by</span>
-                                    <a-user :user="file.user" avatar-size="xs"/>
+                                <h3>{{file.name}}</h3>
+                                <span v-if="file.version">
+                                    <font-awesome-icon icon="tag" :title="$t('version')"/> {{file.version}}
+                                </span>
+                                <flex class="items-center">
+                                    <font-awesome-icon icon="clock" :title="$t('upload_date')"/>
+                                    <i18n-t keypath="by_user_time_ago">
+                                        <template #time>
+                                            <time-ago :time="file.created_at"/>
+                                        </template>
+                                        <template #user>
+                                            <a-user :user="file.user" avatar-size="xs"/>
+                                        </template>
+                                    </i18n-t>
                                 </flex>
                                 <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                             </flex>
@@ -102,7 +111,7 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
-import { friendlySize, getTimeAgo } from '~~/utils/helpers';
+import { friendlySize } from '~~/utils/helpers';
 
 const props = defineProps<{
     mod: Mod

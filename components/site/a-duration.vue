@@ -9,26 +9,29 @@
             :disabled="disabled"
             @update:model-value="val => $emit('update:modelValue', val)"
         />
-        <a-input v-else-if="duration" v-model="durationCount" :label="$t('count')" :disabled="disabled"/>
+        <a-input v-else-if="duration" v-model="durationCount" :label="$t('duration_count')" :disabled="disabled"/>
     </flex>
 </template>
 
 <script setup lang="ts">
 import { DateTime } from 'luxon';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
     modelValue: String,
     disabled: Boolean
 });
 
+const { t } = useI18n();
+
 const now = DateTime.now();
 const durations = [
-    { name: 'Days', id: 'days' },
-    { name: 'Weeks', id: 'weeks' },
-    { name: 'Months', id: 'months' },
-    { name: 'Years', id: 'years' },
-    { name: 'Permanent', id: '' },
-    { name: 'Custom', id: 'custom' },
+    { name: t('days'), id: 'days' },
+    { name: t('weeks'), id: 'weeks' },
+    { name: t('months'), id: 'months' },
+    { name: t('years'), id: 'years' },
+    { name: t('forever'), id: '' },
+    { name: t('custom_duration'), id: 'custom' },
 ];
 
 const duration = ref('days');

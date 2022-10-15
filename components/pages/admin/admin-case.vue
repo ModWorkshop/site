@@ -28,6 +28,7 @@
 import { DateTime, Interval } from 'luxon';
 import { UserCase } from '~~/types/models';
 import humanizeDuration  from 'humanize-duration';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
     userCase: UserCase,
@@ -39,6 +40,7 @@ const emit = defineEmits<{
 }>();
 
 const now = DateTime.now();
+const { t } = useI18n();
 
 const yesNoModal = useYesNoModal();
 
@@ -52,7 +54,7 @@ const duration = computed(() => {
 
 async function deleteCase() {
     yesNoModal({
-        desc: 'Are you sure you want to delete the case? If this is a ban, it will unban the user!',
+        desc: t('delete_case_warn'),
         async yes() {
             await useDelete(`user-cases/${props.userCase.id}`);
             emit('delete', props.userCase);   

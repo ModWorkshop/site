@@ -4,7 +4,7 @@
         <a-form autocomplete="off" @submit="register">
             <h1>{{$t('register')}}</h1>
             <content-block column gap="3" class="p-4">
-                <img-uploader v-model="avatarBlob" label="Avatar">
+                <img-uploader v-model="avatarBlob" :label="$t('avatar')">
                     <template #label="{ src }">
                         <a-avatar size="xl" :src="src"/>
                         <a-avatar size="lg" :src="src"/>

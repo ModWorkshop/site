@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 import { Supporter } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
@@ -30,6 +31,7 @@ const supporters = ref<Paginator<Supporter>>();
 
 const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
+const { t } = useI18n();
 
 async function upgrade() {
     try {
@@ -40,17 +42,16 @@ async function upgrade() {
         supporters.value.data.unshift(supporter);
     } catch (error) {
         showToast({
-            title: 'Error',
             color: 'danger',
-            desc: 'Could not add supporter. Perhaps they already have membership?'
+            desc: t('could_not_upgrade_user')
         });
     }
 }
 
 function removeSupporter(supporter: Supporter) {
     yesNoModal({
-        title: 'Stop supporter status of user?',
-        desc: 'You should do this only if the user got refunded or asked for it!',
+        title: t('stop_supporter_status'),
+        desc: t('stop_supporter_status_desc'),
         async yes() {
             await useDelete(`supporters/${supporter.id}`);
             remove(supporters.value.data, supporter);

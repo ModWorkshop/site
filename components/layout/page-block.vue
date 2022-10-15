@@ -1,32 +1,30 @@
 <template>
     <flex column class="w-full items-center" :gap="gap">
-        <div v-if="game" class="w-full" column>
-            <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px">
-                <h2 v-if="!game.banner" class="ml-2 align-self-end">{{game.name}}</h2>
-            </a-banner>
-            <content-block :column="false" class="items-center" gap="4">
-                <a-link-button :to="`/g/${game.short_name}`">
-                    <h2>{{game.name}}</h2>
-                </a-link-button>
-                <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
-                <a-link-button :to="`/g/${game.short_name}/forum`">Forum</a-link-button>
-                <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
-                <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
-
-                <flex class="ml-auto items-center" gap="4">
-                    <flex v-if="store.gameBan" v-once column>
-                        <span class="text-danger">
-                            <font-awesome-icon icon="triangle-exclamation"/> Banned
-                        </span>
-                        <span>
-                            Expires: <time-ago :time="store.gameBan.case.expire_date"/>
-                        </span>
-                    </flex>
-                    <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
-                </flex>
-            </content-block>
-        </div>
         <flex :gap="gap" column :class="classes">
+            <flex v-if="game" gap="0" column>
+                <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px">
+                    <h2 v-if="!game.banner" class="ml-2 align-self-end">{{game.name}}</h2>
+                </a-banner>
+                <content-block :column="false" class="items-center" gap="4">
+                    <a-link-button class="text-3xl" :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
+                    <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                    <a-link-button :to="`/g/${game.short_name}/forum`">Forum</a-link-button>
+                    <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
+                    <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
+    
+                    <flex class="ml-auto items-center" gap="4">
+                        <flex v-if="store.gameBan" v-once column>
+                            <span class="text-danger">
+                                <font-awesome-icon icon="triangle-exclamation"/> Banned
+                            </span>
+                            <span>
+                                Expires: <time-ago :time="store.gameBan.case.expire_date"/>
+                            </span>
+                        </flex>
+                        <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                    </flex>
+                </content-block>
+            </flex>
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="announcements.length" column>
                 <h4>📢 Announcements</h4>

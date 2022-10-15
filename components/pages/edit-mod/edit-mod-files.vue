@@ -1,29 +1,28 @@
 <template>
-    <a-input v-model="mod.version" label="Version"/>
-    <md-editor v-model="mod.changelog" label="Changelog" rows="12"/>
+    <a-input v-model="mod.version" :label="$t('version')"/>
+    <md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
     <a-select 
         v-model="primaryDownload"
-        label="Primary Download"
+        :label="$t('primary_download')"
         :desc="$t('primary_download_desc')"
-        placeholder="Select file or link"
         clearable :options="downloads"
         value-by=""
         @update:model-value="item => setPrimaryDownload(item.download_type, item)"
     />
     <div>
         <flex class="items-center">
-            <label>Links</label>
-            <a-button class="ml-auto" @click="createNewLink">New</a-button>
+            <label>{{$t('links')}}</label>
+            <a-button class="ml-auto" icon="plus" @click="createNewLink"/>
         </flex>
         <flex column class="alt-bg-color p-3">
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>URL</th>
-                        <th>Update Date</th>
-                        <th class="text-center">Actions</th>
-                        <th class="text-center">Primary</th>
+                        <th>{{$t('name')}}</th>
+                        <th>{{$t('url')}}</th>
+                        <th>{{$t('upload_date')}}</th>
+                        <th class="text-center">{{$t('actions')}}</th>
+                        <th class="text-center">{{$t('primary')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,12 +44,12 @@
             </table>
         </flex>
     </div>
-    <label>Files</label>
+    <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
     <file-uploader list name="files" :url="uploadLink" :files="files" :max-size="settings.max_file_size / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
-            <td class="text-center">Primary</td>
+            <td class="text-center">{{$t('primary')}}</td>
         </template>
         <template #rows="{file}">
             <td class="text-center">
@@ -61,14 +60,14 @@
             <a-button class="file-button" icon="cog" @click.prevent="editFile(file as File)"/>
         </template>
     </file-uploader>
-    <a-modal-form v-model="showEditLink" title="Edit Link" @submit="saveEditLink">
+    <a-modal-form v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">
         <a-input v-model="currentLink.name" label="name"/>
         <a-input v-model="currentLink.label" label="label"/>
         <a-input v-model="currentLink.url" type="url" label="url"/>
         <a-input v-model="currentLink.version" label="version"/>
         <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
     </a-modal-form>
-    <a-modal-form v-model="showEditFile" title="Edit File" @submit="saveEditFile">
+    <a-modal-form v-model="showEditFile" :title="$t('edit_file')" @submit="saveEditFile">
         <a-input v-model="currentFile.name" label="name"/>
         <a-input v-model="currentFile.label" label="label"/>
         <a-input v-model="currentFile.version" label="version"/>

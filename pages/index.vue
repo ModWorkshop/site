@@ -2,11 +2,11 @@
     <page-block>
         <template v-if="store.user">
             <button-group v-model:selected="selectedFollow" button-style="nav">
-                <a-group-button name="games" icon="chess-board">Games</a-group-button>
-                <a-group-button name="mods" icon="tools">Followed</a-group-button>
-                <a-group-button name="users" icon="users">Followed Users</a-group-button>
-                <a-group-button name="liked" icon="heart">Liked</a-group-button>
-                <a-group-button name="all" icon="question">All</a-group-button>
+                <a-group-button name="games" icon="chess-board">{{$t('games')}}</a-group-button>
+                <a-group-button name="mods" icon="tools">{{$t('following')}}</a-group-button>
+                <a-group-button name="users" icon="users">{{$t('followed_users')}}</a-group-button>
+                <a-group-button name="liked" icon="heart">{{$t('liked')}}</a-group-button>
+                <a-group-button name="all" icon="question">{{$t('all')}}</a-group-button>
             </button-group>
             <mod-list :url="currentFollowUrl"/>
         </template>
@@ -16,14 +16,14 @@
                 <h1>Welcome to ModWorkshop!</h1>
                 <h2>We are a modding site that that embraces open source for modding!</h2>
             </flex>
-            <h2>Last Updated Games</h2>
+            <h2>{{$t('last_updated_games')}}</h2>
                 <content-block class="games-grid gap-2">
                     <NuxtLink v-for="game of lastGames" :key="game.id" :to="`/g/${game.short_name}`">
                         <a-img class="ratio-image round" :src="game.thumbnail ? `games/thumbnails/${game.thumbnail}` : 'assets/nopreview.webp'"/>
                         {{game.name}}
                     </NuxtLink>
                 </content-block>
-                <a-button class="mx-auto" to="/games">View all games</a-button>
+                <a-button class="mx-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
             <h2>{{$t('latest_mods')}}</h2>
             <content-block padding="4">

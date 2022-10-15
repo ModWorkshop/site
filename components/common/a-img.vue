@@ -1,5 +1,5 @@
 <template>
-    <img :src="compSrc" :width="width" :height="height" :alt="alt">
+    <img :src="compSrc" :width="width" :height="height" :alt="alt" @error="useDefault = true">
 </template>
 
 <script setup lang="ts">
@@ -21,7 +21,12 @@ const props = defineProps({
     alt: String
 });
 
+const useDefault = ref(false);
+
 const compSrc = computed(function() {
+    if (useDefault.value) {
+        return `${config.apiUrl}/storage/assets/default-avatar.webp`;
+    }
     const src = props.src;
     if (typeof src === 'object') {
         return src.toString();

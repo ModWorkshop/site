@@ -1,4 +1,4 @@
-import en from '../en/notifications';
+import en from "./en";
 
 const kaomojis =[
     'ヾ(≧ ▽ ≦)ゝ',

@@ -1,10 +1,10 @@
 <template>
-    <flex inline :gap="neededGap">
-        <NuxtLink v-if="avatar" :to="link">
+    <flex inline class="items-center" :gap="neededGap">
+        <NuxtLink v-if="avatar" class="inline-flex" :to="link">
             <a-avatar :size="avatarSize" :src="user.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
         </NuxtLink>
 
-        <flex gap="1" column class="my-auto">
+        <flex gap="1" column>
             <VMenu 
                 v-model:shown="renderProfile"
                 :delay="{ show: 500, hide: 100 }"

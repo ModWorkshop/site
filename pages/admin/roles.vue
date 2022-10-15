@@ -16,7 +16,7 @@
                             <span class="my-auto">
                                 <a-tag :color="item.color">{{item.name}}</a-tag>
                             </span>
-                            <small v-if="item.id == 1">All members have this role. Can only be edited by Admins.</small>
+                            <small v-if="item.id == 1">{{$t('members_role_desc')}}</small>
                         </flex>
                         <span v-if="item.is_vanity" class="ml-auto">✨</span>
                     </component>

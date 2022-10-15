@@ -9,7 +9,7 @@
                 <a-tag-selector
                     v-model="roleIds"
                     multiple
-                    :label="$t('global')"
+                    :label="$t('role')"
                     :options="roles?.data"
                     :disabled="user.id !== me.id && !hasPermission('manage-roles')"
                     :enabled-by="role => role.assignable"
@@ -31,7 +31,7 @@
         </a-input>
 
         <template v-if="isMe">
-            <h3>Change Password</h3>
+            <h3>{{$t('change_password')}}</h3>
             <flex>
                 <a-input 
                     v-if="user.signable"

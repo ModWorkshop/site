@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Mod } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
@@ -28,6 +29,7 @@ import { registerDownload } from '~~/utils/mod-helpers';
 const { public: config } = useRuntimeConfig();
 
 const route = useRoute();
+const { t } = useI18n();
 
 const props = defineProps<{
     mod: Mod
@@ -39,7 +41,7 @@ const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/down
 const file = computed(() => props.mod.files.find(file => file.id == parseInt((route.params.fileId as string))));
 
 if (!file.value) {
-    throw createError({ statusCode: 404, statusMessage: "File doesn't exist!"});
+    throw createError({ statusCode: 404, statusMessage: t('file_doesnt_exist') });
 }
 
 //Annoyingly we needed to wrap the button in a different anchor element since ref doesn't always include the element in the DOM

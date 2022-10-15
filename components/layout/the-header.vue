@@ -31,7 +31,7 @@
                         v-model="search"
                         v-click-outside="() => showSearch = false"
                         class="search"
-                        placeholder="Search"
+                        :placeholder="$t('search')"
                         style="width: 250px;"
                         maxlength="150"
                         @click="showSearch = true"

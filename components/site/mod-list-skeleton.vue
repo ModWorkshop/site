@@ -1,9 +1,6 @@
 <template>
     <div v-if="displayMode == 0" class="mods mods-grid gap-2">
-        <div v-if="error">
-            There was an error fetching mods
-            {{error}}
-        </div>
+        <div v-if="error">{{$t('error_fetching_mods')}}</div>
         <template v-else>
             <a-mod v-for="mod in mods" :key="mod.id" :mod="mod" :no-game="noGame" :sort="sortBy"/>
         </template>
@@ -12,7 +9,7 @@
         <thead>
             <tr>
                 <th v-if="displayMode == 1">{{$t('thumbnail')}}</th>
-                <th>{{$t('mod_name')}}</th>
+                <th>{{$t('name')}}</th>
                 <th>{{$t('owner')}}</th>
                 <th>{{!!noGame ? $t('category') : $t('game_category')}}</th>
                 <th>{{$t('likes')}}</th>

@@ -2,24 +2,24 @@
     <page-block size="md">
         <content-block class="p-6">
             <a-nav side root="/admin">
-                <h3>General</h3>
-                <a-nav-link to="" title="Home"/>
-                <a-nav-link v-if="hasPermission('admin')" to="settings" title="Settings"/>
-                <a-nav-link v-if="hasPermission('manage-roles')" to="roles" title="Roles"/>
-                <a-nav-link v-if="hasPermission('manage-users')" to="supporters" title="Supporters"/>
-                <h3>Moderation</h3>
-                <a-nav-link v-if="moderateUsers" to="cases" title="Cases"/>
-                <a-nav-link v-if="moderateUsers" to="approvals" title="Approvals"/>
-                <a-nav-link v-if="moderateUsers" to="bans" title="Bans"/>
-                <a-nav-link v-if="manageMods" to="suspensions" title="Suspensions"/>
-                <a-nav-link v-if="moderateUsers" to="reports" title="Reports"/>
-                <h3>Content</h3>
-                <a-nav-link to="games" title="Games"/>
-                <a-nav-link v-if="manageMods" to="mods" title="Mods"/>
-                <a-nav-link v-if="hasPermission('manage-tags')" to="tags" title="Tags"/>
-                <a-nav-link v-if="hasPermission('manage-docs')" to="docs" title="Documents"/>
-                <a-nav-link v-if="hasPermission('manage-users')" to="users" title="Users"/>
-                <a-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" title="Forum Categories"/>
+                <h3>{{$t('general')}}</h3>
+                <a-nav-link to="" :title="$t('home')"/>
+                <a-nav-link v-if="hasPermission('admin')" to="settings" :title="$t('settings')"/>
+                <a-nav-link v-if="hasPermission('manage-roles')" to="roles" :title="$t('roles')"/>
+                <a-nav-link v-if="hasPermission('manage-users')" to="supporters" :title="$t('supporters')"/>
+                <h3>{{$t('moderation')}}</h3>
+                <a-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
+                <a-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
+                <a-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
+                <a-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
+                <a-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+                <h3>{{$t('content')}}</h3>
+                <a-nav-link to="games" :title="$t('games')"/>
+                <a-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
+                <a-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>
+                <a-nav-link v-if="hasPermission('manage-docs')" to="docs" :title="$t('documents')"/>
+                <a-nav-link v-if="hasPermission('manage-users')" to="users" :title="$t('users')"/>
+                <a-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" :title="$t('forum_categories')"/>
                 <template #content>
                     <NuxtPage/>
                 </template>

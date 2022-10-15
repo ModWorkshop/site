@@ -1,7 +1,7 @@
 <template>
     <page-block :column="false">
         <flex v-if="!error" column class="mx-auto">
-            <h2 class="mx-auto">Logging you in. Please wait a moment...</h2>
+            <h2 class="mx-auto">{{$t('logging_you_in')}}</h2>
             <a-loading/>
         </flex>
     </page-block>

@@ -1,11 +1,12 @@
+import { i18n } from './../app/i18n';
 import { useStore } from '../store';
 // Moves users from pages that are for guests only (login & register generally)
 
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(() => {
     const { $pinia } = useNuxtApp();
     const { user } = useStore($pinia);
 
     if (!user) {
-        showError({ statusCode: 401, statusMessage: "You must be logged in to access this page", fatal: true});
+        showError({ statusCode: 401, statusMessage: i18n.global.t('error_401'), fatal: true});
     }
 });

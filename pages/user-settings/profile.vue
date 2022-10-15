@@ -14,7 +14,7 @@
             </template>
         </img-uploader>
 
-        <a-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_help')" :desc="$t('show_help_desc')"/>
+        <a-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
 
         <a-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
         <a-input v-model="user.custom_title" :label="$t('custom_title')"/>

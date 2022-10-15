@@ -5,9 +5,11 @@
             <a-img alt="logo" :src="logo" width="128" height="128"/>
             <h1 class="text-primary m-auto">{{$t('support_mws')}}!</h1>
             <h2>{{$t('supporter_desc')}}</h2>
-            <a-alert v-if="user.supporter" color="success" :icon="false">
-                <i18n-t keypath="already_support" tag="div" class="whitespace-pre text-center">
-                    <time-ago null-is-never :time="user.supporter.expire_date"/>
+            <a-alert v-if="user.stupporter" color="success" :icon="false">
+                <i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center">
+                    <template #time>
+                        <time-ago null-is-never :time="user.supporter.expire_date"/>
+                    </template>
                 </i18n-t>
             </a-alert>
             <h2>{{$t('supporter_plans')}}</h2>

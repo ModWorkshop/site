@@ -55,11 +55,11 @@ const cannotCommentReason = computed(() => {
     }
 
     if (store.isBanned) {
-        return 'Banned users cannot post comments';
+        return t('cannot_comment_banned');
     }
 
     if (props.mod.user.blocked_me) {
-        return 'You cannot comment on the mod because the owner blocked you.';
+        return t('cannot_comment_blocked_mod');
     }
 });
 

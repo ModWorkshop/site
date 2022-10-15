@@ -1,13 +1,12 @@
 <template>
     <flex column gap="3">
-        <h2>Ban User</h2>
-        <a-user-select v-model="user" label="User"/>
-        <a-duration v-model="banDuration" label="Duration"/>
-        <a-input v-model="reason" type="textarea" label="Reason"/>
-        <a-button class="mr-auto" @click="ban">Ban</a-button>
+        <h2>{{$t('ban_user')}}</h2>
+        <a-user-select v-model="user" :label="$t('user')"/>
+        <a-duration v-model="banDuration" :label="$t('duration')"/>
+        <a-input v-model="reason" type="textarea" :label="$t('reason')"/>
+        <a-button class="mr-auto" @click="ban">{{$t('ban')}}</a-button>
 
-        <h2>Bans</h2>
-
+        <h2>{{$t('bans')}}</h2>
         <a-list :url="url" query @fetched="(items: Paginator<Ban>) => bans = items">
             <template #item="{ item }">
                 <admin-ban :ban="item" :cases-url="casesUrl" @delete="unban"/>
@@ -18,6 +17,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 import { Ban, Game } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { getGameResourceUrl } from '~~/utils/helpers';
@@ -28,7 +28,8 @@ const props = defineProps<{
 
 useNeedsPermission('moderate-users', props.game);
 
-const { showToast } = useToaster();
+const showToast = useQuickErrorToast();
+const { t } = useI18n();
 
 const url = computed(() => getGameResourceUrl('bans', props.game));
 const casesUrl = computed(() => getGameResourceUrl('cases', props.game));
@@ -47,15 +48,9 @@ async function ban() {
             expire_date: banDuration.value,
         });
         bans.value.data.push(ban);
-    } catch (error) {
-        const errorCodes = {
-            405: 'User already banned. Either edit the duration or unban the user.'
-        };
-
-        showToast({
-            title: 'Failed to ban user',
-            desc: errorCodes[error.response.status],
-            color: 'danger',
+    } catch (e) {
+        showToast(e, {
+            405: t('ban_error_405')
         });
     }
 }

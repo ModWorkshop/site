@@ -9,9 +9,9 @@
         </a-input>
     </flex>
 
-    <a-select v-model="mod.tag_ids" placeholder="Select tags" :options="tags.data" multiple label="Tags" desc="Make your mod more discoverable"/>
+    <a-select v-model="mod.tag_ids" :options="tags.data" multiple :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
 
-    <a-select v-model="mod.visibility" label="Visiblity" placeholder="Select a category" :options="visItems"/>
+    <a-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
 
     <a-input v-if="!approvalOnlyForced" v-model="mod.send_for_approval" type="checkbox" :label="$t('send_for_approval')" :desc="$t('send_for_approval_desc')"/>
 </template>

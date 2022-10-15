@@ -5,14 +5,12 @@
                 <NuxtLink :href="mod.legacy_banner_url">{{mod.legacy_banner_url}}</NuxtLink>
             </template>
         </i18n-t>
-        <br>
-        <strong class="text-lg">Saving the mod will remove the banner URL!</strong>
     </a-alert>
     
-    <label>Banner Preview</label>
+    <label>{{$t('banner_preview')}}</label>
     <mod-banner class="w-full" :mod="mod" static/>
 
-    <label>Thumbnail/Mod Card Preview</label>
+    <label>{{$t('thumbnail_preview')}}</label>
     <div style="width: 300px;">
         <a-mod :mod="mod" static/>
     </div>
@@ -31,8 +29,8 @@
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
-            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">Thumbnail</a-button>
-            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">Banner</a-button>
+            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">{{$t('thumbnail')}}</a-button>
+            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">{{$t('banner')}}</a-button>
         </template>
     </file-uploader>
 </template>

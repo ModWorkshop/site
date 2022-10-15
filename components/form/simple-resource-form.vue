@@ -20,9 +20,14 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import { serializeObject } from '~~/utils/helpers';
+
 const router = useRouter();
 const { showToast } = useToaster();
 const yesNoModal = useYesNoModal();
+
+const { t } = useI18n();
 
 const props = defineProps({
     modelValue: Object,
@@ -72,8 +77,8 @@ async function submit() {
 
 async function doDelete() {
     yesNoModal({
-        title: 'Are you sure?',
-        desc: 'This action is irreversible!',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         async yes() {
             await useDelete(`${props.url}/${props.modelValue.id}`);
             router.replace(props.deleteRedirectTo ?? props.redirectTo);

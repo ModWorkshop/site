@@ -1,5 +1,5 @@
 <template>
-    <a-img alt="user avatar" :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img :alt="$t('avatar')" :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -24,41 +24,41 @@ const avatarUrl = computed(() => {
 });
 </script>
 <style scoped>
-    .avatar {
-        display: inline;
-        object-fit: cover;
-        width: 38px;
-        height: 38px;
-        border-radius: 10%;
-    }
+.avatar {
+    display: inline-block;
+    object-fit: cover;
+    width: 38px;
+    height: 38px;
+    border-radius: 10%;
+}
 
-    .avatar-xs {
-        width: 28px;
-        height: 28px;
-    }
+.avatar-xs {
+    width: 28px;
+    height: 28px;
+}
 
-    .avatar-sm {
-        width: 32px;
-        height: 32px;
-    }
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+}
 
-    .avatar-md {
-        width: 48px;
-        height: 48px;
-    }
+.avatar-md {
+    width: 48px;
+    height: 48px;
+}
 
-    .avatar-lg {
-        width: 64px;
-        height: 64px;
-    }
+.avatar-lg {
+    width: 64px;
+    height: 64px;
+}
 
-    .avatar-xl {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .avatar-2xl {
-        width: 200px;
-        height: 200px;
-    }
+.avatar-xl {
+    width: 150px;
+    height: 150px;
+}
+
+.avatar-2xl {
+    width: 200px;
+    height: 200px;
+}
 </style>

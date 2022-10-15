@@ -2,7 +2,7 @@
     <flex column gap="1" class="w-full" style="min-height: 150px;" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
         <label :class="classes" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
             <span class="text-2xl">
-                Drop files here or click the area to upload files
+                {{$t('file_uploader_drop')}}
                 <template v-if="maxFiles">({{files.length}}/{{maxFiles}})</template>
             </span>
         </label>
@@ -19,10 +19,10 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Size</th>
-                        <th>Upload Date</th>
-                        <th class="text-center">Actions</th>
+                        <th>{{$t('name')}}</th>
+                        <th>{{$t('file_size')}}</th>
+                        <th>{{$t('upload_date')}}</th>
+                        <th class="text-center">{{$t('actions')}}</th>
                         <slot name="headers"/>
                     </tr>
                 </thead>
@@ -30,7 +30,7 @@
                     <tr v-for="file of files" :key="file.created_at">
                         <td>{{file.name}}</td>
                         <td>{{friendlySize(file.size)}}</td>
-                        <td v-if="file.progress">Uploading: {{file.progress}}% </td>
+                        <td v-if="file.progress">{{$t('uploading', file.progress)}} </td>
                         <td v-else>{{fullDate(file.created_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
@@ -64,6 +64,7 @@ import { friendlySize, fullDate } from '~~/utils/helpers';
 import { File as MWSFile } from '~~/types/models';
 import { DateTime } from 'luxon';
 import axios, { Canceler } from 'axios';
+import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits([
     'file-begin',
@@ -86,6 +87,8 @@ const props = defineProps<{
 
 const { public: config } = useRuntimeConfig();
 const { showToast } = useToaster();
+const { t } = useI18n();
+const showErrorToast = useQuickErrorToast();
 
 function getFileThumb(file) {
     let thumb = file.thumbnail || (props.useFileAsThumb && file.file);
@@ -140,12 +143,18 @@ function removeFile(file: UploadFile) {
 async function upload(files: FileList) {
     for (const file of files) {
         if (file.size > maxFileSizeBytes.value) {
-            showToast({ desc: `File ${file.name} is too large!`, color: 'danger' });
+            showToast({ 
+                desc: t('file_name_too_large', { name: file.name }),
+                color: 'danger'
+            });
             continue;
         }
 
         if (file.size + usedSize.value > maxSizeBytes.value) {
-            showToast({ desc: `File ${file.name} is too large, try clearing out some space`, color: 'danger' });
+            showToast({ 
+                desc: t('file_name_too_large_max_size', { name: file.name }),
+                color: 'danger'
+            });
             continue;
         }
 
@@ -191,11 +200,9 @@ async function upload(files: FileList) {
                 reactiveFile.progress = null;
     
                 emit('file-uploaded', reactiveFile);
-            } catch (err) {
+            } catch (e) {
                 removeFile(insertFile);
-                const data = err.response.data;
-                console.log(err);
-                showToast({ desc: 'File failed to upload: ' + data?.message, color: 'danger' });
+                showErrorToast(e, {}, t('failed_upload'));
             }
         }
     }
@@ -207,7 +214,7 @@ async function upload(files: FileList) {
  */
 async function handleRemove(file: UploadFile) {
     if (file.cancel) {
-        file.cancel('Cancelled by user');
+        file.cancel('cancelled');
     } else {
         await useDelete(`${props.url}/${file.id}`);
     }

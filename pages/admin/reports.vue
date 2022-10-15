@@ -5,9 +5,9 @@
                 <flex class="list-button">
                     <flex column :class="{archived: item.archived}">
                         <a-tag class="capitalize mr-auto">{{item.reportable_type}}</a-tag>
-                        <strong v-if="item.name" :class="{ archived: item.archived }">Name: {{getName(item)}}</strong>
-                        <flex class="items-center">Reported by <a-user :user="item.user" avatar-size="xs"/> <time-ago :time="item.created_at"/></flex>
-                        <div>Reason: "{{item.reason}}"</div>
+                        <strong v-if="item.name" :class="{ archived: item.archived }">{{$t('name')}}: {{getName(item)}}</strong>
+                        <flex class="items-center">{{$t('reported_by')}}: <a-user :user="item.user" avatar-size="xs"/> <time-ago :time="item.created_at"/></flex>
+                        <div>{{`${$t('reason')}: "${item.reason}"`}}</div>
                     </flex>
                     <flex class="ml-auto my-auto">
                         <a-button v-if="item.archived" icon="trash" @click="deleteReport(item)">{{$t('delete')}}</a-button>
@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 import { Game } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { getGameResourceUrl } from '~~/utils/helpers';
@@ -31,13 +32,15 @@ const props = defineProps<{
 
 useNeedsPermission('moderate-users', props.game);
 
+const { t } = useI18n();
+
 const url = computed(() => getGameResourceUrl('reports', props.game));
 const all = useRouteQuery('all', false, 'boolean');
 
 const reports = ref<Paginator>({ data: [], meta: null });
 function getName(report) {
     if ((report.name || report.reportable.name) && (report.name != report.reportable.name)) {
-        return `"${report.name}" (Changed to "${report.reportable.name}")`;
+        return t('report_name_changed', { name: report.name, changed: report.reportable.name });
     } else {
         return report.name;
     }

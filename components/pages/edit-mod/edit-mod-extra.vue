@@ -1,13 +1,13 @@
 <template>
     <md-editor v-model="mod.license" :label="$t('license')" rows="8">
         <template #desc>
-            <a href="https://choosealicense.com/" target="_blank">Can't choose?</a>
+            <a href="https://choosealicense.com/" target="_blank">{{$t('cant_choose_license')}}?</a>
         </template>
     </md-editor>
 
-    <a-select v-if="isModerator" v-model="mod.game_id" label="Game" placeholder="Select a game" :options="games.data"/>
+    <a-select v-if="isModerator" v-model="mod.game_id" :label="$t('game')" :options="games.data"/>
 
-    <a-input v-model="mod.short_desc" label="Short Description" type="textarea" rows="2" maxlength="150" desc="Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods"/>
+    <a-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="150" :desc="$t('short_desc_desc')"/>
 
     <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
 
@@ -36,7 +36,7 @@ const { data: games } = await useFetchMany<Game>('games', { immediate: isModerat
 
 function deleteMod() {
     yesNoModal({
-        desc: 'Are you sure you want to delete the mod?',
+        desc: t('delete_mod_desc'),
         async yes() {
             await useDelete(`mods/${props.mod.id}`);
             router.push('/');

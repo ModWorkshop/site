@@ -3,7 +3,7 @@
         <template #pre-panels>
             <a-alert class="my-1" type="info">{{$t('content_page_info')}}</a-alert>
         </template>
-        <a-tab name="follow" title="Following">
+        <a-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>
             <a-list v-model="followedGames" url="followed-games" limit="10" :item-link="item => `g/${item.short_name}`">
                 <template #before-item="{ item }">
@@ -33,9 +33,9 @@
                 </template>
             </a-list>
         </a-tab>
-        <a-tab name="block" title="Blocking">
+        <a-tab name="block" :title="$t('blocking')">
             <h2>{{$t('blocked_users')}}</h2>
-            <a-modal-form v-model="showBlockTag" title="Block Tag" @submit="submitBlockTag">
+            <a-modal-form v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
                 <a-select v-model="blockTag" url="tags" :value-by="false"/>
             </a-modal-form>
             <a-list url="blocked-users" limit="10">

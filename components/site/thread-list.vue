@@ -22,15 +22,15 @@
                         </td>
                         <td><time-ago :time="thread.bumped_at"/></td>
                         <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
-                        <td v-else>None</td>
+                        <td v-else>{{$t('none')}}</td>
                     </tr>
                 </tbody>
             </a-table>
         </content-block>
         <content-block style="flex: 1;">
-            <a-input v-model="query" label="Search"/>
-            <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" placeholder="Any forum" clearable :options="forums"/>
-            <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max-selections="10"/>
+            <a-input v-model="query" :label="$t('search')"/>
+            <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
+            <a-select v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
             <flex v-if="currentForumId" column>
                 <label>{{$t('category')}}</label>
                 <button-group v-if="categories.data.length" v-model:selected="categoryName" class="mt-2" column button-style="nav">
@@ -39,9 +39,6 @@
                         {{category.emoji}} {{category.name}}
                     </a-group-button>
                 </button-group>
-                <span v-else>
-                    No categories found!
-                </span>
             </flex>
         </content-block>
     </flex>

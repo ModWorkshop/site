@@ -5,25 +5,25 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
         </flex>
-        <a-form :model="mod" :created="!!mod.id" :save-text="saveText" float-save-gui @submit="save" @state-changed="formStateChanged">
+        <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save" @state-changed="formStateChanged">
             <content-block class="p-8">
                 <a-tabs padding="4" side query>
-                    <a-tab name="main" title="Main">
+                    <a-tab name="main" :title="$t('main_tab')">
                         <edit-mod-main :mod="mod"/>
                     </a-tab>
-                    <a-tab name="files" title="Downloads & Updates">
+                    <a-tab name="downloads" :title="$t('downloads_tab')">
                         <edit-mod-files :mod="mod" :can-save="canSave"/>
                     </a-tab>
-                    <a-tab name="images" title="Images">
+                    <a-tab name="images" :title="$t('images_tab')">
                         <edit-mod-images :mod="mod"/>
                     </a-tab>
-                    <a-tab name="members" title="Members">
+                    <a-tab name="members" :title="$t('members_tab')">
                         <edit-mod-members :mod="mod"/>
                     </a-tab>
-                    <a-tab name="instructions" title="Dependencies & Instructions">
+                    <a-tab name="instructions" :title="$t('instructions_tab')">
                         <edit-mod-deps :mod="mod"/>
                     </a-tab>
-                    <a-tab name="extra" title="Extra">
+                    <a-tab name="extra" :title="$t('extra_tab')">
                         <edit-mod-extra :mod="mod"/>
                     </a-tab>
                 </a-tabs>
@@ -81,14 +81,9 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
 
 const breadcrumb = computed(() => {
     return [
-        {
-            name: t('games'),
-            to: 'games'
-        },
+        { name: t('games'), to: 'games' },
         ...mod.value.breadcrumb,
-        {
-            name: t('edit'),
-        }
+        { name: t('edit') }
     ];
 });
 
@@ -117,7 +112,6 @@ function ignoreChanges() {
 
 provide('ignoreChanges', ignoreChanges);
 
-const saveText = computed(() => mod.value.id == -1 ? 'Your mod is not uploaded yet' : 'You have unsaved changes');
 function catchError(error) {
     showToast({ desc: error.data.message, color: 'danger' });
 }

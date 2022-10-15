@@ -10,7 +10,7 @@
                     {{$t('login_using_services')}}
                     <the-social-logins/>
                 </flex>
-                <a-input v-model="user.remember" label="Remember Me" type="checkbox"/>
+                <a-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
                 <div>
                     <a-button type="submit" :disabled="!canLogin">{{$t('login')}}</a-button>
                 </div>

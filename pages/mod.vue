@@ -9,9 +9,7 @@
                         <span v-if="mod.last_suspension">
                             {{mod.last_suspension.reason}}
                         </span>
-                        <span v-else>
-                            No reason stated.
-                        </span>
+                        <span v-else>{{$t('no_reason')}}</span>
                     </template>
                     <template #rules>
                         <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
@@ -39,7 +37,7 @@
                     {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>
                 </a-button>
                 <template #popper>
-                    <a-dropdown-item @click="setFollowMod(mod, true)">Follow and get notified for updates</a-dropdown-item>
+                    <a-dropdown-item @click="setFollowMod(mod, true)">{{$t('follow_mod_notifs')}}</a-dropdown-item>
                     <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
             </VDropdown>
@@ -72,7 +70,7 @@ const { public: config } = useRuntimeConfig();
 const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
-    suspended: t('suspended_error')
+    suspended: t('error_suspended')
 });
 
 setGame(mod.value.game);
@@ -118,7 +116,7 @@ function openShare() {
 
 function deleteAllFiles() {
     yesNoModal({
-        desc: 'This will delete all files of the mod, this cannot be reversed!',
+        desc: t('delete_files_desc'),
         descType: 'warning',
         async yes() {
             await useDelete(`mods/${mod.value.id}/files`);
@@ -130,7 +128,7 @@ function deleteAllFiles() {
 
 function deleteAllImages() {
     yesNoModal({
-        desc: 'This will delete all images of the mod, this cannot be reversed!',
+        desc: t('delete_images_desc'),
         descType: 'warning',
         async yes() {
             await useDelete(`mods/${mod.value.id}/images`);

@@ -1,8 +1,10 @@
 <template>
     <flex column gap="2">
-        <flex>
-            <a-input v-if="search" v-model="query" placeholder="Search"/>
-            <a-button v-if="typeof newButton == 'string'" class="my-auto" :to="newButton">New</a-button>
+        <flex column gap="3">
+            <flex>
+                <a-input v-if="search" v-model="query" :label="$t('search')"/>
+                <a-button v-if="typeof newButton == 'string'" class="my-auto" :to="newButton">{{$t('new')}}</a-button>
+            </flex>
             <slot name="buttons" :items="items"/>
         </flex>
 

@@ -6,7 +6,7 @@
     </div>
     <Teleport to="body">
         <a-modal-form v-model="showModal" :title="$t('report')" :desc="$t('report_desc', [$t(`resource_${resourceName}`)])" @submit="report">
-            <a-input v-model="reason" label="reason" type="textarea" rows="6"/>
+            <a-input v-model="reason" :label="$t('reason')" type="textarea" rows="6"/>
         </a-modal-form>
     </Teleport>
 </template>

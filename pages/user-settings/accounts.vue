@@ -71,7 +71,7 @@ const providers = computed(() => {
 function unlink(provider: string) {
     yesNoModal({
         title: t('are_you_sure'),
-        desc: t('unlink_desc'),
+        desc: t('unlink_warn'),
         async yes() {
             await useDelete(`social-logins/${provider}`);
             accounts.value = accounts.value.filter(account => account.social_id !== provider);

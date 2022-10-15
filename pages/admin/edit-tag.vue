@@ -6,13 +6,14 @@
         <a-input v-model="tag.name" :label="$t('name')"/>
         <a-input v-model="tag.color" :label="$t('color')" type="color"/>
         <a-select v-model="tag.type" :options="types" :label="$t('type')"/>
-        <md-editor v-model="tag.notice" :label="$t('notice')"/>
-        <a-select v-model="tag.notice_type" :options="noticeTypes" :label="$t('notice_type')"/>
-        <a-input v-model="tag.notice_localized" :label="$t('notice_localized')" type="checkbox"/>
+        <md-editor v-model="tag.notice" :label="$t('tag_notice')" :desc="$t('tag_notice_desc')"/>
+        <a-select v-model="tag.notice_type" :options="noticeTypes" :label="$t('tag_notice_type')"/>
+        <a-input v-if="!props.game" v-model="tag.notice_localized" :label="$t('tag_notice_localized')" type="checkbox"/>
     </simple-resource-form>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { Game, Tag } from "~~/types/models";
 
 const props = defineProps<{
@@ -22,17 +23,18 @@ const props = defineProps<{
 useNeedsPermission('manage-tags', props.game);
 
 const route = useRoute();
+const { t } = useI18n();
 
 const types = [
-    { name: 'All', id: '' },
-    { name: 'Mods', id: 'forum' },
-    { name: 'Forums', id: 'mod' },
+    { name: t('all'), id: '' },
+    { name: t('threads'), id: 'forum' },
+    { name: t('mods'), id: 'mod' },
 ];
 
 const noticeTypes = [
-    { name: 'Info', id: 'info' },
-    { name: 'Warning', id: 'warning' },
-    { name: 'Danger', id: 'danger' },
+    { name: t('tag_notice_info'), id: 'info' },
+    { name: t('tag_notice_warn'), id: 'warning' },
+    { name: t('tag_notice_danger'), id: 'danger' },
 ];
 
 const redirectTo = computed(() => route.params.gameId ? `/admin/games/${route.params.gameId}/tags` : `/admin/tags`);

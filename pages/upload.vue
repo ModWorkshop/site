@@ -9,7 +9,7 @@
                 <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required :desc="$t('mod_name_desc')"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-                <a-select v-if="!gameName" v-model="mod.game_id" label="Game" :placeholder="$t('game_placeholder')" :options="games.data">
+                <a-select v-if="!gameName" v-model="mod.game_id" :label="$t('game')" :options="games.data">
                     <template #option="{ option }">
                         <a-simple-game :game="option"/>
                     </template>
@@ -23,7 +23,7 @@
                 </a-input>
 
                 <flex class="mx-auto">
-                    <a-button type="submit" :disabled="!mod.name || !mod.desc">Create</a-button>
+                    <a-button type="submit" :disabled="!mod.name || !mod.desc">{{$t('upload_mod')}}</a-button>
                 </flex>
             </content-block>
         </a-form>
@@ -87,7 +87,7 @@ const breadcrumb = computed(() => {
         return [
             { name: t('games'), to: 'games' },
             { name: game.value.name, to: `g/${gameName.value}` },
-            { name: t('upload') }
+            { name: t('upload_mod') }
         ];
     }
 });

@@ -2,20 +2,23 @@
     <page-block :column="false">
         <flex column class="mx-auto">
             <template v-if="!done">
-                <h2 class="mx-auto">Linking account. Please wait a moment...</h2>
+                <h2 class="mx-auto">{{$t('linking_account')}}</h2>
                 <a-loading/>
             </template>
-            <span v-else>Done! Please close the tab and return to the previous tab.</span>
+            <span v-else>{{$t('done_linking_account')}}</span>
         </flex>
     </page-block>
 </template>
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 definePageMeta({
     middleware: 'users-only'
 });
 
 const route = useRoute();
 const done = ref(false);
+const { t } = useI18n();
 
 if (route.query.error) {
     showError({ statusCode: 500, statusMessage: route.query.error_description as string });
@@ -34,8 +37,7 @@ if (process.client) {
         done.value = true;
     } catch (e) {
         useHandleError(e, {
-            409: 'Account was already linked or the provider was already linked.',
-            400: 'Something went wrong.'
+            409: t('account_already_linked'),
         });
     }
 }

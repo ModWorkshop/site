@@ -47,14 +47,14 @@
                     </template>
                 </flex>
                 <content-block v-if="filtersVisible" class="self-start" style="flex:2; max-width: 280px;">
-                    <a-input v-model="query" label="Search"/>
+                    <a-input v-model="query" :label="$t('search')"/>
                     <flex v-if="categories && categories.data.length" column>
                         <span>{{$t('categories')}}</span>
                         <category-tree :categories="categories.data" set-query/>
                     </flex>
-                    <a-select v-if="!forcedGame" v-model="selectedGame" label="Game" placeholder="Any game" clearable :options="games.data" @update:model-value="gameChanged"/>
-                    <a-select v-model="selectedTags" label="Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max="10" max-shown="2"/>
-                    <a-select v-model="selectedBlockTags" label="Filter Out Tags" placeholder="Select Tags" multiple clearable :options="tags.data" max="10" max-shown="2"/>
+                    <a-select v-if="!forcedGame" v-model="selectedGame" :label="$t('game')" :placeholder="$t('any_game')" clearable :options="games.data" @update:model-value="gameChanged"/>
+                    <a-select v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max="10" max-shown="2"/>
+                    <a-select v-model="selectedBlockTags" :label="$t('filter_out_tags')" multiple clearable :options="tags.data" max="10" max-shown="2"/>
                 </content-block>
             </flex>
         </flex>
@@ -120,7 +120,7 @@ const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => prop
 watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 
 let { start: planLoad } = useTimeoutFn(async () => {
-    await refresh();
+    await refresh({ override: true });
     loading.value = false;
 }, 250, { immediate: false });
 
