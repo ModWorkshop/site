@@ -1,8 +1,8 @@
 <template>
     <page-block :game="mod.game" :breadcrumb="breadcrumb">
         <Title>{{mod.name}}</Title>
-        <flex v-if="!mod.has_download || mod.approved !== true || notices.length || mod.suspended" column gap="2">
-            <a-alert v-for="notice of notices" :key="notice.id" :color="notice.type" :desc="notice.localized ? $t(notice.notice) : notice.notice"/>
+        <flex v-if="!mod.has_download || mod.approved !== true || mod.suspended" column gap="2">
+            <the-tag-notices :tags="mod.tags"/>
             <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
                 <i18n-t keypath="mod_suspended" tag="span">
                     <template #reason>
@@ -92,17 +92,6 @@ const breadcrumb = computed(() => {
         { name: t('games'), to: 'games' },
         ...mod.value.breadcrumb
     ];
-});
-
-const notices = computed(() => {
-    const notices: { id: number, type: string, notice: string, localized: boolean }[] = [];
-    for (const tag of mod.value.tags) {
-        if (tag.notice && tag.notice.length > 0 && notices.length < 2) {
-            notices.push({ id: tag.id, type: tag.notice_type, notice: tag.notice, localized: tag.notice_localized });
-        }
-    }
-
-    return notices;
 });
 
 const canEdit = computed(() => canEditMod(mod.value));

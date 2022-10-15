@@ -1,6 +1,9 @@
 <template>
     <page-block :game="threadGame" :breadcrumb="breadcrumb">
         <Title>{{thread.name}}</Title>
+        <flex column>
+            <the-tag-notices :tags="thread.tags"/>
+        </flex>
         <flex>
             <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="cog">{{$t('edit')}}</a-button>
             <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
