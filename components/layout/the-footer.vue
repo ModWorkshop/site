@@ -33,7 +33,9 @@ import { colorSchemes } from '~~/utils/helpers';
 
 const { t } = useI18n();
 const store = useStore();
-const savedColorScheme = useCookie('color-scheme');
+
+const inaLongFuckingTime = DateTime.now().plus({ years: 99 }).toJSDate();
+const savedColorScheme = useCookie('color-scheme', { expires: inaLongFuckingTime });
 
 watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
