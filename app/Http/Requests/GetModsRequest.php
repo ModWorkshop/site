@@ -38,7 +38,17 @@ class GetModsRequest extends FilteredRequest
             'block_tags' => 'array|max:10',
             'block_tags.*' => 'integer|min:1|nullable',
             'user_id' => 'integer|nullable|min:1',
-            'sort' => Rule::in(['bumped_at', 'published_at', 'likes', 'downloads', 'views', 'score', 'weekly_score', 'daily_score'])
+            'sort' => Rule::in([
+                'bumped_at',
+                'published_at',
+                'likes',
+                'downloads',
+                'views',
+                'score',
+                'weekly_score',
+                'daily_score',
+                'random'
+            ])
         ];
     }
 }

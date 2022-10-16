@@ -68,7 +68,11 @@ class ModService {
 
         $sortBy = $val['sort'] ?? 'bumped_at';
 
-        $query->orderByDesc($sortBy);
+        if ($sortBy === 'random') {
+            $query->orderByRaw('RANDOM()');
+        } else {
+            $query->orderByDesc($sortBy);
+        }
 
         $gameId = Arr::get($val, 'game_id');
         $game = null;
