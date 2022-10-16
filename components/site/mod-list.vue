@@ -80,6 +80,7 @@ const props = defineProps({
     title: String,
     forcedGame: Number,
     userId: Number,
+    triggerRefresh: Object,
     url: {
         type: String,
         default: 'mods'
@@ -127,6 +128,10 @@ const searchParams = reactive({
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
     params: searchParams
 });
+
+if (props.triggerRefresh) {
+    watch(props.triggerRefresh.listen, refresh);
+}
 
 watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 

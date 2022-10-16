@@ -458,7 +458,8 @@ stop_supporter_status: "Stop supporter status of user?",
 stop_supporter_status_desc: "You should do this only if the user got refunded or asked for it!",
 reported_by: "Reported By",
 report_name_changed: "{name} changed to {changed}",
-
+delete_all_mods: "Delete All Mods",
+delete_all_discussions: "Delete All Discussions",
 
 //Supporter//
 supporter_perk_1: "No advertisements",

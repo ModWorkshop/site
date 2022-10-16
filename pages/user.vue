@@ -20,12 +20,14 @@
                     <a-dropdown-item icon="eye-slash" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-dropdown-item>
                 </template>
             </VDropdown>
-            <VDropdown v-if="canModerateUser" arrow>
-                <a-button icon="gavel">{{$t('moderation')}}</a-button>
+            <VDropdown v-if="canModerate" arrow>
+                <a-button icon="caret-down">{{$t('moderation')}}</a-button>
                 <template #popper>
-                    <a-dropdown-item :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
-                    <a-dropdown-item :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
-                    <a-dropdown-item :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageMods" icon="trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageDiscussions" icon="trash" @click="showDeleteDiscussionsModal">{{$t('delete_all_discussions')}}</a-dropdown-item>
                 </template>
             </VDropdown>
         </flex>
@@ -88,7 +90,7 @@
                 </content-block>
             </flex>
             <template v-if="tempBlockOverride || !isHidingMods">
-                <mod-list v-if="isPublic || isOwnOrModerator" :user-id="user.id" @fetched="items => mods = items"/>
+                <mod-list v-if="isPublic || isOwnOrModerator" :trigger-refresh="triggerRefresh" :user-id="user.id" @fetched="items => mods = items"/>
             </template>
             <content-block v-else>
                 {{$t('hiding_mods_view')}}
@@ -116,6 +118,7 @@ import { Paginator } from '~~/types/paginator';
 import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
+const triggerRefresh = useEventRaiser();
 
 const { t } = useI18n();
 
@@ -123,8 +126,18 @@ const { data: user } = await useResource<User>('user', 'users');
 
 const { hasPermission, user: me } = useStore();
 
-const canModerateUser = computed(() => hasPermission('moderate-users'));
-const isOwnOrModerator = computed(() => user.value.id === me.id || canModerateUser.value);
+const canModerateUsers = computed(() => hasPermission('moderate-users'));
+const canManageUsers = computed(() => hasPermission('manage-users'));
+const canManageMods = computed(() => hasPermission('manage-mods'));
+const canManageDiscussions = computed(() => hasPermission('manage-discussions'));
+const canModerate = computed(() => 
+    canModerateUsers.value || 
+    canManageUsers.value || 
+    canManageMods.value || 
+    canManageDiscussions.value
+);
+
+const isOwnOrModerator = computed(() => user.value.id === me.id || canModerateUsers.value);
 const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
@@ -185,5 +198,26 @@ function hideUserMods() {
         }
     });
 
+}
+
+function showDeleteAllModsModal() {
+    yesNoModal({
+        title: t('are_you_sure'),
+        desc: 'This will delete all mods the user uploaded to the site!',
+        async yes() {
+            await useDelete(`users/${user.value.id}/mods`);
+            triggerRefresh.execute();
+        }
+    });
+}
+
+function showDeleteDiscussionsModal() {
+    yesNoModal({
+        title: t('are_you_sure'),
+        desc: 'This will delete all threads and comments the user posted to the site!',
+        async yes() {
+            await useDelete(`users/${user.value.id}/discussions`);
+        }
+    });
 }
 </script>
