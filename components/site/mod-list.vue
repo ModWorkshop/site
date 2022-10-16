@@ -18,6 +18,7 @@
                     <a-button icon="ellipsis"/>
                     <template #popper>
                         <button-group v-model:selected="sortBy" column>
+                            <a-group-button icon="dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
                             <a-group-button icon="heart" name="likes">{{$t('likes')}}</a-group-button>
                             <a-group-button icon="download" name="downloads">{{$t('downloads')}}</a-group-button>
                             <a-group-button icon="eye" name="views">{{$t('views')}}</a-group-button>

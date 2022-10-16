@@ -180,6 +180,7 @@ forever: "Forever",
 custom_duration: "Custom",
 close: "Close",
 hide: "Hide",
+random: "Random",
 
 //Discussions//
 poster: 'Poster',
