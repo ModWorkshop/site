@@ -9,7 +9,7 @@
                 <a-link-button to="/docs/policy">{{$t('privacy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop v3.0 Alpha
+                ModWorkshop v3.0 Beta
                 <span>
                     Made with ❤ by <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                 </span>
