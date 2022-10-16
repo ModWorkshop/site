@@ -19,7 +19,9 @@
                         <span class="selection">{{optionName(selectedOption)}}</span>
                     </slot>
                 </slot>
-                <span v-else class="selection text-secondary">{{placeholder}}</span>
+                <span v-else class="selection text-secondary">
+                    <slot name="placeholder">{{placeholder}}</slot>
+                </span>
             </flex>
             <flex class="ml-auto" gap="2">
                 <font-awesome-icon v-if="compClearable" icon="xmark" @click.prevent="clearAll"/>

@@ -27,11 +27,11 @@
             </flex>
             <h2>{{$t('latest_mods')}}</h2>
             <content-block padding="4">
-                <static-mod-list name="latest" :params="{ sort_by: 'score', limit: 10 }"/>
+                <static-mod-list name="latest" :params="{ sort: 'score', limit: 10 }"/>
             </content-block>
             <h2>{{$t('popular_mods')}}</h2>
             <content-block padding="4">
-                <static-mod-list name="popular" :params="{ sort_by: 'score', limit: 10 }"/>
+                <static-mod-list name="popular" :params="{ sort: 'score', limit: 10 }"/>
             </content-block>
         </template>
     </page-block>

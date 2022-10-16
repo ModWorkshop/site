@@ -4,14 +4,25 @@
             <flex>
                 <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
                 <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
-                <a-button icon="star" :disabled="sortBy == 'score'" @click="setSortBy('score')">{{$t('popular_now')}}</a-button>
+                <VDropdown>
+                    <a-button icon="star">{{$t('popularity')}}</a-button>
+                    <template #popper>
+                        <button-group v-model:selected="sortBy" column>
+                            <a-group-button name="score" icon="calendar">{{$t('popular_monthly')}}</a-group-button>
+                            <a-group-button name="weekly_score" icon="calendar-week">{{$t('popular_weekly')}}</a-group-button>
+                            <a-group-button name="daily_score" icon="calendar-days">{{$t('popular_today')}}</a-group-button>
+                        </button-group>
+                    </template>
+                </VDropdown>
                 <VDropdown>
                     <a-button icon="ellipsis"/>
                     <template #popper>
-                        <a-dropdown-item icon="heart" @click="setSortBy('likes')">{{$t('likes')}}</a-dropdown-item>
-                        <a-dropdown-item icon="download" @click="setSortBy('downloads')">{{$t('downloads')}}</a-dropdown-item>
-                        <a-dropdown-item icon="eye" @click="setSortBy('views')">{{$t('views')}}</a-dropdown-item>
-                        <a-dropdown-item icon="pencil" @click="setSortBy('name')">{{$t('name')}}</a-dropdown-item>
+                        <button-group v-model:selected="sortBy" column>
+                            <a-group-button icon="heart" name="likes">{{$t('likes')}}</a-group-button>
+                            <a-group-button icon="download" name="downloads">{{$t('downloads')}}</a-group-button>
+                            <a-group-button icon="eye" name="views">{{$t('views')}}</a-group-button>
+                            <a-group-button icon="pencil" name="name">{{$t('name')}}</a-group-button>
+                        </button-group>
                     </template>
                 </VDropdown>
             </flex>
@@ -89,7 +100,7 @@ const loading = ref(false);
 const selectedGame = useRouteQuery('game', props.forcedGame, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort-by', 'bumped_at');
+const sortBy = useRouteQuery('sort', 'bumped_at');
 const pages = ref(0);
 const filtersVisible = ref(true);
 
@@ -110,7 +121,7 @@ const searchParams = reactive({
     tags: selectedTags,
     categories: selectedCategories,
     block_tags: selectedBlockTags,
-    sort_by: sortBy
+    sort: sortBy
 });
 
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
