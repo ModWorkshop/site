@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\File;
+use App\Models\Mod;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -42,9 +43,9 @@ class FilePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Mod $mod)
     {
-        return $this->authorize('create', Mod::class);
+        return $this->authorize('update', $mod);
     }
 
     /**

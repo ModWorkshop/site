@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Mod;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Storage;
 
 /**
@@ -16,16 +18,17 @@ use Storage;
 class FileController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(File::class, 'file');
+        $this->authorizeResource([File::class, 'mod'], "file, mod");
+
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(FilteredRequest $request, Mod $mod)
     {
-        //
+        return JsonResource::collection($mod->files->queryGet($request->val()));
     }
 
     /**
@@ -36,8 +39,8 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
-        $maxSize = Setting::get('max_file_size');
-        $storageSize = Setting::get('mod_storage_size');
+        $maxSize = Setting::getValue('max_file_size');
+        $storageSize = Setting::getValue('mod_storage_size');
 
 
         $val = $request->validate([
