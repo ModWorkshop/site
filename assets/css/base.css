@@ -71,6 +71,60 @@ body {
     --danger-hover-color: #ff3333;
 }
 
+.blue-scheme {
+	--primary-color: var(--mws-blue);
+	--primary-hover-color: var(--mws-blue-hover);
+	--primary-color-text: var(--mws-blue-text);
+}
+
+.green-scheme {
+	--primary-color: var(--mws-green);
+	--primary-hover-color: var(--mws-green-hover);
+	--primary-color-text: var(--mws-green-text);
+}
+
+.red-scheme {
+	--primary-color: var(--mws-red);
+	--primary-hover-color: var(--mws-red-hover);
+	--primary-color-text: var(--mws-red-text);
+}
+
+.pink-scheme {
+	--primary-color: var(--mws-pink);
+	--primary-hover-color: var(--mws-pink-hover);
+	--primary-color-text: var(--mws-pink-text);
+}
+
+.teal-scheme {
+	--primary-color: var(--mws-teal);
+	--primary-hover-color: var(--mws-teal-hover);
+	--primary-color-text: var(--mws-teal-text);
+}
+
+.purple-scheme {
+	--primary-color: var(--mws-purple);
+	--primary-hover-color: var(--mws-purple-hover);
+	--primary-color-text: var(--mws-purple-text);
+}
+
+.gray-scheme {
+	--primary-color: var(--mws-gray);
+	--primary-hover-color: var(--mws-gray-hover);
+	--primary-color-text: var(--mws-gray-text);
+}
+
+.orange-scheme {
+	--primary-color: var(--mws-orange);
+	--primary-hover-color: var(--mws-orange-hover);
+	--primary-color-text: var(--mws-orange-text);
+}
+
+.cyan-scheme {
+	--primary-color: var(--mws-cyan);
+	--primary-hover-color: var(--mws-cyan-hover);
+	--primary-color-text: var(--mws-cyan-text);
+}
+
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;

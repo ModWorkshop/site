@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Html :class="store.theme === 'light' ? 'light' : 'dark'"/>
+		<Html :class="[store.theme === 'light' ? 'light' : 'dark', `${store.colorScheme}-scheme`]"/>
 		<NuxtLayout>
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { DateTime, Settings } from 'luxon';
+import { Settings } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { useStore } from './store';
 
@@ -35,15 +35,9 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
-	bodyAttrs: {
-		style: computed(() => `
-			--primary-color: var(--mws-${store.colorScheme});
-			--primary-hover-color: var(--mws-${store.colorScheme}-hover); 
-			--primary-color-text: var(--mws-${store.colorScheme}-text)` 
-		)
-	},
 	title: undefined,
 });
+
 
 locale.value = savedLocale.value;
 Settings.defaultLocale = savedLocale.value;
