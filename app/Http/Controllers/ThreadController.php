@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\ThreadResource;
 use App\Models\Forum;
 use App\Models\ForumCategory;
+use App\Models\Tag;
 use App\Models\Thread;
 use App\Services\APIService;
 use App\Services\CommentService;
@@ -199,6 +200,7 @@ class ThreadController extends Controller
 
         if(isset($tags)) {
             $thread->tags()->sync($tags);
+            Tag::flushQueryCache();
         }
 
         $thread->timestamps = true;
