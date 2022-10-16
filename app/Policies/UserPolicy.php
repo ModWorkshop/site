@@ -71,6 +71,16 @@ class UserPolicy
     {
         return $user->id === $model->id || $user->hasPermission('manage-roles');
     }
+
+    public function manageDiscussions(User $user, User $model)
+    {
+        return $user->id === $model->id || $user->hasPermission('manage-discussions');
+    }
+
+    public function manageMods(User $user, User $model)
+    {
+        return $user->id === $model->id || $user->hasPermission('manage-mods');
+    }
     
     /**
      * Determine whether the user can restore the model.

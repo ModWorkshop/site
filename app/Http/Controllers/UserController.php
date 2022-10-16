@@ -191,4 +191,26 @@ class UserController extends Controller
     {
         APIService::report($request, $user);
     }
+
+    public function deleteMods(User $user)
+    {
+        $this->authorize('manageMods', $user);
+
+        foreach ($user->mods as $user) {
+            $user->delete();
+        }
+    }
+
+    public function deleteDiscussions(User $user)
+    {
+        $this->authorize('manageDiscussions', $user);
+     
+        foreach ($user->threads as $thread) {
+            $thread->delete();
+        }
+
+        foreach ($user->comments as $comment) {
+            $comment->delete();
+        }
+    }
 }

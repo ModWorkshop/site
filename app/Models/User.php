@@ -275,6 +275,16 @@ class User extends Authenticatable
         return $this->hasMany(Mod::class);
     }
 
+    public function threads(): HasMany
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function extra(): HasOne
     {
         return $this->hasOne(UserExtra::class);

@@ -173,6 +173,8 @@ Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
+    Route::delete('users/{user}/mods', [UserController::class, 'deleteMods']);
+    Route::delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
 
     Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
     Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');
