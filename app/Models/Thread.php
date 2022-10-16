@@ -67,6 +67,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property bool $locked_by_mod
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLocked($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLockedByMod($value)
+ * @property bool $announce
+ * @property \Illuminate\Support\Carbon|null $announce_until
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
  */
 class Thread extends Model implements SubscribableInterface
 {

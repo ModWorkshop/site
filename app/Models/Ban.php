@@ -32,6 +32,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
  * @property int|null $game_id
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereGameId($value)
+ * @property bool $can_appeal
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCanAppeal($value)
  */
 class Ban extends Model
 {

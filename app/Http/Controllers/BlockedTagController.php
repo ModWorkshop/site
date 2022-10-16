@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class BlockedTagController extends Controller
 {
     public function __construct() {
-        //Checked by middleware, only needs to be a user
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
