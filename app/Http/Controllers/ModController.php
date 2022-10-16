@@ -13,6 +13,7 @@ use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
+use App\Models\PopularityLog;
 use App\Models\Setting;
 use App\Models\Suspension;
 use App\Models\Tag;
@@ -329,6 +330,8 @@ class ModController extends Controller
         $user = $request->user();
         $ip = $request->ip();
 
+        PopularityLog::log($mod, 'view');
+
         if (
             (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
         || (!isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
@@ -363,6 +366,8 @@ class ModController extends Controller
     {
         $user = $request->user();
         $ip = $request->ip();
+
+        PopularityLog::log($mod, 'down');
 
         if (
             (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
@@ -407,12 +412,15 @@ class ModController extends Controller
             $like->delete();
             $liked = false;
             $mod->decrement('likes');
+            PopularityLog::deleteLog($mod, 'like');
         } else {
             $like = new ModLike;
             $like->mod_id = $mod->id;
             $like->user_id = $user->id;
             $like->save();
             $mod->increment('likes');
+
+            PopularityLog::log($mod, 'like');
         }
 
         $mod->likes = max(0, $mod->likes);

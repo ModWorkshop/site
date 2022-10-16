@@ -66,7 +66,7 @@ class ModService {
         /** @var User */
         $user = Auth::user();
 
-        $sortBy = $val['sort_by'] ?? 'bumped_at';
+        $sortBy = $val['sort'] ?? 'bumped_at';
 
         $query->orderByDesc($sortBy);
 
