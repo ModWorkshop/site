@@ -7,7 +7,8 @@
             <content-block :column="false" class="items-center" gap="4">
                 <a-link-button class="text-3xl" :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
                 <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
-                <a-link-button :to="`/g/${game.short_name}/forum`">Forum</a-link-button>
+                <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
+                <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
                 <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
                 <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
 
@@ -17,7 +18,11 @@
                             <font-awesome-icon icon="triangle-exclamation"/> Banned
                         </span>
                         <span>
-                            Expires: <time-ago :time="store.gameBan.case.expire_date"/>
+                            <i18n-t keypath="expires_t">
+                                <template #time>
+                                    <time-ago :time="store.gameBan.case.expire_date"/>
+                                </template>
+                            </i18n-t>
                         </span>
                     </flex>
                     <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
@@ -43,7 +48,7 @@ import { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
 
 const props = withDefaults(defineProps<{
-    gap: number;
+    gap?: number;
     size?: string;
     game?: Game;
     gameBanner?: boolean;

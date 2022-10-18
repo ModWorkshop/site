@@ -3,7 +3,7 @@
         <flex column gap="3">
             <flex>
                 <a-input v-if="search" v-model="query" :label="$t('search')"/>
-                <a-button v-if="typeof newButton == 'string'" class="my-auto" :to="newButton">{{$t('new')}}</a-button>
+                <a-button v-if="typeof newButton == 'string'" class="mt-auto" :to="newButton">{{$t('new')}}</a-button>
             </flex>
             <slot name="buttons" :items="items"/>
         </flex>

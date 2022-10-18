@@ -11,7 +11,7 @@
 import { Ref } from 'vue';
 
 const props = defineProps({
-    name: String,
+    name: [String, Number],
     icon: String,
 });
 

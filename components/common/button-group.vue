@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    selected: String,
+    selected: [String, Number],
     buttonStyle: String
 });
 

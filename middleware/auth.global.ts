@@ -18,7 +18,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             }
         } catch (error) {
             console.log(error);
-            store.userIsLoading = false;
             
             if (!error.response) {
                 showError({ statusCode: 502, statusMessage: i18n.global.t('error_502'), fatal: true });

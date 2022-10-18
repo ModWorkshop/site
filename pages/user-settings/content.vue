@@ -3,6 +3,17 @@
         <template #pre-panels>
             <a-alert class="my-1" type="info">{{$t('content_page_info')}}</a-alert>
         </template>
+        <a-tab name="customize" :title="$t('customize')">
+            <a-select v-model="user.extra.default_mods_view" :options="viewOptions" label="Default View"/>
+            <a-select v-model="user.extra.default_mods_sort" :options="sortOptions" label="Default Sorting"/>
+            <h2>Home Page</h2>
+            <a-input v-model="user.extra.home_show_last_games" label="Show Last Updated Games" type="checkbox"/>
+            <a-input v-model="user.extra.home_show_mods" label="Show Mods" type="checkbox"/>
+            <a-input v-model="user.extra.home_show_threads" label="Show Threads" type="checkbox"/>
+            <h2>Game Sections</h2>
+            <a-input v-model="user.extra.game_show_mods" label="Show Mods" type="checkbox"/>
+            <a-input v-model="user.extra.game_show_threads" label="Show Threads" type="checkbox"/>
+        </a-tab>
         <a-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>
             <a-list v-model="followedGames" url="followed-games" limit="10" :item-link="item => `g/${item.short_name}`">
@@ -62,6 +73,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 import { Game, Mod, Tag, User, UserForm } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';
@@ -70,6 +82,8 @@ defineProps<{
     user: UserForm
 }>();
 
+const { t } = useI18n();
+
 const blockTag = ref<Tag>(null);
 const showBlockTag = ref(false);
 
@@ -77,6 +91,27 @@ const blockedTags = ref<Paginator<Tag>>(null);
 const followedUsers = ref<Paginator<User>>(null);
 const followedMods = ref<Paginator<Mod>>(null);
 const followedGames = ref<Paginator<Game>>(null);
+
+const viewOptions = [
+    { id: 'games', name: t('followed_games') },
+    { id: 'mods', name: t('followed_mods') },
+    { id: 'users', name: t('followed_users') },
+    { id: 'liked', name: t('liked') },
+    { id: 'all', name: t('all') },
+];
+
+const sortOptions = [
+    { id: 'bumped_at', name: t('last_updated') },
+    { id: 'published_at', name: t('published_at') },
+    { id: 'score', name: t('popular_monthly') },
+    { id: 'daily_score', name: t('popular_today') },
+    { id: 'weekly_score', name: t('popular_weekly') },
+    { id: 'random', name: t('random') },
+    { id: 'downloads', name: t('downloads') },
+    { id: 'views', name: t('views') },
+    { id: 'name', name: t('name') },
+    { id: 'likes', name: t('likes') },
+];
 
 async function unfollowUser(user: User) {
     await setFollowUser(user, false);

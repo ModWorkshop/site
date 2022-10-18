@@ -2,7 +2,7 @@
     <page-block>
         <Title>{{$t('games')}}</Title>
         <flex column class="items-center">
-            <h2>{{$t('games_hosted')}}</h2>
+            <h2>{{$t('games_hosted', { n: games.meta.total })}}</h2>
             <i18n-t keypath="want_your_game" tag="h3">
                 <template #here>
                     <a>{{$t('here')}}</a>

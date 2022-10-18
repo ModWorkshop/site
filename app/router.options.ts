@@ -40,7 +40,24 @@ export default <RouterOptions> {
         {
             name: "game",
             path: "/g/:gameId",
-            component: () => import('~/pages/game.vue')
+            component: () => import('~/pages/game.vue'),
+            children: [
+                {
+                    name: "game-home",
+                    path: "",
+                    component: () => import('~/pages/game/home.vue')
+                },
+                {
+                    name: "game-mods",
+                    path: "mods",
+                    component: () => import('~/pages/game/mods.vue')
+                },
+            ]
+        },
+        {
+            name: "mods",
+            path: "/mods",
+            component: () => import('~/pages/mods.vue')
         },
         {
             name: "user",

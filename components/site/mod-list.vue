@@ -1,22 +1,26 @@
 <template>
     <flex column gap="3">
+        <h2 v-if="title">
+            <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
+        </h2>
+        <slot name="buttons"/>
         <flex>
-            <flex>
-                <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
-                <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
-                <VDropdown>
-                    <a-button icon="star">{{$t('popularity')}}</a-button>
-                    <template #popper>
-                        <button-group v-model:selected="sortBy" column>
-                            <a-group-button name="score" icon="calendar">{{$t('popular_monthly')}}</a-group-button>
-                            <a-group-button name="weekly_score" icon="calendar-week">{{$t('popular_weekly')}}</a-group-button>
-                            <a-group-button name="daily_score" icon="calendar-days">{{$t('popular_today')}}</a-group-button>
-                        </button-group>
-                    </template>
-                </VDropdown>
-                <VDropdown>
-                    <a-button icon="ellipsis"/>
-                    <template #popper>
+            <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
+            <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
+            <VDropdown>
+                <a-button icon="star">{{$t('popularity')}}</a-button>
+                <template #popper>
+                    <button-group v-model:selected="sortBy" column>
+                        <a-group-button name="score" icon="calendar">{{$t('popular_monthly')}}</a-group-button>
+                        <a-group-button name="weekly_score" icon="calendar-week">{{$t('popular_weekly')}}</a-group-button>
+                        <a-group-button name="daily_score" icon="calendar-days">{{$t('popular_today')}}</a-group-button>
+                    </button-group>
+                </template>
+            </VDropdown>
+            <VDropdown v-if="!sideFilters">
+                <a-button icon="ellipsis"/>
+                <template #popper>
+                    <flex column>
                         <button-group v-model:selected="sortBy" column>
                             <a-group-button icon="dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
                             <a-group-button icon="heart" name="likes">{{$t('likes')}}</a-group-button>
@@ -24,73 +28,79 @@
                             <a-group-button icon="eye" name="views">{{$t('views')}}</a-group-button>
                             <a-group-button icon="pencil" name="name">{{$t('name')}}</a-group-button>
                         </button-group>
+                    </flex>
+                </template>
+            </VDropdown>
+            <button-group v-model:selected="displayMode" class="ml-auto" gap="1" button-style="button">
+                <a-group-button icon="th" :name="0"/>
+                <a-group-button icon="list" :name="1"/>
+                <a-group-button icon="bars" :name="2"/>
+            </button-group>
+            <flex v-if="!sideFilters" class="ml-1">
+                <VDropdown>
+                    <a-button icon="filter"/>
+                    <template #popper>
+                        <Suspense>
+                            <flex class="p-4" gap="3" column style="width: 300px">
+                                <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+                            </flex>
+                        </Suspense>
                     </template>
                 </VDropdown>
-            </flex>
-            <flex class="ml-auto" gap="3">
-                <flex gap="1">
-                    <a-button icon="th" :disabled="displayMode == 0" @click="displayMode = 0"/>
-                    <a-button icon="list" :disabled="displayMode == 1" @click="displayMode = 1"/>
-                    <a-button icon="bars" :disabled="displayMode == 2" @click="displayMode = 2"/>
-                </flex>
             </flex>
         </flex>
 
         <flex column gap="3">
-            <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40">
-                <flex class="ml-auto">
-                    <a-button icon="filter" @click="filtersVisible = !filtersVisible"/>
-                </flex>
-            </a-pagination>
-            <h4 v-if="title" class="text-center my-3 text-primary">{{title}}</h4>
+            <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40"/>
             <flex gap="3">
-                <flex column gap="4" class="mods place-content-between content-block p-3" style="flex:10; min-height: 250px;">
+                <content-block v-if="sideFilters" class="self-start" style="flex:2; max-width: 280px;">
+                    <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+                </content-block>
+                <flex column gap="4" class="mods place-content-between" style="flex:10; min-height: 150px;">
                     <a-loading v-if="loading" class="my-auto"/>
                     <template v-else>
                         <mod-list-skeleton
                             :display-mode="displayMode"
                             :sort-by="sortBy"
-                            :no-game="!!forcedGame"
+                            :no-game="!!game"
                             :error="error"
+                            :game="game"
                             :mods="currentMods"
                         />
                         <a-button v-if="hasMore" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
                         <h1 v-else-if="currentMods.length == 0" class="text-center my-auto">{{$t('no_mods_found')}}</h1>
                     </template>
                 </flex>
-                <content-block v-if="filtersVisible" class="self-start" style="flex:2; max-width: 280px;">
-                    <a-input v-model="query" :label="$t('search')"/>
-                    <flex v-if="categories && categories.data.length" column>
-                        <span>{{$t('categories')}}</span>
-                        <category-tree :categories="categories.data" set-query/>
-                    </flex>
-                    <a-select v-if="!forcedGame" v-model="selectedGame" :label="$t('game')" :placeholder="$t('any_game')" clearable :options="games.data" @update:model-value="gameChanged"/>
-                    <a-select v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max="10" max-shown="2"/>
-                    <a-select v-model="selectedBlockTags" :label="$t('filter_out_tags')" multiple clearable :options="tags.data" max="10" max-shown="2"/>
-                </content-block>
             </flex>
         </flex>
     </flex>
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { Category, Game, Mod, Tag } from '~~/types/models';
+import { EventRaiser } from '~~/composables/useEventRaiser';
+import { useStore } from '~~/store';
+import { Game, Mod } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
-const props = defineProps({
-    title: String,
-    forcedGame: Number,
-    userId: Number,
-    triggerRefresh: Object,
-    url: {
-        type: String,
-        default: 'mods'
-    }
+const props = withDefaults(defineProps<{
+    title?: string,
+    titleLink?: string,
+    game?: Game,
+    userId?: number,
+    triggerRefresh?: EventRaiser,
+    sideFilters?: boolean,
+    limit?: number,
+    url?: string
+}>(), {
+    limit: 40,
+    url: 'mods'
 });
 
 const emit = defineEmits<{
     (e: 'fetched', mods: Paginator<Mod>)
 }>();
+
+const { user } = useStore();
 
 const query = useRouteQuery('query', '');
 const page = useRouteQuery('page', 1, 'number');
@@ -99,22 +109,15 @@ const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: D
 const selectedTags = useRouteQuery('selected-tags', []);
 const selectedBlockTags = useRouteQuery('filtered-tags', []);
 const loading = ref(false);
-const selectedGame = useRouteQuery('game', props.forcedGame, 'number');
+const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', 'bumped_at');
+const sortBy = useRouteQuery('sort', user.extra.default_mods_sort);
 const pages = ref(0);
-const filtersVisible = ref(true);
-
-const { data: games } = await useFetchMany<Game>('games', { initialCache: true });
-const { data: tags } = await useFetchMany<Tag>('tags', { params: { type: 'mod' }, initialCache: true });
-
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${selectedGame.value}/categories?include_paths=1`, { immediate: !!selectedGame.value });
 
 const fetchPage = computed(() => pageOverride.value ?? page.value);
 
 const searchParams = reactive({
-    limit: 40,
     user_id: props.userId,
     page: fetchPage,
     query: query,
@@ -123,7 +126,8 @@ const searchParams = reactive({
     tags: selectedTags,
     categories: selectedCategories,
     block_tags: selectedBlockTags,
-    sort: sortBy
+    sort: sortBy,
+    limit: computed(() => props.limit)
 });
 
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
@@ -137,7 +141,7 @@ if (props.triggerRefresh) {
 watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 
 let { start: planLoad } = useTimeoutFn(async () => {
-    await refresh({ override: true });
+    await refresh();
     loading.value = false;
 }, 250, { immediate: false });
 
@@ -161,16 +165,6 @@ watch([page, pageOverride, searchParams], (value, newValue) => {
 
     planLoad();
 });
-
-async function gameChanged() {
-    await refresh();
-
-    if (selectedGame.value) {
-        await refetchCats();
-    } else {
-        categories.value = null;
-    }
-}
 
 function setSortBy(sort) {
     sortBy.value = sort;

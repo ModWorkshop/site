@@ -87,7 +87,6 @@
                     </template>
                 </VDropdown>
             </template>
-            <a-loading v-else-if="userIsLoading"/>
             <flex v-else class="my-auto" gap="4">
                 <a-link-button to="/login">{{$t('login')}}</a-link-button>
                 <a-link-button to="/register">{{$t('register')}}</a-link-button>
@@ -103,7 +102,7 @@ import { useStore } from '../../store';
 
 const store = useStore();
 const router = useRouter();
-const { user, notifications, userIsLoading, notificationCount, currentGame } = storeToRefs(store);
+const { user, notifications, notificationCount, currentGame } = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);

@@ -267,6 +267,15 @@ export interface User {
     show_tag: 'role'|'supporter_or_role'|'none';
     supporter?: Supporter;
     signable?: boolean;
+    extra?: {
+        default_mods_view: string;
+        default_mods_sort: string;
+        home_show_last_games: boolean;
+        home_show_mods: boolean;
+        home_show_threads: boolean;
+        game_show_mods: boolean;
+        game_show_threads: boolean;
+    }
 }
 
 export interface UserForm extends User {

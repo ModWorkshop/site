@@ -17,6 +17,7 @@ defineProps({
 .table {
     width: 100%;
     border-radius: var(--border-radius);
+    border-spacing: 0rem 0.25rem;
 }
 
 .table-bg {

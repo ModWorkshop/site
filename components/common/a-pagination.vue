@@ -1,5 +1,5 @@
 <template>
-    <flex v-if="pageNumbers.length > 1">
+    <flex v-if="noHiding || pageNumbers.length > 1">
         <template v-for="[i, n] in pageNumbers.entries()" :key="n">
             <a-button :disabled="actualPage == n" @click="setPage(n)">{{n}}</a-button>
             <a-button v-if="i == 0 && pageNumbers[1] > 2 || i == defaultMaxNumbers-2 && pages - n > 1" disabled>...</a-button>
@@ -14,7 +14,8 @@ const props = defineProps({
     modelValue: [Number, String],
     total: [Number, String],
     perPage: [Number, String],
-    setQuery: [Boolean, String]
+    setQuery: [Boolean, String],
+    noHiding: [Boolean, String]
 });
 
 const emit = defineEmits([

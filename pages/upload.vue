@@ -1,26 +1,23 @@
 <template>
     <page-block size="sm" :game="game" :breadcrumb="game ? breadcrumb : null">
         <Title>{{$t('upload_mod')}}</Title>
+        <h1>{{$t('upload_mod')}}</h1>
         <a-form :model="mod" :created="false" @submit="create">
             <content-block>
-                <h1>{{$t('upload_mod')}}</h1>
                 <h4 class="whitespace-pre">{{$t('mod_creation_desc')}}</h4>
     
                 <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required :desc="$t('mod_name_desc')"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
+                
+                <a-game-select v-if="!gameName" v-model="mod.game_id" :label="$t('game')"/>
 
-                <a-select v-if="!gameName" v-model="mod.game_id" :label="$t('game')" :options="games.data">
-                    <template #option="{ option }">
-                        <a-simple-game :game="option"/>
-                    </template>
-                    <template #list-option="{ option }">
-                        <a-simple-game :game="option"/>
-                    </template>
-                </a-select>
-
-                <a-input v-if="categories" :label="$t('category')">
-                    <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
-                </a-input>
+                <a-category-select 
+                    v-if="categories"
+                    v-model="mod.category_id"
+                    :max-height="200"
+                    :label="$t('category')"
+                    :categories="categories.data"
+                />
 
                 <flex class="mx-auto">
                     <a-button type="submit" :disabled="!mod.name || !mod.desc">{{$t('upload_mod')}}</a-button>
@@ -75,7 +72,6 @@ const mod: Ref<Mod> = ref({
 
 const gameName = computed(() => route.params.gameId);
 
-const { data: games } = await useFetchMany<Game>('games', { immediate: !gameName.value });
 const { data: game } = await useResource<Game>('game', 'games');
 
 store.currentGame = game.value;

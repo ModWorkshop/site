@@ -181,6 +181,8 @@ custom_duration: "Custom",
 close: "Close",
 hide: "Hide",
 random: "Random",
+welcome_to_mws: "Welcome to ModWorkshop!",
+mws_short_about: "We are a modding site that that embraces open source for modding!",
 
 //Discussions//
 poster: 'Poster',
@@ -199,7 +201,7 @@ announcement_duration: "Announcement Duration",
 name_forum: "{name} Forum",
 global_forum: "Global Forum",
 liked: "Liked",
-view_all_games: "View all games",
+view_all_games: "View all Games",
 last_updated_games: "Last Updated Games",
 
 //Mods//
@@ -290,6 +292,7 @@ visibility: "Visibility",
 make_your_mod_discoverable: "Make your mod more discoverable",
 error_fetching_mods: "There was an error fetching mods",
 notify_owner_members: "Notify owner and members",
+expires_t: "Expires: {time}",
 
 //User//
 
@@ -354,7 +357,7 @@ link: "Link",
 unlink: "Unlink",
 unlink_warn: "This will unlink the account from your ModWorkshop account and you will not be able to use it to login to this account anymore!",
 content_page_info: `
-Here you can view your followed and blocked content.
+Here you can customize the content of the site.
 Any blocked content will not display anywhere unless entered explictly.
 Followed content is displayed on the home page.`,
 following: "Following",
@@ -375,6 +378,7 @@ linking_account: "Linking account. Please wait a moment...",
 done_linking_account: "Done! Please close the tab and return to the previous tab.",
 account_already_linked: "Account was already linked or the provider was already linked.",
 mods_count: "{n} Mods",
+customize: "Customize",
 
 //Games//
 game_profile: 'Game Profile',

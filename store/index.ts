@@ -6,7 +6,6 @@ import { reloadToken } from '~~/utils/helpers';
 
 interface MainStore {
     user?: User,
-    userIsLoading: boolean,
     notifications: Paginator<Notification>,
     notificationCount: number,
     currentGame?: Game,
@@ -24,7 +23,6 @@ export const useStore = defineStore('main', {
     state: (): MainStore => ({
         notifications: null,
         notificationCount: null,
-        userIsLoading: false,
         savedTheme: useCookie('theme'),
         colorScheme: useCookie('color-scheme').value ?? 'blue',
         announcements: [],
@@ -62,8 +60,6 @@ export const useStore = defineStore('main', {
         async attemptLoginUser(redirect: string|boolean='/') {
             console.log('Attempting to fetch user data');
 
-            this.userIsLoading = true;
-
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
             const [ userData, siteData ] = await Promise.all([
@@ -77,7 +73,6 @@ export const useStore = defineStore('main', {
             ]);
 
             this.user = userData;
-            this.userIsLoading = false;
             
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;

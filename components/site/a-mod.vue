@@ -1,5 +1,5 @@
 <template>
-    <flex column gap="0" class="mod self-start !p-0" :title="mod.short_desc">
+    <flex column gap="0" class="mod content-block self-start !p-0" :title="mod.short_desc">
         <NuxtLink :to="link">
             <mod-thumbnail :thumbnail="mod.thumbnail"/>
         </NuxtLink>
@@ -10,16 +10,19 @@
 
             <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
 
-            <flex v-if="!noCategories && ((mod.game && showGame) || mod.category)">
-                <font-awesome-icon icon="map-marker-alt"/> 
-                <NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
-                    {{mod.game.name}}
-                </NuxtLink>
-                <template v-if="mod.category">
-                    <template v-if="showGame">/</template>
-                    <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
-                </template>
-            </flex>
+            <template v-if="!noCategories">
+                <flex v-if="((mod.game && showGame) || mod.category)">
+                    <font-awesome-icon icon="map-marker-alt"/> 
+                    <NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
+                        {{mod.game.name}}
+                    </NuxtLink>
+                    <template v-if="mod.category">
+                        <template v-if="showGame">/</template>
+                        <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                    </template>
+                </flex>
+                <span v-else><font-awesome-icon icon="map-marker-alt"/> {{$t('not_available')}}</span>
+            </template>
 
             <flex>
                 <span>
@@ -40,7 +43,7 @@
 </template>
 <script setup lang="ts">
 import { useStore } from "~~/store";
-import { Mod } from "~~/types/models";
+import { Game, Mod } from "~~/types/models";
 
 const store = useStore();
 
@@ -49,6 +52,7 @@ const props = defineProps<{
     noCategories?: boolean,
     noGame?: boolean,
     mod: Mod,
+    game: Game,
     static?: boolean
 }>();
 
@@ -58,9 +62,8 @@ const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);
 const views = computed(() => props.mod.views);
 
-
 const link = computed(() => !props.static ? `/mod/${props.mod.id}` : null);
-const gameUrl = computed(() => `/g/${store.currentGame?.short_name || props.mod.game.short_name || props.mod.game.id}`);
+const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game.short_name || props.mod.game.id}`);
 </script>
 
 <style>

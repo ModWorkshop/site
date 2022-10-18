@@ -2,10 +2,10 @@
     <div v-if="displayMode == 0" class="mods mods-grid gap-2">
         <div v-if="error">{{$t('error_fetching_mods')}}</div>
         <template v-else>
-            <a-mod v-for="mod in mods" :key="mod.id" :mod="mod" :no-game="noGame" :sort="sortBy"/>
+            <a-mod v-for="mod in mods" :key="mod.id" :mod="mod" :game="game" :no-game="noGame" :sort="sortBy"/>
         </template>
     </div>
-    <table v-else style="border-spacing: 0.5rem 0.25rem;">
+    <a-table v-else>
         <thead>
             <tr>
                 <th v-if="displayMode == 1">{{$t('thumbnail')}}</th>
@@ -21,15 +21,16 @@
         <tbody>
             <mod-row v-for="mod in mods" :key="mod.id" :mod="mod" :no-game="noGame" :sort="sortBy" :display-mode="displayMode"/>
         </tbody>
-    </table>
+    </a-table>
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import { Game, Mod } from '~~/types/models';
 
 defineProps<{
     displayMode: number,
     sortBy: string,
+    game: Game,
     noGame: boolean,
     error: true|Error,
     mods: Mod[]

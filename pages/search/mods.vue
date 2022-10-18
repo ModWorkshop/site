@@ -1,6 +1,6 @@
 <template>
     <div>
         <Title>{{$t('search_mods')}}</Title>
-        <mod-list/>
+        <mod-list side-filters/>
     </div>
 </template>

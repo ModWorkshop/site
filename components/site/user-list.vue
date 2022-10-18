@@ -2,6 +2,9 @@
     <flex column>
         <a-pagination v-if="!isLoading" v-model="page" :total="users.meta.total" :per-page="users.meta.per_page"/>
         <flex gap="3">
+            <content-block grow class="self-start" style="flex: 1;">
+                <a-input v-model="query" :label="$t('search')"/>
+            </content-block>
             <content-block grow style="flex: 4;" gap="1">
                 <a-loading v-if="isLoading"/>
                 <template v-else>
@@ -9,9 +12,6 @@
                         <a-user :user="user"/>
                     </NuxtLink>
                 </template>
-            </content-block>
-            <content-block grow class="self-start" style="flex: 1;">
-                <a-input v-model="query" :label="$t('search')"/>
             </content-block>
         </flex>
     </flex>

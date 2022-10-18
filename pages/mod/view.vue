@@ -1,5 +1,5 @@
 <template>
-    <flex column gap="3">
+    <flex v-if="mod" column gap="3">
         <div>
             <mod-banner :mod="mod"/>
         </div>
