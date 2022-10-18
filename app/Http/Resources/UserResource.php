@@ -56,7 +56,8 @@ class UserResource extends JsonResource
             'invisible' => $this->invisible,
             'show_tag' => $this->show_tag,
             'supporter' => $this->activeSupporter,
-            'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable)
+            'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
+            'extra' => $this->whenLoaded('extra')
         ];
     }
 }

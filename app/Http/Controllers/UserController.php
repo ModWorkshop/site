@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Validator;
@@ -97,6 +98,8 @@ class UserController extends Controller
         $userExtra = $user->extra;
         $fileSize = Setting::getValue('image_max_file_size') / 1024;
 
+        $passwordRule = Password::min(12)->numbers()->mixedCase()->uncompromised();
+
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',
             'unique_name' => 'alpha_dash|nullable|min:3|max:50',
@@ -110,9 +113,28 @@ class UserController extends Controller
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
-            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
-            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, Password::min(12)->numbers()->mixedCase()->uncompromised()],
+            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null, $passwordRule],
+            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule],
+            'extra.default_mods_sort' => ['nullable', Rule::in([
+                'bumped_at',
+                'published_at',
+                'likes',
+                'downloads',
+                'views',
+                'score',
+                'weekly_score',
+                'daily_score',
+                'random'
+            ])],
+            'extra.default_mods_view' => ['nullable', Rule::in(['all', 'liked', 'games', 'mods', 'users'])],
+            'extra.home_show_last_games' => 'boolean|nullable',
+            'extra.home_show_mods' => 'boolean|nullable',
+            'extra.home_show_threads' => 'boolean|nullable',
+            'extra.game_show_mods' => 'boolean|nullable',
+            'extra.game_show_threads' => 'boolean|nullable',
         ]);
+
+        $extra = Arr::pull($val, 'extra');
 
         if (isset($val['unique_name'])) {
             $val['unique_name'] = strtolower($val['unique_name']);
@@ -141,6 +163,8 @@ class UserController extends Controller
         }
 
         $user->update($val);
+        $user->extra->update($extra);
+        $user->load('extra');
 
         return new UserResource($user);
     }
@@ -180,6 +204,7 @@ class UserController extends Controller
     {
         $user = $request->user();
         $user->append('signable');
+        $user->load('extra');
 
         return new UserResource($user);
     }
