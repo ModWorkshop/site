@@ -61,7 +61,7 @@ class ThreadController extends Controller
 
             if (!isset($user) || !$user->hasPermission('manage-discussions')) {
                 $query->whereRelation('category', function($q) use ($user, $roleIds, $gameRoleIds) {
-                    $q->where(fn($q) => $q->when(isset($user))->where('threads.user_id', $user->id)->orWhere('private_threads', false));
+                    $q->where(fn($q) => $q->when(isset($user))->where('threads.user_id', $user?->id)->orWhere('private_threads', false));
                     $q->where(function($q) use($roleIds, $gameRoleIds) {
                         $q->where(
                             fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
