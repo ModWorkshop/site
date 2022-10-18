@@ -93,7 +93,7 @@ class GameController extends Controller
                 $query->select(['id', 'name']);
             }
 
-            $query->orderBy('name');
+            $query->orderBy('last_date');
         });
 
         return GameResource::collection($games);
