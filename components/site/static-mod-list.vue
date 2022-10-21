@@ -9,9 +9,9 @@
     <span v-if="!fetchedMods?.data.length" class="text-center">{{$t('no_mods_found')}}</span>
 </template>
 <script setup lang="ts">
-import { DateTime } from 'luxon';
 import { SearchParams } from 'ohmyfetch';
 import { Mod } from '~~/types/models';
+import { longExpiration } from '~~/utils/helpers';
 
 const props = defineProps<{
     forcedGame?: number,
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const sortBy = computed(() => props.params.sort);
 
-const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
+const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration() });
 
 const { data: fetchedMods, error } = await useFetchMany<Mod>('mods', { params: props.params });
 </script>

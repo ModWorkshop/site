@@ -81,6 +81,7 @@ import { EventRaiser } from '~~/composables/useEventRaiser';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
+import { longExpiration } from '~~/utils/helpers';
 
 const props = withDefaults(defineProps<{
     title?: string,
@@ -105,7 +106,7 @@ const { user } = useStore();
 const query = useRouteQuery('query', '');
 const page = useRouteQuery('page', 1, 'number');
 const pageOverride = ref(null);
-const displayMode = useCookie('mods-displaymode', { default: () => 0, expires: DateTime.now().plus({ years: 99 }).toJSDate()});
+const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
 const selectedTags = useRouteQuery('selected-tags', []);
 const selectedBlockTags = useRouteQuery('filtered-tags', []);
 const loading = ref(false);

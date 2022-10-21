@@ -28,13 +28,14 @@ definePageMeta({
 });
 
 const showErrorToast = useQuickErrorToast();
+const allowCookies = useCookie('allow-cookies');
 
 const { t } = useI18n();
 
 const user = reactive({
     email: '',
     password: '',
-    remember: true,
+    remember: allowCookies.value === true,
 });
 
 const canLogin = computed(() => user.email && user.password);

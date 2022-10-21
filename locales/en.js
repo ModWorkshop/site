@@ -485,5 +485,29 @@ supporter_plan_1: "1 Month",
 supporter_plan_2: "6 Months",
 supporter_plan_3: "1 Year",
 supporter_currently: "Cool people that currently support us",
-supporter_already: "You're already supporting us ♥. Thank you! Expiring: {time}"
+supporter_already: "You're already supporting us ♥. Thank you! Expiring: {time}",
+
+//Cookies
+cookie_policy: "Cookie Policy",
+cookies_desc: "We use cookies to improve your user experience! We do not store any cookies meant to track you.",
+first_party_cookies: "First-Party Cookies",
+third_party_cookies: "Third-Party Cookies",
+third_party_cookies_desc: "We use the following services which have their own cookie policy:",
+cookie_explanation: "Explanation",
+locale_cookie_desc: "Stores your currently set locale/language.",
+color_scheme_cookie_desc: "The site's color scheme.",
+displaymode_cookie_desc: "Changes the UI of the mod list to one of the following: grid, table, or table without thumbnails.",
+theme_cookie_desc: "The current site's theme. Light or dark.",
+allow_cookies_cookie_desc: "A necessary cookie to ensure we don't show the cookie banner to you after you allow or deny cookies.",
+hidden_announcements_cookie_desc: "An array of announcement IDs that you chose to hide. This prevents them from showing up again.",
+login_cookies: "Login & Session Cookies",
+login_cookies_desc: `We use multiple cookies to keep you logged in and protect your account. 
+They are necessary if you wish to login to our site and stay signed in.`,
+cookies_allowed_desc: "You chose to allow cookies. You can always change your mind.",
+cookies_denied_desc: "You chose to disallow cookies. You can always change your mind.",
+cookies_no_choice_desc: "You did not answer whether or not cookies are allowed. The default option is not allowing.",
+allow_cookies: "Allow Cookies",
+disallow_cookies: "Disallow Cookies",
+cookies_banner: "We Use Cookies 🍪",
+cookies_banner_desc: "We use cookies to improve your user experience. Will you allow us to store them?"
 };

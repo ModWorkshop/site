@@ -7,6 +7,7 @@
                 <a-link-button to="/docs/about">{{$t('about')}}</a-link-button>
                 <a-link-button to="/docs/terms">{{$t('terms')}}</a-link-button>
                 <a-link-button to="/docs/policy">{{$t('privacy')}}</a-link-button>
+                <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
                 ModWorkshop v3.0 Beta
@@ -34,18 +35,16 @@
 </template>
 
 <script setup lang="ts">
-import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { colorSchemes } from '~~/utils/helpers';
+import { colorSchemes, longExpiration } from '~~/utils/helpers';
 
 const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
 const store = useStore();
 
-const inaLongFuckingTime = DateTime.now().plus({ years: 99 }).toJSDate();
-const savedColorScheme = useCookie('color-scheme', { expires: inaLongFuckingTime });
-const savedLocale = useCookie('locale', { expires: inaLongFuckingTime });
+const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
+const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 
 function getLocaleImg(option: string) {
     return `assets/locales/${option}.${option === 'owo' ? 'webp' : 'svg'}`;

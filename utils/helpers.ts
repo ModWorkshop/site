@@ -143,3 +143,15 @@ export function passwordValidity(password: string) {
         }
     }
 }
+
+export function longExpiration() {
+    return DateTime.now().plus({ years: 99 }).toJSDate();
+}
+
+//https://stackoverflow.com/a/18211298
+export function clearAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++){   
+        document.cookie = cookies[i].split("=")[0] + "=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";                                
+    }
+}

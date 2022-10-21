@@ -2,7 +2,7 @@ import { User, Game, Tag, Notification, Settings, Thread } from './../types/mode
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import { CookieRef } from '#app';
-import { reloadToken } from '~~/utils/helpers';
+import { longExpiration, reloadToken } from '~~/utils/helpers';
 
 interface MainStore {
     user?: User,
@@ -24,7 +24,7 @@ export const useStore = defineStore('main', {
         notifications: null,
         notificationCount: null,
         savedTheme: useCookie('theme'),
-        colorScheme: useCookie('color-scheme').value ?? 'blue',
+        colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
         announcements: [],
         currentGame: null,
         settings: null,
@@ -49,7 +49,7 @@ export const useStore = defineStore('main', {
     actions: {
         toggleTheme() {
             this.savedTheme = this.theme === 'light' ? undefined : 'light';
-            useCookie('theme').value = this.savedTheme;
+            useCookie('theme', { expires: longExpiration() }).value = this.savedTheme;
         },
         setGame(game: Game) {
             this.currentGame = game;
