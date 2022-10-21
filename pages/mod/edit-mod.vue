@@ -6,7 +6,7 @@
             </NuxtLink> 
         </flex>
         <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save" @state-changed="formStateChanged">
-            <content-block class="p-8">
+            <content-block :padding="null" class="max-md:p-4 p-8">
                 <a-tabs padding="4" side query>
                     <a-tab name="main" :title="$t('main_tab')">
                         <edit-mod-main :mod="mod"/>

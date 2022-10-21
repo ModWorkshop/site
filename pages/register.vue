@@ -1,5 +1,5 @@
 <template>
-    <page-block class="!w-1/2">
+    <page-block size="2xs">
         <Title>{{$t('register')}}</Title>
         <a-form autocomplete="off" @submit="register">
             <h1>{{$t('register')}}</h1>

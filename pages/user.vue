@@ -35,7 +35,7 @@
             <a-banner :src="user.banner" url-prefix="users/banners">
                 <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
             </a-banner>
-            <flex gap="3" class="md:flex-row">
+            <flex gap="3" column class="md:flex-row">
                 <content-block id="details" class="p-4">
                     <flex gap="3" column style="min-width: 300px;">
                         <a-user class="text-2xl" :user="user" :avatar="false" static>

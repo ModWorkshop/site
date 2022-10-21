@@ -29,7 +29,7 @@
             <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
         </flex>
 
-        <flex>
+        <flex wrap>
             <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
             <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
             <VDropdown :disabled="mod.followed">

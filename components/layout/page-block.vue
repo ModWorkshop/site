@@ -4,14 +4,15 @@
             <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px">
                 <h2 v-if="!game.banner" class="ml-2 align-self-end">{{game.name}}</h2>
             </a-banner>
-            <content-block :column="false" class="items-center" gap="4">
+            <content-block :column="false" wrap class="items-center" gap="4">
                 <a-link-button class="text-3xl" :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
-                <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
-                <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
-                <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
-                <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
-                <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
-
+                <flex wrap gap="4">
+                    <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                    <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
+                    <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
+                    <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
+                    <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
+                </flex>
                 <flex class="ml-auto items-center" gap="4">
                     <flex v-if="store.gameBan" v-once column>
                         <span class="text-danger">
@@ -25,8 +26,8 @@
                             </i18n-t>
                         </span>
                     </flex>
-                    <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
+                <a-link-button class="ml-auto" :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
             </content-block>
         </flex>
         <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
@@ -92,11 +93,13 @@ const classes = computed(() => ({
     'h-full': true,
     'page-block-full': props.size == 'full',
     'page-block-md': props.size == 'md',
-    'page-block-sm': props.size == 'sm'
+    'page-block-sm': props.size == 'sm',
+    'page-block-xs': props.size == 'xs',
+    'page-block-2xs': props.size == '2xs'
 }));
 </script>
 
-<style scoped>
+<style>
 .page-block {
     padding: 1rem;
     border-radius: 4px;
@@ -117,5 +120,19 @@ const classes = computed(() => ({
 
 .page-block-sm {
     width: 70%;
+}
+
+.page-block-xs {
+    width: 60%;
+}
+
+.page-block-2xs {
+    width: 50%;
+}
+
+@media (max-width:1024px) {
+    .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs {
+        width: 100%;
+    }
 }
 </style>

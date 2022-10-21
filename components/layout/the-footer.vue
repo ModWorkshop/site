@@ -1,7 +1,7 @@
 <template>
     <footer>
-        <flex column gap="3">
-            <flex gap="3">
+        <flex column gap="5">
+            <flex wrap gap="3">
                 <a-link-button @click="scrollToTop">{{$t('return_to_top')}}</a-link-button>
                 <a-link-button to="/docs/rules">{{$t('rules')}}</a-link-button>
                 <a-link-button to="/docs/about">{{$t('about')}}</a-link-button>
@@ -13,23 +13,20 @@
                 <span>
                     Made with ❤ by <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                 </span>
-                <flex class="items-center">
-                    Operated by <a-img class="inline-block" src="assets/milk_deluxe.webp" width="40" height="24"/> Milk Deluxe
-                </flex>
+            </flex>
+            <flex class="items-center">
+                Operated by <a-img class="inline-block" src="assets/milk_deluxe.webp" width="40" height="24"/> Milk Deluxe
             </flex>
         </flex>
-        <flex class="ml-auto mb-auto items-center">
+        <flex class="lg:ml-auto mb-auto items-center">
             <a-select v-model="store.colorScheme" style="width: 250px;" :options="colors">
-                <template #option="{option}">
-                    <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
-                </template>
-                <template #list-option="{option}">
+                <template #any-option="{option}">
                     <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
                 </template>
             </a-select>
             <a-select v-model="$i18n.locale" :options="locales">
                 <template #any-option="{option}">
-                    <a-img :src="getLocaleImg(option)" height="16"/> {{langNames[option]}}
+                    <a-img :src="getLocaleImg(option)" width="30" height="16"/> {{langNames[option]}}
                 </template>
             </a-select>
         </flex>
@@ -89,8 +86,15 @@ function scrollToTop() {
 footer {
     margin-top: 8px;
     padding: 1.5rem 2rem;
+    gap: 24px;
     display: flex;
     background-color: var(--header-footer-color);
     grid-area: footer;
+}
+
+@media (max-width:768px) {
+    footer {
+        flex-direction: column-reverse;
+    }
 }
 </style>

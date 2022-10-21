@@ -28,6 +28,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['submit', 'cancel', 'update:modelValue']);
+const showToast = useQuickErrorToast();
 
 const error = ref(null);
 
@@ -35,13 +36,13 @@ watch(() => props.modelValue, () => error.value = null);
 
 function onSubmit() {
     emit('submit', e => {
-        error.value = e;
+        showToast(e);
     });
 }
 
 function onCancel() {
     emit('cancel', e => {
-        error.value = e;
+        showToast(e);
     });
     emit('update:modelValue', false);
 }

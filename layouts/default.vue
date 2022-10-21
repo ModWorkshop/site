@@ -8,8 +8,8 @@
 			</flex>
             <slot/>
         </main>
-        <the-header>Header</the-header>
-        <the-footer>Footer</the-footer>
+        <the-header/>
+        <the-footer/>
     </div>
 </template>
 
@@ -34,5 +34,6 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
 }
 </style>

@@ -4,7 +4,7 @@
         <h1>{{$t('upload_mod')}}</h1>
         <a-form :model="mod" :created="false" @submit="create">
             <content-block>
-                <h4 class="whitespace-pre">{{$t('mod_creation_desc')}}</h4>
+                <h4>{{$t('mod_creation_desc')}}</h4>
     
                 <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required :desc="$t('mod_name_desc')"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>

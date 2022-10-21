@@ -83,6 +83,12 @@ const classes = computed(() => ({
 </style>
 
 <style>
+@media (max-width:1024px) {
+    .modal-lg, .modal-md, .modal-sm {
+        max-width: 90% !important;
+    }
+}
+
 .modal-open {
     overflow-y: hidden;
 }

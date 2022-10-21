@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
+import { getObjectLink } from '~~/utils/helpers';
 
 const props = defineProps({
     type: {

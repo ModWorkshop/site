@@ -81,7 +81,7 @@ function discard() {
 .float-save {
     right: 32px;
     bottom: 32px;
-    background-color: var(--float-bg-color);
+    background-color: var(--alt-content-bg-color);
     border-radius: 3px;
     padding: 0.75rem;
     z-index: 100;

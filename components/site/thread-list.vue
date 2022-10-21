@@ -1,6 +1,6 @@
 <template>
-    <flex style="flex: 1;" gap="3">
-        <content-block column class="self-start" style="flex: 1;">
+    <flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
+        <content-block column class="md:self-start" style="flex: 1;">
             <a-input v-model="query" :label="$t('search')"/>
             <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
             <a-select v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
@@ -14,33 +14,31 @@
                 </button-group>
             </flex>
         </content-block>
-        <flex column style="flex: 4;">
-            <a-table v-if="threads">
-                <thead>
-                    <th>{{$t('title')}}</th>
-                    <th>{{$t('poster')}}</th>
-                    <th v-if="!categoryName">{{$t('category')}}</th>
-                    <th>{{$t('last_activity')}}</th>
-                    <th>{{$t('last_reply_by')}}</th>
-                </thead>
-                <tbody>
-                    <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
-                        <td>
-                            <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
-                            <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
-                        </td>
-                        <td><a-user :user="thread.user" @click.stop/></td>
-                        <td v-if="!categoryName">
-                            <NuxtLink v-if="thread.category" @click.stop="categoryName = thread.category.name">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
-                            <span v-else>-</span>
-                        </td>
-                        <td><time-ago :time="thread.bumped_at"/></td>
-                        <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
-                        <td v-else>{{$t('none')}}</td>
-                    </tr>
-                </tbody>
-            </a-table>
-        </flex>
+        <a-table v-if="threads" style="flex: 4;">
+            <thead>
+                <th>{{$t('title')}}</th>
+                <th>{{$t('poster')}}</th>
+                <th v-if="!categoryName">{{$t('category')}}</th>
+                <th>{{$t('last_activity')}}</th>
+                <th>{{$t('last_reply_by')}}</th>
+            </thead>
+            <tbody>
+                <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
+                    <td>
+                        <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
+                        <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+                    </td>
+                    <td><a-user :user="thread.user" @click.stop/></td>
+                    <td v-if="!categoryName">
+                        <NuxtLink v-if="thread.category" @click.stop="categoryName = thread.category.name">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
+                        <span v-else>-</span>
+                    </td>
+                    <td><time-ago :time="thread.bumped_at"/></td>
+                    <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
+                    <td v-else>{{$t('none')}}</td>
+                </tr>
+            </tbody>
+        </a-table>
     </flex>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <flex>
+    <flex wrap>
         <slot/>
     </flex>
 </template>

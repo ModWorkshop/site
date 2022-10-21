@@ -7,13 +7,13 @@
                 <a-nav-link v-if="hasPermission('admin')" to="settings" :title="$t('settings')"/>
                 <a-nav-link v-if="hasPermission('manage-roles')" to="roles" :title="$t('roles')"/>
                 <a-nav-link v-if="hasPermission('manage-users')" to="supporters" :title="$t('supporters')"/>
-                <h3>{{$t('moderation')}}</h3>
+                <h3 class="mt-2">{{$t('moderation')}}</h3>
                 <a-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
                 <a-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
                 <a-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
                 <a-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
                 <a-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
-                <h3>{{$t('content')}}</h3>
+                <h3 class="mt-2">{{$t('content')}}</h3>
                 <a-nav-link to="games" :title="$t('games')"/>
                 <a-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
                 <a-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>

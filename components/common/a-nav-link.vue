@@ -1,10 +1,12 @@
 <template>
-    <NuxtLink :class="classes" :to="compTo">
+    <NuxtLink :class="classes" :to="compTo" @click="clickLink">
         <font-awesome-icon v-if="icon" :icon="icon"/> <slot>{{title}}</slot>
     </NuxtLink>
 </template>
 
 <script setup lang="ts">
+import { Ref } from 'vue';
+
 const props = defineProps({
     name: String,
     to: String,
@@ -16,6 +18,7 @@ const props = defineProps({
 const route = useRoute();
 
 const side = inject<boolean>('side', false);
+const menuOpen = inject<Ref<boolean>>('menuOpen', null);
 const root = inject<string>('root', '');
 
 const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
@@ -25,6 +28,12 @@ const classes = computed(() => ({
     'nav-link-side': side,
     selected: props.selected || (compTo.value == root ? route.path == root : route.path.startsWith(compTo.value))
 }));
+
+function clickLink() {
+    if (menuOpen) {
+        menuOpen.value = false;
+    }
+}
 </script>
 
 <style>
@@ -48,7 +57,7 @@ const classes = computed(() => ({
 }
 
 .nav-link-side {
-    padding: 0.75rem 1.5rem;
-    min-width: 150px;
+    padding: 0.75rem 1.25rem;
+    min-width: 200px;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<Html :class="[store.theme === 'light' ? 'light' : 'dark', `${store.colorScheme}-scheme`]"/>
 		<NuxtLayout>
 			<NuxtPage/>
 			<NuxtLoadingIndicator/>
@@ -35,9 +34,11 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
+	htmlAttrs: {
+		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`)
+	},
 	title: undefined,
 });
-
 
 locale.value = savedLocale.value;
 Settings.defaultLocale = savedLocale.value;

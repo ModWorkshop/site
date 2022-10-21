@@ -16,7 +16,7 @@
                 <a-markdown class="h-100" :text="modelValue"/>
             </a-tab>
             <template #buttons>
-                <flex class="ml-auto my-auto items-center">
+                <flex wrap class="my-auto items-center">
                     <template v-for="[i, group] of toolGroups.entries()">
                         <a-button v-for="tool of group.tools" :key="tool.icon" :icon="tool.icon" color="none" @click="clickedTool(tool)"/>
                         <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>

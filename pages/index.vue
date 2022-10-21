@@ -5,22 +5,17 @@
             <h2>{{$t('mws_short_about')}}</h2>
         </flex>
 
-        <flex v-if="user.extra.home_show_last_games" column :gap="2">
+        <flex v-if="user?.extra.home_show_last_games ?? true" column :gap="2">
             <flex>
                 <h2>{{$t('last_updated_games')}}</h2>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
             <flex class="games-grid gap-2">
-                <NuxtLink v-for="game of lastGames" :key="game.id" class="content-block" :to="`/g/${game.short_name}`">
-                    <a-img class="ratio-image round" :src="game.thumbnail ? `games/thumbnails/${game.thumbnail}` : 'assets/nopreview.webp'"/>
-                    <div class="p-2">
-                        {{game.name}}
-                    </div>
-                </NuxtLink>
+                <a-game v-for="game of lastGames" :key="game.id" :game="game"/>
             </flex>
         </flex>
         
-        <mod-list v-if="user.extra.home_show_mods" :title="$t('mods')" :limit="20" :url="user ? currentFollowUrl : undefined">
+        <mod-list v-if="user?.extra.home_show_mods ?? true" :title="$t('mods')" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="games" icon="chess-board">{{$t('followed_games')}}</a-group-button>
@@ -31,7 +26,7 @@
                 </button-group>
             </template>
         </mod-list>
-        <mini-thread-list v-if="user.extra.home_show_threads" :title="$t('threads')" title-link="/forum" :forum-id="1" :query="false"/>
+        <mini-thread-list v-if="user?.extra.home_show_threads ?? true" :title="$t('threads')" title-link="/forum" :forum-id="1" :query="false"/>
     </page-block>
 </template>
 
@@ -45,7 +40,7 @@ const { data: games } = await useFetchMany<Game>('games', { initialCache: true }
 
 const allGames = ref(false);
 
-const selectedView = ref(user.extra.default_mods_view);
+const selectedView = ref(user?.extra.default_mods_view ?? 'all');
 
 const links = {
     mods: 'followed-mods',

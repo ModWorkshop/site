@@ -9,14 +9,15 @@
         href="#"
         :aria-controls="`${tabName}-tab-panel`"
     >
-        {{tabTitle}}
+        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> {{tabTitle}}
     </a>
 </template>
 
 <script setup>
 defineProps({
     tabTitle: String,
-    tabName: String
+    tabName: String,
+    icon: String,
 });
 
 const tabState = inject('tabState');

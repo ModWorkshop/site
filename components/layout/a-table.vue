@@ -1,7 +1,9 @@
 <template>
-    <table :class="{table: true, 'table-bg': background}">
-        <slot/>
-    </table>
+    <flex column class="table-container">
+        <table :class="{table: true, 'table-bg': background}">
+            <slot/>
+        </table>
+    </flex>
 </template>
 
 <script setup>
@@ -14,10 +16,15 @@ defineProps({
 </script>
 
 <style scoped>
+.table-container {
+    overflow-x: auto;
+}
+
 .table {
     width: 100%;
     border-radius: var(--border-radius);
     border-spacing: 0rem 0.25rem;
+    white-space: nowrap;
 }
 
 .table-bg {

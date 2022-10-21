@@ -4,7 +4,7 @@
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </h2>
         <slot name="buttons"/>
-        <flex>
+        <flex wrap class="overflow-auto">
             <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
             <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
             <VDropdown>
@@ -31,12 +31,12 @@
                     </flex>
                 </template>
             </VDropdown>
-            <button-group v-model:selected="displayMode" class="ml-auto" gap="1" button-style="button">
+            <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
                 <a-group-button icon="th" :name="0"/>
                 <a-group-button icon="list" :name="1"/>
                 <a-group-button icon="bars" :name="2"/>
             </button-group>
-            <flex v-if="!sideFilters" class="ml-1">
+            <flex v-if="!sideFilters">
                 <VDropdown>
                     <a-button icon="filter"/>
                     <template #popper>
@@ -112,7 +112,7 @@ const loading = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', user.extra.default_mods_sort);
+const sortBy = useRouteQuery('sort', user?.extra.default_mods_sort ?? 'bumped_at');
 const pages = ref(0);
 
 const fetchPage = computed(() => pageOverride.value ?? page.value);

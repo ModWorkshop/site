@@ -1,5 +1,5 @@
 <template>
-    <img :src="compSrc" :width="width" :height="height" :alt="alt" @error="useDefault = true">
+    <img :src="compSrc" :alt="alt" @error="useDefault = true">
 </template>
 
 <script setup lang="ts">
@@ -16,8 +16,6 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    width: [Number, String],
-    height: [Number, String],
     alt: String
 });
 

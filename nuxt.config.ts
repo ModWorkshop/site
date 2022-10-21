@@ -5,6 +5,10 @@ export default defineNuxtConfig({
 		public: { apiUrl: '', siteUrl: '' }
 	},
 
+	nitro: {
+		compressPublicAssets: true,
+	},
+	
 	components: [
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],
@@ -42,7 +46,7 @@ export default defineNuxtConfig({
 
 	modules: [
 		'@pinia/nuxt',
-		'nuxt-windicss',
+		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'floating-vue/nuxt'
 	],

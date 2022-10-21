@@ -1,26 +1,39 @@
 <template>
-    <flex :column="!side" :gap="gap ?? (side ? 8 : 2)">
-        <flex class="tab-list" role="tablist" :column="side">
-            <a-tab-link 
-                v-for="tab of tabs"
-                ref="tabLinks"
-                :key="tab.name"
-                :tab-name="tab.name" 
-                :tab-title="tab.title" 
-                @click.prevent="() => setCurrentTab(tab.name)"
-                @keydown.left="() => arrowKeysMove(true)"
-                @keydown.right="() => arrowKeysMove(false)"
-            />
-            <slot name="buttons"/>
+    <flex class="tabs" gap="3">
+        <flex v-if="side" class="items-center hidden max-lg:block" @click="menuClosed = !menuClosed">
+            <a-link-button class="collapse-button" icon="bars"/>
+            <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
-        <slot name="pre-panels"/>
-        <div :class="{'tab-panels': true, [`px-${padding}`]: padding !== 0, 'flex-grow': side}">
-            <slot/>
-        </div>
+        <flex :class="[!menuClosed && 'menu-open']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
+            <div v-if="!menuClosed" class="menu-closer" @click.prevent="menuClosed = true"/>
+            <Transition name="left-slide">
+                <flex v-show="!side || !menuClosed" wrap class="nav-menu" :column="side" role="tablist">
+                    <flex wrap grow :column="side">
+                        <a-tab-link 
+                            v-for="tab of tabs"
+                            ref="tabLinks"
+                            :key="tab.name"
+                            :tab-name="tab.name" 
+                            :tab-title="tab.title" 
+                            @click.prevent="() => setCurrentTab(tab.name)"
+                            @keydown.left="() => arrowKeysMove(true)"
+                            @keydown.right="() => arrowKeysMove(false)"
+                        />
+                    </flex>
+                    <slot name="buttons"/>
+                </flex>
+            </Transition>
+            <slot name="pre-panels"/>
+            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0, 'flex-grow': !isSm && side}">
+                <slot/>
+            </div>
+        </flex>
     </flex>
 </template>
 
 <script setup lang="ts">
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
@@ -38,6 +51,13 @@ const props = defineProps({
 const slots = useSlots();
 const tabLinks = ref();
 
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const isSm = breakpoints.smallerOrEqual('sm');
+
+const menuClosed = ref(true);
+
+const column = computed(() => !props.side || isSm.value);
+
 
 function getCurrentTabs() {
     return slots.default().map(tab => {
@@ -48,13 +68,14 @@ function getCurrentTabs() {
 }
 
 const tabs = ref(getCurrentTabs());
+const currentTab = computed(() => tabs.value.find(tab => tab.name === tabState.current));
 
 onUpdated(() => {
     tabs.value = getCurrentTabs();
 });
 
-const tabState = reactive({
-    current: props.query ? route.query.tab : null, 
+const tabState: { focus: number, current: string } = reactive({
+    current: props.query ? route.query.tab as string : null, 
     focus: 0
 });
 
@@ -96,6 +117,7 @@ function setCurrentTab(name: string, skipSetQuery = false) {
 
     tabState.current = name;
     tabState.focus = tabs.value.findIndex(tab => tab.name === name);
+    menuClosed.value = true;
 }
 
 if (props.query) {
@@ -104,3 +126,10 @@ if (props.query) {
     });
 }
 </script>
+
+<style scoped>
+.tabs {
+    flex-direction: column;
+    position: relative;
+}
+</style>

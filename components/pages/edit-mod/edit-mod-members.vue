@@ -11,7 +11,7 @@
             <a-button @click="showTransferOwner = true">{{$t('transfer_ownership')}}</a-button>
         </div>
     </flex>
-    <div>
+    <flex column class="overflow-hidden">
         <flex class="items-center mb-2">
             <label>Members</label>
             <a-button class="ml-auto" @click="newMember()">New</a-button>
@@ -39,10 +39,9 @@
                 </tr> 
             </tbody>
         </a-table>
-    </div>
+    </flex>
 
     <a-modal-form v-model="showModal" title="Edit Member" @submit="saveMember">
-        {{currentMember.user}}
         <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" value-by="" label="User"/>
         <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
     </a-modal-form>

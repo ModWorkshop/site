@@ -1,8 +1,5 @@
-import { i18n } from './../app/i18n';
-import { useStore } from './../store/index';
 import { FetchError } from 'ohmyfetch';
 import { Ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 function isFetchError(error): error is FetchError {
     return !!error.response;
@@ -11,8 +8,6 @@ function isFetchError(error): error is FetchError {
 export default function(error: FetchError|Error|Ref<true | FetchError | Error>, errorStrings: string|Record<number|string, string> = {}) {
     const err = unref(error);
 
-    const store = useStore();
-
     if (err instanceof Error) {
         if (isFetchError(err)) {
             const code = err.response.status;
@@ -20,7 +15,6 @@ export default function(error: FetchError|Error|Ref<true | FetchError | Error>, 
                 statusCode: code,
                 statusMessage: errorStrings[err.data.message] || errorStrings[code] || 'Unknown Error',
                 fatal: true,
-                data: JSON.stringify({ user: store.user, theme: store.theme, scheme: store.colorScheme, locale: i18n.global.locale.value })
             });
         } else {
             throw createError({ statusCode: 418, statusMessage: 'Uhh does this ever hit?'});

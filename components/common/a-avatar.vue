@@ -1,5 +1,12 @@
 <template>
-    <a-img :alt="$t('avatar')" :src="avatarUrl" :url-prefix="src ? urlPrefix : null" :class="{'avatar': true, [`avatar-${size}`]: !!size}"/>
+    <a-img 
+        :alt="$t('avatar')"
+        :src="avatarUrl"
+        :url-prefix="src ? urlPrefix : null"
+        :class="{'avatar': true, [`avatar-${size}`]: !!size}"
+        :width="sizeNumber"
+        :height="sizeNumber"
+    />
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -22,13 +29,23 @@ const avatarUrl = computed(() => {
         return '/assets/nopreview.webp';
     }
 });
+
+const sizes = {
+    xs: 28,
+    sm: 36,
+    md: 48,
+    lg: 64,
+    xl: 150,
+    '2xl': 200
+};
+const sizeNumber = computed(() => sizes[props.size] ?? 36);
 </script>
 <style scoped>
 .avatar {
     display: inline-block;
     object-fit: cover;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 10%;
 }
 
@@ -38,8 +55,8 @@ const avatarUrl = computed(() => {
 }
 
 .avatar-sm {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
 }
 
 .avatar-md {

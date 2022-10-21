@@ -1,5 +1,5 @@
 <template>
-    <page-block class="!w-1/3">
+    <page-block size="2xs">
         <Title>{{$t('login')}}</Title>
         <a-form @submit="login">
             <h1>{{$t('login')}}</h1>

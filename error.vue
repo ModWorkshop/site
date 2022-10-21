@@ -1,6 +1,5 @@
 <template>
 	<NuxtLayout>
-		<Html :class="store.theme === 'light' ? 'light' : 'dark'"/>
 		<flex column class="items-center mt-1">
 			<h1 class="mx-auto">{{$t('error')}}</h1>
 			<h3>{{error.statusCode}}</h3>
@@ -12,27 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { Settings } from 'luxon';
-import { useI18n } from 'vue-i18n';
 import { useStore } from './store';
-import { User } from './types/models';
 
-const props = defineProps({
+defineProps({
 	error: Object
 });
 
 const store = useStore();
-const { locale } = useI18n();
-
-if (props.error.data) {
-	const data: { user: User, theme?: 'light'|'dark', scheme: string, locale: string } = JSON.parse(props.error.data);
-	store.user = data.user;
-	store.savedTheme = data.theme;
-	store.colorScheme = data.scheme;
-
-	Settings.defaultLocale = data.locale;
-	locale.value = data.locale;
-}
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -40,12 +25,8 @@ useHead({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
-	bodyAttrs: {
-		style: computed(() => `
-			--primary-color: var(--mws-${store.colorScheme});
-			--primary-hover-color: var(--mws-${store.colorScheme}-hover); 
-			--primary-color-text: var(--mws-${store.colorScheme}-text)` 
-		)
+	htmlAttrs: {
+		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`)
 	},
 	title: undefined,
 });
