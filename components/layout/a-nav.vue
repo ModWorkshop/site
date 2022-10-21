@@ -38,5 +38,6 @@ provide('menuOpen', menuOpen.value);
 .nav-menu-content {
     flex-wrap: wrap;
     overflow-x: auto;
+    overflow-y: hidden;
 }
 </style>

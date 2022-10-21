@@ -128,7 +128,7 @@ body {
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
-    --alt-content-bg-color: #22262a;
+    --alt-content-bg-color: #343b42;
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;

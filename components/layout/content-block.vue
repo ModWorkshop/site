@@ -4,26 +4,27 @@
     </flex>
 </template>
 
-<script setup>
-    defineProps({
-        gap: {
-            type: [Number, String],
-            default: 3
-        },
-        column: {
-            type: Boolean,
-            default: true
-        },
-        padding: {
-            type: [Number, String],
-            default: 3
-        },
-        altBackground: Boolean
-    });
+<script setup lang="ts">
+defineProps({
+    gap: {
+        type: [Number, String],
+        default: 3
+    },
+    column: {
+        type: Boolean,
+        default: true
+    },
+    padding: {
+        type: [Number, String],
+        default: 4
+    },
+    altBackground: Boolean
+});
 </script>
 
 <style>
 .content-block {
+    max-width: 100%;
     background-color: var(--content-bg-color);
     border-radius: var(--border-radius);
 }

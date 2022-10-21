@@ -1,13 +1,13 @@
 <template>
     <flex class="tabs" gap="3">
-        <flex v-if="side" class="items-center hidden max-lg:block" @click="menuClosed = !menuClosed">
+        <flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
             <a-link-button class="collapse-button" icon="bars"/>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
-        <flex :class="[!menuClosed && 'menu-open']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
-            <div v-if="!menuClosed" class="menu-closer" @click.prevent="menuClosed = true"/>
+        <flex :class="[menuOpen && 'menu-open']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
+            <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
-                <flex v-show="!side || !menuClosed" wrap class="nav-menu" :column="side" role="tablist">
+                <flex v-show="!side || menuOpen" wrap class="nav-menu" :column="side" role="tablist">
                     <flex wrap grow :column="side">
                         <a-tab-link 
                             v-for="tab of tabs"
@@ -54,10 +54,7 @@ const tabLinks = ref();
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const isSm = breakpoints.smallerOrEqual('sm');
 
-const menuClosed = ref(true);
-
-const column = computed(() => !props.side || isSm.value);
-
+const menuOpen = ref(false);
 
 function getCurrentTabs() {
     return slots.default().map(tab => {
@@ -117,7 +114,7 @@ function setCurrentTab(name: string, skipSetQuery = false) {
 
     tabState.current = name;
     tabState.focus = tabs.value.findIndex(tab => tab.name === name);
-    menuClosed.value = true;
+    menuOpen.value = false;
 }
 
 if (props.query) {
