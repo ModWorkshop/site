@@ -172,6 +172,7 @@ html.light {
     --info-bg-color: #aac2f3;
     --warning-bg-color: #c1b72d;
     --success-bg-color: #4fc541;
+    --success-color: #009d0d;
     --float-bg-color: #99999980;
     color-scheme: light;
 }
