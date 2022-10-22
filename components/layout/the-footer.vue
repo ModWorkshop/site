@@ -25,7 +25,7 @@
                     <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
                 </template>
             </a-select>
-            <a-select v-model="$i18n.locale" :options="locales">
+            <a-select v-model="$i18n.locale" default="en-US" :options="locales">
                 <template #any-option="{option}">
                     <a-img :src="getLocaleImg(option)" width="30" height="16"/> {{langNames[option]}}
                 </template>

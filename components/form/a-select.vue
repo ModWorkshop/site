@@ -56,6 +56,7 @@ const props = withDefaults(defineProps<{
 	url?: string,
     fetchParams?: Record<string, unknown>,
     modelValue: any,
+    default: any,
 	options?: any[],
     clearable?: boolean,
     classic?: boolean,
@@ -100,7 +101,8 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 });
 
 const opts = computed(() => props.options ?? asyncOptions.value?.data);
-const selected = computed(() => typeof props.modelValue == 'object' ? props.modelValue : [props.modelValue]);
+const selectedValue = computed(() => props.modelValue ?? props.default);
+const selected = computed(() => typeof selectedValue.value == 'object' ? selectedValue.value : [selectedValue.value]);
 const selectedMax = computed(() => selected.value.length >= props.max);
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value.length > 10));
 const filtered = computed(() => {
@@ -123,10 +125,10 @@ const filtered = computed(() => {
     });
 
     if (props.filterSelected) {
-        if (props.multiple && typeof props.modelValue == 'object') {
+        if (props.multiple && typeof selectedValue.value == 'object') {
             options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
         } else {
-            options = options.filter(option => optionEnabled(option) && props.modelValue === optionValue(option));
+            options = options.filter(option => optionEnabled(option) && selectedValue.value === optionValue(option));
         }
     }
 
@@ -161,7 +163,7 @@ const shownOptions = computed(() => selectedOptions.value.filter((_, i) => !prop
 
 const selectedOption = computed(() => {
 	if (opts.value) {
-		return opts.value.find(option => props.modelValue === optionValue(option));
+		return opts.value.find(option => selectedValue.value === optionValue(option));
 	} else {
 		return null;
 	}
@@ -224,15 +226,15 @@ watch(searchDebounced, async () => {
 });
 
 function clearAll() {
-    if (props.multiple && typeof props.modelValue == 'object') {
+    if (props.multiple && typeof selectedValue.value == 'object') {
         for (const option of opts.value) {
             const value = optionValue(option);
             if (optionEnabled(option)) {
-                remove(props.modelValue, value);
+                remove(selectedValue.value, value);
             }
         }
 
-        emit('update:modelValue', props.modelValue);
+        emit('update:modelValue', selectedValue.value);
     } else {
         deselectOption(selected.value);
     }
@@ -254,7 +256,7 @@ function toggleOption(option) {
 
 function selectOption(option) {
     const value = optionValue(option);
-    if (props.multiple && typeof props.modelValue == 'object') {
+    if (props.multiple && typeof selectedValue.value == 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
 			setTimeout(() => {
@@ -263,9 +265,9 @@ function selectOption(option) {
 			return;
 		}
         if (!selected.value.includes(value)) {
-            props.modelValue.push(value);
+            selectedValue.value.push(value);
         }
-        emit('update:modelValue', props.modelValue);
+        emit('update:modelValue', selectedValue.value);
     } else {
         emit('update:modelValue', value);
         dropdownOpen.value = false;
@@ -275,9 +277,9 @@ function selectOption(option) {
 function deselectOption(item) {
     const value = optionValue(item);
 
-    if (props.multiple && typeof props.modelValue == 'object') {
-        remove(props.modelValue, value);
-        emit('update:modelValue', props.modelValue);
+    if (props.multiple && typeof selectedValue == 'object') {
+        remove(selectedValue.value, value);
+        emit('update:modelValue', selectedValue.value);
     } else if (props.clearable) {
         emit('update:modelValue', undefined);
         dropdownOpen.value = false;
