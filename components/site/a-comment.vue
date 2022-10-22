@@ -77,6 +77,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Comment, Game, User } from '~~/types/models';
 const YesNoModal = useYesNoModal();
@@ -95,6 +96,7 @@ const props = defineProps<{
     fetchReplies?: boolean
 }>();
 
+const { t } = useI18n();
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 const content = toRef(props.comment, 'content');
 
@@ -177,8 +179,8 @@ function deleteComment(comment: Comment, isReply: boolean) {
 
 function openDeleteModal() {
     YesNoModal({
-        title: 'Are you sure?',
-        desc: 'This will delete the comment',
+        title: t('are_you_sure'),
+        desc: t('delete_comment_desc'),
         async yes() {
             //If it's a reply, it will call its parent comment's deleteComment function and then call the actual holder of the comments.
             emit('delete', props.comment, props.isReply);
