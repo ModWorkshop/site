@@ -63,6 +63,14 @@
             <small>{{$t('password_guide')}}</small>
         </template>
     
+        <a-alert color="info" :title="$t('request_my_data')">
+            {{$t('request_my_data_desc')}}
+            <a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
+            <div>
+                <a-button @click="downloadData">{{$t('download')}}</a-button>
+            </div>
+        </a-alert>
+
         <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
             <div>
                 <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
@@ -83,11 +91,14 @@ const props = defineProps<{
     user: UserForm
 }>();
 
+const { public: config } = useRuntimeConfig();
+
 const { t } = useI18n();
 const { user: me, hasPermission } = useStore();
 const selectedGame = useRouteQuery('game', undefined, 'number');
 
 const roleIds = ref(clone(props.user.role_ids));
+const downloadDataButton = ref<HTMLAnchorElement>(null);
 
 const { data: roles } = await useFetchMany<Role>('roles', { params: { only_assignable: 1 }, initialCache: true });
 
@@ -98,6 +109,10 @@ const { data: gameRoles, refresh } = await useFetchMany<Role>(() => `games/${sel
 const { data: gameUserData, refresh: loadGameData } = await useFetchData<GameUserData>(() => `games/${selectedGame.value}/users/${props.user.id}`, { 
     immediate: !!selectedGame.value
 });
+
+function downloadData() {
+    downloadDataButton.value.click();
+}
 
 const passValidity = computed(() => {
     const validity = passwordValidity(props.user.password);
