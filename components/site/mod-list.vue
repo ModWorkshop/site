@@ -76,7 +76,6 @@
     </flex>
 </template>
 <script setup lang="ts">
-import { DateTime } from 'luxon';
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';

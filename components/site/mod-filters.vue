@@ -1,6 +1,6 @@
 <template>
     <a-input v-model="filters.query" :label="$t('search')"/>
-    <a-game-select v-if="!forcedGame" v-model="filters.game_id" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
+    <a-game-select v-if="!game" v-model="filters.game_id" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
     <a-category-select 
         v-if="categories && categories.data.length"
         set-query
@@ -13,11 +13,11 @@
 
 <script setup lang="ts">
 import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import { Category, Tag } from '~~/types/models';
+import { Category, Game, Tag } from '~~/types/models';
 
 const props = defineProps<{
     refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>,
-    forcedGame?: number;
+    game?: Game;
     filters: {
         query: string;
         game_id: number;
@@ -35,8 +35,6 @@ const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(
 });
 
 watch(() => props.filters.game_id, async () => {
-    console.log('..');
-    
     selectedCategory.value = null;
 
     await props.refresh();
