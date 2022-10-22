@@ -92,9 +92,6 @@
                                 <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                                 <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
                                 <a-dropdown-item v-if="canSeeAdminPage" icon="screwdriver-wrench" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
-                                <ClientOnly>
-                                    <a-dropdown-item v-if="canSeeAdminGamePage" icon="gears" :to="`/admin/games/${currentGame.id}`">{{$t('game_admin_page')}}</a-dropdown-item>
-                                </ClientOnly>
                                 <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
                                 <a-dropdown-item :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme">
@@ -116,7 +113,7 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { adminGamePagePerms, adminPagePerms } from '~~/utils/helpers';
+import { adminPagePerms } from '~~/utils/helpers';
 import { useStore } from '../../store';
 
 const headerClosed = ref(true);
@@ -132,7 +129,6 @@ const unlockedOwO = useState('unlockedOwO');
 
 const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
-const canSeeAdminGamePage = computed(() => currentGame.value && adminGamePagePerms.some(perm => store.hasPermission(perm, currentGame.value)));
 const userLink = computed(() => {
     if (user.value.unique_name) {
         return `/user/${user.value.unique_name}`;

@@ -27,7 +27,10 @@
                         </span>
                     </flex>
                 </flex>
-                <a-link-button class="ml-auto" :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                <flex class="ml-auto" gap="4">
+                    <a-link-button v-if="canSeeAdminGamePage" icon="gears" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
+                    <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                </flex>
             </content-block>
         </flex>
         <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
@@ -47,6 +50,7 @@
 import { useStore } from '~~/store';
 import { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
+import { adminGamePagePerms } from '~~/utils/helpers';
 
 const props = withDefaults(defineProps<{
     gap?: number;
@@ -68,8 +72,10 @@ const hiddenAnnouncements = computed(() => {
     }
 });
 
+
 const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
 const gameAnnouncements = computed(() => store.currentGame?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
+const canSeeAdminGamePage = computed(() => props.game && adminGamePagePerms.some(perm => store.hasPermission(perm, props.game)));
 
 function hideAnnouncement(thread: Thread) {
     const hidden = hiddenAnnouncements.value;
