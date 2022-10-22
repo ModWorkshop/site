@@ -173,7 +173,15 @@ class Mod extends Model implements SubscribableInterface
      */
     protected $guarded = ['download_type', 'download_id'];
 
-    private $withFull = [
+    public const DEFAULT_MOD_WITH = [
+        'user',
+        'game',
+        'category',
+        'thumbnail',
+        'members'
+    ];
+
+    public const FULL_MOD_WITH = [
         'user',
         'tags',
         'images',
@@ -188,7 +196,8 @@ class Mod extends Model implements SubscribableInterface
         'dependencies',
         'instructsTemplate',
     ];
-    protected $with = ['user', 'game', 'category', 'thumbnail', 'members'];
+
+    protected $with = self::DEFAULT_MOD_WITH;
     protected $appends = [];
     protected $hidden = [];
 
@@ -204,7 +213,7 @@ class Mod extends Model implements SubscribableInterface
     public function withAllRest()
     {
         $this->append('breadcrumb');
-        $this->loadMissing($this->withFull);
+        $this->loadMissing(self::FULL_MOD_WITH);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
         }

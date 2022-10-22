@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\ModResource;
+use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
+use App\Models\Mod;
 use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
@@ -207,6 +211,31 @@ class UserController extends Controller
         $user->load('extra');
 
         return new UserResource($user);
+    }
+
+    /**
+     * Returns GDPR compliant user data we store.
+     */
+    public function userData()
+    {
+        ini_set('memory_limit','1024M');
+        ini_set('max_execution_time','1800');
+
+        $user = $this->user();
+        $userData = [
+            'user' => new UserResource($user),
+            'mods' => ModResource::collection($user->mods()->without(Mod::DEFAULT_MOD_WITH)->with('files')->get()),
+            'threads' => ThreadResource::collection($user->threads()->setEagerLoads([])->get()),
+            'comments' => CommentResource::collection($user->comments()->setEagerLoads([])->get()),
+            'blocked_users' => $user->allBlockedUsers,
+            'blocked_tags' => $user->allBlockedTags,
+            'followed_mods' => $user->allFollowedMods,
+            'followed_users' => $user->allFollowedUsers,
+            'followed_games' => $user->allFollowedGames,
+        ];
+        return response()->streamDownload(function () use ($userData) {
+            echo json_encode($userData, JSON_PRETTY_PRINT);
+        }, 'user-data.json');
     }
 
     /**

@@ -29,7 +29,7 @@ class ModResource extends JsonResource
         }
 
         return array_merge(parent::toArray($request), [
-            'user' => new UserResource($this->user),
+            'user' => new UserResource($this->whenLoaded('user')),
             'files' => $this->whenLoaded('files'),
             'links' => $this->whenLoaded('links'),
             'images' => $this->whenLoaded('images'),

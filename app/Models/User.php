@@ -206,14 +206,29 @@ class User extends Authenticatable
         return $this->hasOne(FollowedUser::class, 'follow_user_id')->where('user_id', Auth::user()->id);
     }
 
+    public function allFollowedGames()
+    {
+        return $this->hasMany(FollowedGame::class);
+    }
+
     public function followedGames() : BelongsToMany
     {
         return $this->belongsToMany(Game::class, FollowedGame::class);
+    }
+
+    public function allFollowedMods()
+    {
+        return $this->hasMany(FollowedMod::class);
     }
  
     public function followedMods() : BelongsToMany
     {
         return $this->belongsToMany(Mod::class, FollowedMod::class)->select('mods.*');
+    }
+
+    public function allFollowedUsers()
+    {
+        return $this->hasMany(FollowedUser::class);
     }
 
     public function followedUsers() : BelongsToMany
@@ -245,6 +260,11 @@ class User extends Authenticatable
         });
     }
 
+    public function allBlockedUsers()
+    {
+        return $this->hasMany(BlockedUser::class);
+    }
+
     /**
      * The users the user has blocked fully. No mods no communication
      */
@@ -268,6 +288,11 @@ class User extends Authenticatable
     public function blockedTags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, BlockedTag::class);        
+    }
+
+    public function allBlockedTags()
+    {
+        return $this->hasMany(BlockedTag::class);
     }
 
     public function mods(): HasMany

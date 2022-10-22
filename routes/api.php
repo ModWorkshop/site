@@ -172,6 +172,7 @@ Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
+    Route::middleware('throttle:10,1')->get('/user-data', [UserController::class, 'userData']);
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
     Route::delete('users/{user}/mods', [UserController::class, 'deleteMods']);
     Route::delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
