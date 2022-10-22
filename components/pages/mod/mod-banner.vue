@@ -103,8 +103,8 @@ function switchToFiles() {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
 }
 
-.light .mod-data {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+.light .mod-banner {
+    box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.2);
 }
 
 .mod-data-top {
