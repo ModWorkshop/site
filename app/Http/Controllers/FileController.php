@@ -44,7 +44,7 @@ class FileController extends Controller
 
 
         $val = $request->validate([
-            'file' => "required|max:{$maxSize}|mimes:zip,rar,7z"
+            'file' => "required|max:{$maxSize}"
         ]);
 
         /**
