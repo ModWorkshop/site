@@ -31,6 +31,21 @@ class CreateAuthUsersTable extends Migration
              */
             $table->string('unique_name')->nullable()->unique();
 
+            $table->string('banner')->default('');
+            $table->text('bio')->default('');
+            $table->boolean('private_profile')->default(false);
+            $table->tinyText('custom_title')->default('');
+            $table->boolean('invisible')->default(false);
+            $table->tinyText('donation_url')->nullable();
+
+            $table->timestamp('last_online')->nullable();
+
+            $table->enum('show_tag', [
+                'role',
+                'supporter_or_role',
+                'none'
+            ])->default('supporter_or_role');
+
             $table->timestamps();
         });
     }

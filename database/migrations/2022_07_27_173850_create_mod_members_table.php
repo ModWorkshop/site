@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('mod_members', function (Blueprint $table) {
             $table->id();
             // Replaces mod's collaborators and invited only
-            //Level 1 - Maintainer
-            //Level 2 - Collaborator
-            //Level 3 - Viewer
-            //Level 4 - Contributor 
-            $table->tinyInteger('level');
+            $table->enum('level', [
+                'maintainer',
+                'collaborator',
+                'viewer',
+                'contributor'
+            ]);
             $table->boolean('accepted'); //If the member doesn't accept by around a day (or more), the member gets deleted.
             $table->bigInteger('mod_id')->unsigned();
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');

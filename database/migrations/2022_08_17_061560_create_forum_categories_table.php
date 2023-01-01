@@ -22,6 +22,11 @@ return new class extends Migration
             $table->bigInteger('forum_id')->unsigned();
             $table->foreign('forum_id')->references('id')->on('forums')->onDelete('cascade');
 
+            $table->boolean('private_threads')->default(false);
+            $table->boolean('banned_can_post')->default(false);
+
+            $table->boolean('is_private')->default(false);
+
             $table->timestamps();
         });
     }

@@ -36,6 +36,9 @@ return new class extends Migration
 
             $table->boolean('locked_by_mod')->default(false);
 
+            $table->boolean('announce')->default(false);
+            $table->dateTime('announce_until')->nullable();
+
             $table->timestamps();
         });
     }

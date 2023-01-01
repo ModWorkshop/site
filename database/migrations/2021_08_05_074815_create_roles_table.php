@@ -27,6 +27,8 @@ class CreateRolesTable extends Migration
              * Also we must avoid roles having the same order.
              */
             $table->smallInteger('order');
+            $table->boolean('is_vanity')->default(false);
+
             $table->timestamps();
         });
     }

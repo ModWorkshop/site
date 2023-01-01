@@ -18,11 +18,16 @@ return new class extends Migration
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('case_id')->nullable()->unsigned();
-            $table->foreign('case_id')->references('id')->on('cases')->onDelete('cascade');
+            $table->foreign('case_id')->references('id')->on('user_cases')->onDelete('cascade');
             $table->timestamp('expire_date');
+            $table->boolean('can_appeal')->default(true);
             $table->timestamps();
             $table->index('expire_date');
             $table->index('user_id');
+            $table->bigInteger('game_id')->unsigned()->nullable();
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+
+            $table->dropColumn('reason');
         });
     }
 

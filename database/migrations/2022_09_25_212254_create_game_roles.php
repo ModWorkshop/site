@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyText('color')->default(''); // Hex, unset by default.
             $table->bigInteger('game_id')->unsigned();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+            $table->boolean('is_vanity')->default(false);
 
             /**
              * Order works like this, the lower the number is, the higher it is. This just avoids having to update the number each time we add a role.

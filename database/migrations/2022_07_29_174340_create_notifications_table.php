@@ -22,6 +22,10 @@ return new class extends Migration
             $table->json('data')->nullable(); //Extra context if necessary, hopefully not.
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->bigInteger('from_user_id')->unsigned()->nullable();
+            $table->foreign('from_user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

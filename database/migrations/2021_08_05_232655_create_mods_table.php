@@ -44,8 +44,10 @@ class CreateModsTable extends Migration
 
             $table->boolean('suspended')->default(false);
             $table->boolean('comments_disabled')->default(false);
-            $table->tinyInteger('file_status')->default(0);
             $table->float('score')->default(0);
+            $table->float('daily_score')->default(0);
+            $table->float('weekly_score')->default(0);
+
             $table->timestamp('bumped_at')->nullable(); // Was just 'date'
             $table->timestamp('published_at')->nullable();
 
@@ -59,6 +61,9 @@ class CreateModsTable extends Migration
             $table->bigInteger('last_user_id')->unsigned()->nullable();
             $table->foreign('last_user_id')->references('id')->on('users');
 
+            $table->boolean('has_download')->default(false);
+            $table->boolean('approved')->nullable()->default(true);
+
             // These are more general table tracking dates.
             // They can be used, but bumped_at should be used for ordering so we don't bump a mod for every little edit.
             // To explain further, created_at is when the mod was created. updated_at is when the mod data was updated, regardless of anything.
@@ -68,6 +73,8 @@ class CreateModsTable extends Migration
             $table->index('published_at');
             $table->index('name');
             $table->index('score');
+            $table->index('daily_score');
+            $table->index('weekly_score');
             $table->index('views');
             $table->index('downloads');
             $table->index('updated_at');

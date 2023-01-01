@@ -19,6 +19,7 @@ class CreatePermissionsTable extends Migration
             // For example: 'edit mod' permission then using the can:edit mod check in routes.
             $table->tinyText('name')->unique();
             $table->timestamps();
+            $table->enum('type', ['global', 'game'])->nullable()->default('global');
         });
     }
 
