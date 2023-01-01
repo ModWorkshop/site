@@ -53,18 +53,12 @@ class Setting extends Model
     {
         return Attribute::make(
             get: function($value, $attrs) {
-                switch($attrs['type']) {
-                    case 'integer':
-                        return (integer)$value;
-                    case 'float':
-                        return (float)$value;
-                    case 'boolean':
-                        return (boolean)$value;
-                    case 'string':
-                        return $value;
-                }
-                if ($attrs['type'] === 'integer') {
-                } else {}
+                return match($attrs['type']) {
+                    'integer' => (integer)$value,
+                    'float' => (float)$value,
+                    'boolean' => (boolean)$value,
+                    default => $value
+                };
             },
             set: fn($value) => (string)$value
         );
