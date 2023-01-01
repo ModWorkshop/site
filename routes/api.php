@@ -37,6 +37,8 @@ use App\Http\Controllers\UserController;
 use App\Models\SocialLogin;
 use App\Models\User;
 use App\Services\APIService;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -172,7 +174,7 @@ Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
-    Route::middleware('throttle:10,1')->get('/user-data', [UserController::class, 'userData']);
+    Route::middleware('throttle:1,1')->get('/user-data', [UserController::class, 'userData']);
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
     Route::delete('users/{user}/mods', [UserController::class, 'deleteMods']);
     Route::delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
@@ -225,3 +227,48 @@ Route::get('site-data', function() {
         'settings' => $settings,
     ];
 });
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+ 
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+    Password::sendResetLink($request->only('email'));
+    # Is there a need to handle errors?
+})->middleware('guest')->name('password.email');
+
+Route::get('/check-reset-token', functioN(Request $request) {
+    $reset = DB::table('password_resets')->where(['email'=> $request->email])->first();
+    if (!$reset) {
+        return false;
+    }
+    
+    return $this->hasher->check($request->token, $reset->token);
+});
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => ['required', APIService::getPasswordRule()],
+    ]);
+ 
+    $status = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
+        $user->forceFill([
+            'password' => Hash::make($password)
+        ])->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        event(new PasswordReset($user));
+    });
+
+    return __($status);
+})->middleware('guest')->name('password.update');

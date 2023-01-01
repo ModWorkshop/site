@@ -132,4 +132,9 @@ class APIService {
 
         return Arr::pluck($query->get(), 'value', 'name');
     }
+
+    public static function getPasswordRule()
+    {
+        return Password::min(12)->numbers()->mixedCase()->uncompromised();
+    }
 }

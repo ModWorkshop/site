@@ -36,6 +36,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
  * @property int|null $game_id
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereGameId($value)
+ * @property bool $can_appeal
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCanAppeal($value)
  */
 	class Ban extends \Eloquent {}
 }
@@ -411,6 +413,18 @@ namespace App\Models{
  * @property string $emoji
  * @property-read \App\Models\Forum $forum
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereEmoji($value)
+ * @property bool $is_private
+ * @property bool $private_threads
+ * @property bool $banned_can_post
+ * @property string|null $announce_until
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read int|null $game_roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereAnnounceUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereBannedCanPost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereIsPrivate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory wherePrivateThreads($value)
  */
 	class ForumCategory extends \Eloquent {}
 }
@@ -646,7 +660,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category
- * @property-read \App\Models\Category|null $game
+ * @property-read \App\Models\Game|null $game
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
@@ -739,6 +753,10 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|Mod whereInstructsTemplateId($value)
+ * @property float $daily_score
+ * @property float $weekly_score
+ * @method static \Illuminate\Database\Eloquent\Builder|Mod whereDailyScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Mod whereWeeklyScore($value)
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -907,6 +925,34 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\PopularityLog
+ *
+ * @property int $id
+ * @property string $type
+ * @property int $mod_id
+ * @property int $user_id
+ * @property string $ip_address
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereModId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUserId($value)
+ * @mixin \Eloquent
+ * @property-read \App\Models\Mod $mod
+ * @property-read \App\Models\User $user
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUpdatedAt($value)
+ */
+	class PopularityLog extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Report
  *
  * @property int $id
@@ -1069,6 +1115,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereIsCancelled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUserId($value)
+ * @mixin \Eloquent
  */
 	class Supporter extends \Eloquent {}
 }
@@ -1220,6 +1267,14 @@ namespace App\Models{
  * @property-read int|null $tags_special_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
+ * @property bool $locked
+ * @property bool $locked_by_mod
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLocked($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereLockedByMod($value)
+ * @property bool $announce
+ * @property \Illuminate\Support\Carbon|null $announce_until
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1328,15 +1383,29 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SocialLogin[] $socialLogins
  * @property-read int|null $social_logins_count
  * @property-read \App\Models\Supporter|null $supporter
- * @method static \Illuminate\Database\Eloquent\Builder|User whereBanner($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereBio($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCustomTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereDonationUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereInvisible($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePrivateProfile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereShowTag($value)
+ * @method static Builder|User whereBanner($value)
+ * @method static Builder|User whereBio($value)
+ * @method static Builder|User whereCustomTitle($value)
+ * @method static Builder|User whereDonationUrl($value)
+ * @method static Builder|User whereInvisible($value)
+ * @method static Builder|User wherePrivateProfile($value)
+ * @method static Builder|User whereShowTag($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedTag[] $allBlockedTags
+ * @property-read int|null $all_blocked_tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedUser[] $allBlockedUsers
+ * @property-read int|null $all_blocked_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedGame[] $allFollowedGames
+ * @property-read int|null $all_followed_games_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $allFollowedMods
+ * @property-read int|null $all_followed_mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
+ * @property-read int|null $all_followed_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
+ * @property-read int|null $threads_count
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
 
 namespace App\Models{
@@ -1405,6 +1474,20 @@ namespace App\Models{
  * @property Carbon|null $last_online
  * @property string|null $donation_url
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDonationUrl($value)
+ * @property string $default_mods_view
+ * @property string $default_mods_sort
+ * @property bool $home_show_last_games
+ * @property bool $home_show_mods
+ * @property bool $home_show_threads
+ * @property bool $game_show_mods
+ * @property bool $game_show_threads
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDefaultModsSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDefaultModsView($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereGameShowMods($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereGameShowThreads($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowLastGames($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowMods($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowThreads($value)
  */
 	class UserExtra extends \Eloquent {}
 }

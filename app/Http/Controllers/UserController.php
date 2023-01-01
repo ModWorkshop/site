@@ -99,10 +99,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $userExtra = $user->extra;
         $fileSize = Setting::getValue('image_max_file_size') / 1024;
 
-        $passwordRule = Password::min(12)->numbers()->mixedCase()->uncompromised();
+        $passwordRule = APIService::getPasswordRule();
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:100',

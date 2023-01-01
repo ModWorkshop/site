@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\EmailVerificationNotification;
 use App\Services\APIService;
 use App\Services\Utils;
 use App\Traits\Reportable;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -109,7 +111,7 @@ use Storage;
  * @method static Builder|User wherePrivateProfile($value)
  * @method static Builder|User whereShowTag($value)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
@@ -161,7 +163,7 @@ class User extends Authenticatable
         'private_profile',
         'custom_title',
         'donation_url',
-        'show_tag'
+        'show_tag',
     ];
 
     /**
@@ -172,7 +174,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'email',
-        'email_verified',
         'email_verified_at'
     ];
 

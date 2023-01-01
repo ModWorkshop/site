@@ -19,6 +19,8 @@ use SplFileInfo;
 use Storage;
 use Str;
 use FileEye\MimeMap\Type;
+use Illuminate\Auth\Events\Registered;
+use Log;
 use Throwable;
 
 /**
@@ -85,7 +87,7 @@ class LoginController extends Controller
             'name' => ['required'],
             'unique_name' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', Password::min(12)->numbers()->mixedCase()->uncompromised()],
+            'password' => ['required', APIService::getPasswordRule()],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
@@ -97,17 +99,21 @@ class LoginController extends Controller
         
         $avatar = APIService::tryUploadFile($avatarFile, 'users/avatars') ?? '';
 
-        $user = User::create([
+        $user = User::forceCreate([
             'name' => $val['name'],
             'unique_name' => $val['unique_name'],
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
-            'avatar' => $avatar,
+            'avatar' => $avatar['name'] ?? '',
         ]);
+
+        event(new Registered($user));
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
             $request->session()->regenerate();
             return $user;
+        } else {
+            Log::info('Failed to sign in');
         }
 
         return response('Something went wrong', Response::HTTP_BAD_REQUEST);

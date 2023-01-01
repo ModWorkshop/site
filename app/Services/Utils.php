@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use Arr;
+
 const bbCodeConversion = [
     "[b]" => "**",
     "[/b]" => "**",
@@ -70,5 +73,31 @@ class Utils {
         }
 
         return $permissions;
+    }
+
+    /**
+     * Returns a unique name for a user
+     */
+    public static function getUniqueName(string $name): string
+    {
+        $uniqueName ??= $name;
+        $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
+        $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
+
+        //Try to make a unique name for the user
+        $num = '';
+        $found = false;
+        while(!$found) {
+            $current = $uniqueName.$num;
+            if (!Arr::first($users, fn($val) => strtolower($val->unique_name) === $current)) {
+                $uniqueName = $current;
+                $found = true;
+            } else {
+                $num ??= 0;
+                $num++;
+            }
+        }
+
+        return $uniqueName;
     }
 }
