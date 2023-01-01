@@ -4,7 +4,7 @@ import clone from 'rfdc/default';
 
 //Trying to make this work with typescript is just... No
 
-export default function(name, defaultValue, cast=null) {
+export default function(name, defaultValue, cast) {
     const router = useRouter();
     const route = useRoute();
 
