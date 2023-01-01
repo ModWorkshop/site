@@ -102,6 +102,21 @@ export default <RouterOptions> {
             component: () => import('~/pages/link-account.vue')
         },
         {
+            name: "verify-email",
+            path: "/verify-email/:id/:hash",
+            component: () => import('~/pages/verify-email.vue')
+        },
+        {
+            name: "forgot-password",
+            path: "/forgot-password",
+            component: () => import('~~/pages/forgot-password.vue')
+        },
+        {
+            name: "reset-password",
+            path: "/reset-password/:token",
+            component: () => import('~~/pages/reset-password.vue')
+        },
+        {
             name: "edit-thread",
             path: "/forum/post",
             component: () => import('~/pages/edit-thread.vue')

@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<{
 	url?: string,
     fetchParams?: Record<string, unknown>,
     modelValue: any,
-    default: any,
+    default?: any,
 	options?: any[],
     clearable?: boolean,
     classic?: boolean,

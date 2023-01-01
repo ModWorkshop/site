@@ -1,6 +1,15 @@
 <template>
     <div class="layout">
         <main>
+            <a-toast v-if="user && !user.email_verified_at" class="mt-2" color="warning" :closable="false">
+                Your account is not active yet. You must verify it through your email address.
+                <br>
+                The account will be automatically deleted if no action will be taken a day after registration.
+                <a-button class="mr-auto" :disabled="resending" @click="resendVerification">
+                    <flex class="items-center">Resend <a-loading v-if="resending" size="xl" color="body"/></flex>
+                </a-button>
+            </a-toast>
+            
             <flex id="toaster" column gap="2">
 				<TransitionGroup name="toasts">
 					<a-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
@@ -24,11 +33,22 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from '~~/store';
 import { longExpiration } from '~~/utils/helpers';
 
 const toasts = useState('toasts', () => []);
 
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
+
+const { user } = useStore();
+
+const resending = ref(false);
+
+async function resendVerification() {
+    resending.value = true;
+    await usePost('email/resend');
+    resending.value = false;
+}
 </script>
 
 <style>

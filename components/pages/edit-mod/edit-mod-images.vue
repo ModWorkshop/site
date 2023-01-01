@@ -20,7 +20,7 @@
             name="images"
             :url="uploadLink"
             :files="images"
-            url-prefix="mods/images/" 
+            url-prefix="mods/images" 
             :max-files="settings.mod_max_image_count" 
             :max-file-size="settings.image_max_file_size" 
             max-size="50" 

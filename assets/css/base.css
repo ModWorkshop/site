@@ -128,7 +128,7 @@ body {
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
-    --alt-content-bg-color: #343b42;
+    --alt-content-bg-color: #22262b;
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;
@@ -235,6 +235,10 @@ a:link:hover, a:visited:hover {
 .flex hr, .inline-flex hr {
     width: 100%;
     margin: 0;
+}
+
+.text-primary {
+    color: var(--primary-color);
 }
 
 .text-body {
@@ -475,4 +479,9 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
         height: calc(100vh - 70px);
         flex: 1;
     }
+}
+
+.float-bg {
+    backdrop-filter: blur(20px);
+    background: #8989891c;
 }

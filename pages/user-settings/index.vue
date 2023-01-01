@@ -18,7 +18,7 @@
                 />
                 <a-select v-model="selectedGame" :label="$t('games')" url="games" clearable/>
                 <a-tag-selector 
-                    v-if="selectedGame"
+                    v-if="gameUserData"
                     v-model="gameUserData.role_ids"
                     multiple
                     :disabled="user.id !== me.id && !hasPermission('manage-roles', selectedGame)"
@@ -61,6 +61,7 @@
                 />
             </flex>
             <small>{{$t('password_guide')}}</small>
+            <a-link-button disabled @click="reset">{{$t('forgot_password_button')}}</a-link-button>
         </template>
     
         <a-alert color="info" :title="$t('request_my_data')">
@@ -95,6 +96,11 @@ const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 const { user: me, hasPermission } = useStore();
+
+const store = useStore();
+
+const { showToast } = useToaster();
+
 const selectedGame = useRouteQuery('game', undefined, 'number');
 
 const roleIds = ref(clone(props.user.role_ids));
@@ -142,7 +148,6 @@ async function saveRoles() {
     await usePatch(`users/${props.user.id}/roles`, { role_ids: roleIds.value });
 }
 
-const store = useStore();
 const yesNoModal = useYesNoModal();
 const isMe = inject<Ref<boolean>>('isMe');
 
@@ -155,5 +160,18 @@ async function doDelete() {
             await store.logout();
         }
     });
+}
+
+async function reset() {
+    if (me) {
+        await usePost('forgot-password', {
+            email: me.email
+        });
+
+        showToast({
+            color: 'success',
+            desc: 'Successfully sent password reset link to your email address.'
+        });
+    }
 }
 </script>

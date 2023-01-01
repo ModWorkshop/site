@@ -54,7 +54,7 @@
         </flex>
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
-                <flex column class="mx-auto page-block-xs" gap="0">
+                <flex column class="mx-auto page-block-xs float-bg" gap="0">
                     <h3 v-if="replyingComment">{{$t('replying')}}</h3>
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
                     <md-editor v-model="commentContent" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
@@ -361,8 +361,7 @@ function beginEditingComment(comment: Comment) {
 
 .floating-editor > div {
     border-radius: var(--border-radius);
-    padding: 0.5rem;
-    background-color: var(--alt-content-bg-color);
+    padding: 1rem;
 }
 
 .mention-float {

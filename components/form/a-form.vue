@@ -10,7 +10,7 @@
 <template>
     <form @submit.prevent="submit">
         <Transition v-if="floatSaveGui">
-            <flex v-if="currentCanSave" class="fixed float-save items-center">
+            <flex v-if="currentCanSave" class="fixed float-bg float-save items-center">
                 {{$t('unsaved_changes')}}
                 <a-button v-if="created" :disabled="disableButtons" color="danger" class="ml-2" @click="discard">{{$t('discard')}}</a-button>
                 <a-button :disabled="disableButtons" type="submit">{{currentSaveButtonText}}</a-button>
@@ -81,7 +81,6 @@ function discard() {
 .float-save {
     right: 32px;
     bottom: 32px;
-    background-color: var(--alt-content-bg-color);
     border-radius: 3px;
     padding: 0.75rem;
     z-index: 100;

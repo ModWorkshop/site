@@ -6,6 +6,7 @@
             <content-block column gap="3">
                 <a-input v-model="user.email" :label="$t('email')" type="email"/>
                 <a-input v-model="user.password" :label="$t('password')" type="password"/>
+                <NuxtLink to="forgot-password">{{$t('forgot_password_button')}}</NuxtLink>
                 <flex column gap="2">
                     {{$t('login_using_services')}}
                     <the-social-logins/>
