@@ -16,7 +16,7 @@
                 </span>
             </flex>
             <flex class="items-center">
-                Operated by <a-img class="inline-block" src="assets/milk_deluxe.webp" width="40" height="24"/> Milk Deluxe
+                Operated by <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24"/> Milk Deluxe
             </flex>
         </flex>
         <flex class="lg:ml-auto mb-auto items-center">
@@ -27,7 +27,7 @@
             </a-select>
             <a-select v-model="$i18n.locale" default="en-US" :options="locales">
                 <template #any-option="{option}">
-                    <a-img :src="getLocaleImg(option)" width="30" height="16"/> {{langNames[option]}}
+                    <a-img :src="getLocaleImg(option)" is-asset width="30" height="16"/> {{langNames[option]}}
                 </template>
             </a-select>
         </flex>
@@ -47,7 +47,7 @@ const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpir
 const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 
 function getLocaleImg(option: string) {
-    return `assets/locales/${option}.${option === 'owo' ? 'webp' : 'svg'}`;
+    return `locales/${option}.${option === 'owo' ? 'webp' : 'svg'}`;
 }
 
 const locales = computed(() => i18n.availableLocales.filter(option => i18n.locale.value == 'owo' || option != 'owo' || unlockedOwO.value));

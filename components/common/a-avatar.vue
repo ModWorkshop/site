@@ -2,7 +2,7 @@
     <a-img 
         :alt="$t('avatar')"
         :src="avatarUrl"
-        :url-prefix="src ? urlPrefix : null"
+        :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
         :width="sizeNumber"
         :height="sizeNumber"
@@ -13,7 +13,7 @@ const props = defineProps({
     src: [String, Blob],
     urlPrefix: {
         type: String,
-        default: 'users/avatars/'
+        default: 'users/avatars'
     },
     size: {
         default: null,
@@ -24,9 +24,7 @@ const props = defineProps({
 const avatarUrl = computed(() => {
     const src = props.src;
     if (src) {
-        return src;
-    } else {
-        return '/assets/nopreview.webp';
+        return 'thumb_'+src;
     }
 });
 

@@ -15,7 +15,7 @@
 
     <header class="navbar">
         <NuxtLink to="/">
-            <a-img alt="logo" :src="logo" width="36" height="36"/>
+            <a-img alt="logo" :src="logo" width="36" height="36" is-asset/>
         </NuxtLink>
         <a-link-button class="ml-auto text-4xl sm:hidden" icon="bars" @click="headerClosed = !headerClosed"/>
         <Transition name="left-slide">
@@ -26,6 +26,7 @@
                     <a-link-button class="max-lg:hidden" to="/forum?category=news">{{$t('news')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/forum">{{$t('forum')}}</a-link-button>
+                    <a-link-button class="max-lg:hidden" to="/docs/rules">{{$t('rules')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/support">{{$t('support_us')}}</a-link-button>
                     <VDropdown class="hidden max-lg:block max-sm:hidden">
@@ -34,6 +35,7 @@
                             <a-dropdown-item to="/forum?category=news">{{$t('news')}}</a-dropdown-item>
                             <a-dropdown-item to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-dropdown-item>
                             <a-dropdown-item to="/forum">{{$t('forum')}}</a-dropdown-item>
+                            <a-dropdown-item to="/rules">{{$t('rules')}}</a-dropdown-item>
                             <a-dropdown-item to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-dropdown-item>
                             <a-dropdown-item to="/support">{{$t('support_us')}}</a-dropdown-item>
                         </template>
@@ -127,7 +129,7 @@ const showSearch = ref(false);
 const selectedSearch = ref(1);
 const unlockedOwO = useState('unlockedOwO');
 
-const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
+const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
 const userLink = computed(() => {
     if (user.value.unique_name) {

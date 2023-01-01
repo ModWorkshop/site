@@ -1,6 +1,6 @@
 <template>
     <NuxtLink :to="link">
-        <a-img :src="image" class="donation-button"/>
+        <a-img :src="image" class="donation-button" is-asset/>
     </NuxtLink>
 </template>
 
@@ -31,11 +31,11 @@ const link = computed(() => {
 const image = computed(() => {
     const l = props.link;
     if (kofi.test(l)) {
-        return `assets/kofi.png`;
+        return `kofi.png`;
     } else if (bmc.test(l)) {
-        return `assets/buymecoffee.png`;
+        return `buymecoffee.png`;
     } else if (paypalme.test(l) || paypal.test(l)) {
-        return `assets/paypal.png`;
+        return `paypal.png`;
     }
 });
 </script>

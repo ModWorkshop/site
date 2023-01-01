@@ -16,14 +16,19 @@ const props = defineProps({
         type: String,
         default: ''
     },
+    isAsset: {
+        type: Boolean,
+        default: false
+    },
     alt: String
 });
 
 const useDefault = ref(false);
+const assetsUrl = `${config.apiUrl}/storage/assets`;
 
 const compSrc = computed(function() {
     if (useDefault.value) {
-        return `${config.apiUrl}/storage/assets/default-avatar.webp`;
+        return `${assetsUrl}/default-avatar.webp`;
     }
     const src = props.src;
     if (typeof src === 'object') {
@@ -32,7 +37,7 @@ const compSrc = computed(function() {
     else if (isSrcExternal(src)) {
         return src;
     } else {
-        return `${config.apiUrl}/storage/${props.urlPrefix || ''}${src}`;
+        return `${props.isAsset ? assetsUrl : config.storageUrl}/${props.urlPrefix}/${src}`;
     }
 });
 </script>

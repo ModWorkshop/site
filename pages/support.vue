@@ -2,7 +2,7 @@
     <page-block>
         <Title>{{$t('support_us')}}</Title>
         <flex gap="3" class="items-center" column>
-            <a-img alt="logo" :src="logo" width="128" height="128"/>
+            <a-img alt="logo" :src="logo" width="128" height="128" is-asset/>
             <h1 class="text-primary m-auto">Support ModWorkshop!</h1>
             <h2>Wish to support us?</h2>
             <a-alert v-if="user?.supporter" color="success" :icon="false">

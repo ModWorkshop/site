@@ -8,8 +8,9 @@
                 <a-img 
                     v-for="(image, i) of mod.images"
                     :key="image.id" 
-                    class="cursor-pointer" 
-                    :src="`/mods/images/${image.file}`" 
+                    class="cursor-pointer"
+                    url-prefix="mods/images"
+                    :src="`${(image.has_thumb ? 'thumb_' : '') + image.file}`" 
                     style="max-height: 200px;" 
                     @click="showImage(i)"
                 />

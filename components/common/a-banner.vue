@@ -27,7 +27,7 @@ const bannerUrl = computed(() => {
         } else if (isSrcExternal(src)) {
             return src;
         } else {
-            return `${config.apiUrl}/storage/${props.urlPrefix}/${src}`;
+            return `${config.storageUrl}/${props.urlPrefix}/${src}`;
         }
     } else {
         return `${config.apiUrl}/storage/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
