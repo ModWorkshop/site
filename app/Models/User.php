@@ -247,12 +247,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         self::deleting(function(User $user) {
             if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
-                Storage::disk('public')->delete('users/avatars/'.$user->avatar);
+                Storage::disk('r2')->delete('users/avatars/'.$user->avatar);
             }
 
             $banner = $user->extra->banner;
             if (isset($banner)) {
-                Storage::disk('public')->delete('users/banners/'.$banner);
+                Storage::disk('r2')->delete('users/banners/'.$banner);
             }
 
             foreach ($user->mods as $mod) {

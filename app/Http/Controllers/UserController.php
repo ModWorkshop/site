@@ -147,10 +147,10 @@ class UserController extends Controller
         APIService::nullToEmptyStr($val, 'custom_color', 'bio', 'custom_title', 'donation_url');
 
         $avatarFile = Arr::pull($val, 'avatar_file');
-        APIService::tryUploadFile($avatarFile, 'users/avatars', $user->avatar, fn($path) => $user->avatar = $path);
+        APIService::storeImage($avatarFile, 'users/avatars', $user->avatar, 64, fn($path) => $user->avatar = $path);
 
         $bannerFile = Arr::pull($val, 'banner_file');
-        APIService::tryUploadFile($bannerFile, 'users/banners', $user->avatar, fn($path) => $userExtra->banner = $path);
+        APIService::storeImage($bannerFile, 'users/banners', $user->avatar, 64, fn($path) => $user->banner = $path);
 
         //Change password code
         $password = Arr::pull($val, 'password');

@@ -23,19 +23,11 @@ use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Jcupitt\Vips;
 use Illuminate\Validation\Rules\File;
-
-const animated = [
-    'gif' => true,
-    'webp' => true,
-    'avif' => true,
-    'jxl' => true
-    // 'png' => true, https://github.com/libvips/libvips/issues/2537
-    // 'apng' => true
-];
 
 /**
  * @group Mods
@@ -273,30 +265,18 @@ class ModController extends Controller
             'file' => ['required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
         ]);
 
-        $dir = Storage::disk('public')->path('mods/images');
-
-        $user = $request->user();
-        /**
-         * @var UploadedFile $file
-         */
+        /** @var UploadedFile $file */
         $file = $val['file'];
-        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.webp';
-        $fileType = $file->extension();
-        $opts = isset(animated[$fileType]) ? '[n=-1]' : '';
 
-        $img = Vips\Image::newFromFile($file->path().$opts);
-        $img->writeToFile($dir.'/'.$fileName, ["Q" => 80]);
-
-        $thumb = $img->thumbnail_image(300);
-        $thumb->writeToFile($dir.'/thumb_'.$fileName);
+        ['name' => $name, 'type' => $type] = APIService::storeImage($file, 'mods/images', null, 300);
 
         $img = Image::create([
-            'user_id' => $user->id,
+            'user_id' => $this->userId(),
             'mod_id' => $mod->id,
-            'file' => $fileName,
+            'file' => $name,
             'has_thumb' => true,
-            'type' => $file->extension(),
-            'size' => filesize($dir.'/'.$fileName)
+            'type' => $type,
+            'size' => 0, //TODO filesize($dir.'/'.$fileName)
         ]);
 
         return $img;

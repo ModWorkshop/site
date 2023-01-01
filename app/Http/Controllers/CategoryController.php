@@ -119,7 +119,7 @@ class CategoryController extends Controller
             $wasCreated = true;
         }
 
-        APIService::tryUploadFile($thumbnailFile, 'categories/thumbnails', $category->thumbnail, fn($path) => $category->thumbnail = $path);
+        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, null, fn($path) => $category->thumbnail = $path);
 
         if (!$wasCreated || isset($thumbnailFile)) {
             $category->update($val);

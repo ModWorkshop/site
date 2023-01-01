@@ -345,7 +345,7 @@ class Mod extends Model implements SubscribableInterface
     public function getMemberLevel(int $userId, $acceptedOnly=true)
     {
         if ($userId === $this->user_id) {
-            return -1;
+            return 'Owner';
         }
 
         $members = $this->members;

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class ModDependencyController extends Controller
 {
+    public function __construct() {
+    }
+
     /**
      * Store a newly created resource in storage.
      *

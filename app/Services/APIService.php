@@ -15,7 +15,18 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rules\Password;
 use Storage;
+use Jcupitt\Vips;
+
+const animated = [
+    'gif' => true,
+    'webp' => true,
+    'avif' => true,
+    'jxl' => true
+    // 'png' => true, https://github.com/libvips/libvips/issues/2537
+    // 'apng' => true
+];
 
 class APIService {
     /**
@@ -54,31 +65,52 @@ class APIService {
     }
 
     /**
-     * Attempts to upload a file into the server, deletes the old if $oldFile is present.
+     * Stores an UploadedFile $file into r2 storage
      *
-     * @param File $file
-     * @param string $fileDir
-     * @param string $fileName
-     * @param string $oldFile
-     * @param callable $onSuccess
-     * @return void
+     * @param UploadedFile|null $file
+     * @param string $fileDir Where to store the image
+     * @param string|null $oldFile Automatically delete old files including thumbnail
+     * @param integer|null $thumbnailSize Make a thumbnail for the image
+     * @param callable|null $onSuccess Callback to run after successful upload
+     * @return array
      */
-    public static function tryUploadFile(?UploadedFile $file, string $fileDir, ?string $oldFile=null, ?callable $onSuccess=null)
+    public static function storeImage(?UploadedFile $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
     {
-        if (isset($file)) {
-            if (isset($oldFile) && !str_contains($oldFile, 'http')) {
-                $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
-                Storage::disk('public')->delete($fileDir.'/'.$oldFile); // Delete old avatar before uploading
-            }
-            $path = $file->storePubliclyAs($fileDir, $file->hashName(), 'public');
-
-            $storePath = str_replace($fileDir.'/', '', $path);
-            if (isset($onSuccess)) {
-                $onSuccess($storePath);
-            }
-
-            return $storePath;
+        if (!isset($file)) {
+            return null;
         }
+
+        $r2 = Storage::disk('r2');
+        
+        if (isset($oldFile) && !str_contains($oldFile, 'http')) {
+            $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
+            $r2->delete($fileDir.'/'.$oldFile);
+            $r2->delete($fileDir.'/thumb_'.$oldFile);
+        }
+
+        $fileType = $file->extension();
+        $opts = isset(animated[$fileType]) ? '[n=-1]' : '';
+        $fileName = preg_replace('/\.[^.]+$/', '.webp', $file->hashName());
+
+        $img = Vips\Image::newFromFile($file->path().$opts);
+        $r2->put($fileDir.'/'.$fileName, $img->writeToBuffer('.webp', ["Q" => 80]));
+
+        $thumb = null;
+        if (isset($thumbnailSize)) {
+            $thumb = $img->thumbnail_image($thumbnailSize);
+            $r2->put($fileDir.'/thumb_'.$fileName, $thumb->writeToBuffer('.webp'));
+        }
+
+        if (isset($onSuccess)) {
+            $onSuccess($fileName);
+        }
+
+        return [
+            'image' => $img,
+            'thumbnail' => $thumb,
+            'name' => $fileName,
+            'type' => 'webp'
+        ];
     }
 
     public static function report(Request $request, Model $model)
