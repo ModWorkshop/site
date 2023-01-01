@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '' }
+		public: { apiUrl: '', siteUrl: '', storageUrl: '' }
 	},
 
 	nitro: {
@@ -48,6 +48,6 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
-		'floating-vue/nuxt'
+		// 'floating-vue/nuxt'
 	],
 });
