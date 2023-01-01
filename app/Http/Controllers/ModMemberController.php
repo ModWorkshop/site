@@ -8,8 +8,16 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+const MOD_MEMBER_RULES_OVER = [
+    'maintainer' => ['collaborator', 'contributor', 'viewer'],
+    'collaborator' => ['contributor', 'viewer'],
+];
+
 class ModMemberController extends Controller
 {
+    public function __construct() {
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -20,20 +28,30 @@ class ModMemberController extends Controller
     {
         $val = $request->validate([
             'user_id' => 'integer|required|min:1|exists:users,id',
-            'level' => 'integer|required|min:0|max:4'
+            'level' => 'in:maintainer,collaborator,viewer,contributor|required'
         ]);
 
         $exists = $mod->getMemberLevel($val['user_id'], false);
-
         if (isset($exists)) {
             abort(403, 'member already exists. If you wish to change their level, either use PATCH/PUT or DELETE first.');
+        }
+
+        # Obviously avoid the owner giving it to themselves. May have weird bugs.
+        $ourUserId = $this->userId();
+        if ($mod->user_id != $ourUserId) {
+            abort(403, 'Cannot add the owner as a member!');
+        }
+
+        # Make sure we can add members with the given level
+        $ourLevel = $mod->getMemberLevel($ourUserId, false);
+        if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !array_has(MOD_MEMBER_RULES_OVER[$ourLevel], $val['level'])) {
+            abort(403, 'You cannot add members with this level!');
         }
 
         $user = User::find($val['user_id']);
         
         $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => false]);
         $member = $mod->members()->where('user_id', $val['user_id'])->first();
-
         
         Notification::send(
             notifiable: $mod,
@@ -81,8 +99,10 @@ class ModMemberController extends Controller
         $memberLevel = $mod->getMemberLevel($member, false);
 
         //We should be able to delete ourselves from members!
-        if (!isset($ourLevel) || ($ourUserId !== $member && $ourLevel >= $memberLevel)) {
-            abort(403);
+        if (!isset($ourLevel) || ($ourUserId !== $member)) {
+            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !array_has(MOD_MEMBER_RULES_OVER[$ourLevel], $memberLevel)) {
+                abort(403);
+            }
         }
 
         $mod->members()->detach($member);

@@ -102,7 +102,7 @@ class ModPolicy
         }
 
         $ourLevel = $mod->getMemberLevel($user->id);
-        return ($ourLevel === 1 || $ourLevel === 0); //Maintainer or Collaborator
+        return ($ourLevel === 'maintainer' || $ourLevel === 'collaborator');
     }
 
     /**
