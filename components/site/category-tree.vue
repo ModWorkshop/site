@@ -9,7 +9,7 @@
             <category-tree 
                 v-for="c in currentCategories" 
                 :key="c.id" 
-                v-model="modelValue" 
+                :model-value="modelValue" 
                 :category="c" 
                 :categories="categories" 
                 :set-query="setQuery" 

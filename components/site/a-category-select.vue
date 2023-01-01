@@ -1,7 +1,7 @@
 <template>
     <a-input :label="$t('category')">
         <category-tree 
-            v-model="modelValue"
+            :model-value="modelValue"
             v-bind="$attrs"
             :style="{maxHeight: maxHeight && `${maxHeight}px`}"
             :class="{'input-bg': true, 'p-2': true, 'overflow-y-scroll': !!maxHeight}"

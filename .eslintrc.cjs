@@ -21,7 +21,6 @@ module.exports = {
 		'vue/require-default-prop': ['off'],
 		'vue/no-mutating-props': ['off'],
 		'vue/no-v-html': ['off'], //While this rule has its point, we use it only in one place and that's the markdown parser which we sanitize
-		'vue/valid-v-model': ['off'],
 		'vue/prefer-import-from-vue': ['off'] //Not really good as it DOES have some useful functions.
 	},
 	extends: [

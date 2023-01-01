@@ -1,6 +1,6 @@
 <template>
     <a-select 
-        v-model="modelValue"
+        :model-value="modelValue"
         :classic="false" 
         :clearable="false"
         @update:model-value="val => emit('update:modelValue', val)" 

@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Category, Game, Mod } from '~~/types/models';
@@ -42,7 +41,7 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
-const mod: Ref<Mod> = ref({
+const mod: Mod = reactive({
     id: -1,
     name: '',
     desc: '',
@@ -58,7 +57,7 @@ const mod: Ref<Mod> = ref({
     legacy_banner_url: '',
     game_id: null,
     version: '',
-    user_id: store.user.id,
+    user_id: store.user?.id,
     user: store.user,
     downloads: 0,
     likes: 0,
@@ -74,7 +73,9 @@ const gameName = computed(() => route.params.gameId);
 
 const { data: game } = await useResource<Game>('game', 'games');
 
-store.currentGame = game.value;
+if (game.value) {
+    store.currentGame = game.value;
+}
 
 useUnbannedOnly();
 
@@ -88,13 +89,13 @@ const breadcrumb = computed(() => {
     }
 });
 
-const gameId = computed(() => game.value ? game.value.id : mod.value.game_id);
+const gameId = computed(() => game.value ? game.value.id : mod.game_id);
 
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories?include_paths=1`, {
     immediate: !!gameId.value
 });
 
-watch(() => mod.value.game_id, val => {
+watch(() => mod.game_id, val => {
     if (val) {
         refetchCats();
     }
@@ -102,7 +103,7 @@ watch(() => mod.value.game_id, val => {
 
 async function create() {
     try {
-        const fetchedMod = await usePost<Mod>(`games/${gameId.value}/mods`, mod.value);
+        const fetchedMod = await usePost<Mod>(`games/${gameId.value}/mods`, mod);
         router.push(`/mod/${fetchedMod.id}/edit`);
     } catch (error) {
         console.error(error);

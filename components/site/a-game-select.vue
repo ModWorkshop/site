@@ -1,5 +1,5 @@
 <template>
-    <a-select v-model="modelValue" :options="games.data" @update:model-value="val => $emit('update:modelValue', val)">
+    <a-select :model-value="modelValue" :options="games.data" @update:model-value="val => $emit('update:modelValue', val)">
         <template #any-option="{ option }">
             <a-simple-game :game="option"/>
         </template>

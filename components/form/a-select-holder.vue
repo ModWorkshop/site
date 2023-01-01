@@ -2,7 +2,7 @@
     <a-input>
         <VDropdown
             v-if="classic"
-            v-model:shown="shown"
+            :shown="shown"
             class="max-w-full"
             distance="0"
             :placement="placement"
@@ -21,7 +21,7 @@
             <slot/>
             <VDropdown 
                 v-if="!disabled"
-                v-model:shown="shown"
+                :shown="shown"
                 distance="0"
                 auto-boundary-max-size
                 handle-resize

@@ -1,15 +1,16 @@
 <template>
-    <a-input v-model="modelValue">
+    <a-input v-model="vm" @update:model-value="value => $emit('update:modelValue', value)">
         <a-tabs :class="classes">
             <a-tab name="write" :title="$t('write_tab')">
                 <textarea
                     :id="labelId"
                     ref="textArea"
-                    v-model="modelValue"
+                    v-model="vm"
                     type="textarea" 
                     :class="{textarea: true, 'input-error': !!err}"
+                    :rows="rows" 
                     v-bind="$attrs" 
-                    :rows="rows" @input="$emit('update:modelValue', modelValue)"
+                    @input="$emit('update:modelValue', vm)"
                 />
             </a-tab>
             <a-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
@@ -79,7 +80,7 @@ const toolGroups = [
     }
 ];
 
-const vm = toRef(props, 'modelValue');
+const vm = ref(props.modelValue);
 const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
 const err = useWatchValidation(vm, textArea);
 

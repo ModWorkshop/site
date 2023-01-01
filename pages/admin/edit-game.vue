@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="game" :can-save="canSaveOverride" :merge-params="mergeParams" url="games" redirect-to="/admin/games" @submit="submit">
+    <simple-resource-form v-model="currentGame" :can-save="canSaveOverride" :merge-params="mergeParams" url="games" redirect-to="/admin/games" @submit="submit">
         <img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="game.thumbnail">
             <template #label="{ src }">
                 <game-thumbnail :src="src" style="height: 250px;"/>
@@ -27,6 +27,9 @@ const canSaveOverride = computed(() => !!(thumbnailBlob.value || bannerBlob.valu
 const props = defineProps<{
     game: Game
 }>();
+
+const currentGame = ref<Game>();
+watch(() => props.game, () => currentGame.value = props.game);
 
 useNeedsPermission('manage-game', props.game);
 

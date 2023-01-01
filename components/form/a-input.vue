@@ -8,39 +8,38 @@
                 v-if="type == 'color'"
                 ref="input"
                 v-bind="$attrs"
-                v-model="modelValue"
+                v-model="vm"
                 :class="classes"
                 style="flex-grow: 1;"
-                @input="$emit('update:modelValue', modelValue);"
+                @input="$emit('update:modelValue', vm);"
             >
             <textarea 
                 v-if="type == 'textarea'"
                 ref="input"
-                v-model="(modelValue as string)"
+                v-model="vm"
                 class="mw-input"
                 :rows="rows"
                 v-bind="$attrs"
-                @input="$emit('update:modelValue', modelValue)"
+                @input="$emit('update:modelValue', vm)"
             />
             <input 
                 v-else-if="isCheckbox" 
                 :id="labelId"
                 v-bind="$attrs"
                 ref="input"
-                v-model="(modelValue as boolean)"
+                v-model="vm"
                 :class="classes"
                 type="checkbox"
-                @change="$emit('update:modelValue', modelValue);"
+                @change="$emit('update:modelValue', vm);"
             >
             <input 
                 v-else
                 :id="labelId"
                 v-bind="$attrs"
                 ref="input"
-                v-model="modelValue"
+                v-model="vm"
                 :class="classes"
                 :type="type"
-                @input="$emit('update:modelValue', modelValue);"
             >
         </flex>
         <slot v-else/>
@@ -54,22 +53,24 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    id: String,
-    desc: String,
-    label: String,
-    modelValue: [String, Number, Boolean],
-    validity: String,
-    rows: [Number, String],
-    type: String,
-    value: String,
-});
+const props = defineProps<{
+    id?: string,
+    desc?: string,
+    label?: string,
+    modelValue?: any,
+    validity?: string,
+    rows?: number|string,
+    type?: string,
+    value?: string,
+}>();
+const emit = defineEmits(['update:modelValue']);
 
-const vm = toRef(props, 'modelValue');
+const vm = useVModel(props, 'modelValue', emit);
 const input = ref<HTMLInputElement>(null);
 const err = useWatchValidation(vm, input);
 
 watch(() => props.validity, val => {
+
     if (input.value) {
         if (val) {
             input.value.setCustomValidity(val);
@@ -81,8 +82,6 @@ watch(() => props.validity, val => {
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
-
-defineEmits(['update:modelValue']);
 
 const isCheckbox = computed(() => props.type == 'checkbox');
 

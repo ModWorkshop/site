@@ -1,6 +1,6 @@
 <template>
     <a-select 
-        v-model="modelValue"
+        v-model="vm"
         url="users"
         :placeholder="placeholder"
         @update:model-value="value => $emit('update:modelValue', value)">
@@ -16,10 +16,12 @@
 <script setup lang="ts">
 import { User } from '~~/types/models';
 
-defineProps<{
+const props = defineProps<{
     modelValue: number|User|Array<User>,
     placeholder?: string
 }>();
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
+
+const vm = useVModel(props, 'modelValue', emit);
 </script>
