@@ -129,13 +129,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Category  $category
-     * @return \Illuminate\Http\Response
+     * Deletes the category. Only empty categories can be deleted.
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        if ($category->doesntHave('mods')) {
+            $category->delete();
+        }
     }
 }
