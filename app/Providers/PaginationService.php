@@ -25,9 +25,11 @@ class PaginationService extends ServiceProvider
      */
     public function boot()
     {
-        Model::resolveRelationUsing('queryGet', function(Model $model, array $val, \Closure $callback = null) {
-            $model->query()->queryGet($val, $callback);
-        });
+        // Figure this
+
+        // Model::resolveRelationUsing('queryGet', function(Model $model, array $val, \Closure $callback = null) {
+        //     $model->query()->queryGet($val, $callback);
+        // });
 
         Builder::macro('queryGet', function(array $val, \Closure $callback = null, $useTrigrams=false) {
             /**
