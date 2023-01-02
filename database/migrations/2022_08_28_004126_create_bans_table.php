@@ -26,8 +26,6 @@ return new class extends Migration
             $table->index('user_id');
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-
-            $table->dropColumn('reason');
         });
     }
 

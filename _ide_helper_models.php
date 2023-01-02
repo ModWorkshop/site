@@ -983,6 +983,8 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
+ * @property bool $locked
+ * @method static \Illuminate\Database\Eloquent\Builder|Report whereLocked($value)
  */
 	class Report extends \Eloquent {}
 }

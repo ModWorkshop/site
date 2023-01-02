@@ -25,6 +25,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::table('games', function (Blueprint $table) {
+            $table->bigInteger('forum_id')->nullable()->unsigned();
+            $table->foreign('forum_id')->references('id')->on('forums');
+        });
+
         //Global forum
         Forum::create(['name' => 'global']);
 

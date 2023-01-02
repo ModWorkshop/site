@@ -210,7 +210,7 @@ class LoginController extends Controller
             }
 
             //Create a user
-            $user = User::create([
+            $user = User::forceCreate([
                 'name' => $name,
                 'unique_name' => $uniqueName,
                 'avatar' => $avatarFileName,

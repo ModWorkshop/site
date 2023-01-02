@@ -18,8 +18,6 @@ class CreateModsTable extends Migration
         Schema::create('mods', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('thumbnail_id')->unsigned()->nullable();
-            $table->foreign('thumbnail_id')->references('id')->on('images');
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->bigInteger('game_id')->unsigned()->nullable();
@@ -53,10 +51,6 @@ class CreateModsTable extends Migration
 
             $table->bigInteger('download_id')->nullable();
             $table->tinyText('download_type')->nullable();
-
-            $table->bigInteger('banner_id')->unsigned()->nullable();
-            $table->foreign('banner_id')->references('id')->on('images');
-            $table->bigInteger('likes')->unsigned()->default(0);
 
             $table->bigInteger('last_user_id')->unsigned()->nullable();
             $table->foreign('last_user_id')->references('id')->on('users');

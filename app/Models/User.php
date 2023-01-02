@@ -250,9 +250,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 Storage::disk('r2')->delete('users/avatars/'.$user->avatar);
             }
 
-            $banner = $user->extra->banner;
-            if (isset($banner)) {
-                Storage::disk('r2')->delete('users/banners/'.$banner);
+            if (isset($user->banner)) {
+                Storage::disk('r2')->delete('users/banners/'.$user->banner);
             }
 
             foreach ($user->mods as $mod) {

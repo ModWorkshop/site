@@ -25,6 +25,13 @@ class CreateImagesTable extends Migration
             $table->bigInteger('size');
             $table->timestamps();
         });
+
+        Schema::table('mods', function (Blueprint $table) {
+            $table->bigInteger('thumbnail_id')->unsigned()->nullable();
+            $table->foreign('thumbnail_id')->references('id')->on('images');
+            $table->bigInteger('banner_id')->unsigned()->nullable();
+            $table->foreign('banner_id')->references('id')->on('images');
+        });
     }
 
     /**
