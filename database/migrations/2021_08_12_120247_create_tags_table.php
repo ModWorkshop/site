@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->tinyText('name');
             $table->char('color', 8);
-            $table->string('notice')->default('');
+            $table->string('notice')->nullable();
             $table->tinyText('notice_type')->nullable();
             $table->boolean('notice_localized')->default(true);
             $table->bigInteger('game_id')->nullable()->unsigned();

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\APIService;
 use Arr;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -69,6 +70,10 @@ class Game extends Model
     protected $appends = ['user_data'];
     
     protected $with = [];
+
+    protected $casts = [
+        'last_date' => 'datetime',
+    ];
 
     public function getMorphClass(): string {
         return 'game';
@@ -136,6 +141,12 @@ class Game extends Model
 
     public static function booted()
     {
+        return self::creating(function(Game $game) {
+            if (!isset($game->last_date)) {
+                $game->last_date = Carbon::now();
+            }
+        });
+
         return self::created(function(Game $game) {
             $forum = $game->forum()->create([
                 'game_id' => $game->id

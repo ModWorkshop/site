@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('forums', function (Blueprint $table) {
             $table->id();
 
-            $table->tinyText('name');
+            $table->tinyText('name')->nullable();
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
 

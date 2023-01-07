@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ModService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -70,6 +71,10 @@ class Category extends Model
 
     protected $appends = [];
 
+    protected $casts = [
+        'last_date' => 'datetime',
+    ];
+
     public function getMorphClass(): string {
         return 'category';
     }
@@ -114,4 +119,13 @@ class Category extends Model
             'name' => $this->name
         ];
      }
+
+    public static function booted()
+    {
+        return self::creating(function(Category $cat) {
+            if (!isset($cat->last_date)) {
+            $cat->last_date = Carbon::now();
+            }
+        });
+    }
 }
