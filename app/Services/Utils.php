@@ -85,7 +85,7 @@ class Utils {
         $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
 
         //Try to make a unique name for the user
-        $num = '';
+        $num = null;
         $found = false;
         while(!$found) {
             $current = $uniqueName.$num;

@@ -4,19 +4,25 @@ namespace App\Console\Commands;
 
 use App\Models\Ban;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Dependency;
 use App\Models\File;
-use App\Models\Forum;
 use App\Models\Game;
 use App\Models\Image;
 use App\Models\InstructsTemplate;
 use App\Models\Link;
 use App\Models\Mod;
+use App\Models\ModDownload;
+use App\Models\ModLike;
 use App\Models\ModMember;
+use App\Models\ModView;
+use App\Models\PopularityLog;
+use App\Models\SocialLogin;
 use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
 use App\Models\UserCase;
-use App\Services\Utils;
+use Arr;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -27,6 +33,23 @@ const NEW_TAG_TYPES = [
     2 => 'warning',
     3 => 'danger',
 ];
+
+const NEW_LOG_TYPES = [
+    '6' => 'view',
+    '5' => 'down',
+    '2' => 'like'
+];
+
+const NEW_VISIBILITY = [
+    0 => 'pub',
+    1 => 'private'
+];
+
+/**
+ * After years of using MyBB this is the final nail to the coffin.
+ * This is the file where we go from  early 2000s shitty code to something more modern.
+ * This took me a lot of pain to make as it required me to really go through the whole database and see what we need.
+ */
 
 class MigrateBB extends Command
 {
@@ -46,15 +69,18 @@ class MigrateBB extends Command
 
     private Connection $con;
 
+    private array $modIds = [];
+
     public function progress($str, $total)
     {
         $this->info($str);
         return $this->output->createProgressBar($total);
     }
 
+    // Now with support above 2038!!!!
     public function handleUnixDate($unix)
     {
-        if ($unix == '---') {
+        if ($unix == '---' || empty($unix)) {
             $unix = null;
         }
 
@@ -63,7 +89,7 @@ class MigrateBB extends Command
 
     public function resetAutoIncrement($tableName)
     {
-        DB::select("SELECT SETVAL(pg_get_serial_sequence({$tableName}, 'id'), (SELECT MAX(id) FROM {$tableName}));");
+        DB::select("SELECT SETVAL(pg_get_serial_sequence('{$tableName}', 'id'), (SELECT MAX(id) FROM {$tableName}));");
     }
 
     /**
@@ -83,112 +109,67 @@ class MigrateBB extends Command
         # TODO: port following & subs tables
 
         $this->info("Converting old-ass data to new-and-improved data!");
-        ini_set("memory_limit", 1073741824);
+        ini_set("memory_limit", -1);
+        set_time_limit(1000000000); // This can take A looong time.
 
         $this->con = DB::connection('mysql_migration');
-        //$this->handleUsers();
-        //$this->handleBans();
-        //$this->handleCategoriesGames();
-        //$this->handleTags();
-        //$this->handleInstructionsTemplates();
-        //$this->handleMods();
+        // $this->handleUsers();
+        // $this->handleBans();
+        // $this->handleCategoriesGames();
+        // $this->handleTags();
+        // $this->handleInstructionsTemplates();
+        // $this->handleMods();
 
+        // $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
 
+        // $this->handleComments();
+        // $this->handleModDownloads();
+        // $this->handleModViews();
+        // $this->handleLikes();
+        // $this->handlePopularityLog();
 
-        // $downloadsLog = implementThisLmao();
-        // foreach ($downloadsLog as $download) {
-        //     ModDownload::create([
-        //         'user_id' => $download->uid, # Changed
-        //         'mod_id' => $download->did, # Changed
-        //         'ip_address' => $download->ipaddress, # Changed
-        //         'updated_at' => $this->handleUnixDate($like->date), # Changed
-        //         'created_at' => $this->handleUnixDate($like->date)
-        //     ]);
-        // }
-
-        // $viewsLog = implementThisLmao();
-        // foreach ($viewsLog as $view) {
-        //     ModView::create([
-        //         'user_id' => $view->uid, # Changed
-        //         'mod_id' => $view->did, # Changed
-        //         'ip_address' => $view->ipaddress, # Changed
-        //     ]);
-        // }
-
-        // $logs = implementThisLmao();
-        // const NEW_TYPES = [
-        //     '6' => 'view',
-        //     '5' => 'down',
-        //     '2' => 'like'
-        // ];
-        // foreach ($logs as $log) {
-        //     PopularityLog::create([
-        //         'id' => $log->lid, # Changed
-        //         'user_id' => $log->uid,
-        //         'ip_address' => $log->ipaddress,
-        //         'mod_id' => $log->did,
-        //         'updated_at' => $this->handleUnixDate($log->date),
-        //         'type' => NEW_TYPES[$log->type] # Really changed
-        //     ]);
-        // }
-
-        // $likes = implementThisLmao();
-        // foreach ($likes as $like) {
-        //     # Removed IP (redundant, only users can like mods!)
-        //     # Removed type (redundant)
-        //     ModLike::create([
-        //         'mod_id' => $like->did,
-        //         'user_id' => $like->uid,
-        //         'updated_at' => $this->handleUnixDate($like->stamp), # Handle date
-        //         'created_at' => $this->handleUnixDate($like->stamp)
-        //     ]);
-        // }
-
-        // $comments = implementThisLmao();
-        // foreach ($comments as $comment) {
-        //     # Removed cid (unused)
-        //     Comment::create([
-        //         'user_id' => $comment->uid, # Changed,
-        //         'commentable_type' => 'mod', # Migrated data is ONLY mods, we may migrate mybb threads
-        //         'commentable_id' => $comment->did, # Changed
-        //         'content' => $comment->comment, # Changed
-        //         'edited_at' => $this->handleUnixDate($comment->date_edited), #Changed, handle date
-        //         'created_at' => $this->handleUnixDate($comment->date), # Changed
-        //         'pinned' => $comment->pinned == '1',
-        //         'reply_to' => $comment->replyid
-        //     ]);
-        // }
         return Command::SUCCESS;
     }
 
     public function handleUsers()
     {
         $bar = $this->progress('Converting users', $this->con->table('users')->count());
-        $this->con->table('users')->orderBy('uid')->chunk(1000, function($users) use ($bar) {
+
+        $this->con->table('users')
+            ->join('mws_user_prefs', 'users.uid', '=', 'mws_user_prefs.uid')
+            ->join('userfields', 'users.uid', '=', 'userfields.ufid')
+        ->orderBy('users.uid')->chunk(1000, function($users) use ($bar) {
             foreach ($users as $user) {
+                $bar->advance();
+
                 if ($user->uid == 1) {
                     continue; // ModWorkshop account can be ignored.
                 }
-                $bar->advance();
-                $userPrefs = $this->con->table('mws_user_prefs')->where('uid', $user->uid)->first(['banner', 'private_profile']);
-                $userFields = $this->con->table('userfields')->where('ufid', $user->uid)->first('fid2'); # uid is ufid for some reason
 
                 User::forceCreate([
                     'id' => $user->uid,
                     'name' => $user->username,
                     'avatar' => $user->avatar, // TODO: do we want to store user images in images table, therefore making this column legacy?
                     'custom_color' => Str::limit($user->customcolor, 6, ''),
-                    'unique_name' => Utils::getUniqueName($user->username),
+                    // 'unique_name' => Utils::getUniqueName($user->username),
                     'custom_title' => $user->usertitle, # Changed
-                    'created_at' => $user->regdate, # Changed
-                    'last_online' => $user->lastvisit, # Changed
+                    'created_at' => $this->handleUnixDate($user->regdate), # Changed
+                    'last_online' => $this->handleUnixDate($user->lastvisit), # Changed
                     'invisible' => $user->invisible == 1,
-                    'banner' => $userPrefs->banner,
-                    'private_profile' => $userPrefs->private_profile,
-                    'bio' =>  $userFields->fid2 # Lol
+                    'banner' => $user->banner,
+                    'private_profile' => $user->private_profile,
+                    'bio' =>  $user->fid2 ?? '' # Lol
+                ]);
+
+                SocialLogin::create([
+                    'social_id' => 'steam',
+                    'special_id' => $user->loginname,
+                    'user_id' => $user->uid
                 ]);
             }
         });
+
+        $bar->finish();
 
         $this->resetAutoIncrement('users');
     }
@@ -196,24 +177,33 @@ class MigrateBB extends Command
     public function handleBans()
     {
         $bar = $this->progress('Converting bans', $this->con->table('banned')->count());
-        $this->con->table('banned')->orderBy('uid')->chunk(1000, function($bans) use ($bar) {
-            foreach ($bans as $ban) {
-                $bar->advance();
-                $case = UserCase::create([
-                    'user_id' => $ban->uid, # Changed
-                    'mod_user_id' => $ban->admin, # Changed
-                    'warning' => false, #Figure
-                    'reason' => $ban->reason,
-                    'created_at' => $this->handleUnixDate($ban->dateline),
-                    'updated_at' => $this->handleUnixDate($ban->dateline),
-                    'expire_date' => $this->handleUnixDate($ban->bantime),
-                ]);
-                Ban::create([
-                    'user_id' => $ban->uid,
-                    'case_id' => $case->id
-                ]);
+        $bans = $this->con->table('banned')->get();
+
+        foreach ($bans as $ban) {
+            $bar->advance();
+            if (!User::where('id', $ban->uid)->exists()) {
+                continue;
             }
-        });
+
+            $admin = $ban->admin;
+
+            if (!User::where('id', $admin)->exists()) {
+                $admin = 1;
+            }
+
+            $case = UserCase::forceCreate([
+                'user_id' => $ban->uid, # Changed
+                'mod_user_id' => $admin, # Changed
+                'warning' => false, #Figure
+                'reason' => $ban->reason,
+                'created_at' => $this->handleUnixDate($ban->dateline),
+                'updated_at' => $this->handleUnixDate($ban->dateline),
+            ]);
+            Ban::forceCreate([
+                'user_id' => $ban->uid,
+                'case_id' => $case->id
+            ]);
+        }
 
         $bar->finish();
     }
@@ -224,7 +214,7 @@ class MigrateBB extends Command
         $cats = $this->con->table('mydownloads_categories')->get();
         foreach ($cats as $cat) {
             if (!$cat->parent) { # Game
-                Game::create([
+                Game::forceCreate([
                     'id' => $cat->cid,
                     'name' => $cat->name,
                     'thumbnail' => $cat->background,
@@ -241,7 +231,7 @@ class MigrateBB extends Command
         foreach ($cats as $cat) {
             $bar->advance();
             if ($cat->parent) { # Category
-                Category::create([
+                Category::forceCreate([
                     'id' => $cat->cid,
                     'name' => $cat->name,
                     'desc' => $cat->description,
@@ -278,7 +268,7 @@ class MigrateBB extends Command
             if (empty($gameId)) {
                 $gameId = null;
             };
-            Tag::create([
+            Tag::forceCreate([
                 'id' => $tag->tid, 
                 'name' => $tag->tag,
                 'color' => $tag->color,
@@ -299,7 +289,7 @@ class MigrateBB extends Command
         foreach ($multipleGameTags as $tag) {
             $games = explode(',', $tag->categories);
             for($i = 1; $i < count($games); $i++) {
-                Tag::create([
+                Tag::forceCreate([
                     'name' => $tag->tag,
                     'color' => $tag->color,
                     'notice' => $tag->notice,
@@ -316,53 +306,68 @@ class MigrateBB extends Command
 
     public function handleInstructionsTemplates()
     {
-        $bar = $this->progress('Converting mods', $this->con->table('mydownloads_tags')->count());
+        $bar = $this->progress('Converting mods', $this->con->table('mods_instructions_templates')->count());
         $templates = $this->con->table('mods_instructions_templates')->get();
         foreach ($templates as $template) {
             $bar->advance();
             $games = explode(',', $template->categories);
-            InstructsTemplate::create([
+            InstructsTemplate::forceCreate([
                 'id' => $template->instid, # Changed
                 'name' => $template->name,
                 'instructions' => $template->instructions,
                 'localized' => $template->localized,
                 'game_id' => $games[0], # Make sure only one game is defined per v3's standards / Changed
             ]);
+
+            $deps = json_decode($template->depends_on);
+            foreach ($deps as $dep) {
+                Dependency::forceCreate([
+                    'name' => $dep->id || '',
+                    'url' => $dep->url || null,
+                    'mod_id' => $dep->id || null,
+                    'offsite' => !!$dep->id,
+                    'optional' => $dep->optional,
+                    'dependable_type' => 'instructs_template',
+                    'dependable_id' => $template->instid,
+                ]);
+            }
         }
+
         $bar->finish();
         $this->resetAutoIncrement('instructs_templates');
     }
 
     public function handleMods()
     {
-        $bar = $this->progress('Converting mods', $this->con->table('mydownloads_tags')->count());
-        $this->con->table('mydownloads_downloads')->orderBy('uid')->chunk(1000, function($mods) use ($bar) {
+        $bar = $this->progress('Converting mods', $this->con->table('mydownloads_downloads')->count());
+        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(1000, function($mods) use ($bar) {
             foreach ($mods as $mod) {
                 $bar->advance();
                 # Score is recalculated.
                 # Invited removed due to underuse.
-    
-                $newMod = Mod::create([
+                
+                $newMod = Mod::where('id', $mod->did)->get();
+
+                $newMod = Mod::forceCreate([
                     'id' => $mod->did,
-                    'category_id' => $mod->cid, # Changed
+                    'category_id' => Category::where('id', $mod->cid)->exists() ? $mod->cid : null, # Changed
                     'game_id' => $mod->root, # Changed
-                    'name' => $mod->name,
+                    'name' => Str::limit($mod->name, 150),
                     'desc' => $mod->description, # Changed
-                    'instructions' => $mod->instructions,
-                    'short_desc' => $mod->short_description, # Changed
+                    'instructions' => $mod->instructions ?? '',
+                    'short_desc' => Str::limit($mod->short_description, 150), # Changed
                     'changelog' => $mod->changelog,
                     'visibility' => $mod->hidden, # Changed, needs figuring out
-                    'depends_on' => $mod->depends_on, # Figure out
-                    'instructs_template_id' => $mod->instid, # Changed
+                    'instructs_template_id' => !empty($mod->instid) ? $mod->instid : null, # Changed
                     'downloads' => $mod->downloads,
                     'likes' => $mod->likes,
-                    'views' => $mod->view,
+                    'views' => $mod->views,
                     'user_id' => $mod->submitter_uid, # Changed
                     'license' => $mod->license,
                     'version' => $mod->version,
-                    'date' => $this->handleUnixDate($mod->bumped_at), # Changed
+                    'bumped_at' => $this->handleUnixDate($mod->date), # Changed
                     'created_at' => $this->handleUnixDate($mod->pub_date), # New #Handle dates
-                    'updated_at' => $this->handleUnixDate($mod->bumped_at), # New
+                    'updated_at' => $this->handleUnixDate($mod->date), # New
                     'published_at' => $this->handleUnixDate($mod->pub_date), # Changed
                     'donation' => $mod->receiver_email, # Changed
                     'suspended' => $mod->suspended_status == 1, # Changed into a boolean
@@ -371,17 +376,32 @@ class MigrateBB extends Command
                     'approved' => $mod->file_status != 2,
                 ]);
 
-                $images = $this->con->table('mws_images')->where('did', $mod->id)->get();
+                $deps = json_decode($mod->depends_on);
+                if (isset($deps)) {
+                    foreach ($deps as $dep) {
+                        Dependency::forceCreate([
+                            'name' => $dep->id || '',
+                            'url' => $dep->url || null,
+                            'mod_id' => $dep->id || null,
+                            'offsite' => !!$dep->id,
+                            'optional' => $dep->optional,
+                            'dependable_type' => 'mod',
+                            'dependable_id' => $newMod->id,
+                        ]);
+                    }
+                }
+
+                $images = $this->con->table('mws_images')->where('did', $newMod->id)->get();
                 $foundBanner = false;
                 foreach ($images as $image) {
-                    Image::create([
+                    Image::forceCreate([
                         'id' => $image->id,
                         'mod_id' => $image->did,
-                        'user_id' => $image->uid,
+                        'user_id' => $image->uid || $newMod->user_id,
                         'file' => $image->file,
-                        'type' => $image->type,
+                        'type' => $image->filetype,
                         'has_thumb' => $image->has_thumb == 1,
-                        'size' => $image->size,
+                        'size' => $image->filesize,
                         'created_at' => $this->handleUnixDate($image->date),
                         'updated_at' => $this->handleUnixDate($image->date),
                     ]);
@@ -394,27 +414,28 @@ class MigrateBB extends Command
                     }
                 }
 
-                $files = $this->con->table('mws_mydownloads_files')->where('did', $mod->id)->get();
+                $files = $this->con->table('mydownloads_files')->where('did', $newMod->id)->get();
                 $firstModFileId = null;
                 foreach ($files as $file) {
-                    $firstModFileId ??= $file->id;
-                    File::create([
+                    $newFile = File::forceCreate([
                         'id' => $file->fid,
+                        'name' => $file->name,
                         'mod_id' => $file->did,
-                        'user_id' => $file->uid,
+                        'user_id' => $file->uid || $newMod->user_id,
                         'file' => $file->file,
                         'desc' => $file->description,
-                        'image_id' => $file->image, #TODO: Deal with this, has also thumbnail column
+                        // 'image_id' => $file->image, #TODO: Deal with this, has also thumbnail column
                         'type' => $file->filetype,
                         'size' => $file->filesize,
                         'created_at' => $this->handleUnixDate($file->date),
                         'updated_at' => $this->handleUnixDate($file->date),
                     ]);
+                    $firstModFileId ??= $newFile->fid;
                 }
 
                 $link = null;
                 if (isset($newMod->url)) {
-                    $link = Link::create([
+                    $link = Link::forceCreate([
                         'user_id' => $newMod->user_id,
                         'mod_id' => $newMod->id,
                         'name' => $newMod->url,
@@ -423,22 +444,24 @@ class MigrateBB extends Command
                 }
 
                 $newMod->update([
-                    'thumbnail_id' => $mod->thumbnail_id,
+                    'thumbnail_id' => !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null,
                     'legacy_banner_url' => $foundBanner ? null : $mod->banner,
                     'download_type' => isset($newMod->url) ? 'link' : 'file',
                     'download_id' => isset($newMod->url) ? $link->id : $firstModFileId,
                 ]);
 
                 foreach (explode(',', $mod->tags) as $id) {
-                    Taggable::create([
-                        'tag_id' => $id,
-                        'taggable_type' => 'mod',
-                        'taggable_id' => $newMod->id,
-                    ]);
+                    if (!empty($id) && Tag::whereId($id)->exists()) {
+                        Taggable::forceCreate([
+                            'tag_id' => intval($id),
+                            'taggable_type' => 'mod',
+                            'taggable_id' => $newMod->id,
+                        ]);
+                    }
                 }
     
                 foreach (explode(',', $mod->collaborators) as $id) {
-                    ModMember::create([
+                    ModMember::forceCreate([
                         'mod_id' => $newMod->id,
                         'level' => 'collaborator',
                         'accepted' => true
@@ -446,7 +469,7 @@ class MigrateBB extends Command
                 }
     
                 foreach (explode(',', $mod->invited) as $id) {
-                    ModMember::create([
+                    ModMember::forceCreate([
                         'mod_id' => $newMod->id,
                         'level' => 'viewer',
                         'accepted' => true
@@ -459,5 +482,221 @@ class MigrateBB extends Command
         $this->resetAutoIncrement('mods');
         $this->resetAutoIncrement('files');
         $this->resetAutoIncrement('images');
+    }
+
+    public function handleComments()
+    {
+        $bar = $this->progress('Converting mod comments', $this->con->table('mydownloads_comments')->count());
+        $this->con->table('mydownloads_comments')->orderBy('uid')->where('uid', '!=', 0)->chunk(1000, function($comments) use ($bar) {
+            foreach ($comments as $comment) {
+                # Removed cid (unused)
+                $bar->advance();
+
+                if (!empty($comment->replyid) && !Comment::where('id', $comment->replyid)->exists() ) {
+                    continue;
+                }
+
+                if (!User::where('id', $comment->uid)->exists()) {
+                    continue;
+                }
+
+                Comment::forceCreate([
+                    'user_id' => $comment->uid, # Changed,
+                    'commentable_type' => 'mod', # Migrated data is ONLY mods, we may migrate mybb threads
+                    'commentable_id' => $comment->did, # Changed
+                    'content' => $comment->comment, # Changed
+                    'updated_at' => $this->handleUnixDate($comment->date_edited), #Changed, handle date
+                    'created_at' => $this->handleUnixDate($comment->date), # Changed
+                    'pinned' => $comment->pinned == '1',
+                    'reply_to' => !empty($comment->replyid) ? $comment->replyid : null
+                ]);
+            }
+        });
+
+        $bar->finish();
+    }
+
+    public function handleModDownloads()
+    {
+        $bar = $this->progress('Converting mod downloads', $this->con->table('mods_downloads')->count());
+
+        $this->con->table('mods_downloads')->orderBy('uid')->chunk(10000, function($downloads) use ($bar) {
+            $insertAtOnce = [];
+            $insertAtOnceIpless = [];
+            $insertAtOnceUserless = [];
+            $insertBroken = [];
+            foreach ($downloads as $download) {
+                $bar->advance();
+
+                if (!isset($this->modIds[$download->did])) {
+                    continue;
+                }
+
+                $date = $this->handleUnixDate($download->date);
+                $insert = [
+                    'mod_id' => $download->did, # Changed
+                    'updated_at' => $date, # Changed
+                    'created_at' => $date
+                ];
+                
+                $hasUser = false;
+                $hasIp = false;
+                if ($download->uid) {
+                    $insert['user_id'] = $download->uid;
+                    $hasUser = true;
+                }
+
+                if (!empty($download->ipaddress) && !is_numeric($download->ipaddress)) {
+                    $insert['ip_address'] = $download->ipaddress;
+                    $hasIp = true;
+                }
+
+                if ($hasUser && $hasIp) {
+                    $insertAtOnce[] = $insert;
+                } else if ($hasIp) {
+                    $insertAtOnceUserless[] = $insert;
+                } else if ($hasUser) {
+                    $insertAtOnceIpless[] = $insert;
+                } else {
+                    $insertBroken[] = $insert;
+                }
+            }
+
+            ModDownload::insert($insertAtOnceIpless);
+            ModDownload::insert($insertAtOnceIpless);
+            ModDownload::insert($insertAtOnceUserless);
+            ModDownload::insert($insertBroken);
+            unset($insertAtOnce);
+            unset($insertAtOnceIpless);
+            unset($insertAtOnceUserless);
+            unset($insertBroken);
+        });
+
+        $bar->finish();
+    }
+
+    public function handleModViews()
+    {
+        $bar = $this->progress('Converting mod views', $this->con->table('mydownloads_views')->count());
+        $this->con->table('mydownloads_views')->orderBy('uid')->chunk(10000, function($views) use ($bar) {
+            $insertAtOnce = [];
+            $insertAtOnceIpless = [];
+            $insertAtOnceUserless = [];
+            $insertBroken = [];
+
+            foreach ($views as $view) {
+                $bar->advance();
+
+                if (!isset($this->modIds[$view->did])) {
+                    continue;
+                }
+
+                $insert = [
+                    'mod_id' => $view->did, # Changed
+                ];
+
+                $hasUser = false;
+                $hasIp = false;
+                if ($view->uid) {
+                    $insert['user_id'] = $view->uid;
+                    $hasUser = true;
+                }
+
+                if (!empty($view->ipaddress) && !is_numeric($view->ipaddress)) {
+                    $insert['ip_address'] = $view->ipaddress;
+                    $hasIp = true;
+                }
+
+                if ($hasUser && $hasIp) {
+                    $insertAtOnce[] = $insert;
+                } else if ($hasIp) {
+                    $insertAtOnceUserless[] = $insert;
+                } else if ($hasUser) {
+                    $insertAtOnceIpless[] = $insert;
+                } else {
+                    $insertBroken[] = $insert;
+                }
+            }
+
+            ModView::insert($insertAtOnceIpless);
+            ModView::insert($insertAtOnceIpless);
+            ModView::insert($insertAtOnceUserless);
+            ModView::insert($insertBroken);
+            unset($insertAtOnce);
+            unset($insertAtOnceIpless);
+            unset($insertAtOnceUserless);
+            unset($insertBroken);
+        });
+
+        $bar->finish();
+    }
+
+    public function handleLikes()
+    {
+        $bar = $this->progress('Converting mod likes', $this->con->table('mydownloads_ratings')->count());
+        $this->con->table('mydownloads_ratings')->orderBy('uid')->chunk(1000, function($likes) use ($bar) {
+            $insert = [];
+            foreach ($likes as $like) {
+                # Removed IP (redundant, only users can like mods!)
+                # Altho it does raise an interesting question about bots and bot-liking mods ^
+                # Removed type (redundant, from the days we had dislikes)
+                $bar->advance();
+
+                // So fucking much invalid data
+                if (!isset($this->modIds[$like->did])) {
+                    continue;
+                }
+
+                if (!User::where('id', $like->uid)->exists()) {
+                    continue;
+                }
+
+                $insert[] = [
+                    'mod_id' => $like->did,
+                    'user_id' => $like->uid,
+                    'updated_at' => $this->handleUnixDate($like->stamp), # Handle date
+                    'created_at' => $this->handleUnixDate($like->stamp)
+                ];
+            }
+
+            ModLike::insert($insert);
+        });
+        
+        $bar->finish();
+    }
+
+    public function handlePopularityLog()
+    {
+        $bar = $this->progress('Converting popularity logs', $this->con->table('mods_monthly_logs')->count());
+        $this->con->table('mods_monthly_logs')->orderBy('uid')->where('')->chunk(10000, function($logs) use ($bar) {
+            $insert = [];
+            $insertUserless = [];
+            foreach ($logs as $log) {
+                $bar->advance();
+
+                if (!isset($this->modIds[$log->did]) || $log->type == 2) {
+                    continue;
+                }
+
+                $newLog = [
+                    'ip_address' => $log->ipaddress,
+                    'mod_id' => $log->did,
+                    'updated_at' => $this->handleUnixDate($log->date),
+                    'type' => NEW_LOG_TYPES[$log->type] # Really changed
+                ];
+
+                if (!empty($log->uid)) {
+                    $newLog['user_id'] = $log->uid;
+                    $insert[] = $newLog;
+                } else {
+                    $insertUserless[] = $newLog;
+                }
+            }
+
+            PopularityLog::insert($insert);
+            PopularityLog::insert($insertUserless);
+        });
+
+        $bar->finish();
     }
 }

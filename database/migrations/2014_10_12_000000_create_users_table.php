@@ -46,6 +46,8 @@ class CreateUsersTable extends Migration
                 'none'
             ])->default('supporter_or_role');
 
+            $table->index('unique_name');
+
             $table->timestamps();
         });
     }

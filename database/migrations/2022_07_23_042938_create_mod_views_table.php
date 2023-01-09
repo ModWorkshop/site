@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');;
             $table->bigInteger('user_id')->unsigned()->nullable();;
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
-            $table->ipAddress();
+            $table->ipAddress()->nullable();
             $table->timestamps();
         });
     }

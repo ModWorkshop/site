@@ -59,7 +59,7 @@ use Laravel\Socialite\Facades\Socialite;
  * store method still requires a game so that's not available in the global one.
  */
 function resource(string $resource, string $class, string $parent, array $config=[]) {
-    $reg = Route::resource("${parent}.{$resource}", $class);
+    $reg = Route::resource("{$parent}.{$resource}", $class);
     Route::resource($resource, $class)->only($config['selfOnly'] ?? ['index']);
     if ($config['shallow'] ?? true) {
         $reg->shallow();
