@@ -42,7 +42,7 @@
                     </VDropdown>
                 </flex>
                 <flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4"> 
-                    <VDropdown :show="showSearch">
+                    <VDropdown :shown="showSearch" no-auto-focus :triggers="[]" :auto-hide="false">
                         <div>
                             <a-input 
                                 id="header-search"
@@ -161,7 +161,7 @@ watch(showNotifications, async () => {
 watch(search, val => {
     unlockedOwO.value = val.toLowerCase() === 'owo';
     if (val) {
-        showSearch.value = true;
+    showSearch.value = true;
     }
 });
 
