@@ -72,7 +72,7 @@
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
                 <a-markdown :text="mod.license"/>
             </a-tab>
-            <a-tab v-if="dependencies.length || mod.instructions.length" name="instructions" :title="$t('instructions_tab')" gap="0">
+            <a-tab v-if="dependencies.length || mod.instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
                     <h2>{{$t('dependencies')}}</h2>
                     <ol style="padding-inline-start: 32px;">
@@ -101,9 +101,9 @@
                         </li>
                     </ol>
                 </div>
-                <div v-if="mod.instructions.length">
+                <div v-if="mod.instructions">
                     <h2>{{$t('instructions')}}</h2>
-                    <a-markdown class="mb-3" :text="mod.instructs_template.instructions + '\n' + mod.instructions"/>
+                    <a-markdown class="mb-3" :text="(mod.instructs_template ? mod.instructs_template.instructions + '\n' : '') + mod.instructions"/>
                 </div>
             </a-tab>
         </a-tabs>

@@ -1,23 +1,11 @@
 import { remove } from "@antfu/utils";
-
-interface ToastOptions {
-    title?: string;
-    desc?: string;
-    color?: string;
-    duration?: number|false;
-}
-
-interface Toast extends ToastOptions {
-    key?: string;
-}
-
-/** Vuestic unfortunately auto imports "useToast" */
+import { Toast } from "~~/types/toast";
 
 export default function() {
-    const toasts = useState('toasts', () => []);
+    const toasts = useState<Toast[]>('toasts', () => []);
 
     return {
-        showToast(options: ToastOptions) {
+        showToast(options: Toast) {
             const toast: Toast = options;
             toast.key = `toast_${ Math.random().toString(16)}`;
             toasts.value.push(toast);

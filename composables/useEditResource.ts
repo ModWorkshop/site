@@ -1,7 +1,8 @@
+import { Ref } from 'nuxt/dist/app/compat/capi';
 import { SearchParams } from "ohmyfetch";
 import { useI18n } from "vue-i18n";
 
-export default async function<T>(name: string, url: string, template: T=null, params: SearchParams=null) {
+export default async function<T>(name: string, url: string, template: T|null=null, params: SearchParams|null=null) {
     const route = useRoute();
     const { t } = useI18n();
 

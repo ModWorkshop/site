@@ -10,7 +10,7 @@ import { useI18n } from "vue-i18n";
  * @param fallback If ID is optional, falls back to this object
  * @returns 
  */
-export default async function<T>(name: string, url: string, errorMessages: Record<number|string, string> = {}, params: SearchParams = null, fallback?: T) {
+export default async function<T>(name: string, url: string, errorMessages: Record<number|string, string> = {}, params: SearchParams|undefined = undefined, fallback?: T) {
     const route = useRoute();
     
     const { t } = useI18n();

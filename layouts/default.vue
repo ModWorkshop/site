@@ -34,9 +34,10 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
+import { Toast } from '~~/types/toast';
 import { longExpiration } from '~~/utils/helpers';
 
-const toasts = useState('toasts', () => []);
+const toasts = useState<Toast[]>('toasts', () => []);
 
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
 

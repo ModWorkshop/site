@@ -5,7 +5,7 @@ function isFetchError(error): error is FetchError {
     return !!error.response;
 }
 
-export default function(error: FetchError|Error|Ref<true | FetchError | Error>, errorStrings: string|Record<number|string, string> = {}) {
+export default function(error: FetchError|Error|Ref<true | FetchError | Error | null>, errorStrings: string|Record<number|string, string> = {}) {
     const err = unref(error);
 
     if (err instanceof Error) {

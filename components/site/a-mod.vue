@@ -13,7 +13,7 @@
             <template v-if="!noCategories">
                 <flex v-if="((mod.game && showGame) || mod.category)">
                     <font-awesome-icon icon="map-marker-alt"/> 
-                    <NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
+                    <NuxtLink v-if="showGame && mod.game" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
                         {{mod.game.name}}
                     </NuxtLink>
                     <template v-if="mod.category">

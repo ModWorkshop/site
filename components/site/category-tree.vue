@@ -27,7 +27,7 @@
 import { Category } from '~~/types/models';
 
 const props = defineProps<{
-    modelValue?: number,
+    modelValue?: number|null,
     categories: Category[],
     category?: Category,
     setQuery?: boolean
@@ -48,7 +48,7 @@ const currentCategories = computed(() => {
 
 function isRelatedParent(category: Category, otherCategory: Category) {
     //Basically the parent
-    if (category.id == otherCategory.parent_id) {
+    if (category.id == otherCategory?.parent_id) {
         return true;
     }
 

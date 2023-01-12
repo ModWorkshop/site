@@ -41,7 +41,7 @@
                 </flex>
             </div>
         </flex>
-        <div v-if="replies.data.length" class="mx-3">
+        <div v-if="replies?.data?.length" class="mx-3">
             <flex column>
                 <a-comment v-for="reply of replies.data" 
                     :key="reply.id"
