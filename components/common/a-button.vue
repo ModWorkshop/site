@@ -1,9 +1,15 @@
 <template>
-    <NuxtLink v-if="toOrHref && !disabled" :to="toOrHref" :class="clss" :download="download">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+    <NuxtLink v-if="toOrHref && !isDisabled" :to="toOrHref" :class="clss" :download="download">
+        <a-loading v-if="loading"/>
+        <template v-else>
+            <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        </template>
     </NuxtLink>
-    <button v-else :disabled="disabled" :class="clss" :type="type"> 
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+    <button v-else :disabled="isDisabled" :class="clss" :type="type"> 
+        <a-loading v-if="loading"/>
+        <template v-else>
+            <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        </template>
     </button>
 </template>
 
@@ -12,6 +18,7 @@ const props = withDefaults(defineProps<{
     href?: string,
     to?: string,
     unstyled?: boolean,
+    loading?: boolean,
     color?: 'primary' | 'warning' | 'subtle' | 'secondary' | 'danger' | 'none',
     type?: 'button' | 'submit' | 'reset',
     size?: string,
@@ -41,6 +48,8 @@ const clss = computed(() => ({
 const iconStyle = computed(() => ({
     transform: props.iconRotation ? `Rotate(${props.iconRotation}deg)` : null
 }));
+
+const isDisabled = computed(() => props.disabled || props.loading);
 </script>
 
 <style scoped>
