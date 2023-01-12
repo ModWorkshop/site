@@ -76,7 +76,7 @@ class RoleController extends Controller
      */
     public function update(UpsertRoleRequest $request, Role $role=null)
     {
-        $val = $request->validate();
+        $val = $request->validated();
         APIService::nullToEmptyStr($val, 'name', 'tag', 'desc', 'color');
 
         $order = Arr::get($val, 'order');
