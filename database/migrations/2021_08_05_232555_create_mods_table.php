@@ -31,7 +31,7 @@ class CreateModsTable extends Migration
             $table->text('changelog')->default('');
             $table->text('license')->default('');
             $table->text('instructions')->default('');
-            $table->tinyInteger('visibility')->default(0); // Was hidden
+            $table->enum('visibility', ['public', 'private', 'unlisted'])->default('public');
             $table->tinyText('legacy_banner_url')->nullable(); //Only to be used for old mods, all new mods will have to move to banner_id.
             $table->bigInteger('downloads')->unsigned()->default(0);
             $table->bigInteger('likes')->unsigned()->default(0);

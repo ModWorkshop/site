@@ -21,9 +21,12 @@ return new class extends Migration
             $table->foreign('case_id')->references('id')->on('user_cases')->onDelete('cascade');
             $table->boolean('can_appeal')->default(true);
             $table->timestamps();
-            $table->index('user_id');
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+
+            $table->index('user_id');
+            $table->index('game_id');
+            $table->index('case_id');
         });
     }
 

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->morphs('taggable');
             $table->timestamps();
+            $table->index('tag_id');
+
         });
     }
 

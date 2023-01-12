@@ -19,10 +19,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->bigInteger('mod_user_id')->unsigned()->nullable();
-            $table->foreign('mod_user_id')->references('id')->on('users');
+            $table->foreign('mod_user_id')->references('id')->on('users')->nullOnDelete();
 
             $table->boolean('warning')->default(false);
-            $table->string('reason');
+            $table->text('reason');
 
             $table->timestamp('expire_date')->nullable();
 
@@ -31,6 +31,10 @@ return new class extends Migration
 
             $table->string('pardon_reason')->nullable();
             $table->boolean('pardoned')->default(false);
+
+            $table->index('user_id');
+            $table->index('mod_user_id');
+            $table->index('game_id');
 
             $table->timestamps();
         });

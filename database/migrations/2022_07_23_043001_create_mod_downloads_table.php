@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->ipAddress()->nullable();
             $table->timestamps();
+            $table->index('user_id');
+            $table->index('mod_id');
+
         });
     }
 

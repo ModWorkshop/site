@@ -34,6 +34,10 @@ return new class extends Migration
             $table->bigInteger('last_user_id')->unsigned();
             $table->foreign('last_user_id')->references('id')->on('users');
 
+            $table->index('user_id');
+            $table->index('category_id');
+            $table->index('last_user_id');
+
             $table->boolean('locked_by_mod')->default(false);
 
             $table->boolean('announce')->default(false);

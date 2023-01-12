@@ -21,6 +21,9 @@ return new class extends Migration
             //Was categories, we only support one game now for consistency
             $table->bigInteger('game_id')->unsigned();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+
+            $table->index('game_id');
+
             $table->timestamps();
         });
 

@@ -20,6 +20,10 @@ return new class extends Migration
             $table->bigInteger('follow_user_id')->unsigned();
             $table->foreign('follow_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('notify');
+
+            $table->index('user_id');
+            $table->index('follow_user_id');
+
             $table->timestamps();
         });
     }

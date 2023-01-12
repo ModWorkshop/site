@@ -51,15 +51,15 @@ class ModPolicy
 
         switch ($mod->visibility) {
             case Visibility::unlisted:
-            case Visibility::pub:
+            case Visibility::public:
                 return true;
-            case Visibility::hidden:
+            case Visibility::public:
                 if (!isset($user)) {
                     return false;
                 }
                 return $this->update($user, $mod);
         }
-        return false;
+        return true;
     }
 
     public function like(User $user, Mod $mod)

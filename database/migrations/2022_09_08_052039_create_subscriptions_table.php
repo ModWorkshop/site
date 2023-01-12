@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('subscribable');
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

@@ -25,6 +25,9 @@ return new class extends Migration
             $table->foreign('last_user_id')->references('id')->on('users');
 
             $table->timestamps();
+
+            $table->index('game_id');
+            $table->index('last_user_id');
         });
     }
 

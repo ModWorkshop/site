@@ -30,7 +30,9 @@ return new class extends Migration
              * This means that when ordering, we'll use desecending order.
              * Also we must avoid roles having the same order.
              */
+
             $table->smallInteger('order');
+            $table->index('game_id');
             $table->timestamps();
         });
         

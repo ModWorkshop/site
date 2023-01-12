@@ -25,6 +25,9 @@ return new class extends Migration
             $table->boolean('locked')->default(false); //Was marked
             $table->morphs('reportable'); //Was type
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('game_id');
         });
     }
 

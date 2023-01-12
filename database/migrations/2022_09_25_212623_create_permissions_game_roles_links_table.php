@@ -20,6 +20,9 @@ return new class extends Migration
             $table->bigInteger('permission_id')->unsigned();
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
 
+            $table->index('game_role_id');
+            $table->index('permission_id');
+
             $table->timestamps();
         });
     }

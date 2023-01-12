@@ -22,6 +22,9 @@ return new class extends Migration
             $table->bigInteger('comment_id')->unsigned();
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
 
+            $table->index('user_id');
+            $table->index('comment_id');
+
             $table->timestamps();
         });
     }

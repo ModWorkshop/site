@@ -19,8 +19,11 @@ return new class extends Migration
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
             $table->bigInteger('mod_user_id')->unsigned()->nullable();
             $table->foreign('mod_user_id')->references('id')->on('users');
-            $table->string('reason')->default('');
+            $table->text('reason')->default('');
             $table->boolean('status')->default(true);
+
+            $table->index('mod_user_id');
+            $table->index('mod_id');
 
             $table->timestamps();
         });

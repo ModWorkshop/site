@@ -26,9 +26,9 @@ use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
-    const pub = 1;
-    const hidden = 2;
-    const unlisted = 3;
+    const public = 'public';
+    const private = 'private';
+    const unlisted = 'unlisted';
 }
 
 /**
@@ -240,7 +240,7 @@ class Mod extends Model implements SubscribableInterface
             $mod->subscriptions()->delete();
         });
         static::creating(function(Mod $mod) {
-            $mod->bumped_at = $mod->freshTimestampString();
+            $mod->bumped_at ??= $mod->freshTimestampString();
         });
 
         static::created(function(Mod $mod) {

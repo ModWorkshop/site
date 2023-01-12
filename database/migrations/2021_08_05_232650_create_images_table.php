@@ -24,6 +24,9 @@ class CreateImagesTable extends Migration
             $table->tinyText('type');
             $table->bigInteger('size');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('mod_id');
         });
 
         Schema::table('mods', function (Blueprint $table) {

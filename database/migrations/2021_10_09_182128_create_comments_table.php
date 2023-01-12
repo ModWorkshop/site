@@ -22,6 +22,10 @@ class CreateCommentsTable extends Migration
             $table->boolean('pinned')->default(false);
             $table->bigInteger('reply_to')->unsigned()->nullable();
             $table->foreign('reply_to')->references('id')->on('comments')->onDelete('cascade');
+
+            $table->index('user_id');
+            $table->index('reply_to');
+
             $table->timestamps();
         });
     }

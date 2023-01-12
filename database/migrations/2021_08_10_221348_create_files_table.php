@@ -28,6 +28,11 @@ class CreateFilesTable extends Migration
             $table->bigInteger('size');
             $table->tinyText('label')->default(''); //Was type, now a free label the user can label their files with
             $table->tinyText('version')->default('');
+
+            $table->index('user_id');
+            $table->index('mod_id');
+            $table->index('image_id');
+
             $table->timestamps();
         });
     }

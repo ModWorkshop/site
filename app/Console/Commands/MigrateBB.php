@@ -7,6 +7,9 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Dependency;
 use App\Models\File;
+use App\Models\FollowedGame;
+use App\Models\FollowedMod;
+use App\Models\FollowedUser;
 use App\Models\Game;
 use App\Models\Image;
 use App\Models\InstructsTemplate;
@@ -21,6 +24,7 @@ use App\Models\SocialLogin;
 use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
+use App\Models\Subscription;
 use App\Models\UserCase;
 use Arr;
 use Carbon\Carbon;
@@ -41,8 +45,21 @@ const NEW_LOG_TYPES = [
 ];
 
 const NEW_VISIBILITY = [
-    0 => 'pub',
-    1 => 'private'
+    '0' => 'public',
+    '1' => 'private',
+    '3' => 'unlisted',
+    '4' => 'private' # Was invite only
+];
+
+const STRIKES_TO_WARNINGS = [
+    1 => 1,
+    2 => 1,
+    3 => 2
+];
+
+const NEW_SUB_TYPES = [
+    1 => 'mod',
+    2 => 'comment'
 ];
 
 /**
@@ -74,7 +91,9 @@ class MigrateBB extends Command
     public function progress($str, $total)
     {
         $this->info($str);
-        return $this->output->createProgressBar($total);
+        $bar = $this->output->createProgressBar($total);
+        $this->newLine();
+        return $bar;
     }
 
     // Now with support above 2038!!!!
@@ -105,8 +124,6 @@ class MigrateBB extends Command
         #mbb_banfilters 
         # TODO: implement IP bans
         # TODO: think about porting the forum data (mbb_forums)
-        # TODO: think about porting mbb_mws_cases
-        # TODO: port following & subs tables
 
         $this->info("Converting old-ass data to new-and-improved data!");
         ini_set("memory_limit", -1);
@@ -114,18 +131,21 @@ class MigrateBB extends Command
 
         $this->con = DB::connection('mysql_migration');
         // $this->handleUsers();
+        // $this->handleCases();
         // $this->handleBans();
         // $this->handleCategoriesGames();
         // $this->handleTags();
         // $this->handleInstructionsTemplates();
+
         // $this->handleMods();
 
-        // $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
+        $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
+        // $this->handleFollowsAndSubs();
 
         // $this->handleComments();
         // $this->handleModDownloads();
         // $this->handleModViews();
-        // $this->handleLikes();
+        $this->handleLikes();
         // $this->handlePopularityLog();
 
         return Command::SUCCESS;
@@ -172,6 +192,40 @@ class MigrateBB extends Command
         $bar->finish();
 
         $this->resetAutoIncrement('users');
+    }
+
+    public function handleCases()
+    {
+        $bar = $this->progress('Converting cases', $this->con->table('mws_cases')->count());
+        $cases = $this->con->table('mws_cases')->get();
+        $STRIKES_TO_WARNING_DURATIONS = [
+            1 => Carbon::now()->addMonths(3),
+            2 => Carbon::now()->addMonths(6),
+            3 => Carbon::now()->addYear(),
+        ];
+
+        foreach ($cases as $case) {
+            $bar->advance();
+            if ($case->strikes) {
+                $strikes = max(1, min($case->strikes, 3));
+                for ($i=0; $i < STRIKES_TO_WARNINGS[$strikes]; $i++) { 
+                    if (User::where('id', $case->uid)->exists()) {
+                        UserCase::forceCreate([
+                            'user_id' => $case->uid, # Changed
+                            'mod_user_id' => $case->moduid, # Changed
+                            'warning' => true,
+                            'reason' => $case->notes,
+                            'created_at' => $this->handleUnixDate($case->date),
+                            'updated_at' => $this->handleUnixDate($case->date),
+                            'expire_date' => $STRIKES_TO_WARNING_DURATIONS[$strikes],
+                            'pardoned' => !$case->active
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $bar->finish();
     }
 
     public function handleBans()
@@ -336,18 +390,51 @@ class MigrateBB extends Command
         $bar->finish();
         $this->resetAutoIncrement('instructs_templates');
     }
+    public function handleUpdateMods()
+    {
+        $bar = $this->progress('Fixing mods', $this->con->table('mydownloads_downloads')->count());
+        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(10000, function($mods) use ($bar) {
+            foreach ($mods as $mod) {
+                $bar->advance();
+
+                $newMod = Mod::where('id', $mod->did)->first();
+
+                $images = Image::where('mod_id', $mod->did)->get();
+                foreach ($images as $image) {
+                    if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
+                        $newMod['banner_id'] = $image->id;
+                        break;
+                    }
+                }
+
+                $file = File::where('mod_id', $mod->did)->first();
+                $link = Link::where('mod_id', $mod->did)->first();
+
+                $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
+                $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
+                $newMod->download_id = isset($link) ? 'link' : 'file';
+                $newMod->download_id = $link?->id ?? $file?->id;
+
+                /** @var Mod */
+                $newMod->calculateFileStatus();
+            }
+        });
+
+        $bar->finish();
+        $this->resetAutoIncrement('mods');
+        $this->resetAutoIncrement('files');
+        $this->resetAutoIncrement('images');
+    }
 
     public function handleMods()
     {
         $bar = $this->progress('Converting mods', $this->con->table('mydownloads_downloads')->count());
-        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(1000, function($mods) use ($bar) {
+        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(10000, function($mods) use ($bar) {
             foreach ($mods as $mod) {
                 $bar->advance();
                 # Score is recalculated.
                 # Invited removed due to underuse.
                 
-                $newMod = Mod::where('id', $mod->did)->get();
-
                 $newMod = Mod::forceCreate([
                     'id' => $mod->did,
                     'category_id' => Category::where('id', $mod->cid)->exists() ? $mod->cid : null, # Changed
@@ -357,7 +444,7 @@ class MigrateBB extends Command
                     'instructions' => $mod->instructions ?? '',
                     'short_desc' => Str::limit($mod->short_description, 150), # Changed
                     'changelog' => $mod->changelog,
-                    'visibility' => $mod->hidden, # Changed, needs figuring out
+                    'visibility' => NEW_VISIBILITY[$mod->hidden], # Changed
                     'instructs_template_id' => !empty($mod->instid) ? $mod->instid : null, # Changed
                     'downloads' => $mod->downloads,
                     'likes' => $mod->likes,
@@ -392,7 +479,7 @@ class MigrateBB extends Command
                 }
 
                 $images = $this->con->table('mws_images')->where('did', $newMod->id)->get();
-                $foundBanner = false;
+                $foundBanner = null;
                 foreach ($images as $image) {
                     Image::forceCreate([
                         'id' => $image->id,
@@ -407,10 +494,7 @@ class MigrateBB extends Command
                     ]);
 
                     if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
-                        $newMod->update([
-                            'banner_id' => $image->id
-                        ]);
-                        $foundBanner = true;
+                        $foundBanner = $image->id;
                     }
                 }
 
@@ -443,12 +527,16 @@ class MigrateBB extends Command
                     ]);
                 }
 
-                $newMod->update([
-                    'thumbnail_id' => !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null,
-                    'legacy_banner_url' => $foundBanner ? null : $mod->banner,
-                    'download_type' => isset($newMod->url) ? 'link' : 'file',
-                    'download_id' => isset($newMod->url) ? $link->id : $firstModFileId,
-                ]);
+                $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
+                $newMod->legacy_banner_url = $foundBanner ? null : $mod->banner;
+                $newMod->download_type = isset($newMod->url) ? 'link' : 'file';
+                $newMod->download_id = isset($newMod->url) ? $link->id : $firstModFileId;
+
+                if (isset($foundBanner)) {
+                    $newMod->banner_id = $foundBanner;
+                }
+
+                $newMod->calculateFileStatus();
 
                 foreach (explode(',', $mod->tags) as $id) {
                     if (!empty($id) && Tag::whereId($id)->exists()) {
@@ -461,19 +549,25 @@ class MigrateBB extends Command
                 }
     
                 foreach (explode(',', $mod->collaborators) as $id) {
-                    ModMember::forceCreate([
-                        'mod_id' => $newMod->id,
-                        'level' => 'collaborator',
-                        'accepted' => true
-                    ]);
+                    if (is_numeric($id) && User::where('id', $id)->exists()) {
+                        ModMember::forceCreate([
+                            'mod_id' => $newMod->id,
+                            'user_id' => $id,
+                            'level' => 'collaborator',
+                            'accepted' => true
+                        ]);
+                    }
                 }
     
                 foreach (explode(',', $mod->invited) as $id) {
-                    ModMember::forceCreate([
-                        'mod_id' => $newMod->id,
-                        'level' => 'viewer',
-                        'accepted' => true
-                    ]);
+                    if (is_int($id) && User::where('id', $id)->exists()) {
+                        ModMember::forceCreate([
+                            'mod_id' => $newMod->id,
+                            'user_id' => $id,
+                            'level' => 'viewer',
+                            'accepted' => true
+                        ]);
+                    }
                 }
             }
         });
@@ -482,6 +576,82 @@ class MigrateBB extends Command
         $this->resetAutoIncrement('mods');
         $this->resetAutoIncrement('files');
         $this->resetAutoIncrement('images');
+    }
+
+    public function handleFollowsAndSubs()
+    {
+        $bar = $this->progress('Converting discussion subscriptions', $this->con->table('mws_subs')->count());
+        $this->con->table('mws_subs')->orderBy('sid')->chunk(10000, function($subs) use ($bar) {
+            $insert = [];
+
+            foreach ($subs as $sub) {
+                $type = NEW_SUB_TYPES[$sub->type];
+                $bar->advance();
+
+                if (
+                    $type == 'mod' && !isset($this->modIds[$sub->id]) 
+                    || $type == 'comment' && !Comment::where('id', $sub->id)->exists() 
+                    || !User::where('id', $sub->uid)->exists()
+                ) {
+                    continue;
+                }
+    
+                $insert[] = [
+                    'user_id' => $sub->uid,
+                    'subscribable_type' => $type,
+                    'subscribable_id' => $sub->id
+                ];
+            }
+
+            Subscription::insert($insert);
+        });
+        $bar->finish();
+
+        $bar = $this->progress('Converting followed mods', $this->con->table('mws_following_mods')->count());
+        $this->con->table('mws_following_mods')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+            $insert = [];
+            foreach ($follows as $follow) {
+                $bar->advance();
+                if (Mod::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Make sure the mod exists
+                    $insert[] = [
+                        'notify' => true,
+                        'user_id' => $follow->uid,
+                        'mod_id' => $follow->follow,
+                    ];
+                }
+                FollowedMod::insert($insert);
+            }
+        });
+        $bar->finish();
+
+        $bar = $this->progress('Converting followed games', $this->con->table('mws_following_cats')->count());
+        $this->con->table('mws_following_cats')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+            foreach ($follows as $follow) {
+                $bar->advance();
+                if (Game::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Following categories is no more
+                    FollowedGame::create([
+                        'user_id' => $follow->uid,
+                        'game_id' => $follow->follow,
+                    ]);
+                }
+            }
+        });
+        $bar->finish();
+
+        $bar = $this->progress('Converting followed users', $this->con->table('mws_following_users')->count());
+        $this->con->table('mws_following_users')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+            foreach ($follows as $follow) {
+                $bar->advance();
+                if (User::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Make sure the user exists
+                    FollowedUser::create([
+                        'notify' => false,
+                        'user_id' => $follow->uid,
+                        'follow_user_id' => $follow->follow,
+                    ]);
+                }
+            }
+        });
+        $bar->finish();
     }
 
     public function handleComments()

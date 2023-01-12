@@ -27,6 +27,8 @@ return new class extends Migration
 
             $table->boolean('is_private')->default(false);
 
+            $table->index('forum_id');
+
             $table->timestamps();
         });
     }

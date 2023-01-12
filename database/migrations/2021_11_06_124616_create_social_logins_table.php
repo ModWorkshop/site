@@ -20,6 +20,7 @@ class CreateSocialLoginsTable extends Migration
             $table->string('social_id');
             $table->string('special_id');
             $table->timestamps();
+            $table->index('user_id');
         });
     }
 

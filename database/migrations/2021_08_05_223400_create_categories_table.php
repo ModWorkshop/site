@@ -28,6 +28,9 @@ class CreateCategoriesTable extends Migration
             $table->boolean('approval_only')->default(false);
             $table->timestamp('last_date');
 
+            $table->index('parent_id');
+            $table->index('game_id');
+
             $table->timestamps();
         });
     }

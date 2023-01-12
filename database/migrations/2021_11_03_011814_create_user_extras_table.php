@@ -24,6 +24,8 @@ class CreateUserExtrasTable extends Migration
             $table->boolean('home_show_threads')->default(true);
             $table->boolean('game_show_mods')->default(true);
             $table->boolean('game_show_threads')->default(true);
+            $table->index('user_id');
+
             $table->timestamps();
         });
     }

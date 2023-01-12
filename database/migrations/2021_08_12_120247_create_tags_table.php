@@ -23,6 +23,8 @@ class CreateTagsTable extends Migration
             $table->bigInteger('game_id')->nullable()->unsigned();
             $table->foreign('game_id')->references('id')->on('games');
             $table->string('type')->default('');
+
+            $table->index('game_id');
             
             $table->timestamps();
         });
