@@ -59,15 +59,18 @@ const props = defineProps<{
     label?: string,
     modelValue?: any,
     validity?: string,
+    elementRef?: HTMLInputElement,
     rows?: number|string,
     type?: string,
     value?: string,
 }>();
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'update:elementRef']);
 
 const vm = useVModel(props, 'modelValue', emit);
-const input = ref<HTMLInputElement>(null);
+const input = ref<HTMLInputElement>();
 const err = useWatchValidation(vm, input);
+
+watch(input, val => emit('update:elementRef', val));
 
 watch(() => props.validity, val => {
 
