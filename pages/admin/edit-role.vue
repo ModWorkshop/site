@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="role" :url="url" :redirect-to="`/admin/${url}`" :delete-button="role.id !== 1">
+    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="`/admin/${url}`" :delete-button="role.id !== 1">
         <a-alert v-if="role.id == 1" color="warning">
             <span>{{$t('members_role_desc')}}</span>
         </a-alert>
@@ -17,7 +17,7 @@
                     :title="hasPermission(perm.name) ? undefined : $t('cant_grant_permission')"
                 >
                     <a-input
-                        :model-value="role.permissions[perm.name]"
+                        v-model="role.permissions[perm.name]"
                         class="p-3"
                         :label="perm.name"
                         type="checkbox"
