@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="category" url="categories" :redirect-to="`/admin/games/${gameId}/categories`">
+    <simple-resource-form v-if="category" v-model="category" url="categories" :redirect-to="`/admin/games/${gameId}/categories`">
         <a-input v-model="category.name" :label="$t('name')"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
         <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" :desc="$t('approval_only_desc')"/>
@@ -45,20 +45,24 @@ const { data: category } = await useEditResource('category', 'categories', {
 
 const { data: categories } = await useFetchMany<Category>(`games/${gameId}/categories`);
 
-const validCategories = computed(() => categories.value.data.filter(cat => {
+const validCategories = computed(() => categories.value?.data.filter(cat => {
     //Don't include the category itself
-    if (cat.id === category.value.id) {
+    if (cat.id === category.value!.id) {
         return false;
     }
 
+    if (!cat.parent_id) {
+        return true;
+    }
+
     //Don't include any child categories to avoid circular reference
-    let current = categories.value.data[cat.parent_id];
+    const current = categories.value!.data[cat.parent_id];
     while(current) {
-        if (current.parent_id == category.value.parent_id) {
+        if (current.parent_id == category.value!.parent_id) {
             return false;
         }
     }
 
     return true;
-}));
+}) || []);
 </script>
