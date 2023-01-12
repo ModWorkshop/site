@@ -67,7 +67,7 @@
                             :game="game"
                             :mods="currentMods"
                         />
-                        <a-button v-if="hasMore" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
+                        <a-button v-if="hasMore" :loading="loadingButton" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
                         <h1 v-else-if="currentMods.length == 0" class="text-center my-auto">{{$t('no_mods_found')}}</h1>
                     </template>
                 </flex>
@@ -104,18 +104,22 @@ const { user } = useStore();
 
 const query = useRouteQuery('query', '');
 const page = useRouteQuery('page', 1, 'number');
-const pageOverride = ref(null);
+const loadMorePageOverride = ref<number>();
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
 const selectedTags = useRouteQuery('selected-tags', []);
 const selectedBlockTags = useRouteQuery('filtered-tags', []);
 const loading = ref(false);
+const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', user?.extra.default_mods_sort ?? 'bumped_at');
+const sortBy = useRouteQuery('sort', user?.extra?.default_mods_sort ?? 'bumped_at');
 const pages = ref(0);
 
-const fetchPage = computed(() => pageOverride.value ?? page.value);
+const triggerRefresh = useEventRaiser();
+
+
+const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);
 
 const searchParams = reactive({
     user_id: props.userId,
@@ -143,6 +147,7 @@ watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 let { start: planLoad } = useTimeoutFn(async () => {
     await refresh();
     loading.value = false;
+    loadingButton.value = false;
 }, 250, { immediate: false });
 
 watch(() => props.url, async () => {
@@ -151,20 +156,35 @@ watch(() => props.url, async () => {
     loading.value = false;
 });
 
-watch(page, () =>  {
-    savedMods.value = [];
-    pageOverride.value = null;
+watch(loadMorePageOverride, (newVal) => {
+    if (newVal) {
+        loadingButton.value = true;
+        savedMods.value = currentMods.value;
+        fetchedMods.value = null;
+    
+        loading.value = savedMods.value.length == 0;
+        planLoad();
+    }
 });
 
-watch([page, pageOverride, searchParams], (value, newValue) => {
-    loading.value = savedMods.value.length == 0;
-
-    if (loading.value && value[0] == newValue[0]) {
-        page.value = undefined;
-    }
+watch([
+    page,
+    query,
+    selectedGame,
+    selectedCategory,
+    selectedTags,
+    selectedCategories,
+    selectedBlockTags,
+    sortBy
+], () => {
+    loadMorePageOverride.value = undefined;
+    savedMods.value = [];
+    loading.value = true;
 
     planLoad();
 });
+
+
 
 function setSortBy(sort) {
     sortBy.value = sort;
@@ -173,18 +193,12 @@ function setSortBy(sort) {
 
 const savedMods = ref<Mod[]>([]);
 
-const hasMore = computed(() => fetchPage.value < fetchedMods.value.meta.last_page);
+const hasMore = computed(() => fetchedMods.value ? fetchPage.value < fetchedMods.value.meta.last_page : true);
 const currentMods = computed<Mod[]>(() => {
     return fetchedMods.value && [...savedMods.value, ...fetchedMods.value.data] || [...savedMods.value];
 });
 
 function loadMore() {
-    
-    const save = currentMods.value;
-    pageOverride.value = fetchPage.value + 1;
-    console.log(fetchPage.value + 1);
-    console.log(pageOverride.value);
-
-    savedMods.value = save;
+    loadMorePageOverride.value = fetchPage.value + 1;
 }
 </script>
