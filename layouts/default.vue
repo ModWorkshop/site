@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <main>
-            <a-toast v-if="user && !user.email_verified_at" class="mt-2" color="warning" :closable="false">
+            <a-toast v-if="user && !user.activated" class="mt-2" color="warning" :closable="false">
                 Your account is not active yet. You must verify it through your email address.
                 <br>
                 The account will be automatically deleted if no action will be taken a day after registration.

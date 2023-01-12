@@ -239,7 +239,7 @@ export interface User {
     unique_name: string;
     email: string | null;
     email_verified_at?: string;
-    email_verified?: boolean;
+    activated?: boolean;
     created_at?: string;
     updated_at?: string;
     avatar: string;
