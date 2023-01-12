@@ -27,7 +27,7 @@
             <tbody>
                 <tr v-for="user of members" :key="user.id">
                     <td><a-user :user="user"/></td>
-                    <td>{{memberLevels[user.level]}}</td>
+                    <td>{{$t(`member_level_${member.level}`)}}</td>
                     <td>{{user.accepted ? '✔' : '❌'}}</td>
                     <td>{{fullDate(user.created_at)}}</td>
                     <td class="text-center p-1">

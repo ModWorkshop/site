@@ -69,7 +69,7 @@ function commentSpecialTag(comment: Comment) {
     } else {
         const member = props.mod.members.find(member => comment.user_id === member.id);
         if (member) {
-            return memberLevels[member.level];
+            return t(`member_level_${member.level}`);
         }
     }
 }

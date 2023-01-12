@@ -4,6 +4,10 @@ import { Mod } from "~~/types/models";
 export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();
     
+    if (!user) {
+        return false;
+    }
+
     if (hasPermission('manage-mods', mod.game) || user?.id === mod.user_id) {
         return true;
     }
@@ -13,7 +17,8 @@ export function canEditMod(mod: Mod) {
     }
 
     const membership = mod.members.find(member => member.accepted && member.id === user.id);
-    return membership && membership.level <= 1;
+    
+    return membership && (membership.level == 'collaborator' || membership.level == 'maintainer');
 }
 
 /**

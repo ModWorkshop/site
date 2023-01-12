@@ -294,6 +294,10 @@ make_your_mod_discoverable: "Make your mod more discoverable",
 error_fetching_mods: "There was an error fetching mods",
 notify_owner_members: "Notify owner and members",
 expires_t: "Expires: {time}",
+member_level_collaborator: "Collaborator",
+member_level_maintainer: "Maintainer",
+member_level_viewer: "Viewer",
+member_level_contributor: "Contributor",
 
 //User//
 

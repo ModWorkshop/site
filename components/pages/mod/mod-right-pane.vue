@@ -17,7 +17,7 @@
                 </span>
             </flex>
 
-            <flex v-if="mod.tags.length > 0">
+            <flex v-if="mod.tags.length > 0" wrap>
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
 
@@ -27,7 +27,7 @@
                         <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
                     </template>
                 </a-user>
-                <a-user v-for="member of members" :key="member.id" :user="member" :details="memberLevels[member.level]">
+                <a-user v-for="member of members" :key="member.id" :user="member" :details="$t(`member_level_${member.level}`)">
                     <template #attach>
                         <donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
                     </template>
@@ -44,7 +44,7 @@
         mod: Mod
     }>();
 
-    const members = computed(() => props.mod.members.filter(member => member.accepted && member.level !== 2));
+    const members = computed(() => props.mod.members.filter(member => member.accepted && (member.level == 'collaborator' || memberLevels.level == 'maintainer')));
 
     const likes = computed(() => props.mod.likes);
     const downloads = computed(() => props.mod.downloads);

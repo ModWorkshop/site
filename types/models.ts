@@ -79,7 +79,7 @@ export interface Image {
 }
 
 export interface ModMember extends User {
-    level: number,
+    level: 'collaborator'|'maintainer'|'contributor'|'viewer',
     accepted: boolean,
 }
 
@@ -116,7 +116,7 @@ export interface Mod {
     updated_at?: string;
     download_id?: number;
     download_type?: string;
-    user?: User;
+    user: User;
     last_user?: User;
     category?: Category;
     game?: Game;
