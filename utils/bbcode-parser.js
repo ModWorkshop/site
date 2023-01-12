@@ -303,7 +303,7 @@ function processTag(tag, module, content){
     let innerContent = content.substr(start + openTag.length, end - (start + openTag.length));
     
     if(!isString && module.noParse){
-        innerContent = this._ignoreLoop(tag.children, innerContent);
+        innerContent = ignoreLoop(tag.children, innerContent);
         tag.children = [];
     }
     else if(isString || !module.retainNewLines)
@@ -343,7 +343,7 @@ function ignoreTag(tag, module, content){
         end = content.indexOf(closeTag);
     }
     let innerContent = content.substr(start + openTag.length, end - (start + openTag.length));
-    innerContent = this._ignoreLoop(tag.children, innerContent);
+    innerContent = ignoreLoop(tag.children, innerContent);
     let contentStart = content.substr(0, start),
         contentEnd = content.substr(end + closeTag.length);
 
