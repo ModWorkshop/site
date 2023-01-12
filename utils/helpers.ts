@@ -59,11 +59,25 @@ export function getTimeAgo(t: string) {
 
 /**
  * Converts ISO8601 date to full date format.
- * @param {String} t 
- * @returns String
  */
-export function fullDate(t: string) {
+export function fullDate(t: string): string {
     return DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT);
+}
+
+
+const million = Math.pow(10, 6);
+
+/**
+ * Converts a big number like 159,125 to 159k
+ */
+export function shortStat(n: number): string {
+    if (n < 1000) {
+        return n.toString();
+    } else if (n < million) {
+        return Math.round(n / 1000) + 'K';
+    } else {
+        return Math.round(n / million) + 'M';
+    }
 }
 
 /**

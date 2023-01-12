@@ -25,13 +25,13 @@
             </template>
 
             <flex>
-                <span>
+                <span :title="mod.likes.toString()">
                     <font-awesome-icon icon="heart"/> {{likes}}
                 </span>
-                <span>
+                <span :title="mod.downloads.toString()">
                     <font-awesome-icon icon="download"/> {{downloads}}
                 </span>
-                <span>
+                <span :title="mod.views.toString()">
                     <font-awesome-icon icon="eye"/> {{views}}
                 </span>
                 <span v-if="date" class="inline-block ml-auto">
@@ -58,9 +58,9 @@ const props = defineProps<{
 
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
-const likes = computed(() => props.mod.likes);
-const downloads = computed(() => props.mod.downloads);
-const views = computed(() => props.mod.views);
+const likes = computed(() => shortStat(props.mod.likes));
+const downloads = computed(() => shortStat(props.mod.downloads));
+const views = computed(() => shortStat(props.mod.views));
 
 const link = computed(() => !props.static ? `/mod/${props.mod.id}` : null);
 const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game.short_name || props.mod.game.id}`);
