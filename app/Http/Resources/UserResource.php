@@ -39,6 +39,7 @@ class UserResource extends JsonResource
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),
             'email_verified_at' => $this->when($isMe, $this->email_verified_at),
+            'activated' => $this->when($isMe, $this->activated),
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', fn() => array_filter(Arr::pluck($this->roles, 'id'), fn($id) => $id !== 1)),
             'game_role_ids' => $this->when(isset(User::$currentGameId), fn() => Arr::pluck($this->gameRoles, 'id')),
