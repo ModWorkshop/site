@@ -45,7 +45,7 @@
                                 <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                             </flex>
                             <div>
-                                <a-button v-if="file.size" class="large-button" :to="`${modUrl}/download/${file.id}`" icon="download">
+                                <a-button v-if="file.size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`" icon="download">
                                     {{$t('download')}}
                                     <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
                                 </a-button>
