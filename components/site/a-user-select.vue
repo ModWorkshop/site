@@ -17,7 +17,7 @@
 import { User } from '~~/types/models';
 
 const props = defineProps<{
-    modelValue: number|User|Array<User>,
+    modelValue: number|User|Array<User>|undefine|null,
     placeholder?: string
 }>();
 
