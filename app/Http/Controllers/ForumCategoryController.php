@@ -95,7 +95,7 @@ class ForumCategoryController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:150',
-            'emoji' => 'string|nullable|max:1',
+            'emoji' => 'string|nullable|max:6',
             'desc' => 'string|nullable|max:1000|',
             'forum_id' => 'integer|min:1|exists:forums,id',
             'is_private' => 'boolean',

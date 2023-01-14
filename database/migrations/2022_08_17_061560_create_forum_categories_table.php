@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->tinyText('name');
             $table->text('desc')->default('');
+            $table->tinyText('emoji')->default('');
 
             $table->bigInteger('forum_id')->unsigned();
             $table->foreign('forum_id')->references('id')->on('forums')->onDelete('cascade');
