@@ -204,6 +204,7 @@ liked: "Liked",
 view_all_games: "View all Games",
 last_updated_games: "Last Updated Games",
 delete_comment_desc: "This will delete the comment",
+no_threads_found: "No threads found",
 
 //Mods//
 download: "Download",
