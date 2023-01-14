@@ -14,31 +14,36 @@
                 </button-group>
             </flex>
         </content-block>
-        <a-table v-if="threads" style="flex: 4;">
-            <thead>
-                <th>{{$t('title')}}</th>
-                <th>{{$t('poster')}}</th>
-                <th v-if="!categoryName">{{$t('category')}}</th>
-                <th>{{$t('last_activity')}}</th>
-                <th>{{$t('last_reply_by')}}</th>
-            </thead>
-            <tbody>
-                <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
-                    <td>
-                        <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
-                        <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
-                    </td>
-                    <td><a-user :user="thread.user" @click.stop/></td>
-                    <td v-if="!categoryName">
-                        <NuxtLink v-if="thread.category" @click.stop="categoryName = thread.category.name">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
-                        <span v-else>-</span>
-                    </td>
-                    <td><time-ago :time="thread.bumped_at"/></td>
-                    <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
-                    <td v-else>{{$t('none')}}</td>
-                </tr>
-            </tbody>
-        </a-table>
+        <flex column style="flex: 4;">
+            <a-pagination v-if="threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
+            <a-table v-if="threads && !loading">
+                <thead>
+                    <th>{{$t('title')}}</th>
+                    <th>{{$t('poster')}}</th>
+                    <th v-if="!categoryName">{{$t('category')}}</th>
+                    <th>{{$t('last_activity')}}</th>
+                    <th>{{$t('last_reply_by')}}</th>
+                </thead>
+                <tbody>
+                    <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
+                        <td>
+                            <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
+                            <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+                        </td>
+                        <td><a-user :user="thread.user" @click.stop/></td>
+                        <td v-if="!categoryName">
+                            <NuxtLink v-if="thread.category" @click.stop="categoryName = thread.category.name">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
+                            <span v-else>-</span>
+                        </td>
+                        <td><time-ago :time="thread.bumped_at"/></td>
+                        <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
+                        <td v-else>{{$t('none')}}</td>
+                    </tr>
+                </tbody>
+            </a-table>
+            <a-loading v-else/>
+            <a-pagination v-if="threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
+        </flex>
     </flex>
 </template>
 
@@ -55,9 +60,11 @@ const props = defineProps<{
 
 const router = useRouter();
 const query = props.query ? useRouteQuery('query', '') : ref('');
+const page = useRouteQuery('page', 1, 'number');
 const categoryName = useRouteQuery('category');
 const selectedForum = useRouteQuery('forum');
 const selectedTags = useRouteQuery('selected-tags', []);
+const loading = ref(false);
 const { t } = useI18n();
 
 const emit = defineEmits<{
@@ -84,7 +91,9 @@ const params = reactive({
     tags: selectedTags,
     category_name: categoryName,
     query: query,
-    no_pins: props.noPins ? 1 : 0
+    no_pins: props.noPins ? 1 : 0,
+    limit: 20,
+    page
 });
 
 const { data: threads, refresh } = await useFetchMany<Thread>('threads', { params });
@@ -109,8 +118,14 @@ const forums = computed(() => {
     return forums;
 });
 
-const { start } = useTimeoutFn(refresh, 200);
-watch(params, start);
+const { start } = useTimeoutFn(async () => {
+    await refresh();
+    loading.value = false;
+}, 200);
+watch(params, () => {
+    loading.value = true;
+    start();
+});
 
 watch(selectedForum, async () => {
     await refreshCats();
