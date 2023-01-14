@@ -1,9 +1,9 @@
 <template>
-    <flex column gap="0" class="mod content-block self-start !p-0" :title="mod.short_desc">
+    <flex column gap="0" class="mod content-block" :title="mod.short_desc">
         <NuxtLink :to="link">
             <mod-thumbnail :thumbnail="mod.thumbnail"/>
         </NuxtLink>
-        <flex gap="1" column class="p-2 text-secondary">
+        <flex gap="1" column class="p-2 text-secondary place-content-around" grow>
             <NuxtLink class="mod-title" :to="link" :title="mod.name">
                 <mod-status :mod="mod"/> {{mod.name}}
             </NuxtLink>
@@ -21,7 +21,6 @@
                         <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                     </template>
                 </flex>
-                <span v-else><font-awesome-icon icon="map-marker-alt"/> {{$t('not_available')}}</span>
             </template>
 
             <flex>
