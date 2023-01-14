@@ -129,9 +129,15 @@ class ModService {
             }
     
             if (isset($val['user_id'])) {
-                $query->where('user_id', $val['user_id']);
+                if ($val['collab'] ?? false) {
+                    $query->whereHas('members', function($q) use ($val) {
+                        $q->where('user_id', $val['user_id'])->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
+                    });
+                } else {
+                    $query->where('user_id', $val['user_id']);
+                }
             }
-    
+
             if (!empty($val['categories'])) {
                 $query->whereIn('category_id', $val['categories']);
             }
