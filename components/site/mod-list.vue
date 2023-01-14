@@ -87,6 +87,7 @@ const props = withDefaults(defineProps<{
     titleLink?: string,
     game?: Game,
     userId?: number,
+    collab?: boolean,
     triggerRefresh?: EventRaiser,
     sideFilters?: boolean,
     limit?: number,
@@ -116,10 +117,8 @@ const selectedCategory = useRouteQuery('category');
 const sortBy = useRouteQuery('sort', user?.extra?.default_mods_sort ?? 'bumped_at');
 const pages = ref(0);
 
-const triggerRefresh = useEventRaiser();
-
-
 const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);
+const collab = computed(() => props.collab ? 1 : 0);
 
 const searchParams = reactive({
     user_id: props.userId,
@@ -128,6 +127,7 @@ const searchParams = reactive({
     game_id: selectedGame,
     category_id: selectedCategory,
     tags: selectedTags,
+    collab,
     categories: selectedCategories,
     block_tags: selectedBlockTags,
     sort: sortBy,
@@ -175,7 +175,8 @@ watch([
     selectedTags,
     selectedCategories,
     selectedBlockTags,
-    sortBy
+    sortBy,
+    collab
 ], () => {
     loadMorePageOverride.value = undefined;
     savedMods.value = [];
