@@ -128,6 +128,10 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->with = self::$staticWith;
         }
         parent::__construct($attributes);
+        if (Auth::hasUser()) {
+            $this->with[] = 'blockedByMe';
+            $this->with[] = 'blockedMe';
+        }
     }
 
     public static function setCurrentGame(int $gameId)
@@ -190,13 +194,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function blockedByMe(): HasOneThrough
     {
         return $this->hasOneThrough(User::class, BlockedUser::class, 'block_user_id', 'id', 'id', 'block_user_id')
-            ->where('blocked_users.user_id', Auth::user()->id)->limit(1);
+            ->where('blocked_users.user_id', Auth::user()->id)->limit(1)->without('blockedMe', 'blockedByMe');
     }
 
     public function blockedMe(): HasOneThrough
     {
         return $this->hasOneThrough(User::class, BlockedUser::class, 'user_id', 'id', 'id', 'user_id')
-            ->where('blocked_users.block_user_id', Auth::user()->id)->limit(1);
+            ->where('blocked_users.block_user_id', Auth::user()->id)->limit(1)->without('blockedMe', 'blockedByMe');
     }
 
     /**
