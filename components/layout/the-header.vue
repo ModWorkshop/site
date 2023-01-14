@@ -56,7 +56,7 @@
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <a-button icon="search" aria-label="Search" style="padding: 0.6rem 0.75rem;"/>
+                            <a-button icon="search" aria-label="Search" style="padding: 0.6rem 0.75rem;" @click="clickSelectedSearch"/>
                         </div>
                         <template #popper>
                             <ClientOnly>
