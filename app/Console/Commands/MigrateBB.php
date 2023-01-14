@@ -168,7 +168,7 @@ class MigrateBB extends Command
 
                 User::forceCreate([
                     'id' => $user->uid,
-                    'name' => $user->username,
+                    'name' => html_entity_decode($user->username),
                     'avatar' => $user->avatar, // TODO: do we want to store user images in images table, therefore making this column legacy?
                     'custom_color' => Str::limit($user->customcolor, 6, ''),
                     // 'unique_name' => Utils::getUniqueName($user->username),
