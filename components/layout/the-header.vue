@@ -178,7 +178,7 @@ function setSelectedSearch(direction: number) {
 }
 
 function clickSelectedSearch(e) {
-    router.push((searchButtons[selectedSearch.value]?.to ?? '/search/mods') + `?query=${search.value}`);
+    router.push((searchButtons.value[selectedSearch.value]?.to ?? '/search/mods') + `?query=${search.value}`);
 }
 </script>
 <style scoped>
