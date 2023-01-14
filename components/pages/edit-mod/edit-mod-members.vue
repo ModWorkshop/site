@@ -27,7 +27,7 @@
             <tbody>
                 <tr v-for="user of members" :key="user.id">
                     <td><a-user :user="user"/></td>
-                    <td>{{$t(`member_level_${member.level}`)}}</td>
+                    <td>{{$t(`member_level_${user.level}`)}}</td>
                     <td>{{user.accepted ? '✔' : '❌'}}</td>
                     <td>{{fullDate(user.created_at)}}</td>
                     <td class="text-center p-1">
@@ -41,9 +41,12 @@
         </a-table>
     </flex>
 
+
     <a-modal-form v-model="showModal" title="Edit Member" @submit="saveMember">
-        <a-user-select v-if="currentMember.created_at == null" v-model="currentMember.user" value-by="" label="User"/>
-        <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
+        <template v-if="currentMember">
+            <a-user-select v-if="currentMember.new" v-model="currentMember.user" value-by="" label="User"/>
+            <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
+        </template>
     </a-modal-form>
 
     <a-modal-form v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @submit="transferOwnership()">
@@ -56,7 +59,6 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
-import { memberLevels } from '~~/utils/mod-helpers';
 const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
 
@@ -67,16 +69,17 @@ const props = defineProps<{
 const canSuperUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
-    {name: 'Maintainer', id: 0},
-    {name: 'Collaborator', id: 1},
-    {name: 'Viewer', id: 2},
-    {name: 'Contributor', id: 3},
+    {name: 'Maintainer', id: 'maintainer'},
+    {name: 'Collaborator', id: 'collaborator'},
+    {name: 'Viewer', id: 'viewer'},
+    {name: 'Contributor', id: 'contributor'},
 ];
 
 interface EditModMember {
-    level: number;
+    level: 'collaborator'|'maintainer'|'contributor'|'viewer',
     created_at?: string,
-    user?: ModMember;
+    user?: ModMember,
+    new?: boolean,
 }
 
 const showModal = ref(false);
@@ -99,7 +102,7 @@ async function deleteMember(member: ModMember) {
 }
 
 function newMember() {
-    currentMember.value = { level: 1 };
+    currentMember.value = { level: 'collaborator', new: true };
     showModal.value = true;
 }
 
@@ -113,11 +116,11 @@ async function saveMember(error: (e) => void) {
     const data = { user_id: member.user.id, level: member.level };
 
     try {
-        if (member.created_at) {
-            await usePatch(`mods/${props.mod.id}/members/${member.user.id}`, data);
-        } else {
+        if (member.new) {
             const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data);
             members.value.push(newMember);
+        } else {
+            await usePatch(`mods/${props.mod.id}/members/${member.user.id}`, data);
         }
     
         for (const m of props.mod.members) {

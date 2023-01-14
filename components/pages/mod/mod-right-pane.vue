@@ -38,18 +38,22 @@
 </template>
 
 <script setup lang="ts">
-    import { Mod } from '~~/types/models';
-    import { memberLevels } from '~~/utils/mod-helpers';
-    const props = defineProps<{
-        mod: Mod
-    }>();
+import { Mod } from '~~/types/models';
+const props = defineProps<{
+    mod: Mod
+}>();
 
-    const members = computed(() => props.mod.members.filter(member => member.accepted && (member.level == 'collaborator' || memberLevels.level == 'maintainer')));
+const showMembers = {
+    'collaborator': true,
+    'maintainer': true,
+    'contributor': true
+};
+const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));
 
-    const likes = computed(() => props.mod.likes);
-    const downloads = computed(() => props.mod.downloads);
-    const views = computed(() => props.mod.views);
+const likes = computed(() => props.mod.likes);
+const downloads = computed(() => props.mod.downloads);
+const views = computed(() => props.mod.views);
 
-    //If the user set their own donation, show that.
-    const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
+//If the user set their own donation, show that.
+const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
 </script>
