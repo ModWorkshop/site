@@ -10,6 +10,7 @@ use App\Models\File;
 use App\Models\FollowedGame;
 use App\Models\FollowedMod;
 use App\Models\FollowedUser;
+use App\Models\ForumCategory;
 use App\Models\Game;
 use App\Models\Image;
 use App\Models\InstructsTemplate;
@@ -25,6 +26,7 @@ use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
 use App\Models\Subscription;
+use App\Models\Thread;
 use App\Models\UserCase;
 use Arr;
 use Carbon\Carbon;
@@ -183,7 +185,8 @@ class MigrateBB extends Command
                 SocialLogin::create([
                     'social_id' => 'steam',
                     'special_id' => $user->loginname,
-                    'user_id' => $user->uid
+                    'user_id' => $user->uid,
+                    'date' => $this->handleUnixDate($user->regdate)
                 ]);
             }
         });
@@ -375,9 +378,9 @@ class MigrateBB extends Command
             $deps = json_decode($template->depends_on);
             foreach ($deps as $dep) {
                 Dependency::forceCreate([
-                    'name' => $dep->id || '',
-                    'url' => $dep->url || null,
-                    'mod_id' => $dep->id || null,
+                    'name' => $dep->id ?? '',
+                    'url' => $dep->url ?? null,
+                    'mod_id' => is_integer($dep->id) ? $dep->id : null,
                     'offsite' => !!$dep->id,
                     'optional' => $dep->optional,
                     'dependable_type' => 'instructs_template',
@@ -411,7 +414,7 @@ class MigrateBB extends Command
 
                 $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
                 $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
-                $newMod->download_id = isset($link) ? 'link' : 'file';
+                $newMod->download_type = isset($link) ? 'link' : 'file';
                 $newMod->download_id = $link?->id ?? $file?->id;
 
                 /** @var Mod */
@@ -466,9 +469,9 @@ class MigrateBB extends Command
                 if (isset($deps)) {
                     foreach ($deps as $dep) {
                         Dependency::forceCreate([
-                            'name' => $dep->id || '',
-                            'url' => $dep->url || null,
-                            'mod_id' => $dep->id || null,
+                            'name' => $dep->id ?? '',
+                            'url' => $dep->url ?? null,
+                            'mod_id' => is_integer($dep->id) ? $dep->id : null,
                             'offsite' => !!$dep->id,
                             'optional' => $dep->optional,
                             'dependable_type' => 'mod',
@@ -513,7 +516,7 @@ class MigrateBB extends Command
                         'created_at' => $this->handleUnixDate($file->date),
                         'updated_at' => $this->handleUnixDate($file->date),
                     ]);
-                    $firstModFileId ??= $newFile->fid;
+                    $firstModFileId ??= $newFile->id;
                 }
 
                 $link = null;
