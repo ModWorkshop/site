@@ -90,7 +90,17 @@
                 </content-block>
             </flex>
             <template v-if="tempBlockOverride || !isHidingMods">
-                <mod-list v-if="isPublic || isOwnOrModerator" :trigger-refresh="triggerRefresh" :user-id="user.id" @fetched="items => mods = items"/>
+                <button-group v-model:selected="displayMods" gap="1" button-style="nav">
+                    <a-group-button name="personal">Personal Mods</a-group-button>
+                    <a-group-button name="collab">Collaborated Mods</a-group-button>
+                </button-group>
+                <mod-list 
+                    v-if="isPublic || isOwnOrModerator"
+                    :trigger-refresh="triggerRefresh"
+                    :user-id="user.id" 
+                    :collab="displayMods == 'collab'"
+                    @fetched="items => mods = items"
+                />
             </template>
             <content-block v-else>
                 {{$t('hiding_mods_view')}}
@@ -141,6 +151,7 @@ const isOwnOrModerator = computed(() => user.value.id === me.id || canModerateUs
 const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
+const displayMods = ref('personal');
 
 const isOnline = computed(() => {
     const last = DateTime.fromISO(user.value.last_online);
