@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', storageUrl: '' }
+		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: true, thumbnail_prefix: '' }
 	},
 
 	nitro: {
@@ -43,8 +43,13 @@ export default defineNuxtConfig({
 			watch: { usePolling: true },
 		}
 	},
+	delayHydration: {
+		// enables nuxt-delay-hydration in dev mode for testing  
+		debug: process.env.NODE_ENV === 'development'
+	},
 
 	modules: [
+		'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',

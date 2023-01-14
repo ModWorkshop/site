@@ -45,6 +45,7 @@
     "luxon": "^3.1.0",
     "markdown-it": "^13.0.1",
     "markdown-it-html5-media": "^0.7.1",
+    "nuxt-delay-hydration": "^1.0.5",
     "object-to-formdata": "^4.4.2",
     "polished": "^4.2.2",
     "qs": "^6.11.0",

@@ -4487,6 +4487,16 @@ nuxi@3.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+nuxt-delay-hydration@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/nuxt-delay-hydration/-/nuxt-delay-hydration-1.0.5.tgz#8d3d76b7dfc42987fd0fcecac76304ac05908cb1"
+  integrity sha512-ral8XTno86o5Or5HpDBiW7xMmJBmtqKPkR83NtGdl2lfJUyHAGb08kjOacsZ0up867/fQinvTo4EUqSPuE3SHQ==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
+    lodash.template "^4.5.0"
+    packrup "^0.1.0"
+    radix3 "^1.0.0"
+
 nuxt@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.0.0.tgz#0909e6566d79805f3a4ed6229573817cbde12e89"
@@ -4686,6 +4696,11 @@ p-locate@^5.0.0:
   integrity sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==
   dependencies:
     p-limit "^3.0.2"
+
+packrup@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/packrup/-/packrup-0.1.0.tgz#8a2d865a45aaee9807504046548678fa3382b6e3"
+  integrity sha512-HnUl9ztHGty5ZK13WM8Q7854SWPKH/eCT+MiTO0P1qCu1Y4S5PPJ8E9MwD3cnjSr7PUPzXDnmOVJIKM043OfJQ==
 
 parent-module@^1.0.0:
   version "1.0.1"
