@@ -5,8 +5,8 @@
                 Your account is not active yet. You must verify it through your email address.
                 <br>
                 The account will be automatically deleted if no action will be taken a day after registration.
-                <a-button class="mr-auto" :disabled="resending" @click="resendVerification">
-                    <flex class="items-center">Resend <a-loading v-if="resending" size="xl" color="body"/></flex>
+                <a-button class="mr-auto" :loading="resending" @click="resendVerification">
+                    <flex class="items-center">Resend</flex>
                 </a-button>
             </a-toast>
             
