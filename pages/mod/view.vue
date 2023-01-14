@@ -1,24 +1,26 @@
 <template>
-    <flex v-if="mod" column gap="3">
-        <div>
-            <mod-banner :mod="mod"/>
-        </div>
-        <div class="mod-main">
-            <mod-tabs :mod="mod"/>
-            <mod-right-pane :mod="mod"/>
-        </div>
-        <the-comments
-            lazy
-            :url="`mods/${mod.id}/comments`"
-            :page-url="`/mod/${mod.id}`"
-            :commentable="mod"
-            :can-edit-all="canEditComments"
-            :can-delete-all="canDeleteComments"
-            :get-special-tag="commentSpecialTag"
-            :can-comment="canComment"
-            :cannot-comment-reason="cannotCommentReason"
-        />
-    </flex>
+    <mod-page v-if="mod" :mod="mod">
+        <flex column gap="3">
+            <div>
+                <mod-banner :mod="mod"/>
+            </div>
+            <div class="mod-main">
+                <mod-tabs :mod="mod"/>
+                <mod-right-pane :mod="mod"/>
+            </div>
+            <the-comments
+                lazy
+                :url="`mods/${mod.id}/comments`"
+                :page-url="`/mod/${mod.id}`"
+                :commentable="mod"
+                :can-edit-all="canEditComments"
+                :can-delete-all="canDeleteComments"
+                :get-special-tag="commentSpecialTag"
+                :can-comment="canComment"
+                :cannot-comment-reason="cannotCommentReason"
+            />
+        </flex>
+    </mod-page>
 </template>
 
 <script setup lang="ts">
@@ -31,26 +33,30 @@ const store = useStore();
 
 const { t } = useI18n();
 
-const props = defineProps<{
-    mod: Mod
-}>();
+const { data: mod } = await useResource<Mod>('mod', 'mods', {
+    suspended: t('error_suspended')
+});
 
-if (props.mod) {
-    usePost(`mods/${props.mod.id}/register-view`, null, {
+definePageMeta({  
+    key: route => route.fullPath
+});
+
+if (mod.value) {
+    usePost(`mods/${mod.value.id}/register-view`, null, {
         async onResponse({ response }) {
             if (response.status == 201) {
-                props.mod.views++;
+                mod.value.views++;
             }
         }
     });
 }
 
-const canEdit = computed(() => canEditMod(props.mod));
-const canEditComments = computed(() => store.hasPermission('manage-discussions', props.mod.game));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', props.mod.game)));
-const canComment = computed(() => !props.mod.user.blocked_me && !store.isBanned && (!props.mod.comments_disabled || canEdit.value));
+const canEdit = computed(() => canEditMod(mod.value));
+const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.value.game));
+const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.value.game)));
+const canComment = computed(() => !mod.value.user.blocked_me && !store.isBanned && (!mod.value.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
-    if (props.mod.comments_disabled) {
+    if (mod.value.comments_disabled) {
         return t('comments_disabled');
     }
 
@@ -58,16 +64,16 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_banned');
     }
 
-    if (props.mod.user.blocked_me) {
+    if (mod.value.user.blocked_me) {
         return t('cannot_comment_blocked_mod');
     }
 });
 
 function commentSpecialTag(comment: Comment) {
-    if (comment.user_id === props.mod.user_id) {
+    if (comment.user_id === mod.value.user_id) {
         return `${t('owner')}`;
     } else {
-        const member = props.mod.members.find(member => comment.user_id === member.id);
+        const member = mod.value.members.find(member => comment.user_id === member.id);
         if (member) {
             return t(`member_level_${member.level}`);
         }

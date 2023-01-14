@@ -11,26 +11,19 @@ export default <RouterOptions> {
     routes: (routes) => [
         ...routes,
         {
-            name: "mod",
+            name: "view-mod",
             path: "/mod/:modId",
-            component: () => import('~/pages/mod.vue'),
-            children: [
-                {
-                    name: "view-mod",
-                    path: "",
-                    component: () => import('~/pages/mod/view.vue')
-                },
-                {
-                    name: "mod-comment",
-                    path: "post/:commentId",
-                    component: () => import('~/pages/mod/view.vue')
-                },
-                {
-                    name: "download-file",
-                    path: "download/:fileId",
-                    component: () => import('~/pages/mod/download-file.vue')
-                },
-            ]
+            component: () => import('~/pages/mod/view.vue')
+        },
+        {
+            name: "mod-comment",
+            path: "/mod/:modId/post/:commentId",
+            component: () => import('~/pages/mod/view.vue')
+        },
+        {
+            name: "download-file",
+            path: "/mod/:modId/download/:fileId",
+            component: () => import('~/pages/mod/download-file.vue')
         },
         {
             name: "edit-mod",

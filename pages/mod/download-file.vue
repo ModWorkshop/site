@@ -1,23 +1,25 @@
 <template>
-    <flex column class="items-center text-center">
-        <h2>{{$t('downloading_file')}}</h2>
-        <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
-        <h3>{{$t('downloading_file_should')}}</h3>
-        <flex>
-            <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
-            <a ref="download" download :href="downloadUrl">
-                <a-button icon="download">{{$t('downloading_file_force')}}</a-button>
-            </a>
-            <a-button 
-                v-if="props.mod.instructs_template || props.mod.instructions" 
-                :to="`/mod/${mod.id}?tab=instructions`"
-                icon="circle-question"
-                color="warning"
-            >
-            {{$t('downloading_file_help')}}
-        </a-button>
+    <mod-page v-if="mod" :mod="mod">
+        <flex column class="items-center text-center">
+            <h2>{{$t('downloading_file')}}</h2>
+            <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
+            <h3>{{$t('downloading_file_should')}}</h3>
+            <flex>
+                <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
+                <a ref="download" download :href="downloadUrl">
+                    <a-button icon="download">{{$t('downloading_file_force')}}</a-button>
+                </a>
+                <a-button 
+                    v-if="mod.instructs_template || mod.instructions" 
+                    :to="`/mod/${mod.id}?tab=instructions`"
+                    icon="circle-question"
+                    color="warning"
+                >
+                {{$t('downloading_file_help')}}
+            </a-button>
+            </flex>
         </flex>
-    </flex>
+    </mod-page>
 </template>
 
 <script setup lang="ts">
@@ -31,14 +33,14 @@ const { public: config } = useRuntimeConfig();
 const route = useRoute();
 const { t } = useI18n();
 
-const props = defineProps<{
-    mod: Mod
-}>();
+const { data: mod } = await useResource<Mod>('mod', 'mods', {
+    suspended: t('error_suspended')
+});
 
 const download = ref(null);
 
 const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/download`);
-const file = computed(() => props.mod.files.find(file => file.id == parseInt((route.params.fileId as string))));
+const file = computed(() => mod.value.files.find(file => file.id == parseInt((route.params.fileId as string))));
 
 if (!file.value) {
     throw createError({ statusCode: 404, statusMessage: t('file_doesnt_exist') });
@@ -50,7 +52,7 @@ if (!file.value) {
 watch(download, () => {
     if (download.value) {
         download.value.click();
-        registerDownload(props.mod);
+        registerDownload(mod.value);
     }
 });
 </script>
