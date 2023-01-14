@@ -18,7 +18,9 @@
             </flex>
 
             <flex v-if="mod.tags.length > 0" wrap>
-                <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
+                <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
+                    <NuxtLink class="text-body" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
+                </a-tag>
             </flex>
 
             <flex class="colllaborators-block" column>
@@ -56,4 +58,6 @@ const views = computed(() => props.mod.views);
 
 //If the user set their own donation, show that.
 const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
+
+const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 </script>
