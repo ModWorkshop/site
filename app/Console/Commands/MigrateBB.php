@@ -119,17 +119,16 @@ class MigrateBB extends Command
     public function handle()
     {
         #mbb_attachments 
-        # Current forum does not have file uploading, backup this with all of the files to somewhere.
-        # TODO: backup attachments
+        # Current forum does not have file uploading, backup the files to somewhere.
         #mbb_banfilters 
         # TODO: implement IP bans
-        # TODO: think about porting the forum data (mbb_forums)
 
         $this->info("Converting old-ass data to new-and-improved data!");
         ini_set("memory_limit", -1);
         set_time_limit(1000000000); // This can take A looong time.
 
         $this->con = DB::connection('mysql_migration');
+
         // $this->handleUsers();
         // $this->handleCases();
         // $this->handleBans();
@@ -672,7 +671,7 @@ class MigrateBB extends Command
 
                 Comment::forceCreate([
                     'user_id' => $comment->uid, # Changed,
-                    'commentable_type' => 'mod', # Migrated data is ONLY mods, we may migrate mybb threads
+                    'commentable_type' => 'mod',
                     'commentable_id' => $comment->did, # Changed
                     'content' => $comment->comment, # Changed
                     'updated_at' => $this->handleUnixDate($comment->date_edited), #Changed, handle date
@@ -683,6 +682,89 @@ class MigrateBB extends Command
             }
         });
 
+        $bar->finish();
+    }
+
+    public function handleForums()
+    {
+        $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
+        $forums = $this->con->table('forums')->where('type', 'f')->get();
+        foreach ($forums as $forum) {
+            $bar->advance();
+            ForumCategory::forceCreate([
+                'forum_id' => 1,
+                'id' => $forum->fid,
+                'name' => $forum->name,
+                'desc' => $forum->description,
+            ]);
+        }
+        $bar->finish();
+
+
+        $bar = $this->progress('Converting threads', $this->con->table('threads')->count());
+        $threads = $this->con->table('threads')->get();
+        foreach ($threads as $thread) {
+            $bar->advance();
+            $firstPost = $this->con->table('posts')->where('pid', $thread->firstpost)->first();
+            if (isset($firstPost) && $thread->uid) {
+                $insert = [
+                    'forum_id' => 1,
+                    'id' => $thread->tid,
+                    'name' => $thread->subject,
+                    'content' => $firstPost->message,
+                    'category_id' => $thread->fid,
+                    'user_id' => $thread->uid,
+                    'last_user_id' => !empty($thread->lastposteruid) ? $thread->lastposteruid : $thread->uid,
+                    'updated_at' => $this->handleUnixDate($thread->dateline),
+                    'created_at' => $this->handleUnixDate($thread->dateline),
+                    'bumped_at' => $this->handleUnixDate($thread->lastpost),
+                    'pinned_at' => $thread->sticky ? Carbon::now() : null,
+                    'locked_by_mod' => $thread->closed == 1,
+                ];
+                if (!empty($thread->lastposteruid)) {
+                }
+                Thread::forceCreate($insert);
+            }
+        }
+        $bar->finish();
+
+        $bar = $this->progress('Converting thread subscriptions', $this->con->table('threadsubscriptions')->count());
+        $subs = $this->con->table('threadsubscriptions')->get();
+        foreach ($subs as $sub) {
+            $bar->advance();
+            Subscription::forceCreate([
+                'user_id' => $sub->uid,
+                'subscribable_type' => 'thread',
+                'subscribable_id' => $sub->tid
+            ]);
+        }
+        $bar->finish();
+
+
+        $bar = $this->progress('Converting thread replies', $this->con->table('posts')->count());
+        $this->con->table('posts')->orderBy('pid')->where('uid', '!=', 0)->chunk(1000, function($posts) use ($bar) {
+            foreach ($posts as $post) {
+                # Removed cid (unused)
+                $bar->advance();
+
+                if (empty($post->replyto)) {
+                    continue;
+                }
+
+                if (!User::where('id', $post->uid)->exists()) {
+                    continue;
+                }
+
+                Comment::forceCreate([
+                    'user_id' => $post->uid,
+                    'commentable_type' => 'thread',
+                    'commentable_id' => $post->tid,
+                    'content' => $post->message,
+                    'updated_at' => $this->handleUnixDate($post->dateline),
+                    'created_at' => $this->handleUnixDate($post->dateline),
+                ]);
+            }
+        });
         $bar->finish();
     }
 
