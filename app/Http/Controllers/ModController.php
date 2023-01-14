@@ -420,7 +420,7 @@ class ModController extends Controller
     {
         $val = $request->validate([
             'owner_id' => 'integer|required|min:1|exists:users,id',
-            'keep_owner_level' => 'integer|nullable|min:0|max:3'
+            'keep_owner_level' => 'nullable|in:collaborator,maintainer,viewer,contributor'
         ]);
 
         $user = User::find($val['owner_id']);

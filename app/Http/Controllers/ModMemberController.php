@@ -7,6 +7,7 @@ use App\Models\ModMember;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Log;
 
 const MOD_MEMBER_RULES_OVER = [
     'maintainer' => ['collaborator', 'contributor', 'viewer'],
@@ -44,7 +45,7 @@ class ModMemberController extends Controller
 
         # Make sure we can add members with the given level
         $ourLevel = $mod->getMemberLevel($ourUserId, false);
-        if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !array_has(MOD_MEMBER_RULES_OVER[$ourLevel], $val['level'])) {
+        if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
             abort(403, 'You cannot add members with this level!');
         }
 
@@ -73,13 +74,13 @@ class ModMemberController extends Controller
     {
         $ourUserId = $request->user()->id;
         $val = $request->validate([
-            'level' => 'integer|required|min:0|max:3'
+            'level' => 'required|in:collaborator,maintainer,viewer,contributor'
         ]);
 
         if ($mod->user_id !== $ourUserId) {
             $ourLevel = $mod->getMemberLevel($ourUserId);
-            if (isset($ourLevel) && ($ourLevel <= $val['level'] || $ourLevel <= $member->pivot->level)) {
-                abort(403);
+            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
+                abort(403, "You don't have permission to set such a level.");
             }
         }
 
@@ -100,7 +101,7 @@ class ModMemberController extends Controller
 
         //We should be able to delete ourselves from members!
         if (!isset($ourLevel) || ($ourUserId !== $member)) {
-            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !array_has(MOD_MEMBER_RULES_OVER[$ourLevel], $memberLevel)) {
+            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($memberLevel, MOD_MEMBER_RULES_OVER[$ourLevel])) {
                 abort(403);
             }
         }
