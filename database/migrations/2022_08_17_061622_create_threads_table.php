@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->tinyText('name');
-            $table->string('content');
+            $table->text('content');
             $table->bigInteger('views')->default(0);
             $table->bigInteger('comments_count')->default(0);
             $table->boolean('locked')->default(false);
