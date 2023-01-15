@@ -123,7 +123,7 @@ type UploadFile = {
 
 const filesArr = toRef(props, 'files');
 const input = ref();
-const reachedMaxFiles = computed(() => props.maxFiles && filesArr.value.length >= props.maxFiles);
+const reachedMaxFiles = computed<boolean>(() => props.maxFiles && filesArr.value.length >= props.maxFiles || false);
 const usedSize = computed(() => filesArr.value.reduce((prev, curr) => prev + curr.size, 0));
 
 const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
@@ -140,7 +140,11 @@ function removeFile(file: UploadFile) {
 /**
  * Handles the actual upload of the file(s)
  */
-async function upload(files: FileList) {
+async function upload(files: FileList|null) {
+    if (!files) {
+        return;
+    }
+
     for (const file of files) {
         if (file.size > maxFileSizeBytes.value) {
             showToast({ 
@@ -196,11 +200,12 @@ async function upload(files: FileList) {
     
                 const reactiveFile = filesArr.value[0];
                 Object.assign(reactiveFile, data);
-                reactiveFile.cancel = null;
-                reactiveFile.progress = null;
+                reactiveFile.cancel = undefined;
+                reactiveFile.progress = undefined;
     
                 emit('file-uploaded', reactiveFile);
             } catch (e) {
+                input.value.value = null;
                 removeFile(insertFile);
                 showErrorToast(e, {}, t('failed_upload'));
             }

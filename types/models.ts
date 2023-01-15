@@ -301,6 +301,8 @@ export interface Link {
     updated_at?: string;
 }
 
+export type Download = (File | Link) & { download_type: 'file'|'link' };
+
 export interface TransferRequest {
     id: number;
     keep_owner_level: number | null;

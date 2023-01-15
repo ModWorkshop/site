@@ -39,8 +39,8 @@ export default function() {
             ...errorStrings
         };
 
-        const code = e.response.status;
-        const message = e.data.message;
+        const code = e.status ?? e.response?.status ?? 419;
+        const message = e.statusMessage ?? e.data?.message;
         let desc = '';
         if (code === 422) {
             desc = getErrorString(e);
