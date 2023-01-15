@@ -50,18 +50,26 @@ export const colorSchemes = [
 
 /**
  * Converts ISO8601 date to relative 'time ago' format.
- * @param {String} t 
- * @returns String
  */
-export function getTimeAgo(t: string) {
-    return DateTime.fromISO(t).toRelative();
+export function getTimeAgo(t?: string): string|null {
+    let timeAgo = '';
+    if (t) {
+        timeAgo = DateTime.fromISO(t).toRelative() || '';
+    }
+    
+    return timeAgo || 'undefined time ago';
 }
 
 /**
  * Converts ISO8601 date to full date format.
  */
-export function fullDate(t: string): string {
-    return DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT);
+export function fullDate(t?: string): string|null {
+    let timeAgo = '';
+    if (t) {
+        timeAgo = DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT) || '';
+    }
+    
+    return timeAgo || 'Undefined date';
 }
 
 
