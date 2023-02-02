@@ -140,15 +140,17 @@ class MigrateBB extends Command
 
         // $this->handleMods();
 
-        $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
+        // $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
         // $this->handleFollowsAndSubs();
 
         // $this->handleComments();
+        $this->handleForums();
         // $this->handleModDownloads();
         // $this->handleModViews();
-        $this->handleLikes();
+        // $this->handleLikes();
         // $this->handlePopularityLog();
 
+        $this->handleUpdateMods();
         return Command::SUCCESS;
     }
 
@@ -690,18 +692,18 @@ class MigrateBB extends Command
 
     public function handleForums()
     {
-        $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
-        $forums = $this->con->table('forums')->where('type', 'f')->get();
-        foreach ($forums as $forum) {
-            $bar->advance();
-            ForumCategory::forceCreate([
-                'forum_id' => 1,
-                'id' => $forum->fid,
-                'name' => $forum->name,
-                'desc' => $forum->description,
-            ]);
-        }
-        $bar->finish();
+        // $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
+        // $forums = $this->con->table('forums')->where('type', 'f')->get();
+        // foreach ($forums as $forum) {
+        //     $bar->advance();
+        //     ForumCategory::forceCreate([
+        //         'forum_id' => 1,
+        //         'id' => $forum->fid,
+        //         'name' => $forum->name,
+        //         'desc' => $forum->description,
+        //     ]);
+        // }
+        // $bar->finish();
 
 
         $bar = $this->progress('Converting threads', $this->con->table('threads')->count());
@@ -722,10 +724,9 @@ class MigrateBB extends Command
                     'created_at' => $this->handleUnixDate($thread->dateline),
                     'bumped_at' => $this->handleUnixDate($thread->lastpost),
                     'pinned_at' => $thread->sticky ? Carbon::now() : null,
+                    'locked' => $thread->closed == 1,
                     'locked_by_mod' => $thread->closed == 1,
                 ];
-                if (!empty($thread->lastposteruid)) {
-                }
                 Thread::forceCreate($insert);
             }
         }

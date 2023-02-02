@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Jcupitt\Vips;
 use Illuminate\Validation\Rules\File;
+use Log;
 
 /**
  * @group Mods
@@ -193,9 +194,10 @@ class ModController extends Controller
                 }
             }
 
-            //Only moderators are allowed to change games of mods
+            //Only moderators are allowed to change games of mods and allowed storage
             if (!$this->user()->hasPermission('manage-mods')) {
                 unset($val['game_id']);
+                unset($val['allowed_storage']);
             } else if (isset($val['game_id']) && (int)$val['game_id'] !== $mod->game_id) {
                 Game::where('id', $val['game_id'])->increment('mods_count');
                 $mod->game->decrement('mods_count');
@@ -204,6 +206,10 @@ class ModController extends Controller
             $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {
+            if (!$this->user()->hasPermission('manage-mods')) {
+                unset($val['allowed_storage']);
+            }
+
             $val['user_id'] = $request->user()->id;
             $val['game_id'] = $game->id;
 
@@ -262,7 +268,7 @@ class ModController extends Controller
         }
 
         $val = $request->validate([
-            'file' => ['required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
+            'file' => ['file', 'required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
         ]);
 
         /** @var UploadedFile $file */

@@ -15,6 +15,7 @@ use App\Services\APIService;
 use Auth;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -265,5 +266,21 @@ class UserController extends Controller
         foreach ($user->comments as $comment) {
             $comment->delete();
         }
+    }
+
+    /**
+     * Verifies email via a link sent to the email
+     */
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+    }
+
+    /**
+     * Resends email verification to user's email
+     */
+    public function resendEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('mod_id')->unsigned();
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
-            $table->tinyText('name');
+            $table->tinyText('name')->default('');
             $table->tinyText('desc')->default('');
             $table->tinyText('label')->default('');
             $table->text('url');

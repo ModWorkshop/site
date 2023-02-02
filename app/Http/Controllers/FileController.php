@@ -10,6 +10,7 @@ use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Log;
 use Storage;
 
 /**
@@ -40,8 +41,7 @@ class FileController extends Controller
     public function store(Request $request, Mod $mod)
     {
         $maxSize = Setting::getValue('max_file_size');
-        $storageSize = Setting::getValue('mod_storage_size');
-
+        $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
 
         $val = $request->validate([
             'file' => "required|max:{$maxSize}"

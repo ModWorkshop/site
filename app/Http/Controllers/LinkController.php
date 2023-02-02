@@ -10,7 +10,11 @@ use Illuminate\Http\Request;
 class LinkController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Link::class, 'link');
+        $mod = app(Mod::class)->resolveRouteBinding(request()->route('mod'));
+
+        if (isset($mod)) {
+            $this->authorizeResource([Link::class, 'mod'], "link, mod");
+        }
     }
 
     /**

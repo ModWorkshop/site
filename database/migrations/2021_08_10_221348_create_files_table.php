@@ -20,9 +20,9 @@ class CreateFilesTable extends Migration
             $table->bigInteger('mod_id')->unsigned();
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
             $table->tinyText('name');
-            $table->tinyText('desc');
+            $table->tinyText('desc')->default('');
             $table->tinyText('file');
-            $table->tinyText('type');
+            $table->tinyText('type')->default('');
             $table->bigInteger('image_id')->unsigned()->nullable();
             $table->foreign('image_id')->references('id')->on('images');
             $table->bigInteger('size');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('game_role_id')->unsigned();
             $table->foreign('game_role_id')->references('id')->on('game_roles')->onDelete('cascade');
+            $table->boolean('activated')->default(true);
             $table->index('user_id');
             $table->index('game_role_id');
             $table->timestamps();

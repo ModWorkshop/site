@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Link;
+use App\Models\Mod;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -42,9 +43,9 @@ class LinkPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Mod $mod)
     {
-        return $this->authorize('create', Mod::class);
+        return $this->authorize('create', [Mod::class, $mod->game]);
     }
 
     /**

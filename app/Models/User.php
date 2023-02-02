@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
@@ -113,7 +114,7 @@ use Storage;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, Reportable;
+    use HasFactory, HasApiTokens, Notifiable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 10;
@@ -372,12 +373,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(fn($value, $attrs) => isset($attrs['password']) && isset($attrs['email']));
     }
 
-    public function activated(): Attribute
-    {
-        return Attribute::make(fn($value, $attrs) => $attrs['email_verified_at'] || $this->socialLogins()->exists());
-    }
-    
-    
     public function customColor(): Attribute
     {
         return Attribute::make(fn($value) =>  preg_replace('/\s+/', '', $value));

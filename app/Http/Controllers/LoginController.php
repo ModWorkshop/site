@@ -6,6 +6,7 @@ use App\Models\SocialLogin;
 use App\Models\User;
 use App\Services\APIService;
 use Arr;
+use DB;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,14 +14,16 @@ use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\Validation\Rules\Password;
 use Socialite;
 use SplFileInfo;
 use Storage;
 use Str;
 use FileEye\MimeMap\Type;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Log;
+use Password;
 use Throwable;
 
 /**
@@ -235,5 +238,52 @@ class LoginController extends Controller
         if (!in_array($provider, ['steam', 'discord', 'github', 'gitlab'])) {
             abort(404);
         }
+    }
+
+    /**
+     * Sends a password reset link that contains the token for resetPassword
+     */
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        Password::sendResetLink($request->only('email'));
+        # Is there a need to handle errors?
+    }
+
+    /**
+     * The request that actually resets the password. After getting a token from /forgot-password
+     */
+    public function resetPassword(Request $request): string
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => ['required', APIService::getPasswordRule()],
+        ]);
+     
+        $status = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->setRememberToken(Str::random(60));
+    
+            $user->save();
+    
+            event(new PasswordReset($user));
+        });
+    
+        return __($status);
+    }
+
+    /**
+     * Returns whether or not the given token is valid
+     */
+    public function checkResetToken(Request $request): bool
+    {
+        $reset = DB::table('password_resets')->where(['email'=> $request->email])->first();
+        if (!$reset) {
+            return false;
+        }
+        
+        return Hash::check($request->token, $reset->token);
     }
 }
