@@ -1,7 +1,7 @@
 <template>
     <flex inline class="items-center" :gap="neededGap">
         <NuxtLink v-if="avatar" class="inline-flex" :to="link">
-            <a-avatar :size="avatarSize" :src="user.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
+            <a-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
         </NuxtLink>
 
         <flex gap="1" column>
@@ -12,13 +12,13 @@
                 :disabled="!miniProfile || static"
             >
                 <NuxtLink class="flex gap-1 items-center" :to="link">
-                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user.name}}</component>
+                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user?.name ?? $t('invalid_user')}}</component>
                     <a-tag v-if="userTag" small>{{userTag}}</a-tag>
-                    <span v-if="showAt" class="user-at">@{{user.unique_name}}</span>
+                    <span v-if="showAt" class="user-at">@{{user?.unique_name}}</span>
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
                 <template #popper>
-                    <a-mini-profile v-click-outside="() => renderProfile = false" :user="user"/>
+                    <a-mini-profile v-if="user" v-click-outside="() => renderProfile = false" :user="user"/>
                 </template>
             </VMenu>
             <slot name="details" :user="user">
@@ -36,7 +36,7 @@ import { User } from '~~/types/models';
 const props = withDefaults(defineProps<{
     details?: string,
     noColor?: boolean,
-    user: User,
+    user?: User,
     miniProfile?: boolean,
     avatar?: boolean,
     tag?: boolean,
@@ -53,9 +53,9 @@ const props = withDefaults(defineProps<{
 const { t } = useI18n();
 
 const renderProfile = ref(false);
-const isBanned = computed(() => !!(props.user.ban || props.user.game_ban));
+const isBanned = computed(() => !!(props.user?.ban || props.user?.game_ban));
 const userTag = computed(() => {
-    if (props.user.show_tag !== 'none') {
+    if (props.user && props.user.show_tag !== 'none') {
         if (props.user.show_tag === 'supporter_or_role' && props.user.supporter) {
             return t('supporter_tag');
         } else {
@@ -69,7 +69,7 @@ const userColor = computed(() => {
         return 'var(--secondary-color)';
     } else {
         let color;
-        if (!props.noColor && props.user.color) {
+        if (!props.noColor && props.user?.color) {
             color = props.user.color.replace(/\s+/, '');
         }
     
@@ -80,13 +80,11 @@ const userColor = computed(() => {
 const neededGap = computed(() => {
     if (props.avatar) {
         return props.avatarSize == 'xs' ? 1 : 2;
-    } else {
-        return null;
     }
 });
 
 const link = computed(() => {
-    if (!props.static) {
+    if (!props.static && props.user) {
         if (props.user.unique_name) {
             return `/user/${props.user.unique_name}`;
         } else {
@@ -94,12 +92,6 @@ const link = computed(() => {
         }
     }
 });
-
-function toggleRenderProfile() {
-    if (!props.static) {
-        renderProfile.value = true;
-    }
-}
 </script>
 
 <style>

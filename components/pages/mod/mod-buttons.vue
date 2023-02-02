@@ -1,10 +1,10 @@
 <template>
     <flex wrap>
-        <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="cog">{{$t('edit_mod')}}</a-button>
+        <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="ic:baseline-settings">{{$t('edit_mod')}}</a-button>
         <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
         <VDropdown :disabled="mod.followed">
             <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
-                {{$t(mod.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!mod.followed" icon="caret-down"/>
+                {{$t(mod.followed ? 'unfollow' : 'follow')}} <a-icon v-if="!mod.followed" icon="caret-down"/>
             </a-button>
             <template #popper>
                 <a-dropdown-item @click="setFollowMod(mod, true)">{{$t('follow_mod_notifs')}}</a-dropdown-item>

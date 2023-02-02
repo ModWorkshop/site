@@ -1,3 +1,5 @@
+import { Ref } from 'nuxt/dist/app/compat/capi';
+import { AsyncDataExecuteOptions, KeyOfRes, PickFrom, _Transform } from 'nuxt/dist/app/composables/asyncData';
 import { SearchParams } from 'ohmyfetch';
 import { useI18n } from "vue-i18n";
 
@@ -10,7 +12,23 @@ import { useI18n } from "vue-i18n";
  * @param fallback If ID is optional, falls back to this object
  * @returns 
  */
-export default async function<T>(name: string, url: string, errorMessages: Record<number|string, string> = {}, params: SearchParams|undefined = undefined, fallback?: T) {
+
+interface _AsyncData<DataT, ErrorT> {
+    data: Ref<DataT>;
+    pending: Ref<boolean>;
+    refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>;
+    execute: (opts?: AsyncDataExecuteOptions) => Promise<void>;
+    error: Ref<ErrorT | null>;
+}
+
+// Basically since this function errors in case we hit an error in the fetch we can be sure something will return.
+export default async function<T>(
+    name: string,
+    url: string,
+    errorMessages: Record<number|string, string> = {},
+    params?: SearchParams,
+    fallback?: T
+): Promise<_AsyncData<PickFrom<ReturnType<_Transform>, KeyOfRes<_Transform>>, Error | null>> {
     const route = useRoute();
     
     const { t } = useI18n();
@@ -18,7 +36,7 @@ export default async function<T>(name: string, url: string, errorMessages: Recor
     const id = route.params[`${name}Id`];
 
     if (!id) {
-        return { data: ref(fallback), error: false };
+        return { data: ref(fallback), error: ref(null) };
     }
 
     const res = await useFetchData<T>(`${url}/${id}`, { params });

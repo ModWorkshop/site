@@ -11,30 +11,30 @@
             <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
 
             <template v-if="!noCategories">
-                <flex v-if="((mod.game && showGame) || mod.category)">
-                    <font-awesome-icon icon="map-marker-alt"/> 
-                    <NuxtLink v-if="showGame && mod.game" class="text-secondary" :to="!static && gameUrl || null" :title="mod.game">
+                <div v-if="((mod.game && showGame) || mod.category)" style="">
+                    <Icon class="mr-1" name="fa-solid:map-marker-alt"/> 
+                    <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game">
                         {{mod.game.name}}
                     </NuxtLink>
                     <template v-if="mod.category">
-                        <template v-if="showGame">/</template>
-                        <NuxtLink class="text-secondary" :to="!static && `${gameUrl}?category=${mod.category_id}` || null" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                        <template v-if="showGame"> / </template>
+                        <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                     </template>
-                </flex>
+                </div>
             </template>
 
             <flex>
                 <span :title="mod.likes.toString()">
-                    <font-awesome-icon icon="heart"/> {{likes}}
+                    <a-icon icon="heart"/> {{likes}}
                 </span>
                 <span :title="mod.downloads.toString()">
-                    <font-awesome-icon icon="download"/> {{downloads}}
+                    <a-icon icon="download"/> {{downloads}}
                 </span>
                 <span :title="mod.views.toString()">
-                    <font-awesome-icon icon="eye"/> {{views}}
+                    <a-icon icon="eye"/> {{views}}
                 </span>
                 <span v-if="date" class="inline-block ml-auto">
-                    <font-awesome-icon icon="clock"/> <time-ago :time="date"/>
+                    <a-icon icon="clock"/> <time-ago :time="date"/>
                 </span>
             </flex>
         </flex>
@@ -61,11 +61,11 @@ const likes = computed(() => shortStat(props.mod.likes));
 const downloads = computed(() => shortStat(props.mod.downloads));
 const views = computed(() => shortStat(props.mod.views));
 
-const link = computed(() => !props.static ? `/mod/${props.mod.id}` : null);
-const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game.short_name || props.mod.game.id}`);
+const link = computed(() => !props.static ? `/mod/${props.mod.id}` : undefined);
+const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game?.short_name || props.mod.game?.id}`);
 </script>
 
-<style>
+<style scoped>
 .mod-title {
     font-size: 1.2rem;
     overflow: hidden;

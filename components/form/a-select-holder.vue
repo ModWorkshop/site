@@ -6,7 +6,7 @@
             class="max-w-full"
             distance="0"
             :placement="placement"
-            auto-size
+            auto-size="max" 
             auto-boundary-max-size
             handle-resize
             :overflow-padding="64"

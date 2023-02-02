@@ -3,7 +3,7 @@
         <content-block padding="6">
             <h1>{{document.name}}</h1>
             <flex class="items-center">
-                <font-awesome-icon icon="clock" :title="$t('last_updated')"/>
+                <a-icon icon="clock" :title="$t('last_updated')"/>
                 <i18n-t keypath="by_user_time_ago">
                     <template #time>
                         <time-ago :time="document.updated_at"/>

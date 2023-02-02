@@ -3,7 +3,7 @@
         <Transition>
             <Suspense>
                 <flex v-if="modelValue" class="modal" @click.self="$emit('update:modelValue', false)">
-                    <flex column :class="classes">
+                    <flex column :class="classes" v-bind="$attrs">
                         <slot/>
                     </flex>
                 </flex>

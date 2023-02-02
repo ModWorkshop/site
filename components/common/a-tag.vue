@@ -1,8 +1,10 @@
 <template>
-    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" :style="{
-        backgroundColor: color,
-        color: textColor
-    }">
+    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" 
+        :style="{
+            backgroundColor: color,
+            color: textColor
+        }"
+    >
         <slot/>
     </span>
 </template>

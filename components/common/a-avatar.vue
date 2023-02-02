@@ -1,5 +1,5 @@
 <template>
-    <a-img 
+    <a-img
         :alt="$t('avatar')"
         :src="avatarUrl"
         :url-prefix="src ? urlPrefix : undefined"
@@ -9,6 +9,8 @@
     />
 </template>
 <script setup lang="ts">
+const { public: config } = useRuntimeConfig();
+
 const props = defineProps({
     src: [String, Blob],
     urlPrefix: {
@@ -20,11 +22,17 @@ const props = defineProps({
         type:  String
     }
 });
+const assetsUrl = `${config.apiUrl}/storage/assets`;
 
 const avatarUrl = computed(() => {
     const src = props.src;
-    if (src) {
-        return 'thumb_'+src;
+    if (config.debug_legacy_images && !isSrcExternal(src)) {
+        return 'https://modworkshop.net/' + src;
+    }
+    else if (src) {
+        return src;
+    } else {
+        return `${assetsUrl}/default-avatar.webp`;
     }
 });
 

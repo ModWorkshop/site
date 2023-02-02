@@ -1,7 +1,9 @@
 <template>
     <flex class="input-container" inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
         <label v-if="!isCheckbox && label" :for="labelId">
-            {{label}}
+            <slot name="label">
+                {{label}}
+            </slot>
         </label>
         <flex v-if="!$slots.default">
             <input 
@@ -44,7 +46,9 @@
         </flex>
         <slot v-else/>
         <label v-if="isCheckbox && label" :for="labelId" class="flex-grow">
-            <span class="align-middle">{{label}}</span>
+            <slot name="label">
+                <span class="align-middle">{{label}}</span>
+            </slot>
         </label>
         <span v-if="err" class="text-danger">{{err}}</span>
         <hr v-if="isCheckbox && desc">
@@ -56,7 +60,7 @@
 const props = defineProps<{
     id?: string,
     desc?: string,
-    label?: string,
+    label?: string|boolean,
     modelValue?: any,
     validity?: string,
     elementRef?: HTMLInputElement,

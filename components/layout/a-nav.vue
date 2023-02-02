@@ -36,7 +36,5 @@ provide('menuOpen', menuOpen.value);
 
 <style>
 .nav-menu-content {
-    overflow-x: auto;
-    overflow-y: hidden;
 }
 </style>

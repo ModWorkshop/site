@@ -1,15 +1,12 @@
 <template>
     <flex>
-        <font-awesome-icon :class="['loading', 'mx-auto', 'text-'+color, 'text-'+size]" icon="circle-notch"/>
+        <Icon :class="['loading', 'mx-auto', color && 'text-'+color, 'text-'+size]" name="svg-spinners:pulse-2"/>
     </flex>
 </template>
 
 <script setup>
 defineProps({
-    color: {
-        type: String,
-        default: 'primary',
-    },
+    color: String,
     size: {
         type: String,
         default: '3xl'

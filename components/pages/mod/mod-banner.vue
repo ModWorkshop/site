@@ -8,10 +8,10 @@
             <flex column class="mt-auto md:flex-row">
                 <flex gap="3" class="items-center mt-auto">
                     <span v-if="mod.version">
-                        <font-awesome-icon icon="tag" :title="$t('version')"/> {{mod.version}}
+                        <a-icon icon="tag" :title="$t('version')"/> {{mod.version}}
                     </span>
                     <span v-if="mod.bumped_at">
-                        <font-awesome-icon icon="clock" :title="$t('last_updated')" class="mr-1"/>
+                        <a-icon icon="clock" :title="$t('last_updated')" class="mr-1"/>
                         <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
                         <span v-else class="items-center inline-flex gap-1">
                             <i18n-t keypath="by_user_time_ago">
@@ -37,7 +37,7 @@
                             {{$t('show_download_link')}}
                         </a-button>
                         <template #popper>
-                            <div style="width: 250px;">
+                            <div class="word-break p-2" style="width: 250px;">
                                 {{$t('show_download_link_warn')}}
                                 <br>
                                 <a :href="(mod.download as any).url">{{(mod.download as any).url}}</a>

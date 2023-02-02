@@ -32,7 +32,7 @@
                     <td>{{fullDate(user.created_at)}}</td>
                     <td class="text-center p-1">
                         <flex inline>
-                            <a-button icon="cog" @click.prevent="editMember(user)"/>
+                            <a-button icon="ic:baseline-settings" @click.prevent="editMember(user)"/>
                             <a-button icon="trash" @click.prevent="deleteMember(user)"/>
                         </flex>
                     </td>

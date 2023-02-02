@@ -16,7 +16,7 @@
                 <flex class="ml-auto items-center" gap="4">
                     <flex v-if="store.gameBan" v-once column>
                         <span class="text-danger">
-                            <font-awesome-icon icon="triangle-exclamation"/> Banned
+                            <a-icon icon="triangle-exclamation"/> Banned
                         </span>
                         <span>
                             <i18n-t keypath="expires_t">

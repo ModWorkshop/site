@@ -1,6 +1,6 @@
 <template>
     <component :is="link ? NuxtLink : 'span'" :to="link" class="link-button">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        <a-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </component>
 </template>
 

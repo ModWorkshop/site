@@ -6,7 +6,7 @@
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <slot name="any-option" :option="option">
                             <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
-                                <font-awesome-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                                <a-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
                             </a-tag>
                         </slot>
                     </slot>
@@ -24,8 +24,8 @@
                 </span>
             </flex>
             <flex class="ml-auto" gap="2">
-                <font-awesome-icon v-if="compClearable" icon="xmark" @click.prevent="clearAll"/>
-                <font-awesome-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
+                <a-icon v-if="compClearable" icon="xmark" @click.prevent="clearAll"/>
+                <a-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
             </flex>
         </flex>
         <template #popper>
@@ -54,7 +54,7 @@ import { remove } from '@vue/shared';
 
 const props = withDefaults(defineProps<{
 	url?: string,
-    fetchParams?: Record<string, unknown>,
+    fetchParams?: Record<string, any>,
     modelValue: any,
     default?: any,
 	options?: any[],
@@ -74,8 +74,7 @@ const props = withDefaults(defineProps<{
 }>(), {
     valueBy: 'id',
     textBy: 'name',
-    filterable: null,
-    clearable: null,
+    filterable: true,
     filterSelected: false,
     classic: true,
     placeholder: 'Select...',
@@ -87,7 +86,7 @@ const dropdownOpen = ref(false);
 const showInvalid = ref(false);
 
 const emit = defineEmits<{
-    (e: 'update:modelValue', value: string|number|any[]): void,
+    (e: 'update:modelValue', value: any|any[]): void,
 	(e: 'fetched', options: any[]): void
 }>();
 
@@ -97,14 +96,13 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 		query: searchDebounced,
         ...props.fetchParams
 	}),
-	initialCache: true
 });
 
 const opts = computed(() => props.options ?? asyncOptions.value?.data);
 const selectedValue = computed(() => props.modelValue ?? props.default);
-const selected = computed(() => typeof selectedValue.value == 'object' ? selectedValue.value : [selectedValue.value]);
-const selectedMax = computed(() => selected.value.length >= props.max);
-const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value.length > 10));
+const selected = computed<any[]>(() => typeof selectedValue.value == 'object' ? selectedValue.value as any[]: [selectedValue.value]);
+const selectedMax = computed(() => props.max ? selected.value.length >= props.max : false);
+const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value && opts.value.length > 10));
 const filtered = computed(() => {
     const searchLower = searchDebounced.value.toLowerCase();
     let options = opts.value;
@@ -226,7 +224,7 @@ watch(searchDebounced, async () => {
 });
 
 function clearAll() {
-    if (props.multiple && typeof selectedValue.value == 'object') {
+    if (props.multiple && typeof selectedValue.value == 'object' && opts.value) {
         for (const option of opts.value) {
             const value = optionValue(option);
             if (optionEnabled(option)) {

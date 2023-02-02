@@ -4,10 +4,11 @@
         <flex column>
             <the-tag-notices :tags="thread.tags"/>
         </flex>
+        <a-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
         <flex>
-            <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="cog">{{$t('edit')}}</a-button>
+            <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="ic:baseline-settings">{{$t('edit')}}</a-button>
             <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
-            <a-button :disabled="thread.locked_by_mod && !canModerate" :icon="thread.locked ? 'unlock' : 'lock'" @click="lockThread">
+            <a-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" :icon="thread.locked ? 'unlock' : 'lock'" @click="lockThread">
                 {{thread.locked ? $t('unlock') : $t('lock')}}
             </a-button>
             <a-report resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
@@ -56,7 +57,7 @@ const { t } = useI18n();
 
 const canEditComments = ref(false);
 const canDeleteComments = ref(false);
-const commentSpecialTag = ref(null);
+const commentSpecialTag = ref();
 
 const { user, hasPermission, isBanned } = useStore();
 
@@ -71,6 +72,14 @@ const canComment = computed(() => {
         return false;
     }
     return !thread.value.locked || canModerate.value || (thread.value.user_id === user?.id && !thread.value.locked_by_mod);
+});
+
+const lockedReason = computed(() => {
+    if (thread.value.locked_by_mod) {
+        return t('cannot_comment_locked_by_mod');
+    } else {
+        return t('cannot_comment_locked');
+    }
 });
 
 const cannotCommentReason = computed(() => {

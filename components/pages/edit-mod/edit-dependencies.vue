@@ -18,7 +18,7 @@
                 <td v-else><NuxtLink :to="dep.url">{{dep.url}}</NuxtLink></td>
                 <td>{{dep.optional ? '✔' : '❌'}}</td>
                 <td class="flex gap-1">
-                    <a-button icon="cog" @click="editDep(dep)">{{$t('edit')}}</a-button>
+                    <a-button icon="ic:baseline-settings" @click="editDep(dep)">{{$t('edit')}}</a-button>
                     <a-button color="danger" icon="trash" @click="deleteDep(dep)">{{$t('remove')}}</a-button>
                 </td>
             </tr>

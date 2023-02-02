@@ -4,22 +4,22 @@
         <flex column class="p-4" gap="4">
             <flex gap="2">
                 <span>
-                    <font-awesome-icon icon="heart"/> {{likes}}
+                    <a-icon icon="heart"/> {{likes}}
                 </span>
                 <span>
-                    <font-awesome-icon icon="download"/> {{downloads}}
+                    <a-icon icon="download"/> {{downloads}}
                 </span>
                 <span>
-                    <font-awesome-icon icon="eye"/> {{views}}
+                    <a-icon icon="eye"/> {{views}}
                 </span>
                 <span class="ml-auto">
-                    <font-awesome-icon v-if="mod.published_at" icon="calendar-plus" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
+                    <a-icon v-if="mod.published_at" icon="calendar-plus" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
                 </span>
             </flex>
 
             <flex v-if="mod.tags.length > 0" wrap>
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
-                    <NuxtLink class="text-body" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
+                    <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
                 </a-tag>
             </flex>
 

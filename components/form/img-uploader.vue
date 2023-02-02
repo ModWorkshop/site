@@ -29,22 +29,24 @@ const labelId = computed(() => props.id || uniqueId);
 
 watch(() => props.modelValue, (value, oldValue) => {
     if (input.value && oldValue && !value) {
-        input.value.value = null;
+        input.value.value = '';
     }
 });
 
 function onChange() {
-    const file = input.value.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        blob.value = reader.result; 
-    };
+    const file = input.value?.files?.[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            blob.value = reader.result; 
+        };
+
+        if (file instanceof Blob) {
+            reader.readAsDataURL(file);    
+        }
+    }
+
     fileRef.value = file;
     emit('update:modelValue', file);
-    console.log(file);
-    
-    if (file instanceof Blob) {
-        reader.readAsDataURL(file);    
-    }
 }
 </script>

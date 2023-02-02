@@ -10,7 +10,7 @@
                     :key="image.id" 
                     class="cursor-pointer"
                     url-prefix="mods/images"
-                    :src="`${(image.has_thumb ? 'thumb_' : '') + image.file}`" 
+                    :src="`${(image.has_thumb ? config.thumbnail_prefix : '') + image.file}`" 
                     style="max-height: 200px;" 
                     @click="showImage(i)"
                 />
@@ -29,10 +29,10 @@
                             <flex grow column>
                                 <h3>{{file.name}}</h3>
                                 <span v-if="file.version">
-                                    <font-awesome-icon icon="tag" :title="$t('version')"/> {{file.version}}
+                                    <a-icon icon="tag" :title="$t('version')"/> {{file.version}}
                                 </span>
                                 <flex class="items-center">
-                                    <font-awesome-icon icon="clock" :title="$t('upload_date')"/>
+                                    <a-icon icon="clock" :title="$t('upload_date')"/>
                                     <i18n-t keypath="by_user_time_ago">
                                         <template #time>
                                             <time-ago :time="file.created_at"/>

@@ -245,7 +245,7 @@ a:link:hover, a:visited:hover {
     color: var(--text-color);
 }
 
-.no-hover:hover {
+.no-hover, .no-hover:hover {
     color: inherit !important;
 }
 
@@ -357,7 +357,7 @@ a {
 
 @media (min-width:1536px) {
     .games-grid {
-        grid-template-columns: repeat(8, 1fr)
+        grid-template-columns: repeat(6, 1fr)
     }
 }
 
@@ -484,4 +484,14 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 .float-bg {
     backdrop-filter: blur(20px);
     background: #8989891c;
+}
+
+.icon {
+    vertical-align: -.125em !important;
+    overflow: visible !important;
+}
+
+svg:not(:root).icon, svg:not(:host).icon {
+    overflow: visible ;
+    box-sizing: content-box;
 }

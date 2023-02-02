@@ -1,5 +1,5 @@
 <template>
-    <tr class="items-center mt-2 content-block" :title="mod.short_desc">
+    <tr class="mod items-center mt-2 content-block" :title="mod.short_desc">
         <td v-if="displayMode == 1" width="200px;">
             <NuxtLink class="block" :to="!static && `/mod/${mod.id}` || null">
                 <mod-thumbnail :thumbnail="mod.thumbnail"/>
@@ -29,10 +29,10 @@
                 {{$t('not_available')}}
             </span>
         </td>
-        <td v-if="!lite">{{likes}}</td>
-        <td v-if="!lite">{{downloads}}</td>
-        <td v-if="!lite">{{views}}</td>
-        <td v-if="!lite">
+        <td v-if="!lite" class="text-center">{{likes}}</td>
+        <td v-if="!lite" class="text-center">{{downloads}}</td>
+        <td v-if="!lite" class="text-center">{{views}}</td>
+        <td v-if="!lite" class="text-center">
             <time-ago :time="date"/>
         </td>
         <slot name="definitions"/>
@@ -63,5 +63,10 @@ const gameUrl = computed(() => `/g/${store.currentGame?.short_name || props.mod.
 </script>
 
 <style scoped>
+.mod-title {
+    overflow: hidden;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
 
 </style>

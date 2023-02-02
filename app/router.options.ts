@@ -82,6 +82,11 @@ export default <RouterOptions> {
                     path: "accounts",
                     component: () => import('~/pages/user-settings/accounts.vue')
                 },
+                {
+                    name: "api",
+                    path: "api",
+                    component: () => import('~/pages/user-settings/api.vue')
+                },
             ]
         },
         {

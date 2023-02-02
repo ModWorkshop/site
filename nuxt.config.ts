@@ -26,16 +26,7 @@ export default defineNuxtConfig({
 		transpile: process.env.NODE_ENV === 'production' ? [
 			'markdown-it',
 			'markdown-it/lib/common/utils.js',
-			'@fortawesome/vue-fontawesome',
-			'@fortawesome/fontawesome-svg-core',
-			'@fortawesome/free-solid-svg-icons',
-			'@fortawesome/free-brands-svg-icons'
-		] : [
-			'@fortawesome/vue-fontawesome',
-			'@fortawesome/fontawesome-svg-core',
-			'@fortawesome/free-solid-svg-icons',
-			'@fortawesome/free-brands-svg-icons'	
-		]
+		] : [ ]
 	},
 
 	vite: {
@@ -43,9 +34,15 @@ export default defineNuxtConfig({
 			watch: { usePolling: true },
 		}
 	},
+
 	delayHydration: {
-		// enables nuxt-delay-hydration in dev mode for testing  
 		debug: process.env.NODE_ENV === 'development'
+	},
+
+	nuxtIcon: {
+		aliases: {
+			'': 'fa6-solid:',
+		}
 	},
 
 	modules: [
@@ -53,6 +50,7 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
+		'nuxt-icon'
 		// 'floating-vue/nuxt'
 	],
 });

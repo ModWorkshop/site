@@ -193,7 +193,9 @@ async function upload(files: FileList|null) {
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         const reactiveFile = filesArr.value[0];
-                        reactiveFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+                        if (progressEvent.total) {
+                            reactiveFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+                        }
                     },
                     cancelToken: new axios.CancelToken(c => insertFile.cancel = c)
                 });

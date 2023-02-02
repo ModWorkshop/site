@@ -2,14 +2,15 @@
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
         <content-block class="p-8">
-            <a-form :model="user" float-save-gui @submit="save">
+            <a-form :model="user" float-save-gui autocomplete="off" @submit="save">
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="" :title="$t('account_tab')"/>
                     <a-nav-link to="profile" :title="$t('profile')"/>
                     <a-nav-link to="content" :title="$t('content_tab')"/>
                     <a-nav-link to="accounts" :title="$t('connected_accounts_tab')"/>
+                    <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
                     <template #content>
-                        <NuxtPage keepalive :user="user"/>
+                        <NuxtPage :user="user"/>
                     </template>
                 </a-nav>
             </a-form>
@@ -36,7 +37,7 @@ const route = useRoute();
 
 provide('isMe', isMe);
 
-const { data } = await useResource<User>('user', 'users', null, null, clone(store.user));
+const { data } = await useResource<User>('user', 'users', undefined, undefined, clone(store.user));
 const user = ref<UserForm>({
     ...data.value,
     password: '',

@@ -2,7 +2,7 @@
     <content-block :alt-background="isReply" :gap="3" :padding="3" :class="classes">
         <flex class="comment-body">
             <NuxtLink class="mr-1" :to="`/user/${comment.user_id}`">
-                <a-avatar class="align-middle" :src="comment.user.avatar" size="md"/>
+                <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
             </NuxtLink>
             <flex column wrap class="overflow-hidden w-full">
                 <flex wrap>
@@ -12,7 +12,7 @@
                         <time-ago :time="comment.created_at"/>
                     </NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
-                    <font-awesome-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
+                    <a-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
                 <a-markdown class="mt-1" :text="content"/>
             </flex>
@@ -68,7 +68,7 @@
                 :per-page="replies.meta.per_page" 
                 @update="loadReplies"
             />
-            <NuxtLink v-else-if="!fetchReplies && comment.total_replies > 3" class="my-2" :to="commentPage">
+            <NuxtLink v-else-if="!fetchReplies && comment.total_replies && comment.total_replies > 3" class="my-2" :to="commentPage">
                 {{$t('read_all_replies')}} ({{$t('replies_n', comment.total_replies)}})
             </NuxtLink>
         </div>
@@ -114,7 +114,7 @@ if (!props.fetchReplies) {
 }
 
 content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
-    const user: User = props.comment.mentions.find(user => user.id == id);
+    const user = props.comment.mentions.find(user => user.id == id);
 
     if (user) {
         return `@${user.unique_name}`;
@@ -135,7 +135,7 @@ const { user, hasPermission } = useStore();
 const areActionsVisible = ref(false);
 const canEdit = computed(() => user && (hasPermission('create-discussions', props.commentable.game) && user.id === props.comment.user_id) || props.canEditAll);
 // const canReport = computed(() => false);
-const canReply = computed(() => props.canComment && !props.comment.user.blocked_me);
+const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
 const classes = computed(() => ({
     comment: true,

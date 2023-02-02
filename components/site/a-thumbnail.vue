@@ -30,8 +30,10 @@ const compSrc = computed(() => {
         }
         else if (!src || isSrcExternal(src)) {
             return src;
+        } else if (config.debug_legacy_images) {
+            return `https://modworkshop.net/mydownloads/previews/${(props.hasThumb && !props.preferHq) ? config.thumbnail_prefix : ''}${props.src}`;
         } else {
-            return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumb_' : ''}${props.src}`;
+            return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? config.thumbnail_prefix : ''}${props.src}`;
         }
     }
 });

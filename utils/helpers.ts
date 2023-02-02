@@ -51,7 +51,7 @@ export const colorSchemes = [
 /**
  * Converts ISO8601 date to relative 'time ago' format.
  */
-export function getTimeAgo(t?: string): string|null {
+export function getTimeAgo(t?: string): string {
     let timeAgo = '';
     if (t) {
         timeAgo = DateTime.fromISO(t).toRelative() || '';
@@ -63,7 +63,7 @@ export function getTimeAgo(t?: string): string|null {
 /**
  * Converts ISO8601 date to full date format.
  */
-export function fullDate(t?: string): string|null {
+export function fullDate(t?: string): string {
     let timeAgo = '';
     if (t) {
         timeAgo = DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT) || '';

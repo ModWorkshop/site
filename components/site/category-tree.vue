@@ -1,7 +1,7 @@
 <template>
     <div class="category">
         <div v-if="category" :class="classes" @click.self="onClickCategory(category)">
-            <font-awesome-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
+            <a-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
             <strong @click="onClickCategory(category)">{{category.name}}</strong> 
             <slot name="button" :category="category"/>
         </div>

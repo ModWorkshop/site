@@ -1,6 +1,6 @@
 <template>
     <NuxtLink :class="classes" :to="compTo" @click="clickLink">
-        <font-awesome-icon v-if="icon" :icon="icon"/> <slot>{{title}}</slot>
+        <a-icon v-if="icon" :icon="icon"/> <slot>{{title}}</slot>
     </NuxtLink>
 </template>
 

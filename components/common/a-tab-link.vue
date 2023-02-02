@@ -9,7 +9,7 @@
         href="#"
         :aria-controls="`${tabName}-tab-panel`"
     >
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> {{tabTitle}}
+        <a-icon v-if="icon" :icon="icon" :size="iconSize"/> {{tabTitle}}
     </a>
 </template>
 

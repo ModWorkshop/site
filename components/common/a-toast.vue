@@ -1,7 +1,7 @@
 <template>
     <a-alert v-if="show" :title="title" :desc="desc" :color="color">
         <template #attach>
-            <font-awesome-icon v-if="closable" class="cursor-pointer ml-auto" icon="xmark" @click="show = false"/>
+            <a-icon v-if="closable" class="cursor-pointer ml-auto" icon="xmark" @click="show = false"/>
         </template>
         <slot/>
     </a-alert>

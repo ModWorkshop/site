@@ -1,6 +1,6 @@
 <template>
     <NuxtLink :class="{'dropdown-item': true, disabled}" :to="to" @click="click">
-        <font-awesome-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
+        <a-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </NuxtLink>
 </template>
 

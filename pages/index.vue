@@ -19,14 +19,22 @@
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="games" icon="chess-board">{{$t('followed_games')}}</a-group-button>
-                    <a-group-button name="mods" icon="tools">{{$t('followed_mods')}}</a-group-button>
+                    <a-group-button name="mods" icon="mdi:puzzle">{{$t('followed_mods')}}</a-group-button>
                     <a-group-button name="users" icon="users">{{$t('followed_users')}}</a-group-button>
                     <a-group-button name="liked" icon="heart">{{$t('liked')}}</a-group-button>
                     <a-group-button name="all" icon="layer-group">{{$t('all')}}</a-group-button>
                 </button-group>
             </template>
         </mod-list>
-        <mini-thread-list v-if="user?.extra.home_show_threads ?? true" :title="$t('threads')" title-link="/forum" :forum-id="1" :query="false"/>
+        <thread-list 
+            v-if="user?.extra.home_show_threads ?? true"
+            :title="$t('threads')"
+            title-link="/forum"
+            :forum-id="1"
+            :limit="10"
+            :query="false"
+            :filters="false"
+        />
     </page-block>
 </template>
 
@@ -55,7 +63,7 @@ const lastGames = computed(() => {
     if (allGames.value) {
         return games.value.data;
     } else {
-        return games.value.data.slice(0, 8);
+        return games.value.data.slice(0, 6);
     }
 });
 </script>

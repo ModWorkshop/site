@@ -1,7 +1,7 @@
 <template>
     <flex :class="classes" gap="2">
         <span v-if="currIcon" class="text-3xl self-start">
-            <font-awesome-icon :icon="currIcon"/>
+            <a-icon :icon="currIcon"/>
         </span>
         <flex column gap="2">
             <strong v-if="title" class="text-xl">{{title}}</strong>

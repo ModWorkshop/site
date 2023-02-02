@@ -32,7 +32,7 @@
                         <td>{{fullDate(link.updated_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
-                                <a-button icon="cog" @click.prevent="editLink(link)"/>
+                                <a-button icon="ic:baseline-settings" @click.prevent="editLink(link)"/>
                                 <a-button icon="trash" @click.prevent="deleteLink(link)"/>
                             </flex>
                         </td>
@@ -58,7 +58,7 @@
             </td>
         </template>
         <template #buttons="{file}">
-            <a-button class="file-button" icon="cog" @click.prevent="editFile(file as File)"/>
+            <a-button class="file-button" icon="ic:baseline-settings" @click.prevent="editFile(file as File)"/>
         </template>
     </file-uploader>
     <a-modal-form v-if="currentLink" v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">

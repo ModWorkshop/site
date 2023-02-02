@@ -3,8 +3,13 @@
         <a-loading v-if="!notifications"/>
         <template v-else>
             <h2>{{$t('notifications')}}</h2>
-            <flex column class="overflow-y-scroll">
-                <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="() => showNotifications = false" :notifications="notifications"/>
+            <flex column :class="{'overflow-y-scroll': notifications.data.length}" style="min-height: 150px;">
+                <template v-if="notifications.data.length">
+                    <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="() => showNotifications = false" :notifications="notifications"/>
+                </template>
+                <span v-else>
+                    {{$t('no_alerts_found')}}
+                </span>
             </flex>
             <div class="mt-4">
                 <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
@@ -56,7 +61,7 @@
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <a-button icon="search" aria-label="Search" style="padding: 0.6rem 0.75rem;" @click="clickSelectedSearch"/>
+                            <a-button icon="ant-design:search-outlined" aria-label="Search" @click="clickSelectedSearch"/>
                         </div>
                         <template #popper>
                             <ClientOnly>
@@ -77,21 +82,20 @@
                     <flex v-if="user" class="items-center" gap="3">
                         <flex v-if="user.ban" column>
                             <span class="text-danger">
-                                <font-awesome-icon icon="triangle-exclamation"/> Banned
+                                <a-icon icon="triangle-exclamation"/> Banned
                             </span>
                             <span>
                                 Expires: <time-ago :time="user.ban.case.expire_date"/>
                             </span>
                         </flex>
                         <flex class="text-lg" gap="4">
-                            <span class="cursor-pointer" @click="showNotifications = true"><font-awesome-icon icon="bell"/> {{notificationCount}}</span>
-                            <!-- <span><font-awesome-icon icon="message"/> 0</span> -->
+                            <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="bell"/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
                             <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
                             <template #popper>
                                 <a-dropdown-item icon="user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
-                                <a-dropdown-item icon="cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
+                                <a-dropdown-item icon="fa-solid:cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                                 <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
                                 <a-dropdown-item v-if="canSeeAdminPage" icon="screwdriver-wrench" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
                                 <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>

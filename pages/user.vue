@@ -1,12 +1,12 @@
 <template>
-    <page-block>
+    <page-block v-if="user">
         <Title>{{user.name}}</Title>
         <flex v-if="me && user.id != me.id">
             <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
             <VDropdown :disabled="user.followed">
                 <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
-                    {{$t(user.followed ? 'unfollow' : 'follow')}} <font-awesome-icon v-if="!user.followed" icon="caret-down"/>
+                    {{$t(user.followed ? 'unfollow' : 'follow')}} <a-icon v-if="!user.followed" icon="caret-down"/>
                 </a-button>
                 <template #popper>
                     <a-dropdown-item @click="setFollowUser(user, true)">{{$t('follow_with_notifs')}}</a-dropdown-item>
@@ -23,7 +23,7 @@
             <VDropdown v-if="canModerate" arrow>
                 <a-button icon="caret-down">{{$t('moderation')}}</a-button>
                 <template #popper>
-                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="cog">{{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="ic:baseline-settings">{{$t('edit')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canManageMods" icon="trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
@@ -147,7 +147,7 @@ const canModerate = computed(() =>
     canManageDiscussions.value
 );
 
-const isOwnOrModerator = computed(() => user.value.id === me.id || canModerateUsers.value);
+const isOwnOrModerator = computed(() => me && (user.value.id === me.id || canModerateUsers.value));
 const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
@@ -156,13 +156,13 @@ const displayMods = ref('personal');
 const isOnline = computed(() => {
     const last = DateTime.fromISO(user.value.last_online);
     const now = DateTime.now();
-    return now.diff(last, 'minutes').toObject().minutes < 5;
+    return (now.diff(last, 'minutes').toObject()?.minutes ?? 0) < 5;
 });
 const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile);
-const mods = ref<Paginator<Mod>>(null);
+const mods = ref<Paginator<Mod>>();
 
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 async function saveRoles() {

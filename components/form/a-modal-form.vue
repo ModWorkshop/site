@@ -6,7 +6,6 @@
                 <a-alert v-if="descType" :color="descType" :desc="desc"/>
                 <span v-else-if="desc">{{desc}}</span>
                 <slot/>
-                <a-error-alert :error="error"/>
                 <flex gap="1">
                     <a-button type="submit">{{saveText ?? $t('submit')}}</a-button>
                     <a-button color="danger" @click="onCancel()">{{cancelText ?? $t('cancel')}}</a-button>
@@ -17,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
     title?: string;
     desc?: string,
     descType?: string,
@@ -29,10 +28,6 @@ const props = defineProps<{
 
 const emit = defineEmits(['submit', 'cancel', 'update:modelValue']);
 const showToast = useQuickErrorToast();
-
-const error = ref(null);
-
-watch(() => props.modelValue, () => error.value = null);
 
 function onSubmit() {
     emit('submit', e => {

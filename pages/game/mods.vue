@@ -1,5 +1,5 @@
 <template>
-    <mod-list :game="game" :url="`games/${game.id}/mods`" side-filters/>
+    <mod-list v-if="game" :game="game" :url="`games/${game.id}/mods`" side-filters/>
 </template>
 
 <script setup lang="ts">

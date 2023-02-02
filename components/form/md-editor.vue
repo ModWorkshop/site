@@ -86,12 +86,14 @@ const err = useWatchValidation(vm, textArea);
 
 onMounted(() => {
     const textarea = textArea.value;
-    new ResizeObserver(() => {
-        const textarea = textArea.value;
-        if (textarea.parentElement.style.display != 'none') {
-            previewHeight.value = textarea.clientHeight + 3 + 'px';
-        }
-    }).observe(textarea);
+    if (textarea) {
+        new ResizeObserver(() => {
+            const textarea = textArea.value;
+            if (textarea && textarea.parentElement!.style.display != 'none') {
+                previewHeight.value = textarea.clientHeight + 3 + 'px';
+            }
+        }).observe(textarea);
+    }
 });
 
 interface Tool {
@@ -101,14 +103,16 @@ interface Tool {
 
 function clickedTool(tool: Tool) {
     const textarea = textArea.value;
-    //textarea.focus(); //Force focus
-    const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
-    let insert = tool.insert;
-    let focus = start + insert.indexOf('$');
-    textarea.setRangeText(insert.replace('$', ''), start, end, 'select');
-    emit('update:modelValue', textarea.value);
-    textarea.focus();
-    textarea.setSelectionRange(focus, focus);
+    if (textarea) {
+        //textarea.focus(); //Force focus
+        const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
+        let insert = tool.insert;
+        let focus = start + insert.indexOf('$');
+        textarea.setRangeText(insert.replace('$', ''), start, end, 'select');
+        emit('update:modelValue', textarea.value);
+        textarea.focus();
+        textarea.setSelectionRange(focus, focus);
+    }
 }
 
 function toggleFullscreen() {

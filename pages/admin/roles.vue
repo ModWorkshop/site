@@ -11,7 +11,7 @@
                         @dragend="stopDrag"
                     >
                         <span v-if="!roleCanBeEdited(item)">🔒</span>
-                        <font-awesome-icon v-else-if="item.id != 1" icon="grip-lines"/>
+                        <a-icon v-else-if="item.id != 1" icon="grip-lines"/>
                         <flex column>
                             <span class="my-auto">
                                 <a-tag :color="item.color">{{item.name}}</a-tag>

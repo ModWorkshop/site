@@ -193,6 +193,7 @@ private_category: 'Private Forum Category',
 banned_can_post: 'Banned Users can Post (For Appeals)',
 edited: "(Edited)",
 cannot_comment_locked: "This thread has been locked.",
+cannot_comment_locked_by_mod: "This thread has been locked by a moderator.",
 cannot_comment_banned: "Banned users cannot post comments",
 cannot_comment_blocked: "You cannot reply to the thread because the owner blocked you.",
 cannot_comment_blocked_mod: "You cannot comment on the mod because the owner blocked you.",
@@ -336,6 +337,7 @@ blocked_user_view: "You've blocked this user. Do you wish to view their profile?
 block_user_desc: "This will block all communications with the user and hide their mods from showing up",
 hide_user_mods_desc: "This will hide the user's mods",
 connected_accounts_tab: "Connected Accounts",
+api_access_tab: "API Access",
 content_tab: "Content",
 account_tab: "Account",
 avatar: "Avatar",
@@ -396,6 +398,15 @@ This may be slow.`,
 forgot_password_button: "Forgot Password?",
 forgot_password: "Forgot Password",
 reset_password: "Reset Password",
+invalid_user: 'Invalid User',
+api_access_desc: `Mods are fun and all, but what happens once you want to implement some way of updating your mod?
+Via the API of course!
+
+Here you can generate your own API key, do note that generating a new one will void the old one.
+`,
+api_access_checkbox: 'I read the terms of service outlined {here}.',
+generate_api_key: 'Generate API Key',
+your_api_key: 'Your API Key',
 
 //Games//
 game_profile: 'Game Profile',

@@ -99,7 +99,7 @@ export interface Mod {
     license: string;
     instructions: string;
     depends_on?: unknown;
-    visibility: number;
+    visibility: 'public'|'private'|'unlisted';
     legacy_banner_url: string;
     downloads: number;
     likes: number;
@@ -240,14 +240,15 @@ export interface User {
     unique_name: string;
     email: string | null;
     email_verified_at?: string;
+    api_key?: string;
     activated?: boolean;
     created_at?: string;
     updated_at?: string;
     avatar: string;
     roles?: Role[];
     roles_count?: number;
-    role_ids: number[];
-    game_role_ids: number[];
+    role_ids?: number[];
+    game_role_ids?: number[];
     custom_color: string;
     color: string;
     tag: string;

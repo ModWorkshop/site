@@ -19,5 +19,5 @@ const timeAgoStr = computed(() => {
         return t('never');
     }
 });
-const fullDateStr = computed(() => props.time ? fullDate(props.time) : null);
+const fullDateStr = computed(() => props.time ? fullDate(props.time) : undefined);
 </script>

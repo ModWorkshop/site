@@ -5,7 +5,7 @@
 
     <flex v-if="categories" column gap="2">
         <a-input :label="$t('category')">
-            <category-tree v-model="mod.category_id" style="height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
+            <category-tree v-model="mod.category_id" style="max-height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
         </a-input>
     </flex>
 

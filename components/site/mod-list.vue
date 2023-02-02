@@ -32,7 +32,7 @@
                 </template>
             </VDropdown>
             <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                <a-group-button icon="th" :name="0"/>
+                <a-group-button icon="fa:th" :name="0"/>
                 <a-group-button icon="list" :name="1"/>
                 <a-group-button icon="bars" :name="2"/>
             </button-group>
@@ -56,7 +56,7 @@
                 <content-block v-if="sideFilters" class="self-start" style="flex:2; max-width: 280px;">
                     <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
                 </content-block>
-                <flex column gap="4" class="mods place-content-between" style="flex:10; min-height: 150px;">
+                <flex column gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
                     <a-loading v-if="loading" class="my-auto"/>
                     <template v-else>
                         <mod-list-skeleton
