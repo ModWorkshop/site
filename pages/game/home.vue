@@ -8,13 +8,15 @@
             :game="game"
             :url="`games/${game.id}/mods`"
         />
-        <mini-thread-list 
+        <thread-list 
             v-if="user?.extra.game_show_threads ?? true"
             :title="$t('threads')"
             :title-link="`/g/${game.short_name}/forum`"
-            :query="false"
             :game-id="game?.id"
             :forum-id="game?.forum_id"
+            :limit="10"
+            :query="false"
+            :filters="false"
         />
     </flex>
 </template>
