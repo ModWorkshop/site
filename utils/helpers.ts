@@ -103,10 +103,7 @@ export async function reloadToken() {
 
 export function setQuery(key: string, value: LocationQueryValueRaw | LocationQueryValueRaw[]) {
     const router = useRouter();
-    const route = useRoute();
-
-    console.log({ ...route.query, [key]: value });
-    
+    const route = useRoute();    
 
     router.replace({ query: { ...route.query, [key]: value } });
 }
