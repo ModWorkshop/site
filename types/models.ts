@@ -91,7 +91,7 @@ export interface Mod {
     category_id?: number;
     game_id: number;
     user_id: number;
-    allowed_storage: number;
+    allowed_storage?: number;
     name: string;
     desc: string;
     short_desc: string;
