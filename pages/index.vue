@@ -15,7 +15,7 @@
             </flex>
         </flex>
         
-        <mod-list v-if="user?.extra.home_show_mods ?? true" :title="$t('mods')" :limit="20" :url="user ? currentFollowUrl : undefined">
+        <mod-list v-if="user?.extra.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="games" icon="chess-board">{{$t('followed_games')}}</a-group-button>
