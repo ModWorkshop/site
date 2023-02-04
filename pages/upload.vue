@@ -62,7 +62,7 @@ const mod: Mod = reactive({
     downloads: 0,
     likes: 0,
     views: 0,
-    visibility: 1,
+    visibility: 'public',
     suspended: false,
     comments_disabled: false,
     approved: false,
