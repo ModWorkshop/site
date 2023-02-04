@@ -373,6 +373,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(fn($value, $attrs) => isset($attrs['password']) && isset($attrs['email']));
     }
 
+    public function activated(): Attribute
+    {
+        return Attribute::make(fn($value, $attrs) => $attrs['email_verified_at'] || $this->socialLogins()->exists());
+    }
+
     public function customColor(): Attribute
     {
         return Attribute::make(fn($value) =>  preg_replace('/\s+/', '', $value));
