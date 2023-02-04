@@ -69,7 +69,7 @@ class Image extends Model
             }
 
             Storage::disk('r2')->delete('mods/images/'.$image->file);
-            Storage::disk('r2')->delete('mods/images/thumb_'.$image->file);
+            Storage::disk('r2')->delete('mods/images/thumbnail_'.$image->file);
         });
     }
 }

@@ -86,7 +86,7 @@ class APIService {
         if (isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
             $r2->delete($fileDir.'/'.$oldFile);
-            $r2->delete($fileDir.'/thumb_'.$oldFile);
+            $r2->delete($fileDir.'/thumbnail_'.$oldFile);
         }
 
         $fileType = $file->extension();
@@ -102,7 +102,7 @@ class APIService {
         if (isset($thumbnailSize)) {
             $thumb = $img->thumbnail_image($thumbnailSize);
             $thumbBuffer = $thumb->writeToBuffer('.webp');
-            $r2->put($fileDir.'/thumb_'.$fileName, $thumbBuffer);
+            $r2->put($fileDir.'/thumbnail_'.$fileName, $thumbBuffer);
         }
 
         if (isset($onSuccess)) {
