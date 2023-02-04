@@ -10,7 +10,7 @@
             <flex v-if="currentForumId" column>
                 <label>{{$t('category')}}</label>
                 <button-group v-if="categories?.data.length" v-model:selected="categoryName" class="mt-2" column button-style="nav">
-                    <a-group-button :name="undefined"><font-awesome-icon icon="comments"/> {{$t('all')}}</a-group-button>
+                    <a-group-button :name="undefined"><a-icon icon="comments"/> {{$t('all')}}</a-group-button>
                     <a-group-button v-for="category of categories.data" :key="category.name" :name="category.name">
                         {{category.emoji}} {{category.name}}
                     </a-group-button>
@@ -29,20 +29,20 @@
                 </thead>
                 <tbody>
                     <template v-if="threads.data.length">
-                    <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
-                        <td>
-                            <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
-                            <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
-                        </td>
-                        <td><a-user :user="thread.user" @click.stop/></td>
-                        <td v-if="!categoryName">
-                            <NuxtLink v-if="thread.category" @click.stop="onCatClicked">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
-                            <span v-else>-</span>
-                        </td>
-                        <td><time-ago :time="thread.bumped_at"/></td>
-                        <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
-                        <td v-else>{{$t('none')}}</td>
-                    </tr>
+                        <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
+                            <td>
+                                <a-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
+                                <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+                            </td>
+                            <td><a-user :user="thread.user" @click.stop/></td>
+                            <td v-if="!categoryName">
+                                <NuxtLink v-if="thread.category" @click.stop="onCatClicked">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
+                                <span v-else>-</span>
+                            </td>
+                            <td><time-ago :time="thread.bumped_at"/></td>
+                            <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
+                            <td v-else>{{$t('none')}}</td>
+                        </tr>
                     </template>
                 </tbody>
             </a-table>
