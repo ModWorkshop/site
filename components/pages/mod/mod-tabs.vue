@@ -10,7 +10,7 @@
                     :key="image.id" 
                     class="cursor-pointer"
                     url-prefix="mods/images"
-                    :src="`${(image.has_thumb ? config.thumbnail_prefix : '') + image.file}`" 
+                    :src="`${(image.has_thumb ? 'thumbnail_' : '') + image.file}`" 
                     style="max-height: 200px;" 
                     @click="showImage(i)"
                 />
@@ -95,7 +95,7 @@ function showImage(nextIndex) {
 const images = computed(() => {
     const images = [];
     for (const image of props.mod.images) {
-        images.push(`${config.apiUrl}/storage/mods/images/${image.file}`);
+        images.push(`${config.storageUrl}/mods/images/${image.file}`);
     }
     return images;
 });
