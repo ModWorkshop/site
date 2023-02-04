@@ -91,7 +91,11 @@ const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 
 function getFileThumb(file) {
-    let thumb = file.thumbnail || (props.useFileAsThumb && file.file);
+    if (file.thumbnail) {
+        return file.thumbnail;
+    }
+
+    let thumb = props.useFileAsThumb ? file.file : null;
     if (file.has_thumb) {
         thumb = 'thumb_' + thumb;
     }
