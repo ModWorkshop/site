@@ -437,8 +437,12 @@ class Mod extends Model implements SubscribableInterface
 
     public function publish()
     {
-        $this->published_at = $this->freshTimestampString();
-        $this->bumped_at = $this->published_at;
+        if ($this->visibility != Visibility::public) {
+            return;
+        }
+        
+        $this->published_at = $this->published_at;
+        $this->bumped_at = $this->freshTimestampString();
         $game = $this->game;
         $category = $this->category;
         
