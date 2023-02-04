@@ -2,7 +2,7 @@
     <div class="category">
         <div v-if="category" :class="classes" @click.self="onClickCategory(category)">
             <a-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
-            <strong @click="onClickCategory(category)">{{category.name}}</strong> 
+            <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category)">{{category.name}}</strong> 
             <slot name="button" :category="category"/>
         </div>
         <flex v-if="open" column :class="{'px-5': !!category}">
