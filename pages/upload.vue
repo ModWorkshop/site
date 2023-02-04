@@ -40,6 +40,7 @@ const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
+const showToast = useQuickErrorToast();
 
 const mod: Mod = reactive({
     id: -1,
@@ -105,8 +106,8 @@ async function create() {
     try {
         const fetchedMod = await usePost<Mod>(`games/${gameId.value}/mods`, mod);
         router.push(`/mod/${fetchedMod.id}/edit`);
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        showToast(error);
         return;
     }
 }
