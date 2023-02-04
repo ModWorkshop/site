@@ -26,10 +26,10 @@ const props = defineProps({
 });
 
 const icons = {
-    success: 'circle-check',
-    danger: 'triangle-exclamation',
-    info: 'circle-info',
-    warning: 'circle-exclamation',
+    success: 'mdi:check-circle',
+    danger: 'mdi:alert',
+    info: 'mdi:information',
+    warning: 'mdi:alert-circle',
 };
 
 const currIcon = computed(() =>  {

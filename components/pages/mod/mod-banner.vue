@@ -11,7 +11,7 @@
                         <a-icon icon="tag" :title="$t('version')"/> {{mod.version}}
                     </span>
                     <span v-if="mod.bumped_at">
-                        <a-icon icon="clock" :title="$t('last_updated')" class="mr-1"/>
+                        <a-icon icon="mdi:clock" :title="$t('last_updated')" class="mr-1"/>
                         <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
                         <span v-else class="items-center inline-flex gap-1">
                             <i18n-t keypath="by_user_time_ago">

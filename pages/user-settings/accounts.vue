@@ -5,7 +5,7 @@
             <flex v-for="[name, provider] of Object.entries(providers)" :key="name" class="list-button items-center">
                 <flex column>
                     <flex class="items-center">
-                        <a-icon :icon="['fab', name]" class="text-3xl"/>
+                        <a-icon :icon="`mdi:${name}`" class="text-3xl"/>
                         {{provider.name}}
                     </flex>
                     <span v-if="provider.account">

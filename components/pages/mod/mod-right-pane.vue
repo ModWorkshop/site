@@ -2,18 +2,18 @@
     <flex column gap="3" class="mod-info content-block self-start">
         <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
         <flex column class="p-4" gap="4">
-            <flex gap="2">
+            <flex class="text-xl" gap="2">
                 <span>
-                    <a-icon icon="heart"/> {{likes}}
+                    <a-icon icon="mdi:heart"/> {{likes}}
                 </span>
                 <span>
-                    <a-icon icon="download"/> {{downloads}}
+                    <a-icon icon="mdi:download"/> {{downloads}}
                 </span>
                 <span>
-                    <a-icon icon="eye"/> {{views}}
+                    <a-icon icon="mdi:eye"/> {{views}}
                 </span>
-                <span class="ml-auto">
-                    <a-icon v-if="mod.published_at" icon="calendar-plus" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
+                <span v-if="mod.published_at" class="ml-auto">
+                    <a-icon icon="mdi:calendar-import" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
                 </span>
             </flex>
 

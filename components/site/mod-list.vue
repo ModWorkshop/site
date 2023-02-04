@@ -5,10 +5,10 @@
         </h2>
         <slot name="buttons"/>
         <flex wrap class="overflow-auto">
-            <a-button :disabled="sortBy == 'bumped_at'" icon="clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
-            <a-button :disabled="sortBy == 'published_at'" icon="upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
+            <a-button :disabled="sortBy == 'bumped_at'" icon="mdi:clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
+            <a-button :disabled="sortBy == 'published_at'" icon="mdi:upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
             <VDropdown>
-                <a-button icon="star">{{$t('popularity')}}</a-button>
+                <a-button icon="mdi:star">{{$t('popularity')}}</a-button>
                 <template #popper>
                     <button-group v-model:selected="sortBy" column>
                         <a-group-button name="score" icon="calendar">{{$t('popular_monthly')}}</a-group-button>
@@ -22,23 +22,23 @@
                 <template #popper>
                     <flex column>
                         <button-group v-model:selected="sortBy" column>
-                            <a-group-button icon="dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
-                            <a-group-button icon="heart" name="likes">{{$t('likes')}}</a-group-button>
-                            <a-group-button icon="download" name="downloads">{{$t('downloads')}}</a-group-button>
-                            <a-group-button icon="eye" name="views">{{$t('views')}}</a-group-button>
-                            <a-group-button icon="pencil" name="name">{{$t('name')}}</a-group-button>
+                            <a-group-button icon="mdi:dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
+                            <a-group-button icon="mdi:heart" name="likes">{{$t('likes')}}</a-group-button>
+                            <a-group-button icon="mdi:download" name="downloads">{{$t('downloads')}}</a-group-button>
+                            <a-group-button icon="mdi:eye" name="views">{{$t('views')}}</a-group-button>
+                            <a-group-button icon="mdi:pencil" name="name">{{$t('name')}}</a-group-button>
                         </button-group>
                     </flex>
                 </template>
             </VDropdown>
             <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                <a-group-button icon="fa:th" :name="0"/>
-                <a-group-button icon="list" :name="1"/>
-                <a-group-button icon="bars" :name="2"/>
+                <a-group-button icon="mdi:view-grid" :name="0"/>
+                <a-group-button icon="mdi:view-list" :name="1"/>
+                <a-group-button icon="mdi:view-headline" :name="2"/>
             </button-group>
             <flex v-if="!sideFilters">
                 <VDropdown>
-                    <a-button icon="filter"/>
+                    <a-button icon="mdi:filter"/>
                     <template #popper>
                         <Suspense>
                             <flex class="p-4" gap="3" column style="width: 300px">

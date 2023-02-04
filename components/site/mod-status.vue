@@ -1,10 +1,10 @@
 <template>
     <span>
-        <a-icon v-if="mod.suspended" icon="ban" class="text-danger" :title="statusText"/>
-        <a-icon v-else-if="mod.approved === false" icon="circle-xmark" class="text-danger" :title="statusText"/>
-        <a-icon v-else-if="mod.approved === null" icon="clock" class="text-secondary" :title="statusText"/>
-        <a-icon v-else-if="!mod.has_download" icon="circle-exclamation" class="text-warning" :title="statusText"/>
-        <a-icon v-else-if="mod.visibility == 2 || mod.visibility == 3" icon="eye-slash" class="text-secondary" :title="statusText"/>
+        <a-icon v-if="mod.suspended" icon="mdi:cancel" class="text-danger" :title="statusText"/>
+        <a-icon v-else-if="mod.approved === false" icon="mdi:alert" class="text-danger" :title="statusText"/>
+        <a-icon v-else-if="mod.approved === null" icon="mdi:clock" class="text-secondary" :title="statusText"/>
+        <a-icon v-else-if="!mod.has_download" icon="mdi:alert-circle" class="text-warning" :title="statusText"/>
+        <a-icon v-else-if="mod.visibility == 2 || mod.visibility == 3" icon="mdi:eye-off" class="text-secondary" :title="statusText"/>
     </span>
 </template>
 <script setup lang="ts">

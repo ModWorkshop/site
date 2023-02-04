@@ -17,13 +17,13 @@
                 <a-markdown class="h-100" :text="modelValue"/>
             </a-tab>
             <template #buttons>
-                <flex wrap class="my-auto items-center">
+                <flex wrap class="my-auto items-center text-xl">
                     <template v-for="[i, group] of toolGroups.entries()">
                         <a-button v-for="tool of group.tools" :key="tool.icon" :icon="tool.icon" color="none" @click="clickedTool(tool)"/>
                         <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
                     </template>
                     <span class="tools-splitter"/>
-                    <a-button color="none" :icon="fullscreen ? 'xmark' : 'arrows-up-down-left-right'" @click="toggleFullscreen"/>
+                    <a-button color="none" :icon="fullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'" @click="toggleFullscreen"/>
                 </flex>
             </template>
         </a-tabs>
@@ -51,31 +51,31 @@ const toolGroups = [
     {
         name: 'main',
         tools: [
-            {icon: 'bold', insert: '**$**'},
-            {icon: 'italic', insert: '*$*'},
-            {icon: 'strikethrough', insert: '~~$~~'},
-            {icon: 'underline', insert: '__$__'},
-            {icon: 'heading', insert: '# $'},
-            {icon: 'align-center', insert: ':::$:::'},
+            {icon: 'mdi:format-bold', insert: '**$**'},
+            {icon: 'mdi:format-italic', insert: '*$*'},
+            {icon: 'mdi:format-strikethrough', insert: '~~$~~'},
+            {icon: 'mdi:format-underline', insert: '__$__'},
+            {icon: 'mdi:format-header-pound', insert: '# $'},
+            {icon: 'mdi:format-align-center', insert: ':::$:::'},
         ]
     },
     {
         name: 'fuck',
         tools: [
-            {icon: 'quote-left', insert: '> $'},
-            {icon: 'code', insert: '```\n$\n```'},
-            {icon: 'list-ul', insert: '* $'},
-            {icon: 'list-ol', insert: '1. $'},
-            {icon: 'eye-slash', insert: '||$||'}, //Spoiler
+            {icon: 'mdi:format-quote-open', insert: '> $'},
+            {icon: 'mdi:code-braces', insert: '```\n$\n```'},
+            {icon: 'mdi:format-list-bulleted', insert: '* $'},
+            {icon: 'mdi:format-list-numbered', insert: '1. $'},
+            {icon: 'mdi:eye-off', insert: '||$||'}, //Spoiler
         ]
     },
     {
         name: 'media',
         tools: [
-            {icon: 'link', insert: '[$](https://)'},
-            {icon: 'photo-video', insert: '![](https://$)'},
-            {icon: 'minus', insert: '$\n\n-----'},
-            {icon: 'table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
+            {icon: 'mdi:link-variant', insert: '[$](https://)'},
+            {icon: 'mdi:multimedia', insert: '![](https://$)'},
+            {icon: 'ic:baseline-horizontal-rule', insert: '$\n\n-----'},
+            {icon: 'mdi:table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
         ]
     }
 ];

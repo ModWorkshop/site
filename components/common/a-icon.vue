@@ -1,5 +1,7 @@
 <template>
-    <Icon :name="iconFullName" :size="size"/>
+    <span>
+        <Icon :class="{'s-icon': iconName?.toString().includes(':')}" :name="iconFullName" :size="size"/>
+    </span>
 </template>
 
 <script setup lang="ts">
@@ -23,3 +25,9 @@ const iconFullName = computed(() => {
     }
 });
 </script>
+
+<style>
+.s-icon {
+    transform: scale(1.15);
+}
+</style>

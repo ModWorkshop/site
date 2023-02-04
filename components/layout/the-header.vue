@@ -89,18 +89,18 @@
                             </span>
                         </flex>
                         <flex class="text-lg" gap="4">
-                            <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="bell"/> {{notificationCount}}</span>
+                            <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="mdi:bell"/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
                             <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
                             <template #popper>
-                                <a-dropdown-item icon="user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
-                                <a-dropdown-item icon="fa-solid:cog" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
-                                <a-dropdown-item icon="eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
-                                <a-dropdown-item v-if="canSeeAdminPage" icon="screwdriver-wrench" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
-                                <a-dropdown-item icon="arrow-right-from-bracket" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
+                                <a-dropdown-item icon="mdi:user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
+                                <a-dropdown-item icon="mdi:account-settings-variant" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
+                                <a-dropdown-item icon="mdi:eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
+                                <a-dropdown-item v-if="canSeeAdminPage" icon="mdi:cog" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
+                                <a-dropdown-item icon="mdi:logout" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme">
+                                <a-dropdown-item :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme">
                                     {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                                 </a-dropdown-item>
                             </template>
@@ -109,7 +109,7 @@
                     <flex v-else class="my-auto" gap="4">
                         <a-link-button to="/login">{{$t('login')}}</a-link-button>
                         <a-link-button to="/register">{{$t('register')}}</a-link-button>
-                        <a-link-button :icon="store.theme === 'light' ? 'sun' : 'moon'" @click="store.toggleTheme"/>
+                        <a-link-button :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme"/>
                     </flex>
                 </flex>
             </flex>

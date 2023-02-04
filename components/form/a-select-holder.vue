@@ -28,7 +28,7 @@
                 :overflow-padding="16"
                 @update:shown="(val: boolean) => $emit('update:shown', val)"
             >
-                <a-button icon="plus" size="sm"/>
+                <a-button icon="mdi:plus-thick" size="sm"/>
                 <template #popper>
                     <slot name="popper"/>
                 </template>

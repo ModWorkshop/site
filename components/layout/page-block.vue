@@ -28,8 +28,8 @@
                     </flex>
                 </flex>
                 <flex class="ml-auto" gap="4">
-                    <a-link-button v-if="canSeeAdminGamePage" icon="gears" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
-                    <a-link-button :icon="game.followed ? 'minus' : 'plus'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
+                    <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
             </content-block>
         </flex>

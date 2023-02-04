@@ -12,7 +12,7 @@
 
             <template v-if="!noCategories">
                 <div v-if="((mod.game && showGame) || mod.category)" style="">
-                    <Icon class="mr-1" name="fa-solid:map-marker-alt"/> 
+                    <a-icon class="mr-1" name="mdi:map-marker"/> 
                     <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game">
                         {{mod.game.name}}
                     </NuxtLink>
@@ -25,16 +25,16 @@
 
             <flex>
                 <span :title="mod.likes.toString()">
-                    <a-icon icon="heart"/> {{likes}}
+                    <a-icon icon="mdi:heart"/> {{likes}}
                 </span>
                 <span :title="mod.downloads.toString()">
-                    <a-icon icon="download"/> {{downloads}}
+                    <a-icon icon="mdi:download"/> {{downloads}}
                 </span>
                 <span :title="mod.views.toString()">
-                    <a-icon icon="eye"/> {{views}}
+                    <a-icon icon="mdi:eye"/> {{views}}
                 </span>
                 <span v-if="date" class="inline-block ml-auto">
-                    <a-icon icon="clock"/> <time-ago :time="date"/>
+                    <a-icon icon="mdi:clock"/> <time-ago :time="date"/>
                 </span>
             </flex>
         </flex>
