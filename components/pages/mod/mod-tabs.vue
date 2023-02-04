@@ -18,53 +18,8 @@
                     <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
                 </ClientOnly>
             </a-tab>
-            <a-tab name="downloads" :title="$t('downloads')">
-                <div v-for="labeled of labeledFiles" :key="labeled.label" class="flex-grow">
-                    <h2 v-if="labeled.label != 'all'">{{labeled.label}}</h2>
-                    <flex column gap="2">
-                        <flex v-for="file of labeled.files" :key="file.id" gap="3" wrap class="alt-bg-color p-3 items-center place-content-center">
-                            <div class="mr-2">
-                                <a-img src="https://modworkshop.net/mydownloads/previews/fileimages/file_dl_big.png" width="128" height="128"/>
-                            </div>
-                            <flex grow column>
-                                <h3>{{file.name}}</h3>
-                                <span v-if="file.version">
-                                    <a-icon icon="tag" :title="$t('version')"/> {{file.version}}
-                                </span>
-                                <flex class="items-center">
-                                    <a-icon icon="clock" :title="$t('upload_date')"/>
-                                    <i18n-t keypath="by_user_time_ago">
-                                        <template #time>
-                                            <time-ago :time="file.created_at"/>
-                                        </template>
-                                        <template #user>
-                                            <a-user :user="file.user" avatar-size="xs"/>
-                                        </template>
-                                    </i18n-t>
-                                </flex>
-                                <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
-                            </flex>
-                            <div>
-                                <a-button v-if="file.size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`" icon="download">
-                                    {{$t('download')}}
-                                    <small class="mt-2 text-center block">{{file.type}} - {{friendlySize(file.size)}}</small>
-                                </a-button>
-                                <VDropdown v-else>
-                                    <a-button class="large-button w-full text-center" icon="download">
-                                        {{$t('show_download_link')}}
-                                    </a-button>
-                                    <template #popper>
-                                        <div class="p-2">
-                                            {{$t('show_download_link_warn')}}
-                                            <br>
-                                            <a :href="file.url">{{file.url}}</a>
-                                        </div>
-                                    </template>
-                                </VDropdown>
-                            </div>
-                        </flex>
-                    </flex>
-                </div>
+            <a-tab v-if="mod.has_download" name="downloads" :title="$t('downloads')">
+                <mod-downloads-tab :mod="mod"/>
             </a-tab>
             <a-tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
                 <a-markdown :text="mod.changelog"/>
@@ -112,7 +67,6 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
-import { friendlySize } from '~~/utils/helpers';
 
 const props = defineProps<{
     mod: Mod
@@ -129,27 +83,9 @@ const dependencies = computed(() => {
     return combinedDeps.sort((a,b) => a.order - b.order);
 });
 
-const modUrl = computed(() => `/mod/${props.mod.id}`);
 
 const imageIndex = ref(0);
 const galleryVisible = ref(false);
-
-const labeledFiles = computed(() => {
-    const sorted = [];
-    for (const file of [...props.mod.files, ...props.mod.links]) {
-        const label = file.label ?? 'all';
-        let labeled = sorted.find(curr => curr.label == label);
-
-        if (!labeled) {
-            labeled = { label, files: [] };
-            sorted.push(labeled);
-        }
-
-        labeled.files.push(file);
-    }
-    
-    return sorted;
-});
 
 function showImage(nextIndex) {
     imageIndex.value = nextIndex;

@@ -304,6 +304,9 @@ allowed_storage: 'Allowed Storage (MiB)',
 allowed_storage_help: `As a moderator you are able to increase a mod's storage by request.
 You should first recommend the mod to fit to the maximum allowed storage and only if it proves not possible,
 you can increase the storage up to 1GiB.`,
+file_type_link: "Link",
+file_type_file: "File",
+
 //User//
 
 online: 'Online',
