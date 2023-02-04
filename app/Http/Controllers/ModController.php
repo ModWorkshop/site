@@ -274,7 +274,11 @@ class ModController extends Controller
         /** @var UploadedFile $file */
         $file = $val['file'];
 
-        ['name' => $name, 'type' => $type] = APIService::storeImage($file, 'mods/images', null, 300);
+        [
+            'name' => $name,
+            'type' => $type,
+            'size' => $size
+        ] = APIService::storeImage($file, 'mods/images', null, 300);
 
         $img = Image::create([
             'user_id' => $this->userId(),
@@ -282,7 +286,7 @@ class ModController extends Controller
             'file' => $name,
             'has_thumb' => true,
             'type' => $type,
-            'size' => 0, //TODO filesize($dir.'/'.$fileName)
+            'size' => $size
         ]);
 
         return $img;

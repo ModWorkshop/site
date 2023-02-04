@@ -18,6 +18,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\Password;
 use Storage;
 use Jcupitt\Vips;
+use Log;
 
 const animated = [
     'gif' => true,
@@ -93,12 +94,15 @@ class APIService {
         $fileName = preg_replace('/\.[^.]+$/', '.webp', $file->hashName());
 
         $img = Vips\Image::newFromFile($file->path().$opts);
-        $r2->put($fileDir.'/'.$fileName, $img->writeToBuffer('.webp', ["Q" => 80]));
+        $buffer = $img->writeToBuffer('.webp', ["Q" => 80]);
+        $r2->put($fileDir.'/'.$fileName, $buffer);
 
         $thumb = null;
+        $thumbBuffer = null;
         if (isset($thumbnailSize)) {
             $thumb = $img->thumbnail_image($thumbnailSize);
-            $r2->put($fileDir.'/thumb_'.$fileName, $thumb->writeToBuffer('.webp'));
+            $thumbBuffer = $thumb->writeToBuffer('.webp');
+            $r2->put($fileDir.'/thumb_'.$fileName, $thumbBuffer);
         }
 
         if (isset($onSuccess)) {
@@ -109,6 +113,8 @@ class APIService {
             'image' => $img,
             'thumbnail' => $thumb,
             'name' => $fileName,
+            'size' => strlen($buffer),
+            'thumbnail_size' => strlen($thumbBuffer),
             'type' => 'webp'
         ];
     }
