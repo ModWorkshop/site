@@ -28,6 +28,7 @@ use App\Models\User;
 use App\Models\Subscription;
 use App\Models\Thread;
 use App\Models\UserCase;
+use App\Models\Visibility;
 use Arr;
 use Carbon\Carbon;
 use DB;
@@ -105,7 +106,7 @@ class MigrateBB extends Command
             $unix = null;
         }
 
-        return $unix ? Carbon::parse($unix) : null;
+        return $unix ? Carbon::createFromTimestamp($unix) : null;
     }
 
     public function resetAutoIncrement($tableName)
@@ -144,13 +145,14 @@ class MigrateBB extends Command
         // $this->handleFollowsAndSubs();
 
         // $this->handleComments();
-        $this->handleForums();
-        // $this->handleModDownloads();
-        // $this->handleModViews();
+        // $this->handleForums();
         // $this->handleLikes();
         // $this->handlePopularityLog();
+        // $this->handleModDownloads();
+        // $this->handleModViews(); 
 
-        $this->handleUpdateMods();
+        // $this->handleUpdateMods();
+        $this->handleUpdateFiles();
         return Command::SUCCESS;
     }
 
@@ -188,7 +190,7 @@ class MigrateBB extends Command
                     'social_id' => 'steam',
                     'special_id' => $user->loginname,
                     'user_id' => $user->uid,
-                    'date' => $this->handleUnixDate($user->regdate)
+                    'created_at' => $this->handleUnixDate($user->regdate)
                 ]);
             }
         });
@@ -401,23 +403,40 @@ class MigrateBB extends Command
             foreach ($mods as $mod) {
                 $bar->advance();
 
+                /** @var Mod */
                 $newMod = Mod::where('id', $mod->did)->first();
 
-                $images = Image::where('mod_id', $mod->did)->get();
-                foreach ($images as $image) {
-                    if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
-                        $newMod['banner_id'] = $image->id;
-                        break;
-                    }
+                // $images = Image::where('mod_id', $mod->did)->get();
+                // foreach ($images as $image) {
+                //     if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
+                //         $newMod['banner_id'] = $image->id;
+                //         break;
+                //     }
+                // }
+
+                // $file = File::where('mod_id', $mod->did)->first();
+                // $link = Link::where('mod_id', $mod->did)->first();
+                // if (!isset($link) && !empty($mod->url)) {
+                //     $link = Link::forceCreate([
+                //         'user_id' => $newMod->user_id,
+                //         'mod_id' => $newMod->id,
+                //         'url' => $mod->url,
+                //     ]);
+                // }
+
+                $newMod->published_at = $this->handleUnixDate($mod->pub_date);
+                $newMod->created_at = $this->handleUnixDate($mod->pub_date ?? $mod->date);
+                $newMod->bumped_at = $this->handleUnixDate($mod->date);
+                $newMod->updated_at = $this->handleUnixDate($mod->date);
+
+                if ($newMod->visibility == Visibility::public) {
+                    $newMod->published_at = $newMod->bumped_at;
                 }
 
-                $file = File::where('mod_id', $mod->did)->first();
-                $link = Link::where('mod_id', $mod->did)->first();
-
-                $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
-                $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
-                $newMod->download_type = isset($link) ? 'link' : 'file';
-                $newMod->download_id = $link?->id ?? $file?->id;
+                // $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
+                // $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
+                // $newMod->download_type = isset($link) ? 'link' : 'file';
+                // $newMod->download_id = $link?->id ?? $file?->id;
 
                 /** @var Mod */
                 $newMod->calculateFileStatus();
@@ -430,6 +449,24 @@ class MigrateBB extends Command
         $this->resetAutoIncrement('images');
     }
 
+    public function handleUpdateFiles()
+    {
+        $bar = $this->progress('Fixing files', $this->con->table('mydownloads_files')->count());
+        $this->con->table('mydownloads_files')->orderBy('did')->chunk(10000, function($files) use ($bar) {
+            foreach ($files as $file) {
+                $bar->advance();
+                $file = File::where('id', $file->fid)->first();
+                if (isset($file)) {
+                    $file->update([
+                        'user_id' => $file->uid ?? $file->mod->user_id,
+                    ]);
+                }
+
+            }
+        });
+        $bar->finish();
+    }
+
     public function handleMods()
     {
         $bar = $this->progress('Converting mods', $this->con->table('mydownloads_downloads')->count());
@@ -439,6 +476,14 @@ class MigrateBB extends Command
                 # Score is recalculated.
                 # Invited removed due to underuse.
                 
+                $date = $this->handleUnixDate($mod->date);
+                $publishDate = null;
+                if (empty($mod->pub_date) && (NEW_VISIBILITY[$mod->hidden] ?? Visibility::public) == Visibility::public) {
+                    $publishDate = $date;
+                } else {
+                    $publishDate = $this->handleUnixDate($mod->pub_date);
+                }
+
                 $newMod = Mod::forceCreate([
                     'id' => $mod->did,
                     'category_id' => Category::where('id', $mod->cid)->exists() ? $mod->cid : null, # Changed
@@ -456,10 +501,10 @@ class MigrateBB extends Command
                     'user_id' => $mod->submitter_uid, # Changed
                     'license' => $mod->license,
                     'version' => $mod->version,
-                    'bumped_at' => $this->handleUnixDate($mod->date), # Changed
-                    'created_at' => $this->handleUnixDate($mod->pub_date), # New #Handle dates
-                    'updated_at' => $this->handleUnixDate($mod->date), # New
-                    'published_at' => $this->handleUnixDate($mod->pub_date), # Changed
+                    'bumped_at' => $date, # Changed
+                    'created_at' => $this->handleUnixDate($mod->pub_date ?? $mod->date), # New #Handle dates
+                    'updated_at' => $date, # New
+                    'published_at' => $publishDate, # Changed
                     'donation' => $mod->receiver_email, # Changed
                     'suspended' => $mod->suspended_status == 1, # Changed into a boolean
                     'comments_disabled' => $mod->comments_disabled == 1, # Changed into a boolean
@@ -509,7 +554,7 @@ class MigrateBB extends Command
                         'id' => $file->fid,
                         'name' => $file->name,
                         'mod_id' => $file->did,
-                        'user_id' => $file->uid || $newMod->user_id,
+                        'user_id' => $file->uid ?? $newMod->user_id,
                         'file' => $file->file,
                         'desc' => $file->description,
                         // 'image_id' => $file->image, #TODO: Deal with this, has also thumbnail column
@@ -522,19 +567,18 @@ class MigrateBB extends Command
                 }
 
                 $link = null;
-                if (isset($newMod->url)) {
+                if (!empty($mod->url)) {
                     $link = Link::forceCreate([
                         'user_id' => $newMod->user_id,
                         'mod_id' => $newMod->id,
-                        'name' => $newMod->url,
-                        'url' => $newMod->url,
+                        'url' => $mod->url,
                     ]);
                 }
 
                 $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
                 $newMod->legacy_banner_url = $foundBanner ? null : $mod->banner;
-                $newMod->download_type = isset($newMod->url) ? 'link' : 'file';
-                $newMod->download_id = isset($newMod->url) ? $link->id : $firstModFileId;
+                $newMod->download_type = isset($mod->url) ? 'link' : 'file';
+                $newMod->download_id = !empty($mod->url) ? $link->id : $firstModFileId;
 
                 if (isset($foundBanner)) {
                     $newMod->banner_id = $foundBanner;
@@ -692,18 +736,18 @@ class MigrateBB extends Command
 
     public function handleForums()
     {
-        // $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
-        // $forums = $this->con->table('forums')->where('type', 'f')->get();
-        // foreach ($forums as $forum) {
-        //     $bar->advance();
-        //     ForumCategory::forceCreate([
-        //         'forum_id' => 1,
-        //         'id' => $forum->fid,
-        //         'name' => $forum->name,
-        //         'desc' => $forum->description,
-        //     ]);
-        // }
-        // $bar->finish();
+        $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
+        $forums = $this->con->table('forums')->where('type', 'f')->get();
+        foreach ($forums as $forum) {
+            $bar->advance();
+            ForumCategory::forceCreate([
+                'forum_id' => 1,
+                'id' => $forum->fid,
+                'name' => $forum->name,
+                'desc' => $forum->description,
+            ]);
+        }
+        $bar->finish();
 
 
         $bar = $this->progress('Converting threads', $this->con->table('threads')->count());
