@@ -1,5 +1,8 @@
 <template>
     <flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
+        <h2 v-if="title">
+            <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
+        </h2>
         <content-block v-if="filters" column class="md:self-start" style="flex: 1;">
             <a-input v-model="query" :label="$t('search')"/>
             <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
@@ -57,6 +60,8 @@ import { useI18n } from 'vue-i18n';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
+    title?: string,
+    titleLink?: string,
     gameId?: number,
     forumId?: number,
     noPins?: boolean,
