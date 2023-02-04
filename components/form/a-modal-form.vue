@@ -1,5 +1,5 @@
 <template>
-    <a-modal :model-value="modelValue" :size="size" @update:model-value="emit('update:modelValue', modelValue)">
+    <a-modal v-model="vModel" :size="size">
         <a-form @submit="onSubmit()">
             <flex column gap="4">
                 <h2 v-if="title">{{title}}</h2>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
     title?: string;
     desc?: string,
     descType?: string,
@@ -27,6 +27,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits(['submit', 'cancel', 'update:modelValue']);
+const vModel = useVModel(props, 'modelValue');
 const showToast = useQuickErrorToast();
 
 function onSubmit() {

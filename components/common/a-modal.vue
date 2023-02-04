@@ -2,8 +2,8 @@
     <Teleport to="body">
         <Transition>
             <Suspense>
-                <flex v-if="modelValue" class="modal" @click.self="$emit('update:modelValue', false)">
-                    <flex column :class="classes" v-bind="$attrs">
+                <flex v-if="modelValue" class="modal">
+                    <flex v-click-outside="() => emit('update:modelValue', false)" column :class="classes" v-bind="$attrs">
                         <slot/>
                     </flex>
                 </flex>
