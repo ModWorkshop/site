@@ -1,5 +1,5 @@
 <template>
-    <flex :class="classes" gap="2">
+    <component :is="to ? NuxtLink : 'div'" :class="classes" :to="to">
         <span v-if="currIcon" class="text-3xl self-start">
             <a-icon :icon="currIcon"/>
         </span>
@@ -8,16 +8,19 @@
             <slot>{{desc}}</slot>
         </flex>
         <slot name="attach"/>
-    </flex>
+    </component>
 </template>
 
 <script setup lang="ts">
+const NuxtLink = resolveComponent('NuxtLink');
+
 const props = defineProps({
     color: { type: String, default: 'info' },
     icon: {
         default: true,
         type: [String, Boolean]
     },
+    to: String,
     title: String,
     desc: String,
 });
@@ -42,6 +45,9 @@ const classes = computed(() => {
         alert: true,
         'content-top': true,
         'p-4': true,
+        'flex': true,
+        'gap-2': true,
+        'text-body': true,
         'alert-success': props.color == 'success',
         'alert-danger': props.color == 'danger',
         'alert-info': props.color == 'info',
