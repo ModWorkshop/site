@@ -1,6 +1,6 @@
 <template>
     <flex column :class="classes" :gap="gap">
-        <flex v-if="game" gap="0" column>
+        <flex v-if="game?.id" gap="0" column>
             <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px">
                 <h2 v-if="!game.banner" class="ml-2 align-self-end">{{game.name}}</h2>
             </a-banner>
@@ -62,7 +62,12 @@ const props = withDefaults(defineProps<{
 
 const store = useStore();
 
-watch(() => props.game, () => store.setGame(props.game), { immediate: true });
+watch(() => props.game, () => {
+    if (props.game) {
+        store.setGame(props.game);
+    }
+}, { immediate: true });
+
 const storedHiddenAns = useCookie('hidden-announcements');
 const hiddenAnnouncements = computed(() => {    
     if (storedHiddenAns.value) {
@@ -84,14 +89,16 @@ function hideAnnouncement(thread: Thread) {
 }
 
 const buttons = computed(() => {
-    const btns = props.game.buttons.split(',');
-    const res = [];
-
-    for (const btn of btns) {
-        res.push([...btn.split('|')]);
+    if (props.game) {
+        const btns = props.game.buttons.split(',');
+        const res = [];
+    
+        for (const btn of btns) {
+            res.push([...btn.split('|')]);
+        }
+    
+        return res;
     }
-
-    return res;
 });
 
 const classes = computed(() => ({
