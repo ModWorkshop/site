@@ -100,7 +100,10 @@ const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCateg
 });
 
 const currentCategroy = computed(() => categories.value?.data.find(cat => cat.name === categoryName.value));
-watch(currentCategroy, val => emit('selectCategory', val), { immediate: true });
+watch(currentCategroy, val => {
+    emit('selectCategory', val);
+    page.value = 1;
+}, { immediate: true });
 
 const params = reactive({
     forum_id: currentForumId,
