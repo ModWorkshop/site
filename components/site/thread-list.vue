@@ -16,7 +16,7 @@
         </content-block>
         <flex column style="flex: 4;">
             <a-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
-            <a-table v-if="threads && !loading">
+            <a-table v-if="threads?.data.length && !loading">
                 <thead>
                     <th>{{$t('title')}}</th>
                     <th>{{$t('poster')}}</th>
@@ -25,6 +25,7 @@
                     <th>{{$t('last_reply_by')}}</th>
                 </thead>
                 <tbody>
+                    <template v-if="threads.data.length">
                     <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block" @click="clickThread(thread)">
                         <td>
                             <font-awesome-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
@@ -39,9 +40,13 @@
                         <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
                         <td v-else>{{$t('none')}}</td>
                     </tr>
+                    </template>
                 </tbody>
             </a-table>
-            <a-loading v-else/>
+            <a-loading v-else-if="loading" class="m-auto"/>
+            <h2 v-else class="m-auto">
+                {{$t('no_threads_found')}}
+            </h2>
             <a-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
         </flex>
     </flex>

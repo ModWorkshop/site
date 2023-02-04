@@ -68,7 +68,7 @@
                             :mods="currentMods"
                         />
                         <a-button v-if="hasMore" :loading="loadingButton" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
-                        <h1 v-else-if="currentMods.length == 0" class="text-center my-auto">{{$t('no_mods_found')}}</h1>
+                        <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
                     </template>
                 </flex>
             </flex>
