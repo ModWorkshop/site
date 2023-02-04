@@ -27,7 +27,7 @@ class ModFactory extends Factory
             'user_id' => 1,
             'desc' => $faker->text(500),
             'version' => $faker->word(),
-            'visibility' => 1,
+            'visibility' => 'public',
             'game_id' => 2
         ];
     }
