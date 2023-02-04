@@ -1,9 +1,10 @@
 <template>
     <a-input v-model="filters.query" :label="$t('search')"/>
     <a-game-select v-if="!game" v-model="filters.game_id" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
-    <a-category-select 
+    <a-category-select
         v-if="categories && categories.data.length"
         set-query
+        :max-height="400"
         :categories="categories.data"
         :label="$t('categories')"
     />
