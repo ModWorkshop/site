@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Category::class, 'category');
+        $this->authorizeGameResource(Category::class, 'category');
     }
 
     /**
@@ -68,9 +68,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ?Game $game)
     {
-        return $this->update($request);
+        return $this->update($request, $game);
     }
 
     /**
@@ -93,7 +93,7 @@ class CategoryController extends Controller
      * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category=null)
+    public function update(Request $request, Game $game=null, Category $category=null)
     {
         $val = $request->validate([
             'name' => 'string|max:150',
@@ -105,6 +105,7 @@ class CategoryController extends Controller
             'webhook_url' => 'string|nullable|max:1000',
         ]);
 
+        $val['game_id'] ??= $game?->id;
         $val['desc'] ??= '';
         $val['webhook_url'] ??= '';
 

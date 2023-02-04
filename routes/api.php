@@ -119,7 +119,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 //Games/categories/tags
-Route::resource('categories', CategoryController::class);
+gameResource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
