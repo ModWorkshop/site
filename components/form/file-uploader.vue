@@ -97,7 +97,7 @@ function getFileThumb(file) {
 
     let thumb = props.useFileAsThumb ? file.file : null;
     if (file.has_thumb) {
-        thumb = 'thumb_' + thumb;
+        thumb = 'thumbnail_' + thumb;
     }
 
     return thumb;
