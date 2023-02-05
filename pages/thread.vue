@@ -6,7 +6,7 @@
         </flex>
         <a-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
         <flex>
-            <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="ic:baseline-settings">{{$t('edit')}}</a-button>
+            <a-button v-if="canEdit" :to="`${thread.id}/edit`" icon="mdi:cog">{{$t('edit')}}</a-button>
             <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
             <a-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" :icon="thread.locked ? 'unlock' : 'lock'" @click="lockThread">
                 {{thread.locked ? $t('unlock') : $t('lock')}}

@@ -26,7 +26,7 @@
             </div>
             <flex class="ml-auto my-auto">
                 <a-button v-if="!notification.seen" icon="check" :title="$t('mark_as_read')" @click.prevent="markAsSeen"/>
-                <a-button icon="trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
+                <a-button icon="mdi:trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
             </flex>
         </flex>
     </component>

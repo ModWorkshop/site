@@ -3,7 +3,7 @@
         <template #items="{ items }">
             <category-tree :categories="items.data">
                 <template #button="{category}">
-                    <a-button class="ml-auto" icon="ic:baseline-settings" :to="`${gameUrl}/${category.id}`">{{$t('edit')}}</a-button>
+                    <a-button class="ml-auto" icon="mdi:cog" :to="`${gameUrl}/${category.id}`">{{$t('edit')}}</a-button>
                 </template>
             </category-tree>
         </template>

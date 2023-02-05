@@ -23,11 +23,11 @@
             <VDropdown v-if="canModerate" arrow>
                 <a-button icon="caret-down">{{$t('moderation')}}</a-button>
                 <template #popper>
-                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="ic:baseline-settings">{{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="mdi:cog">{{$t('edit')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageMods" icon="trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageDiscussions" icon="trash" @click="showDeleteDiscussionsModal">{{$t('delete_all_discussions')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageMods" icon="mdi:trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageDiscussions" icon="mdi:trash" @click="showDeleteDiscussionsModal">{{$t('delete_all_discussions')}}</a-dropdown-item>
                 </template>
             </VDropdown>
         </flex>

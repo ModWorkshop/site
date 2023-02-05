@@ -5,7 +5,7 @@
             <a-list url="notifications" limit="20" :search="false" class="p-4" query>
                 <template #buttons="{ items }">
                     <flex class="ml-auto">
-                        <a-button color="danger" icon="trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>
+                        <a-button color="danger" icon="mdi:trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>
                         <a-button color="danger" icon="clock" @click="deleteReadNotifications(items.data)">{{$t('delete_seen_notifications')}}</a-button>
                         <a-button icon="clock" @click="markAllAsRead(items.data)">{{$t('mark_all_notifications')}}</a-button>
                     </flex>

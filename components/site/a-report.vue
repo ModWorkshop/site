@@ -1,7 +1,7 @@
 <template>
     <div @click="showModal = true">
         <slot>
-            <a-button icon="flag" color="danger">{{$t('report')}}</a-button>
+            <a-button icon="mdi:flag" color="danger">{{$t('report')}}</a-button>
         </slot>
     </div>
     <Teleport to="body">

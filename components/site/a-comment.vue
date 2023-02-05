@@ -24,7 +24,7 @@
                         class="cursor-pointer"
                         size="sm"
                         :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
-                        :icon="comment.subscribed ? 'bell-slash' : 'bell'"
+                        :icon="comment.subscribed ? 'mdi:bell-off' : 'mdi:bell'"
                         @click="subscribe"
                     />
                     <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">

@@ -10,7 +10,7 @@
             <template #item="{ item }">
                 <flex class="list-button">
                     <a-user :user="item.user"/>
-                    <a-button class="ml-auto" icon="trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
+                    <a-button class="ml-auto" icon="mdi:trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
                 </flex>
             </template>
         </a-list>

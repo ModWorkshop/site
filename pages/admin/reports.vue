@@ -10,7 +10,7 @@
                         <div>{{`${$t('reason')}: "${item.reason}"`}}</div>
                     </flex>
                     <flex class="ml-auto my-auto">
-                        <a-button v-if="item.archived" icon="trash" @click="deleteReport(item)">{{$t('delete')}}</a-button>
+                        <a-button v-if="item.archived" icon="mdi:trash" @click="deleteReport(item)">{{$t('delete')}}</a-button>
                         <a-button style="opacity: 1;" @click="toggleArchiveReport(item)">{{$t(item.archived ? 'unarchive' : 'archive')}}</a-button>
                     </flex>
                 </flex>

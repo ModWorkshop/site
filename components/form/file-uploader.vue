@@ -35,7 +35,7 @@
                         <td class="text-center p-1">
                             <flex inline>
                                 <slot name="buttons" :file="file"/>
-                                <a-button icon="trash" @click.prevent="handleRemove(file)"/>
+                                <a-button icon="mdi:trash" @click.prevent="handleRemove(file)"/>
                             </flex>
                         </td>
                         <slot name="rows" :file="file"/>
@@ -51,7 +51,7 @@
                     <flex column class="file-buttons">
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
-                        <a-button icon="trash" @click="handleRemove(file)">{{$t('delete')}}</a-button>
+                        <a-button icon="mdi:trash" @click="handleRemove(file)">{{$t('delete')}}</a-button>
                     </flex>
                 </flex>
             </div>

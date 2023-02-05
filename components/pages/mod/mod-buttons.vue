@@ -1,9 +1,9 @@
 <template>
     <flex wrap>
-        <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="ic:baseline-settings">{{$t('edit_mod')}}</a-button>
+        <a-button v-if="canEdit" :to="`/mod/${mod.id}/edit`" icon="mdi:cog">{{$t('edit_mod')}}</a-button>
         <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
         <VDropdown :disabled="mod.followed">
-            <a-button :icon="mod.followed ? 'minus' : 'plus'" @click="mod.followed && setFollowMod(mod, false)">
+            <a-button :icon="mod.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="mod.followed && setFollowMod(mod, false)">
                 {{$t(mod.followed ? 'unfollow' : 'follow')}} <a-icon v-if="!mod.followed" icon="caret-down"/>
             </a-button>
             <template #popper>
@@ -12,7 +12,7 @@
             </template>
         </VDropdown>
         <VDropdown v-if="canManage" arrow>
-            <a-button icon="gavel">{{$t('moderation')}}</a-button>
+            <a-button icon="mdi:gavel">{{$t('moderation')}}</a-button>
             <template #popper>
                 <mod-suspend :mod="mod">
                     <a-dropdown-item>{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>

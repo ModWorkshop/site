@@ -12,7 +12,7 @@
     <div>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
-            <a-button class="ml-auto" icon="plus" @click="createNewLink"/>
+            <a-button class="ml-auto mb-1" icon="mdi:plus-thick" @click="createNewLink"/>
         </flex>
         <flex column class="alt-bg-color p-3">
             <table>
@@ -32,8 +32,8 @@
                         <td>{{fullDate(link.updated_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
-                                <a-button icon="ic:baseline-settings" @click.prevent="editLink(link)"/>
-                                <a-button icon="trash" @click.prevent="deleteLink(link)"/>
+                                <a-button icon="mdi:cog" @click.prevent="editLink(link)"/>
+                                <a-button icon="mdi:trash" @click.prevent="deleteLink(link)"/>
                             </flex>
                         </td>
                         <td class="text-center">
@@ -58,7 +58,7 @@
             </td>
         </template>
         <template #buttons="{file}">
-            <a-button class="file-button" icon="ic:baseline-settings" @click.prevent="editFile(file as File)"/>
+            <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
         </template>
     </file-uploader>
     <a-modal-form v-if="currentLink" v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">

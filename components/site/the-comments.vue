@@ -6,10 +6,10 @@
                 <flex class="ml-auto">
                     <a-button v-if="viewingComment" icon="arrow-left" :to="pageUrl">{{$t(`return_to_${resourceName}`)}}</a-button>
                     <VTooltip v-else :disabled="canComment">
-                        <a-button icon="comment" :disabled="!canComment" @click="onClickComment">{{$t('post')}}</a-button>
+                        <a-button icon="mdi:comment" :disabled="!canComment" @click="onClickComment">{{$t('post')}}</a-button>
                         <template #popper>{{cannotCommentReason}}</template>
                     </VTooltip>
-                    <a-button :icon="commentable.subscribed ? 'bell-slash' : 'bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
+                    <a-button :icon="commentable.subscribed ? 'mdi:bell-off' : 'mdi:bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
                 </flex>
             </flex>
             <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
