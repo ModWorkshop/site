@@ -30,7 +30,7 @@
                     <tr v-for="file of files" :key="file.created_at">
                         <td>{{file.name}}</td>
                         <td>{{friendlySize(file.size)}}</td>
-                        <td v-if="file.progress">{{$t('uploading', file.progress)}} </td>
+                        <td v-if="file.progress">{{$t('uploading', [file.progress])}} </td>
                         <td v-else>{{fullDate(file.created_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
@@ -197,8 +197,8 @@ async function upload(files: FileList|null) {
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         const reactiveFile = filesArr.value[0];
-                        if (progressEvent.total) {
-                            reactiveFile.progress = Math.round(100 * (progressEvent.loaded / progressEvent.total));
+                        if (progressEvent.progress) {
+                            reactiveFile.progress = Math.round(100 * progressEvent.progress);
                         }
                     },
                     cancelToken: new axios.CancelToken(c => insertFile.cancel = c)
