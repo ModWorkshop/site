@@ -106,7 +106,7 @@ const usedFileSize = computed(() => files.value.reduce((prev, curr) => prev + cu
 const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize.value));
 const usedSizeText = computed(() => {
     const current = friendlySize(usedFileSize.value), total = friendlySize(maxSize.value);
-    const percent = usedSizePercent.value.toPrecision(1);
+    const percent = usedSizePercent.value.toFixed(1);
     return `${current}/${total} (${percent}%)`;
 });
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
