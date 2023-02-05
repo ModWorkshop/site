@@ -27,9 +27,9 @@ const props = defineProps<{
 }>();
 
 const visItems = [
-    { name: t('public'), id: 1 },
-    { name: t('hidden'), id: 2 },
-    { name: t('unlisted'), id: 3 }
+    { name: t('public'), id: 'public' },
+    { name: t('private'), id: 'private' },
+    { name: t('unlisted'), id: 'unlisted' }
 ];
 
 const gameId = computed(() => props.mod.game_id);

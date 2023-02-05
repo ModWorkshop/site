@@ -4,7 +4,7 @@
         <a-icon v-else-if="mod.approved === false" icon="mdi:alert" class="text-danger" :title="statusText"/>
         <a-icon v-else-if="mod.approved === null" icon="mdi:clock" class="text-secondary" :title="statusText"/>
         <a-icon v-else-if="!mod.has_download" icon="mdi:alert-circle" class="text-warning" :title="statusText"/>
-        <a-icon v-else-if="mod.visibility == 2 || mod.visibility == 3" icon="mdi:eye-off" class="text-secondary" :title="statusText"/>
+        <a-icon v-else-if="mod.visibility != 'public'" icon="mdi:eye-off" class="text-secondary" :title="statusText"/>
     </span>
 </template>
 <script setup lang="ts">
@@ -27,10 +27,8 @@ const statusText = computed(() => {
         str = 'mod_rejected';
     } else if (!props.mod.has_download) {
         str = 'no_downloads';
-    } else if (props.mod.visibility == 2) {
-        str = 'hidden';
-    } else if (props.mod.visibility == 3) {
-        str = 'unlisted';
+    } else {
+        str = props.mod.visibility;
     }
     return str ? t(str) : null;
 });

@@ -243,6 +243,7 @@ The request will expire a day after you send the request. In the mean time, you 
 thumbnail: "Thumbnail",
 public: "Public",
 unlisted: "Unlisted",
+private: "Private",
 hidden: "Hidden",
 return_to_mod: "Return to Mod Page",
 url: "URL",

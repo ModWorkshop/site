@@ -72,7 +72,7 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     downloads: 0,
     likes: 0,
     views: 0,
-    visibility: 1,
+    visibility: 'public',
     suspended: false,
     comments_disabled: false,
     has_download: false,
