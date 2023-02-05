@@ -10,7 +10,6 @@
                     <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
                     <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
                     <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
-                    <a-link-button :to="`/user-settings?game=${game.id}`">{{$t('game_profile')}}</a-link-button>
                     <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
                 </flex>
                 <flex class="ml-auto items-center" gap="4">
@@ -28,6 +27,7 @@
                     </flex>
                 </flex>
                 <flex class="ml-auto" gap="4">
+                    <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
                     <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
                     <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
