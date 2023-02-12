@@ -188,7 +188,7 @@ Route::resource('supporters', SupporterController::class);
 Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
 gameResource('suspensions', SuspensionController::class);
-gameResource('documents', DocumentController::class, ['show']);
+gameResource('documents', DocumentController::class, ['selfOnly' => ['index', 'store']]);
 Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
 gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
