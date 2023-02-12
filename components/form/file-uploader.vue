@@ -15,7 +15,7 @@
             multiple
             @change="e => upload((e.target as HTMLInputElement).files)"
         >
-        <div v-if="list" class="p-3 alt-bg-color round">
+        <div v-if="list" class="p-3 alt-content-bg round">
             <table class="w-full">
                 <thead>
                     <tr>
@@ -43,7 +43,7 @@
                 </tbody>
             </table>
         </div>
-        <div v-else class="grid file-list p-3 mb-8 alt-bg-color">
+        <div v-else class="grid file-list p-3 mb-8 alt-content-bg">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
                 <a-img class="file-thumbnail" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
@@ -105,7 +105,7 @@ function getFileThumb(file) {
 
 const classes = computed(() => {
     return {
-        'alt-bg-color': true,
+        'alt-content-bg': true,
         round: true,
         'p-6': true,
         'text-center': true,

@@ -14,7 +14,7 @@
             <label>{{$t('links')}}</label>
             <a-button class="ml-auto mb-1" icon="mdi:plus-thick" @click="createNewLink"/>
         </flex>
-        <flex column class="alt-bg-color p-3">
+        <flex column class="alt-content-bg p-3">
             <table>
                 <thead>
                     <tr>

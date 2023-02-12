@@ -66,7 +66,7 @@ const to = computed(() => !defintion.value.onClick ? getObjectLink(notif.value.n
 const classes = computed(() => ({
     notification: true,
     flex: true,
-    'alt-bg-color': !notif.value.seen,
+    'alt-content-bg': true,
     'p-4': true,
     'gap-2': true,
     'cursor-pointer': true

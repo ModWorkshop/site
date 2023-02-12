@@ -1,5 +1,5 @@
 <template>
-    <flex class="alt-bg-color round progress relative">
+    <flex class="alt-content-bg round progress relative">
         <span v-if="text" class="progress-text">{{textToShow}}</span>
         <div :class="progressClasses" :style="{width: `${percentToShow}%`}"/>
     </flex>

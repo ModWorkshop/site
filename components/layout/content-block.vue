@@ -21,19 +21,3 @@ defineProps({
     altBackground: Boolean
 });
 </script>
-
-<style>
-.content-block {
-    max-width: 100%;
-    background-color: var(--content-bg-color);
-    border-radius: var(--border-radius);
-}
-
-.content-bg {
-    background-color: var(--content-bg-color);
-}
-
-.alt-content-bg {
-    background-color: var(--alt-content-bg-color);
-}
-</style>

@@ -2,7 +2,7 @@
     <div v-for="labeled of labeledDownloads" :key="labeled.label" class="flex-grow">
         <h2 v-if="labeled.label != 'all'">{{labeled.label}}</h2>
         <flex column gap="2">
-            <flex v-for="file of labeled.downloads" :key="file.id" gap="3" wrap class="alt-bg-color p-3 items-center place-content-center">
+            <flex v-for="file of labeled.downloads" :key="file.id" gap="3" wrap class="alt-content-bg p-3 items-center place-content-center">
                 <div class="mr-2">
                     <a-img src="https://modworkshop.net/mydownloads/previews/fileimages/file_dl_big.png" width="128" height="128"/>
                 </div>
