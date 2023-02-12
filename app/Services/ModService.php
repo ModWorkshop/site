@@ -70,6 +70,8 @@ class ModService {
 
         if ($sortBy === 'random') {
             $query->orderByRaw('RANDOM()');
+        } else if ($sortBy === 'name') {
+            $query->orderBy('name');
         } else {
             $query->orderByDesc($sortBy);
         }

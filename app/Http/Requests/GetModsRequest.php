@@ -48,7 +48,8 @@ class GetModsRequest extends FilteredRequest
                 'score',
                 'weekly_score',
                 'daily_score',
-                'random'
+                'random',
+                'name'
             ])
         ];
     }
