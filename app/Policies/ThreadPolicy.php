@@ -35,7 +35,7 @@ class ThreadPolicy
     {
         $forumCateogry = $thread->category;
 
-        if ($forumCateogry->private_threads) {
+        if ($forumCateogry?->private_threads) {
             if (!(isset($user) || $thread->user_id === $user->id || $user->hasPermission('manage-users'))) {
                 return false;
             }
@@ -57,7 +57,7 @@ class ThreadPolicy
     }
 
     //Moved to here so we can grab category and check stuff
-    public function store(User $user, Forum $forum, ForumCategory $category)
+    public function store(User $user, Forum $forum, ForumCategory $category=null)
     {
         $game = $forum->game;
 
@@ -72,7 +72,7 @@ class ThreadPolicy
         $canAppeal = $user->last_ban?->can_appeal ?? true;
         $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
 
-        return $user->hasPermission('create-discussions', $game, $category->banned_can_post && $canAppeal && $canAppealGame);
+        return $user->hasPermission('create-discussions', $game, $category?->banned_can_post && $canAppeal && $canAppealGame);
     }
 
     /**
