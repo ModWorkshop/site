@@ -30,7 +30,7 @@
                     @pin="setCommentPinState"
                     @edit="beginEditingComment"
                 />
-                <template v-else>
+                <template v-else-if="comments">
                     <a-comment v-for="comment of comments.data" 
                         :key="comment.id"
                         :url="url"
@@ -52,22 +52,22 @@
             <a-loading v-else-if="!isLoaded"/>
             <h4 v-else class="text-center">No Comments</h4>
         </flex>
+        <VDropdown v-model:shown="showMentions" strategy="fixed" class="fixed" placement="right-start" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`}">
+            <template #popper>
+                <flex v-if="users" column class="p-3">
+                    <template v-if="users.data.length">
+                        <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, u)"/>
+                    </template>
+                    <div v-else>{{ $t('no_users_found') }}</div>
+                </flex>
+            </template>
+        </VDropdown>
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
                 <flex column class="mx-auto page-block-xs float-bg" gap="0">
                     <h3 v-if="replyingComment">{{$t('replying')}}</h3>
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
-                    <md-editor v-model="commentContent" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
-                    <div v-show="showMentions" class="fixed" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]}px`}">
-                        <flex v-if="users" column class="mention-float">
-                            <template v-if="users.data.length">
-                                <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, u)"/>
-                            </template>
-                            <div v-else>
-                                No users found!
-                            </div>
-                        </flex>
-                    </div>
+                    <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <flex class="text-right p-2">
                         <a-button icon="mdi:comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
                         <a-button icon="mdi:close-thick" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
@@ -84,20 +84,20 @@ import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
 import { remove } from '@vue/shared';
+import getCaretCoordinates from 'textarea-caret';
+
 const props = withDefaults(defineProps<{
     lazy?: boolean,
     url: string,
     pageUrl: string,
     resourceName?: string,
     commentable: { id: number, subscribed?: boolean, game?: Game },
-    canComment?: boolean,
-    getSpecialTag?: (comment: Comment) => string,
-    canEditAll?: boolean,
+    canComment: boolean,
+    getSpecialTag: (comment: Comment) => string|undefined,
+    canEditAll: boolean,
     cannotCommentReason?: string,
-    canDeleteAll?: boolean
+    canDeleteAll: boolean
 }>(), { resourceName: 'comments', lazy: false });
-
-const { $caretXY } = useNuxtApp();
 
 const { user } = useStore();
 const router = useRouter();
@@ -164,9 +164,10 @@ function onTextareaKeyup(event: KeyboardEvent) {
     }
 
     const textArea = event.target as HTMLTextAreaElement;
-    const coords = $caretXY(textArea);
-    
-    mentionPos.value = [coords.left, coords.top];
+    const coords = getCaretCoordinates(textArea, textArea.selectionEnd);
+    const rect = textArea.getBoundingClientRect();
+
+    mentionPos.value = [coords.left + rect.left, coords.top + rect.top];
 
     if (event.key == 'Enter' || event.key == 'ArrowUp' || event.key == 'Ctrl' || event.key == 'ArrowDown') {
         showMentions.value = false;
@@ -201,7 +202,7 @@ function onClickMention(e: MouseEvent, user: User) {
     commentContent.value = strReplacRange(commentContent.value, range[0]-1, range[1], `@${user.unique_name}`);
 }
 
-let lastTimeout: NodeJS.Timeout;
+let lastTimeout: number;
 watch(commentContent, async (val: string) => {
     if (lastTimeout) {
         clearTimeout(lastTimeout);
@@ -210,7 +211,7 @@ watch(commentContent, async (val: string) => {
         const query = val.substring(mentionRange.value[0], mentionRange.value[1]);
         
         lastTimeout = setTimeout(async () => {
-            users.value = null;
+            users.value = undefined;
             users.value = await useGetMany<User>('users', { params: { query } });
             for (const user of users.value.data) {
                 usersCache[user.unique_name] = user;
@@ -234,7 +235,7 @@ function setCommentDialog(open: boolean) {
  * In order to prevent loss of mentions for users, we convert the mentions to IDs we could easily replace later 
  */
 function processMentions(content: string) {
-    const mentions = [];
+    const mentions: string[] = [];
     content = content.replace(/@([a-zA-Z-_0-9]+)/g, (match, uniqueName, offset) => {
         //Don't allow more than 10 people to be mentioned
         if (mentions.length < 10 && content.charAt(offset-1) !== '\\') { //Avoid selecting escaped at's
@@ -265,8 +266,9 @@ async function postComment() {
             reply_to: replyingComment.value?.id
         });
         if (replyingComment.value) {
+            replyingComment.value.last_replies ??= [];
             replyingComment.value.last_replies.push(comment);
-        } else {
+        } else if (comments.value) {
             comments.value.data.unshift(comment);
         }
         posting.value = false;
@@ -285,8 +287,8 @@ async function editComment() {
         commentContent.value = '';
         const { mentions, content: processedContent } = processMentions(content);
 
-        await usePatch(props.url + '/' + editingComment.value.id, { content: processedContent, mentions });
-        editingComment.value.content = content;
+        await usePatch(props.url + '/' + editingComment.value!.id, { content: processedContent, mentions });
+        editingComment.value!.content = content;
         setCommentDialog(false);
     } catch (error) {
         commentContent.value = content; //We failed, let's not eat the user's draft
@@ -315,7 +317,7 @@ function onVisChange(isVisible: boolean) {
 async function deleteComment(comment: Comment, isReply=false) {
     await useDelete(props.url + '/' + comment.id);
     if (!isReply) {
-        remove(comments.value.data, comment);
+        remove(comments.value!.data, comment);
     }
 }
 
@@ -362,13 +364,5 @@ function beginEditingComment(comment: Comment) {
 .floating-editor > div {
     border-radius: var(--border-radius);
     padding: 1rem;
-}
-
-.mention-float {
-    background-color: var(--alt-content-bg-color);
-    padding: 1rem;
-    width: 250px;
-    height: 180px;
-    overflow-y: scroll;
 }
 </style>
