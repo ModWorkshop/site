@@ -217,11 +217,21 @@ Route::get('site-data', function() {
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
 
-    return [
+    $data = [
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
     ];
+
+    if (Auth::hasUser()) {
+        $user = Auth::user();
+        if ($user->hasPermission('moderate-users')) {
+            $data['reports_count'] = Report::whereArchived(false)->count();
+            $data['waiting_count'] = Mod::whereApproved(false)->count();
+        }
+    }
+
+    return $data;
 });
 
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
