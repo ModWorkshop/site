@@ -36,4 +36,24 @@ defineProps({
 .table td, .table th {
     padding: 0.5rem;
 }
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table tr:first-child td:first-child { 
+    border-top-left-radius: var(--border-radius);
+}
+
+.table tr:first-child td:last-child {
+    border-top-right-radius: var(--border-radius);
+}
+
+.table tr:last-child td:first-child { 
+    border-bottom-left-radius: var(--border-radius);
+}
+.table tr:last-child td:last-child {
+    border-bottom-right-radius: var(--border-radius);
+}
 </style>
