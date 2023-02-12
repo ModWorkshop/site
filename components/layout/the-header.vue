@@ -85,10 +85,12 @@
                                 <a-icon icon="triangle-exclamation"/> Banned
                             </span>
                             <span>
-                                Expires: <time-ago :time="user.ban.case.expire_date"/>
+                                Expires: <time-ago :time="user.ban.expire_date"/>
                             </span>
                         </flex>
                         <flex class="text-lg" gap="4">
+                            <NuxtLink v-if="canSeeReports" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports"><a-icon icon="mdi:alert-box"/> {{reportsCount}}</NuxtLink>
+                            <NuxtLink v-if="canSeeWaiting" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" to="/admin/approvals"><a-icon icon="mdi:clock"/> {{waitingCount}}</NuxtLink>
                             <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="mdi:bell"/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
@@ -126,7 +128,14 @@ const headerClosed = ref(true);
 
 const store = useStore();
 const router = useRouter();
-const { user, notifications, notificationCount, currentGame } = storeToRefs(store);
+const { 
+    user,
+    notifications,
+    notificationCount,
+    currentGame,
+    reportsCount,
+    waitingCount,
+} = storeToRefs(store);
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
@@ -135,6 +144,11 @@ const unlockedOwO = useState('unlockedOwO');
 
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
+const hasReports = computed(() => reportsCount?.value && reportsCount.value > 0);
+const hasWaiting = computed(() => waitingCount?.value && waitingCount.value > 0);
+const canSeeReports = computed(() => store.hasPermission('manage-users'));
+const canSeeWaiting = computed(() => store.hasPermission('manage-mods'));
+
 const userLink = computed(() => {
     if (user.value.unique_name) {
         return `/user/${user.value.unique_name}`;

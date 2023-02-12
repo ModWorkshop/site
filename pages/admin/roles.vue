@@ -1,8 +1,12 @@
 <template>
-    <a-list :url="url" query :new-button="`/admin/${url}/new`" @fetched="(items: Paginator<Role>) => roles = items">
+    <flex>
+        <a-input v-model="query" :label="$t('search')"/>
+        <a-button class="mt-auto" :to="`/admin/${url}/new`">{{ $t('new') }}</a-button>
+    </flex>
+    <a-items v-model:page="page" :loading="loading" :items="roles">
         <template #items="{ items }">
             <TransitionGroup name="list">
-                <div v-for="[, item] of Object.entries(items.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
+                <div v-for="[, item] of Object.entries(roles.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
                     <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
                         class="list-button flex gap-2 items-center"
                         :to="`/admin/${url}/${item.id}`" 
@@ -24,13 +28,12 @@
                 </div>
             </TransitionGroup>
         </template>
-    </a-list>
+    </a-items>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { Game, Role } from '~~/types/models';
-import { Paginator } from '~~/types/paginator';
 
 const props = defineProps<{
     game?: Game
@@ -44,9 +47,16 @@ const gameId = route.params.gameId;
 
 const { user, hasPermission } = useStore();
 
+const page = useRouteQuery('page', 1);
+const query = useRouteQuery('query');
+const loading = ref(false);
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 
-const roles = ref<Paginator<Role>>();
+const { data: roles, refresh } = await useFetchMany<Role>(url.value, {
+    params: reactive({ page, query })
+});
+
+useHandleParam(refresh, { page, query }, loading);
 const rolesNoMember = computed(() => gameId ? roles.value.data : roles.value.data.filter(role => role.id !== 1));
 
 const draggedItem = ref(null);

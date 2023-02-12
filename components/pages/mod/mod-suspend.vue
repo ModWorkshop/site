@@ -2,7 +2,7 @@
 <Teleport to="body">
     <Transition>
         <a-modal-form v-if="showSuspendModal" v-model="showSuspendModal" :title="mod.suspended ? $t('unsuspend') : $t('suspend')" @submit="suspend">
-            <a-input v-model="suspendForm.reason" :label="$t('reason')" type="textarea" rows="6"/>
+            <a-input v-model="suspendForm.reason" :label="$t('reason')" type="textarea" rows="6" minlength="3"/>
             <a-input v-model="suspendForm.notify" :label="$t('notify_owner_members')" type="checkbox"/>
         </a-modal-form>
     </Transition>

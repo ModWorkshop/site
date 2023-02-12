@@ -105,7 +105,7 @@ const breadcrumb = computed(() => {
         crumbs.unshift({ name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' });
     }
 
-    if (thread.value.id) {
+    if (thread.value.id && thread.value.category) {
         crumbs.push({ name: thread.value.category.name, id: thread.value.category.name, type: 'forum_category' });
     }
 

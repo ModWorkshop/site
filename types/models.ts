@@ -1,4 +1,3 @@
-import { Paginator } from './paginator';
 /**
  * This file is auto generated using 'php artisan typescript:generate'
  *
@@ -226,8 +225,12 @@ export interface Tag {
 export interface Ban {
     id: number;
     user_id: number;
+    mod_user: User;
     created_at: string;
+    expire_date: string;
     updated_at: string;
+    active: boolean;
+    reason: string;
     case_id: number;
     can_appeal: boolean;
     user: User;
@@ -430,8 +433,7 @@ export interface UserCase {
     expire_date: string;
     created_at?: string;
     updated_at?: string;
-    pardon_reason?: string;
-    pardoned: boolean;
+    active: boolean;
     ban?: Ban;
     user?: User;
     mod_user?: User;

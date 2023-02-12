@@ -4,18 +4,23 @@
             <div>
                 <a-tag>{{userCase.warning ? 'Warning' : 'Ban'}}</a-tag>
             </div>
-            <flex class="items-center">User: <a-user :user="userCase.user" avatar-size="xs"/></flex>
-            <div>Reason: "{{userCase.reason}}"</div>
+            <flex class="items-center">{{$t('user')}}: <a-user :user="userCase.user" avatar-size="xs"/></flex>
+            <div>{{$t('reason')}}: "{{userCase.reason}}"</div>
             <flex class="items-center">
-                Issued: <time-ago null-is-never :time="userCase.created_at"/>
-                <template v-if="userCase.mod_user">
-                    by <a-user :user="userCase.mod_user" avatar-size="xs"/>
-                </template>
+                {{$t('issued')}}:
+                <i18n-t v-if="userCase.mod_user" keypath="by_user_time_ago">
+                    <template #time>
+                        <time-ago null-is-never :time="userCase.created_at"/>
+                    </template>
+                    <template #user>
+                        <a-user :user="userCase.mod_user" avatar-size="xs"/>
+                    </template>
+                </i18n-t>
+                <time-ago v-else null-is-never :time="userCase.created_at"/>
             </flex>
-            <div v-if="userCase.expire_date">Duration: {{duration}}</div>
-            <div v-if="!isExpired">Expires: <time-ago null-is-never :time="userCase.expire_date"/></div>
-            <div v-else-if="userCase.pardoned">Pardoned: {{userCase.pardon_reason}}</div>
-            <div v-else>Expired</div>
+            <div v-if="userCase.expire_date">{{$t('duration')}}: {{duration}}</div>
+            <div v-if="!isExpired">{{$t('expires')}}: <time-ago null-is-never :time="userCase.expire_date"/></div>
+            <div v-else>{{$t('expired')}}</div>
         </flex>
         <flex class="ml-auto my-auto">
             <a-button :to="`/admin/${casesUrl}/${userCase.id}`">{{$t('edit')}}</a-button>
@@ -25,9 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { UserCase } from '~~/types/models';
-import humanizeDuration  from 'humanize-duration';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
@@ -44,13 +48,8 @@ const { t } = useI18n();
 
 const yesNoModal = useYesNoModal();
 
-const isExpired = computed(() => {
-    return props.userCase.pardoned || now >= DateTime.fromISO(props.userCase.expire_date);
-});
-
-const duration = computed(() => {
-    return humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(props.userCase.created_at), DateTime.fromISO(props.userCase.expire_date)).toDuration());
-});
+const isExpired = computed(() => !props.userCase.active || now >= DateTime.fromISO(props.userCase.expire_date));
+const duration = computed(() => getDuration(props.userCase.created_at, props.userCase.expire_date));
 
 async function deleteCase() {
     yesNoModal({

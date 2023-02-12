@@ -2,7 +2,7 @@
     <page-block size="md">
         <Title>{{$t('notifications')}}</Title>
         <content-block>
-            <a-list url="notifications" limit="20" :search="false" class="p-4" query>
+            <a-list url="notifications" limit="20" :search="false" query>
                 <template #buttons="{ items }">
                     <flex class="ml-auto">
                         <a-button color="danger" icon="mdi:trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>

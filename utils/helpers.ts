@@ -1,8 +1,10 @@
-import { Game } from './../types/models';
+import { i18n } from './../app/i18n';
+import { Comment, Game } from './../types/models';
 import { partial } from "filesize";
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
 import { LocationQueryValueRaw } from "vue-router";
+import humanizeDuration from 'humanize-duration';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -72,6 +74,10 @@ export function fullDate(t?: string): string {
     return timeAgo || 'Undefined date';
 }
 
+export function getDuration(fromDate, toDate) {
+    return toDate ? humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(fromDate), DateTime.fromISO(toDate))
+        .toDuration(), { units: ['mo', 'd', 'h'], round: true }) : i18n.global.t('forever');
+}
 
 const million = Math.pow(10, 6);
 
@@ -140,10 +146,19 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
         case 'thread':
             return `/thread/${object.id}`;
         case 'game':
-            return `g/${object.short_name}`;
+            return `/g/${object.short_name}`;
+        case 'user':
+            return `/user/${object.id}`;
     }
 
     return null;
+}
+
+export async function getCommentLink(comment: Comment) {
+    const type = comment.commentable_type, id = comment.commentable_id;
+    const url = `/${type}s/${id}`;
+    const page = await useGet(`${url}/comments/${comment.id}/page`);
+    return `/${type}/${id}/${comment.reply_to ? `post/${comment.reply_to}` : ''}?page=${page}&comment=${comment.id}`;
 }
 
 export function getGameResourceUrl(resource: string, game?: Game) {

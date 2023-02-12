@@ -20,11 +20,11 @@ const props = defineProps({
 const showModal = ref(false);
 const reason = ref('');
 
-async function report(ok, onError) {
+async function report(onError) {
     try {
         await usePost(props.url, { reason: reason.value });
         reason.value = '';
-        ok();
+        showModal.value = false;
     } catch (error) {
         onError(error);
     }

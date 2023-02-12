@@ -5,16 +5,18 @@ import { CookieRef } from '#app';
 import { longExpiration, reloadToken } from '~~/utils/helpers';
 
 interface MainStore {
-    user?: User,
-    notifications: Paginator<Notification>,
-    notificationCount: number,
-    currentGame?: Game,
-    savedTheme: CookieRef<string>,
+    user: User|null,
+    notifications: Paginator<Notification>|null,
+    notificationCount: number|null,
+    reportsCount: number|null,
+    waitingCount: number|null,
+    currentGame: Game|null,
+    savedTheme: CookieRef<string>|null,
     announcements: Thread[],
     colorScheme: string,
-    games: Paginator<Game>,
-    tags: Paginator<Tag>,
-    settings: Settings,
+    games: Paginator<Game>|null,
+    tags: Paginator<Tag>|null,
+    settings: Settings|null,
 }
 
 let lastTimeout;
@@ -23,6 +25,8 @@ export const useStore = defineStore('main', {
     state: (): MainStore => ({
         notifications: null,
         notificationCount: null,
+        reportsCount: null,
+        waitingCount: null,
         savedTheme: useCookie('theme'),
         colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
         announcements: [],
@@ -48,8 +52,8 @@ export const useStore = defineStore('main', {
     },
     actions: {
         toggleTheme() {
-            this.savedTheme = this.theme === 'light' ? undefined : 'light';
-            useCookie('theme', { expires: longExpiration() }).value = this.savedTheme;
+            this.savedTheme = this.theme === 'light' ? null : 'light';
+            useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
         setGame(game: Game) {
             this.currentGame = game;
@@ -67,7 +71,9 @@ export const useStore = defineStore('main', {
                 useGet<{
                     settings: Settings,
                     announcements: Thread[],
-                    unseen_notifications: number
+                    unseen_notifications: number,
+                    reports_count?: number,
+                    waiting_count?: number,
                 }>('site-data'),
                 reloadToken()
             ]);
@@ -77,6 +83,8 @@ export const useStore = defineStore('main', {
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;
             this.notificationCount = siteData.unseen_notifications;
+            this.reportsCount = siteData.reports_count ?? null;
+            this.waitingCount = siteData.waiting_count ?? null;
 
             console.log('Trying to reload token');
 
@@ -126,11 +134,14 @@ export const useStore = defineStore('main', {
         },
 
         setUserAvatar(avatar: string) {
-            this.user.avatar = avatar;
+            this.user!.avatar = avatar;
         },
 
         hasPermission(perm: string, game?: Game, bypassBan = false) {
             const permissions = this.user?.permissions;
+            if (!permissions) {
+                return false;
+            }
             if (!this.user) {
                 return false;
             } else if (permissions.admin === true || permissions[perm] === true) { //Admins have all permissions

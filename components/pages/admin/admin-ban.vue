@@ -1,35 +1,37 @@
 <template>
     <flex class="list-button">
-        <flex v-if="ban.case" column>
-            <flex class="items-center">User: <a-user :user="ban.user" avatar-size="xs"/></flex>
+        <flex column :style="{ opacity: isExpired && 0.25 }">
+            <flex class="items-center">{{$t('user')}}: <a-user :user="ban.user" avatar-size="xs"/></flex>
             <flex class="items-center">
-                Issued: <time-ago null-is-never :time="ban.created_at"/>
-                <template v-if="ban.case.mod_user">
-                    by <a-user :user="ban.case.mod_user" avatar-size="xs"/>
-                </template>
+                {{$t('issued')}}:
+                <i18n-t v-if="ban.mod_user" keypath="by_user_time_ago">
+                    <template #time>
+                        <time-ago null-is-never :time="ban.created_at"/>
+                    </template>
+                    <template #user>
+                        <a-user :user="ban.mod_user" avatar-size="xs"/>
+                    </template>
+                </i18n-t>
+                <time-ago v-else null-is-never :time="ban.created_at"/>
             </flex>
-            <div>Reason: "{{ban.case.reason}}"</div>
-            <div>Duration: {{duration}}</div>
-            <div v-if="!isExpired">Expires: <time-ago null-is-never :time="ban.case.expire_date"/></div>
+            <div>{{$t('reason')}}: "{{ban.reason}}"</div>
+            <div>{{$t('duration')}}: {{duration}}</div>
+            <div v-if="!isExpired">{{$t('expires')}}: <time-ago null-is-never :time="ban.expire_date"/></div>
         </flex>
-        <span v-else>
-            Invalid ban!
-        </span>
         <flex class="ml-auto my-auto">
-            <a-button :to="`/admin/${casesUrl}/${ban.case_id}`">{{$t('edit')}}</a-button>
-            <a-button @click="unban">{{$t('unban')}}</a-button>
+            <a-button :to="`/admin/${bansUrl}/${ban.id}`">{{$t('edit')}}</a-button>
+            <a-button @click="unban">{{$t(isExpired ? 'delete' : 'unban')}}</a-button>
         </flex>
     </flex>
 </template>
 
 <script setup lang="ts">
-import humanizeDuration from 'humanize-duration';
-import { DateTime, Interval } from 'luxon';
-import { Ban } from '~~/types/models';
+import { DateTime } from 'luxon';
+import { Ban, Game } from '~~/types/models';
 
 const props = defineProps<{
     ban: Ban,
-    casesUrl: string
+    game?: Game,
 }>();
 
 const now = DateTime.now();
@@ -38,13 +40,9 @@ const emit = defineEmits<{
     (e: 'delete', userCase: Ban): void
 }>();
 
-const isExpired = computed(() => {
-    return props.ban.case.pardoned || now >= DateTime.fromISO(props.ban.case.expire_date);
-});
-
-const duration = computed(() => {
-    return humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(props.ban.case.created_at), DateTime.fromISO(props.ban.case.expire_date)).toDuration());
-});
+const isExpired = computed(() => !props.ban.active || now >= DateTime.fromISO(props.ban.expire_date))
+const duration = computed(() => getDuration(props.ban.created_at, props.ban.expire_date));
+const bansUrl = computed(() => getGameResourceUrl('bans', props.game));
 
 async function unban() {
     await useDelete(`bans/${props.ban.id}`);

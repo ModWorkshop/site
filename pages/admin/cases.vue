@@ -3,7 +3,7 @@
         <a-form @submit="warn">
             <h2>{{$t('warn_user')}}</h2>
             <flex column>
-                <a-user-select v-model="user" required :label="$t('user')"/>
+                <a-user-select v-model="warnUser" required :label="$t('user')"/>
                 <a-duration v-model="warnDuration" required :label="$t('duration')"/>
                 <a-input v-model="reason" required type="textarea" :label="$t('reason')"/>
                 <a-button type="submit" class="mr-auto">{{$t('warn')}}</a-button>
@@ -11,19 +11,19 @@
         </a-form>
 
         <h2>{{$t('cases')}}</h2>
-
-        <a-list :url="url" query @fetched="(items: Paginator<UserCase>) => cases = items">
+        <a-user-select v-model="user" required :label="$t('user')" clearable/>
+        <a-items v-model:page="page" :items="cases" :loading="loading">
             <template #item="{ item }">
                 <admin-case :user-case="item" :cases-url="caseItemsUrl" @delete="deleteCase"/>
             </template>
-        </a-list>
+        </a-items>
     </flex>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { FetchError } from 'ofetch';
 import { Game, UserCase } from '~~/types/models';
-import { Paginator } from '~~/types/paginator';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
@@ -35,29 +35,38 @@ useNeedsPermission('moderate-users', props.game);
 const url = computed(() => getGameResourceUrl('user-cases', props.game));
 const caseItemsUrl = computed(() => getGameResourceUrl('cases', props.game));
 
-const user = useRouteQuery('user', null, 'number');
+const warnUser = useRouteQuery('user', null, 'number');
+const user = useRouteQuery('filter-user', null, 'number');
+const page = useRouteQuery('page', 1, 'number');
 
 const showErrorToast = useQuickErrorToast();
 
-const cases = ref<Paginator<UserCase>>(null);
+const loading = ref(false);
+const params = { page, user_id: user, limit: 5 };
+const { data: cases, refresh } = await useFetchMany<UserCase>(url.value, { params: reactive(params) });
+useHandleParam(refresh, params, loading);
+
 const reason = ref('');
 const warnDuration = ref();
 
 async function warn() {
     try {
         const userCase = await usePost<UserCase>('user-cases', { 
-            user_id: user.value,
+            user_id: warnUser.value,
             reason: reason.value,
             expire_date: warnDuration.value,
         });
         reason.value = '';
-        cases.value.data.push(userCase);
+        warnUser.value = null;
+        cases.value?.data.push(userCase);
     } catch (e) {
-        showErrorToast(e);
+        showErrorToast(e as FetchError);
     }
 }
 
 function deleteCase(userCase: UserCase) {
-    remove(cases.value.data, userCase);
+    if (cases.value) {
+        remove(cases.value.data, userCase);
+    }
 }
 </script>

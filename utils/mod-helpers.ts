@@ -18,18 +18,18 @@ export function canEditMod(mod: Mod) {
 
     const membership = mod.members.find(member => member.accepted && member.id === user.id);
     
-    return membership && (membership.level == 'collaborator' || membership.level == 'maintainer');
+    return membership ? (membership.level == 'collaborator' || membership.level == 'maintainer') : false;
 }
 
 /**
  * Either owner or moderator basically
  */
 export function canSuperUpdate(mod: Mod) {
-    if (!mod) {
+    const { user, hasPermission } = useStore();
+
+    if (!user || !mod) {
         return false;
     }
-
-    const { user, hasPermission } = useStore();
 
     return (mod.user_id === user.id && hasPermission('create-mods', mod.game)) || hasPermission('manage-mods', mod.game);
 }

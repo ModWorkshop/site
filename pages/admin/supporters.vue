@@ -2,18 +2,18 @@
     <flex column gap="3">
         <h2>{{$t('upgrade_user')}}</h2>
         <a-user-select v-model="user" :label="$t('user')"/>
-        <a-duration v-model="banDuration" :label="$t('duration')"/>
+        <a-duration v-model="duration" :label="$t('duration')"/>
         <a-button class="mr-auto" :disabled="!user" @click="upgrade">{{$t('upgrade')}}</a-button>
 
         <h2>{{$t('supporters')}}</h2>
-        <a-list url="supporters" query @fetched="(items: Paginator<Supporter>) => supporters = items">
+        <a-items v-model:page="page" :items="supporters" :loading="loading">
             <template #item="{ item }">
                 <flex class="list-button">
                     <a-user :user="item.user"/>
                     <a-button class="ml-auto" icon="mdi:trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
                 </flex>
             </template>
-        </a-list>
+        </a-items>
     </flex>
 </template>
 
@@ -21,25 +21,31 @@
 import { remove } from '@vue/shared';
 import { useI18n } from 'vue-i18n';
 import { Supporter } from '~~/types/models';
-import { Paginator } from '~~/types/paginator';
 
 useNeedsPermission('manage-users');
 
 const user = ref(null);
-const banDuration = ref(null);
-const supporters = ref<Paginator<Supporter>>();
+const duration = ref(null);
+const loading = ref(false);
+const page = useRouteQuery('page', 1);
 
 const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
 const { t } = useI18n();
 
+const { data: supporters, refresh } = await useFetchMany<Supporter>('supporters', {
+    params: { page }
+});
+
+useHandleParam(refresh, { page }, loading);
+
 async function upgrade() {
     try {
         const supporter = await usePost<Supporter>('supporters', {
             user_id: user.value,
-            duration: banDuration.value
+            duration: duration.value
         });
-        supporters.value.data.unshift(supporter);
+        supporters.value?.data.unshift(supporter);
     } catch (error) {
         showToast({
             color: 'danger',
@@ -54,7 +60,9 @@ function removeSupporter(supporter: Supporter) {
         desc: t('stop_supporter_status_desc'),
         async yes() {
             await useDelete(`supporters/${supporter.id}`);
-            remove(supporters.value.data, supporter);
+            if (supporters.value?.data) {
+                remove(supporters.value.data, supporter);
+            }
         }
     });
 }

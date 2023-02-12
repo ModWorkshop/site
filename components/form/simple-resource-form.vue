@@ -29,20 +29,20 @@ const yesNoModal = useYesNoModal();
 
 const { t } = useI18n();
 
-const props = defineProps({
-    modelValue: Object,
-    url: String,
-    createUrl: String,
-    redirectTo: String,
-    deleteRedirectTo: String,
-    mergeParams: Object,
-    canSave: Boolean,
-    ignoreChanges: Object,
-    deleteButton: {
-        type: Boolean,
+const props = defineProps<{
+    modelValue: any,
+    url: string,
+    createUrl?: string,
+    redirectTo?: string,
+    deleteRedirectTo?: string,
+    mergeParams?: object,
+    canSave?: boolean,
+    ignoreChanges?: object,
+    deleteButton?: {
+        type: boolean,
         default: true
     }
-});
+}>();
 
 const emit = defineEmits(['submit', 'update:modelValue']);
 
