@@ -4,7 +4,7 @@
             <a-link-button class="collapse-button" icon="bars"/>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
-        <flex :class="[menuOpen && 'menu-open']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
+        <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
                 <flex v-show="!side || menuOpen" wrap class="nav-menu" :column="side" role="tablist">
@@ -24,7 +24,7 @@
                 </flex>
             </Transition>
             <slot name="pre-panels"/>
-            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0, 'flex-grow': !isSm && side}">
+            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0, 'flex-grow': true}">
                 <slot/>
             </div>
         </flex>
