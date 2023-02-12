@@ -34,7 +34,7 @@ class FilePolicy
      */
     public function view(?User $user, File $file)
     {
-        return $this->authorize('view', $file->mod) && $file->approved;
+        return $this->authorize('view', $file->mod);
     }
 
     /**
