@@ -131,7 +131,7 @@ class CommentService {
             );
         }
 
-        $comment->loadMissing('mentions');
+        $comment->load(['mentions', 'subscribed']);
 
         return new CommentResource($comment);
     }

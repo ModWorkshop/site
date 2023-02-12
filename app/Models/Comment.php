@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
+use Auth;
 use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -136,6 +137,12 @@ class Comment extends Model implements SubscribableInterface
 
     public static function booted()
     {
+        self::created(function(Comment $comment) {
+            $comment->subscriptions()->create([
+                'user_id' => Auth::user()->id
+            ]);
+        });
+
         self::deleted(function(Comment $comment) {
             Notification::deleteRelated($comment);
             $comment->subscriptions()->delete();
