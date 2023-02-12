@@ -22,7 +22,7 @@
                 class="mw-input"
                 :rows="rows"
                 v-bind="$attrs"
-                @input="$emit('update:modelValue', vm)"
+                @update="$emit('update:modelValue', vm)"
             />
             <input 
                 v-else-if="isCheckbox" 
