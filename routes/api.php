@@ -156,7 +156,6 @@ Route::middleware('auth:sanctum')->group(function() {
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
 gameResource('bans', BanController::class, ['selfOnly' => ['index', 'store']]);
-Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
 gameResource('user-cases', UserCaseController::class, ['selfOnly' => ['index', 'store']]);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
