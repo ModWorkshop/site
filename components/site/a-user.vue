@@ -36,7 +36,7 @@ import { User } from '~~/types/models';
 const props = withDefaults(defineProps<{
     details?: string,
     noColor?: boolean,
-    user?: User,
+    user?: User|null,
     miniProfile?: boolean,
     avatar?: boolean,
     tag?: boolean,
