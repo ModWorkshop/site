@@ -1,7 +1,7 @@
 <template>
     <a-input>
-        <a-tabs :class="classes">
-            <a-tab name="write" :title="$t('write_tab')">
+        <a-tabs :class="classes" style="flex:1;">
+            <a-tab name="write" :title="$t('write_tab')" style="flex:1;">
                 <textarea
                     :id="labelId"
                     ref="textArea"
@@ -157,8 +157,8 @@ function toggleFullscreen() {
 }
 
 .md-editor-fullscreen .textarea {
-    resize: none;
     height: 100% !important;
+    resize: none;
 }
 
 .md-editor-fullscreen .preview {
