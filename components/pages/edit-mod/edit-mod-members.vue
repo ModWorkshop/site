@@ -13,16 +13,16 @@
     </flex>
     <flex column class="overflow-hidden">
         <flex class="items-center mb-2">
-            <label>Members</label>
-            <a-button class="ml-auto" @click="newMember()">New</a-button>
+            <label>{{$t('members_tab')}}</label>
+            <a-button class="ml-auto" @click="newMember()">{{$t('new')}}</a-button>
         </flex>
         <a-table>
             <thead>
-                <th>User</th>
-                <th>Level</th>
-                <th>Accepted</th>
-                <th>Add Date</th>
-                <th class="text-center">Actions</th>
+                <th>{{$t('user')}}</th>
+                <th>{{$t('member_level')}}</th>
+                <th>{{$t('accepted')}}</th>
+                <th>{{$t('date')}}</th>
+                <th class="text-center">{{$t("actions")}}</th>
             </thead>
             <tbody>
                 <tr v-for="user of members" :key="user.id">
