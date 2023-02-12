@@ -32,10 +32,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Category, Game, Mod } from '~~/types/models';
 
-definePageMeta({
-    middleware: 'unbanned-users-only'
-});
-
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
