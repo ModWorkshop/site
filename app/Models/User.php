@@ -111,6 +111,22 @@ use Storage;
  * @method static Builder|User whereInvisible($value)
  * @method static Builder|User wherePrivateProfile($value)
  * @method static Builder|User whereShowTag($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedTag[] $allBlockedTags
+ * @property-read int|null $all_blocked_tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedUser[] $allBlockedUsers
+ * @property-read int|null $all_blocked_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedGame[] $allFollowedGames
+ * @property-read int|null $all_followed_games_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $allFollowedMods
+ * @property-read int|null $all_followed_mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
+ * @property-read int|null $all_followed_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
+ * @property-read int|null $threads_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

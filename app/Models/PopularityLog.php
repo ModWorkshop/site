@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUpdatedAt($value)
  */
 class PopularityLog extends Model
 {

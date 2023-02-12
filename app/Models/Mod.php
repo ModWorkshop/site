@@ -156,6 +156,12 @@ abstract class Visibility {
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|Mod whereInstructsTemplateId($value)
+ * @property float $daily_score
+ * @property float $weekly_score
+ * @property int|null $allowed_storage
+ * @method static Builder|Mod whereAllowedStorage($value)
+ * @method static Builder|Mod whereDailyScore($value)
+ * @method static Builder|Mod whereWeeklyScore($value)
  */
 class Mod extends Model implements SubscribableInterface
 {

@@ -34,6 +34,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $last_online
  * @property string|null $donation_url
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDonationUrl($value)
+ * @property string $default_mods_view
+ * @property string $default_mods_sort
+ * @property bool $home_show_last_games
+ * @property bool $home_show_mods
+ * @property bool $home_show_threads
+ * @property bool $game_show_mods
+ * @property bool $game_show_threads
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDefaultModsSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereDefaultModsView($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereGameShowMods($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereGameShowThreads($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowLastGames($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowMods($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowThreads($value)
  */
 class UserExtra extends Model
 {
