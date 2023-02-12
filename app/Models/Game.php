@@ -69,7 +69,7 @@ class Game extends Model
     
     protected $appends = ['user_data'];
     
-    protected $with = [];
+    protected $with = ['followed'];
 
     protected $casts = [
         'last_date' => 'datetime',
