@@ -60,7 +60,7 @@ class ThreadController extends Controller
             }
 
             if (!isset($user) || !$user->hasPermission('manage-discussions')) {
-                $query->whereRelation('category', function($q) use ($user, $roleIds, $gameRoleIds) {
+                $query->where(fn($q) => $q->whereNull('category_id')->orWhereRelation('category', function($q) use ($user, $roleIds, $gameRoleIds) {
                     $q->where(fn($q) => $q->when(isset($user))->where('threads.user_id', $user?->id)->orWhere('private_threads', false));
                     $q->where(function($q) use($roleIds, $gameRoleIds) {
                         $q->where(
@@ -70,7 +70,7 @@ class ThreadController extends Controller
                         $q->orWhereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds));
                         $q->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds));
                     });
-                });
+                }));
             }
 
             $query->where(function($query) use ($val) {
