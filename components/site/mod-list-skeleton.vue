@@ -12,10 +12,10 @@
                 <th>{{$t('name')}}</th>
                 <th>{{$t('owner')}}</th>
                 <th>{{!!noGame ? $t('category') : $t('game_category')}}</th>
-                <th>{{$t('likes')}}</th>
-                <th>{{$t('downloads')}}</th>
-                <th>{{$t('views')}}</th>
-                <th>{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
+                <th class="text-center">{{$t('likes')}}</th>
+                <th class="text-center">{{$t('downloads')}}</th>
+                <th class="text-center">{{$t('views')}}</th>
+                <th class="text-center">{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
             </tr>
         </thead>
         <tbody>
