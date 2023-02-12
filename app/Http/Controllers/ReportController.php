@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Log;
 
 class ReportController extends Controller
 {
@@ -19,13 +20,14 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request, Game $game)
+    public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
             'all' => 'in:true,false|nullable'
         ]);
 
         return JsonResource::collection(Report::queryGet($val, function($q, $val) use($game) {
+            $q->orderByDesc('created_at');
             if (isset($game)) {
                 $q->where('game_id', $game->id);
             } else {
