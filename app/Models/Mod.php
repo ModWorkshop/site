@@ -172,6 +172,7 @@ class Mod extends Model implements SubscribableInterface
      * @var array
      */
     protected $guarded = ['download_type', 'download_id'];
+    protected $saveToReport = ['desc', 'version', 'short_desc'];
 
     public const DEFAULT_MOD_WITH = [
         'user',

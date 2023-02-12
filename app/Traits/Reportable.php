@@ -7,8 +7,6 @@ use Auth;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Reportable {
-    public $saveToReport = [];
-
     public function reports(): MorphMany
     {
         return $this->morphMany(Report::class, 'reportable');

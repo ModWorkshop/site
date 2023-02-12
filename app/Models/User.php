@@ -123,6 +123,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static $currentGameId = null;
     public static $staticWith;
+    protected $saveToReport = ['bio', 'custom_title'];
 
     public function __construct($attributes = []) {
         if (isset(self::$staticWith)) {
