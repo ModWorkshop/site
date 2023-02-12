@@ -1,12 +1,18 @@
 <template>
     <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.stop="onClick">
-        <a-avatar v-if="!defintion.thumbnail" :src="fromUser?.avatar"/>
-        <template v-else>
-            <mod-thumbnail v-if="defintion.thumbnail.type == 'mod'" style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
+        <a-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar"/>
+        <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
+            <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
         </template>
         <flex class="my-auto" grow>
-            <div>
-                <i18n-t :keypath="`notification_${notification.type}`" tag="span" vclass="whitespace-pre">
+            <component 
+                :is="defintion.component"
+                v-if="defintion.component && notifiable"
+                :notification="notification"
+                :notifiable="notifiable"
+            />
+            <div v-else>
+                <i18n-t :keypath="`notification_${notification.type}`" tag="span" class="whitespace-pre">
                     <template #user>
                         <a-notification-slot type="user" :object="fromUser"/>
                     </template>
@@ -67,18 +73,14 @@ const classes = computed(() => ({
     notification: true,
     flex: true,
     'alt-content-bg': true,
+    'focus': !notif.value.seen,
     'p-4': true,
     'gap-2': true,
     'cursor-pointer': true
 }));
 
 async function clickComment(comment: Comment) {
-    const page = await useGet(`/${comment.commentable_type}s/${comment.commentable_id}/comments/${comment.id}/page`);
-    if (comment.reply_to) {
-        router.push(`/${comment.commentable_type}/${comment.commentable_id}/post/${comment.reply_to}?page=${page}`);
-    } else {
-        router.push(`/${comment.commentable_type}/${comment.commentable_id}?page=${page}`);
-    }
+    router.push(await getCommentLink(comment));
     if (props.ok) {
         props.ok();
     }

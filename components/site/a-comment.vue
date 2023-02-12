@@ -197,11 +197,6 @@ function openDeleteModal() {
     background-color: var(--alt-content-bg-color);
 }
 
-.focus {
-    background-color: #ffd4001a !important;
-    border-left: solid 3px #ffd400;
-}
-
 .comment-body .comment-actions {
     visibility: hidden
 }

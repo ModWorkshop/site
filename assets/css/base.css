@@ -505,3 +505,9 @@ svg:not(:root).icon, svg:not(:host).icon {
     overflow: visible ;
     box-sizing: content-box;
 }
+
+.focus {
+    background-color: #ffd4001a !important;
+    border-left: solid 3px #ffd400;
+    border-radius: var(--border-radius);
+}
