@@ -1,5 +1,5 @@
 <template>
-    <a-input v-model="vm" @update:model-value="value => $emit('update:modelValue', value)">
+    <a-input>
         <a-tabs :class="classes">
             <a-tab name="write" :title="$t('write_tab')">
                 <textarea
@@ -10,11 +10,10 @@
                     :class="{textarea: true, 'input-error': !!err}"
                     :rows="rows" 
                     v-bind="$attrs" 
-                    @input="$emit('update:modelValue', vm)"
                 />
             </a-tab>
             <a-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
-                <a-markdown class="h-100" :text="modelValue"/>
+                <a-markdown class="h-100" :text="vm"/>
             </a-tab>
             <template #buttons>
                 <flex wrap class="my-auto items-center text-xl">
@@ -37,6 +36,9 @@ const props = defineProps({
     modelValue: String,
     rows: { type: [String, Number], default: 12 }
 });
+
+const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
+const vm = useVModel(props, 'modelValue', emit);
 
 const classes = computed(() => ({
     'md-editor': true,
@@ -80,8 +82,6 @@ const toolGroups = [
     }
 ];
 
-const vm = ref(props.modelValue);
-const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
 const err = useWatchValidation(vm, textArea);
 
 onMounted(() => {
