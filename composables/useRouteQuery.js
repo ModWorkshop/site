@@ -3,6 +3,7 @@ import clone from 'rfdc/default';
 //This is only added due to VueUse's one breaking on Nuxt 3 + Adding casting support because typescript is shit sometimes
 
 //Trying to make this work with typescript is just... No
+let queue = {};
 
 export default function(name, defaultValue, cast) {
     const router = useRouter();
@@ -38,14 +39,18 @@ export default function(name, defaultValue, cast) {
             return data;
         },
         set(v) {
-            nextTick(() => {
-                if (cast == 'array') {
-                    if (v.length) {
-                        v = v.join(',');
-                    }
+            if (cast == 'array') {
+                if (v.length) {
+                    v = v.join(',');
                 }
-                router.replace({ query: { ...route.query, [name]: v === defaultValue || v === null ? undefined : v } });
+            }
+
+            queue[name] = (v === defaultValue || v === null) ? undefined : v;
+        
+            nextTick(() => {
+                router.replace({ ...route, query: { ...route.query, ...queue } });
+                nextTick(() => queue = {});
             });
-        },
+        }
     });
 }
