@@ -1,12 +1,12 @@
 <template>
     <flex column :class="classes" :gap="gap">
         <flex v-if="game?.id" gap="0" column>
-            <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px">
-                <h2 v-if="!game.banner" class="ml-2 align-self-end">{{game.name}}</h2>
-            </a-banner>
+            <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px"/>
             <content-block :column="false" wrap class="items-center" gap="4">
-                <a-link-button class="text-3xl" :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
-                <flex wrap gap="4">
+                <h2 class="my-auto">
+                    <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
+                </h2>
+                <flex wrap gap="4" class="mt-1">
                     <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
                     <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
                     <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
@@ -20,13 +20,13 @@
                         <span>
                             <i18n-t keypath="expires_t">
                                 <template #time>
-                                    <time-ago :time="store.gameBan.case.expire_date"/>
+                                    <time-ago :time="store.gameBan.expire_date"/>
                                 </template>
                             </i18n-t>
                         </span>
                     </flex>
                 </flex>
-                <flex class="ml-auto" gap="4">
+                <flex class="ml-auto mt-1" gap="4">
                     <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
                     <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
                     <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
