@@ -79,7 +79,8 @@
 import { remove } from '@vue/shared';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Comment, Game, User } from '~~/types/models';
+import { Comment, Game } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
 const YesNoModal = useYesNoModal();
 
 const props = defineProps<{
@@ -91,13 +92,15 @@ const props = defineProps<{
     canDeleteAll: boolean,
     isReply?: boolean,
     commentable: { id: number, game?: Game },
-    getSpecialTag: (comment: Comment) => string,
-    currentFocus: Comment,
+    getSpecialTag: (comment: Comment) => string|undefined,
+    currentFocus?: Comment,
     fetchReplies?: boolean
 }>();
 
 const { t } = useI18n();
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
+const focusComment = useRouteQuery('comment');
+
 const content = toRef(props.comment, 'content');
 
 const page = ref(1);
@@ -107,10 +110,7 @@ let { data: replies, refresh: loadReplies } = await useFetchMany<Comment>(() => 
 });
 
 if (!props.fetchReplies) {    
-    replies = ref({
-        data: props.comment.last_replies,
-        meta: null
-    });
+    replies = ref(new Paginator<Comment>(props.comment.last_replies));
 }
 
 content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
@@ -134,18 +134,17 @@ const { user, hasPermission } = useStore();
 
 const areActionsVisible = ref(false);
 const canEdit = computed(() => user && (hasPermission('create-discussions', props.commentable.game) && user.id === props.comment.user_id) || props.canEditAll);
-// const canReport = computed(() => false);
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
 const classes = computed(() => ({
     comment: true,
     reply: props.isReply,
-    focus: props.currentFocus && props.currentFocus.id == props.comment.id
+    focus: focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id)
 }));
 
 const commentPage = computed(() => {
     if (props.comment.reply_to) {
-        return `${props.pageUrl}/post/${props.comment.reply_to}`;
+        return `${props.pageUrl}/post/${props.comment.reply_to}?comment=${props.comment.id}`;
     } else {
         return `${props.pageUrl}/post/${props.comment.id}`;
     }
@@ -172,8 +171,7 @@ async function togglePinnedState() {
 
 //Deletes a reply in the comment
 function deleteComment(comment: Comment, isReply: boolean) {
-    const replies = props.comment.last_replies;
-    remove(replies, comment);
+    remove(replies.value!.data, comment);
     emit('delete', comment, isReply);
 }
 
