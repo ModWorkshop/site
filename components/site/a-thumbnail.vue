@@ -33,7 +33,7 @@ const compSrc = computed(() => {
         } else if (config.debug_legacy_images) {
             return `https://modworkshop.net/mydownloads/previews/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
         } else {
-            return `${config.apiUrl}/storage/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
+            return `${config.storageUrl}/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
         }
     }
 });
