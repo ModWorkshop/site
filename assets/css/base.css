@@ -492,8 +492,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 }
 
 .float-bg {
-    backdrop-filter: blur(20px);
-    background: #8989891c;
+    background: var(--alt-content-bg-color);
 }
 
 .icon {
