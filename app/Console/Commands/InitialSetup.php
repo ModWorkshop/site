@@ -50,6 +50,8 @@ class InitialSetup extends Command
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make($password),
         ]);
+        DB::select("SELECT SETVAL(pg_get_serial_sequence('users', 'id'), (SELECT MAX(id) FROM users));");
+
         $this->info('Created sueper-admin account!');
         $this->info('The site is ready to use! Have fun :)');
         $this->info('Run it via php artisan serve.');
