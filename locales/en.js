@@ -207,6 +207,7 @@ view_all_games: "View all Games",
 last_updated_games: "Last Updated Games",
 delete_comment_desc: "This will delete the comment",
 no_threads_found: "No Threads Found :(",
+return_to_comments: 'Return to Comments',
 
 //Mods//
 download: "Download",
@@ -300,6 +301,8 @@ notify_owner_members: "Notify owner and members",
 expires_t: "Expires: {time}",
 member_level_collaborator: "Collaborator",
 member_level_maintainer: "Maintainer",
+member_level: 'Level',
+member_accepted: 'Accepted', // Did the user accept the membership request
 member_level_viewer: "Viewer",
 member_level_contributor: "Contributor",
 allowed_storage: 'Allowed Storage (MiB)',
@@ -412,6 +415,7 @@ Here you can generate your own API key, do note that generating a new one will v
 api_access_checkbox: 'I read the terms of service outlined {here}.',
 generate_api_key: 'Generate API Key',
 your_api_key: 'Your API Key',
+no_users_found: "No Users Found!",
 
 //Games//
 game_settings: 'Game Settings',
@@ -438,6 +442,7 @@ notification_comment_mention: "You were mentioned in a comment posted in {contex
 notification_follow_mod_new_version: "{user} released a new version for {notifiable}: {extra}",
 notification_mod_suspended: "{notifiable} has been suspended. See reason in the mod page.",
 notification_mod_unsuspended: "{notifiable} has been unsuspended.",
+notification_warning: "You've received a warning!",
 mark_as_read: "Mark as Read",
 
 //Admin//
