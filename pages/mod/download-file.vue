@@ -7,7 +7,7 @@
             <flex>
                 <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
                 <a ref="download" download :href="downloadUrl">
-                    <a-button icon="download">{{$t('downloading_file_force')}}</a-button>
+                    <a-button icon="mdi:download">{{$t('downloading_file_force')}}</a-button>
                 </a>
                 <a-button 
                     v-if="mod.instructs_template || mod.instructions" 

@@ -18,7 +18,7 @@
             </flex>
             <div class="float-right">
                 <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a-button v-if="canReply" class="cursor-pointer" title="Reply" icon="reply" size="sm" @click="$emit('reply', comment)"/>
+                    <a-button v-if="canReply" class="cursor-pointer" title="Reply" icon="mdi:reply" size="sm" @click="$emit('reply', comment)"/>
                     <a-button
                         v-if="!isReply"
                         class="cursor-pointer"
@@ -28,7 +28,7 @@
                         @click="subscribe"
                     />
                     <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
-                        <a-button class="cursor-pointer" icon="ellipsis-h" size="sm"/>
+                        <a-button class="cursor-pointer" icon="mdi:dots-vertical" size="sm"/>
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>

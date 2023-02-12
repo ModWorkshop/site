@@ -18,7 +18,7 @@
                 </template>
             </VDropdown>
             <VDropdown v-if="!sideFilters">
-                <a-button icon="ellipsis"/>
+                <a-button icon="mdi:dots-vertical"/>
                 <template #popper>
                     <flex column>
                         <button-group v-model:selected="sortBy" column>

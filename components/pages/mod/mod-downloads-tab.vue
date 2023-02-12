@@ -26,12 +26,12 @@
                     <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
                 </flex>
                 <div>
-                    <a-button v-if="file.download_type == 'file' && (file as File).size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`" icon="download">
+                    <a-button v-if="file.download_type == 'file' && (file as File).size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`" icon="mdi:download">
                         {{$t('download')}}
                         <small class="mt-2 text-center block">{{(file as File).type}} - {{friendlySize((file as File).size)}}</small>
                     </a-button>
                     <VDropdown v-else>
-                        <a-button class="large-button w-full text-center" icon="download">
+                        <a-button class="large-button w-full text-center" icon="mdi:download">
                             {{$t('show_download_link')}}
                         </a-button>
                         <template #popper>

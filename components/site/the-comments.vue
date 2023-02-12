@@ -69,8 +69,8 @@
                         </flex>
                     </div>
                     <flex class="text-right p-2">
-                        <a-button icon="comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
-                        <a-button icon="times" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
+                        <a-button icon="mdi:comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
+                        <a-button icon="mdi:close-thick" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
                     </flex>
                 </flex>
             </div>
