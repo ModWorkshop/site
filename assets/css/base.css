@@ -318,6 +318,10 @@ a {
     color: var(--danger-color);
 }
 
+.text-warning {
+    color: var(--warning-color);
+}
+
 .input-error {
     outline-style: groove !important;
     outline-color: var(--danger-color) !important;
