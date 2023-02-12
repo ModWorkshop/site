@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: true, thumbnail_prefix: '' }
+		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: false }
 	},
 
 	nitro: {
