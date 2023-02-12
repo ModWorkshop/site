@@ -8,8 +8,17 @@ import type { RouterOptions } from '@nuxt/schema';
  * utterly disgusting to see [id].vue or [id].jsx, why did NextJS pupularize this shit?
  */
 export default <RouterOptions> {
-    routes: (routes) => [
-        ...routes,
+    routes: () => [
+        {
+            name: "index",
+            path: "/",
+            component: () => import('~/pages/index.vue')
+        },
+        {
+            name: "games",
+            path: "/games",
+            component: () => import('~/pages/games.vue')
+        },
         {
             name: "view-mod",
             path: "/mod/:modId",
@@ -58,8 +67,13 @@ export default <RouterOptions> {
             component: () => import('~/pages/user.vue')
         },
         {
-            name: "specific-user-settings",
-            path: "/user/:userId/edit",
+            name: "me",
+            path: "/me",
+            component: () => import('~/pages/me.vue')
+        },
+        {
+            name: "user-settings",
+            path: "/user-settings",
             component: () => import('~/pages/user-settings.vue'),
             children: [
                 {
@@ -83,11 +97,75 @@ export default <RouterOptions> {
                     component: () => import('~/pages/user-settings/accounts.vue')
                 },
                 {
-                    name: "api",
+                    name: "user-api",
                     path: "api",
                     component: () => import('~/pages/user-settings/api.vue')
                 },
             ]
+        },
+        {
+            name: "specific-user-settings",
+            path: "/user/:userId/edit",
+            component: () => import('~/pages/user-settings.vue'),
+            children: [
+                {
+                    name: "specific-edit-user",
+                    path: "",
+                    component: () => import('~/pages/user-settings/index.vue')
+                },
+                {
+                    name: "specific-edit-user-content",
+                    path: "content",
+                    component: () => import('~/pages/user-settings/content.vue')
+                },
+                {
+                    name: "specific-edit-user-profile",
+                    path: "profile",
+                    component: () => import('~/pages/user-settings/profile.vue')
+                },
+                {
+                    name: "specific-edit-user-accounts",
+                    path: "accounts",
+                    component: () => import('~/pages/user-settings/accounts.vue')
+                },
+                {
+                    name: "specific-user-api",
+                    path: "api",
+                    component: () => import('~/pages/user-settings/api.vue')
+                },
+            ]
+        },
+        {
+            name: "search",
+            path: "/search",
+            component: () => import('~/pages/search.vue'),
+            children: [
+                {
+                    name: "search-mods",
+                    path: "mods",
+                    component: () => import('~/pages/search/mods.vue')
+                },
+                {
+                    name: "search-threads",
+                    path: "threads",
+                    component: () => import('~/pages/search/threads.vue')
+                },
+                {
+                    name: "search-users",
+                    path: "users",
+                    component: () => import('~/pages/search/users.vue')
+                },
+            ]
+        },
+        {
+            name: "login",
+            path: "/login",
+            component: () => import('~~/pages/login.vue')
+        },
+        {
+            name: "register",
+            path: "/register",
+            component: () => import('~~/pages/register.vue')
         },
         {
             name: "login-redirect",
@@ -115,14 +193,29 @@ export default <RouterOptions> {
             component: () => import('~~/pages/reset-password.vue')
         },
         {
+            name: "notifications",
+            path: "/notifications",
+            component: () => import('~~/pages/notifications.vue')
+        },
+        {
             name: "edit-thread",
             path: "/forum/post",
             component: () => import('~/pages/edit-thread.vue')
         },
         {
+            name: "upload",
+            path: "/upload",
+            component: () => import('~/pages/upload.vue')
+        },
+        {
             name: "game-upload",
             path: "/g/:gameId/upload",
             component: () => import('~/pages/upload.vue')
+        },
+        {
+            name: "forum",
+            path: "/forum",
+            component: () => import('~/pages/forum.vue')
         },
         {
             name: "game-forum",
@@ -155,14 +248,29 @@ export default <RouterOptions> {
             component: () => import('~/pages/document.vue')
         },
         {
+            name: "documents",
+            path: "/docs",
+            component: () => import('~/pages/docs.vue')
+        },
+        {
             name: "game-documents",
             path: "/g/:gameId/docs",
             component: () => import('~/pages/docs.vue')
         },
         {
+            name: "cookies",
+            path: "/cookies",
+            component: () => import('~/pages/cookies.vue')
+        },
+        {
             name: "game-document",
             path: "/g/:gameId/docs/:documentId",
             component: () => import('~/pages/document.vue')
+        },
+        {
+            name: "support",
+            path: "/support",
+            component: () => import('~/pages/support.vue')
         },
         {
             name: "admin-new-game",
@@ -293,6 +401,11 @@ export default <RouterOptions> {
             path: "/admin",
             component: () => import('~/pages/admin.vue'),
             children: [
+                {
+                    name: "admin-home-page",
+                    path: "",
+                    component: () => import('~/pages/admin/home.vue')
+                },
                 {
                     name: "admin-settings",
                     path: "settings",
