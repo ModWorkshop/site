@@ -61,7 +61,7 @@ class FollowedGameController extends Controller
 
         $userId = $user->id;
         if (FollowedGame::where('user_id', $userId)->where('game_id', $val['game_id'])->exists()) {
-            abort(409);
+            abort(409, 'Already following game');
         }
 
         FollowedGame::create(['game_id' => $val['game_id'], 'user_id' => $userId]);
