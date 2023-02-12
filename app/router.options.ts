@@ -385,6 +385,11 @@ export default <RouterOptions> {
                     component: () => import('~/pages/admin/bans.vue')
                 },
                 {
+                    name: "admin-game-edit-ban",
+                    path: "bans/:banId",
+                    component: () => import('~/pages/admin/edit-ban.vue')
+                },
+                {
                     name: "admin-game-cases",
                     path: "cases",
                     component: () => import('~/pages/admin/cases.vue')
@@ -460,6 +465,11 @@ export default <RouterOptions> {
                     name: "admin-bans",
                     path: "bans",
                     component: () => import('~/pages/admin/bans.vue')
+                },
+                {
+                    name: "admin-edit-ban",
+                    path: "bans/:banId",
+                    component: () => import('~/pages/admin/edit-ban.vue')
                 },
                 {
                     name: "admin-cases",

@@ -481,3 +481,19 @@ export interface Supporter {
     updated_at: string;
     user: User;
 }
+
+export interface Report {
+    id: number;
+    name: string | null;
+    data: Array<any> | any;
+    user_id: number;
+    game_id: number | null;
+    reason: string;
+    archived: boolean;
+    reportable_type: string;
+    reportable_id: number;
+    created_at: string | null;
+    updated_at: string | null;
+    user?: User | null;
+    reportable?: any | null;
+}
