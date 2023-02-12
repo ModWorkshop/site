@@ -69,4 +69,11 @@ class UserCase extends Model
     {
         return $this->belongsTo(User::class)->without('ban');
     }
+
+    protected static function booted()
+    {
+        self::deleting(function(UserCase $userCase) {
+            Notification::deleteRelated($userCase);
+        });
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Ban;
 use App\Models\Game;
+use App\Models\Notification;
+use App\Models\User;
 use App\Models\UserCase;
 use Arr;
 use Carbon\Carbon;
@@ -53,7 +55,7 @@ class UserCaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Game $game)
+    public function store(Request $request, Game $game=null)
     {
         $val = $request->validate([
             'user_id' => 'int|min:0|nullable|exists:users,id',
@@ -61,11 +63,21 @@ class UserCaseController extends Controller
             'expire_date' => 'date|required|nullable|after:now'
         ]);
 
-        $val['game_id'] = $game->id;
+        if (isset($game)) {
+            $val['game_id'] = $game->id;
+        }
         $val['mod_user_id'] = $this->userId();
         $val['warning'] = true;
 
-        UserCase::create($val);
+        $user = User::find($val['user_id']);
+        $case = UserCase::create($val);
+
+        Notification::send(
+            notifiable: $case,
+            user: $user,
+            hideSender: true,
+            type: 'warning'
+        );
     }
 
     /**
@@ -90,10 +102,8 @@ class UserCaseController extends Controller
     {
         $val = $request->validate([
             'reason' => 'string|min:3|max:1000',
-            'pardon_reason' => 'string|nullable|max:1000',
             'expire_date' => 'date|nullable',
-            'pardoned' => 'boolean',
-            'can_appeal' => 'boolean|nullable'
+            'active' => 'boolean',
         ]);
 
         $canAppeal = Arr::pull($val, 'can_appeal');

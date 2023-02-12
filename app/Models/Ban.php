@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
@@ -44,7 +45,7 @@ class Ban extends Model
 
     protected $guarded = [];
     
-    protected $with = ['case'];
+    protected $with = ['case', 'modUser'];
 
     protected $casts = [
         'expire_date' => 'datetime',
@@ -62,5 +63,17 @@ class Ban extends Model
     public function case() : BelongsTo
     {
         return $this->belongsTo(UserCase::class, 'case_id')->without(['user', 'ban']);
+    }
+
+    public function modUser()
+    {
+        return $this->belongsTo(User::class)->without('ban');
+    }
+    
+    public function deactivate()
+    {
+        $this->update([
+            'active' => false
+        ]);
     }
 }

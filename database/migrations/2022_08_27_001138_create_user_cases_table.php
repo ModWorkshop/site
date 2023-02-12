@@ -29,8 +29,7 @@ return new class extends Migration
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
 
-            $table->string('pardon_reason')->nullable();
-            $table->boolean('pardoned')->default(false);
+            $table->boolean('active')->default(true);
 
             $table->index('user_id');
             $table->index('mod_user_id');

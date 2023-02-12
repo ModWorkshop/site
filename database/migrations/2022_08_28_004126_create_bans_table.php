@@ -24,6 +24,14 @@ return new class extends Migration
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
 
+            $table->timestamp('expire_date')->nullable();
+            $table->text('reason');
+
+            $table->bigInteger('mod_user_id')->unsigned()->nullable();
+            $table->foreign('mod_user_id')->references('id')->on('users')->nullOnDelete();
+
+            $table->boolean('active')->default(true);
+
             $table->index('user_id');
             $table->index('game_id');
             $table->index('case_id');

@@ -354,12 +354,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function ban() : HasOne
     {
-        return $this->hasOne(Ban::class)->whereNull('game_id');
+        return $this->hasOne(Ban::class)->where('active', true)->whereNull('game_id');
     }
 
     public function gameBan(): HasOne
     {
-        return $this->hasOne(Ban::class)->where('game_id', self::$currentGameId);
+        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', self::$currentGameId);
     }
 
     public function gameBans(): HasMany
@@ -525,7 +525,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if (isset(self::$currentGameId)) {
             $ban = $this->gameBan;
             if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->lessThan($ban->case->expire_date))) {
+                if (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)) {
                     return $ban;
                 }
             }
@@ -538,8 +538,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
             $ban = $this->ban;
-            if (isset($ban) && isset($ban->case)) {
-                if (!$ban->case->pardoned && (!isset($ban->case->expire_date) || Carbon::now()->lessThan($ban->case->expire_date))) {
+            if (isset($ban)) {
+                if ($ban->active && (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
                     return $ban;
                 }
             }

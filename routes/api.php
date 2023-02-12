@@ -34,6 +34,8 @@ use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
+use App\Models\Mod;
+use App\Models\Report;
 use App\Services\APIService;
 use Illuminate\Support\Facades\Route;
 
@@ -154,8 +156,8 @@ Route::middleware('auth:sanctum')->group(function() {
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
 gameResource('bans', BanController::class, ['selfOnly' => ['index', 'store']]);
-gameResource('user-cases', UserCaseController::class);
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModController::class, 'report']);
+gameResource('user-cases', UserCaseController::class, ['selfOnly' => ['index', 'store']]);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
     Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);
