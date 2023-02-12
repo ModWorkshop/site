@@ -92,6 +92,9 @@ const typeDefintions = {
             return null;
         }
     }),
+    warning: () => ({
+        component: resolveComponent('AWarningNotification')
+    }),
     follow_mod_new_version: () => ({
         extra: {
             object: data.value.version
