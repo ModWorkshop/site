@@ -7,7 +7,7 @@
         <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
-                <flex v-show="!side || menuOpen" wrap class="nav-menu" :column="side" role="tablist">
+                <flex v-show="!side || menuOpen" wrap class="nav-menu" :style="{flex: side ? 1 : undefined}" :column="side" role="tablist">
                     <flex wrap grow :column="side">
                         <a-tab-link 
                             v-for="tab of tabs"
@@ -24,7 +24,7 @@
                 </flex>
             </Transition>
             <slot name="pre-panels"/>
-            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0, 'flex-grow': true}">
+            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: side ? 4 : undefined}">
                 <slot/>
             </div>
         </flex>
