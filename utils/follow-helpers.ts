@@ -1,37 +1,40 @@
 import { Game } from './../types/models';
 import { Mod } from '~~/types/models';
 import { User } from '../types/models';
-export async function setFollowUser(user: User, notify?: boolean) {
+export async function setFollowUser(user: User, notify?: boolean, status?: boolean) {
     try {
-        if (!user.followed) {
+        status ??= !user.followed;
+        if (status) {
             await usePost('followed-users', { user_id: user.id, notify });
             user.followed = { notify: false };
         } else {
             await useDelete(`followed-users/${user.id}`);
-            user.followed = null;
+            user.followed = undefined;
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function setFollowMod(mod: Mod, notify?: boolean) {
+export async function setFollowMod(mod: Mod, notify?: boolean, status?: boolean) {
     try {
-        if (!mod.followed) {
+        status ??= !mod.followed;
+        if (status) {
             await usePost('followed-mods', { mod_id: mod.id, notify });
             mod.followed = { notify: false };
         } else {
             await useDelete(`followed-mods/${mod.id}`);
-            mod.followed = null;
+            mod.followed = undefined;
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function setFollowGame(game: Game) {
+export async function setFollowGame(game: Game, status?: boolean) {
     try {
-        if (!game.followed) {
+        status ??= game.followed;
+        if (status) {
             await usePost('followed-games', { game_id: game.id });
             game.followed = true;
         } else {

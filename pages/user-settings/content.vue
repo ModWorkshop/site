@@ -21,7 +21,7 @@
                     <game-thumbnail :src="item.thumbnail" style="height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="remove" @click="unfollowGame(item)">{{$t('unfollow')}}</a-button>
+                    <a-button icon="mdi:remove" @click.prevent="unfollowGame(item)">{{$t('unfollow')}}</a-button>
                 </template>
             </a-list>
             <h2>{{$t('followed_users')}}</h2>
@@ -29,7 +29,7 @@
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <a-button icon="remove" class="ml-auto my-auto" @click="unfollowUser(item)">{{$t('unfollow')}}</a-button>
+                            <a-button icon="mdi:remove" class="ml-auto my-auto" @click.prevent="unfollowUser(item)">{{$t('unfollow')}}</a-button>
                         </template>
                     </a-user>
                 </template>
@@ -40,7 +40,7 @@
                     <mod-thumbnail :thumbnail="item.thumbnail" style="height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="remove" @click="unfollowMod(item)">{{$t('unfollow')}}</a-button>
+                    <a-button icon="mdi:remove" @click.prevent="unfollowMod(item)">{{$t('unfollow')}}</a-button>
                 </template>
             </a-list>
         </a-tab>
@@ -53,7 +53,7 @@
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <a-button icon="remove" class="ml-auto my-auto">{{$t('unblock')}}</a-button>
+                            <a-button icon="mdi:remove" class="ml-auto my-auto">{{$t('unblock')}}</a-button>
                         </template>
                     </a-user>
                 </template>
@@ -64,7 +64,7 @@
                     <a-button @click="showBlockTag = true">{{$t('block')}}</a-button>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="remove" @click="unblockTag(item)">{{$t('unblock')}}</a-button>
+                    <a-button icon="mdi:remove" @click.prevent="unblockTag(item)">{{$t('unblock')}}</a-button>
                 </template>
             </a-list>
         </a-tab>
@@ -114,34 +114,40 @@ const sortOptions = [
 ];
 
 async function unfollowUser(user: User) {
-    await setFollowUser(user, false);
-    remove(followedUsers.value.data, user);
+    await setFollowUser(user, false, false);
+    remove(followedUsers.value!.data, user);
 }
 
 async function unfollowMod(mod: Mod) {
-    await setFollowMod(mod, false);
-    remove(followedMods.value.data, mod);
+    await setFollowMod(mod, false, false);
+    remove(followedMods.value!.data, mod);
 }
 
 async function unfollowGame(game: Game) {
-    await setFollowGame(game);
-    remove(followedGames.value.data, game);
+    await setFollowGame(game, false);
+    remove(followedGames.value!.data, game);
 }
 
 async function unblockTag(tag) {
     try {
         await useDelete(`blocked-tags/${tag.tag_id || tag.id}`);
-        remove(blockedTags.value.data, tag);
+        remove(blockedTags.value!.data, tag);
     } catch (error) {
         console.log(error);
     }
 }
 
 async function submitBlockTag(ok, err) {
+    if (!blockTag.value) {
+        return;
+    }
+
     try {
         await usePost('blocked-tags', { tag_id: blockTag.value.id });
+        if (blockedTags.value) {
         blockedTags.value.data.push(blockTag.value);
-        blockTag.value = null;
+        }
+        blockTag.value = undefined;
         ok();
     } catch (error) {
         err(error);
