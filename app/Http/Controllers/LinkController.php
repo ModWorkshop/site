@@ -66,6 +66,7 @@ class LinkController extends Controller
             'version' => 'string|nullable|max:255'
         ]);
 
+        $val['label'] ??= '';
         $val['desc'] ??= '';
         $val['version'] ??= '';
 
@@ -78,7 +79,7 @@ class LinkController extends Controller
             $link->update($val);
         } else {
             $val['user_id'] = $user->id;
-            $mod->links()->create($val);
+            $link = $mod->links()->create($val);
             $mod->bump(false);
             $mod->refresh();
             $mod->calculateFileStatus();
