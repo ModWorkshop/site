@@ -8,9 +8,10 @@ import { Ref } from 'vue';
 export default function(
     refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<void>, 
     watchSource: any,
-    loading: Ref<boolean>,
     onChange: ((val: any, oldVal: any) => void)|null = null
 ) {
+    const loading = ref(false);
+
     const { start: startPlanLoad } = useTimeoutFn(async () => {
         await refresh();
         loading.value = false;
@@ -28,9 +29,15 @@ export default function(
         });
     }
 
-    delete watchSource['page'];
+    const watchStuff: any[] = [];
 
-    watch(Object.values(watchSource), async (val, oldVal) => {
+    for (const [key, value] of Object.entries(watchSource)) {
+        if (key != 'page' && typeof value == 'object') {
+            watchStuff.push(value);
+        }
+    }
+
+    watch(watchStuff, async (val, oldVal) => {
         if (page) {
             page.value = 1;
         }
@@ -38,4 +45,5 @@ export default function(
         onChange?.(val, oldVal);
     });
     
+    return loading;
 }

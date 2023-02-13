@@ -26,18 +26,13 @@ useNeedsPermission('manage-users');
 
 const user = ref(null);
 const duration = ref(null);
-const loading = ref(false);
 const page = useRouteQuery('page', 1);
 
 const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
 const { t } = useI18n();
 
-const { data: supporters, refresh } = await useFetchMany<Supporter>('supporters', {
-    params: { page }
-});
-
-useHandleParam(refresh, { page }, loading);
+const { data: supporters, loading } = await useWatchedFetchMany<Supporter>('supporters', { page });
 
 async function upgrade() {
     try {

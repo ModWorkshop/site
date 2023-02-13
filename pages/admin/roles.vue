@@ -49,14 +49,10 @@ const { user, hasPermission } = useStore();
 
 const page = useRouteQuery('page', 1);
 const query = useRouteQuery('query');
-const loading = ref(false);
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 
-const { data: roles, refresh } = await useFetchMany<Role>(url.value, {
-    params: reactive({ page, query })
-});
+const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
 
-useHandleParam(refresh, { page, query }, loading);
 const rolesNoMember = computed(() => gameId ? roles.value.data : roles.value.data.filter(role => role.id !== 1));
 
 const draggedItem = ref(null);

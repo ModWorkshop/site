@@ -5,10 +5,20 @@
         </a-pagination>
 
         <a-loading v-if="loading" class="m-auto"/>
-        <flex column :gap="gap" padding="3">
+        <flex column :gap="gap" class="px-4 py-1">
             <slot v-if="!loading" name="items" :items="items">
                 <template v-if="items?.data.length">
-                    <slot v-for="item of items.data" :key="item.id" name="item" :item="item"/>
+                    <slot v-for="item of items.data" :key="item.id" name="item" :item="item">
+                        <a-list-item :item="item" :text-by="textBy" :to="itemLink">
+                            <slot name="item-name"/>
+                            <template #before-item>
+                                <slot name="before-item" :item="item"/>
+                            </template>
+                            <template #item-buttons>
+                                <slot name="item-buttons" :item="item"/>
+                            </template>
+                        </a-list-item>
+                    </slot>
                 </template>
                 <span v-else class="p-4">
                     {{$t('nothing_found')}}
@@ -29,7 +39,9 @@ const props = defineProps<{
     gap?: number,
     page?: number,
     items: Paginator<any>|null,
-    loading?: boolean
+    loading?: boolean,
+    itemLink?: (item?) => string,
+    textBy?: string,
 }>();
 
 const emit = defineEmits<{
@@ -40,37 +52,3 @@ const total = computed(() => props.items?.meta?.total ?? 0);
 const perPage = computed(() => props.items?.meta?.per_page ?? 1);
 const vPage = useVModel(props, 'page', emit);
 </script>
-
-<style>
-
-.fade-x-enter,
-.fade-x-leave-to {
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.fade-x-enter-active,
-.fade-x-leave-to {
-  transition: opacity 0.3s, transform 0.5s;
-}
-.roll-in-left-enter,
-.roll-in-left-leave-to{
-    transform: translateX(-500px) rotate(-200deg);
-    opacity: 0;
-}
-
-.roll-in-left-enter-active,
-.roll-in-left-leave-active{
-    transition:  transform 0.3s, opacity 0.5s ;
-}
-.rotate-enter,
-.rotate-leave-to{
-    transform: rotate(-360deg);
-    opacity: 0;
-}
-
-.rotate-enter-active,
-.rotate-leave-active{
-    transition:  transform 0.7s, opacity 0.5s ;
-}
-</style>

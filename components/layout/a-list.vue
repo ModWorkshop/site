@@ -8,7 +8,7 @@
             <slot name="buttons" :items="items"/>
         </flex>
 
-        <a-pagination v-model="page" :total="items?.meta?.total" :per-page="limit" @update="refresh">
+        <a-pagination v-model="page" :total="items?.meta?.total" :per-page="limit">
             <slot name="pagination" :items="items"/>
         </a-pagination>
 
@@ -17,15 +17,7 @@
             <slot v-else name="items" :items="items">
                 <template v-if="items?.data.length">
                     <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
-                        <NuxtLink class="list-button flex gap-2" :to="itemLink ? itemLink(item) : undefined">
-                            <slot name="before-item" :item="item" :items="items"/>
-                            <slot :item="item">
-                                <span class="my-auto">{{item[textBy]}}</span>
-                            </slot>
-                            <flex class="ml-auto my-auto">
-                                <slot name="item-buttons" :item="item" :items="items"/>
-                            </flex>
-                        </NuxtLink>
+                        <a-list-item :item="item" :text-by="textBy" :to="itemLink"/>
                     </slot>
                 </template>
                 <span v-else class="p-4">
@@ -34,8 +26,8 @@
             </slot>
         </flex>
 
-        <a-pagination v-model="page" :total="items?.meta.total" :per-page="limit" @update="refresh">
-            <slot name="pagination"/>
+        <a-pagination v-model="page" :total="items?.meta.total" :per-page="limit">
+            <slot name="pagination" :items="items"/>
         </a-pagination>
     </flex>
 </template>
@@ -50,10 +42,9 @@ const props = withDefaults(defineProps<{
     limit?: number|string,
     query?: boolean,
     params?: object,
-    itemLink?: (item) => string,
+    itemLink?: (item?) => string,
 }>(), {
     search: true,
-    textBy: 'name',
     gap: 1,
     limit: 50,
     query: false
@@ -61,34 +52,12 @@ const props = withDefaults(defineProps<{
 
 const page = props.query ? useRouteQuery('page', 1) : ref(1);
 const query = props.query ? useRouteQuery('query', '') : ref('');
-const loading = ref(true);
 
-const params = reactive(Object.assign(props.params || {}, {
+const { data: items, loading, error } = await useWatchedFetchMany(props.url, Object.assign(props.params || {}, {
     page: page,
     query: query,
     limit: props.limit,
 }));
 
-const { data: items, refresh, error } = await useFetchMany(props.url, { params });
-
 useHandleError(error);
-
-let { start: planLoad } = useTimeoutFn(async () => {
-    await refresh();
-    loading.value = false;
-}, 250, { immediate: false });
-
-watch([
-    page,
-    query,
-    () => props.limit
-], async (val, oldVal) => {
-    if (val[0] !== oldVal[0]) {
-        page.value = 1;
-    }
-    loading.value = true;
-    planLoad();
-});
-
-loading.value = false;
 </script>

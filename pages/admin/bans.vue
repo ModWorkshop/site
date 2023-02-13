@@ -44,11 +44,9 @@ const user = useRouteQuery('filter-user', null, 'number');
 const page = useRouteQuery('page', 1, 'number');
 
 const banDuration = ref(null);
-const loading = ref(false);
 const reason = ref('');
 
-const { data: bans, refresh } = await useFetchMany<Ban>(url.value, { params: reactive({ page, user_id: user, limit: 20 }) });
-useHandleParam(refresh, { page, user_id: user, limit: 20 }, loading);
+const { data: bans, loading } = await useWatchedFetchMany<Ban>(url.value, { page, user_id: user, limit: 20 });
 
 async function ban() {
     try {

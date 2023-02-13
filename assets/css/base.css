@@ -300,6 +300,8 @@ a {
 }
 
 .list-button {
+    display: flex;
+    gap: 4px;
     color: var(--text-color);
     border-radius: var(--border-radius);
     background-color: var(--alt-content-bg-color);

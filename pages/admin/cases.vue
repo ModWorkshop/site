@@ -41,10 +41,7 @@ const page = useRouteQuery('page', 1, 'number');
 
 const showErrorToast = useQuickErrorToast();
 
-const loading = ref(false);
-const params = { page, user_id: user, limit: 5 };
-const { data: cases, refresh } = await useFetchMany<UserCase>(url.value, { params: reactive(params) });
-useHandleParam(refresh, params, loading);
+const { data: cases, loading } = await useWatchedFetchMany<UserCase>(url.value, { page, user_id: user, limit: 5 });
 
 const reason = ref('');
 const warnDuration = ref();
