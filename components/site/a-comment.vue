@@ -27,15 +27,14 @@
                         :icon="comment.subscribed ? 'mdi:bell-off' : 'mdi:bell'"
                         @click="subscribe"
                     />
+                    <a-report v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`${url}/${comment.id}/reports`"/>
                     <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
                         <a-button class="cursor-pointer" icon="mdi:dots-vertical" size="sm"/>
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
-                            <a-report resource-name="comment" :url="`${url}/${comment.id}/reports`">
-                                <a-dropdown-item>{{$t('report')}}</a-dropdown-item>
-                            </a-report>
+                            <a-dropdown-item @click="showReportModal = true">{{$t('report')}}</a-dropdown-item>
                         </template>
                     </VDropdown>
                 </flex>
@@ -102,6 +101,8 @@ const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(pro
 const focusComment = useRouteQuery('comment');
 
 const content = toRef(props.comment, 'content');
+
+const showReportModal = ref(false);
 
 const page = ref(1);
 let { data: replies, refresh: loadReplies } = await useFetchMany<Comment>(() => props.fetchReplies ? `${props.url}/${props.comment.id}/replies` : '', {
