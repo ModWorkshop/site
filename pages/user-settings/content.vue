@@ -58,10 +58,13 @@
                     </a-user>
                 </template>
             </a-items>
-            <h2>{{$t('blocked_tags')}}</h2>
+            <flex>
+                <h2>{{$t('blocked_tags')}}</h2>
+                <a-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</a-button>
+            </flex>
             <a-items :items="blockedTags">
-                <template #buttons>
-                    <a-button @click="showBlockTag = true">{{$t('block')}}</a-button>
+                <template #item-name="{ item }">
+                    <a-tag>{{ item.name }}</a-tag>
                 </template>
                 <template #item-buttons="{ item }">
                     <a-button icon="mdi:remove" @click.prevent="unblockTag(item)">{{$t('unblock')}}</a-button>
@@ -137,7 +140,7 @@ async function unblockTag(tag) {
     }
 }
 
-async function submitBlockTag(ok, err) {
+async function submitBlockTag(err) {
     if (!blockTag.value) {
         return;
     }
@@ -148,7 +151,7 @@ async function submitBlockTag(ok, err) {
             blockedTags.value.data.push(blockTag.value);
         }
         blockTag.value = undefined;
-        ok();
+        showBlockTag.value = false;
     } catch (error) {
         err(error);
     }
