@@ -49,11 +49,11 @@
             <a-modal-form v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
                 <a-select v-model="blockTag" url="tags" :value-by="false"/>
             </a-modal-form>
-            <a-items :items="blockedUsers">
+            <a-items :items="blockedUsers" :loading="loadingBlockedUsers">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <a-button icon="mdi:remove" class="ml-auto my-auto">{{$t('unblock')}}</a-button>
+                            <a-button icon="mdi:remove" class="ml-auto my-auto" @click.prevent="unblockUser(item)">{{$t('unblock')}}</a-button>
                         </template>
                     </a-user>
                 </template>
@@ -62,7 +62,7 @@
                 <h2>{{$t('blocked_tags')}}</h2>
                 <a-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</a-button>
             </flex>
-            <a-items :items="blockedTags">
+            <a-items :items="blockedTags" :loading="loadingTags">
                 <template #item-name="{ item }">
                     <a-tag>{{ item.name }}</a-tag>
                 </template>
@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 import { Game, Mod, Tag, User, UserForm } from '~~/types/models';
 import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';
@@ -88,6 +89,7 @@ const { t } = useI18n();
 
 const blockTag = ref<Tag>();
 const showBlockTag = ref(false);
+const showError = useQuickErrorToast();
 
 const { data: followedGames, loading: loadingGames } = await useWatchedFetchMany('followed-games', { limit: 10 });
 const { data: followedUsers, loading: loadingUsers } = await useWatchedFetchMany('followed-users', { limit: 10 });
@@ -131,12 +133,21 @@ async function unfollowGame(game: Game) {
     remove(followedGames.value!.data, game);
 }
 
-async function unblockTag(tag) {
+async function unblockTag(tag: Tag) {
     try {
-        await useDelete(`blocked-tags/${tag.tag_id || tag.id}`);
+        await useDelete(`blocked-tags/${tag.id}`);
         remove(blockedTags.value!.data, tag);
     } catch (error) {
-        console.log(error);
+        showError(error as FetchError);
+    }
+}
+
+async function unblockUser(user: User) {
+    try {
+        await useDelete(`blocked-users/${user.id}`);
+        remove(blockedUsers.value!.data, user);
+    } catch (error) {
+        showError(error as FetchError);
     }
 }
 

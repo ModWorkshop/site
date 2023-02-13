@@ -40,6 +40,6 @@ function onCancel() {
     emit('cancel', e => {
         showToast(e);
     });
-    emit('update:modelValue', false);
+    vModel.value = false;
 }
 </script>
