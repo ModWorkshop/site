@@ -7,6 +7,7 @@ use App\Http\Resources\ModResource;
 use App\Models\FollowedGame;
 use App\Models\FollowedMod;
 use App\Models\Mod;
+use App\Models\User;
 use App\Services\ModService;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -82,5 +83,6 @@ class FollowedModController extends Controller
     public function destroy(int $id, Authenticatable $user)
     {
         FollowedMod::where('user_id', $user->id)->where('mod_id', $id)->delete();
+        User::flushQueryCache();
     }
 }

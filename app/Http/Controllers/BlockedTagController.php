@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\TagResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -53,5 +54,6 @@ class BlockedTagController extends Controller
     public function destroy($id)
     {
         $this->user()->blockedTags()->detach($id);
+        User::flushQueryCache();
     }
 }

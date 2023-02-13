@@ -8,6 +8,7 @@ use App\Http\Resources\ModResource;
 use App\Http\Resources\UserResource;
 use App\Models\FollowedUser;
 use App\Models\Mod;
+use App\Models\User;
 use App\Services\ModService;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -88,5 +89,6 @@ class FollowedUserController extends Controller
     public function destroy(int $id, Authenticatable $user)
     {
         FollowedUser::where('user_id', $user->id)->where('follow_user_id', $id)->delete();
+        User::flushQueryCache();
     }
 }
