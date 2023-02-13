@@ -2,18 +2,16 @@
     <page-block size="md">
         <Title>{{$t('notifications')}}</Title>
         <content-block>
-            <a-list url="notifications" limit="20" :search="false" query>
-                <template #buttons="{ items }">
-                    <flex class="ml-auto">
-                        <a-button color="danger" icon="mdi:trash" @click="deleteAll(items.data)">{{$t('delete_all_notifications')}}</a-button>
-                        <a-button color="danger" icon="clock" @click="deleteReadNotifications(items.data)">{{$t('delete_seen_notifications')}}</a-button>
-                        <a-button icon="clock" @click="markAllAsRead(items.data)">{{$t('mark_all_notifications')}}</a-button>
-                    </flex>
+            <flex class="ml-auto">
+                <a-button color="danger" icon="mdi:trash" @click="deleteAll()">{{$t('delete_all_notifications')}}</a-button>
+                <a-button color="danger" icon="clock" @click="deleteReadNotifications()">{{$t('delete_seen_notifications')}}</a-button>
+                <a-button icon="clock" @click="markAllAsRead()">{{$t('mark_all_notifications')}}</a-button>
+            </flex>
+            <a-items :items="notifications" :loading="loading">
+                <template #item="{ item }">
+                    <a-notification :notification="item" :notifications="item"/>
                 </template>
-                <template #item="{ item, items }">
-                    <a-notification :notification="item" :notifications="items"/>
-                </template>
-            </a-list>
+            </a-items>
         </content-block>
     </page-block>
 </template>
@@ -24,38 +22,47 @@ import { Notification } from '~~/types/models';
 
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
+const page = useRouteQuery('page', 1);
 
-async function deleteAll(items: Notification[]) {
+const { data: notifications, loading } = await useWatchedFetchMany<Notification>('notifications', { page, limit: 20 });
+
+async function deleteAll() {
     yesNoModal({
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications');
-            items.splice(0);
+            if (notifications.value) {
+                notifications.value.data.splice(0);
+            }
         }
     });
 }
 
-async function deleteReadNotifications(items: Notification[]) {
+async function deleteReadNotifications() {
     yesNoModal({
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
             await useDelete('notifications/read');
-            items.forEach((item, i) => {
-                if (item.seen) {
-                    items.splice(i, 1);
-                }
-            });
+            if (notifications.value) {
+                notifications.value.data.forEach((item, i) => {
+                    if (item.seen) {
+                        notifications.value!.data.splice(i, 1);
+                    }
+                });
+            }
         }
     });
 }
 
-async function markAllAsRead(items: Notification[]) {
+async function markAllAsRead() {
     await usePost('notifications/read-all');
-    items.forEach(item => item.seen = true);
+    if (notifications.value) {
+        notifications.value.data.forEach(item => item.seen = true);
+    }
 }
 
 </script>

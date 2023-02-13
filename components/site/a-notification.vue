@@ -60,7 +60,8 @@ const props = defineProps<{
 
 const router = useRouter();
 const notif = toRef(props, 'notification');
-const { user, notificationCount } = storeToRefs(useStore());
+const store = useStore();
+const { user, notificationCount } = storeToRefs(store);
 const notifiable = computed(() => notif.value.notifiable);
 const context = computed(() => notif.value.context);
 const fromUser = computed(() => notif.value.from_user);
@@ -183,16 +184,16 @@ async function deleteNotification(onlyVisually=false) {
 
 async function onClick() {
     if (!notif.value.seen) {
-        notificationCount.value--;
-    }
-
-    if (!notif.value.seen) {
         await usePatch(`notifications/${notif.value.id}`, {
             seen: true
         });
     }
 
     notif.value.seen = true;
+
+    if (!notif.value.seen && notificationCount.value) {
+        store.getNotificationCount();
+    }
 
     const click = defintion.value.onClick;
     
