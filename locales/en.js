@@ -313,6 +313,7 @@ You should first recommend the mod to fit to the maximum allowed storage and onl
 you can increase the storage up to 1GiB.`,
 file_type_link: "Link",
 file_type_file: "File",
+label: "Label",
 
 //User//
 
