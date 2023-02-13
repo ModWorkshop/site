@@ -24,7 +24,7 @@
                 </span>
             </flex>
             <flex class="ml-auto" gap="2">
-                <a-icon v-if="compClearable" icon="xmark" @click.prevent="clearAll"/>
+                <a-icon v-if="compClearable" icon="xmark" @click.stop="clearAll"/>
                 <a-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
             </flex>
         </flex>
@@ -51,7 +51,6 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { useI18n } from 'vue-i18n';
 
 const props = withDefaults(defineProps<{
 	url?: string,
@@ -80,8 +79,6 @@ const props = withDefaults(defineProps<{
     classic: true,
 });
 
-const { t } = useI18n();
-
 const search = ref('');
 const searchDebounced = refThrottled(search, props.url ? 500 : 10);
 const dropdownOpen = ref(false);
@@ -102,7 +99,7 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 
 const opts = computed(() => props.options ?? asyncOptions.value?.data);
 const selectedValue = computed(() => props.modelValue ?? props.default);
-const selected = computed<any[]>(() => typeof selectedValue.value == 'object' ? selectedValue.value as any[]: [selectedValue.value]);
+const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
 const selectedMax = computed(() => props.max ? selected.value.length >= props.max : false);
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value && opts.value.length > 10));
 const filtered = computed(() => {
@@ -169,8 +166,8 @@ const selectedOption = computed(() => {
 	}
 });
 
-const compClearable = computed(() => {
-    return selectedOptions.value.length && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+const compClearable = computed(() => {    
+    return selected.value.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 function defaultBy(option, propName) {
