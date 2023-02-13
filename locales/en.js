@@ -184,6 +184,8 @@ hide: "Hide",
 random: "Random",
 welcome_to_mws: "Welcome to ModWorkshop!",
 mws_short_about: "We are a modding site that that embraces open source for modding!",
+expired: "Expired",
+select_placeholder: 'Select...',
 
 //Discussions//
 poster: 'Poster',

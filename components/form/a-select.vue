@@ -20,7 +20,7 @@
                     </slot>
                 </slot>
                 <span v-else class="selection text-secondary">
-                    <slot name="placeholder">{{placeholder}}</slot>
+                    <slot name="placeholder">{{disabled ? $t('none') : placeholder ?? $t('select_placeholder')}}</slot>
                 </span>
             </flex>
             <flex class="ml-auto" gap="2">
@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
 
 const props = withDefaults(defineProps<{
 	url?: string,
@@ -77,8 +78,9 @@ const props = withDefaults(defineProps<{
     filterable: true,
     filterSelected: false,
     classic: true,
-    placeholder: 'Select...',
 });
+
+const { t } = useI18n();
 
 const search = ref('');
 const searchDebounced = refThrottled(search, props.url ? 500 : 10);
