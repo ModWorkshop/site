@@ -5,9 +5,10 @@
         v-model="primaryDownload"
         :label="$t('primary_download')"
         :desc="$t('primary_download_desc')"
-        clearable :options="downloads"
+        clearable
+        :options="downloads"
         value-by=""
-        @update:model-value="(item: Download) => setPrimaryDownload(item.download_type, item)"
+        @update:model-value="(item: Download) => setPrimaryDownload(item?.download_type, item)"
     />
     <div>
         <flex class="items-center">
@@ -62,17 +63,17 @@
     </file-uploader>
     <a-input v-if="canModerate" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
     <a-modal-form v-if="currentLink" v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">
-        <a-input v-model="currentLink.name" label="name"/>
-        <a-input v-model="currentLink.label" label="label"/>
-        <a-input v-model="currentLink.url" type="url" label="url"/>
-        <a-input v-model="currentLink.version" label="version"/>
-        <md-editor v-model="currentLink.desc" rows="8" label="desc"/>
+        <a-input v-model="currentLink.name" :label="$t('name')"/>
+        <a-input v-model="currentLink.label" :label="$t('label')"/>
+        <a-input v-model="currentLink.url" type="url" :label="$t('url')"/>
+        <a-input v-model="currentLink.version" :label="$t('version')"/>
+        <md-editor v-model="currentLink.desc" rows="8" :label="$t('description')"/>
     </a-modal-form>
     <a-modal-form v-if="currentFile" v-model="showEditFile" :title="$t('edit_file')" @submit="saveEditFile">
-        <a-input v-model="currentFile.name" label="name"/>
-        <a-input v-model="currentFile.label" label="label"/>
-        <a-input v-model="currentFile.version" label="version"/>
-        <md-editor v-model="currentFile.desc" rows="8" label="desc"/>
+        <a-input v-model="currentFile.name" :label="$t('name')"/>
+        <a-input v-model="currentFile.label" :label="$t('label')"/>
+        <a-input v-model="currentFile.version" :label="$t('version')"/>
+        <md-editor v-model="currentFile.desc" rows="8" :label="$t('description')"/>
     </a-modal-form>
 </template>
 
@@ -221,8 +222,8 @@ function fileDeleted(file: File) {
 }
 
 function setPrimaryDownload(type?: 'file'|'link', download?: File|Link) {
-    props.mod.download_type = type;
-    props.mod.download_id = download && download.id;
+    props.mod.download_type = type ?? null;
+    props.mod.download_id = (download && download.id) ?? null;
     props.mod.download = download;
 }
 </script>
