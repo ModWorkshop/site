@@ -128,7 +128,7 @@ function editFile(file: File) {
     currentFile.value = file;
 }
 
-async function saveEditFile(ok, error) {
+async function saveEditFile(error) {
     try {
         const file = currentFile.value;
         if (file) {
@@ -141,7 +141,7 @@ async function saveEditFile(ok, error) {
             }
     
             ignoreChanges?.();
-            ok();
+            showEditFile.value = false;
         }
     } catch (e) {
         error(e);
@@ -173,7 +173,7 @@ function createNewLink() {
     }));
 }
 
-async function saveEditLink(ok, error) {
+async function saveEditLink(error) {
     const link = currentLink.value;
 
     try {
@@ -192,7 +192,7 @@ async function saveEditLink(ok, error) {
             }
             
             ignoreChanges?.();
-            ok();
+            showEditLink.value = false;
         }
     } catch (e) {
         error(e);
