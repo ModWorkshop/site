@@ -46,7 +46,6 @@
     </div>
     <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
-    <a-input v-if="canModerate" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
     <file-uploader list name="files" :url="uploadLink" :files="filesCopy" :max-size="settings.max_file_size / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
@@ -61,6 +60,7 @@
             <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
         </template>
     </file-uploader>
+    <a-input v-if="canModerate" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
     <a-modal-form v-if="currentLink" v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">
         <a-input v-model="currentLink.name" label="name"/>
         <a-input v-model="currentLink.label" label="label"/>
