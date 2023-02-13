@@ -7,6 +7,7 @@ use App\Http\Resources\GameResource;
 use App\Http\Resources\ModResource;
 use App\Models\FollowedGame;
 use App\Models\Mod;
+use App\Models\User;
 use App\Services\ModService;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -75,7 +76,7 @@ class FollowedGameController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->user()->followedGames()->where('game_id', $id)->delete();
+        $this->user()->followedGames()->detach($id);
         User::flushQueryCache();
     }
 }
