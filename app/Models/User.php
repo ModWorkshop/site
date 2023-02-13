@@ -236,7 +236,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function followedGames() : BelongsToMany
     {
-        return $this->belongsToMany(Game::class, FollowedGame::class);
+        return $this->belongsToMany(Game::class, FollowedGame::class)->select('games.*');
     }
 
     public function allFollowedMods()
@@ -301,7 +301,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function blockedUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent');
+        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent')->select('users.*');;
     }
 
     /**
@@ -309,7 +309,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function blockedTags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, BlockedTag::class);        
+        return $this->belongsToMany(Tag::class, BlockedTag::class)->select('tags.*');;        
     }
 
     public function allBlockedTags()
