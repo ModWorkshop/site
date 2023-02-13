@@ -10,7 +10,7 @@
                 <template v-if="items?.data.length">
                     <slot v-for="item of items.data" :key="item.id" name="item" :item="item">
                         <a-list-item :item="item" :text-by="textBy" :to="itemLink">
-                            <slot name="item-name"/>
+                            <slot name="item-name" :item="item"/>
                             <template #before-item>
                                 <slot name="before-item" :item="item"/>
                             </template>
