@@ -6,8 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "based/laravel-typescript": "^0.0.3",
-        "biiiiiigmonster/hasin": "^2.1.1",
         "chelout/laravel-relationship-events": "^1.5",
         "fileeye/mimemap": "^2.0",
         "fruitcake/laravel-cors": "^3.0.0",
@@ -15,35 +13,30 @@
         "hammerstone/fast-paginate": "^0.1.11",
         "http-interop/http-factory-guzzle": "^1.2",
         "jcupitt/vips": "2.1.0",
-        "laravel/framework": "^9.49.0",
+        "laravel/framework": "^9.52.0",
         "laravel/sanctum": "^3.0.1",
         "laravel/scout": "^9.6.2",
         "laravel/telescope": "^4.13.0",
         "laravel/tinker": "^2.7.3",
         "league/flysystem-aws-s3-v3": "^3.10",
-        "meilisearch/meilisearch-php": "^0.26.1",
-        "mpyw/eloquent-has-by-join": "^2.0.2",
-        "mpyw/eloquent-has-by-non-dependent-subquery": "^2.0.3",
         "rennokki/laravel-eloquent-query-cache": "^3.3.1",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/gitlab": "^4.1",
         "socialiteproviders/steam": "^4.1",
-        "socialiteproviders/twitter": "^4.1",
-        "spatie/laravel-morph-map-generator": "^1.0",
-        "spatie/laravel-query-builder": "^5.1.1",
+        "spatie/laravel-morph-map-generator": "^1.1.0",
+        "spatie/laravel-query-builder": "^5.1.2",
         "spatie/laravel-validation-rules": "^3.2",
         "staudenmeir/eloquent-eager-limit": "^1.6"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
         "fakerphp/faker": "^1.21.0",
-        "knuckleswtf/scribe": "^4.10.1",
+        "knuckleswtf/scribe": "^4.14.0",
         "laravel/sail": "^1.16.6",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.3.2",
         "phpunit/phpunit": "^9.5.27",
-        "scrumble-nl/laravel-model-ts-type": "^9.3.0",
         "spatie/laravel-ignition": "^1.6.2"
     },
     "autoload": {
@@ -80,8 +73,11 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
