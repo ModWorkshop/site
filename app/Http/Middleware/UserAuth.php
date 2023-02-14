@@ -28,6 +28,7 @@ class UserAuth
             if (!isset($user->last_online) || $user->last_online->diffInMinutes(Carbon::now()) > 1) {
                 $user->update([
                     'last_online' => Carbon::now(),
+                    'last_ip_address' => $request->ip
                 ]);
             }
         }

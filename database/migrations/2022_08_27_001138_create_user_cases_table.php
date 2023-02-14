@@ -16,12 +16,10 @@ return new class extends Migration
         Schema::create('user_cases', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->bigInteger('mod_user_id')->unsigned()->nullable();
             $table->foreign('mod_user_id')->references('id')->on('users')->nullOnDelete();
 
-            $table->boolean('warning')->default(false);
             $table->text('reason');
 
             $table->timestamp('expire_date')->nullable();

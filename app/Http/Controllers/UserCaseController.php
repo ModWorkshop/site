@@ -60,14 +60,13 @@ class UserCaseController extends Controller
         $val = $request->validate([
             'user_id' => 'int|min:0|nullable|exists:users,id',
             'reason' => 'string|min:3|max:1000',
-            'expire_date' => 'date|required|nullable|after:now'
+            'expire_date' => 'date|nullable|after:now'
         ]);
 
         if (isset($game)) {
             $val['game_id'] = $game->id;
         }
         $val['mod_user_id'] = $this->userId();
-        $val['warning'] = true;
 
         $user = User::find($val['user_id']);
         $case = UserCase::create($val);

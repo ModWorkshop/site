@@ -29,7 +29,6 @@ use App\Models\Subscription;
 use App\Models\Thread;
 use App\Models\UserCase;
 use App\Models\Visibility;
-use Arr;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -219,7 +218,6 @@ class MigrateBB extends Command
                         UserCase::forceCreate([
                             'user_id' => $case->uid, # Changed
                             'mod_user_id' => $case->moduid, # Changed
-                            'warning' => true,
                             'reason' => $case->notes,
                             'created_at' => $this->handleUnixDate($case->date),
                             'updated_at' => $this->handleUnixDate($case->date),
@@ -251,17 +249,12 @@ class MigrateBB extends Command
                 $admin = 1;
             }
 
-            $case = UserCase::forceCreate([
-                'user_id' => $ban->uid, # Changed
-                'mod_user_id' => $admin, # Changed
-                'warning' => false, #Figure
-                'reason' => $ban->reason,
-                'created_at' => $this->handleUnixDate($ban->dateline),
-                'updated_at' => $this->handleUnixDate($ban->dateline),
-            ]);
             Ban::forceCreate([
                 'user_id' => $ban->uid,
-                'case_id' => $case->id
+                'reason' => $ban->reason,
+                'mod_user_id' => $admin, # Changed
+                'created_at' => $this->handleUnixDate($ban->dateline),
+                'updated_at' => $this->handleUnixDate($ban->dateline),
             ]);
         }
 

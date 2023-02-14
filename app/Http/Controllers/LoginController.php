@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ban;
 use App\Models\SocialLogin;
 use App\Models\User;
+use App\Models\UserCase;
+use App\Models\UserRecord;
 use App\Services\APIService;
+use App\Services\Utils;
 use Arr;
 use DB;
 use Illuminate\Database\Console\Migrations\ResetCommand;
@@ -111,6 +115,12 @@ class LoginController extends Controller
         ]);
 
         event(new Registered($user));
+
+        //Attempt restore (for bans/warnings)
+        $record = UserRecord::where('email', $val['email'])->first();
+        if (isset($record)) {
+            Utils::partlyRestoreUser($record, $user->id);
+        }
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
             $request->session()->regenerate();
@@ -225,6 +235,12 @@ class LoginController extends Controller
                 'special_id' => $providerUser->id,
                 'user_id' => $user->id
             ]);
+
+            //Attempt restore (for bans/warnings)
+            $record = UserRecord::whereRaw("social_logins->>? = ?", [$provider, $providerUser->id])->first();
+            if (isset($record)) {
+                Utils::partlyRestoreUser($record, $user->id);
+            }
         }
     
         //Attention: this only runs AFTER we verify the user has logged in. This data is returned by the provider, therefore we can safely login the user.

@@ -195,6 +195,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'roles',
         'password',
         'remember_token',
+        'last_ip_address',
         'email',
         'email_verified_at'
     ];
@@ -268,6 +269,19 @@ class User extends Authenticatable implements MustVerifyEmail
         self::created(fn(User $user) => $user->extra()->create());
 
         self::deleting(function(User $user) {
+            if (Ban::where('user_id', $user->id)->exists() || UserCase::where('user_id', $user->id)) {
+                $logins = SocialLogin::where('user_id', $user->id)->get();
+                $savedLogins = [];
+                foreach ($logins as $login) {
+                    $savedLogins[$login->social_id] = $login->special_id;
+                }
+                UserRecord::create([
+                    'user_id' => $user->id,
+                    'last_ip_address' => $user->last_ip_address,
+                    'email' => $user->email,
+                    'social_logins' => $savedLogins
+                ]);
+            }
             if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
                 Storage::disk('r2')->delete('users/avatars/'.$user->avatar);
             }
@@ -629,6 +643,10 @@ class User extends Authenticatable implements MustVerifyEmail
         //Admin bypasses all
         if ($this->existsAndTrue($perms, 'admin')) {
             return true;
+        }
+
+        if (!$this->activated) {
+            return false;
         }
 
         //Users who moderate users cannot be banned.

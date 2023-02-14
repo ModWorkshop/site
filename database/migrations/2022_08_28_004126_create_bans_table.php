@@ -16,9 +16,6 @@ return new class extends Migration
         Schema::create('bans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->bigInteger('case_id')->nullable()->unsigned();
-            $table->foreign('case_id')->references('id')->on('user_cases')->onDelete('cascade');
             $table->boolean('can_appeal')->default(true);
             $table->timestamps();
             $table->bigInteger('game_id')->unsigned()->nullable();

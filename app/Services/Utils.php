@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Ban;
 use App\Models\User;
+use App\Models\UserCase;
+use App\Models\UserRecord;
 use Arr;
 
 const bbCodeConversion = [
@@ -99,5 +102,23 @@ class Utils {
         }
 
         return $uniqueName;
+    }
+    
+    /**
+     * Restores user's bans, warnings and social logins in order to prevent users from (too easily) evading bans.
+     * Why the too easy? Obviously, it's not too hard to fool the system and it's impossible to have a perfect system.
+     */
+    public static function partlyRestoreUser(UserRecord $record, int $newUserId)
+    {
+        //Pass all saved bans and warnings to the new users if they deleted their account.
+        if (isset($record) && !User::where('id', $record->user_id)->exists()) {
+            Ban::where('user_id', $record->user_id)->update([
+                'user_id' => $newUserId,
+            ]);
+            UserCase::where('user_id', $record->user_id)->update([
+                'user_id' => $newUserId,
+            ]);
+            $record->delete();
+        }
     }
 }

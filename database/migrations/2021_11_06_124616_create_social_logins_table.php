@@ -31,6 +31,6 @@ class CreateSocialLoginsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('integrations');
+        Schema::dropIfExists('social_logins');
     }
 }
