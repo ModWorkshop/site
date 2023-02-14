@@ -48,7 +48,7 @@
     <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader list name="files" :url="uploadLink" :files="filesCopy" :max-size="settings.max_file_size / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader list name="files" :url="uploadLink" :files="filesCopy" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
             <td class="text-center">{{$t('primary')}}</td>
         </template>
@@ -101,7 +101,7 @@ const currentLink = ref<Link>();
 const canModerate = computed(() => hasPermission('manage-mod', props.mod.game));
 
 const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
-const maxSize = computed(() => allowedStorage.value || settings.mod_storage_size);
+const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);
 
 const usedFileSize = computed(() => files.value.reduce((prev, curr) => prev + curr.size, 0));
 const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize.value));
@@ -227,6 +227,3 @@ function setPrimaryDownload(type?: 'file'|'link', download?: File|Link) {
     props.mod.download = download;
 }
 </script>
-<style scoped>
-
-</style>
