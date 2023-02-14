@@ -1,5 +1,5 @@
 <template>
-    <flex v-if="canSuperUpdate" column>
+    <flex v-if="superUpdate" column>
         <a-alert v-if="mod.transfer_request">
             You've sent a transfer request to the user: <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
             If you wish to transfer it to a different person, or have changed your mind, cancel the request.
@@ -20,7 +20,7 @@
             <thead>
                 <th>{{$t('user')}}</th>
                 <th>{{$t('member_level')}}</th>
-                <th>{{$t('accepted')}}</th>
+                <th>{{$t('member_accepted')}}</th>
                 <th>{{$t('date')}}</th>
                 <th class="text-center">{{$t("actions")}}</th>
             </thead>
@@ -59,14 +59,15 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
+import { FetchError } from 'ofetch';
 const yesNoModal = useYesNoModal();
-const { showToast } = useToaster();
+const showToast = useQuickErrorToast();
 
-const ignoreChanges: () => void = inject('ignoreChanges');
+const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
 const props = defineProps<{
     mod: Mod,
 }>();
-const canSuperUpdate = inject<boolean>('canSuperUpdate');
+const superUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
     {name: 'Maintainer', id: 'maintainer'},
@@ -96,7 +97,7 @@ async function deleteMember(member: ModMember) {
             members.value = members.value.filter(l => l.id !== member.id);
             props.mod.members = clone(members.value);
 
-            ignoreChanges();
+            ignoreChanges?.();
         }
     });
 }
@@ -112,24 +113,24 @@ function editMember(member: ModMember) {
 }
 
 async function saveMember(error: (e) => void) {
-    const member = currentMember.value;
-    const data = { user_id: member.user.id, level: member.level };
+    const member = currentMember.value!;
+    const data = { user_id: member.user!.id, level: member.level };
 
     try {
         if (member.new) {
             const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data);
             members.value.push(newMember);
         } else {
-            await usePatch(`mods/${props.mod.id}/members/${member.user.id}`, data);
+            await usePatch(`mods/${props.mod.id}/members/${member.user!.id}`, data);
         }
     
         for (const m of props.mod.members) {
-            if (m.id === member.user.id) {
+            if (m.id === member.user!.id) {
                 Object.assign(m, member);
             }
         }
     
-        ignoreChanges();
+        ignoreChanges?.();
         showModal.value = false;
     } catch(e) {
         error(e);
@@ -139,20 +140,20 @@ async function saveMember(error: (e) => void) {
 async function transferOwnership() {
     try {
         const request = await usePatch<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
-            props.mod.transfer_request = request;
-        ignoreChanges();
+        props.mod.transfer_request = request;
+        ignoreChanges?.();
     } catch (error) {
-        showToast({ desc: error.message, color: 'danger' });
+        showToast(error as FetchError);
     }
 }
 
 async function cancelTransferRequest() {
     try {
         await usePatch(`mods/${props.mod.id}/transfer-request/cancel`);
-        props.mod.transfer_request = null;
-        ignoreChanges();
+        props.mod.transfer_request = undefined;
+        ignoreChanges?.();
     } catch (error) {
-        showToast({ desc: error.message, color: 'danger' });
+        showToast(error as FetchError);
     }
 }
 </script>
