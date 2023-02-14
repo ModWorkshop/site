@@ -24,7 +24,7 @@
                 </flex>
             </Transition>
             <slot name="pre-panels"/>
-            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: side ? 4 : undefined}">
+            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: 4}">
                 <slot/>
             </div>
         </flex>
