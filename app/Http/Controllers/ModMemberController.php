@@ -7,9 +7,9 @@ use App\Models\ModMember;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Log;
 
 const MOD_MEMBER_RULES_OVER = [
+    'owner' => ['maintainer', 'collaborator', 'contributor', 'viewer'],
     'maintainer' => ['collaborator', 'contributor', 'viewer'],
     'collaborator' => ['contributor', 'viewer'],
 ];
