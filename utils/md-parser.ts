@@ -63,8 +63,6 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 		return false;
 	}
 
-	state.pos = start + 1;
-	
 	while (end < max) {
 		if (/([^a-zA-Z0-9_-]+)/g.test(state.src.charAt(end))) {
 			break;
@@ -72,6 +70,13 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 
 		end++;
 	}
+
+	// Avoid highlighting lone @'s
+	if (end-start == 1) {
+		return false;
+	}
+	
+	state.pos = start + 1;
 
 	const content = (state.src as string).slice(start + 1, end);
 
