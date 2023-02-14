@@ -43,7 +43,7 @@ import { remove } from '@vue/shared';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Comment, Notification } from '~~/types/models';
+import { Comment, Mod, Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 import { getObjectLink } from '~~/utils/helpers';
 const yesNoModal = useYesNoModal();
@@ -150,11 +150,19 @@ const typeDefintions = {
     membership_request: () => ({
         onClick() {
             async function answer(accept: boolean) {
-                await usePatch(`mods/${notifiable.value.id}/members/${user.value.id}/accept`, { accept });
+                await usePatch(`mods/${notifiable.value.id}/members/${user.value!.id}/accept`, { accept });
                 deleteNotification(true);
             }
+            
+            let role = '';
+            for (const member of notifiable.value.members) {
+                if (member.id === user.value!.id) {
+                    role = t(`member_level_${member.pivot.level}`);
+                }
+            }
+
             yesNoModal({
-                desc: t('mod_request'),
+                desc: t('mod_request', [ role ]),
                 yes: async () => await answer(true),
                 no: async () => await answer(false),
             });

@@ -447,6 +447,7 @@ notification_mod_suspended: "{notifiable} has been suspended. See reason in the 
 notification_mod_unsuspended: "{notifiable} has been unsuspended.",
 notification_warning: "You've received a warning!",
 mark_as_read: "Mark as Read",
+notification_membership_request: "You've been invited to become one of the members of: {notifiable}",
 
 //Admin//
 ban_error_405: "User already banned. Either edit the duration or unban the user.",
