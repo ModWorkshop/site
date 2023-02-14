@@ -1,6 +1,6 @@
 <template>
     <flex column gap="1" class="w-full" style="min-height: 150px;" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
-        <label :class="classes" style="border: dotted #7979797a;" :for="`${name}-file-browser-open`">
+        <label :class="classes" :for="`${name}-file-browser-open`">
             <span class="text-2xl">
                 {{$t('file_uploader_drop')}}
                 <template v-if="maxFiles">({{files.length}}/{{maxFiles}})</template>
