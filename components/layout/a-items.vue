@@ -1,11 +1,15 @@
 <template>
     <flex column gap="2" style="flex: 1;">
-        <a-pagination v-if="!loading" v-model="vPage" :total="total" :per-page="perPage">
+        <slot name="title">
+            <h2 v-if="title">{{title}}</h2>
+        </slot>
+
+        <a-pagination v-model="vPage" :total="total" :per-page="perPage">
             <slot name="pagination" :items="items"/>
         </a-pagination>
 
         <a-loading v-if="loading" class="m-auto"/>
-        <flex column :gap="gap" class="px-4 py-1">
+        <flex column :gap="gap" class="py-1">
             <slot v-if="!loading" name="items" :items="items">
                 <template v-if="items?.data.length">
                     <slot v-for="item of items.data" :key="item.id" name="item" :item="item">
@@ -36,6 +40,7 @@
 import { Paginator } from '~~/types/paginator';
 
 const props = defineProps<{
+    title?: string,
     gap?: number,
     page?: number,
     items: Paginator<any>|null,

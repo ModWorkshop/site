@@ -30,15 +30,10 @@ import { useI18n } from 'vue-i18n';
 import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
 
 const store = useStore();
-
 const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
     suspended: t('error_suspended')
-});
-
-definePageMeta({  
-    key: route => route.fullPath
 });
 
 if (mod.value) {

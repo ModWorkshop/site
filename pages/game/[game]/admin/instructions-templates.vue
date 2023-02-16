@@ -17,5 +17,5 @@ const props = defineProps<{
 useNeedsPermission('manage-instructions', props.game);
 
 const route = useRoute();
-const gameId = computed(() => route.params.gameId);
+const gameId = computed(() => route.params.game);
 </script>

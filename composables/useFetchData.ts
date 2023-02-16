@@ -1,5 +1,6 @@
 import { Ref } from 'nuxt/dist/app/compat/capi';
 import { FetchOptions } from "ohmyfetch";
+import hash from 'object-hash';
 
 export interface DifferentFetchOptions extends FetchOptions {
     //Let's you not automatically execute the API call. Returns an empty ref instead
@@ -8,7 +9,7 @@ export interface DifferentFetchOptions extends FetchOptions {
 }
 
 export default async function<T>(url: string|(() => string), options: DifferentFetchOptions = {}) {
-    const key = typeof url == 'function' ? url.toString() : url;
+    const key = hash({ url: typeof url == 'function' ? url.toString() : url, ...options });
     return await useAsyncData(key, () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
         lazy: options.lazy,
         immediate: options.immediate

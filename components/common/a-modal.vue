@@ -75,6 +75,7 @@ const classes = computed(() => ({
 .modal-body {
     max-height: 90%;
     margin: auto;
+    overflow-y: auto;
     color: var(--text-color);
     background-color: var(--content-bg-color);
     border-radius: var(--border-radius);

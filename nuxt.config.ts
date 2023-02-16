@@ -5,6 +5,58 @@ export default defineNuxtConfig({
 		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: false }
 	},
 
+	hooks: {
+		'pages:extend': (routes) => {
+			routes.push(...[
+				{
+					path: "/user/:user/edit",
+					file: '~/pages/user-settings.vue',
+					children: [
+						{ path: "", file: '~/pages/user-settings/index.vue' },
+						{ path: "content", file: '~/pages/user-settings/content.vue' },
+						{ path: "profile", file: '~/pages/user-settings/profile.vue' },
+						{ path: "accounts", file: '~/pages/user-settings/accounts.vue' },
+						{ path: "api", file: '~/pages/user-settings/api.vue' },
+					]
+				},
+				{ path: "/mod/:mod/post/:commentId", file: '~/pages/mod/[mod]/index.vue' },
+				{ path: "/forum/post", file: '~~/pages/thread/[thread]/edit.vue' },
+				{ path: "/g/:game/upload", file: '~/pages/upload.vue' },
+				{ path: "/g/:game/forum", file: '~/pages/forum.vue' },
+				{ path: "/g/:game/forum/post", file: '~~/pages/thread/[thread]/edit.vue' },
+				{ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' },
+				{ path: "/g/:game/documents", file: '~/pages/documents.vue' },
+				{ path: "/g/:game/document/:documentId", file: '~/pages/document/[document].vue' },
+			]);
+
+
+			//Kinda disgusting, but other way is making components for each one of them and then pages...
+			const game = routes.find(page => page.path == '/game/:game');
+			if (game && game.children) {
+				const gameAdmin = game.children.find(page => page.path == 'admin');
+				if (gameAdmin && gameAdmin.children) {
+					gameAdmin.children.push(...[
+						{ path: 'bans', file: '~/pages/admin/bans.vue' },
+						{ path: 'bans/:ban', file: '~/pages/admin/bans/[ban].vue' },
+						{ path: 'cases', file: '~/pages/admin/cases.vue' },
+						{ path: 'cases/:case', file: '~/pages/admin/cases/[case].vue' },
+						{ path: 'forum-categories/:category', file: '~/pages/admin/forum-categories/[category].vue' },
+						{ path: 'forum-categories', file: '~/pages/admin/forum-categories' },
+						{ path: 'roles/[role]', file: '~/pages/admin/roles/[role].vue' },
+						{ path: 'roles', file: '~/pages/admin/roles.vue' },
+						{ path: 'tags/[tag]', file: '~/pages/admin/tags/[tag].vue' },
+						{ path: 'tags', file: '~/pages/admin/tags.vue' },
+						{ path: 'suspensions', file: '~/pages/admin/suspensions.vue' },
+						{ path: 'reports', file: '~/pages/admin/reports.vue' },
+						{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
+						{ path: 'mods', file: '~/pages/admin/mods.vue' },
+						{ path: 'documents', file: '~/pages/admin/documents.vue' },
+					]);
+				}
+			}
+		}
+	},
+	
 	nitro: {
 		compressPublicAssets: true,
 	},
@@ -37,12 +89,6 @@ export default defineNuxtConfig({
 
 	delayHydration: {
 		debug: process.env.NODE_ENV === 'development'
-	},
-
-	nuxtIcon: {
-		aliases: {
-			'': 'fa6-solid:',
-		}
 	},
 
 	modules: [

@@ -37,7 +37,7 @@ const noticeTypes = [
     { name: t('tag_notice_danger'), id: 'danger' },
 ];
 
-const redirectTo = computed(() => route.params.gameId ? `/admin/games/${route.params.gameId}/tags` : `/admin/tags`);
+const redirectTo = computed(() => route.params.game ? `/admin/games/${route.params.game}/tags` : `/admin/tags`);
 
 const { data: tag } = await useEditResource<Tag>('tag', 'tags', {
     id: 0,
@@ -46,7 +46,7 @@ const { data: tag } = await useEditResource<Tag>('tag', 'tags', {
     notice: '',
     type: '',
     notice_type: 'info',
-    game_id: typeof route.params.gameId == 'string' ? parseInt(route.params.gameId) : null,
+    game_id: typeof route.params.game == 'string' ? parseInt(route.params.game) : null,
     notice_localized: true
 });
 </script>

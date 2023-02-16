@@ -5,6 +5,7 @@
             <a-button :to="newThreadLink" :disabled="cannotPost">{{$t('new_thread')}}</a-button>
         </flex>
         <thread-list :game-id="game?.id" :forum-id="forumId" @select-category="cat => category = cat"/>
+            {{ game }}
     </page-block>
 </template>
 

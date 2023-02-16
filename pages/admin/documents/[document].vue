@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="doc" url="documents" :redirect-to="redirectTo">
+    <simple-resource-form v-model="doc" url="docs" :redirect-to="redirectTo">
         <a-input v-model="doc.name" :label="$t('name')"/>
         <a-input v-model="doc.url_name" :label="$t('url_name')" :desc="$t('url_name_desc')"/>
         <md-editor v-model="doc.desc" :label="$t('description')"/>
@@ -17,8 +17,8 @@ useNeedsPermission('manage-docs', props.game);
 
 const route = useRoute();
 
-const gameId = typeof route.params.gameId == 'string' ? parseInt(route.params.gameId) : null;
-const redirectTo = computed(() => gameId ? `/admin/games/${gameId}/docs` : `/admin/docs`);
+const gameId = typeof route.params.game == 'string' ? parseInt(route.params.game) : null;
+const redirectTo = computed(() => gameId ? `/admin/games/${gameId}/documents` : `/admin/documents`);
 
 const { data: doc } = await useEditResource<Document>('document', 'documents', {
     id: 0,
@@ -26,6 +26,6 @@ const { data: doc } = await useEditResource<Document>('document', 'documents', {
     name: '',
     url_name: '',
     desc: '',
-    game_id: typeof route.params.gameId == 'string' ? gameId : null,
+    game_id: typeof route.params.game == 'string' ? gameId : null,
 }, { game_id: gameId });
 </script>

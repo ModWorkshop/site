@@ -1,9 +1,6 @@
 <template>
     <flex class="list-button">
         <flex column :style="{ opacity: isExpired && 0.25 }">
-            <div>
-                <a-tag>{{userCase.warning ? 'Warning' : 'Ban'}}</a-tag>
-            </div>
             <flex class="items-center">{{$t('user')}}: <a-user :user="userCase.user" avatar-size="xs"/></flex>
             <div>{{$t('reason')}}: "{{userCase.reason}}"</div>
             <flex class="items-center">

@@ -119,10 +119,10 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { setFollowUser } from '../utils/follow-helpers';
+import { setFollowUser } from '~~/utils/follow-helpers';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
-import { Mod, User } from '../types/models';
+import { Mod, User } from '~~/types/models';
 import { useStore } from '~~/store';
 import { Paginator } from '~~/types/paginator';
 import { date, getTimeAgo } from '~~/utils/helpers';

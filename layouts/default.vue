@@ -4,6 +4,8 @@
             <a-toast v-if="user && !user.activated" class="mt-2" color="warning" :closable="false">
                 Your account is not active yet. You must verify it through your email address.
                 <br>
+                Inactive accounts cannot do most actions such as uploading mods or posting comments.
+                <br>
                 The account will be automatically deleted if no action will be taken a day after registration.
                 <a-button class="mr-auto" :loading="resending" @click="resendVerification">
                     <flex class="items-center">Resend</flex>

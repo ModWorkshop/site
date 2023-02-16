@@ -4,7 +4,7 @@
         query
         :item-link="item => `${url}/${item.id}`"
         :new-button="`${url}/new`"
-        :params="{ game_id: route.params.gameId }"
+        :params="{ game_id: game.id }"
     />
 </template>
 
@@ -17,7 +17,5 @@ const props = defineProps<{
 
 useNeedsPermission('manage-docs', props.game);
 
-const route = useRoute();
-
-const url = computed(() => route.params.gameId ? `/admin/games/${route.params.gameId}/docs` : '/admin/docs');
+const url = computed(() => props.game ? `/admin/games/${props.game.id}/docs` : '/admin/docs');
 </script>

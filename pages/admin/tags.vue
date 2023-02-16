@@ -1,5 +1,5 @@
 <template>
-    <a-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: $route.params.gameId}">
+    <a-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: game.id}">
         <template #default="{ item }">
             <div>
                 <a-tag :color="item.color">{{item.name}}</a-tag> 
@@ -19,5 +19,5 @@ useNeedsPermission('manage-tags', props.game);
 
 const route = useRoute();
 
-const url = computed(() => route.params.gameId ? `/admin/games/${route.params.gameId}/tags` : '/admin/tags');
+const url = computed(() => route.params.game ? `/admin/games/${route.params.game}/tags` : '/admin/tags');
 </script>

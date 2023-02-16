@@ -19,7 +19,7 @@ const { data: game } = await useResource<Game>('game', 'games');
 
 store.setGame(game.value);
 
-const url = computed(() => game.value ? `/g/${game.value.short_name}/docs` : '/docs');
+const url = computed(() => game.value ? `/g/${game.value.short_name}/document` : '/document');
 
 const breadcrumb = computed(() => {
     return [

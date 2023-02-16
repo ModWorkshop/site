@@ -1,6 +1,5 @@
 <template>
     <simple-resource-form v-if="category" v-model="category" :url="url" :redirect-to="`/admin/${url}`">
-        {{ url }}
         <a-input v-model="category.name" :label="$t('name')"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
         <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" :desc="$t('approval_only_desc')"/>
@@ -22,7 +21,7 @@ const props = defineProps<{
 useNeedsPermission('manage-categories', props.game);
 
 const route = useRoute();
-const gameId = route.params.gameId;
+const gameId = route.params.game;
 const url = getGameResourceUrl('categories', props.game);
 
 const { data: category } = await useEditResource('category', 'categories', {

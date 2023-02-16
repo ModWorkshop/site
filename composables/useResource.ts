@@ -33,7 +33,7 @@ export default async function<T>(
     
     const { t } = useI18n();
 
-    const id = route.params[`${name}Id`];
+    const id = route.params[`${name}`];
 
     if (!id) {
         return { data: ref(fallback), error: ref(null) };

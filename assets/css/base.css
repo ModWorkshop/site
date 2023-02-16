@@ -24,6 +24,7 @@ body {
 
 :root {
     --border-radius: 4px;
+    --content-border-radius: 8px;
 
     --mws-blue: #006ce0;
     --mws-blue-hover: #007bff;
@@ -284,7 +285,7 @@ a {
 .content-block {
     max-width: 100%;
     background-color: var(--content-bg-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--content-border-radius);
 }
 
 .content-bg {
@@ -303,7 +304,7 @@ a {
     display: flex;
     gap: 4px;
     color: var(--text-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--content-border-radius);
     background-color: var(--alt-content-bg-color);
     padding: 1rem;
 }

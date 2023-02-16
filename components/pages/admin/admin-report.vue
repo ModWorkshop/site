@@ -11,7 +11,7 @@
         </flex>
         <flex column class="ml-auto my-auto" gap="2">
             <flex class="ml-auto">
-                <a-button :to="`/admin/${casesUrl}?user=${report.reportable.id}`">{{$t('warn_owner')}}</a-button>
+                <a-button v-if="report.reportable" :to="`/admin/${casesUrl}?user=${report.reportable.id}`">{{$t('warn_owner')}}</a-button>
                 <mod-suspend v-if="report.reportable_type == 'mod'" :mod="report.reportable"/>
                 <a-button @click="goToContent(report)">{{$t('go_to_content')}}</a-button>
             </flex>
@@ -47,6 +47,9 @@ const contentTitle = computed(() => {
 
 const currentContent = computed(() => {
     const report = props.report;
+    if (!report.reportable) {
+        return;
+    }
     if (report.reportable_type == 'mod' || props.report.reportable_type == 'user') {
         return report.reportable.name;
     } else {
@@ -65,10 +68,16 @@ const content = computed(() => {
 });
 
 const reportedUser = computed(() => {
-    if (props.report.reportable_type == 'user') {
-        return props.report.reportable;
+    const report = props.report;
+    
+    if (!report.reportable) {
+        return;
+    }
+
+    if (report.reportable_type == 'user') {
+        return report.reportable;
     } else {
-        return props.report.reportable.user;
+        return report.reportable.user;
     }
 });
 

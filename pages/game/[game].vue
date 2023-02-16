@@ -14,6 +14,10 @@ const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 
+definePageMeta({
+    alias: '/g/:game',
+});
+
 const { data: game } = await useResource<Game>('game', 'games');
 
 const breadcrumb = computed(() => {

@@ -8171,6 +8171,7 @@ isomorphic-dompurify@latest:
     nuxt: ^3.2.0
     nuxt-delay-hydration: ^1.1.1
     nuxt-icon: ^0.2.10
+    object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
     polished: ^4.2.2
     qs: ^6.11.0

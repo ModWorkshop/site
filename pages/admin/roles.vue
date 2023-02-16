@@ -1,34 +1,36 @@
 <template>
-    <flex>
-        <a-input v-model="query" :label="$t('search')"/>
-        <a-button class="mt-auto" :to="`/admin/${url}/new`">{{ $t('new') }}</a-button>
-    </flex>
-    <a-items v-model:page="page" :loading="loading" :items="roles">
-        <template #items="{ items }">
-            <TransitionGroup name="list">
-                <div v-for="[, item] of Object.entries(roles.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
-                    <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
-                        class="list-button flex gap-2 items-center"
-                        :to="`/admin/${url}/${item.id}`" 
-                        :draggable="item.id != 1 && roleCanBeEdited(item)"
-                        @dragstart="startDrag(item)"
-                        @dragend="stopDrag"
-                    >
-                        <span v-if="!roleCanBeEdited(item)">🔒</span>
-                        <a-icon v-else-if="item.id != 1" icon="grip-lines"/>
-                        <flex column>
-                            <span class="my-auto">
-                                <a-tag :color="item.color">{{item.name}}</a-tag>
-                            </span>
-                            <small v-if="item.id == 1">{{$t('members_role_desc')}}</small>
-                        </flex>
-                        <span v-if="item.is_vanity" class="ml-auto">✨</span>
-                    </component>
-                    <div :class="{ hovering: hoveringDrag == item, dropzone: true }"/>
-                </div>
-            </TransitionGroup>
-        </template>
-    </a-items>
+    <div>
+        <flex>
+            <a-input v-model="query" :label="$t('search')"/>
+            <a-button class="mt-auto" :to="`/admin/${url}/new`">{{ $t('new') }}</a-button>
+        </flex>
+        <a-items v-model:page="page" :loading="loading" :items="roles">
+            <template #items="{ items }">
+                <TransitionGroup name="list">
+                    <div v-for="[, item] of Object.entries(roles.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
+                        <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
+                            class="list-button flex gap-2 items-center"
+                            :to="`/admin/${url}/${item.id}`" 
+                            :draggable="item.id != 1 && roleCanBeEdited(item)"
+                            @dragstart="startDrag(item)"
+                            @dragend="stopDrag"
+                        >
+                            <span v-if="!roleCanBeEdited(item)">🔒</span>
+                            <a-icon v-else-if="item.id != 1" icon="grip-lines"/>
+                            <flex column>
+                                <span class="my-auto">
+                                    <a-tag :color="item.color">{{item.name}}</a-tag>
+                                </span>
+                                <small v-if="item.id == 1">{{$t('members_role_desc')}}</small>
+                            </flex>
+                            <span v-if="item.is_vanity" class="ml-auto">✨</span>
+                        </component>
+                        <div :class="{ hovering: hoveringDrag == item, dropzone: true }"/>
+                    </div>
+                </TransitionGroup>
+            </template>
+        </a-items>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -43,7 +45,7 @@ useNeedsPermission('manage-roles');
 const NuxtLink = resolveComponent('NuxtLink');
 
 const route = useRoute();
-const gameId = route.params.gameId;
+const gameId = route.params.game;
 
 const { user, hasPermission } = useStore();
 

@@ -44,7 +44,7 @@ useNeedsPermission('manage-roles', props.game);
 const route = useRoute();
 const { hasPermission } = useStore();
 
-const gameId = route.params.gameId;
+const gameId = route.params.game;
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 
 const { data: role } = await useEditResource<Role>('role', url.value, {

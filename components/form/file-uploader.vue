@@ -235,7 +235,7 @@ async function handleRemove(file: UploadFile) {
 }
 </script>
 
-<style scoped>
+<style>
 .upload-area {
     cursor: pointer;
 }

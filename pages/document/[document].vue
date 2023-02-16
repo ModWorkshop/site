@@ -29,7 +29,7 @@ const { data: game } = await useResource<Game>('game', 'games');
 
 store.setGame(game.value);
 
-const { data: document } = await useResource<Document>('document', 'documents', null, {
+const { data: document } = await useResource<Document>('document', 'documents', undefined, {
     game_id: game.value?.id,
 });
 

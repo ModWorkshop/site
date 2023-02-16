@@ -17,7 +17,7 @@ const props = defineProps<{
 useNeedsPermission('manage-instructions', props.game);
 
 const route = useRoute();
-const url = computed(() => `games/${route.params.gameId}/instructs-templates`);
+const url = computed(() => `games/${route.params.game}/instructs-templates`);
 const { data: template } = await useEditResource<InstructsTemplate>('template', url.value, {
     id: 0,
     name: '',

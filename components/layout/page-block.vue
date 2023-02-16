@@ -15,7 +15,7 @@
                 <flex class="ml-auto items-center" gap="4">
                     <flex v-if="store.gameBan" v-once column>
                         <span class="text-danger">
-                            <a-icon icon="triangle-exclamation"/> Banned
+                            <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
                         </span>
                         <span>
                             <i18n-t keypath="expires_t">
@@ -28,18 +28,18 @@
                 </flex>
                 <flex class="ml-auto mt-1" gap="4">
                     <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
-                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/admin/games/${game.id}`">{{$t('game_admin_page')}}</a-link-button>
+                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('game_admin_page')}}</a-link-button>
                     <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
             </content-block>
         </flex>
         <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
         <flex v-if="announcements.length" column>
-            <h4>📢 Announcements</h4>
+            <h4>📢 {{$t('announcements')}}</h4>
             <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
         </flex>
         <flex v-if="gameAnnouncements.length" column>
-            <h4>📢 Game Announcements</h4>
+            <h4>📢 {{$t('game_announcements')}}</h4>
             <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
         </flex>
         <slot/>

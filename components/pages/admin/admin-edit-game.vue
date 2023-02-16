@@ -30,8 +30,6 @@ const props = defineProps<{
 
 const vmGame = useVModel(props, 'game');
 
-useNeedsPermission('manage-game', props.game);
-
 const mergeParams = reactive({
     thumbnail_file: thumbnailBlob,
     banner_file: bannerBlob

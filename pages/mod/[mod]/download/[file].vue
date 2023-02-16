@@ -29,8 +29,6 @@ import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 
 const { public: config } = useRuntimeConfig();
-
-const route = useRoute();
 const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
@@ -40,7 +38,7 @@ const { data: mod } = await useResource<Mod>('mod', 'mods', {
 const download = ref(null);
 
 const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/download`);
-const file = computed(() => mod.value.files.find(file => file.id == parseInt((route.params.fileId as string))));
+const { data: file } = await useResource<File>('file', 'files');
 
 if (!file.value) {
     throw createError({ statusCode: 404, statusMessage: t('file_doesnt_exist') });

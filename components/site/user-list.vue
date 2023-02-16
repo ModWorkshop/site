@@ -1,17 +1,17 @@
 <template>
     <flex column>
-        <a-pagination v-if="!isLoading" v-model="page" :total="users.meta.total" :per-page="users.meta.per_page"/>
         <flex gap="3">
             <content-block grow class="self-start" style="flex: 1;">
                 <a-input v-model="query" :label="$t('search')"/>
             </content-block>
             <content-block grow style="flex: 4;" gap="1">
-                <a-loading v-if="isLoading"/>
-                <template v-else>
-                    <NuxtLink v-for="user of users.data" :key="user.id" :to="`user/${user.id}`" class="list-button">
-                        <a-user :user="user"/>
-                    </NuxtLink>
-                </template>
+                <a-items v-model:page="page" :items="users" :loading="loading">
+                    <template #item="{ item }">
+                        <NuxtLink :key="item.id" :to="`/user/${item.id}`" class="list-button">
+                            <a-user :user="item"/>
+                        </NuxtLink>
+                    </template>
+                </a-items>
             </content-block>
         </flex>
     </flex>
@@ -22,18 +22,9 @@ import { User } from '~~/types/models';
 
 const page = useRouteQuery('page', 0);
 const query = useRouteQuery('query', '');
-const isLoading = ref(true);
 
-const params = reactive({
+const { data: users, loading } = await useWatchedFetchMany<User>('users', { 
     page,
     query
 });
-
-const { data: users, refresh } = await useFetchMany<User>('users', { 
-    params
-});
-
-watchThrottled(params, () => refresh(), { throttle: 250 });
-
-isLoading.value = false;
 </script>

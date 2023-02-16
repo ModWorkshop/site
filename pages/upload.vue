@@ -32,6 +32,10 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Category, Game, Mod } from '~~/types/models';
 
+definePageMeta({
+    middleware: 'unbanned-users-only'
+});
+
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
@@ -66,15 +70,13 @@ const mod: Mod = reactive({
     has_download: false,
 });
 
-const gameName = computed(() => route.params.gameId);
+const gameName = computed(() => route.params.game);
 
 const { data: game } = await useResource<Game>('game', 'games');
 
 if (game.value) {
     store.currentGame = game.value;
 }
-
-useUnbannedOnly();
 
 const breadcrumb = computed(() => {
     if (game.value) {

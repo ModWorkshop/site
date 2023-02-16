@@ -29,7 +29,7 @@
             </flex>
         </flex>
         <template #popper>
-            <flex column>
+            <flex column :class="listClass">
                 <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
                 <a-dropdown-item 
                     v-for="option of filtered"
@@ -70,7 +70,8 @@ const props = withDefaults(defineProps<{
     filterable?: boolean,
     placeholder?: string,
 	max?: string|number,
-	maxShown?: string|number
+	maxShown?: string|number,
+    listClass?: string|string[]
 }>(), {
     valueBy: 'id',
     textBy: 'name',

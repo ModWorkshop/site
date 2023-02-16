@@ -1,19 +1,10 @@
 <template>
     <a-input v-model="mod.version" :label="$t('version')"/>
     <md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-    <a-select 
-        v-model="primaryDownload"
-        :label="$t('primary_download')"
-        :desc="$t('primary_download_desc')"
-        clearable
-        :options="downloads"
-        value-by=""
-        @update:model-value="(item: Download) => setPrimaryDownload(item?.download_type, item)"
-    />
     <div>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
-            <a-button class="ml-auto mb-1" icon="mdi:plus-thick" @click="createNewLink"/>
+            <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" icon="mdi:plus-thick" @click="createNewLink"/>
         </flex>
         <flex column class="alt-content-bg p-3">
             <table>
@@ -27,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="link of mod.links" :key="link.id">
+                    <tr v-for="link of links?.data" :key="link.id">
                         <td>{{link.name}}</td>
                         <td>{{link.url}}</td>
                         <td>{{fullDate(link.updated_at)}}</td>
@@ -48,7 +39,7 @@
     <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader list name="files" :url="uploadLink" :files="filesCopy" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader list name="files" :url="uploadLink" max-files="25" :files="files?.data" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
             <td class="text-center">{{$t('primary')}}</td>
         </template>
@@ -67,12 +58,22 @@
         <a-input v-model="currentLink.label" :label="$t('label')"/>
         <a-input v-model="currentLink.url" type="url" :label="$t('url')"/>
         <a-input v-model="currentLink.version" :label="$t('version')"/>
+        <a-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+            <template #any-option="{ option }">
+                <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />
+            </template>
+        </a-select>
         <md-editor v-model="currentLink.desc" rows="8" :label="$t('description')"/>
     </a-modal-form>
     <a-modal-form v-if="currentFile" v-model="showEditFile" :title="$t('edit_file')" @submit="saveEditFile">
         <a-input v-model="currentFile.name" :label="$t('name')"/>
         <a-input v-model="currentFile.label" :label="$t('label')"/>
         <a-input v-model="currentFile.version" :label="$t('version')"/>
+        <a-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+            <template #any-option="{ option }">
+                <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />
+            </template>
+        </a-select>
         <md-editor v-model="currentFile.desc" rows="8" :label="$t('description')"/>
     </a-modal-form>
 </template>
@@ -90,9 +91,8 @@ const props = defineProps<{
     canSave: boolean
 }>();
 
-const files = computed<File[]>(() => props.mod.files || []);
-const links = computed<Link[]>(() => props.mod.links || []);
-const filesCopy = ref<File[]>(clone(files.value));
+const { data: files } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { limit: 25 });
+const { data: links } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { limit: 25 });
 
 const showEditFile = ref(false);
 const showEditLink = ref(false);
@@ -103,7 +103,7 @@ const canModerate = computed(() => hasPermission('manage-mod', props.mod.game));
 const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
 const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);
 
-const usedFileSize = computed(() => files.value.reduce((prev, curr) => prev + curr.size, 0));
+const usedFileSize = computed(() => files.value?.data.reduce((prev, curr) => prev + curr.size, 0));
 const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize.value));
 const usedSizeText = computed(() => {
     const current = friendlySize(usedFileSize.value), total = friendlySize(maxSize.value);
@@ -111,15 +111,6 @@ const usedSizeText = computed(() => {
     return `${current}/${total} (${percent}%)`;
 });
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
-
-const downloads = computed(() => {
-    const downloads: Download[] = [];
-    filesCopy.value.forEach(file => downloads.push({ download_type: 'file', ...file }));
-    links.value.forEach(link => downloads.push({ download_type: 'link', ...link }));
-    return downloads;
-});
-
-const primaryDownload = computed(() => downloads.value.find(file => file.download_type == props.mod.download_type && file.id === props.mod.download_id));
 
 const uploadLink = computed(() => props.mod !== null ? `mods/${props.mod.id}/files`: '');
 const ignoreChanges = inject<() => void>('ignoreChanges');
@@ -135,7 +126,7 @@ async function saveEditFile(error) {
         if (file) {
             await usePatch(`mods/${props.mod.id}/files/${file.id}`, file);
     
-            for (const f of files.value) {
+            for (const f of files.value!.data) {
                 if (f.id === file.id) {
                     Object.assign(f, file);
                 }
@@ -156,7 +147,7 @@ function editLink(link: Link) {
 
 async function deleteLink(link: Link) {
     await useDelete(`mods/${props.mod.id}/links/${link.id}`);
-    props.mod.links = links.value.filter(l => l.id !== link.id);
+    links.value!.data = links.value!.data.filter(l => l.id !== link.id);
 
     ignoreChanges?.();
 }
@@ -181,14 +172,18 @@ async function saveEditLink(error) {
         if (link) {
             if (link.id == -1) {
                 const newLink = await usePost<Link>(`mods/${props.mod.id}/links`, link);
-                links.value.push(newLink);
+                if (links.value) {
+                    links.value.data.push(newLink);
+                }
             } else {
                 await usePatch(`mods/${props.mod.id}/links/${link.id}`, link);
             }
     
-            for (const f of links.value) {
-                if (f.id === link.id) {
-                    Object.assign(f, link);
+            if (links.value) {
+                for (const f of links.value.data) {
+                    if (f.id === link.id) {
+                        Object.assign(f, link);
+                    }
                 }
             }
             
@@ -201,16 +196,18 @@ async function saveEditLink(error) {
 }
 
 function fileUploaded(file: File) {
-    files.value.push(file);
+    if (files.value) {
+        files.value.data.push(file);
+    }
     //If we have changes already we don't want to ignore the changes
     //We ignore them since the changes are already "applied" due to files being instantly uploaded.
     ignoreChanges?.();
 }
 
 function fileDeleted(file: File) {
-    for (const [i, f] of Object.entries(files.value)) {
+    for (const [i, f] of Object.entries(files.value!.data)) {
         if (f.id === file.id) {
-            files.value.splice(parseInt(i), 1);
+            files.value!.data.splice(parseInt(i), 1);
         }
     }
 

@@ -1,10 +1,13 @@
 <template>
-    <h3>This is the game settings page. The page contains a bunch of settings regarding the game.</h3>
+    <admin-edit-game :game="game"/>
 </template>
 
 <script setup lang="ts">
 import { Game } from '~~/types/models';
+
 const props = defineProps<{
     game: Game
 }>();
+
+useNeedsPermission('manage-game', props.game);
 </script>

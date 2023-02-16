@@ -48,7 +48,7 @@ export default function(name, defaultValue, cast) {
             queue[name] = (v === defaultValue || v === null) ? undefined : v;
         
             nextTick(() => {
-                router.replace({ ...route, query: { ...route.query, ...queue } });
+                router.replace({ query: { ...route.query, ...queue } });
                 nextTick(() => queue = {});
             });
         }

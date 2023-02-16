@@ -6,7 +6,7 @@ export default async function<T>(name: string, url: string, template: T|null=nul
     const route = useRoute();
     const { t } = useI18n();
 
-    const id = route.params[`${name}Id`];
+    const id = route.params[`${name}`];
 
     if (template && (id === undefined || id == 'new')) {
         return { data: ref<T>(template) };

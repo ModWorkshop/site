@@ -17,7 +17,7 @@
                 <a-nav-link to="games" :title="$t('games')"/>
                 <a-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
                 <a-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>
-                <a-nav-link v-if="hasPermission('manage-docs')" to="docs" :title="$t('documents')"/>
+                <a-nav-link v-if="hasPermission('manage-docs')" to="documents" :title="$t('documents')"/>
                 <a-nav-link v-if="hasPermission('manage-users')" to="users" :title="$t('users')"/>
                 <a-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" :title="$t('forum_categories')"/>
                 <template #content>

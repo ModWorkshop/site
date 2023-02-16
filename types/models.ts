@@ -1,3 +1,4 @@
+import { Paginator } from './paginator';
 /**
  * This file is auto generated using 'php artisan typescript:generate'
  *
@@ -124,8 +125,8 @@ export interface Mod {
     banner?: Image;
     tags?: Array<Tag>;
     images?: Array<Image>;
-    files?: Array<File>;
-    links?: Array<Link>;
+    files?: Paginator<File>;
+    links?: Paginator<Link>;
     comments?: Array<Comment>;
     download?: File|Link;
     tags_count?: number;
