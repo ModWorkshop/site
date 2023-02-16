@@ -38,6 +38,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereGameId($value)
  * @property bool $can_appeal
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCanAppeal($value)
+ * @property int|null $mod_user_id
+ * @property bool $active
+ * @property string|null $ip_address
+ * @property string|null $email
+ * @property-read \App\Models\User|null $modUser
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ban whereModUserId($value)
  */
 	class Ban extends \Eloquent {}
 }
@@ -286,6 +295,8 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|File whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereVersion($value)
+ * @property string|null $unique_name
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUniqueName($value)
  */
 	class File extends \Eloquent {}
 }
@@ -755,8 +766,10 @@ namespace App\Models{
  * @method static Builder|Mod whereInstructsTemplateId($value)
  * @property float $daily_score
  * @property float $weekly_score
- * @method static \Illuminate\Database\Eloquent\Builder|Mod whereDailyScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mod whereWeeklyScore($value)
+ * @property int|null $allowed_storage
+ * @method static Builder|Mod whereAllowedStorage($value)
+ * @method static Builder|Mod whereDailyScore($value)
+ * @method static Builder|Mod whereWeeklyScore($value)
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1406,6 +1419,10 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @property string|null $last_ip_address
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastIpAddress($value)
  */
 	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
@@ -1443,6 +1460,12 @@ namespace App\Models{
  * @property int|null $game_id
  * @property-read \App\Models\User|null $modUser
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
+ * @property bool $active
+ * @property string|null $ip_address
+ * @property string|null $email
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereIpAddress($value)
  */
 	class UserCase extends \Eloquent {}
 }
@@ -1492,5 +1515,30 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowThreads($value)
  */
 	class UserExtra extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserRecord
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $email
+ * @property string|null $last_ip_address
+ * @property array|null $social_logins
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereLastIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereSocialLogins($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUserId($value)
+ */
+	class UserRecord extends \Eloquent {}
 }
 

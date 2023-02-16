@@ -19,7 +19,7 @@ class RolePolicy
      */
     public function viewAny(?User $user)
     {
-        return Response::allow();
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class RolePolicy
      */
     public function view(?User $user, Role $role)
     {
-        return Response::allow();
+        return true;
     }
 
     /**

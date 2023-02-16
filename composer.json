@@ -30,7 +30,7 @@
         "staudenmeir/eloquent-eager-limit": "^1.6"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.10",
+        "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.21.0",
         "knuckleswtf/scribe": "^4.14.0",
         "laravel/sail": "^1.16.6",

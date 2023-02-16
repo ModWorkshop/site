@@ -188,12 +188,14 @@ class Mod extends Model implements SubscribableInterface
         'members'
     ];
 
+    public $fullLoad = false;
+
     public const FULL_MOD_WITH = [
         'user',
         'tags',
         'images',
-        'files',
-        'links',
+        // 'files',
+        // 'links',
         'members',
         'banner',
         'lastUser',
@@ -220,6 +222,7 @@ class Mod extends Model implements SubscribableInterface
     public function withAllRest()
     {
         $this->append('breadcrumb');
+        $this->fullLoad = true; // Files and links handled in resource
         $this->loadMissing(self::FULL_MOD_WITH);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
@@ -378,7 +381,6 @@ class Mod extends Model implements SubscribableInterface
 
     /**
      * Returns the primary download same as the attribute,
-     * but this should be used only when not loading the files relationship for optimization
      *
      * @return MorphTo
      */

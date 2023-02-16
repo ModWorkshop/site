@@ -20,7 +20,7 @@ class CategoryPolicy
      */
     public function viewAny(?User $user)
     {
-        return Response::allow();
+        return true;
     }
 
     /**
@@ -32,7 +32,7 @@ class CategoryPolicy
      */
     public function view(?User $user, Category $category)
     {
-        return Response::allow();
+        return true;
     }
 
     /**

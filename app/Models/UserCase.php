@@ -72,7 +72,7 @@ class UserCase extends Model
 
     protected static function booted()
     {
-        self::deleting(function(UserCase $userCase) {
+        static::deleting(function(UserCase $userCase) {
             Notification::deleteRelated($userCase);
         });
     }

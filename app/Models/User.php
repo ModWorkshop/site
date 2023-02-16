@@ -266,9 +266,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected static function booted()
     {
-        self::created(fn(User $user) => $user->extra()->create());
+        static::created(fn(User $user) => $user->extra()->create());
 
-        self::deleting(function(User $user) {
+        static::deleting(function(User $user) {
             if (Ban::where('user_id', $user->id)->exists() || UserCase::where('user_id', $user->id)) {
                 $logins = SocialLogin::where('user_id', $user->id)->get();
                 $savedLogins = [];

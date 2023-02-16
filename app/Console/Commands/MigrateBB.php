@@ -123,7 +123,6 @@ class MigrateBB extends Command
         #mbb_attachments 
         # Current forum does not have file uploading, backup the files to somewhere.
         #mbb_banfilters 
-        # TODO: implement IP bans
 
         $this->info("Converting old-ass data to new-and-improved data!");
         ini_set("memory_limit", -1);
@@ -139,6 +138,7 @@ class MigrateBB extends Command
         // $this->handleInstructionsTemplates();
 
         // $this->handleMods();
+        // $this->handleFileThumbnails();
 
         // $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
         // $this->handleFollowsAndSubs();
@@ -173,7 +173,7 @@ class MigrateBB extends Command
                 User::forceCreate([
                     'id' => $user->uid,
                     'name' => html_entity_decode($user->username),
-                    'avatar' => $user->avatar, // TODO: do we want to store user images in images table, therefore making this column legacy?
+                    'avatar' => $user->avatar,
                     'custom_color' => Str::limit($user->customcolor, 6, ''),
                     // 'unique_name' => Utils::getUniqueName($user->username),
                     'custom_title' => $user->usertitle, # Changed
@@ -550,7 +550,6 @@ class MigrateBB extends Command
                         'user_id' => $file->uid ?? $newMod->user_id,
                         'file' => $file->file,
                         'desc' => $file->description,
-                        // 'image_id' => $file->image, #TODO: Deal with this, has also thumbnail column
                         'type' => $file->filetype,
                         'size' => $file->filesize,
                         'created_at' => $this->handleUnixDate($file->date),
@@ -617,6 +616,33 @@ class MigrateBB extends Command
         $this->resetAutoIncrement('mods');
         $this->resetAutoIncrement('files');
         $this->resetAutoIncrement('images');
+    }
+
+    public function handleFileThumbnails()
+    {
+        $bar = $this->progress('Converting file thumbnails', $this->con->table('mydownloads_files')->count());
+        $this->con->table('mydownloads_files')->orderBy('fid')->whereNotNull('image')->chunk(10000, function($files) use ($bar) {
+            foreach ($files as $file) {
+                if (!empty($file->image)) {
+                    $image = Image::forceCreate([
+                        'mod_id' => $file->did,
+                        'user_id' => $file->uid,
+                        'file' => $file->image,
+                        'type' => Str::of($file->image)->match('/\w+\.(\w+)/'),
+                        'has_thumb' => !empty($file->thumbnail),
+                        'size' => 0, //TODO
+                        'created_at' => $this->handleUnixDate($file->date),
+                        'updated_at' => $this->handleUnixDate($file->date),
+                    ]);
+
+                    File::where('id', $file->id)->update([
+                        'image_id' => $image->id
+                    ]);
+                }
+
+                $bar->advance();
+            }
+        });
     }
 
     public function handleFollowsAndSubs()

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilteredRequest;
 use App\Models\Link;
 use App\Models\Mod;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class LinkController extends Controller
 {
@@ -22,9 +24,9 @@ class LinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(FilteredRequest $request, Mod $mod)
     {
-        //
+        return JsonResource::collection($mod->links()->queryGet($request->val()));
     }
 
     /**
@@ -63,7 +65,8 @@ class LinkController extends Controller
             'url' => 'required|url|min:3|max:1000',
             'desc' => 'string|nullable|max:1000',
             'label' => 'string|nullable|max:100',
-            'version' => 'string|nullable|max:255'
+            'version' => 'string|nullable|max:255',
+            'image_id' => 'int|nullable|exists:images,id'
         ]);
 
         $val['label'] ??= '';

@@ -22,7 +22,7 @@ class CommentPolicy
      */
     public function viewAny(?User $user)
     {
-        return Response::allow();
+        return true;
     }
 
     /**

@@ -75,7 +75,7 @@ function gameResource(string $resource, string $class, array $config=[]) {
 /**
  * @group Mods
  */
-Route::resource('mods.files', FileController::class);
+resource('files', FileController::class, 'mods');
 Route::middleware('can:update,mod')->group(function() {
     Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
     //Images
@@ -92,7 +92,7 @@ Route::middleware('can:super-update,mod')->group(function() {
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 //General mods
-Route::resource('mods.links', LinkController::class);
+resource('links', LinkController::class, 'mods');
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);

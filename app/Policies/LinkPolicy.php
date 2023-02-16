@@ -20,9 +20,9 @@ class LinkPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
-        return Response::allow();
+        return true;
     }
 
     /**
@@ -45,6 +45,10 @@ class LinkPolicy
      */
     public function create(User $user, Mod $mod)
     {
+        if ($mod->links()->count() >= 25) {
+            return false;
+        }
+
         return $this->authorize('create', [Mod::class, $mod->game]);
     }
 

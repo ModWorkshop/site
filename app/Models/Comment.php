@@ -137,13 +137,13 @@ class Comment extends Model implements SubscribableInterface
 
     public static function booted()
     {
-        self::created(function(Comment $comment) {
+        static::created(function(Comment $comment) {
             $comment->subscriptions()->create([
                 'user_id' => Auth::user()->id
             ]);
         });
 
-        self::deleted(function(Comment $comment) {
+        static::deleted(function(Comment $comment) {
             Notification::deleteRelated($comment);
             $comment->subscriptions()->delete();
         });

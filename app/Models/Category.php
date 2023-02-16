@@ -122,7 +122,7 @@ class Category extends Model
 
     public static function booted()
     {
-        return self::creating(function(Category $cat) {
+        return static::creating(function(Category $cat) {
             if (!isset($cat->last_date)) {
             $cat->last_date = Carbon::now();
             }

@@ -67,6 +67,11 @@ class File extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function image() : BelongsTo
+    {
+        return $this->belongsTo(Image::class);
+    }
+
     protected static function booted() {
         static::deleting(function (File $file)
         {

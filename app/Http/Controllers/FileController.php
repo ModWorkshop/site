@@ -29,7 +29,7 @@ class FileController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        return JsonResource::collection($mod->files->queryGet($request->val()));
+        return JsonResource::collection($mod->files()->queryGet($request->val()));
     }
 
     /**
@@ -110,7 +110,8 @@ class FileController extends Controller
             'name' => 'string|min:3|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
-            'version' => 'string|nullable|max:255'
+            'version' => 'string|nullable|max:255',
+            'image_id' => 'int|nullable|exists:images,id'
         ]);
 
         if ($val['version'] !== $file->version) {

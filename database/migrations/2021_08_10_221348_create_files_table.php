@@ -24,7 +24,7 @@ class CreateFilesTable extends Migration
             $table->tinyText('file');
             $table->tinyText('type')->default('');
             $table->bigInteger('image_id')->unsigned()->nullable();
-            $table->foreign('image_id')->references('id')->on('images');
+            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
             $table->bigInteger('size');
             $table->tinyText('label')->default(''); //Was type, now a free label the user can label their files with
             $table->tinyText('version')->default('');

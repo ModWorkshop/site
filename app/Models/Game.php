@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
+use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -141,17 +142,21 @@ class Game extends Model
 
     public static function booted()
     {
-        return self::creating(function(Game $game) {
+        static::creating(function(Game $game) {
             if (!isset($game->last_date)) {
                 $game->last_date = Carbon::now();
             }
         });
 
-        return self::created(function(Game $game) {
-            $forum = $game->forum()->create([
-                'game_id' => $game->id
-            ]);
-            $game->forum_id = $forum->id;
+        static::saving(function(Model $game) {
+            Log::info('....??!!?');
+            if (!isset($game->forum_id)) {
+                $forum = $game->forum()->create([
+                    'game_id' => $game->id
+                ]);
+                $game->forum_id = $forum->id;
+                $game->save();
+            }
         });
     }
 }
