@@ -36,12 +36,12 @@ const form = reactive({
     notify: true
 });
 
-async function submit(ok, onError) {
+async function submit(onError) {
     try {
         await usePatch(`mods/${props.mod.id}/approved`, form);
         props.mod.approved = approve.value;
         form.reason = '';
-        ok();
+        showModal.value = false;
     } catch (error) {
         onError(error);
     }
