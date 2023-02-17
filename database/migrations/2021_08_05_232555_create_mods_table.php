@@ -19,7 +19,7 @@ class CreateModsTable extends Migration
             $table->id();
 
             $table->bigInteger('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games');
             $table->bigInteger('user_id')->unsigned();
