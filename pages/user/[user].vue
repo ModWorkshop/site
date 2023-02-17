@@ -2,7 +2,7 @@
     <page-block v-if="user">
         <Title>{{user.name}}</Title>
         <flex v-if="me && user.id != me.id">
-            <a-button v-if="!user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
+            <a-button v-if="false && !user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
             <VDropdown :disabled="user.followed">
                 <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
