@@ -3,6 +3,8 @@
         <slot name="title">
             <h2 v-if="title">{{title}}</h2>
         </slot>
+        
+        <slot name="buttons"/>
 
         <a-pagination v-model="vPage" :total="total" :per-page="perPage">
             <slot name="pagination" :items="items"/>
