@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * App\Models\Dependency
@@ -47,6 +48,11 @@ class Dependency extends Model
 
     public function getMorphClass(): string {
         return 'dependency';
+    }
+
+    public function dependable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function mod(): BelongsTo

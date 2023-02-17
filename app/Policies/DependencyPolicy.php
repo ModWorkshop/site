@@ -3,9 +3,12 @@
 namespace App\Policies;
 
 use App\Models\Dependency;
+use App\Models\InstructsTemplate;
+use App\Models\Mod;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Log;
 
 class DependencyPolicy
 {
@@ -41,9 +44,9 @@ class DependencyPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, $dependable)
     {
-        return $this->authorize('create', Mod::class);
+        return $this->authorize('update', $dependable);
     }
 
     /**

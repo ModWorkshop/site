@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Dependency;
 use App\Models\InstructsTemplate;
-use App\Models\Mod;
 use App\Services\DependecyService;
 use Illuminate\Http\Request;
+use Log;
 
 class InstructsTemplateDependencyController extends Controller
 {
+    public function __construct() {
+        app(InstructsTemplate::class)->resolveRouteBinding(request()->route('instructs_template'));
+        $this->authorizeResource([Dependency::class, 'instructs_template'], ["dependency", 'instructs_template']);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
