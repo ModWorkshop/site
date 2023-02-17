@@ -136,8 +136,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if ($category->doesntHave('mods')) {
-            $category->delete();
-        }
+        $category->delete();
     }
 }

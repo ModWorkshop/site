@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->tinyText('desc')->default(''); // Was description
             $table->tinyInteger('disporder')->unsigned()->default(0);
             $table->bigInteger('parent_id')->unsigned()->nullable();
-            $table->foreign('parent_id')->references('id')->on('categories'); // TODO: should categories be cleaned up if their parent is erased? - NO
+            $table->foreign('parent_id')->references('id')->on('categories')->nullOnDelete();
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games');
 
