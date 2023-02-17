@@ -189,3 +189,7 @@ export function clearAllCookies() {
         document.cookie = cookies[i].split("=")[0] + "=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";                                
     }
 }
+
+export function getAdminUrl(page: string, game?: Game) {
+    return `${game ? `/g/${game.id}` : ''}/admin/${page}`;
+}

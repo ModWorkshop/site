@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-if="category" v-model="category" :url="url" :redirect-to="`/admin/${url}`">
+    <simple-resource-form v-if="category" v-model="category" :url="url" :redirect-to="categoriesPage">
         <a-input v-model="category.name" :label="$t('name')"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
         <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" :desc="$t('approval_only_desc')"/>
@@ -8,10 +8,16 @@
             <label>{{$t("parent_category")}}</label>
             <category-tree v-model="category.parent_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="validCategories"/>
         </flex>
+        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
+            <div>
+                <a-button color="danger" @click="deleteCategory">{{$t('delete')}}</a-button>
+            </div>
+        </a-alert>
     </simple-resource-form>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { Category, Game } from "~~/types/models";
 
 const props = defineProps<{
@@ -21,12 +27,18 @@ const props = defineProps<{
 useNeedsPermission('manage-categories', props.game);
 
 const route = useRoute();
+const router = useRouter();
+const { t } = useI18n();
+const yesNoModal = useYesNoModal();
+
 const gameId = route.params.game;
 const url = getGameResourceUrl('categories', props.game);
+const categoriesPage = getAdminUrl('categories', props.game);
 
-const { data: category } = await useEditResource('category', 'categories', {
+const { data: category } = await useEditResource<Category>('category', 'categories', {
     name: '',
-    game_id: gameId,
+    id: 0,
+    game_id: parseInt(gameId as string),
     parent_id: null,
     short_name: "",
     desc: "",
@@ -65,4 +77,14 @@ const validCategories = computed(() => categories.value?.data.filter(cat => {
 
     return true;
 }) || []);
+
+function deleteCategory() {
+    yesNoModal({
+        desc: t('delete_category_warning'),
+        async yes() {
+            await useDelete(`categories/${category.value.id}`);
+            router.push('/');
+        }
+    });
+}
 </script>

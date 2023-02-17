@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="template" :url="url" :ignore-changes="ignoreChanges">
+    <simple-resource-form v-model="template" :url="url" :ignore-changes="ignoreChanges" :redirect-to="redirectTo">
         <a-input v-model="template.name" :label="$t('name')"/>
         <md-editor v-model="template.instructions" :label="$t('instructions')"/>
         <a-input v-model="template.localized" type="checkbox" :label="$t('localized')"/>
@@ -18,6 +18,8 @@ useNeedsPermission('manage-instructions', props.game);
 
 const route = useRoute();
 const url = computed(() => `games/${route.params.game}/instructs-templates`);
+const redirectTo = getAdminUrl('instructs-templates', props.game);
+
 const { data: template } = await useEditResource<InstructsTemplate>('template', url.value, {
     id: 0,
     name: '',

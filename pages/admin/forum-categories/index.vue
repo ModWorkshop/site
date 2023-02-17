@@ -13,5 +13,5 @@ useNeedsPermission('manage-forum-categories', props.game);
 
 const gameId = computed(() => props.game?.id);
 
-const pageLink = computed(() => gameId ? `/admin/games/${gameId}/forum-categories` : '/admin/forum-categories');
+const pageLink = computed(() => getAdminUrl('forum-categories', props.game));
 </script>

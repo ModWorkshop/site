@@ -511,6 +511,10 @@ go_to_content: "Go to Content",
 warn_owner: "Warn Owner",
 issued: "Issued",
 expires: "Expires",
+delete_category_warning: `Are you sure you want to delete this category? 
+The mods will not be deleted and any category that belonged to it will have no parent category.
+Only do this if you are 100% sure.
+`,
 
 //Supporter//
 supporter_perk_1: "No advertisements",

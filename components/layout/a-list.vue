@@ -17,7 +17,15 @@
             <slot v-else name="items" :items="items">
                 <template v-if="items?.data.length">
                     <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
-                        <a-list-item :item="item" :text-by="textBy" :to="itemLink"/>
+                        <a-list-item :item="item" :text-by="textBy" :to="itemLink">
+                            <slot name="item-name" :item="item"/>
+                            <template #before-item>
+                                <slot name="before-item" :item="item"/>
+                            </template>
+                            <template #item-buttons>
+                                <slot name="item-buttons" :item="item"/>
+                            </template>
+                        </a-list-item>
                     </slot>
                 </template>
                 <span v-else class="p-4">

@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="vmGame" :can-save="canSaveOverride" :merge-params="mergeParams" url="games" redirect-to="/admin/games" @submit="submit">
+    <simple-resource-form v-model="vmGame" :can-save="canSaveOverride" :merge-params="mergeParams" url="games" redirect-to="/g" @submit="submit">
         <img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="vmGame.thumbnail">
             <template #label="{ src }">
                 <game-thumbnail :src="src" style="height: 250px;"/>

@@ -18,7 +18,7 @@ useNeedsPermission('manage-docs', props.game);
 const route = useRoute();
 
 const gameId = typeof route.params.game == 'string' ? parseInt(route.params.game) : null;
-const redirectTo = computed(() => gameId ? `/admin/games/${gameId}/documents` : `/admin/documents`);
+const redirectTo = computed(() => getAdminUrl('documents', props.game));
 
 const { data: doc } = await useEditResource<Document>('document', 'documents', {
     id: 0,

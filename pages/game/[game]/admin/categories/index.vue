@@ -22,5 +22,5 @@ useNeedsPermission('manage-categories', props.game);
 const route = useRoute();
 
 const url = computed(() => `games/${route.params.game}/categories`);
-const gameUrl = computed(() => `/admin/games/${route.params.game}/categories`);
+const gameUrl = computed(() => getAdminUrl('categories', props.game));
 </script>

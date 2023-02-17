@@ -17,5 +17,5 @@ const props = defineProps<{
 
 useNeedsPermission('manage-docs', props.game);
 
-const url = computed(() => props.game ? `/admin/games/${props.game.id}/docs` : '/admin/docs');
+const url = computed(() => getAdminUrl('documents', props.game));
 </script>

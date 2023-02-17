@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="category" url="forum-categories" :create-url="createUrl" redirect-to="/admin/forum-categories">
+    <simple-resource-form v-model="category" url="forum-categories" :create-url="createUrl" :redirect-to="redirectUrl">
         <a-input v-model="category.name" required :label="$t('name')"/>
         <a-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
 
@@ -67,12 +67,12 @@ const props = defineProps<{
 useNeedsPermission('manage-forum-categories', props.game);
 
 const forumId = computed(() => props.game?.forum_id ?? 1);
-const addRole = ref<number>(null);
-const addGameRole = ref<number>(null);
+const addRole = ref<number>();
+const addGameRole = ref<number>();
 const createUrl = computed(() => getGameResourceUrl('forum-categories', props.game));
+const redirectUrl = computed(() => getAdminUrl('forum-categories', props.game));
 
 const { data: roles } = await useFetchMany<Role>('roles', { 
-    initialCache: true,
     params: {
         filter: { is_vanity: false }
     }

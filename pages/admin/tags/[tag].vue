@@ -37,7 +37,7 @@ const noticeTypes = [
     { name: t('tag_notice_danger'), id: 'danger' },
 ];
 
-const redirectTo = computed(() => route.params.game ? `/admin/games/${route.params.game}/tags` : `/admin/tags`);
+const redirectTo = computed(() => getAdminUrl('tags', props.game));
 
 const { data: tag } = await useEditResource<Tag>('tag', 'tags', {
     id: 0,
