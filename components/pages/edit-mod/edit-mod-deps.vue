@@ -6,12 +6,7 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
-
-const props = defineProps<{
+defineProps<{
     mod: Mod,
 }>();
-
-const ignoreChanges: () => void = inject('ignoreChanges');
-
-watch(props.mod.dependencies, ignoreChanges);
 </script>

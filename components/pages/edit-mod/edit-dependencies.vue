@@ -11,7 +11,7 @@
             <th>{{$t('actions')}}</th>
         </thead>
         <tbody>
-            <tr v-for="dep in dependable.dependencies" :key="dep.id">
+            <tr v-for="dep in dependencies" :key="dep.id">
                 <td v-if="dep.mod">{{dep.mod.name}}</td>
                 <td v-else>{{dep.name}}</td>
                 <td v-if="dep.mod"><NuxtLink :to="`/mod/${dep.mod.id}`">{{$t('mod_page')}}</NuxtLink></td>
@@ -24,7 +24,7 @@
             </tr>
         </tbody>
     </a-table>
-    <a-modal-form v-model="showAddModModal" :title="$t('add_offsite_mod')" @submit="addDependency">
+    <a-modal-form v-if="currentDep" v-model="showAddModModal" :title="$t('add_offsite_mod')" @submit="addDependency">
         <template v-if="currentDep.offsite">
             <a-input v-model="currentDep.name" :label="$t('name')"/>
             <a-input v-model="currentDep.url" type="url" :label="$t('url')"/>
@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { remove } from '@vue/shared';
 import { Dependency } from '~~/types/models';
+import clone from 'rfdc/default';
 
 const props = defineProps<{
     dependable: { 
@@ -48,29 +49,35 @@ const props = defineProps<{
 }>();
 
 const showAddModModal = ref(false);
+const dependencies = ref<Dependency[]>(clone(props.dependable.dependencies ?? []));
 
-const dep = {
-    mod_id: null,
+const depTemplate: Dependency = {
+    id: 0,
+    mod_id: 0,
     optional: false,
-    offsite: false
+    offsite: false,
+    dependable_id: 0,
+    order: 1
 };
 
-const offsiteDep = {
+const offsiteDepTemplate: Dependency = {
+    id: 0,
     name: '',
     url: '',
     offsite: true,
-    optional: false
+    optional: false,
+    order: 1
 };
 
-const currentDep = ref(null);
+const currentDep = ref<Dependency>();
 
 function openOffsiteDepModal() {
-    currentDep.value = {...offsiteDep};
+    currentDep.value = {...offsiteDepTemplate};
     showAddModModal.value = true;
 }
 
 function openDepModal() {
-    currentDep.value = {...dep};
+    currentDep.value = {...depTemplate};
     showAddModModal.value = true;
 }
 
@@ -81,16 +88,16 @@ function editDep(dep) {
 
 async function addDependency(onError) {
     try {
-        if (currentDep.value.id) {
-            const dep = await usePatch<Dependency>(`${props.url}/${props.dependable.id}/dependencies/${currentDep.value.id}`, currentDep.value);
-            for (const d of props.dependable.dependencies) {
-                if (d.id === currentDep.value.id) {
+        if (currentDep.value!.id) {
+            const dep = await usePatch<Dependency>(`${props.url}/${props.dependable.id}/dependencies/${currentDep.value!.id}`, currentDep.value);
+            for (const d of dependencies.value) {
+                if (d.id === currentDep.value!.id) {
                     Object.assign(d, dep);
                 }
             }
         } else {
             const dep = await usePost<Dependency>(`${props.url}/${props.dependable.id}/dependencies`, currentDep.value);
-            props.dependable.dependencies.push(dep);
+            dependencies.value.push(dep);
         }
         showAddModModal.value = false;
     } catch (error) {
@@ -100,8 +107,8 @@ async function addDependency(onError) {
 
 async function deleteDep(dep) {
     try {
-        await useDelete(`${props.url}/${props.dependable.id}/dependencies/${currentDep.id}`);
-        remove(props.dependable.dependencies, dep);
+        await useDelete(`${props.url}/${props.dependable.id}/dependencies/${dep.id}`);
+        remove(dependencies.value, dep);
         showAddModModal.value = false;
     } catch (error) {
         //TODO
