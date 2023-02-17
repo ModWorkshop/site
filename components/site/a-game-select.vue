@@ -1,5 +1,5 @@
 <template>
-    <a-select :model-value="modelValue" :options="games.data" @update:model-value="val => $emit('update:modelValue', val)">
+    <a-select v-model="vm" url="games">
         <template #any-option="{ option }">
             <a-simple-game :game="option"/>
         </template>
@@ -7,13 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
-
-defineProps<{
+const props = defineProps<{
     modelValue?: number;
 }>();
 
-defineEmits(['update:modelValue']);
 
-const { data: games } = await useFetchMany<Game>('games', { initialCache: true });
+const emit = defineEmits(['update:modelValue']);
+const vm = useVModel(props, 'modelValue', emit);
 </script>
