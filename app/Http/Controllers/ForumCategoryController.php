@@ -68,9 +68,9 @@ class ForumCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Game $game)
+    public function store(Request $request, Game $game=null)
     {
-        return $this->update($request);
+        return $this->update($request, null, $game);
     }
 
     /**
@@ -91,13 +91,12 @@ class ForumCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ForumCategory $forumCategory=null)
+    public function update(Request $request, ForumCategory $forumCategory=null, Game $game=null)
     {
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:150',
             'emoji' => 'string|nullable|max:6',
             'desc' => 'string|nullable|max:1000|',
-            'forum_id' => 'integer|min:1|exists:forums,id',
             'is_private' => 'boolean',
             'banned_can_post' => 'boolean',
             'private_threads' => 'boolean',
@@ -114,6 +113,7 @@ class ForumCategoryController extends Controller
         if (isset($forumCategory)) {
             $forumCategory->update($val);
         } else {
+            $val['forum_id'] = $game->forum_id;
             $forumCategory = ForumCategory::create($val);
         }
 
