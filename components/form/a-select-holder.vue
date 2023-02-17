@@ -38,14 +38,14 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    shown: Boolean,
-    disabled: Boolean,
-    placement: String,
-    classic: {
-        default: true,
-        type: Boolean
-    },
+withDefaults(defineProps<{
+    shown: boolean,
+    disabled?: boolean,
+    placement?: string,
+    classic?: boolean
+}>(), {
+    classic: true,
+    placement: 'bottom-start'
 });
 
 defineEmits<{

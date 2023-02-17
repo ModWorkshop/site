@@ -29,21 +29,24 @@
             </flex>
         </flex>
         <template #popper>
-            <flex column :class="listClass">
+            <flex column :class="listClass" style="height: 100%;">
                 <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
-                <a-dropdown-item 
-                    v-for="option of filtered"
-                    :key="optionValue(option)"
-                    :disabled="!props.multiple && !props.clearable && optionSelected(option)"
-                    :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
-                    @click="toggleOption(option)"
-                >
-                    <slot name="list-option" :option="option">
-                        <slot name="any-option" :option="option">
-                            {{optionName(option)}}
+                <flex column class="overflow-auto">
+                    <a-dropdown-item 
+                        v-for="option of filtered"
+                        :key="optionValue(option)"
+                        :disabled="!props.multiple && !props.clearable && optionSelected(option)"
+                        :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
+                        @click="toggleOption(option)"
+                    >
+                        <slot name="list-option" :option="option">
+                            <slot name="any-option" :option="option">
+                                {{optionName(option)}}
+                            </slot>
                         </slot>
-                    </slot>
-                </a-dropdown-item>
+                    </a-dropdown-item>
+
+                </flex>
             </flex>
         </template>
     </a-select-holder>

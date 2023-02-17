@@ -1,5 +1,6 @@
 /* Changes to conform the UI modules we use to our design */
 .v-popper__inner {
+    display: flex;
     background: var(--dropdown-bg) !important;
     color: var(--text-color) !important;
     border-radius: var(--border-radius) !important;
@@ -11,10 +12,6 @@
     width: auto !important;
 }
 
-.v-popper__arrow-outer {
-    border-color: var(--dropdown-bg) !important;
-}
-
-.v-popper__arrow-inner {
-    border-color: var(--dropdown-hover-bg) !important;
+.v-popper__arrow-container {
+    display: none
 }
