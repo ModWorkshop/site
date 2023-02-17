@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
@@ -27,6 +28,7 @@ import { serializeObject } from '~~/utils/helpers';
 const router = useRouter();
 const { showToast } = useToaster();
 const yesNoModal = useYesNoModal();
+const showError = useQuickErrorToast();
 
 const { t } = useI18n();
 
@@ -71,8 +73,7 @@ async function submit() {
 
         emit('submit');
     } catch (error) {
-        console.error(error);
-        showToast({ desc: error.data.message, color: 'danger' });
+        showError(error as FetchError);
         return;
     }
 }
@@ -83,7 +84,10 @@ async function doDelete() {
         desc: t('irreversible_action'),
         async yes() {
             await useDelete(`${props.url}/${props.modelValue.id}`);
-            router.replace(props.deleteRedirectTo ?? props.redirectTo);
+            const to = props.deleteRedirectTo ?? props.redirectTo;
+            if (to) {
+                router.replace(to);
+            }
         }
     });
 }
