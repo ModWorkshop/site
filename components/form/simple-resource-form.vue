@@ -1,15 +1,15 @@
 <template>
     <a-form 
-        :model="modelValue"
-        :created="modelValue && !!modelValue.id"
+        :model="vm"
+        :created="vm && !!vm.id"
         float-save-gui
         :can-save="canSave"
-        :ignore-changes="ignoreChanges"
+        :ignore-changes="ic"
         @submit="submit"
     >
         <flex column gap="3">
             <slot/>
-            <a-alert v-if="deleteButton && modelValue.id" class="w-full" :title="$t('danger_zone')" color="danger">
+            <a-alert v-if="deleteButton && vm.id" class="w-full" :title="$t('danger_zone')" color="danger">
                 <slot name="danger-zone"/>
                 <div>
                     <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
 
 const router = useRouter();
@@ -29,7 +30,7 @@ const yesNoModal = useYesNoModal();
 
 const { t } = useI18n();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     modelValue: any,
     url: string,
     createUrl?: string,
@@ -37,14 +38,14 @@ const props = defineProps<{
     deleteRedirectTo?: string,
     mergeParams?: object,
     canSave?: boolean,
-    ignoreChanges?: object,
-    deleteButton?: {
-        type: boolean,
-        default: true
-    }
-}>();
+    ignoreChanges?: EventRaiser,
+    deleteButton?: boolean
+}>(), { deleteButton: true });
+
 
 const emit = defineEmits(['submit', 'update:modelValue']);
+const vm = useVModel(props, 'modelValue', emit);
+const ic = computed(() => props.ignoreChanges ?? useEventRaiser());
 
 async function submit() {
     try {
@@ -64,7 +65,8 @@ async function submit() {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }
         } else {
-            emit('update:modelValue', await usePatch(`${props.url}/${props.modelValue.id}`, params));
+            vm.value = await usePatch(`${props.url}/${vm.value.id}`, params);
+            ic.value.execute();
         }
 
         emit('submit');
