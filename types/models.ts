@@ -446,8 +446,9 @@ export interface Dependency {
     url?: string;
     mod_id?: number;
     optional: boolean;
-    dependable_type: string;
-    dependable_id: number;
+    dependable_type?: string;
+    dependable_id?: number;
+    offsite: boolean;
     order: number;
     created_at?: string;
     updated_at?: string;
