@@ -399,6 +399,7 @@ export interface Suspension {
     id: number;
     mod_id: number;
     mod_user_id?: number;
+    mod: Mod;
     reason: string;
     status: boolean;
     created_at?: string;

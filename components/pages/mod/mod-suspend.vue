@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import { Mod, Suspension } from '~~/types/models';
 
 const props = defineProps<{
-    mod: Mod
+    mod: Mod,
+    suspension?: Suspension,
 }>();
 
 const showSuspendModal = ref(false);
@@ -28,13 +29,17 @@ const suspendForm = reactive({
     notify: true
 });
 
-async function suspend(ok, onError) {
+async function suspend(onError) {
     try {
         await usePatch(`mods/${props.mod.id}/suspended`, suspendForm);
 
         props.mod.suspended = !props.mod.suspended;
         suspendForm.reason = '';
-        ok();
+        showSuspendModal.value = false;
+
+        if (props.suspension) {
+            props.suspension.status = false;
+        }
     } catch (error) {
         onError(error);
     }

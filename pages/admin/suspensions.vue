@@ -1,9 +1,10 @@
 <template>
-    <a-list :url="url" query :params="{ user_id: userId }">
+    <a-items :items="data" :loading="loading">
         <template #buttons>
+            <a-input v-model="query" :label="$t('search')"/>
             <a-user-select v-model="userId" :label="$t('user')" clearable/>
         </template>
-        <template #items="{ items }">
+        <template #items>
             <a-table>
                 <thead>
                     <th>{{$t('thumbnail')}}</th>
@@ -15,33 +16,55 @@
                     <th>{{$t('actions')}}</th>
                 </thead>
                 <tbody>
-                    <mod-row v-for="suspension in items.data" :key="suspension.id" :mod="suspension.mod" lite>
+                    <mod-row v-for="suspension in data?.data" :key="suspension.id" :mod="suspension.mod" lite :class="{'alt-content-bg': suspension.status}">
                         <template #definitions>
                             <td><time-ago :time="suspension.created_at"/></td>
                             <td>{{suspension.status ? '✔' : '❌'}}</td>
                             <td>{{suspension.reason}}</td>
                             <td>
-                                <mod-suspend :mod="suspension.mod"/>
+                                <mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
+                                <a-button v-else icon="mdi:delete" @click="deleteSuspension(suspension)">{{ $t('delete') }}</a-button>
                             </td>
                         </template>
                     </mod-row>
                 </tbody>
             </a-table>
         </template>
-    </a-list>
+    </a-items>
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import { remove } from '@vue/shared';
+import { useI18n } from 'vue-i18n';
+import { Game, Suspension } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
     game: Game
 }>();
 
-const url = computed(() => getGameResourceUrl('suspensions', props.game));
+const userId = useRouteQuery('user', null, 'number');
+const query = useRouteQuery('query');
+const page = useRouteQuery('page');
+const yesNoModal = useYesNoModal();
+const { t } = useI18n();
+
+const { data, loading } = await useWatchedFetchMany<Suspension>(getGameResourceUrl('suspensions', props.game), {
+    user_id: userId,
+    query,
+    page
+});
 
 useNeedsPermission('manage-mods', props.game);
 
-const userId = useRouteQuery('user', null, 'number');
+function deleteSuspension(suspension: Suspension) {
+    yesNoModal({
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
+        async yes() {
+            await useDelete(`suspensions/${suspension.id}`);
+            remove(data.value!.data, suspension);
+        }
+    });
+}
 </script>
