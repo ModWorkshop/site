@@ -103,6 +103,7 @@ class GameController extends Controller
     {
         if (Auth::hasUser()) {
             $game->loadMissing('followed');
+            $game->loadMissing('roles');
         }
         APIService::setCurrentGame($game);
         return $game;
