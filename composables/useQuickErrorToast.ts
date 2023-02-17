@@ -36,6 +36,7 @@ export default function() {
 
     return function(e: FetchError, errorStrings: Record<number|string, string> = {}, title?: string) {
         errorStrings = {
+            409: t('error_409'),
             ...errorStrings
         };
 
