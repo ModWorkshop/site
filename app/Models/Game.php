@@ -149,7 +149,6 @@ class Game extends Model
         });
 
         static::saving(function(Model $game) {
-            Log::info('....??!!?');
             if (!isset($game->forum_id)) {
                 $forum = $game->forum()->create([
                     'game_id' => $game->id

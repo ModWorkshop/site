@@ -223,6 +223,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUrl($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $dependable
  */
 	class Dependency extends \Eloquent {}
 }
@@ -296,6 +297,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|File whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereVersion($value)
  * @property string|null $unique_name
+ * @property-read \App\Models\Image|null $image
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUniqueName($value)
  */
 	class File extends \Eloquent {}

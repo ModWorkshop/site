@@ -124,7 +124,7 @@ class Category extends Model
     {
         return static::creating(function(Category $cat) {
             if (!isset($cat->last_date)) {
-            $cat->last_date = Carbon::now();
+                $cat->last_date = Carbon::now();
             }
         });
     }
