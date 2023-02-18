@@ -8,9 +8,7 @@
                 <div>
                     <a-button type="submit" :disabled="!email || sending">{{$t('send_link')}}</a-button>
                 </div>
-                <div v-if="sent">
-                    Password reset link has been sent to the given email address if an account is associated with this email address.
-                </div>
+                <div v-if="sent">{{$t('password_reset_sent')}}</div>
             </content-block>
         </a-form>    
     </page-block>

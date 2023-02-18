@@ -1,7 +1,7 @@
 <template>
     <a-input v-model="mod.version" :label="$t('version')"/>
     <md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-    <a-button class="ml-auto" icon="mdi:close" @click="setPrimaryDownload()">Clear Primary Download</a-button>
+    <a-button class="ml-auto" icon="mdi:close" @click="setPrimaryDownload()">{{ $t('clear_primary_download') }}</a-button>
     <div>
         <flex class="items-center">
             <label>{{$t('links')}}</label>

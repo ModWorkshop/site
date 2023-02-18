@@ -1,10 +1,13 @@
 <template>
     <flex v-if="superUpdate" column>
         <a-alert v-if="mod.transfer_request">
-            You've sent a transfer request to the user: <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
-            If you wish to transfer it to a different person, or have changed your mind, cancel the request.
+            <i18n-t keypath="already_sent_transfer">
+                <template #user>
+                    <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
+                </template>
+            </i18n-t>
             <div class="mt-2">
-                <a-button @click="cancelTransferRequest">Cancel Transfer Request</a-button>
+                <a-button @click="cancelTransferRequest">{{$t('cancel')}}</a-button>
             </div>
         </a-alert>
         <div v-else>
@@ -42,16 +45,16 @@
     </flex>
 
 
-    <a-modal-form v-model="showModal" title="Edit Member" @submit="saveMember">
+    <a-modal-form v-model="showModal" :title="$t('edit_member')" @submit="saveMember">
         <template v-if="currentMember">
-            <a-user-select v-if="currentMember.new" v-model="currentMember.user" value-by="" label="User"/>
-            <a-select v-model="currentMember.level" :options="levelOptions" label="Level"/>
+            <a-user-select v-if="currentMember.new" v-model="currentMember.user" value-by="" :label="$t('user')"/>
+            <a-select v-model="currentMember.level" :options="levelOptions" :label="$t('member_level')"/>
         </template>
     </a-modal-form>
 
     <a-modal-form v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @submit="transferOwnership()">
-        <a-user-select v-model="transferOwner.owner_id" label="User"/>
-        <a-select v-model="transferOwner.keep_owner_level" :options="levelOptions" clearable label="Keep as Member of level"/>
+        <a-user-select v-model="transferOwner.owner_id" :label="$t('user')"/>
+        <a-select v-model="transferOwner.keep_owner_level" :options="levelOptions" clearable :label="$t('transfer_keep_as_member')"/>
     </a-modal-form>
 </template>
 
@@ -60,8 +63,10 @@ import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
 import { FetchError } from 'ohmyfetch';
+import { useI18n } from 'vue-i18n';
 const yesNoModal = useYesNoModal();
 const showToast = useQuickErrorToast();
+const { t } = useI18n();
 
 const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
 const props = defineProps<{
@@ -70,10 +75,10 @@ const props = defineProps<{
 const superUpdate = inject<boolean>('canSuperUpdate');
 
 const levelOptions = [
-    {name: 'Maintainer', id: 'maintainer'},
-    {name: 'Collaborator', id: 'collaborator'},
-    {name: 'Viewer', id: 'viewer'},
-    {name: 'Contributor', id: 'contributor'},
+    {name: t('member_level_maintainer'), id: 'maintainer'},
+    {name: t('member_level_collaborator'), id: 'collaborator'},
+    {name: t('member_level_viewer'), id: 'viewer'},
+    {name: t('member_level_contributor'), id: 'contributor'},
 ];
 
 interface EditModMember {
@@ -91,7 +96,8 @@ const transferOwner = ref({owner_id: null, keep_owner_level: null});
 
 async function deleteMember(member: ModMember) {
     yesNoModal({
-        desc: 'Are you sure you want to remove member?',
+        title: t('are_you_sure'),
+        desc: t('irreversible_action'),
         async yes() {
             await useDelete(`mods/${props.mod.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);

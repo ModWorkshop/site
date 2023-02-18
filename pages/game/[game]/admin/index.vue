@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>This is the game settings page. The page contains a bunch of settings regarding the game.</h3>
+        <h3>{{ $t('game_admin_page_desc') }}</h3>
     </div>
 </template>
 

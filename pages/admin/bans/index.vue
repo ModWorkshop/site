@@ -64,7 +64,7 @@ async function ban() {
             bans.value.data.unshift(ban);
         }
         showToast({
-            desc: 'Successfully banned user!',
+            desc: t('successfully_banned'),
             color: 'success'
         });
     } catch (e) {

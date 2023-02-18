@@ -50,7 +50,7 @@
                 </template>
             </flex>
             <a-loading v-else-if="!isLoaded"/>
-            <h4 v-else class="text-center">No Comments</h4>
+            <h4 v-else class="text-center">{{$t(`no_${resourceName}_found`)}}</h4>
         </flex>
         <VDropdown v-model:shown="showMentions" strategy="fixed" class="fixed" placement="right-start" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`}">
             <template #popper>
@@ -85,6 +85,7 @@ import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
 import { remove } from '@vue/shared';
 import getCaretCoordinates from 'textarea-caret';
+import { FetchError } from 'ofetch';
 
 const props = withDefaults(defineProps<{
     lazy?: boolean,
@@ -121,6 +122,7 @@ const usersCache: Record<string, User> = {};
 const posting = ref(false);
 
 const { showToast } = useToaster();
+const showError = useQuickErrorToast();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
     immediate: !props.lazy && !route.params.commentId,
@@ -276,9 +278,11 @@ async function postComment() {
         setCommentDialog(false);
     } catch (error) {
         posting.value = false;
-        showToast({ desc: 'Could not post comment', color: 'danger' });
+        if (error instanceof FetchError) {
+            showError(error);
+        }
         console.log(error);
-    }                
+    }
 }
 
 async function editComment() {

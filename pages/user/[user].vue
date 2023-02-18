@@ -91,8 +91,8 @@
             </flex>
             <template v-if="tempBlockOverride || !isHidingMods">
                 <button-group v-model:selected="displayMods" gap="1" button-style="nav">
-                    <a-group-button name="personal">Personal Mods</a-group-button>
-                    <a-group-button name="collab">Collaborated Mods</a-group-button>
+                    <a-group-button name="personal">{{$t('personal_mods')}}</a-group-button>
+                    <a-group-button name="collab">{{$t('collab_mods')}}</a-group-button>
                 </button-group>
                 <mod-list 
                     v-if="isPublic || isOwnOrModerator"

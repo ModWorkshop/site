@@ -3,8 +3,8 @@
         <Title>{{$t('support_us')}}</Title>
         <flex gap="3" class="items-center" column>
             <a-img alt="logo" :src="logo" width="128" height="128" is-asset/>
-            <h1 class="text-primary m-auto">Support ModWorkshop!</h1>
-            <h2>Wish to support us?</h2>
+            <h1 class="text-primary m-auto">{{ $t('support_mws') }}</h1>
+            <h2>{{$t('supporter_desc')}}</h2>
             <a-alert v-if="user?.supporter" color="success" :icon="false">
                 <i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center">
                     <template #time>
@@ -12,14 +12,16 @@
                     </template>
                 </i18n-t>
             </a-alert>
-            <span>After donating, contact one of the moderators for a thank you.</span>
+            <span>{{$t('supporter_after_donating')}}</span>
             <donation-button link="https://ko-fi.com/luffydafloffi"/>
-            <h2>Cool people that currently support us</h2>
-            <flex v-if="supporters" wrap class="mb-3" style="max-width: 500px;">
-                <NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user.unique_name}`">
-                    <a-avatar :src="supporter.user.avatar"/>
-                </NuxtLink>
-            </flex>
+            <template v-if="supporters?.data.length">
+                <h2>{{$t('currently_supported')}}</h2>
+                <flex wrap class="mb-3" style="max-width: 500px;">
+                    <NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user.unique_name}`">
+                        <a-avatar :src="supporter.user.avatar"/>
+                    </NuxtLink>
+                </flex>
+            </template>
         </flex>
     </page-block>
 </template>
@@ -30,7 +32,7 @@ import { Supporter } from '~~/types/models';
 
 const { user } = useStore();
 const store = useStore();
-const logo = computed(() => store.theme === 'light' ? 'assets/mws_logo_black.svg' : 'assets/mws_logo_white.svg');
+const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 
 const { data: supporters } = await useFetchMany<Supporter>('supporters');
 </script>

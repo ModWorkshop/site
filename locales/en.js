@@ -187,6 +187,8 @@ welcome_to_mws: "Welcome to ModWorkshop!",
 mws_short_about: "We are a modding site that that embraces open source for modding!",
 expired: "Expired",
 select_placeholder: 'Select...',
+made_with_love: "Made with ❤ by {luffy}",
+operated_by: "Operated by {company}",
 
 //Discussions//
 poster: 'Poster',
@@ -209,10 +211,12 @@ liked: "Liked",
 view_all_games: "View all Games",
 last_updated_games: "Last Updated Games",
 delete_comment_desc: "This will delete the comment",
-no_threads_found: "No Threads Found :(",
+no_threads_found: "No Threads Found",
 return_to_comments: 'Return to Comments',
 announcements: "Announcements",
 game_announcements: "Game Announcements",
+no_comments_found: "No Comments Found",
+no_replies_found: "No Replies Found",
 
 //Mods//
 download: "Download",
@@ -317,9 +321,14 @@ you can increase the storage up to 1GiB.`,
 file_type_link: "Link",
 file_type_file: "File",
 label: "Label",
+edit_member: "Edit Member",
+clear_primary_download: "Clear Primary Download",
+already_sent_transfer: `You've sent a transfer request to the user: {user}
+If you wish to transfer it to a different person, or have changed your mind, cancel the request.
+`,
+transfer_keep_as_member: "Keep as member of level",
 
 //User//
-
 online: 'Online',
 last_visit: 'Last Visit',
 block: "Block",
@@ -423,6 +432,18 @@ generate_api_key: 'Generate API Key',
 your_api_key: 'Your API Key',
 no_users_found: "No Users Found!",
 banned: 'Banned',
+personal_mods: "Personal Mods",
+collab_mods: "Collaborated Mods",
+password_reset_sent: "Password reset link has been sent to the given email address if an account is associated with this email address.",
+password_reset_sent_unknown: "Successfully sent password reset link to your email address.",
+send_link: "Send Link",
+home_page: "Home Page",
+game_sections: "Game Sections",
+default_view: "Default View",
+default_sorting: "Default Sorting",
+show_mods: "Show Mods",
+show_threads: "Show Threads",
+show_last_updated: "Show Last Updated Games",
 
 //Games//
 game_settings: 'Game Settings',
@@ -517,29 +538,18 @@ delete_category_warning: `Are you sure you want to delete this category?
 The mods will not be deleted and any category that belonged to it will have no parent category.
 Only do this if you are 100% sure.
 `,
+game_admin_page_desc: "This is the game admin page. It contains a bunch of things for game admins to do.",
+successfully_banned: "Successfully banned user!",
 
 //Supporter//
-supporter_perk_1: "No advertisements",
-supporter_perk_2: "Custom color",
-supporter_perk_3: "Badge showing your support",
-supporter_perk_4: "A role in Discord showing your support",
-supporter_important_1: "To receive the perks you must be signed in",
-supporter_important_2: "English is the primary language of the site, we'll respond faster that way.",
-supporter_important_3: "For any help, refunding, etc contact one of the admins or moderators.",
 currently_supported: "Cool people that currently support us",
-supporter_make_sure: "After donating, contact one of the moderators to receive perks.",
-supporter_important: "Things you should know",
-supporter_plans: "Plans",
-supporter_plans_desc: "All plans give the same perks, the more expensive the plan is, the longer it is.",
-supporter_desc: "Wish to support us? Hate ads? Want some cool perks?",
-supporter_perks: "Perks",
-supporter_plan_1: "1 Month",
-supporter_plan_2: "6 Months",
-supporter_plan_3: "1 Year",
+supporter_after_donating: "After donating, contact one of the moderators for a thank you.",
+supporter_desc: "Wish to support us?",
 supporter_currently: "Cool people that currently support us",
-supporter_already: "You're already supporting us ♥. Thank you! Expiring: {time}",
+supporter_already: "You're already supporting us ♥. Thank you!",
 
 //Cookies
+cookies: "Cookies",
 cookie_policy: "Cookie Policy",
 cookies_desc: "We use cookies to improve your user experience! We do not store any cookies meant to track you.",
 first_party_cookies: "First-Party Cookies",

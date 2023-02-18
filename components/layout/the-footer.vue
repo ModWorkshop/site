@@ -12,11 +12,19 @@
             <flex column>
                 ModWorkshop v3.0 Beta
                 <span>
-                    Made with ❤ by <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
+                    <i18n-t keypath="made_with_love">
+                        <template #luffy>
+                            <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
+                        </template>
+                    </i18n-t>
                 </span>
             </flex>
             <flex class="items-center">
-                Operated by <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24"/> Milk Deluxe
+                <i18n-t keypath="operated_by">
+                    <template #company>
+                        <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24"/> Milk Deluxe
+                    </template>
+                </i18n-t>
             </flex>
         </flex>
         <flex class="lg:ml-auto mb-auto items-center">

@@ -1,5 +1,5 @@
 <template>
-    <a-input v-model="mod.name" label="Name" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
+    <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required desc="Maximum of 150 letters and minimum of 3 letters"/>
 
     <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 

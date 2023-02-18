@@ -1,6 +1,6 @@
 <template>
     <page-block class="items-center">
-        <h1>Cookies</h1>
+        <h1>{{$t('cookies')}}</h1>
         <content-block>
             {{$t('cookies_desc')}}
             <h2>{{$t('first_party_cookies')}}</h2>

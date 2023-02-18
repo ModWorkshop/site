@@ -4,15 +4,15 @@
             <a-alert class="my-1" type="info">{{$t('content_page_info')}}</a-alert>
         </template>
         <a-tab v-if="user.extra" name="customize" :title="$t('customize')">
-            <a-select v-model="user.extra.default_mods_view" :options="viewOptions" label="Default View"/>
-            <a-select v-model="user.extra.default_mods_sort" :options="sortOptions" label="Default Sorting"/>
-            <h2>Home Page</h2>
-            <a-input v-model="user.extra.home_show_last_games" label="Show Last Updated Games" type="checkbox"/>
-            <a-input v-model="user.extra.home_show_mods" label="Show Mods" type="checkbox"/>
-            <a-input v-model="user.extra.home_show_threads" label="Show Threads" type="checkbox"/>
-            <h2>Game Sections</h2>
-            <a-input v-model="user.extra.game_show_mods" label="Show Mods" type="checkbox"/>
-            <a-input v-model="user.extra.game_show_threads" label="Show Threads" type="checkbox"/>
+            <a-select v-model="user.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
+            <a-select v-model="user.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')"/>
+            <h2>{{$t('home_page')}}</h2>
+            <a-input v-model="user.extra.home_show_last_games" :label="$t('show_last_updated')" type="checkbox"/>
+            <a-input v-model="user.extra.home_show_mods" :label="$t('show_mods')" type="checkbox"/>
+            <a-input v-model="user.extra.home_show_threads" :label="$t('show_threads')" type="checkbox"/>
+            <h2>{{$t('game_sections')}}</h2>
+            <a-input v-model="user.extra.game_show_mods" :label="$t('show_mods')" type="checkbox"/>
+            <a-input v-model="user.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
         </a-tab>
         <a-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>

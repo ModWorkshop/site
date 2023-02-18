@@ -172,7 +172,7 @@ async function reset() {
 
         showToast({
             color: 'success',
-            desc: 'Successfully sent password reset link to your email address.'
+            desc: t('password_reset_sent_unknown')
         });
     }
 }

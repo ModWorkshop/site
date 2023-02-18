@@ -61,7 +61,7 @@
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <a-button icon="ant-design:search-outlined" aria-label="Search" @click="clickSelectedSearch"/>
+                            <a-button icon="ant-design:search-outlined" :aria-label="$t('search')" @click="clickSelectedSearch"/>
                         </div>
                         <template #popper>
                             <ClientOnly>
@@ -82,10 +82,10 @@
                     <flex v-if="user" class="items-center" gap="3">
                         <flex v-if="user.ban" column>
                             <span class="text-danger">
-                                <a-icon icon="triangle-exclamation"/> Banned
+                                <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
                             </span>
                             <span>
-                                Expires: <time-ago :time="user.ban.expire_date"/>
+                                {{$t('expires')}}: <time-ago :time="user.ban.expire_date"/>
                             </span>
                         </flex>
                         <flex class="text-lg" gap="4">
