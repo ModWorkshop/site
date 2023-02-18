@@ -11,20 +11,20 @@
                 <a-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
-                <thead>
+                <template #head>
                     <th>{{$t('role')}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
                     <th>{{$t('forum_category_can_post')}}</th>
                     <th>{{$t('actions')}}</th>
-                </thead>
-                <tbody>
+                </template>
+                <template #body>
                     <tr v-for="addedRole in addedRoles" :key="addedRole.id">
                         <td>{{addedRole.role.name}}</td>
                         <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
                         <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
                         <td><a-button color="danger" icon="mdi:trash" @click="removeRolePolicy(addedRole.id)">{{$t('delete')}}</a-button></td>
                     </tr>
-                </tbody>
+                </template>
             </a-table>
         </flex>
         <flex v-if="game" column class="p-1">
@@ -34,20 +34,20 @@
                 <a-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
-                <thead>
+                <template #head>
                     <th>{{$t("role")}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
                     <th>{{$t('forum_category_can_post')}}</th>
                     <th>{{$t('actions')}}</th>
-                </thead>
-                <tbody>
+                </template>
+                <template #body>
                     <tr v-for="addedRole in addedGameRoles" :key="addedRole.id">
                         <td>{{addedRole.role.name}}</td>
                         <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
                         <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
                         <td><a-button color="danger" icon="mdi:trash" @click="removeGameRolePolicy(addedRole.id)">{{$t('delete')}}</a-button></td>
                     </tr>
-                </tbody>
+                </template>
             </a-table>
         </flex>
         <a-input v-model="category.is_private" type="checkbox" :label="$t('private_category')"/>

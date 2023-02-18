@@ -5,11 +5,11 @@
             {{$t('cookies_desc')}}
             <h2>{{$t('first_party_cookies')}}</h2>
             <a-table class="cookies-table">
-                <thead>
+                <template #head>
                     <th>{{$t('name')}}</th>
                     <th>{{$t('cookie_explanation')}}</th>
-                </thead>
-                <tbody>
+                </template>
+                <template #body>
                     <tr>
                         <td>locale</td>
                         <td>{{$t('locale_cookie_desc')}}</td>
@@ -38,7 +38,7 @@
                         <td>{{$t('login_cookies')}}</td>
                         <td>{{$t('login_cookies_desc')}}</td>
                     </tr>
-                </tbody>
+                </template>
             </a-table>
             <a-alert v-if="allowCookies === true" color="success">{{$t('cookies_allowed_desc')}}</a-alert>
             <a-alert v-else-if="allowCookies === false" color="danger">{{$t('cookies_denied_desc')}}</a-alert>

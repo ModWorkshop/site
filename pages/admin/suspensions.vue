@@ -6,7 +6,7 @@
         </template>
         <template #items>
             <a-table>
-                <thead>
+                <template #head>
                     <th>{{$t('thumbnail')}}</th>
                     <th>{{$t('name')}}</th>
                     <th>{{$t('owner')}}</th>
@@ -14,8 +14,8 @@
                     <th>{{$t('active')}}</th>
                     <th style="width: 300px;">{{$t('reason')}}</th>
                     <th>{{$t('actions')}}</th>
-                </thead>
-                <tbody>
+                </template>
+                <template #body>
                     <mod-row v-for="suspension in data?.data" :key="suspension.id" :mod="suspension.mod" lite :class="{'alt-content-bg': suspension.status}">
                         <template #definitions>
                             <td><time-ago :time="suspension.created_at"/></td>
@@ -27,7 +27,7 @@
                             </td>
                         </template>
                     </mod-row>
-                </tbody>
+                </template>
             </a-table>
         </template>
     </a-items>

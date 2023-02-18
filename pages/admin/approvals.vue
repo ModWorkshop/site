@@ -5,14 +5,14 @@
         </template>
         <template #items="{ items }">
             <a-table>
-                <thead>
+                <template #head>
                     <th>{{$t('thumbnail')}}</th>
                     <th>{{$t('name')}}</th>
                     <th>{{$t('owner')}}</th>
                     <th>{{$t('date')}}</th>
                     <th>{{$t('actions')}}</th>
-                </thead>
-                <tbody>
+                </template>
+                <template #body>
                     <mod-row v-for="mod in items.data" :key="mod.id" :mod="mod" lite>
                         <template #definitions>
                             <td><time-ago :time="mod.updated_at"/></td>
@@ -21,7 +21,7 @@
                             </td>
                         </template>
                     </mod-row>
-                </tbody>
+                </template>
             </a-table>
         </template>
     </a-list>

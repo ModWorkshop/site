@@ -4,13 +4,13 @@
         <a-button @click="openOffsiteDepModal">{{$t('add_offsite_mod')}}</a-button>
     </flex>
     <a-table>
-        <thead>
+        <template #head>
             <th>{{$t('name')}}</th>
             <th>{{$t('url')}}</th>
             <th>{{$t('optional')}}</th>
             <th>{{$t('actions')}}</th>
-        </thead>
-        <tbody>
+        </template>
+        <template #body>
             <tr v-for="dep in dependencies" :key="dep.id">
                 <td v-if="dep.mod">{{dep.mod.name}}</td>
                 <td v-else>{{dep.name}}</td>
@@ -22,7 +22,7 @@
                     <a-button color="danger" icon="mdi:trash" @click="deleteDep(dep)">{{$t('remove')}}</a-button>
                 </td>
             </tr>
-        </tbody>
+        </template>
     </a-table>
     <a-modal-form v-if="currentDep" v-model="showAddModModal" :title="$t('add_offsite_mod')" @submit="addDependency">
         <template v-if="currentDep.offsite">

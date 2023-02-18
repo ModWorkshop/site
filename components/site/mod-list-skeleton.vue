@@ -6,21 +6,19 @@
         </template>
     </div>
     <a-table v-else>
-        <thead>
-            <tr>
-                <th v-if="displayMode == 1">{{$t('thumbnail')}}</th>
-                <th>{{$t('name')}}</th>
-                <th>{{$t('owner')}}</th>
-                <th>{{!!noGame ? $t('category') : $t('game_category')}}</th>
-                <th class="text-center">{{$t('likes')}}</th>
-                <th class="text-center">{{$t('downloads')}}</th>
-                <th class="text-center">{{$t('views')}}</th>
-                <th class="text-center">{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
-            </tr>
-        </thead>
-        <tbody>
+        <template #head>
+            <th v-if="displayMode == 1">{{$t('thumbnail')}}</th>
+            <th>{{$t('name')}}</th>
+            <th>{{$t('owner')}}</th>
+            <th>{{!!noGame ? $t('category') : $t('game_category')}}</th>
+            <th class="text-center">{{$t('likes')}}</th>
+            <th class="text-center">{{$t('downloads')}}</th>
+            <th class="text-center">{{$t('views')}}</th>
+            <th class="text-center">{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
+        </template>
+        <template #body>
             <mod-row v-for="mod in mods" :key="mod.id" :mod="mod" :no-game="noGame" :sort="sortBy" :display-mode="displayMode"/>
-        </tbody>
+        </template>
     </a-table>
 </template>
 

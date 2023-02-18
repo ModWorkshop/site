@@ -1,7 +1,16 @@
 <template>
     <flex column class="table-container">
         <table :class="{table: true, 'table-bg': background}">
-            <slot/>
+            <slot>
+                <thead>
+                    <tr>
+                        <slot name="head"/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <slot name="body"/>
+                </tbody>
+            </slot>
         </table>
     </flex>
 </template>

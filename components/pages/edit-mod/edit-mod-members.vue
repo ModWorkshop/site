@@ -17,14 +17,14 @@
             <a-button class="ml-auto" @click="newMember()">{{$t('new')}}</a-button>
         </flex>
         <a-table>
-            <thead>
+            <template #head>
                 <th>{{$t('user')}}</th>
                 <th>{{$t('member_level')}}</th>
                 <th>{{$t('member_accepted')}}</th>
                 <th>{{$t('date')}}</th>
                 <th class="text-center">{{$t("actions")}}</th>
-            </thead>
-            <tbody>
+            </template>
+            <template #body>
                 <tr v-for="user of members" :key="user.id">
                     <td><a-user :user="user"/></td>
                     <td>{{$t(`member_level_${user.level}`)}}</td>
@@ -37,7 +37,7 @@
                         </flex>
                     </td>
                 </tr> 
-            </tbody>
+            </template>
         </a-table>
     </flex>
 
