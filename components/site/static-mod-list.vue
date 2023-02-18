@@ -18,7 +18,7 @@ const props = defineProps<{
     params?: SearchParams
 }>();
 
-const sortBy = computed(() => props.params.sort);
+const sortBy = computed(() => props.params?.sort);
 
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration() });
 

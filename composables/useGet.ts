@@ -1,7 +1,6 @@
-import { FetchOptions } from 'ohmyfetch';
 import qs from 'qs';
 
-export default async function<T = unknown>(url: string, options?: FetchOptions) {
+export default async function<T = unknown>(url: string, options?) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
     const { public: config } = useRuntimeConfig();
@@ -9,8 +8,11 @@ export default async function<T = unknown>(url: string, options?: FetchOptions) 
     const headersToSend = {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
         referer: config.siteUrl, //Uneeded in production
-        cookie: headers.cookie,
     };
+
+    if (headers.cookie) {
+        headersToSend['cookie'] = token.value;
+    }
     
     if (token.value) {
         headersToSend['X-XSRF-TOKEN'] = token.value;

@@ -11,7 +11,7 @@
                     multiple
                     :label="$t('role')"
                     :options="roles?.data"
-                    :disabled="user.id !== me.id && !hasPermission('manage-roles')"
+                    :disabled="user.id !== me!.id && !hasPermission('manage-roles')"
                     :enabled-by="role => role.assignable"
                     :color-by="item => item.color"
                     @update:model-value="prepareSaveRoles"
@@ -21,7 +21,7 @@
                     v-if="gameUserData"
                     v-model="gameUserData.role_ids"
                     multiple
-                    :disabled="user.id !== me.id && !hasPermission('manage-roles', selectedGame)"
+                    :disabled="user.id !== me!.id && !hasPermission('manage-roles', selectedGame)"
                     :options="gameRoles?.data" 
                     :enabled-by="role => role.assignable"
                     :color-by="item => item.color"
@@ -104,9 +104,9 @@ const { showToast } = useToaster();
 const selectedGame = useRouteQuery('game', undefined, 'number');
 
 const roleIds = ref(clone(props.user.role_ids));
-const downloadDataButton = ref<HTMLAnchorElement>(null);
+const downloadDataButton = ref<HTMLAnchorElement>();
 
-const { data: roles } = await useFetchMany<Role>('roles', { params: { only_assignable: 1 }, initialCache: true });
+const { data: roles } = await useFetchMany<Role>('roles', { params: { only_assignable: 1 } });
 
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
@@ -117,7 +117,9 @@ const { data: gameUserData, refresh: loadGameData } = await useFetchData<GameUse
 });
 
 function downloadData() {
-    downloadDataButton.value.click();
+    if (downloadDataButton.value) {
+        downloadDataButton.value.click();
+    }
 }
 
 const passValidity = computed(() => {
@@ -141,7 +143,7 @@ watch(selectedGame, () => {
 });
 
 async function saveGameRoles() {
-    await usePatch(`games/${selectedGame.value}/users/${props.user.id}/roles`, { role_ids: gameUserData.value.role_ids });
+    await usePatch(`games/${selectedGame.value}/users/${props.user.id}/roles`, { role_ids: gameUserData.value?.role_ids });
 }
 
 async function saveRoles() {

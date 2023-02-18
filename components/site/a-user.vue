@@ -18,7 +18,7 @@
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
                 <template #popper>
-                    <a-mini-profile v-if="user" v-click-outside="() => renderProfile = false" :user="user"/>
+                    <a-mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
                 </template>
             </VMenu>
             <slot name="details" :user="user">
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
+import { vOnClickOutside } from '@vueuse/components';
 
 const props = withDefaults(defineProps<{
     details?: string,

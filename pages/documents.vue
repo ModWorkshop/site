@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="game ? breadcrumb : null" size="sm">
+    <page-block :game="game" :breadcrumb="game ? breadcrumb : undefined" size="sm">
         <h2>{{$t('documents')}}</h2>
         <content-block>
             <a-list url="documents" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>

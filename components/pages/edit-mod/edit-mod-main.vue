@@ -9,7 +9,7 @@
         </a-input>
     </flex>
 
-    <a-select v-model="mod.tag_ids" :options="tags.data" multiple :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
+    <a-select v-model="mod.tag_ids" :options="tags?.data" multiple :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
 
     <a-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
 
@@ -43,7 +43,7 @@ const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
 });
 
 const approvalOnlyForced = computed(() => {
-    const category = categories.value.data.find(cat => cat.id === props.mod.category_id);
+    const category = categories.value?.data.find(cat => cat.id === props.mod.category_id);
     return props.mod.approved === null && (category?.approval_only ?? false);
 });
 

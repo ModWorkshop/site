@@ -15,7 +15,7 @@ defineProps({
         default: true
     },
     padding: {
-        type: [Number, String],
+        type: [Number, String, Boolean],
         default: 4
     },
     altBackground: Boolean

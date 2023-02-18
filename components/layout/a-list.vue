@@ -14,24 +14,22 @@
 
         <flex column :gap="gap" padding="3">
             <a-loading v-if="loading"/>
-            <slot v-else name="items" :items="items">
-                <template v-if="items?.data.length">
-                    <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
-                        <a-list-item :item="item" :text-by="textBy" :to="itemLink">
-                            <slot name="item-name" :item="item"/>
-                            <template #before-item>
-                                <slot name="before-item" :item="item"/>
-                            </template>
-                            <template #item-buttons>
-                                <slot name="item-buttons" :item="item"/>
-                            </template>
-                        </a-list-item>
-                    </slot>
-                </template>
-                <span v-else class="p-4">
-                    {{$t('nothing_found')}}
-                </span>
+            <slot v-else-if="items && items?.data.length" name="items" :items="items">
+                <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
+                    <a-list-item :item="item" :text-by="textBy" :to="itemLink">
+                        <slot name="item-name" :item="item"/>
+                        <template #before-item>
+                            <slot name="before-item" :item="item"/>
+                        </template>
+                        <template #item-buttons>
+                            <slot name="item-buttons" :item="item"/>
+                        </template>
+                    </a-list-item>
+                </slot>
             </slot>
+            <span v-else class="p-4">
+                {{$t('nothing_found')}}
+            </span>
         </flex>
 
         <a-pagination v-model="page" :total="items?.meta.total" :per-page="limit">

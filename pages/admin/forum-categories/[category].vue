@@ -7,7 +7,7 @@
         <flex column>
             <label>{{$t('role_policies')}}</label>
             <flex>
-                <a-select v-model="addRole" :options="roles.data"/>
+                <a-select v-model="addRole" :options="roles?.data"/>
                 <a-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</a-button>
             </flex>
             <a-table>
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ForumCategory, Game, Role } from "~~/types/models";
+import { ForumCategory, Game, Role, RolePolicy } from "~~/types/models";
 import { getGameResourceUrl } from "~~/utils/helpers";
 
 const props = defineProps<{
@@ -94,42 +94,58 @@ const { data: category } = await useEditResource<ForumCategory>('category', 'for
 });
 
 const addedRoles = computed(() => {
-    const arr = [];
+    const arr: { id: number, role: Role, policy: RolePolicy }[] = [];
 
-    for (const [id, policy] of Object.entries(category.value.role_policies)) {
-        const role = roles.value.data.find(r => r.id === parseInt(id));
-        arr.push({ id, role, policy });
+    if (category.value.role_policies) {
+        for (const [id, policy] of Object.entries(category.value.role_policies)) {
+            const role = roles.value?.data.find(r => r.id === parseInt(id));
+            if (role) {
+                arr.push({ id: parseInt(id), role, policy });
+            }
+        }
     }
 
     return arr;
 });
 
 const addedGameRoles = computed(() => {
-    const arr = [];
+    const arr: { id: number, role: Role, policy: RolePolicy }[] = [];
 
-    for (const [id, policy] of Object.entries(category.value.game_role_policies)) {
-        const role = props.game.roles.find(r => r.id === parseInt(id));
-        arr.push({ id, role, policy });
+    if (category.value.game_role_policies) {
+        for (const [id, policy] of Object.entries(category.value.game_role_policies)) {
+            const role = props.game!.roles?.find(r => r.id === parseInt(id));
+            if (role) {
+                arr.push({ id: parseInt(id), role, policy });
+            }
+        }
     }
 
     return arr;
 });
 
-const validGameRoles = computed(() => props.game.roles.filter(role => !role.is_vanity));
+const validGameRoles = computed(() => props.game!.roles?.filter(role => !role.is_vanity));
 
 function addRolePolicy() {
-    category.value.role_policies[addRole.value] = { can_view: false, can_post: false };
+    if (category.value.role_policies) {
+        category.value.role_policies[addRole.value!] = { can_view: false, can_post: false };
+    }
 }
 
 function removeRolePolicy(roleId: number) {
-    delete category.value.role_policies[roleId];
+    if (category.value.role_policies) {
+        delete category.value.role_policies[roleId];
+    }
 }
 
 function addGameRolePolicy() {
-    category.value.game_role_policies[addGameRole.value] = { can_view: false, can_post: false };
+    if (category.value.game_role_policies) {
+        category.value.game_role_policies[addGameRole.value!] = { can_view: false, can_post: false };
+    }
 }
 
 function removeGameRolePolicy(roleId: number) {
-    delete category.value.game_role_policies[roleId];
+    if (category.value.game_role_policies) {
+        delete category.value.game_role_policies[roleId];
+    }
 }
 </script>

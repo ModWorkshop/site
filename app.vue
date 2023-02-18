@@ -22,10 +22,11 @@
 <script setup lang="ts">
 import { Settings } from 'luxon';
 import { useI18n } from 'vue-i18n';
+import { YesNoModal } from './composables/useYesNoModal';
 import { useStore } from './store';
 
 const store = useStore();
-const yesNoModals = useState('yesNoModals', () => []);
+const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
 const { locale } = useI18n();
 const savedLocale = useCookie('locale');
@@ -40,8 +41,13 @@ useHead({
 	title: undefined,
 });
 
-locale.value = savedLocale.value;
-Settings.defaultLocale = savedLocale.value;
+if (savedLocale.value) {
+	locale.value = savedLocale.value;
+}
+
+if (savedLocale.value) {
+	Settings.defaultLocale = savedLocale.value;
+}
 </script>
 
 <style>

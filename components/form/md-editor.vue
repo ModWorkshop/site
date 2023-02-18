@@ -122,6 +122,10 @@ function toggleFullscreen() {
     } else {
         document.body.classList.remove('md-editor-open');
     }
+    const textarea = textArea.value;
+    if (textarea) {
+        previewHeight.value = textarea.scrollHeight + 3 + 'px';
+    }
 }
 </script>
 

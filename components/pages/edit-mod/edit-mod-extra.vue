@@ -5,7 +5,7 @@
         </template>
     </md-editor>
 
-    <a-select v-if="isModerator" v-model="mod.game_id" :label="$t('game')" :options="games.data"/>
+    <a-select v-if="isModerator" v-model="mod.game_id" :label="$t('game')" :options="games?.data"/>
 
     <a-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="150" :desc="$t('short_desc_desc')"/>
 
@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 
@@ -29,6 +30,7 @@ const props = defineProps<{
 const yesNoModal = useYesNoModal();
 const router = useRouter();
 const { hasPermission } = useStore();
+const { t } = useI18n();
 
 const isModerator = computed(() => hasPermission('manage-mods', props.mod.game));
 

@@ -26,8 +26,8 @@
                     </span>
                 </flex>
                 <flex class="md:ml-auto">
-                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : null" @click="toggleLiked"/>
-                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : null">
+                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : undefined" @click="toggleLiked"/>
+                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : undefined">
                         {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
@@ -66,7 +66,7 @@ const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
-const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.mod.download.id}`);
+const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.mod.download!.id}`);
 
 async function toggleLiked() {
     if (props.static) {

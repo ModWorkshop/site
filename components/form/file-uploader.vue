@@ -61,9 +61,9 @@
 
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
-import { File as MWSFile } from '~~/types/models';
+import { File as MWSFile, SimpleFile } from '~~/types/models';
 import { DateTime } from 'luxon';
-import axios, { Canceler } from 'axios';
+import axios, { AxiosError, Canceler } from 'axios';
 import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits([
@@ -114,15 +114,11 @@ const classes = computed(() => {
     };
 });
 
-type UploadFile = {
-    id: number,
-    name: string,
-    file?: string,
-    size: number,
+type UploadFile = SimpleFile & {
+    name?: string,
     cancel?: Canceler,
     progress?: number,
     thumbnail?: string,
-    created_at?: string
 }
 
 const filesArr = toRef(props, 'files');
@@ -175,6 +171,8 @@ async function upload(files: FileList|null) {
                 created_at: DateTime.now().toISO(),
                 name: file.name,
                 size: file.size,
+                file: '',
+                type: ''
             };
     
            //Read the file and get blob src
@@ -211,9 +209,11 @@ async function upload(files: FileList|null) {
     
                 emit('file-uploaded', reactiveFile);
             } catch (e) {
-                input.value.value = null;
-                removeFile(insertFile);
-                showErrorToast(e, {}, t('failed_upload'));
+                if (e instanceof AxiosError) {
+                    input.value.value = null;
+                    removeFile(insertFile);
+                    showErrorToast(e, {}, t('failed_upload'));
+                }
             }
         }
     }

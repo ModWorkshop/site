@@ -211,6 +211,8 @@ last_updated_games: "Last Updated Games",
 delete_comment_desc: "This will delete the comment",
 no_threads_found: "No Threads Found :(",
 return_to_comments: 'Return to Comments',
+announcements: "Announcements",
+game_announcements: "Game Announcements",
 
 //Mods//
 download: "Download",
@@ -420,6 +422,7 @@ api_access_checkbox: 'I read the terms of service outlined {here}.',
 generate_api_key: 'Generate API Key',
 your_api_key: 'Your API Key',
 no_users_found: "No Users Found!",
+banned: 'Banned',
 
 //Games//
 game_settings: 'Game Settings',

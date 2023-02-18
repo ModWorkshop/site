@@ -22,7 +22,7 @@ useNeedsPermission('moderate-users', props.game);
 const url = computed(() => getGameResourceUrl('reports', props.game));
 const all = useRouteQuery('all', true, 'boolean');
 
-const reports = ref<Paginator<Report>>({ data: [], meta: null });
+const reports = ref<Paginator<Report>>(new Paginator());
 </script>
 
 <style>

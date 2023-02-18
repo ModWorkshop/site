@@ -40,12 +40,12 @@
                     </tr>
                 </template>
             </a-table>
-            <a-alert v-if="allowCookies === true" color="success">{{$t('cookies_allowed_desc')}}</a-alert>
-            <a-alert v-else-if="allowCookies === false" color="danger">{{$t('cookies_denied_desc')}}</a-alert>
+            <a-alert v-if="allowCookies == true" color="success">{{$t('cookies_allowed_desc')}}</a-alert>
+            <a-alert v-else-if="allowCookies == false" color="danger">{{$t('cookies_denied_desc')}}</a-alert>
             <span v-else>{{$t('cookies_no_choice_desc')}}</span>
             <flex>
-                <a-button v-if="allowCookies !== true" @click="allowCookies = true">{{$t('allow_cookies')}}</a-button>
-                <a-button v-if="allowCookies !== false" color="danger" @click="disallowCookies">{{$t('disallow_cookies')}}</a-button>
+                <a-button v-if="allowCookies != true" @click="allowCookies = true">{{$t('allow_cookies')}}</a-button>
+                <a-button v-if="allowCookies != false" color="danger" @click="disallowCookies">{{$t('disallow_cookies')}}</a-button>
             </flex>
             <h2>{{$t('third_party_cookies')}}</h2>
             {{$t('third_party_cookies_desc')}}

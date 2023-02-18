@@ -3,7 +3,8 @@
         v-model="vm"
         url="users"
         :placeholder="placeholder"
-        @update:model-value="value => $emit('update:modelValue', value)">
+        @update:model-value="value => $emit('update:modelValue', value)"
+    >
         <template #list-option="{ option }">
             <a-user :user="option" avatar-size="xs" static show-at/>
         </template>
@@ -17,7 +18,7 @@
 import { User } from '~~/types/models';
 
 const props = defineProps<{
-    modelValue: number|User|Array<User>|undefine|null,
+    modelValue?: number|User|Array<User>|null,
     placeholder?: string
 }>();
 

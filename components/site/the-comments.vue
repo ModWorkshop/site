@@ -308,8 +308,8 @@ function submit() {
 /**
  * Called when the comments come into view so we can load them lazily
  */
-function onVisChange(isVisible: boolean) {
-    if (!isLoaded.value && isVisible) {
+function onVisChange([{ isIntersecting }]) {
+    if (!isLoaded.value && isIntersecting) {
         loadComments();
     }
 }

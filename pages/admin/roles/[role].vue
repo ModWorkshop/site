@@ -17,7 +17,7 @@
                     :title="hasPermission(perm.name) ? undefined : $t('cant_grant_permission')"
                 >
                     <a-input
-                        v-model="role.permissions[perm.name]"
+                        v-model="role.permissions![perm.name]"
                         class="p-3"
                         :label="perm.name"
                         type="checkbox"
@@ -52,7 +52,6 @@ const { data: role } = await useEditResource<Role>('role', url.value, {
     name: '',
     tag: '',
     desc: '',
-    color: null,
     order: 1,
     is_vanity: false,
     permissions: {}
@@ -60,17 +59,17 @@ const { data: role } = await useEditResource<Role>('role', url.value, {
 
 const { data: roles } = await useFetchMany<Role>('roles', { params: { with_permissions: 1 } });
 
-const member = computed(() => roles.value.data[0]);
+const member = computed(() => roles.value?.data[0]);
 
 const { data: permissions } = await useFetchMany<Permission>('/permissions');
 
 const validPerms = computed(() => {
     if (!gameId && role.value.id === 1) {
-        return permissions.value.data;
+        return permissions.value?.data;
     } else {
-        return permissions.value.data.filter(perm => {
-            const useless = member.value.permissions[perm.name];
-            if (useless) {
+        return permissions.value?.data.filter(perm => {
+            const useless = member.value?.permissions?.[perm.name];
+            if (useless) { // Everyone has this permission already!
                 return false;
             }
 
@@ -84,10 +83,12 @@ const validPerms = computed(() => {
 });
 
 function togglePermission(perm: string) {
-    if (role.value.permissions[perm]) {
-        delete role.value.permissions[perm];
-    } else {
-        role.value.permissions[perm] = true;
+    if (role.value.permissions) {
+        if (role.value.permissions[perm]) {
+            delete role.value.permissions[perm];
+        } else {
+            role.value.permissions[perm] = true;
+        }
     }
 }
 </script>

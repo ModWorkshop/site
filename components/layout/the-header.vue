@@ -52,7 +52,7 @@
                             <a-input 
                                 id="header-search"
                                 v-model="search"
-                                v-click-outside="() => showSearch = false"
+                                v-on-click-outside="() => showSearch = false"
                                 class="search"
                                 :placeholder="$t('search')"
                                 maxlength="150"
@@ -127,6 +127,7 @@
 import { storeToRefs } from 'pinia';
 import { adminPagePerms } from '~~/utils/helpers';
 import { useStore } from '../../store';
+import { vOnClickOutside } from '@vueuse/components';
 
 const headerClosed = ref(true);
 
@@ -154,10 +155,10 @@ const canSeeReports = computed(() => store.hasPermission('manage-users'));
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods'));
 
 const userLink = computed(() => {
-    if (user.value.unique_name) {
-        return `/user/${user.value.unique_name}`;
+    if (user.value!.unique_name) {
+        return `/user/${user.value!.unique_name}`;
     } else {
-        return `/user/${user.value.id}`;
+        return `/user/${user.value!.id}`;
     }
 });
 
@@ -199,7 +200,7 @@ function setSelectedSearch(direction: number) {
     }
 }
 
-function clickSelectedSearch(e) {
+function clickSelectedSearch() {
     router.push((searchButtons.value[selectedSearch.value]?.to ?? '/search/mods') + `?query=${search.value}`);
 }
 </script>

@@ -9,7 +9,7 @@ const props = defineProps({
     column: Boolean,
     wrap: Boolean,
     gap: {type: [Number, String], default: 1},
-    padding: [Number, String],
+    padding: [Number, String, Boolean],
     grow: Boolean,
 });
 

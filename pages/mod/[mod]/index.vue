@@ -27,7 +27,7 @@
 import { useStore } from '~~/store';
 import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
-import { canEditMod, memberLevels } from '~~/utils/mod-helpers';
+import { canEditMod } from '~~/utils/mod-helpers';
 
 const store = useStore();
 const { t } = useI18n();

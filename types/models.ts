@@ -47,35 +47,30 @@ export interface Comment {
     subscribed?: boolean;
 }
 
-export interface File {
+export interface SimpleFile {
     id: number;
-    user_id: number;
-    mod_id: number;
+    user_id?: number;
+    mod_id?: number;
+    mod?: Mod | null;
+    user?: User;
+    file: string;
+    type: string;
+    created_at?: string;
+    updated_at?: string;
+    size: number;
+}
+
+export interface File extends SimpleFile {
     name: string;
     version: string;
     desc: string;
     label: string;
-    file: string;
-    type: string;
     image_id: number | null;
-    size: number;
     approved: boolean;
-    created_at?: string;
-    updated_at?: string;
-    mod?: Mod | null;
-    user: User;
 }
 
-export interface Image {
-    id: number;
-    user_id: number;
+export interface Image extends SimpleFile {
     has_thumb: boolean;
-    file: string;
-    type: string;
-    size: number;
-    created_at?: string;
-    updated_at?: string;
-    mod_id: number;
 }
 
 export interface ModMember extends User {
@@ -117,7 +112,7 @@ export interface Mod {
     updated_at?: string;
     download_id?: number|null;
     download_type?: string|null;
-    user: User;
+    user?: User;
     last_user?: User;
     category?: Category;
     game?: Game;
@@ -167,7 +162,7 @@ export interface Role {
     name: string;
     tag: string;
     desc: string;
-    color: string;
+    color?: string;
     order: number;
     created_at?: string;
     updated_at?: string;
@@ -349,7 +344,7 @@ export interface Thread {
     locked: boolean;
     locked_by_mod: boolean;
     announce: boolean;
-    announce_until: string;
+    announce_until?: string;
     bumped_at?: string;
     pinned_at?: string;
     forum_id: number;
@@ -421,7 +416,7 @@ export interface Document {
     name: string;
     url_name: string;
     desc: string;
-    game_id: number;
+    game_id?: number;
     last_user_id?: number;
     last_user?: User;
     created_at?: string;
@@ -482,8 +477,8 @@ export interface Supporter {
     user_id: number;
     expire_date?: string;
     is_cancelled: boolean;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
     user: User;
 }
 
@@ -497,8 +492,8 @@ export interface Report {
     archived: boolean;
     reportable_type: string;
     reportable_id: number;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at?: string;
+    updated_at?: string;
     user?: User | null;
     reportable?: any | null;
 }

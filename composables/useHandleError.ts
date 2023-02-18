@@ -10,10 +10,10 @@ export default function(error: FetchError|Error|Ref<true | FetchError | Error | 
 
     if (err instanceof Error) {
         if (isFetchError(err)) {
-            const code = err.response.status;
+            const code = err.response?.status;
             throw createError({ 
                 statusCode: code,
-                statusMessage: errorStrings[err.data.message] || errorStrings[code] || 'Unknown Error',
+                statusMessage: errorStrings[err.data.message] ?? (code && errorStrings[code] || 'Unknown Error'),
                 fatal: true,
             });
         } else {

@@ -22,7 +22,6 @@ const props = defineProps<{
 
 useNeedsPermission('manage-tags', props.game);
 
-const route = useRoute();
 const { t } = useI18n();
 
 const types = [
@@ -46,7 +45,7 @@ const { data: tag } = await useEditResource<Tag>('tag', 'tags', {
     notice: '',
     type: '',
     notice_type: 'info',
-    game_id: typeof route.params.game == 'string' ? parseInt(route.params.game) : null,
+    game_id: props.game.id,
     notice_localized: true
 });
 </script>

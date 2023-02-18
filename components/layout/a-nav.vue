@@ -33,8 +33,3 @@ provide('root', props.root);
 provide('side', props.side);
 provide('menuOpen', menuOpen.value);
 </script>
-
-<style>
-.nav-menu-content {
-}
-</style>

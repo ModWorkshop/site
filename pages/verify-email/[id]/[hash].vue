@@ -9,6 +9,7 @@
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon';
+import { FetchError } from 'ohmyfetch';
 import { useStore } from '~~/store';
 
 definePageMeta({
@@ -30,9 +31,9 @@ if (process.client && user) {
         verifying.value = false;
         user.email_verified_at = DateTime.now().toISODate();
     } catch (e) {
-        console.log(e.response);
-
-        showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
+        if (e instanceof FetchError && e.response) {
+            showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
+        }
     }
 }
 </script>

@@ -7,6 +7,7 @@
     </page-block>
 </template>
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useStore } from '../../store';
 
 definePageMeta({
@@ -33,9 +34,9 @@ if (process.client) {
         await usePost(`/social-logins/${route.params.provider}/login-callback`, newQuery);
         store.attemptLoginUser('/');
     } catch (e) {
-        console.log(e.response);
-        
-        showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
+        if (e instanceof FetchError && e.response) {
+            showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
+        }
     }
 }
 </script>

@@ -26,6 +26,6 @@ const { data: doc } = await useEditResource<Document>('document', 'documents', {
     name: '',
     url_name: '',
     desc: '',
-    game_id: typeof route.params.game == 'string' ? gameId : null,
+    game_id: props.game?.id,
 }, { game_id: gameId });
 </script>

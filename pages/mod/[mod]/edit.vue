@@ -6,7 +6,7 @@
             </NuxtLink> 
         </flex>
         <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save" @state-changed="formStateChanged">
-            <content-block :padding="null" class="max-md:p-4 p-8">
+            <content-block :padding="false" class="max-md:p-4 p-8">
                 <a-tabs padding="4" side query>
                     <a-tab name="main" :title="$t('main_tab')">
                         <edit-mod-main :mod="mod"/>
@@ -37,6 +37,7 @@ import clone from 'rfdc/default';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
 const { user, setGame } = useStore();
@@ -56,8 +57,8 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     name: '',
     desc: '',
     images: [],
-    files: [],
-    links: [],
+    files: new Paginator(),
+    links: new Paginator(),
     members: [],
     short_desc: '',
     changelog: '',
@@ -82,7 +83,7 @@ const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
 const breadcrumb = computed(() => {
     return [
         { name: t('games'), to: 'games' },
-        ...mod.value.breadcrumb,
+        ...(mod.value.breadcrumb ? mod.value.breadcrumb : []),
         { name: t('edit') }
     ];
 });
@@ -98,7 +99,9 @@ provide('canSave', canSave);
 provide('mod', mod.value);
 
 watch(() => mod.value.game, () => {
-    setGame(mod.value.game);
+    if (mod.value.game) {
+        setGame(mod.value.game);
+    }
 }, { immediate: true });
 
 /**

@@ -35,7 +35,7 @@ const { data: mod } = await useResource<Mod>('mod', 'mods', {
     suspended: t('error_suspended')
 });
 
-const download = ref(null);
+const download = ref<HTMLAnchorElement>();
 
 const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/download`);
 const { data: file } = await useResource<File>('file', 'files');

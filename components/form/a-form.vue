@@ -39,7 +39,7 @@ let props = defineProps({
     models: Array
 });
 
-const emit = defineEmits(['submit', 'stateChanged']);
+const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
 const disableButtons = ref(false);
 const modelCopy = ref();
@@ -73,7 +73,10 @@ function submit() {
 }
 
 function discard() {
-    Object.assign(props.model, modelCopy.value);
+    if (props.model) {
+        Object.assign(props.model, modelCopy.value);
+    }
+    emit('discard');
 }
 </script>
 

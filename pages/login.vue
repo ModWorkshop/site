@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 
@@ -36,7 +37,7 @@ const { t } = useI18n();
 const user = reactive({
     email: '',
     password: '',
-    remember: allowCookies.value === true,
+    remember: Boolean(allowCookies.value) === true,
 });
 
 const canLogin = computed(() => user.email && user.password);
@@ -47,10 +48,12 @@ async function login() {
         await usePost('/login', user);
         store.attemptLoginUser();
     } catch (e) {
-        showErrorToast(e, {
-            401: t('login_error_401'),
-            422: t('login_error_422')
-        });
+        if (e instanceof FetchError) {
+            showErrorToast(e, {
+                401: t('login_error_401'),
+                422: t('login_error_422')
+            });
+        }
     }
 }
 </script>

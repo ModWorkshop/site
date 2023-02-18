@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 
@@ -34,14 +35,20 @@ export default function() {
     const { t } = useI18n();
     const { showToast } = useToaster();
 
-    return function(e: FetchError, errorStrings: Record<number|string, string> = {}, title?: string) {
+    return function(e: FetchError|AxiosError, errorStrings: Record<number|string, string> = {}, title?: string) {
         errorStrings = {
             409: t('error_409'),
             ...errorStrings
         };
 
         const code = e.status ?? e.response?.status ?? 419;
-        const message = e.statusMessage ?? e.data?.message;
+        let message;
+        if (e instanceof FetchError) {
+            message = e.message ?? e.data?.message;
+        } else {
+            message = e.message;
+        }
+
         let desc = '';
         if (code === 422) {
             desc = getErrorString(e);

@@ -6,9 +6,9 @@
 import { useI18n } from 'vue-i18n';
 import { fullDate, getTimeAgo } from '~~/utils/helpers';
 
-const props = defineProps({
-    time: String
-});
+const props = defineProps<{
+    time?: string
+}>();
 
 const { t } = useI18n();
 

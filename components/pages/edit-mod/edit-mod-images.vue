@@ -21,16 +21,16 @@
             :url="uploadLink"
             :files="images"
             url-prefix="mods/images" 
-            :max-files="settings.mod_max_image_count" 
-            :max-file-size="settings.image_max_file_size" 
+            :max-files="settings?.mod_max_image_count" 
+            :max-file-size="settings?.image_max_file_size" 
             max-size="50" 
             use-file-as-thumb 
             @file-uploaded="fileUploaded" 
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
-            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file)">{{$t('thumbnail')}}</a-button>
-            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file)">{{$t('banner')}}</a-button>
+            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">{{$t('thumbnail')}}</a-button>
+            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
         </template>
     </file-uploader>
 </template>
@@ -49,40 +49,44 @@ const props = defineProps<{
 
 const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');
 const images = ref(clone(props.mod.images));
-const ignoreChanges: () => void = inject('ignoreChanges');
+const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
 
-function setBanner(banner: Image) {
-    props.mod.banner_id = banner && banner.id || null;
+function setBanner(banner?: Image) {
+    props.mod.banner_id = banner && banner.id || undefined;
     props.mod.banner = banner;
 }
 
-function setThumbnail(thumb: Image) {
-    props.mod.thumbnail_id = thumb && thumb.id || null;
+function setThumbnail(thumb?: Image) {
+    props.mod.thumbnail_id = thumb && thumb.id || undefined;
     props.mod.thumbnail = thumb;
 }
 
 function fileUploaded(image: Image) {
-    props.mod.images.push(image);
+    if (props.mod.images) {
+        props.mod.images.push(image);
+    }
     //If we have changes already we don't want to ignore the changes
     //We ignore them since the changes are already "applied" due to files being instantly uploaded.
-    ignoreChanges();
+    ignoreChanges?.();
 }
 
 function fileDeleted(image: Image) {
-    for (const [i, f] of Object.entries(props.mod.images)) {
-        if (toRaw(f) === toRaw(image)) {
-            props.mod.images.splice(parseInt(i), 1);
+    if (props.mod.images) {
+        for (const [i, f] of Object.entries(props.mod.images)) {
+            if (toRaw(f) === toRaw(image)) {
+                props.mod.images.splice(parseInt(i), 1);
+            }
         }
     }
     
     if (props.mod.thumbnail_id === image.id) {
-        setThumbnail(null);
+        setThumbnail();
     }
 
     if (props.mod.banner_id === image.id) {
-        setBanner(null);
+        setBanner();
     }
 
-    ignoreChanges();
+    ignoreChanges?.();
 }
 </script>

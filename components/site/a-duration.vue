@@ -20,7 +20,7 @@
                 <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('weeks') }}</a-button>
                 <template #popper>
                     <flex column>
-                        <a-dropdown-item v-for="i in [...Array(4).keys()]" :key="`day_shortcut_${i}`"  @click="bumpDate('weeks', i+1)">{{i+1}}</a-dropdown-item>
+                        <a-dropdown-item v-for="i in [...Array(4).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('weeks', i+1)">{{i+1}}</a-dropdown-item>
                     </flex>
                 </template>
             </VDropdown>
@@ -28,7 +28,7 @@
                 <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('months') }}</a-button>
                 <template #popper>
                     <flex column>
-                        <a-dropdown-item v-for="i in [...Array(12).keys()]" :key="`day_shortcut_${i}`"  @click="bumpDate('months', i+1)">{{i+1}}</a-dropdown-item>
+                        <a-dropdown-item v-for="i in [...Array(12).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('months', i+1)">{{i+1}}</a-dropdown-item>
                     </flex>
                 </template>
             </VDropdown>
@@ -41,7 +41,7 @@
 import { DateTime } from 'luxon';
 
 const props = defineProps<{
-    modelValue: string|null,
+    modelValue?: string|null,
     label?: string,
     disabled?: boolean
 }>();

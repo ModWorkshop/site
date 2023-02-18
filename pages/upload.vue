@@ -1,5 +1,5 @@
 <template>
-    <page-block size="sm" :game="game" :breadcrumb="game ? breadcrumb : null">
+    <page-block size="sm" :game="game" :breadcrumb="game ? breadcrumb : undefined">
         <Title>{{$t('upload_mod')}}</Title>
         <h1>{{$t('upload_mod')}}</h1>
         <a-form :model="mod" :created="false" @submit="create">
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Category, Game, Mod } from '~~/types/models';
@@ -47,8 +48,6 @@ const mod: Mod = reactive({
     name: '',
     desc: '',
     images: [],
-    files: [],
-    links: [],
     members: [],
     short_desc: '',
     changelog: '',
@@ -56,10 +55,10 @@ const mod: Mod = reactive({
     instructions: '',
     donation: '',
     legacy_banner_url: '',
-    game_id: null,
+    game_id: 0,
     version: '',
-    user_id: store.user?.id,
-    user: store.user,
+    user_id: store.user!.id,
+    user: store.user!,
     downloads: 0,
     likes: 0,
     views: 0,
@@ -104,8 +103,10 @@ async function create() {
     try {
         const fetchedMod = await usePost<Mod>(`games/${gameId.value}/mods`, mod);
         router.push(`/mod/${fetchedMod.id}/edit`);
-    } catch (error: any) {
-        showToast(error);
+    } catch (error) {
+        if (error instanceof FetchError) {
+            showToast(error);
+        }
         return;
     }
 }

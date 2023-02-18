@@ -43,7 +43,7 @@ import { remove } from '@vue/shared';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Comment, Mod, Notification } from '~~/types/models';
+import { Comment, Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 import { getObjectLink } from '~~/utils/helpers';
 const yesNoModal = useYesNoModal();

@@ -32,8 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
-
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
@@ -50,18 +48,18 @@ const props = defineProps({
 
 const slots = useSlots();
 const tabLinks = ref();
-
-const breakpoints = useBreakpoints(breakpointsTailwind);
-const isSm = breakpoints.smallerOrEqual('sm');
-
 const menuOpen = ref(false);
 
 function getCurrentTabs() {
+    if (!slots.default) {
+        return [];
+    }
+
     return slots.default().map(tab => {
         if (tab.props) {
             return { name: tab.props.name, title: tab.props.title };
         }
-    }).filter(tab => typeof tab == 'object');
+    }).filter(tab => typeof tab == 'object') as { name: string, title: string }[];
 }
 
 const tabs = ref(getCurrentTabs());
@@ -71,8 +69,8 @@ onUpdated(() => {
     tabs.value = getCurrentTabs();
 });
 
-const tabState: { focus: number, current: string } = reactive({
-    current: props.query ? route.query.tab as string : null, 
+const tabState: { focus: number, current?: string } = reactive({
+    current: props.query ? route.query.tab as string : undefined, 
     focus: 0
 });
 

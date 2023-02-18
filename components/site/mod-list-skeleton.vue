@@ -28,9 +28,9 @@ import { Game, Mod } from '~~/types/models';
 defineProps<{
     displayMode: number,
     sortBy: string,
-    game: Game,
+    game?: Game,
     noGame: boolean,
-    error: true|Error,
-    mods: Mod[]
+    error?: Error|null,
+    mods?: Mod[]
 }>();
 </script>

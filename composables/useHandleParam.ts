@@ -1,5 +1,4 @@
 import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import { Ref } from 'vue';
 
 /**
  * Handy composable that handles parameter changes

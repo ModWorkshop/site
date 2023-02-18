@@ -19,12 +19,13 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import clone from 'rfdc/default';
 import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
 import { User, UserForm } from '../types/models';
 
-const { showToast } = useToaster();
+const showToast = useQuickErrorToast();
 
 definePageMeta({
     middleware: 'users-only'
@@ -64,7 +65,9 @@ async function save() {
             confirm_password: ''
         };
     } catch (error) {
-        showToast({ desc: error.message, color: 'danger' });
+        if (error instanceof FetchError) {
+            showToast(error);
+        }
     }
 }
 </script>

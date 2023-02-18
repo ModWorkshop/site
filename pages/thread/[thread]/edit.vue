@@ -11,7 +11,7 @@
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
                 <a-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories"/>
-                <a-select v-model="thread.tag_ids" :options="tags.data" multiple :label="$t('tags')"/>
+                <a-select v-model="thread.tag_ids" :options="tags?.data" multiple :label="$t('tags')"/>
                 <template v-if="canManage">
                     <a-input v-model="thread.announce" type="checkbox" :label="$t('announce')"/>
                     <a-duration v-if="thread.announce" v-model="thread.announce_until" :label="$t('announcement_duration')"/>
@@ -42,12 +42,10 @@ const { data: thread } = await useEditResource<Thread>('thread', 'threads', {
     locked: false,
     locked_by_mod: false,
     announce: false,
-    announce_until: null,
     name: '',
     content: '',
     tag_ids: [],
-    category_id: null,
-    user_id: user.value.id,
+    user_id: user.value!.id,
     forum_id: forumId,
 });
 
@@ -78,7 +76,7 @@ const allowedCategories = computed(() => {
     const canAppeal = ban.value?.can_appeal ?? true;
     const canAppealGame = gameBan.value?.can_appeal ?? true;
 
-    return categories.value.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame)));
+    return categories.value?.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame))) ?? [];
 });
 
 if (!thread.value.id && isBanned.value && !allowedCategories.value.length) {

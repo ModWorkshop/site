@@ -15,7 +15,7 @@
             <span>After donating, contact one of the moderators for a thank you.</span>
             <donation-button link="https://ko-fi.com/luffydafloffi"/>
             <h2>Cool people that currently support us</h2>
-            <flex wrap class="mb-3" style="max-width: 500px;">
+            <flex v-if="supporters" wrap class="mb-3" style="max-width: 500px;">
                 <NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user.unique_name}`">
                     <a-avatar :src="supporter.user.avatar"/>
                 </NuxtLink>

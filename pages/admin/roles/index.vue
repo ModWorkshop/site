@@ -5,9 +5,9 @@
             <a-button class="mt-auto" :to="`/admin/${url}/new`">{{ $t('new') }}</a-button>
         </flex>
         <a-items v-model:page="page" :loading="loading" :items="roles">
-            <template #items="{ items }">
+            <template #items>
                 <TransitionGroup name="list">
-                    <div v-for="[, item] of Object.entries(roles.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
+                    <div v-for="[, item] of Object.entries(roles!.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
                         <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
                             class="list-button flex gap-2 items-center"
                             :to="`/admin/${url}/${item.id}`" 
@@ -55,21 +55,21 @@ const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 
 const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
 
-const rolesNoMember = computed(() => gameId ? roles.value.data : roles.value.data.filter(role => role.id !== 1));
+const rolesNoMember = computed(() => (gameId ? roles.value?.data : roles.value?.data.filter(role => role.id !== 1)) ?? []);
 
-const draggedItem = ref(null);
-const hoveringDrag = ref(null);
+const draggedItem = ref<Role>();
+const hoveringDrag = ref<Role>();
 
 function roleCanBeEdited(role: Role) {
-    if (gameId) {
-        return props.game.user_data.highest_role_order > role.order;
+    if (props.game) {
+        return props.game.user_data && (props.game.user_data.highest_role_order > role.order);
     } else {
-        return (role.id !== 1 || hasPermission('admin')) && user.highest_role_order > role.order;
+        return (role.id !== 1 || hasPermission('admin')) && (user!.highest_role_order && user!.highest_role_order > role.order);
     }
 }
 
 function showDropHint(belowRole: Role) {
-    if (user.highest_role_order > ((belowRole.order || 1001) - 2)) {
+    if (user!.highest_role_order && user!.highest_role_order > ((belowRole.order || 1001) - 2)) {
         hoveringDrag.value = belowRole;
     }
 }
@@ -89,9 +89,9 @@ async function onDrop() {
         }
 
         if (!gameId) {
-            newRoles.unshift(roles.value.data[0]);
+            newRoles.unshift(roles.value!.data[0]);
         }
-        roles.value.data = newRoles;
+        roles.value!.data = newRoles;
 
     }
 }
@@ -101,8 +101,8 @@ function startDrag(item) {
 }
 
 function stopDrag() {
-    draggedItem.value = null;
-    hoveringDrag.value = null;
+    draggedItem.value = undefined;
+    hoveringDrag.value = undefined;
 }
 </script>
 

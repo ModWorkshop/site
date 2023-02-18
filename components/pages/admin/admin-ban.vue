@@ -40,7 +40,7 @@ const emit = defineEmits<{
     (e: 'delete', userCase: Ban): void
 }>();
 
-const isExpired = computed(() => !props.ban.active || now >= DateTime.fromISO(props.ban.expire_date))
+const isExpired = computed(() => !props.ban.active || now >= DateTime.fromISO(props.ban.expire_date));
 const duration = computed(() => getDuration(props.ban.created_at, props.ban.expire_date));
 const bansUrl = computed(() => getGameResourceUrl('bans', props.game));
 

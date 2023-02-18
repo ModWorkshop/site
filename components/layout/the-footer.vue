@@ -63,7 +63,7 @@ watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
 });
 
-const colors = [];
+const colors: { id: string, name: string }[] = [];
 
 for (const key of colorSchemes) {
     colors.push({

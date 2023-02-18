@@ -52,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 import { passwordValidity, serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
@@ -71,7 +72,7 @@ const user = reactive({
     password_confirm: '',
 });
 
-const avatarBlob = ref(null);
+const avatarBlob = ref();
 
 const passValidity = computed(() => {
     const validity = passwordValidity(user.password);
@@ -106,9 +107,11 @@ async function register() {
         });
         store.attemptLoginUser();
     } catch (e) {
-        showErrorToast(e, {
-            409: t('register_error_409'),
-        });
+        if (e instanceof FetchError) {
+            showErrorToast(e, {
+                409: t('register_error_409'),
+            });
+        }
     }
 }
 </script>

@@ -30,5 +30,5 @@ const { data: template } = await useEditResource<InstructsTemplate>('template', 
 
 const ignoreChanges = useEventRaiser();
 
-watch(template.value.dependencies, () => ignoreChanges.execute());
+watch(() => template.value.dependencies, () => ignoreChanges.execute());
 </script>

@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { User, Role } from '~~/types/models';
+import { User } from '~~/types/models';
 
 const props = defineProps<{
     user: User
@@ -47,7 +47,7 @@ const { currentGame, hasPermission, user: me } = useStore();
 
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 async function saveGameRoles() {
-    await usePatch(`games/${currentGame.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
+    await usePatch(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
 }
 
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });

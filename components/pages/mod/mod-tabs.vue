@@ -4,7 +4,7 @@
             <a-tab name="description" :title="$t('description')">
                 <a-markdown :text="mod.desc"/>
             </a-tab>
-            <a-tab v-if="mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
+            <a-tab v-if="mod.images && mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
                 <a-img 
                     v-for="(image, i) of mod.images"
                     :key="image.id" 
@@ -93,10 +93,14 @@ function showImage(nextIndex) {
 }
 
 const images = computed(() => {
-    const images = [];
-    for (const image of props.mod.images) {
-        images.push(`${config.storageUrl}/mods/images/${image.file}`);
+    const images: string[] = [];
+
+    if (props.mod.images) {
+        for (const image of props.mod.images) {
+            images.push(`${config.storageUrl}/mods/images/${image.file}`);
+        }
     }
+
     return images;
 });
 </script>

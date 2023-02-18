@@ -31,7 +31,7 @@
                     <small>{{$t('password_guide')}}</small>
                 </flex>
                 <div>
-                    <a-button type="submit" :disabled="sending || (!email && !user) || (password && passwordConfirm !== password)">{{$t('submit')}}</a-button>
+                    <a-button type="submit" :disabled="sending || (!email && !user) || (!!password && passwordConfirm !== password)">{{$t('submit')}}</a-button>
                 </div>
             </content-block>
         </a-form>    

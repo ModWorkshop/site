@@ -1,6 +1,7 @@
 <template>
     <a-input v-model="mod.version" :label="$t('version')"/>
     <md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
+    <a-button class="ml-auto" icon="mdi:close" @click="setPrimaryDownload()">Clear Primary Download</a-button>
     <div>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
@@ -39,7 +40,7 @@
     <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader list name="files" :url="uploadLink" max-files="25" :files="files?.data" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader list name="files" :url="uploadLink" max-files="25" :files="files?.data ?? []" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
         <template #headers>
             <td class="text-center">{{$t('primary')}}</td>
         </template>
@@ -79,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { Download, File, Link, Mod } from '~~/types/models';
+import { File, Link, Mod } from '~~/types/models';
 import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { friendlySize, fullDate } from '~~/utils/helpers';

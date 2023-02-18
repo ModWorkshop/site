@@ -20,13 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
 
 const router = useRouter();
-const { showToast } = useToaster();
 const yesNoModal = useYesNoModal();
 const showError = useQuickErrorToast();
 

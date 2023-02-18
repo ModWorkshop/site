@@ -1,3 +1,4 @@
+import { FetchError } from 'ohmyfetch';
 import { i18n } from './../app/i18n';
 import { useStore } from '../store';
 
@@ -17,12 +18,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 await store.getNotificationCount(true);
             }
         } catch (error) {
-            console.log(error);
-            
-            if (!error.response) {
-                showError({ statusCode: 502, statusMessage: i18n.global.t('error_502'), fatal: true });
-            } else if (error.response.status === 500) {
-                showError({ statusCode: 500, statusMessage: i18n.global.t('error_500'), fatal: true });
+            if (error instanceof FetchError) {
+                if (!error.response) {
+                    showError({ statusCode: 502, statusMessage: i18n.global.t('error_502'), fatal: true });
+                } else if (error.response.status === 500) {
+                    showError({ statusCode: 500, statusMessage: i18n.global.t('error_500'), fatal: true });
+                }
             }
         }
     }

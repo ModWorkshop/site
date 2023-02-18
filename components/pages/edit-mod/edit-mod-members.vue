@@ -59,7 +59,7 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
-import { FetchError } from 'ofetch';
+import { FetchError } from 'ohmyfetch';
 const yesNoModal = useYesNoModal();
 const showToast = useQuickErrorToast();
 

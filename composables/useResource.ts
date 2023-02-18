@@ -35,11 +35,13 @@ export default async function<T>(
 
     const id = route.params[`${name}`];
 
-    if (!id) {
-        return { data: ref(fallback), error: ref(null) };
+    const res = await useFetchData<T>(`${url}/${id}`, { params, immediate: !!id });
+
+    //I sometimes really hate typescript, just fucking look at the length of this crap...
+    if (!id && fallback) {
+        res.data.value = fallback as T;
     }
 
-    const res = await useFetchData<T>(`${url}/${id}`, { params });
     const { error } = res;
 
     useHandleError(error, {

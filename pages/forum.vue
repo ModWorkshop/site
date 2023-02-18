@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="game ? breadcrumb : null">
+    <page-block :game="game" :breadcrumb="game ? breadcrumb : undefined">
         <Title>{{game ? $t('name_forum', { name: game.name }) : $t('forum')}}</Title>
         <flex>
             <a-button :to="newThreadLink" :disabled="cannotPost">{{$t('new_thread')}}</a-button>

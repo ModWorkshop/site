@@ -1540,6 +1540,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^18.14.0":
+  version: 18.14.0
+  resolution: "@types/node@npm:18.14.0"
+  checksum: d83fcf5e4ed544755dd9028f5cbb6b9d46235043159111bb2ad62223729aee581c0144a9f6df8ba73d74011db9ed4ebd7af2fd5e0996714e3beb508a5da8ac5c
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -2665,13 +2672,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caret-xy@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "caret-xy@npm:2.0.3"
-  checksum: 4a8b22af85260d82e7ec9bd93dc9c8179de2cd4e8abec945ea32c0b2ad0b941bc529a7ec0e34bf2d136cc79cf36d1328e7df0568007199e351808df66f539d3f
-  languageName: node
-  linkType: hard
-
 "chalk@npm:^2.0.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -2803,13 +2803,6 @@ __metadata:
   version: 4.0.0
   resolution: "cli-width@npm:4.0.0"
   checksum: 1ec12311217cc8b2d018646a58b61424d2348def598fb58ba2c32e28f0bcb59a35cef168110311cefe3340abf00e5171b351de6c3e2c084bd1642e6e2a9e144e
-  languageName: node
-  linkType: hard
-
-"click-outside-vue3@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "click-outside-vue3@npm:4.0.1"
-  checksum: bc2cf3336f1343619f60c2e2d5a8cc7cc64ec5d912f42f9f3666c7655c08d77b9a8916a6b98ac505deeb2c11a40ffd58ce91308762e31989e546654b689d0b1e
   languageName: node
   linkType: hard
 
@@ -8235,6 +8228,7 @@ isomorphic-dompurify@latest:
     "@nuxtjs/tailwindcss": ^6.3.1
     "@pinia/nuxt": ^0.4.6
     "@types/luxon": ^3.2.0
+    "@types/node": ^18.14.0
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^5.50.0
     "@typescript-eslint/parser": ^5.50.0
@@ -8243,8 +8237,6 @@ isomorphic-dompurify@latest:
     "@vueuse/nuxt": ^9.12.0
     "@vueuse/router": ^9.12.0
     axios: ^1.3.2
-    caret-xy: ^2.0.3
-    click-outside-vue3: ^4.0.1
     eslint: ^8.33.0
     eslint-plugin-vue: ^9.9.0
     fast-equals: ^4.0.3

@@ -51,7 +51,7 @@ const props = defineProps<{
     noCategories?: boolean,
     noGame?: boolean,
     mod: Mod,
-    game: Game,
+    game?: Game,
     static?: boolean
 }>();
 

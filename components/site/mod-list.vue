@@ -79,7 +79,6 @@
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
-import { Paginator } from '~~/types/paginator';
 import { longExpiration } from '~~/utils/helpers';
 
 const props = withDefaults(defineProps<{
@@ -96,10 +95,6 @@ const props = withDefaults(defineProps<{
     limit: 40,
     url: 'mods'
 });
-
-const emit = defineEmits<{
-    (e: 'fetched', mods: Paginator<Mod>)
-}>();
 
 const { user } = useStore();
 
@@ -141,8 +136,6 @@ const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => prop
 if (props.triggerRefresh) {
     watch(props.triggerRefresh.listen, refresh);
 }
-
-watch(fetchedMods, val => emit('fetched', val), { immediate: true });
 
 let { start: planLoad } = useTimeoutFn(async () => {
     await refresh();

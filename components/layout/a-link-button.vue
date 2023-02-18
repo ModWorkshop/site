@@ -9,7 +9,7 @@ const props = defineProps<{
     href?: string,
     to?: string,
     iconSize?: string,
-    icon?: string | Array<any>,
+    icon?: string,
     iconRotation?: number,
 }>();
 

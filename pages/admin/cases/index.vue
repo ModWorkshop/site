@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { FetchError } from 'ofetch';
+import { FetchError } from 'ohmyfetch';
 import { Game, UserCase } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 

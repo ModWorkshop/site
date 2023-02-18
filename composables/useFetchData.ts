@@ -1,4 +1,3 @@
-import { Ref } from 'nuxt/dist/app/compat/capi';
 import { FetchOptions } from "ohmyfetch";
 import hash from 'object-hash';
 

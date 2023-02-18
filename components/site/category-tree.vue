@@ -1,8 +1,8 @@
 <template>
     <div class="category">
-        <div v-if="category" :class="classes" @click.self="onClickCategory(category)">
+        <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
             <a-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
-            <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category)">{{category.name}}</strong> 
+            <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
             <slot name="button" :category="category"/>
         </div>
         <flex v-if="open" column :class="{'px-5': !!category}">
@@ -36,7 +36,7 @@ const props = defineProps<{
 defineEmits(['update:modelValue']);
 
 const currentCategories = computed(() => {
-    const cats = [];
+    const cats: Category[] = [];
     for (const category of props.categories) {
         if (!props.category && !category.parent_id || (props.category && category.parent_id === props.category.id)) {
             cats.push(category);
@@ -46,7 +46,7 @@ const currentCategories = computed(() => {
     return cats;
 });
 
-function isRelatedParent(category: Category, otherCategory: Category) {
+function isRelatedParent(category: Category, otherCategory?: Category) {
     //Basically the parent
     if (category.id == otherCategory?.parent_id) {
         return true;
@@ -77,7 +77,7 @@ if (props.category) {
 }
 
 function onClickCategory(category: Category) {
-    if (parseInt(currentCategoryId.value) === parseInt(category.id)) {
+    if (parseInt(currentCategoryId.value) == category.id) {
         currentCategoryId.value = undefined;
         open.value = false;
     } else {

@@ -5,7 +5,7 @@
             <h2>{{$t('mws_short_about')}}</h2>
         </flex>
 
-        <flex v-if="user?.extra.home_show_last_games ?? true" column :gap="2">
+        <flex v-if="user?.extra?.home_show_last_games ?? true" column :gap="2">
             <flex>
                 <h2>{{$t('last_updated_games')}}</h2>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
@@ -15,7 +15,7 @@
             </flex>
         </flex>
         
-        <mod-list v-if="user?.extra.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
+        <mod-list v-if="user?.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="games" icon="mdi:gamepad">{{$t('followed_games')}}</a-group-button>
@@ -27,7 +27,7 @@
             </template>
         </mod-list>
         <thread-list 
-            v-if="user?.extra.home_show_threads ?? true"
+            v-if="user?.extra?.home_show_threads ?? true"
             :title="$t('threads')"
             title-link="/forum"
             :forum-id="1"
@@ -44,11 +44,11 @@ import { Game } from '~~/types/models';
 
 const { user } = useStore();
 
-const { data: games } = await useFetchMany<Game>('games', { initialCache: true });
+const { data: games } = await useFetchMany<Game>('games');
 
 const allGames = ref(false);
 
-const selectedView = ref(user?.extra.default_mods_view ?? 'all');
+const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
 
 const links = {
     mods: 'followed-mods',
@@ -60,6 +60,10 @@ const links = {
 const currentFollowUrl = computed(() => links[selectedView.value]);
 
 const lastGames = computed(() => {
+    if (!games.value) {
+        return [];
+    }
+
     if (allGames.value) {
         return games.value.data;
     } else {

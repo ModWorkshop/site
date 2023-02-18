@@ -1,7 +1,7 @@
 <template>
     <flex v-if="game" column gap="4">
         <mod-list 
-            v-if="user?.extra.game_show_mods ?? true"
+            v-if="user?.extra?.game_show_mods ?? true"
             :title="$t('mods')"
             :limit="10"
             :title-link="`/g/${game.short_name}/mods`"
@@ -9,7 +9,7 @@
             :url="`games/${game.id}/mods`"
         />
         <thread-list 
-            v-if="user?.extra.game_show_threads ?? true"
+            v-if="user?.extra?.game_show_threads ?? true"
             :title="$t('threads')"
             :title-link="`/g/${game.short_name}/forum`"
             :game-id="game?.id"

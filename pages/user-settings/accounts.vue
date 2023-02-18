@@ -51,7 +51,7 @@ const listenToTabs = ref(false);
 const { t } = useI18n();
 
 const { data: accounts, refresh } = await useFetchData<SocialLogin[]>('social-logins');
-const canUnlink = computed(() =>  accounts.value.length > 1 || props.user.signable);
+const canUnlink = computed(() =>  accounts.value && accounts.value.length > 1 || props.user.signable);
 
 const providers = computed(() => {
     const providers: Record<string, { name: string, account?: SocialLogin }> = {
@@ -61,8 +61,10 @@ const providers = computed(() => {
         discord: {  name: 'Discord' }
     };
 
-    for (const account of accounts.value) {
-        providers[account.social_id].account = account;
+    if (accounts.value) {
+        for (const account of accounts.value) {
+            providers[account.social_id].account = account;
+        }
     }
     
     return providers;
@@ -74,7 +76,9 @@ function unlink(provider: string) {
         desc: t('unlink_warn'),
         async yes() {
             await useDelete(`social-logins/${provider}`);
-            accounts.value = accounts.value.filter(account => account.social_id !== provider);
+            if (accounts.value) {
+                accounts.value = accounts.value.filter(account => account.social_id !== provider);
+            }
         }
     });
 }

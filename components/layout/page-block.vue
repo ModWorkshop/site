@@ -35,7 +35,7 @@
                     </NuxtLink>
                     <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
                     <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('admin_page')}}</a-link-button>
-                    <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                    <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game!)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
             </content-block>
         </flex>
@@ -103,10 +103,10 @@ function hideAnnouncement(thread: Thread) {
 const buttons = computed(() => {
     if (props.game) {
         const btns = props.game.buttons.split(',');
-        const res = [];
+        const res: string[][] = [];
     
         for (const btn of btns) {
-            res.push([...btn.split('|')]);
+            res.push(btn.split('|'));
         }
     
         return res;

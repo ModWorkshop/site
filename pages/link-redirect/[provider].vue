@@ -10,6 +10,7 @@
     </page-block>
 </template>
 <script setup lang="ts">
+import { FetchError } from 'ohmyfetch';
 import { useI18n } from 'vue-i18n';
 
 definePageMeta({
@@ -36,7 +37,7 @@ if (process.client) {
         await usePost(`/social-logins/${route.params.provider}/link-callback`, newQuery);
         done.value = true;
     } catch (e) {
-        useHandleError(e, {
+        useHandleError(e as FetchError, {
             409: t('account_already_linked'),
         });
     }
