@@ -194,6 +194,8 @@ export interface Game {
     roles?: Role[];
     user_data?: GameUserData;
     announcements?: Thread[];
+    reports_count?: number;
+    waiting_count?: number;
 }
 
 export interface SocialLogin {

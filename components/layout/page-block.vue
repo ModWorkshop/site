@@ -27,8 +27,14 @@
                     </flex>
                 </flex>
                 <flex class="ml-auto mt-1" gap="4">
+                    <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.id}/admin/reports`">
+                        <a-icon icon="mdi:alert-box"/> {{reportsCount}}
+                    </NuxtLink>
+                    <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.id}/admin/approvals`">
+                        <a-icon icon="mdi:clock"/> {{waitingCount}}
+                    </NuxtLink>
                     <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
-                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('game_admin_page')}}</a-link-button>
+                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('admin_page')}}</a-link-button>
                     <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
                 </flex>
             </content-block>
@@ -77,6 +83,12 @@ const hiddenAnnouncements = computed(() => {
     }
 });
 
+const reportsCount = computed(() => props.game!.reports_count ?? 0);
+const waitingCount = computed(() => props.game!.waiting_count ?? 0);
+const hasReports = computed(() => reportsCount.value > 0);
+const hasWaiting = computed(() => waitingCount.value > 0);
+const canSeeReports = computed(() => store.hasPermission('manage-users', props.game));
+const canSeeWaiting = computed(() => store.hasPermission('manage-mods', props.game));
 
 const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
 const gameAnnouncements = computed(() => store.currentGame?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);

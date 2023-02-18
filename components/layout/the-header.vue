@@ -89,8 +89,12 @@
                             </span>
                         </flex>
                         <flex class="text-lg" gap="4">
-                            <NuxtLink v-if="canSeeReports" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports"><a-icon icon="mdi:alert-box"/> {{reportsCount}}</NuxtLink>
-                            <NuxtLink v-if="canSeeWaiting" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" to="/admin/approvals"><a-icon icon="mdi:clock"/> {{waitingCount}}</NuxtLink>
+                            <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports">
+                                <a-icon icon="mdi:alert-box"/> {{reportsCount}}
+                            </NuxtLink>
+                            <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" to="/admin/approvals">
+                                <a-icon icon="mdi:clock"/> {{waitingCount}}
+                            </NuxtLink>
                             <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="mdi:bell"/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
