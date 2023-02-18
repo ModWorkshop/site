@@ -3,10 +3,10 @@
         <flex column gap="5">
             <flex wrap gap="3">
                 <a-link-button @click="scrollToTop">{{$t('return_to_top')}}</a-link-button>
-                <a-link-button to="/documents/rules">{{$t('rules')}}</a-link-button>
-                <a-link-button to="/documents/about">{{$t('about')}}</a-link-button>
-                <a-link-button to="/documents/terms">{{$t('terms')}}</a-link-button>
-                <a-link-button to="/documents/policy">{{$t('privacy')}}</a-link-button>
+                <a-link-button to="/document/rules">{{$t('rules')}}</a-link-button>
+                <a-link-button to="/document/about">{{$t('about')}}</a-link-button>
+                <a-link-button to="/document/terms">{{$t('terms')}}</a-link-button>
+                <a-link-button to="/document/policy">{{$t('privacy')}}</a-link-button>
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>

@@ -31,7 +31,7 @@
                     <a-link-button class="max-lg:hidden" to="/forum?category=news">{{$t('news')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/forum">{{$t('forum')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="/documents/rules">{{$t('rules')}}</a-link-button>
+                    <a-link-button class="max-lg:hidden" to="/document/rules">{{$t('rules')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/support">{{$t('support_us')}}</a-link-button>
                     <VDropdown class="hidden max-lg:block max-sm:hidden">

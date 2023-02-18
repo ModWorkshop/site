@@ -6,7 +6,7 @@
                 <span>
                     <i18n-t keypath="api_access_checkbox">
                         <template #here>
-                            <NuxtLink to="/documents/api-tos">{{$t('here')}}</NuxtLink>
+                            <NuxtLink to="/document/api-tos">{{$t('here')}}</NuxtLink>
                         </template>
                     </i18n-t>
                 </span>
