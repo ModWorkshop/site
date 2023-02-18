@@ -26,7 +26,7 @@
                         </span>
                     </flex>
                 </flex>
-                <flex class="ml-auto mt-1" gap="4">
+                <flex class="ml-auto mt-1" gap="4" wrap>
                     <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.id}/admin/reports`">
                         <a-icon icon="mdi:alert-box"/> {{reportsCount}}
                     </NuxtLink>
