@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\GameResource;
-use App\Http\Resources\RoleResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\User;
@@ -106,7 +105,7 @@ class GameController extends Controller
             $game->loadMissing('roles');
         }
         APIService::setCurrentGame($game);
-        return $game;
+        return new GameResource($game);
     }
 
     public function delete()

@@ -40,6 +40,7 @@ class ModResource extends JsonResource
 
                 return $members;
             }),
+            'game' => new GameResource($this->game),
             'transfer_request' => $this->whenLoaded('transferRequest'),
             'last_user' => $this->whenLoaded('lastUser', fn() => new UserResource($this->lastUser)),
             'tags' => TagResource::collection($this->whenLoaded('tags')),

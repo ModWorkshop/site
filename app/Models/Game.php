@@ -114,6 +114,11 @@ class Game extends Model
         return $this->hasMany(GameRole::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     /**
      * Returns whether the game is followed by the authenticated user
      */
