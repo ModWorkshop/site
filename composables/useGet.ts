@@ -11,7 +11,7 @@ export default async function<T = unknown>(url: string, options?) {
     };
 
     if (headers.cookie) {
-        headersToSend['cookie'] = token.value;
+        headersToSend['cookie'] = headers.cookie;
     }
     
     if (token.value) {
