@@ -255,6 +255,11 @@ class Mod extends Model implements SubscribableInterface
 
         static::created(function(Mod $mod) {
             $mod->game->increment('mods_count');
+
+            //Auto-sub ourselves
+            $mod->subscriptions()->create([
+                'user_id' => Auth::user()->id
+            ]);
         });
     }
 
