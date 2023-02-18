@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb" :game-banner="$route.name == 'game-home'">
+    <page-block :game="game" :breadcrumb="breadcrumb" :game-banner="$route.name == 'game-game'">
         <Title>{{game.name}}</Title>
         <div>
             <NuxtPage :game="game"/>
