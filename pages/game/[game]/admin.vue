@@ -1,6 +1,6 @@
 <template>
     <content-block class="p-6">
-        <h3 v-if="game.id">
+        <h3 v-if="game?.id">
             {{$t('game_name_settings', { game: game.name })}}
         </h3>
         <a-nav v-if="game?.id" side :root="root">
