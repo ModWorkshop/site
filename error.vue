@@ -13,9 +13,13 @@
 <script setup lang="ts">
 import { useStore } from './store';
 
-defineProps({
-	error: Object
-});
+defineProps<{
+	error: {
+		statusCode: number,
+		statusMessage: string
+		description?: string,
+	}
+}>();
 
 const store = useStore();
 
