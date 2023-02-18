@@ -96,6 +96,15 @@ class SuspensionController extends Controller
      */
     public function destroy(Suspension $suspension)
     {
+        $mod = $suspension->mod;
         $suspension->delete();
+
+        if ($mod->status) {
+            if (!$mod->lastSuspension()->exists()) {
+                $mod->update([
+                    'suspended' => false
+                ]);
+            } 
+        }
     }
 }
