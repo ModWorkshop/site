@@ -91,7 +91,7 @@ const canSeeReports = computed(() => store.hasPermission('manage-users', props.g
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods', props.game));
 
 const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
-const gameAnnouncements = computed(() => store.currentGame?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
+const gameAnnouncements = computed(() => props.game?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
 const canSeeAdminGamePage = computed(() => props.game && adminGamePagePerms.some(perm => store.hasPermission(perm, props.game)));
 
 function hideAnnouncement(thread: Thread) {
