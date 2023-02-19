@@ -147,6 +147,7 @@ async function transferOwnership() {
     try {
         const request = await usePatch<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
         props.mod.transfer_request = request;
+        showTransferOwner.value = false;
         ignoreChanges?.();
     } catch (error) {
         showToast(error as FetchError);
