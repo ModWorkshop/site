@@ -4,7 +4,7 @@
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
         </template>
-        <flex class="my-auto" grow>
+        <flex class="my-auto" grow wrap>
             <component 
                 :is="defintion.component"
                 v-if="defintion.component && notifiable"
