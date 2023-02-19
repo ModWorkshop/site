@@ -31,29 +31,26 @@ export default defineNuxtConfig({
 
 
 			//Kinda disgusting, but other way is making components for each one of them and then pages...
-			const game = routes.find(page => page.path == '/game/:game');
+			const game = routes.find(page => page.path == '/game/:game/admin');
 			if (game && game.children) {
-				const gameAdmin = game.children.find(page => page.path == 'admin');
-				if (gameAdmin && gameAdmin.children) {
-					gameAdmin.children.push(...[
-						{ path: 'bans', file: '~/pages/admin/bans/index.vue' },
-						{ path: 'bans/:ban', file: '~/pages/admin/bans/[ban].vue' },
-						{ path: 'cases', file: '~/pages/admin/cases/index.vue' },
-						{ path: 'cases/:case', file: '~/pages/admin/cases/[case].vue' },
-						{ path: 'forum-categories/:category', file: '~/pages/admin/forum-categories/[category].vue' },
-						{ path: 'forum-categories', file: '~/pages/admin/forum-categories/index.vue' },
-						{ path: 'roles/:role', file: '~/pages/admin/roles/[role].vue' },
-						{ path: 'roles', file: '~/pages/admin/roles/index.vue' },
-						{ path: 'tags/:tag', file: '~/pages/admin/tags/[tag].vue' },
-						{ path: 'tags', file: '~/pages/admin/tags/index.vue' },
-						{ path: 'suspensions', file: '~/pages/admin/suspensions.vue' },
-						{ path: 'reports', file: '~/pages/admin/reports.vue' },
-						{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
-						{ path: 'mods', file: '~/pages/admin/mods.vue' },
-						{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
-						{ path: 'documents/:document.', file: '~/pages/admin/documents/[document].vue' },
-					]);
-				}
+				game.children.push(...[
+					{ path: 'bans', file: '~/pages/admin/bans/index.vue' },
+					{ path: 'bans/:ban', file: '~/pages/admin/bans/[ban].vue' },
+					{ path: 'cases', file: '~/pages/admin/cases/index.vue' },
+					{ path: 'cases/:case', file: '~/pages/admin/cases/[case].vue' },
+					{ path: 'forum-categories/:category', file: '~/pages/admin/forum-categories/[category].vue' },
+					{ path: 'forum-categories', file: '~/pages/admin/forum-categories/index.vue' },
+					{ path: 'roles/:role', file: '~/pages/admin/roles/[role].vue' },
+					{ path: 'roles', file: '~/pages/admin/roles/index.vue' },
+					{ path: 'tags/:tag', file: '~/pages/admin/tags/[tag].vue' },
+					{ path: 'tags', file: '~/pages/admin/tags/index.vue' },
+					{ path: 'suspensions', file: '~/pages/admin/suspensions.vue' },
+					{ path: 'reports', file: '~/pages/admin/reports.vue' },
+					{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
+					{ path: 'mods', file: '~/pages/admin/mods.vue' },
+					{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
+					{ path: 'documents/:document.', file: '~/pages/admin/documents/[document].vue' },
+				]);
 			}
 		}
 	},

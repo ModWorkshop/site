@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { Game } from '~~/types/models';
+
 defineProps<{
     game: Game
 }>();
