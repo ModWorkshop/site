@@ -13,6 +13,7 @@ use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameRoleController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\InstructsTemplateController;
 use App\Http\Controllers\InstructsTemplateDependencyController;
 use App\Http\Controllers\LinkController;
@@ -76,12 +77,10 @@ function gameResource(string $resource, string $class, array $config=[]) {
  * @group Mods
  */
 resource('files', FileController::class, 'mods');
+resource('images', ImageController::class, 'mods');
 Route::middleware('can:update,mod')->group(function() {
     Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
-    //Images
-    Route::post('mods/{mod}/images', [ModController::class, 'uploadModImage']);
-    Route::delete('mods/{mod}/images/{image}', [ModController::class, 'deleteModImage']);
-    Route::delete('mods/{mod}/images', [ModController::class, 'deleteAllImages']);
+    Route::delete('mods/{mod}/images', [ImageController::class, 'deleteAllImages']);
 });
 
 Route::middleware('can:super-update,mod')->group(function() {
