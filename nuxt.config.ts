@@ -79,16 +79,6 @@ export default defineNuxtConfig({
 		] : [ ]
 	},
 
-	vite: {
-		server: {
-			watch: { usePolling: true },
-		}
-	},
-
-	delayHydration: {
-		debug: process.env.NODE_ENV === 'development'
-	},
-
 	modules: [
 		'nuxt-delay-hydration',
 		'@pinia/nuxt',
