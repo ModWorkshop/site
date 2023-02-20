@@ -62,15 +62,16 @@ class Link extends Model
     }
 
     protected static function booted() {
-        static::deleting(function (Link $link)
+        static::deleted(function (Link $link)
         {
             $mod = $link->mod;
-            
+
             if ($mod->download_type === Link::class && $mod->download_id === $link->id) {
                 $mod->download_id = null;
                 $mod->download_type = null;
-                $mod->calculateFileStatus();
             }
+
+            $mod->calculateFileStatus();
         });
     }
 }

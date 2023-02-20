@@ -437,7 +437,7 @@ class Mod extends Model implements SubscribableInterface
      */
     public function calculateFileStatus(bool $save=true)
     {
-        $this->has_download = count($this->files) > 0 || count($this->links) > 0;
+        $this->has_download = $this->files()->count() > 0 || $this->links()->count() > 0;
 
         //If we don't have a publish date and status is 1
         if (!$this->published_at && $this->approved && $this->has_download) {
