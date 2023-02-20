@@ -435,8 +435,16 @@ class ModController extends Controller
 
         $user = User::find($val['owner_id']);
 
+        if (isset($user->last_ban) || isset($user->last_game_ban)) {
+            abort(405, 'Cannot transfer ownership to banned users.');
+        }
+
+        if ($mod->user_id == $val['owner_id']) {
+            abort(405, 'Cannot transfer ownership to the owner themselves.');
+        }
+
         if ($mod->transferRequest()->exists()) {
-            abort(405, 'Transfer request in progress.');
+            abort(409, 'Transfer request in progress.');
         }
 
         $transferRequest = new TransferRequest(['keep_owner_level' => $val['keep_owner_level']]);

@@ -50,7 +50,11 @@ class ModMemberController extends Controller
         }
 
         $user = User::find($val['user_id']);
-        
+
+        if (isset($user->last_ban) || isset($user->last_game_ban)) {
+            abort(405, 'Cannot add banned users to members.');
+        }
+
         $mod->members()->attach($user, ['level' => $val['level'], 'accepted' => false]);
         $member = $mod->members()->where('user_id', $val['user_id'])->first();
         
