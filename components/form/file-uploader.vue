@@ -75,6 +75,7 @@ const emit = defineEmits([
 const props = defineProps<{
     list?: boolean,
     url: string,
+    uploadUrl: string,
     urlPrefix?: string,
     useFileAsThumb?: boolean,
     name: string,
@@ -189,7 +190,7 @@ async function upload(files: FileList|null) {
             
             try {
     
-                const { data } = await axios.post<MWSFile>(props.url, formData, {
+                const { data } = await axios.post<MWSFile>(props.uploadUrl, formData, {
                     withCredentials: true,
                     baseURL: config.apiUrl,
                     headers: {'Content-Type': 'multipart/form-data'},

@@ -40,7 +40,16 @@
     <label>{{$t('files')}}</label>
     <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
     <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader list name="files" :url="uploadLink" max-files="25" :files="files?.data ?? []" :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" @file-uploaded="fileUploaded" @file-deleted="fileDeleted">
+    <file-uploader 
+        list
+        name="files"
+        :upload-url="uploadLink"
+        max-files="25" 
+        :files="files?.data ?? []" 
+        :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" 
+        url="files" 
+        @file-deleted="fileDeleted"
+    >
         <template #headers>
             <td class="text-center">{{$t('primary')}}</td>
         </template>
@@ -113,7 +122,8 @@ const usedSizeText = computed(() => {
 });
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
 
-const uploadLink = computed(() => props.mod !== null ? `mods/${props.mod.id}/files`: '');
+const uploadLink = computed(() => `mods/${props.mod.id}/files`);
+
 const ignoreChanges = inject<() => void>('ignoreChanges');
 
 function editFile(file: File) {
@@ -196,22 +206,7 @@ async function saveEditLink(error) {
     }
 }
 
-function fileUploaded(file: File) {
-    if (files.value) {
-        files.value.data.push(file);
-    }
-    //If we have changes already we don't want to ignore the changes
-    //We ignore them since the changes are already "applied" due to files being instantly uploaded.
-    ignoreChanges?.();
-}
-
 function fileDeleted(file: File) {
-    for (const [i, f] of Object.entries(files.value!.data)) {
-        if (f.id === file.id) {
-            files.value!.data.splice(parseInt(i), 1);
-        }
-    }
-
     if (props.mod.download_id === file.id) {
         setPrimaryDownload();
     }

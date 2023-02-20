@@ -18,14 +18,14 @@
     <label>{{$t('images')}}</label>
     <file-uploader 
             name="images"
-            :url="uploadLink"
+            :upload-url="uploadLink"
+            url="images"
             :files="images"
             url-prefix="mods/images" 
             :max-files="settings?.mod_max_image_count" 
             :max-file-size="settings?.image_max_file_size" 
             max-size="50" 
             use-file-as-thumb 
-            @file-uploaded="fileUploaded" 
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
@@ -61,24 +61,7 @@ function setThumbnail(thumb?: Image) {
     props.mod.thumbnail = thumb;
 }
 
-function fileUploaded(image: Image) {
-    if (props.mod.images) {
-        props.mod.images.push(image);
-    }
-    //If we have changes already we don't want to ignore the changes
-    //We ignore them since the changes are already "applied" due to files being instantly uploaded.
-    ignoreChanges?.();
-}
-
 function fileDeleted(image: Image) {
-    if (props.mod.images) {
-        for (const [i, f] of Object.entries(props.mod.images)) {
-            if (toRaw(f) === toRaw(image)) {
-                props.mod.images.splice(parseInt(i), 1);
-            }
-        }
-    }
-    
     if (props.mod.thumbnail_id === image.id) {
         setThumbnail();
     }
