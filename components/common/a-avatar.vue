@@ -22,7 +22,7 @@ const props = defineProps({
         type:  String
     }
 });
-const assetsUrl = `${config.apiUrl}/storage/assets`;
+const assetsUrl = `${config.apiUrl}/assets`;
 
 const avatarUrl = computed(() => {
     const src = props.src;

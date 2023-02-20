@@ -24,7 +24,7 @@ const props = defineProps({
 });
 
 const useDefault = ref(false);
-const assetsUrl = `${config.apiUrl}/storage/assets`;
+const assetsUrl = `${config.apiUrl}/assets`;
 
 const compSrc = computed(function() {
     if (useDefault.value) {
