@@ -92,7 +92,7 @@ class FileController extends Controller
      * @param  \App\Models\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod, File $file)
+    public function show(File $file)
     {
         return $file;
     }
@@ -133,7 +133,7 @@ class FileController extends Controller
      * @param  \App\Models\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mod $mod, File $file)
+    public function destroy(File $file)
     {
         $file->delete(); //Deletion of files handled in the model class.
     }
@@ -146,7 +146,7 @@ class FileController extends Controller
      *
      * @return void
      */
-    public function downloadFile(Mod $mod, File $file)
+    public function downloadFile(File $file, Mod $mod=null)
     {
         return Storage::drive('r2')->download('mods/files/'.$file->file);
     }

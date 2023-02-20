@@ -7,14 +7,12 @@ use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
-use App\Models\Image;
 use App\Models\Mod;
 use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\PopularityLog;
-use App\Models\Setting;
 use App\Models\Suspension;
 use App\Models\Tag;
 use App\Models\TransferRequest;
@@ -23,12 +21,7 @@ use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use Jcupitt\Vips;
-use Illuminate\Validation\Rules\File;
-use Log;
 
 /**
  * @group Mods
@@ -254,58 +247,6 @@ class ModController extends Controller
     {
         $mod->delete();
     }
-
-    /**
-     * Upload mod image
-     * 
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
-     */
-    public function uploadModImage(Request $request, Mod $mod) {
-        if ($mod->images()->count() >= Setting::getValue('mod_max_image_count')) {
-            abort(406, 'Reached maximum allowed images for the mod!');
-        }
-
-        $val = $request->validate([
-            'file' => ['file', 'required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
-        ]);
-
-        /** @var UploadedFile $file */
-        $file = $val['file'];
-
-        [
-            'name' => $name,
-            'type' => $type,
-            'size' => $size
-        ] = APIService::storeImage($file, 'mods/images', null, 300);
-
-        $img = Image::create([
-            'user_id' => $this->userId(),
-            'mod_id' => $mod->id,
-            'file' => $name,
-            'has_thumb' => true,
-            'type' => $type,
-            'size' => $size
-        ]);
-
-        return $img;
-    }
-
-    /**
-     * Delete Image
-     * 
-     * Deletes an image from a mod
-     *
-     * @param Mod $mod
-     * @param Image $img
-     * @return void
-     */
-    public function deleteModImage(Request $request, Mod $mod, Image $image)
-    {
-        $image->delete(); //Deletion of files handled in the model class.
-    }
-
 
     /**
      * Registers a view for a mod, doesn't let you 'view' it twice
@@ -573,19 +514,6 @@ class ModController extends Controller
         $mod->update(['suspended' => $suspend]);
 
         return $suspension;
-    }
-
-    /**
-     * Deletes all images of a mod
-     *
-     * @param Mod $mod
-     * @return void
-     */
-    public function deleteAllImages(Mod $mod)
-    {
-        foreach ($mod->images as $image) {
-            $image->delete();
-        }
     }
 
     /**
