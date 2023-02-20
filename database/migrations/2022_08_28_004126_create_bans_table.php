@@ -31,7 +31,6 @@ return new class extends Migration
 
             $table->index('user_id');
             $table->index('game_id');
-            $table->index('case_id');
         });
     }
 
