@@ -16,7 +16,12 @@ return new class extends Migration
         Schema::create('transfer_requests', function (Blueprint $table) {
             $table->id();
 
-            $table->tinyInteger('keep_owner_level')->nullable();
+            $table->enum('keep_owner_level', [
+                'maintainer',
+                'collaborator',
+                'viewer',
+                'contributor'
+            ]);
 
             $table->bigInteger('mod_id')->unsigned();
             $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');
