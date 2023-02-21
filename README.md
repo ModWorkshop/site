@@ -12,7 +12,7 @@ Guide is written for Debian based distros.
 
 1. Install PHP 8.1+ and Composer
     1. ```bash
-        sudo apt-get install php8.1 php8.1-dev php8.1-xml
+        sudo apt-get install php8.1 php8.1-dev php8.1-xml php8.1-curl
         ```
     2. ```bash
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -33,12 +33,17 @@ sudo apt-get install --no-install-recommends libvips42
 ```
 4. Install postgresql
     1. ```bash
-        sudo apt install postgresql postgresql-contrib php-pgsql
+        sudo apt install postgresql postgresql-contrib php8.1-pgsql
         ```
     2. Create a database named mws by running: 
         ```bash
         sudo -u postgres createdb mws
         ```
+    3. Set a password for the postgres user, for developement you can set it to `postgres` like so:
+        ```bash
+        sudo -u postgres psql -c "ALTER ROLE postgres WITH password 'postgres'"
+        ```
+
 5. Copy .env.example to .env and fill the main information as bare minimum.
 6. Run on the directory of the backend the following command:
     ```bash
@@ -50,7 +55,7 @@ The backend should be ready to use now.
 Optional (but necessary in production):
 1. Install Redis:
     1. ```bash
-        sudo apt-get install redis-server php-redis
+        sudo apt-get install redis-server php8.1-redis
         ```
     2. ```bash
         sudo pecl install redis
