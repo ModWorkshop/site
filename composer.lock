@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c4f23ea311028a799f248769fdf0eab",
+    "content-hash": "5f5d3cd775b3a770be5c05be554358a8",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1442,16 +1442,16 @@
         },
         {
             "name": "jcupitt/vips",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/libvips/php-vips.git",
-                "reference": "c46db5539768b132a58f18c88790541b5ebbe440"
+                "reference": "ff7cb36fde54887ca61647b3ff76598caa69bd25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libvips/php-vips/zipball/c46db5539768b132a58f18c88790541b5ebbe440",
-                "reference": "c46db5539768b132a58f18c88790541b5ebbe440",
+                "url": "https://api.github.com/repos/libvips/php-vips/zipball/ff7cb36fde54887ca61647b3ff76598caa69bd25",
+                "reference": "ff7cb36fde54887ca61647b3ff76598caa69bd25",
                 "shasum": ""
             },
             "require": {
@@ -1497,9 +1497,9 @@
             ],
             "support": {
                 "issues": "https://github.com/libvips/php-vips/issues",
-                "source": "https://github.com/libvips/php-vips/tree/v2.1.0"
+                "source": "https://github.com/libvips/php-vips/tree/v2.1.1"
             },
-            "time": "2022-10-11T08:45:25+00:00"
+            "time": "2022-11-13T16:59:57+00:00"
         },
         {
             "name": "laravel/framework",
