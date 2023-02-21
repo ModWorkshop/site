@@ -24,12 +24,17 @@ Guide is written for Debian based distros.
     1. `pecl install apfd`
     2. Enable it in php.ini by adding `extension=apfd` around line 950.
 3. Install libvips (Image compression and how we convert them efficiently to webp, including gifs)
-`sudo apt-get install --no-install-recommends libvips42`
+```bash
+sudo apt-get install --no-install-recommends libvips42
+```
 4. Install postgresql
     1. ```bash
         sudo apt install postgresql postgresql-contrib php-pgsql
         ```
-    2. Create a database named mws by running: `sudo -u postgres createdb mws`
+    2. Create a database named mws by running: 
+        ```bash
+            sudo -u postgres createdb mws
+        ```
 5. Copy .env.example to .env and fill the main information as bare minimum.
 6. Run on the directory of the backend the following command:
     ```bash
