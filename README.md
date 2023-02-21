@@ -7,10 +7,52 @@ The backend uses the Laravel framework.
 
 ## Installation
 
-* Make sure PHP 8.1+ is installed on the machine.
-1. Rename .env.example into .env (Or copy it to where ever the envrionment values are defined) and fill in the needed information.
-2. Run on the directory of the backend the following command:
-`php artisan initial-setup` This will take care of everything needed and will require you to only input username + password for the super-admin.
+### Linux
+Guide is written for Debian based distros.
+
+1. Install PHP 8.1+ and Composer
+    1. ```bash
+        sudo apt-get install php php-pear php-cli php-dev
+        ```
+    2. ```bash
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        php composer-setup.php
+        php -r "unlink('composer-setup.php');"```
+2. Install the apfd extension:
+*This is ncecessary due to a very annoying ignored issue by the PHP devs https://bugs.php.net/bug.php?id=55815*
+    1. `pecl install apfd`
+    2. Enable it in php.ini by adding `extension=apfd` around line 950.
+3. Install libvips (Image compression and how we convert them efficiently to webp, including gifs)
+`sudo apt-get install --no-install-recommends libvips42`
+4. Install postgresql
+    1. ```bash
+        sudo apt install postgresql postgresql-contrib php-pgsql
+        ```
+    2. Create a database named mws by running: `sudo -u postgres createdb mws`
+5. Copy .env.example to .env and fill the main information as bare minimum.
+6. Run on the directory of the backend the following command:
+    ```bash
+        php artisan initial-setup
+    ```
+
+The backend should be ready to use now.
+
+Optional (but necessary in production):
+1. Install Redis:
+    1. ```bash
+        sudo apt-get install redis-server php-redis
+        ```
+    2. ```bash
+        sudo pecl install redis
+        ```
+    3. Set CACHE_DRIVER to 'redis' in the .env.
+2. Setup CloudFlare R2 https://dash.cloudflare.com. Fill all the data needed in the .env and set FILESYSTEM_DRIVER to r2.
+3. Set a strong password for Postgres. https://bitwarden.com/password-generator/
+3. Setup all social logins (Just visit each site linked in the .env)
+
+### Windows
+Will be done in the future. There are currently a few issues with Windows and some of the packages we use.
 
 
 ## Learning Laravel
