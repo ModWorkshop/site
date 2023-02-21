@@ -33,12 +33,12 @@ sudo apt-get install --no-install-recommends libvips42
         ```
     2. Create a database named mws by running: 
         ```bash
-            sudo -u postgres createdb mws
+        sudo -u postgres createdb mws
         ```
 5. Copy .env.example to .env and fill the main information as bare minimum.
 6. Run on the directory of the backend the following command:
     ```bash
-        php artisan initial-setup
+    php artisan initial-setup
     ```
 
 The backend should be ready to use now.
