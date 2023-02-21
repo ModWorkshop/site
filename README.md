@@ -1,6 +1,6 @@
-# Nuxt 3 Minimal Starter
+# ModWorkshop V3
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+We recommend to look at the [documentation](https://nuxt.com).
 
 ## Setup
 
@@ -26,4 +26,4 @@ Build the application for production:
 yarn build
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment#deployment).
