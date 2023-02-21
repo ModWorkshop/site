@@ -148,7 +148,7 @@ class FileController extends Controller
      */
     public function downloadFile(File $file, Mod $mod=null)
     {
-        return Storage::drive('r2')->download('mods/files/'.$file->file);
+        return Storage::download('mods/files/'.$file->file);
     }
 
     /**

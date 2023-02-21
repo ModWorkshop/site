@@ -7,6 +7,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Gate;
+use Request;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -34,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->line('Welcome to ModWorkshop!')
                 ->line("In order to activate your account you must verify this email address.")
                 ->line("If you did not initiate it, you can safely ignore this message and the account will be automatically deleted after a day.")
-                ->action('Verify', $prefix.str_replace(env('BACKEND_URL').'/email/verify', '', $url));
+                ->action('Verify', $prefix.str_replace(Request::getScheme().'://'.env('APP_URL').'/email/verify', '', $url));
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {

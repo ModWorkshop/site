@@ -68,8 +68,8 @@ class Image extends Model
                 $mod->save();
             }
 
-            Storage::disk('r2')->delete('mods/images/'.$image->file);
-            Storage::disk('r2')->delete('mods/images/thumbnail_'.$image->file);
+            Storage::delete('mods/images/'.$image->file);
+            Storage::delete('mods/images/thumbnail_'.$image->file);
         });
     }
 }

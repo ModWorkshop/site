@@ -81,12 +81,10 @@ class APIService {
             return null;
         }
 
-        $r2 = Storage::disk('r2');
-        
         if (isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
-            $r2->delete($fileDir.'/'.$oldFile);
-            $r2->delete($fileDir.'/thumbnail_'.$oldFile);
+            Storage::delete($fileDir.'/'.$oldFile);
+            Storage::delete($fileDir.'/thumbnail_'.$oldFile);
         }
 
         $fileType = $file->extension();
@@ -95,14 +93,14 @@ class APIService {
 
         $img = Vips\Image::newFromFile($file->path().$opts);
         $buffer = $img->writeToBuffer('.webp', ["Q" => 80]);
-        $r2->put($fileDir.'/'.$fileName, $buffer);
+        Storage::put($fileDir.'/'.$fileName, $buffer);
 
         $thumb = null;
         $thumbBuffer = null;
         if (isset($thumbnailSize)) {
             $thumb = $img->thumbnail_image($thumbnailSize);
             $thumbBuffer = $thumb->writeToBuffer('.webp');
-            $r2->put($fileDir.'/thumbnail_'.$fileName, $thumbBuffer);
+            Storage::put($fileDir.'/thumbnail_'.$fileName, $thumbBuffer);
         }
 
         if (isset($onSuccess)) {
