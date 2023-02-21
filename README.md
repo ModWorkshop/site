@@ -12,7 +12,7 @@ Guide is written for Debian based distros.
 
 1. Install PHP 8.1+ and Composer
     1. ```bash
-        sudo apt-get install php php-pear php-cli php-dev
+        sudo apt-get install php8.1 php8.1-dev php8.1-xml
         ```
     2. ```bash
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -24,7 +24,7 @@ Guide is written for Debian based distros.
         sudo mv composer.phar /usr/local/bin/composer
         ```
 2. Install the apfd extension:
-*This is ncecessary due to a very annoying ignored issue by the PHP devs https://bugs.php.net/bug.php?id=55815*
+*This is necessary due to a very annoying ignored issue by the PHP devs https://bugs.php.net/bug.php?id=55815*
     1. `pecl install apfd`
     2. Enable it in php.ini by adding `extension=apfd` around line 950.
 3. Install libvips (Image compression and how we convert them efficiently to webp, including gifs)
