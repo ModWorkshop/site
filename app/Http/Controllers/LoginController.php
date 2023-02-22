@@ -104,7 +104,7 @@ class LoginController extends Controller
 
         $avatarFile = Arr::pull($val, 'avatar_file');
         
-        $avatar = APIService::storeImage($avatarFile, 'users/avatars');
+        $avatar = APIService::storeImage($avatarFile, 'users/images');
 
         $user = User::forceCreate([
             'name' => $val['name'],
@@ -201,7 +201,7 @@ class LoginController extends Controller
                 }
                 //Same as hashName https://github.com/laravel/framework/blob/9.x/src/Illuminate/Http/FileHelpers.php#L48
                 $avatarFileName = Str::random(40).'.'.$ext;
-                Storage::put('users/avatars/'.$avatarFileName, file_get_contents($avatar));
+                Storage::put('users/images/'.$avatarFileName, file_get_contents($avatar));
             }
 
             $uniqueName ??= $name;
