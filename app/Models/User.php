@@ -283,11 +283,11 @@ class User extends Authenticatable implements MustVerifyEmail
                 ]);
             }
             if (isset($user->avatar) && !str_contains($user->avatar, 'http')) {
-                Storage::delete('users/avatars/'.$user->avatar);
+                Storage::delete('users/images/'.$user->avatar);
             }
 
             if (isset($user->banner)) {
-                Storage::delete('users/banners/'.$user->banner);
+                Storage::delete('users/images/'.$user->banner);
             }
 
             foreach ($user->mods as $mod) {
