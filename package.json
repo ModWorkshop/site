@@ -12,7 +12,7 @@
     "@nuxtjs/tailwindcss": "^6.3.1",
     "@pinia/nuxt": "^0.4.6",
     "@types/luxon": "^3.2.0",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.1",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.50.0",
