@@ -8073,7 +8073,7 @@ isomorphic-dompurify@latest:
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^4.9.5
-    vue-easy-lightbox: ^1.12.0
+    vue-easy-lightbox: ^1.13.0
     vue-i18n: 9.3.0-beta.16
     vue3-observe-visibility2: ^0.0.3
   languageName: unknown
@@ -9380,12 +9380,12 @@ isomorphic-dompurify@latest:
   languageName: node
   linkType: hard
 
-"vue-easy-lightbox@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "vue-easy-lightbox@npm:1.12.0"
+"vue-easy-lightbox@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "vue-easy-lightbox@npm:1.13.0"
   peerDependencies:
     vue: ^3.0.0
-  checksum: c02cc1139d9b4784c03a5b0c21683e40aa6dc527a0e4baf63b6f08dcb49ed7d35e74e96bed7d5e1005213f721b1cc27196b2ae74bb25415e479d7dfb56aad199
+  checksum: e5d7a635750f2ecadbe5e74d560e7e68b73e7c9c8160c33e0dcbdb5623e979b89ee1858873f149c6d877c8b2372492f6cb26eb9ad41aa4ad1819104dbe773893
   languageName: node
   linkType: hard
 
