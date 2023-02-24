@@ -31,7 +31,7 @@ const compSrc = computed(function() {
         return `${assetsUrl}/default-avatar.webp`;
     }
     const src = props.src;
-    if (typeof src === 'object') {
+    if (src instanceof Blob) {
         return src.toString();
     }
     else if (isSrcExternal(src)) {
