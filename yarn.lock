@@ -817,7 +817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/vue@npm:^4.0.2":
+"@iconify/vue@npm:^4.1.0":
   version: 4.1.0
   resolution: "@iconify/vue@npm:4.1.0"
   dependencies:
@@ -1069,7 +1069,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.2.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.0.0-rc.4, @nuxt/kit@npm:^3.1.0, @nuxt/kit@npm:^3.1.2, @nuxt/kit@npm:^3.2.0":
+"@nuxt/kit@npm:3.2.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.0.0-rc.4, @nuxt/kit@npm:^3.1.2, @nuxt/kit@npm:^3.2.0":
   version: 3.2.2
   resolution: "@nuxt/kit@npm:3.2.2"
   dependencies:
@@ -6575,14 +6575,14 @@ isomorphic-dompurify@latest:
   languageName: node
   linkType: hard
 
-"nuxt-icon@npm:^0.2.10":
-  version: 0.2.11
-  resolution: "nuxt-icon@npm:0.2.11"
+"nuxt-icon@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "nuxt-icon@npm:0.3.2"
   dependencies:
-    "@iconify/vue": ^4.0.2
-    "@nuxt/kit": ^3.1.0
+    "@iconify/vue": ^4.1.0
+    "@nuxt/kit": ^3.2.0
     nuxt-config-schema: ^0.4.4
-  checksum: 356435613644f55008e0796ac5fc53435870417783264b0cda1f34f1c98a68f43364d4d609db2a14c6ce5a62f253728e6dcb99319f72713c2d1f0b203b94d8ed
+  checksum: 8351d0d24bdf670cc36b0b74528eebc6741a2b18627595a7371455a98456f2ea98952748fa47925d57d8ea8b769674b3ff0ac739533f0a5eee75f7d03df0093f
   languageName: node
   linkType: hard
 
@@ -8065,7 +8065,7 @@ isomorphic-dompurify@latest:
     markdown-it-html5-media: ^0.7.1
     nuxt: ^3.2.2
     nuxt-delay-hydration: ^1.1.1
-    nuxt-icon: ^0.2.10
+    nuxt-icon: ^0.3.2
     object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
     polished: ^4.2.2
