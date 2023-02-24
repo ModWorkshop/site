@@ -34,12 +34,16 @@ function click() {
 <style scoped>
 .dropdown-item {
     color: var(--text-color);
-    font-size: 0.9rem;
     text-align: left;
     padding: 0.65rem 1.5rem;
     display: flex;
     gap: 4px;
     user-select: none;
+}
+
+.dropdown-item:hover {
+    color: var(--primary-hover-color);
+    transition: color 0.15s ease-in-out;
 }
 
 .dropdown-item:not(.disabled) {

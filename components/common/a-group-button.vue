@@ -1,10 +1,7 @@
 <template>
-    <a-nav-link v-if="!buttonStyle || buttonStyle == 'nav'" :selected="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected(name)">
+    <component :is="computedComponent" :selected="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected?.(name)">
         <slot/>
-    </a-nav-link>
-    <a-button v-else-if="buttonStyle == 'button'" :disabled="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected(name)">
-        <slot/>
-    </a-button>
+    </component>
 </template>
 
 <script setup lang="ts">
@@ -19,5 +16,15 @@ const buttonStyle = inject('buttonStyle', 'button');
 const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 
-const isSelected = computed(() => props.name === selected.value);
+const isSelected = computed(() => props.name === selected?.value);
+
+const computedComponent = computed(() => {
+    if (!buttonStyle || buttonStyle == 'nav') {
+        return resolveComponent('ANavLink');
+    } else if (buttonStyle == 'button') {
+        return resolveComponent('AButton');
+    } else if (buttonStyle == 'dropdown') {
+        return resolveComponent('ADropdownItem');
+    }
+});
 </script>
