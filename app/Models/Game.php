@@ -145,6 +145,17 @@ class Game extends Model
         return Attribute::make(fn() => APIService::getAnnouncements($this));
     }
 
+    public function ensureForumExists()
+    {
+        if (!isset($this->forum_id) && $this->id) {
+            $forum = $this->forum()->create([
+                'game_id' => $this->id
+            ]);
+            $this->forum_id = $forum->id;
+            $this->save();
+        }
+    }
+
     public static function booted()
     {
         static::creating(function(Game $game) {
@@ -153,14 +164,7 @@ class Game extends Model
             }
         });
 
-        static::saving(function(Model $game) {
-            if (!isset($game->forum_id)) {
-                $forum = $game->forum()->create([
-                    'game_id' => $game->id
-                ]);
-                $game->forum_id = $forum->id;
-                $game->save();
-            }
-        });
+        static::saving(fn(Game $game) => $game->ensureForumExists());
+        static::created(fn(Game $game) => $game->ensureForumExists());
     }
 }
