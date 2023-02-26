@@ -20,6 +20,10 @@ class ThreadController extends Controller
 {
     public function __construct(Request $request) {
         if ($request->route('forum')) {
+            $forum = app(Forum::class)->resolveRouteBinding($request->route('forum'));
+            if (isset($forum->game_id)) {
+                APIService::setCurrentGame($forum->game);
+            }
             $this->authorizeResource([Thread::class, 'forum'], 'thread, forum');
         } else {
             $this->authorizeResource(Thread::class, 'thread');
