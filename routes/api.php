@@ -52,32 +52,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
- * Registers a game resource with also a direct resource link.
- * store method still requires a game so that's not available in the global one.
- */
-function resource(string $resource, string $class, string $parent, array $config=[]) {
-    $reg = Route::resource("{$parent}.{$resource}", $class);
-    if (isset($config['parentOptional']) && $config['parentOptional'] == true) {
-        Route::resource($resource, $class)->only(['index', 'store']);
-    } else {
-        Route::resource($resource, $class)->only($config['selfOnly'] ?? ['index']);
-    }
-    if ($config['shallow'] ?? true) {
-        $reg->shallow();
-    }
-    $reg->except(['create', 'edit', ...($config['except'] ?? [])]);
-
-    return $reg;
-}
-function gameResource(string $resource, string $class, array $config=[]) {
-    return resource($resource, $class, 'games', $config);
-}
-
-/**
  * @group Mods
  */
-resource('files', FileController::class, 'mods');
-resource('images', ImageController::class, 'mods');
+APIService::resource('files', FileController::class, 'mods');
+APIService::resource('images', ImageController::class, 'mods');
 Route::middleware('can:update,mod')->group(function() {
     Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
     Route::delete('mods/{mod}/images', [ImageController::class, 'deleteAllImages']);
@@ -91,12 +69,12 @@ Route::middleware('can:super-update,mod')->group(function() {
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 //General mods
-resource('links', LinkController::class, 'mods');
+APIService::resource('links', LinkController::class, 'mods');
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
-gameResource('mods', ModController::class);
+APIService::gameResource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
@@ -124,15 +102,15 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 //Games/categories/tags
-gameResource('categories', CategoryController::class);
+APIService::gameResource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
 Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
-gameResource('tags', TagController::class, ['parentOptional' => true]);
+APIService::gameResource('tags', TagController::class, ['parentOptional' => true]);
 Route::resource('games.instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
-gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
+APIService::gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
     'roles' => 'game-role'
 ]);
 
@@ -140,8 +118,8 @@ gameResource('roles', GameRoleController::class, ['shallow' => false])->paramete
  * @group Forums
  */
 Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
-gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
-resource('threads', ThreadController::class, 'forums');
+APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
+APIService::resource('threads', ThreadController::class, 'forums');
 Route::resource('threads.comments', ThreadCommentsController::class);
 Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
@@ -158,8 +136,8 @@ Route::middleware('auth:sanctum')->group(function() {
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
-gameResource('bans', BanController::class, ['parentOptional' => true]);
-gameResource('user-cases', UserCaseController::class, ['parentOptional' => true]);
+APIService::gameResource('bans', BanController::class, ['parentOptional' => true]);
+APIService::gameResource('user-cases', UserCaseController::class, ['parentOptional' => true]);
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModCommentsController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
@@ -191,10 +169,10 @@ Route::resource('supporters', SupporterController::class);
 
 Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
-gameResource('suspensions', SuspensionController::class, ['parentOptional' => true]);
-gameResource('documents', DocumentController::class, ['parentOptional' => true]);
+APIService::gameResource('suspensions', SuspensionController::class, ['parentOptional' => true]);
+APIService::gameResource('documents', DocumentController::class, ['parentOptional' => true]);
 Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
-gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
+APIService::gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);

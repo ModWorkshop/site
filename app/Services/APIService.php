@@ -19,6 +19,7 @@ use Illuminate\Validation\Rules\Password;
 use Storage;
 use Jcupitt\Vips;
 use Log;
+use Route;
 
 const animated = [
     'gif' => true,
@@ -173,4 +174,28 @@ class APIService {
     {
         return Password::min(12)->numbers()->mixedCase()->uncompromised();
     }
+
+
+    /**
+     * Registers a game resource with also a direct resource link.
+     * store method still requires a game so that's not available in the global one.
+     */
+    public static function resource(string $resource, string $class, string $parent, array $config=[]) {
+        $reg = Route::resource("{$parent}.{$resource}", $class);
+        if (isset($config['parentOptional']) && $config['parentOptional'] == true) {
+            Route::resource($resource, $class)->only(['index', 'store']);
+        } else {
+            Route::resource($resource, $class)->only($config['selfOnly'] ?? ['index']);
+        }
+        if ($config['shallow'] ?? true) {
+            $reg->shallow();
+        }
+        $reg->except(['create', 'edit', ...($config['except'] ?? [])]);
+
+        return $reg;
+    }
+    public static function gameResource(string $resource, string $class, array $config=[]) {
+        return self::resource($resource, $class, 'games', $config);
+    }
+
 }
