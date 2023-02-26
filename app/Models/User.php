@@ -480,7 +480,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(function() {
             self::$membersRole ??= Role::with('permissions')->find(1);
             $roles = [...$this->roles];
-            if (!in_array(self::$membersRole, $roles)) {
+            if (isset(self::$membersRole) && !in_array(self::$membersRole, $roles)) {
                 $roles[] = self::$membersRole;
             }
 
