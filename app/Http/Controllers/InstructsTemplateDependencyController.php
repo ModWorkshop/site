@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Dependency;
 use App\Models\InstructsTemplate;
-use App\Services\DependecyService;
+use App\Services\DependencyService;
 use Illuminate\Http\Request;
-use Log;
 
 class InstructsTemplateDependencyController extends Controller
 {
@@ -23,7 +22,7 @@ class InstructsTemplateDependencyController extends Controller
      */
     public function store(Request $request, InstructsTemplate $instructsTemplate)
     {
-        return DependecyService::store($request, $instructsTemplate);
+        return DependencyService::store($request, $instructsTemplate);
     }
 
     /**
@@ -35,7 +34,7 @@ class InstructsTemplateDependencyController extends Controller
      */
     public function update(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {
-        return DependecyService::update($request, $instructsTemplate, $dependency);
+        return DependencyService::update($request, $instructsTemplate, $dependency);
     }
 
     /**
@@ -46,6 +45,6 @@ class InstructsTemplateDependencyController extends Controller
      */
     public function destroy(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {
-        return DependecyService::destroy($request, $instructsTemplate, $dependency);
+        return DependencyService::destroy($request, $instructsTemplate, $dependency);
     }
 }

@@ -2,11 +2,9 @@
 namespace App\Services;
 
 use App\Models\Dependency;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Log;
 
-class DependecyService {
+class DependencyService {
     /**
      * Adds a dependency to a mod or instructions template
      */

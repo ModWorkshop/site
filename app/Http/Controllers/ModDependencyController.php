@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dependency;
 use App\Models\Mod;
-use App\Services\DependecyService;
+use App\Services\DependencyService;
 use Illuminate\Http\Request;
 
 class ModDependencyController extends Controller
@@ -22,7 +22,7 @@ class ModDependencyController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
-        return DependecyService::store($request, $mod);
+        return DependencyService::store($request, $mod);
     }
 
     /**
@@ -34,7 +34,7 @@ class ModDependencyController extends Controller
      */
     public function update(Request $request, Mod $mod, Dependency $dependency)
     {
-        return DependecyService::update($request, $mod, $dependency);
+        return DependencyService::update($request, $mod, $dependency);
     }
 
     /**
@@ -45,6 +45,6 @@ class ModDependencyController extends Controller
      */
     public function destroy(Request $request, Mod $mod, Dependency $dependency)
     {
-        return DependecyService::destroy($request, $mod, $dependency);
+        return DependencyService::destroy($request, $mod, $dependency);
     }
 }
