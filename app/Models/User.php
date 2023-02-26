@@ -538,7 +538,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if (isset(self::$currentGameId)) {
             $ban = $this->gameBan;
-            if (isset($ban) && isset($ban->case)) {
+            if (isset($ban)) {
                 if (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)) {
                     return $ban;
                 }
