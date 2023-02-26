@@ -17,115 +17,42 @@ class RolePermissionsSeeder extends Seeder
     public function run()
     {
         if (!DB::table('roles')->where('name', 'Member')->exists()) {
-            DB::table('roles')->updateOrInsert([
-                'name' => 'Member',
-                'desc' => 'The global role that every registered member has. You cannot remove the role from registered users.',
-                'order' => -1
-            ]);
-
-            DB::table('roles')->updateOrInsert([
-                'name' => 'Admin',
-                'desc' => 'The administrator is the highest role in the site, people with this role are able to do pretty much most things.',
-                'tag' => 'Admin',
-                'order' => 1
-            ]);
+            DB::table('roles')->updateOrInsert(['id' => 1, 'name' => 'Member', 'order' => -1]);
+            DB::select("SELECT SETVAL(pg_get_serial_sequence('roles', 'id'), (SELECT MAX(id) FROM roles));");
+            DB::table('roles')->updateOrInsert(['name' => 'Admin', 'tag' => 'Admin', 'order' => 1]);
         }
         
         Permission::query()->delete();
 
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'admin',
-        ]);
+        DB::table('permissions')->upsert([
+            ['name' => 'admin', 'type' => 'global'],
+            ['name' => 'moderate-users', 'type' => null],
+            ['name' => 'manage-discussions', 'type' => null],
+            ['name' => 'manage-categories', 'type' => null],
+            ['name' => 'manage-forum-categories', 'type' => null],
+            ['name' => 'manage-mods', 'type' => null],
+            ['name' => 'manage-roles', 'type' => null],
+            ['name' => 'manage-instructions', 'type' => null],
+            ['name' => 'manage-tags', 'type' => null],
+            ['name' => 'manage-documents', 'type' => null],
+            ['name' => 'manage-game', 'type' => 'game'], //The only game-specific permission. It's like the 'admin' of games.
+            ['name' => 'manage-games', 'type' => 'global'],
+            ['name' => 'manage-users', 'type' => 'global'],
+            ['name' => 'create-categories', 'type' => null],
+            ['name' => 'create-mods', 'type' => null],
+            ['name' => 'create-discussions', 'type' => null],
+            ['name' => 'create-reports', 'type' => null],
+            ['name' => 'delete-own-mod-comments', 'type' => null],
+            ['name' => 'like-mods', 'type' => null],
+        ], 'name', ['type']);
 
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'moderate-users',
-            'type' => null
+        Role::where('name', 'Admin')->first()->permissions()->attach(Permission::whereName('admin')->first()->id);
+        Role::where('name', 'Member')->first()->permissions()->sync([
+            Permission::whereName('create-mods')->first()->id,
+            Permission::whereName('create-discussions')->first()->id,
+            Permission::whereName('create-reports')->first()->id,
+            Permission::whereName('delete-own-mod-comments')->first()->id,
+            Permission::whereName('like-mods')->first()->id,
         ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'create-discussions',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-discussions',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-games',
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-users',
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-categories',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'create-categories',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'delete-own-mod-comments',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-forum-categories',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-mods',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'create-mods',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-roles',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-instructions',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-tags',
-            'type' => null
-        ]);
-        
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-documents',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'like-mods',
-            'type' => null
-        ]);
-
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'create-reports',
-            'type' => null
-        ]);
-        
-        //The only game-specific permission. It's like the 'admin' of games.
-        DB::table('permissions')->updateOrInsert([
-            'name' => 'manage-game',
-            'type' => 'game'
-        ]);
-
-        Role::where('name', 'Admin')->first()->permissions()->attach(Permission::where('name', 'admin')->first()->id);
     }
 }
