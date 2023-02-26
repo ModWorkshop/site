@@ -37,13 +37,13 @@ class ModUpsertRequest extends FormRequest
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
             'banner_id' => 'integer|min:1|nullable|exists:images,id',
             'instructs_template_id' => 'integer|min:1|nullable|exists:instructs_templates,id',
-            'tag_ids' => 'array',
+            'tag_ids' => 'array|nullable',
             'tag_ids.*' => 'integer|min:1',
             'download_id' => 'integer|min:1|nullable',
             'allowed_storage' => 'integer|min:1|max:1000|nullable',
             'download_type' => 'string|nullable|in:file,link',
-            'comments_disabled' => 'boolean',
-            'send_for_approval' => 'boolean',
+            'comments_disabled' => 'boolean|nullable',
+            'send_for_approval' => 'boolean|nullable',
         ];
     }
 }
