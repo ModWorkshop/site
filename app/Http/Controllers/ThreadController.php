@@ -116,10 +116,11 @@ class ThreadController extends Controller
         $val['bumped_at'] = Carbon::now();
         $val['forum_id'] = $forum->id;
 
+        $category = null;
         if (isset($val['category_id'])) {
             $category = ForumCategory::find($val['category_id']);
-            $this->authorize('store', [Thread::class, $forum, $category]);
         }
+        $this->authorize('store', [Thread::class, $forum, $category]);
 
         $thread = Thread::create($val);
 
