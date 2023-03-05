@@ -36,10 +36,10 @@ class InitialSetup extends Command
         $this->info('Running migrations...');
         $this->call('migrate');
         $this->info('Creating necessary folders in storage...');
-        Storage::makeDirectory('mods/files');
-        Storage::makeDirectory('mods/images');
-        Storage::makeDirectory('users/avatars');
-        Storage::makeDirectory('users/banners');
+        Storage::disk('local')->makeDirectory('mods/files');
+        Storage::disk('local')->makeDirectory('mods/images');
+        Storage::disk('local')->makeDirectory('users/avatars');
+        Storage::disk('local')->makeDirectory('users/banners');
         $this->info('Running storage:link...');
         $this->call('storage:link');
         $this->info('Running migrations...Done!');
