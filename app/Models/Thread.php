@@ -104,6 +104,11 @@ class Thread extends Model implements SubscribableInterface
         return $this->belongsTo(Forum::class);
     }
 
+    public function game() : BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(ForumCategory::class);
@@ -125,6 +130,11 @@ class Thread extends Model implements SubscribableInterface
     }
 
     protected static function booted() {
+        static::created(function(Thread $thread) {
+            $thread->game_id = $thread->forum->game_id;
+            $thread->save();
+        });
+
         static::deleting(function (Thread $thread)
         {
             foreach ($thread->comments as $comment) {
