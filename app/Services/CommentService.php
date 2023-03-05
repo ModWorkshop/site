@@ -72,8 +72,14 @@ class CommentService {
         $user = Auth::user();
 
         //Make sure to limit this to 20 users and not include ourselves!
-        $uniqueNames = array_slice(Arr::pull($val, 'mentions'), 0, 10);
-        $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->get();
+        $mentions = Arr::pull($val, 'mentions');
+        $uniqueNames = [];
+        $mentionedUsers = [];
+
+        if (isset($mentions)) {
+            $uniqueNames = array_slice($mentions, 0, 10);
+            $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->get();
+        }
 
         $val['user_id'] = $user->id;
 
@@ -153,9 +159,15 @@ class CommentService {
             'pinned' => 'boolean'
         ]);
 
-        $uniqueNames = array_slice(Arr::pull($val, 'mentions'), 0, 10);
-        $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->without('roles')->get('id');
+        $mentions = Arr::pull($val, 'mentions');
+        $uniqueNames = [];
+        $mentionedUsers = [];
         $mentionedIds = [];
+
+        if (isset($mentions)) {
+            $uniqueNames = array_slice($mentions, 0, 10);
+            $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->without('roles')->get('id');
+        }
 
         if ($comment->reply_to && isset($val['pinned'])) {
             throw new Exception('Only regular comments can be pinned!');
@@ -166,12 +178,15 @@ class CommentService {
             throw new Exception('You cannot edit the comment!');
         }
 
-        foreach ($mentionedUsers as $mentionedUser) {
-            $mentionedIds[] = $mentionedUser->id;
+        if (isset($mentions)) {
+            foreach ($mentionedUsers as $mentionedUser) {
+                $mentionedIds[] = $mentionedUser->id;
+            }
+
+            //Update the mentions, but avoid sending any notifications to avoid spam.
+            $comment->mentions()->sync($mentionedIds);
         }
 
-        //Update the mentions, but avoid sending any notifications to avoid spam.
-        $comment->mentions()->sync($mentionedIds);
         $comment->update($val);
 
         return new CommentResource($comment);
