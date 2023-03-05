@@ -258,7 +258,7 @@ class Mod extends Model implements SubscribableInterface
 
             //Auto-sub ourselves
             $mod->subscriptions()->create([
-                'user_id' => Auth::user()->id
+                'user_id' => $mod->user_id
             ]);
         });
     }
