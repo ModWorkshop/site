@@ -2,35 +2,26 @@
 
 namespace Tests\Feature;
 
+use App\Models\Mod;
+use App\Models\User;
 use Tests\TestCase;
+use Tests\TestResource;
 
-class ModTest extends TestCase
+class ModTest extends TestResource
 {
-    /**
-     * Verified users should be able to upload and the rest (guests, banned and unverified) shouldn't.
-     */
-    public function test_new_user_should_not_upload()
+    protected string $url = 'mods';
+    protected bool $isGame = true;
+
+    public function createDummy(User $user, int $parentId): ?Mod
     {
-        return $this->makeASimpleMod($this->unverifiedUser())->assertStatus(403);
+        return $this->mod($user);
     }
 
-    public function test_guests_should_not_upload()
+    public function upsertData()
     {
-        return $this->makeASimpleMod()->assertStatus(403);
-    }
-
-    public function test_verified_user_should_upload()
-    {
-        return $this->makeASimpleMod($this->user())->assertStatus(201);
-    }
-
-    public function test_banned_users_should_not_upload()
-    {
-        return $this->makeASimpleMod($this->bannedUser())->assertStatus(403);
-    }
-
-    public function test_game_banned_users_should_not_upload()
-    {
-        return $this->makeASimpleMod($this->gameBannedUser())->assertStatus(403);
+        return [
+            'name' => 'This is a test!',
+            'desc' => 'This is a test!',
+        ];
     }
 }

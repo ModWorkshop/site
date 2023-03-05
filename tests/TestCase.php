@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Ban;
 use App\Models\Forum;
 use App\Models\Game;
+use App\Models\Mod;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
@@ -47,15 +48,13 @@ abstract class TestCase extends BaseTestCase
     /**
      * Makes a simple mod.
      */
-    public function makeASimpleMod($user=null)
+    public function mod(User $user): ?Mod
     {
-        if (isset($user)) {
-            $this->actingAs($user);
-        }
-
-        return $this->post("games/test/mods", [
+        return Mod::create([
             'name' => 'This is a test!',
             'desc' => 'This is a test!',
+            'user_id' => $user->id,
+            'game_id' => $this->game->id
         ]);
     }
 
