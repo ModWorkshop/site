@@ -2,10 +2,12 @@
 
 namespace App\Policies;
 
+use App\Models\Ban;
 use App\Models\Forum;
 use App\Models\ForumCategory;
 use App\Models\Thread;
 use App\Models\User;
+use App\Services\APIService;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -86,10 +88,14 @@ class ThreadPolicy
     {
         $game = $thread->forum->game;
 
+        if (isset($game)) {
+            APIService::setCurrentGame($game);
+        }
+
         if ($user->hasPermission('manage-discussions', $game)) {
             return true;
         }
-        
+
         $canAppeal = $user->last_ban?->can_appeal ?? true;
         $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
 
@@ -143,6 +149,6 @@ class ThreadPolicy
             return false;
         }
 
-        return !$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod);
+        return $user->hasPermission('create-discussions', $thread->forum->game) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
     }
 }
