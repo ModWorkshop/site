@@ -86,7 +86,7 @@ Route::middleware('can:manage,mod')->group(function() {
 });
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
 
-Route::resource('mods.comments', ModCommentsController::class);
+APIService::resource('comments', ModCommentsController::class, 'mods');
 Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModCommentsController::class, 'report']);
 Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
 Route::get('mods/{mod}/comments/{comment}/replies', [ModCommentsController::class, 'replies']);
@@ -120,7 +120,7 @@ APIService::gameResource('roles', GameRoleController::class, ['shallow' => false
 Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
 APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
 APIService::resource('threads', ThreadController::class, 'forums');
-Route::resource('threads.comments', ThreadCommentsController::class);
+APIService::resource('comments', ThreadCommentsController::class, 'threads');
 Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);

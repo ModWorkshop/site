@@ -45,7 +45,7 @@ class ModCommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod, Comment $comment)
+    public function show(Mod $mod=null, Comment $comment)
     {
         return $comment;
     }
