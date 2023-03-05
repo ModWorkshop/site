@@ -537,11 +537,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getLastGameBanAttribute()
     {
         if (isset(self::$currentGameId)) {
+            $this->load('gameBan');
             $ban = $this->gameBan;
-            if (isset($ban)) {
-                if (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)) {
-                    return $ban;
-                }
+            if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
+                return $ban;
             }
         }
 
@@ -552,10 +551,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
             $ban = $this->ban;
-            if (isset($ban)) {
-                if ($ban->active && (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
-                    return $ban;
-                }
+            if (isset($ban) && ($ban->active && (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)))) {
+                return $ban;
             }
         }
 
@@ -656,9 +653,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         //Check game first
         if (isset($game)) {
-            if (!isset(self::$currentGameId)) {
-                APIService::setCurrentGame($game);
-            }
+            APIService::setCurrentGame($game);
             $gamePerms = $this->getGamePerms($game->id);
             //Game version of the admin permission
             Log::info($this->existsAndTrue($gamePerms, 'moderate-users'));
@@ -666,6 +661,7 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($this->existsAndTrue($gamePerms, 'manage-game')) {
                 return true;
             }
+
             if (!$byPassBanCheck && !$this->existsAndTrue($gamePerms, 'moderate-users') && isset($this->last_game_ban)) {
                 return false;
             }
