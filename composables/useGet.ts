@@ -13,7 +13,12 @@ export default async function<T = unknown>(url: string, options?) {
         headersToSend.referer = `http://${config.siteUrl}`;
     }
 
-    const protocol = process.client ? getProtocol(config) : 'http://';
+    let protocol;
+    if (process.client) {
+        protocol = getProtocol(config);
+    } else {
+        protocol = config.is_production ? '' : 'http://';
+    }
 
     if (headers.cookie) {
         headersToSend['cookie'] = headers.cookie;
