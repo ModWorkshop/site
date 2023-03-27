@@ -5,6 +5,7 @@ import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
 import { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
+import { PublicRuntimeConfig } from '@nuxt/schema';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -160,8 +161,7 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
 
 export async function getCommentLink(comment: Comment) {
     const type = comment.commentable_type, id = comment.commentable_id;
-    const url = `/${type}s/${id}`;
-    const page = await useGet(`${url}/comments/${comment.id}/page`);
+    const page = await useGet(`comments/${comment.id}/page`);
     return `/${type}/${id}/${comment.reply_to ? `post/${comment.reply_to}` : ''}?page=${page}&comment=${comment.id}`;
 }
 

@@ -121,7 +121,6 @@ const usersCache: Record<string, User> = {};
 
 const posting = ref(false);
 
-const { showToast } = useToaster();
 const showError = useQuickErrorToast();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
@@ -135,7 +134,7 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
 watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
 watch(page, loadComments);
 
-const { data: viewingComment } = await useFetchData<Comment>(`${props.url}/${route.params.commentId}`, {
+const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.params.commentId}`, {
     immediate: !!route.params.commentId
 });
 
