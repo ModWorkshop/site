@@ -167,7 +167,9 @@ class UserController extends Controller
         }
 
         $user->update($val);
-        $user->extra->update($extra);
+        if (isset($extra)) {
+            $user->extra->update($extra);
+        }
         $user->load('extra');
 
         return new UserResource($user);
