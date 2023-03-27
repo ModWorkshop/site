@@ -4,11 +4,16 @@ export default async function<T = unknown>(url: string, options?) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
     const { public: config } = useRuntimeConfig();
-    
-    const headersToSend = {
+
+    const headersToSend: any = {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
-        referer: config.siteUrl, //Uneeded in production
     };
+
+    if (!config.is_production) {
+        headersToSend.referer = `http://${config.siteUrl}`;
+    }
+
+    const protocol = process.client ? getProtocol(config) : 'http://';
 
     if (headers.cookie) {
         headersToSend['cookie'] = headers.cookie;
@@ -31,7 +36,7 @@ export default async function<T = unknown>(url: string, options?) {
     }
 
     const res = await $fetch<T>(url, {
-        baseURL: config.apiUrl,
+        baseURL: protocol + config.apiUrl,
         headers: headersToSend,
         credentials: "include", //Required as it doesn't send cookies and stuff otherwise
         ...options,

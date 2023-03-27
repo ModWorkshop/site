@@ -97,7 +97,7 @@ const images = computed(() => {
 
     if (props.mod.images) {
         for (const image of props.mod.images) {
-            images.push(`${config.storageUrl}/mods/images/${image.file}`);
+            images.push(`${getStorageURL(config)}/mods/images/${image.file}`);
         }
     }
 

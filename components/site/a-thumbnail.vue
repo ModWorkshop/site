@@ -20,7 +20,7 @@ const props = defineProps<{
     urlPrefix: string,
 }>();
 
-const noPreviewSrc = computed(() => `${config.apiUrl}/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
+const noPreviewSrc = computed(() => `${getApiURL(config)}/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const compSrc = computed(() => {
     const src = props.src;
@@ -33,7 +33,7 @@ const compSrc = computed(() => {
         } else if (config.debug_legacy_images) {
             return `https://modworkshop.net/mydownloads/previews/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
         } else {
-            return `${config.storageUrl}/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
+            return `${getStorageURL(config)}/${props.urlPrefix}/${(props.hasThumb && !props.preferHq) ? 'thumbnail_' : ''}${props.src}`;
         }
     }
 });

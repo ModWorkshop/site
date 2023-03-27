@@ -197,3 +197,21 @@ export function clearAllCookies() {
 export function getAdminUrl(page: string, game?: Game) {
     return `${game ? `/g/${game.id}` : ''}/admin/${page}`;
 }
+
+// Returns API URL with http/https depending on production or not
+export function getApiURL(config: PublicRuntimeConfig) {
+    return `${getProtocol(config)}${config.apiUrl}`;
+}
+
+// Returns storage URL with https depending on production or not
+export function getStorageURL(config: PublicRuntimeConfig) {
+    if (config.storageUrl.match(config.siteUrl)) {
+        return `${getProtocol(config)}${config.storageUrl}`;
+    } else { // If URL isn't our assume it's https
+        return `https://${config.storageUrl}`;
+    }
+}
+
+export function getProtocol(config: PublicRuntimeConfig) {
+    return config.is_production ? 'https://' : 'http://';
+}

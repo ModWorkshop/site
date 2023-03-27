@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: false }
+		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: false , is_production: false }
 	},
 
 	hooks: {
