@@ -37,7 +37,7 @@ const { data: mod } = await useResource<Mod>('mod', 'mods', {
 
 const download = ref<HTMLAnchorElement>();
 
-const downloadUrl = computed(() => `${getApiURL(config)}/files/${file.value.id}/download`);
+const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/download`);
 const { data: file } = await useResource<File>('file', 'files');
 
 if (!file.value) {

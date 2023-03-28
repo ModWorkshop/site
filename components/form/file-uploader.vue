@@ -192,7 +192,7 @@ async function upload(files: FileList|null) {
     
                 const { data } = await axios.post<MWSFile>(props.uploadUrl, formData, {
                     withCredentials: true,
-                    baseURL: getApiURL(config),
+                    baseURL: config.apiUrl,
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         const reactiveFile = filesArr.value[0];

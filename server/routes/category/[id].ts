@@ -6,7 +6,7 @@ export default defineEventHandler(async event => {
     if (event.context.params) {
         try {
             const data = await $fetch<Category>(`categories/${event.context.params.id}`, {
-                baseURL: getApiURL(config)
+                baseURL: config.apiUrl
             });
     
             if (data.game) {

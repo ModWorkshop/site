@@ -10,5 +10,5 @@
 <script setup lang="ts">
 const { public: config } = useRuntimeConfig();
 
-const url = computed(() => getApiURL(config));
+const url = computed(() => config.apiUrl);
 </script>

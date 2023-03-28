@@ -27,10 +27,10 @@ const bannerUrl = computed(() => {
         } else if (isSrcExternal(src)) {
             return src;
         } else {
-            return `${getStorageURL(config)}/${props.urlPrefix}/${src}`;
+            return `${config.storageUrl}/${props.urlPrefix}/${src}`;
         }
     } else {
-        return `${getApiURL(config)}/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
+        return `${config.apiUrl}/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
     }
 });
 </script>

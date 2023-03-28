@@ -66,7 +66,7 @@
     
         <a-alert color="info" :title="$t('request_my_data')">
             {{$t('request_my_data_desc')}}
-            <a ref="downloadDataButton" download :href="`${getApiURL(config)}/user-data`"/>
+            <a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
             <div>
                 <a-button @click="downloadData">{{$t('download')}}</a-button>
             </div>

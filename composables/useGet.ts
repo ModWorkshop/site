@@ -3,21 +3,14 @@ import qs from 'qs';
 export default async function<T = unknown>(url: string, options?) {
     const token = useCookie('XSRF-TOKEN');
     const headers = useRequestHeaders(['cookie']);
-    const { public: config } = useRuntimeConfig();
+    const { public: config, innerApiUrl } = useRuntimeConfig();
 
     const headersToSend: any = {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
     };
 
     if (!config.is_production) {
-        headersToSend.referer = `http://${config.siteUrl}`;
-    }
-
-    let protocol;
-    if (process.client) {
-        protocol = getProtocol(config);
-    } else {
-        protocol = config.is_production ? '' : 'http://';
+        headersToSend.referer = config.siteUrl;
     }
 
     if (headers.cookie) {
@@ -40,13 +33,17 @@ export default async function<T = unknown>(url: string, options?) {
         });
     }
 
-    const res = await $fetch<T>(url, {
-        baseURL: protocol + config.apiUrl,
-        headers: headersToSend,
-        credentials: "include", //Required as it doesn't send cookies and stuff otherwise
-        ...options,
-        params: {}
-    });
+    try {
+        const res = await $fetch<T>(url, {
+            baseURL: process.client ? config.apiUrl : innerApiUrl,
+            headers: headersToSend,
+            credentials: "include", //Required as it doesn't send cookies and stuff otherwise
+            ...options,
+            params: {}
+        });
 
-    return res;
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
 }
