@@ -14,7 +14,7 @@ defineProps({
 });
 </script>
 
-<style scoped>
+<style>
 .loading {
     animation-name: rotatingLoading;
     animation-duration: 1s;
