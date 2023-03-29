@@ -68,7 +68,7 @@ class FileController extends Controller
         $user = $request->user();
         $fileType = $file->extension();
         $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('mods/files', $fileName, 'r2');
+        $file->storePubliclyAs('mods/files', $fileName);
         
         $file = $mod->files()->create([
             'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
