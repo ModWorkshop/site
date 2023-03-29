@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => parse_url(env('SESSION_DOMAIN', null), PHP_URL_HOST),
+    'domain' => preg_replace("(^https?://)", "", env('SESSION_DOMAIN', null)),
 
     /*
     |--------------------------------------------------------------------------
