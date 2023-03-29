@@ -34,7 +34,7 @@ class EmailVerificationNotification extends VerifyEmail
      */
     public function toMail($notifiable)
     {
-        $prefix = env('FRONT_URL')."/verify-email";
+        $prefix = env('FRONTEND_URL')."/verify-email";
         $verificationUrl = $this->verificationUrl($notifiable);
 
         return (new MailMessage)

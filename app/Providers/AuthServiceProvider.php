@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            $prefix = env('FRONT_URL')."/verify-email";
+            $prefix = env('FRONTEND_URL')."/verify-email";
             return (new MailMessage)
                 ->line('Welcome to ModWorkshop!')
                 ->line("In order to activate your account you must verify this email address.")
@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return env('FRONT_URL').'/reset-password/'.$token;
+            return env('FRONTEND_URL').'/reset-password/'.$token;
         });
     }
 }
