@@ -7,9 +7,7 @@
                 Inactive accounts cannot do most actions such as uploading mods or posting comments.
                 <br>
                 The account will be automatically deleted if no action will be taken a day after registration.
-                <a-button class="mr-auto" :loading="resending" @click="resendVerification">
-                    <flex class="items-center">Resend</flex>
-                </a-button>
+                <a-button class="mr-auto" :loading="!resending" @click="resendVerification">Resend</a-button>
             </a-toast>
             
             <flex id="toaster" column gap="2">
