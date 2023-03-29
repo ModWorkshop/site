@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Ban;
 use App\Models\SocialLogin;
 use App\Models\User;
@@ -124,7 +125,7 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
             $request->session()->regenerate();
-            return $user;
+            return new UserResource($user->refresh());
         } else {
             Log::info('Failed to sign in');
         }
