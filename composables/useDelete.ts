@@ -1,4 +1,4 @@
-import { FetchOptions } from "ohmyfetch";
+import { FetchOptions } from "ofetch";
 
 export default function(url: string, body?: object, options?: FetchOptions) {
     return useGet(url, {

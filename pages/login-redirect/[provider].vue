@@ -7,7 +7,7 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { useStore } from '../../store';
 
 definePageMeta({

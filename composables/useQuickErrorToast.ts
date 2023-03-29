@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 
 function getErrorString(e) {

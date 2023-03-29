@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import clone from 'rfdc/default';
 import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';

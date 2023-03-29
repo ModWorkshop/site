@@ -10,7 +10,7 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 
 definePageMeta({

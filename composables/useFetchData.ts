@@ -1,4 +1,4 @@
-import { FetchOptions } from "ohmyfetch";
+import { FetchOptions } from "ofetch";
 import hash from 'object-hash';
 
 export interface DifferentFetchOptions extends FetchOptions {

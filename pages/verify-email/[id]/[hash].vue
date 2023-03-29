@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { useStore } from '~~/store';
 
 definePageMeta({

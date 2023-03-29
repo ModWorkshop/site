@@ -1,4 +1,4 @@
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { Ref } from 'vue';
 
 function isFetchError(error): error is FetchError {

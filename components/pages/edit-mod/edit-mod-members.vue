@@ -62,7 +62,7 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 const yesNoModal = useYesNoModal();
 const showToast = useQuickErrorToast();

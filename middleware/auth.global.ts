@@ -1,4 +1,4 @@
-import { FetchError } from 'ohmyfetch';
+import { FetchError } from 'ofetch';
 import { i18n } from './../app/i18n';
 import { useStore } from '../store';
 
