@@ -44,7 +44,7 @@
                     <the-social-logins/>
                 </flex>
                 <div>
-                    <a-button type="submit" :disabled="!canRegister">{{$t('register')}}</a-button>
+                    <a-button type="submit" :loading="loading" :disabled="!canRegister">{{$t('register')}}</a-button>
                 </div>
             </content-block>
         </a-form>    
@@ -87,6 +87,7 @@ const confirmPassValidity = computed(() => {
     }
 });
 
+const loading = ref(false);
 const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm);
 
 const store = useStore();
@@ -97,14 +98,8 @@ async function register() {
     }
 
     try {
+        loading.value = true;
         await usePost('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
-        Object.assign(user, {
-            name: '',
-            unique_name: '',
-            email: '',
-            password: '',
-            password_confirm: '',
-        });
         store.attemptLoginUser();
     } catch (e) {
         if (e instanceof FetchError) {
@@ -112,6 +107,8 @@ async function register() {
                 409: t('register_error_409'),
             });
         }
+
+        loading.value = false;
     }
 }
 </script>
