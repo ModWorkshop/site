@@ -29,6 +29,7 @@ const labelId = computed(() => props.id || uniqueId);
 
 watch(() => props.modelValue, (value, oldValue) => {
     if (input.value && oldValue && !value) {
+        blob.value = null;
         input.value.value = '';
     }
 });
