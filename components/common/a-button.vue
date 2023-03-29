@@ -62,6 +62,10 @@ const isDisabled = computed(() => props.disabled || props.loading);
     transition-property: background-color, color, border-color;
 }
 
+.button:not([disabled]):active {
+    transform: scale(.98);
+}
+
 .button-sm {
     padding: 0.3rem 0.6rem;
 }
