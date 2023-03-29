@@ -1,15 +1,11 @@
 <template>
     <NuxtLink v-if="toOrHref && !isDisabled" :to="toOrHref" :class="clss" :download="download">
-        <a-loading v-if="loading"/>
-        <template v-else>
-            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
-        </template>
+        <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
+        <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </NuxtLink>
     <button v-else :disabled="isDisabled" :class="clss" :type="type"> 
-        <a-loading v-if="loading"/>
-        <template v-else>
-            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
-        </template>
+        <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
+        <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
     </button>
 </template>
 
