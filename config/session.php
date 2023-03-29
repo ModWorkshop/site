@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => parse_url(env('SESSION_DOMAIN', null), PHP_URL_HOST),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -17,8 +16,8 @@ return [
     'stateful' => explode(',', sprintf(
         '%s%s%s%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        env('APP_URL') ? ','.env('APP_URL') : '',
-        env('FRONTEND_URL') ? ','.env('FRONTEND_URL') : '',
+        env('APP_URL') ? ','.preg_replace("(^https?://)", "", env('APP_URL')) : '',
+        env('FRONTEND_URL') ? ','.preg_replace("(^https?://)", "", env('FRONTEND_URL')) : '',
         env('SANCTUM_STATEFUL_DOMAINS') ? ','.env('SANCTUM_STATEFUL_DOMAINS') : ''
     )),
 

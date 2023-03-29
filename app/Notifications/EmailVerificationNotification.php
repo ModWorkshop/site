@@ -41,7 +41,7 @@ class EmailVerificationNotification extends VerifyEmail
             ->line('Welcome to ModWorkshop!')
             ->line("In order to activate your account you must verify this email address.")
             ->line("If you did not initiate it, you can safely ignore this message and the account will be automatically deleted after a day.")
-            ->action('Verify', $prefix.str_replace(Request::getScheme().'://'.env('APP_URL').'/email/verify', '', $verificationUrl));
+            ->action('Verify', $prefix.str_replace(env('APP_URL').'/email/verify', '', $verificationUrl));
     }
 
     /**
