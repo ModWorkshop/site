@@ -15,7 +15,7 @@
         "jcupitt/vips": "2.1.1",
         "laravel/framework": "^10.5.1",
         "laravel/sanctum": "^3.2",
-        "laravel/scout": "^9.6.2",
+        "laravel/scout": "^10.0.2",
         "laravel/telescope": "^4.13.0",
         "laravel/tinker": "^2.7.3",
         "league/flysystem-aws-s3-v3": "^3.10",
