@@ -89,6 +89,5 @@ class FollowedUserController extends Controller
     public function destroy(int $id, Authenticatable $user)
     {
         FollowedUser::where('user_id', $user->id)->where('follow_user_id', $id)->delete();
-        User::flushQueryCache();
     }
 }

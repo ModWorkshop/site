@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
     const public = 'public';
@@ -166,10 +165,9 @@ abstract class Visibility {
 class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
-    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    use HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 1;
-    public static $flushCacheOnUpdate = true;
 
     /**
      * The attributes that aren't mass assignable.

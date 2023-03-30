@@ -206,7 +206,6 @@ class ThreadController extends Controller
 
         if(isset($tags)) {
             $thread->tags()->sync($tags);
-            Tag::flushQueryCache();
         }
 
         $thread->timestamps = true;

@@ -209,9 +209,6 @@ class ModController extends Controller
             $mod = Mod::create($val);
         }
 
-        Mod::flushQueryCache();
-        Tag::flushQueryCache();
-
         if(isset($tags)) {
             $mod->tags()->sync($tags);
         }

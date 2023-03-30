@@ -62,6 +62,5 @@ class BlockedUserController extends Controller
     {
         $user = $this->user();
         $user->blockedUsers()->detach($id);
-        User::flushQueryCache();
     }
 }

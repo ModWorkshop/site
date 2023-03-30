@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Setting
@@ -31,11 +30,10 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Setting extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory;
 
     //One of the longest cached values in the site. Since they change so infrequently.
     public $cacheFor = 86400;
-    public static $flushCacheOnUpdate = true;
 
     protected $guarded = ['type', 'name'];
 
