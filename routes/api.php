@@ -35,9 +35,11 @@ use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
+use App\Http\Resources\UserResource;
 use App\Models\Mod;
 use App\Models\Report;
 use App\Services\APIService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -193,7 +195,7 @@ Route::get('social-logins/{provider}/link-redirect', [SocialLoginController::cla
 Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'SocialiteRedirect']);
 Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'SocialiteLogin']);
 
-Route::get('site-data', function() {
+Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
@@ -210,6 +212,12 @@ Route::get('site-data', function() {
             $data['reports_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(false)->count();
         }
+
+        $user = $request->user();
+        $user->append('signable');
+        $user->load('extra');
+
+        $data['user'] = new UserResource($user);
     }
 
     return $data;
