@@ -105,7 +105,7 @@ export function date(t: string) {
 }
 
 export async function reloadToken() {
-    await useGet('/sanctum/csrf-cookie');
+    useGet('/sanctum/csrf-cookie');
 }
 
 export function setQuery(key: string, value: LocationQueryValueRaw | LocationQueryValueRaw[]) {

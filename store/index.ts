@@ -66,19 +66,24 @@ export const useStore = defineStore('main', {
 
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
-            const [ userData, siteData ] = await Promise.all([
-                useGet<User>('user'),
+   
+            const [ siteData ] = await Promise.all([
                 useGet<{
                     settings: Settings,
                     announcements: Thread[],
                     unseen_notifications: number,
                     reports_count?: number,
                     waiting_count?: number,
+                    user?: User
                 }>('site-data'),
                 reloadToken()
             ]);
 
-            this.user = userData;
+            if (siteData.user) {
+                this.user = siteData.user;
+            } else {
+                this.user = null;
+            }
             
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;
