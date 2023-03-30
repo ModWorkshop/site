@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "aws/aws-sdk-php": "^3.262",
         "chelout/laravel-relationship-events": "^2.0",
         "fileeye/mimemap": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
