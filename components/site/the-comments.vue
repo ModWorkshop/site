@@ -290,7 +290,7 @@ async function editComment() {
         commentContent.value = '';
         const { mentions, content: processedContent } = processMentions(content);
 
-        await usePatch(props.url + '/' + editingComment.value!.id, { content: processedContent, mentions });
+        await usePatch(`comments/${editingComment.value!.id}`, { content: processedContent, mentions });
         editingComment.value!.content = content;
         setCommentDialog(false);
     } catch (error) {
@@ -318,7 +318,7 @@ function onVisChange([{ isIntersecting }]) {
 }
 
 async function deleteComment(comment: Comment, isReply=false) {
-    await useDelete(props.url + '/' + comment.id);
+    await useDelete(`comments/${comment.id}`);
     if (!isReply) {
         remove(comments.value!.data, comment);
     }
@@ -342,7 +342,7 @@ function replyToComment(replyTo: Comment, mention: User) {
  * Pretty much because this isn't as frequent and so it's sorted well.
  */
 async function setCommentPinState(comment: Comment) {
-    await usePatch(props.url + '/' + comment.id, { pinned: comment.pinned });
+    await usePatch(`comments/${comment.id}`, { pinned: comment.pinned });
     loadComments();
 }
 
