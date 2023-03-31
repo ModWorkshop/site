@@ -27,12 +27,12 @@
                 </flex>
                 <flex class="md:ml-auto">
                     <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : undefined" @click="toggleLiked"/>
-                    <a-button v-if="mod.download && mod.download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : undefined">
+                    <a-button v-if="download && download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : undefined">
                         {{$t('download')}}
                         <br>
-                        <span class="text-sm">{{(mod.download as any).type}} - {{friendlySize((mod.download as any).size)}}</span>
+                        <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
                     </a-button>
-                    <VDropdown v-else-if="mod.download && mod.download_type == 'link'">
+                    <VDropdown v-else-if="download && download_type == 'link'">
                         <a-button class="large-button w-full text-center" icon="mdi:download" @click="!!static && registerDownload">
                             {{$t('show_download_link')}}
                         </a-button>
@@ -40,7 +40,7 @@
                             <div class="word-break p-2" style="width: 250px;">
                                 {{$t('show_download_link_warn')}}
                                 <br>
-                                <a :href="(mod.download as any).url">{{(mod.download as any).url}}</a>
+                                <a :href="(download as any).url">{{(download as any).url}}</a>
                             </div>
                         </template>
                     </VDropdown>
@@ -66,7 +66,34 @@ const { user, hasPermission } = useStore();
 
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
-const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.mod.download!.id}`);
+
+const download = computed(() => {
+    if (props.mod.download) {
+        return props.mod.download;
+    }
+
+    const links = props.mod.links?.meta.total ?? 0;
+    const files = props.mod.files?.meta.total ?? 0;
+
+    if ((links == 1 && files == 0) || (links == 0 && files == 1)) {
+        return links === 1 ? props.mod.links!.data[0] : props.mod.files!.data[0];
+    }
+});
+
+const download_type = computed(() => {
+    if (props.mod.download_type) {
+        return props.mod.download_type;
+    }
+
+    const links = props.mod.links?.meta.total ?? 0;
+    const files = props.mod.files?.meta.total ?? 0;
+
+    if ((links == 1 && files == 0) || (links == 0 && files == 1)) {
+        return links === 1 ? 'link' : 'file';
+    }
+});
+
+const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${download.value!.id}`);
 
 async function toggleLiked() {
     if (props.static) {
