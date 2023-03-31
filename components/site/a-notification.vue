@@ -1,5 +1,5 @@
 <template>
-    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.stop="onClick">
+    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.self.stop="onClick">
         <a-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar"/>
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
