@@ -4,6 +4,7 @@ use App\Http\Controllers\BanController;
 use App\Http\Controllers\BlockedTagController;
 use App\Http\Controllers\BlockedUserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FollowedGameController;
@@ -89,18 +90,9 @@ Route::middleware('can:manage,mod')->group(function() {
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
 
 APIService::resource('comments', ModCommentsController::class, 'mods');
-Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModCommentsController::class, 'report']);
-Route::get('mods/{mod}/comments/{comment}/page', [ModCommentsController::class, 'page']);
-Route::get('mods/{mod}/comments/{comment}/replies', [ModCommentsController::class, 'replies']);
-
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
     Route::get('mods/liked', [ModController::class, 'liked']);
-
-    Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
-    Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
-    Route::post('mods/{mod}/comments/{comment}/subscription', [ModCommentsController::class, 'subscribeComment']);
-    Route::delete('mods/{mod}/comments/{comment}/subscription', [ModCommentsController::class, 'unsubscribeComment']);
 });
 
 //Games/categories/tags
@@ -126,12 +118,22 @@ APIService::resource('comments', ThreadCommentsController::class, 'threads');
 Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
-Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/comments/{comment}/reports', [ThreadCommentsController::class, 'report']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
     Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
-    Route::post('threads/{thread}/comments/{comment}/subscription', [ThreadCommentsController::class, 'subscribeComment']);
-    Route::delete('threads/{thread}/comments/{comment}/subscription', [ThreadCommentsController::class, 'unsubscribeomment']);
+    Route::post('comments/{comment}/subscription', [ThreadCommentsController::class, 'subscribeComment']);
+    Route::delete('comments/{comment}/subscription', [ThreadCommentsController::class, 'unsubscribeomment']);
+
+    Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
+    Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
+    Route::post('comments/{comment}/subscription', [ModCommentsController::class, 'subscribeComment']);
+    Route::delete('comments/{comment}/subscription', [ModCommentsController::class, 'unsubscribeComment']);
+
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
+    Route::patch('comments/{comment}', [CommentController::class, 'update']);
+    Route::get('comments/{comment}/page', [CommentController::class, 'page']);
+    Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
+    Route::post('comments/{comment}/reports', [CommentController::class, 'report']);
 });
 
 /**
@@ -140,7 +142,6 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::resource('users', UserController::class)->except(['store', 'show']);
 APIService::gameResource('bans', BanController::class, ['parentOptional' => true]);
 APIService::gameResource('user-cases', UserCaseController::class, ['parentOptional' => true]);
-Route::middleware('can:report,mod')->post('mods/{mod}/comments/{comment}/reports', [ModCommentsController::class, 'report']);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
 Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
     Route::get('notifications/unseen', [NotificationController::class, 'unseenCount']);

@@ -150,7 +150,7 @@ class CommentService {
      * @param Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public static function update(Request $request, Model $commentable, Comment $comment)
+    public static function update(Request $request, Comment $comment)
     {
         $user = $request->user();
         $val = $request->validate([
@@ -174,7 +174,7 @@ class CommentService {
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
-        if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $commentable->game) && $comment->user->id !== $user->id)) {
+        if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
             throw new Exception('You cannot edit the comment!');
         }
 
@@ -197,7 +197,7 @@ class CommentService {
      *
      * @param  Comment  $comment
      */
-    public static function destroy(Model $commentable, Comment $comment)
+    public static function destroy(Comment $comment)
     {
         $comment->delete();
     }
@@ -205,7 +205,7 @@ class CommentService {
     /**
      * Finds the page of the comment
      */
-    public static function page(Request $request, Model $commentable, Comment $comment)
+    public static function page(Request $request, Comment $comment)
     {
         $limit = $request->query->getInt('limit', 20);
 
@@ -219,7 +219,7 @@ class CommentService {
             $comments->whereNull('reply_to');
         }
 
-        $comments->where('commentable_type', $commentable->getMorphClass())->where('commentable_id', $commentable->id);
+        $comments->where('commentable_type', $comment->commentable->getMorphClass())->where('commentable_id', $comment->commentable->id);
 
         $commentWithPage = Comment::from($comments, 'coms')->where('coms.id', $comment->id)->first();
 

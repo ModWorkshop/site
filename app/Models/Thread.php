@@ -78,6 +78,8 @@ class Thread extends Model implements SubscribableInterface
 
     protected $with = ['user', 'lastUser', 'category'];
 
+    public $commentsOrder = 'ASC';
+
     protected $guarded = [];
     
     protected $casts = [

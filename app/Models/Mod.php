@@ -169,6 +169,8 @@ class Mod extends Model implements SubscribableInterface
 
     public $cacheFor = 1;
 
+    public $commentsOrder = 'DESC';
+
     /**
      * The attributes that aren't mass assignable.
      * download_type/id are handled by Laravel
