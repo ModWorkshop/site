@@ -9,7 +9,7 @@
             </flex>
             <a-items :items="notifications" :loading="loading">
                 <template #item="{ item }">
-                    <a-notification :notification="item" :notifications="item"/>
+                    <a-notification :notification="item" :notifications="notifications!"/>
                 </template>
             </a-items>
         </content-block>
