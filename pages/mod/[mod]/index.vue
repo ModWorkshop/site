@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod, Comment } from '~~/types/models';
+import { Mod, Comment, ModMember } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod } from '~~/utils/mod-helpers';
 
@@ -68,8 +68,8 @@ function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.value.user_id) {
         return `${t('owner')}`;
     } else {
-        const member = mod.value.members.find(member => comment.user_id === member.id);
-        if (member) {
+        const member: ModMember = mod.value.members.find(member => comment.user_id === member.id);
+        if (member && member.accepted) {
             return t(`member_level_${member.level}`);
         }
     }
