@@ -37,14 +37,23 @@ const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', 
     suspended: t('error_suspended')
 });
 
-const thumbnail = computed(() => mod.value.thumbnail);
+const thumbnail = computed(() => {
+    const thumb = mod.value.thumbnail;
+    if (thumb) {
+        return `${config.storageUrl}/mods/images/${thumb.has_thumb ? 'thumbnail_' : ''}${thumb.file}`;
+    } else {
+        return  `${config.apiUrl}/assets/no-preview-dark.png`;//TODO: change
+    }
+});
 
 useServerSeoMeta({
-	ogTitle: `ModWorkshop - ${mod.value.game?.name}`,
+    ogSiteName: `ModWorkshop - ${mod.value.game?.name}`,
+    author: mod.value.user?.name,
+	ogTitle: `${mod.value.name} by ${mod.value.user.name}`,
 	description: mod.value.short_desc,
 	ogDescription: mod.value.short_desc,
-	ogImage: `${config.storageUrl}/mods/images/${(thumbnail.value?.has_thumb) ? 'thumbnail_' : ''}${thumbnail.value?.file}`, //TODO: change
-	twitterCard: 'summary_large_image',
+	ogImage: thumbnail.value, //TODO: change
+	twitterCard: 'summary',
 });
 
 if (mod.value) {

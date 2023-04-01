@@ -30,6 +30,7 @@ const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
 const { locale } = useI18n();
 const savedLocale = useCookie('locale');
+const { public: config } = useRuntimeConfig();
 
 useHead({
 	titleTemplate: (titleChunk) => {
@@ -47,8 +48,9 @@ useServerSeoMeta({
 	ogTitle: 'ModWorkshop',
 	description: desc,
 	ogDescription: desc,
-	ogImage: 'https://api.luffyyy.com/assets/mws_logo_white.svg', //TODO: change
-	twitterCard: 'summary_large_image',
+	ogImage: `${config.apiUrl}/assets/mws_logo_white.png`, //TODO: change
+	themeColor: '#006ce0',
+	twitterCard: 'summary',
 });
 
 if (savedLocale.value) {
