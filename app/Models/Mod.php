@@ -196,6 +196,7 @@ class Mod extends Model implements SubscribableInterface
         'images',
         // 'files',
         // 'links',
+        'download',
         'members',
         'banner',
         'lastUser',
