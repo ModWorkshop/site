@@ -41,6 +41,16 @@ useHead({
 	title: undefined,
 });
 
+const desc = 'A platform that hosts mods for games, providing the necessary tools to share and create mods, tools, and ideas.';
+
+useServerSeoMeta({
+	ogTitle: 'ModWorkshop',
+	description: desc,
+	ogDescription: desc,
+	ogImage: 'https://api.luffyyy.com/assets/mws_logo_white.svg', //TODO: change
+	twitterCard: 'summary_large_image',
+});
+
 if (savedLocale.value) {
 	locale.value = savedLocale.value;
 }

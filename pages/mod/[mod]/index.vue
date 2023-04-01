@@ -28,12 +28,23 @@ import { useStore } from '~~/store';
 import { Mod, Comment, ModMember } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod } from '~~/utils/mod-helpers';
+const { public: config } = useRuntimeConfig();
 
 const store = useStore();
 const { t } = useI18n();
 
-const { data: mod } = await useResource<Mod>('mod', 'mods', {
+const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', {
     suspended: t('error_suspended')
+});
+
+const thumbnail = computed(() => mod.value.thumbnail);
+
+useServerSeoMeta({
+	ogTitle: `ModWorkshop - ${mod.value.game?.name}`,
+	description: mod.value.short_desc,
+	ogDescription: mod.value.short_desc,
+	ogImage: `${config.storageUrl}/mods/images/${(thumbnail.value?.has_thumb) ? 'thumbnail_' : ''}${thumbnail.value?.file}`, //TODO: change
+	twitterCard: 'summary_large_image',
 });
 
 if (mod.value) {
