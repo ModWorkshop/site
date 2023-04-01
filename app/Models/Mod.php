@@ -462,7 +462,7 @@ class Mod extends Model implements SubscribableInterface
         $category = $this->category;
         
         $send = function($url) use($game, $category) {
-            $siteUrl = env('frontend_url');
+            $siteUrl = env('FRONTEND_URL');
             Utils::sendDiscordMessage($url, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
                 $this->name,
                 ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''), 
