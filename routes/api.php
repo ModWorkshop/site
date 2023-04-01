@@ -178,7 +178,7 @@ Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
 APIService::gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
-Route::middleware('auth:sanctum')->patch('settings', [SettingsController::class, 'update']);
+Route::middleware('can:update,App\Models\Setting')->patch('settings', [SettingsController::class, 'update']);
 
 Route::post('login', [LoginController::class, 'login']);
 Route::post('register', [LoginController::class, 'register']);

@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Setting::class, 'setting');
     }
 
     /**
