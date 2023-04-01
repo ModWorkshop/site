@@ -27,8 +27,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             $prefix = env('FRONTEND_URL')."/verify-email";
             return (new MailMessage)
