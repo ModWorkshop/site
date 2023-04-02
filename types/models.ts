@@ -279,7 +279,8 @@ export interface User {
         home_show_threads: boolean;
         game_show_mods: boolean;
         game_show_threads: boolean;
-    }
+    };
+    mods_count: number;
 }
 
 export interface UserForm extends User {

@@ -57,7 +57,7 @@
                             </flex>
                             <flex column>
                                 {{$t('mods')}}
-                                <span class="text-secondary">{{mods?.meta.total}}</span>
+                                <span class="text-secondary">{{user.mods_count}}</span>
                             </flex>
                             <flex v-if="user.donation_url" column>
                                 {{$t('support_user')}}
@@ -99,7 +99,6 @@
                     :trigger-refresh="triggerRefresh"
                     :user-id="user.id" 
                     :collab="displayMods == 'collab'"
-                    @fetched="items => mods = items"
                 />
             </template>
             <content-block v-else>
@@ -122,9 +121,8 @@
 import { setFollowUser } from '~~/utils/follow-helpers';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
-import { Mod, User } from '~~/types/models';
+import { User } from '~~/types/models';
 import { useStore } from '~~/store';
-import { Paginator } from '~~/types/paginator';
 import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
@@ -162,7 +160,6 @@ const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile);
-const mods = ref<Paginator<Mod>>();
 
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 async function saveRoles() {
