@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../../store/index';
 
 definePageMeta({
     middleware: 'users-only'
@@ -20,6 +21,7 @@ definePageMeta({
 const route = useRoute();
 const done = ref(false);
 const { t } = useI18n();
+const { user } = useStore();
 
 if (route.query.error) {
     showError({ statusCode: 500, statusMessage: route.query.error_description as string });
@@ -36,6 +38,7 @@ if (process.client) {
     try {
         await usePost(`/social-logins/${route.params.provider}/link-callback`, newQuery);
         done.value = true;
+        user!.activated = true;
     } catch (e) {
         useHandleError(e as FetchError, {
             409: t('account_already_linked'),
