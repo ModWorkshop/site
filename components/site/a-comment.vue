@@ -27,7 +27,7 @@
                         :icon="comment.subscribed ? 'mdi:bell-off' : 'mdi:bell'"
                         @click="subscribe"
                     />
-                    <a-report v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`${url}/${comment.id}/reports`"/>
+                    <a-report v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
                     <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
                         <a-button class="cursor-pointer" icon="mdi:dots-vertical" size="sm"/>
                         <template #popper>
