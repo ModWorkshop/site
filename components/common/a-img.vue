@@ -24,7 +24,7 @@ const props = defineProps({
 });
 
 const useDefault = ref(false);
-const assetsUrl = `${config.apiUrl}/assets`;
+const assetsUrl = `/assets`;
 
 const compSrc = computed(function() {
     if (useDefault.value) {
@@ -37,7 +37,12 @@ const compSrc = computed(function() {
     else if (isSrcExternal(src)) {
         return src;
     } else {
-        return `${props.isAsset ? assetsUrl : config.storageUrl}/${props.urlPrefix}/${src}`;
+        const url = props.isAsset ? assetsUrl : config.storageUrl;
+        if (props.urlPrefix) {
+            return `${url}/${props.urlPrefix}/${src}`;
+        } else {
+            return `${url}/${src}`;
+        }
     }
 });
 </script>

@@ -42,17 +42,17 @@ const thumbnail = computed(() => {
     if (thumb) {
         return `${config.storageUrl}/mods/images/${thumb.has_thumb ? 'thumbnail_' : ''}${thumb.file}`;
     } else {
-        return  `${config.apiUrl}/assets/no-preview-dark.png`;//TODO: change
+        return  `${config.siteUrl}/assets/no-preview-dark.png`;
     }
 });
 
 useServerSeoMeta({
     ogSiteName: `ModWorkshop - ${mod.value.game?.name}`,
     author: mod.value.user?.name,
-	ogTitle: `${mod.value.name} by ${mod.value.user.name}`,
+	ogTitle: `${mod.value.name} by ${mod.value.user?.name}`,
 	description: mod.value.short_desc,
 	ogDescription: mod.value.short_desc,
-	ogImage: thumbnail.value, //TODO: change
+	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });
 

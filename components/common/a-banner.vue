@@ -30,7 +30,7 @@ const bannerUrl = computed(() => {
             return `${config.storageUrl}/${props.urlPrefix}/${src}`;
         }
     } else {
-        return `${config.apiUrl}/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
+        return `/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
     }
 });
 </script>

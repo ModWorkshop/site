@@ -48,7 +48,7 @@ useServerSeoMeta({
 	ogTitle: 'ModWorkshop',
 	description: desc,
 	ogDescription: desc,
-	ogImage: `${config.apiUrl}/assets/mws_logo_white.png`, //TODO: change
+	ogImage: `${config.siteUrl}/assets/mws_logo_white.png`,
 	themeColor: '#006ce0',
 	twitterCard: 'summary',
 });

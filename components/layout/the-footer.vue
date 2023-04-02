@@ -33,11 +33,7 @@
                     <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
                 </template>
             </a-select>
-            <a-select v-model="$i18n.locale" default="en-US" :options="locales">
-                <template #any-option="{option}">
-                    <a-img :src="getLocaleImg(option)" is-asset width="30" height="16"/> {{langNames[option]}}
-                </template>
-            </a-select>
+            <a-select v-model="$i18n.locale" default="en-US" :options="locales" :text-by="option => langNames[option]"/>
         </flex>
     </footer>
 </template>
@@ -54,13 +50,10 @@ const store = useStore();
 const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
 const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 
-function getLocaleImg(option: string) {
-    return `locales/${option}.${option === 'owo' ? 'webp' : 'svg'}`;
-}
-
 const locales = computed(() => i18n.availableLocales.filter(option => i18n.locale.value == 'owo' || option != 'owo' || unlockedOwO.value));
 const langNames = {
     'en-US': "English",
+    'zh-cn': '中文',
     'owo': 'OwO',
     'de-DE': "Deutsch"
 };
