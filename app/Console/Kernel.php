@@ -6,6 +6,7 @@ use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculateModsCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\DeleteUnverifiedUsers;
+use App\Jobs\TryActivatingUsers;
 use App\Models\Mod;
 use App\Models\PopularityLog;
 use Carbon\Carbon;
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new CalculatePopularity)->everyMinute();
+        $schedule->job(new TryActivatingUsers)->everyMinute();
         $schedule->job(new DeleteUnverifiedUsers)->everyMinute();
         $schedule->job(new CalculateModsCounts)->everyMinute();
     }
