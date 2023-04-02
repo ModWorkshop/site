@@ -59,7 +59,8 @@ class UserResource extends JsonResource
             'show_tag' => $this->show_tag,
             'supporter' => $this->activeSupporter,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
-            'extra' => $this->whenLoaded('extra')
+            'extra' => $this->whenLoaded('extra'),
+            'mods_count' => $this->mods_count
         ];
     }
 }

@@ -182,6 +182,7 @@ class MigrateBB extends Command
                     'invisible' => $user->invisible == 1,
                     'banner' => $user->banner,
                     'private_profile' => $user->private_profile,
+                    'activated' => true,
                     'bio' =>  $user->fid2 ?? '' # Lol
                 ]);
 

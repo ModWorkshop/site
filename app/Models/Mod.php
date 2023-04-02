@@ -249,6 +249,7 @@ class Mod extends Model implements SubscribableInterface
             }
             $mod->game->decrement('mods_count');
             $mod->subscriptions()->delete();
+            $mod->user->decrement('mods_count');
         });
         static::creating(function(Mod $mod) {
             $mod->bumped_at ??= $mod->freshTimestampString();
@@ -261,6 +262,8 @@ class Mod extends Model implements SubscribableInterface
             $mod->subscriptions()->create([
                 'user_id' => $mod->user_id
             ]);
+
+            $mod->user->increment('mods_count');
         });
     }
 

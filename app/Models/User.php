@@ -184,6 +184,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'custom_title',
         'donation_url',
         'show_tag',
+        'mods_count'
     ];
 
     /**
@@ -400,11 +401,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function signable(): Attribute
     {
         return Attribute::make(fn($value, $attrs) => isset($attrs['password']) && isset($attrs['email']));
-    }
-
-    public function activated(): Attribute
-    {
-        return Attribute::make(fn($value, $attrs) => $attrs['email_verified_at'] || $this->socialLogins()->exists());
     }
 
     public function customColor(): Attribute

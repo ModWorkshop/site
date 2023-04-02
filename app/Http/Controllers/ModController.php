@@ -413,7 +413,7 @@ class ModController extends Controller
             'accept' => 'boolean|required'
         ]);
 
-        $user = $request->user();
+        $user = $this->user();
         $userId = $user->id;
         $transferRequest = $mod->transferRequest()->where('user_id', $userId)->firstOrFail();
 
@@ -425,12 +425,17 @@ class ModController extends Controller
         Notification::deleteRelated($mod, 'transfer_ownership');
 
         $transferRequest->delete();
+
+        $mod->user()->decrement('mods_count');
+        $user->increment('mods_count');
+
         if ($val['accept']) {
             $mod->update(['user_id' => $userId]);
         }
 
         //Remove the new owner from the members
         $mod->members()->detach($user);
+
         Notification::deleteRelated($user, 'membership_request'); //Just to be sure
     }
 
