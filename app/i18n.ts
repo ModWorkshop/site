@@ -1,6 +1,7 @@
 import { createI18n } from "vue-i18n";
 import en from '../locales/en';
 import owo from '../locales/owo';
+import ch from "~~/locales/ch";
 
 export const i18n = createI18n({
     globalInjection: true,
@@ -12,7 +13,7 @@ export const i18n = createI18n({
     },
     messages: {
         'en-US': en,
-        'de-DE': {},
+        'zh-cn': ch,
         'owo': owo
     }
 });

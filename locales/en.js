@@ -272,7 +272,7 @@ Once done, click on the 'Create' button to move to the edit page where you will 
 primary_download_desc: 'If your mod is primarily a single download, you may choose the primary file or link the mod uses',
 send_for_approval: 'Send for Approval',
 send_for_approval_desc: `
-ome mods like music mods, or mods that contain music need to be approved before they're fully published. 
+Some mods like music mods, or mods that contain music need to be approved before they're fully published. 
 Some categories force this option.`,
 mod_waiting: 'The mod is waiting for approval',
 mod_waiting_desc: 'The mod will be inivisible until it will be approved by a moderator. Make sure the mod satisfies our rules.',
@@ -407,6 +407,9 @@ register_error_409: "The given unique name or email already exist!",
 login_error_401: "Incorrect email or password",
 login_error_422: "Given email or password are invalid",
 logging_you_in: "Logging you in. Please wait a moment...",
+inactive_account: `Your account is not active yet. You must verify it through your email address.
+Inactive accounts cannot do most actions such as uploading mods or posting comments.
+The account will be automatically deleted if no action will be taken a day after registration.`,
 verifying_email: "Verifying email. Please wait a moment...",
 verified_email: "Successfully verified email! You can now use the account.",
 remember_me: "Remember Me",

@@ -2,11 +2,9 @@
     <div class="layout">
         <main>
             <a-toast v-if="user && !user.activated" class="mt-2" color="warning" :closable="false">
-                Your account is not active yet. You must verify it through your email address.
-                <br>
-                Inactive accounts cannot do most actions such as uploading mods or posting comments.
-                <br>
-                The account will be automatically deleted if no action will be taken a day after registration.
+                <span class="whitespace-pre">
+                    {{ $t('inactive_account') }}
+                </span>
                 <a-button class="mr-auto" :loading="resending" @click="resendVerification">Resend</a-button>
             </a-toast>
             
