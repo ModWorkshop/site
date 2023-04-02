@@ -13,6 +13,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
 use Auth;
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -72,9 +73,9 @@ class UserController extends Controller
         $foundUser = null;
 
         if (is_numeric($user)) {
-            $foundUser = User::where('id', $user)->orWhere('unique_name', $user)->firstOrFail();
+            $foundUser = User::where('id', $user)->firstOrFail();
         } else {
-            $foundUser = User::where('unique_name', Str::lower($user))->firstOrFail();
+            $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->firstOrFail();
         }
 
         $foundUser->loadMissing('blockedUsers');
@@ -141,7 +142,7 @@ class UserController extends Controller
         $extra = Arr::pull($val, 'extra');
 
         if (isset($val['unique_name'])) {
-            $val['unique_name'] = strtolower($val['unique_name']);
+            $val['unique_name'] = Str::lower($val['unique_name']);
         }
 
         //TODO: Should moderators be able to change email for users?

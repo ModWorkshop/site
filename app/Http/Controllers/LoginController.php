@@ -11,6 +11,7 @@ use App\Models\UserRecord;
 use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
@@ -99,7 +100,7 @@ class LoginController extends Controller
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
-        if (User::where('email', $val['email'])->orWhere('unique_name', $val['unique_name'])->exists()) {
+        if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
             abort(409);
         }
 
@@ -214,7 +215,7 @@ class LoginController extends Controller
             $found = false;
             while(!$found) {
                 $current = $uniqueName.$num;
-                if (!Arr::first($users, fn($val) => strtolower($val->unique_name) === $current)) {
+                if (!Arr::first($users, fn($val) => Str::lower($val->unique_name) === $current)) {
                     $uniqueName = $current;
                     $found = true;
                 } else {
@@ -228,6 +229,7 @@ class LoginController extends Controller
                 'name' => $name,
                 'unique_name' => $uniqueName,
                 'avatar' => $avatarFileName,
+                'activated' => true
             ]);
     
             //Create a social login so the user can login with it later
