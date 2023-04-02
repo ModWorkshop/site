@@ -459,7 +459,7 @@ class Mod extends Model implements SubscribableInterface
             return;
         }
         
-        $this->published_at = $this->published_at;
+        $this->published_at = Carbon::now();
         $this->bumped_at = $this->freshTimestampString();
         $game = $this->game;
         $category = $this->category;
