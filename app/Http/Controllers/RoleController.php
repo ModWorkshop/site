@@ -54,7 +54,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpsertRoleRequest $request)
     {
         return $this->update($request);
     }
