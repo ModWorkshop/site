@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<{
     button?: boolean,
 }>(), {
     showModal: false,
-    button: false
+    button: true
 });
 
 const emit = defineEmits(['update:showModal']);
