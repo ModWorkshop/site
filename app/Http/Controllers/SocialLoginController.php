@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SocialLogin;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Socialite;
@@ -59,18 +60,22 @@ class SocialLoginController extends Controller
         } catch (Throwable $e) {
             abort(400);
         }
-        $userId = $this->userId();
+        
+        $user = $this->user();
 
         /** @var SocialLogin */
-        if (SocialLogin::where('social_id', $provider)->where(fn($q) => $q->where('user_id', $userId)->orWhere('special_id', $providerUser->id))->exists()) {
+        if (SocialLogin::where('social_id', $provider)->where(fn($q) => $q->where('user_id', $user->id)->orWhere('special_id', $providerUser->id))->exists()) {
             abort(409, 'The account is already linked!');
         } else {
             //Create a social login so the user can login with it later
             SocialLogin::create([
                 'social_id' => $provider,
                 'special_id' => $providerUser->id,
-                'user_id' => $userId
+                'user_id' => $user->id
             ]);
+
+            $user->activated = true;
+            $user->save();
         }
     }
 
@@ -81,9 +86,16 @@ class SocialLoginController extends Controller
 
         $socialLogin = SocialLogin::where('social_id', $provider)->where('user_id', $user->id)->firstOrFail();
 
-        if (!$user->signable && $user->socialLogins()->count() < 2) {
-            abort(405, 'Cannot remove last provider when account has no email and password setup!');
+        $count = $user->socialLogins()->count();
+        if ($count < 2) {
+            if (!$user->signable) {
+                abort(405, 'Cannot remove last provider when account has no email and password setup!');
+            }
+
+            $user->activated = false;
+            $user->save();
         }
+        
 
         $socialLogin->delete();
     }
