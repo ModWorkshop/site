@@ -27,7 +27,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['submit', 'cancel', 'update:modelValue']);
-const vModel = useVModel(props, 'modelValue');
+const vModel = useVModel(props, 'modelValue', emit);
 const showToast = useQuickErrorToast();
 
 function onSubmit() {

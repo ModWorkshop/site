@@ -19,12 +19,13 @@ const props = withDefaults(defineProps<{
     button?: boolean,
 }>(), {
     showModal: false,
-    button: true
+    button: false
 });
 
 const emit = defineEmits(['update:showModal']);
 
-const vm = useVModel(props, 'showModal', emit);
+const vm = useVModel(props, 'showModal', emit, { passive: true });
+
 const reason = ref('');
 
 async function report(onError) {
