@@ -151,4 +151,10 @@ class ThreadPolicy
 
         return $user->hasPermission('create-discussions', $thread->forum->game) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
     }
+
+    // Can we report this thread? Of course if we can see it.
+    public function report(User $user, Thread $thread)
+    {
+        return $this->authorize('view', $thread) && $user->hasPermission('create-reports');
+    }
 }

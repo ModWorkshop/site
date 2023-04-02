@@ -105,4 +105,10 @@ class UserPolicy
     {
         //
     }
+
+    // Can we report this user? Currently nothing special
+    public function report(User $user, User $model)
+    {
+        return $user->hasPermission('create-reports');
+    }
 }

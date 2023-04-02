@@ -115,7 +115,7 @@ Route::resource('forums', ForumController::class)->only(['index', 'show', 'updat
 APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
 APIService::resource('threads', ThreadController::class, 'forums');
 APIService::resource('comments', ThreadCommentsController::class, 'threads');
-Route::middleware('can:create,App\Models\Report')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
+Route::middleware('can:report,mod')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
 Route::middleware('auth:sanctum')->group(function() {
@@ -133,7 +133,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::patch('comments/{comment}', [CommentController::class, 'update']);
     Route::get('comments/{comment}/page', [CommentController::class, 'page']);
     Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
-    Route::post('comments/{comment}/reports', [CommentController::class, 'report']);
+    Route::middleware('can:report,comment')->post('comments/{comment}/reports', [CommentController::class, 'report']);
 });
 
 /**
@@ -170,7 +170,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::resource('supporters', SupporterController::class);
 
-Route::middleware('can:create,App\Models\Report')->post('users/{user}/reports', [UserController::class, 'report']);
+Route::middleware('can:report,user')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
 APIService::gameResource('suspensions', SuspensionController::class, ['parentOptional' => true]);
 APIService::gameResource('documents', DocumentController::class, ['parentOptional' => true]);

@@ -109,4 +109,10 @@ class CommentPolicy
     {
         //
     }
+
+    // Can we report this comment? If we can see also it
+    public function report(User $user, Comment $comment)
+    {
+        return $this->authorize('view', $comment) && $user->hasPermission('create-reports');
+    }
 }

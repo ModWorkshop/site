@@ -80,7 +80,6 @@ class CommentController extends Controller
      */
     public function report(Request $request, Comment $comment)
     {
-        $this->authorize('can:create,App\Models\Report', [$comment]);
         APIService::report($request, $comment);
     }
 }
