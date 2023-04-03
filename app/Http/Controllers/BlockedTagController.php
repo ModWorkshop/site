@@ -54,5 +54,6 @@ class BlockedTagController extends Controller
     public function destroy($id)
     {
         $this->user()->blockedTags()->detach($id);
+        User::flushQueryCache();
     }
 }

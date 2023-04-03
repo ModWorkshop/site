@@ -77,5 +77,6 @@ class FollowedGameController extends Controller
     public function destroy(int $id)
     {
         $this->user()->followedGames()->detach($id);
+        User::flushQueryCache();
     }
 }

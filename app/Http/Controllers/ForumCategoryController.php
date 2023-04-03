@@ -163,10 +163,12 @@ class ForumCategoryController extends Controller
 
         if (isset($rolesArr)) {
             $forumCategory->roles()->sync($syncRoles);
+            Role::flushQueryCache();
             $forumCategory->load('roles');
         }
         if (isset($gameRolesArr)) {
             $forumCategory->gameRoles()->sync($syncGameRoles);
+            GameRole::flushQueryCache();
             $forumCategory->load('gameRoles');
         }
 

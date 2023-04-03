@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
     const public = 'public';
@@ -165,8 +166,9 @@ abstract class Visibility {
 class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
-    use HasBelongsToManyEvents, HasRelationshipObservables;
-
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    
+    public static $flushCacheOnUpdate = true;
     public $cacheFor = 1;
 
     public $commentsOrder = 'DESC';

@@ -6,6 +6,7 @@ use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Tag
@@ -50,9 +51,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
-    use HasBelongsToManyEvents, HasRelationshipObservables;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 
     protected $hidden = ['pivot'];
 

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laravel\Scout\Attributes\SearchUsingFullText;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
@@ -62,9 +63,10 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 class Comment extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable;
-    use HasBelongsToManyEvents, HasRelationshipObservables;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 
     protected $with = ['user', 'replies', 'subscribed'];
     protected $guarded = [];

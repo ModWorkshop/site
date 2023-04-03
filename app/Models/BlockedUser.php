@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\BlockedUser
@@ -27,7 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BlockedUser extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 }

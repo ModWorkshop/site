@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Category
@@ -57,9 +58,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
+    public static $flushCacheOnUpdate = true;
 
     protected $guarded = [];
 

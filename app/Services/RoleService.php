@@ -42,6 +42,8 @@ class RoleService {
      */
     public static function reorderRoles()
     {
+        Role::flushQueryCache();
+
         $roles = Role::whereNotNull('order')->orderByDesc('order')->get();
 
         $nextOrder = 1000;
@@ -58,6 +60,8 @@ class RoleService {
      */
     public static function reordrGameRoles(Game $game)
     {
+        GameRole::flushQueryCache();
+
         $roles = GameRole::where('game_id', $game->id)->orderByDesc('order')->get();
 
         $nextOrder = 1000;

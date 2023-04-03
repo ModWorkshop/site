@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
 use Log;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -58,9 +59,10 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class Game extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 
     protected $guarded = [];
 

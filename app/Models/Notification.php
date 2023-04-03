@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Notification
@@ -46,9 +47,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Notification extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
 
     public $cacheFor = 10;
+    public static $flushCacheOnUpdate = true;
 
     protected $with = ['user', 'notifiable', 'context', 'fromUser'];
 

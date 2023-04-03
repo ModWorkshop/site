@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\GameRole
@@ -45,9 +46,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class GameRole extends Model
 {
-    use HasFactory, HasBelongsToManyEvents, HasRelationshipObservables;
+    use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
+    public static $flushCacheOnUpdate = true;
 
     protected $with = [];
  

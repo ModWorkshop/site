@@ -24,6 +24,7 @@ use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Log;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
 /**
@@ -130,10 +131,11 @@ use Storage;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasApiTokens, Notifiable, Reportable;
-    use HasBelongsToManyEvents, HasRelationshipObservables;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 10;
     public static $membersRole = null;
+    public static $flushCacheOnUpdate = true;
 
     public static $currentGameId = null;
     public static $staticWith;
@@ -776,6 +778,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $rolesRelation->detach($detach);
         $rolesRelation->attach($attach);
 
+        Role::flushQueryCache();
         $this->load('roles');
     }
 
@@ -834,6 +837,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $gameRolesRelation = $this->allGameRoles();
         $gameRolesRelation->detach($detach);
         $gameRolesRelation->attach($attach);
+
+        GameRole::flushQueryCache();
     }
 
     #endregion

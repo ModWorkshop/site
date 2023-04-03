@@ -83,5 +83,6 @@ class FollowedModController extends Controller
     public function destroy(int $id, Authenticatable $user)
     {
         FollowedMod::where('user_id', $user->id)->where('mod_id', $id)->delete();
+        User::flushQueryCache();
     }
 }

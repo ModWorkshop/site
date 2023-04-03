@@ -109,6 +109,7 @@ class RoleController extends Controller
             } else {
                 $role->syncPerms(array_keys($permissions));
             }
+            Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
             $role->load('permissions');
         }
 
