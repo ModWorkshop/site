@@ -90,6 +90,9 @@ class GameRole extends Model
 
         if ($me->id === 1) {
             return true;
+        } else if ($me->hasPermission('manage-roles')) { 
+            //A user that can manage roles globally, can essentially edit any game role.
+            return true;
         } else {
             return $me->hasPermission('manage-roles', $this->game) && $myHighestOrder > $this->order;
         }

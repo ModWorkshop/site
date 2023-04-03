@@ -81,11 +81,14 @@ class GameRoleController extends Controller
         $val = $request->validated();
         APIService::nullToEmptyStr($val, 'name', 'tag', 'desc', 'color');
 
+        $user = $this->user();
+
         $order = Arr::get($val, 'order');
         $isVanity = Arr::pull($val, 'is_vanity');
         $permissions = Arr::pull($val, 'permissions');
 
-        if ((isset($order) && !RoleService::canEditGameRole($game, $order))) {
+        $bypass = $user->hasPermission('manage-roles') || $user->hasPermission('manage-game', $game);
+        if (!$bypass && ((isset($order) && !RoleService::canEditGameRole($game, $order)))) {
             abort(403, 'You cannot edit or create roles with an order equal or higher than your highest');
         }
         
