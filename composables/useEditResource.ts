@@ -2,7 +2,7 @@ import { Ref } from 'nuxt/dist/app/compat/capi';
 import { SearchParams } from "ohmyfetch";
 import { useI18n } from "vue-i18n";
 
-export default async function<T>(name: string, url: string, template: T|null=null, params?: SearchParams) {
+export default async function<T>(name: string, url: string, template: T|null=null, params?: SearchParams, key?: string) {
     const route = useRoute();
     const { t } = useI18n();
 
@@ -12,7 +12,7 @@ export default async function<T>(name: string, url: string, template: T|null=nul
         return { data: ref<T>(template) };
     }
     else {
-        const res = await useFetchData<T>(`${url}/${id}`, { params });
+        const res = await useFetchData<T>(`${url}/${id}`, { params }, key);
         const { error } = res;
 
         useHandleError(error, {

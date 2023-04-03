@@ -1,5 +1,4 @@
 import { FetchOptions } from "ofetch";
-import hash from 'object-hash';
 
 export interface DifferentFetchOptions extends FetchOptions {
     //Let's you not automatically execute the API call. Returns an empty ref instead
@@ -7,9 +6,8 @@ export interface DifferentFetchOptions extends FetchOptions {
     lazy?: boolean;
 }
 
-export default async function<T>(url: string|(() => string), options: DifferentFetchOptions = {}) {
-    const key = hash({ url: typeof url == 'function' ? url.toString() : url, ...options });
-    return await useAsyncData(key, () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
+export default async function<T>(url: string|(() => string), options: DifferentFetchOptions = {}, key?: string) {
+    return await useAsyncData(key ?? 'how', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
         lazy: options.lazy,
         immediate: options.immediate
     });
