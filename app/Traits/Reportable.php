@@ -17,8 +17,10 @@ trait Reportable {
         $user = Auth::user();
         $data = [];
 
-        foreach ($this->saveToReport as $key) {
-            $data[$key] = $this->$key;
+        if (isset($this->saveToReport)) {
+            foreach ($this->saveToReport as $key) {
+                $data[$key] = $this->$key;
+            }
         }
 
         $report = new Report([
