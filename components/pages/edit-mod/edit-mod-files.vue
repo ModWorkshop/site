@@ -108,7 +108,7 @@ const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
-const canModerate = computed(() => hasPermission('manage-mod', props.mod.game));
+const canModerate = computed(() => hasPermission('manage-mods', props.mod.game));
 
 const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
 const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);

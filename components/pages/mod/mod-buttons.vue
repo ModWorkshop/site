@@ -37,7 +37,7 @@ const { hasPermission } = useStore();
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 const canEdit = computed(() => canEditMod(props.mod));
-const canManage = computed(() => hasPermission('manage-mod', props.mod.game));
+const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
 
 function deleteAllFiles() {
     yesNoModal({

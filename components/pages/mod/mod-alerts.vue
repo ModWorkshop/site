@@ -36,5 +36,5 @@ const props = defineProps<{
 }>();
 
 const { hasPermission } = useStore();
-const canManage = computed(() => hasPermission('manage-mod', props.mod.game));
+const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
 </script>
