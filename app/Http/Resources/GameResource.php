@@ -31,8 +31,8 @@ class GameResource extends JsonResource
             $this->whenLoaded('followed', fn() => isset($this->followed)),
             'followed' => $this->whenLoaded('followed'),
             'webhook_url' => $this->when($user?->hasPermission('manage-game', $this->resource), $this->webhook_url),
-            'reports_count' => $this->when($moderateUsers, fn() => $this->reports()->count()),
-            'waiting_count' => $this->when($manageMods, fn() => $this->mods()->where('approved', false)->count()),
+            'reports_count' => $this->when($moderateUsers, fn() => $this->reportsCount),
+            'waiting_count' => $this->when($manageMods, fn() => $this->waitingCount),
         ];
     }
 }

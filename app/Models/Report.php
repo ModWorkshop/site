@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Report
@@ -43,6 +45,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Report extends Model
 {
     use HasFactory;
+    use QueryCacheable;
+
+    public $cacheFor = 1200;
 
     protected $casts = [
         'data' => 'array'

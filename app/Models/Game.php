@@ -143,6 +143,18 @@ class Game extends Model
         });
     }
 
+    public function waitingCount(): Attribute
+    {
+        return Attribute::make(fn() => $this->mods()->where('approved', false)->count());
+
+    }
+
+    public function reportsCount(): Attribute
+    {
+        return Attribute::make(fn() => $this->reports()->count());
+    }
+        
+
     public function announcements(): Attribute
     {
         return Attribute::make(fn() => APIService::getAnnouncements($this));
