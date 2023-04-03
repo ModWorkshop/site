@@ -59,9 +59,10 @@ export default defineNuxtConfig({
 	optimization: {
 		keyedComposables: [
 			{ name: 'useFetchMany', argumentLength: 3 },
-			{ name: 'useFetch', argumentLength: 3 },
-			{ name: 'useEditResource', argumentLength: 4 },
-			{ name: 'useResource', argumentLength: 5 },
+			{ name: 'useFetchData', argumentLength: 3 },
+			{ name: 'useWatchedFetchMany', argumentLength: 4 },
+			{ name: 'useEditResource', argumentLength: 5 },
+			{ name: 'useResource', argumentLength: 6 },
 		]
 	},
 
