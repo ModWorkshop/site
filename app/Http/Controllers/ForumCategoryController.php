@@ -113,7 +113,7 @@ class ForumCategoryController extends Controller
         if (isset($forumCategory)) {
             $forumCategory->update($val);
         } else {
-            $val['forum_id'] = $game->forum_id;
+            $val['forum_id'] = $game?->forum_id ?? 1;
             $forumCategory = ForumCategory::create($val);
         }
 
