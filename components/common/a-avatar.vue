@@ -1,14 +1,18 @@
+import { useStore } from '../../store/index';
 <template>
     <a-img
         :alt="$t('avatar')"
         :src="avatarUrl"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
+        :is-asset="isAsset"
         :width="sizeNumber"
         :height="sizeNumber"
     />
 </template>
 <script setup lang="ts">
+import { useStore } from '~~/store';
+
 const { public: config } = useRuntimeConfig();
 
 const props = defineProps({
@@ -22,7 +26,10 @@ const props = defineProps({
         type:  String
     }
 });
-const assetsUrl = `/assets`;
+
+const store = useStore();
+
+const isAsset = computed(() => !props.src);
 
 const avatarUrl = computed(() => {
     const src = props.src;
@@ -32,7 +39,7 @@ const avatarUrl = computed(() => {
     else if (src) {
         return src;
     } else {
-        return `${assetsUrl}/default-avatar.webp`;
+        return store.theme == 'light' ? 'default-avatar-black.webp' : 'default-avatar.webp';
     }
 });
 
