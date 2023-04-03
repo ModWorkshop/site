@@ -45,7 +45,7 @@ const { data: tag } = await useEditResource<Tag>('tag', 'tags', {
     notice: '',
     type: '',
     notice_type: 'info',
-    game_id: props.game.id,
+    game_id: props.game?.id,
     notice_localized: true
 });
 </script>
