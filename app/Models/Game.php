@@ -6,6 +6,8 @@ use App\Services\APIService;
 use Arr;
 use Auth;
 use Carbon\Carbon;
+use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +61,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class Game extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory;
+    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
