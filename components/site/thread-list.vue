@@ -67,8 +67,10 @@ const props = withDefaults(defineProps<{
     noPins?: boolean,
     query?: boolean,
     filters?: boolean,
-    limit?: number
+    limit?: number,
+    lazy: boolean
 }>(), {
+    lazy: false,
     query: true,
     filters: true,
     limit: 20
@@ -115,7 +117,7 @@ const params = reactive({
     page
 });
 
-const { data: threads, refresh } = await useFetchMany<Thread>('threads', { params });
+const { data: threads, refresh } = await useFetchMany<Thread>('threads', { lazy: props.lazy, params });
 
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { 
     params: reactive({ 

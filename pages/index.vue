@@ -32,6 +32,7 @@
             title-link="/forum"
             :forum-id="1"
             :limit="10"
+            :lazy="user?.extra?.home_show_mods ?? true"
             :query="false"
             :filters="false"
         />
@@ -44,7 +45,7 @@ import { Game } from '~~/types/models';
 
 const { user } = useStore();
 
-const { data: games } = await useFetchMany<Game>('games');
+const { data: games } = await useFetchMany<Game>('games?total=10');
 
 const allGames = ref(false);
 
