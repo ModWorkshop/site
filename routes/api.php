@@ -115,7 +115,7 @@ Route::resource('forums', ForumController::class)->only(['index', 'show', 'updat
 APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
 APIService::resource('threads', ThreadController::class, 'forums');
 APIService::resource('comments', ThreadCommentsController::class, 'threads');
-Route::middleware('can:report,mod')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
+Route::middleware('can:report,thread')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
 Route::middleware('auth:sanctum')->group(function() {
