@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="`/admin/${url}`" :delete-button="role.id !== 1">
+    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1">
         <a-alert v-if="role.id == 1" color="warning">
             <span>{{$t('members_role_desc')}}</span>
         </a-alert>
@@ -7,7 +7,7 @@
         <a-input v-model="role.name" :label="$t('name')" maxlength="100" minlength="3"/>
         <a-input v-model="role.tag" :label="$t('user_tag')" :desc="$t('user_tag_help')" maxlength="100" minlength="3"/>
         <a-input v-model="role.color" :label="$t('color')" type="color"/>
-        <a-input v-if="!role.id" v-model="role.is_vanity" :label="$t('vanity_role')" :desc="$t('vanity_role_desc')"/>
+        <a-input v-if="!role.id" v-model="role.is_vanity" type="checkbox" :label="$t('vanity_role')" :desc="$t('vanity_role_desc')"/>
         <a-input v-if="!role.is_vanity" :label="$t('permissions')">
             <flex style="background-color: var(--alt-content-bg-color)" column grow>
                 <flex 
@@ -46,6 +46,7 @@ const { hasPermission } = useStore();
 
 const gameId = route.params.game;
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
+const adminUrl = computed(() => getAdminUrl('roles', props.game));
 
 const { data: role } = await useEditResource<Role>('role', url.value, {
     id: 0,

@@ -2,7 +2,7 @@
     <div>
         <flex>
             <a-input v-model="query" :label="$t('search')"/>
-            <a-button class="mt-auto" :to="`/admin/${url}/new`">{{ $t('new') }}</a-button>
+            <a-button class="mt-auto" :to="`${adminUrl}/new`">{{ $t('new') }}</a-button>
         </flex>
         <a-items v-model:page="page" :loading="loading" :items="roles">
             <template #items>
@@ -10,7 +10,7 @@
                     <div v-for="[, item] of Object.entries(roles!.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
                         <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
                             class="list-button flex gap-2 items-center"
-                            :to="`/admin/${url}/${item.id}`" 
+                            :to="`${adminUrl}/${item.id}`" 
                             :draggable="item.id != 1 && roleCanBeEdited(item)"
                             @dragstart="startDrag(item)"
                             @dragend="stopDrag"
@@ -52,6 +52,7 @@ const { user, hasPermission } = useStore();
 const page = useRouteQuery('page', 1);
 const query = useRouteQuery('query');
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
+const adminUrl = computed(() => getAdminUrl('roles', props.game));
 
 const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
 
@@ -61,6 +62,11 @@ const draggedItem = ref<Role>();
 const hoveringDrag = ref<Role>();
 
 function roleCanBeEdited(role: Role) {
+    //A user that can manage roles globally, can essentially edit any game role.
+    if (props.game && (hasPermission('manage-roles') || hasPermission('manage-game', props.game))) {
+        return true;
+    }
+
     if (props.game) {
         return props.game.user_data && (props.game.user_data.highest_role_order > role.order);
     } else {
