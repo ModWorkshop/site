@@ -102,7 +102,7 @@ Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
 Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
 APIService::gameResource('tags', TagController::class, ['parentOptional' => true]);
-Route::resource('games.instructs-templates', InstructsTemplateController::class);
+APIService::gameResource('instructs-templates', InstructsTemplateController::class);
 Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyController::class);
 APIService::gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
     'roles' => 'game-role'
