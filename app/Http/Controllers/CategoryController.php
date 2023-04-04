@@ -132,7 +132,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes the category. Only empty categories can be deleted.
+     * Deletes the category.
      */
     public function destroy(Category $category)
     {
