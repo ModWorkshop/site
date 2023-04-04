@@ -57,6 +57,7 @@ class InitialSetup extends Command
                 'id' => 1,
                 'name' => 'ModWorkshop',
                 'unique_name' => '',
+                'activated' => true,
                 'email' => $email,
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make($password),
