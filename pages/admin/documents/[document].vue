@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="doc" url="documents" :redirect-to="redirectTo">
+    <simple-resource-form v-model="doc" url="documents" :game="game" :redirect-to="redirectTo">
         <a-input v-model="doc.name" :label="$t('name')"/>
         <a-input v-model="doc.url_name" :label="$t('url_name')" :desc="$t('url_name_desc')"/>
         <md-editor v-model="doc.desc" :label="$t('description')"/>

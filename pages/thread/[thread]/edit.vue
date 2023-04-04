@@ -56,7 +56,7 @@ if (!useCanEditThread(thread.value, g)) {
     useNoPermsPage();
 }
 
-const canManage = computed(() => store.hasPermission('manage-discussions'));
+const canManage = computed(() => store.hasPermission('manage-discussions', game.value));
 
 const { data: tags } = await useFetchMany<Tag>('tags', { 
     params: { 

@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-model="tag" url="tags" :redirect-to="redirectTo">
+    <simple-resource-form v-model="tag" url="tags" :game="game" :redirect-to="redirectTo">
         <div>
             <a-tag :color="tag.color">{{tag.name}}</a-tag>
         </div>

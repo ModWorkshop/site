@@ -24,6 +24,7 @@ import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
+import { Game } from '../../types/models';
 
 const router = useRouter();
 const yesNoModal = useYesNoModal();
@@ -40,13 +41,15 @@ const props = withDefaults(defineProps<{
     mergeParams?: object,
     canSave?: boolean,
     ignoreChanges?: EventRaiser,
-    deleteButton?: boolean
+    deleteButton?: boolean,
+    game?: Game
 }>(), { deleteButton: true });
 
 
 const emit = defineEmits(['submit', 'update:modelValue']);
 const vm = useVModel(props, 'modelValue', emit);
 const ic = computed(() => props.ignoreChanges ?? useEventRaiser());
+const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {
     try {
@@ -61,7 +64,7 @@ async function submit() {
         }
 
         if (!props.modelValue.id) {
-            const model = await usePost<{id: number}>(props.createUrl ?? props.url, params);
+            const model = await usePost<{id: number}>(createUrl.value, params);
             if (props.redirectTo) {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }

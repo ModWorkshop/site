@@ -521,7 +521,7 @@ tag_notice_type: "通知类型",
 tag_notice_localized: "定位通知",// 暂译,测试后可能需要修改 -译者注 
 tag_notice_info: "信息",
 tag_notice_warn: "警告",
-tag_notice_danger: "警告",
+tag_notice_danger: "Danger",
 game_name_settings: "{game} 游戏设置",
 instructions_templates: "板块说明",
 upgrade_user: "升级用户",
