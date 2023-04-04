@@ -1,6 +1,6 @@
 <template>
-    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1">
-        <a-alert v-if="role.id == 1" color="warning">
+    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 && !gameId">
+        <a-alert v-if="role.id == 1 && !gameId" color="warning">
             <span>{{$t('members_role_desc')}}</span>
         </a-alert>
         <a-alert v-if="role.id && role.is_vanity" :title="`${$t('vanity_role')}✨`" :desc="$t('vanity_role_desc')"/>
