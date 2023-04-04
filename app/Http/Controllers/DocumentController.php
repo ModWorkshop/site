@@ -77,8 +77,8 @@ class DocumentController extends Controller
 
         $val['last_user_id'] = $this->userId();
 
-        $gameId = $val['game_id'];
-        $urlName = $val['url_name'];
+        $gameId = Arr::get($val, 'game_id');
+        $urlName = Arr::get($val, 'url_name');
 
         if (isset($urlName) && (!isset($document) || $document->url_name !== $urlName)) {
             $queryCheck = Document::where('url_name', $urlName);
