@@ -105,7 +105,6 @@ class ForumCategoryController extends Controller
         ]);
 
         $rolesArr = Arr::pull($val, 'role_policies');
-        $rolesArr = Arr::pull($val, 'role_policies');
         $gameRolesArr = Arr::pull($val, 'game_role_policies');
  
         APIService::nullToEmptyStr($val, 'desc', 'emoji');
