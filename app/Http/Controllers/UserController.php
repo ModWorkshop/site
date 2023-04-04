@@ -277,6 +277,9 @@ class UserController extends Controller
     public function verifyEmail(EmailVerificationRequest $request)
     {
         $request->fulfill();
+        $user = $this->user();
+        $user->activated = true;
+        $user->save();
     }
 
     /**
