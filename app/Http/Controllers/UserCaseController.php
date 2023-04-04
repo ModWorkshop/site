@@ -78,6 +78,8 @@ class UserCaseController extends Controller
             type: 'warning'
         );
 
+        $case->load('user');
+        $case->load('modUser');
         return $case;
     }
 

@@ -43,7 +43,7 @@ class BanController extends Controller
                 $query->where('user_id', $val['user_id']);
             }
             $query->with('user');
-            $query->with('case.modUser');
+            $query->with('modUser');
             $query->orderByRaw('active DESC, expire_date DESC');
         }));
     }
