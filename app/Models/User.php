@@ -571,8 +571,8 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->gameRolesCache[$gameId];
         }
 
-        if ($withPerms && !$this->relationLoaded('allGameRoles.permission')) {
-            $this->load('allGameRoles.permission');
+        if ($withPerms && !$this->relationLoaded('allGameRoles.permissions')) {
+            $this->load('allGameRoles.permissions');
         }
 
         $gameRoles = $this->allGameRoles;
