@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class UserCase extends Model
 {
     protected $guarded = [];
-    protected $with = ['user', 'ban'];
+    protected $with = ['user'];
     protected $casts = [
         'expire_date' => 'datetime',
         'pardoned' => 'boolean'
@@ -53,11 +53,6 @@ class UserCase extends Model
 
     public function getMorphClass(): string {
         return 'user_case';
-    }
-
-    public function ban(): HasOne
-    {
-        return $this->hasOne(Ban::class, 'case_id')->without('case');
     }
 
     public function user(): BelongsTo

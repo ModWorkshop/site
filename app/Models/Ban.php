@@ -45,7 +45,7 @@ class Ban extends Model
 
     protected $guarded = [];
     
-    protected $with = ['case', 'modUser'];
+    protected $with = ['modUser'];
 
     protected $casts = [
         'expire_date' => 'datetime',
@@ -58,11 +58,6 @@ class Ban extends Model
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class)->without('ban');
-    }
-
-    public function case() : BelongsTo
-    {
-        return $this->belongsTo(UserCase::class, 'case_id')->without(['user', 'ban']);
     }
 
     public function modUser()
