@@ -109,27 +109,7 @@ class UserCaseController extends Controller
             'active' => 'boolean',
         ]);
 
-        $canAppeal = Arr::pull($val, 'can_appeal');
         $userCase->update($val);
-
-        if (!$userCase->warning) {
-            if (isset($canAppeal)) {
-                $userCase->ban()->update([
-                    'can_appeal' => $canAppeal
-                ]);
-
-                $userCase->ban->can_appeal = $canAppeal;
-            }
-            if (isset($userCase->expire_date) && Carbon::now()->greaterThanOrEqualTo($userCase->expire_date) || $userCase->pardoned) {
-                $userCase->ban()->delete();
-            } else {
-                if (!isset($userCase->ban)) {
-                    $userCase->ban()->create([
-                        'user_id' => $userCase->user_id
-                    ]);
-                }
-            }
-        }
 
         return $userCase;
     }
