@@ -26,10 +26,10 @@ const textColor = computed(() => {
                 return '#fff';
             }
         } catch (error) {
-            return '#fff';
+            return 'var(--primary-color-text)';
         }
     }
-    return '#000';
+    return 'var(--primary-color-text)';
 });
 
 </script>
