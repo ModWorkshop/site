@@ -24,6 +24,8 @@ const textColor = computed(() => {
             const contrast = getContrast('#000', color.replaceAll(' ', ''));
             if (contrast < 4.5) {
                 return '#fff';
+            } else {
+                return '#000';
             }
         } catch (error) {
             return 'var(--primary-color-text)';
