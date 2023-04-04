@@ -77,6 +77,8 @@ class UserCaseController extends Controller
             hideSender: true,
             type: 'warning'
         );
+
+        return $case;
     }
 
     /**
