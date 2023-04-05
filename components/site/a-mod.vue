@@ -18,7 +18,7 @@
                     </NuxtLink>
                     <template v-if="mod.category">
                         <template v-if="showGame"> / </template>
-                        <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                        <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                     </template>
                 </div>
             </template>

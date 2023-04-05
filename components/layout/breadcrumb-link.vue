@@ -26,8 +26,11 @@ function getTo(item: Breadcrumb, i: number) {
         return `/g/${item.id}`;
     } else if (item.type == 'category') {
         const first = props.items[0];
+        const second = props.items[1];
         if (first && first.type == 'game') {
-            return getTo(first, 0)+`?category=${item.id}`;
+            return getTo(first, 0)+`/mods?category=${item.id}`;
+        } else if (second && second.type == 'game') {
+            return getTo(second, 0)+`/mods?category=${item.id}`;
         } else {
             return `/category/${item.id}`;
         }
