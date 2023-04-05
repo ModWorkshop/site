@@ -529,7 +529,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $highest = null;
                 foreach ($this->roles as $role) {
                     $roleOrder = $role->order;
-                    if ($role->id != 1 && $roleOrder !== null && ($highest === null || $roleOrder > $highest)) {
+                    if ($role->id != 1 && !$role->is_vanity && ($roleOrder !== null && ($highest === null || $roleOrder > $highest))) {
                         $highest = $roleOrder;
                     }
                 }
@@ -692,7 +692,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $highest = null;
             $gameRoles = $this->getGameRoles($gameId);
             foreach ($gameRoles as $role) {
-                if ($highest === null || $role->order > $highest) {
+                if (!$role->is_vanity && ($highest === null || $role->order > $highest)) {
                     $highest = $role->order;
                 }
             }
