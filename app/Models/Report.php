@@ -61,6 +61,11 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
+
     public function reportable()
     {
         return $this->morphTo();
