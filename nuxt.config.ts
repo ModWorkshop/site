@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 					{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
 					{ path: 'mods', file: '~/pages/admin/mods.vue' },
 					{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
-					{ path: 'documents/:document.', file: '~/pages/admin/documents/[document].vue' },
+					{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
 				]);
 			}
 		}
