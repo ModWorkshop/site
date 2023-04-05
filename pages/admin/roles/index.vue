@@ -7,7 +7,7 @@
         <a-items v-model:page="page" :loading="loading" :items="roles">
             <template #items>
                 <TransitionGroup name="list">
-                    <div v-for="[, item] of Object.entries(roles!.data)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
+                    <div v-for="[, item] of Object.entries(rolesSorted)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
                         <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
                             class="list-button flex gap-2 items-center"
                             :to="`${adminUrl}/${item.id}`" 
@@ -57,6 +57,17 @@ const adminUrl = computed(() => getAdminUrl('roles', props.game));
 const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
 
 const rolesNoMember = computed(() => (gameId ? roles.value?.data : roles.value?.data.filter(role => role.id !== 1)) ?? []);
+const rolesSorted = computed(() => {
+    const newRoles = rolesNoMember.value;
+    if (!gameId) {
+        const member = roles.value?.data.find(role => role.id == 1);
+        if (member) {
+            newRoles.unshift(roles.value?.data.find(role => role.id == 1));
+        }
+    }
+
+    return newRoles;
+});
 
 const draggedItem = ref<Role>();
 const hoveringDrag = ref<Role>();
@@ -82,23 +93,23 @@ function showDropHint(belowRole: Role) {
 
 async function onDrop() {
     if (draggedItem.value && hoveringDrag.value) {
-        draggedItem.value.order = (hoveringDrag.value.order ?? 1002) - 1;
-
-        await usePatch(`${url.value}/${draggedItem.value.id}`, { order: draggedItem.value.order });
-
-        const newRoles = rolesNoMember.value.sort((a,b) => b.order - a.order);
+        const dragged = draggedItem.value;
+        const hovering = hoveringDrag.value;
+        const newRoles = rolesNoMember.value.filter(role => role.id !== dragged.id);
 
         let nextOrder = 1000;
         for (const role of newRoles) {
+            if (role.id == hovering.id) {
+                dragged.order = nextOrder-5;
+            }
             role.order = nextOrder;
-            nextOrder -= 2;
+            nextOrder -= 10;
         }
 
-        if (!gameId) {
-            newRoles.unshift(roles.value!.data[0]);
-        }
-        roles.value!.data = newRoles;
+        newRoles.unshift(dragged);
+        roles.value!.data = newRoles.sort((a,b) => b.order - a.order);
 
+        await usePatch(`${url.value}/${draggedItem.value.id}`, { order: dragged.order });
     }
 }
 
