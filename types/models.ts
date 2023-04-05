@@ -469,7 +469,7 @@ export interface InstructsTemplate {
 export interface GameUserData {
     ban: Ban;
     role_ids: Array<number>;
-    highest_role_order: number;
+    highest_role_order?: number;
     readonly permissions?: Record<string, boolean>;
 }
 

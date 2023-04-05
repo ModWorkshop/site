@@ -7,26 +7,19 @@
         <a-items v-model:page="page" :loading="loading" :items="roles">
             <template #items>
                 <TransitionGroup name="list">
-                    <div v-for="[, item] of Object.entries(rolesSorted)" :key="item.id" @drop="onDrop()" @dragenter.prevent="showDropHint(item)" @dragover.prevent="showDropHint(item)">
-                        <component :is="roleCanBeEdited(item) ? NuxtLink : 'span'"
-                            class="list-button flex gap-2 items-center"
-                            :to="`${adminUrl}/${item.id}`" 
-                            :draggable="item.id != 1 && roleCanBeEdited(item)"
-                            @dragstart="startDrag(item)"
-                            @dragend="stopDrag"
-                        >
-                            <span v-if="!roleCanBeEdited(item)">🔒</span>
-                            <a-icon v-else-if="item.id != 1" icon="grip-lines"/>
-                            <flex column>
-                                <span class="my-auto">
-                                    <a-tag :color="item.color">{{item.name}}</a-tag>
-                                </span>
-                                <small v-if="item.id == 1">{{$t('members_role_desc')}}</small>
-                            </flex>
-                            <span v-if="item.is_vanity" class="ml-auto">✨</span>
-                        </component>
-                        <div :class="{ hovering: hoveringDrag == item, dropzone: true }"/>
-                    </div>
+                    <admin-role v-for="[, role] of Object.entries(rolesSorted)"
+                        :key="role.id" 
+                        :role="role"
+                        :game="game"
+                        :hovering="hoveringDrag == role"
+
+                        @drop="onDrop()"
+                        @dragenter.prevent="showDropHint(role)"
+                        @dragover.prevent="showDropHint(role)"
+
+                        @dragstart="startDrag(role)"
+                        @dragend="stopDrag"
+                    />
                 </TransitionGroup>
             </template>
         </a-items>
@@ -42,7 +35,6 @@ const props = defineProps<{
 }>();
 
 useNeedsPermission('manage-roles');
-const NuxtLink = resolveComponent('NuxtLink');
 
 const route = useRoute();
 const gameId = route.params.game;
@@ -56,13 +48,19 @@ const adminUrl = computed(() => getAdminUrl('roles', props.game));
 
 const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
 
+onMounted(() => {
+    if (roles.value) {
+        calculateHighestOrder();
+    }
+});
+
 const rolesNoMember = computed(() => (gameId ? roles.value?.data : roles.value?.data.filter(role => role.id !== 1)) ?? []);
 const rolesSorted = computed(() => {
     const newRoles = rolesNoMember.value;
     if (!gameId) {
         const member = roles.value?.data.find(role => role.id == 1);
         if (member) {
-            newRoles.unshift(roles.value?.data.find(role => role.id == 1));
+            newRoles.unshift(member);
         }
     }
 
@@ -72,22 +70,28 @@ const rolesSorted = computed(() => {
 const draggedItem = ref<Role>();
 const hoveringDrag = ref<Role>();
 
-function roleCanBeEdited(role: Role) {
-    //A user that can manage roles globally, can essentially edit any game role.
-    if (props.game && (hasPermission('manage-roles') || hasPermission('manage-game', props.game))) {
-        return true;
-    }
+const highestRoleOrder = computed(() => props.game ? props.game.user_data!.highest_role_order : user!.highest_role_order);
+const userRoleIds = computed(() => props.game ? props.game.user_data!.role_ids : user!.role_ids);
 
-    if (props.game) {
-        return props.game.user_data && (props.game.user_data.highest_role_order > role.order);
-    } else {
-        return (role.id !== 1 || hasPermission('admin')) && (user!.highest_role_order && user!.highest_role_order > role.order);
+function showDropHint(belowRole: Role) {
+    if ((props.game && hasPermission('manage-roles')) || (highestRoleOrder.value && highestRoleOrder.value > ((belowRole.order || 1001) - 2))) {
+        hoveringDrag.value = belowRole;
     }
 }
 
-function showDropHint(belowRole: Role) {
-    if (user!.highest_role_order && user!.highest_role_order > ((belowRole.order || 1001) - 2)) {
-        hoveringDrag.value = belowRole;
+function calculateHighestOrder() {
+    // Make sure that the user has the correct highest order
+    let highestOrder: number|undefined;
+    for (const role of roles.value!.data) {
+        if (!role.is_vanity && userRoleIds.value?.find(id => id == role.id) && (!highestOrder || highestOrder < role.order)) {
+            highestOrder = role.order;
+        }
+    }
+
+    if (props.game) {
+        props.game.user_data!.highest_role_order = highestOrder;
+    } else {
+        user!.highest_role_order = highestOrder;
     }
 }
 
@@ -107,7 +111,9 @@ async function onDrop() {
         }
 
         newRoles.unshift(dragged);
+
         roles.value!.data = newRoles.sort((a,b) => b.order - a.order);
+        calculateHighestOrder();
 
         await usePatch(`${url.value}/${draggedItem.value.id}`, { order: dragged.order });
     }

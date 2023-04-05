@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 			}
 		}
 	},
-	
+
 	optimization: {
 		keyedComposables: [
 			{ name: 'useFetchMany', argumentLength: 3 },
@@ -64,6 +64,10 @@ export default defineNuxtConfig({
 			{ name: 'useEditResource', argumentLength: 5 },
 			{ name: 'useResource', argumentLength: 6 },
 		]
+	},
+
+	delayHydration: {
+		mode: 'init'
 	},
 
 	nitro: {
