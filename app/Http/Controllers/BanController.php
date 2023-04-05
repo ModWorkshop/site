@@ -87,7 +87,7 @@ class BanController extends Controller
         $val['mod_user_id'] = Auth::getUser()->id;
 
         $ban = Ban::create($val);
-        $ban->load(['user', 'case']);
+        $ban->load('user');
 
         
         return $ban;
