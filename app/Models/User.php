@@ -652,7 +652,6 @@ class User extends Authenticatable implements MustVerifyEmail
             APIService::setCurrentGame($game);
             $gamePerms = $this->getGamePerms($game->id);
             //Game version of the admin permission
-            Log::info($this->existsAndTrue($gamePerms, 'moderate-users'));
 
             if ($this->existsAndTrue($gamePerms, 'manage-game')) {
                 return true;
