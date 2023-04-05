@@ -447,10 +447,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
             $found = null;
             if (self::$currentGameId) {
-                $found = $firstVanity($this->gameRoles) || $firstRegular($this->gameRoles);
+                $found = $firstVanity($this->gameRoles) ?? $firstRegular($this->gameRoles);
             }
 
-            return $found ?? $firstVanity($this->roles) || $firstRegular($this->roles);
+            return $found ?? $firstVanity($this->roles) ?? $firstRegular($this->roles);
         });
     }
 
@@ -480,10 +480,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
             $found = null;
             if (self::$currentGameId) {
-                $found = $firstVanity($this->gameRoles) || $firstRegular($this->gameRoles);
+                $found = $firstVanity($this->gameRoles) ?? $firstRegular($this->gameRoles);
             }
 
-            return $found ?? $firstRegular($this->roles) || $firstVanity($this->roles);
+            return $found ?? $firstRegular($this->roles) ?? $firstVanity($this->roles);
         });
     }
 
