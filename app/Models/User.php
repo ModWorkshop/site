@@ -462,19 +462,28 @@ class User extends Authenticatable implements MustVerifyEmail
                 return null;
             }
 
-            if (isset(User::$currentGameId)) {
-                foreach ($this->gameRoles as $role) {
-                    if ($role->tag) {
+            $firstVanity = function($roles) {
+                foreach ($roles as $role) {
+                    if ($role->is_vanity && $role->tag) {
+                        return $role->color;
+                    }
+                }
+            };
+
+            $firstRegular = function($roles) {
+                foreach ($roles as $role) {
+                    if (!$role->is_vanity && $role->tag) {
                         return $role->tag;
                     }
-                }    
+                }
+            };
+
+            $found = null;
+            if (self::$currentGameId) {
+                $found = $firstVanity($this->gameRoles) || $firstRegular($this->gameRoles);
             }
 
-            foreach ($this->roles as $role) {
-                if ($role->tag) {
-                    return $role->tag;
-                }
-            }
+            return $found ?? $firstRegular($this->roles) || $firstVanity($this->roles);
         });
     }
 
