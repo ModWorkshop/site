@@ -156,6 +156,7 @@ class ModController extends Controller
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
         
+        $publish = Arr::pull($val, 'publish', false);
         $sendForApproval = Arr::pull($val, 'send_for_approval', false);
         if ($sendForApproval) {
             $val['approved'] = null;
@@ -218,6 +219,10 @@ class ModController extends Controller
 
         $mod->refresh();
         $mod->withAllRest();
+
+        if ($publish) {
+            $mod->publish();
+        }
 
         return new ModResource($mod);
     }

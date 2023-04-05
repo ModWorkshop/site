@@ -44,6 +44,7 @@ class ModUpsertRequest extends FormRequest
             'download_type' => 'string|nullable|in:file,link',
             'comments_disabled' => 'boolean|nullable',
             'send_for_approval' => 'boolean|nullable',
+            'publish' => 'boolean|nullable'
         ];
     }
 }

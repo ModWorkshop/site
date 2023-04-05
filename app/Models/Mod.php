@@ -445,24 +445,24 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->has_download = $this->files()->count() > 0 || $this->links()->count() > 0;
 
-        //If we don't have a publish date and status is 1
-        if (!$this->published_at && $this->approved && $this->has_download) {
-            $this->publish();
-        }
-
         if ($save) {
             $this->save();
         }
     }
 
-    public function publish()
+    public function publish(bool $save=true)
     {
-        if ($this->visibility != Visibility::public) {
+        if (!$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
             return;
         }
         
         $this->published_at = Carbon::now();
         $this->bumped_at = $this->freshTimestampString();
+
+        if ($save) {
+            $this->save();
+        }
+
         $game = $this->game;
         $category = $this->category;
         
