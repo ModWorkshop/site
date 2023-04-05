@@ -429,18 +429,28 @@ class User extends Authenticatable implements MustVerifyEmail
                 return $attributes['custom_color'];
             }
 
-            if (isset(self::$currentGameId)) {
-                foreach ($this->gameRoles as $role) {
-                    if ($role->color) {
+            $firstVanity = function($roles) {
+                foreach ($roles as $role) {
+                    if ($role->is_vanity && $role->color) {
                         return $role->color;
                     }
                 }
-            }
-            foreach ($this->roles as $role) {
-                if ($role->color) {
-                    return $role->color;
+            };
+
+            $firstRegular = function($roles) {
+                foreach ($roles as $role) {
+                    if (!$role->is_vanity && $role->color) {
+                        return $role->color;
+                    }
                 }
+            };
+
+            $found = null;
+            if (self::$currentGameId) {
+                $found = $firstVanity($this->gameRoles) || $firstRegular($this->gameRoles);
             }
+
+            return $found ?? $firstVanity($this->roles) || $firstRegular($this->roles);
         });
     }
 

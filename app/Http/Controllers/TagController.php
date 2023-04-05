@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\TagResource;
+use App\Models\Game;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * @group Tags
@@ -13,11 +15,7 @@ use Illuminate\Http\Request;
 class TagController extends Controller
 {
     public function __construct(Request $request) {
-        if ($request->route('game')) {
-            $this->authorizeResource([Tag::class, 'game'], 'tag, game');
-        } else {
-            $this->authorizeResource(Tag::class, 'tag');
-        }
+        $this->authorizeGameResource(Tag::class, 'tag');
     }
 
     /**
@@ -30,15 +28,14 @@ class TagController extends Controller
         $val = $request->val([
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'type' => 'string|in:mod,forum',
-            'global' => 'boolean|nullable'
+            'global' => 'string|in:true,false,0,1|nullable'
         ]);
 
         $tags = Tag::queryGet($val, function($query, array $val) {
             $query->where(function($q) use ($val) {
                 if (isset($val['game_id'])) {
                     $q->where('game_id', $val['game_id']);
-                }
-                if (isset($val['global']) && $val['global']) {
+                } else if (isset($val['global']) && $val['global']) {
                     $q->orWhereNull('game_id');
                 }
                 if (isset($val['type'])) {
@@ -56,9 +53,9 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game=null)
     {
-        return $this->update($request);
+        return $this->update($request, $game);
     }
 
     /**
@@ -79,7 +76,7 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag=null)
+    public function update(Request $request, Game $game=null, Tag $tag=null)
     {
         $val = $request->validate([
             'name' => 'string|required|min:2|max:100',
@@ -88,8 +85,9 @@ class TagController extends Controller
             'notice_type' => 'string|nullable|in:info,warning,danger',
             'type' => 'string|nullable|in:all,forum,mod',
             'notice_localized' => 'boolean|nullable',
-            'game_id' => 'integer|min:1|nullable|exists:games,id'
         ]);
+
+        Log::info($game);
 
         $val['type'] ??= '';
         $val['notice_type'] ??= 'info';
@@ -98,6 +96,7 @@ class TagController extends Controller
         if (isset($tag)) {
             $tag->update($val);
         } else {
+            $val['game_id'] = $game?->id;
             $tag = Tag::create($val);
         }
 
