@@ -29,7 +29,7 @@
                 <edit-mod-images v-if="mod.id" :mod="mod" :can-save="true" light/>
                 <flex class="mx-auto">
                     <a-button type="submit" @click="() => step = 3">{{$t('next')}}</a-button>
-                    <a-button :to="`/mod/${mod.id}`">{{$t('skip')}}</a-button>
+                    <a-button :to="`/mod/${mod.id}`">{{$t('go_to_mod_page')}}</a-button>
                 </flex>
             </content-block>
             <content-block v-if="step == 3" gap="4">
