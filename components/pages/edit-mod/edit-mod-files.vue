@@ -64,7 +64,7 @@
                     </tr>
                 </tbody>
             </table>
-            <span class="text-3xl mx-auto">{{$t('links_help')}}</span>
+            <span v-else class="text-3xl mx-auto">{{$t('links_help')}}</span>
         </flex>
     </flex>
 
