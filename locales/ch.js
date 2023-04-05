@@ -447,6 +447,7 @@ default_sorting: "默认排序",
 show_mods: "显示模组",
 show_threads: "显示主题",
 show_last_updated: "显示最近有更新的游戏",
+are_you_sure_role: "Are you sure you want give this role? The role is not a vanity role!",
 
 //Games//
 game_settings: '游戏设置',

@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<{
     textBy?: false|string|((option) => string),
     colorBy?: false|string|((option) => string),
     enabledBy?: string|((option) => boolean),
+    beforeSelect?: ((value, clbk) => boolean),
     disabled?: boolean,
     filterSelected?: boolean,
     multiple?: boolean,
@@ -254,6 +255,7 @@ function toggleOption(option) {
     }
 }
 
+// Triggers when selecting an option from the liust
 function selectOption(option) {
     const value = optionValue(option);
     if (props.multiple && typeof selectedValue.value == 'object') {
@@ -264,13 +266,32 @@ function selectOption(option) {
 			}, 500);
 			return;
 		}
-        if (!selected.value.includes(value)) {
-            selectedValue.value.push(value);
+        
+        const set = () => {
+            if (!selected.value.includes(value)) {
+                selectedValue.value.push(value);
+            }
+
+            emit('update:modelValue', selectedValue.value);
+        };
+        
+        //Allow for the interception of options before they're selected
+        if (!props.beforeSelect) {
+            set();
+        } else {
+            props.beforeSelect(option, set);
         }
-        emit('update:modelValue', selectedValue.value);
     } else {
-        emit('update:modelValue', value);
-        dropdownOpen.value = false;
+        const set = () => {
+            dropdownOpen.value = false;
+            emit('update:modelValue', value);
+        };
+
+        if (!props.beforeSelect) {
+            set();
+        } else {
+            props.beforeSelect(option, set);
+        }
     }
 }
 

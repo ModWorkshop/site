@@ -64,17 +64,7 @@
                                 <donation-button :link="user.donation_url"/>
                             </flex>
                             <flex column>
-                                {{$t('roles')}}
-                                <a-tag-selector
-                                    v-model="user.role_ids"
-                                    multiple
-                                    url="roles"
-                                    :color-by="item => item.color"
-                                    :fetch-params="{ only_assignable: 1 }"
-                                    :disabled="user.id !== me?.id && !hasPermission('manage-roles')"
-                                    :enabled-by="role => role.assignable"
-                                    @update:model-value="prepareSaveRoles"
-                                />
+                                <role-selector :user="user"/>
                             </flex>
                         </template>
                     </flex>
@@ -160,11 +150,6 @@ const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile);
-
-const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
-async function saveRoles() {
-    await usePatch(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
-}
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;

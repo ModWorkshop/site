@@ -447,6 +447,7 @@ default_sorting: "Default Sorting",
 show_mods: "Show Mods",
 show_threads: "Show Threads",
 show_last_updated: "Show Last Updated Games",
+are_you_sure_role: "Are you sure you want give this role? The role is not a vanity role!",
 
 //Games//
 game_settings: 'Game Settings',
