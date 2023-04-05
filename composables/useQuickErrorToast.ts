@@ -38,6 +38,7 @@ export default function() {
     return function(e: FetchError|AxiosError, errorStrings: Record<number|string, string> = {}, title?: string) {
         errorStrings = {
             409: t('error_409'),
+            403: t('error_403'),
             ...errorStrings
         };
 

@@ -46,8 +46,8 @@ export default async function<T>(
     const { error } = res;
 
     useHandleError(error, {
-        404: t('error_404'),
-        403: t('error_403'),
+        404: t('page_error_404'),
+        403: t('page_error_403'),
         ...errorMessages
     });
 

@@ -16,7 +16,7 @@ export default async function<T>(name: string, url: string, template: T|null=nul
         const { error } = res;
 
         useHandleError(error, {
-            404: t('error_resource_404')
+            404: t('page_error_404'),
         });
 
         return {

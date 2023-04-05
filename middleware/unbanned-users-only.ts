@@ -7,10 +7,10 @@ export default defineNuxtRouteMiddleware(() => {
     const { user } = useStore($pinia);
 
     if (!user) {
-        showError({ statusCode: 401, statusMessage: i18n.global.t('error_401'), fatal: true});
+        showError({ statusCode: 401, statusMessage: i18n.global.t('page_error_401'), fatal: true});
     } else if (user.ban) {
-        showError({ statusCode: 403, statusMessage: i18n.global.t('error_403_banned'), fatal: true});
+        showError({ statusCode: 403, statusMessage: i18n.global.t('page_error_403_banned'), fatal: true});
     } else if (!user.activated) {
-        showError({ statusCode: 403, statusMessage: i18n.global.t('error_403_unactivated'), fatal: true});
+        showError({ statusCode: 403, statusMessage: i18n.global.t('page_error_403_unactivated'), fatal: true});
     }
 });

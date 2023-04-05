@@ -8,6 +8,6 @@ export default function(perm: string, game?: Game) {
     const { t } = useI18n();
 
     if (!hasPermission(perm, game)) {
-        throw createError({ statusCode: 403, statusMessage: t('error_403'), fatal: true });
+        throw createError({ statusCode: 403, statusMessage: t('page_error_403'), fatal: true });
     }
 }
