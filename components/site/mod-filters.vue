@@ -8,7 +8,7 @@
         :categories="categories.data"
         :label="$t('categories')"
     />
-    <a-select v-model="filters.tags" :label="$t('tags')" multiple clearable :options="tags?.data" max="10" max-shown="2"/>
+    <a-select v-model="filters.tags" :label="$t('tags')" multiple clearable list-tags color-by="color" :options="tags?.data" max="10" max-shown="2"/>
     <a-select v-model="filters.block_tags" :label="$t('filter_out_tags')" multiple clearable :options="tags?.data" max="10" max-shown="2"/>
 </template>
 

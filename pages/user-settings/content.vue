@@ -47,7 +47,7 @@
         <a-tab name="block" :title="$t('blocking')">
             <h2>{{$t('blocked_users')}}</h2>
             <a-modal-form v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
-                <a-select v-model="blockTag" url="tags" :value-by="false"/>
+                <a-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
             </a-modal-form>
             <a-items :items="blockedUsers" :loading="loadingBlockedUsers">
                 <template #item="{ item }">

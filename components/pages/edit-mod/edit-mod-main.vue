@@ -9,7 +9,7 @@
         </a-input>
     </flex>
 
-    <a-select v-model="mod.tag_ids" :options="tags?.data" multiple :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
+    <a-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
 
     <a-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
 

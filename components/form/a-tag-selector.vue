@@ -3,6 +3,7 @@
         :model-value="modelValue"
         :classic="false" 
         :clearable="false"
+        list-tags
         @update:model-value="val => emit('update:modelValue', val)" 
         @fetched="options => emit('fetched', options)"
     />

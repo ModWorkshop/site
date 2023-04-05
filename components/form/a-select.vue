@@ -41,7 +41,10 @@
                     >
                         <slot name="list-option" :option="option">
                             <slot name="any-option" :option="option">
-                                {{optionName(option)}}
+                                <a-tag v-if="listTags" :color="option.color">{{ optionName(option) }}</a-tag>
+                                <template v-else>
+                                    {{ optionName(option) }}
+                                </template>
                             </slot>
                         </slot>
                     </a-dropdown-item>
@@ -74,13 +77,15 @@ const props = withDefaults(defineProps<{
     placeholder?: string,
 	max?: string|number,
 	maxShown?: string|number,
-    listClass?: string|string[]
+    listClass?: string|string[],
+    listTags?: boolean
 }>(), {
     valueBy: 'id',
     textBy: 'name',
     filterable: true,
     filterSelected: false,
     classic: true,
+    listTags: false
 });
 
 const search = ref('');
