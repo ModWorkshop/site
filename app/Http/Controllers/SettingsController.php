@@ -36,8 +36,10 @@ class SettingsController extends Controller
             'mod_storage_size' => 'integer',
             'image_max_file_size' => 'integer',
             'mod_max_image_count' => 'integer',
-            'discord_webhook' => 'string|max:255'
+            'discord_webhook' => 'string|nullable|max:255'
         ]);
+
+        $val['discord_webhook'] ??= '';
 
         foreach ($val as $key => $value) {
             Setting::where('name', $key)->where('value', '!=', $value)->update(['value' => $value]);
