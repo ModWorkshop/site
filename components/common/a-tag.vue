@@ -39,6 +39,7 @@ const textColor = computed(() => {
 .tag {
     display: inline-flex;
     color: #000;
+    text-shadow: none;
     padding: 0.5rem;
     gap: 4px;
     align-items: center;
