@@ -7,14 +7,6 @@
         </i18n-t>
     </a-alert>
     
-    <label>{{$t('banner_preview')}}</label>
-    <mod-banner class="w-full" :mod="mod" static/>
-
-    <label>{{$t('thumbnail_preview')}}</label>
-    <div style="width: 300px;">
-        <a-mod :mod="mod" static/>
-    </div>
-
     <label>{{$t('images')}}</label>
     <file-uploader 
             name="images"
@@ -33,6 +25,16 @@
             <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
         </template>
     </file-uploader>
+    
+    <label>{{$t('thumbnail_preview')}}</label>
+    <div class="alt-content-bg p-4">
+        <div style="width: 300px;">
+            <a-mod :mod="mod" static/>
+        </div>
+    </div>
+
+    <label>{{$t('banner_preview')}}</label>
+    <mod-banner class="w-full" :mod="mod" static/>
 </template>
 
 <script setup lang="ts">
@@ -44,7 +46,6 @@ const { settings } = useStore();
 
 const props = defineProps<{
     mod: Mod,
-    canSave?: boolean
 }>();
 
 const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');

@@ -1,7 +1,7 @@
 <template>
-    <flex column gap="1" class="w-full" style="min-height: 150px;" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
+    <flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
         <label :class="classes" :for="`${name}-file-browser-open`">
-            <span class="text-2xl">
+            <span class="text-3xl">
                 {{$t('file_uploader_drop')}}
                 <template v-if="maxFiles">({{files.length}}/{{maxFiles}})</template>
             </span>
@@ -15,7 +15,7 @@
             multiple
             @change="e => upload((e.target as HTMLInputElement).files)"
         >
-        <div v-if="list" class="p-3 alt-content-bg round">
+        <div v-if="list && files.length" class="p-3 alt-content-bg round">
             <table class="w-full">
                 <thead>
                     <tr>
@@ -43,7 +43,7 @@
                 </tbody>
             </table>
         </div>
-        <div v-else class="grid file-list p-3 mb-8 alt-content-bg">
+        <div v-else-if="files.length" class="grid file-list p-3 alt-content-bg">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
                 <a-img class="file-thumbnail" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">

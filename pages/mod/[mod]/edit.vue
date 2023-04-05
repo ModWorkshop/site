@@ -5,14 +5,14 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
         </flex>
-        <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save" @state-changed="formStateChanged">
+        <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
             <content-block :padding="false" class="max-md:p-4 p-8">
                 <a-tabs padding="4" side query>
                     <a-tab name="main" :title="$t('main_tab')">
                         <edit-mod-main :mod="mod"/>
                     </a-tab>
                     <a-tab name="downloads" :title="$t('downloads_tab')">
-                        <edit-mod-files :mod="mod" :can-save="canSave"/>
+                        <edit-mod-files :mod="mod"/>
                     </a-tab>
                     <a-tab name="images" :title="$t('images_tab')">
                         <edit-mod-images :mod="mod"/>
@@ -49,8 +49,6 @@ definePageMeta({
 });
 
 const router = useRouter();
-
-const canSave = ref(false);
 
 const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
     id: -1,
@@ -95,7 +93,6 @@ if (!canEditMod(mod.value)) {
 }
 
 provide('canSuperUpdate', canSuperUpdate(mod.value));
-provide('canSave', canSave);
 provide('mod', mod.value);
 
 watch(() => mod.value.game, () => {
@@ -108,9 +105,7 @@ watch(() => mod.value.game, () => {
  * Only used in cases the changes were saved but AForm doesn't know about it
  */
 function ignoreChanges() {
-    if (!canSave.value) {
-        mod.value = clone(mod.value);
-    }
+    mod.value = clone(mod.value);
 }
 
 provide('ignoreChanges', ignoreChanges);
@@ -137,10 +132,6 @@ async function save() {
         catchError(error);
         return;
     }
-}
-
-function formStateChanged(canSaveState: boolean) {
-    canSave.value = canSaveState;
 }
 
 </script>

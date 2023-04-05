@@ -1,19 +1,48 @@
 <template>
-    <a-input v-model="mod.version" :label="$t('version')"/>
-    <md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-    <a-button class="ml-auto" icon="mdi:close" @click="setPrimaryDownload()">{{ $t('clear_primary_download') }}</a-button>
-    <div>
+    <a-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
+    <md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
+    <a-button class="mr-auto" icon="mdi:close" @click="setPrimaryDownload()">{{ $t('clear_primary_download') }}</a-button>
+
+    <label>{{$t('files')}}</label>
+    <flex column>
+        <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
+        <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
+        <file-uploader 
+            list
+            name="files"
+            :upload-url="uploadLink"
+            max-files="25" 
+            :files="files?.data ?? []" 
+            :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" 
+            url="files" 
+            @file-deleted="fileDeleted"
+        >
+            <template #headers>
+                <td class="text-center">{{$t('primary')}}</td>
+            </template>
+            <template #rows="{file}">
+                <td class="text-center">
+                    <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : undefined" type="radio" @change="setPrimaryDownload('file', file as File)">
+                </td>
+            </template>
+            <template #buttons="{file}">
+                <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
+            </template>
+        </file-uploader>
+    </flex>
+
+    <flex column>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
             <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" icon="mdi:plus-thick" @click="createNewLink"/>
         </flex>
         <flex column class="alt-content-bg p-3">
-            <table>
+            <table v-if="links?.data.length">
                 <thead>
                     <tr>
                         <th>{{$t('name')}}</th>
                         <th>{{$t('url')}}</th>
-                        <th>{{$t('upload_date')}}</th>
+                        <th>{{$t('date')}}</th>
                         <th class="text-center">{{$t('actions')}}</th>
                         <th class="text-center">{{$t('primary')}}</th>
                     </tr>
@@ -35,34 +64,11 @@
                     </tr>
                 </tbody>
             </table>
+            <span class="text-3xl mx-auto">{{$t('links_help')}}</span>
         </flex>
-    </div>
-    <label>{{$t('files')}}</label>
-    <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
-    <a-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-    <file-uploader 
-        list
-        name="files"
-        :upload-url="uploadLink"
-        max-files="25" 
-        :files="files?.data ?? []" 
-        :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" 
-        url="files" 
-        @file-deleted="fileDeleted"
-    >
-        <template #headers>
-            <td class="text-center">{{$t('primary')}}</td>
-        </template>
-        <template #rows="{file}">
-            <td class="text-center">
-                <input :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : undefined" type="radio" @change="setPrimaryDownload('file', file as File)">
-            </td>
-        </template>
-        <template #buttons="{file}">
-            <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
-        </template>
-    </file-uploader>
-    <a-input v-if="canModerate" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
+    </flex>
+
+    <a-input v-if="canModerate && !light" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
     <a-modal-form v-if="currentLink" v-model="showEditLink" :title="$t('edit_link')" @submit="saveEditLink">
         <a-input v-model="currentLink.name" :label="$t('name')"/>
         <a-input v-model="currentLink.label" :label="$t('label')"/>
@@ -98,7 +104,7 @@ const { settings, hasPermission } = useStore();
 
 const props = defineProps<{
     mod: Mod,
-    canSave: boolean
+    light?: boolean
 }>();
 
 const { data: files } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { limit: 25 });

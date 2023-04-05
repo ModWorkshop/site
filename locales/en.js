@@ -269,8 +269,6 @@ to upload their banners to the site directly. Current banner URL: {url}
 Saving the mod will remove the banner URL!`,
 allowed_size_per_mod: 'You are allowed to upload up to {0} of files in a mod.',
 mod_desc_help: "The description defines what your mod does in words, it is the first thing people will see.",
-mod_creation_desc: `First things first, let's set up the basics.
-Once done, click on the 'Create' button to move to the edit page where you will be able to add more information and upload files and images.`,
 primary_download_desc: 'If your mod is primarily a single download, you may choose the primary file or link the mod uses',
 send_for_approval: 'Send for Approval',
 send_for_approval_desc: `
@@ -329,6 +327,17 @@ already_sent_transfer: `You've sent a transfer request to the user: {user}
 If you wish to transfer it to a different person, or have changed your mind, cancel the request.
 `,
 transfer_keep_as_member: "Keep as member of level",
+next: "Next",
+skip: "Skip",
+go_to_mod_page: "Go to Mod Page",
+create_and_go: "Create and Go to Mod Page",
+publish_mod_and_go: "Publish and Go to Mod Page",
+mod_creation_1: `First things first, let's set-up the basics.`,
+mod_creation_2: `Next, upload some screenshots that show your mod in action ✨`,
+mod_creation_3: `Finally, let's set-up downloads.`,
+publish_mod: "Publish Mod",
+publish_mod_desc: "Your mod is not published yet. In order for others to see it, it must be published.",
+links_help: "Click on the plus button to add links",
 
 //User//
 online: 'Online',
