@@ -108,6 +108,8 @@ class ThreadController extends Controller
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
             'content' => 'string|required|min:2|max:1000',
+            'announce_until' => 'date|nullable',
+            'announce' => 'boolean',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
         ]);
 
@@ -120,6 +122,13 @@ class ThreadController extends Controller
         if (isset($val['category_id'])) {
             $category = ForumCategory::find($val['category_id']);
         }
+
+        $user = $this->user();
+        $canManageThreads = $user->hasPermission('manage-discussions', $forum->game);
+        if (!$canManageThreads && isset($val['announce'])) {
+            abort(401);
+        }
+
         $this->authorize('store', [Thread::class, $forum, $category]);
 
         $thread = Thread::create($val);
