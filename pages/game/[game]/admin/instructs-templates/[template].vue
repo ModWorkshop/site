@@ -23,7 +23,7 @@ const { data: template } = await useEditResource<InstructsTemplate>('template', 
     name: '',
     instructions: '',
     localized: false,
-    game_id: 0,
+    game_id: props.game.id,
 });
 
 const ignoreChanges = useEventRaiser();
