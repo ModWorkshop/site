@@ -104,7 +104,7 @@ class FileController extends Controller
      * @param  \App\Models\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mod $mod, File $file)
+    public function update(Request $request, File $file)
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
@@ -115,7 +115,7 @@ class FileController extends Controller
         ]);
 
         if ($val['version'] !== $file->version) {
-            $mod->bump();
+            $file->mod->bump();
         }
 
         $val['label'] ??= '';
