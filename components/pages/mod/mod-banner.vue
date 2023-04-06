@@ -40,7 +40,7 @@
                             <div class="word-break p-2" style="width: 250px;">
                                 {{$t('show_download_link_warn')}}
                                 <br>
-                                <a :href="(download as any).url">{{(download as any).url}}</a>
+                                <a class="text-lg font-bold" :href="(download as any).url">{{(download as any).url}}</a>
                             </div>
                         </template>
                     </VDropdown>

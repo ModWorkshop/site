@@ -34,10 +34,10 @@
                     {{$t('show_download_link')}}
                 </a-button>
                 <template #popper>
-                    <div class="p-2">
+                    <div class="word-break p-2" style="width: 250px;">
                         {{$t('show_download_link_warn')}}
                         <br>
-                        <a :href="file.url">{{file.url}}</a>
+                        <a class="text-lg font-bold" :href="(file as any).url">{{(file as any).url}}</a>
                     </div>
                 </template>
             </VDropdown>
