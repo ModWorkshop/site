@@ -445,12 +445,14 @@ class User extends Authenticatable implements MustVerifyEmail
                 }
             };
 
-            $found = null;
+            $firstGlobalVanity = $firstVanity($this->roles);
+            $firstGlobalRegular = $firstRegular($this->roles);
+
             if (self::$currentGameId) {
-                $found = $firstVanity($this->gameRoles) ?? $firstRegular($this->gameRoles);
+                return $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
             }
 
-            return $found ?? $firstVanity($this->roles) ?? $firstRegular($this->roles);
+            return $firstGlobalVanity ?? $firstGlobalRegular;
         });
     }
 
@@ -465,7 +467,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $firstVanity = function($roles) {
                 foreach ($roles as $role) {
                     if ($role->is_vanity && $role->tag) {
-                        return $role->color;
+                        return $role->tag;
                     }
                 }
             };
@@ -478,12 +480,14 @@ class User extends Authenticatable implements MustVerifyEmail
                 }
             };
 
-            $found = null;
+            $firstGlobalRegular = $firstRegular($this->roles);
+            $firstGlobalVanity = $firstVanity($this->roles);
+
             if (self::$currentGameId) {
-                $found = $firstVanity($this->gameRoles) ?? $firstRegular($this->gameRoles);
+                return $firstGlobalRegular ?? $firstRegular($this->gameRoles) ?? $firstVanity($this->gameRoles) ?? $firstGlobalVanity;
             }
 
-            return $found ?? $firstRegular($this->roles) ?? $firstVanity($this->roles);
+            return $firstGlobalRegular ?? $firstGlobalVanity;
         });
     }
 
