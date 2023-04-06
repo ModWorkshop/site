@@ -44,7 +44,7 @@
                     </flex>
                 </content-block>
             </flex>
-            <div>
+            <flex gap="2">
                 <flex v-if="announcements.length" column>
                     <h4>📢 {{$t('announcements')}}</h4>
                     <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
@@ -53,7 +53,7 @@
                     <h4>📢 {{$t('game_announcements')}}</h4>
                     <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                 </flex>
-            </div>
+            </flex>
         </flex>
         <flex :class="innerClasses" column :gap="gap">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
