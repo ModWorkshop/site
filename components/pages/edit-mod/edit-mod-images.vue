@@ -21,8 +21,8 @@
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
-            <a-button icon="image" :disabled="file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">{{$t('thumbnail')}}</a-button>
-            <a-button icon="image" :disabled="file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
+            <a-button icon="image" :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">{{$t('thumbnail')}}</a-button>
+            <a-button icon="image" :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
         </template>
     </file-uploader>
     

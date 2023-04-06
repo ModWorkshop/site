@@ -168,7 +168,7 @@ async function upload(files: FileList|null) {
         }
         else {
             const insertFile: UploadFile = {
-                id: -1,
+                id: 0,
                 created_at: DateTime.now().toISO(),
                 name: file.name,
                 size: file.size,
