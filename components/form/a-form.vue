@@ -64,7 +64,7 @@ watch(currentCanSave, val => {
 
 provide('model', props.model);
 
-const currentSaveButtonText = computed(() => props.saveButtonText || t('save'));
+const currentSaveButtonText = computed(() => props.saveButtonText || (props.created ? t('save') : t('submit')));
 
 function submit() {
     disableButtons.value = true;
