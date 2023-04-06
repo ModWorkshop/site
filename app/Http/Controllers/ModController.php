@@ -483,6 +483,9 @@ class ModController extends Controller
         }
 
         $mod->update(['approved' => $approve]);
+        if ($approve) {
+            $mod->publish();
+        }
     }
 
     public function suspend(Request $request, Mod $mod)
