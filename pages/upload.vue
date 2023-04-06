@@ -59,7 +59,6 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
-const disableCreate = computed(() => !mod.value.game_id || !mod.value.name || !mod.value.desc);
 
 const step = ref(1);
 const publish = ref(true);
@@ -93,6 +92,7 @@ const mod: Ref<Mod> = ref({
 });
 
 const gameName = computed(() => route.params.game);
+const disableCreate = computed(() => (!route.params.game && !mod.value.game_id) || !mod.value.name || !mod.value.desc);
 
 const { data: game } = await useResource<Game>('game', 'games');
 
