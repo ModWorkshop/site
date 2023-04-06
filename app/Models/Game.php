@@ -151,7 +151,7 @@ class Game extends Model
 
     public function reportsCount(): Attribute
     {
-        return Attribute::make(fn() => $this->reports()->count());
+        return Attribute::make(fn() => $this->reports()->whereArchived(false)->count());
     }
         
 
