@@ -185,6 +185,7 @@ class UserController extends Controller
             $user->extra->update($extra);
         }
         $user->load('extra');
+        $user->append('signable');
 
         return new UserResource($user);
     }
