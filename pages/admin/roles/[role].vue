@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 && !gameId">
+    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 || !gameId">
         <a-alert v-if="role.id == 1 && !gameId" color="warning">
             <span>{{$t('members_role_desc')}}</span>
         </a-alert>
@@ -14,7 +14,7 @@
                     v-for="perm of validPerms"
                     :key="perm.id"
                     class="perm items-center p-2"
-                    :title="hasPermission(perm.name) ? undefined : $t('cant_grant_permission')"
+                    :title="hasPermission(perm.name, game) ? undefined : $t('cant_grant_permission')"
                 >
                     <a-input
                         v-model="role.permissions![perm.name]"
@@ -24,7 +24,7 @@
                         :disabled="!hasPermission(perm.name)"
                         @update:model-value="togglePermission(perm.name)"
                     />
-                    <span v-if="!hasPermission(perm.name)">🔒</span>
+                    <span v-if="!hasPermission(perm.name, game)">🔒</span>
                 </flex>
             </flex>
         </a-input>
