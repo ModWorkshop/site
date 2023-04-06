@@ -35,8 +35,8 @@
             <a-banner :src="user.banner" url-prefix="users/banners">
                 <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
             </a-banner>
-            <flex gap="3" column class="md:flex-row">
-                <content-block id="details" class="p-4">
+            <flex gap="3" column class="details md:flex-row">
+                <content-block class="p-4 place-self-start">
                     <flex gap="3" column style="min-width: 300px;">
                         <a-user class="text-2xl" :user="user" :avatar="false" static>
                             <template #after-name>
@@ -69,7 +69,7 @@
                         </template>
                     </flex>
                 </content-block>
-                <content-block id="bio" class="p-4 w-full">
+                <content-block class="bio p-4 w-full">
                     <span class="text-lg">
                         <template v-if="isPublic || isOwnOrModerator">
                             <a-markdown v-if="user.bio" :text="user.bio"/>
@@ -214,3 +214,10 @@ function showDeleteDiscussionsModal() {
     });
 }
 </script>
+
+<style scoped>
+.bio {
+    max-height: 500px;
+    overflow: auto;
+}
+</style>
