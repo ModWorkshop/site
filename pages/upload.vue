@@ -26,18 +26,18 @@
             </content-block>
             <content-block v-if="step == 2" gap="4">
                 <h3 class="text-center">{{$t('mod_creation_2')}}</h3>
-                <edit-mod-images v-if="mod.id" :mod="mod" :can-save="true" light/>
+                <edit-mod-images v-if="mod.id" :mod="mod" light/>
                 <flex class="mx-auto">
-                    <a-button type="submit" @click="() => step = 3">{{$t('next')}}</a-button>
+                    <a-button type="submit" @click="save(false, false)">{{$t('next')}}</a-button>
                     <a-button :to="`/mod/${mod.id}`">{{$t('go_to_mod_page')}}</a-button>
                 </flex>
             </content-block>
             <content-block v-if="step == 3" gap="4">
                 <h3 class="text-center">{{$t('mod_creation_3')}}</h3>
-                <edit-mod-files v-if="mod.id" :mod="mod" :can-save="true" light/>
-                <flex class="mx-auto">
-                    <a-button @click="publish">{{$t('publish_mod_and_go')}}</a-button>
-                    <a-button :to="`/mod/${mod.id}`">{{$t('go_to_mod_page')}}</a-button>
+                <edit-mod-files v-if="mod.id" :mod="mod" light/>
+                <flex class="mx-auto" column>
+                    <a-input v-model="publish" :label="$t('publish_mod')" type="checkbox"/>
+                    <a-button class="place-self-center" @click="save(true)">{{$t('finish')}}</a-button>
                 </flex>
             </content-block>
         </a-form>
@@ -62,6 +62,7 @@ const { t } = useI18n();
 const disableCreate = computed(() => !mod.value.game_id || !mod.value.name || !mod.value.desc);
 
 const step = ref(1);
+const publish = ref(true);
 
 const showToast = useQuickErrorToast();
 
@@ -120,10 +121,15 @@ watch(() => mod.value.game_id, val => {
         refetchCats();
     }
 });
-async function publish() {
+
+async function save(goToPage: boolean, publishMod?: boolean) {
+    step.value = 3;
+
     try {
-        await usePatch<Mod>(`mods/${mod.value.id}`, { publish: true });
-        router.push(`/mod/${mod.value.id}`);
+        await usePatch<Mod>(`mods/${mod.value.id}`, {...mod.value, publish: publishMod ?? publish.value});
+        if (goToPage) {
+            router.push(`/mod/${mod.value.id}`);
+        } 
     } catch (error) {
         if (error instanceof FetchError) {
             showToast(error);
