@@ -90,7 +90,8 @@ const props = withDefaults(defineProps<{
     triggerRefresh?: EventRaiser,
     sideFilters?: boolean,
     limit?: number,
-    url?: string
+    url?: string,
+    params?: object
 }>(), {
     limit: 40,
     url: 'mods'
@@ -126,7 +127,8 @@ const searchParams = reactive({
     categories: selectedCategories,
     block_tags: selectedBlockTags,
     sort: sortBy,
-    limit: computed(() => props.limit)
+    limit: computed(() => props.limit),
+    ...props.params
 });
 
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 

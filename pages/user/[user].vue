@@ -87,8 +87,9 @@
                 <mod-list 
                     v-if="isPublic || isOwnOrModerator"
                     :trigger-refresh="triggerRefresh"
-                    :user-id="user.id" 
+                    :user-id="user.id"
                     :collab="displayMods == 'collab'"
+                    :params="{ ignore_blocked_users: true }"
                 />
             </template>
             <content-block v-else>
@@ -174,11 +175,11 @@ async function blockUser() {
 }
 
 function hideUserMods() {
+    const block = !user.value.blocked_by_me;
     yesNoModal({
         title: t('are_you_sure'),
-        desc: t('hide_user_mods_desc'),
+        desc: t(block ? 'hide_user_mods_desc' : 'unhide_user_mods_desc'),
         async yes() {
-            const block = !user.value.blocked_by_me;
 
             if (block) {
                 await usePost('blocked-users', { user_id: user.value.id, silent: true });

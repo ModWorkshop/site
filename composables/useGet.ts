@@ -28,8 +28,13 @@ export default async function<T = unknown>(url: string, options?) {
         
         url += qs.stringify(options.params, { 
             arrayFormat: 'brackets',
-            encode: false,
-            addQueryPrefix: true
+            addQueryPrefix: true,
+            encoder: function (str, defaultEncoder, charset, type) {
+                if (type == 'value' && typeof str == 'boolean') {
+                    return str ? 1 : 0;
+                }
+                return str;
+            },
         });
     }
 
