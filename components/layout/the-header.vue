@@ -170,7 +170,7 @@ const searchButtons = computed(() => {
     ];
     if (currentGame.value) {
         buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: 'search_threads_game' });
-        buttons.unshift({ to: `/g/${currentGame.value.short_name}`, text: 'search_mods_game' });
+        buttons.unshift({ to: `/g/${currentGame.value.short_name}/mods`, text: 'search_mods_game' });
     }
     return buttons;
 });
