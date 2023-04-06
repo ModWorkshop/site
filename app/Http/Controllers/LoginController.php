@@ -94,7 +94,7 @@ class LoginController extends Controller
     {
         $val = $request->validate([
             'name' => ['required'],
-            'unique_name' => ['required'],
+            'unique_name' => 'alpha_dash|nullable|min:3|max:50',
             'email' => ['required', 'email'],
             'password' => ['required', APIService::getPasswordRule()],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
