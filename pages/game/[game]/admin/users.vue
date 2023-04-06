@@ -11,9 +11,9 @@
 <script setup lang="ts">
 import { Game } from '~/types/models';
 
-defineProps<{
+const props = defineProps<{
     game: Game
 }>();
 
-useNeedsPermission('manage-users');
+useNeedsPermission('manage-users', props.game);
 </script>

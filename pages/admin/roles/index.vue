@@ -34,7 +34,7 @@ const props = defineProps<{
     game?: Game
 }>();
 
-useNeedsPermission('manage-roles');
+useNeedsPermission('manage-roles', props.game);
 
 const route = useRoute();
 const gameId = route.params.game;
