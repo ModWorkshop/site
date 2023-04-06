@@ -267,6 +267,7 @@ export interface User {
     blocked_by_me?: { silent: boolean };
     blocked_me: boolean;
     highest_role_order?: number;
+    game_highest_role_order?: number;
     followed?: { notify: boolean };
     show_tag: 'role'|'supporter_or_role'|'none';
     supporter?: Supporter;

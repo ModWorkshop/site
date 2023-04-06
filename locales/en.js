@@ -461,7 +461,7 @@ show_last_updated: "Show Last Updated Games",
 are_you_sure_role: "Are you sure you want give this role? The role is not a vanity role!",
 
 //Games//
-game_settings: 'Game Settings',
+game_preferences: 'Game Preferences',
 game_buttons: 'Menu Buttons',
 webhook_url: 'Discord Webhook URL',
 short_name: 'Short Name',

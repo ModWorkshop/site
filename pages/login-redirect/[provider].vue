@@ -1,5 +1,5 @@
 <template>
-    <page-block :column="false">
+    <page-block>
         <flex v-if="!error" column class="mx-auto">
             <h2 class="mx-auto">{{$t('logging_you_in')}}</h2>
             <a-loading/>
