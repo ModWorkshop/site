@@ -141,7 +141,7 @@ async function saveEditFile(error) {
     try {
         const file = currentFile.value;
         if (file) {
-            await usePatch(`mods/${props.mod.id}/files/${file.id}`, file);
+            await usePatch(`files/${file.id}`, file);
     
             for (const f of files.value!.data) {
                 if (f.id === file.id) {
@@ -163,7 +163,7 @@ function editLink(link: Link) {
 }
 
 async function deleteLink(link: Link) {
-    await useDelete(`mods/${props.mod.id}/links/${link.id}`);
+    await useDelete(`links/${link.id}`);
     links.value!.data = links.value!.data.filter(l => l.id !== link.id);
 
     ignoreChanges?.();
