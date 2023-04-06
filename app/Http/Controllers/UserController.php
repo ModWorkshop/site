@@ -131,7 +131,7 @@ class UserController extends Controller
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
-            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null, $passwordRule],
+            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null],
             'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule],
             'extra.default_mods_sort' => ['nullable', Rule::in([
                 'bumped_at',
