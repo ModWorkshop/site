@@ -44,13 +44,13 @@
                     </flex>
                 </content-block>
             </flex>
-            <flex gap="2">
-                <flex v-if="announcements.length" column>
-                    <h4>📢 {{$t('announcements')}}</h4>
+            <flex column gap="2">
+                <h4>📢 {{$t('announcements')}}</h4>
+                <flex v-if="announcements.length">
                     <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                 </flex>
-                <flex v-if="gameAnnouncements.length" column>
-                    <h4>📢 {{$t('game_announcements')}}</h4>
+                <h4>📢 {{$t('game_announcements')}}</h4>
+                <flex v-if="gameAnnouncements.length">
                     <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                 </flex>
             </flex>

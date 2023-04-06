@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="`/thread/${thread.id}`" class="no-hover">
+    <NuxtLink :to="`/thread/${thread.id}`" class="no-hover flex-grow">
         <content-block :column="false" padding="4" gap="0">
             <div>
                 <h3> {{thread.name}}</h3>
