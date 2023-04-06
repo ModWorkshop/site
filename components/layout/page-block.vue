@@ -45,14 +45,18 @@
                 </content-block>
             </flex>
             <flex column gap="2">
-                <h4>📢 {{$t('announcements')}}</h4>
-                <flex v-if="announcements.length">
-                    <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
-                <h4>📢 {{$t('game_announcements')}}</h4>
-                <flex v-if="gameAnnouncements.length">
-                    <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
+                <template v-if="announcements.length">
+                    <h4>📢 {{$t('announcements')}}</h4>
+                    <flex>
+                        <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                    </flex>
+                </template>
+                <template v-if="gameAnnouncements.length">
+                    <h4 >📢 {{$t('game_announcements')}}</h4>
+                    <flex>
+                        <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                    </flex>
+                </template>
             </flex>
         </flex>
         <flex :class="innerClasses" column :gap="gap">
