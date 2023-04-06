@@ -43,6 +43,7 @@ class UserResource extends JsonResource
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', fn() => array_filter(Arr::pluck($this->roles, 'id'), fn($id) => $id !== 1)),
             'game_role_ids' => $this->when(isset(User::$currentGameId), fn() => Arr::pluck($this->gameRoles, 'id')),
+            'game_highest_role_order' => $this->when(isset(User::$currentGameId), fn() => $user->getGameHighestOrder(User::$currentGameId)),
             'last_online' => $this->last_online,
             'blocked_by_me' => $this->when($notMeNotGuest, fn() => $this->blockedByMe),
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),

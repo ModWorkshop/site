@@ -99,7 +99,9 @@ Route::middleware('auth:sanctum')->group(function() {
 APIService::gameResource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
-Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUserData']);
+Route::get('games/{game}/users/{user}', [UserController::class, 'getGameUser']);
+Route::get('games/{game}/users', [UserController::class, 'index']);
+Route::get('games/{game}/users/{user}/data', [GameController::class, 'getGameUserData']);
 Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
 APIService::gameResource('tags', TagController::class, ['parentOptional' => true]);
 APIService::gameResource('instructs-templates', InstructsTemplateController::class);

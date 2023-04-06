@@ -7,6 +7,7 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\ModResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
+use App\Models\Game;
 use App\Models\Mod;
 use App\Models\Role;
 use App\Models\Setting;
@@ -43,19 +44,27 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
             'id' => 'integer|min:1'
         ]);
 
+        if (isset($game)) {
+            APIService::setCurrentGame($game);
+        }
+
         $users = User::queryGet($val, function($query, $val) {
             if (isset($val['id'])) {
                 $query->orWhere('id', $val['id']);
             }
-
         });
+
         return UserResource::collection($users);
+    }
+
+    public function getGameUser(Game $game=null, string $user) {
+        return $this->getUser($user, $game);
     }
 
     /**
@@ -68,8 +77,12 @@ class UserController extends Controller
      * @param string $user
      * @return User
      */
-    public function getUser(string $user)
+    public function getUser(string $user, Game $game=null)
     {
+        if (isset($game)) {
+            APIService::setCurrentGame($game);
+        }
+
         $foundUser = null;
 
         if (is_numeric($user)) {
