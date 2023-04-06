@@ -144,12 +144,9 @@ export const useStore = defineStore('main', {
 
         hasPermission(perm: string, game?: Game) {
             const permissions = this.user?.permissions;
-            if (!permissions) {
-                return false;
-            }
             if (!this.user) {
                 return false;
-            } else if (permissions.admin === true || permissions[perm] === true) { //Admins have all permissions
+            } else if (permissions && (permissions.admin === true || permissions[perm] === true)) { //Admins have all permissions
                 return true;
             } else if (game && game.user_data && game.user_data.permissions) {
                 //Game managers have all *game* permissions. Don't call this on non game permissions.
