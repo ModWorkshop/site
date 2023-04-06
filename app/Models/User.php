@@ -211,16 +211,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     #region Relations
 
-    public function blockedByMe(): HasOneThrough
+    public function blockedByMe(): HasOne
     {
-        return $this->hasOneThrough(User::class, BlockedUser::class, 'block_user_id', 'id', 'id', 'block_user_id')
-            ->where('blocked_users.user_id', Auth::user()->id)->limit(1)->without('blockedMe', 'blockedByMe');
+        return $this->hasOne(BlockedUser::class, 'block_user_id')->where('user_id', Auth::user()->id);
     }
 
-    public function blockedMe(): HasOneThrough
+    public function blockedMe(): HasOne
     {
-        return $this->hasOneThrough(User::class, BlockedUser::class, 'user_id', 'id', 'id', 'user_id')
-            ->where('blocked_users.block_user_id', Auth::user()->id)->limit(1)->without('blockedMe', 'blockedByMe');
+        return $this->hasOne(BlockedUser::class)->where('block_user_id', Auth::user()->id);
     }
 
     /**

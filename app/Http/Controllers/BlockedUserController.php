@@ -50,6 +50,8 @@ class BlockedUserController extends Controller
                 'silent' => $val['silent']
             ]);
         }
+        User::flushQueryCache();
+        BlockedUser::flushQueryCache();
     }
 
     /**
@@ -63,5 +65,6 @@ class BlockedUserController extends Controller
         $user = $this->user();
         $user->blockedUsers()->detach($id);
         User::flushQueryCache();
+        BlockedUser::flushQueryCache();
     }
 }

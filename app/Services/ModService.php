@@ -91,9 +91,10 @@ class ModService {
         }
 
         //These are global filters. Either things user has blocked or limits in general.
-        $query->where(function($query) use ($user, $game) {
+        $query->where(function($query) use ($user, $game, $val) {
             //Hide blocked user's mods (unless a moderator)
-            if (isset($user) && !$user->hasPermission('manage-mods', $game)) {
+
+            if (isset($user) && (!isset($val['ignore_blocked_users']) || !$val['ignore_blocked_users']) && !$user->hasPermission('manage-mods', $game)) {
                 $query->whereNotExists(function($query) use ($user) {
                     $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
                     $query->whereColumn('blocked_users.block_user_id', 'mods.user_id');
