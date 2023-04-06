@@ -43,7 +43,7 @@ const roleCanBeEdited = computed(() => {
     const role = props.role;
 
     //A user that can manage roles globally, can essentially edit any game role.
-    if (game && (hasPermission('manage-roles') || hasPermission('manage-game', game))) {
+    if (hasPermission('manage-roles', game)) {
         return true;
     }
 
