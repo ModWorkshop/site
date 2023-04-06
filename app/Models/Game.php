@@ -71,7 +71,7 @@ class Game extends Model
 
     protected $hidden = ['webhook_url'];
     
-    protected $appends = ['user_data'];
+    protected $appends = ['user_data', 'announcements'];
     
     protected $with = ['followed', 'roles'];
 
