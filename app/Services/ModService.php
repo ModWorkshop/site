@@ -102,7 +102,7 @@ class ModService {
     
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
             if (!isset($user) || !$user->hasPermission('manage-mods', $game)) {
-                $query->where('visibility', Visibility::public)->where('suspended', false)->where('approved', true)->where('has_download', true);
+                $query->where('visibility', Visibility::public)->whereNotNull('published_at')->where('suspended', false)->where('approved', true)->where('has_download', true);
             }
             
             if (isset($user)) {
