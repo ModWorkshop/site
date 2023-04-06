@@ -1,54 +1,64 @@
 <template>
     <flex column :class="classes" :gap="gap">
-        <flex v-if="game?.id" gap="0" column>
-            <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px"/>
-            <content-block :column="false" wrap class="items-center" gap="4">
-                <h2 class="my-auto">
-                    <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
-                </h2>
-                <flex wrap gap="4" class="mt-1">
-                    <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
-                    <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
-                    <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
-                    <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
-                </flex>
-                <flex class="ml-auto items-center" gap="4">
-                    <flex v-if="store.gameBan" v-once column>
-                        <span class="text-danger">
-                            <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
-                        </span>
-                        <span>
-                            <i18n-t keypath="expires_t">
-                                <template #time>
-                                    <time-ago :time="store.gameBan.expire_date"/>
-                                </template>
-                            </i18n-t>
-                        </span>
+        <flex class="page-block-nm mx-auto" column gap="4">
+            <flex v-if="game?.id" gap="0" column>
+                <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px"/>
+                <content-block :column="false" wrap class="items-center" gap="4">
+                    <h2 class="my-auto mb-1">
+                        <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
+                    </h2>
+                    <flex wrap gap="4">
+                        <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
+                        <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
                     </flex>
+                    <flex class="ml-auto items-center" gap="4">
+                        <flex v-if="store.gameBan" v-once column>
+                            <span class="text-danger">
+                                <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
+                            </span>
+                            <span>
+                                <i18n-t keypath="expires_t">
+                                    <template #time>
+                                        <time-ago :time="store.gameBan.expire_date"/>
+                                    </template>
+                                </i18n-t>
+                            </span>
+                        </flex>
+                    </flex>
+                    <flex class="ml-auto" gap="2" wrap>
+                        <flex class="mr-4" gap="2">
+                            <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.id}/admin/reports`">
+                                <a-icon icon="mdi:alert-box"/> {{reportsCount}}
+                            </NuxtLink>
+                            <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.id}/admin/approvals`">
+                                <a-icon icon="mdi:clock"/> {{waitingCount}}
+                            </NuxtLink>
+                            <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('admin_page')}}</a-link-button>
+                        </flex>
+
+                        <a-link-button v-if="store.user" icon="mdi:account-settings-variant" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">{{$t('game_preferences')}}</a-link-button>
+                        <a-link-button v-if="store.user" :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game!)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                        <a-link-button v-else icon="mdi:plus-thick" to="/login">{{$t('follow')}}</a-link-button>
+                    </flex>
+                </content-block>
+            </flex>
+            <div>
+                <flex v-if="announcements.length" column>
+                    <h4>📢 {{$t('announcements')}}</h4>
+                    <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                 </flex>
-                <flex class="ml-auto mt-1" gap="4" wrap>
-                    <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.id}/admin/reports`">
-                        <a-icon icon="mdi:alert-box"/> {{reportsCount}}
-                    </NuxtLink>
-                    <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.id}/admin/approvals`">
-                        <a-icon icon="mdi:clock"/> {{waitingCount}}
-                    </NuxtLink>
-                    <a-link-button icon="mdi:cog" :to="`/user-settings?game=${game.id}`">{{$t('game_settings')}}</a-link-button>
-                    <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('admin_page')}}</a-link-button>
-                    <a-link-button :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game!)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
+                <flex v-if="gameAnnouncements.length" column>
+                    <h4>📢 {{$t('game_announcements')}}</h4>
+                    <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                 </flex>
-            </content-block>
+            </div>
         </flex>
-        <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
-        <flex v-if="announcements.length" column>
-            <h4>📢 {{$t('announcements')}}</h4>
-            <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+        <flex :class="innerClasses" column :gap="gap">
+            <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
+            <slot/>
         </flex>
-        <flex v-if="gameAnnouncements.length" column>
-            <h4>📢 {{$t('game_announcements')}}</h4>
-            <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-        </flex>
-        <slot/>
     </flex>
 </template>
 
@@ -64,7 +74,7 @@ const props = withDefaults(defineProps<{
     game?: Game;
     gameBanner?: boolean;
     breadcrumb?: Breadcrumb[];
-}>(), { gap: 3 });
+}>(), { gap: 3, size: 'nm' });
 
 const store = useStore();
 
@@ -116,24 +126,34 @@ const buttons = computed(() => {
 const classes = computed(() => ({
     'page-block': true,
     'h-full': true,
+}));
+
+const innerClasses = computed(() => ({
+    'mx-auto': true,
+    'page-block-nm': props.size == 'nm',
     'page-block-full': props.size == 'full',
     'page-block-md': props.size == 'md',
     'page-block-sm': props.size == 'sm',
     'page-block-xs': props.size == 'xs',
     'page-block-2xs': props.size == '2xs'
 }));
+
 </script>
 
 <style>
 .page-block {
     padding: 1rem;
     border-radius: 4px;
-    width: 83%;
+    width: 100%;
 }
 
 /* .page-block:first-child {
     margin-top: 8px;
 } */
+
+.page-block-nm {
+    width: 83%;
+}
 
 .page-block-full {
     width: 100%;
