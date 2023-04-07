@@ -100,6 +100,10 @@ export const useStore = defineStore('main', {
             }
         },
 
+        async reloadUser() {
+            this.user = await useGet<User>('user');
+        },
+
         async logout(redirect: string|boolean='/') {
             await usePost('/logout');
             reloadToken();

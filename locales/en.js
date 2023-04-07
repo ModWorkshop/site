@@ -461,6 +461,8 @@ show_mods: "Show Mods",
 show_threads: "Show Threads",
 show_last_updated: "Show Last Updated Games",
 are_you_sure_role: "Are you sure you want give this role? The role is not a vanity role!",
+resend: "Resend",
+pending_email: "You've requested to change your email to: {0}. Please check your inbox for the verification link.",
 
 //Games//
 game_preferences: 'Game Preferences',

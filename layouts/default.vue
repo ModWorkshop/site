@@ -1,11 +1,14 @@
 <template>
     <div class="layout">
         <main>
-            <a-toast v-if="user && !user.activated" class="mt-2" color="warning" :closable="false">
+            <a-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :closable="false">
                 <span class="whitespace-pre">
-                    {{ $t('inactive_account') }}
+                    {{ $t(user.pending_email ? 'pending_email' : 'inactive_account', [user.pending_email]) }}
                 </span>
-                <a-button class="mr-auto" :loading="resending" @click="resendVerification">Resend</a-button>
+                <flex class="mr-auto">
+                    <a-button :loading="resending" @click="resendVerification">{{$t('resend')}}</a-button>
+                    <a-button v-if="user.pending_email" color="danger" :loading="resending" @click="cancelPending">{{$t('cancel')}}</a-button>
+                </flex>
             </a-toast>
             
             <flex id="toaster" column gap="2">
@@ -34,18 +37,27 @@
 import { useStore } from '~~/store';
 import { Toast } from '~~/types/toast';
 import { longExpiration } from '~~/utils/helpers';
+import { storeToRefs } from 'pinia';
 
 const toasts = useState<Toast[]>('toasts', () => []);
 
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
 
-const { user } = useStore();
+const store = useStore();
+const { user } = storeToRefs(store);
 
 const resending = ref(false);
 
 async function resendVerification() {
     resending.value = true;
     await usePost('email/resend');
+    resending.value = false;
+}
+
+async function cancelPending() {
+    resending.value = true;
+    await usePost('email/cancel-pending');
+    await store.reloadUser();
     resending.value = false;
 }
 </script>

@@ -240,6 +240,7 @@ export interface User {
     name: string;
     unique_name: string;
     email: string | null;
+    pending_email?: string;
     email_verified_at?: string;
     api_key?: string;
     activated?: boolean;
