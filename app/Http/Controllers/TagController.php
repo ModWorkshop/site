@@ -28,18 +28,19 @@ class TagController extends Controller
         $val = $request->val([
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'type' => 'string|in:mod,forum',
-            'global' => 'string|in:true,false,0,1|nullable'
+            'global' => 'boolean|nullable'
         ]);
 
         $tags = Tag::queryGet($val, function($query, array $val) {
             $query->where(function($q) use ($val) {
                 if (isset($val['game_id'])) {
                     $q->where('game_id', $val['game_id']);
-                } else if (isset($val['global']) && $val['global']) {
+                }
+                if (isset($val['global']) && $val['global']) {
                     $q->orWhereNull('game_id');
                 }
                 if (isset($val['type'])) {
-                    $q->where('type', $val['type'])->orWhere('type', '')->orWhereNull('type');
+                    $q->where(fn($q) => $q->where('type', $val['type'])->orWhere('type', '')->orWhereNull('type'));
                 }
             });
         });
@@ -86,8 +87,6 @@ class TagController extends Controller
             'type' => 'string|nullable|in:all,forum,mod',
             'notice_localized' => 'boolean|nullable',
         ]);
-
-        Log::info($game);
 
         $val['type'] ??= '';
         $val['notice_type'] ??= 'info';
