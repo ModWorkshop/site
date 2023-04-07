@@ -27,7 +27,7 @@
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
                 <a-markdown :text="mod.license"/>
             </a-tab>
-            <a-tab v-if="dependencies.length || mod.instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
+            <a-tab v-if="dependencies.length || mod.instructions || mod.instructs_template?.instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
                     <h2>{{$t('dependencies')}}</h2>
                     <ol style="padding-inline-start: 32px;">
