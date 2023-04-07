@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="`/thread/${thread.id}`" class="no-hover" style="flex:1;">
+    <NuxtLink :to="`/thread/${thread.id}`" class="no-hover announcmenet">
         <content-block :column="false" padding="4" gap="0">
             <div>
                 <h3> {{thread.name}}</h3>
@@ -23,5 +23,11 @@ defineEmits<{
 </script>
 
 <style scoped>
+.announcement {
+    flex: 1;
+}
 
+.announcement div {
+    height: 100%;
+}
 </style>
