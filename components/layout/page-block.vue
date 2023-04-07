@@ -47,13 +47,13 @@
             <flex column gap="2">
                 <template v-if="announcements.length">
                     <h4>📢 {{$t('announcements')}}</h4>
-                    <flex>
+                    <flex class="md:flex-row flex-col">
                         <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                     </flex>
                 </template>
                 <template v-if="gameAnnouncements.length">
                     <h4 >📢 {{$t('game_announcements')}}</h4>
-                    <flex>
+                    <flex class="md:flex-row flex-col">
                         <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
                     </flex>
                 </template>
