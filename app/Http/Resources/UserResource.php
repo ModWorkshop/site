@@ -5,8 +5,6 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Arr;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
-use Request;
 
 class UserResource extends JsonResource
 {
@@ -38,6 +36,7 @@ class UserResource extends JsonResource
             'permissions' => $this->permissionList,
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),
+            'pending_email' => $this->when($isMe, $this->pending_email),
             'email_verified_at' => $this->when($isMe, $this->email_verified_at),
             'activated' => $this->when($isMe, $this->activated),
             'followed' => $this->whenLoaded('followed'),

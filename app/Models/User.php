@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Notifications\EmailVerificationNotification;
+use App\Notifications\PendingEmailVerificationNotification;
 use App\Services\APIService;
 use App\Services\Utils;
 use App\Traits\Reportable;
@@ -22,8 +22,10 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Log;
+use Notification;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
@@ -198,6 +200,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'last_ip_address',
         'email',
+        'pending_email',
         'email_verified_at'
     ];
 
@@ -580,6 +583,70 @@ class User extends Authenticatable implements MustVerifyEmail
     #endregion
 
     #region Methods
+
+    public function sendEmailVerification()
+    {
+        if ($this->hasVerifiedEmail()) { // We have email verified
+            $this->notify(new PendingEmailVerificationNotification);
+        } else {
+            $this->sendEmailVerificationNotification();
+        }
+    }
+
+    public function routeNotificationForMail(NotificationsNotification $notification = null)
+    {
+        if ($notification instanceof PendingEmailVerificationNotification) {
+            return $this->pending_email;
+        } else {
+            return $this->email;
+        }
+    }
+
+    /**
+     * Sets an email smartly. If the user has already a verified email. The email will be pending.
+     */
+    function setEmail(string $email) {
+        if ($this->email == $email) {
+            return;
+        }
+
+        if (User::where('id', '!=', $this->id)->where(fn($q) => $q->whereEmail($email)->orWhere('pending_email', $email))->exists()) {
+            abort(409);
+        }
+
+        // If user has a verified email, don't change it.
+        if ($this->hasVerifiedEmail()) {
+            $this->forceFill([
+                'pending_email' => $email,
+                'pending_email_set_at' => Carbon::now()
+            ]);
+        } else {
+            $this->forceFill([
+                'email' => $email,
+                'email_verified_at' => null,
+                'activated' => false
+            ]);
+        }
+
+        $this->sendEmailVerification();
+
+        $this->save();
+    }
+
+    public function getEmailForVerification()
+    {
+        return $this->pending_email ?? $this->email;
+    }
+
+    public function verifyPendingEmail()
+    {
+        return $this->forceFill([
+            'email' => $this->pending_email ?? $this->email,
+            'pending_email' => null,
+            'pending_email_set_at' => null,
+            'email_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
 
     /**
      * Returns specific game's roles

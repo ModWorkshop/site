@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailVerifyRequest;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ModResource;
@@ -9,23 +10,16 @@ use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\Mod;
-use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
 use Auth;
 use DB;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\Validator;
 use Str;
 
 /**
@@ -158,7 +152,7 @@ class UserController extends Controller
             $val['unique_name'] = Str::lower($val['unique_name']);
         }
 
-        //TODO: Should moderators be able to change email for users?
+        //TODO: Should moderators be able to change email for users? Sorta.
         APIService::nullToEmptyStr($val, 'custom_color', 'bio', 'custom_title', 'donation_url');
 
         $avatarFile = Arr::pull($val, 'avatar_file');
@@ -180,12 +174,18 @@ class UserController extends Controller
             }
         }
 
+        $email = Arr::pull($val, 'email');
+        if (isset($email)) {
+            $user->setEmail($email);
+        }
+
         $user->update($val);
         if (isset($extra)) {
             $user->extra->update($extra);
         }
         $user->load('extra');
         $user->append('signable');
+        $user->refresh();
 
         return new UserResource($user);
     }
@@ -288,7 +288,7 @@ class UserController extends Controller
     /**
      * Verifies email via a link sent to the email
      */
-    public function verifyEmail(EmailVerificationRequest $request)
+    public function verifyEmail(EmailVerifyRequest $request)
     {
         $request->fulfill();
         $user = $this->user();
@@ -301,6 +301,14 @@ class UserController extends Controller
      */
     public function resendEmail(Request $request)
     {
-        $request->user()->sendEmailVerificationNotification();
+        $request->user()->sendEmailVerification();
+    }
+
+    /**
+     * Cancels pending email if the user changes their mind.
+     */
+    public function cancelPendingEmail()
+    {
+        $this->user()->forceFill(['pending_email' => null, 'pending_email_set_at' => null])->save();
     }
 }
