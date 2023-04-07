@@ -40,12 +40,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCanAppeal($value)
  * @property int|null $mod_user_id
  * @property bool $active
- * @property string|null $ip_address
- * @property string|null $email
  * @property-read \App\Models\User|null $modUser
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ban whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ban whereIpAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereModUserId($value)
  */
 	class Ban extends \Eloquent {}
@@ -483,6 +479,8 @@ namespace App\Models{
  * @property-read int|null $roles_count
  * @property-read mixed $user_data
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereModsCount($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
+ * @property-read int|null $reports_count
  */
 	class Game extends \Eloquent {}
 }
@@ -1000,6 +998,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
  * @property bool $locked
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereLocked($value)
+ * @property-read \App\Models\Game|null $game
  */
 	class Report extends \Eloquent {}
 }
@@ -1292,6 +1291,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $announce_until
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
+ * @property int|null $game_id
+ * @property-read \App\Models\Game|null $game
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1424,7 +1426,16 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @property string|null $last_ip_address
+ * @property bool $activated
+ * @property string|null $waiting_email
+ * @property string|null $pending_email
+ * @property string|null $pending_email_set_at
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereActivated($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereModsCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmailSetAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereWaitingEmail($value)
  */
 	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
@@ -1463,11 +1474,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $modUser
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
  * @property bool $active
- * @property string|null $ip_address
- * @property string|null $email
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereIpAddress($value)
  */
 	class UserCase extends \Eloquent {}
 }
