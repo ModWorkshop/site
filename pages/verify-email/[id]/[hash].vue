@@ -1,5 +1,5 @@
 <template>
-    <page-block :column="false">
+    <page-block>
         <flex column class="mx-auto">
             <h2 class="mx-auto">{{$t(verifying ? 'verifying_email' : 'verified_email')}}</h2>
             <a-button :loading="verifying" class="mx-auto" to="/">{{$t('back_to_home')}}</a-button>
@@ -15,7 +15,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const { user } = useStore();
+const { user, reloadUser } = useStore();
 
 const verifying = ref(true);
 
@@ -27,7 +27,7 @@ if (process.client && user) {
     try {
         await useGet(`/email/verify/${route.params.id}/${route.params.hash}`, { params: route.query});
         verifying.value = false;
-        user.activated = true;
+        reloadUser();
     } catch (e) {
         if (e instanceof FetchError && e.response) {
             showError({ statusCode: e.response.status, statusMessage: e.response.statusText });

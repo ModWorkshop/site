@@ -1,5 +1,5 @@
 <template>
-    <page-block :column="false">
+    <page-block>
         <flex column class="mx-auto">
             <template v-if="!done">
                 <h2 class="mx-auto">{{$t('linking_account')}}</h2>
