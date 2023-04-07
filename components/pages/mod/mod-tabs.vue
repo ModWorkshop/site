@@ -56,7 +56,7 @@
                         </li>
                     </ol>
                 </div>
-                <div v-if="mod.instructions">
+                <div v-if="mod.instructions || mod.instructs_template?.instructions">
                     <h2>{{$t('instructions')}}</h2>
                     <a-markdown class="mb-3" :text="(mod.instructs_template ? mod.instructs_template.instructions + '\n' : '') + mod.instructions"/>
                 </div>
