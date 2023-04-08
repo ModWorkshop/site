@@ -193,7 +193,7 @@ async function saveEditLink(error) {
                     links.value.data.push(newLink);
                 }
             } else {
-                await usePatch(`mods/${props.mod.id}/links/${link.id}`, link);
+                await usePatch(`links/${link.id}`, link);
             }
     
             if (links.value) {
