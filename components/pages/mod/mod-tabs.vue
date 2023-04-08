@@ -27,7 +27,7 @@
             <a-tab v-if="mod.license" name="license" :title="$t('license')">
                 <a-markdown :text="mod.license"/>
             </a-tab>
-            <a-tab v-if="dependencies.length || mod.instructions || mod.instructs_template?.instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
+            <a-tab v-if="dependencies.length || instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
                     <h2>{{$t('dependencies')}}</h2>
                     <ol style="padding-inline-start: 32px;">
@@ -56,9 +56,9 @@
                         </li>
                     </ol>
                 </div>
-                <div v-if="mod.instructions || mod.instructs_template?.instructions">
+                <div v-if="instructions">
                     <h2>{{$t('instructions')}}</h2>
-                    <a-markdown class="mb-3" :text="(mod.instructs_template ? mod.instructs_template.instructions + '\n' : '') + mod.instructions"/>
+                    <a-markdown class="mb-3" :text="instructions"/>
                 </div>
             </a-tab>
         </a-tabs>
@@ -83,6 +83,7 @@ const dependencies = computed(() => {
     return combinedDeps.sort((a,b) => a.order - b.order);
 });
 
+const instructions = computed(() => (props.mod.instructs_template ? props.mod.instructs_template.instructions + '\n' : '') + props.mod.instructions);
 
 const imageIndex = ref(0);
 const galleryVisible = ref(false);
