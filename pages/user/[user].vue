@@ -118,7 +118,7 @@ import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
 const triggerRefresh = useEventRaiser();
-const { config } = useRuntimeConfig();
+const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
@@ -128,7 +128,7 @@ const thumbnail = computed(() => {
     if (avatar) {
         return `${config.storageUrl}/users/images/${avatar}`;
     } else {
-        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+        return `${config.siteUrl}/assets/no-preview-dark.png`;
     }
 });
 
