@@ -114,7 +114,7 @@ class FileController extends Controller
             'image_id' => 'int|nullable|exists:images,id'
         ]);
 
-        if ($val['version'] !== $file->version) {
+        if (isset($val['version']) && $val['version'] !== $file->version) {
             $file->mod->bump();
         }
 
