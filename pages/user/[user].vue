@@ -133,7 +133,8 @@ const thumbnail = computed(() => {
 });
 
 useServerSeoMeta({
-	ogTitle: `${user.value?.name}'s Profile`,
+	ogSiteName: 'ModWorkshop - User',
+	ogTitle: user.value?.name,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });

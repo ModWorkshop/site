@@ -75,8 +75,8 @@ const thumbnail = computed(() => {
 });
 
 useServerSeoMeta({
-    ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name}` : 'ModWorkshop',
-	ogTitle: thread.value.name,
+    ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
+	ogTitle: `${thread.value.name} by ${thread.value.user.name}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });
