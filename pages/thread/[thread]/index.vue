@@ -60,9 +60,26 @@ const canDeleteComments = ref(false);
 const commentSpecialTag = ref();
 
 const { user, hasPermission, isBanned } = useStore();
+const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 const threadGame = computed(() => thread.value.forum.game);
+
+const thumbnail = computed(() => {
+    const avatar = thread.value.user.avatar;
+    if (avatar) {
+        return `${config.storageUrl}/users/avatars/${avatar}`;
+    } else {
+        return `${config.siteUrl}/assets/no-preview-dark.png`;
+    }
+});
+
+useServerSeoMeta({
+    ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name}` : 'ModWorkshop',
+	ogTitle: thread.value.name,
+	ogImage: thumbnail.value,
+	twitterCard: 'summary',
+});
 
 const canModerate = computed(() => hasPermission('manage-discussions', threadGame.value));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);
