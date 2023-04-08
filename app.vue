@@ -59,6 +59,8 @@ if (savedLocale.value) {
 
 if (savedLocale.value) {
 	Settings.defaultLocale = savedLocale.value;
+} else {
+	Settings.defaultLocale = 'en-US';
 }
 </script>
 
