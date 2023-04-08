@@ -83,6 +83,7 @@ Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
+Route::middleware('can:view,mod')->get('mods/{mod}/version', fn(Mod $mod) => $mod->version);
 Route::middleware('can:manage,mod')->group(function() {
     Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
     Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
