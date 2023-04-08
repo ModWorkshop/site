@@ -10,7 +10,7 @@
             >
                 <a-input v-model="thread.name" :label="$t('title')"/>
                 <md-editor v-model="thread.content" :label="$t('content')"/>
-                <a-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories"/>
+                <a-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories" clearable/>
                 <a-select v-model="thread.tag_ids" :options="tags?.data" multiple :label="$t('tags')"/>
                 <template v-if="canManage">
                     <a-input v-model="thread.announce" type="checkbox" :label="$t('announce')"/>
