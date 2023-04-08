@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Models\Link;
 use App\Models\Mod;
+use App\Services\APIService;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -69,14 +70,12 @@ class LinkController extends Controller
             'image_id' => 'int|nullable|exists:images,id'
         ]);
 
-        $val['label'] ??= '';
-        $val['desc'] ??= '';
-        $val['version'] ??= '';
+        APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         $user = $request->user();
         
         if (isset($link)) {
-            if ($link->version !== $val['version']) {
+            if (isset($val['version']) && $link->version !== $val['version']) {
                 $mod->bump(true);
             }
             $link->update($val);

@@ -7,6 +7,7 @@ use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Mod;
 use App\Models\Setting;
+use App\Services\APIService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -118,9 +119,7 @@ class FileController extends Controller
             $file->mod->bump();
         }
 
-        $val['label'] ??= '';
-        $val['desc'] ??= '';
-        $val['version'] ??= '';
+        APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         $file->update($val);
 
