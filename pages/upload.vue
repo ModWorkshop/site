@@ -20,16 +20,16 @@
                 />
 
                 <flex class="mx-auto">
-                    <a-button :disabled="disableCreate" @click="() => create(false)">{{$t('next')}}</a-button>
                     <a-button :disabled="disableCreate" @click="create(true)">{{$t('create_and_go')}}</a-button>
+                    <a-button :disabled="disableCreate" @click="() => create(false)">{{$t('next')}}</a-button>
                 </flex>
             </content-block>
             <content-block v-if="step == 2" gap="4">
                 <h3 class="text-center">{{$t('mod_creation_2')}}</h3>
                 <edit-mod-images v-if="mod.id" :mod="mod" light/>
                 <flex class="mx-auto">
-                    <a-button type="submit" @click="save(false, false)">{{$t('next')}}</a-button>
                     <a-button :to="`/mod/${mod.id}`">{{$t('go_to_mod_page')}}</a-button>
+                    <a-button type="submit" @click="save(false, false)">{{$t('next')}}</a-button>
                 </flex>
             </content-block>
             <content-block v-if="step == 3" gap="4">
