@@ -233,3 +233,34 @@ Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail
 Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
 Route::get('/check-reset-token', [LoginController::class, 'checkResetToken']);
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
+
+Route::get('v2API', function(Request $request) {
+    $val = $request->validate([
+        'command' => 'string',
+        'did' => 'integer',
+        'fid' => 'integer',
+        'vid' => 'string',
+    ]);
+
+    $mod = null;
+    if (isset($val['did'])) {
+        $mod = Mod::where('id', $val['did'])->first();
+    }
+
+    switch($val['command']) {
+        case 'CompareVersion':
+            return ($val['vid'] ?? null) === $mod->version ? 'true' : $mod->version;
+        case 'Version':
+            return $mod->version;
+        case 'AssocFiles':
+            $response = '';
+            foreach($mod->files as $file) {
+                $response .= '"'.$file->id.'"'.str_replace('"',"''",$file->name).'",';
+            }
+            return substr($response, 0, -1);
+        case 'DownloadFile':
+            return redirect("/files/{$val['fid']}/download");
+    }
+    echo $val['command'];
+});
