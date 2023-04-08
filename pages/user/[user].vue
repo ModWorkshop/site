@@ -115,7 +115,6 @@ import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
 import { useStore } from '~~/store';
 import { date, getTimeAgo } from '~~/utils/helpers';
-import { truncate } from '../../utils/helpers';
 
 const yesNoModal = useYesNoModal();
 const triggerRefresh = useEventRaiser();
@@ -137,7 +136,6 @@ useServerSeoMeta({
 	ogSiteName: 'ModWorkshop - User',
 	ogTitle: user.value?.name,
 	ogImage: thumbnail.value,
-    ogDescription: truncate(user.value.bio, 150),
 	twitterCard: 'summary',
 });
 

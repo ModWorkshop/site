@@ -52,7 +52,6 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Breadcrumb, Thread } from '~~/types/models';
-import { truncate } from '../../../utils/helpers';
 
 const { t } = useI18n();
 
@@ -78,7 +77,6 @@ const thumbnail = computed(() => {
 useServerSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
 	ogTitle: `${thread.value.name} by ${thread.value.user.name}`,
-    ogDescription: truncate(thread.value.content, 150),
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });
