@@ -197,3 +197,11 @@ export function clearAllCookies() {
 export function getAdminUrl(page: string, game?: Game) {
     return `${game ? `/g/${game.id}` : ''}/admin/${page}`;
 }
+
+export function truncate(str: string, length: number) {
+    if (str.length < length) {
+        return str;
+    }
+
+    return str.substring(0, length) + '...';
+}
