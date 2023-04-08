@@ -126,14 +126,13 @@ const { data: user } = await useResource<User>('user', 'users');
 const thumbnail = computed(() => {
     const avatar = user.value.avatar;
     if (avatar) {
-        return `${config.storageUrl}/users/images/${avatar}`;
+        return `${config.storageUrl}/users/avatars/${avatar}`;
     } else {
         return `${config.siteUrl}/assets/no-preview-dark.png`;
     }
 });
 
 useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${user.value?.name}`,
 	ogTitle: `${user.value?.name}'s Profile`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
