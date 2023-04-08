@@ -42,6 +42,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { colorSchemes, longExpiration } from '~~/utils/helpers';
+import { Settings } from 'luxon';
 
 const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
@@ -59,7 +60,10 @@ const langNames = {
     'de-DE': "Deutsch"
 };
 
-watch(i18n.locale, val => savedLocale.value = val);
+watch(i18n.locale, val => {
+    savedLocale.value = val;
+    Settings.defaultLocale = val;
+});
 
 watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;

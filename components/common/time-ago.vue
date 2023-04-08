@@ -10,14 +10,21 @@ const props = defineProps<{
     time?: string
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const timeAgoStr = computed(() => {
+    locale.value; //Just a hack to make it reload on language change
+
     if (props.time) {
         return getTimeAgo(props.time);        
     } else {
         return t('never');
     }
 });
-const fullDateStr = computed(() => props.time ? fullDate(props.time) : undefined);
+
+const fullDateStr = computed(() => {
+    locale.value;
+
+    return props.time ? fullDate(props.time) : undefined;
+});
 </script>
