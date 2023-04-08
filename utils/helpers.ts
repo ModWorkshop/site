@@ -57,7 +57,7 @@ export function getTimeAgo(t?: string): string {
     let timeAgo: string|null = '';
     if (t) {
         const dt = DateTime.fromISO(t);
-        timeAgo = (DateTime.now().toSeconds() - dt.toSeconds()) < 2 ? i18n.global.t('moments_ago') : dt.toRelative();
+        timeAgo = (DateTime.now().diff(dt, ['seconds']).seconds) < 2 ? i18n.global.t('moments_ago') : dt.toRelative();
     }
     
     return timeAgo || 'undefined time ago';
