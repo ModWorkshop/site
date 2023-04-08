@@ -118,10 +118,26 @@ import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
 const triggerRefresh = useEventRaiser();
+const { config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
 const { data: user } = await useResource<User>('user', 'users');
+const thumbnail = computed(() => {
+    const avatar = user.value.avatar;
+    if (avatar) {
+        return `${config.storageUrl}/users/images/${avatar}`;
+    } else {
+        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+    }
+});
+
+useServerSeoMeta({
+    ogSiteName: `ModWorkshop - ${user.value?.name}`,
+	ogTitle: `${user.value?.name}'s Profile`,
+	ogImage: thumbnail.value,
+	twitterCard: 'summary',
+});
 
 const { hasPermission, user: me } = useStore();
 
