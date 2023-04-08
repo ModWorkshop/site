@@ -54,6 +54,7 @@ const locales = computed(() => i18n.availableLocales.filter(option => i18n.local
 const langNames = {
     'en-US': "English",
     'zh-cn': '中文',
+    'es': "Español",
     'owo': 'OwO',
     'de-DE': "Deutsch"
 };
