@@ -24,7 +24,7 @@
             </tr>
         </template>
     </a-table>
-    <a-modal-form v-if="currentDep" v-model="showAddModModal" :title="$t('add_offsite_mod')" @submit="addDependency">
+    <a-modal-form v-if="currentDep" v-model="showAddModModal" :title="$t(currentDep.offsite ? 'add_offsite_mod' : 'add_mod')" @submit="addDependency">
         <template v-if="currentDep.offsite">
             <a-input v-model="currentDep.name" :label="$t('name')"/>
             <a-input v-model="currentDep.url" type="url" :label="$t('url')"/>
