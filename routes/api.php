@@ -245,21 +245,37 @@ Route::get('v2API', function(Request $request) {
 
     $mod = null;
     if (isset($val['did'])) {
-        $mod = Mod::where('id', $val['did'])->first();
+        $mod = Mod::where('id', $val['did'])->firstOrFail();
     }
 
     switch($val['command']) {
         case 'CompareVersion':
+            if (!isset($mod)) {
+                return;
+            }
+
             return ($val['vid'] ?? null) === $mod->version ? 'true' : $mod->version;
         case 'Version':
+            if (!isset($mod)) {
+                return;
+            }
+
             return $mod->version;
         case 'AssocFiles':
+            if (!isset($mod)) {
+                return;
+            }
+
             $response = '';
             foreach($mod->files as $file) {
                 $response .= '"'.$file->id.'"'.str_replace('"',"''",$file->name).'",';
             }
             return substr($response, 0, -1);
         case 'DownloadFile':
+            if (!isset($val['fid'])) {
+                return;
+            }
+
             return redirect("/files/{$val['fid']}/download");
     }
     echo $val['command'];
