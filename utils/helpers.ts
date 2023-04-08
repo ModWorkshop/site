@@ -5,7 +5,6 @@ import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
 import { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
-import { PublicRuntimeConfig } from '@nuxt/schema';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -55,9 +54,10 @@ export const colorSchemes = [
  * Converts ISO8601 date to relative 'time ago' format.
  */
 export function getTimeAgo(t?: string): string {
-    let timeAgo = '';
+    let timeAgo: string|null = '';
     if (t) {
-        timeAgo = DateTime.fromISO(t).toRelative() || '';
+        const dt = DateTime.fromISO(t);
+        timeAgo = (DateTime.now().second - dt.second) < 2 ? i18n.global.t('moments_ago') : dt.toRelative();
     }
     
     return timeAgo || 'undefined time ago';

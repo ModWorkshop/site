@@ -191,6 +191,7 @@ expired: "Expired",
 select_placeholder: 'Select...',
 made_with_love: "Made with ❤ by {luffy}",
 operated_by: "Operated by {company}",
+moments_ago: "Moments ago",
 
 //Discussions//
 poster: 'Poster',
