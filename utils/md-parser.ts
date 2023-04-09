@@ -122,7 +122,7 @@ function makeIFrame(src: string, w = 560, h = 315) {
 		frameborder="0"
 		allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 		allowfullscreen
-	/>`;
+	/></iframe>`;
 }
 
 function parseMedia(wholeMatch, altText, linkId, url) {
