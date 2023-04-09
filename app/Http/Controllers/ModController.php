@@ -158,16 +158,27 @@ class ModController extends Controller
         
         $publish = Arr::pull($val, 'publish', false);
         $sendForApproval = Arr::pull($val, 'send_for_approval', false);
+
+        $categoryId = $val['category_id'] ?? null;
+        $gameId = $game?->id ?? $val['game_id'] ?? $mod?->game_id;
+        $category = null;
+
+        if (isset($val['category_id'])) {
+            $category = Category::find($categoryId);
+        }
+
         if ($sendForApproval) {
             $val['approved'] = null;
         } else {
-            $categoryId = $val['category_id'] ?? null;
             if (isset($categoryId) && (!isset($mod) || $mod->category_id !== $categoryId)) {
-                $category = Category::find($categoryId);
                 if ($category->approval_only) {
                     $val['approved'] = null;
                 }
             }
+        }
+
+        if (isset($category) && $category->game_id !== $gameId) {
+            abort(409, 'Invalid category. It must belong to the game.');
         }
 
         if (isset($mod)) {

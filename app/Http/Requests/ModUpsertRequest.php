@@ -24,7 +24,7 @@ class ModUpsertRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:150',
+            'name' => 'string|min:3|max:100',
             'desc' => 'string|min:3|max:30000',
             'license' => 'string|nullable|max:30000',
             'changelog' => 'string|nullable|max:30000',
@@ -35,6 +35,7 @@ class ModUpsertRequest extends FormRequest
             'visibility' => 'nullable|in:public,private,unlisted',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
+            'game_id' => 'integer|min:1|nullable|exists:games,id',
             'banner_id' => 'integer|min:1|nullable|exists:images,id',
             'instructs_template_id' => 'integer|min:1|nullable|exists:instructs_templates,id',
             'tag_ids' => 'array|nullable',
