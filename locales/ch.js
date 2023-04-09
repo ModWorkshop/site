@@ -113,6 +113,7 @@ editing: '编辑中',
 replying: '回复中',
 read_all_replies: '已读所有回复',
 comments: '评论',
+replies: "Replies",
 docs: '文件',
 archive: '存档',// 暂译,测试后可能需要修改 -译者注 
 unarchive: '取消存档',// 暂译,测试后可能需要修改 -译者注 
