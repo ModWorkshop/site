@@ -197,7 +197,7 @@ async function onClick() {
     notif.value.seen = true;
 
     if (!notif.value.seen && notificationCount.value) {
-        store.getNotificationCount();
+        notificationCount.value = Math.max(0, notificationCount.value-1);
     }
 
     const click = defintion.value.onClick;

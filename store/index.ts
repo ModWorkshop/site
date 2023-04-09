@@ -91,12 +91,8 @@ export const useStore = defineStore('main', {
             this.reportsCount = siteData.reports_count ?? null;
             this.waitingCount = siteData.waiting_count ?? null;
 
-            console.log('Trying to reload token');
-
             if (typeof(redirect) == 'string') {
-                console.log('Trying to use router');
-                const router = useRouter();
-                router.push(redirect);
+                useRouter().push(redirect);
             }
         },
 
@@ -116,20 +112,30 @@ export const useStore = defineStore('main', {
             this.user = null;
         },
 
-        async getNotifications(page: 1, limit = 40) {
+        async getNotifications(page = 1, limit = 40) {
             this.notifications = await useGetMany<Notification>('/notifications', { params: { page, limit } });
         },
 
-        async getNotificationCount(first = false) {
-            if (this.user && !first) {
-                this.notificationCount = await useGet<number>('/notifications/unseen');
+        async getNotificationCount() {
+            this.notificationCount = await useGet<number>('/notifications/unseen');
+        },
+
+        async reloadNotifications(first = false) {
+            if (this.user) {
+                if (!first) {
+                    await this.getNotificationCount();
+                }
+                if (this.notifications) {
+                    await this.getNotifications();
+                }
             }
 
             if (lastTimeout) {
                 clearTimeout(lastTimeout);
             }
+
             if (process.client) { //!!Avoid loooping on server side!!
-                lastTimeout = setTimeout(() => this.getNotificationCount(), 300 * 1000);
+                lastTimeout = setTimeout(() => this.reloadNotifications(), 60 * 1000);
             }
         },
 
