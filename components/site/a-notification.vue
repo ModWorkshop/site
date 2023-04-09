@@ -176,6 +176,11 @@ const typeDefintions = {
 
 async function markAsSeen() {
     await usePatch(`/notifications/${notif.value.id}`, { seen: true });
+
+    if (!notif.value.seen && notificationCount.value) {
+        notificationCount.value = Math.max(0, notificationCount.value-1);
+    }
+
     notif.value.seen = true;
 }
 
@@ -188,17 +193,7 @@ async function deleteNotification(onlyVisually=false) {
 }
 
 async function onClick() {
-    if (!notif.value.seen) {
-        await usePatch(`notifications/${notif.value.id}`, {
-            seen: true
-        });
-    }
-
-    notif.value.seen = true;
-
-    if (!notif.value.seen && notificationCount.value) {
-        notificationCount.value = Math.max(0, notificationCount.value-1);
-    }
+    await markAsSeen();
 
     const click = defintion.value.onClick;
     
