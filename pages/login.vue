@@ -6,15 +6,20 @@
             <content-block column gap="3">
                 <a-input v-model="user.email" :label="$t('email')" type="email"/>
                 <a-input v-model="user.password" :label="$t('password')" type="password"/>
-                <NuxtLink to="forgot-password">{{$t('forgot_password_button')}}</NuxtLink>
-                <flex column gap="2">
-                    {{$t('login_using_services')}}
-                    <the-social-logins/>
+                <flex>
+                    <a-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
+                    <NuxtLink to="forgot-password" class="ml-auto">{{$t('forgot_password_button')}}</NuxtLink>
                 </flex>
-                <a-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
                 <div>
                     <a-button type="submit" :disabled="!canLogin">{{$t('login')}}</a-button>
                 </div>
+                <flex column>
+                    <NuxtLink class="mt-2" to="register">{{$t('dont_have_account')}}</NuxtLink>
+                    <flex column>
+                        {{$t('login_using_services')}}
+                        <the-social-logins/>
+                    </flex>
+                </flex>
             </content-block>
         </a-form>    
     </page-block>

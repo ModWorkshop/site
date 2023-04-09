@@ -39,13 +39,15 @@
                     </flex>
                     <small>{{$t('password_guide')}}</small>
                 </flex>
-                <flex column gap="2">
-                    {{$t('login_using_services')}}
-                    <the-social-logins/>
-                </flex>
                 <div>
                     <a-button type="submit" :loading="loading" :disabled="!canRegister">{{$t('register')}}</a-button>
                 </div>
+
+                <NuxtLink class="mt-2" to="register">{{$t('already_have_account')}}</NuxtLink>
+                <flex column>
+                    {{$t('login_using_services')}}
+                    <the-social-logins/>
+                </flex>
             </content-block>
         </a-form>    
     </page-block>

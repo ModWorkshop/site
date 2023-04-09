@@ -437,6 +437,8 @@ request_my_data_desc: `You can download a JSON file that lists all of your mods,
 This may be slow.`,
 forgot_password_button: "Forgot Password?",
 forgot_password: "Forgot Password",
+already_have_account: "Already have an account? Sign in here.",
+dont_have_account: "Don't have an account? Create one here.",
 reset_password: "Reset Password",
 invalid_user: 'Invalid User',
 api_access_desc: `Mods are fun and all, but what happens once you want to implement some way of updating your mod?
@@ -464,6 +466,7 @@ show_last_updated: "Show Last Updated Games",
 are_you_sure_role: "Are you sure you want give this role? The role is not a vanity role!",
 resend: "Resend",
 pending_email: "You've requested to change your email to: {0}. Please check your inbox for the verification link.",
+
 
 //Games//
 game_preferences: 'Game Preferences',
