@@ -184,7 +184,7 @@ watch(showNotifications, async () => {
 watch(search, val => {
     unlockedOwO.value = val.toLowerCase() === 'owo';
     if (val) {
-    showSearch.value = true;
+        showSearch.value = true;
     }
 });
 
