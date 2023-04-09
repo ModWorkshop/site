@@ -4,36 +4,33 @@
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
         </template>
-        <flex class="my-auto" grow wrap>
+        <flex class="my-auto overflow-hidden" grow wrap>
             <component 
                 :is="defintion.component"
                 v-if="defintion.component && notifiable"
                 :notification="notification"
                 :notifiable="notifiable"
             />
-            <div v-else>
-                <i18n-t :keypath="`notification_${notification.type}`" tag="span" class="whitespace-pre">
-                    <template #user>
-                        <a-notification-slot type="user" :object="fromUser"/>
-                    </template>
-                    <template #context>
-                        <a-notification-slot :type="notification.context_type" :object="context"/>
-                    </template>
-                    <template #notifiable>
-                        <a-notification-slot :type="notification.notifiable_type" :object="notifiable"/>
-                    </template>
-                    <template #extra>
-                        <a-notification-slot v-if="defintion.extra" :type="defintion.extra.type" :object="defintion.extra.object"/>
-                        <span v-else>{{'not_available'}}</span>
-                    </template>
-                </i18n-t>
-                <br>
-                <time-ago :time="notification.created_at"/>
-            </div>
-            <flex class="ml-auto my-auto">
-                <a-button v-if="!notification.seen" icon="check" :title="$t('mark_as_read')" @click.prevent="markAsSeen"/>
-                <a-button icon="mdi:trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
-            </flex>
+            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" style="word-wrap: anywhere;">
+                <template #user>
+                    <a-notification-slot type="user" :object="fromUser"/>
+                </template>
+                <template #context>
+                    <a-notification-slot :type="notification.context_type" :object="context"/>
+                </template>
+                <template #notifiable>
+                    <a-notification-slot :type="notification.notifiable_type" :object="notifiable"/>
+                </template>
+                <template #extra>
+                    <a-notification-slot v-if="defintion.extra" :type="defintion.extra.type" :object="defintion.extra.object"/>
+                    <span v-else>{{'not_available'}}</span>
+                </template>
+            </i18n-t>
+            <time-ago :time="notification.created_at"/>
+        </flex>
+        <flex class="ml-auto my-auto">
+            <a-button v-if="!notification.seen" icon="check" :title="$t('mark_as_read')" @click.prevent="markAsSeen"/>
+            <a-button icon="mdi:trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
         </flex>
     </component>
 </template>
