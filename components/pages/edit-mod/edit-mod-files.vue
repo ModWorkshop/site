@@ -14,7 +14,8 @@
             max-files="25" 
             :files="files?.data ?? []" 
             :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)" 
-            url="files" 
+            url="files"
+            @file-uploaded="updateHasDownload"
             @file-deleted="fileDeleted"
         >
             <template #headers>
@@ -157,6 +158,11 @@ async function saveEditFile(error) {
     }
 }
 
+function updateHasDownload() {
+    props.mod.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
+    ignoreChanges?.();
+}
+
 function editLink(link: Link) {
     showEditLink.value = true;
     currentLink.value = link;
@@ -166,7 +172,7 @@ async function deleteLink(link: Link) {
     await useDelete(`links/${link.id}`);
     links.value!.data = links.value!.data.filter(l => l.id !== link.id);
 
-    ignoreChanges?.();
+    updateHasDownload();
 }
 
 function createNewLink() {
@@ -204,9 +210,11 @@ async function saveEditLink(error) {
                 }
             }
             
-            ignoreChanges?.();
+            
+            updateHasDownload();
             showEditLink.value = false;
         }
+
     } catch (e) {
         error(e);
     }
@@ -217,7 +225,7 @@ function fileDeleted(file: File) {
         setPrimaryDownload();
     }
 
-    ignoreChanges?.();
+    updateHasDownload();
 }
 
 function setPrimaryDownload(type?: 'file'|'link', download?: File|Link) {
