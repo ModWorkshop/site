@@ -57,6 +57,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     color: #fff;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 0.5rem 0.75rem;
     border: 1px solid transparent;
     border-radius: var(--border-radius);
