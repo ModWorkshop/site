@@ -2,7 +2,7 @@
     <flex column gap="3" class="mod-info content-block self-start">
         <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
         <flex column class="p-4 pt-0" gap="4">
-            <flex class="text-xl" gap="2">
+            <flex class="text-lg" gap="2">
                 <span>
                     <a-icon icon="mdi:heart"/> {{likes}}
                 </span>
