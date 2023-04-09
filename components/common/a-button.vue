@@ -1,11 +1,15 @@
 <template>
     <NuxtLink v-if="toOrHref && !isDisabled" :to="toOrHref" :class="clss" :download="download">
-        <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
-        <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        <span>
+            <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
+            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        </span>
     </NuxtLink>
     <button v-else :disabled="isDisabled" :class="clss" :type="type"> 
-        <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
-        <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        <span>
+            <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
+            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+        </span>
     </button>
 </template>
 
@@ -51,6 +55,8 @@ const isDisabled = computed(() => props.disabled || props.loading);
 <style scoped>
 .button {
     color: #fff;
+    display: inline-flex;
+    align-items: center;
     padding: 0.5rem 0.75rem;
     border: 1px solid transparent;
     border-radius: var(--border-radius);
@@ -138,7 +144,11 @@ const isDisabled = computed(() => props.disabled || props.loading);
     background-color: var(--primary-hover-color);
 }
 
-.button-danger:hover:enabled {
+.button-danger:hover:enabled, a.button-danger:hover {
     background-color: var(--danger-hover-color);
+}
+
+.button-secondary:hover:enabled, a.button-secondary:hover {
+    background-color: var(--secondary-hover-color);
 }
 </style>

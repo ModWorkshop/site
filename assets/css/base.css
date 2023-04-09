@@ -137,6 +137,7 @@ html.dark {
     --secondary-text-color: #d8d8d8;
     --text-inactive: #6d6d6d;
     --secondary-color: #5f5f5f;
+    --secondary-hover-color: #737373;
     --disabled-color: #3c3c3c;
     --input-bg-color: #17191c;
     --input-border-color: #393e46;
@@ -162,6 +163,7 @@ html.light {
     --secondary-text-color: #4d4d4d;
     --text-inactive: #6d6d6d;
     --secondary-color: #5f5f5f;
+    --secondary-hover-color: #595959;
     --disabled-color: #3c3c3c;
     --input-bg-color: #c9c9c9;
     --input-border-color: #adadad;

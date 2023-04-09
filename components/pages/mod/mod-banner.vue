@@ -96,7 +96,7 @@ const download_type = computed(() => {
 const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${download.value!.id}`);
 
 async function toggleLiked() {
-    if (props.static) {
+    if (props.static || !user) {
         return;
     }
 
