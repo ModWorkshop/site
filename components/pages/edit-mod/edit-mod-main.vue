@@ -4,15 +4,13 @@
         <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
     </a-alert>
 
-    <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required :desc="$t('mod_name_desc')"/>
+    <a-input v-model="mod.name" :label="$t('name')" maxlength="100" minlength="3" required :desc="$t('mod_name_desc')"/>
 
     <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-    <flex v-if="categories" column gap="2">
-        <a-input :label="$t('category')">
-            <category-tree v-model="mod.category_id" style="max-height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
-        </a-input>
-    </flex>
+    <a-input v-if="categories?.data.length" :label="$t('category')">
+        <category-tree v-model="mod.category_id" style="max-height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
+    </a-input>
 
     <a-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
 

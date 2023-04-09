@@ -34,6 +34,8 @@ const { t } = useI18n();
 
 const isModerator = computed(() => hasPermission('manage-mods', props.mod.game));
 
+watch(() => props.mod.game_id, () => props.mod.category_id = undefined);
+
 const { data: games } = await useFetchMany<Game>('games', { immediate: isModerator.value });
 
 function deleteMod() {

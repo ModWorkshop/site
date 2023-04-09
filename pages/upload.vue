@@ -6,13 +6,13 @@
             <content-block v-if="step == 1">
                 <h3 class="text-center">{{$t('mod_creation_1')}}</h3>
     
-                <a-input v-model="mod.name" :label="$t('name')" maxlength="150" minlength="3" required :desc="$t('mod_name_desc')"/>
+                <a-input v-model="mod.name" :label="$t('name')" maxlength="100" minlength="3" required :desc="$t('mod_name_desc')"/>
                 <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
                 
                 <a-game-select v-if="!gameName" v-model="mod.game_id" :label="$t('game')"/>
 
                 <a-category-select 
-                    v-if="categories"
+                    v-if="categories?.data.length"
                     v-model="mod.category_id"
                     :max-height="200"
                     :label="$t('category')"
@@ -116,10 +116,11 @@ const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(
     immediate: !!gameId.value
 });
 
-watch(() => mod.value.game_id, val => {
+watch(gameId, val => {
     if (val) {
         refetchCats();
     }
+    mod.value.category_id = undefined;
 });
 
 async function save(goToPage: boolean, publishMod?: boolean) {
