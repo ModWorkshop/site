@@ -228,6 +228,13 @@ class ModController extends Controller
             $mod->tags()->sync($tags);
         }
 
+        $currentTags = $mod->tags;
+        foreach ($currentTags as $tag) {
+            if (isset($tag->game_id) && $tag->game_id !== $mod->game_id) {
+                $mod->tags()->detach($tag->id);
+            }
+        }
+
         $mod->refresh();
         $mod->withAllRest();
 
