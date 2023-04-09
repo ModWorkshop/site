@@ -126,12 +126,16 @@ function switchToFiles() {
 .mod-data {
     height: 100%;
     padding: 0.75rem;
-    color: white;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
 }
 
 .light .mod-banner {
-    box-shadow: inset 0px 0px 30px 20px rgba(0,0,0, 0.2);
+    box-shadow: inset 0px 0px 30px 20px rgba(223, 223, 223, 0.2);
+    text-shadow: 2px 1px 3px rgb(88, 88, 88);
+}
+
+.light .mod-data {
+    background: linear-gradient(to right, rgba(128, 128, 128, 0.45), rgba(128, 128, 128, 0));
 }
 
 .mod-data-top {

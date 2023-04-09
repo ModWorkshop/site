@@ -35,10 +35,6 @@ defineProps({
     border-spacing: 0rem 0.25rem;
     white-space: nowrap;
 }
-
-.table-bg {
-    background-color: var(--alt-content-bg-color);
-}
 </style>
 
 <style>
