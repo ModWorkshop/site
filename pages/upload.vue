@@ -119,9 +119,11 @@ const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(
 watch(gameId, val => {
     if (val) {
         refetchCats();
+    } else {
+        categories.value = null;
     }
     mod.value.category_id = undefined;
-});
+}, { immediate: true });
 
 async function save(goToPage: boolean, publishMod?: boolean) {
     step.value = 3;
