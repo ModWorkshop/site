@@ -110,8 +110,7 @@ watch(() => mod.value.game, () => {
 
 async function publish() {
     try {
-        const _mod = await usePatch<Mod>(`mods/${mod.value.id}`, { publish: true });
-        mod.value.published_at = _mod.published_at;
+        mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, { publish: true });
     } catch (error) {
         if (error instanceof FetchError) {
             showErrorToast(error);
