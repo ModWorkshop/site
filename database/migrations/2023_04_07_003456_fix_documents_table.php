@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('documents', function (Blueprint $table) {
+            $table->dropForeign('documents_last_user_id_foreign');
             $table->bigInteger('last_user_id')->unsigned()->nullable()->change();
             $table->foreign('last_user_id')->references('id')->on('users')->nullOnDelete();
         });
