@@ -40,9 +40,9 @@ export default async function<T = unknown>(url: string, options?) {
 
     const res = await $fetch<T>(url, {
         baseURL: process.client ? config.apiUrl : innerApiUrl,
+        ...options,
         headers: headersToSend,
         credentials: "include", //Required as it doesn't send cookies and stuff otherwise
-        ...options,
         params: {}
     });
 

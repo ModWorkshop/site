@@ -86,6 +86,7 @@
         <a-input v-model="currentFile.name" :label="$t('name')"/>
         <a-input v-model="currentFile.label" :label="$t('label')"/>
         <a-input v-model="currentFile.version" :label="$t('version')"/>
+        <a-input v-model:elementRef="changeFile" type="file" :label="$t('file')"/>
         <a-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
                 <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />
@@ -115,6 +116,7 @@ const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
+const changeFile = ref<HTMLInputElement>();
 const canModerate = computed(() => hasPermission('manage-mods', props.mod.game));
 
 const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
@@ -136,14 +138,29 @@ const ignoreChanges = inject<() => void>('ignoreChanges');
 function editFile(file: File) {
     showEditFile.value = true;
     currentFile.value = file;
+    if (changeFile.value) {
+        changeFile.value.value = '';
+    }
 }
 
 async function saveEditFile(error) {
     try {
         const file = currentFile.value;
         if (file) {
-            await usePatch(`files/${file.id}`, file);
-    
+            const formData = new FormData();
+            const uploadFile = changeFile.value?.files?.[0];
+            if (uploadFile) {
+                formData.append('change_file', uploadFile);
+            }
+            
+            for (const [key, value] of Object.entries(file)) {
+                formData.append(key, value ? value : '');
+            }
+
+            await usePatch(`files/${file.id}`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
             for (const f of files.value!.data) {
                 if (f.id === file.id) {
                     Object.assign(f, file);
