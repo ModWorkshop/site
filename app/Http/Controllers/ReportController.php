@@ -23,7 +23,7 @@ class ReportController extends Controller
     public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
-            'all' => 'in:true,false|nullable'
+            'all' => 'boolean|nullable'
         ]);
 
         return JsonResource::collection(Report::queryGet($val, function($q, $val) use($game) {

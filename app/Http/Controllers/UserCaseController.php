@@ -29,7 +29,7 @@ class UserCaseController extends Controller
     {
         $val = $request->validate([
             'user_id' => 'int|min:0|nullable|exists:users,id',
-            'all' => 'in:true,false|nullable'
+            'all' => 'boolean|nullable'
         ]);
 
         return JsonResource::collection(UserCase::with('modUser')->queryGet($val, function($q, $val) use($game) {

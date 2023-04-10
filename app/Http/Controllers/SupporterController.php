@@ -65,7 +65,7 @@ class SupporterController extends Controller
     {
         $val = $request->validate([
             'expire_date' => 'date|nullable',
-            'is_cancelled' => 'in:true,false|nullable'
+            'is_cancelled' => 'boolean|nullable'
         ]);
 
         $supporter->update($val);
