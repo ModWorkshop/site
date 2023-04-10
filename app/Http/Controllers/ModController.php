@@ -36,9 +36,8 @@ class ModController extends Controller
      * Mods
      * 
      * Returns many mods, has a few options for searching the right mods
-     *
-     * @param ModUpsertRequest $request
-     * return \Illuminate\Http\Response
+     * 
+     * 
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
@@ -55,7 +54,11 @@ class ModController extends Controller
     }
 
     /**
+     * Liked Mods
+     * 
      * Returns mods the user liked
+     * 
+     * @authenticated
      */
     public function liked(GetModsRequest $request)
     {
@@ -64,12 +67,16 @@ class ModController extends Controller
             $q->whereHas('liked');
             ModService::filters($q, $val);
         }, true);
-        return ModResource::collection($mods);
 
+        return ModResource::collection($mods);
     }
 
     /**
+     * Waiting for approval
+     * 
      * Returns mods waiting for approval (approval == null)
+     * 
+     * @authenticated
      */
     public function waiting(GetModsRequest $request, Game $game=null)
     {
@@ -86,14 +93,9 @@ class ModController extends Controller
     }
 
     /**
-     * Mod
+     * Get Mod
      * 
      * Returns a single mod
-     * 
-     * @urlParam mod integer required The ID of the mod
-     *
-     * @param Mod $mod
-     * @return \Illuminate\Http\Response
      */
     public function show(Game $game=null, Mod $mod)
     {
@@ -108,10 +110,6 @@ class ModController extends Controller
      * Updates data of a mod
      * 
      * @authenticated
-     * 
-     * @param Request $request
-     * @param Mod|null $mod
-     * @return \Illuminate\Http\Response
      */
     public function update(ModUpsertRequest $request, Game $game=null, Mod $mod=null)
     {
@@ -251,9 +249,6 @@ class ModController extends Controller
      * Creates a new mod
      * 
      * @authenticated
-     *
-     * @param ModUpsertRequest $request
-     * @return \Illuminate\Http\Response
      */
     public function store(ModUpsertRequest $request, Game $game)
     {
@@ -261,10 +256,9 @@ class ModController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Delete Mod
+     * 
+     * @authenticated
      */
     public function destroy(Mod $mod, Game $game=null)
     {
@@ -272,12 +266,10 @@ class ModController extends Controller
     }
 
     /**
+     * Register a View
+     * 
      * Registers a view for a mod, doesn't let you 'view' it twice
      * Works with guests
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
      */
     public function registerView(Request $request, Mod $mod)
     {
@@ -309,12 +301,10 @@ class ModController extends Controller
     }
 
     /**
+     * Register a Download
+     * 
      * Registers a download for a mod, doesn't let you 'download' it twice
      * Works with guests
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
      */
     public function registerDownload(Request $request, Mod $mod)
     {
@@ -346,11 +336,11 @@ class ModController extends Controller
     }
 
     /**
+     * Toggle Like
+     * 
      * Toggles the state of the like of the mod
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
+     * 
+     * @authenticated
      */
     public function toggleLike(Request $request, Mod $mod)
     {
@@ -384,16 +374,17 @@ class ModController extends Controller
     }
 
     /**
+     * Transfer Ownership
+     * 
      * Creates a transfer request, only once a user accepts can the mod be fully transfered. 
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
+     * 
+     * @authenticated
      */
     public function transferOwnership(Request $request, Mod $mod)
     {
         $val = $request->validate([
             'owner_id' => 'integer|required|min:1|exists:users,id',
+            // Which level to keep the owner as. If null, won't keep the owner as a member.
             'keep_owner_level' => 'nullable|in:collaborator,maintainer,viewer,contributor'
         ]);
 
@@ -427,11 +418,9 @@ class ModController extends Controller
     }
 
     /**
-     * Undocumented function
-     *
-     * @param Request $request
-     * @param Mod $mod
-     * @return void
+     * Accept Transfer Ownership Request
+     * 
+     * @authenticated
      */
     public function acceptTransferRequest(Request $request, Mod $mod)
     {
@@ -465,6 +454,11 @@ class ModController extends Controller
         Notification::deleteRelated($user, 'membership_request'); //Just to be sure
     }
 
+    /**
+     * Cancel Transfer Ownership Request
+     * 
+     * @authenticated
+     */
     public function cancelTransferRequest(Request $request, Mod $mod)
     {
         $transferRequest = $mod->transferRequest;
@@ -477,6 +471,13 @@ class ModController extends Controller
         Notification::deleteRelated($mod, 'transfer_ownership');
     }
 
+    /**
+     * Approve Mod
+     * 
+     * Approves a waiting for approval mod.
+     * 
+     * @authenticated
+     */
     public function approve(Request $request, Mod $mod)
     {
         $val = $request->validate([
@@ -506,6 +507,11 @@ class ModController extends Controller
         }
     }
 
+    /**
+     * Suspend Mod
+     * 
+     * @authenticated
+     */
     public function suspend(Request $request, Mod $mod)
     {
         $val = $request->validate([
@@ -556,7 +562,11 @@ class ModController extends Controller
     }
 
     /**
-     * Reports the resource for moderators to look at.
+     * Report Mod
+     * 
+     * Reports the mod for moderators to look at it.
+     * 
+     * @authenticated
      */
     public function report(Request $request, Mod $mod)
     {

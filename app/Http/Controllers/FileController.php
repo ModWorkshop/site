@@ -24,12 +24,12 @@ class FileController extends Controller
 {
     public function __construct() {
         $this->authorizeResource([File::class, 'mod'], "file, mod");
-
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Get Mod Files
+     * 
+     * Returns a list of files of a mod.
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
@@ -37,10 +37,11 @@ class FileController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Upload Mod File
+     * 
+     * Upload a new file to a mod.
+     * 
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -69,10 +70,9 @@ class FileController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
+     * Get File
+     * 
+     * Returns a file. If the mod it belongs to is accessible.
      */
     public function show(File $file)
     {
@@ -80,11 +80,9 @@ class FileController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
+     * Update File
+     * 
+     * @authenticated
      */
     public function update(Request $request, File $file)
     {
@@ -122,10 +120,9 @@ class FileController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete File
      *
-     * @param  \App\Models\File  $file
-     * @return \Illuminate\Http\Response
+     * @authenticated
      */
     public function destroy(File $file)
     {
@@ -137,8 +134,6 @@ class FileController extends Controller
      * Download File
      * 
      * Begins a download of a file
-     *
-     * @return void
      */
     public function downloadFile(File $file, Mod $mod=null)
     {
@@ -146,10 +141,9 @@ class FileController extends Controller
     }
 
     /**
-     * Deletes all files of a mod
+     * Deletes All Mod FIles
      *
-     * @param Mod $mod
-     * @return void
+     * @authenticated
      */
     public function deleteAllFiles(Mod $mod)
     {

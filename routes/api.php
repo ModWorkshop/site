@@ -36,6 +36,7 @@ use App\Http\Controllers\ThreadCommentsController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TokenController;
 use App\Http\Resources\UserResource;
 use App\Models\Mod;
 use App\Models\Report;
@@ -59,25 +60,24 @@ use Illuminate\Support\Facades\Route;
  */
 APIService::resource('files', FileController::class, 'mods');
 APIService::resource('images', ImageController::class, 'mods');
-Route::middleware('can:update,mod')->group(function() {
-    Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
-    Route::delete('mods/{mod}/images', [ImageController::class, 'deleteAllImages']);
-});
-
-Route::middleware('can:super-update,mod')->group(function() {
-    Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
-    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
-});
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 
 //General mods
 APIService::resource('links', LinkController::class, 'mods');
+APIService::gameResource('mods', ModController::class);
+Route::middleware('can:update,mod')->group(function() {
+    Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
+    Route::delete('mods/{mod}/images', [ImageController::class, 'deleteAllImages']);
+});
+Route::middleware('can:super-update,mod')->group(function() {
+    Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
+    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
+});
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/{member}/accept', [ModMemberController::class, 'accept']);
 Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
-APIService::gameResource('mods', ModController::class);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
