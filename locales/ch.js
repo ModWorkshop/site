@@ -328,6 +328,19 @@ already_sent_transfer: `你已向此用户发起转让模组请求: {user}
 如果您想将其转让给其他人，或改变主意了，可以取消请求。
 `,
 transfer_keep_as_member: "保留模组制作成员身份",// 暂译,测试后可能需要修改 -译者注
+next: "Next",
+skip: "Skip",
+go_to_mod_page: "Go to Mod Page",
+create_and_go: "Create and Go to Mod Page",
+publish_mod_and_go: "Publish and Go to Mod Page",
+mod_creation_1: `First things first, let's set-up the basics.`,
+mod_creation_2: `Next, upload some screenshots that show your mod in action ✨`,
+mod_creation_3: `Finally, let's set-up downloads.`,
+publish_mod: "Publish Mod",
+finish: "Finish",
+publish_mod_desc: "Your mod is not published yet. In order for others to see it, it must be published.",
+links_help: "Click on the plus button to add links",
+upload_file: "File",
 
 //User//
 online: '在线',

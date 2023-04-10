@@ -86,7 +86,7 @@
         <a-input v-model="currentFile.name" :label="$t('name')"/>
         <a-input v-model="currentFile.label" :label="$t('label')"/>
         <a-input v-model="currentFile.version" :label="$t('version')"/>
-        <a-input v-model:elementRef="changeFile" type="file" :label="$t('file')"/>
+        <a-input v-model:elementRef="changeFile" type="file" :label="$t('upload_file')"/>
         <a-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
                 <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />

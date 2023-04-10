@@ -340,6 +340,7 @@ publish_mod: "Publish Mod",
 finish: "Finish",
 publish_mod_desc: "Your mod is not published yet. In order for others to see it, it must be published.",
 links_help: "Click on the plus button to add links",
+upload_file: "File",
 
 //User//
 online: 'En Linea',
