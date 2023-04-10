@@ -4,12 +4,14 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\Mod;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Visibility;
 use Arr;
 use Auth;
 use DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\UploadedFile;
 use Log;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -157,5 +159,33 @@ class ModService {
                 });
             }
         });
+    }
+
+    /**
+     * Uploads a file while checking if the mod didn't exceed the allowed size.
+     */
+    public static function attemptUpload(Mod $mod, UploadedFile $file)
+    {
+        $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
+
+        $fileSize = $file->getSize();
+
+        $files = $mod->files;
+        $accumulatedSize = $fileSize;
+        if ($files) {
+            foreach ($files as $f) {
+                $accumulatedSize += $f->size;   
+            }
+        }
+
+        if ($accumulatedSize > $storageSize) {
+            abort(406, 'Reached maximum allowed storage usage for the mod!');
+        }
+
+        $fileType = $file->extension();
+        $fileName = Auth::user()->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
+        $file->storePubliclyAs('mods/files', $fileName);
+
+        return [$file, $fileName];
     }
 }

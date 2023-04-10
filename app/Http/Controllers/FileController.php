@@ -8,9 +8,12 @@ use App\Models\File;
 use App\Models\Mod;
 use App\Models\Setting;
 use App\Services\APIService;
+use App\Services\ModService;
+use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\UploadedFile;
 use Log;
 use Storage;
 
@@ -42,42 +45,20 @@ class FileController extends Controller
     public function store(Request $request, Mod $mod)
     {
         $maxSize = Setting::getValue('max_file_size');
-        $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
 
         $val = $request->validate([
-            'file' => "required|max:{$maxSize}"
+            'file' => "required|file|max:{$maxSize}"
         ]);
 
-        /**
-         * @var UploadedFile $file
-         */
-        $file = $val['file'];
-        $fileSize = $file->getSize();
-
-        $files = $mod->files;
-        $accumulatedSize = $fileSize;
-        if ($files) {
-            foreach ($files as $f) {
-                $accumulatedSize += $f->size;   
-            }
-        }
-
-        if ($accumulatedSize > $storageSize) {
-            abort(406, 'Reached maximum allowed storage usage for the mod!');
-        }
-
-        $user = $request->user();
-        $fileType = $file->extension();
-        $fileName = $user->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
-        $file->storePubliclyAs('mods/files', $fileName);
+        [$uploadedFile, $name] = ModService::attemptUpload($mod, $val['file']);
         
         $file = $mod->files()->create([
-            'name' => $file->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
+            'name' => $uploadedFile->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
             'desc' => '',
-            'user_id' => $user->id,
-            'file' => $fileName,
-            'type' => $fileType,
-            'size' => $fileSize
+            'user_id' => $this->user()->id,
+            'file' => $name,
+            'type' => $uploadedFile->getType(),
+            'size' => $uploadedFile->getSize()
         ]);
 
         $mod->refresh();
@@ -107,19 +88,33 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
+        $maxSize = Setting::getValue('max_file_size');
+
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255',
-            'image_id' => 'int|nullable|exists:images,id'
+            'image_id' => 'int|nullable|exists:images,id',
+            'change_file' => "nullable|file|max:{$maxSize}"
         ]);
+
+        APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         if (isset($val['version']) && $val['version'] !== $file->version) {
             $file->mod->bump();
         }
 
-        APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
+        if (isset($val['change_file'])) {
+            [$uploadFile, $name] = ModService::attemptUpload($file->mod, Arr::pull($val, 'change_file'));
+
+            //Delete old file
+            Storage::delete('mods/files/'.$file->file);
+
+            $val['file'] = $name;
+            $val['type'] = $uploadFile->getType();
+            $val['size'] = $uploadFile->getSize();
+        }
 
         $file->update($val);
 
