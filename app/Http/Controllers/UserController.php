@@ -113,7 +113,7 @@ class UserController extends Controller
         $passwordRule = APIService::getPasswordRule();
 
         $val = $request->validate([
-            'name' => 'string|nullable|min:3|max:100',
+            'name' => 'string|nullable|min:3|max:30',
             'unique_name' => 'alpha_dash|nullable|min:3|max:50',
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
             'custom_color' => 'string|max:7|nullable',
