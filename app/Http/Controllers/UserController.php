@@ -90,7 +90,7 @@ class UserController extends Controller
             $foundUser->loadMissing('followed');
         }
 
-        if ($foundUser->id === $this->userId()) {
+        if ($foundUser->id === $this->userId() || Auth::user()->hasPermission('manage-users')) {
             $foundUser->append('signable');
         }
 
@@ -111,6 +111,7 @@ class UserController extends Controller
         $fileSize = Setting::getValue('image_max_file_size') / 1024;
 
         $passwordRule = APIService::getPasswordRule();
+        $canManageUsers = Auth::user()->hasPermission('manage-users');
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:30',
@@ -125,7 +126,7 @@ class UserController extends Controller
             'banner_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
-            'current_password' => ['nullable', $user->signable ? 'required_with:password' : null],
+            'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],
             'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule, 'max:128'],
             'extra.default_mods_sort' => ['nullable', Rule::in([
                 'bumped_at',
@@ -165,7 +166,7 @@ class UserController extends Controller
         $password = Arr::pull($val, 'password');
         if (isset($password)) {
             //We must require current password, but remember that there are accounts that sign in using SSO.
-            if (!isset($user->password) || Hash::check(Arr::pull($val, 'current_password'), $user->password)) {
+            if (!isset($user->password) || $canManageUsers || Hash::check(Arr::pull($val, 'current_password'), $user->password)) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
