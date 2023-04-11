@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculateModsCounts;
 use App\Jobs\CalculatePopularity;
+use App\Jobs\CalculateThreadComments;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\TryActivatingUsers;
 use App\Models\Mod;
@@ -36,7 +37,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculatePopularity)->everyMinute();
         $schedule->job(new TryActivatingUsers)->everyOddHour();
         $schedule->job(new DeleteUnverifiedUsers)->everyMinute();
-        $schedule->job(new CalculateModsCounts)->everyMinute();
+        $schedule->job(new CalculateModsCounts)->everyOddHour();
+        $schedule->job(new CalculateThreadComments)->everyOddHour();
     }
 
     /**

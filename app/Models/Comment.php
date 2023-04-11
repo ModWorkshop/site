@@ -146,6 +146,9 @@ class Comment extends Model implements SubscribableInterface
         static::deleted(function(Comment $comment) {
             Notification::deleteRelated($comment);
             $comment->subscriptions()->delete();
+            if (isset($comment->commentable->comments)) {
+                $comment->commentable->decrement('comments_count');
+            }
         });
     }
 }

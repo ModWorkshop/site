@@ -40,6 +40,7 @@ class ThreadCommentsController extends Controller
         $thread->update(['last_user_id' => $request->user()->id]);
 
         $comment = CommentService::store($request, $thread);
+        $thread->increment('comment_count');
         $thread->update([
             'bumped_at' => Carbon::now()
         ]);
