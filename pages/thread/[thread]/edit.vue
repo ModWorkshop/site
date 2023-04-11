@@ -97,7 +97,7 @@ const breadcrumb = computed(() => {
     }
 
     if (thread.value.id && thread.value.category) {
-        crumbs.push({ name: thread.value.category.name, id: thread.value.category.name, type: 'forum_category' });
+        crumbs.push({ name: thread.value.category.name, id: thread.value.category.id, type: 'forum_category' });
     }
     
     crumbs.push({ name: thread.value.id ? thread.value.name : t('post'), id: thread.value.id, type: 'thread' });

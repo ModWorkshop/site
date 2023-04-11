@@ -127,7 +127,7 @@ export interface Mod {
     tags_count?: number;
     images_count?: number;
     files_count?: number;
-    comments_count?: number;
+    comment_count?: number;
     members: Array<ModMember>,
     transfer_request?: TransferRequest;
     tag_ids?: number[];
@@ -185,7 +185,7 @@ export interface Game {
     forum?: Forum,
     path?: string;
     followed?: boolean;
-    mods_count?: number;
+    mod_count?: number;
     roles?: Role[];
     user_data?: GameUserData;
     announcements?: Thread[];
@@ -282,7 +282,7 @@ export interface User {
         game_show_mods: boolean;
         game_show_threads: boolean;
     };
-    mods_count: number;
+    mod_count: number;
 }
 
 export interface UserForm extends User {
@@ -356,7 +356,7 @@ export interface Thread {
     created_at?: string;
     updated_at?: string;
     comments?: Comment[];
-    comments_count?: number;
+    comment_count?: number;
     user?: User;
     last_user?: User;
     forum?: Forum;

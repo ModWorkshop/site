@@ -430,7 +430,7 @@ remember_me: "记住我",
 linking_account: "关联账号中。请稍等...",
 done_linking_account: "完成！请关闭此标签页并返回至上一标签页。",
 account_already_linked: "此账号已被关联，或者是提供的账号已经关联了其他账号。",// 暂译,测试后可能需要修改 -译者注 
-mods_count: "{n}个模组",
+mod_count: "{n}个模组",
 customize: "自定义",
 request_my_data: "下载我的数据",
 request_my_data_desc: `你可以下载一个JSON文件，其中列出了你所有的模组、主题、评论、关注和屏蔽的内容。

@@ -431,7 +431,7 @@ remember_me: "Recordar",
 linking_account: "Vinculando cuenta. Espere un momento...",
 done_linking_account: "¡Hecho! Cierra esta pestaña y vuelve a la pestaña anterior.",
 account_already_linked: "Esta cuenta ya fue vinculada o fue vinculada previamente.",
-mods_count: "{n} Mods",
+mod_count: "{n} Mods",
 customize: "Personalizar",
 request_my_data: "Pedir mis datos",
 request_my_data_desc: `Puedes descargar un archivo JSON, que lista todos tus mods, hilos, comentarios, y personas que sigues y bloqueas. 

@@ -16,7 +16,7 @@ const buttonStyle = inject<string|undefined>('buttonStyle', 'button');
 const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 
-const isSelected = computed(() => props.name === selected?.value);
+const isSelected = computed(() => props.name == selected?.value);
 
 const computedComponent = computed(() => {
     if (!buttonStyle || buttonStyle == 'nav') {

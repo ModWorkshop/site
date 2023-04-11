@@ -10,9 +10,9 @@
                 <a-select v-if="tags" v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
                 <flex v-if="currentForumId" column>
                     <label>{{$t('category')}}</label>
-                    <button-group v-if="categories?.data.length" v-model:selected="categoryName" class="mt-2" column button-style="nav">
+                    <button-group v-if="categories?.data.length" v-model:selected="categoryId" class="mt-2" column button-style="nav">
                         <a-group-button :name="undefined"><a-icon icon="comments"/> {{$t('all')}}</a-group-button>
-                        <a-group-button v-for="category of categories.data" :key="category.name" :name="category.name">
+                        <a-group-button v-for="category of categories.data" :key="category.id" :name="category.id">
                             {{category.emoji}} {{category.name}}
                         </a-group-button>
                     </button-group>
@@ -24,25 +24,13 @@
                     <template #head>
                         <th>{{$t('title')}}</th>
                         <th>{{$t('poster')}}</th>
-                        <th v-if="!categoryName">{{$t('category')}}</th>
+                        <th v-if="!categoryId">{{$t('category')}}</th>
+                        <th>{{$t('replies')}}</th>
                         <th>{{$t('last_activity')}}</th>
                         <th>{{$t('last_reply_by')}}</th>
                     </template>
                     <template v-if="threads.data.length" #body>
-                        <tr v-for="thread in threads.data" :key="thread.created_at" class="cursor-pointer content-block thread" @click="clickThread(thread)">
-                            <td>
-                                <a-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
-                                <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
-                            </td>
-                            <td><a-user :user="thread.user" @click.stop/></td>
-                            <td v-if="!categoryName">
-                                <NuxtLink v-if="thread.category" @click.stop="onCatClicked">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
-                                <span v-else>-</span>
-                            </td>
-                            <td><time-ago :time="thread.bumped_at"/></td>
-                            <td v-if="thread.last_user"><a-user :user="thread.last_user" @click.stop/></td>
-                            <td v-else>{{$t('none')}}</td>
-                        </tr>
+                        <a-list-thread v-for="thread in threads.data" :key="thread.created_at" :thread="thread" :no-category="categoryId" :no-pins="noPins" :category-link="!filters"/>
                     </template>
                 </a-table>
                 <a-loading v-else-if="loading" class="m-auto"/>
@@ -76,10 +64,9 @@ const props = withDefaults(defineProps<{
     limit: 20
 });
 
-const router = useRouter();
 const query = props.query ? useRouteQuery('query', '') : ref('');
 const page = props.query ? useRouteQuery('page', 1, 'number') : ref(1);
-const categoryName = props.query ? useRouteQuery('category') : ref();
+const categoryId = props.query ? useRouteQuery('category') : ref();
 const selectedForum = props.query ? useRouteQuery('forum') : ref();
 const selectedTags = props.query ?  useRouteQuery('selected-tags', []) : ref([]);
 const loading = ref(false);
@@ -92,16 +79,12 @@ const emit = defineEmits<{
 const currentForumId = computed(() => selectedForum.value ?? props.forumId);
 const currentGameId = computed(() => props.gameId);
 
-function clickThread(thread: Thread) {
-    router.push(`/thread/${thread.id}`);
-}
-
 const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCategory>('forum-categories', {
     params: reactive({ forum_id: currentForumId }),
     immediate: !!currentForumId.value
 });
 
-const currentCategroy = computed(() => categories.value?.data.find(cat => cat.name === categoryName.value));
+const currentCategroy = computed(() => categories.value?.data.find(cat => cat.id === categoryId.value));
 watch(currentCategroy, val => {
     emit('selectCategory', val);
     page.value = 1;
@@ -110,7 +93,7 @@ watch(currentCategroy, val => {
 const params = reactive({
     forum_id: currentForumId,
     tags: selectedTags,
-    category_name: categoryName,
+    category_id: categoryId,
     query: query,
     no_pins: props.noPins ? 1 : 0,
     limit: props.limit,
@@ -127,7 +110,7 @@ const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
     })
 });
 
-const { data: games } = await useFetchMany<Game>('games');
+const { data: games } = await useFetchMany<Game>('games', { immediate: !currentGameId.value });
 
 const forums = computed(() => {
     const forums = [{ id: 1, name: t('global_forum') }];
@@ -154,10 +137,4 @@ watch(selectedForum, async () => {
     await refreshCats();
     await refreshTags();
 });
-
-function onCatClicked(thread: Thread) {
-    if (thread.category) {
-        categoryName.value = thread.category.name;
-    }
-}
 </script>

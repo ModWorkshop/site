@@ -432,7 +432,7 @@ remember_me: "Remember Me",
 linking_account: "Linking account. Please wait a moment...",
 done_linking_account: "Done! Please close the tab and return to the previous tab.",
 account_already_linked: "Account was already linked or the provider was already linked.",
-mods_count: "{n} Mods",
+mod_count: "{n} Mods",
 customize: "Customize",
 request_my_data: "Request My Data",
 request_my_data_desc: `You can download a JSON file that lists all of your mods, threads, comments, followed and blocked content.
