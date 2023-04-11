@@ -23,7 +23,7 @@ class CalculateThreadComments implements ShouldQueue
         User::orderBy('id')->chunk(1000, function(Collection $users) {
             foreach ($users as $user) {
                 $user->update([
-                    'comments_count' => $user->comments()->count()
+                    'comment_count' => $user->comments()->count()
                 ]);
             }
         });

@@ -2,19 +2,13 @@
 
 namespace App\Console;
 
-use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculateModsCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\TryActivatingUsers;
-use App\Models\Mod;
-use App\Models\PopularityLog;
-use Carbon\Carbon;
-use DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Log;
 
 class Kernel extends ConsoleKernel
 {

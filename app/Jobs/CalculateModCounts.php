@@ -31,7 +31,7 @@ class CalculateModsCounts implements ShouldQueue
         User::orderBy('id')->chunk(1000, function(Collection $users) {
             foreach ($users as $user) {
                 $user->update([
-                    'mods_count' => $user->mods()->count()
+                    'mod_count' => $user->mods()->count()
                 ]);
             }
         });
