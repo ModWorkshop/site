@@ -6,8 +6,8 @@
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="" :title="$t('account_tab')"/>
                     <a-nav-link to="profile" :title="$t('profile')"/>
-                    <a-nav-link to="content" :title="$t('content_tab')"/>
-                    <a-nav-link to="accounts" :title="$t('connected_accounts_tab')"/>
+                    <a-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
+                    <a-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
                     <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
                     <template #content>
                         <NuxtPage :user="user"/>
@@ -33,8 +33,8 @@ definePageMeta({
 
 const store = useStore();
 
-const isMe = ref(false);
 const route = useRoute();
+const isMe = !route.params.user;
 
 provide('isMe', isMe);
 
@@ -48,13 +48,11 @@ const user = ref<UserForm>({
     banner_file: null,
 });
 
-isMe.value = !route.params.userId;
-
 async function save() {
     try {
         const nextUser = await usePatch<User>(`users/${user.value.id}`, serializeObject(user.value));
 
-        if (isMe.value) {
+        if (isMe) {
             store.user = clone(nextUser);
         }
 

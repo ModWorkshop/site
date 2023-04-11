@@ -45,6 +45,12 @@ const props = defineProps<{
     user: UserForm
 }>();
 
+const isMe = inject<boolean>('isMe');
+
+if (!isMe) {
+    useNoPermsPage();
+}
+
 const { public: config } = useRuntimeConfig();
 const yesNoModal = useYesNoModal();
 const listenToTabs = ref(false);

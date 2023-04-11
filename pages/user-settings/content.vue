@@ -85,6 +85,12 @@ defineProps<{
     user: UserForm
 }>();
 
+const isMe = inject<boolean>('isMe');
+
+if (!isMe) {
+    useNoPermsPage();
+}
+
 const { t } = useI18n();
 
 const blockTag = ref<Tag>();
