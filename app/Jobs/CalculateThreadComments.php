@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -20,10 +21,10 @@ class CalculateThreadComments implements ShouldQueue
      */
     public function __construct()
     {
-        User::orderBy('id')->chunk(1000, function(Collection $users) {
-            foreach ($users as $user) {
-                $user->update([
-                    'comment_count' => $user->comments()->count()
+        Thread::orderBy('id')->chunk(1000, function(Collection $threads) {
+            foreach ($threads as $thread) {
+                $thread->update([
+                    'comment_count' => $thread->comments()->count()
                 ]);
             }
         });
