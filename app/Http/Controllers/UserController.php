@@ -118,7 +118,7 @@ class UserController extends Controller
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
             'custom_color' => 'string|max:7|nullable',
             'bio' => 'string|nullable|max:3000',
-            'email' => 'email|nullable',
+            'email' => 'email|nullable|max:255',
             'custom_title' => 'string|nullable|max:100',
             'private_profile' => 'boolean',
             'invisible' => 'boolean',
