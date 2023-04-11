@@ -483,7 +483,7 @@ class ModController extends Controller
         $val = $request->validate([
             'status' => 'boolean|required',
             'notify' => 'boolean',
-            'reason' => 'string|max:1000'
+            'reason' => 'string|nullable|max:1000'
         ]);
 
         $approve = $val['status'];
@@ -496,7 +496,7 @@ class ModController extends Controller
                     user: $member,
                     hideSender: true,
                     notifiable: $mod,
-                    data: ['reason' => $val['reason']],
+                    data: isset($val['reason']) ? ['reason' => $val['reason']] : null,
                 );
             }
         }
