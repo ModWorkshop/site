@@ -3,7 +3,7 @@
         <a-thumbnail class="ratio-image round" url-prefix="games/thumbnails" :src="game.thumbnail"/>
         <flex wrap class="p-2">
             {{game.name}}
-            <span class="text-secondary ml-auto">{{$t('mods_count', { n: game.mods_count })}}</span>
+            <span class="text-secondary ml-auto">{{$t('mod_count', { n: game.mod_count })}}</span>
         </flex>
     </NuxtLink>
 </template>
