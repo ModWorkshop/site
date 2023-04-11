@@ -8,10 +8,12 @@
             <component 
                 :is="defintion.component"
                 v-if="defintion.component && notifiable"
+                class="w-full"
                 :notification="notification"
                 :notifiable="notifiable"
+                :data="data"
             />
-            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" style="word-wrap: anywhere;">
+            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" class="w-full" style="word-wrap: anywhere;">
                 <template #user>
                     <a-notification-slot type="user" :object="fromUser"/>
                 </template>
@@ -97,6 +99,12 @@ const typeDefintions = {
         extra: {
             object: data.value.version
         }
+    }),
+    mod_approved: () => ({
+        
+    }),
+    mod_rejected: () => ({
+        component: resolveComponent('AModRejectNotification')
     }),
     mod_suspended: () => ({
         thumbnail: {

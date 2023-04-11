@@ -2,7 +2,7 @@
 <Teleport to="body">
     <Transition>
         <a-modal-form v-if="showModal" v-model="showModal" :title="approve ? $t('approve') : $t('reject')" @submit="submit">
-            <a-input v-model="form.reason" :label="$t('reason')" type="textarea" rows="6"/>
+            <a-input v-if="!approve" v-model="form.reason" :label="$t('reason')" type="textarea" rows="6"/>
             <a-input v-model="form.notify" :label="$t('notify_owner_members')" type="checkbox"/>
         </a-modal-form>
     </Transition>
