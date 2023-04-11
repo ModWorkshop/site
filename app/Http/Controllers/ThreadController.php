@@ -125,7 +125,7 @@ class ThreadController extends Controller
 
         $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $forum->game);
-        if (!$canManageThreads && isset($val['announce'])) {
+        if (!$canManageThreads && isset($val['announce']) && $val['announce'] !== $thread->announce) {
             abort(401);
         }
 
