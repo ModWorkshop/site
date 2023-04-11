@@ -180,8 +180,8 @@ const innerClasses = computed(() => ({
 }
 
 @media (max-width:1024px) {
-    .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs {
-        width: 100%;
+    .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
+        width: 100% !important;
     }
 }
 </style>
