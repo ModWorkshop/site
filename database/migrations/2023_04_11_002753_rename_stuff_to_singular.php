@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('threads', function (Blueprint $table) {
-            $table->renameColumn('comments_count', 'comment_count');
-        });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('games', function (Blueprint $table) {
             $table->renameColumn('mods_count', 'mod_count');
         });
     }
