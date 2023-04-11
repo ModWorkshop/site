@@ -96,7 +96,7 @@ class LoginController extends Controller
             'name' => ['required'],
             'unique_name' => 'alpha_dash|nullable|min:3|max:50',
             'email' => ['required', 'email'],
-            'password' => ['required', APIService::getPasswordRule()],
+            'password' => ['required', APIService::getPasswordRule(), 'max:128'],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
@@ -277,7 +277,7 @@ class LoginController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => ['required', APIService::getPasswordRule()],
+            'password' => ['required', APIService::getPasswordRule(), 'max:128'],
         ]);
      
         $status = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {

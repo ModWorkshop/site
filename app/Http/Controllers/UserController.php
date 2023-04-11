@@ -126,7 +126,7 @@ class UserController extends Controller
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
             'current_password' => ['nullable', $user->signable ? 'required_with:password' : null],
-            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule],
+            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule, 'max:128'],
             'extra.default_mods_sort' => ['nullable', Rule::in([
                 'bumped_at',
                 'published_at',
