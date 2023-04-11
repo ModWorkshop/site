@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyText('name');
             $table->text('content');
             $table->bigInteger('views')->default(0);
-            $table->bigInteger('comments_count')->default(0);
+            $table->bigInteger('comment_count')->default(0);
             $table->boolean('locked')->default(false);
             $table->timestamp('bumped_at')->nullable();
             $table->timestamp('pinned_at')->nullable();

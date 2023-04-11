@@ -202,8 +202,8 @@ class ModController extends Controller
                 unset($val['game_id']);
                 unset($val['allowed_storage']);
             } else if (isset($val['game_id']) && (int)$val['game_id'] !== $mod->game_id) {
-                Game::where('id', $val['game_id'])->increment('mods_count');
-                $mod->game->decrement('mods_count');
+                Game::where('id', $val['game_id'])->increment('mod_count');
+                $mod->game->decrement('mod_count');
             }
 
             $mod->calculateFileStatus(false);
@@ -441,8 +441,8 @@ class ModController extends Controller
 
         $transferRequest->delete();
 
-        $mod->user()->decrement('mods_count');
-        $user->increment('mods_count');
+        $mod->user()->decrement('mod_count');
+        $user->increment('mod_count');
 
         if ($val['accept']) {
             $mod->update(['user_id' => $userId]);

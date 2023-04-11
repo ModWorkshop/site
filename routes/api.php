@@ -213,7 +213,7 @@ Route::get('site-data', function(Request $request) {
     if (Auth::hasUser()) {
         $user = Auth::user();
         if ($user->hasPermission('moderate-users')) {
-            $data['reports_count'] = Report::whereArchived(false)->count();
+            $data['report_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(false)->count();
         }
 
@@ -280,3 +280,6 @@ Route::get('v2API', function(Request $request) {
     }
     echo $val['command'];
 });
+
+
+Route::middleware('has_permission:create-api-tokens')->resource('tokens', TokenController::class);

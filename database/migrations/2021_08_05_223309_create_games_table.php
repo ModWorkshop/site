@@ -25,7 +25,7 @@ return new class extends Migration
             $table->tinyText('webhook_url')->default(''); // Was background
             $table->timestamp('last_date');
 
-            $table->bigInteger('mods_count')->default(0);
+            $table->bigInteger('mod_count')->default(0);
 
             $table->timestamps();
         });
