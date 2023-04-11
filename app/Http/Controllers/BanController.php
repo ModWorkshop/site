@@ -6,7 +6,6 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\Ban;
 use App\Models\Game;
 use App\Models\User;
-use App\Models\UserCase;
 use Arr;
 use Auth;
 use Carbon\Carbon;
@@ -114,7 +113,7 @@ class BanController extends Controller
 
         $ban->update($val);
 
-        return $ban->load(['user', 'case']);
+        return $ban->load(['user']);
     }
 
     /**
