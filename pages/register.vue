@@ -12,8 +12,8 @@
                     </template>
                 </img-uploader>
                 <a-input v-model="user.name" required autocomplete="off" :label="$t('display_name')"/>
-                <a-input v-model="user.unique_name" required autocomplete="off" :label="$t('unique_name')"/>
-                <a-input v-model="user.email" required autocomplete="off" :label="$t('email')" type="email"/>
+                <a-input v-model="user.unique_name" maxlength="30" required autocomplete="off" :label="$t('unique_name')"/>
+                <a-input v-model="user.email" required autocomplete="off" maxlength="255" :label="$t('email')" type="email"/>
                 <flex column>
                     <flex>
                         <a-input 
