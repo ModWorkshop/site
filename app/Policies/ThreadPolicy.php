@@ -149,7 +149,12 @@ class ThreadPolicy
             return false;
         }
 
-        return $user->hasPermission('create-discussions', $thread->forum->game) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
+        $category = $thread->category;
+        $canAppeal = $user->last_ban?->can_appeal ?? true;
+        $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
+        $byPassBan = $thread->user_id === $user->id && $category?->banned_can_post && $canAppeal && $canAppealGame;
+
+        return $user->hasPermission('create-discussions', $thread->forum->game, $byPassBan) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
     }
 
     // Can we report this thread? Of course if we can see it.
