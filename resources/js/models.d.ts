@@ -452,7 +452,7 @@ declare namespace App.Models {
         game?: App.Models.Game | null;
         mods?: Array<App.Models.Mod> | null;
         threads?: Array<App.Models.Thread> | null;
-        mods_count?: number | null;
+        mod_count?: number | null;
         threads_count?: number | null;
     }
 
@@ -527,7 +527,7 @@ declare namespace App.Models {
         extra?: App.Models.UserExtra | null;
         roles?: any | null;
         ban?: App.Models.Ban | null;
-        mods_count?: number | null;
+        mod_count?: number | null;
         readonly role_names?: any;
         readonly permissions?: any;
         readonly last_ban?: any;

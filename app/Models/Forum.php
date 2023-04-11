@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Game|null $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
@@ -29,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumCategory[] $categories
  * @property-read int|null $categories_count
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereName($value)
+ * @mixin \Eloquent
  */
 class Forum extends Model
 {

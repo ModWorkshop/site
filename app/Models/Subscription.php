@@ -24,8 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereSubscribableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 class Subscription extends Model
 {

@@ -37,13 +37,16 @@ use Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|File whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property string $label
  * @property string $version
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|File whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereVersion($value)
+ * @property string|null $unique_name
+ * @property-read \App\Models\Image|null $image
+ * @method static \Illuminate\Database\Eloquent\Builder|File whereUniqueName($value)
+ * @mixin \Eloquent
  */
 class File extends Model
 {

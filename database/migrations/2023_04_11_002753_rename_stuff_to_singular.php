@@ -13,7 +13,7 @@ return new class extends Migration
     {
 
         Schema::table('games', function (Blueprint $table) {
-            $table->renameColumn('mods_count', 'mod_count');
+            $table->renameColumn('mod_count', 'mod_count');
         });
     }
 

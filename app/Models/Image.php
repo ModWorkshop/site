@@ -29,10 +29,10 @@ use Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
- * @mixin \Eloquent
  * @property int $mod_id
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereModId($value)
  * @property-read \App\Models\Mod $mod
+ * @mixin \Eloquent
  */
 class Image extends Model
 {

@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property string $emoji
  * @property-read \App\Models\Forum $forum
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereEmoji($value)
@@ -44,6 +43,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereBannedCanPost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereIsPrivate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory wherePrivateThreads($value)
+ * @mixin \Eloquent
  */
 class ForumCategory extends Model
 {

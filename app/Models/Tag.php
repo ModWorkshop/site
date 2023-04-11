@@ -31,7 +31,6 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereNoticeLocalized($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereNoticeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $games
@@ -40,13 +39,15 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property string|null $only_for
  * @property-read \App\Models\Game|null $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOnlyFor($value)
  * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
+ * @property-read int|null $mods_count
+ * @mixin \Eloquent
  */
 class Tag extends Model
 {

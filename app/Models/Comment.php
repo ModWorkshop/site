@@ -49,7 +49,6 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereReplyTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
- * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $mentions
  * @property-read int|null $mentions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
@@ -59,6 +58,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @property-read \App\Models\Subscription|null $subscribed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
+ * @mixin \Eloquent
  */
 class Comment extends Model implements SubscribableInterface
 {

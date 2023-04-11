@@ -474,13 +474,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
  * @property-read \App\Models\FollowedGame|null $followed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
  * @property-read int|null $roles_count
  * @property-read mixed $user_data
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereModsCount($value)
+ * @property-read int|null $mods_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  * @property-read int|null $reports_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereModCount($value)
  */
 	class Game extends \Eloquent {}
 }
@@ -1196,13 +1198,14 @@ namespace App\Models{
  * @property string|null $only_for
  * @property-read \App\Models\Game|null $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOnlyFor($value)
  * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
+ * @property-read int|null $mods_count
  */
 	class Tag extends \Eloquent {}
 }
@@ -1291,8 +1294,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $announce_until
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
+ * @property int $comment_count
  * @property int|null $game_id
  * @property-read \App\Models\Game|null $game
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
@@ -1371,11 +1376,11 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $fullyBlockedUsers
  * @property-read int|null $fully_blocked_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $followedGames
  * @property-read int|null $followed_games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $followedMods
- * @property-read int|null $followed_mods_count
+ * @property-read int|null $followed_mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
  * @property \Illuminate\Support\Carbon|null $last_online
@@ -1416,7 +1421,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedGame[] $allFollowedGames
  * @property-read int|null $all_followed_games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $allFollowedMods
- * @property-read int|null $all_followed_mods_count
+ * @property-read int|null $all_followed_mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
  * @property-read int|null $all_followed_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
@@ -1430,9 +1435,12 @@ namespace App\Models{
  * @property string|null $waiting_email
  * @property string|null $pending_email
  * @property string|null $pending_email_set_at
+ * @property-read int|null $all_followed_mods_count
+ * @property-read int|null $followed_mods_count
+ * @property-read int|null $mods_count
  * @method static \Illuminate\Database\Eloquent\Builder|User whereActivated($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereModsCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereModCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmailSetAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereWaitingEmail($value)

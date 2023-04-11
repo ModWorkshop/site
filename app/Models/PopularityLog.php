@@ -26,11 +26,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class PopularityLog extends Model
 {

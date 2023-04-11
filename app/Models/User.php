@@ -61,7 +61,6 @@ use Storage;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User withPermissions()
- * @mixin \Eloquent
  * @property-read \App\Models\UserExtra|null $extra
  * @property string $custom_color
  * @method static Builder|User whereCustomColor($value)
@@ -75,11 +74,11 @@ use Storage;
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $fullyBlockedUsers
  * @property-read int|null $fully_blocked_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $followedGames
  * @property-read int|null $followed_games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $followedMods
- * @property-read int|null $followed_mods_count
+ * @property-read int|null $followed_mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
  * @property \Illuminate\Support\Carbon|null $last_online
@@ -120,7 +119,7 @@ use Storage;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedGame[] $allFollowedGames
  * @property-read int|null $all_followed_games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $allFollowedMods
- * @property-read int|null $all_followed_mods_count
+ * @property-read int|null $all_followed_mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
  * @property-read int|null $all_followed_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
@@ -129,6 +128,21 @@ use Storage;
  * @property-read int|null $threads_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
+ * @property string|null $last_ip_address
+ * @property bool $activated
+ * @property string|null $waiting_email
+ * @property string|null $pending_email
+ * @property string|null $pending_email_set_at
+ * @property-read int|null $all_followed_mods_count
+ * @property-read int|null $followed_mods_count
+ * @property-read int|null $mods_count
+ * @method static Builder|User whereActivated($value)
+ * @method static Builder|User whereLastIpAddress($value)
+ * @method static Builder|User whereModCount($value)
+ * @method static Builder|User wherePendingEmail($value)
+ * @method static Builder|User wherePendingEmailSetAt($value)
+ * @method static Builder|User whereWaitingEmail($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -188,7 +202,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'custom_title',
         'donation_url',
         'show_tag',
-        'mods_count'
+        'mod_count'
     ];
 
     /**

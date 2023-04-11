@@ -32,7 +32,6 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUserId($value)
- * @mixin \Eloquent
  * @property string|null $name
  * @property int|null $game_id
  * @property-read Model|\Eloquent $reportable
@@ -41,6 +40,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereName($value)
  * @property bool $locked
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereLocked($value)
+ * @property-read \App\Models\Game|null $game
+ * @mixin \Eloquent
  */
 class Report extends Model
 {

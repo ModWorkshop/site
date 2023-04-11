@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra wherePrivateProfile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUserId($value)
- * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereLastOnlineAt($value)
  * @property Carbon|null $last_online
  * @property string|null $donation_url
@@ -48,6 +47,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowLastGames($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowMods($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowThreads($value)
+ * @mixin \Eloquent
  */
 class UserExtra extends Model
 {

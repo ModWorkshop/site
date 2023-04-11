@@ -100,7 +100,6 @@ abstract class Visibility {
  * @method static Builder|Mod whereVersion($value)
  * @method static Builder|Mod whereViews($value)
  * @method static Builder|Mod whereVisibility($value)
- * @mixin \Eloquent
  * @property-read void $breadcrumb
  * @property-read mixed $tag_ids
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
@@ -162,6 +161,7 @@ abstract class Visibility {
  * @method static Builder|Mod whereAllowedStorage($value)
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
+ * @mixin \Eloquent
  */
 class Mod extends Model implements SubscribableInterface
 {
@@ -250,23 +250,23 @@ class Mod extends Model implements SubscribableInterface
             foreach ($mod->files as $file) {
                 $file->delete();
             }
-            $mod->game->decrement('mods_count');
+            $mod->game->decrement('mod_count');
             $mod->subscriptions()->delete();
-            $mod->user->decrement('mods_count');
+            $mod->user->decrement('mod_count');
         });
         static::creating(function(Mod $mod) {
             $mod->bumped_at ??= $mod->freshTimestampString();
         });
 
         static::created(function(Mod $mod) {
-            $mod->game->increment('mods_count');
+            $mod->game->increment('mod_count');
 
             //Auto-sub ourselves
             $mod->subscriptions()->create([
                 'user_id' => $mod->user_id
             ]);
 
-            $mod->user->increment('mods_count');
+            $mod->user->increment('mod_count');
         });
     }
 

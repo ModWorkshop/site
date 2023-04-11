@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 class FollowedGame extends Model
 {

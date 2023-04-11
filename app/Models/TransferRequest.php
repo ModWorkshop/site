@@ -21,11 +21,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
  * @property int|null $keep_owner_level
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereKeepOwnerLevel($value)
+ * @mixin \Eloquent
  */
 class TransferRequest extends Model
 {

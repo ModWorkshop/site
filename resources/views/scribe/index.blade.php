@@ -1325,7 +1325,7 @@ fetch(url, {
         &quot;donation_url&quot;: null,
         &quot;show_tag&quot;: &quot;supporter_or_role&quot;,
         &quot;supporter&quot;: null,
-        &quot;mods_count&quot;: 13
+        &quot;mod_count&quot;: 13
     },
     &quot;game&quot;: {
         &quot;id&quot;: 2,
@@ -1336,7 +1336,7 @@ fetch(url, {
         &quot;banner&quot;: &quot;&quot;,
         &quot;buttons&quot;: &quot;&quot;,
         &quot;last_date&quot;: &quot;2023-04-09T00:47:28.000000Z&quot;,
-        &quot;mods_count&quot;: 6,
+        &quot;mod_count&quot;: 6,
         &quot;created_at&quot;: &quot;2023-04-09T00:47:28.000000Z&quot;,
         &quot;updated_at&quot;: &quot;2023-04-09T16:50:04.000000Z&quot;,
         &quot;forum_id&quot;: 3,
@@ -1387,7 +1387,7 @@ fetch(url, {
         &quot;donation_url&quot;: null,
         &quot;show_tag&quot;: &quot;supporter_or_role&quot;,
         &quot;supporter&quot;: null,
-        &quot;mods_count&quot;: 13
+        &quot;mod_count&quot;: 13
     },
     &quot;liked&quot;: null,
     &quot;transfer_request&quot;: null,
@@ -1427,7 +1427,7 @@ fetch(url, {
                     &quot;show_tag&quot;: &quot;supporter_or_role&quot;,
                     &quot;created_at&quot;: &quot;2023-04-07T19:01:33.000000Z&quot;,
                     &quot;updated_at&quot;: &quot;2023-04-10T18:25:54.000000Z&quot;,
-                    &quot;mods_count&quot;: 13,
+                    &quot;mod_count&quot;: 13,
                     &quot;activated&quot;: true,
                     &quot;waiting_email&quot;: null,
                     &quot;pending_email_set_at&quot;: null,
@@ -9261,7 +9261,7 @@ fetch(url, {
         &quot;show_tag&quot;: &quot;supporter_or_role&quot;,
         &quot;created_at&quot;: &quot;2023-03-30T13:13:50.000000Z&quot;,
         &quot;updated_at&quot;: &quot;2023-04-07T13:40:07.000000Z&quot;,
-        &quot;mods_count&quot;: 3,
+        &quot;mod_count&quot;: 3,
         &quot;activated&quot;: true,
         &quot;waiting_email&quot;: null,
         &quot;pending_email_set_at&quot;: null,

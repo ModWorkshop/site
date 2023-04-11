@@ -36,9 +36,9 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property bool $is_vanity
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
+ * @mixin \Eloquent
  */
 class Role extends Model
 {

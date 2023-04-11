@@ -53,8 +53,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereWebhookUrl($value)
- * @mixin \Eloquent
  * @property-read mixed $breadcrumb
+ * @mixin \Eloquent
  */
 class Category extends Model
 {

@@ -32,8 +32,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereLocalized($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Game $game
+ * @mixin \Eloquent
  */
 class InstructsTemplate extends Model
 {

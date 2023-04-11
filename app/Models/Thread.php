@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Thread query()
- * @mixin \Eloquent
  * @property int $id
  * @property string $name
  * @property string $content
@@ -71,6 +70,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Illuminate\Support\Carbon|null $announce_until
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
+ * @property int $comment_count
+ * @property int|null $game_id
+ * @property-read \App\Models\Game|null $game
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
+ * @mixin \Eloquent
  */
 class Thread extends Model implements SubscribableInterface
 {

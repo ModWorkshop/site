@@ -47,17 +47,21 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereWebhookUrl($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Forum|null $forum
  * @property int|null $forum_id
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
  * @property-read \App\Models\FollowedGame|null $followed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
- * @property-read int|null $mods_count
+ * @property-read int|null $mod_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
  * @property-read int|null $roles_count
  * @property-read mixed $user_data
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereModsCount($value)
+ * @property-read int|null $mods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
+ * @property-read int|null $reports_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereModCount($value)
+ * @mixin \Eloquent
  */
 class Game extends Model
 {

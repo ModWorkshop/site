@@ -35,7 +35,6 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereSeen($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read Model|\Eloquent $context
  * @property-read Model|\Eloquent $notifiable
  * @property-read \App\Models\User $user
@@ -44,6 +43,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property int|null $from_user_id
  * @property-read \App\Models\User|null $fromUser
  * @method static Builder|Notification whereFromUserId($value)
+ * @mixin \Eloquent
  */
 class Notification extends Model
 {

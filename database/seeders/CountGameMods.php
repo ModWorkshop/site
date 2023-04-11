@@ -16,7 +16,7 @@ class CountGameMods extends Seeder
     public function run()
     {
         foreach (Game::get() as $game) {
-            $game->update(['mods_count' => $game->mods()->count()]);
+            $game->update(['mod_count' => $game->mods()->count()]);
         }
     }
 }

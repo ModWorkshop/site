@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereWarning($value)
- * @mixin \Eloquent
  * @property string|null $pardon_reason
  * @property bool $pardoned
  * @property-read \App\Models\Ban|null $ban
@@ -39,6 +38,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int|null $game_id
  * @property-read \App\Models\User|null $modUser
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
+ * @property bool $active
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereActive($value)
+ * @mixin \Eloquent
  */
 class UserCase extends Model
 {

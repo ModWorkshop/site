@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUrl($value)
+ * @property-read Model|\Eloquent $dependable
  * @mixin \Eloquent
  */
 class Dependency extends Model
