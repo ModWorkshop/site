@@ -14,12 +14,12 @@ export default function(name, defaultValue, cast) {
     }
 
     cast ??= typeof defaultValue;
-     
+
     return computed({
         get() {
             const data = route.query[name];
             if (data == null || data == undefined) {
-                return defaultValue ?? null;
+                return (cast == 'array' ? clone(defaultValue) : defaultValue) ?? null;
             }
             
             if (cast === 'number') {
@@ -42,11 +42,13 @@ export default function(name, defaultValue, cast) {
             if (cast == 'array') {
                 if (v.length) {
                     v = v.join(',');
+                } else {
+                    v = undefined;
                 }
             }
 
             queue[name] = (v === defaultValue || v === null) ? undefined : v;
-        
+
             nextTick(() => {
                 router.replace({ query: { ...route.query, ...queue } });
                 nextTick(() => queue = {});
