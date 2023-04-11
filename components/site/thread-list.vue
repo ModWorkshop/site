@@ -30,7 +30,7 @@
                         <th>{{$t('last_reply_by')}}</th>
                     </template>
                     <template v-if="threads.data.length" #body>
-                        <a-list-thread v-for="thread in threads.data" :key="thread.created_at" :thread="thread" :no-category="categoryId" :no-pins="noPins" :category-link="!filters"/>
+                        <a-list-thread v-for="thread in threads.data" :key="thread.created_at" :thread="thread" :no-category="!!categoryId" :no-pins="noPins" :category-link="!filters"/>
                     </template>
                 </a-table>
                 <a-loading v-else-if="loading" class="m-auto"/>
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<{
     query?: boolean,
     filters?: boolean,
     limit?: number,
-    lazy: boolean
+    lazy?: boolean
 }>(), {
     lazy: false,
     query: true,
@@ -84,9 +84,9 @@ const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCateg
     immediate: !!currentForumId.value
 });
 
-const currentCategroy = computed(() => categories.value?.data.find(cat => cat.id === categoryId.value));
-watch(currentCategroy, val => {
-    emit('selectCategory', val);
+const currentCategroy = computed(() => categories.value?.data.find(cat => cat.id == categoryId.value));
+watch(categoryId, () => {
+    emit('selectCategory', currentCategroy.value);
     page.value = 1;
 }, { immediate: true });
 

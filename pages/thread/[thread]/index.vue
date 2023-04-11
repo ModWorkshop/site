@@ -59,7 +59,7 @@ const canEditComments = ref(false);
 const canDeleteComments = ref(false);
 const commentSpecialTag = ref();
 
-const { user, hasPermission, isBanned } = useStore();
+const { user, hasPermission, isBanned, gameBan, ban } = useStore();
 const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
@@ -83,9 +83,15 @@ useServerSeoMeta({
 
 const canModerate = computed(() => hasPermission('manage-discussions', threadGame.value));
 const canEdit = computed(() => canModerate.value || thread.value.user_id === user?.id);
+const bannedCommenting = computed(() => {
+    const canAppeal = ban?.can_appeal ?? true;
+    const canAppealGame = gameBan?.can_appeal ?? true;
+
+    return isBanned && (!thread.value.category?.banned_can_post || thread.value.user_id !== user!.id || !canAppeal || !canAppealGame);
+});
 
 const canComment = computed(() => {
-    if ((isBanned && thread.value.category?.banned_can_post) || thread.value.user.blocked_me) {
+    if (bannedCommenting.value || thread.value.user.blocked_me) {
         return false;
     }
     return !thread.value.locked || canModerate.value || (thread.value.user_id === user?.id && !thread.value.locked_by_mod);
@@ -104,7 +110,7 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_locked');
     }
 
-    if (isBanned) {
+    if (bannedCommenting.value) {
         return t('cannot_comment_banned');
     }
 
