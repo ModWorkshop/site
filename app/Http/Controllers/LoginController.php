@@ -52,7 +52,7 @@ class LoginController extends Controller
     {
         $val = $request->validate([
             'email' => 'required|email', //blabla@email.com
-            'password' => ['required'],
+            'password' => ['required', 'max:128'],
             'remember' => 'boolean'
         ]);
 
