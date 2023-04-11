@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        Schema::table('games', function (Blueprint $table) {
-            $table->renameColumn('mod_count', 'mod_count');
+        Schema::table('links', function (Blueprint $table) {
+            $table->dropForeign('links_image_id_foreign');
+            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        //
     }
 };
