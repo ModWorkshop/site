@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
             return true;
-        });
+        }, 'Invalid email or URL');
 
         Collection::macro('paginate', function ($perPage, $total = null, $page = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
