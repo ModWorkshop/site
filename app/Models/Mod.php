@@ -268,6 +268,9 @@ class Mod extends Model implements SubscribableInterface
 
             $mod->user->increment('mod_count');
         });
+
+        //Make sure game cache is invalidated on update
+        static::updated(fn(Mod $mod) => Game::flushQueryCache());
     }
 
     public function scopeList(Builder $query)
