@@ -33,7 +33,7 @@ export async function setFollowMod(mod: Mod, notify?: boolean, status?: boolean)
 
 export async function setFollowGame(game: Game, status?: boolean) {
     try {
-        status ??= game.followed;
+        status ??= !game.followed;
         if (status) {
             await usePost('followed-games', { game_id: game.id });
             game.followed = true;
