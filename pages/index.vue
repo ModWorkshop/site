@@ -17,7 +17,7 @@
         
         <a-lite-mod-list
             v-if="!user"
-            :title-link="`/mods`"
+            :link="`/mods`"
         />
         <mod-list v-else-if="user.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
