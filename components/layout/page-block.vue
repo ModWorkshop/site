@@ -1,8 +1,15 @@
 <template>
     <flex column :class="classes" :gap="gap">
         <flex class="page-block-nm mx-auto" column gap="4">
+            <flex v-if="announcements.length" column>
+                <h4>📢 {{$t('announcements')}}</h4>
+                <flex class="md:flex-row flex-col">
+                    <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                </flex>
+            </flex>
+
             <flex v-if="game?.id" gap="0" column>
-                <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px"/>
+                <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px;"/>
                 <content-block :column="false" wrap class="items-center" gap="4">
                     <h2 class="my-auto mb-1">
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
@@ -44,19 +51,11 @@
                     </flex>
                 </content-block>
             </flex>
-            <flex column gap="2">
-                <template v-if="announcements.length">
-                    <h4>📢 {{$t('announcements')}}</h4>
-                    <flex class="md:flex-row flex-col">
-                        <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                    </flex>
-                </template>
-                <template v-if="gameAnnouncements.length">
-                    <h4 >📢 {{$t('game_announcements')}}</h4>
-                    <flex class="md:flex-row flex-col">
-                        <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                    </flex>
-                </template>
+            <flex v-if="gameAnnouncements.length" column>
+                <h4 >📢 {{$t('game_announcements')}}</h4>
+                <flex class="md:flex-row flex-col">
+                    <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                </flex>
             </flex>
         </flex>
         <flex :class="innerClasses" column :gap="gap">
