@@ -9,7 +9,7 @@
             <NuxtLink class="text-body" :to="`${link}?sort=daily_score`">
                 <h2>{{$t('popular_mods')}}🌟</h2>
             </NuxtLink>
-            <a-button class="ml-auto">{{$t('browse')}}</a-button>
+            <a-button class="ml-auto" :to="link">{{$t('browse')}}</a-button>
         </flex>
         <flex column>
             <mod-list-skeleton
@@ -25,7 +25,7 @@
             <NuxtLink class="text-body" :to="link">
                 <h2>{{$t('latest_mods')}}</h2>
             </NuxtLink>
-            <a-button class="ml-auto">{{$t('browse')}}</a-button>
+            <a-button class="ml-auto" :to="link">{{$t('browse')}}</a-button>
         </flex>
         <flex column>
             <mod-list-skeleton
