@@ -49,6 +49,7 @@ class Report extends Model
     use QueryCacheable;
 
     public $cacheFor = 1200;
+    public static $flushCacheOnUpdate = true;
 
     protected $casts = [
         'data' => 'array'
