@@ -66,10 +66,10 @@ body {
     --primary-hover-color: var(--mws-blue-hover);
     --primary-color-text: #fff;
     --success-color: #00ff15;
-    --danger-color: #ff0000;
+    --danger-color: #df1d1d;
     --warning-color: #ffef14;
     --info-color: #5978ff;
-    --danger-hover-color: #ff3333;
+    --danger-hover-color: #e42f2f;
 }
 
 .blue-scheme {
