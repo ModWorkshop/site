@@ -48,7 +48,7 @@ const warnDuration = ref();
 
 async function warn() {
     try {
-        const userCase = await usePost<UserCase>('user-cases', { 
+        const userCase = await usePost<UserCase>(props.game ? `games/${props.game.id}/user-cases` : 'user-cases', { 
             user_id: warnUser.value,
             reason: reason.value,
             expire_date: warnDuration.value,
