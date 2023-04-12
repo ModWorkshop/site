@@ -214,7 +214,7 @@ Route::get('site-data', function(Request $request) {
         $user = Auth::user();
         if ($user->hasPermission('moderate-users')) {
             $data['report_count'] = Report::whereArchived(false)->count();
-            $data['waiting_count'] = Mod::whereApproved(null)->where()->count();
+            $data['waiting_count'] = Mod::whereApproved(null)->count();
         }
 
         $user = $request->user();
