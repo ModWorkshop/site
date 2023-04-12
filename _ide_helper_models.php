@@ -30,7 +30,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereUserId($value)
- * @mixin \Eloquent
  * @property int|null $case_id
  * @property-read \App\Models\UserCase|null $case
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereCaseId($value)
@@ -43,6 +42,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $modUser
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ban whereModUserId($value)
+ * @mixin \Eloquent
  */
 	class Ban extends \Eloquent {}
 }
@@ -138,8 +138,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereWebhookUrl($value)
- * @mixin \Eloquent
  * @property-read mixed $breadcrumb
+ * @mixin \Eloquent
  */
 	class Category extends \Eloquent {}
 }
@@ -174,7 +174,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereReplyTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
- * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $mentions
  * @property-read int|null $mentions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
@@ -184,6 +183,7 @@ namespace App\Models{
  * @property-read \App\Models\Subscription|null $subscribed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
  * @property-read int|null $reports_count
+ * @mixin \Eloquent
  */
 	class Comment extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -218,8 +218,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Dependency whereUrl($value)
+ * @property-read Model|\Eloquent $dependable
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $dependable
  */
 	class Dependency extends \Eloquent {}
 }
@@ -247,9 +247,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUrlName($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $lastUser
  * @property-read \App\Models\Game|null $game
+ * @mixin \Eloquent
  */
 	class Document extends \Eloquent {}
 }
@@ -285,7 +285,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|File whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property string $label
  * @property string $version
@@ -295,6 +294,7 @@ namespace App\Models{
  * @property string|null $unique_name
  * @property-read \App\Models\Image|null $image
  * @method static \Illuminate\Database\Eloquent\Builder|File whereUniqueName($value)
+ * @mixin \Eloquent
  */
 	class File extends \Eloquent {}
 }
@@ -316,8 +316,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 	class FollowedGame extends \Eloquent {}
 }
@@ -341,8 +341,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereNotify($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedMod whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 	class FollowedMod extends \Eloquent {}
 }
@@ -366,8 +366,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereNotify($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 	class FollowedUser extends \Eloquent {}
 }
@@ -387,7 +387,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereGameId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Game|null $game
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
@@ -395,6 +394,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumCategory[] $categories
  * @property-read int|null $categories_count
  * @method static \Illuminate\Database\Eloquent\Builder|Forum whereName($value)
+ * @mixin \Eloquent
  */
 	class Forum extends \Eloquent {}
 }
@@ -418,7 +418,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property string $emoji
  * @property-read \App\Models\Forum $forum
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereEmoji($value)
@@ -434,6 +433,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereBannedCanPost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereIsPrivate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory wherePrivateThreads($value)
+ * @mixin \Eloquent
  */
 	class ForumCategory extends \Eloquent {}
 }
@@ -468,7 +468,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereWebhookUrl($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Forum|null $forum
  * @property int|null $forum_id
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
@@ -483,6 +482,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  * @property-read int|null $reports_count
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereModCount($value)
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  */
 	class Game extends \Eloquent {}
 }
@@ -545,10 +546,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
- * @mixin \Eloquent
  * @property int $mod_id
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereModId($value)
  * @property-read \App\Models\Mod $mod
+ * @mixin \Eloquent
  */
 	class Image extends \Eloquent {}
 }
@@ -576,8 +577,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereLocalized($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Game $game
+ * @mixin \Eloquent
  */
 	class InstructsTemplate extends \Eloquent {}
 }
@@ -710,7 +711,6 @@ namespace App\Models{
  * @method static Builder|Mod whereVersion($value)
  * @method static Builder|Mod whereViews($value)
  * @method static Builder|Mod whereVisibility($value)
- * @mixin \Eloquent
  * @property-read void $breadcrumb
  * @property-read mixed $tag_ids
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
@@ -772,6 +772,7 @@ namespace App\Models{
  * @method static Builder|Mod whereAllowedStorage($value)
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
+ * @mixin \Eloquent
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -841,9 +842,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereUserId($value)
- * @mixin \Eloquent
  * @property bool $accepted
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereAccepted($value)
+ * @mixin \Eloquent
  */
 	class ModMember extends \Eloquent {}
 }
@@ -899,7 +900,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereSeen($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read Model|\Eloquent $context
  * @property-read Model|\Eloquent $notifiable
  * @property-read \App\Models\User $user
@@ -908,6 +908,7 @@ namespace App\Models{
  * @property int|null $from_user_id
  * @property-read \App\Models\User|null $fromUser
  * @method static Builder|Notification whereFromUserId($value)
+ * @mixin \Eloquent
  */
 	class Notification extends \Eloquent {}
 }
@@ -931,9 +932,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereType($value)
+ * @mixin \Eloquent
  */
 	class Permission extends \Eloquent {}
 }
@@ -957,11 +958,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|PopularityLog whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 	class PopularityLog extends \Eloquent {}
 }
@@ -991,7 +992,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereUserId($value)
- * @mixin \Eloquent
  * @property string|null $name
  * @property int|null $game_id
  * @property-read Model|\Eloquent $reportable
@@ -1001,6 +1001,7 @@ namespace App\Models{
  * @property bool $locked
  * @method static \Illuminate\Database\Eloquent\Builder|Report whereLocked($value)
  * @property-read \App\Models\Game|null $game
+ * @mixin \Eloquent
  */
 	class Report extends \Eloquent {}
 }
@@ -1030,9 +1031,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property bool $is_vanity
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
+ * @mixin \Eloquent
  */
 	class Role extends \Eloquent {}
 }
@@ -1107,8 +1108,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereSubscribableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 	class Subscription extends \Eloquent {}
 }
@@ -1159,8 +1160,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Suspension whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
+ * @mixin \Eloquent
  */
 	class Suspension extends \Eloquent {}
 }
@@ -1189,7 +1190,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereNoticeLocalized($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereNoticeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $games
@@ -1206,6 +1206,7 @@ namespace App\Models{
  * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  * @property-read int|null $mods_count
+ * @mixin \Eloquent
  */
 	class Tag extends \Eloquent {}
 }
@@ -1241,7 +1242,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Thread query()
- * @mixin \Eloquent
  * @property int $id
  * @property string $name
  * @property string $content
@@ -1299,6 +1299,7 @@ namespace App\Models{
  * @property-read \App\Models\Game|null $game
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
+ * @mixin \Eloquent
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1320,11 +1321,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereModId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereUserId($value)
- * @mixin \Eloquent
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
  * @property int|null $keep_owner_level
  * @method static \Illuminate\Database\Eloquent\Builder|TransferRequest whereKeepOwnerLevel($value)
+ * @mixin \Eloquent
  */
 	class TransferRequest extends \Eloquent {}
 }
@@ -1362,7 +1363,6 @@ namespace App\Models{
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User withPermissions()
- * @mixin \Eloquent
  * @property-read \App\Models\UserExtra|null $extra
  * @property string $custom_color
  * @method static Builder|User whereCustomColor($value)
@@ -1438,12 +1438,13 @@ namespace App\Models{
  * @property-read int|null $all_followed_mods_count
  * @property-read int|null $followed_mods_count
  * @property-read int|null $mods_count
- * @method static \Illuminate\Database\Eloquent\Builder|User whereActivated($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereModCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePendingEmailSetAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereWaitingEmail($value)
+ * @method static Builder|User whereActivated($value)
+ * @method static Builder|User whereLastIpAddress($value)
+ * @method static Builder|User whereModCount($value)
+ * @method static Builder|User wherePendingEmail($value)
+ * @method static Builder|User wherePendingEmailSetAt($value)
+ * @method static Builder|User whereWaitingEmail($value)
+ * @mixin \Eloquent
  */
 	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
@@ -1471,7 +1472,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereWarning($value)
- * @mixin \Eloquent
  * @property string|null $pardon_reason
  * @property bool $pardoned
  * @property-read \App\Models\Ban|null $ban
@@ -1483,6 +1483,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereGameId($value)
  * @property bool $active
  * @method static \Illuminate\Database\Eloquent\Builder|UserCase whereActive($value)
+ * @mixin \Eloquent
  */
 	class UserCase extends \Eloquent {}
 }
@@ -1511,7 +1512,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra wherePrivateProfile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereUserId($value)
- * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereLastOnlineAt($value)
  * @property Carbon|null $last_online
  * @property string|null $donation_url
@@ -1530,6 +1530,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowLastGames($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowMods($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserExtra whereHomeShowThreads($value)
+ * @mixin \Eloquent
  */
 	class UserExtra extends \Eloquent {}
 }
@@ -1555,6 +1556,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereSocialLogins($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUserId($value)
+ * @mixin \Eloquent
  */
 	class UserRecord extends \Eloquent {}
 }
