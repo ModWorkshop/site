@@ -193,6 +193,7 @@ select_placeholder: 'Select...',
 made_with_love: "Made with ❤ by {luffy}",
 operated_by: "Operated by {company}",
 moments_ago: "Moments ago",
+browse: "Browse",
 
 //Discussions//
 poster: 'Poster',

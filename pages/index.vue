@@ -15,7 +15,11 @@
             </flex>
         </flex>
         
-        <mod-list v-if="user?.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
+        <a-lite-mod-list
+            v-if="!user"
+            :title-link="`/mods`"
+        />
+        <mod-list v-else-if="user.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="all" icon="mdi:layers">{{$t('all')}}</a-group-button>

@@ -1,12 +1,10 @@
 <template>
     <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
         <Title>{{game.name}}</Title>
-        <mod-list 
+        <a-lite-mod-list
             v-if="store.user?.extra?.game_show_mods ?? true"
-            :title="$t('mods')"
-            :title-link="`/g/${game.short_name}/mods`"
+            :link="`/g/${game.short_name}/mods`"
             :game="game"
-            :url="`games/${game.id}/mods`"
         />
         <thread-list 
             v-if="store.user?.extra?.game_show_threads ?? true"
