@@ -1,9 +1,9 @@
 <template>
-    <flex column gap="0" class="mod content-block" :title="mod.short_desc">
+    <div class="mod content-block" :title="mod.short_desc">
         <NuxtLink :to="link">
             <mod-thumbnail :thumbnail="mod.thumbnail"/>
         </NuxtLink>
-        <flex gap="1" column class="p-2 text-secondary place-content-around" grow>
+        <div class="mod-details">
             <NuxtLink class="mod-title" :to="link" :title="mod.name">
                 <mod-status :mod="mod"/> {{mod.name}}
             </NuxtLink>
@@ -37,8 +37,8 @@
                     <a-icon icon="mdi:clock"/> <time-ago :time="date"/>
                 </span>
             </flex>
-        </flex>
-    </flex>
+        </div>
+    </div>
 </template>
 <script setup lang="ts">
 import { useStore } from "~~/store";
@@ -81,6 +81,20 @@ const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame
 .mod {
     width: 100%;
     min-height: 220px;
+    display: flex;
+    gap: 0;
+    flex-direction: column;
     justify-content: flex-start;
+}
+
+.mod-details {
+    padding: 0.5rem;
+    color: var(--secondary-text-color);
+    place-content: place-around;
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    flex-direction: column;
+    word-break: break-word;
 }
 </style>
