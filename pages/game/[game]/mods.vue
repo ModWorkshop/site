@@ -18,7 +18,7 @@ const { data: game } = await useResource<Game>('game', 'games');
 
 const breadcrumb = computed(() => {
     if (game.value) {
-        return [ { name: t('games'), to: 'games' }, { name: game.value.name }, { name: t('mods') } ];
+        return [ { name: t('games'), to: 'games' }, { name: game.value.name, to: `g/${game.value.short_name ?? game.value.id}`}, { name: t('mods') } ];
     }
 });
 
