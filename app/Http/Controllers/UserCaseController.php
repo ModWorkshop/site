@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserCase;
 use Arr;
+use Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -66,6 +67,7 @@ class UserCaseController extends Controller
         if (isset($game)) {
             $val['game_id'] = $game->id;
         }
+        $val['active'] = true;
         $val['mod_user_id'] = $this->userId();
 
         $user = User::find($val['user_id']);
