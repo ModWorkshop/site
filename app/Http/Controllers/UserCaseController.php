@@ -59,7 +59,7 @@ class UserCaseController extends Controller
     public function store(Request $request, Game $game=null)
     {
         $val = $request->validate([
-            'user_id' => 'int|min:0|nullable|exists:users,id',
+            'user_id' => 'int|min:0|exists:users,id',
             'reason' => 'string|min:3|max:1000',
             'expire_date' => 'date|nullable|after:now'
         ]);
