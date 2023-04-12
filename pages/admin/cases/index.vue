@@ -55,7 +55,7 @@ async function warn() {
         });
         reason.value = '';
         warnUser.value = null;
-        cases.value?.data.push(userCase);
+        cases.value?.data.unshift(userCase);
     } catch (e) {
         showErrorToast(e as FetchError);
     }
