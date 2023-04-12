@@ -90,7 +90,7 @@ const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame
 .mod-details {
     padding: 0.5rem;
     color: var(--secondary-text-color);
-    place-content: place-around;
+    place-content: space-around;
     display: flex;
     gap: 4px;
     flex: 1;
