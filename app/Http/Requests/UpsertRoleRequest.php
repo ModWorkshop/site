@@ -24,8 +24,8 @@ class UpsertRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|nullable|min:3|max:100',
-            'tag' => 'string|nullable|min:3|max:100',
+            'name' => 'string|nullable|min:3|max:30',
+            'tag' => 'string|nullable|min:3|max:30',
             'desc' => 'string|nullable|max:1000',
             'color' => 'string|nullable|max:8',
             'is_vanity' => 'boolean',
