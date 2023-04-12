@@ -149,7 +149,7 @@ class Game extends Model
 
     public function waitingCount(): Attribute
     {
-        return Attribute::make(fn() => $this->mods()->where('approved', false)->count());
+        return Attribute::make(fn() => $this->mods()->whereApproved(null)->count());
 
     }
 
