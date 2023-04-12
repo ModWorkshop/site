@@ -90,7 +90,7 @@ class UserController extends Controller
             $foundUser->loadMissing('followed');
         }
 
-        if ($foundUser->id === $this->userId() || Auth::user()->hasPermission('manage-users')) {
+        if ($foundUser->id === $this->userId() || Auth::user()?->hasPermission('manage-users')) {
             $foundUser->append('signable');
         }
 
