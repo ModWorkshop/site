@@ -189,7 +189,7 @@ export interface Game {
     roles?: Role[];
     user_data?: GameUserData;
     announcements?: Thread[];
-    reports_count?: number;
+    report_count?: number;
     waiting_count?: number;
 }
 

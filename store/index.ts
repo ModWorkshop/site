@@ -72,7 +72,7 @@ export const useStore = defineStore('main', {
                     settings: Settings,
                     announcements: Thread[],
                     unseen_notifications: number,
-                    reports_count?: number,
+                    report_count?: number,
                     waiting_count?: number,
                     user?: User
                 }>('site-data'),
@@ -88,7 +88,7 @@ export const useStore = defineStore('main', {
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;
             this.notificationCount = siteData.unseen_notifications;
-            this.reportsCount = siteData.reports_count ?? null;
+            this.reportsCount = siteData.report_count ?? null;
             this.waitingCount = siteData.waiting_count ?? null;
 
             if (typeof(redirect) == 'string') {

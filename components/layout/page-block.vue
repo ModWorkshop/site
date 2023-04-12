@@ -96,7 +96,7 @@ const hiddenAnnouncements = computed(() => {
     }
 });
 
-const reportsCount = computed(() => props.game!.reports_count ?? 0);
+const reportsCount = computed(() => props.game!.report_count ?? 0);
 const waitingCount = computed(() => props.game!.waiting_count ?? 0);
 const hasReports = computed(() => reportsCount.value > 0);
 const hasWaiting = computed(() => waitingCount.value > 0);
