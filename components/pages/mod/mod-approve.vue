@@ -23,9 +23,11 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
+import { remove } from '@vue/shared';
 
 const props = defineProps<{
     mod: Mod,
+    mods?: Mod[]
 }>();
 
 const approve = ref(false);
@@ -42,6 +44,10 @@ async function submit(onError) {
         props.mod.approved = approve.value;
         form.reason = '';
         showModal.value = false;
+
+        if (props.mods) {
+            remove(props.mods, props.mod);
+        }
     } catch (error) {
         onError(error);
     }
