@@ -39,10 +39,13 @@ export default function() {
         errorStrings = {
             409: t('error_409'),
             403: t('error_403'),
+            404: t('error_404'),
+            500: t('error_500'),
+            502: t('error_502'),
             ...errorStrings
         };
 
-        const code = e.status ?? e.response?.status ?? 419;
+        const code = e.status ?? e.response?.status ?? 502;
         let message;
         if (e instanceof FetchError) {
             message = e.message ?? e.data?.message;
@@ -56,6 +59,8 @@ export default function() {
         } else {
             desc = errorStrings[message] || errorStrings[code] || t('something_went_wrong');
         }
+
+        desc += ` (${code})`;
 
         return showToast({
             color: 'danger',
