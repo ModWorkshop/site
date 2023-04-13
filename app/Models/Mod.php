@@ -111,7 +111,7 @@ abstract class Visibility {
  * @method static Builder|Mod whereDownloadId($value)
  * @method static Builder|Mod whereDownloadType($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
+ * @property-read int|null $comment_count
  * @property-read Model|\Eloquent $download
  * @method static Builder|Mod whereUserId($value)
  * @property-read \App\Models\Image|null $thumbnail

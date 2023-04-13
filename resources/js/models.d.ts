@@ -303,7 +303,7 @@ declare namespace App.Models {
         files_count?: number | null;
         links_count?: number | null;
         dependencies_count?: number | null;
-        comments_count?: number | null;
+        comment_count?: number | null;
         readonly breadcrumb?: any;
     }
 
@@ -470,7 +470,7 @@ declare namespace App.Models {
         name: string;
         content: string;
         views: number;
-        comments_count: number;
+        comment_count: number;
         archived: boolean;
         bumped_at: string | null;
         pinned_at: string | null;
@@ -488,7 +488,7 @@ declare namespace App.Models {
         comments?: Array<App.Models.Comment> | null;
         tags?: Array<App.Models.Tag> | null;
         tags_special?: Array<App.Models.Taggable> | null;
-        comments_count?: number | null;
+        comment_count?: number | null;
         tags_count?: number | null;
         tags_special_count?: number | null;
     }

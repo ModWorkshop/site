@@ -147,7 +147,7 @@ class Comment extends Model implements SubscribableInterface
             Notification::deleteRelated($comment);
             $comment->subscriptions()->delete();
             if (isset($comment->commentable->comments)) {
-                $comment->commentable->decrement('comments_count');
+                $comment->commentable->decrement('comment_count');
             }
         });
     }

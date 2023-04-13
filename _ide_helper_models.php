@@ -722,7 +722,7 @@ namespace App\Models{
  * @method static Builder|Mod whereDownloadId($value)
  * @method static Builder|Mod whereDownloadType($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
+ * @property-read int|null $comment_count
  * @property-read Model|\Eloquent $download
  * @method static Builder|Mod whereUserId($value)
  * @property-read \App\Models\Image|null $thumbnail
@@ -773,6 +773,7 @@ namespace App\Models{
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
  * @mixin \Eloquent
+ * @property-read int|null $comments_count
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1246,7 +1247,7 @@ namespace App\Models{
  * @property string $name
  * @property string $content
  * @property int $views
- * @property-read int|null $comments_count
+ * @property-read int|null $comment_count
  * @property bool $archived
  * @property string $bumped_at
  * @property string $pinned_at
@@ -1300,6 +1301,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
  * @mixin \Eloquent
+ * @property-read int|null $comments_count
  */
 	class Thread extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
 }
@@ -1425,7 +1427,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
  * @property-read int|null $all_followed_users_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
+ * @property-read int|null $comment_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
  * @property-read int|null $threads_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
@@ -1445,6 +1447,7 @@ namespace App\Models{
  * @method static Builder|User wherePendingEmailSetAt($value)
  * @method static Builder|User whereWaitingEmail($value)
  * @mixin \Eloquent
+ * @property-read int|null $comments_count
  */
 	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }

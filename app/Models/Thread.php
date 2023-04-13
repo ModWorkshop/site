@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string $name
  * @property string $content
  * @property int $views
- * @property-read int|null $comments_count
+ * @property-read int|null $comment_count
  * @property bool $archived
  * @property string $bumped_at
  * @property string $pinned_at
