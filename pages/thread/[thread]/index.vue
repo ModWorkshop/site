@@ -40,7 +40,7 @@
             resource-name="replies"
             :commentable="thread" 
             :can-edit-all="canEditComments"
-            :can-delete-all="canDeleteComments"
+            :can-delete-all="canEditComments"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"
@@ -52,18 +52,23 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Breadcrumb, Thread } from '~~/types/models';
+import { Comment } from '../../../types/models';
 
 const { t } = useI18n();
-
-const canEditComments = ref(false);
-const canDeleteComments = ref(false);
-const commentSpecialTag = ref();
 
 const { user, hasPermission, isBanned, gameBan, ban } = useStore();
 const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
+
+const commentSpecialTag = function(comment: Comment) {
+    if (comment.user_id === thread.value.user_id) {
+        return `${t('poster')}`;
+    } 
+};
+
 const threadGame = computed(() => thread.value.forum.game);
+const canEditComments = computed(() => hasPermission('manage-discussions', threadGame.value));
 
 const thumbnail = computed(() => {
     const avatar = thread.value.user.avatar;
