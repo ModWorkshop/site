@@ -35,6 +35,8 @@ class SupporterController extends Controller
             'user_id' => 'int|min:1|required|exists:users,id',
             'expire_date' => 'date|after:now|nullable'
         ]);
+
+        Utils::convertToUTC($val, 'expire_date');
         
         if (Supporter::where('user_id', $val['user_id'])->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now())->exists()) {
             abort(409, 'Supporter membership already exists!');
@@ -67,6 +69,8 @@ class SupporterController extends Controller
             'expire_date' => 'date|nullable',
             'is_cancelled' => 'boolean|nullable'
         ]);
+
+        Utils::convertToUTC($val, 'expire_date');
 
         $supporter->update($val);
 

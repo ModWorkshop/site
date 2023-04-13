@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
 use Arr;
+use Carbon\Carbon;
 
 const bbCodeConversion = [
     "[b]" => "**",
@@ -119,6 +120,14 @@ class Utils {
                 'user_id' => $newUserId,
             ]);
             $record->delete();
+        }
+    }
+
+    // Stupidity - https://github.com/laravel/framework/issues/1841
+    public static function convertToUTC(array &$val, string $key)
+    {
+        if (isset($val[$key])) {
+            $val[$key] = Carbon::parse($val[$key])->utc()->toDateTimeString();
         }
     }
 }

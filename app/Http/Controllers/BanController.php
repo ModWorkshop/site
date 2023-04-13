@@ -62,6 +62,8 @@ class BanController extends Controller
             'can_appeal' => 'boolean|nullable'
         ]);
 
+        Utils::convertToUTC($val, 'expire_date');
+
         /** @var User */
         $banUser = User::find($val['user_id']);
 
@@ -106,6 +108,8 @@ class BanController extends Controller
             'reason' => 'string|min:3|max:1000',
             'can_appeal' => 'boolean|nullable',
         ]);
+
+        Utils::convertToUTC($val, 'expire_date');
 
         if (!$ban->user->canBeEdited()) {
             abort(403, 'Cannot edit ban of user since you cannot ban them normally.');

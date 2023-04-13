@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserCase;
+use App\Services\Utils;
 use Arr;
 use Log;
 use Carbon\Carbon;
@@ -64,11 +65,15 @@ class UserCaseController extends Controller
             'expire_date' => 'date|nullable|after:now'
         ]);
 
+        Utils::convertToUTC($val, 'expire_date');
+        
         if (isset($game)) {
             $val['game_id'] = $game->id;
         }
         $val['active'] = true;
         $val['mod_user_id'] = $this->userId();
+
+        Utils::convertToUTC($val, 'expire_date');
 
         $user = User::find($val['user_id']);
         $case = UserCase::create($val);
@@ -110,6 +115,8 @@ class UserCaseController extends Controller
             'expire_date' => 'date|nullable',
             'active' => 'boolean',
         ]);
+
+        Utils::convertToUTC($val, 'expire_date');
 
         $userCase->update($val);
 

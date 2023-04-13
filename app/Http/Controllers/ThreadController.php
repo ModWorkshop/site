@@ -113,6 +113,8 @@ class ThreadController extends Controller
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
         ]);
 
+        Utils::convertToUTC($val, 'announce_until');
+
         $val['user_id'] = $request->user()->id;
         $val['last_user_id'] = $val['user_id'];
         $val['bumped_at'] = Carbon::now();
@@ -170,6 +172,8 @@ class ThreadController extends Controller
             'pinned' => 'boolean|nullable',
             'locked' => 'boolean|nullable'
         ]);
+
+        Utils::convertToUTC($val, 'announce_until');
 
         $changePin = Arr::pull($val, 'pinned');
         $changeAnnounce = Arr::pull($val, 'announce');
