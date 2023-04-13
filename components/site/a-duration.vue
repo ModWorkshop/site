@@ -1,7 +1,7 @@
 <template>
     <flex>
         <a-input 
-            v-model="vm"
+            v-model="controlVm"
             type="date"
             :label="label"
             :disabled="disabled"
@@ -48,7 +48,9 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:modelValue']);
 
-const vm = computed({
+const vm = useVModel(props, 'modelValue', emit);
+
+const controlVm = computed({
     get() {
         if (props.modelValue) {
             return DateTime.fromISO(props.modelValue).toISODate(); //Why the fuck can't you just accept the regular ISO8601 date???
@@ -57,13 +59,15 @@ const vm = computed({
         }
     },
     set(val) {
-        emit('update:modelValue', val);
+        const now = DateTime.now();
+        vm.value = val ? DateTime.fromISO(val).plus({ hours: now.hour, minutes: now.minute }).toISO() : null;
     }
 });
 
-const now = DateTime.now();
 
 function bumpDate(time, count) {
-    vm.value = now.plus({ [time]: count }).toISODate();
+    const now = DateTime.now();
+
+    vm.value = now.plus({ [time]: count }).toISO();
 }
 </script>
