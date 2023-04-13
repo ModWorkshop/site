@@ -60,14 +60,12 @@ const controlVm = computed({
     },
     set(val) {
         const now = DateTime.now();
-        vm.value = val ? DateTime.fromISO(val).plus({ hours: now.hour, minutes: now.minute }).toISO() : null;
+        vm.value = val ? DateTime.fromISO(val).set({ hour: now.hour, minute: now.minute }).toISO() : null;
     }
 });
 
 
 function bumpDate(time, count) {
-    const now = DateTime.now();
-
-    vm.value = now.plus({ [time]: count }).toISO();
+    controlVm.value = DateTime.now().plus({ [time]: count }).toISO();
 }
 </script>
