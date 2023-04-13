@@ -147,7 +147,7 @@ async function subscribe() {
         }
         props.commentable.subscribed = !props.commentable.subscribed;
     } catch (error) {
-        console.log(error);
+        showError(error);
     }
 }
 
@@ -296,6 +296,7 @@ async function editComment() {
     } catch (error) {
         commentContent.value = content; //We failed, let's not eat the user's draft
         // Notification.error('Failed to edit the comment');
+        showError(error);
         console.log(error);
     }
 }
@@ -318,9 +319,13 @@ function onVisChange([{ isIntersecting }]) {
 }
 
 async function deleteComment(comment: Comment, isReply=false) {
-    await useDelete(`comments/${comment.id}`);
-    if (!isReply) {
-        remove(comments.value!.data, comment);
+    try {
+        await useDelete(`comments/${comment.id}`);
+        if (!isReply) {
+            remove(comments.value!.data, comment);
+        }
+    } catch (error) {
+        showError(error);
     }
 }
 
@@ -342,8 +347,12 @@ function replyToComment(replyTo: Comment, mention: User) {
  * Pretty much because this isn't as frequent and so it's sorted well.
  */
 async function setCommentPinState(comment: Comment) {
-    await usePatch(`comments/${comment.id}`, { pinned: comment.pinned });
-    loadComments();
+    try {
+        await usePatch(`comments/${comment.id}`, { pinned: comment.pinned });
+        loadComments();
+    } catch (error) {
+        showError(error);
+    }
 }
 
 function beginEditingComment(comment: Comment) {
