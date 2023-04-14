@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="link">
+    <NuxtLink v-if="link" :to="link">
         <a-img :src="image" class="donation-button" is-asset/>
     </NuxtLink>
 </template>
