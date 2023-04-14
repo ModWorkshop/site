@@ -39,7 +39,8 @@ export default defineNuxtConfig({
 
 
 			//Kinda disgusting, but other way is making components for each one of them and then pages...
-			const game = routes.find(page => page.path == '/game/:game/admin');
+			const game = routes.find(page => page.path == '/game/:game()/admin');
+
 			if (game && game.children) {
 				game.children.push(...[
 					{ path: 'bans', file: '~/pages/admin/bans/index.vue' },
