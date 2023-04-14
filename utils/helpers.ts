@@ -196,7 +196,7 @@ export function clearAllCookies() {
 }
 
 export function getAdminUrl(page: string, game?: Game) {
-    return `${game ? `/g/${game.id}` : ''}/admin/${page}`;
+    return `${game ? `/g/${game.short_name}` : ''}/admin/${page}`;
 }
 
 export function truncate(str: string, length: number) {

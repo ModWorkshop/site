@@ -1,7 +1,7 @@
 <template>
-    <a-list :url="`games/${game.id}/users`" query :item-link="item => `/g/${game.id}/user/${item.id}/edit`">
+    <a-list :url="`games/${game.short_name}/users`" query :item-link="item => `/g/${game.short_name}/user/${item.id}/edit`">
         <template #item="{ item }">
-            <a-list-item :to="`/g/${game.id}/user/${item.id}`">
+            <a-list-item :to="`/g/${game.short_name}/user/${item.id}`">
                 <a-user :user="item" static show-at/>
             </a-list-item>
         </template>

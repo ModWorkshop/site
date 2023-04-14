@@ -36,13 +36,13 @@
                     </flex>
                     <flex class="ml-auto" gap="2" wrap>
                         <flex class="mr-4" gap="2">
-                            <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.id}/admin/reports`">
+                            <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
                                 <a-icon icon="mdi:alert-box"/> {{reportsCount}}
                             </NuxtLink>
-                            <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.id}/admin/approvals`">
+                            <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.short_name}/admin/approvals`">
                                 <a-icon icon="mdi:clock"/> {{waitingCount}}
                             </NuxtLink>
-                            <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.id}/admin`">{{$t('admin_page')}}</a-link-button>
+                            <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.short_name}/admin`">{{$t('admin_page')}}</a-link-button>
                         </flex>
 
                         <a-link-button v-if="store.user" icon="mdi:account-settings-variant" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">{{$t('game_preferences')}}</a-link-button>
