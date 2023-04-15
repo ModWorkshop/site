@@ -8,7 +8,7 @@ interface MainStore {
     user: User|null,
     notifications: Paginator<Notification>|null,
     notificationCount: number|null,
-    reportsCount: number|null,
+    reportCount: number|null,
     waitingCount: number|null,
     currentGame: Game|null,
     savedTheme: CookieRef<string>|null,
@@ -25,7 +25,7 @@ export const useStore = defineStore('main', {
     state: (): MainStore => ({
         notifications: null,
         notificationCount: null,
-        reportsCount: null,
+        reportCount: null,
         waitingCount: null,
         savedTheme: useCookie('theme'),
         colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
@@ -88,7 +88,7 @@ export const useStore = defineStore('main', {
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;
             this.notificationCount = siteData.unseen_notifications;
-            this.reportsCount = siteData.report_count ?? null;
+            this.reportCount = siteData.report_count ?? null;
             this.waitingCount = siteData.waiting_count ?? null;
 
             if (typeof(redirect) == 'string') {

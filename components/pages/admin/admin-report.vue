@@ -27,12 +27,15 @@
 import { remove } from '@vue/shared';
 import { useI18n } from 'vue-i18n';
 import { Game, Report } from '~~/types/models';
+import { useStore } from '../../../store/index';
 
 const props = defineProps<{
-    game: Game,
+    game?: Game,
     report: Report,
     reports: Report[]
 }>();
+
+const store = useStore();
 
 const { t } = useI18n();
 const router = useRouter();
@@ -82,8 +85,13 @@ const reportedUser = computed(() => {
 });
 
 async function toggleArchiveReport(report) {
-    await usePatch(`reports/${report.id}`, { archived: !report.archived });
+    const archived = !report.archived;
+    await usePatch(`reports/${report.id}`, { archived });
     report.archived = !report.archived;
+    if (props.game) {
+        props.game.report_count = Math.max(0, props.game.report_count! + (archived ? -1 : 1));
+    }
+    store.reportCount = Math.max(0, store.reportCount! + (archived ? -1 : 1));
 }
 
 async function deleteReport(report) {

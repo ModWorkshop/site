@@ -30,6 +30,10 @@ const props = defineProps<{
     mods?: Mod[]
 }>();
 
+const emit = defineEmits<{
+    ( e: 'approved', status: boolean ): void
+}>();
+
 const approve = ref(false);
 const showModal = ref(false);
 const form = reactive({
@@ -44,6 +48,8 @@ async function submit(onError) {
         props.mod.approved = approve.value;
         form.reason = '';
         showModal.value = false;
+
+        emit('approved', approve.value);
 
         if (props.mods) {
             remove(props.mods, props.mod);

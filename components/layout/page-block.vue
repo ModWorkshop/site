@@ -37,7 +37,7 @@
                     <flex class="ml-auto" gap="2" wrap>
                         <flex class="mr-4" gap="2">
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
-                                <a-icon icon="mdi:alert-box"/> {{reportsCount}}
+                                <a-icon icon="mdi:alert-box"/> {{reportCount}}
                             </NuxtLink>
                             <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.short_name}/admin/approvals`">
                                 <a-icon icon="mdi:clock"/> {{waitingCount}}
@@ -96,9 +96,9 @@ const hiddenAnnouncements = computed(() => {
     }
 });
 
-const reportsCount = computed(() => props.game!.report_count ?? 0);
+const reportCount = computed(() => props.game!.report_count ?? 0);
 const waitingCount = computed(() => props.game!.waiting_count ?? 0);
-const hasReports = computed(() => reportsCount.value > 0);
+const hasReports = computed(() => reportCount.value > 0);
 const hasWaiting = computed(() => waitingCount.value > 0);
 const canSeeReports = computed(() => store.hasPermission('manage-users', props.game));
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods', props.game));
