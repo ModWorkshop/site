@@ -103,6 +103,7 @@ Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [UserController::class, 'getGameUser']);
 Route::get('games/{game}/users', [UserController::class, 'index']);
 Route::get('games/{game}/users/{user}/data', [GameController::class, 'getGameUserData']);
+Route::get('games/{game}/data', [GameController::class, 'getGameData']);
 Route::patch('games/{game}/users/{user}/roles', [GameController::class, 'setUserGameRoles']);
 APIService::gameResource('tags', TagController::class, ['parentOptional' => true]);
 APIService::gameResource('instructs-templates', InstructsTemplateController::class);
@@ -232,6 +233,7 @@ Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware
 Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:6,1']);
 Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
 Route::get('/check-reset-token', [LoginController::class, 'checkResetToken']);
+// Route::get('/login', fn() => redirect(env('FRONTEND_URL').'/login'))->name('login');
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 
 

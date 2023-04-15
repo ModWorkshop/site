@@ -125,6 +125,23 @@ class GameController extends Controller
         $user->syncGameRoles($game, array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
     }
 
+    public function getGameData(Game $game)
+    {
+        $data = [
+            'announcements' => $game->announcements,
+        ];
+    
+        if (Auth::hasUser()) {
+            $user = Auth::user();
+            if ($user->hasPermission('moderate-users')) {
+                $data['report_count'] = $game->reportCount;
+                $data['waiting_count'] = $game->waitingCount;
+            }
+        }
+
+        return $data;
+    }
+
     /**
      * Returns game data for a user. Currently used for roles.
      */
