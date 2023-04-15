@@ -168,8 +168,12 @@ export const useStore = defineStore('main', {
          */
         async fetchGames() {
             if (!this.games) {
-                this.games = await useGetMany('/games');
+                const { data } = await useFetchMany<Game>('/games');
+                this.games = data.value;
+
+                return data.value;
             }
+            return this.games;
         },
 
         setUserAvatar(avatar: string) {

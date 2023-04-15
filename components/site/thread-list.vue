@@ -81,7 +81,7 @@ const currentGameId = computed(() => props.gameId);
 
 const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCategory>('forum-categories', {
     params: reactive({ forum_id: currentForumId }),
-    immediate: !!currentForumId.value
+    immediate: !!currentForumId.value && props.filters
 });
 
 const currentCategroy = computed(() => categories.value?.data.find(cat => cat.id == categoryId.value));
@@ -102,7 +102,8 @@ const params = reactive({
 
 const { data: threads, refresh } = await useFetchMany<Thread>('threads', { lazy: props.lazy, params });
 
-const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { 
+const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
+    immediate: props.filters,
     params: reactive({ 
         game_id: currentGameId,
         type: 'forum',
@@ -110,7 +111,7 @@ const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
     })
 });
 
-const { data: games } = await useFetchMany<Game>('games', { immediate: !currentGameId.value });
+const { data: games } = await useFetchMany<Game>('games', { immediate: !currentGameId.value && props.filters });
 
 const forums = computed(() => {
     const forums = [{ id: 1, name: t('global_forum') }];

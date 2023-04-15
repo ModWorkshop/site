@@ -45,11 +45,10 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Game } from '~~/types/models';
 
-const { user } = useStore();
+const { user, fetchGames } = useStore();
 
-const { data: games } = await useFetchMany<Game>('games?total=10');
+const games = await fetchGames();
 
 const allGames = ref(false);
 
@@ -65,14 +64,14 @@ const links = {
 const currentFollowUrl = computed(() => links[selectedView.value]);
 
 const lastGames = computed(() => {
-    if (!games.value) {
+    if (!games) {
         return [];
     }
 
     if (allGames.value) {
-        return games.value.data;
+        return games.data;
     } else {
-        return games.value.data.slice(0, 6);
+        return games.data.slice(0, 6);
     }
 });
 </script>
