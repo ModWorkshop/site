@@ -24,7 +24,7 @@
                 </flex>
             </Transition>
             <slot name="pre-panels"/>
-            <div :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: 4}">
+            <div ref="tabContentHolder" :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: 4}">
                 <slot/>
             </div>
         </flex>
@@ -48,6 +48,7 @@ const props = defineProps({
 
 const slots = useSlots();
 const tabLinks = ref();
+const tabContentHolder = ref();
 const menuOpen = ref(false);
 
 function getCurrentTabs() {
@@ -65,14 +66,30 @@ function getCurrentTabs() {
 const tabs = ref(getCurrentTabs());
 const currentTab = computed(() => tabs.value.find(tab => tab.name === tabState.current));
 
-onUpdated(() => {
+function refreshTabs() {
     tabs.value = getCurrentTabs();
+}
+
+onUpdated(refreshTabs);
+
+// https://austingil.com/watching-changes-vue-js-component-slot-content/ to ensure that it is updated.
+let observer: MutationObserver;
+onMounted(() => {
+    observer = new MutationObserver(refreshTabs);
+    observer.observe(tabContentHolder.value, {
+        childList: true,
+        subtree: true
+    });
 });
+
+// Get rid of the observer when the component is unmounted.
+onBeforeUnmount(() => observer.disconnect());
 
 const tabState: { focus: number, current?: string } = reactive({
     current: props.query ? route.query.tab as string : undefined, 
     focus: 0
 });
+
 
 // Check if our current tab exists, otherwise fallback to the first.
 if (tabs.value.length > 0) {
