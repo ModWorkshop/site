@@ -18,7 +18,7 @@
                     <a-dropdown-item>{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
                 </mod-suspend>
                 <a-dropdown-item v-if="mod.images?.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
-                <a-dropdown-item v-if="mod.files?.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
+                <a-dropdown-item v-if="mod.files?.data.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
             </template>
         </VDropdown>
     </flex>
@@ -28,6 +28,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+import { Paginator } from '../../../types/paginator';
 
 const props = defineProps<{
     mod: Mod,
@@ -45,8 +46,12 @@ function deleteAllFiles() {
         descType: 'warning',
         async yes() {
             await useDelete(`mods/${props.mod.id}/files`);
-            props.mod.files = [];
-            props.mod.has_download = props.mod.links ? props.mod.links.length > 0 : false;
+            props.mod.files = new Paginator();
+            if (props.mod.download_type == 'file') {
+                props.mod.download = undefined;
+                props.mod.download_type = undefined;
+            }
+            props.mod.has_download = props.mod.links ? props.mod.links.data.length > 0 : false;
         }
     });
 }
@@ -58,6 +63,10 @@ function deleteAllImages() {
         async yes() {
             await useDelete(`mods/${props.mod.id}/images`);
             props.mod.images = [];
+            props.mod.thumbnail = undefined;
+            props.mod.thumbnail_id = undefined;
+            props.mod.banner = undefined;
+            props.mod.banner_id = undefined;
         }
     });
 }
