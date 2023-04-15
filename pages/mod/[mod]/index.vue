@@ -56,16 +56,6 @@ useServerSeoMeta({
 	twitterCard: 'summary',
 });
 
-if (mod.value) {
-    usePost(`mods/${mod.value.id}/register-view`, null, {
-        async onResponse({ response }) {
-            if (response.status == 201) {
-                mod.value.views++;
-            }
-        }
-    });
-}
-
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.value.game));
 const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.value.game)));
