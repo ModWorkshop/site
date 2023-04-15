@@ -159,7 +159,7 @@ export const useStore = defineStore('main', {
             }
 
             if (process.client) { //!!Avoid loooping on server side!!
-                lastTimeout = setTimeout(() => this.reloadSiteData(), 5 * 1000);
+                lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
             }
         },
 
