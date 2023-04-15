@@ -55,13 +55,26 @@ export const useStore = defineStore('main', {
             this.savedTheme = this.theme === 'light' ? null : 'light';
             useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
-        setGame(game: Game) {
+        setGame(game: Game|null) {
+            if (game) {
+                console.log('Setting game to', game.name);
+            } else {
+                console.log('Setting to no game');
+            }
             this.currentGame = game;
         },
         /**
          * Attempts to login the user (automatically)
          */
         async attemptLoginUser(redirect: string|boolean='/') {
+            await this.loadSiteData();
+
+            if (typeof(redirect) == 'string') {
+                useRouter().push(redirect);
+            }
+        },
+
+        async loadSiteData() {
             console.log('Attempting to fetch user data');
 
             //https://github.com/nuxt/framework/discussions/5655
@@ -91,9 +104,6 @@ export const useStore = defineStore('main', {
             this.reportCount = siteData.report_count ?? null;
             this.waitingCount = siteData.waiting_count ?? null;
 
-            if (typeof(redirect) == 'string') {
-                useRouter().push(redirect);
-            }
         },
 
         async reloadUser() {
@@ -119,11 +129,25 @@ export const useStore = defineStore('main', {
         async getNotificationCount() {
             this.notificationCount = await useGet<number>('/notifications/unseen');
         },
+        
+        // Reloads game data like announcements.
+        async getGameData() {
+            const gameData = await useGet<{ announcements: Thread[], waiting_count: number, report_count: number }>(`games/${this.currentGame!.id}/data`);
+            this.currentGame!.announcements = gameData.announcements;
+            this.currentGame!.waiting_count = gameData.waiting_count;
+            this.currentGame!.report_count = gameData.report_count;
+        },
 
-        async reloadNotifications(first = false) {
+        // Essentially reloads the site data so people don't have to refresh the page
+        async reloadSiteData(first = false) {
             if (this.user) {
                 if (!first) {
-                    await this.getNotificationCount();
+                    await this.loadSiteData();
+
+                    // Refresh game data too if exists.
+                    if (this.currentGame) {
+                        await this.getGameData();
+                    }
                 }
                 if (this.notifications) {
                     await this.getNotifications();
@@ -135,7 +159,7 @@ export const useStore = defineStore('main', {
             }
 
             if (process.client) { //!!Avoid loooping on server side!!
-                lastTimeout = setTimeout(() => this.reloadNotifications(), 60 * 1000);
+                lastTimeout = setTimeout(() => this.reloadSiteData(), 5 * 1000);
             }
         },
 

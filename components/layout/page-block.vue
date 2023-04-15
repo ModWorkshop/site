@@ -82,9 +82,7 @@ const props = withDefaults(defineProps<{
 const store = useStore();
 
 watch(() => props.game, () => {
-    if (props.game) {
-        store.setGame(props.game);
-    }
+    store.setGame(props.game || null);
 }, { immediate: true });
 
 const storedHiddenAns = useCookie('hidden-announcements');

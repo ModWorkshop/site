@@ -1,10 +1,11 @@
 import { FetchError } from 'ofetch';
 import { i18n } from './../app/i18n';
 import { useStore } from '../store';
+import { Pinia } from '@pinia/nuxt/dist/runtime/composables';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const { $pinia } = useNuxtApp();
-    const store = useStore($pinia);
+    const store = useStore($pinia as Pinia);
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
         //Don't keep the game since we could go to the home page where there's no specificed game.
@@ -15,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 await store.attemptLoginUser(false);
             }
             if (store.user) {
-                await store.reloadNotifications(true);
+                await store.reloadSiteData(true);
             }
         } catch (error) {
             if (error instanceof FetchError) {
