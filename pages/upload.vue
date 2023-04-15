@@ -143,6 +143,7 @@ async function save(goToPage: boolean, publishMod?: boolean) {
 
 async function create(goToPage: boolean) {
     try {
+        mod.value.game_id = gameId.value;
         mod.value = await usePost<Mod>(`games/${gameId.value}/mods`, mod.value);
         if (goToPage) {
             router.push(`/mod/${mod.value.id}`);
