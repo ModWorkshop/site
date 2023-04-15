@@ -128,7 +128,7 @@ const forums = computed(() => {
 const { start } = useTimeoutFn(async () => {
     await refresh();
     loading.value = false;
-}, 200);
+}, 200, { immediate: false });
 watch(params, () => {
     loading.value = true;
     start();
