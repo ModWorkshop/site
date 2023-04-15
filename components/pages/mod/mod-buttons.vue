@@ -11,12 +11,11 @@
                 <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
             </template>
         </VDropdown>
-        <VDropdown v-if="canManage" arrow>
+        <mod-suspend v-model:show-modal="showSuspension" :button="false" :mod="mod"/>
+        <VDropdown v-if="canManage" arrow dispose-timout="0">
             <a-button icon="mdi:gavel">{{$t('moderation')}}</a-button>
             <template #popper>
-                <mod-suspend :mod="mod">
-                    <a-dropdown-item>{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
-                </mod-suspend>
+                <a-dropdown-item @click="showSuspension = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
                 <a-dropdown-item v-if="mod.images?.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
                 <a-dropdown-item v-if="mod.files?.data.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
             </template>
@@ -33,6 +32,8 @@ import { Paginator } from '../../../types/paginator';
 const props = defineProps<{
     mod: Mod,
 }>();
+
+const showSuspension = ref(false);
 
 const { hasPermission } = useStore();
 const yesNoModal = useYesNoModal();
