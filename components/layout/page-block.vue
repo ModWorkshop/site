@@ -90,17 +90,19 @@ const { public: config } = useRuntimeConfig();
 const thumbnail = computed(() => {
     const thumb = props.game?.thumbnail;
     if (thumb) {
-        return `${config.storageUrl}/games/images/${thumb}`;
+        return `${config.storageUrl}/games/thumbnails/${thumb}`;
     } else {
         return  `${config.siteUrl}/assets/no-preview-dark.png`;
     }
 });
 
-useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${props.game?.name}`,
-	ogImage: thumbnail.value,
-	twitterCard: 'summary',
-});
+if (props.game) {
+    useServerSeoMeta({
+        ogSiteName: `ModWorkshop - ${props.game?.name}`,
+        ogImage: thumbnail.value,
+        twitterCard: 'summary',
+    });
+}
 
 const storedHiddenAns = useCookie('hidden-announcements');
 const hiddenAnnouncements = computed(() => {    
