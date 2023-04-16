@@ -52,8 +52,8 @@
 
         <flex column gap="3">
             <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40"/>
-            <flex gap="3">
-                <content-block v-if="sideFilters" class="self-start" style="flex:2; max-width: 280px;">
+            <flex gap="3" class="md:flex-row flex-col">
+                <content-block v-if="sideFilters" class="mod-filters">
                     <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
                 </content-block>
                 <flex column gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
@@ -198,3 +198,12 @@ function loadMore() {
     loadMorePageOverride.value = fetchPage.value + 1;
 }
 </script>
+
+<style>
+@media(min-width: 1024px) {
+    .mod-filters {
+        width: 280px;
+        align-self: self-start;
+    } 
+}
+</style>
