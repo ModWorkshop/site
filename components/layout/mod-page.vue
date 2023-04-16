@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="mod" :game="mod.game" :breadcrumb="breadcrumb">
+    <page-block v-if="mod" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
         <Title>{{mod.name}}</Title>
         <mod-alerts :mod="mod"/>
         <mod-buttons :mod="mod"/>

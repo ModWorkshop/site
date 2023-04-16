@@ -77,7 +77,8 @@ const props = withDefaults(defineProps<{
     game?: Game;
     gameBanner?: boolean;
     breadcrumb?: Breadcrumb[];
-}>(), { gap: 3, size: 'nm' });
+    defineMeta?: boolean;
+}>(), { gap: 3, size: 'nm', defineMeta: true });
 
 const store = useStore();
 
@@ -96,7 +97,7 @@ const thumbnail = computed(() => {
     }
 });
 
-if (props.game) {
+if (props.game && props.defineMeta) {
     useServerSeoMeta({
         ogTitle: `ModWorkshop - ${props.game?.name}`,
         ogSiteName: `ModWorkshop - ${props.game?.name}`,
