@@ -98,6 +98,7 @@ const thumbnail = computed(() => {
 
 if (props.game) {
     useServerSeoMeta({
+        ogTitle: `ModWorkshop - ${props.game?.name}`,
         ogSiteName: `ModWorkshop - ${props.game?.name}`,
         ogImage: thumbnail.value,
         twitterCard: 'summary',
