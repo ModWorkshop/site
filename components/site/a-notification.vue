@@ -1,5 +1,5 @@
 <template>
-    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.self.stop="onClick">
+    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.prevent="onClick">
         <a-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar"/>
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
@@ -31,8 +31,8 @@
             <time-ago :time="notification.created_at"/>
         </flex>
         <flex class="ml-auto my-auto">
-            <a-button v-if="!notification.seen" icon="ic:baseline-remove-red-eye" :title="$t('mark_as_read')" @click.prevent="markAsSeen"/>
-            <a-button icon="mdi:trash" color="danger" :title="$t('delete')" @click.prevent="deleteNotification()"/>
+            <a-button v-if="!notification.seen" icon="ic:baseline-remove-red-eye" :title="$t('mark_as_read')" @click.stop="markAsSeen"/>
+            <a-button icon="mdi:trash" color="danger" :title="$t('delete')" @click.stop="deleteNotification()"/>
         </flex>
     </component>
 </template>
