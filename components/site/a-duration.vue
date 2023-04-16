@@ -1,5 +1,5 @@
 <template>
-    <flex>
+    <flex wrap>
         <a-input 
             v-model="controlVm"
             type="date"
@@ -7,7 +7,7 @@
             :disabled="disabled"
             style="resize: none;"
         />
-        <flex class="mt-auto mb-1">
+        <flex class="mt-auto mb-1" wrap>
             <VDropdown>
                 <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('days') }}</a-button>
                 <template #popper>

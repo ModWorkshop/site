@@ -304,6 +304,7 @@ a {
 
 .list-button {
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
     color: var(--text-color);
     border-radius: var(--content-border-radius);

@@ -10,7 +10,7 @@
                     <slot/>
                 </flex>
             </Transition>
-            <flex class="nav-menu-content" column grow gap="3">
+            <flex class="nav-menu-content overflow-hidden" column grow gap="3">
                 <slot name="content"/>
             </flex>
         </flex>
