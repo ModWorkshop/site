@@ -106,7 +106,7 @@ interface Tool {
 function clickedTool(tool: Tool) {
     const textarea = textArea.value;
     if (textarea) {
-        //textarea.focus(); //Force focus
+        textarea.focus(); //Force focus
         const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
         const selectedText = textarea.value?.substring(start, end) ?? '';
         let insert = tool.insert;
