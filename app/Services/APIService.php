@@ -172,7 +172,7 @@ class APIService {
 
     public static function getPasswordRule()
     {
-        return Password::min(12)->numbers()->mixedCase()->uncompromised();
+        return Password::min(12)->numbers()->mixedCase();
     }
 
 
