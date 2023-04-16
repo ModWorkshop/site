@@ -106,9 +106,11 @@ function clickedTool(tool: Tool) {
     if (textarea) {
         //textarea.focus(); //Force focus
         const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
+        const selectedText = textarea.value?.substring(start, end) ?? '';
         let insert = tool.insert;
         let focus = start + insert.indexOf('$');
-        textarea.setRangeText(insert.replace('$', ''), start, end, 'select');
+        const inserted = insert.replace('$', selectedText);
+        textarea.setRangeText(inserted, start, end, 'select');
         emit('update:modelValue', textarea.value);
         textarea.focus();
         textarea.setSelectionRange(focus, focus);
