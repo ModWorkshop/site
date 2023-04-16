@@ -49,6 +49,8 @@ const classes = computed(() => ({
 const fullscreen = ref(false);
 const textArea = ref<HTMLTextAreaElement>();
 const previewHeight = ref('0');
+
+// The $ sign tells it where to put the cursor and text if selected.
 const toolGroups = [ 
     {
         name: 'main',
@@ -77,7 +79,7 @@ const toolGroups = [
             {icon: 'mdi:link-variant', insert: '[$](https://)'},
             {icon: 'mdi:multimedia', insert: '![](https://$)'},
             {icon: 'ic:baseline-horizontal-rule', insert: '$\n\n-----'},
-            {icon: 'mdi:table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text     | Text     |'},
+            {icon: 'mdi:table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| $     | Text     | Text     |'},
         ]
     }
 ];
