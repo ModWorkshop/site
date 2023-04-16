@@ -112,7 +112,8 @@ function clickedTool(tool: Tool) {
         let insert = tool.insert;
         let focus = start + insert.indexOf('$');
         const inserted = insert.replace('$', selectedText);
-        textarea.setRangeText(inserted, start, end, 'select');
+        // textarea.setRangeText(inserted, start, end, 'select');
+        document.execCommand("insertText", false, inserted); //If it's deprecated, then what the fuck am I supposed to use?
         emit('update:modelValue', textarea.value);
         textarea.focus();
         textarea.setSelectionRange(focus, focus);
