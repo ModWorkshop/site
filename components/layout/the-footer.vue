@@ -89,6 +89,7 @@ function scrollToTop() {
 
 <style>
 footer {
+    max-width: 100vw;
     margin-top: 8px;
     padding: 1.5rem 2rem;
     gap: 24px;
