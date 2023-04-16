@@ -85,6 +85,23 @@ watch(() => props.game, () => {
     store.setGame(props.game || null);
 }, { immediate: true });
 
+const { public: config } = useRuntimeConfig();
+
+const thumbnail = computed(() => {
+    const thumb = props.game?.thumbnail;
+    if (thumb) {
+        return `${config.storageUrl}/games/images/${thumb}`;
+    } else {
+        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+    }
+});
+
+useServerSeoMeta({
+    ogSiteName: `ModWorkshop - ${props.game?.name}`,
+	ogImage: thumbnail.value,
+	twitterCard: 'summary',
+});
+
 const storedHiddenAns = useCookie('hidden-announcements');
 const hiddenAnnouncements = computed(() => {    
     if (storedHiddenAns.value) {
