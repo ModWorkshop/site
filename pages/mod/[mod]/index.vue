@@ -28,8 +28,6 @@ import { useStore } from '~~/store';
 import { Mod, Comment, ModMember } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod } from '~~/utils/mod-helpers';
-const { public: config } = useRuntimeConfig();
-
 const store = useStore();
 const { t } = useI18n();
 
@@ -37,24 +35,6 @@ const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', 
     suspended: t('error_suspended')
 });
 
-const thumbnail = computed(() => {
-    const thumb = mod.value.thumbnail;
-    if (thumb) {
-        return `${config.storageUrl}/mods/images/${thumb.has_thumb ? 'thumbnail_' : ''}${thumb.file}`;
-    } else {
-        return  `${config.siteUrl}/assets/no-preview-dark.png`;
-    }
-});
-
-useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${mod.value.game?.name} - Mod`,
-    author: mod.value.user?.name,
-	ogTitle: `${mod.value.name} by ${mod.value.user?.name}`,
-	description: mod.value.short_desc,
-	ogDescription: mod.value.short_desc,
-	ogImage: thumbnail.value,
-	twitterCard: 'summary',
-});
 
 const canEdit = computed(() => canEditMod(mod.value));
 const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.value.game));

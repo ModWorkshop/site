@@ -19,6 +19,28 @@ const props = defineProps<{
 const { t } = useI18n();
 const { setGame } = useStore();
 
+const { public: config } = useRuntimeConfig();
+
+const thumbnail = computed(() => {
+    const thumb = props.mod.thumbnail;
+    if (thumb) {
+        return `${config.storageUrl}/mods/images/${thumb.has_thumb ? 'thumbnail_' : ''}${thumb.file}`;
+    } else {
+        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+    }
+});
+
+useServerSeoMeta({
+    ogSiteName: `ModWorkshop - ${props.mod.game?.name} - Mod`,
+    author: props.mod.user?.name,
+	ogTitle: `${props.mod.name} by ${props.mod.user?.name}`,
+	description: props.mod.short_desc,
+	ogDescription: props.mod.short_desc,
+	ogImage: thumbnail.value,
+	twitterCard: 'summary',
+});
+
+
 if (props.mod.game) {
     setGame(props.mod.game);
 }
