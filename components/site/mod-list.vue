@@ -200,7 +200,7 @@ function loadMore() {
 </script>
 
 <style>
-@media(min-width: 1024px) {
+@media(min-width: 768px) {
     .mod-filters {
         width: 280px;
         align-self: self-start;
