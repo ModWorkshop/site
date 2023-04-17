@@ -53,10 +53,7 @@ class ModPolicy
             case Visibility::unlisted:
             case Visibility::public:
                 return true;
-            case Visibility::public:
-                if (!isset($user)) {
-                    return false;
-                }
+            case Visibility::private:
                 return $this->update($user, $mod);
         }
         return true;
