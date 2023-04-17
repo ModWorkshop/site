@@ -54,6 +54,9 @@ class ModPolicy
             case Visibility::public:
                 return true;
             case Visibility::private:
+                if (!isset($this->user)) {
+                    return false;
+                }
                 return $this->update($user, $mod);
         }
         return true;
