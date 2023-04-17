@@ -98,6 +98,11 @@ const isDisabled = computed(() => props.disabled || props.loading);
     border-color: var(--warning-color);
 }
 
+.button-warning:hover {
+    color: black !important;
+    background-color: var(--warning-hover-color);
+}
+
 .button-subtle {
     background-color: transparent;
     color: var(--text-color);

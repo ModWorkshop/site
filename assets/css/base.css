@@ -67,9 +67,10 @@ body {
     --primary-color-text: #fff;
     --success-color: #00ff15;
     --danger-color: #df1d1d;
-    --warning-color: #ffef14;
+    --warning-color: #ecdd0f;
     --info-color: #5978ff;
     --danger-hover-color: #e42f2f;
+    --warning-hover-color: #f2e531;
 }
 
 .blue-scheme {
