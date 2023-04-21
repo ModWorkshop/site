@@ -46,7 +46,7 @@ class CalculatePopularity implements ShouldQueue
             ->whereDate('updated_at', '<', $date)
             ->groupBy('mod_id')
             ->orderBy('mod_id')
-            ->chunk(500, function($logs)  use (&$scores) {
+            ->chunk(10000, function($logs)  use (&$scores) {
                 foreach ($logs as $log) {
                     $scores[$log->mod_id] = $log->score;
                 }
@@ -55,11 +55,15 @@ class CalculatePopularity implements ShouldQueue
             return $scores;
         }
 
+        print_r('Getting monthly scores...');
         $scoresMonthly = getScores(Carbon::now()->addMonth(1));
+        print_r('Getting weekly scores...');
         $scoresWeekly = getScores(Carbon::now()->addWeek(1));
+        print_r('Getting daily scores...');
         $scoresDaily = getScores(Carbon::now()->addDay(1));
 
-        Mod::setEagerLoads([])->chunk(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly) {
+        print_r('Calculating scores of all mods...');
+        Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly) {
             foreach ($mods as $mod) {
                 $weeks = Carbon::now()->diffInWeeks($mod->bumped_at);
 
@@ -102,7 +106,7 @@ class CalculatePopularity implements ShouldQueue
                 unset($weeks);
                 unset($mod);
             }
-        });
+        }, 'id');
 
         unset($scores); //The log can be HUGE so let's do our server a favor and unset it after we're done.
 
