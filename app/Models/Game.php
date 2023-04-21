@@ -177,12 +177,6 @@ class Game extends Model
 
     public static function booted()
     {
-        static::creating(function(Game $game) {
-            if (!isset($game->last_date)) {
-                $game->last_date = Carbon::now();
-            }
-        });
-
         static::saving(fn(Game $game) => $game->ensureForumExists());
         static::created(fn(Game $game) => $game->ensureForumExists());
     }
