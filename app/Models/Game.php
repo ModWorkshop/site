@@ -166,7 +166,8 @@ class Game extends Model
 
     public function ensureForumExists()
     {
-        if (!isset($this->forum_id) && $this->id) {
+        // Checking just in case because this does fail sometimes (like in migrations)
+        if (!isset($this->forum_id) && $this->id && Game::where('id', $this->id)->exists()) {
             $forum = $this->forum()->create([
                 'game_id' => $this->id
             ]);
