@@ -48,7 +48,6 @@ class UserCase extends Model
     protected $with = ['user'];
     protected $casts = [
         'expire_date' => 'datetime',
-        'pardoned' => 'boolean'
     ];
 
     use HasFactory;
