@@ -29,6 +29,7 @@ use App\Models\Subscription;
 use App\Models\Thread;
 use App\Models\UserCase;
 use App\Models\Visibility;
+use Arr;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -124,6 +125,7 @@ class MigrateBB extends Command
         # Current forum does not have file uploading, backup the files to somewhere.
         #mbb_banfilters 
 
+        $t = time();
         $this->info("Converting old-ass data to new-and-improved data!");
         ini_set("memory_limit", -1);
         set_time_limit(1000000000); // This can take A looong time.
@@ -140,18 +142,21 @@ class MigrateBB extends Command
         // $this->handleMods();
         // $this->handleFileThumbnails();
 
-        // $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
+        $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
         // $this->handleFollowsAndSubs();
 
         // $this->handleComments();
         // $this->handleForums();
         // $this->handleLikes();
-        // $this->handlePopularityLog();
-        // $this->handleModDownloads();
-        // $this->handleModViews(); 
+        $this->handlePopularityLog();
+        $this->handleModDownloads();
+        $this->handleModViews(); 
 
-        // $this->handleUpdateMods();
+        $this->handleUpdateMods();
         $this->handleUpdateFiles();
+
+        $this->info('This took '.time()-$t.' seconds');
+
         return Command::SUCCESS;
     }
 
@@ -162,7 +167,7 @@ class MigrateBB extends Command
         $this->con->table('users')
             ->join('mws_user_prefs', 'users.uid', '=', 'mws_user_prefs.uid')
             ->join('userfields', 'users.uid', '=', 'userfields.ufid')
-        ->orderBy('users.uid')->chunk(1000, function($users) use ($bar) {
+        ->chunkById(100, function($users) use ($bar) {
             foreach ($users as $user) {
                 $bar->advance();
 
@@ -193,7 +198,7 @@ class MigrateBB extends Command
                     'created_at' => $this->handleUnixDate($user->regdate)
                 ]);
             }
-        });
+        }, 'users.uid', 'uid');
 
         $bar->finish();
 
@@ -223,7 +228,7 @@ class MigrateBB extends Command
                             'created_at' => $this->handleUnixDate($case->date),
                             'updated_at' => $this->handleUnixDate($case->date),
                             'expire_date' => $STRIKES_TO_WARNING_DURATIONS[$strikes],
-                            'pardoned' => !$case->active
+                            'active' => $case->active
                         ]);
                     }
                 }
@@ -393,7 +398,7 @@ class MigrateBB extends Command
     public function handleUpdateMods()
     {
         $bar = $this->progress('Fixing mods', $this->con->table('mydownloads_downloads')->count());
-        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(10000, function($mods) use ($bar) {
+        $this->con->table('mydownloads_downloads')->chunkById(100, function($mods) use ($bar) {
             foreach ($mods as $mod) {
                 $bar->advance();
 
@@ -435,7 +440,7 @@ class MigrateBB extends Command
                 /** @var Mod */
                 $newMod->calculateFileStatus();
             }
-        });
+        }, 'did');
 
         $bar->finish();
         $this->resetAutoIncrement('mods');
@@ -446,7 +451,7 @@ class MigrateBB extends Command
     public function handleUpdateFiles()
     {
         $bar = $this->progress('Fixing files', $this->con->table('mydownloads_files')->count());
-        $this->con->table('mydownloads_files')->orderBy('did')->chunk(10000, function($files) use ($bar) {
+        $this->con->table('mydownloads_files')->chunkById(100, function($files) use ($bar) {
             foreach ($files as $file) {
                 $bar->advance();
                 $file = File::where('id', $file->fid)->first();
@@ -457,14 +462,14 @@ class MigrateBB extends Command
                 }
 
             }
-        });
+        }, 'fid');
         $bar->finish();
     }
 
     public function handleMods()
     {
         $bar = $this->progress('Converting mods', $this->con->table('mydownloads_downloads')->count());
-        $this->con->table('mydownloads_downloads')->orderBy('did')->chunk(10000, function($mods) use ($bar) {
+        $this->con->table('mydownloads_downloads')->chunkById(100, function($mods) use ($bar) {
             foreach ($mods as $mod) {
                 $bar->advance();
                 # Score is recalculated.
@@ -611,7 +616,7 @@ class MigrateBB extends Command
                     }
                 }
             }
-        });
+        }, 'did');
 
         $bar->finish();
         $this->resetAutoIncrement('mods');
@@ -622,7 +627,7 @@ class MigrateBB extends Command
     public function handleFileThumbnails()
     {
         $bar = $this->progress('Converting file thumbnails', $this->con->table('mydownloads_files')->count());
-        $this->con->table('mydownloads_files')->orderBy('fid')->whereNotNull('image')->chunk(10000, function($files) use ($bar) {
+        $this->con->table('mydownloads_files')->whereNotNull('image')->chunkById(100, function($files) use ($bar) {
             foreach ($files as $file) {
                 if (!empty($file->image)) {
                     $image = Image::forceCreate([
@@ -636,20 +641,20 @@ class MigrateBB extends Command
                         'updated_at' => $this->handleUnixDate($file->date),
                     ]);
 
-                    File::where('id', $file->id)->update([
+                    File::where('id', $file->fid)->update([
                         'image_id' => $image->id
                     ]);
                 }
 
                 $bar->advance();
             }
-        });
+        }, 'fid');
     }
 
     public function handleFollowsAndSubs()
     {
         $bar = $this->progress('Converting discussion subscriptions', $this->con->table('mws_subs')->count());
-        $this->con->table('mws_subs')->orderBy('sid')->chunk(10000, function($subs) use ($bar) {
+        $this->con->table('mws_subs')->chunkById(500, function($subs) use ($bar) {
             $insert = [];
 
             foreach ($subs as $sub) {
@@ -672,11 +677,11 @@ class MigrateBB extends Command
             }
 
             Subscription::insert($insert);
-        });
+        }, 'sid');
         $bar->finish();
 
         $bar = $this->progress('Converting followed mods', $this->con->table('mws_following_mods')->count());
-        $this->con->table('mws_following_mods')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+        $this->con->table('mws_following_mods')->chunkById(500, function($follows) use ($bar) {
             $insert = [];
             foreach ($follows as $follow) {
                 $bar->advance();
@@ -689,11 +694,11 @@ class MigrateBB extends Command
                 }
                 FollowedMod::insert($insert);
             }
-        });
+        }, 'fid');
         $bar->finish();
 
         $bar = $this->progress('Converting followed games', $this->con->table('mws_following_cats')->count());
-        $this->con->table('mws_following_cats')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+        $this->con->table('mws_following_cats')->chunkById(500, function($follows) use ($bar) {
             foreach ($follows as $follow) {
                 $bar->advance();
                 if (Game::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Following categories is no more
@@ -703,11 +708,11 @@ class MigrateBB extends Command
                     ]);
                 }
             }
-        });
+        }, 'fid');
         $bar->finish();
 
         $bar = $this->progress('Converting followed users', $this->con->table('mws_following_users')->count());
-        $this->con->table('mws_following_users')->orderBy('fid')->chunk(1000, function($follows) use ($bar) {
+        $this->con->table('mws_following_users')->chunkById(500, function($follows) use ($bar) {
             foreach ($follows as $follow) {
                 $bar->advance();
                 if (User::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Make sure the user exists
@@ -718,14 +723,14 @@ class MigrateBB extends Command
                     ]);
                 }
             }
-        });
+        }, 'fid');
         $bar->finish();
     }
 
     public function handleComments()
     {
         $bar = $this->progress('Converting mod comments', $this->con->table('mydownloads_comments')->count());
-        $this->con->table('mydownloads_comments')->orderBy('uid')->where('uid', '!=', 0)->chunk(1000, function($comments) use ($bar) {
+        $this->con->table('mydownloads_comments')->where('uid', '!=', 0)->chunkById(100, function($comments) use ($bar) {
             foreach ($comments as $comment) {
                 # Removed cid (unused)
                 $bar->advance();
@@ -749,7 +754,7 @@ class MigrateBB extends Command
                     'reply_to' => !empty($comment->replyid) ? $comment->replyid : null
                 ]);
             }
-        });
+        }, 'cid');
 
         $bar->finish();
     }
@@ -810,7 +815,7 @@ class MigrateBB extends Command
 
 
         $bar = $this->progress('Converting thread replies', $this->con->table('posts')->count());
-        $this->con->table('posts')->orderBy('pid')->where('uid', '!=', 0)->chunk(1000, function($posts) use ($bar) {
+        $this->con->table('posts')->where('uid', '!=', 0)->chunkById(500, function($posts) use ($bar) {
             foreach ($posts as $post) {
                 # Removed cid (unused)
                 $bar->advance();
@@ -832,7 +837,7 @@ class MigrateBB extends Command
                     'created_at' => $this->handleUnixDate($post->dateline),
                 ]);
             }
-        });
+        }, 'pid');
         $bar->finish();
     }
 
@@ -840,7 +845,7 @@ class MigrateBB extends Command
     {
         $bar = $this->progress('Converting mod downloads', $this->con->table('mods_downloads')->count());
 
-        $this->con->table('mods_downloads')->orderBy('uid')->chunk(10000, function($downloads) use ($bar) {
+        $this->con->table('mods_downloads')->chunkById(500, function($downloads) use ($bar) {
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
             $insertAtOnceUserless = [];
@@ -852,11 +857,8 @@ class MigrateBB extends Command
                     continue;
                 }
 
-                $date = $this->handleUnixDate($download->date);
                 $insert = [
                     'mod_id' => $download->did, # Changed
-                    'updated_at' => $date, # Changed
-                    'created_at' => $date
                 ];
                 
                 $hasUser = false;
@@ -890,7 +892,7 @@ class MigrateBB extends Command
             unset($insertAtOnceIpless);
             unset($insertAtOnceUserless);
             unset($insertBroken);
-        });
+        }, 'lid');
 
         $bar->finish();
     }
@@ -898,7 +900,7 @@ class MigrateBB extends Command
     public function handleModViews()
     {
         $bar = $this->progress('Converting mod views', $this->con->table('mydownloads_views')->count());
-        $this->con->table('mydownloads_views')->orderBy('uid')->chunk(10000, function($views) use ($bar) {
+        $this->con->table('mydownloads_views')->chunkById(500, function($views) use ($bar) {
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
             $insertAtOnceUserless = [];
@@ -946,7 +948,7 @@ class MigrateBB extends Command
             unset($insertAtOnceIpless);
             unset($insertAtOnceUserless);
             unset($insertBroken);
-        });
+        }, 'vid');
 
         $bar->finish();
     }
@@ -954,7 +956,7 @@ class MigrateBB extends Command
     public function handleLikes()
     {
         $bar = $this->progress('Converting mod likes', $this->con->table('mydownloads_ratings')->count());
-        $this->con->table('mydownloads_ratings')->orderBy('uid')->chunk(1000, function($likes) use ($bar) {
+        $this->con->table('mydownloads_ratings')->chunkById(100, function($likes) use ($bar) {
             $insert = [];
             foreach ($likes as $like) {
                 # Removed IP (redundant, only users can like mods!)
@@ -980,7 +982,7 @@ class MigrateBB extends Command
             }
 
             ModLike::insert($insert);
-        });
+        }, 'rid');
         
         $bar->finish();
     }
@@ -988,13 +990,13 @@ class MigrateBB extends Command
     public function handlePopularityLog()
     {
         $bar = $this->progress('Converting popularity logs', $this->con->table('mods_monthly_logs')->count());
-        $this->con->table('mods_monthly_logs')->orderBy('uid')->where('')->chunk(10000, function($logs) use ($bar) {
+        $this->con->table('mods_monthly_logs')->chunkById(500, function($logs) use ($bar) {
             $insert = [];
             $insertUserless = [];
             foreach ($logs as $log) {
                 $bar->advance();
 
-                if (!isset($this->modIds[$log->did]) || $log->type == 2) {
+                if (!isset($this->modIds[$log->did]) || $log->type == 3 || $log->type == 4) {
                     continue;
                 }
 
@@ -1015,7 +1017,7 @@ class MigrateBB extends Command
 
             PopularityLog::insert($insert);
             PopularityLog::insert($insertUserless);
-        });
+        }, 'lid');
 
         $bar->finish();
     }
