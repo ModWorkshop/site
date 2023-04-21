@@ -23,7 +23,7 @@ return new class extends Migration
             $table->tinyText('banner')->default(''); // Was background
             $table->tinyText('buttons')->default(''); // Was background
             $table->tinyText('webhook_url')->default(''); // Was background
-            $table->timestamp('last_date');
+            $table->dateTime('last_date')->nullable();
 
             $table->bigInteger('mod_count')->default(0);
 

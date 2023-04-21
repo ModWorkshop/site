@@ -26,7 +26,7 @@ class CreateCategoriesTable extends Migration
             $table->tinyText('thumbnail')->default(''); // Was background
             $table->tinyText('webhook_url')->default('');
             $table->boolean('approval_only')->default(false);
-            $table->timestamp('last_date');
+            $table->dateTime('last_date')->nullable();
 
             $table->index('parent_id');
             $table->index('game_id');
