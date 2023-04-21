@@ -75,7 +75,11 @@ class ModService {
         } else if ($sortBy === 'name') {
             $query->orderBy('name');
         } else {
-            $query->orderByDesc($sortBy);
+            if ($sortBy === 'published_at') {
+                $query->orderByRaw('published_at DESC NULLS LAST');
+            } else {
+                $query->orderByDesc($sortBy);
+            }
         }
 
         $gameId = Arr::get($val, 'game_id');
