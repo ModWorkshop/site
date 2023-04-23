@@ -140,7 +140,7 @@ const typeDefintions = {
     transfer_ownership: () => ({
         onClick() {
             async function answer(accept: boolean) {
-                await usePatch(`mods/${notifiable.value.id}/transfer-request/accept`, { accept });
+                await usePatch(`mods/${notifiable.value.id}/owner/accept`, { accept });
                 deleteNotification(true);
             }
             yesNoModal({
@@ -155,7 +155,7 @@ const typeDefintions = {
     membership_request: () => ({
         onClick() {
             async function answer(accept: boolean) {
-                await usePatch(`mods/${notifiable.value.id}/members/${user.value!.id}/accept`, { accept });
+                await usePatch(`mods/${notifiable.value.id}/members/accept`, { accept });
                 deleteNotification(true);
             }
             

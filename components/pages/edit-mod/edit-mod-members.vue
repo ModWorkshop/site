@@ -156,7 +156,7 @@ async function transferOwnership() {
 
 async function cancelTransferRequest() {
     try {
-        await usePatch(`mods/${props.mod.id}/transfer-request/cancel`);
+        await usePatch(`mods/${props.mod.id}/owner/cancel`);
         props.mod.transfer_request = undefined;
         ignoreChanges?.();
     } catch (error) {
