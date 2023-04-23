@@ -432,21 +432,19 @@ class ModController extends Controller
         $userId = $user->id;
         $transferRequest = $mod->transferRequest()->where('user_id', $userId)->firstOrFail();
 
-        //Keep owner as a member
-        if (isset($transferRequest->keep_owner_level)) {
-            $mod->members()->attach($mod->user->id, ['level' => $transferRequest->keep_owner_level, 'accepted' => true]);
-        }
-
-        Notification::deleteRelated($mod, 'transfer_ownership');
-
-        $transferRequest->delete();
-
-        $mod->user()->decrement('mod_count');
-        $user->increment('mod_count');
-
         if ($val['accept']) {
+            //Keep owner as a member
+            if (isset($transferRequest->keep_owner_level)) {
+                $mod->members()->attach($mod->user->id, ['level' => $transferRequest->keep_owner_level, 'accepted' => true]);
+            }
+
+            $mod->user()->decrement('mod_count');
+            $user->increment('mod_count');
             $mod->update(['user_id' => $userId]);
         }
+
+        $transferRequest->delete();
+        Notification::deleteRelated($mod, 'transfer_ownership');
 
         //Remove the new owner from the members
         $mod->members()->detach($user);
