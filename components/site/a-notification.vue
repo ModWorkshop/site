@@ -60,7 +60,7 @@ const props = defineProps<{
 const router = useRouter();
 const notif = toRef(props, 'notification');
 const store = useStore();
-const { user, notificationCount } = storeToRefs(store);
+const { notificationCount } = storeToRefs(store);
 const notifiable = computed(() => notif.value.notifiable);
 const context = computed(() => notif.value.context);
 const fromUser = computed(() => notif.value.from_user);
@@ -138,40 +138,10 @@ const typeDefintions = {
         }
     }),
     transfer_ownership: () => ({
-        onClick() {
-            async function answer(accept: boolean) {
-                await usePatch(`mods/${notifiable.value.id}/owner/accept`, { accept });
-                deleteNotification(true);
-            }
-            yesNoModal({
-                desc: t('transfer_request'),
-                yes: async () => await answer(true),
-                no: async () => await answer(false),
-            });
-        },
         mod: notifiable.value,
         thumbnail: 'mod'
     }),
     membership_request: () => ({
-        onClick() {
-            async function answer(accept: boolean) {
-                await usePatch(`mods/${notifiable.value.id}/members/accept`, { accept });
-                deleteNotification(true);
-            }
-            
-            let role = '';
-            for (const member of notifiable.value.members) {
-                if (member.id === user.value!.id) {
-                    role = t(`member_level_${member.pivot.level}`);
-                }
-            }
-
-            yesNoModal({
-                desc: t('mod_request', [ role ]),
-                yes: async () => await answer(true),
-                no: async () => await answer(false),
-            });
-        },
         mod: notifiable.value,
         thumbnail: 'mod'
     }),

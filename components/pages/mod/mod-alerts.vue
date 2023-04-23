@@ -18,6 +18,22 @@
             </i18n-t>
         </a-alert>
         <a-alert v-if="!mod.has_download" color="warning" :title="$t('downloads_alert')" :desc="$t('downloads_alert_desc')"/>
+        <a-alert v-if="memberWaiting" color="warning">
+            {{ t('mod_request', [ memberWaitingRole ]) }}
+            <flex>
+                <a-button @click="acceptMembership(true)">{{ $t('approve') }}</a-button>
+                <a-button color="danger" @click="acceptMembership(false)">{{ $t('reject') }}</a-button>
+            </flex>
+        </a-alert>
+
+        <a-alert v-if="mod.transfer_request && mod.transfer_request.user_id == user?.id" color="warning">
+            {{ t('transfer_request') }}
+            <flex>
+                <a-button @click="acceptTransfer(true)">{{ $t('approve') }}</a-button>
+                <a-button color="danger" @click="acceptTransfer(false)">{{ $t('reject') }}</a-button>
+            </flex>
+        </a-alert>
+
         <a-alert v-else-if="mod.approved === null" color="info" :title="$t('mod_waiting')">
             <span>
                 {{$t('mod_waiting_desc')}}
@@ -29,12 +45,42 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
+import { remove } from '@vue/shared';
 const props = defineProps<{
     mod: Mod
 }>();
 
-const { hasPermission } = useStore();
+const { hasPermission, user } = useStore();
+const { t } = useI18n();
 const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
+
+const memberWaiting = computed(() =>  user ? props.mod.members.find(member => !member.accepted && member.id === user.id) : null);
+const memberWaitingRole = computed(() => {
+    const member = memberWaiting.value;
+    if (member) {
+        return t(`member_level_${member.level}`);
+    }
+});
+
+async function acceptMembership(accept: boolean) {
+    await usePatch(`mods/${props.mod.id}/members/accept`, { accept });
+    memberWaiting.value!.accepted = accept;
+    if (!accept) {
+        remove(props.mod.members, memberWaiting.value);
+    }
+}
+
+async function acceptTransfer(accept: boolean) {
+    await usePatch(`mods/${props.mod.id}/owner/accept`, { accept });
+    if (accept) {
+        props.mod.user_id = user!.id;
+        props.mod.user = user!;
+    }
+    props.mod.transfer_request = undefined;
+}
+
+
 </script>
