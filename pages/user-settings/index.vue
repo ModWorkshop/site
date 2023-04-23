@@ -4,38 +4,42 @@
         <a-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
         <a-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
         <a-input v-model="user.email" maxlength="255" :label="$t('email')"/>
-        <h3>{{$t('change_password')}}</h3>
-        <flex>
-            <a-input 
-                v-if="isMe && user.signable"
-                v-model="user.current_password"
-                autocomplete="off"
-                :label="$t('current_password')"
-                type="password"
-                minlength="12"
-                maxlength="128"
-            />
-            <a-input 
-                v-model="user.password"
-                :validity="passValidity"
-                autocomplete="off"
-                :label="$t('new_password')"
-                type="password"
-                minlength="12"
-                maxlength="128"
-            />
-            <a-input
-                v-model="user.confirm_password"
-                :validity="confirmPassValidity"
-                :label="$t('confirm_password')"
-                type="password"
-                minlength="12"
-                maxlength="128"
-            />
+        <flex class="items-center my-3">
+            <h3>{{$t('change_password')}} </h3>
+            <a-button class="ml-auto" @click="changePassword = !changePassword">{{$t(changePassword ? 'cancel' : 'edit')}}</a-button>
         </flex>
-        <small>{{$t('password_guide')}}</small>
-        <a-link-button v-if="user.signable" disabled @click="reset">{{$t('forgot_password_button')}}</a-link-button>
-    
+        <template v-if="changePassword">
+            <flex>
+                <a-input 
+                    v-if="isMe && user.signable"
+                    v-model="user.current_password"
+                    autocomplete="off"
+                    :label="$t('current_password')"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
+                <a-input 
+                    v-model="user.password"
+                    :validity="passValidity"
+                    autocomplete="off"
+                    :label="$t('new_password')"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
+                <a-input
+                    v-model="user.confirm_password"
+                    :validity="confirmPassValidity"
+                    :label="$t('confirm_password')"
+                    type="password"
+                    minlength="12"
+                    maxlength="128"
+                />
+            </flex>
+            <small>{{$t('password_guide')}}</small>
+            <a-link-button v-if="user.signable" disabled @click="reset">{{$t('forgot_password_button')}}</a-link-button>
+        </template>
         <a-alert v-if="isMe" color="info" :title="$t('request_my_data')">
             {{$t('request_my_data_desc')}}
             <a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
@@ -65,6 +69,7 @@ const props = defineProps<{
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
+const changePassword = ref(false);
 const { user: me } = useStore();
 
 const store = useStore();
