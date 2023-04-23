@@ -17,6 +17,7 @@ const MOD_MEMBER_RULES_OVER = [
 class ModMemberController extends Controller
 {
     public function __construct() {
+        $this->authorizeResource([ModMember::class, 'mod'], 'mod_member,mod');
     }
 
     /**
@@ -114,25 +115,21 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Accepts incoming member request and make it active or deletes it if rejected.
+     * Accepts incoming member request and make it active or delete it if rejected.
      *
      * @param Request $request
      * @param Mod $mod
      * @param User $member
      * @return void
      */
-    public function accept(Request $request, Mod $mod, User $member)
+    public function accept(Request $request, Mod $mod)
     {
-        $ourUserId = $request->user()->id;
         $val = $request->validate([
             'accept' => 'boolean|required'
         ]);
 
-        $ourLevel = $mod->getMemberLevel($ourUserId, false);
-
-        if (!isset($ourLevel)) {
-            abort(403);
-        }
+        //Of course, only accept an actual request.
+        $member = $mod->members->where('user_id', $this->userId())->firstOrFail();
 
         if ($val['accept']) {
             $mod->members()->updateExistingPivot($member, ['accepted' => true]);

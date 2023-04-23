@@ -34,7 +34,6 @@ class ModMemberPolicy
     public function update(User $user, Mod $mod, ModMember $modMember)
     {
         return $user->id !== $modMember->user_id && $this->authorize('edit', $mod);
-
     }
 
     /**
@@ -49,7 +48,7 @@ class ModMemberPolicy
         //We should be able to remove ourselves from members
         return $user->id === $modMember->user_id || $this->authorize('edit', $mod);
     }
-
+    
     /**
      * Determine whether the user can restore the model.
      *
