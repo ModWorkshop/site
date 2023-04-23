@@ -32,6 +32,7 @@ use App\Models\Visibility;
 use Arr;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Console\Application;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Str;
@@ -65,6 +66,11 @@ const NEW_SUB_TYPES = [
     2 => 'comment'
 ];
 
+const STAFF_ONLY_FORUMS = [
+    35 => true,
+    85 => true,
+    26 => true
+];
 /**
  * After years of using MyBB this is the final nail to the coffin.
  * This is the file where we go from  early 2000s shitty code to something more modern.
@@ -132,30 +138,30 @@ class MigrateBB extends Command
 
         $this->con = DB::connection('mysql_migration');
 
-        // $this->handleUsers();
-        // $this->handleCases();
-        // $this->handleBans();
-        // $this->handleCategoriesGames();
-        // $this->handleTags();
-        // $this->handleInstructionsTemplates();
+        $this->handleUsers();
+        $this->handleCases();
+        $this->handleBans();
+        $this->handleCategoriesGames();
+        $this->handleTags();
+        $this->handleInstructionsTemplates();
 
-        // $this->handleMods();
-        // $this->handleFileThumbnails();
+        $this->handleMods();
+        $this->handleFileThumbnails();
 
         $this->modIds = Arr::keyBy(Mod::select('id')->get()->toArray(), 'id');
-        // $this->handleFollowsAndSubs();
+        $this->handleFollowsAndSubs();
 
-        // $this->handleComments();
-        // $this->handleForums();
-        // $this->handleLikes();
+        $this->handleComments();
+        $this->handleForums();
+        $this->handleLikes();
         $this->handlePopularityLog();
-        $this->handleModDownloads();
-        $this->handleModViews(); 
+        // $this->handleModDownloads();
+        // $this->handleModViews(); 
 
-        $this->handleUpdateMods();
-        $this->handleUpdateFiles();
+        // $this->handleUpdateMods();
+        // $this->handleUpdateFiles();
 
-        $this->info('This took '.time()-$t.' seconds');
+        $this->info('This took '.((time()-$t)/60).' minutes');
 
         return Command::SUCCESS;
     }
@@ -167,7 +173,10 @@ class MigrateBB extends Command
         $this->con->table('users')
             ->join('mws_user_prefs', 'users.uid', '=', 'mws_user_prefs.uid')
             ->join('userfields', 'users.uid', '=', 'userfields.ufid')
-        ->chunkById(100, function($users) use ($bar) {
+        ->chunkById(1000, function($users) use ($bar) {
+            $insertUsers = [];
+            $insertLogins = [];
+            
             foreach ($users as $user) {
                 $bar->advance();
 
@@ -175,7 +184,7 @@ class MigrateBB extends Command
                     continue; // ModWorkshop account can be ignored.
                 }
 
-                User::forceCreate([
+                $insertUsers[] = [
                     'id' => $user->uid,
                     'name' => html_entity_decode($user->username),
                     'avatar' => $user->avatar,
@@ -189,15 +198,21 @@ class MigrateBB extends Command
                     'private_profile' => $user->private_profile,
                     'activated' => true,
                     'bio' =>  $user->fid2 ?? '' # Lol
-                ]);
+                ];
 
-                SocialLogin::create([
+                $insertLogins[] = [
                     'social_id' => 'steam',
                     'special_id' => $user->loginname,
                     'user_id' => $user->uid,
                     'created_at' => $this->handleUnixDate($user->regdate)
-                ]);
+                ];
             }
+
+            User::insert($insertUsers);
+            SocialLogin::insert($insertLogins);
+
+            unset($insertUsers);
+            unset($insertLogins);
         }, 'users.uid', 'uid');
 
         $bar->finish();
@@ -235,6 +250,7 @@ class MigrateBB extends Command
             }
         }
 
+        unset($cases);
         $bar->finish();
     }
 
@@ -263,6 +279,8 @@ class MigrateBB extends Command
                 'updated_at' => $this->handleUnixDate($ban->dateline),
             ]);
         }
+
+        unset($bans);
 
         $bar->finish();
     }
@@ -311,6 +329,7 @@ class MigrateBB extends Command
         }
         $bar->finish();
 
+        unset($cats);
         $this->resetAutoIncrement('categories');
         $this->resetAutoIncrement('games');
     }
@@ -360,12 +379,13 @@ class MigrateBB extends Command
             }
         }
 
+        unset($multipleGameTags);
         $bar->finish();
     }
 
     public function handleInstructionsTemplates()
     {
-        $bar = $this->progress('Converting mods', $this->con->table('mods_instructions_templates')->count());
+        $bar = $this->progress('Converting instructions templates', $this->con->table('mods_instructions_templates')->count());
         $templates = $this->con->table('mods_instructions_templates')->get();
         foreach ($templates as $template) {
             $bar->advance();
@@ -392,55 +412,58 @@ class MigrateBB extends Command
             }
         }
 
+        unset($templates);
+
         $bar->finish();
         $this->resetAutoIncrement('instructs_templates');
     }
     public function handleUpdateMods()
     {
         $bar = $this->progress('Fixing mods', $this->con->table('mydownloads_downloads')->count());
-        $this->con->table('mydownloads_downloads')->chunkById(100, function($mods) use ($bar) {
-            foreach ($mods as $mod) {
-                $bar->advance();
+        $mods = $this->con->table('mydownloads_downloads')->get();
+        foreach ($mods as $mod) {
+            $bar->advance();
 
-                /** @var Mod */
-                $newMod = Mod::where('id', $mod->did)->first();
+            /** @var Mod */
+            $newMod = Mod::where('id', $mod->did)->first();
 
-                // $images = Image::where('mod_id', $mod->did)->get();
-                // foreach ($images as $image) {
-                //     if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
-                //         $newMod['banner_id'] = $image->id;
-                //         break;
-                //     }
-                // }
+            // $images = Image::where('mod_id', $mod->did)->get();
+            // foreach ($images as $image) {
+            //     if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
+            //         $newMod['banner_id'] = $image->id;
+            //         break;
+            //     }
+            // }
 
-                // $file = File::where('mod_id', $mod->did)->first();
-                // $link = Link::where('mod_id', $mod->did)->first();
-                // if (!isset($link) && !empty($mod->url)) {
-                //     $link = Link::forceCreate([
-                //         'user_id' => $newMod->user_id,
-                //         'mod_id' => $newMod->id,
-                //         'url' => $mod->url,
-                //     ]);
-                // }
+            // $file = File::where('mod_id', $mod->did)->first();
+            // $link = Link::where('mod_id', $mod->did)->first();
+            // if (!isset($link) && !empty($mod->url)) {
+            //     $link = Link::forceCreate([
+            //         'user_id' => $newMod->user_id,
+            //         'mod_id' => $newMod->id,
+            //         'url' => $mod->url,
+            //     ]);
+            // }
 
-                $newMod->published_at = $this->handleUnixDate($mod->pub_date);
-                $newMod->created_at = $this->handleUnixDate($mod->pub_date ?? $mod->date);
-                $newMod->bumped_at = $this->handleUnixDate($mod->date);
-                $newMod->updated_at = $this->handleUnixDate($mod->date);
+            $newMod->published_at = $this->handleUnixDate($mod->pub_date);
+            $newMod->created_at = $this->handleUnixDate($mod->pub_date ?? $mod->date);
+            $newMod->bumped_at = $this->handleUnixDate($mod->date);
+            $newMod->updated_at = $this->handleUnixDate($mod->date);
 
-                if ($newMod->visibility == Visibility::public) {
-                    $newMod->published_at = $newMod->bumped_at;
-                }
-
-                // $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
-                // $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
-                // $newMod->download_type = isset($link) ? 'link' : 'file';
-                // $newMod->download_id = $link?->id ?? $file?->id;
-
-                /** @var Mod */
-                $newMod->calculateFileStatus();
+            if ($newMod->visibility == Visibility::public) {
+                $newMod->published_at = $newMod->bumped_at;
             }
-        }, 'did');
+
+            // $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
+            // $newMod->legacy_banner_url = isset($newMod->banner_id) ? null : $mod->banner;
+            // $newMod->download_type = isset($link) ? 'link' : 'file';
+            // $newMod->download_id = $link?->id ?? $file?->id;
+
+            /** @var Mod */
+            $newMod->calculateFileStatus();
+        }
+
+        unset($mods);
 
         $bar->finish();
         $this->resetAutoIncrement('mods');
@@ -451,172 +474,193 @@ class MigrateBB extends Command
     public function handleUpdateFiles()
     {
         $bar = $this->progress('Fixing files', $this->con->table('mydownloads_files')->count());
-        $this->con->table('mydownloads_files')->chunkById(100, function($files) use ($bar) {
-            foreach ($files as $file) {
-                $bar->advance();
-                $file = File::where('id', $file->fid)->first();
-                if (isset($file)) {
-                    $file->update([
-                        'user_id' => $file->uid ?? $file->mod->user_id,
-                    ]);
-                }
+        $files = $this->con->table('mydownloads_files')->get();
 
+        foreach ($files as $file) {
+            $bar->advance();
+            $file = File::where('id', $file->fid)->first();
+            if (isset($file)) {
+                $file->update([
+                    'user_id' => $file->uid ?? $file->mod->user_id,
+                ]);
             }
-        }, 'fid');
+        }
+
+        unset($files);
+
         $bar->finish();
     }
 
     public function handleMods()
     {
         $bar = $this->progress('Converting mods', $this->con->table('mydownloads_downloads')->count());
-        $this->con->table('mydownloads_downloads')->chunkById(100, function($mods) use ($bar) {
-            foreach ($mods as $mod) {
-                $bar->advance();
-                # Score is recalculated.
-                # Invited removed due to underuse.
-                
-                $date = $this->handleUnixDate($mod->date);
-                $publishDate = null;
-                if (empty($mod->pub_date) && (NEW_VISIBILITY[$mod->hidden] ?? Visibility::public) == Visibility::public) {
-                    $publishDate = $date;
-                } else {
-                    $publishDate = $this->handleUnixDate($mod->pub_date);
-                }
+        $mods = $this->con->table('mydownloads_downloads')->get();
 
-                $newMod = Mod::forceCreate([
-                    'id' => $mod->did,
-                    'category_id' => Category::where('id', $mod->cid)->exists() ? $mod->cid : null, # Changed
-                    'game_id' => $mod->root, # Changed
-                    'name' => Str::limit($mod->name, 150),
-                    'desc' => $mod->description, # Changed
-                    'instructions' => $mod->instructions ?? '',
-                    'short_desc' => Str::limit($mod->short_description, 150), # Changed
-                    'changelog' => $mod->changelog,
-                    'visibility' => NEW_VISIBILITY[$mod->hidden], # Changed
-                    'instructs_template_id' => !empty($mod->instid) ? $mod->instid : null, # Changed
-                    'downloads' => $mod->downloads,
-                    'likes' => $mod->likes,
-                    'views' => $mod->views,
-                    'user_id' => $mod->submitter_uid, # Changed
-                    'license' => $mod->license,
-                    'version' => $mod->version,
-                    'bumped_at' => $date, # Changed
-                    'created_at' => $this->handleUnixDate($mod->pub_date ?? $mod->date), # New #Handle dates
-                    'updated_at' => $date, # New
-                    'published_at' => $publishDate, # Changed
-                    'donation' => $mod->receiver_email, # Changed
-                    'suspended' => $mod->suspended_status == 1, # Changed into a boolean
-                    'comments_disabled' => $mod->comments_disabled == 1, # Changed into a boolean
-                    'has_download' => false, # Manually recalculate using v3 conditions :)
-                    'approved' => $mod->file_status != 2,
-                ]);
+        foreach ($mods as $mod) {
+            $bar->advance();
+            # Score is recalculated.
+            # Invited removed due to underuse.
+            
+            $date = $this->handleUnixDate($mod->date);
+            $publishDate = null;
+            if (empty($mod->pub_date) && (NEW_VISIBILITY[$mod->hidden] ?? Visibility::public) == Visibility::public) {
+                $publishDate = $date;
+            } else {
+                $publishDate = $this->handleUnixDate($mod->pub_date);
+            }
 
-                $deps = json_decode($mod->depends_on);
-                if (isset($deps)) {
-                    foreach ($deps as $dep) {
-                        Dependency::forceCreate([
-                            'name' => $dep->id ?? '',
-                            'url' => $dep->url ?? null,
-                            'mod_id' => is_integer($dep->id) ? $dep->id : null,
-                            'offsite' => !!$dep->id,
-                            'optional' => $dep->optional,
-                            'dependable_type' => 'mod',
-                            'dependable_id' => $newMod->id,
-                        ]);
-                    }
-                }
+            $newMod = Mod::forceCreate([
+                'id' => $mod->did,
+                'category_id' => Category::where('id', $mod->cid)->exists() ? $mod->cid : null, # Changed
+                'game_id' => $mod->root, # Changed
+                'name' => Str::limit($mod->name, 150),
+                'desc' => $mod->description, # Changed
+                'instructions' => $mod->instructions ?? '',
+                'short_desc' => Str::limit($mod->short_description, 150), # Changed
+                'changelog' => $mod->changelog,
+                'visibility' => NEW_VISIBILITY[$mod->hidden], # Changed
+                'instructs_template_id' => !empty($mod->instid) ? $mod->instid : null, # Changed
+                'downloads' => $mod->downloads,
+                'likes' => $mod->likes,
+                'views' => $mod->views,
+                'user_id' => $mod->submitter_uid, # Changed
+                'license' => $mod->license,
+                'version' => $mod->version,
+                'bumped_at' => $date, # Changed
+                'created_at' => $this->handleUnixDate($mod->pub_date ?? $mod->date), # New #Handle dates
+                'updated_at' => $date, # New
+                'published_at' => $publishDate, # Changed
+                'donation' => $mod->receiver_email, # Changed
+                'suspended' => $mod->suspended_status == 1, # Changed into a boolean
+                'comments_disabled' => $mod->comments_disabled == 1, # Changed into a boolean
+                'has_download' => false, # Manually recalculate using v3 conditions :)
+                'approved' => $mod->file_status != 2,
+            ]);
 
-                $images = $this->con->table('mws_images')->where('did', $newMod->id)->get();
-                $foundBanner = null;
-                foreach ($images as $image) {
-                    Image::forceCreate([
-                        'id' => $image->id,
-                        'mod_id' => $image->did,
-                        'user_id' => $image->uid || $newMod->user_id,
-                        'file' => $image->file,
-                        'type' => $image->filetype,
-                        'has_thumb' => $image->has_thumb == 1,
-                        'size' => $image->filesize,
-                        'created_at' => $this->handleUnixDate($image->date),
-                        'updated_at' => $this->handleUnixDate($image->date),
-                    ]);
-
-                    if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
-                        $foundBanner = $image->id;
-                    }
-                }
-
-                $files = $this->con->table('mydownloads_files')->where('did', $newMod->id)->get();
-                $firstModFileId = null;
-                foreach ($files as $file) {
-                    $newFile = File::forceCreate([
-                        'id' => $file->fid,
-                        'name' => $file->name,
-                        'mod_id' => $file->did,
-                        'user_id' => $file->uid ?? $newMod->user_id,
-                        'file' => $file->file,
-                        'desc' => $file->description,
-                        'type' => $file->filetype,
-                        'size' => $file->filesize,
-                        'created_at' => $this->handleUnixDate($file->date),
-                        'updated_at' => $this->handleUnixDate($file->date),
-                    ]);
-                    $firstModFileId ??= $newFile->id;
-                }
-
-                $link = null;
-                if (!empty($mod->url)) {
-                    $link = Link::forceCreate([
-                        'user_id' => $newMod->user_id,
-                        'mod_id' => $newMod->id,
-                        'url' => $mod->url,
-                    ]);
-                }
-
-                $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
-                $newMod->legacy_banner_url = $foundBanner ? null : $mod->banner;
-                $newMod->download_type = isset($mod->url) ? 'link' : 'file';
-                $newMod->download_id = !empty($mod->url) ? $link->id : $firstModFileId;
-
-                if (isset($foundBanner)) {
-                    $newMod->banner_id = $foundBanner;
-                }
-
-                $newMod->calculateFileStatus();
-
-                foreach (explode(',', $mod->tags) as $id) {
-                    if (!empty($id) && Tag::whereId($id)->exists()) {
-                        Taggable::forceCreate([
-                            'tag_id' => intval($id),
-                            'taggable_type' => 'mod',
-                            'taggable_id' => $newMod->id,
-                        ]);
-                    }
-                }
-    
-                foreach (explode(',', $mod->collaborators) as $id) {
-                    if (is_numeric($id) && User::where('id', $id)->exists()) {
-                        ModMember::forceCreate([
-                            'mod_id' => $newMod->id,
-                            'user_id' => $id,
-                            'level' => 'collaborator',
-                            'accepted' => true
-                        ]);
-                    }
-                }
-    
-                foreach (explode(',', $mod->invited) as $id) {
-                    if (is_int($id) && User::where('id', $id)->exists()) {
-                        ModMember::forceCreate([
-                            'mod_id' => $newMod->id,
-                            'user_id' => $id,
-                            'level' => 'viewer',
-                            'accepted' => true
-                        ]);
-                    }
+            $deps = json_decode($mod->depends_on);
+            $insertDeps = [];
+            if (isset($deps)) {
+                foreach ($deps as $dep) {
+                    $insertDeps[] = [
+                        'name' => $dep->id ?? '',
+                        'url' => $dep->url ?? null,
+                        'mod_id' => is_integer($dep->id) ? $dep->id : null,
+                        'offsite' => !!$dep->id,
+                        'optional' => $dep->optional,
+                        'dependable_type' => 'mod',
+                        'dependable_id' => $newMod->id,
+                    ];
                 }
             }
-        }, 'did');
+            Dependency::insert($insertDeps);
+
+            $images = $this->con->table('mws_images')->where('did', $newMod->id)->get();
+            $foundBanner = null;
+            $insertImages = [];
+            foreach ($images as $image) {
+                $date = $this->handleUnixDate($image->date);
+                $insertImages[] = [
+                    'id' => $image->id,
+                    'mod_id' => $image->did,
+                    'user_id' => $image->uid > 0 ? $image->uid : $newMod->user_id,
+                    'file' => $image->file,
+                    'type' => $image->filetype,
+                    'has_thumb' => $image->has_thumb == 1,
+                    'size' => $image->filesize,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                ];
+
+                if ('https://modworkshop.net/mydownloads/previews/'.$image->file == $mod->banner) {
+                    $foundBanner = $image->id;
+                }
+            }
+            Image::insert($insertImages);
+
+            $files = $this->con->table('mydownloads_files')->where('did', $newMod->id)->get();
+            $firstModFileId = null;
+            $insertFiles = [];
+            foreach ($files as $file) {
+                $date = $this->handleUnixDate($file->date);
+                $insertFiles[] = [
+                    'id' => $file->fid,
+                    'name' => $file->name,
+                    'mod_id' => $file->did,
+                    'user_id' => $file->uid ?? $newMod->user_id,
+                    'file' => $file->file,
+                    'desc' => $file->description,
+                    'type' => $file->filetype,
+                    'size' => $file->filesize,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                ];
+                $firstModFileId ??= $file->fid;
+            }
+            File::insert($insertFiles);
+
+            $link = null;
+            if (!empty($mod->url)) {
+                $link = Link::forceCreate([
+                    'user_id' => $newMod->user_id,
+                    'mod_id' => $newMod->id,
+                    'url' => $mod->url,
+                ]);
+            }
+
+            $newMod->thumbnail_id = !empty($mod->thumbnail_id) ? $mod->thumbnail_id : null;
+            $newMod->legacy_banner_url = $foundBanner ? null : $mod->banner;
+            $newMod->download_type = !empty($mod->url) ? 'link' : 'file';
+            $newMod->download_id = !empty($mod->url) ? $link->id : $firstModFileId;
+
+            if (isset($foundBanner)) {
+                $newMod->banner_id = $foundBanner;
+            }
+
+            $newMod->calculateFileStatus();
+            $insertTags = [];
+            foreach (explode(',', $mod->tags) as $id) {
+                if (!empty($id) && Tag::whereId($id)->exists()) {
+                    $insertTags[] = [
+                        'tag_id' => intval($id),
+                        'taggable_type' => 'mod',
+                        'taggable_id' => $newMod->id,
+                    ];
+                }
+            }
+            Taggable::insert($insertTags);
+
+            $insertMembers = [];
+            foreach (explode(',', $mod->collaborators) as $id) {
+                if (is_numeric($id) && User::where('id', $id)->exists()) {
+                    $insertMembers[] = [
+                        'mod_id' => $newMod->id,
+                        'user_id' => $id,
+                        'level' => 'collaborator',
+                        'accepted' => true
+                    ];
+                }
+            }
+
+            foreach (explode(',', $mod->invited) as $id) {
+                if (is_int($id) && User::where('id', $id)->exists()) {
+                    $insertMember[] = [
+                        'mod_id' => $newMod->id,
+                        'user_id' => $id,
+                        'level' => 'viewer',
+                        'accepted' => true
+                    ];
+                }
+            }
+
+            ModMember::insert($insertMembers);
+        }
+
+        unset($mods);
+        unset($insertMembers);
+        unset($insertImages);
+        unset($insertTags);
+        unset($insertFiles);
+        unset($insertDeps);
 
         $bar->finish();
         $this->resetAutoIncrement('mods');
@@ -627,34 +671,36 @@ class MigrateBB extends Command
     public function handleFileThumbnails()
     {
         $bar = $this->progress('Converting file thumbnails', $this->con->table('mydownloads_files')->count());
-        $this->con->table('mydownloads_files')->whereNotNull('image')->chunkById(100, function($files) use ($bar) {
-            foreach ($files as $file) {
-                if (!empty($file->image)) {
-                    $image = Image::forceCreate([
-                        'mod_id' => $file->did,
-                        'user_id' => $file->uid,
-                        'file' => $file->image,
-                        'type' => Str::of($file->image)->match('/\w+\.(\w+)/'),
-                        'has_thumb' => !empty($file->thumbnail),
-                        'size' => 0, //TODO
-                        'created_at' => $this->handleUnixDate($file->date),
-                        'updated_at' => $this->handleUnixDate($file->date),
-                    ]);
+        $files = $this->con->table('mydownloads_files')->whereNotNull('image')->get();
 
-                    File::where('id', $file->fid)->update([
-                        'image_id' => $image->id
-                    ]);
-                }
+        foreach ($files as $file) {
+            if (!empty($file->image)) {
+                $image = Image::forceCreate([
+                    'mod_id' => $file->did,
+                    'user_id' => $file->uid,
+                    'file' => $file->image,
+                    'type' => Str::of($file->image)->match('/\w+\.(\w+)/'),
+                    'has_thumb' => !empty($file->thumbnail),
+                    'size' => 0, //TODO
+                    'created_at' => $this->handleUnixDate($file->date),
+                    'updated_at' => $this->handleUnixDate($file->date),
+                ]);
 
-                $bar->advance();
+                File::where('id', $file->fid)->update([
+                    'image_id' => $image->id
+                ]);
             }
-        }, 'fid');
+
+            $bar->advance();
+        }
+
+        unset($files);
     }
 
     public function handleFollowsAndSubs()
     {
         $bar = $this->progress('Converting discussion subscriptions', $this->con->table('mws_subs')->count());
-        $this->con->table('mws_subs')->chunkById(500, function($subs) use ($bar) {
+        $this->con->table('mws_subs')->chunkById(100000, function($subs) use ($bar) {
             $insert = [];
 
             foreach ($subs as $sub) {
@@ -677,11 +723,13 @@ class MigrateBB extends Command
             }
 
             Subscription::insert($insert);
+
+            unset($subs);
         }, 'sid');
         $bar->finish();
 
         $bar = $this->progress('Converting followed mods', $this->con->table('mws_following_mods')->count());
-        $this->con->table('mws_following_mods')->chunkById(500, function($follows) use ($bar) {
+        $this->con->table('mws_following_mods')->chunkById(100000, function($follows) use ($bar) {
             $insert = [];
             foreach ($follows as $follow) {
                 $bar->advance();
@@ -692,8 +740,10 @@ class MigrateBB extends Command
                         'mod_id' => $follow->follow,
                     ];
                 }
-                FollowedMod::insert($insert);
             }
+
+            FollowedMod::insert($insert);
+            unset($follows);
         }, 'fid');
         $bar->finish();
 
@@ -708,6 +758,8 @@ class MigrateBB extends Command
                     ]);
                 }
             }
+
+            unset($follows);
         }, 'fid');
         $bar->finish();
 
@@ -723,6 +775,8 @@ class MigrateBB extends Command
                     ]);
                 }
             }
+
+            unset($follows);
         }, 'fid');
         $bar->finish();
     }
@@ -730,32 +784,65 @@ class MigrateBB extends Command
     public function handleComments()
     {
         $bar = $this->progress('Converting mod comments', $this->con->table('mydownloads_comments')->count());
-        $this->con->table('mydownloads_comments')->where('uid', '!=', 0)->chunkById(100, function($comments) use ($bar) {
-            foreach ($comments as $comment) {
-                # Removed cid (unused)
-                $bar->advance();
+        $comments = $this->con->table('mydownloads_comments')->where('uid', '!=', 0)->get();
 
-                if (!empty($comment->replyid) && !Comment::where('id', $comment->replyid)->exists() ) {
-                    continue;
-                }
+        $insert = [];
+        $insertReplies = [];
 
-                if (!User::where('id', $comment->uid)->exists()) {
-                    continue;
-                }
-
-                Comment::forceCreate([
-                    'user_id' => $comment->uid, # Changed,
-                    'commentable_type' => 'mod',
-                    'commentable_id' => $comment->did, # Changed
-                    'content' => $comment->comment, # Changed
-                    'updated_at' => $this->handleUnixDate($comment->date_edited), #Changed, handle date
-                    'created_at' => $this->handleUnixDate($comment->date), # Changed
-                    'pinned' => $comment->pinned == '1',
-                    'reply_to' => !empty($comment->replyid) ? $comment->replyid : null
-                ]);
+        $doInsert = function() use (&$insert, &$insertReplies) {
+            if (count($insert)) {
+                Comment::insert($insert);
+                Comment::insert($insertReplies);
             }
-        }, 'cid');
 
+            $insert = [];
+            $insertReplies = [];
+        };
+
+        $i = 0;
+        foreach ($comments as $comment) {
+            # Removed cid (unused)
+            $bar->advance();
+
+            if (!empty($comment->replyid) && !Comment::where('id', $comment->replyid)->exists() ) {
+                continue;
+            }
+
+            if (!User::where('id', $comment->uid)->exists()) {
+                continue;
+            }
+
+            $commentInsert = [
+                'user_id' => $comment->uid, # Changed,
+                'commentable_type' => 'mod',
+                'commentable_id' => $comment->did, # Changed
+                'content' => $comment->comment, # Changed
+                'updated_at' => $this->handleUnixDate($comment->date_edited), #Changed, handle date
+                'created_at' => $this->handleUnixDate($comment->date), # Changed
+                'pinned' => $comment->pinned == '1',
+            ];
+
+            if (!empty($comment->replyid)) {
+                $insertReplies[] = [
+                    ...$commentInsert,
+                    'reply_to' => !empty($comment->replyid) ? $comment->replyid : null
+                ];
+            } else {
+                $insert[] = $commentInsert;
+            }
+
+            if ($i % 500) {
+                $doInsert();
+            }
+
+            $i++;
+        }
+
+        $doInsert();
+        
+        unset($insert);
+        unset($insertReplies);
+        unset($comments);
         $bar->finish();
     }
 
@@ -763,6 +850,7 @@ class MigrateBB extends Command
     {
         $bar = $this->progress('Converting forums', $this->con->table('forums')->count());
         $forums = $this->con->table('forums')->where('type', 'f')->get();
+
         foreach ($forums as $forum) {
             $bar->advance();
             ForumCategory::forceCreate([
@@ -770,10 +858,10 @@ class MigrateBB extends Command
                 'id' => $forum->fid,
                 'name' => $forum->name,
                 'desc' => $forum->description,
+                'is_private' => STAFF_ONLY_FORUMS[intval($forum->fid)] ?? false
             ]);
         }
         $bar->finish();
-
 
         $bar = $this->progress('Converting threads', $this->con->table('threads')->count());
         $threads = $this->con->table('threads')->get();
@@ -813,86 +901,103 @@ class MigrateBB extends Command
         }
         $bar->finish();
 
-
         $bar = $this->progress('Converting thread replies', $this->con->table('posts')->count());
-        $this->con->table('posts')->where('uid', '!=', 0)->chunkById(500, function($posts) use ($bar) {
-            foreach ($posts as $post) {
-                # Removed cid (unused)
-                $bar->advance();
+        $posts = $this->con->table('posts')->where('uid', '!=', 0)->get();
+        foreach ($posts as $post) {
+            # Removed cid (unused)
+            $bar->advance();
 
-                if (empty($post->replyto)) {
-                    continue;
-                }
-
-                if (!User::where('id', $post->uid)->exists()) {
-                    continue;
-                }
-
-                Comment::forceCreate([
-                    'user_id' => $post->uid,
-                    'commentable_type' => 'thread',
-                    'commentable_id' => $post->tid,
-                    'content' => $post->message,
-                    'updated_at' => $this->handleUnixDate($post->dateline),
-                    'created_at' => $this->handleUnixDate($post->dateline),
-                ]);
+            if (empty($post->replyto)) {
+                continue;
             }
-        }, 'pid');
+
+            if (!User::where('id', $post->uid)->exists()) {
+                continue;
+            }
+
+            Comment::forceCreate([
+                'user_id' => $post->uid,
+                'commentable_type' => 'thread',
+                'commentable_id' => $post->tid,
+                'content' => $post->message,
+                'updated_at' => $this->handleUnixDate($post->dateline),
+                'created_at' => $this->handleUnixDate($post->dateline),
+            ]);
+        }
+
+        unset($posts);
+        unset($subs);
+        unset($forums);
         $bar->finish();
     }
 
     public function handleModDownloads()
     {
         $bar = $this->progress('Converting mod downloads', $this->con->table('mods_downloads')->count());
+        $downloads = $this->con->table('mods_downloads')->lazyById(100000, 'lid');
 
-        $this->con->table('mods_downloads')->chunkById(500, function($downloads) use ($bar) {
+        $i = 0;
+        $insertAtOnce = [];
+        $insertAtOnceIpless = [];
+        $insertAtOnceUserless = [];
+        $insertBroken = [];
+
+        $doInsert = function() use (&$insertAtOnce, &$insertAtOnceIpless, &$insertAtOnceUserless, &$insertBroken) {
+            ModView::insert($insertAtOnce);
+            ModView::insert($insertAtOnceIpless);
+            ModView::insert($insertAtOnceUserless);
+            ModView::insert($insertBroken);
+    
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
             $insertAtOnceUserless = [];
-            $insertBroken = [];
-            foreach ($downloads as $download) {
-                $bar->advance();
+            $insertBroken = [];    
+        };
 
-                if (!isset($this->modIds[$download->did])) {
-                    continue;
-                }
+        foreach ($downloads as $download) {
+            $bar->advance();
 
-                $insert = [
-                    'mod_id' => $download->did, # Changed
-                ];
-                
-                $hasUser = false;
-                $hasIp = false;
-                if ($download->uid) {
-                    $insert['user_id'] = $download->uid;
-                    $hasUser = true;
-                }
-
-                if (!empty($download->ipaddress) && !is_numeric($download->ipaddress)) {
-                    $insert['ip_address'] = $download->ipaddress;
-                    $hasIp = true;
-                }
-
-                if ($hasUser && $hasIp) {
-                    $insertAtOnce[] = $insert;
-                } else if ($hasIp) {
-                    $insertAtOnceUserless[] = $insert;
-                } else if ($hasUser) {
-                    $insertAtOnceIpless[] = $insert;
-                } else {
-                    $insertBroken[] = $insert;
-                }
+            if (!isset($this->modIds[$download->did])) {
+                continue;
             }
 
-            ModDownload::insert($insertAtOnceIpless);
-            ModDownload::insert($insertAtOnceIpless);
-            ModDownload::insert($insertAtOnceUserless);
-            ModDownload::insert($insertBroken);
-            unset($insertAtOnce);
-            unset($insertAtOnceIpless);
-            unset($insertAtOnceUserless);
-            unset($insertBroken);
-        }, 'lid');
+            $insert = [
+                'mod_id' => $download->did, # Changed
+            ];
+            
+            $hasUser = false;
+            $hasIp = false;
+            if ($download->uid) {
+                $insert['user_id'] = $download->uid;
+                $hasUser = true;
+            }
+
+            if (!empty($download->ipaddress) && !is_numeric($download->ipaddress)) {
+                $insert['ip_address'] = $download->ipaddress;
+                $hasIp = true;
+            }
+
+            if ($hasUser && $hasIp) {
+                $insertAtOnce[] = $insert;
+            } else if ($hasIp) {
+                $insertAtOnceUserless[] = $insert;
+            } else if ($hasUser) {
+                $insertAtOnceIpless[] = $insert;
+            } else {
+                $insertBroken[] = $insert;
+            }
+
+            if ($i % 500 == 0) {
+                $doInsert();
+            }
+
+            $i++;
+        }
+
+        $insertAtOnce = [];
+        $insertAtOnceIpless = [];
+        $insertAtOnceUserless = [];
+        $insertBroken = [];
 
         $bar->finish();
     }
@@ -900,55 +1005,74 @@ class MigrateBB extends Command
     public function handleModViews()
     {
         $bar = $this->progress('Converting mod views', $this->con->table('mydownloads_views')->count());
-        $this->con->table('mydownloads_views')->chunkById(500, function($views) use ($bar) {
-            $insertAtOnce = [];
-            $insertAtOnceIpless = [];
-            $insertAtOnceUserless = [];
-            $insertBroken = [];
+        $views = $this->con->table('mydownloads_views')->lazyById(100000, 'vid');
 
-            foreach ($views as $view) {
-                $bar->advance();
+        $insertAtOnce = [];
+        $insertAtOnceIpless = [];
+        $insertAtOnceUserless = [];
+        $insertBroken = [];
 
-                if (!isset($this->modIds[$view->did])) {
-                    continue;
-                }
+        $i = 0;
 
-                $insert = [
-                    'mod_id' => $view->did, # Changed
-                ];
-
-                $hasUser = false;
-                $hasIp = false;
-                if ($view->uid) {
-                    $insert['user_id'] = $view->uid;
-                    $hasUser = true;
-                }
-
-                if (!empty($view->ipaddress) && !is_numeric($view->ipaddress)) {
-                    $insert['ip_address'] = $view->ipaddress;
-                    $hasIp = true;
-                }
-
-                if ($hasUser && $hasIp) {
-                    $insertAtOnce[] = $insert;
-                } else if ($hasIp) {
-                    $insertAtOnceUserless[] = $insert;
-                } else if ($hasUser) {
-                    $insertAtOnceIpless[] = $insert;
-                } else {
-                    $insertBroken[] = $insert;
-                }
-            }
-
-            ModView::insert($insertAtOnceIpless);
+        $doInsert = function() use (&$insertAtOnce, &$insertAtOnceIpless, &$insertAtOnceUserless, &$insertBroken) {
+            ModView::insert($insertAtOnce);
             ModView::insert($insertAtOnceIpless);
             ModView::insert($insertAtOnceUserless);
             ModView::insert($insertBroken);
-            unset($insertAtOnce);
-            unset($insertAtOnceIpless);
-            unset($insertAtOnceUserless);
-            unset($insertBroken);
-        }, 'vid');
+    
+            $insertAtOnce = [];
+            $insertAtOnceIpless = [];
+            $insertAtOnceUserless = [];
+            $insertBroken = [];    
+        };
+
+        foreach ($views as $view) {
+            $bar->advance();
+
+            if (!isset($this->modIds[$view->did])) {
+                continue;
+            }
+
+            $insert = [
+                'mod_id' => $view->did, # Changed
+            ];
+
+            $hasUser = false;
+            $hasIp = false;
+            if ($view->uid) {
+                $insert['user_id'] = $view->uid;
+                $hasUser = true;
+            }
+
+            if (!empty($view->ipaddress) && !is_numeric($view->ipaddress)) {
+                $insert['ip_address'] = $view->ipaddress;
+                $hasIp = true;
+            }
+
+            if ($hasUser && $hasIp) {
+                $insertAtOnce[] = $insert;
+            } else if ($hasIp) {
+                $insertAtOnceUserless[] = $insert;
+            } else if ($hasUser) {
+                $insertAtOnceIpless[] = $insert;
+            } else {
+                $insertBroken[] = $insert;
+            }
+
+            if ($i % 500 == 0) {
+                $doInsert();
+            }
+
+            $i++;
+        }
+
+        $doInsert();
+
+        unset($insertAtOnce);
+        unset($insertAtOnceIpless);
+        unset($insertAtOnceUserless);
+        unset($insertBroken);
+        unset($views);
 
         $bar->finish();
     }
@@ -956,7 +1080,7 @@ class MigrateBB extends Command
     public function handleLikes()
     {
         $bar = $this->progress('Converting mod likes', $this->con->table('mydownloads_ratings')->count());
-        $this->con->table('mydownloads_ratings')->chunkById(100, function($likes) use ($bar) {
+        $this->con->table('mydownloads_ratings')->chunkById(15000, function($likes) use ($bar) {
             $insert = [];
             foreach ($likes as $like) {
                 # Removed IP (redundant, only users can like mods!)
@@ -973,15 +1097,18 @@ class MigrateBB extends Command
                     continue;
                 }
 
+                $time = $this->handleUnixDate($like->stamp);
                 $insert[] = [
                     'mod_id' => $like->did,
                     'user_id' => $like->uid,
-                    'updated_at' => $this->handleUnixDate($like->stamp), # Handle date
-                    'created_at' => $this->handleUnixDate($like->stamp)
+                    'updated_at' => $time, # Handle date
+                    'created_at' => $time
                 ];
             }
 
             ModLike::insert($insert);
+            unset($insert);
+            unset($likes);
         }, 'rid');
         
         $bar->finish();
@@ -990,35 +1117,56 @@ class MigrateBB extends Command
     public function handlePopularityLog()
     {
         $bar = $this->progress('Converting popularity logs', $this->con->table('mods_monthly_logs')->count());
-        $this->con->table('mods_monthly_logs')->chunkById(500, function($logs) use ($bar) {
-            $insert = [];
-            $insertUserless = [];
-            foreach ($logs as $log) {
-                $bar->advance();
+        $logs = $this->con->table('mods_monthly_logs')->get();
 
-                if (!isset($this->modIds[$log->did]) || $log->type == 3 || $log->type == 4) {
-                    continue;
-                }
+        $insert = [];
+        $insertUserless = [];
 
-                $newLog = [
-                    'ip_address' => $log->ipaddress,
-                    'mod_id' => $log->did,
-                    'updated_at' => $this->handleUnixDate($log->date),
-                    'type' => NEW_LOG_TYPES[$log->type] # Really changed
-                ];
+        $i = 0;
 
-                if (!empty($log->uid)) {
-                    $newLog['user_id'] = $log->uid;
-                    $insert[] = $newLog;
-                } else {
-                    $insertUserless[] = $newLog;
-                }
+        $doInsert = function() use (&$insert, &$insertUserless) {
+            if (count($insert)) {
+                PopularityLog::insert($insert);
+                PopularityLog::insert($insertUserless);
             }
 
-            PopularityLog::insert($insert);
-            PopularityLog::insert($insertUserless);
-        }, 'lid');
+            $insert = [];
+            $insertUserless = [];
+        };
 
+        foreach ($logs as $log) {
+            $bar->advance();
+
+            if (!isset($this->modIds[$log->did]) || $log->type == 3 || $log->type == 4) {
+                continue;
+            }
+
+            $newLog = [
+                'ip_address' => $log->ipaddress,
+                'mod_id' => $log->did,
+                'updated_at' => $this->handleUnixDate($log->date),
+                'type' => NEW_LOG_TYPES[$log->type] # Really changed
+            ];
+
+            if (!empty($log->uid)) {
+                $newLog['user_id'] = $log->uid;
+                $insert[] = $newLog;
+            } else {
+                $insertUserless[] = $newLog;
+            }
+    
+            if ($i % 500 == 0) {
+                $doInsert();
+            }
+
+            $i++;
+        }
+
+        $doInsert();
         $bar->finish();
+        unset($insert);
+        unset($insertUserless);
+        unset($logs);
     }
+    
 }
