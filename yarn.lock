@@ -4507,7 +4507,7 @@ nuxt-icon@^0.3.2:
     "@nuxt/kit" "^3.3.1"
     nuxt-config-schema "^0.4.5"
 
-nuxt@^3.4.2:
+nuxt@^3.4.1:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.4.2.tgz#d5238373df8132b568ddee7e5fc251e7ede1a895"
   integrity sha512-4v+oeBL4ZI8nHzF0Dm1p5kF9VCNlzrpvOt7wu3BnmzlueXsu4A/LfmFvpfZLxws+r5U74eM5Ut/LMD8B8LrZIw==
