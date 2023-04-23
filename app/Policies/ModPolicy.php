@@ -54,10 +54,12 @@ class ModPolicy
             case Visibility::public:
                 return true;
             case Visibility::private:
-                if (!isset($this->user)) {
+                if (!isset($user)) {
                     return false;
                 }
-                return $this->update($user, $mod);
+                return $mod->members()->where('user_id', $user->id)->exists()
+                    || $mod->transferRequest()->where('user_id', $user->id)->exists()
+                    || $this->update($user, $mod);
         }
         return true;
     }
@@ -194,5 +196,25 @@ class ModPolicy
     public function report(User $user, Mod $mod)
     {
         return !$mod->suspended && $user->hasPermission('create-reports', $mod->game);
+    }
+
+    public function storeMember(User $user, Mod $mod)
+    {
+        return $this->authorize('update', $mod);
+    }
+
+    public function updateMember(User $user, Mod $mod, User $member)
+    {
+        return $user->id === $member->user_id || $this->authorize('storeMember', $mod);
+    }
+
+    public function deleteMember(User $user, Mod $mod, User $member)
+    {
+        return $this->authorize('updateMember', [$mod, $member]);
+    }
+
+    public function acceptMember(User $user, Mod $mod)
+    {
+        return $mod->members()->where('user_id', $user->id)->exists();
     }
 }

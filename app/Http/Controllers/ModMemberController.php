@@ -17,7 +17,6 @@ const MOD_MEMBER_RULES_OVER = [
 class ModMemberController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource([ModMember::class, 'mod'], 'mod_member,mod');
     }
 
     /**
@@ -28,6 +27,7 @@ class ModMemberController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
+        $this->authorize('storeMember', $mod);
         $val = $request->validate([
             'user_id' => 'integer|required|min:1|exists:users,id',
             'level' => 'in:maintainer,collaborator,viewer,contributor|required'
@@ -77,6 +77,8 @@ class ModMemberController extends Controller
      */
     public function update(Request $request, Mod $mod, User $member)
     {
+        $this->authorize('updateMember', [$mod, $member]);
+
         $ourUserId = $request->user()->id;
         $val = $request->validate([
             'level' => 'required|in:collaborator,maintainer,viewer,contributor'
@@ -98,14 +100,16 @@ class ModMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Mod $mod, int $member)
+    public function destroy(Request $request, Mod $mod, User $member)
     {
+        $this->authorize('deleteMember', [$mod, $member]);
+
         $ourUserId = $request->user()->id;
         $ourLevel = $mod->getMemberLevel($ourUserId, false);
-        $memberLevel = $mod->getMemberLevel($member, false);
+        $memberLevel = $mod->getMemberLevel($member->id, false);
 
         //We should be able to delete ourselves from members!
-        if (!isset($ourLevel) || ($ourUserId !== $member)) {
+        if (!isset($ourLevel) || ($ourUserId !== $member->id)) {
             if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($memberLevel, MOD_MEMBER_RULES_OVER[$ourLevel])) {
                 abort(403);
             }
@@ -124,12 +128,14 @@ class ModMemberController extends Controller
      */
     public function accept(Request $request, Mod $mod)
     {
+        $this->authorize('acceptMember', $mod);
+
         $val = $request->validate([
             'accept' => 'boolean|required'
         ]);
 
         //Of course, only accept an actual request.
-        $member = $mod->members->where('user_id', $this->userId())->firstOrFail();
+        $member = $mod->members()->where('user_id', $this->userId())->firstOrFail();
 
         if ($val['accept']) {
             $mod->members()->updateExistingPivot($member, ['accepted' => true]);
