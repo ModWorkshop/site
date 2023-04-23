@@ -72,12 +72,12 @@ Route::middleware('can:update,mod')->group(function() {
 });
 Route::middleware('can:super-update,mod')->group(function() {
     Route::patch('mods/{mod}/owner', [ModController::class, 'transferOwnership']);
-    Route::patch('mods/{mod}/transfer-request/cancel', [ModController::class, 'cancelTransferRequest']);
+    Route::patch('mods/{mod}/owner/cancel', [ModController::class, 'cancelTransferRequest']);
 });
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/members/accept', [ModMemberController::class, 'accept']);
-Route::patch('mods/{mod}/transfer-request/accept', [ModController::class, 'acceptTransferRequest']);
+Route::patch('mods/{mod}/owner/accept', [ModController::class, 'acceptTransferRequest']);
 Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
