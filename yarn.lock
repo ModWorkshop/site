@@ -1366,13 +1366,13 @@
     local-pkg "^0.4.3"
     vue-demi "*"
 
-"@vueuse/router@^9.12.0":
-  version "9.13.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-9.13.0.tgz#cfc757fa89c654ab749c60bc2445f945cbb86b32"
-  integrity sha512-lcL6auSUGMGZMdDzZJb02QDe909AChzMXoxqFS3gL2E8mHmIx0SrNor+33UkqvvBPi18vXpDq/R7tPd9fxWwTg==
+"@vueuse/router@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-10.1.0.tgz#9fbb761644726e1452dda1ada99dbc9a6f56513e"
+  integrity sha512-v9rQNld/8EwG7EPpkkwrj+tVeNFliupHdymREbyj0CJBeRIL82KEQyC+k+dbZhDxKihA0NtNC54+Qi8pC8Dtiw==
   dependencies:
-    "@vueuse/shared" "9.13.0"
-    vue-demi "*"
+    "@vueuse/shared" "10.1.0"
+    vue-demi ">=0.14.0"
 
 "@vueuse/shared@10.1.0":
   version "10.1.0"
