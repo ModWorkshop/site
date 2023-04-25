@@ -32,7 +32,7 @@
             </VDropdown>
         </flex>
         <template v-if="tempBlockOverride || !isBlocked">
-            <a-banner :src="user.banner" url-prefix="users/banners">
+            <a-banner :src="user.banner" url-prefix="users/images">
                 <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
             </a-banner>
             <flex gap="3" column class="details md:flex-row">
@@ -126,7 +126,7 @@ const { data: user } = await useResource<User>('user', 'users');
 const thumbnail = computed(() => {
     const avatar = user.value.avatar;
     if (avatar) {
-        return `${config.storageUrl}/users/avatars/${avatar}`;
+        return `${config.storageUrl}/users/images/${avatar}`;
     } else {
         return `${config.siteUrl}/assets/no-preview-dark.png`;
     }

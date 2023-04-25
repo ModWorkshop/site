@@ -1,5 +1,5 @@
 <template>
-    <a-thumbnail :src="src" :has-thumb="false" url-prefix="games/thumbnails"/>
+    <a-thumbnail :src="src" :has-thumb="false" url-prefix="games/images"/>
 </template>
 
 <script setup lang="ts">

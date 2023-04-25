@@ -19,7 +19,7 @@ const props = defineProps({
     src: [String, Blob],
     urlPrefix: {
         type: String,
-        default: 'users/avatars'
+        default: 'users/images'
     },
     size: {
         default: null,

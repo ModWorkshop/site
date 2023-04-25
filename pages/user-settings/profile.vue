@@ -10,7 +10,7 @@
 
         <img-uploader v-model="user.banner_file" :label="$t('banner')" :src="user.banner">
             <template #label="{ src }">
-                <a-banner :src="src" url-prefix="users/banners"/>
+                <a-banner :src="src" url-prefix="users/images"/>
             </template>
         </img-uploader>
 

@@ -73,7 +73,7 @@ const canEditComments = computed(() => hasPermission('manage-discussions', threa
 const thumbnail = computed(() => {
     const avatar = thread.value.user.avatar;
     if (avatar) {
-        return `${config.storageUrl}/users/avatars/${avatar}`;
+        return `${config.storageUrl}/users/images/${avatar}`;
     } else {
         return `${config.siteUrl}/assets/no-preview-dark.png`;
     }

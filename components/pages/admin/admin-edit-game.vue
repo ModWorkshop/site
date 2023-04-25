@@ -15,7 +15,7 @@
         </img-uploader>
         <img-uploader id="banner" v-model="bannerBlob" :label="$t('banner')" :src="vmGame.banner">
             <template #label="{ src }">
-                <a-banner :src="src" url-prefix="games/banners"/>
+                <a-banner :src="src" url-prefix="games/images"/>
             </template>
         </img-uploader>
         <a-input v-model="vmGame.name" :label="$t('name')"/>
