@@ -134,7 +134,7 @@ export function strReplacRange(str: string, start: number, end: number, replacem
 /**
  * Returns whether or not the src URL is external. If it begins with a URL http/https or data: it's "external"
  */
-export function isSrcExternal(src?: string|Blob) {
+export function isSrcExternal(src?: string|any) {
     if (typeof src == 'string') {
         return src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"));
     } else {

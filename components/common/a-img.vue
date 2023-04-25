@@ -3,10 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { isSrcExternal } from '~~/utils/helpers';
-
-const { public: config } = useRuntimeConfig();
-
 const props = defineProps({
     src: {
         default: '',
@@ -30,19 +26,6 @@ const compSrc = computed(function() {
     if (useDefault.value) {
         return `${assetsUrl}/default-avatar.webp`;
     }
-    const src = props.src;
-    if (src instanceof Blob) {
-        return src.toString();
-    }
-    else if (isSrcExternal(src)) {
-        return src;
-    } else {
-        const url = props.isAsset ? assetsUrl : config.storageUrl;
-        if (props.urlPrefix) {
-            return `${url}/${props.urlPrefix}/${src}`;
-        } else {
-            return `${url}/${src}`;
-        }
-    }
+    return useSrc(props.urlPrefix, props.src, props.isAsset) ?? `${assetsUrl}/default-avatar.webp`;
 });
 </script>

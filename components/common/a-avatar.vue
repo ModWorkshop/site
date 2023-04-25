@@ -1,4 +1,3 @@
-import { useStore } from '../../store/index';
 <template>
     <a-img
         :alt="$t('avatar')"
@@ -13,8 +12,6 @@ import { useStore } from '../../store/index';
 <script setup lang="ts">
 import { useStore } from '~~/store';
 
-const { public: config } = useRuntimeConfig();
-
 const props = defineProps({
     src: [String, Blob],
     urlPrefix: {
@@ -28,20 +25,7 @@ const props = defineProps({
 });
 
 const store = useStore();
-
-const isAsset = computed(() => !props.src);
-
-const avatarUrl = computed(() => {
-    const src = props.src;
-    if (config.debug_legacy_images && !isSrcExternal(src)) {
-        return 'https://modworkshop.net/' + src;
-    }
-    else if (src) {
-        return src;
-    } else {
-        return store.theme == 'light' ? 'default-avatar-black.webp' : 'default-avatar.webp';
-    }
-});
+const avatarUrl = computed(() => props.src ?? (store.theme == 'light' ? 'default-avatar-black.webp' : 'default-avatar.webp'));
 
 const sizes = {
     xs: 28,

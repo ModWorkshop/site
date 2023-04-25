@@ -5,34 +5,17 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { isSrcExternal } from '~~/utils/helpers';
-
-const { public: config } = useRuntimeConfig();
 const store = useStore();
 
-const props = defineProps({
-    src: [String, Blob],
-    urlPrefix: String,
-    height: {
-        type: [Number, String],
-        default: 300,
-    }
+const props = withDefaults(defineProps<{
+    src: string|Blob,
+    urlPrefix: string,
+    height?: number|string,
+}>(), {
+    height: 300
 });
 
-const bannerUrl = computed(() => {
-    const src = props.src;
-    if (src) {
-        if (typeof src === 'object') {
-            return src.toString();
-        } else if (isSrcExternal(src)) {
-            return src;
-        } else {
-            return `${config.storageUrl}/${props.urlPrefix}/${src}`;
-        }
-    } else {
-        return `/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`;
-    }
-});
+const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? `/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`);
 </script>
 <style>
 .default-banner {

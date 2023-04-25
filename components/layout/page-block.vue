@@ -91,7 +91,7 @@ const { public: config } = useRuntimeConfig();
 const thumbnail = computed(() => {
     const thumb = props.game?.thumbnail;
     if (thumb) {
-        return `${config.storageUrl}/games/thumbnails/${thumb}`;
+        return `${config.storageUrl}/games/images/${thumb}`;
     } else {
         return  `${config.siteUrl}/assets/no-preview-dark.png`;
     }
