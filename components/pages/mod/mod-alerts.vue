@@ -66,8 +66,8 @@ const memberWaitingRole = computed(() => {
 });
 
 const hasAlerts = computed(() => 
-    !props.mod.has_download || props.mod.approved !== true || props.mod.suspended 
-    || memberWaiting.value || (props.mod.transfer_request && props.mod.transfer_request.user_id == user?.id)
+    props.mod && (!props.mod.has_download || props.mod.approved !== true || props.mod.suspended 
+    || memberWaiting.value || (props.mod.transfer_request && props.mod.transfer_request.user_id == user?.id))
 );
 
 async function acceptMembership(accept: boolean) {
