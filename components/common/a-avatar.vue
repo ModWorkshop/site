@@ -4,6 +4,7 @@
         :src="avatarUrl"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
+        :fallback="`${assetsUrl}/default-avatar.webp`"
         :is-asset="isAsset"
         :width="sizeNumber"
         :height="sizeNumber"
@@ -25,6 +26,8 @@ const props = defineProps({
 });
 
 const store = useStore();
+const assetsUrl = `/assets`;
+
 const avatarUrl = computed(() => props.src ?? (store.theme == 'light' ? 'default-avatar-black.webp' : 'default-avatar.webp'));
 
 const sizes = {
