@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" size="2xs">
+    <page-block :game="game" size="2xs" game-banner>
         <content-block>
             <a-user :user="user"/>
             <flex gap="3" class="p-4 input-bg" column>

@@ -9,7 +9,7 @@
             </flex>
 
             <flex v-if="game?.id" gap="0" column>
-                <a-banner v-if="gameBanner" :src="game.banner" url-prefix="games/banners" style="height: 250px;"/>
+                <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
                 <content-block :column="false" wrap class="items-center" gap="4">
                     <h2 class="my-auto mb-1">
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
@@ -81,6 +81,8 @@ const props = withDefaults(defineProps<{
 }>(), { gap: 3, size: 'nm', defineMeta: true });
 
 const store = useStore();
+
+const bannerUrl = computed(() => useSrc('games/images', props.game?.banner));
 
 watch(() => props.game, () => {
     store.setGame(props.game || null);
@@ -201,5 +203,20 @@ const innerClasses = computed(() => ({
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
         width: 100% !important;
     }
+}
+
+.game-banner {
+    height: auto;
+    -webkit-mask-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+    mask-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+    top: 56px;
+    left: 50%;
+    right: 50%;
+    width: 100%;
+    height: 500px;
+    transform: translate(-50%, 0);
+    position: absolute;
+    object-fit: cover;
+    z-index: -1;
 }
 </style>

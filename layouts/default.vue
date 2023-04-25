@@ -86,5 +86,6 @@ main {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+    z-index: 10;
 }
 </style>

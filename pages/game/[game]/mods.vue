@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb">
+    <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
         <Title>{{game.name}}</Title>
         <mod-list :game="game" :url="`games/${game.id}/mods`" side-filters/>
     </page-block>

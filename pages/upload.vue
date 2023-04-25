@@ -1,5 +1,5 @@
 <template>
-    <page-block size="xs" :game="game" :breadcrumb="game ? breadcrumb : undefined">
+    <page-block size="xs" :game="game" :breadcrumb="game ? breadcrumb : undefined" game-banner>
         <Title>{{$t('upload_mod')}}</Title>
         <h1>{{$t('upload_mod')}}</h1>
         <a-form :model="mod" :created="false" @submit="create">
