@@ -11,6 +11,22 @@
 	max-width: 100%;
 }
 
+.markdown h1, .markdown h2 {
+	border-bottom: 1px solid #424242;
+	padding-bottom: 0.5em;
+}
+
+.markdown h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 1rem;
+}
+
+.markdown hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 1px solid #424242;
+	background:#424242;
+}
+
 .markdown img {
 	max-height: 250px !important;
 	max-width: 100%;
@@ -22,8 +38,8 @@
 	padding: 8px;
 }
 
-.markdown tr {
-	background: #313131;
+.markdown li {
+	margin-bottom: 0.5rem;
 }
 
 .markdown tr:nth-child(2n) {
