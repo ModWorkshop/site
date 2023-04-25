@@ -50,14 +50,6 @@ class ThreadController extends Controller
         return ThreadResource::collection(Thread::queryGet($val, function($query, array $val) use($request) {
             $user = $request->user();
 
-            $roleIds = [1];
-            $gameRoleIds = null;
-
-            if (isset($user)) {
-                $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
-                $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
-            }
-
             if (isset($val['no_pins']) && $val['no_pins']) {
                 $query->orderByDesc('bumped_at');
             } else {
@@ -65,17 +57,9 @@ class ThreadController extends Controller
             }
 
             if (!isset($user) || !$user->hasPermission('manage-discussions')) {
-                $query->where(fn($q) => $q->whereNull('category_id')->orWhereRelation('category', function($q) use ($user, $roleIds, $gameRoleIds) {
-                    $q->where(fn($q) => $q->when(isset($user))->where('threads.user_id', $user?->id)->orWhere('private_threads', false));
-                    $q->where(function($q) use($roleIds, $gameRoleIds) {
-                        $q->where(
-                            fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
-                                ->when(isset($gameRoleIds))->whereDoesntHave('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
-                        );
-                        $q->orWhereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds));
-                        $q->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds));
-                    });
-                }));
+                $query->where(function($q) use ($user) {
+                    $q->where('threads.user_id', $user?->id)->orWhereNull('category_id')->orWhereRelation('category', fn($q) => Utils::forumCategoriesFilter($q));
+                });                
             }
 
             $query->where(function($query) use ($val) {

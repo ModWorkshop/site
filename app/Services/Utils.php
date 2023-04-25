@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
 use Arr;
+use Auth;
 use Carbon\Carbon;
 
 const bbCodeConversion = [
@@ -129,5 +130,31 @@ class Utils {
         if (isset($val[$key])) {
             $val[$key] = Carbon::parse($val[$key])->utc()->toDateTimeString();
         }
+    }
+
+    public static function forumCategoriesFilter($q)
+    {
+        $user = Auth::user();
+        if (isset($user) && $user->hasPermission('manage-discussions')) {
+            return;
+        }
+
+        $roleIds = [1];
+        $gameRoleIds = null;
+
+        if (isset($user)) {
+            $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
+            $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
+        }
+
+        $q->where(function($q) use ($roleIds, $gameRoleIds) {
+            $q->where('is_private', true)->where(fn($q) => 
+                $q->whereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
+                ->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
+            )->orWhere('is_private', false)->where(fn($q) =>
+                $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
+                ->when(isset($gameRoleIds))->whereDoesntHave('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
+            );
+        });
     }
 }

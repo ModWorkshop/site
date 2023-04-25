@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Models\GameRole;
 use App\Models\Role;
 use App\Services\APIService;
+use App\Services\Utils;
 use Arr;
 use Auth;
 use Illuminate\Http\Request;
@@ -40,25 +41,8 @@ class ForumCategoryController extends Controller
             if (isset($val['game_id'])) {
                 $query->whereRelation('forum', fn($q) => $q->where('game_id', $val['game_id']));
             }
-            $user = Auth::user();
-            $roleIds = [1];
-            $gameRoleIds = null;
 
-            if (isset($user)) {
-                $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
-                $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
-            }
-
-            if (!isset($user) || !$user->hasPermission('manage-discussions')) {
-                $query->where(function($q) use($roleIds, $gameRoleIds) {
-                    $q->where(
-                        fn($q) => $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
-                            ->when(isset($gameRoleIds))->whereDoesntHave('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
-                    );
-                    $q->orWhereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds));
-                    $q->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds));
-                });
-            }
+            Utils::forumCategoriesFilter($query);
         }));
     }
 
