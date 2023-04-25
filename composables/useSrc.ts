@@ -15,7 +15,7 @@ export default function(prefix: string, src?: string|object|Blob, isAsset = fals
         } else if (isSrcExternal(src)) {
             return src;
         } else {
-            return `${isAsset ? `/assets` : config.storageUrl}/${prefix}/${useThumb ? 'thumbnail_' : ''}${src}`;
+            return `${isAsset ? `/assets` : config.storageUrl}/${prefix ? prefix + '/' : ''}${useThumb ? 'thumbnail_' : ''}${src}`;
         }
     } else {
         return null;
