@@ -29,6 +29,7 @@ class ModDownload extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     
     public function getMorphClass(): string {
         return 'mod_download';

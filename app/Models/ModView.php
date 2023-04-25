@@ -29,6 +29,7 @@ class ModView extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     
     public function getMorphClass(): string {
         return 'mod_view';
