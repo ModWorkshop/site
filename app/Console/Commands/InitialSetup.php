@@ -38,8 +38,7 @@ class InitialSetup extends Command
         $this->info('Creating necessary folders in storage...');
         Storage::disk('local')->makeDirectory('mods/files');
         Storage::disk('local')->makeDirectory('mods/images');
-        Storage::disk('local')->makeDirectory('users/avatars');
-        Storage::disk('local')->makeDirectory('users/banners');
+        Storage::disk('local')->makeDirectory('users/images');
         $this->info('Running storage:link...');
         $this->call('storage:link');
         $this->info('Running migrations...Done!');
