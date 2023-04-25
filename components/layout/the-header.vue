@@ -26,7 +26,7 @@
         <Transition name="left-slide">
             <flex v-show="!headerClosed" class="header-content">
                 <flex id="header-buttons" gap="4" class="ml-3 sm:items-center">
-                    <a-link-button v-if="!user || !user.ban" to="/upload">{{$t('upload_mod')}}</a-link-button>
+                    <a-link-button v-if="!user?.ban" :to="user ? '/upload' : '/login'">{{$t('upload_mod')}}</a-link-button>
                     <a-link-button to="/games">{{$t('games')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/forum?category=news">{{$t('news')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
