@@ -6,6 +6,7 @@ use App\Jobs\CalculateModsCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
 use App\Jobs\DeleteUnverifiedUsers;
+use App\Jobs\RemoveExpiredRequests;
 use App\Jobs\TryActivatingUsers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DeleteUnverifiedUsers)->everyMinute();
         $schedule->job(new CalculateModsCounts)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
+        $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
     }
 
     /**
