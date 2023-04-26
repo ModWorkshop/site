@@ -45,9 +45,11 @@ class ModMemberController extends Controller
         }
 
         # Make sure we can add members with the given level
-        $ourLevel = $mod->getMemberLevel($ourUserId, false);
-        if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
-            abort(403, 'You cannot add members with this level!');
+        if ($mod->user_id !== $ourUserId && !$this->user()->hasPermission('manage-mods', $mod->game)) {
+            $ourLevel = $mod->getMemberLevel($ourUserId, false);
+            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
+                abort(403, 'You cannot add members with this level!');
+            }
         }
 
         $user = User::find($val['user_id']);
@@ -84,7 +86,7 @@ class ModMemberController extends Controller
             'level' => 'required|in:collaborator,maintainer,viewer,contributor'
         ]);
 
-        if ($mod->user_id !== $ourUserId) {
+        if ($mod->user_id !== $ourUserId && !$this->user()->hasPermission('manage-mods', $mod->game)) {
             $ourLevel = $mod->getMemberLevel($ourUserId);
             if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
                 abort(403, "You don't have permission to set such a level.");
@@ -105,11 +107,13 @@ class ModMemberController extends Controller
         $this->authorize('deleteMember', [$mod, $member]);
 
         $ourUserId = $request->user()->id;
-        $ourLevel = $mod->getMemberLevel($ourUserId, false);
         $memberLevel = $mod->getMemberLevel($member->id, false);
 
         //We should be able to delete ourselves from members!
-        if (!isset($ourLevel) || ($ourUserId !== $member->id)) {
+
+        if ($ourUserId !== $member->id && !$this->user()->hasPermission('manage-mods', $mod->game)) {
+            $ourLevel = $mod->getMemberLevel($ourUserId, false);
+
             if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($memberLevel, MOD_MEMBER_RULES_OVER[$ourLevel])) {
                 abort(403);
             }
