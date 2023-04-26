@@ -78,6 +78,8 @@ async function cancelPending() {
         'header'
         'main'
         'footer';
+    position: relative;
+    z-index: 10;
 }
 
 main {
@@ -86,6 +88,5 @@ main {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
-    z-index: 10;
 }
 </style>

@@ -94,7 +94,6 @@ footer {
     padding: 1.5rem 2rem;
     gap: 24px;
     display: flex;
-    z-index: 10;
     background-color: var(--header-footer-color);
     grid-area: footer;
 }
