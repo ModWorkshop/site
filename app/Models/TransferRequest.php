@@ -50,4 +50,11 @@ class TransferRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function booted()
+    {
+        static::deleting(function(TransferRequest $request) {
+            Notification::deleteRelated($request->mod, 'transfer_ownership');
+        });
+    }
 }

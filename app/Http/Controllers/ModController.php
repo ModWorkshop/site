@@ -444,12 +444,9 @@ class ModController extends Controller
         }
 
         $transferRequest->delete();
-        Notification::deleteRelated($mod, 'transfer_ownership');
 
         //Remove the new owner from the members
         $mod->members()->detach($user);
-
-        Notification::deleteRelated($user, 'membership_request'); //Just to be sure
     }
 
     /**
@@ -466,7 +463,6 @@ class ModController extends Controller
         }
 
         $mod->transferRequest()->delete();
-        Notification::deleteRelated($mod, 'transfer_ownership');
     }
 
     /**

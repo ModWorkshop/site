@@ -38,4 +38,16 @@ class ModMember extends Model
     public function getMorphClass(): string {
         return 'mod_member';
     }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public static function booted()
+    {
+        static::deleting(function(ModMember $request) {
+            Notification::deleteRelated($request->user, 'membership_request');
+        });
+    }
 }
