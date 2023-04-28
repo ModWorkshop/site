@@ -52,7 +52,7 @@ if (!user || !adminGamePagePerms.some(perm => hasPermission(perm, game.value))) 
 
 const moderateUsers = computed(() => hasPermission('moderate-users', game.value));
 const manageMods = computed(() => hasPermission('manage-mods', game.value));
-const root = computed(() => route.fullPath.match(/\/\w+\/\w+\/admin/)?.[0] ?? '');
+const root = computed(() => route.fullPath.match(/\/[a-z-0-9]+\/[a-z-0-9]+\/admin/)?.[0] ?? '');
 
 const breadcrumb = computed(() => {
     if (game.value) {
