@@ -29,6 +29,7 @@ use App\Models\Subscription;
 use App\Models\Thread;
 use App\Models\UserCase;
 use App\Models\Visibility;
+use App\Services\Utils;
 use Arr;
 use Carbon\Carbon;
 use DB;
@@ -96,6 +97,7 @@ class MigrateBB extends Command
     private Connection $con;
 
     private array $modIds = [];
+    private array $userIds = [];
 
     public function progress($str, $total)
     {
@@ -139,6 +141,9 @@ class MigrateBB extends Command
         $this->con = DB::connection('mysql_migration');
 
         $this->handleUsers();
+
+        $this->userIds = Arr::keyBy(User::select('id')->get()->toArray(), 'id');
+
         $this->handleCases();
         $this->handleBans();
         $this->handleCategoriesGames();
@@ -186,10 +191,10 @@ class MigrateBB extends Command
 
                 $insertUsers[] = [
                     'id' => $user->uid,
-                    'name' => html_entity_decode($user->username),
+                    'name' => html_entity_decode($user->username, encoding: 'UTF-8'),
                     'avatar' => $user->avatar,
                     'custom_color' => Str::limit($user->customcolor, 6, ''),
-                    // 'unique_name' => Utils::getUniqueName($user->username),
+                    'unique_name' => Utils::getUniqueNameCached($user->username),
                     'custom_title' => $user->usertitle, # Changed
                     'created_at' => $this->handleUnixDate($user->regdate), # Changed
                     'last_online' => $this->handleUnixDate($user->lastvisit), # Changed
@@ -235,7 +240,7 @@ class MigrateBB extends Command
             if ($case->strikes) {
                 $strikes = max(1, min($case->strikes, 3));
                 for ($i=0; $i < STRIKES_TO_WARNINGS[$strikes]; $i++) { 
-                    if (User::where('id', $case->uid)->exists()) {
+                    if (isset($this->userIds[$case->uid])) {
                         UserCase::forceCreate([
                             'user_id' => $case->uid, # Changed
                             'mod_user_id' => $case->moduid, # Changed
@@ -261,13 +266,13 @@ class MigrateBB extends Command
 
         foreach ($bans as $ban) {
             $bar->advance();
-            if (!User::where('id', $ban->uid)->exists()) {
+            if (!isset($this->userIds[$ban->uid])) {
                 continue;
             }
 
             $admin = $ban->admin;
 
-            if (!User::where('id', $admin)->exists()) {
+            if (!isset($this->userIds[$admin])) {
                 $admin = 1;
             }
 
@@ -631,7 +636,7 @@ class MigrateBB extends Command
 
             $insertMembers = [];
             foreach (explode(',', $mod->collaborators) as $id) {
-                if (is_numeric($id) && User::where('id', $id)->exists()) {
+                if (is_numeric($id) && isset($this->userIds[$id])) {
                     $insertMembers[] = [
                         'mod_id' => $newMod->id,
                         'user_id' => $id,
@@ -642,7 +647,7 @@ class MigrateBB extends Command
             }
 
             foreach (explode(',', $mod->invited) as $id) {
-                if (is_int($id) && User::where('id', $id)->exists()) {
+                if (is_int($id) && isset($this->userIds[$id])) {
                     $insertMember[] = [
                         'mod_id' => $newMod->id,
                         'user_id' => $id,
@@ -710,7 +715,7 @@ class MigrateBB extends Command
                 if (
                     $type == 'mod' && !isset($this->modIds[$sub->id]) 
                     || $type == 'comment' && !Comment::where('id', $sub->id)->exists() 
-                    || !User::where('id', $sub->uid)->exists()
+                    || !isset($this->userIds[$sub->uid])
                 ) {
                     continue;
                 }
@@ -733,7 +738,7 @@ class MigrateBB extends Command
             $insert = [];
             foreach ($follows as $follow) {
                 $bar->advance();
-                if (Mod::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Make sure the mod exists
+                if (Mod::where('id', $follow->follow)->exists() && isset($this->userIds[$follow->uid])) { // Make sure the mod exists
                     $insert[] = [
                         'notify' => true,
                         'user_id' => $follow->uid,
@@ -751,7 +756,7 @@ class MigrateBB extends Command
         $this->con->table('mws_following_cats')->chunkById(500, function($follows) use ($bar) {
             foreach ($follows as $follow) {
                 $bar->advance();
-                if (Game::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Following categories is no more
+                if (Game::where('id', $follow->follow)->exists() && isset($this->userIds[$follow->uid])) { // Following categories is no more
                     FollowedGame::create([
                         'user_id' => $follow->uid,
                         'game_id' => $follow->follow,
@@ -767,7 +772,7 @@ class MigrateBB extends Command
         $this->con->table('mws_following_users')->chunkById(500, function($follows) use ($bar) {
             foreach ($follows as $follow) {
                 $bar->advance();
-                if (User::where('id', $follow->follow)->exists() && User::where('id', $follow->uid)->exists()) { // Make sure the user exists
+                if (isset($this->userIds[$follow->follow]) && isset($this->userIds[$follow->uid])) { // Make sure the user exists
                     FollowedUser::create([
                         'notify' => false,
                         'user_id' => $follow->uid,
@@ -784,14 +789,19 @@ class MigrateBB extends Command
     public function handleComments()
     {
         $bar = $this->progress('Converting mod comments', $this->con->table('mydownloads_comments')->count());
-        $comments = $this->con->table('mydownloads_comments')->where('uid', '!=', 0)->get();
+        $comments = $this->con->table('mydownloads_comments')->orderBy('replyid')->get();
 
         $insert = [];
         $insertReplies = [];
 
+        $inserted = [];
+
         $doInsert = function() use (&$insert, &$insertReplies) {
-            if (count($insert)) {
+            if (!empty($insert)) {
                 Comment::insert($insert);
+            }
+
+            if (!empty($insertReplies)) {
                 Comment::insert($insertReplies);
             }
 
@@ -801,18 +811,18 @@ class MigrateBB extends Command
 
         $i = 0;
         foreach ($comments as $comment) {
-            # Removed cid (unused)
             $bar->advance();
 
-            if (!empty($comment->replyid) && !Comment::where('id', $comment->replyid)->exists() ) {
+            if (!empty($comment->replyid) && !($inserted[intval($comment->replyid)] ?? false)) {
                 continue;
             }
 
-            if (!User::where('id', $comment->uid)->exists()) {
+            if (!isset($this->userIds[$comment->uid])) {
                 continue;
             }
 
             $commentInsert = [
+                'id' => $comment->cid,
                 'user_id' => $comment->uid, # Changed,
                 'commentable_type' => 'mod',
                 'commentable_id' => $comment->did, # Changed
@@ -822,11 +832,11 @@ class MigrateBB extends Command
                 'pinned' => $comment->pinned == '1',
             ];
 
+            $inserted[intval($comment->cid)] = true;
+
             if (!empty($comment->replyid)) {
-                $insertReplies[] = [
-                    ...$commentInsert,
-                    'reply_to' => !empty($comment->replyid) ? $comment->replyid : null
-                ];
+                $commentInsert['reply_to'] = $comment->replyid;
+                $insertReplies[] = $commentInsert;
             } else {
                 $insert[] = $commentInsert;
             }
@@ -839,10 +849,13 @@ class MigrateBB extends Command
         }
 
         $doInsert();
-        
+
         unset($insert);
         unset($insertReplies);
         unset($comments);
+
+        $this->resetAutoIncrement('comments');
+
         $bar->finish();
     }
 
@@ -911,7 +924,7 @@ class MigrateBB extends Command
                 continue;
             }
 
-            if (!User::where('id', $post->uid)->exists()) {
+            if (!isset($this->userIds[$post->uid])) {
                 continue;
             }
 
@@ -1093,7 +1106,7 @@ class MigrateBB extends Command
                     continue;
                 }
 
-                if (!User::where('id', $like->uid)->exists()) {
+                if (!isset($this->userIds[$like->uid])) {
                     continue;
                 }
 
@@ -1125,8 +1138,11 @@ class MigrateBB extends Command
         $i = 0;
 
         $doInsert = function() use (&$insert, &$insertUserless) {
-            if (count($insert)) {
+            if (!empty($insert)) {
                 PopularityLog::insert($insert);
+            }
+
+            if (!empty($insertUserless)) {
                 PopularityLog::insert($insertUserless);
             }
 
