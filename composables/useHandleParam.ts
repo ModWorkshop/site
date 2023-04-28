@@ -1,4 +1,5 @@
 import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
+import { deepEqual } from 'fast-equals';
 
 /**
  * Handy composable that handles parameter changes
@@ -31,17 +32,19 @@ export default function(
     const watchStuff: any[] = [];
 
     for (const [key, value] of Object.entries(watchSource)) {
-        if (key != 'page' &&  typeof value == 'object') {
+        if (key != 'page' && typeof value == 'object') {
             watchStuff.push(value);
         }
     }
 
     watch(watchStuff, async (val, oldVal) => {
-        if (page) {
-            page.value = 1;
-        }
-        if (!onChange || onChange(val, oldVal)) {
-            planLoad();
+        if (!deepEqual(val, oldVal)) {
+            if (page) {
+                page.value = 1;
+            }
+            if (!onChange || onChange(val, oldVal)) {
+                planLoad();
+            }
         }
     });
     
