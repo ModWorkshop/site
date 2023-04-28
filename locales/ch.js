@@ -52,13 +52,15 @@ all: "全部",
 published_at: "发布日期",
 return_to_top: "返回顶部",
 search_mods: "搜索模组",
-search_mods_matching: "搜索到匹配模组 \"{0}\"",// 暂译,测试后可能需要修改 -译者注 
-search_mods_game: "在该游戏中搜索到匹配模组 \"{0}\"",// 暂译,测试后可能需要修改 -译者注 
+search_mods_matching: "Mods Matching \"{0}\"",
+search_mods_game: "{1} Mods",
+search_mods_game_matching: "{1} Mods Matching \"{0}\"",
 search_users: '搜索用户',
-search_users_matching: "搜索到匹配用户 \"{0}\"",// 暂译,测试后可能需要修改 -译者注 
+search_users_matching: "Users Matching \"{0}\"",
 search_threads: '搜索主题',
-search_threads_matching: "搜索到匹配主题 \"{0}\"",
-search_threads_game: "在该游戏中搜索到匹配主题\"{0}\"",
+search_threads_matching: "Threads Matching \"{0}\"",
+search_threads_game: "{1} Threads",
+search_threads_game_matching: "{1} Threads Matching \"{0}\"",
 comments_disabled: "评论区已被禁用; 只有模组所有者，参与模组制作的人员，受邀请的人和管理人员能评论。",// 暂译,测试后可能需要修改 -译者注
 popularity: "热门排序",
 popular_today: "今日热门",

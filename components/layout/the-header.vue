@@ -47,7 +47,7 @@
                     </VDropdown>
                 </flex>
                 <flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4"> 
-                    <VDropdown :shown="showSearch" no-auto-focus :triggers="[]" :auto-hide="false">
+                    <VDropdown :shown="showSearch" no-auto-focus :triggers="[]" :auto-hide="false" popper-class="popper-big">
                         <div>
                             <a-input 
                                 id="header-search"
@@ -65,7 +65,8 @@
                         </div>
                         <template #popper>
                             <ClientOnly>
-                                <flex class="popper-big" column>
+                                <h3>{{$t('search')}}</h3>
+                                <flex column gap="1">
                                     <a-button
                                         v-for="[i, button] in searchButtons.entries()"
                                         :key="button.text"
@@ -73,9 +74,17 @@
                                         :color="selectedSearch == i ? 'primary' : 'subtle'"
                                         class="search-button"
                                     >
-                                        {{$t(button.text, [search])}}
+                                        {{$t(button.text, [search, currentGame?.name])}}
                                     </a-button>
                                 </flex>
+                                <template v-if="search && mods && mods.data.length">
+                                    <h3>{{$t('mods')}}</h3>
+                                    <flex column gap="1">
+                                        <template v-if="mods">
+                                            <list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
+                                        </template>
+                                    </flex>
+                                </template>
                             </ClientOnly>
                         </template>
                     </VDropdown>
@@ -128,6 +137,7 @@ import { storeToRefs } from 'pinia';
 import { adminPagePerms } from '~~/utils/helpers';
 import { useStore } from '../../store';
 import { vOnClickOutside } from '@vueuse/components';
+import { Mod } from '../../types/models';
 
 const headerClosed = ref(true);
 
@@ -144,7 +154,7 @@ const {
 const search = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
-const selectedSearch = ref(1);
+const selectedSearch = ref(0);
 const unlockedOwO = useState('unlockedOwO');
 
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
@@ -163,17 +173,25 @@ const userLink = computed(() => {
 });
 
 const searchButtons = computed(() => {
+    const searching = search.value.length > 0;
     const buttons = [
-        { to: `/search/mods`, text: 'search_mods_matching' },
-        { to: `/search/threads`, text: 'search_threads_matching' },
-        { to: `/search/users`, text: 'search_users_matching' },
+        { to: `/search/mods`, text: searching ? 'search_mods_matching' : 'mods' },
+        { to: `/search/threads`, text: searching ? 'search_threads_matching' : 'threads' },
+        { to: `/search/users`, text: searching ? 'search_users_matching' : 'users' },
     ];
     if (currentGame.value) {
-        buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: 'search_threads_game' });
-        buttons.unshift({ to: `/g/${currentGame.value.short_name}/mods`, text: 'search_mods_game' });
+        buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: searching ? 'search_threads_game_matching' : 'search_threads_game' });
+        buttons.unshift({ to: `/g/${currentGame.value.short_name}/mods`, text: searching ? 'search_mods_game_matching' : 'search_mods_game' });
     }
     return buttons;
 });
+
+// Simple mod searcher
+const { data: mods } = await useWatchedFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
+    limit: 5,
+    sort: 'views',
+    query: search,
+}, { onChange: () => search.value.length > 0, immediate: false });
 
 watch(showNotifications, async () => {
     if (!notifications.value) {
@@ -217,7 +235,8 @@ function clickSelectedSearch() {
 }
 
 .search-button {
-    padding: 1rem;
+    padding: 0.5rem;
+    min-width: 200px;
 }
 
 header {
@@ -305,5 +324,10 @@ header {
 .left-slide-leave-to {
   opacity: 0;
   transform: translateX(-100%);
+}
+
+.popper-big .v-popper__inner {
+    max-height: 64vh;
+    padding: 1rem;
 }
 </style>

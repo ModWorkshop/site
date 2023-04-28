@@ -7,7 +7,7 @@ import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
 export default function(
     refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<void>, 
     watchSource: any,
-    onChange: ((val: any, oldVal: any) => void)|null = null
+    onChange?: ((val: any, oldVal: any) => boolean)|null,
 ) {
     const loading = ref(false);
 
@@ -31,7 +31,7 @@ export default function(
     const watchStuff: any[] = [];
 
     for (const [key, value] of Object.entries(watchSource)) {
-        if (key != 'page' && typeof value == 'object') {
+        if (key != 'page' &&  typeof value == 'object') {
             watchStuff.push(value);
         }
     }
@@ -40,8 +40,9 @@ export default function(
         if (page) {
             page.value = 1;
         }
-        planLoad();
-        onChange?.(val, oldVal);
+        if (!onChange || onChange(val, oldVal)) {
+            planLoad();
+        }
     });
     
     return loading;
