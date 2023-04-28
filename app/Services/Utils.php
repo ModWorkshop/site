@@ -83,18 +83,21 @@ class Utils {
     /**
      * Returns a unique name for a user
      */
-    public static function getUniqueName(string $name): string
-    {
+    public static function getUniqueName(string $name, bool $cacheUsers=false): string
+    {        
         $uniqueName ??= $name;
         $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
-        $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
+        if (strlen($uniqueName) == 0) {
+            $uniqueName = 'mws';
+        }
+        $foundUsers = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
 
         //Try to make a unique name for the user
         $num = null;
         $found = false;
         while(!$found) {
             $current = $uniqueName.$num;
-            if (!Arr::first($users, fn($val) => strtolower($val->unique_name) === $current)) {
+            if (!Arr::first($foundUsers, fn($val) => strtolower($val->unique_name) === $current)) {
                 $uniqueName = $current;
                 $found = true;
             } else {
@@ -106,6 +109,34 @@ class Utils {
         return $uniqueName;
     }
     
+    /**
+     * Returns a unique name for a user
+     */
+    public static function getUniqueNameCached(string $name): string
+    {
+        static $used = [];
+ 
+        $uniqueName ??= $name;
+        $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
+        if (strlen($uniqueName) == 0) {
+            $uniqueName = 'mws';
+        }
+
+        //Try to make a unique name for the user
+        $num = null;
+        $found = false;
+        while(!$found) {
+            $current = $uniqueName.(isset($num) ? '-'.$num : '');
+            if (!isset($used[$current])) {
+                $used[$current] = true;
+                return $current;
+            } else {
+                $num ??= 0;
+                $num++;
+            }
+        }
+    }
+
     /**
      * Restores user's bans, warnings and social logins in order to prevent users from (too easily) evading bans.
      * Why the too easy? Obviously, it's not too hard to fool the system and it's impossible to have a perfect system.
