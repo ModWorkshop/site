@@ -15,9 +15,14 @@ export default function(name, defaultValue, cast) {
 
     cast ??= typeof defaultValue;
 
+    console.log('cast is', cast);
+
+    const current = ref(route.query[name]);
+
+
     return computed({
         get() {
-            const data = route.query[name];
+            const data = current.value;
             if (data == null || data == undefined) {
                 return (cast == 'array' ? clone(defaultValue) : defaultValue) ?? null;
             }
@@ -48,6 +53,7 @@ export default function(name, defaultValue, cast) {
             }
 
             queue[name] = (v === defaultValue || v === null) ? undefined : v;
+            current.value = queue[name];
 
             nextTick(() => {
                 router.replace({ query: { ...route.query, ...queue } });
