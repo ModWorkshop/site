@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb">
+    <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
         <content-block class="p-6">
             <h3 v-if="game?.id">
                 {{$t('game_name_settings', { game: game.name })}}
