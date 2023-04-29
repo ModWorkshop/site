@@ -1,14 +1,16 @@
 <template>
     <flex column>
-        <flex gap="3">
-            <content-block grow class="self-start" style="flex: 1;">
+        <flex :gap="column ? 0 : 3" :column="column">
+            <content-block grow :class="{'self-start': !column}" style="flex: 1;">
                 <a-input v-model="query" :label="$t('search')"/>
+                <a-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
+                <a-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
             </content-block>
             <content-block grow style="flex: 4;" gap="1">
                 <a-items v-model:page="page" :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <NuxtLink :key="item.id" :to="`/user/${item.id}`" class="list-button">
-                            <a-user :user="item"/>
+                        <NuxtLink :key="item.id" :to="userLink(item)" class="list-button">
+                            <a-user :user="item" static/>
                         </NuxtLink>
                     </template>
                 </a-items>
@@ -19,12 +21,28 @@
 
 <script setup lang="ts">
 import { User } from '~~/types/models';
+import { Game } from '../../types/models';
 
-const page = useRouteQuery('page', 0);
+const page = useRouteQuery('page', 1);
 const query = useRouteQuery('query', '');
+const roleIds = useRouteQuery('role_ids', []);
+const gameRoleIds = useRouteQuery('game_role_ids', []);
 
-const { data: users, loading } = await useWatchedFetchMany<User>('users', { 
+const props = withDefaults(defineProps<{
+    userLink?: (user: User) => string,
+    column?: boolean,
+    url?: string,
+    game?: Game
+}>(), {
+    userLink: (user: User) => `/user/${user.id}`,
+    url: 'users',
+    column: false
+});
+
+const { data: users, loading } = await useWatchedFetchMany<User>(() => props.url, { 
     page,
-    query
+    query,
+    role_ids: roleIds,
+    game_role_ids: gameRoleIds
 });
 </script>
