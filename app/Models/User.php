@@ -687,7 +687,7 @@ class User extends Authenticatable implements MustVerifyEmail
             }
 
             $gameRoles = $this->allGameRoles;
-            $gameRoles = $this->allGameRoles()->where('game_id', $gameId);
+            $gameRoles = $this->allGameRoles()->where('game_id', $gameId)->first();
         }
 
         $this->gameRolesCache[$gameId] = $gameRoles;
