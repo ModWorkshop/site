@@ -41,16 +41,32 @@ class UserController extends Controller
     public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
-            'id' => 'integer|min:1'
+            'id' => 'integer|min:1',
+            'role_ids.*' => 'array|max:10',
+            'role_ids.*' => 'integer|min:1|nullable',
+            'game_role_ids.*' => 'array|max:10',
+            'game_role_ids.*' => 'integer|min:1|nullable',
         ]);
 
         if (isset($game)) {
             APIService::setCurrentGame($game);
         }
 
-        $users = User::queryGet($val, function($query, $val) {
+        $users = User::queryGet($val, function($query, $val) use ($game) {
             if (isset($val['id'])) {
-                $query->orWhere('id', $val['id']);
+                $query->where('id', $val['id']);
+            }
+            if (isset($val['role_ids'])) {
+                $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
+                if (!empty($roleIds)) {
+                    $query->whereHas('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
+                }
+            }
+            if (isset($game) && isset($val['game_role_ids'])) {
+                $roleIds = $val['game_role_ids'];
+                if (!empty($roleIds)) {
+                    $query->whereHas('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                }
             }
         });
 
