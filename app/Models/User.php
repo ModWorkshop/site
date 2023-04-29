@@ -161,18 +161,18 @@ class User extends Authenticatable implements MustVerifyEmail
         if (isset(self::$staticWith)) {
             $this->with = self::$staticWith;
         }
-        parent::__construct($attributes);
         if (Auth::hasUser()) {
             $this->with[] = 'blockedByMe';
             $this->with[] = 'blockedMe';
         }
+        parent::__construct($attributes);
     }
 
     public static function setCurrentGame(int $gameId)
     {
         Log::info("setting game as " . $gameId);
         self::$currentGameId = $gameId;
-        self::$staticWith = ['roles', 'gameRoles', 'ban', 'gameBan'];
+        self::$staticWith = ['roles', 'gameRoles', 'ban', 'gameBan', 'supporter'];
     }
     
     // Always return roles for users
@@ -571,7 +571,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getLastGameBanAttribute()
     {
         if (isset(self::$currentGameId)) {
-            $this->load('gameBan');
+            if (!$this->relationLoaded('gameBan')) {
+                $this->load('gameBan');
+            }
             $ban = $this->gameBan;
             if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
                 return $ban;
@@ -673,15 +675,22 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->gameRolesCache[$gameId];
         }
 
-        if ($withPerms && !$this->relationLoaded('allGameRoles.permissions')) {
-            $this->load('allGameRoles.permissions');
+        $gameRoles = [];
+        if ($gameId === self::$currentGameId) {
+            if ($withPerms && !$this->relationLoaded('gameRoles.permissions')) {
+                $this->load('gameRoles.permissions');
+            }
+            $gameRoles = $this->gameRoles;
+        } else {
+            if ($withPerms && !$this->relationLoaded('allGameRoles.permissions')) {
+                $this->load('allGameRoles.permissions');
+            }
+
+            $gameRoles = $this->allGameRoles;
+            $gameRoles = $this->allGameRoles()->where('game_id', $gameId);
         }
 
-        $gameRoles = $this->allGameRoles;
-
-        $gameRoles = $gameRoles->where('game_id', $gameId);
         $this->gameRolesCache[$gameId] = $gameRoles;
-
         return $gameRoles;
     }
 
