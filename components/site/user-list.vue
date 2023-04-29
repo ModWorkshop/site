@@ -1,7 +1,7 @@
 <template>
     <flex column>
-        <flex :gap="column ? 0 : 3" :column="column">
-            <content-block grow :class="{'self-start': !column}" style="flex: 1;">
+        <flex :gap="column ? 0 : 3" :class="{'flex-col': true, 'md:flex-row': !column}">
+            <content-block grow :class="{'self-auto': true, 'md:self-start': !column}" style="flex: 1;">
                 <a-input v-model="query" :label="$t('search')"/>
                 <a-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
                 <a-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
