@@ -152,6 +152,11 @@ class APIService {
         return AnnouncementResource::collection($announcements->take(2));
     }
 
+    public static function currentGame()
+    {
+        return User::$currentGameId;
+    }
+
     public static function setCurrentGame(Game $game)
     {
         User::setCurrentGame($game->id);
