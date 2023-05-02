@@ -426,6 +426,11 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasOne(ModLike::class)->where('user_id', Auth::id());
     }
 
+    public function blockedByMe()
+    {
+        return $this->hasOne(BlockedUser::class, 'block_user_id', 'user_id')->where('user_id', Auth::id());
+    }
+
     /**
      * Returns the follow model (if exists) of the mod for the authenticated user
      */

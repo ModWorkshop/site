@@ -101,7 +101,7 @@ class ModService {
             //Hide blocked user's mods (unless a moderator)
 
             if (isset($user) && (!isset($val['ignore_blocked_users']) || !$val['ignore_blocked_users']) && !$user->hasPermission('manage-mods', $game)) {
-                $query->whereDoesntHaveIn('blockedByUser');
+                $query->whereDoesntHaveIn('blockedByMe');
             }
     
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
