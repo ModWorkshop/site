@@ -147,7 +147,7 @@ use Storage;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasApiTokens, Notifiable, Reportable;
-    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    use QueryCacheable, HasRelationshipObservables;
 
     public $cacheFor = 10;
     public static $membersRole = null;

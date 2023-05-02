@@ -166,7 +166,7 @@ abstract class Visibility {
 class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
-    use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
+    use QueryCacheable, HasRelationshipObservables;
     
     public static $flushCacheOnUpdate = true;
     public $cacheFor = 1;
