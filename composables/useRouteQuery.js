@@ -15,10 +15,7 @@ export default function(name, defaultValue, cast) {
 
     cast ??= typeof defaultValue;
 
-    console.log('cast is', cast);
-
     const current = ref(route.query[name]);
-
 
     return computed({
         get() {
