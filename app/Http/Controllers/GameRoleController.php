@@ -34,7 +34,7 @@ class GameRoleController extends Controller
             'limit' => 'integer|min:1|max:50'
         ]);
         
-        $gameRoles = QueryBuilder::for(GameRole::class)
+        $gameRoles = QueryBuilder::for($game->roles())
             ->allowedFilters([AllowedFilter::exact('is_vanity')])
             ->allowedIncludes('permissions')
             ->orderByDesc('order');
