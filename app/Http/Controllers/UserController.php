@@ -59,13 +59,13 @@ class UserController extends Controller
             if (isset($val['role_ids'])) {
                 $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
                 if (!empty($roleIds)) {
-                    $query->whereHas('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
+                    $query->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
                 }
             }
             if (isset($game) && isset($val['game_role_ids'])) {
                 $roleIds = $val['game_role_ids'];
                 if (!empty($roleIds)) {
-                    $query->whereHas('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                    $query->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
                 }
             }
         });

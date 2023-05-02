@@ -64,7 +64,7 @@ class ModController extends Controller
     {
         $val = $request->val();
         $mods = Mod::queryGet($val, function($q, $val) {
-            $q->whereHas('liked');
+            $q->whereHasIn('liked');
             ModService::filters($q, $val);
         }, true);
 

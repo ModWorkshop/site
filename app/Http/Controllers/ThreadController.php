@@ -74,7 +74,7 @@ class ThreadController extends Controller
                 }
 
                 if (!empty($val['tags'])) {
-                    $query->whereHas('tagsSpecial', function($q) use ($val) {
+                    $query->whereHasIn('tagsSpecial', function($q) use ($val) {
                         $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
                     });
                 }

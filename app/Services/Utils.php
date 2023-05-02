@@ -180,11 +180,11 @@ class Utils {
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {
             $q->where('is_private', true)->where(fn($q) => 
-                $q->whereHas('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
-                ->when(isset($gameRoleIds))->orWhereHas('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
+                $q->whereHasIn('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
+                ->when(isset($gameRoleIds))->orWhereHasIn('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
             )->orWhere('is_private', false)->where(fn($q) =>
-                $q->whereDoesntHave('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
-                ->when(isset($gameRoleIds))->whereDoesntHave('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
+                $q->whereDoesntHaveIn('roles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $roleIds))
+                ->when(isset($gameRoleIds))->whereDoesntHaveIn('gameRoles', fn($q) => $q->where('can_view', false)->whereIn('role_id', $gameRoleIds))
             );
         });
     }

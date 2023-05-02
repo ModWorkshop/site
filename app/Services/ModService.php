@@ -101,10 +101,7 @@ class ModService {
             //Hide blocked user's mods (unless a moderator)
 
             if (isset($user) && (!isset($val['ignore_blocked_users']) || !$val['ignore_blocked_users']) && !$user->hasPermission('manage-mods', $game)) {
-                $query->whereNotExists(function($query) use ($user) {
-                    $query->from('blocked_users')->select(DB::raw(1))->where('user_id', $user->id);
-                    $query->whereColumn('blocked_users.block_user_id', 'mods.user_id');
-                });
+                $query->whereDoesntHaveIn('blockedByUser');
             }
     
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
@@ -113,7 +110,7 @@ class ModService {
             }
             
             if (isset($user)) {
-                $query->whereDoesntHave('tagsSpecial', function($q) use ($user) {
+                $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($user) {
                     $q->join('blocked_tags', 'taggables.tag_id', '=', 'blocked_tags.tag_id');
                     $q->where('blocked_tags.user_id', $user->id);
                 });
@@ -121,7 +118,7 @@ class ModService {
                 $query->orWhere('user_id', $user->id);
     
                 //let members see mods if they've accepted their membership
-                $query->orWhereHas('members', function($q) use ($user) {
+                $query->orWhereHasIn('members', function($q) use ($user) {
                     $q->where('user_id', $user->id)->where('accepted', true);
                 });
             }
@@ -139,7 +136,7 @@ class ModService {
     
             if (isset($val['user_id'])) {
                 if ($val['collab'] ?? false) {
-                    $query->whereHas('members', function($q) use ($val) {
+                    $query->whereHasIn('members', function($q) use ($val) {
                         $q->where('user_id', $val['user_id'])->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
                     });
                 } else {
@@ -152,13 +149,13 @@ class ModService {
             }
     
             if (!empty($val['tags'])) {
-                $query->whereHas('tagsSpecial', function($q) use ($val) {
+                $query->whereHasIn('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
                 });
             }
     
             if (!empty($val['block_tags'])) {
-                $query->whereDoesntHave('tagsSpecial', function($q) use ($val) {
+                $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
                 });
             }

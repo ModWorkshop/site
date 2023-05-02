@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "aws/aws-sdk-php": "^3.262",
+        "biiiiiigmonster/hasin": "^2.0",
         "chelout/laravel-relationship-events": "^2.0",
         "fileeye/mimemap": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
