@@ -102,10 +102,9 @@ const params = reactive({
 
 const { data: threads, refresh } = await useFetchMany<Thread>('threads', { lazy: props.lazy, params });
 
-const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
+const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId}/tags` : 'tags', {
     immediate: props.filters,
     params: reactive({ 
-        game_id: currentGameId,
         type: 'forum',
         global: 1
     })
