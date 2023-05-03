@@ -1,5 +1,5 @@
 <template>
-    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 || !gameId">
+    <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 || gameId">
         <a-alert v-if="role.id == 1 && !gameId" color="warning">
             <span>{{$t('members_role_desc')}}</span>
         </a-alert>
