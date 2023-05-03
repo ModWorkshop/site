@@ -44,8 +44,8 @@ useNeedsPermission('manage-roles', props.game);
 const route = useRoute();
 const { hasPermission } = useStore();
 
-const gameId = route.params.game;
-const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
+const gameId = computed(() => route.params.game);
+const url = computed(() => gameId.value ? `games/${gameId.value}/roles` : 'roles');
 const adminUrl = computed(() => getAdminUrl('roles', props.game));
 
 const { data: role } = await useEditResource<Role>('role', url.value, {
@@ -65,7 +65,7 @@ const member = computed(() => roles.value?.data[0]);
 const { data: permissions } = await useFetchMany<Permission>('/permissions');
 
 const validPerms = computed(() => {
-    if (!gameId && role.value.id === 1) {
+    if (!gameId.value && role.value.id === 1) {
         return permissions.value?.data;
     } else {
         return permissions.value?.data.filter(perm => {
@@ -75,7 +75,7 @@ const validPerms = computed(() => {
             }
 
             if (perm.type) {
-                return gameId ? perm.type === 'game' : perm.type === 'global';
+                return gameId.value ? perm.type === 'game' : perm.type === 'global';
             } else {
                 return true;
             }

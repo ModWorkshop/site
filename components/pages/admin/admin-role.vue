@@ -13,7 +13,7 @@
                 <span class="my-auto">
                     <a-tag :color="role.color">{{role.name}}</a-tag>
                 </span>
-                <small v-if="role.id == 1">{{$t('members_role_desc')}}</small>
+                <small v-if="role.id == 1 && !game">{{$t('members_role_desc')}}</small>
             </flex>
             <span v-if="role.is_vanity" class="ml-auto">✨</span>
         </component>
