@@ -3,12 +3,12 @@
         <component :is="roleCanBeEdited ? NuxtLink : 'span'"
             class="list-button flex gap-2 items-center"
             :to="`${adminUrl}/${role.id}`" 
-            :draggable="role.id != 1 && roleCanBeEdited"
+            :draggable="(role.id != 1 || game) && roleCanBeEdited"
             @dragstart="$emit('dragstart')"
             @dragend="$emit('dragend')"
         >
             <span v-if="!roleCanBeEdited">🔒</span>
-            <a-icon v-else-if="role.id != 1 && !game" icon="grip-lines"/>
+            <a-icon v-else-if="role.id != 1 || game" icon="grip-lines"/>
             <flex column>
                 <span class="my-auto">
                     <a-tag :color="role.color">{{role.name}}</a-tag>
