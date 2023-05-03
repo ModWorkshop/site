@@ -192,7 +192,7 @@ class MigrateBB extends Command
                 $insertUsers[] = [
                     'id' => $user->uid,
                     'name' => html_entity_decode($user->username, encoding: 'UTF-8'),
-                    'avatar' => $user->avatar,
+                    'avatar' => preg_replace(["/\/uploads\/avatars\//", '/\?dateline=\w+/'], '', $user->avatar),
                     'custom_color' => Str::limit($user->customcolor, 6, ''),
                     'unique_name' => Utils::getUniqueNameCached($user->username),
                     'custom_title' => $user->usertitle, # Changed
