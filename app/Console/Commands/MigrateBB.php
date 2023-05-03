@@ -21,6 +21,8 @@ use App\Models\ModLike;
 use App\Models\ModMember;
 use App\Models\ModView;
 use App\Models\PopularityLog;
+use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\SocialLogin;
 use App\Models\Tag;
 use App\Models\Taggable;
@@ -98,6 +100,8 @@ class MigrateBB extends Command
 
     private array $modIds = [];
     private array $userIds = [];
+    private array $roleIds = [];
+    private array $tagIds = [];
 
     public function progress($str, $total)
     {
@@ -140,6 +144,7 @@ class MigrateBB extends Command
 
         $this->con = DB::connection('mysql_migration');
 
+        $this->handleRoles();
         $this->handleUsers();
 
         $this->userIds = Arr::keyBy(User::select('id')->get()->toArray(), 'id');
@@ -181,6 +186,7 @@ class MigrateBB extends Command
         ->chunkById(1000, function($users) use ($bar) {
             $insertUsers = [];
             $insertLogins = [];
+            $insertUserRoles = [];
             
             foreach ($users as $user) {
                 $bar->advance();
@@ -211,10 +217,22 @@ class MigrateBB extends Command
                     'user_id' => $user->uid,
                     'created_at' => $this->handleUnixDate($user->regdate)
                 ];
+
+                $useRoles = [$user->usergroup, $user->displaygroup, ...explode(',', $user->additionalgroups)];
+                foreach ($useRoles as $roleId) {
+                    $newsRoleId = $this->roleIds[intval($roleId)] ?? null;
+                    if (isset($newsRoleId)) {
+                        $insertUserRoles[] = [
+                            'user_id' => $user->uid,
+                            'role_id' => $newsRoleId
+                        ];
+                    }
+                }
             }
 
             User::insert($insertUsers);
             SocialLogin::insert($insertLogins);
+            RoleUser::insert($insertUserRoles);
 
             unset($insertUsers);
             unset($insertLogins);
@@ -223,6 +241,47 @@ class MigrateBB extends Command
         $bar->finish();
 
         $this->resetAutoIncrement('users');
+    }
+
+    public function handleRoles()
+    {
+        $bar = $this->progress('Converting roles', $this->con->table('usergroups')->count());
+        $roles = $this->con->table('usergroups')->get();
+
+        $IGNORE_IDS = [
+            1 => true,
+            2 => true,
+            5 => true,
+            7 => true,
+            30 => true,
+            17 => true,
+            41 => true,
+            29 => true,
+            6 => true,
+            3 => true,
+            34 => true,
+            33 => true
+        ];
+
+        $MOD_IDS = [
+            4 => true,
+            18 => true
+        ];
+
+        foreach ($roles as $role) {
+            if (!($IGNORE_IDS[$role->gid] ?? false)) {
+                $newRole = Role::forceCreate([
+                    'name' => $role->title,
+                    'desc' => $role->description,
+                    'is_vanity' => ($MOD_IDS[$role->gid] ?? false) == false,
+                    'order' => 1
+                ]);
+
+                $this->roleIds[$role->gid] = $newRole->id;
+            }
+
+            $bar->advance();
+        }
     }
 
     public function handleCases()
@@ -372,15 +431,17 @@ class MigrateBB extends Command
         foreach ($multipleGameTags as $tag) {
             $games = explode(',', $tag->categories);
             for($i = 1; $i < count($games); $i++) {
-                Tag::forceCreate([
+                $newTag = Tag::forceCreate([
                     'name' => $tag->tag,
                     'color' => $tag->color,
                     'notice' => $tag->notice,
                     'notice_localized' => $tag->notice_localized == 1,
                     'notice_type' => NEW_TAG_TYPES[$tag->notice_type],
                     'type' => 'mod',
-                    'game_id' => $games[$i]
+                    'game_id' => intval($games[$i])
                 ]);
+
+                $this->tagIds[$tag->tid][intval($games[$i])] = $newTag->id;
             }
         }
 
@@ -624,6 +685,10 @@ class MigrateBB extends Command
             $newMod->calculateFileStatus();
             $insertTags = [];
             foreach (explode(',', $mod->tags) as $id) {
+                if (isset($this->tagIds[$id]) && isset($this->tagIds[$id][$newMod->game_id])) {
+                    $id = $this->tagIds[$id][$newMod->game_id];
+                }
+
                 if (!empty($id) && Tag::whereId($id)->exists()) {
                     $insertTags[] = [
                         'tag_id' => intval($id),
