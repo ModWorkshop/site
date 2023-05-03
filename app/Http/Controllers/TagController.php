@@ -23,7 +23,7 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request)
+    public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
             'game_id' => 'integer|min:1|nullable|exists:games,id',
@@ -31,10 +31,11 @@ class TagController extends Controller
             'global' => 'boolean|nullable'
         ]);
 
-        $tags = Tag::queryGet($val, function($query, array $val) {
-            $query->where(function($q) use ($val) {
-                if (isset($val['game_id'])) {
-                    $q->where('game_id', $val['game_id']);
+        $tags = Tag::queryGet($val, function($query, array $val) use($game) {
+            $query->where(function($q) use ($val, $game) {
+                $gameId = $game?->id ?? $val['game_id'] ?? null;
+                if (isset($gameId)) {
+                    $q->where('game_id', $gameId);
                 }
                 if (isset($val['global']) && $val['global']) {
                     $q->orWhereNull('game_id');
