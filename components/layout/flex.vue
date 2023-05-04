@@ -1,9 +1,9 @@
 <template>
-    <div :class="classes">
+    <div ref="element" :class="classes">
         <slot/>
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     inline: Boolean,
     column: Boolean,
@@ -33,4 +33,8 @@ const classes = computed(() => {
     return c;
 });
 
+
+const element = ref<HTMLDivElement>();
+
+defineExpose({element});
 </script>

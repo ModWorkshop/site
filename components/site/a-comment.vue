@@ -1,5 +1,5 @@
 <template>
-    <content-block :alt-background="isReply" :gap="3" :padding="3" :class="classes">
+    <content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="3" :class="classes">
         <flex class="comment-body">
             <NuxtLink class="mr-1" :to="`/user/${comment.user_id}`">
                 <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
@@ -99,13 +99,30 @@ const props = defineProps<{
 const { t } = useI18n();
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 const focusComment = useRouteQuery('comment');
+const { params } = useRoute();
 
 const content = toRef(props.comment, 'content');
 
 const showReportModal = ref(false);
 
+const contentBlockRef = ref();
+
+onMounted(() => {
+    if (focusComment.value || params.comment) {
+        const element: HTMLDivElement = contentBlockRef.value.element;
+        console.log(element);
+        
+        if (element) {
+            setTimeout(() => {
+                element.scrollIntoView({ block: 'nearest' });
+                window.scrollBy(0, -64);
+            }, 150);
+        }
+    }
+});
+
 const page = ref(1);
-let { data: replies, refresh: loadReplies } = await useFetchMany<Comment>(() => props.fetchReplies ? `${props.url}/${props.comment.id}/replies` : '', {
+let { data: replies, refresh: loadReplies } = await useFetchMany<Comment>(() => props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
     immediate: props.fetchReplies, 
     params: reactive({ page, limit: 20 })
 });

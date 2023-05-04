@@ -1,5 +1,5 @@
 <template>
-    <flex :gap="gap" :padding="padding" :column="column" :class="{'content-block': true, 'alt-content-bg': altBackground}">
+    <flex ref="flexRef" :gap="gap" :padding="padding" :column="column" :class="{'content-block': true, 'alt-content-bg': altBackground}">
         <slot/>
     </flex>
 </template>
@@ -19,5 +19,13 @@ defineProps({
         default: 4
     },
     altBackground: Boolean
+});
+
+const flexRef = ref();
+
+const flexElement = computed(() => flexRef.value.element);
+
+defineExpose({ 
+    element: flexElement
 });
 </script>

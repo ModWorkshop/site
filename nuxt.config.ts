@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 						{ path: "api", file: '~/pages/user-settings/api.vue' },
 					]
 				},
-				{ path: "/mod/:mod/post/:commentId", file: '~/pages/mod/[mod]/index.vue' },
+				{ path: "/mod/:mod/post/:comment", file: '~/pages/mod/[mod]/index.vue' },
 				{ path: "/forum/post", file: '~~/pages/thread/[thread]/edit.vue' },
 				{ path: "/g/:game/upload", file: '~/pages/upload.vue' },
 				{ path: "/g/:game/forum", file: '~/pages/forum.vue' },

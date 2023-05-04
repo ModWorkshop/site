@@ -124,7 +124,7 @@ const posting = ref(false);
 const showError = useQuickErrorToast();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
-    immediate: !props.lazy && !route.params.commentId,
+    immediate: !props.lazy && !route.params.comment,
     params: reactive({
         page,
         limit: 20
@@ -134,8 +134,8 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
 watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
 watch(page, loadComments);
 
-const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.params.commentId}`, {
-    immediate: !!route.params.commentId
+const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.params.comment}`, {
+    immediate: !!route.params.comment
 });
 
 async function subscribe() {
