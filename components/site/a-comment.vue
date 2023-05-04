@@ -170,7 +170,7 @@ const commentPage = computed(() => {
 
 async function subscribe() {
     try {
-        const url = `${props.url}/${props.comment.id}`;
+        const url = `comments/${props.comment.id}`;
         if (props.comment.subscribed) {
             await useDelete(`${url}/subscription`);
         } else {
