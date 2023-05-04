@@ -429,10 +429,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(function($value, $attributes) {
             $supporter = $this->supporter;
-            if (isset($supporter) && !$supporter->is_cancelled && (Carbon::now()->lessThan($supporter->expire_date))) {
+            if (isset($supporter) && !$supporter->is_cancelled && (!isset($supporter->expire_date) || Carbon::now()->lessThan($supporter->expire_date))) {
                 return $supporter;
             } else {
-                return new MissingValue;
+                return null;
             }
         });
     }
@@ -440,7 +440,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function color(): Attribute
     {
         return Attribute::make(function($value, $attributes) {
-            if (isset($attributes['custom_color']) && $this->supporterActive) {
+            if (isset($attributes['custom_color']) && $this->activeSupporter) {
                 return $attributes['custom_color'];
             }
 
