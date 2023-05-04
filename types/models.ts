@@ -271,7 +271,7 @@ export interface User {
     game_highest_role_order?: number;
     followed?: { notify: boolean };
     show_tag: 'role'|'supporter_or_role'|'none';
-    supporter?: Supporter;
+    active_supporter?: Supporter;
     signable?: boolean;
     extra?: {
         default_mods_view: string;
