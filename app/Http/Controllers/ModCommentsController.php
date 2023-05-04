@@ -39,6 +39,11 @@ class ModCommentsController extends Controller
         return CommentService::store($request, $mod);
     }
 
+    public function show(Comment $comment)
+    {
+        return $comment;
+    }
+
     public function subscribe(Mod $mod)
     {
         CommentService::subscribe($mod);

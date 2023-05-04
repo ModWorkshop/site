@@ -53,12 +53,12 @@ class CommentController extends Controller
         return CommentService::page($request, $comment);
     }
 
-    public function subscribeComment(Comment $comment)
+    public function subscribe(Comment $comment)
     {
         CommentService::subscribe($comment);
     }
 
-    public function unsubscribeComment(Comment $comment)
+    public function unsubscribe(Comment $comment)
     {
         CommentService::unsubscribe($comment);
     }

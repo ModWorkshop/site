@@ -115,26 +115,19 @@ APIService::gameResource('roles', GameRoleController::class, ['shallow' => false
 /**
  * @group Forums
  */
+
 Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
 APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
 APIService::resource('threads', ThreadController::class, 'forums');
 APIService::resource('comments', ThreadCommentsController::class, 'threads');
+Route::resource('comments', CommentController::class)->only(['destroy', 'update', 'show']);
+
 Route::middleware('can:report,thread')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
-Route::middleware('auth:sanctum')->group(function() {
-    Route::post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
-    Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
-    Route::post('comments/{comment}/subscription', [ThreadCommentsController::class, 'subscribeComment']);
-    Route::delete('comments/{comment}/subscription', [ThreadCommentsController::class, 'unsubscribeomment']);
-
-    Route::post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
-    Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
-    Route::post('comments/{comment}/subscription', [ModCommentsController::class, 'subscribeComment']);
-    Route::delete('comments/{comment}/subscription', [ModCommentsController::class, 'unsubscribeComment']);
-
-    Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
-    Route::patch('comments/{comment}', [CommentController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('comments/{comment}/subscription', [CommentController::class, 'unsubscribe']); //A user should be allowed to unsubscribe anytime
+Route::middleware('can:view,comment')->group(function() {
+    Route::post('comments/{comment}/subscription', [CommentController::class, 'subscribe']);
     Route::get('comments/{comment}/page', [CommentController::class, 'page']);
     Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
     Route::middleware('can:report,comment')->post('comments/{comment}/reports', [CommentController::class, 'report']);
