@@ -41,6 +41,7 @@
     "luxon": "^3.2.1",
     "markdown-it": "^13.0.1",
     "markdown-it-html5-media": "^0.7.1",
+    "markdown-it-task-lists": "^2.1.1",
     "nuxt-delay-hydration": "^1.1.1",
     "object-hash": "^3.0.0",
     "object-to-formdata": "^4.4.2",

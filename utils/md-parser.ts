@@ -5,6 +5,7 @@ import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
 import { html5Media } from 'markdown-it-html5-media';
+import taskLists from 'markdown-it-task-lists';
 
 const md = MarkdownIt({
 	html: true,
@@ -43,6 +44,8 @@ md.renderer.rules.strong_open = renderUnderline;
 md.renderer.rules.strong_close = renderUnderline;
 
 md.use(html5Media);
+
+md.use(taskLists, {enabled: true});
 
 md.use(markdownItRegex(
 	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
