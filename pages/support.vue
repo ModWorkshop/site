@@ -5,10 +5,10 @@
             <a-img alt="logo" :src="logo" width="128" height="128" is-asset/>
             <h1 class="text-primary m-auto">{{ $t('support_mws') }}</h1>
             <h2>{{$t('supporter_desc')}}</h2>
-            <a-alert v-if="user?.supporter" color="success" :icon="false">
+            <a-alert v-if="user?.active_supporter" color="success" :icon="false">
                 <i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center">
                     <template #time>
-                        <time-ago null-is-never :time="user.supporter.expire_date"/>
+                        <time-ago null-is-never :time="user.active_supporter.expire_date"/>
                     </template>
                 </i18n-t>
             </a-alert>

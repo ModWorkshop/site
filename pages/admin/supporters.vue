@@ -8,9 +8,21 @@
         <h2>{{$t('supporters')}}</h2>
         <a-items v-model:page="page" :items="supporters" :loading="loading">
             <template #item="{ item }">
-                <flex class="list-button">
-                    <a-user :user="item.user"/>
-                    <a-button class="ml-auto" icon="mdi:trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
+                <flex class="list-button" :style="{ opacity: item.is_cancelled ? 0.5 : 1 }">
+                    <flex column>
+                        <a-user :user="item.user"/>
+                        <div>
+                            {{ $t('date') }}: <time-ago :time="item.created_at"/>
+                        </div>
+                        {{ item.is_cancelled }}
+                        <div v-if="!item.is_cancelled">
+                            {{ $t('expires') }}: <time-ago :time="item.expire_date"/>
+                        </div>
+                        <div v-else>
+                            {{ $t('expired') }}
+                        </div>
+                    </flex>
+                    <a-button class="ml-auto self-center" icon="mdi:trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
                 </flex>
             </template>
         </a-items>

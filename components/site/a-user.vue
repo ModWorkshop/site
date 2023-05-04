@@ -57,7 +57,7 @@ const renderProfile = ref(false);
 const isBanned = computed(() => !!(props.user?.ban || props.user?.game_ban));
 const userTag = computed(() => {
     if (props.user && props.user.show_tag !== 'none') {
-        if (props.user.show_tag === 'supporter_or_role' && props.user.supporter) {
+        if (props.user.show_tag === 'supporter_or_role' && props.user.active_supporter) {
             return t('supporter_tag');
         } else {
             return props.user.tag;
