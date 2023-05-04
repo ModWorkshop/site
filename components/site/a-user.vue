@@ -70,7 +70,7 @@ const userColor = computed(() => {
         return 'var(--secondary-color)';
     } else {
         let color;
-        if (!props.noColor && props.user?.color) {
+        if (!props.noColor && props.user?.color && props.user.color.replace) {
             color = props.user.color.replace(/\s+/, '');
         }
     
