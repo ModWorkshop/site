@@ -89,7 +89,7 @@ class Comment extends Model implements SubscribableInterface
 
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'reply_to', 'id');
+        return $this->hasMany(Comment::class, 'reply_to', 'id')->orderBy('id');
     }
 
     protected function lastReplies() : Attribute
