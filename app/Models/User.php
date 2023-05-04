@@ -369,17 +369,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class)->orderBy('order');
+        return $this->belongsToMany(Role::class)->orderBy('order')->distinct();
     }
     
     public function allGameRoles(): BelongsToMany
     {
-        return $this->belongsToMany(GameRole::class)->orderBy('order');
+        return $this->belongsToMany(GameRole::class)->orderBy('order')->distinct();
     }
 
     public function gameRoles(): BelongsToMany
     {
-        return $this->belongsToMany(GameRole::class)->where('game_id', self::$currentGameId)->orderBy('order');
+        return $this->belongsToMany(GameRole::class)->where('game_id', self::$currentGameId)->orderBy('order')->distinct();
     }
 
     public function ban() : HasOne
