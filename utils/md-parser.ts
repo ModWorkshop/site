@@ -45,7 +45,7 @@ md.renderer.rules.strong_close = renderUnderline;
 md.use(html5Media);
 
 md.use(markdownItRegex(
-	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g,
+	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
 	function([, , match]) {
 		match = md.render(match);
 		return `\n\n<div class="center">${match}</div>\n\n`;
