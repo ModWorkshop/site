@@ -479,7 +479,7 @@ export interface Supporter {
     id: number;
     user_id: number;
     expire_date?: string;
-    is_cancelled: boolean;
+    expired: boolean;
     created_at?: string;
     updated_at?: string;
     user: User;

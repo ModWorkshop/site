@@ -8,14 +8,13 @@
         <h2>{{$t('supporters')}}</h2>
         <a-items v-model:page="page" :items="supporters" :loading="loading">
             <template #item="{ item }">
-                <flex class="list-button" :style="{ opacity: item.is_cancelled ? 0.5 : 1 }">
+                <flex class="list-button" :style="{ opacity: item.expired ? 0.5 : 1 }">
                     <flex column>
                         <a-user :user="item.user"/>
                         <div>
                             {{ $t('date') }}: <time-ago :time="item.created_at"/>
                         </div>
-                        {{ item.is_cancelled }}
-                        <div v-if="!item.is_cancelled">
+                        <div v-if="!item.expired">
                             {{ $t('expires') }}: <time-ago :time="item.expire_date"/>
                         </div>
                         <div v-else>
