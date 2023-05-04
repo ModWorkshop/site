@@ -165,6 +165,10 @@ export function parseMarkdown(text: string) {
     //TODO: consider disabling BBCode for new/updated mods
 	text = escapeHtml(text); //First escape the ugly shit
     text = parseBBCode(text); //Handle BBCode
+
+	text = text.replace(/&gt;/g, '>');
+	text = text.replace(/&quot;/g, '"');
+
 	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function(wholeStr, delimiter, match) {		
 		match = md.render(match);
 		return `\n\n<div><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
