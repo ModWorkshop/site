@@ -21,7 +21,9 @@ class SupporterController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        return JsonResource::collection(Supporter::queryGet($request->val()));
+        return JsonResource::collection(Supporter::queryGet($request->val(), function($q) {
+            $q->orderByRaw('expire_date DESC NULLS LAST, is_cancelled ASC');
+        }));
     }
 
     /**

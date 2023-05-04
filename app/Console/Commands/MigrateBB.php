@@ -28,6 +28,7 @@ use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
 use App\Models\Subscription;
+use App\Models\Supporter;
 use App\Models\Thread;
 use App\Models\UserCase;
 use App\Models\Visibility;
@@ -146,6 +147,8 @@ class MigrateBB extends Command
 
         $this->handleRoles();
         $this->handleUsers();
+
+        $this->handleSupporters();
 
         $this->userIds = Arr::keyBy(User::select('id')->get()->toArray(), 'id');
 
@@ -284,6 +287,21 @@ class MigrateBB extends Command
         }
     }
 
+    public function handleSupporters()
+    {
+        $bar = $this->progress('Converting supporters', $this->con->table('mysubscriptions_log')->count());
+        $subs = $this->con->table('mysubscriptions_log')->get();
+
+        foreach($subs as $sub) {
+            Supporter::forceCreate([
+                'user_id' => $sub->uid,
+                'created_at' => $this->handleUnixDate($sub->timestamp),
+                'expire_date' => $this->handleUnixDate($sub->enddate),
+                'is_cancelled' => $sub->expired
+            ]);
+        }
+    }
+
     public function handleCases()
     {
         $bar = $this->progress('Converting cases', $this->con->table('mws_cases')->count());
@@ -304,8 +322,8 @@ class MigrateBB extends Command
                             'user_id' => $case->uid, # Changed
                             'mod_user_id' => $case->moduid, # Changed
                             'reason' => $case->notes,
-                            'created_at' => $this->handleUnixDate($case->date),
-                            'updated_at' => $this->handleUnixDate($case->date),
+                            'created_at' =>$case->date,
+                            'updated_at' => $case->date,
                             'expire_date' => $STRIKES_TO_WARNING_DURATIONS[$strikes],
                             'active' => $case->active
                         ]);

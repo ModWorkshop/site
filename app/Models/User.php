@@ -176,7 +176,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     
     // Always return roles for users
-    protected $appends = ['color'];
+    protected $appends = ['color', 'active_supporter'];
     protected $with = ['roles', 'ban', 'supporter'];
 
     //Permissions and roles stuff
@@ -399,7 +399,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function supporter(): HasOne
     {
-        return $this->hasOne(Supporter::class)->orderBy('expire_date')->without('user');
+        return $this->hasOne(Supporter::class)->orderByRaw('is_cancelled ASC, expire_date DESC NULLS FIRST')->without('user');
     }
 
     public function socialLogins(): HasMany
@@ -429,10 +429,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(function($value, $attributes) {
             $supporter = $this->supporter;
-            if (isset($supporter) && (!isset($supporter->expire_date) || Carbon::now()->lessThan($supporter->expire_date))) {
+            if (isset($supporter) && !$supporter->is_cancelled && (Carbon::now()->lessThan($supporter->expire_date))) {
                 return $supporter;
             } else {
-                return null;
+                return new MissingValue;
             }
         });
     }
@@ -467,7 +467,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 return $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
             }
 
-            return $firstGlobalVanity ?? $firstGlobalRegular;
+            return $firstGlobalVanity ?? $firstGlobalRegular ?? (new MissingValue);
         });
     }
 
