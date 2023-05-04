@@ -22,7 +22,7 @@ class SupporterController extends Controller
     public function index(FilteredRequest $request)
     {
         return JsonResource::collection(Supporter::queryGet($request->val(), function($q) {
-            $q->orderByRaw('expire_date DESC NULLS LAST, is_cancelled ASC');
+            $q->orderByRaw('expire_date DESC NULLS LAST, expired ASC');
         }));
     }
 
@@ -70,7 +70,7 @@ class SupporterController extends Controller
     {
         $val = $request->validate([
             'expire_date' => 'date|nullable',
-            'is_cancelled' => 'boolean|nullable'
+            'expired' => 'boolean|nullable'
         ]);
 
         Utils::convertToUTC($val, 'expire_date');

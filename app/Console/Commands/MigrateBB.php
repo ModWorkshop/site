@@ -297,7 +297,7 @@ class MigrateBB extends Command
                 'user_id' => $sub->uid,
                 'created_at' => $this->handleUnixDate($sub->timestamp),
                 'expire_date' => $this->handleUnixDate($sub->enddate),
-                'is_cancelled' => $sub->expired
+                'expired' => $sub->expired
             ]);
         }
     }

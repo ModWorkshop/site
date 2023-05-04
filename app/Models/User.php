@@ -399,7 +399,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function supporter(): HasOne
     {
-        return $this->hasOne(Supporter::class)->orderByRaw('is_cancelled ASC, expire_date DESC NULLS FIRST')->without('user');
+        return $this->hasOne(Supporter::class)->orderByRaw('expired ASC, expire_date DESC NULLS FIRST')->without('user');
     }
 
     public function socialLogins(): HasMany
@@ -429,7 +429,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(function($value, $attributes) {
             $supporter = $this->supporter;
-            if (isset($supporter) && !$supporter->is_cancelled && (!isset($supporter->expire_date) || Carbon::now()->lessThan($supporter->expire_date))) {
+            if (isset($supporter) && !$supporter->expired && (!isset($supporter->expire_date) || Carbon::now()->lessThan($supporter->expire_date))) {
                 return $supporter;
             } else {
                 return null;

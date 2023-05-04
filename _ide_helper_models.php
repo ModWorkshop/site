@@ -773,6 +773,7 @@ namespace App\Models{
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\BlockedUser|null $blockedByMe
  * @property-read int|null $comments_count
  */
 	class Mod extends \Eloquent implements \App\Interfaces\SubscribableInterface {}
@@ -846,6 +847,7 @@ namespace App\Models{
  * @property bool $accepted
  * @method static \Illuminate\Database\Eloquent\Builder|ModMember whereAccepted($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User|null $user
  */
 	class ModMember extends \Eloquent {}
 }
@@ -1041,6 +1043,27 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\RoleUser
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $role_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereUserId($value)
+ */
+	class RoleUser extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Setting
  *
  * @property int $id
@@ -1122,7 +1145,7 @@ namespace App\Models{
  * @property int $id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $expire_date
- * @property bool $is_cancelled
+ * @property bool $expired
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
@@ -1136,6 +1159,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUserId($value)
  * @mixin \Eloquent
+ * @property bool $expired
  */
 	class Supporter extends \Eloquent {}
 }

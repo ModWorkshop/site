@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->dateTime('expire_date')->nullable();
-            $table->boolean('is_cancelled')->default(false);
+            $table->boolean('expired')->default(false);
 
             $table->index('user_id');
 
