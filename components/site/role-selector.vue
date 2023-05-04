@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import clone from 'rfdc/default';
+
 import { useStore } from '~~/store';
 import { User, Role } from '../../types/models';
 import { useI18n } from 'vue-i18n';
@@ -39,13 +41,34 @@ const { currentGame, hasPermission, user: me } = useStore();
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
+const showError = useQuickErrorToast();
+
+let prevGameRoles, prevRoles;
+
+onMounted(() => {
+    prevGameRoles = clone(props.user.game_role_ids);
+    prevRoles = clone(props.user.role_ids);
+});
+
 async function saveGameRoles() {
-    await usePatch(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
+    try {
+        await usePatch(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
+        prevGameRoles = clone(props.user.game_role_ids);
+    } catch (error) {
+        showError(error);
+        props.user.game_role_ids = clone(prevGameRoles);
+    }
 }
 
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 async function saveRoles() {
-    await usePatch(`users/${props.user.id}/roles`, { role_ids: props.user.role_ids });
+    try {
+        await usePatch(`users/${props.user.id}/roles`, { role_ids: props.user.role_ids });
+        prevRoles = clone(props.user.role_ids);
+    } catch (error) {
+        showError(error);
+        props.user.role_ids = clone(prevRoles);
+    }
 }
 
 function askAreYouSure(value: Role, clbk) {
