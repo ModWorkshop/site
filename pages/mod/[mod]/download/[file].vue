@@ -37,8 +37,8 @@ const { data: mod } = await useResource<Mod>('mod', 'mods', {
 
 const download = ref<HTMLAnchorElement>();
 
-const downloadUrl = computed(() => `${config.apiUrl}/files/${file.value.id}/download`);
 const { data: file } = await useResource<File>('file', 'files');
+const downloadUrl = computed(() => `${config.storageUrl}/mods/files/${file.value.file}?response-content-disposition=attachment;"`);
 
 if (!file.value) {
     throw createError({ statusCode: 404, statusMessage: t('file_doesnt_exist') });
