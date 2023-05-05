@@ -32,7 +32,7 @@ const gameId = computed(() => props.game?.id ?? props.filters.game_id);
 
 const { data: tags } = await useFetchMany<Tag>(gameId.value ? `games/${gameId.value}/tags` : 'tags', { params: { type: 'mod', global: true } });
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories?include_paths=1`, { 
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { 
     immediate: !!props.filters.game_id
 });
 
