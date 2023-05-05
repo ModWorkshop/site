@@ -36,6 +36,8 @@ class SettingsController extends Controller
             'mod_storage_size' => 'integer',
             'image_max_file_size' => 'integer',
             'mod_max_image_count' => 'integer',
+            'news_forum_category' => 'integer',
+            'game_requests_forum_category' => 'integer',
             'discord_webhook' => 'string|nullable|max:255'
         ]);
 
