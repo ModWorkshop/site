@@ -222,12 +222,14 @@ class MigrateBB extends Command
                 ];
 
                 $useRoles = [$user->usergroup, $user->displaygroup, ...explode(',', $user->additionalgroups)];
+                $addedAlready = [];
                 foreach ($useRoles as $roleId) {
-                    $newsRoleId = $this->roleIds[intval($roleId)] ?? null;
-                    if (isset($newsRoleId)) {
+                    $newRoleId = $this->roleIds[intval($roleId)] ?? null;
+                    if (isset($newRoleId) && !isset($addedAlready[$newRoleId])) {
+                        $addedAlready[$newRoleId] = true;
                         $insertUserRoles[] = [
                             'user_id' => $user->uid,
-                            'role_id' => $newsRoleId
+                            'role_id' => $newRoleId
                         ];
                     }
                 }
