@@ -412,6 +412,8 @@ export interface Settings {
     image_max_file_size: number;
     mod_max_image_count: number;
     discord_webhook: string;
+    news_forum_category: number;
+    game_requests_forum_category: number;
 }
 
 export interface Document {

@@ -28,7 +28,7 @@
                 <flex id="header-buttons" gap="4" class="ml-3 sm:items-center">
                     <a-link-button v-if="!user?.ban" :to="user ? '/upload' : '/login'">{{$t('upload_mod')}}</a-link-button>
                     <a-link-button to="/games">{{$t('games')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="/forum?category=news">{{$t('news')}}</a-link-button>
+                    <a-link-button v-if="settings?.news_forum_category" class="max-lg:hidden" :to="`/forum?category=${settings?.news_forum_category}`">{{$t('news')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/forum">{{$t('forum')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/document/rules">{{$t('rules')}}</a-link-button>
@@ -142,6 +142,8 @@ import { Mod } from '../../types/models';
 const headerClosed = ref(true);
 
 const store = useStore();
+const settings = computed(() => store.settings);
+
 const router = useRouter();
 const { 
     user,

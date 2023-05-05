@@ -6,6 +6,18 @@
             <a-input v-model="settings.mod_storage_size" type="number" label="Storage size per mod"/>
             <a-input v-model="settings.mod_max_image_count" type="number" label="Max images per mod"/>
             <a-input v-model="settings.discord_webhook" label="Discord Webhook for mods"/>
+            <a-select 
+                v-model="settings.news_forum_category"
+                label="News Forum Category"
+                url="forum-categories"
+                :fetch-params="{ forum_id: 1 }"
+            />
+            <a-select 
+                v-model="settings.game_requests_forum_category"
+                label="Game Request Forum Category"
+                url="forum-categories"
+                :fetch-params="{ forum_id: 1 }"
+            />
         </flex>
     </a-form>
 </template>
