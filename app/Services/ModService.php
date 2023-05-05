@@ -10,10 +10,12 @@ use App\Models\Visibility;
 use Arr;
 use Auth;
 use DB;
+use Hash;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\UploadedFile;
 use Log;
 use Spatie\QueryBuilder\QueryBuilder;
+use Str;
 
 class ModService {
     static $categories = [];
@@ -184,7 +186,7 @@ class ModService {
         }
 
         $fileType = $file->extension();
-        $fileName = Auth::user()->id.'_'.time().'_'.md5(uniqid(rand(), true)).'.'.$fileType;
+        $fileName = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$fileType;
         $file->storePubliclyAs('mods/files', $fileName);
 
         return [$file, $fileName];
