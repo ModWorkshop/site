@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
-    static $categories = [];
+    static $categories;
     
     public function mods()
     {
@@ -45,14 +45,17 @@ class ModService {
                 'id' => $game->short_name ?? $game->id,
                 'type' => 'game'
             ]];
+
         }
+
+        self::$categories ??= Arr::keyBy(($game ?? $category->game)->categories, 'id');
 
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {
                 $loopCheck[$category->id] = true;
                 $arr = [
                     ...$arr,
-                    ...self::makeBreadcrumb(null, $category->parent, [[
+                    ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
                         'name' => $category->name,
                         'id' => $category->id,
                         'type' => 'category'
