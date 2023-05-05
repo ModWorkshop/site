@@ -17,7 +17,7 @@
                     </button-group>
                 </template>
             </VDropdown>
-            <VDropdown v-if="!sideFilters">
+            <VDropdown>
                 <a-button icon="mdi:dots-vertical"/>
                 <template #popper>
                     <flex column>
