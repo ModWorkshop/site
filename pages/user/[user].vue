@@ -71,7 +71,7 @@
                 </content-block>
                 <content-block class="bio p-4 w-full">
                     <span class="text-lg">
-                        <template v-if="isPublic || isOwnOrModerator">
+                        <template v-if="isPublic">
                             <a-markdown v-if="user.bio" :text="user.bio"/>
                             <div v-else class="w-full">{{$t('no_bio')}}</div>
                         </template>
@@ -79,25 +79,27 @@
                     </span>
                 </content-block>
             </flex>
-            <template v-if="tempBlockOverride || !isHidingMods">
-                <button-group v-model:selected="displayMods" gap="1" button-style="nav">
-                    <a-group-button name="personal">{{$t('personal_mods')}}</a-group-button>
-                    <a-group-button name="collab">{{$t('collab_mods')}}</a-group-button>
-                </button-group>
-                <mod-list 
-                    v-if="isPublic || isOwnOrModerator"
-                    :trigger-refresh="triggerRefresh"
-                    :user-id="user.id"
-                    :collab="displayMods == 'collab'"
-                    :params="{ ignore_blocked_users: true }"
-                />
+            <template v-if="isPublic">
+                <template v-if="tempBlockOverride || !isHidingMods">
+                    <button-group v-model:selected="displayMods" gap="1" button-style="nav">
+                        <a-group-button name="personal">{{$t('personal_mods')}}</a-group-button>
+                        <a-group-button name="collab">{{$t('collab_mods')}}</a-group-button>
+                    </button-group>
+                    <mod-list 
+                        v-if="isPublic || isOwnOrModerator"
+                        :trigger-refresh="triggerRefresh"
+                        :user-id="user.id"
+                        :collab="displayMods == 'collab'"
+                        :params="{ ignore_blocked_users: true }"
+                    />
+                </template>
+                <content-block v-else>
+                    {{$t('hiding_mods_view')}}
+                    <div>
+                        <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
+                    </div>
+                </content-block>
             </template>
-            <content-block v-else>
-                {{$t('hiding_mods_view')}}
-                <div>
-                    <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
-                </div>
-            </content-block>
         </template>
         <content-block v-else>
             {{$t('blocked_user_view')}}
@@ -166,7 +168,7 @@ const isOnline = computed(() => {
 const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
-const isPublic = computed(() => !user.value.private_profile);
+const isPublic = computed(() => !user.value.private_profile || isOwnOrModerator.value);
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;
