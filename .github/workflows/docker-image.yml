@@ -10,7 +10,7 @@
 name: Create and publish a Docker image
 
 on:
-  repository_dispatch:
+  push:
     branches: ['main']
 
 env:
