@@ -95,7 +95,7 @@ class UserController extends Controller
 
         $foundUser = null;
 
-        if (is_numeric($user)) {
+        if (ctype_digit($user) && $user < PHP_INT_MAX) {
             $foundUser = User::where('id', $user)->firstOrFail();
         } else {
             $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->firstOrFail();
