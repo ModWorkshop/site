@@ -44,13 +44,14 @@ const textColor = computed(() => {
     gap: 4px;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
     background: var(--primary-color);
 }
 
 .tag-small {
     padding: 0.15rem 0.4rem;
+    margin-top: 2px;
     line-height: 1.25;
 }
 
