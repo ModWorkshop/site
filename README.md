@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://modworkshop.net/mws/assets/images/mws_logo_white.svg" width="200"></a></p>
+<p align="center"><a href="https://modworkshop.net" target="_blank"><img src="https://modworkshop.net/mws/assets/images/mws_logo_white.svg" width="200"></a></p>
 
 ## ModWorkshop Backend
 
