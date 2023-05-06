@@ -1,0 +1,13 @@
+:8080 {
+	root * /var/www/html/public
+
+	encode zstd gzip
+
+	file_server
+
+	redir /api.php* /v2API?{query}
+
+    php_fastcgi :9000 {
+        header_up X-Forwarded-Proto https
+	}
+}
