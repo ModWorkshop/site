@@ -1,32 +1,32 @@
 <template>
-    <flex inline class="items-center" :gap="neededGap">
-        <NuxtLink v-if="avatar" class="inline-flex" :to="link">
-            <a-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
-        </NuxtLink>
+    <VMenu 
+        v-model:shown="renderProfile"
+        :delay="{ show: 500, hide: 100 }"
+        :auto-hide="false"
+        :disabled="!miniProfile || static"
+    >
+        <flex inline class="items-center" :gap="neededGap">
+            <NuxtLink v-if="avatar" class="inline-flex" :to="link">
+                <a-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
+            </NuxtLink>
 
-        <flex gap="1" column>
-            <VMenu 
-                v-model:shown="renderProfile"
-                :delay="{ show: 500, hide: 100 }"
-                :auto-hide="false"
-                :disabled="!miniProfile || static"
-            >
+            <flex gap="1" column>
                 <NuxtLink class="flex gap-1 items-center" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user?.name ?? $t('invalid_user')}}</component>
                     <a-tag v-if="userTag" small>{{userTag}}</a-tag>
                     <span v-if="showAt" class="user-at">@{{user?.unique_name}}</span>
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
-                <template #popper>
-                    <a-mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
-                </template>
-            </VMenu>
-            <slot name="details" :user="user">
-                <span v-if="details">{{details}}</span>
-            </slot>
+                <slot name="details" :user="user">
+                    <span v-if="details">{{details}}</span>
+                </slot>
+            </flex>
+            <slot name="attach"/>
         </flex>
-        <slot name="attach"/>
-    </flex>
+        <template #popper>
+            <a-mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
+        </template>
+    </VMenu>
 </template>
 
 <script setup lang="ts">
