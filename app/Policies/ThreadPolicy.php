@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\APIService;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Log;
 
 class ThreadPolicy
 {
@@ -36,9 +37,8 @@ class ThreadPolicy
     public function view(?User $user, Thread $thread)
     {
         $forumCateogry = $thread->category;
-
         if ($forumCateogry?->private_threads) {
-            if (!(isset($user) || $thread->user_id === $user->id || $user->hasPermission('manage-users'))) {
+            if (!isset($user) || ($thread->user_id !== $user->id && !$user->hasPermission('manage-users'))) {
                 return false;
             }
         }

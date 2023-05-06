@@ -58,7 +58,7 @@ class ThreadController extends Controller
 
             if (!isset($user) || !$user->hasPermission('manage-discussions')) {
                 $query->where(function($q) use ($user) {
-                    $q->where('threads.user_id', $user?->id)->orWhereNull('category_id')->orWhereRelation('category', fn($q) => Utils::forumCategoriesFilter($q));
+                    $q->where('threads.user_id', $user?->id)->orWhereNull('category_id')->orWhereRelation('category', fn($q) => Utils::forumCategoriesFilter($q, true));
                 });                
             }
 

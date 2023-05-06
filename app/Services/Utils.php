@@ -163,7 +163,7 @@ class Utils {
         }
     }
 
-    public static function forumCategoriesFilter($q)
+    public static function forumCategoriesFilter($q, bool $thread=false)
     {
         $user = Auth::user();
         if (isset($user) && $user->hasPermission('manage-discussions')) {
@@ -176,6 +176,10 @@ class Utils {
         if (isset($user)) {
             $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
             $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
+        }
+
+        if ($thread) {
+            $q->where('private_threads', false);
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {
