@@ -1026,6 +1026,10 @@ class MigrateBB extends Command
         unset($posts);
         unset($subs);
         unset($forums);
+
+        $this->resetAutoIncrement('forum_categories');
+        $this->resetAutoIncrement('threads');
+
         $bar->finish();
     }
 
