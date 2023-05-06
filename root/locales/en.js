@@ -349,6 +349,7 @@ upload_file: "File",
 
 //User//
 online: 'Online',
+offline: 'Offline',
 last_visit: 'Last Visit',
 block: "Block",
 unblock: "Unblock",
