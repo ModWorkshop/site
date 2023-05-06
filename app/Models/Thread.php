@@ -137,6 +137,12 @@ class Thread extends Model implements SubscribableInterface
         return $this->hasMany(Taggable::class, 'taggable_id')->where('taggable_type', 'thread');
     }
 
+    // Runs the moment a comment is deleted to handle removal of last user ID properly
+    public function onCommentDeleted(Comment $comment)
+    {
+        $this->update(['last_user_id' => $this->comments()->latest('id')->first()->user_id ?? $this->user_id]);
+    }
+
     protected static function booted() {
         static::created(function(Thread $thread) {
             $thread->game_id = $thread->forum->game_id;

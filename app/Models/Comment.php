@@ -152,6 +152,10 @@ class Comment extends Model implements SubscribableInterface
             if (isset($comment->commentable->comment_count)) {
                 $comment->commentable->decrement('comment_count');
             }
+
+            if (method_exists ($comment->commentable, 'onCommentDeleted')) {
+                $comment->commentable->onCommentDeleted($comment);
+            }
         });
     }
 }
