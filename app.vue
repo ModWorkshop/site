@@ -28,7 +28,7 @@ import { useStore } from './store';
 const store = useStore();
 const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const savedLocale = useCookie('locale');
 const { public: config } = useRuntimeConfig();
 
@@ -42,12 +42,10 @@ useHead({
 	title: undefined,
 });
 
-const desc = 'A platform that hosts mods for games, providing the necessary tools to share and create mods, tools, and ideas.';
-
 useServerSeoMeta({
 	ogTitle: 'ModWorkshop',
-	description: desc,
-	ogDescription: desc,
+	description: t('mws_short_about'),
+	ogDescription: t('mws_short_about'),
 	ogImage: `${config.siteUrl}/assets/mws_logo_white.png`,
 	themeColor: '#006ce0',
 	twitterCard: 'summary',
