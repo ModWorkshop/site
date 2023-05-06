@@ -211,11 +211,18 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'roles',
         'password',
+        'updated_at',
         'remember_token',
         'last_ip_address',
         'email',
         'pending_email',
-        'email_verified_at'
+        'email_verified_at',
+
+        'last_online',
+        'bio',
+        'mod_count',
+        'custom_title',
+        'created_at',
     ];
 
     /**
@@ -278,6 +285,28 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getMorphClass(): string {
         return 'user';
+    }
+
+    function isVisibleForProfile($name) {
+        if (!$this->private_profile) {
+            return true;
+        }
+
+        $profileHidden = [
+            'last_online',
+            'bio',
+            'mod_count',
+            'custom_title',
+            'created_at',
+        ];
+
+        $me = Auth::user();
+        foreach ($profileHidden as $hidden) {
+            if ($hidden === $name) {
+                return isset($me) && ($me->id === $this->id || $me->hasPermission('manage-users'));
+            }
+        }
+        return true;
     }
 
     protected static function booted()
