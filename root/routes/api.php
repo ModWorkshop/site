@@ -277,4 +277,6 @@ Route::get('v2API', function(Request $request) {
 });
 
 
+Route::get('test', fn() => 'it works');
+
 // Route::middleware('has_permission:create-api-tokens')->resource('tokens', TokenController::class);
