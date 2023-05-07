@@ -32,7 +32,7 @@ const { locale, t } = useI18n();
 const savedLocale = useCookie('locale');
 const { public: config } = useRuntimeConfig();
 
-useHead({
+useHeadSafe({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },

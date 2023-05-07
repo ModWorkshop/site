@@ -25,7 +25,7 @@ const store = useStore();
 
 const dev = process.env.NODE_ENV === 'development';
 
-useHead({
+useHeadSafe({
 	titleTemplate: (titleChunk) => {
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
