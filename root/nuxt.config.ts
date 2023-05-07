@@ -87,6 +87,12 @@ export default defineNuxtConfig({
 		"@/assets/css/github-dark.css",
 	],
 
+	vite: {
+		build: {
+			chunkSizeWarningLimit: 1000
+		}
+	},
+
 	//This converts these libraries to work with es6 import or something like that
 	build: {
 		transpile: process.env.NODE_ENV === 'production' ? [
