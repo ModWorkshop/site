@@ -1,11 +1,49 @@
 import MarkdownIt  from 'markdown-it';
-import hljs from 'highlight.js';
+
 import DOMPurify from 'isomorphic-dompurify';
 import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
 import { html5Media } from 'markdown-it-html5-media';
 import taskLists from 'markdown-it-task-lists';
+
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import lua from 'highlight.js/lib/languages/lua';
+import csharp from 'highlight.js/lib/languages/csharp';
+import c from 'highlight.js/lib/languages/c';
+import xml from 'highlight.js/lib/languages/xml';
+import yaml from 'highlight.js/lib/languages/yaml';
+import json from 'highlight.js/lib/languages/json';
+import cpp from 'highlight.js/lib/languages/cpp';
+import rust from 'highlight.js/lib/languages/rust';
+import java from 'highlight.js/lib/languages/java';
+import actionscript from 'highlight.js/lib/languages/actionscript';
+import python from 'highlight.js/lib/languages/python';
+import css from 'highlight.js/lib/languages/css';
+import ini from 'highlight.js/lib/languages/ini';
+import gradle from 'highlight.js/lib/languages/gradle';
+import autohotkey from 'highlight.js/lib/languages/autohotkey';
+import haxe from 'highlight.js/lib/languages/haxe';
+
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('lua', lua);
+hljs.registerLanguage('csharp', csharp);
+hljs.registerLanguage('c', c);
+hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('cpp', cpp);
+hljs.registerLanguage('rust', rust);
+hljs.registerLanguage('java', java);
+hljs.registerLanguage('actionscript', actionscript);
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('css', css);
+hljs.registerLanguage('ini', ini);
+hljs.registerLanguage('gradle', gradle);
+hljs.registerLanguage('autohotkey', autohotkey);
+hljs.registerLanguage('haxe', haxe);
 
 const md = MarkdownIt({
 	html: true,
