@@ -93,14 +93,6 @@ export default defineNuxtConfig({
 		}
 	},
 
-	//This converts these libraries to work with es6 import or something like that
-	build: {
-		transpile: process.env.NODE_ENV === 'production' ? [
-			'markdown-it',
-			'markdown-it/lib/common/utils.js',
-		] : [ ]
-	},
-
 	modules: [
 		'nuxt-delay-hydration',
 		'@pinia/nuxt',
