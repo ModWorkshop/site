@@ -3,7 +3,7 @@
         <flex column class="mod-data">
             <flex class="mod-data-top">
                 <span class="mod-title">{{mod.name}}</span>
-                <mod-status class="ml-auto" :mod="mod"/>
+                <mod-status class="ml-auto text-xl" :mod="mod"/>
             </flex>
             <flex column class="mt-auto md:flex-row">
                 <flex gap="3" class="items-center mt-auto">
