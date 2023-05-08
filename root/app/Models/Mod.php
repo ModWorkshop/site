@@ -239,6 +239,14 @@ class Mod extends Model implements SubscribableInterface
 
     protected static function booted() {
         static::deleting(function(Mod $mod) {
+            if ($mod->approved == null) {
+                // Send to discord about this
+                $send = [Setting::getValue('discord_approval_webhook')];
+                if (count($send)) {
+                    Utils::sendDiscordMessage($send, "The mod **%s** which was waiting for approval, was deleted.", [$mod->name]);
+                }
+            }
+
             foreach ($mod->comments as $comment) {
                 $comment->delete();
             }
@@ -475,27 +483,16 @@ class Mod extends Model implements SubscribableInterface
         $game = $this->game;
         $category = $this->category;
         
-        $send = function($url) use($game, $category) {
+        //Send to main webhook and webhooks that were set by game or category
+        $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category->webhook_url];
+
+        if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
-            Utils::sendDiscordMessage($url, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
+            Utils::sendDiscordMessage($send, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
                 $this->name,
                 ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''), 
                 $this->id
             ]);
-        };
-
-        $webhook = Setting::getValue('discord_webhook');
-        if (isset($webhook)) {
-            $send($webhook);
-        }
-
-        //Send to webhooks that were set by game or category
-        if (!empty($game->webhook_url)) {
-            $send($game->webhook_url);
-        }
-
-        if (!empty($category->webhook_url)) {
-            $send($category->webhook_url);
         }
     }
 

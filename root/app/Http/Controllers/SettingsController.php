@@ -38,10 +38,16 @@ class SettingsController extends Controller
             'mod_max_image_count' => 'integer',
             'news_forum_category' => 'integer',
             'game_requests_forum_category' => 'integer',
-            'discord_webhook' => 'string|nullable|max:255'
+            'discord_webhook' => 'string|nullable|max:255',
+            'discord_suspension_webhook' => 'string|nullable|max:255',
+            'discord_approval_webhook' => 'string|nullable|max:255',
         ]);
 
-        $val['discord_webhook'] ??= '';
+        APIService::nullToEmptyStr($val,
+            'discord_webhook',
+            'discord_approval_webhook',
+            'discord_suspension_webhook',
+        );
 
         foreach ($val as $key => $value) {
             Setting::where('name', $key)->where('value', '!=', $value)->update(['value' => $value]);

@@ -13,15 +13,19 @@ use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\PopularityLog;
+use App\Models\Setting;
 use App\Models\Suspension;
 use App\Models\Tag;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Services\APIService;
 use App\Services\ModService;
+use App\Services\Utils;
 use Arr;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Str;
 
 /**
  * @group Mods
@@ -175,6 +179,8 @@ class ModController extends Controller
             }
         }
 
+        $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
+
         if (isset($category) && $category->game_id !== $gameId) {
             abort(409, 'Invalid category. It must belong to the game.');
         }
@@ -238,6 +244,13 @@ class ModController extends Controller
 
         if ($publish) {
             $mod->publish();
+        }
+
+        $send = [Setting::getValue('discord_approval_webhook')];
+
+        if ($sendDiscordApproval && count($send)) {
+            $siteUrl = env('FRONTEND_URL');
+            Utils::sendDiscordMessage($send, "The mod **%s** is waiting for approval. {$siteUrl}/mod/%s", [$mod->name, $mod->id]);
         }
 
         return new ModResource($mod);
@@ -499,6 +512,18 @@ class ModController extends Controller
         if ($approve) {
             $mod->publish();
         }
+
+        // Send to discord about this
+        $send = [Setting::getValue('discord_approval_webhook')];
+        if (count($send)) {
+            $siteUrl = env('FRONTEND_URL');
+            $status = $approve ? 'approved' : 'rejected';
+            $reason = !$approve ? "\nReason: ".$val['reason'] : '';
+            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! <{$siteUrl}/mod/%s>.{$reason}", [
+                $mod->name,
+                $mod->id
+            ]);
+        }
     }
 
     /**
@@ -551,6 +576,24 @@ class ModController extends Controller
         }
 
         $mod->update(['suspended' => $suspend]);
+        // Send to discord about this
+        $send = [Setting::getValue('discord_suspension_webhook')];
+        if (count($send)) {
+            $siteUrl = env('FRONTEND_URL');
+            $moderator = Auth::user()->name;
+            $userLink = env('FRONTEND_URL').'/user/'.($mod->unique_name ?? $mod->id);
+            $status = $suspend ? 'suspended' : 'unsuspended';
+            $case = Str::random(20);
+            $message = Str::repeat('-', 100);
+            $message .= "\nThe mod **%s**, which is owned by <$userLink>, has been {$status} by {$moderator}.";
+            $message .= "\nLink to the mod: {$siteUrl}/mod/%s.";
+            if (isset($val['reason'])) {
+                $message .= "\nReason: {$val['reason']}\n";
+            }
+            $message .= Str::repeat('-', 30)."CASE {$case}".Str::repeat('-', 30);
+            
+            Utils::sendDiscordMessage($send, $message, [$mod->name, $mod->id]);
+        }
 
         return $suspension;
     }
