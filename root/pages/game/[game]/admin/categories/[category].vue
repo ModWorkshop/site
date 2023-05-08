@@ -8,11 +8,6 @@
             <label>{{$t("parent_category")}}</label>
             <category-tree v-model="category.parent_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="validCategories"/>
         </flex>
-        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
-            <div>
-                <a-button color="danger" @click="deleteCategory">{{$t('delete')}}</a-button>
-            </div>
-        </a-alert>
     </simple-resource-form>
 </template>
 
@@ -67,14 +62,7 @@ const validCategories = computed(() => categories.value?.data.filter(cat => {
     }
 
     //Don't include any child categories to avoid circular reference
-    const current = categories.value!.data[cat.parent_id];
-    while(current) {
-        if (current.parent_id == category.value!.parent_id) {
-            return false;
-        }
-    }
-
-    return true;
+    return cat.parent_id != category.value.id;
 }) || []);
 
 function deleteCategory() {
