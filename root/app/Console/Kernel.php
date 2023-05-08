@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculateModsCounts)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**
