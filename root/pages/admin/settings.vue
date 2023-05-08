@@ -6,6 +6,9 @@
             <a-input v-model="settings.mod_storage_size" type="number" label="Storage size per mod"/>
             <a-input v-model="settings.mod_max_image_count" type="number" label="Max images per mod"/>
             <a-input v-model="settings.discord_webhook" label="Discord Webhook for mods"/>
+            <a-input v-model="settings.discord_suspension_webhook" label="Discord Webhook for suspensions"/>
+            <a-input v-model="settings.discord_approval_webhook" label="Discord Webhook for approvals"/>
+            
             <a-select 
                 v-model="settings.news_forum_category"
                 label="News Forum Category"
