@@ -56,6 +56,9 @@ class UserController extends Controller
             if (isset($val['id'])) {
                 $query->where('id', $val['id']);
             }
+            if (isset($val['query']) && !empty($val['query'])) {
+                $query->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $val['query'])->orWhere('unique_name', 'ILIKE', '%'.$val['query'].'%'));
+            }
             if (isset($val['role_ids'])) {
                 $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
                 if (!empty($roleIds)) {
