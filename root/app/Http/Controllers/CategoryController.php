@@ -36,7 +36,7 @@ class CategoryController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $val['limit'] = 1000;
+        $val['limit'] ??= 1000;
 
         $categories = Category::queryGet($val, function($query, array $val) use ($game) {
             $query->orderBy('name');
