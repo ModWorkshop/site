@@ -6,7 +6,7 @@
         <md-editor v-model="category.desc" :label="$t('description')"/>
         <flex v-if="categories" column gap="2">
             <label>{{$t("parent_category")}}</label>
-            <category-tree v-model="category.parent_id" style="height: 200px;" class="input p-2 overflow-y-scroll" :categories="validCategories"/>
+            <a-category-select v-model="category.parent_id" class="input p-2 overflow-y-scroll" :categories="validCategories"/>
         </flex>
     </simple-resource-form>
 </template>

@@ -8,7 +8,7 @@
             <slot name="buttons" :items="items"/>
         </flex>
 
-        <a-pagination v-model="page" :total="items?.meta?.total" :per-page="limit">
+        <a-pagination v-if="pagination" v-model="page" :total="items?.meta?.total" :per-page="limit">
             <slot name="pagination" :items="items"/>
         </a-pagination>
 
@@ -32,7 +32,7 @@
             </span>
         </flex>
 
-        <a-pagination v-model="page" :total="items?.meta.total" :per-page="limit">
+        <a-pagination v-if="pagination" v-model="page" :total="items?.meta.total" :per-page="limit">
             <slot name="pagination" :items="items"/>
         </a-pagination>
     </flex>
@@ -49,11 +49,13 @@ const props = withDefaults(defineProps<{
     query?: boolean,
     params?: object,
     itemLink?: (item?) => string,
+    pagination: boolean
 }>(), {
     search: true,
     gap: 1,
     limit: 50,
-    query: false
+    query: false,
+    pagination: true
 });
 
 const page = props.query ? useRouteQuery('page', 1) : ref(1);

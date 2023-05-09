@@ -1,79 +1,116 @@
 <template>
-    <div class="category">
-        <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
-            <a-icon v-if="currentCategories.length" class="mx-1" :icon="open ? `caret-down` : `caret-right`" @click="open = !open"/>
-            <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
-            <slot name="button" :category="category"/>
-        </div>
-        <flex v-if="open" column :class="{'px-5': !!category}">
-            <category-tree 
-                v-for="c in currentCategories" 
-                :key="c.id" 
-                :model-value="modelValue" 
-                :category="c" 
-                :categories="categories" 
-                :set-query="setQuery" 
-                @update:model-value="value => $emit('update:modelValue', value)"
-            >
-                <template #button="{ category: cat }">
-                    <slot name="button" :category="cat"/>
-                </template>
-            </category-tree>
+    <flex column class="category">
+        <flex>
+            <a-input v-if="first" v-model="queryVm" class="w-full" type="search"/>
+            <slot name="buttons"/>
         </flex>
-    </div>
+        <div class="categories">
+            <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
+                <a-icon 
+                    v-if="currentCategories.length"
+                    class="mx-1"
+                    :style="{opacity: forciblyOpen ? 0.25 : 1}"
+                    :icon="isOpen ? `ic:round-keyboard-arrow-down` : `ic:round-keyboard-arrow-right`"
+                    @click="open = !open"
+                />
+                <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
+                <slot name="button" :category="category"/>
+            </div>
+            <flex v-if="isOpen" column :class="{'px-5': !!category}">
+                <category-tree 
+                    v-for="c in currentCategories"
+                    :key="c.id"
+                    v-model:search="queryVm" 
+                    :first="false"
+                    :model-value="modelValue" 
+                    :category="c"
+                    :categories="categories"
+                    :set-query="setQuery"
+                    @update:model-value="value => $emit('update:modelValue', value)"
+                >
+                    <template #button="{ category: cat }">
+                        <slot name="button" :category="cat"/>
+                    </template>
+                </category-tree>
+            </flex>
+        </div>
+    </flex>
 </template>
 
 <script setup lang="ts">
 import { Category } from '~~/types/models';
+import { remove } from '@vue/shared';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     modelValue?: number|null,
     categories: Category[],
     category?: Category,
-    setQuery?: boolean
-}>();
+    setQuery?: boolean,
+    first?: boolean,
+    search?: string
+}>(), { first: true, search: '' });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'update:search']);
+const queryVm = useVModel(props, 'search', emit, { passive: true });
+const queryDelayed = refDebounced(queryVm, 250);
+const lowSearch = computed(() => queryDelayed.value.toLocaleLowerCase());
+
+const currentCategoryId = props.setQuery ? useRouteQuery('category') : useVModel(props);
+const selected = computed(() => props.category?.id == parseInt(currentCategoryId.value));
+const classes = computed(() => ({'cursor-pointer': true, 'tree-button': true, selected: selected.value}));
+
+const open = ref(!props.category);
+
+const matching = computed(() => props.category && lowSearch.value.length > 2 && (props.category.name.toLowerCase().match(lowSearch.value) || hasDescendantMatching(props.category)));
+const forciblyOpen = computed(() => props.category && hasDescendantSelected(props.category));
+const isOpen = computed(() => open.value || forciblyOpen.value || matching.value);
 
 const currentCategories = computed(() => {
     const cats: Category[] = [];
+    const search = lowSearch.value;
     for (const category of props.categories) {
         if (!props.category && !category.parent_id || (props.category && category.parent_id === props.category.id)) {
-            cats.push(category);
+            if (!queryVm.value || (category.name.toLowerCase().match(search) || hasDescendantMatching(category))) {
+                cats.push(category);
+            }
         }
     }
     
     return cats;
 });
 
-function isRelatedParent(category: Category, otherCategory?: Category) {
-    //Basically the parent
-    if (category.id == otherCategory?.parent_id) {
-        return true;
-    }
-
-    //Maybe grandparent?
-    for (const c of props.categories) {
-        if (category.id === c.parent_id) {
-            return isRelatedParent(c, otherCategory);
+// Loops through the children of the category to try finding one that matches the current search
+function hasDescendantMatching(category: Category, current: Category[]|null = null) {
+    current ??= [...props.categories];
+    const search = lowSearch.value;
+    for (const c of current) {
+        if (c.parent_id === category.id) {
+            if ((c.name.toLowerCase().match(search) || hasDescendantMatching(c, current))) {
+                return true;
+            } else {
+                remove(current, c); // This element is not good for sure
+            }
         }
     }
 
     return false;
 }
 
-const currentCategoryId = props.setQuery ? useRouteQuery('category') : useVModel(props);
-const selected = computed(() => props.category?.id == parseInt(currentCategoryId.value));
+// Loops through the children of the category to try finding one that is selected
+function hasDescendantSelected(category: Category, current: Category[]|null = null) {
+    current ??= [...props.categories];
 
-const open = ref(!props.category);
-
-if (props.category) {
-    const currentId = parseInt(currentCategoryId.value);
-    
-    if (currentId) {
-        const currentCategory = props.categories.find(c => c.id == currentId);
-        open.value = selected.value || isRelatedParent(props.category, currentCategory);
+    for (const c of current) {
+        if (c.parent_id === category.id) {
+            if (c.id === currentCategoryId.value || hasDescendantSelected(c, current)) {
+                return true;
+            } else {
+                remove(current, c); // This element is not good for sure
+            }
+        }
     }
+
+    return false;
 }
 
 function onClickCategory(category: Category) {
@@ -84,11 +121,7 @@ function onClickCategory(category: Category) {
         currentCategoryId.value = category.id;
         open.value = true;
     }
-
-    console.log(currentCategoryId.value);
 }
-
-const classes = computed(() => ({'cursor-pointer': true, 'tree-button': true, selected: selected.value}));
 </script>
 
 <style>
@@ -98,6 +131,13 @@ const classes = computed(() => ({'cursor-pointer': true, 'tree-button': true, se
 </style>
 
 <style scoped>
+.category {
+    overflow: hidden;
+}
+.categories {
+    overflow: auto;
+    height: 100%;
+}
 .tree-button {
     display: flex;
     align-items: center;

@@ -14,11 +14,11 @@
 <script setup lang="ts">
 import { Category } from '~~/types/models';
 
-defineProps<{
+withDefaults(defineProps<{
     modelValue?: number;
     categories: Category[];
     maxHeight?: number;
-}>();
+}>(), { maxHeight: 350 });
 
 defineEmits(['update:modelValue']);
 </script>
