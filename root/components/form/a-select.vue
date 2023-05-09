@@ -78,12 +78,14 @@ const props = withDefaults(defineProps<{
 	max?: string|number,
 	maxShown?: string|number,
     listClass?: string|string[],
-    listTags?: boolean
+    listTags?: boolean,
+    postFetchFilter?: boolean
 }>(), {
     valueBy: 'id',
     textBy: 'name',
     filterable: true,
     filterSelected: false,
+    postFetchFilter: false,
     classic: true,
     listTags: false
 });
@@ -123,7 +125,7 @@ const filtered = computed(() => {
         if (!optionEnabled(option)) {
             return false;
         }
-        if (searchLower) {
+        if (searchLower && !props.url && !props.postFetchFilter) {
             return optionName(option).toLowerCase().match(searchLower);
         } else {
             return true;
