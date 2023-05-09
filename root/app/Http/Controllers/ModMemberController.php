@@ -67,6 +67,8 @@ class ModMemberController extends Controller
             type: 'membership_request'
         );
 
+        Mod::flushQueryCache();
+
         return [...$member->toArray(), 'level' => $member->pivot->level];
     }
 
@@ -94,6 +96,7 @@ class ModMemberController extends Controller
         }
 
         $mod->members()->updateExistingPivot($member, $val);
+        Mod::flushQueryCache();
     }
 
     /**
@@ -119,6 +122,7 @@ class ModMemberController extends Controller
             }
         }
 
+        Mod::flushQueryCache();
         $mod->members()->detach($member);
     }
 
@@ -146,6 +150,8 @@ class ModMemberController extends Controller
         } else {
             $mod->members()->detach($member);
         }
+
+        Mod::flushQueryCache();
 
         Notification::deleteRelated($member, 'membership_request');
     }
