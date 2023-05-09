@@ -11,7 +11,7 @@
 
     <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
 
-    <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
+    <a-alert v-if="canDelete" class="w-full" color="danger" :title="$t('danger_zone')">
         <div>
             <a-button color="danger" @click="deleteMod">{{$t('delete')}}</a-button>
         </div>
@@ -29,10 +29,14 @@ const props = defineProps<{
 
 const yesNoModal = useYesNoModal();
 const router = useRouter();
-const { hasPermission } = useStore();
+const { hasPermission, user } = useStore();
 const { t } = useI18n();
 
+const superUpdate = inject<boolean>('canSuperUpdate');
+
 const isModerator = computed(() => hasPermission('manage-mods', props.mod.game));
+const member = computed(() => user ? props.mod.members.find(member => member.id == user.id) : null);
+const canDelete = computed(() => superUpdate || member.value?.level === 'maintainer');
 
 watch(() => props.mod.game_id, () => props.mod.category_id = undefined);
 
