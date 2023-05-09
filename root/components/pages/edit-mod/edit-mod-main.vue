@@ -3,9 +3,7 @@
 
     <md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
-    <a-input v-if="categories?.data.length" :label="$t('category')">
-        <category-tree v-model="mod.category_id" style="max-height: 200px;" class="input-bg p-2 overflow-y-scroll" :categories="categories.data"/>
-    </a-input>
+    <a-category-select v-if="categories?.data.length" v-model="mod.category_id" :label="$t('category')" :categories="categories.data"/>
 
     <a-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
 
