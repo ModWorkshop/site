@@ -494,6 +494,11 @@ class ModController extends Controller
         ]);
 
         $approve = $val['status'];
+
+        if ($mod->approved === $approve) {
+            abort(405, 'Mod is already '.$approve ? 'approved' : 'rejected');
+        }
+
         if ($val['notify'] ?? true) {
             $members = [$mod->user, ...$mod->membersThatCanEdit];
 
@@ -541,8 +546,10 @@ class ModController extends Controller
 
         $lastSuspension = $mod->lastSuspension;
 
+        $suspend = $val['status'];
+
         if ($val['status'] === $mod->suspended) {
-            abort(409);
+            abort(405, 'Mod is already '.($suspend ? 'suspended' : 'unsuspended'));
         }
 
         if (isset($lastSuspension)) {
@@ -551,7 +558,6 @@ class ModController extends Controller
 
         $suspension = null;
 
-        $suspend = $val['status'];
         $notify = $val['notify'] ?? true;
 
         if ($val['status'] === true) {
