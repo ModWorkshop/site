@@ -7,6 +7,7 @@ use App\Models\ModMember;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Log;
 
 const MOD_MEMBER_RULES_OVER = [
     'owner' => ['maintainer', 'collaborator', 'contributor', 'viewer'],
@@ -90,7 +91,8 @@ class ModMemberController extends Controller
 
         if ($mod->user_id !== $ourUserId && !$this->user()->hasPermission('manage-mods', $mod->game)) {
             $ourLevel = $mod->getMemberLevel($ourUserId);
-            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
+            $theirLevel = $mod->getMemberLevel($member->id, false);
+            if (!isset(MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($theirLevel, MOD_MEMBER_RULES_OVER[$ourLevel]) || !in_array($val['level'], MOD_MEMBER_RULES_OVER[$ourLevel])) {
                 abort(403, "You don't have permission to set such a level.");
             }
         }
