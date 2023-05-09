@@ -179,7 +179,7 @@ class ModController extends Controller
             }
         }
 
-        $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
+        $sendDiscordApproval = !isset($mod) || (isset($val['approved']) && $val['approved'] !== $mod->approved);
 
         if (isset($category) && $category->game_id !== $gameId) {
             abort(409, 'Invalid category. It must belong to the game.');
