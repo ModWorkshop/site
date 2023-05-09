@@ -40,7 +40,7 @@ class ModMemberController extends Controller
 
         # Obviously avoid the owner giving it to themselves. May have weird bugs.
         $ourUserId = $this->userId();
-        if ($mod->user_id != $ourUserId) {
+        if ($mod->user_id === $val['user_id']) {
             abort(403, 'Cannot add the owner as a member!');
         }
 
