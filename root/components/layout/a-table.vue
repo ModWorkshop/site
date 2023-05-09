@@ -1,6 +1,6 @@
 <template>
     <flex column class="table-container">
-        <table :class="{table: true, 'table-bg': background}">
+        <table :class="{table: true, 'table-bg': background, 'alt-table-bg': altBackground}">
             <slot>
                 <thead>
                     <tr>
@@ -20,6 +20,10 @@ defineProps({
     background: {
         type: Boolean,
         default: true
+    },
+    altBackground: {
+        type: Boolean,
+        default: false
     }
 });
 </script>
@@ -38,8 +42,20 @@ defineProps({
 </style>
 
 <style>
-.table td, .table th {
-    padding: 0.5rem;
+.table td {
+    padding: 0.5rem 1.5rem;
+}
+
+.table th {
+    padding: 1rem;
+}
+
+.table-bg th, .table-bg td {
+    background-color: var(--content-bg-color);
+}
+
+.alt-table-bg th, .alt-table-bg td {
+    background-color: var(--alt-content-bg-color);
 }
 
 .table {

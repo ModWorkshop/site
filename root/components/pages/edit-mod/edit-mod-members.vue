@@ -19,7 +19,7 @@
             <label>{{$t('members_tab')}}</label>
             <a-button class="ml-auto" @click="newMember()">{{$t('new')}}</a-button>
         </flex>
-        <a-table>
+        <a-table alt-background>
             <template #head>
                 <th>{{$t('user')}}</th>
                 <th>{{$t('member_level')}}</th>

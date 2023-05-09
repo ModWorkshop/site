@@ -5,7 +5,7 @@
             <a-user-select v-model="userId" clearable/>
         </template>
         <template #items="{ items }">
-            <a-table>
+            <a-table alt-background>
                 <template #head>
                     <th>{{$t('thumbnail')}}</th>
                     <th>{{$t('name')}}</th>

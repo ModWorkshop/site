@@ -3,7 +3,7 @@
         <a-button @click="openDepModal">{{$t('add_mod')}}</a-button>
         <a-button @click="openOffsiteDepModal">{{$t('add_offsite_mod')}}</a-button>
     </flex>
-    <a-table>
+    <a-table alt-background>
         <template #head>
             <th>{{$t('name')}}</th>
             <th>{{$t('url')}}</th>

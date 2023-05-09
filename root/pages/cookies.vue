@@ -4,7 +4,7 @@
         <content-block>
             {{$t('cookies_desc')}}
             <h2>{{$t('first_party_cookies')}}</h2>
-            <a-table class="cookies-table">
+            <a-table class="cookies-table" alt-background>
                 <template #head>
                     <th>{{$t('name')}}</th>
                     <th>{{$t('cookie_explanation')}}</th>

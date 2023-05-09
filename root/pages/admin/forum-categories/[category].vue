@@ -10,7 +10,7 @@
                 <a-select v-model="addRole" :options="roles?.data"/>
                 <a-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</a-button>
             </flex>
-            <a-table>
+            <a-table alt-background>
                 <template #head>
                     <th>{{$t('role')}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
@@ -33,7 +33,7 @@
                 <a-select v-model="addGameRole" :options="validGameRoles"/>
                 <a-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</a-button>
             </flex>
-            <a-table>
+            <a-table alt-background>
                 <template #head>
                     <th>{{$t("role")}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
