@@ -17,7 +17,7 @@
     <flex column class="overflow-hidden">
         <flex class="items-center mb-2">
             <label>{{$t('members_tab')}}</label>
-            <a-button class="ml-auto" @click="newMember()">{{$t('new')}}</a-button>
+            <a-button v-if="levelOptions" class="ml-auto" @click="newMember()">{{$t('new')}}</a-button>
         </flex>
         <a-table alt-background>
             <template #head>
@@ -28,15 +28,15 @@
                 <th class="text-center">{{$t("actions")}}</th>
             </template>
             <template #body>
-                <tr v-for="user of members" :key="user.id">
-                    <td><a-user :user="user"/></td>
-                    <td>{{$t(`member_level_${user.level}`)}}</td>
-                    <td>{{user.accepted ? '✔' : '❌'}}</td>
-                    <td>{{fullDate(user.created_at)}}</td>
+                <tr v-for="m of members" :key="m.id">
+                    <td><a-user :user="m"/></td>
+                    <td>{{$t(`member_level_${m.level}`)}}</td>
+                    <td>{{m.accepted ? '✔' : '❌'}}</td>
+                    <td>{{fullDate(m.created_at)}}</td>
                     <td class="text-center p-1">
                         <flex inline>
-                            <a-button icon="mdi:cog" @click.prevent="editMember(user)"/>
-                            <a-button icon="mdi:trash" @click.prevent="deleteMember(user)"/>
+                            <a-button :disabled="!canEditMember(m)" icon="mdi:cog" @click.prevent="editMember(m)"/>
+                            <a-button :disabled="!canEditMember(m)" icon="mdi:trash" @click.prevent="deleteMember(m)"/>
                         </flex>
                     </td>
                 </tr> 
@@ -64,9 +64,11 @@ import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
 import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../../../store/index';
 const yesNoModal = useYesNoModal();
 const showToast = useQuickErrorToast();
 const { t } = useI18n();
+const { user } = useStore();
 
 const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
 const props = defineProps<{
@@ -74,12 +76,40 @@ const props = defineProps<{
 }>();
 const superUpdate = inject<boolean>('canSuperUpdate');
 
-const levelOptions = [
-    {name: t('member_level_maintainer'), id: 'maintainer'},
-    {name: t('member_level_collaborator'), id: 'collaborator'},
-    {name: t('member_level_viewer'), id: 'viewer'},
-    {name: t('member_level_contributor'), id: 'contributor'},
-];
+const MOD_MEMBER_RULES_OVER = {
+    owner: ['maintainer', 'collaborator', 'contributor', 'viewer'],
+    maintainer: ['collaborator', 'contributor', 'viewer'],
+    collaborator: ['contributor', 'viewer'],
+};
+
+const memberPerms = computed(() => {
+    if (!superUpdate && !member.value?.level) {
+        return null;
+    }
+
+    return MOD_MEMBER_RULES_OVER[superUpdate ? 'owner' : member.value!.level];
+});
+
+const levelOptions = computed(() => {
+    if (!superUpdate && (!member.value || (member.value.level !== 'maintainer' && member.value.level !== 'collaborator'))) {
+        return null;
+    }
+
+    const levels = [
+        {name: t('member_level_viewer'), id: 'viewer'},
+        {name: t('member_level_contributor'), id: 'contributor'},
+    ];
+
+    if (superUpdate) {
+        levels.push({name: t('member_level_maintainer'), id: 'maintainer'});
+    }
+
+    if (superUpdate || member.value?.level == 'maintainer') {
+        levels.push({name: t('member_level_collaborator'), id: 'collaborator'});
+    }
+
+    return levels;
+});
 
 interface EditModMember {
     level: 'collaborator'|'maintainer'|'contributor'|'viewer',
@@ -93,6 +123,7 @@ const showTransferOwner = ref(false);
 const members = ref<ModMember[]>(clone(props.mod.members));
 const currentMember = ref<EditModMember>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
+const member = computed(() => user ? props.mod.members.find(member => member.id == user.id) : null);
 
 async function deleteMember(member: ModMember) {
     yesNoModal({
@@ -130,9 +161,9 @@ async function saveMember(error: (e) => void) {
             await usePatch(`mods/${props.mod.id}/members/${member.user!.id}`, data);
         }
     
-        for (const m of props.mod.members) {
+        for (const m of members.value) {
             if (m.id === member.user!.id) {
-                Object.assign(m, member);
+                m.level = member.level;
             }
         }
     
@@ -162,6 +193,10 @@ async function cancelTransferRequest() {
     } catch (error) {
         showToast(error as FetchError);
     }
+}
+
+function canEditMember(member: ModMember) {
+    return (user && member.id == user.id) || (memberPerms.value ? memberPerms.value.includes(member.level) : false);
 }
 </script>
 
