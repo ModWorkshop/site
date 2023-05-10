@@ -224,7 +224,11 @@ a:link:hover, a:visited:hover {
     transition: color 0.15s ease-in-out;
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: 800;
+}
+
+h1, h2, h3, h4, h5, h6 {
     margin-bottom: .5rem;
     margin-top: 0;
     font-weight: 800;

@@ -5,9 +5,9 @@
             <a-group-button icon="mdi:view-list" :name="1"/>
             <a-group-button icon="mdi:view-headline" :name="2"/>
         </button-group>
-        <flex>
-            <NuxtLink class="text-body" :to="`${link}?sort=daily_score`">
-                <h2>{{$t('popular_mods')}}🌟</h2>
+        <flex class="p-2">
+            <NuxtLink class="text-body h2 my-auto" :to="`${link}?sort=daily_score`">
+                {{$t('popular_mods')}}🌟
             </NuxtLink>
             <a-button class="ml-auto" :to="`${link}?sort=daily_score`">{{$t('browse')}}</a-button>
         </flex>
@@ -21,9 +21,9 @@
                 :mods="popular?.data"
             />
         </flex>
-        <flex>
-            <NuxtLink class="text-body" :to="link">
-                <h2>{{$t('latest_mods')}}</h2>
+        <flex class="p-2">
+            <NuxtLink class="text-body h2 my-auto" :to="link">
+                {{$t('latest_mods')}}
             </NuxtLink>
             <a-button class="ml-auto" :to="link">{{$t('browse')}}</a-button>
         </flex>
