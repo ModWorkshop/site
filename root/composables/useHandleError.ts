@@ -1,23 +1,19 @@
 import { FetchError } from 'ofetch';
-import { Ref } from 'vue';
+import { H3Error }  from 'h3';
 
-function isFetchError(error): error is FetchError {
-    return !!error.response;
-}
-
-export default function(error: FetchError|Error|Ref<true | FetchError | Error | null>, errorStrings: string|Record<number|string, string> = {}) {
+export default function(error: Error|Ref<Error|null>|null, errorStrings: string|Record<number|string, string> = {}) {
     const err = unref(error);
 
     if (err instanceof Error) {
-        if (isFetchError(err)) {
-            const code = err.response?.status;
+        if (err instanceof H3Error || err instanceof FetchError) {
+            const code = err.statusCode;
             throw createError({ 
                 statusCode: code,
                 statusMessage: errorStrings[err.data.message] ?? (code && errorStrings[code] || 'Unknown Error'),
                 fatal: true,
             });
         } else {
-            throw createError({ statusCode: 418, statusMessage: 'Uhh does this ever hit?'});
+            throw createError({ statusCode: 418, statusMessage: 'Something went wrong, please report this error.'});
         }
     } else if (err) {
         throw createError({ statusCode: 404, statusMessage: errorStrings[404] || 'Err', fatal: true});
