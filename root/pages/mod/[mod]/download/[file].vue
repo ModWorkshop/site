@@ -32,7 +32,8 @@ const { public: config } = useRuntimeConfig();
 const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
-    suspended: t('error_suspended')
+    suspended: t('error_suspended'),
+    rejected: t('error_rejected')
 });
 
 const download = ref<HTMLAnchorElement>();

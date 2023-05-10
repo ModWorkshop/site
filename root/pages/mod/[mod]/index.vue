@@ -32,7 +32,8 @@ const store = useStore();
 const { t } = useI18n();
 
 const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', {
-    suspended: t('error_suspended')
+    suspended: t('error_suspended'),
+    rejected: t('error_rejected')
 });
 
 
