@@ -22,8 +22,8 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['view', 'down', 'like']);
 
-            $table->bigInteger('mod_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->integer('mod_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->ipAddress()->nullable();
 
             $table->timestamp('updated_at')->nullable();
@@ -31,6 +31,7 @@ return new class extends Migration
             $table->index('ip_address');
             $table->index('type');
             $table->index('updated_at');
+            $table->index('user_id');
         });
     }
 

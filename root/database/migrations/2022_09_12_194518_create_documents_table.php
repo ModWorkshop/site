@@ -21,8 +21,8 @@ return new class extends Migration
             $table->text('desc');
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-            $table->bigInteger('last_user_id')->unsigned();
-            $table->foreign('last_user_id')->references('id')->on('users');
+            $table->bigInteger('last_user_id')->unsigned()->nullable();
+            $table->foreign('last_user_id')->references('id')->on('users')->nullOnDelete();
 
             $table->timestamps();
 

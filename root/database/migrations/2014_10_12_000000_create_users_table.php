@@ -46,7 +46,16 @@ class CreateUsersTable extends Migration
                 'none'
             ])->default('supporter_or_role');
 
+            $table->ipAddress('last_ip_address')->nullable();
+
+            $table->integer('mod_count')->default(0);
+
             $table->index('unique_name');
+
+            $table->boolean('activated')->default(false);
+
+            $table->string('pending_email')->nullable()->unique();
+            $table->timestamp('pending_email_set_at')->nullable();
 
             $table->timestamps();
         });

@@ -15,15 +15,12 @@ return new class extends Migration
     {
         Schema::create('mod_views', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('mod_id')->unsigned();
-            $table->foreign('mod_id')->references('id')->on('mods')->onDelete('cascade');;
-            $table->bigInteger('user_id')->unsigned()->nullable();;
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->integer('mod_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();;
             $table->ipAddress()->nullable();
             $table->timestamps();
             $table->index('user_id');
             $table->index('mod_id');
-
         });
     }
 

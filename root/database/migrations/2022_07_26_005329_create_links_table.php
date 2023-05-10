@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('url');
             $table->tinyText('version')->default('');
             $table->bigInteger('image_id')->unsigned()->nullable();
-            $table->foreign('image_id')->references('id')->on('images');
+            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
             $table->timestamps();
             $table->index('user_id');
             $table->index('mod_id');

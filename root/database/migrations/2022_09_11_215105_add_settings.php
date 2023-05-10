@@ -57,6 +57,34 @@ return new class extends Migration
             'public' => false,
             'type' => 'string'
         ]);
+
+        Setting::forceCreate([
+            'name' => 'discord_approval_webhook',
+            'value' => '',
+            'public' => false,
+            'type' => 'string'
+        ]);
+
+        Setting::forceCreate([
+            'name' => 'discord_suspension_webhook',
+            'value' => '',
+            'public' => false,
+            'type' => 'string'
+        ]);
+
+        Setting::forceCreate([
+            'name' => 'news_forum_category',
+            'value' => '',
+            'public' => true,
+            'type' => 'integer'
+        ]);
+
+        Setting::forceCreate([
+            'name' => 'game_requests_forum_category',
+            'value' => '',
+            'public' => true,
+            'type' => 'integer'
+        ]);
     }
 
     /**

@@ -31,8 +31,8 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->bigInteger('last_user_id')->unsigned();
-            $table->foreign('last_user_id')->references('id')->on('users');
+            $table->bigInteger('last_user_id')->unsigned()->nullable();
+            $table->foreign('last_user_id')->references('id')->on('users')->nullOnDelete();
 
             $table->index('user_id');
             $table->index('category_id');
@@ -42,6 +42,9 @@ return new class extends Migration
 
             $table->boolean('announce')->default(false);
             $table->dateTime('announce_until')->nullable();
+
+            $table->bigInteger('game_id')->unsigned()->nullable();
+            $table->foreign('game_id')->references('id')->on('games');
 
             $table->timestamps();
         });
