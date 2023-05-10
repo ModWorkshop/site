@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-            $table->tinyText('reason');
+            $table->text('reason');
             $table->boolean('archived')->default(false); //Was marked
             $table->morphs('reportable'); //Was type
             $table->timestamps();
