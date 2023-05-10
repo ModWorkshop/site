@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue';
-
 const props = defineProps({
     name: [String, Number],
     icon: String,

@@ -1,5 +1,3 @@
-import { Ref } from "nuxt/dist/app/compat/capi";
-
 /**
  * Watches watchVal and triggers native validation errors, setting them to a ref.
  */

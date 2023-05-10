@@ -1,5 +1,4 @@
-import { Ref } from 'nuxt/dist/app/compat/capi';
-import { AsyncDataExecuteOptions, KeyOfRes, PickFrom, _Transform } from 'nuxt/dist/app/composables/asyncData';
+import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
 import { SearchParams } from 'ohmyfetch';
 import { useI18n } from "vue-i18n";
 

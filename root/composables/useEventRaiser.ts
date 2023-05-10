@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 /**
  * An event raiser. Generally created due to me not liking the idea of calling events by incrementing values.
  * This is a more "clean" approach as it hides the mechanism.

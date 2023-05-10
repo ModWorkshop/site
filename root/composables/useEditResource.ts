@@ -1,4 +1,3 @@
-import { Ref } from 'nuxt/dist/app/compat/capi';
 import { SearchParams } from "ohmyfetch";
 import { useI18n } from "vue-i18n";
 
