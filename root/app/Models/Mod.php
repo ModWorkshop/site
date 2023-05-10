@@ -484,7 +484,7 @@ class Mod extends Model implements SubscribableInterface
         $category = $this->category;
         
         //Send to main webhook and webhooks that were set by game or category
-        $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category->webhook_url];
+        $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category?->webhook_url];
 
         if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
