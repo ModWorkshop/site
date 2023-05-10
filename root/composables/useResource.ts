@@ -29,18 +29,18 @@ export default async function<T>(
     params?: SearchParams,
     fallback?: T,
     key?: string
-): Promise<_AsyncData<PickFrom<ReturnType<_Transform>, KeyOfRes<_Transform>>, Error | null>> {
+): Promise<_AsyncData<T, Error | null>> {
     const route = useRoute();
     
     const { t } = useI18n();
 
     const id = route.params[`${name}`];
 
-    const res = await useFetchData<T>(`${url}/${id}`, { params, immediate: !!id }, key);
+    const res = await useFetchData<T>(`${url}/${id}`, { params, immediate: !!id }, key) as _AsyncData<T, Error | null>;
 
     //I sometimes really hate typescript, just fucking look at the length of this crap...
     if (!id && fallback) {
-        res.data.value = fallback as T;
+        res.data.value = fallback;
     }
 
     const { error } = res;
