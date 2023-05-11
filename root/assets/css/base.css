@@ -535,3 +535,26 @@ svg:not(:root).icon, svg:not(:host).icon {
     border-left: solid 3px #ffd400;
     border-radius: var(--border-radius);
 }
+
+.ad-scroll {
+    top: 5rem !important;
+    position: fixed !important;
+}
+
+.ad-sides {
+    display: none;
+    position: absolute;
+    transition: top 0.25s;
+}
+
+.ad-sides>div {
+    width: 160px;
+}
+
+@media (min-width:1280px) {
+    .ad-sides {
+        display: block !important;
+        width: 160px;
+        height: 610px;
+    }
+}
