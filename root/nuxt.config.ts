@@ -93,7 +93,6 @@ export default defineNuxtConfig({
 
 	vite: {
 		build: {
-			target: 'es2021',
 			chunkSizeWarningLimit: 1000
 		}
 	},
