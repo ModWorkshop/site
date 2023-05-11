@@ -24,16 +24,15 @@
             </flex>
 
             <flex class="colllaborators-block" column>
-                <a-user :user="mod.user" :details="$t('owner')">
-                    <template #attach>
-                        <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
-                    </template>
-                </a-user>
-                <a-user v-for="member of members" :key="member.id" :user="member" :details="$t(`member_level_${member.level}`)">
-                    <template #attach>
-                        <donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
-                    </template>
-                </a-user>
+                <flex>
+                    <a-user :user="mod.user" :details="$t('owner')"/>
+                    <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
+                </flex>
+
+                <flex v-for="member of members" :key="member.id">
+                    <a-user :user="member" :details="$t(`member_level_${member.level}`)"/>
+                    <donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
+                </flex>
             </flex>
         </flex>
     </flex>
