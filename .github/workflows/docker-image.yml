@@ -46,6 +46,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: user/app:latest
-          cache-from: type=registry,ref=user/app:latest
+          tags: modworkshop/mws-frontend:main:latest
+          cache-from: type=registry,ref=modworkshop/mws-frontend:main:latest
           cache-to: type=inline
