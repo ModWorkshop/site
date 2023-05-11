@@ -13,7 +13,7 @@
                 :notifiable="notifiable"
                 :data="data"
             />
-            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" class="w-full" style="word-wrap: anywhere;">
+            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" class="w-full" style="word-wrap: anywhere;" scope="global">
                 <template #user>
                     <a-notification-slot type="user" :object="fromUser"/>
                 </template>

@@ -4,7 +4,7 @@
             <h1>{{document.name}}</h1>
             <flex class="items-center">
                 <a-icon icon="clock" :title="$t('last_updated')"/>
-                <i18n-t keypath="by_user_time_ago">
+                <i18n-t keypath="by_user_time_ago" scope="global">
                     <template #time>
                         <time-ago :time="document.updated_at"/>
                     </template>

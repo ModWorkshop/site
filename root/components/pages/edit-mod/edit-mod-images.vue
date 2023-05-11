@@ -1,6 +1,6 @@
 <template>
     <a-alert v-if="mod.legacy_banner_url" color="warning" class="mb-4">
-        <i18n-t keypath="banner_url_warning" tag="span">
+        <i18n-t keypath="banner_url_warning" tag="span" scope="global">
             <template #url>
                 <NuxtLink :href="mod.legacy_banner_url">{{mod.legacy_banner_url}}</NuxtLink>
             </template>

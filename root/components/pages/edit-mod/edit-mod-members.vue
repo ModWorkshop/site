@@ -1,7 +1,7 @@
 <template>
     <flex v-if="superUpdate" column>
         <a-alert v-if="mod.transfer_request">
-            <i18n-t keypath="already_sent_transfer">
+            <i18n-t keypath="already_sent_transfer" scope="global">
                 <template #user>
                     <a-user :user="mod.transfer_request.user" avatar-size="xs"/>
                 </template>

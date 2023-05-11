@@ -12,7 +12,7 @@
             <flex column>
                 ModWorkshop v3.0 Beta
                 <span>
-                    <i18n-t keypath="made_with_love">
+                    <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
                             <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                         </template>
@@ -20,7 +20,7 @@
                 </span>
             </flex>
             <flex class="items-center">
-                <i18n-t keypath="operated_by">
+                <i18n-t keypath="operated_by" scope="global">
                     <template #company>
                         <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24"/> Milk Deluxe
                     </template>

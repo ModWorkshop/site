@@ -5,7 +5,7 @@
             <div>{{$t('reason')}}: "{{userCase.reason}}"</div>
             <flex class="items-center">
                 {{$t('issued')}}:
-                <i18n-t v-if="userCase.mod_user" keypath="by_user_time_ago">
+                <i18n-t v-if="userCase.mod_user" keypath="by_user_time_ago" scope="global">
                     <template #time>
                         <time-ago null-is-never :time="userCase.created_at"/>
                     </template>

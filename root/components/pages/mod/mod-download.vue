@@ -14,7 +14,7 @@
             <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
             <flex class="items-center mt-auto">
                 <a-icon icon="clock" :title="$t('upload_date')"/>
-                <i18n-t keypath="by_user_time_ago">
+                <i18n-t keypath="by_user_time_ago" scope="global">
                     <template #time>
                         <time-ago :time="file.created_at"/>
                     </template>

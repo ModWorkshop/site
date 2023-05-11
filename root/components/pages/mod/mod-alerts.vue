@@ -2,7 +2,7 @@
     <the-tag-notices v-if="mod.tags" :tags="mod.tags"/>
     <flex v-if="hasAlerts" column gap="2">
         <a-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
-            <i18n-t keypath="mod_suspended" tag="span">
+            <i18n-t keypath="mod_suspended" tag="span" scope="global">
                 <template #reason>
                     <span v-if="mod.last_suspension">
                         {{mod.last_suspension.reason}}

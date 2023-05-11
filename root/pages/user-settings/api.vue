@@ -4,7 +4,7 @@
         <a-input type="checkbox" :label="true">
             <template #label>
                 <span>
-                    <i18n-t keypath="api_access_checkbox">
+                    <i18n-t keypath="api_access_checkbox" scope="global">
                         <template #here>
                             <NuxtLink to="/document/api-tos">{{$t('here')}}</NuxtLink>
                         </template>

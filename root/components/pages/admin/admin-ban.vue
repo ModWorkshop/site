@@ -4,7 +4,7 @@
             <flex class="items-center">{{$t('user')}}: <a-user :user="ban.user" avatar-size="xs"/></flex>
             <flex class="items-center">
                 {{$t('issued')}}:
-                <i18n-t v-if="ban.mod_user" keypath="by_user_time_ago">
+                <i18n-t v-if="ban.mod_user" keypath="by_user_time_ago" scope="global">
                     <template #time>
                         <time-ago null-is-never :time="ban.created_at"/>
                     </template>

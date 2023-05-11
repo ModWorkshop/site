@@ -26,7 +26,7 @@
                                 <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
                             </span>
                             <span>
-                                <i18n-t keypath="expires_t">
+                                <i18n-t keypath="expires_t" scope="global">
                                     <template #time>
                                         <time-ago :time="store.gameBan.expire_date"/>
                                     </template>

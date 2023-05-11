@@ -3,7 +3,7 @@
         <Title>{{$t('games')}}</Title>
         <flex column class="items-center">
             <h2>{{$t('games_hosted', { n: games?.meta.total })}}</h2>
-            <i18n-t keypath="want_your_game" tag="h3">
+            <i18n-t keypath="want_your_game" tag="h3" scope="global">
                 <template #here>
                     <NuxtLink :to="`forum?category=${settings?.game_requests_forum_category}`">{{$t('here')}}</NuxtLink>
                 </template>

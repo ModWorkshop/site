@@ -9,7 +9,7 @@
                         {{provider.name}}
                     </flex>
                     <span v-if="provider.account">
-                        <i18n-t v-if="provider.account" keypath="linked_time_ago" tag="span">
+                        <i18n-t v-if="provider.account" keypath="linked_time_ago" tag="span" scope="global">
                             <template #time_ago>
                                 <time-ago :time="provider.account.created_at"/>
                             </template>
