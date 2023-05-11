@@ -9,6 +9,7 @@
   "devDependencies": {
     "@antfu/utils": "^0.7.2",
     "@nuxt/image-edge": "^1.0.0-testing",
+    "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.6.5",
     "@pinia/nuxt": "^0.4.6",
     "@types/luxon": "^3.3.0",
@@ -27,6 +28,7 @@
     "nuxt": "^3.4.3",
     "nuxt-delay-hydration": "^1.1.1",
     "nuxt-icon": "^0.3.2",
+    "nuxt-simple-sitemap": "^2.5.0",
     "typescript": "^5.0.4",
     "vue-easy-lightbox": "^1.13.0",
     "vue-i18n": "9.3.0-beta.17",

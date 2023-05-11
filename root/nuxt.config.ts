@@ -1,6 +1,10 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 
 export default defineNuxtConfig({
+	devServer: {
+		host: '0.0.0.0',
+	},
+
 	runtimeConfig: {
 		public: { apiUrl: '', siteUrl: '', storageUrl: '', debug_legacy_images: false , is_production: false },
 		innerApiUrl: ''
@@ -94,11 +98,12 @@ export default defineNuxtConfig({
 	},
 
 	modules: [
+		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
-		'nuxt-icon'
-		// 'floating-vue/nuxt'
+		'nuxt-icon',
+		'nuxt-simple-sitemap',
 	],
 });
