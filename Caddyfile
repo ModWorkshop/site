@@ -1,9 +1,9 @@
 :8080 {
-	# @static {
-	# 	file
-	# 	path *.ico *.css *.js *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
-	# }
-	# header @static Cache-Control max-age=5184000
+	@static {
+		file
+		path *.ico *.css *.js *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+	}
+	header @static Cache-Control max-age=5184000
 
 	root * /var/www/html/public
 
