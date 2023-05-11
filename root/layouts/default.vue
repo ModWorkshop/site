@@ -92,20 +92,20 @@ onMounted(() => {
     });
 });
 
-useHead({
-    script: [
-        { 
-            innerHTML: `
-                !function(e){var s=new XMLHttpRequest;s.open("GET","https://api.enthusiastgaming.net/scripts/cdn.enthusiast.gg/script/eg-aps/release/eg-aps-bootstrap-v2.0.0.bundle.js?site=modworkshop.net",!0),s.onreadystatechange=function(){var t;4==s.readyState&&(200<=s.status&&s.status<300||304==s.status)&&((t=e.createElement("script")).type="text/javascript",t.text=s.responseText,e.head.appendChild(t))},s.send(null)}((window,document));
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-M3R4JTX');
-            `
-        }
-    ]
-});
+// useHead({
+//     script: [
+//         { 
+//             innerHTML: `
+//                 !function(e){var s=new XMLHttpRequest;s.open("GET","https://api.enthusiastgaming.net/scripts/cdn.enthusiast.gg/script/eg-aps/release/eg-aps-bootstrap-v2.0.0.bundle.js?site=modworkshop.net",!0),s.onreadystatechange=function(){var t;4==s.readyState&&(200<=s.status&&s.status<300||304==s.status)&&((t=e.createElement("script")).type="text/javascript",t.text=s.responseText,e.head.appendChild(t))},s.send(null)}((window,document));
+//                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+//                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+//                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+//                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+//                 })(window,document,'script','dataLayer','GTM-M3R4JTX');
+//             `
+//         }
+//     ]
+// });
 </script>
 
 <style>
