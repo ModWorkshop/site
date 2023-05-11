@@ -2,6 +2,7 @@
     <VMenu 
         v-model:shown="renderProfile"
         :delay="{ show: 500, hide: 100 }"
+        placement="bottom-start"
         :auto-hide="false"
         :disabled="!miniProfile || static"
     >
