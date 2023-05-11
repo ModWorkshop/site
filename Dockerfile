@@ -17,5 +17,6 @@ WORKDIR /var/www/html
 
 RUN yarn && yarn build
 
-CMD node .output/server/index.mjs
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile "]
+
 # CMD yarn && yarn dev
