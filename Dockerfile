@@ -13,14 +13,14 @@ ENV LOG_STDERR=/proc/self/fd/2
 ENV PHPIZE_DEPS \
   php81-pear \
   php81-dev \
-  php81-pecl-imagick \
+  imagemagick-dev \
   gcc \
   musl-dev \
   make
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps ${PHPIZE_DEPS} \
     && pecl install apfd \
-    && pecl install imagick \
+    && pecl install imagick-3.4.4 \
     && apk del .build-deps
 
 # libvips
@@ -63,4 +63,4 @@ RUN
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # Install composer packages
-RUN composer install --no-interaction
+RUN composer install --no-interaction --no-dev
