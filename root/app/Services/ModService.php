@@ -53,14 +53,25 @@ class ModService {
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {
                 $loopCheck[$category->id] = true;
-                $arr = [
-                    ...$arr,
-                    ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
-                        'name' => $category->name,
-                        'id' => $category->id,
-                        'type' => 'category'
-                    ]], $loopCheck),
-                ];
+                if (isset($game)) {
+                    $arr = [
+                        ...$arr,
+                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                            'name' => $category->name,
+                            'id' => $category->id,
+                            'type' => 'category'
+                        ]], $loopCheck),
+                    ];
+                } else {
+                    $arr = [
+                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                            'name' => $category->name,
+                            'id' => $category->id,
+                            'type' => 'category'
+                        ]], $loopCheck),
+                        ...$arr,
+                    ];
+                }
             } else {
                 Log::alert('Category loop detected! Please look into the database.', $category->toArray());
             }
