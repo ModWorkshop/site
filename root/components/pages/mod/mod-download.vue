@@ -1,10 +1,10 @@
 <template>
-    <flex wrap class="list-button">
+    <flex wrap class="flex-col md:flex-row list-button">
         <div class="mr-2">
             <a-img v-if="image" url-prefix="mods/images" :src="image.file" width="128" height="128"/>
             <a-img v-else src="file-download.webp" is-asset width="128" height="128"/>
         </div>
-        <flex grow column>
+        <flex grow column style="flex: 1;">
             <a-tag v-if="file.label" class="mr-auto">{{file.label}}</a-tag>
             <h3 v-if="file.name">{{file.name}}</h3>
             <h3 v-else>{{$t(`file_type_${type}`)}}</h3>
@@ -24,7 +24,7 @@
                 </i18n-t>
             </flex>
         </flex>
-        <div class="my-auto">
+        <div class="my-auto mx-auto">
             <a-button v-if="type == 'file' && (file as File).size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`" icon="mdi:download">
                 {{$t('download')}}
                 <small class="mt-2 text-center block">{{(file as File).type}} - {{friendlySize((file as File).size)}}</small>
