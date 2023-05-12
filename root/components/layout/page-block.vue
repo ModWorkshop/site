@@ -1,7 +1,7 @@
 <template>
     <flex column :class="classes" :gap="gap">
         <flex class="page-block-nm mx-auto" column gap="4">
-            <flex v-if="announcements.length" column>
+            <flex v-if="announcements?.length" column>
                 <h4>📢 {{$t('announcements')}}</h4>
                 <flex class="md:flex-row flex-col">
                     <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
