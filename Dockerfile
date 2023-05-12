@@ -20,6 +20,7 @@ ENV PHPIZE_DEPS \
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps ${PHPIZE_DEPS} \
     && pecl install apfd \
+    && pecl install imagick \
     && apk del .build-deps
 
 # libvips
