@@ -2,7 +2,7 @@
 
 ## ModWorkshop Backend
 
-This repository contains the source code for the backend side of ModWorkshop-V3+
+This repository contains the source code for the backend side of ModWorkshop
 The backend uses the Laravel framework.
 
 ## Installation
