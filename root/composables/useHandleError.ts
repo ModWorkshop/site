@@ -1,7 +1,7 @@
 import { FetchError } from 'ofetch';
 import { H3Error }  from 'h3';
 
-export default function(error: Error|Ref<Error|null>|null, errorStrings: string|Record<number|string, string> = {}) {
+export default function(error: unknown|Error|Ref<Error|null>|null, errorStrings: string|Record<number|string, string> = {}) {
     const err = unref(error);
 
     if (err instanceof Error) {

@@ -86,7 +86,7 @@ const reportedUser = computed(() => {
 
 async function toggleArchiveReport(report) {
     const archived = !report.archived;
-    await usePatch(`reports/${report.id}`, { archived });
+    await patchRequest(`reports/${report.id}`, { archived });
     report.archived = !report.archived;
     if (props.game) {
         props.game.report_count = Math.max(0, props.game.report_count! + (archived ? -1 : 1));
@@ -95,7 +95,7 @@ async function toggleArchiveReport(report) {
 }
 
 async function deleteReport(report) {
-    await useDelete(`reports/${report.id}`);
+    await deleteRequest(`reports/${report.id}`);
     remove(props.reports, report);
 }
 

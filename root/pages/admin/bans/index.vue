@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { Ban, Game } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
@@ -50,7 +49,7 @@ const { data: bans, loading } = await useWatchedFetchMany<Ban>(url.value, { page
 
 async function ban() {
     try {
-        const ban = await usePost<Ban>(url.value, { 
+        const ban = await postRequest<Ban>(url.value, { 
             user_id: banUser.value,
             reason: reason.value,
             expire_date: banDuration.value,
@@ -68,7 +67,7 @@ async function ban() {
             color: 'success'
         });
     } catch (e) {
-        showErrorToast(e as FetchError, {
+        showErrorToast(e, {
             405: t('ban_error_405')
         });
     }

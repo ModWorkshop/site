@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { Settings } from '~~/types/models';
 useNeedsPermission('admin');
 
@@ -38,10 +37,10 @@ const { data: settings } = await useFetchData<Settings>('settings');
 
 async function submit() {
     try {
-        await usePatch('settings', settings.value!);
+        await patchRequest('settings', settings.value!);
         ignoreChanges.execute();
     } catch (error) {
-        showError(error as FetchError);
+        showError(error);
     }
 }
 </script>

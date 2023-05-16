@@ -47,7 +47,7 @@ const { data: supporters, loading } = await useWatchedFetchMany<Supporter>('supp
 
 async function upgrade() {
     try {
-        const supporter = await usePost<Supporter>('supporters', {
+        const supporter = await postRequest<Supporter>('supporters', {
             user_id: user.value,
             duration: duration.value
         });
@@ -65,7 +65,7 @@ function removeSupporter(supporter: Supporter) {
         title: t('stop_supporter_status'),
         desc: t('stop_supporter_status_desc'),
         async yes() {
-            await useDelete(`supporters/${supporter.id}`);
+            await deleteRequest(`supporters/${supporter.id}`);
             if (supporters.value?.data) {
                 remove(supporters.value.data, supporter);
             }

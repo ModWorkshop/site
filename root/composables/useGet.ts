@@ -26,16 +26,7 @@ export default async function<T = unknown>(url: string, options?) {
         //This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
         //tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
         
-        url += qs.stringify(options.params, { 
-            arrayFormat: 'brackets',
-            addQueryPrefix: true,
-            encoder: function (str, defaultEncoder, charset, type) {
-                if (type == 'value' && typeof str == 'boolean') {
-                    return str ? 1 : 0;
-                }
-                return str;
-            },
-        });
+        url += buildQueryParams(options.params);
     }
 
     const res = await $fetch<T>(url, {

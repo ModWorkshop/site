@@ -71,7 +71,7 @@ const hasAlerts = computed(() =>
 );
 
 async function acceptMembership(accept: boolean) {
-    await usePatch(`mods/${props.mod.id}/members/accept`, { accept });
+    await patchRequest(`mods/${props.mod.id}/members/accept`, { accept });
     memberWaiting.value!.accepted = accept;
     if (!accept) {
         remove(props.mod.members, memberWaiting.value);
@@ -79,7 +79,7 @@ async function acceptMembership(accept: boolean) {
 }
 
 async function acceptTransfer(accept: boolean) {
-    await usePatch(`mods/${props.mod.id}/owner/accept`, { accept });
+    await patchRequest(`mods/${props.mod.id}/owner/accept`, { accept });
     if (accept) {
         props.mod.user_id = user!.id;
         props.mod.user = user!;

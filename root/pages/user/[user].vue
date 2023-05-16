@@ -178,14 +178,14 @@ async function blockUser() {
             title: t('are_you_sure'),
             desc: t('block_user_desc'),
             async yes() {
-                await usePost('blocked-users', { user_id: user.value.id, silent: false });
+                await postRequest('blocked-users', { user_id: user.value.id, silent: false });
                 
                 tempBlockOverride.value = false;
                 user.value.blocked_by_me = { silent: false };
             }
         });
     } else {
-        await useDelete(`blocked-users/${user.value.id}`);
+        await deleteRequest(`blocked-users/${user.value.id}`);
         tempBlockOverride.value = false;
         user.value.blocked_by_me = null;
     }
@@ -200,9 +200,9 @@ function hideUserMods() {
         async yes() {
 
             if (block) {
-                await usePost('blocked-users', { user_id: user.value.id, silent: true });
+                await postRequest('blocked-users', { user_id: user.value.id, silent: true });
             } else {
-                await useDelete(`blocked-users/${user.value.id}`);
+                await deleteRequest(`blocked-users/${user.value.id}`);
             }
 
             tempBlockOverride.value = false;
@@ -217,7 +217,7 @@ function showDeleteAllModsModal() {
         title: t('are_you_sure'),
         desc: 'This will delete all mods the user uploaded to the site!',
         async yes() {
-            await useDelete(`users/${user.value.id}/mods`);
+            await deleteRequest(`users/${user.value.id}/mods`);
             triggerRefresh.execute();
         }
     });
@@ -228,7 +228,7 @@ function showDeleteDiscussionsModal() {
         title: t('are_you_sure'),
         desc: 'This will delete all threads and comments the user posted to the site!',
         async yes() {
-            await useDelete(`users/${user.value.id}/discussions`);
+            await deleteRequest(`users/${user.value.id}/discussions`);
         }
     });
 }

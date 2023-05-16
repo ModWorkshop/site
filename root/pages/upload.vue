@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Category, Game, Mod } from '~~/types/models';
@@ -129,32 +128,26 @@ async function save(goToPage: boolean, publishMod?: boolean) {
     step.value = 3;
 
     try {
-        await usePatch<Mod>(`mods/${mod.value.id}`, {...mod.value, publish: publishMod ?? publish.value});
+        await patchRequest<Mod>(`mods/${mod.value.id}`, {...mod.value, publish: publishMod ?? publish.value});
         if (goToPage) {
             router.push(`/mod/${mod.value.id}`);
         } 
     } catch (error) {
-        if (error instanceof FetchError) {
-            showToast(error);
-        }
-        return;
+        showToast(error);
     }
 }
 
 async function create(goToPage: boolean) {
     try {
         mod.value.game_id = gameId.value;
-        mod.value = await usePost<Mod>(`games/${gameId.value}/mods`, mod.value);
+        mod.value = await postRequest<Mod>(`games/${gameId.value}/mods`, mod.value);
         if (goToPage) {
             router.push(`/mod/${mod.value.id}`);
         } else {
             step.value = 2;
         }
     } catch (error) {
-        if (error instanceof FetchError) {
-            showToast(error);
-        }
-        return;
+        showToast(error);
     }
 }
 </script>

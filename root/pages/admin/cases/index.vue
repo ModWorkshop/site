@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { FetchError } from 'ofetch';
 import { Game, UserCase } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
@@ -48,7 +47,7 @@ const warnDuration = ref();
 
 async function warn() {
     try {
-        const userCase = await usePost<UserCase>(props.game ? `games/${props.game.id}/user-cases` : 'user-cases', { 
+        const userCase = await postRequest<UserCase>(props.game ? `games/${props.game.id}/user-cases` : 'user-cases', { 
             user_id: warnUser.value,
             reason: reason.value,
             expire_date: warnDuration.value,
@@ -57,7 +56,7 @@ async function warn() {
         warnUser.value = null;
         cases.value?.data.unshift(userCase);
     } catch (e) {
-        showErrorToast(e as FetchError);
+        showErrorToast(e);
     }
 }
 

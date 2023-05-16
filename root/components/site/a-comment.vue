@@ -172,9 +172,9 @@ async function subscribe() {
     try {
         const url = `comments/${props.comment.id}`;
         if (props.comment.subscribed) {
-            await useDelete(`${url}/subscription`);
+            await deleteRequest(`${url}/subscription`);
         } else {
-            await usePost(`${url}/subscription`);
+            await postRequest(`${url}/subscription`);
         }
         props.comment.subscribed = !props.comment.subscribed;
     } catch (error) {

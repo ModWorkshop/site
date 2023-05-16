@@ -45,11 +45,11 @@ const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: fa
 
 const { data: gameRoles } = await useFetchMany<Role>(() => `games/${game.value.id}/roles`, { immediate: !!game.value });
     async function saveGameRoles() {
-    await usePatch(`games/${game.value.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
+    await patchRequest(`games/${game.value.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
 }
 
 async function saveRoles() {
-    await usePatch(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
+    await patchRequest(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
 }
 
 watch(user.value.role_ids, racalculateUserStuff);

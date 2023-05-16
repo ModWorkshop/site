@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 
@@ -50,15 +49,13 @@ const store = useStore();
 
 async function login() {
     try {
-        await usePost('/login', user);
+        await postRequest('/login', user);
         store.attemptLoginUser();
     } catch (e) {
-        if (e instanceof FetchError) {
-            showErrorToast(e, {
-                401: t('login_error_401'),
-                422: t('login_error_422')
-            });
-        }
+        showErrorToast(e, {
+            401: t('login_error_401'),
+            422: t('login_error_422')
+        });
     }
 }
 </script>

@@ -60,13 +60,13 @@ const resending = ref(false);
 
 async function resendVerification() {
     resending.value = true;
-    await usePost('email/resend');
+    await postRequest('email/resend');
     resending.value = false;
 }
 
 async function cancelPending() {
     resending.value = true;
-    await usePost('email/cancel-pending');
+    await postRequest('email/cancel-pending');
     await store.reloadUser();
     resending.value = false;
 }

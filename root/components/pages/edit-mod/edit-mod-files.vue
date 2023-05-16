@@ -157,7 +157,7 @@ async function saveEditFile(error) {
                 formData.append(key, value ? value : '');
             }
 
-            await usePatch(`files/${file.id}`, formData, {
+            await patchRequest(`files/${file.id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
@@ -186,7 +186,7 @@ function editLink(link: Link) {
 }
 
 async function deleteLink(link: Link) {
-    await useDelete(`links/${link.id}`);
+    await deleteRequest(`links/${link.id}`);
     links.value!.data = links.value!.data.filter(l => l.id !== link.id);
 
     updateHasDownload();
@@ -211,12 +211,12 @@ async function saveEditLink(error) {
     try {
         if (link) {
             if (link.id == -1) {
-                const newLink = await usePost<Link>(`mods/${props.mod.id}/links`, link);
+                const newLink = await postRequest<Link>(`mods/${props.mod.id}/links`, link);
                 if (links.value) {
                     links.value.data.push(newLink);
                 }
             } else {
-                await usePatch(`links/${link.id}`, link);
+                await patchRequest(`links/${link.id}`, link);
             }
     
             if (links.value) {

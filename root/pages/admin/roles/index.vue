@@ -115,7 +115,7 @@ async function onDrop() {
         roles.value!.data = newRoles.sort((a,b) => b.order - a.order);
         calculateHighestOrder();
 
-        await usePatch(`${url.value}/${draggedItem.value.id}`, { order: dragged.order });
+        await patchRequest(`${url.value}/${draggedItem.value.id}`, { order: dragged.order });
     }
 }
 

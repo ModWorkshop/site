@@ -143,10 +143,10 @@ const breadcrumb = computed(() => {
 });
 
 async function pinThread() {
-    thread.value = await usePatch(`threads/${thread.value.id}`, { pinned: !thread.value.pinned_at });
+    thread.value = await patchRequest(`threads/${thread.value.id}`, { pinned: !thread.value.pinned_at });
 }
 
 async function lockThread() {
-    thread.value = await usePatch(`threads/${thread.value.id}`, { locked: !thread.value.locked });
+    thread.value = await patchRequest(`threads/${thread.value.id}`, { locked: !thread.value.locked });
 }
 </script>

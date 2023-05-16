@@ -18,6 +18,5 @@ export default async function<T>(url: string|(() => string), options: DifferentF
         lazy: options.lazy,
         immediate: options.immediate
     });
-    //TODO: decide the thing with caching. Caching can be useful in certain situations, however we can't use it for a few things.
     //For example we can't use it for mods, they constantly change and unless we have time option it'll cause a lot of issues.
 }

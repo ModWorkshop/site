@@ -46,7 +46,7 @@ function deleteMod() {
     yesNoModal({
         desc: t('delete_mod_desc'),
         async yes() {
-            await useDelete(`mods/${props.mod.id}`);
+            await deleteRequest(`mods/${props.mod.id}`);
             router.push('/');
         }
     });

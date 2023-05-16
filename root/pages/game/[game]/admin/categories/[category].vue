@@ -64,14 +64,4 @@ const validCategories = computed(() => categories.value?.data.filter(cat => {
     //Don't include any child categories to avoid circular reference
     return cat.parent_id != category.value.id;
 }) || []);
-
-function deleteCategory() {
-    yesNoModal({
-        desc: t('delete_category_warning'),
-        async yes() {
-            await useDelete(`categories/${category.value.id}`);
-            router.push('/');
-        }
-    });
-}
 </script>

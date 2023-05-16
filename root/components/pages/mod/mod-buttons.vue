@@ -46,7 +46,7 @@ function deleteAllFiles() {
         desc: t('delete_files_desc'),
         descType: 'warning',
         async yes() {
-            await useDelete(`mods/${props.mod.id}/files`);
+            await deleteRequest(`mods/${props.mod.id}/files`);
             props.mod.files = new Paginator();
             if (props.mod.download_type == 'file') {
                 props.mod.download = undefined;
@@ -62,7 +62,7 @@ function deleteAllImages() {
         desc: t('delete_images_desc'),
         descType: 'warning',
         async yes() {
-            await useDelete(`mods/${props.mod.id}/images`);
+            await deleteRequest(`mods/${props.mod.id}/images`);
             props.mod.images = [];
             props.mod.thumbnail = undefined;
             props.mod.thumbnail_id = undefined;

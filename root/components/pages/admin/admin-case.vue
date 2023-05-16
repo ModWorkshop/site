@@ -52,7 +52,7 @@ async function deleteCase() {
     yesNoModal({
         desc: t('delete_case_warn'),
         async yes() {
-            await useDelete(`user-cases/${props.userCase.id}`);
+            await deleteRequest(`user-cases/${props.userCase.id}`);
             emit('delete', props.userCase);   
         }
     });

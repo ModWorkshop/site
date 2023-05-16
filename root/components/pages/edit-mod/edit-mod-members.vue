@@ -62,7 +62,6 @@
 import { Mod, ModMember, TransferRequest } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../../../store/index';
 const yesNoModal = useYesNoModal();
@@ -130,7 +129,7 @@ async function deleteMember(member: ModMember) {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await useDelete(`mods/${props.mod.id}/members/${member.id}`);
+            await deleteRequest(`mods/${props.mod.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
             props.mod.members = clone(members.value);
 
@@ -155,10 +154,10 @@ async function saveMember(error: (e) => void) {
 
     try {
         if (member.new) {
-            const newMember = await usePost<ModMember>(`mods/${props.mod.id}/members`, data);
+            const newMember = await postRequest<ModMember>(`mods/${props.mod.id}/members`, data);
             members.value.push(newMember);
         } else {
-            await usePatch(`mods/${props.mod.id}/members/${member.user!.id}`, data);
+            await patchRequest(`mods/${props.mod.id}/members/${member.user!.id}`, data);
         }
     
         for (const m of members.value) {
@@ -176,22 +175,22 @@ async function saveMember(error: (e) => void) {
 
 async function transferOwnership() {
     try {
-        const request = await usePatch<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
+        const request = await patchRequest<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
         props.mod.transfer_request = request;
         showTransferOwner.value = false;
         ignoreChanges?.();
     } catch (error) {
-        showToast(error as FetchError);
+        showToast(error);
     }
 }
 
 async function cancelTransferRequest() {
     try {
-        await usePatch(`mods/${props.mod.id}/owner/cancel`);
+        await patchRequest(`mods/${props.mod.id}/owner/cancel`);
         props.mod.transfer_request = undefined;
         ignoreChanges?.();
     } catch (error) {
-        showToast(error as FetchError);
+        showToast(error);
     }
 }
 

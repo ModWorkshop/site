@@ -111,7 +111,7 @@ export const useStore = defineStore('main', {
         },
 
         async logout(redirect: string|boolean='/') {
-            await usePost('/logout');
+            await postRequest('/logout');
             reloadToken();
 
             if (typeof(redirect) == 'string') {

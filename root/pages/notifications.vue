@@ -32,7 +32,7 @@ async function deleteAll() {
         desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
-            await useDelete('notifications');
+            await deleteRequest('notifications');
             if (notifications.value) {
                 notifications.value.data.splice(0);
             }
@@ -46,7 +46,7 @@ async function deleteReadNotifications() {
         desc: t('irreversible_action'),
         descType: 'danger',
         async yes() {
-            await useDelete('notifications/read');
+            await deleteRequest('notifications/read');
             if (notifications.value) {
                 notifications.value.data.forEach((item, i) => {
                     if (item.seen) {
@@ -59,7 +59,7 @@ async function deleteReadNotifications() {
 }
 
 async function markAllAsRead() {
-    await usePost('notifications/read-all');
+    await postRequest('notifications/read-all');
     if (notifications.value) {
         notifications.value.data.forEach(item => item.seen = true);
     }

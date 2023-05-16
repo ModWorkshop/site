@@ -35,11 +35,9 @@ export function canSuperUpdate(mod: Mod) {
 }
 
 export function registerDownload(mod) {
-    usePost(`mods/${mod.id}/register-download`, null, {
-        async onResponse({ response }) {
-            if (response.status == 201) {
-                mod.downloads++;
-            }
+    postRequest(`mods/${mod.id}/register-download`, null).then((response: any) => {
+        if (response.status == 201) {
+            mod.downloads++;
         }
     });
 }
