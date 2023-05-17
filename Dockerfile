@@ -1,11 +1,11 @@
+#### Stage Caddy ####
 FROM caddy:builder-alpine AS caddy-builder
 RUN xcaddy build
 
 COPY ./Caddyfile /etc/caddy/Caddyfile
+########
 
-#Multi stage build
-
-# Stage 1
+#### Stage 1 ####
 FROM node:18-alpine as builder
 
 # Copy and set directory
@@ -14,17 +14,16 @@ WORKDIR /var/www/html
 
 # Install deps and build the site
 RUN yarn && yarn build
+########
 
-# Delete unused files/folders. Nuxt makes us .output and .nuxt that handle everything for us!
-RUN  find -maxdepth 1 ! -name ".output" ! -name ".nuxt" -exec rm -rv {} \;
-
-# Stage 2
-
+#### Stage 2 ####
 FROM node:18-alpine as runner
-WORKDIR /var/www/html 
 
-COPY --from=builder ./ ./
+COPY --from=builder  /var/www/html/.nuxt  /var/www/html/.nuxt
+COPY --from=builder  /var/www/html/.output  /var/www/html/.output
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+
+WORKDIR /var/www/html 
 
 # All ready now
 EXPOSE 3000
