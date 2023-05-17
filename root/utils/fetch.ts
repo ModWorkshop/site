@@ -18,6 +18,7 @@ export async function postRequest<T>(url: string, body?: object|null, config?: A
     const { public: runtimeConfig } = useRuntimeConfig();
 
     const { data } = await axios.request<T>({
+        method: 'POST',
         url,
         data: body,
         withCredentials: true,
