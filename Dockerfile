@@ -13,10 +13,11 @@ ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
 RUN set -eux \
-    && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips redis \
+    && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
     && pecl install apfd \
     && pecl install imagick \
     && apk del .build-deps
+RUN apk add redis
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
