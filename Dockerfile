@@ -23,7 +23,6 @@ COPY ./Caddyfile /etc/caddy/Caddyfile
 
 WORKDIR /var/www/html
 
-COPY --from=builder  /var/www/html/.nuxt  ./.nuxt
 COPY --from=builder  /var/www/html/.output  ./.output
 
 # All ready now
