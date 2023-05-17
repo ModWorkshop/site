@@ -1,8 +1,6 @@
 FROM caddy:builder-alpine AS caddy-builder
 RUN xcaddy build
 
-# Configure caddy
-COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
 #Multi stage build
@@ -26,6 +24,7 @@ FROM node:18-alpine as runner
 WORKDIR /var/www/html 
 
 COPY --from=builder ./ ./
+COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 
 # All ready now
 EXPOSE 3000
