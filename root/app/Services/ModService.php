@@ -20,9 +20,63 @@ use Str;
 class ModService {
     static $categories;
     
-    public function mods()
+    public static function mods($query=null)
     {
-        QueryBuilder::for(Mod::class)->allowedIncludes(['roles']);
+        return QueryBuilder::for($query ?? Mod::class)->allowedFields([
+            'id',
+            'category_id',
+            'game_id',
+            'user_id',
+            'name',
+            'desc',
+            'short_desc',
+            'changelog',
+            'license',
+            'instructions',
+            'visibility',
+            'legacy_banner_url',
+            'downloads',
+            'likes',
+            'views',
+            'version',
+            'donation',
+            'suspended',
+            'comments_disabled',
+            'score',
+            'daily_score',
+            'weekly_score',
+            'bumped_at',
+            'published_at',
+            'download_id',
+            'download_type',
+            'last_user_id',
+            'has_download',
+            'approved',
+            'thumbnail_id',
+            'banner_id',
+            'allowed_storage',
+            'updated_at',
+            'created_at',
+        ])->allowedIncludes([
+            'category',
+            'thumbanil',
+            'members',
+            'user',
+            'tags',
+            'images',
+            'files',
+            'links',
+            'game',
+            'download',
+            'members',
+            'banner',
+            'lastUser',
+            'liked', 
+            'transferRequest',
+            'subscribed',
+            'dependencies',
+            'instructsTemplate',
+        ]);
     }
 
     /**
