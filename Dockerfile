@@ -1,8 +1,6 @@
 #### Stage Caddy ####
 FROM caddy:builder-alpine AS caddy-builder
 RUN xcaddy build
-
-COPY ./Caddyfile /etc/caddy/Caddyfile
 ########
 
 #### Stage 1 ####
@@ -19,7 +17,9 @@ RUN yarn && yarn build
 #### Stage 2 ####
 FROM node:18-alpine as runner
 
+# Copy caddy stuff
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+COPY ./Caddyfile /etc/caddy/Caddyfile
 
 WORKDIR /var/www/html
 
