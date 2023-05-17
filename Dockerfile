@@ -27,4 +27,4 @@ COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 
 # All ready now
 EXPOSE 3000
-CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile "
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
