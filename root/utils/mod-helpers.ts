@@ -42,6 +42,26 @@ export function registerDownload(mod) {
     });
 }
 
+// Bare minimum fields required for a list mod to function for optimization purposes.
+export const listModFields = [
+    'id',
+    'category_id',
+    'game_id',
+    'user_id',
+    'name',
+    'short_desc',
+    'visibility',
+    'downloads',
+    'likes',
+    'views',
+    'suspended',
+    'bumped_at',
+    'published_at',
+    'has_download',
+    'approved',
+    'thumbnail_id',
+];
+
 export const memberLevels = [
     'Maintainer',
     'Collaborator',

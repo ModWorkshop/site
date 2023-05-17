@@ -120,6 +120,7 @@ const searchParams = reactive({
     user_id: props.userId,
     page: fetchPage,
     query: query,
+    'fields[mods]': listModFields.join(','),
     game_id: selectedGame,
     category_id: selectedCategory,
     tags: selectedTags,
