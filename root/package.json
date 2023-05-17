@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@antfu/utils": "^0.7.2",
-    "@nuxt/image-edge": "^1.0.0-testing",
+    "@nuxt/image-edge": "^1.0.0-28059208.2abef1b",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.6.5",
     "@pinia/nuxt": "^0.4.10",
