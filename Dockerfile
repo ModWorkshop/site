@@ -35,6 +35,7 @@ COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
 COPY --chown=nobody ./root /var/www/html
+RUN mkdir /.config
 RUN chown -R nobody.nobody /run /.config
 
 # Install composer packages
