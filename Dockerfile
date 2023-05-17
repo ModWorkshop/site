@@ -19,11 +19,12 @@ RUN yarn && yarn build
 #### Stage 2 ####
 FROM node:18-alpine as runner
 
+COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+
 WORKDIR /var/www/html
 
 COPY --from=builder  /var/www/html/.nuxt  ./.nuxt
 COPY --from=builder  /var/www/html/.output  ./.output
-COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 
 # All ready now
 EXPOSE 3000
