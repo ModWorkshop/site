@@ -27,7 +27,7 @@
     "floating-vue": "^2.0.0-beta.20",
     "nuxt": "^3.5.0",
     "nuxt-delay-hydration": "^1.1.1",
-    "nuxt-icon": "^0.3.2",
+    "nuxt-icon": "^0.4.0",
     "nuxt-simple-sitemap": "^2.5.0",
     "typescript": "^5.0.4",
     "vue-easy-lightbox": "^1.13.0",
