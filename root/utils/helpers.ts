@@ -206,3 +206,40 @@ export function truncate(str: string, length: number) {
 
     return str.substring(0, length) + '...';
 }
+
+// https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
+function hexToInt(hex: string) {
+    return parseInt(`0x${hex}`);
+}
+
+function hexToColor(color: string) {
+    if (color[0] == '#') {
+        color = color.substring(1);
+    }
+
+    if (color.length == 3) {
+        return [hexToInt(color[0]+color[0]), hexToInt(color[1]+color[1]), hexToInt(color[2]+color[2])];
+    } else if (color.length == 6) {
+        return [hexToInt(color.substring(0, 1)), hexToInt(color.substring(2, 3)), hexToInt(color.substring(4, 5))];
+    } else {
+        return [255, 255, 255];
+    }
+}
+
+const RED = 0.2126, GREEN = 0.7152, BLUE = 0.0722, GAMMA = 2.4;
+function luminance(color: number[]) {
+    const a = color.map((v) => {
+        v /= 255;
+        return v <= 0.03928
+        ? v / 12.92
+        : Math.pow((v + 0.055) / 1.055, GAMMA);
+    });
+    return a[0] * RED + a[1] * GREEN + a[2] * BLUE;
+}
+
+export function getContrast(color1: string|number[], color2: string|number[]) {
+    const lum1 = luminance(typeof color1 == 'string' ? hexToColor(color1) : color1);
+    const lum2 = luminance(typeof color2 == 'string' ? hexToColor(color2) : color2);
+
+    return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
+}

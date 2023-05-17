@@ -9,8 +9,6 @@
     </span>
 </template>
 <script setup>
-import { getContrast } from 'polished';
-
 const props = defineProps({
     small: Boolean,
     color: String,
