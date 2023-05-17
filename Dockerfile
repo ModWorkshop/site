@@ -1,25 +1,32 @@
 FROM caddy:builder-alpine AS caddy-builder
 RUN xcaddy build
 
-FROM node:18-alpine
-
-EXPOSE 3000
-
-ENV NODE_OPTIONS=--max-old-space-size=8192
-
 # Configure caddy
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
-COPY ./root /var/www/html
+#Multi stage build
 
+# Stage 1
+FROM node:18-alpine as builder
+
+# Copy and set directory
+COPY ./root /var/www/html
 WORKDIR /var/www/html 
 
+# Install deps and build the site
 RUN yarn && yarn build
 
-# In theory, Nuxt made us 2 folders which handle everything and have everything ready so this is not needed.
+# Delete unused files/folders. Nuxt makes us .output and .nuxt that handle everything for us!
 RUN  find -maxdepth 1 ! -name ".output" ! -name ".nuxt" -exec rm -rv {} \;
 
-CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile "]
+# Stage 2
 
-# CMD yarn && yarn dev
+FROM node:18-alpine as runner
+WORKDIR /var/www/html 
+
+COPY --from=builder ./ ./
+
+# All ready now
+EXPOSE 3000
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile "
