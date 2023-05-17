@@ -25,7 +25,7 @@ const sending = ref(false);
 
 async function reset() {
     sending.value = true;
-    await usePost('forgot-password', {
+    await postRequest('forgot-password', {
         email: email.value
     });
     sent.value = true;

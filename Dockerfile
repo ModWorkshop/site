@@ -1,22 +1,31 @@
+#### Stage Caddy ####
 FROM caddy:builder-alpine AS caddy-builder
 RUN xcaddy build
+########
 
-FROM node:18-alpine
+#### Stage 1 ####
+FROM node:18-alpine as builder
 
-EXPOSE 3000
+# Copy and set directory
+COPY ./root /var/www/html
+WORKDIR /var/www/html 
 
-ENV NODE_OPTIONS=--max-old-space-size=8192
+# Install deps and build the site
+RUN yarn && yarn build
+########
 
-# Configure caddy
+#### Stage 2 ####
+FROM node:18-alpine as runner
+
+# Copy caddy stuff
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
-COPY ./root /var/www/html
+WORKDIR /var/www/html
 
-WORKDIR /var/www/html 
+COPY --from=builder  /var/www/html/.nuxt  ./.nuxt
+COPY --from=builder  /var/www/html/.output  ./.output
 
-RUN yarn && yarn build
-
-CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile "]
-
-# CMD yarn && yarn dev
+# All ready now
+EXPOSE 3000
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]

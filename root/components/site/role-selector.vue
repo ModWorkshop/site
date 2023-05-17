@@ -52,7 +52,7 @@ onMounted(() => {
 
 async function saveGameRoles() {
     try {
-        await usePatch(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
+        await patchRequest(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
         prevGameRoles = clone(props.user.game_role_ids);
     } catch (error) {
         showError(error);
@@ -63,7 +63,7 @@ async function saveGameRoles() {
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 async function saveRoles() {
     try {
-        await usePatch(`users/${props.user.id}/roles`, { role_ids: props.user.role_ids });
+        await patchRequest(`users/${props.user.id}/roles`, { role_ids: props.user.role_ids });
         prevRoles = clone(props.user.role_ids);
     } catch (error) {
         showError(error);

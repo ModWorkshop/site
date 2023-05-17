@@ -7,8 +7,8 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useStore } from '../../store';
+import { AxiosError } from 'axios';
 
 definePageMeta({
     middleware: 'guests-only'
@@ -31,10 +31,10 @@ if (process.client) {
     }
     
     try {
-        await usePost(`/social-logins/${route.params.provider}/login-callback`, newQuery);
+        await postRequest(`/social-logins/${route.params.provider}/login-callback`, newQuery);
         store.attemptLoginUser('/');
     } catch (e) {
-        if (e instanceof FetchError && e.response) {
+        if (e instanceof AxiosError && e.response) {
             showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
         }
     }

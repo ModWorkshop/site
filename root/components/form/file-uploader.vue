@@ -86,7 +86,6 @@ const props = defineProps<{
     maxFiles?: number|string
 }>();
 
-const { public: config } = useRuntimeConfig();
 const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
@@ -190,9 +189,7 @@ async function upload(files: FileList|null) {
             
             try {
     
-                const { data } = await axios.post<MWSFile>(props.uploadUrl, formData, {
-                    withCredentials: true,
-                    baseURL: config.apiUrl,
+                const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         const reactiveFile = filesArr.value[0];
@@ -228,7 +225,7 @@ async function handleRemove(file: UploadFile) {
     if (file.cancel) {
         file.cancel('cancelled');
     } else {
-        await useDelete(`${props.url}/${file.id}`);
+        await deleteRequest(`${props.url}/${file.id}`);
     }
 
     removeFile(file);

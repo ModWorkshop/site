@@ -62,7 +62,7 @@ function deleteSuspension(suspension: Suspension) {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await useDelete(`suspensions/${suspension.id}`);
+            await deleteRequest(`suspensions/${suspension.id}`);
             remove(data.value!.data, suspension);
         }
     });

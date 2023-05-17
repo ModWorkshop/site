@@ -43,7 +43,6 @@ import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
-import { FetchError } from 'ofetch';
 
 const { user, setGame } = useStore();
 const { showToast } = useToaster();
@@ -110,12 +109,9 @@ watch(() => mod.value.game, () => {
 
 async function publish() {
     try {
-        mod.value = await usePatch<Mod>(`mods/${mod.value.id}`, { publish: true });
+        mod.value = await patchRequest<Mod>(`mods/${mod.value.id}`, { publish: true });
     } catch (error) {
-        if (error instanceof FetchError) {
-            showErrorToast(error);
-        }
-        return;
+        showErrorToast(error);
     }
 }
 
@@ -136,12 +132,12 @@ async function save() {
     try {
         let fetchedMod;
         if (mod.value.id == -1) {
-            fetchedMod = await usePost<Mod>('mods', mod.value);
+            fetchedMod = await postRequest<Mod>('mods', mod.value);
             if (fetchedMod) {
                 router.replace({ path: `/mod/${mod.value.id}/edit` });
             }
         } else {
-            fetchedMod = await usePatch<Mod>(`mods/${mod.value.id}`, mod.value);
+            fetchedMod = await patchRequest<Mod>(`mods/${mod.value.id}`, mod.value);
         }
         if (fetchedMod) {
             mod.value = fetchedMod;

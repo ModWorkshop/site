@@ -89,14 +89,14 @@ function editDep(dep) {
 async function addDependency(onError) {
     try {
         if (currentDep.value!.id) {
-            const dep = await usePatch<Dependency>(`${props.url}/${props.dependable.id}/dependencies/${currentDep.value!.id}`, currentDep.value);
+            const dep = await patchRequest<Dependency>(`${props.url}/${props.dependable.id}/dependencies/${currentDep.value!.id}`, currentDep.value);
             for (const d of dependencies.value) {
                 if (d.id === currentDep.value!.id) {
                     Object.assign(d, dep);
                 }
             }
         } else {
-            const dep = await usePost<Dependency>(`${props.url}/${props.dependable.id}/dependencies`, currentDep.value);
+            const dep = await postRequest<Dependency>(`${props.url}/${props.dependable.id}/dependencies`, currentDep.value);
             dependencies.value.push(dep);
         }
         showAddModModal.value = false;
@@ -107,7 +107,7 @@ async function addDependency(onError) {
 
 async function deleteDep(dep) {
     try {
-        await useDelete(`${props.url}/${props.dependable.id}/dependencies/${dep.id}`);
+        await deleteRequest(`${props.url}/${props.dependable.id}/dependencies/${dep.id}`);
         remove(dependencies.value, dep);
         showAddModModal.value = false;
     } catch (error) {

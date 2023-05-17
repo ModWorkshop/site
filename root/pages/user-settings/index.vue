@@ -105,7 +105,7 @@ async function doDelete() {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await useDelete(`users/${props.user.id}`);
+            await deleteRequest(`users/${props.user.id}`);
             await store.logout();
         }
     });
@@ -113,7 +113,7 @@ async function doDelete() {
 
 async function reset() {
     if (me) {
-        await usePost('forgot-password', {
+        await postRequest('forgot-password', {
             email: me.email
         });
 

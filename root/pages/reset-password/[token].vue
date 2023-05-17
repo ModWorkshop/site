@@ -69,7 +69,7 @@ const confirmPassValidity = computed(() => {
 
 async function reset() {
     sending.value = true;
-    await usePost('reset-password', {
+    await postRequest('reset-password', {
         email: user ? user.email : email.value,
         password: password.value,
         token: route.params.token

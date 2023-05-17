@@ -38,7 +38,7 @@ const suspendForm = reactive({
 
 async function suspend(onError) {
     try {
-        const suspension = await usePatch<Suspension>(`mods/${props.mod.id}/suspended`, suspendForm);
+        const suspension = await patchRequest<Suspension>(`mods/${props.mod.id}/suspended`, suspendForm);
 
         props.mod.suspended = !props.mod.suspended;
         props.mod.last_suspension = suspension;

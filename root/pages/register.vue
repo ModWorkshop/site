@@ -54,7 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { passwordValidity, serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
@@ -101,14 +100,12 @@ async function register() {
 
     try {
         loading.value = true;
-        await usePost('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
+        await postRequest('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
         store.attemptLoginUser();
     } catch (e) {
-        if (e instanceof FetchError) {
-            showErrorToast(e, {
-                409: t('register_error_409'),
-            });
-        }
+        showErrorToast(e, {
+            409: t('register_error_409'),
+        });
 
         loading.value = false;
     }

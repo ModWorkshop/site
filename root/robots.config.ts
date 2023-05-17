@@ -10,6 +10,7 @@ export default [
     { Disallow: 'mod/*/edit/*' },
     { Disallow: 'thread/*/edit/*' },
     { Disallow: 'me/*' },
+    { Disallow: 'notifications' },
     { BlankLine: true },
 
     // Be aware that this will NOT work on target: 'static' mode

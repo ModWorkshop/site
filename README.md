@@ -8,6 +8,8 @@ We use Yarn mainly so just get NodeJS + Yarn, copy .env.example to .env and fill
 
 Make sure to install the dependencies
 
+Even easier if you use Docker :)
+
 ```bash
 yarn install
 ```

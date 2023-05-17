@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
@@ -64,18 +63,18 @@ async function submit() {
         }
 
         if (!props.modelValue.id) {
-            const model = await usePost<{id: number}>(createUrl.value, params);
+            const model = await postRequest<{id: number}>(createUrl.value, params);
             if (props.redirectTo) {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }
         } else {
-            vm.value = await usePatch(`${props.url}/${vm.value.id}`, params);
+            vm.value = await patchRequest(`${props.url}/${vm.value.id}`, params);
             ic.value.execute();
         }
 
         emit('submit');
     } catch (error) {
-        showError(error as FetchError);
+        showError(error);
         return;
     }
 }
@@ -85,7 +84,7 @@ async function doDelete() {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await useDelete(`${props.url}/${props.modelValue.id}`);
+            await deleteRequest(`${props.url}/${props.modelValue.id}`);
             const to = props.deleteRedirectTo ?? props.redirectTo;
             if (to) {
                 router.replace(to);

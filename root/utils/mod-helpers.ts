@@ -35,14 +35,32 @@ export function canSuperUpdate(mod: Mod) {
 }
 
 export function registerDownload(mod) {
-    usePost(`mods/${mod.id}/register-download`, null, {
-        async onResponse({ response }) {
-            if (response.status == 201) {
-                mod.downloads++;
-            }
+    postRequest(`mods/${mod.id}/register-download`, null).then((response: any) => {
+        if (response.status == 201) {
+            mod.downloads++;
         }
     });
 }
+
+// Bare minimum fields required for a list mod to function for optimization purposes.
+export const listModFields = [
+    'id',
+    'category_id',
+    'game_id',
+    'user_id',
+    'name',
+    'short_desc',
+    'visibility',
+    'downloads',
+    'likes',
+    'views',
+    'suspended',
+    'bumped_at',
+    'published_at',
+    'has_download',
+    'approved',
+    'thumbnail_id',
+];
 
 export const memberLevels = [
     'Maintainer',

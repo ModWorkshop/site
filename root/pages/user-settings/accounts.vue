@@ -81,7 +81,7 @@ function unlink(provider: string) {
         title: t('are_you_sure'),
         desc: t('unlink_warn'),
         async yes() {
-            await useDelete(`social-logins/${provider}`);
+            await deleteRequest(`social-logins/${provider}`);
             if (accounts.value) {
                 accounts.value = accounts.value.filter(account => account.social_id !== provider);
             }

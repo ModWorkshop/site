@@ -30,7 +30,7 @@ const reason = ref('');
 
 async function report(onError) {
     try {
-        await usePost(props.url, { reason: reason.value });
+        await postRequest(props.url, { reason: reason.value });
         reason.value = '';
         vm.value = false;
     } catch (error) {

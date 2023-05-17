@@ -35,7 +35,11 @@ export default function() {
     const { t } = useI18n();
     const { showToast } = useToaster();
 
-    return function(e: FetchError|AxiosError, errorStrings: Record<number|string, string> = {}, title?: string) {
+    return function(e: unknown|FetchError|AxiosError, errorStrings: Record<number|string, string> = {}, title?: string) {
+        if (!(e instanceof FetchError || e instanceof AxiosError)) {
+            return;
+        }
+
         errorStrings = {
             409: t('error_409'),
             403: t('error_403'),

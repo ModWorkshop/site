@@ -85,7 +85,6 @@ import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
 import { remove } from '@vue/shared';
 import getCaretCoordinates from 'textarea-caret';
-import { FetchError } from 'ofetch';
 
 const props = withDefaults(defineProps<{
     lazy?: boolean,
@@ -141,9 +140,9 @@ const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.p
 async function subscribe() {
     try {
         if (props.commentable.subscribed) {
-            await useDelete(`${props.url}/subscription`);
+            await deleteRequest(`${props.url}/subscription`);
         } else {
-            await usePost(`${props.url}/subscription`);
+            await postRequest(`${props.url}/subscription`);
         }
         props.commentable.subscribed = !props.commentable.subscribed;
     } catch (error) {
@@ -261,7 +260,7 @@ async function postComment() {
     try {
         const { mentions, content: processedContent } = processMentions(content);
         posting.value = true;
-        const comment = await usePost<Comment>(props.url, {
+        const comment = await postRequest<Comment>(props.url, {
             content: processedContent,
             mentions,
             reply_to: replyingComment.value?.id
@@ -277,9 +276,7 @@ async function postComment() {
         setCommentDialog(false);
     } catch (error) {
         posting.value = false;
-        if (error instanceof FetchError) {
-            showError(error);
-        }
+        showError(error);
         console.log(error);
     }
 }
@@ -290,7 +287,7 @@ async function editComment() {
         commentContent.value = '';
         const { mentions, content: processedContent } = processMentions(content);
 
-        await usePatch(`comments/${editingComment.value!.id}`, { content: processedContent, mentions });
+        await patchRequest(`comments/${editingComment.value!.id}`, { content: processedContent, mentions });
         editingComment.value!.content = content;
         setCommentDialog(false);
     } catch (error) {
@@ -320,7 +317,7 @@ function onVisChange([{ isIntersecting }]) {
 
 async function deleteComment(comment: Comment, isReply=false) {
     try {
-        await useDelete(`comments/${comment.id}`);
+        await deleteRequest(`comments/${comment.id}`);
         if (!isReply) {
             remove(comments.value!.data, comment);
         }
@@ -348,7 +345,7 @@ function replyToComment(replyTo: Comment, mention: User) {
  */
 async function setCommentPinState(comment: Comment) {
     try {
-        await usePatch(`comments/${comment.id}`, { pinned: comment.pinned });
+        await patchRequest(`comments/${comment.id}`, { pinned: comment.pinned });
         loadComments();
     } catch (error) {
         showError(error);

@@ -76,7 +76,6 @@
 
 <script setup lang="ts">
 import { remove } from '@vue/shared';
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { Game, Mod, Tag, User, UserForm } from '~~/types/models';
 import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';
@@ -141,19 +140,19 @@ async function unfollowGame(game: Game) {
 
 async function unblockTag(tag: Tag) {
     try {
-        await useDelete(`blocked-tags/${tag.id}`);
+        await deleteRequest(`blocked-tags/${tag.id}`);
         remove(blockedTags.value!.data, tag);
     } catch (error) {
-        showError(error as FetchError);
+        showError(error);
     }
 }
 
 async function unblockUser(user: User) {
     try {
-        await useDelete(`blocked-users/${user.id}`);
+        await deleteRequest(`blocked-users/${user.id}`);
         remove(blockedUsers.value!.data, user);
     } catch (error) {
-        showError(error as FetchError);
+        showError(error);
     }
 }
 
@@ -163,7 +162,7 @@ async function submitBlockTag(err) {
     }
 
     try {
-        await usePost('blocked-tags', { tag_id: blockTag.value.id });
+        await postRequest('blocked-tags', { tag_id: blockTag.value.id });
         if (blockedTags.value) {
             blockedTags.value.data.push(blockTag.value);
         }

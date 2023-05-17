@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import clone from 'rfdc/default';
 import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
@@ -50,7 +49,7 @@ const user = ref<UserForm>({
 
 async function save() {
     try {
-        const nextUser = await usePatch<User>(`users/${user.value.id}`, serializeObject(user.value));
+        const nextUser = await patchRequest<User>(`users/${user.value.id}`, serializeObject(user.value));
 
         if (isMe) {
             store.user = clone(nextUser);
@@ -63,9 +62,7 @@ async function save() {
             confirm_password: ''
         };
     } catch (error) {
-        if (error instanceof FetchError) {
-            showToast(error);
-        }
+        showToast(error);
     }
 }
 </script>

@@ -10,7 +10,6 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../../store/index';
 
@@ -36,11 +35,11 @@ if (process.client) {
     }
     
     try {
-        await usePost(`/social-logins/${route.params.provider}/link-callback`, newQuery);
+        await postRequest(`/social-logins/${route.params.provider}/link-callback`, newQuery);
         done.value = true;
         user!.activated = true;
     } catch (e) {
-        useHandleError(e as FetchError, {
+        useHandleError(e, {
             409: t('account_already_linked'),
         });
     }

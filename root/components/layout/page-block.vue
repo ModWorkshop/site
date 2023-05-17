@@ -1,7 +1,7 @@
 <template>
     <flex column :class="classes" :gap="gap">
         <flex class="page-block-nm mx-auto" column gap="4">
-            <flex v-if="announcements.length" column>
+            <flex v-if="announcements?.length" column>
                 <h4>📢 {{$t('announcements')}}</h4>
                 <flex class="md:flex-row flex-col">
                     <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
@@ -124,7 +124,7 @@ const hasWaiting = computed(() => waitingCount.value > 0);
 const canSeeReports = computed(() => store.hasPermission('manage-users', props.game));
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods', props.game));
 
-const announcements = computed(() => store.announcements.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
+const announcements = computed(() => store.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)));
 const gameAnnouncements = computed(() => props.game?.announcements?.filter(thread => !hiddenAnnouncements.value.includes(thread.id)) ?? []);
 const canSeeAdminGamePage = computed(() => props.game && adminGamePagePerms.some(perm => store.hasPermission(perm, props.game)));
 

@@ -100,7 +100,7 @@ async function toggleLiked() {
         return;
     }
 
-    const data = await usePost<{ liked: boolean, likes: number }>(`mods/${props.mod.id}/toggle-liked`);
+    const data = await postRequest<{ liked: boolean, likes: number }>(`mods/${props.mod.id}/toggle-liked`);
     props.mod.likes = data.likes;
     props.mod.liked = data.liked;
 }

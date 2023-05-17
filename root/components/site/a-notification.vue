@@ -153,7 +153,7 @@ const typeDefintions = {
 };
 
 async function markAsSeen() {
-    await usePatch(`/notifications/${notif.value.id}`, { seen: true });
+    await patchRequest(`/notifications/${notif.value.id}`, { seen: true });
 
     if (!notif.value.seen && notificationCount.value) {
         notificationCount.value = Math.max(0, notificationCount.value-1);
@@ -164,7 +164,7 @@ async function markAsSeen() {
 
 async function deleteNotification(onlyVisually=false) {
     if (!onlyVisually) {
-        await useDelete(`/notifications/${notif.value.id}`);
+        await deleteRequest(`/notifications/${notif.value.id}`);
     }
 
     remove(props.notifications.data, notif.value);

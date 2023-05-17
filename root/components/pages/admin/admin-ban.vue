@@ -45,7 +45,7 @@ const duration = computed(() => getDuration(props.ban.created_at, props.ban.expi
 const bansUrl = computed(() => getGameResourceUrl('bans', props.game));
 
 async function unban() {
-    await useDelete(`bans/${props.ban.id}`);
+    await deleteRequest(`bans/${props.ban.id}`);
     emit('delete', props.ban);
 }
 </script>

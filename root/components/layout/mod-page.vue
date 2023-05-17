@@ -45,14 +45,11 @@ if (props.mod.game) {
     setGame(props.mod.game);
 }
 
-usePost(`mods/${props.mod.id}/register-view`, null, {
-    async onResponse({ response }) {
-        if (response.status == 201) {
-            props.mod.views++;
-        }
+postRequest(`mods/${props.mod.id}/register-view`).then((response: any) => {
+    if (response.status == 201) {
+        props.mod.views++;
     }
 });
-
 
 const breadcrumb = computed(() => {
     const breadcrumb: Breadcrumb[] = [
