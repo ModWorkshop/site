@@ -1,12 +1,12 @@
 <template>
     <a-input :label="$t('category')">
         <category-tree 
-            :model-value="modelValue"
+            v-model="vm"
             v-bind="$attrs"
+            :set-query="setQuery"
             :style="{maxHeight: maxHeight && `${maxHeight}px`}"
             :class="{'input-bg': true, 'p-2': true, 'overflow-y-scroll': !!maxHeight}"
             :categories="categories"
-            @update:model-value="val => $emit('update:modelValue', val)"
         />
     </a-input>
 </template>
@@ -14,11 +14,13 @@
 <script setup lang="ts">
 import { Category } from '~~/types/models';
 
-withDefaults(defineProps<{
-    modelValue?: number;
-    categories: Category[];
-    maxHeight?: number;
+const props = withDefaults(defineProps<{
+    modelValue?: number,
+    setQuery: boolean,
+    categories: Category[],
+    maxHeight?: number,
 }>(), { maxHeight: 350 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
+const vm = useVModel(props, 'modelValue', emit);
 </script>
