@@ -19,6 +19,8 @@
                     :categories="categories.data"
                 />
 
+                <a-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
+
                 <flex class="mx-auto">
                     <a-button :disabled="disableCreate" @click="create(true)">{{$t('create_and_go')}}</a-button>
                     <a-button :disabled="disableCreate" @click="() => create(false)">{{$t('next')}}</a-button>
@@ -36,7 +38,7 @@
                 <h3 class="text-center">{{$t('mod_creation_3')}}</h3>
                 <edit-mod-files v-if="mod.id" :mod="mod" light/>
                 <flex class="mx-auto" column>
-                    <a-input v-model="publish" :label="$t('publish_mod')" type="checkbox"/>
+                    <a-input v-if="mod.visibility == 'public'" v-model="publish" :label="$t('publish_mod')" type="checkbox"/>
                     <a-button class="place-self-center" @click="save(true)">{{$t('finish')}}</a-button>
                 </flex>
             </content-block>
@@ -63,6 +65,12 @@ const step = ref(1);
 const publish = ref(true);
 
 const showToast = useQuickErrorToast();
+
+const visItems = [
+    { name: t('public'), id: 'public' },
+    { name: t('private'), id: 'private' },
+    { name: t('unlisted'), id: 'unlisted' }
+];
 
 const mod: Ref<Mod> = ref({
     id: 0,
@@ -128,7 +136,7 @@ async function save(goToPage: boolean, publishMod?: boolean) {
     step.value = 3;
 
     try {
-        await patchRequest<Mod>(`mods/${mod.value.id}`, {...mod.value, publish: publishMod ?? publish.value});
+        await patchRequest<Mod>(`mods/${mod.value.id}`, {...mod.value, publish: publishMod ?? (publish.value && mod.value.visibility == 'public')});
         if (goToPage) {
             router.push(`/mod/${mod.value.id}`);
         } 

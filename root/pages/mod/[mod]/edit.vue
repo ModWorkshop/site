@@ -5,7 +5,7 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
         </flex>
-        <a-alert v-if="!mod.published_at && mod.has_download" color="warning">
+        <a-alert v-if="!mod.published_at && mod.visibility == 'public' && mod.has_download" color="warning">
             {{$t('publish_mod_desc')}}
             <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
         </a-alert>
@@ -109,7 +109,7 @@ watch(() => mod.value.game, () => {
 
 async function publish() {
     try {
-        mod.value = await patchRequest<Mod>(`mods/${mod.value.id}`, { publish: true });
+        mod.value = await patchRequest<Mod>(`mods/${mod.value.id}`, { publish: true, ...mod.value });
     } catch (error) {
         showErrorToast(error);
     }
