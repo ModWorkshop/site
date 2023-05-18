@@ -15,9 +15,12 @@
                 <span v-if="mod.published_at" class="ml-auto">
                     <a-icon icon="mdi:calendar-import" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
                 </span>
+                <span v-else-if="mod.created_at" class="ml-auto">
+                    <a-icon icon="mdi:calendar-plus" :title="$t('upload_date')"/> <time-ago :time="mod.created_at"/>
+                </span>
             </flex>
 
-            <flex v-if="mod.tags.length > 0" wrap>
+            <flex v-if="mod.tags && mod.tags.length > 0" wrap>
                 <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
                     <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
                 </a-tag>
