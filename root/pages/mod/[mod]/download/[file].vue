@@ -6,7 +6,7 @@
             <h3>{{$t('downloading_file_should')}}</h3>
             <flex>
                 <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
-                <a ref="download" download :href="downloadUrl">
+                <a ref="download" download :href="file.download_url">
                     <a-button icon="mdi:download">{{$t('downloading_file_force')}}</a-button>
                 </a>
                 <a-button 
@@ -24,11 +24,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Mod } from '~~/types/models';
+import { File, Mod } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 
-const { public: config } = useRuntimeConfig();
 const { t } = useI18n();
 
 const { data: mod } = await useResource<Mod>('mod', 'mods', {
@@ -40,7 +39,7 @@ const { data: mod } = await useResource<Mod>('mod', 'mods', {
 const download = ref<HTMLAnchorElement>();
 
 const { data: file } = await useResource<File>('file', 'files');
-const downloadUrl = computed(() => `${config.storageUrl}/mods/files/${file.value.file}?response-content-disposition=attachment;"`);
+
 
 if (!file.value) {
     throw createError({ statusCode: 404, statusMessage: t('file_doesnt_exist') });

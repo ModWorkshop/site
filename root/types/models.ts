@@ -61,6 +61,7 @@ export interface SimpleFile {
 }
 
 export interface File extends SimpleFile {
+    download_url: string;
     name: string;
     version: string;
     desc: string;
