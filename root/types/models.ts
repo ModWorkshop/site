@@ -168,6 +168,7 @@ export interface Role {
     created_at?: string;
     updated_at?: string;
     is_vanity: boolean;
+    self_assignable: boolean;
     permissions?: Record<string, boolean>
 }
 

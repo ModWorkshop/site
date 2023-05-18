@@ -8,6 +8,7 @@
         <a-input v-model="role.tag" :label="$t('user_tag')" :desc="$t('user_tag_help')" maxlength="30" minlength="2"/>
         <a-input v-model="role.color" :label="$t('color')" type="color"/>
         <a-input v-if="!role.id" v-model="role.is_vanity" type="checkbox" :label="$t('vanity_role')" :desc="$t('vanity_role_desc')"/>
+        <a-input v-if="role.is_vanity" v-model="role.self_assignable" type="checkbox" :label="$t('self_assignable_role')" :desc="$t('self_assignable_role_desc')"/>
         <a-input v-if="!role.is_vanity" :label="$t('permissions')">
             <flex style="background-color: var(--alt-content-bg-color)" column grow>
                 <flex 
@@ -55,6 +56,7 @@ const { data: role } = await useEditResource<Role>('role', url.value, {
     desc: '',
     order: 1,
     is_vanity: false,
+    self_assignable: true,
     permissions: {}
 });
 
