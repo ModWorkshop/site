@@ -22,7 +22,8 @@ class RoleResource extends JsonResource
             'color' => $this->color,
             'order' => $this->order,
             'is_vanity' => $this->is_vanity,
-            'assignable' => $this->is_vanity || $this->canBeEdited(),
+            'assignable' => ($this->is_vanity && $this->self_assginable) || $this->canBeEdited(),
+            'self_assignable' => $this->self_assignable,
             'permissions' => $this->whenLoaded('permissions', function() {
                 $permissions = [];
 
