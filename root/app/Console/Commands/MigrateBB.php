@@ -273,12 +273,22 @@ class MigrateBB extends Command
             18 => true
         ];
 
+        $SELF_ASSIGN = [
+            35 => true,
+            36 => true,
+            37 => true,
+            38 => true,
+            39 => true,
+            40 => true
+        ];
+
         foreach ($roles as $role) {
             if (!($IGNORE_IDS[$role->gid] ?? false)) {
                 $newRole = Role::forceCreate([
                     'name' => $role->title,
                     'desc' => $role->description,
                     'is_vanity' => ($MOD_IDS[$role->gid] ?? false) == false,
+                    'self_assignable' => $SELF_ASSIGN[$role->gid] ?? false,
                     'order' => 1
                 ]);
 

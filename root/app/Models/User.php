@@ -904,7 +904,7 @@ class User extends Authenticatable implements MustVerifyEmail
         foreach ($roles as $role) {
             if (!$this->hasRole($role->id)) {
                 // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
-                if ($role->id !== 1 && (($canManageRoles && $myHighestOrder > $role->order) || $role->is_vanity)) {
+                if ($role->id !== 1 && (($canManageRoles && $myHighestOrder > $role->order) || ($role->is_vanity && $role->is_assignable))) {
                     $attach[] = $role->id;
                 } else {
                     throw new Exception("You don't have the right permissions to add this role to any user.");
@@ -964,7 +964,7 @@ class User extends Authenticatable implements MustVerifyEmail
         //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
         foreach ($roles as $role) {
             if (!$this->hasGameRole($game->id, $role->id)) {
-                if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
+                if (($role->is_vanity && $role->is_assignable) || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
                 } else {
                     throw new Exception("You don't have the right permissions to add this role to any user.");

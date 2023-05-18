@@ -29,6 +29,7 @@ class UpsertRoleRequest extends FormRequest
             'desc' => 'string|nullable|max:1000',
             'color' => 'string|nullable|max:8',
             'is_vanity' => 'boolean',
+            'self_assignable' => 'boolean',
             'order' => 'integer|nullable|max:1001',
             'permissions' => 'array|nullable',
         ];

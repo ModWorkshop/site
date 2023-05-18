@@ -44,6 +44,7 @@ class RoleController extends Controller
         return RoleResource::collection($gameRoles->queryGet($val, function($query, $val) {
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
+                $query->where('self_assignable', true);
             }
         }));
     }
@@ -81,6 +82,7 @@ class RoleController extends Controller
 
         $order = Arr::get($val, 'order');
         $isVanity = Arr::pull($val, 'is_vanity');
+        $selfAssignable = Arr::pull($val, 'self_assignable');
         $permissions = Arr::pull($val, 'permissions');
 
         if ((isset($order) && !RoleService::canEdit($order))) {
@@ -88,6 +90,9 @@ class RoleController extends Controller
         }
 
         if (isset($role)) {
+            if ($role->is_vanity) {
+                $val['self_assignable'] = $selfAssignable;
+            }
             $role->update($val);
         } else {
             if (!isset($val['order'])) {
@@ -97,6 +102,9 @@ class RoleController extends Controller
 
             $role = new Role($val);
             $role->is_vanity = $isVanity ?? false;
+            if ($role->is_vanity) {
+                $role->self_assignable = $selfAssignable;
+            }
 
             $role->save();
         }
