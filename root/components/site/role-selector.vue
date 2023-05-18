@@ -3,7 +3,6 @@
         v-model="user.role_ids"
         multiple
         url="roles"
-        :fetch-params="{ only_assignable: 1 }"
         :label="$t('roles')"
         :disabled="user.id !== me?.id && !hasPermission('manage-roles')"
         :enabled-by="role => role.assignable"
@@ -15,7 +14,6 @@
         v-if="currentGame"
         v-model="user.game_role_ids"
         :url="`games/${currentGame?.id}/roles`"
-        :fetch-params="{ only_assignable: 1 }"
         multiple
         :disabled="user.id !== me?.id && !hasPermission('manage-roles', currentGame)"
         :label="$t('game_roles')"

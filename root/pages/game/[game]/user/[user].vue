@@ -38,7 +38,7 @@ const { user: me, hasPermission } = useStore();
 
 const { data: game } = await useResource<User>('game', 'games');
 const { data: user } = await useResource<User>('user', `games/${game.value.id}/users`);
-const { data: roles } = await useFetchMany<Role>('roles', { params: { only_assignable: 1 } });
+const { data: roles } = await useFetchMany<Role>('roles');
 
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
