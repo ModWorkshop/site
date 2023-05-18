@@ -1,12 +1,9 @@
 <template>
-    <span>
-        <a-icon v-if="mod.suspended" icon="mdi:cancel" class="text-danger" :title="statusText"/>
-        <a-icon v-else-if="mod.approved === false" icon="mdi:alert" class="text-danger" :title="statusText"/>
-        <a-icon v-else-if="mod.approved === null" icon="mdi:clock" class="text-secondary" :title="statusText"/>
-        <a-icon v-else-if="!mod.has_download" icon="mdi:alert-circle" class="text-warning" :title="statusText"/>
-        <a-icon v-else-if="mod.visibility != 'public'" icon="mdi:eye-off" class="text-secondary" :title="statusText"/>
+    <span v-if="statusIcon">
+        <a-icon :icon="statusIcon" :class="statusColor" :title="statusText"/>
     </span>
 </template>
+
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { Mod } from '~~/types/models';
@@ -18,18 +15,52 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const statusText = computed(() => {
-    let str: string;
-    if (props.mod.suspended) {
+    const mod = props.mod;
+    let str: string|undefined;
+
+    if (mod.suspended) {
         str = 'suspended';
-    } else if (props.mod.approved === null) {
+    } else if (mod.approved === null) {
         str = 'mod_waiting';
-    } else if (props.mod.approved === false) {
+    } else if (mod.approved === false) {
         str = 'mod_rejected';
-    } else if (!props.mod.has_download) {
+    } else if (!mod.has_download) {
         str = 'no_downloads';
-    } else {
-        str = props.mod.visibility;
+    }  else if (mod.visibility == 'public' && !mod.published_at) {
+        str = 'not_published';
+    } else if (mod.visibility != 'public') {
+        str = mod.visibility;
     }
+
     return str ? t(str) : null;
+});
+
+const statusIcon = computed(() => {
+    const mod = props.mod;
+    if (mod.suspended) {
+        return 'mdi:cancel';
+    } else if (mod.approved === false) {
+        return 'mdi:close-thick';
+    } else if (mod.approved === null) {
+        return 'mdi:clock';
+    } else if (!mod.has_download) {
+        return 'mdi:alert-circle';
+    } else if (mod.visibility != 'public') {
+        return 'mdi:eye-off';
+    } else if (!mod.published_at) {
+        return 'mdi:newspaper-remove';
+    }
+});
+
+const statusColor = computed(() => {
+    const mod = props.mod;
+
+    if (mod.suspended || mod.approved === false) {
+        return 'text-danger';
+    } else if (!mod.has_download || !mod.published_at) {
+        return 'text-warning';
+    } else {
+        return 'text-secondary';
+    }
 });
 </script>

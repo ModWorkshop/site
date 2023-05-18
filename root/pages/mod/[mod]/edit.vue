@@ -5,10 +5,6 @@
                 <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
         </flex>
-        <a-alert v-if="!mod.published_at && mod.visibility == 'public' && mod.has_download" color="warning">
-            {{$t('publish_mod_desc')}}
-            <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
-        </a-alert>
         <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
             <content-block :padding="false" class="max-md:p-4 p-8">
                 <a-tabs padding="4" side query>
@@ -46,7 +42,6 @@ import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
 const { user, setGame } = useStore();
 const { showToast } = useToaster();
-const showErrorToast = useQuickErrorToast();
 
 const { t } = useI18n();
 
@@ -106,14 +101,6 @@ watch(() => mod.value.game, () => {
         setGame(mod.value.game);
     }
 }, { immediate: true });
-
-async function publish() {
-    try {
-        mod.value = await patchRequest<Mod>(`mods/${mod.value.id}`, { publish: true, ...mod.value });
-    } catch (error) {
-        showErrorToast(error);
-    }
-}
 
 /**
  * Only used in cases the changes were saved but AForm doesn't know about it

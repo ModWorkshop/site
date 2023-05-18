@@ -41,6 +41,11 @@
             <mod-approve v-if="canManage" :mod="mod"/>
         </a-alert>
         <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
+
+        <a-alert v-if="showPublish" color="warning">
+            {{$t('publish_mod_desc')}}
+            <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
+        </a-alert>
     </flex>
 </template>
 
@@ -53,9 +58,11 @@ const props = defineProps<{
     mod: Mod
 }>();
 
+const canEdit = computed(() => canEditMod(props.mod));
 const { hasPermission, user } = useStore();
 const { t } = useI18n();
 const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
+const showErrorToast = useQuickErrorToast();
 
 const memberWaiting = computed(() =>  user ? props.mod.members.find(member => !member.accepted && member.id === user.id) : null);
 const memberWaitingRole = computed(() => {
@@ -64,10 +71,11 @@ const memberWaitingRole = computed(() => {
         return t(`member_level_${member.level}`);
     }
 });
+const showPublish = computed(() => canEdit.value && !props.mod.published_at && props.mod.visibility == 'public' && props.mod.has_download);
 
 const hasAlerts = computed(() => 
     props.mod && (!props.mod.has_download || props.mod.approved !== true || props.mod.suspended 
-    || memberWaiting.value || (props.mod.transfer_request && props.mod.transfer_request.user_id == user?.id))
+    || memberWaiting.value || (props.mod.transfer_request && props.mod.transfer_request.user_id == user?.id)) || showPublish
 );
 
 async function acceptMembership(accept: boolean) {
@@ -87,5 +95,11 @@ async function acceptTransfer(accept: boolean) {
     props.mod.transfer_request = undefined;
 }
 
-
+async function publish() {
+    try {
+        Object.assign(props.mod, await patchRequest<Mod>(`mods/${props.mod.id}`, { publish: true, ...props.mod }));
+    } catch (error) {
+        showErrorToast(error);
+    }
+}
 </script>
