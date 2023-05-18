@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Storage;
+use Str;
 
 /**
  * App\Models\File
@@ -56,6 +58,8 @@ class File extends Model
     protected $hidden = ['mod'];
     protected $with = ['user'];
 
+    protected $appends = ['download_url'];
+
     public function getMorphClass(): string {
         return 'file';
     }
@@ -73,6 +77,31 @@ class File extends Model
     public function image() : BelongsTo
     {
         return $this->belongsTo(Image::class);
+    }
+
+    public function fileExt(): Attribute
+    {
+        return new Attribute(function() {
+            if (str_contains($this->file, '.')) {
+                $realNameSplt = explode('.', $this->file);
+                return $realNameSplt[count($realNameSplt) - 1];
+            }
+
+            return 'unknown';
+        });
+    }
+
+    public function safeFileName(): Attribute
+    {    
+        return Attribute::make(function() {
+            $name = preg_replace('/[^A-Za-z0-9\s-]/', '', explode('.', $this->name)[0]);
+            return "{$this->mod_id} - {$name}.{$this->file_ext}";
+        });
+    }
+
+    public function downloadUrl(): Attribute
+    {
+        return Attribute::make(fn() => Storage::disk('r2')->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}");
     }
 
     protected static function booted() {

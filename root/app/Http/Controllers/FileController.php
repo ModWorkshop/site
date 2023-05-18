@@ -137,12 +137,7 @@ class FileController extends Controller
      */
     public function downloadFile(File $file, Mod $mod=null)
     {
-        return redirect(Storage::disk('r2')->temporaryUrl('mods/files/'.$file->file, 
-            Carbon::now()->addHours(1), [
-                'ResponseContentType' => 'application/octet-stream',
-                'ResponseContentDisposition' => 'attachment;',
-            ]
-        ));
+        return redirect($file->downloadUrl);
     }
 
     /**
