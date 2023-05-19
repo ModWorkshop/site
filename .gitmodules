@@ -1,3 +1,3 @@
-[submodule "root/locale"]
-	path = root/locale
+[submodule "root/locales"]
+	path = root/locales
 	url = https://github.com/ModWorkshop/mws-localization.git
