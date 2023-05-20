@@ -4,7 +4,7 @@ RUN xcaddy build
 ########
 
 #### Stage 1 ####
-FROM node:18-alpine as builder
+FROM node:current-alpine as builder
 
 # Copy and set directory
 COPY ./root /var/www/html
@@ -15,7 +15,7 @@ RUN yarn && yarn build
 ########
 
 #### Stage 2 ####
-FROM node:18-alpine as runner
+FROM node:current-alpine as runner
 
 # Copy caddy stuff
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
