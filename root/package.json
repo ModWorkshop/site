@@ -26,7 +26,7 @@
     "nuxt": "^3.5.0",
     "nuxt-delay-hydration": "^1.1.1",
     "nuxt-icon": "^0.4.0",
-    "nuxt-simple-sitemap": "^2.5.0",
+    "nuxt-simple-sitemap": "^2.6.0",
     "typescript": "^5.0.4",
     "vue-easy-lightbox": "^1.13.0",
     "vue-i18n": "9.3.0-beta.17"
