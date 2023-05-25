@@ -1,4 +1,4 @@
-import owo from '../../../locales/en.json';
+import owo from '..//../locales/en.json';
 
 const kaomojis =[
     'ヾ(≧ ▽ ≦)ゝ',
