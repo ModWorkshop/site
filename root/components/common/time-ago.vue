@@ -16,7 +16,7 @@ const timeAgoStr = computed(() => {
     locale.value; //Just a hack to make it reload on language change
 
     if (props.time) {
-        return getTimeAgo(props.time);        
+        return getTimeAgo(t, props.time);        
     } else {
         return t('never');
     }

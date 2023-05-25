@@ -53,7 +53,7 @@
                             </flex>
                             <flex v-if="!isOnline" column>
                                 {{$t('last_visit')}} 
-                                <span class="text-secondary">{{getTimeAgo(user.last_online)}}</span>
+                                <span class="text-secondary">{{getTimeAgo($t, user.last_online)}}</span>
                             </flex>
                             <flex column>
                                 {{$t('mods')}}

@@ -30,10 +30,10 @@
         <flex class="lg:ml-auto mb-auto items-center">
             <a-select v-model="store.colorScheme" style="width: 250px;" :options="colors">
                 <template #any-option="{option}">
-                    <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{option.name}}
+                    <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{$t(`color_${option.id}`)}}
                 </template>
             </a-select>
-            <a-select v-model="$i18n.locale" default="en-US" :options="locales" :text-by="option => langNames[option]"/>
+            <a-select v-model="locale" default="en" :options="locales" :text-by="option => langNames[option.code]" :value-by="option => option.code"/>
         </flex>
     </footer>
 </template>
@@ -50,17 +50,25 @@ const store = useStore();
 
 const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
 const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
+const locale = ref(i18n.locale.value);
 
-const locales = computed(() => i18n.availableLocales.filter(option => i18n.locale.value == 'owo' || option != 'owo' || unlockedOwO.value));
+const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
 const langNames = {
-    'en-US': "English",
+    'en': "English",
     'zh-cn': '中文',
     'es': "Español",
+    'it': "Italiano",
+    'de': "Deutsch",
+    'pl': 'Polski',
+    'pt-br': 'Português',
+    'tr': 'Türkçe',
+    'cs': 'Čeština',
+    'ru': 'Русский',
     'owo': 'OwO',
-    'de-DE': "Deutsch"
 };
 
-watch(i18n.locale, val => {
+watch(locale, val => {
+    i18n.setLocale(val);
     savedLocale.value = val;
     Settings.defaultLocale = val;
 });
@@ -69,12 +77,11 @@ watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
 });
 
-const colors: { id: string, name: string }[] = [];
+const colors: { id: string }[] = [];
 
 for (const key of colorSchemes) {
     colors.push({
-        id: key,
-        name: i18n.t(`color_${key}`)
+        id: key
     });
 }
 

@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { Settings } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { YesNoModal } from './composables/useYesNoModal';
 import { useStore } from './store';
@@ -28,8 +27,7 @@ import { useStore } from './store';
 const store = useStore();
 const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
-const { locale, t } = useI18n();
-const savedLocale = useCookie('locale');
+const { t } = useI18n();
 const { public: config } = useRuntimeConfig();
 
 useHeadSafe({
@@ -50,16 +48,6 @@ useServerSeoMeta({
 	themeColor: '#006ce0',
 	twitterCard: 'summary',
 });
-
-if (savedLocale.value) {
-	locale.value = savedLocale.value;
-}
-
-if (savedLocale.value) {
-	Settings.defaultLocale = savedLocale.value;
-} else {
-	Settings.defaultLocale = 'en-US';
-}
 </script>
 
 <style>

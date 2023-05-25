@@ -94,7 +94,35 @@ export default defineNuxtConfig({
 	vite: {
 		build: {
 			chunkSizeWarningLimit: 1000
-		}
+		},
+	},
+
+	i18n: {
+		strategy: 'no_prefix',
+
+		detectBrowserLanguage: {
+			useCookie: true,
+			cookieKey: 'locale',
+		},
+	
+		locales: [
+			{ code: 'en', file: 'en.json' },
+			{ code: 'es', file: 'es.json' },
+			{ code: 'cs', file: 'cs.json' },
+			{ code: 'de', file: 'de.json' },
+			{ code: 'es', file: 'es.json' },
+			{ code: 'it', file: 'it.json' },
+			{ code: 'pl', file: 'pl.json' },
+			{ code: 'pt-br', file: 'pt_BR.json' },
+			{ code: 'ru', file: 'ru.json' },
+			{ code: 'tr', file: 'tr.json' },
+			{ code: 'zh-cn', file: 'zh_Hans.json' },
+			{ code: 'owo', file: 'owo.ts' },
+		],
+
+		lazy: true,
+		langDir: 'locales',
+		defaultLocale: 'en',
 	},
 
 	modules: [
@@ -105,5 +133,6 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'nuxt-icon',
 		'nuxt-simple-sitemap',
+		'@nuxtjs/i18n'
 	],
 });

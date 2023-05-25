@@ -1,4 +1,3 @@
-import { i18n } from './../app/i18n';
 import { Comment, Game } from './../types/models';
 import { partial } from "filesize";
 import { DateTime, Interval } from 'luxon';
@@ -53,12 +52,12 @@ export const colorSchemes = [
 /**
  * Converts ISO8601 date to relative 'time ago' format.
  */
-export function getTimeAgo(t?: string): string {
+export function getTimeAgo($t: (str: string) => string, t?: string): string {
     let timeAgo: string|null = '';
     if (t) {
         const dt = DateTime.fromISO(t);
         const diff = DateTime.now().diff(dt, ['seconds']).seconds;
-        timeAgo = (diff > 0 && diff < 2) ? i18n.global.t('moments_ago') : dt.toRelative();
+        timeAgo = (diff > 0 && diff < 2) ? $t('moments_ago') : dt.toRelative();
     }
     
     return timeAgo || 'undefined time ago';
@@ -76,9 +75,9 @@ export function fullDate(t?: string): string {
     return timeAgo || 'Undefined date';
 }
 
-export function getDuration(fromDate, toDate) {
+export function getDuration($t: (str: string) => string, fromDate, toDate) {
     return toDate ? humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(fromDate), DateTime.fromISO(toDate))
-        .toDuration(), { units: ['mo', 'd', 'h'], round: true }) : i18n.global.t('forever');
+        .toDuration(), { units: ['mo', 'd', 'h'], round: true }) : $t('forever');
 }
 
 const million = Math.pow(10, 6);
