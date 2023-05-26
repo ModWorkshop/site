@@ -26,8 +26,6 @@
 const props = defineProps({
     labelId: String,
     modelValue: String,
-    minlength: [String, Number],
-    maxlength: [String, Number],
     rows: { type: [String, Number], default: 12 }
 });
 
