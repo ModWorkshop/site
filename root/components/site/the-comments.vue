@@ -67,7 +67,7 @@
                 <flex column class="mx-auto page-block-xs float-bg" gap="0">
                     <h3 v-if="replyingComment">{{$t('replying')}}</h3>
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
-                    <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
+                    <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" maxlength="5000" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <flex class="text-right p-2">
                         <a-button icon="mdi:comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
                         <a-button icon="mdi:close-thick" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
