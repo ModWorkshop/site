@@ -92,7 +92,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
-            'content' => 'string|required|min:2|max:1000',
+            'content' => 'string|required|min:2|max:30000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
