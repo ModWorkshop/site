@@ -18,7 +18,7 @@
             </flex>
             <div class="float-right">
                 <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" icon="mdi:reply" size="sm" @click="$emit('reply', comment)"/>
+                    <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" icon="mdi:reply" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')"/>
                     <a-button
                         v-if="!isReply"
                         class="cursor-pointer"
