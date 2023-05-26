@@ -120,6 +120,10 @@ export default defineNuxtConfig({
 			{ code: 'owo', file: 'owo.ts' },
 		],
 
+		experimental: {
+			jsTsFormatResource: true
+		},
+		
 		lazy: true,
 		langDir: 'locales',
 		defaultLocale: 'en',
