@@ -1,5 +1,5 @@
 <template>
-    <flex grow class="overflow-hidden">
+    <flex grow class="overflow-hidden self-start">
         <a-tabs class="content-block p-2 flex-grow" query>
             <a-tab name="description" :title="$t('description')">
                 <a-markdown :text="mod.desc"/>
