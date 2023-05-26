@@ -29,7 +29,7 @@ const icons = {
     success: 'mdi:check-circle',
     danger: 'mdi:alert',
     info: 'mdi:information',
-    warning: 'mdi:alert-circle',
+    warning: 'mdi:alert-box',
 };
 
 const currIcon = computed(() =>  {
