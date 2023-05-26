@@ -18,6 +18,7 @@
 			</flex>
 
             <ClientOnly>
+                <div id="div-gpt-ad-mws-1" class="ad mx-auto mb-3" style="max-height: 90px;max-height: 200px;text-align: center;position: relative;"/>
                 <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                     <div id="div-gpt-ad-mws-2"/>
                 </div>

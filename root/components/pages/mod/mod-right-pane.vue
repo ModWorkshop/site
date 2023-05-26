@@ -39,6 +39,7 @@
             </flex>
         </flex>
     </flex>
+    <div id="div-gpt-ad-mws-4" class="ad mt-1" style="max-height: 400px;"/>
 </template>
 
 <script setup lang="ts">
