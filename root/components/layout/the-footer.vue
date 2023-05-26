@@ -33,7 +33,7 @@
                     <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{$t(`color_${option.id}`)}}
                 </template>
             </a-select>
-            <a-select v-model="locale" default="en" :options="locales" :text-by="option => langNames[option.code]" :value-by="option => option.code"/>
+            <a-select v-model="locale" default="en" :options="locales" :value-by="option => option.code"/>
         </flex>
     </footer>
 </template>
@@ -53,19 +53,6 @@ const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
 const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
-const langNames = {
-    'en': "English",
-    'zh-cn': '中文',
-    'es': "Español",
-    'it': "Italiano",
-    'de': "Deutsch",
-    'pl': 'Polski',
-    'pt-br': 'Português',
-    'tr': 'Türkçe',
-    'cs': 'Čeština',
-    'ru': 'Русский',
-    'owo': 'OwO',
-};
 
 watch(locale, val => {
     i18n.setLocale(val);

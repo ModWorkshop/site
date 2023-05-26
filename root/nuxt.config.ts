@@ -106,17 +106,17 @@ export default defineNuxtConfig({
 		},
 	
 		locales: [
-			{ code: 'en', file: 'en.json' },
-			{ code: 'cs', file: 'cs.json' },
-			{ code: 'de', file: 'de.json' },
-			{ code: 'es', file: 'es.json' },
-			{ code: 'it', file: 'it.json' },
-			{ code: 'pl', file: 'pl.json' },
-			{ code: 'pt-br', file: 'pt_BR.json' },
-			{ code: 'ru', file: 'ru.json' },
-			{ code: 'tr', file: 'tr.json' },
-			{ code: 'zh-cn', file: 'zh_Hans.json' },
-			{ code: 'owo', file: 'owo.ts' },
+			{ code: 'en', file: 'en.json', name: 'English' },
+			{ code: 'cs', file: 'cs.json', name: 'Čeština' },
+			{ code: 'de', file: 'de.json', name: 'Deutsch' },
+			{ code: 'es', file: 'es.json', name: 'Español' },
+			{ code: 'it', file: 'it.json', name: 'Italiano' },
+			{ code: 'pl', file: 'pl.json', name: 'Polski' },
+			{ code: 'pt-br', file: 'pt_BR.json', name: 'Português' },
+			{ code: 'ru', file: 'ru.json', name: 'Русский' },
+			{ code: 'tr', file: 'tr.json', name: 'Türkçe' },
+			{ code: 'zh-cn', file: 'zh_Hans.json', name: '中文' },
+			{ code: 'owo', file: 'owo.ts', name: 'OwO' },
 		],
 
 		experimental: {
