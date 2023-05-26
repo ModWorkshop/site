@@ -176,7 +176,7 @@ const innerClasses = computed(() => ({
 } */
 
 .page-block-nm {
-    width: 83%;
+    width: 82%;
 }
 
 .page-block-full {
