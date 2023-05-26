@@ -4,12 +4,12 @@
             <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
             <flex class="p-2 overflow-hidden h-full">
                 <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
-                <a-markdown ref="mdText" class="h-full preview" :style="{'height': previewHeight}" :text="vm"/>
+                <a-markdown ref="mdText" class="h-full preview" :style="{'height': previewHeight}" v-bind="$attrs"/>
             </flex>
         </flex>
         <a-tabs v-else :class="classes" style="flex:1;">
             <a-tab name="write" :title="$t('write_tab')" style="flex:1;">
-                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows"/>
+                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs"/>
             </a-tab>
             <a-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
                 <a-markdown class="h-100" :text="vm"/>
@@ -26,6 +26,8 @@
 const props = defineProps({
     labelId: String,
     modelValue: String,
+    minlength: [String, Number],
+    maxlength: [String, Number],
     rows: { type: [String, Number], default: 12 }
 });
 
