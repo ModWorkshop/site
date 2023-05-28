@@ -537,7 +537,8 @@ svg:not(:root).icon, svg:not(:host).icon {
 }
 
 .ad-scroll {
-    top: 5rem !important;
+    top: 50%;
+    transform: translateY(-50%);
     position: fixed !important;
 }
 
