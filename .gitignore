@@ -16,3 +16,5 @@ yarn-error.log
 /.vscode
 .history
 .env.testing
+root/15
+root/dump.rdb
