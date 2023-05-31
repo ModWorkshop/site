@@ -57,11 +57,6 @@ class CreateModsTable extends Migration
             $table->boolean('has_download')->default(false);
             $table->boolean('approved')->nullable()->default(true);
 
-            $table->bigInteger('thumbnail_id')->unsigned()->nullable();
-            $table->foreign('thumbnail_id')->references('id')->on('images')->nullOnDelete();
-            $table->bigInteger('banner_id')->unsigned()->nullable();
-            $table->foreign('banner_id')->references('id')->on('images')->nullOnDelete();
-
             $table->unsignedMediumInteger('allowed_storage')->nullable();
 
             // These are more general table tracking dates.
