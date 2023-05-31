@@ -5,7 +5,7 @@ RUN xcaddy build
 ####
 
 #### PHP Stage
-FROM webdevops/php:8.1-alpine
+FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=1000
@@ -25,6 +25,7 @@ RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 
+FROM build as prod
 # Cron Job
 RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
@@ -46,3 +47,14 @@ RUN composer install --no-interaction --no-dev
 USER nobody
 EXPOSE 8080
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+FROM build as dev
+
+# Copy stuff
+WORKDIR /var/www/html
+
+# Install composer packages
+CMD composer install --no-interaction && php artisan serve
+
+# Start things and set to nobody
+EXPOSE 8000
