@@ -54,7 +54,9 @@ FROM build as dev
 WORKDIR /var/www/html
 
 # Install composer packages
-CMD composer install --no-interaction && php artisan serve
+CMD composer install --no-interaction \
+    && php artisan mws:install --auto \
+    && php artisan serve
 
 # Start things and set to nobody
 EXPOSE 8000

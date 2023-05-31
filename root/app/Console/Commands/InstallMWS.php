@@ -7,16 +7,17 @@ use Carbon\Carbon;
 use DB;
 use Hash;
 use Illuminate\Console\Command;
+use Schema;
 use Storage;
 
-class InitialSetup extends Command
+class InstallMWS extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'initial-setup';
+    protected $signature = 'mws:install {--auto}';
 
     /**
      * The console command description.
@@ -33,6 +34,13 @@ class InitialSetup extends Command
     public function handle()
     {
         $this->info("ModWorkshop Installation");
+        $auto = $this->option('auto');
+
+        if (Schema::hasTable('users') && $auto) {
+            $this->info("Skipping...");
+            return;
+        }
+
         $this->info('Running migrations...');
         $this->call('migrate');
         $this->info('Creating necessary folders in storage...');
@@ -49,8 +57,8 @@ class InitialSetup extends Command
         $oldUser = User::find(1);
         if (!isset($oldUser) || $this->confirm('Super-user already exists, do you wish to override it?')) {
             $this->info('In order to access the super-admin account you will need to provide an email address and password.');
-            $email = $this->ask('Email Address:');
-            $password = $this->secret('Password:');
+            $email = $auto ? env('ADMIN_EMAIL') : $this->ask('Email Address:');
+            $password = $auto ? env('ADMIN_PASSWORD') : $this->secret('Password:');
             $oldUser?->delete(); # Make sure old admin account is deleted
             User::forceCreate([
                 'id' => 1,
@@ -71,3 +79,4 @@ class InitialSetup extends Command
         return Command::SUCCESS;
     }
 }
+
