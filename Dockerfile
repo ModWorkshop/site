@@ -15,7 +15,7 @@ RUN yarn && yarn build
 ########
 
 #### Stage 2 ####
-FROM node:18.16.0-alpine as runner
+FROM node:18.16.0-alpine as prod
 
 # Copy caddy stuff
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
