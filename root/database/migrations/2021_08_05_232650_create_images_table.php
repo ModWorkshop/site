@@ -34,7 +34,7 @@ class CreateImagesTable extends Migration
             $table->foreign('thumbnail_id')->references('id')->on('images')->nullOnDelete();
             $table->bigInteger('banner_id')->unsigned()->nullable();
             $table->foreign('banner_id')->references('id')->on('images')->nullOnDelete();
-        })
+        });
     }
 
     /**
