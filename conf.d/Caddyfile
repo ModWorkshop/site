@@ -11,7 +11,9 @@
 
 	encode zstd gzip
 
-	reverse_proxy localhost:9000
+	reverse_proxy localhost:9000 {
+		header_up X-Forwarded-Proto https
+	}
 
 	file_server
 }
