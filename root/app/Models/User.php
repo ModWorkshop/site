@@ -150,7 +150,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use QueryCacheable, HasRelationshipObservables;
 
     public $cacheFor = 10;
-    public static $membersRole = null;
+    public $membersRole = null; // TODO: smartly cache it or something?
     public static $flushCacheOnUpdate = true;
 
     public static $currentGameId = null;
@@ -541,10 +541,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roleList(): Attribute
     {
         return Attribute::make(function() {
-            self::$membersRole ??= Role::with('permissions')->find(1);
+            $this->membersRole ??= Role::with('permissions')->find(1);
             $roles = [...$this->roles];
-            if (isset(self::$membersRole) && !in_array(self::$membersRole, $roles)) {
-                $roles[] = self::$membersRole;
+            if (isset($this->membersRole) && !in_array($this->membersRole, $roles)) {
+                $roles[] = $this->membersRole;
             }
 
             return $roles;
