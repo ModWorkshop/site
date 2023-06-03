@@ -67,7 +67,7 @@ class ModController extends Controller
     public function liked(GetModsRequest $request)
     {
         $val = $request->val();
-        $mods = ModService::mods()::queryGet($val, function($q, $val) {
+        $mods = ModService::mods()->queryGet($val, function($q, $val) {
             $q->whereHasIn('liked');
             ModService::filters($q, $val);
         }, true);
@@ -88,7 +88,7 @@ class ModController extends Controller
 
         $val = $request->val();
 
-        $mods = ModService::mods()::queryGet($val, function($q, $val) {
+        $mods = ModService::mods()->queryGet($val, function($q, $val) {
             $q->whereNull('approved');
             ModService::filters($q, $val);
         }, true);
