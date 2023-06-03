@@ -1,13 +1,17 @@
 :8080 {
+	@static {
+		file
+		path *.ico *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+	}
+	header @static Cache-Control max-age=31556952
+
+	redir /api.php* /v2API?{query}
+
 	root * /var/www/html/public
 
 	encode zstd gzip
 
+	reverse_proxy localhost:9000
+
 	file_server
-
-	redir /api.php* /v2API?{query}
-
-    php_fastcgi :9000 {
-        header_up X-Forwarded-Proto https
-	}
 }
