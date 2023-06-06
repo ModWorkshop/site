@@ -22,7 +22,7 @@
             <flex class="items-center">
                 <i18n-t keypath="operated_by" scope="global">
                     <template #company>
-                        <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24"/> Milk Deluxe
+                        <a-img class="inline-block" src="milk_deluxe.webp" is-asset width="40" height="24" alt="CompanyLogo"/> Milk Deluxe
                     </template>
                 </i18n-t>
             </flex>
