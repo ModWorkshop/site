@@ -62,7 +62,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     border: 1px solid transparent;
     border-radius: var(--border-radius);
     transition: 0.15s ease-in-out;
-    transition-property: background-color, color, border-color;
+    transition-property: background, color, border-color;
 }
 
 .button:not([disabled]):active {
@@ -88,19 +88,19 @@ const isDisabled = computed(() => props.disabled || props.loading);
 
 .button-primary {
     color: var(--primary-color-text);
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     border-color: var(--primary-color);
 }
 
 .button-warning {
     color: black;
-    background-color: var(--warning-color);
+    background: var(--warning-color);
     border-color: var(--warning-color);
 }
 
 .button-warning:hover {
     color: black !important;
-    background-color: var(--warning-hover-color);
+    background: var(--warning-hover-color);
 }
 
 .button-subtle {
@@ -109,12 +109,12 @@ const isDisabled = computed(() => props.disabled || props.loading);
 }
 
 .button-subtle:hover {
-    background-color: var(--tab-selected-color);
+    background: var(--tab-selected-color);
     color: var(--text-color) !important;
 }
 
 .button-danger {
-    background-color: var(--danger-color);
+    background: var(--danger-color);
     border-color: var(--danger-color);
 }
 
@@ -124,12 +124,12 @@ const isDisabled = computed(() => props.disabled || props.loading);
 }
 
 .button-secondary {
-    background-color: var(--secondary-color);
+    background: var(--secondary-color);
     border-color: var(--secondary-color);
 }
 
 .button:disabled {
-    background-color: var(--disabled-color);
+    background: var(--disabled-color);
     border-color: var(--disabled-color);
     opacity: 0.75;
 }
@@ -141,20 +141,20 @@ const isDisabled = computed(() => props.disabled || props.loading);
 .button:hover:enabled, .button:hover:link {
     color: var(--button-text-color);
     transition: 0.15s ease-in-out;
-    transition-property: background-color, color, border-color;
+    transition-property: background, color, border-color;
     cursor: pointer;
 }
 
 .button-primary:hover:enabled, a.button-primary:hover  {
     color: var(--primary-color-text);
-    background-color: var(--primary-hover-color);
+    background: var(--primary-hover-color);
 }
 
 .button-danger:hover:enabled, a.button-danger:hover {
-    background-color: var(--danger-hover-color);
+    background: var(--danger-hover-color);
 }
 
 .button-secondary:hover:enabled, a.button-secondary:hover {
-    background-color: var(--secondary-hover-color);
+    background: var(--secondary-hover-color);
 }
 </style>
