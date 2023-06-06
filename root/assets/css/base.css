@@ -131,6 +131,12 @@ html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
     --alt-content-bg-color: #22262b;
+
+    --table-even-color: var(--content-bg-color);
+    --table-odd-color: hsl(213, 11%, 17%);
+    --alt-table-even-color: var(--alt-content-bg-color);
+    --alt-table-odd-color: hsl(213, 12%, 17%);
+
     --dropdown-bg: #292d32;
     --dropdown-hover-bg: #32383e;
     --dropdown-text-color: #ccc;

@@ -35,46 +35,68 @@ defineProps({
 
 .table {
     width: 100%;
-    border-radius: var(--border-radius);
-    border-spacing: 0rem 0.25rem;
-    white-space: nowrap;
 }
 </style>
 
 <style>
-.table td {
+.markdown table, .table {
+    border-radius: var(--border-radius);
+    border-spacing: 0rem 0.25rem;
+    white-space: nowrap;
+}
+
+.markdown td, .table td {
     padding: 0.5rem 1.5rem;
 }
 
-.table th {
+.markdown th, .table th {
     padding: 1rem;
 }
 
-.table-bg th, .table-bg td {
+.markdown th, .table-bg th {
+    background-color: var(--table-even-color);
+}
+
+.markdown th, .alt-table-bg th {
+    background-color: var(--alt-table-even-color);
+}
+
+.table-bg td {
     background-color: var(--content-bg-color);
 }
 
-.alt-table-bg th, .alt-table-bg td {
-    background-color: var(--alt-content-bg-color);
-}
-
-.table {
+.markdown table, .table {
     border-collapse: separate;
-    border-spacing: 0;
 }
 
-.table tr:first-child td:first-child { 
+.table-bg tr:nth-child(2n+1) td {
+    background-color: var(--table-odd-color);
+}
+
+.table-bg tr:nth-child(2n) td {
+    background-color: var(--table-even-color);
+}
+
+.markdown tr:nth-child(2n) td, .alt-table-bg tr:nth-child(2n) td {
+    background-color: var(--alt-table-even-color);
+}
+
+.markdown tr:nth-child(2n+1) td, .alt-table-bg tr:nth-child(2n+1) td {
+    background-color: var(--alt-table-odd-color);
+}
+
+.markdown .table tr:first-child td:first-child, .table tr:first-child td:first-child { 
     border-top-left-radius: var(--border-radius);
 }
 
-.table tr:first-child td:last-child {
+.markdown tr:first-child td:last-child, .table tr:first-child td:last-child {
     border-top-right-radius: var(--border-radius);
 }
 
-.table tr:last-child td:first-child { 
+.markdown table tr:last-child td:first-child, .table tr:last-child td:first-child { 
     border-bottom-left-radius: var(--border-radius);
 }
-.table tr:last-child td:last-child {
+.markdown table tr:last-child td:last-child, .table tr:last-child td:last-child {
     border-bottom-right-radius: var(--border-radius);
 }
 </style>

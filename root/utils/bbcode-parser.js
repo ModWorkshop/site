@@ -31,7 +31,7 @@ const tags = {
         close: '</blockquote>'
     },
     spoiler: {
-        open: '<div><details><summary>Spoiler!</summary>',
+        open: '<div class"spoiler"><details><summary>Spoiler!</summary>',
         close: '</details></div>'
     },
     center: {
