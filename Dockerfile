@@ -61,6 +61,7 @@ RUN chown -R nobody.nobody /run /.config
 
 # Install composer packages
 RUN composer install --no-interaction --no-dev
+RUN php artisan config:cache && php artisan route:cache
 
 # Start things and set to nobody
 USER nobody
