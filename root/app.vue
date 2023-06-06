@@ -27,7 +27,7 @@ import { useStore } from './store';
 const store = useStore();
 const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length-1]);
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { public: config } = useRuntimeConfig();
 
 useHeadSafe({
@@ -35,7 +35,8 @@ useHeadSafe({
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
 	htmlAttrs: {
-		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`)
+		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`),
+		lang: locale.value ?? 'en'
 	},
 	title: undefined,
 });
