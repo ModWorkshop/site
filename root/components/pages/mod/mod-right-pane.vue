@@ -1,6 +1,6 @@
 <template>
-    <flex column>
-        <flex column gap="3" class="mod-info content-block self-start">
+    <flex column class="self-start">
+        <flex column gap="3" class="mod-info content-block">
             <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
             <flex column class="p-4 pt-0" gap="4">
                 <flex class="text-lg" gap="2">
