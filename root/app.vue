@@ -2,7 +2,7 @@
 	<div>
 		<NuxtLayout>
 			<NuxtPage/>
-			<NuxtLoadingIndicator/>
+			<NuxtLoadingIndicator color="var(--primary-color)"/>
 		</NuxtLayout>
 		<a-modal-form 
 			v-if="firstModal"
