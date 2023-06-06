@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Jobs\CalculateModsCounts;
+use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
 use App\Jobs\DeleteUnverifiedUsers;
@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculatePopularity)->everyThirtyMinutes();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
-        $schedule->job(new CalculateModsCounts)->everyTwoHours();
+        $schedule->job(new CalculateModCounts)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->command('telescope:prune')->everyTwoHours();
