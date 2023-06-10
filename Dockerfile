@@ -8,7 +8,7 @@ RUN xcaddy build
 FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
-ENV FPM_MAX_REQUESTS=1000
+ENV FPM_MAX_REQUESTS=10000
 ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
@@ -18,15 +18,15 @@ RUN set -eux \
 RUN apk add redis
 
 # Install dev dependencies
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
-    libtool libxml2-dev postgresql-dev sqlite-dev
+# RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
+#     libtool libxml2-dev postgresql-dev sqlite-dev
 
-# Install production dependencies
-RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
-    libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
-    postgresql-libs supervisor zlib-dev
+# # Install production dependencies
+# RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
+#     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
+#     postgresql-libs supervisor zlib-dev
 
-RUN pecl install apfd imagick swoole
+# RUN pecl install apfd imagick swoole
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
