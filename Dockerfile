@@ -8,7 +8,7 @@ RUN xcaddy build
 FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
-ENV FPM_MAX_REQUESTS=10000
+ENV FPM_MAX_REQUESTS=500
 ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
