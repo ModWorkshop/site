@@ -17,17 +17,16 @@ RUN set -eux \
     && apk del .build-deps
 RUN apk add redis
 
+# # Install dev dependencies
+# RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
+#     libtool libxml2-dev postgresql-dev sqlite-dev
 
-# Install dev dependencies
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
-    libtool libxml2-dev postgresql-dev sqlite-dev
+# # Install production dependencies
+# RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
+#     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
+#     postgresql-libs supervisor zlib-dev
 
-# Install production dependencies
-RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
-    libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
-    postgresql-libs supervisor zlib-dev
-
-RUN pecl install apfd imagick swoole
+# RUN pecl install apfd imagick swoole
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
