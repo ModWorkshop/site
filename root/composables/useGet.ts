@@ -23,9 +23,11 @@ export default async function<T = unknown>(url: string, options?) {
 
     // This *should* be safe! If we use Caddy to proxy, Caddy should ignore all of these (if give by user) and set it by itself
     if (process.server) {
-        headersToSend['X-Forwarded-Proto'] = headers['X-Forwarded-Proto'];
-        headersToSend['X-Forwarded-Host'] = headers['X-Forwarded-Host'];
-        headersToSend['X-Forwarded-For'] = headers['X-Forwarded-For'];
+        headersToSend['x-forwarded-proto'] = headers['X-forwarded-proto'];
+        headersToSend['x-forwarded-host'] = headers['x-forwarded-host'];
+        headersToSend['x-forwarded-for'] = headers['x-forwarded-for'];
+        console.log(headers['X-Forwarded-For']);
+        console.log(headers['x-forwarded-for']);
     }
 
     //No point running this for non GET
