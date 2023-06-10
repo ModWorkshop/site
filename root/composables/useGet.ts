@@ -2,7 +2,7 @@ import qs from 'qs';
 
 export default async function<T = unknown>(url: string, options?) {
     const token = useCookie('XSRF-TOKEN');
-    const headers = useRequestHeaders(['cookie']);
+    const headers = useRequestHeaders();
     const { public: config, innerApiUrl } = useRuntimeConfig();
 
     const headersToSend: any = {
