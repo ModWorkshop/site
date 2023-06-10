@@ -13,7 +13,7 @@ ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
 RUN set -eux \
-    && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
+    && apk add --no-cache --virtual .build-deps php81-pear php81-pecl-swoole php81-dev imagemagick-dev gcc musl-dev make vips \
     && pecl install apfd \
     && pecl install imagick \
     && apk del .build-deps
@@ -40,6 +40,7 @@ RUN \
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
+RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
