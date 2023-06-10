@@ -8,39 +8,30 @@ RUN xcaddy build
 FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
-ENV FPM_MAX_REQUESTS=1000
+ENV FPM_MAX_REQUESTS=500
 ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
-    && pecl install apfd \
-    && pecl install imagick \
     && apk del .build-deps
 RUN apk add redis
 
-RUN \
-    apk add --no-cache linux-headers && \
-    apk add --no-cache libstdc++ postgresql-dev libpq && \
-    apk add --no-cache --virtual .build-deps curl-dev openssl-dev pcre-dev pcre2-dev zlib-dev && \
-    docker-php-ext-install sockets && \
-    docker-php-source extract && \
-    mkdir /usr/src/php/ext/openswoole && \
-    curl -sfL https://github.com/openswoole/swoole-src/archive/v22.0.0.tar.gz -o swoole.tar.gz && \
-    tar xfz swoole.tar.gz --strip-components=1 -C /usr/src/php/ext/openswoole && \
-    docker-php-ext-configure openswoole \
-        --enable-http2   \
-        --enable-mysqlnd \
-        --enable-openssl \
-        --enable-sockets --enable-hook-curl --with-postgres && \
-    docker-php-ext-install -j$(nproc) --ini-name zzz-docker-php-ext-openswoole.ini openswoole && \
-    rm -f swoole.tar.gz $HOME/.composer/*-old.phar && \
-    docker-php-source delete && \
-    apk del .build-deps
+# Install dev dependencies
+# RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
+#     libtool libxml2-dev postgresql-dev sqlite-dev
+
+# # Install production dependencies
+# RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
+#     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
+#     postgresql-libs supervisor zlib-dev
+
+# RUN pecl install apfd imagick swoole
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
+RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 

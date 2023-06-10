@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->singleton(
+    'siteState',
+    App\Services\SiteState::class
+);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

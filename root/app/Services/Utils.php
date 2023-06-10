@@ -110,7 +110,7 @@ class Utils {
     }
     
     /**
-     * Returns a unique name for a user
+     * Returns a unique name for a user (DO NOT USE, only migration code)
      */
     public static function getUniqueNameCached(string $name): string
     {

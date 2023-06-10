@@ -38,10 +38,10 @@ class ModController extends Controller
 
     /**
      * Mods
-     * 
+     *
      * Returns many mods, has a few options for searching the right mods
-     * 
-     * 
+     *
+     *
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
@@ -52,16 +52,16 @@ class ModController extends Controller
         } else {
             $mods = ModService::mods();
         }
-        
+
         $mods = $mods->queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
     }
 
     /**
      * Liked Mods
-     * 
+     *
      * Returns mods the user liked
-     * 
+     *
      * @authenticated
      */
     public function liked(GetModsRequest $request)
@@ -77,9 +77,9 @@ class ModController extends Controller
 
     /**
      * Waiting for approval
-     * 
+     *
      * Returns mods waiting for approval (approval == null)
-     * 
+     *
      * @authenticated
      */
     public function waiting(GetModsRequest $request, Game $game=null)
@@ -98,21 +98,19 @@ class ModController extends Controller
 
     /**
      * Get Mod
-     * 
+     *
      * Returns a single mod
      */
     public function show(Game $game=null, Mod $mod)
     {
-        $mod->withAllRest();
-        APIService::setCurrentGame($mod->game);
         return new ModResource($mod);
     }
 
     /**
      * Update Mod
-     * 
+     *
      * Updates data of a mod
-     * 
+     *
      * @authenticated
      */
     public function update(ModUpsertRequest $request, Game $game=null, Mod $mod=null)
@@ -145,7 +143,7 @@ class ModController extends Controller
                 } else if($type == 'link') {
                     $download = $mod->links->find($downloadId);
                 }
-    
+
                 if (isset($download)) {
                     $mod->download()->associate($download);
                 } else {
@@ -157,7 +155,7 @@ class ModController extends Controller
         }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
-        
+
         $publish = Arr::pull($val, 'publish', false);
         $sendForApproval = Arr::pull($val, 'send_for_approval', false);
 
@@ -243,7 +241,7 @@ class ModController extends Controller
         }
 
         $mod->refresh();
-        $mod->withAllRest();
+        $mod->withFetchResourceGame();
 
         if ($publish) {
             $mod->publish();
@@ -261,9 +259,9 @@ class ModController extends Controller
 
     /**
      * Create Mod
-     * 
+     *
      * Creates a new mod
-     * 
+     *
      * @authenticated
      */
     public function store(ModUpsertRequest $request, Game $game)
@@ -273,7 +271,7 @@ class ModController extends Controller
 
     /**
      * Delete Mod
-     * 
+     *
      * @authenticated
      */
     public function destroy(Mod $mod, Game $game=null)
@@ -283,7 +281,7 @@ class ModController extends Controller
 
     /**
      * Register a View
-     * 
+     *
      * Registers a view for a mod, doesn't let you 'view' it twice
      * Works with guests
      */
@@ -295,7 +293,7 @@ class ModController extends Controller
         PopularityLog::log($mod, 'view');
 
         if (
-            (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
+            (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
         || (!isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
         ) {
             return;
@@ -312,13 +310,13 @@ class ModController extends Controller
         $view->save();
         $mod->views++;
         $mod->save();
-        
+
         return response()->noContent(201);
     }
 
     /**
      * Register a Download
-     * 
+     *
      * Registers a download for a mod, doesn't let you 'download' it twice
      * Works with guests
      */
@@ -330,7 +328,7 @@ class ModController extends Controller
         PopularityLog::log($mod, 'down');
 
         if (
-            (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) 
+            (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
         || (!isset($user) && ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
         ) {
             return;
@@ -343,7 +341,7 @@ class ModController extends Controller
         }
 
         $download->ip_address = $ip;
-        
+
         $download->save();
         $mod->downloads++;
         $mod->save();
@@ -353,9 +351,9 @@ class ModController extends Controller
 
     /**
      * Toggle Like
-     * 
+     *
      * Toggles the state of the like of the mod
-     * 
+     *
      * @authenticated
      */
     public function toggleLike(Request $request, Mod $mod)
@@ -391,9 +389,9 @@ class ModController extends Controller
 
     /**
      * Transfer Ownership
-     * 
-     * Creates a transfer request, only once a user accepts can the mod be fully transfered. 
-     * 
+     *
+     * Creates a transfer request, only once a user accepts can the mod be fully transfered.
+     *
      * @authenticated
      */
     public function transferOwnership(Request $request, Mod $mod)
@@ -435,7 +433,7 @@ class ModController extends Controller
 
     /**
      * Accept Transfer Ownership Request
-     * 
+     *
      * @authenticated
      */
     public function acceptTransferRequest(Request $request, Mod $mod)
@@ -467,13 +465,13 @@ class ModController extends Controller
 
     /**
      * Cancel Transfer Ownership Request
-     * 
+     *
      * @authenticated
      */
     public function cancelTransferRequest(Request $request, Mod $mod)
     {
         $transferRequest = $mod->transferRequest;
-        
+
         if (!isset($transferRequest)) {
             abort(404, 'No transfer request exists');
         }
@@ -483,9 +481,9 @@ class ModController extends Controller
 
     /**
      * Approve Mod
-     * 
+     *
      * Approves a waiting for approval mod.
-     * 
+     *
      * @authenticated
      */
     public function approve(Request $request, Mod $mod)
@@ -536,7 +534,7 @@ class ModController extends Controller
 
     /**
      * Suspend Mod
-     * 
+     *
      * @authenticated
      */
     public function suspend(Request $request, Mod $mod)
@@ -600,7 +598,7 @@ class ModController extends Controller
                 $message .= "\nReason: {$val['reason']}\n";
             }
             $message .= Str::repeat('-', 30)."CASE {$case}".Str::repeat('-', 30);
-            
+
             Utils::sendDiscordMessage($send, $message, [$mod->name, $mod->id]);
         }
 
@@ -609,13 +607,13 @@ class ModController extends Controller
 
     /**
      * Report Mod
-     * 
+     *
      * Reports the mod for moderators to look at it.
-     * 
+     *
      * @authenticated
      */
     public function report(Request $request, Mod $mod)
     {
         APIService::report($request, $mod);
-    } 
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
+use App\Services\APIService;
 use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
@@ -203,7 +204,7 @@ class Mod extends Model implements SubscribableInterface
         'members',
         'banner',
         'lastUser',
-        'liked', 
+        'liked',
         'transferRequest',
         'subscribed',
         'dependencies',
@@ -222,8 +223,8 @@ class Mod extends Model implements SubscribableInterface
     public function getMorphClass(): string {
         return 'mod';
     }
-    
-    public function withAllRest()
+
+    public function withFetchResourceGame()
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
@@ -236,6 +237,7 @@ class Mod extends Model implements SubscribableInterface
         }
         $this->category?->loadMissing('parent');
     }
+
 
     protected static function booted() {
         static::deleting(function(Mod $mod) {
@@ -301,7 +303,7 @@ class Mod extends Model implements SubscribableInterface
         return $this->belongsTo(User::class);
     }
 
-    public function category() 
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
@@ -310,12 +312,12 @@ class Mod extends Model implements SubscribableInterface
     {
         return $this->belongsTo(Game::class);
     }
-    
+
     public function thumbnail()
     {
         return $this->belongsTo(Image::class);
     }
-        
+
     public function banner()
     {
         return $this->belongsTo(Image::class);
@@ -382,7 +384,7 @@ class Mod extends Model implements SubscribableInterface
         }
 
         $members = $this->members;
-        
+
         foreach ($members as $member) {
             if ((!$acceptedOnly || $member->pivot->accepted) && $member->id === $userId) {
                 return $member->pivot->level;
@@ -472,7 +474,7 @@ class Mod extends Model implements SubscribableInterface
         if (!$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
             return;
         }
-        
+
         $this->published_at = Carbon::now();
         $this->bumped_at = $this->freshTimestampString();
 
@@ -482,7 +484,7 @@ class Mod extends Model implements SubscribableInterface
 
         $game = $this->game;
         $category = $this->category;
-        
+
         //Send to main webhook and webhooks that were set by game or category
         $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category?->webhook_url];
 
@@ -490,7 +492,7 @@ class Mod extends Model implements SubscribableInterface
             $siteUrl = env('FRONTEND_URL');
             Utils::sendDiscordMessage($send, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
                 $this->name,
-                ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''), 
+                ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''),
                 $this->id
             ]);
         }
