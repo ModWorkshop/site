@@ -28,6 +28,8 @@ RUN apk add redis
 
 # RUN pecl install apfd imagick swoole
 
+RUN pecl install apfd imagick
+
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
