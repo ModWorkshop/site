@@ -153,28 +153,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public $membersRole = null; // TODO: smartly cache it or something?
     public static $flushCacheOnUpdate = true;
 
-    public static $currentGameId = null;
-    public static $staticWith;
+    public $currentGameId = null;
     protected $saveToReport = ['bio', 'custom_title'];
 
-    public function __construct($attributes = []) {
-        if (isset(self::$staticWith)) {
-            $this->with = self::$staticWith;
-        }
-        if (Auth::hasUser()) {
-            $this->with[] = 'blockedByMe';
-            $this->with[] = 'blockedMe';
-        }
-        parent::__construct($attributes);
-    }
-
-    public static function setCurrentGame(int $gameId)
-    {
-        Log::info("setting game as " . $gameId);
-        self::$currentGameId = $gameId;
-        self::$staticWith = ['roles', 'gameRoles', 'ban', 'gameBan', 'supporter'];
-    }
-    
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
     protected $with = ['roles', 'ban', 'supporter'];
@@ -311,6 +292,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected static function booted()
     {
+        static::retrieved(function(User $user) {
+            $currentGame = app('siteState')->getCurrentGame();
+            if ($currentGame) {
+                $user->with = ['roles', 'gameRoles', 'ban', 'gameBan', 'supporter'];
+                $user->currentGameId = $currentGame;
+            }
+            Log::info(app('siteState')->currentGame ?? 'nope');
+            if (Auth::hasUser()) {
+                $user->with[] = 'blockedByMe';
+                $user->with[] = 'blockedMe';
+            }
+        });
+
         static::created(fn(User $user) => $user->extra()->create());
 
         static::deleting(function(User $user) {
@@ -408,7 +402,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function gameRoles(): BelongsToMany
     {
-        return $this->belongsToMany(GameRole::class)->where('game_id', self::$currentGameId)->orderBy('order')->distinct();
+        return $this->belongsToMany(GameRole::class)->where('game_id', $this->currentGameId)->orderBy('order')->distinct();
     }
 
     public function ban() : HasOne
@@ -418,7 +412,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function gameBan(): HasOne
     {
-        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', self::$currentGameId);
+        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', $this->currentGameId);
     }
 
     public function gameBans(): HasMany
@@ -492,7 +486,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $firstGlobalVanity = $firstVanity($this->roles);
             $firstGlobalRegular = $firstRegular($this->roles);
 
-            if (self::$currentGameId) {
+            if ($this->currentGameId) {
                 return $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
             }
 
@@ -527,7 +521,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $firstGlobalRegular = $firstRegular($this->roles);
             $firstGlobalVanity = $firstVanity($this->roles);
 
-            if (self::$currentGameId) {
+            if ($this->currentGameId) {
                 return $firstGlobalRegular ?? $firstRegular($this->gameRoles) ?? $firstVanity($this->gameRoles) ?? $firstGlobalVanity;
             }
 
@@ -599,7 +593,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function getLastGameBanAttribute()
     {
-        if (isset(self::$currentGameId)) {
+        if (isset($this->currentGameId)) {
             if (!$this->relationLoaded('gameBan')) {
                 $this->load('gameBan');
             }
@@ -705,7 +699,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $gameRoles = [];
-        if ($gameId === self::$currentGameId) {
+        if ($gameId === $this->currentGameId) {
             if ($withPerms && !$this->relationLoaded('gameRoles.permissions')) {
                 $this->load('gameRoles.permissions');
             }

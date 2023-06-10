@@ -243,7 +243,7 @@ class ModController extends Controller
         }
 
         $mod->refresh();
-        $mod->withAllRest();
+        $mod->withFetchResourceGame();
 
         if ($publish) {
             $mod->publish();

@@ -17,9 +17,7 @@ use Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
-class ModService {
-    static $categories;
-    
+class ModService {    
     public static function mods($query=null)
     {
         return QueryBuilder::for($query ?? Mod::class)->allowedFields([
@@ -102,7 +100,8 @@ class ModService {
 
         }
 
-        self::$categories ??= Arr::keyBy(($game ?? $category->game)->categories, 'id');
+        app('siteState')->categories ??= Arr::keyBy(($game ?? $category->game)->categories, 'id');
+        $categories = app('siteState')->categories;
 
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {

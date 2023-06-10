@@ -154,12 +154,12 @@ class APIService {
 
     public static function currentGame()
     {
-        return User::$currentGameId;
+        return app('siteState')->getCurrentGame();
     }
 
     public static function setCurrentGame(Game $game)
     {
-        User::setCurrentGame($game->id);
+        app('siteState')->currentGame = $game->id;
         $game->append('announcements');
     }
 

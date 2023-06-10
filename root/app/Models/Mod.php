@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
+use App\Services\APIService;
 use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
@@ -222,8 +223,8 @@ class Mod extends Model implements SubscribableInterface
     public function getMorphClass(): string {
         return 'mod';
     }
-    
-    public function withAllRest()
+
+    public function withFetchResourceGame()
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
