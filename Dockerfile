@@ -9,7 +9,6 @@ FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=1000
-ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
 RUN set -eux \
