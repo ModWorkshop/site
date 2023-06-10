@@ -21,6 +21,13 @@ export default async function<T = unknown>(url: string, options?) {
         headersToSend['X-XSRF-TOKEN'] = token.value;
     }
 
+    // This *should* be safe! If we use Caddy to proxy, Caddy should ignore all of these (if give by user) and set it by itself
+    if (process.server) {
+        headersToSend['X-Forwarded-Proto'] = headers['X-Forwarded-Proto'];
+        headersToSend['X-Forwarded-Host'] = headers['X-Forwarded-Host'];
+        headersToSend['X-Forwarded-For'] = headers['X-Forwarded-For'];
+    }
+
     //No point running this for non GET
     if (options && options.params && (!options.method || options.method == 'GET')) {
         //This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
