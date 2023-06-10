@@ -135,7 +135,7 @@ function hideAnnouncement(thread: Thread) {
 }
 
 const buttons = computed(() => {
-    if (props.game) {
+    if (props.game && props.game.buttons) {
         const btns = props.game.buttons.split(',');
         const res: string[][] = [];
     
