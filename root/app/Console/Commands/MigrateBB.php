@@ -1047,7 +1047,7 @@ class MigrateBB extends Command
     public function handleModDownloads()
     {
         $bar = $this->progress('Converting mod downloads', $this->con->table('mods_downloads')->count());
-        $downloads = $this->con->table('mods_downloads')->lazyById(100000, 'lid');
+        $downloads = $this->con->table('mods_downloads')->lazyById(100000, 'id');
 
         $i = 0;
         $insertAtOnce = [];
@@ -1056,10 +1056,10 @@ class MigrateBB extends Command
         $insertBroken = [];
 
         $doInsert = function() use (&$insertAtOnce, &$insertAtOnceIpless, &$insertAtOnceUserless, &$insertBroken) {
-            ModView::insert($insertAtOnce);
-            ModView::insert($insertAtOnceIpless);
-            ModView::insert($insertAtOnceUserless);
-            ModView::insert($insertBroken);
+            ModDownload::insert($insertAtOnce);
+            ModDownload::insert($insertAtOnceIpless);
+            ModDownload::insert($insertAtOnceUserless);
+            ModDownload::insert($insertBroken);
     
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
@@ -1118,7 +1118,7 @@ class MigrateBB extends Command
     public function handleModViews()
     {
         $bar = $this->progress('Converting mod views', $this->con->table('mydownloads_views')->count());
-        $views = $this->con->table('mydownloads_views')->lazyById(100000, 'vid');
+        $views = $this->con->table('mydownloads_views')->lazyById(100000, 'id');
 
         $insertAtOnce = [];
         $insertAtOnceIpless = [];
