@@ -29,7 +29,7 @@ class Controller extends BaseController
             $this->authorizeResource([$class, 'game'], "{$resource}, game");
             APIService::setCurrentGame($game);
         } else {
-            if (!empty(request()->route($resource))) {
+            if (!empty(request()->route($resource)) && isset($model->game_id)) {
                 $class::retrieved(function($model) {
                     APIService::setCurrentGame($model->game);
                     if (method_exists($model, 'withFetchResourceGame')) {
