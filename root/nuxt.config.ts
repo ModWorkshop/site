@@ -129,6 +129,10 @@ export default defineNuxtConfig({
 		defaultLocale: 'en',
 	},
 
+	gtag: {
+		id: 'G-346495535'
+	},
+	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		'nuxt-delay-hydration',
@@ -137,6 +141,7 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'nuxt-icon',
 		'nuxt-simple-sitemap',
-		'@nuxtjs/i18n'
+		'@nuxtjs/i18n',
+		'nuxt-gtag'
 	],
 });
