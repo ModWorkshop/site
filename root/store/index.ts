@@ -56,11 +56,11 @@ export const useStore = defineStore('main', {
             useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
         setGame(game: Game|null) {
-            if (game) {
-                console.log('Setting game to', game.name);
-            } else {
-                console.log('Setting to no game');
-            }
+            // if (game) {
+            //     console.log('Setting game to', game.name);
+            // } else {
+            //     console.log('Setting to no game');
+            // }
             this.currentGame = game;
         },
         /**
@@ -75,7 +75,7 @@ export const useStore = defineStore('main', {
         },
 
         async loadSiteData() {
-            console.log('Attempting to fetch user data');
+            // console.log('Attempting to fetch user data');
 
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
