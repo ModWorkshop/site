@@ -9,6 +9,9 @@ FROM webdevops/php:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=500
+ENV FPM_PM_START_SERVERS=16
+ENV FPM_PM_MIN_SPARE_SERVERS=8
+ENV FPM_PM_MAX_SPARE_SERVERS=16
 ENV LOG_STDERR=/proc/self/fd/2
 
 # Install stuff
