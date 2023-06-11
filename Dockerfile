@@ -30,12 +30,15 @@ COPY --from=builder  /var/www/html/.output  ./.output
 
 EXPOSE 80
 
+RUN nginx -t
+
 # All ready now
-CMD ["/bin/sh", "-c", "node .output/server/index.mjs"]
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs;", "nginx","-g","daemon off;"]
 
 #### Stage 2 DEV ####
 FROM builder as dev
 
 WORKDIR /var/www/html
 CMD yarn && yarn dev
+
 EXPOSE 3000
