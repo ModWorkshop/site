@@ -130,12 +130,12 @@ export default defineNuxtConfig({
 	},
 
 	gtag: {
-		id: 'G-EGYBGTBHRV'
+		id: 'G-346495535'
 	},
 	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
-		// 'nuxt-delay-hydration',
+		'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
