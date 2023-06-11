@@ -36,7 +36,7 @@ RUN apk add redis
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
-RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
+# RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 
