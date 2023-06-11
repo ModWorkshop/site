@@ -5,10 +5,10 @@
 # ####
 
 # #### PHP Stage
-FROM webdevops/php:8.1-alpine as build
+# FROM webdevops/php:8.1-alpine as build
 
 
-# FROM webdevops/php-nginx:8.1-alpine as build
+FROM webdevops/php-nginx:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=500
