@@ -18,6 +18,7 @@ ENV LOG_STDERR=/proc/self/fd/2
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
+    && pecl install apfd imagick
     && apk del .build-deps
 RUN apk add redis
 
@@ -30,7 +31,7 @@ RUN apk add redis
 #     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
 #     postgresql-libs supervisor zlib-dev
 
-RUN pecl install apfd imagick
+# RUN pecl install apfd imagick swoole
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
