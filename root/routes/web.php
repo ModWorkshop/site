@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
  * @hideFromAPIDocumentation
  */
 Route::get('/', function () {
-    return 'Maintenance';
+    return view('welcome');
 });
