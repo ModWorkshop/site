@@ -23,7 +23,7 @@ ENV WEB_DOCUMENT_ROOT=/var/www/html/public
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
     && pecl install apfd imagick excimer \
-    && apk del .build-dep
+    && apk del .build-deps
 RUN apk add redis
 
 # Install dev dependencies
