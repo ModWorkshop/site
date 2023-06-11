@@ -30,7 +30,7 @@ RUN apk add redis
 #     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
 #     postgresql-libs supervisor zlib-dev
 
-# RUN pecl install apfd imagick swoole
+RUN pecl install apfd imagick
 
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
