@@ -18,7 +18,7 @@ ENV LOG_STDERR=/proc/self/fd/2
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
-    && pecl install apfd imagick
+    && pecl install apfd imagick \
     && apk del .build-deps
 RUN apk add redis
 
