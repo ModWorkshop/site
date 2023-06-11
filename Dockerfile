@@ -18,7 +18,7 @@ ENV LOG_STDERR=/proc/self/fd/2
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
-    && pecl install apfd imagick \
+    && pecl install apfd imagick excimer \
     && apk del .build-deps
 RUN apk add redis
 
@@ -36,6 +36,7 @@ RUN apk add redis
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
+RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
 # RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
