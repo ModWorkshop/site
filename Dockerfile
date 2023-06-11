@@ -27,7 +27,8 @@ COPY --from=builder  /var/www/html/.output  ./.output
 
 # All ready now
 EXPOSE 3000
-CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+# CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs"]
 
 #### Stage 2 DEV ####
 FROM node:18.16.0-alpine as dev
