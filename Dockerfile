@@ -36,4 +36,4 @@ WORKDIR /var/www/html
 CMD yarn && yarn dev
 EXPOSE 3000
 
-VOLUME /var/www/html/public
+VOLUME /var/www/html
