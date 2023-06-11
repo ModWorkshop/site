@@ -4,7 +4,10 @@
 ########
 
 #### Stage 1 ####
-FROM node:18.16.0-alpine as builder
+FROM nginx:alpine as builder
+# https://github.com/hoosin/alpine-nginx-nodejs/blob/master/Dockerfile
+# Install nvm with node and npm
+RUN apk add --update nodejs npm yarn
 
 # Copy and set directory
 COPY ./root /var/www/html
@@ -15,25 +18,21 @@ RUN yarn && yarn build
 ########
 
 #### Stage 2 ####
-FROM node:18.16.0-alpine as prod
+FROM builder as prod
 
 # Copy caddy stuff
 # COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 # COPY ./Caddyfile /etc/caddy/Caddyfile
+COPY ./nginx /etc/nginx/nginx.conf
 
 WORKDIR /var/www/html
 
-COPY --from=builder  /var/www/html/.output  ./.output
-
 # All ready now
-EXPOSE 3000
 CMD ["/bin/sh", "-c", "node .output/server/index.mjs"]
 
 #### Stage 2 DEV ####
-FROM node:18.16.0-alpine as dev
+FROM builder as dev
 
 WORKDIR /var/www/html
 CMD yarn && yarn dev
 EXPOSE 3000
-
-VOLUME /var/www/html
