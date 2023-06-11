@@ -52,7 +52,7 @@ RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool
 WORKDIR /var/www/html
 # COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 # COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
-COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 # COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
 COPY --chown=nobody ./root /var/www/html
@@ -66,7 +66,7 @@ RUN php artisan route:cache
 # Start things and set to nobody
 USER nobody
 EXPOSE 8080
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 FROM build as dev
 
