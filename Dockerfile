@@ -74,7 +74,8 @@ RUN apk add nodejs
 # Install composer packages
 CMD composer install --no-interaction \
     && php artisan mws:install --auto \
-    && php artisan octane:start --server=swoole --host=0.0.0.0 --watch
+    && php artisan serve
+    # && php artisan octane:start --server=swoole --host=0.0.0.0 --watch
 
 # Start things and set to nobody
 EXPOSE 8000
