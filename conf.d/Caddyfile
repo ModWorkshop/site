@@ -11,7 +11,7 @@
 
 	encode zstd gzip
 
-	php_fastcgi :9000 {
+	reverse_proxy localhost:9000 {
 		header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
 		header_up X-Forwarded-Host {header.X-Forwarded-Host}
 		header_up Host {header.X-Forwarded-Host}
