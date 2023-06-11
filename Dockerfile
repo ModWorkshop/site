@@ -28,6 +28,8 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 WORKDIR /var/www/html
 COPY --from=builder  /var/www/html/.output  ./.output
 
+EXPOSE 80
+
 # All ready now
 CMD ["/bin/sh", "-c", "node .output/server/index.mjs"]
 
