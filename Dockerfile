@@ -24,6 +24,7 @@ FROM builder as prod
 # COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 # COPY ./Caddyfile /etc/caddy/Caddyfile
 COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder  /var/www/html/.output  ./.output
 
 WORKDIR /var/www/html
 
