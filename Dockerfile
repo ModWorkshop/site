@@ -1,11 +1,14 @@
-#### Caddy Stage
-# Install Caddy
-FROM caddy:builder-alpine AS caddy-builder
-RUN xcaddy build
-####
+# #### Caddy Stage
+# # Install Caddy
+# FROM caddy:builder-alpine AS caddy-builder
+# RUN xcaddy build
+# ####
 
-#### PHP Stage
-FROM webdevops/php:8.1-alpine as build
+# #### PHP Stage
+# FROM webdevops/php:8.1-alpine as build
+
+
+FROM webdevops/php-nginx:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=500
@@ -47,11 +50,11 @@ RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool
 
 # Copy stuff
 WORKDIR /var/www/html
-COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
-COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
+# COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+# COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
 COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
-COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
+# COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+# COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
 COPY --chown=nobody ./root /var/www/html
 RUN mkdir /.config
 RUN chown -R nobody.nobody /run /.config
