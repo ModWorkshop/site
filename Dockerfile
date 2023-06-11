@@ -33,7 +33,7 @@ EXPOSE 80
 RUN nginx -t
 
 # All ready now
-CMD ["/bin/sh", "-c", "nginx -g 'daemon off';", "node .output/server/index.mjs;"]
+CMD ["/bin/sh", "-c", "nginx -g 'daemon off;' && node .output/server/index.mjs;"]
 
 #### Stage 2 DEV ####
 FROM builder as dev
