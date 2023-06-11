@@ -5,10 +5,10 @@
 # ####
 
 # #### PHP Stage
-# FROM webdevops/php:8.1-alpine as build
+FROM webdevops/php:8.1-alpine as build
 
 
-FROM webdevops/php-nginx:8.1-alpine as build
+# FROM webdevops/php-nginx:8.1-alpine as build
 
 # Configure ENV variables
 ENV FPM_MAX_REQUESTS=500
@@ -23,7 +23,7 @@ ENV WEB_DOCUMENT_ROOT=/var/www/html/public
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
     && pecl install apfd imagick excimer \
-    && apk del .build-deps
+    && apk del .build-depshoosin/alpine-nginx-nodejs
 RUN apk add redis
 
 # Install dev dependencies
