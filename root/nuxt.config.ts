@@ -10,6 +10,8 @@ export default defineNuxtConfig({
 		innerApiUrl: ''
 	},
 
+	ssr: false,
+
 	hooks: {
 		'pages:extend': (routes) => {
 			routes.push(...[
