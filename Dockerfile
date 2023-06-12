@@ -11,11 +11,11 @@
 FROM webdevops/php-nginx:8.1-alpine as build
 
 # Configure ENV variables
-ENV FPM_MAX_REQUESTS=500
-ENV FPM_PM_MAX_CHILDREN=16
-ENV FPM_PM_START_SERVERS=16
-ENV FPM_PM_MIN_SPARE_SERVERS=8
-ENV FPM_PM_MAX_SPARE_SERVERS=16
+ENV FPM_MAX_REQUESTS=1000
+ENV FPM_PM_MAX_CHILDREN=25
+ENV FPM_PM_START_SERVERS=5
+ENV FPM_PM_MIN_SPARE_SERVERS=5
+ENV FPM_PM_MAX_SPARE_SERVERS=10
 ENV LOG_STDERR=/proc/self/fd/2
 ENV WEB_DOCUMENT_ROOT=/var/www/html/public
 
@@ -41,6 +41,7 @@ RUN apk add redis
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
+RUN echo "pm = static" >> /opt/docker/etc/php/fpm/pool.d/application.conf
 # RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
