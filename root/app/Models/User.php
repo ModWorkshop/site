@@ -298,7 +298,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->with = ['roles', 'gameRoles', 'ban', 'gameBan', 'supporter'];
                 $user->currentGameId = $currentGame;
             }
-            Log::info(app('siteState')->currentGame ?? 'nope');
             if (Auth::hasUser()) {
                 $user->with[] = 'blockedByMe';
                 $user->with[] = 'blockedMe';

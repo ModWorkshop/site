@@ -127,8 +127,6 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
             $request->session()->regenerate();
             return new UserResource($user->refresh());
-        } else {
-            Log::info('Failed to sign in');
         }
 
         return response('Something went wrong', Response::HTTP_BAD_REQUEST);
