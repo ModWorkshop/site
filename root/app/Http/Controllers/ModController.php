@@ -616,4 +616,9 @@ class ModController extends Controller
     {
         APIService::report($request, $mod);
     }
+
+    function downloadFirstFile(Mod $mod) {
+        $file = $mod->files()->firstOrFail();
+        return redirect($file->downloadUrl);
+    }
 }
