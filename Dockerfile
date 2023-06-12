@@ -35,7 +35,7 @@ RUN nginx -t
 RUN apk add --update nodejs npm yarn
 
 # All ready now
-CMD node .output/server/index.mjs && nginx -g 'daemon off;'
+CMD node .output/server/index.mjs && nginx
 
 #### Stage 2 DEV ####
 FROM builder as dev
