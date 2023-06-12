@@ -42,6 +42,7 @@ RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
 RUN echo "pm = static" >> /opt/docker/etc/php/fpm/pool.d/application.conf
+RUN echo "pm = static" >> /opt/docker/etc/php/fpm/php-fpm.conf
 # RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
