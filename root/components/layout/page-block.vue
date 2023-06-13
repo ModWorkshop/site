@@ -61,6 +61,11 @@
         <flex :class="innerClasses" column :gap="gap">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <slot/>
+            
+            <flex v-if="store.activity" gap="2" class="text-xl">
+                <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
+                <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
+            </flex>
         </flex>
     </flex>
 </template>

@@ -10,6 +10,10 @@ interface MainStore {
     notificationCount: number|null,
     reportCount: number|null,
     waitingCount: number|null,
+    activity: {
+        users: number,
+        guests: number
+    }|null,
     currentGame: Game|null,
     savedTheme: CookieRef<string>|null,
     announcements: Thread[],
@@ -29,6 +33,7 @@ export const useStore = defineStore('main', {
         waitingCount: null,
         savedTheme: useCookie('theme'),
         colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
+        activity: null,
         announcements: [],
         currentGame: null,
         settings: null,
@@ -103,7 +108,7 @@ export const useStore = defineStore('main', {
             this.notificationCount = siteData.unseen_notifications;
             this.reportCount = siteData.report_count ?? null;
             this.waitingCount = siteData.waiting_count ?? null;
-
+            this.activity = siteData.activity;
         },
 
         async reloadUser() {
