@@ -13,6 +13,7 @@
             :game-id="game?.id"
             :forum-id="game?.forum_id"
             :limit="10"
+            no-pins
             :query="false"
             :filters="false"
         />

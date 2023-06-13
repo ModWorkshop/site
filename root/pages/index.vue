@@ -36,6 +36,7 @@
             title-link="/forum"
             :forum-id="1"
             :limit="10"
+            no-pins
             :lazy="user?.extra?.home_show_mods ?? true"
             :query="false"
             :filters="false"
