@@ -49,7 +49,6 @@ RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 
 FROM build as prod
-USER root
 # Cron Job
 # RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
@@ -59,10 +58,9 @@ WORKDIR /app/public
 COPY --chown=1000:1000 ./root /var/www/html
 
 # Install composer packages
+USER application:application
 RUN composer install --no-interaction --no-dev
 RUN php artisan route:cache
-
-USER application:application
 
 FROM build as dev
 
