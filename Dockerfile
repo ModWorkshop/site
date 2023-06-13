@@ -6,7 +6,8 @@ RUN apk --no-cache add \
   php81-simplexml \
   php81-tokenizer \
   php81-fileinfo \
-  php81-redis
+  php81-redis \
+  php81-pdo
 
 # Install stuff
 RUN set -eux \
