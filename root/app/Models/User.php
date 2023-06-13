@@ -149,7 +149,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, HasApiTokens, Notifiable, Reportable;
     use QueryCacheable, HasRelationshipObservables;
 
-    public $cacheFor = 10;
+    public $cacheFor = 60;
     public $membersRole = null; // TODO: smartly cache it or something?
     public static $flushCacheOnUpdate = true;
 
