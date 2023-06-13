@@ -58,7 +58,7 @@ WORKDIR /app/public
 COPY --chown=application:application ./root /app/public
 
 # Install composer packages
-USER application:application
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-interaction --no-dev
 RUN php artisan route:cache
 
