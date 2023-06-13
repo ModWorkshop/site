@@ -3,9 +3,8 @@ USER root
 
 # Install stuff
 RUN set -eux \
-    && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
-    && pecl install apfd imagick \
-    # && pecl install excimer \
+    && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc musl-dev make vips \
+    && pecl install apfd \
     && apk del .build-deps
 
 # PHP ini configuration
