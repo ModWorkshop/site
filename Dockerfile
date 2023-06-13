@@ -1,23 +1,5 @@
-# #### Caddy Stage
-# # Install Caddy
-# FROM caddy:builder-alpine AS caddy-builder
-# RUN xcaddy build
-# ####
-
-# #### PHP Stage
-# FROM webdevops/php:8.1-alpine as build
-
-
 FROM webdevops/php-nginx:8.1-alpine as build
 
-# Configure ENV variables
-# ENV FPM_MAX_REQUESTS=1000
-# ENV FPM_PM_MAX_CHILDREN=25
-# ENV FPM_PM_START_SERVERS=5
-# ENV FPM_PM_MIN_SPARE_SERVERS=5
-# ENV FPM_PM_MAX_SPARE_SERVERS=10
-# ENV PHP_MAX_EXECUTION_TIME=30
-# ENV FPM_PROCESS_IDLE_TIMEOUT=120
 ENV PHP_MEMORY_LIMIT=2048M
 ENV WEB_DOCUMENT_ROOT=/app/public
 
@@ -28,24 +10,9 @@ RUN set -eux \
     # && pecl install excimer \
     && apk del .build-deps
 
-# Install dev dependencies
-# RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
-#     libtool libxml2-dev postgresql-dev sqlite-dev
-
-# # Install production dependencies
-# RUN apk add --no-cache bash curl freetype-dev g++ gcc git icu-dev icu-libs imagemagick  \
-#     libc-dev libjpeg-turbo-dev libpng-dev libzip-dev make mysql-client oniguruma-dev \
-#     postgresql-libs supervisor zlib-dev
-
-# RUN pecl install apfd imagick swoole
-
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
-# RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
-RUN echo "pm = static" >> /opt/docker/etc/php/fpm/pool.d/application.conf
-RUN echo "pm = static" >> /opt/docker/etc/php/fpm/php-fpm.conf
-# RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 
@@ -73,7 +40,6 @@ RUN apk add nodejs
 CMD composer install --no-interaction \
     && php artisan mws:install --auto \
     && php artisan serve
-    # && php artisan octane:start --server=swoole --host=0.0.0.0 --watch
 
 # Start things and set to nobody
 EXPOSE 8000
