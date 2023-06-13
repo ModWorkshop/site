@@ -55,7 +55,7 @@ FROM build as prod
 # Copy stuff
 RUN mkdir -p /app/public
 WORKDIR /app/public
-COPY --chown=1000:1000 ./root /app/public
+COPY --chown=application:application ./root /app/public
 
 # Install composer packages
 USER application:application
