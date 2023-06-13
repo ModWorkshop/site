@@ -40,7 +40,9 @@ use App\Http\Controllers\TokenController;
 use App\Http\Resources\UserResource;
 use App\Models\Mod;
 use App\Models\Report;
+use App\Models\TrackSession;
 use App\Services\APIService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -198,11 +200,18 @@ Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
+    $fifteenMinAgo = Carbon::now()->subMinutes(15);
+    $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $fifteenMinAgo)->count();
+    $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $fifteenMinAgo)->count();
 
     $data = [
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
+        'activity' => [
+            'users' => $users,
+            'guests' => $guests
+        ]
     ];
 
     if (Auth::hasUser()) {

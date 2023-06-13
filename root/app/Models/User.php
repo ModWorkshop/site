@@ -239,6 +239,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(FollowedGame::class);
     }
 
+    public function trackSession() {
+        return $this->hasOne(TrackSession::class);
+    }
+
     public function followedGames() : BelongsToMany
     {
         return $this->belongsToMany(Game::class, FollowedGame::class)->select('games.*');
