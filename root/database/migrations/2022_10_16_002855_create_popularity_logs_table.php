@@ -32,6 +32,7 @@ return new class extends Migration
             $table->index('type');
             $table->index('updated_at');
             $table->index('user_id');
+            $table->index('mod_id');
         });
     }
 

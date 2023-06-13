@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->index('user_id');
             $table->index('mod_id');
-
+            $table->index('ip_address');
         });
     }
 
