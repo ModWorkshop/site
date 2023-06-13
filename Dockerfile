@@ -14,10 +14,10 @@ RUN set -eux \
     && apk del .build-deps
 
 # PHP ini configuration
-RUN echo "ffi.enable = true" >> /etc/php81/conf.d/custom.ini
+RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
-RUN echo "post_max_size = 1G" >> /etc/php81/conf.d/custom.ini
-RUN echo "upload_max_filesize = 1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 
 FROM build as prod
 # Cron Job TODO
@@ -25,6 +25,7 @@ FROM build as prod
 
 # Copy stuff
 COPY --chown=nobody ./root /var/www/html
+COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
 
 # Install composer from the official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
