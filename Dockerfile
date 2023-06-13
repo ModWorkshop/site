@@ -1,7 +1,5 @@
-FROM webdevops/php-nginx:8.1-alpine as build
-
-ENV PHP_MEMORY_LIMIT=2048M
-ENV WEB_DOCUMENT_ROOT=/app/public
+FROM trafex/php-nginx as build
+USER root
 
 # Install stuff
 RUN set -eux \
@@ -11,35 +9,29 @@ RUN set -eux \
     && apk del .build-deps
 
 # PHP ini configuration
-RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
-RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
-RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
-RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
+RUN echo "ffi.enable = true" >> /etc/php81/conf.d/custom.ini
+RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
+RUN echo "post_max_size = 1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "upload_max_filesize = 1G" >> /etc/php81/conf.d/custom.ini
 
 FROM build as prod
-# Cron Job
+# Cron Job TODO
 # RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
 # Copy stuff
-WORKDIR /app
-COPY --chown=application:www-data ./root /app
+COPY --chown=nobody ./root /var/www/html
 
+# Install composer from the official image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Install composer packages
-USER application
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress
 RUN php artisan route:cache
 
+# Switch to use a non-root user from here on
+USER nobody
+
 FROM build as dev
-
-# Copy stuff
-WORKDIR /var/www/html
-
-RUN apk add nodejs
-
 # Install composer packages
 CMD composer install --no-interaction \
     && php artisan mws:install --auto \
     && php artisan serve
-
-# Start things and set to nobody
-EXPOSE 8000
