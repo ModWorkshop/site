@@ -24,7 +24,7 @@ class UserAuth
          */
         $ip = $request->ip();
         $user = $request->user();
-        $activeSession = $user->trackSession ?? TrackSession::where('ip_address', $ip)->first();
+        $activeSession = $user?->trackSession ?? TrackSession::where('ip_address', $ip)->first();
 
         if (isset($activeSession)) {
             if (isset($user) && $activeSession->user_id != $user->id) {
