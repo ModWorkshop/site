@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
+use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Thread
@@ -70,7 +72,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Illuminate\Support\Carbon|null $announce_until
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounce($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereAnnounceUntil($value)
- * @property int $comment_count
  * @property int|null $game_id
  * @property-read \App\Models\Game|null $game
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
@@ -80,6 +81,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Thread extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable;
+    use QueryCacheable, HasRelationshipObservables;
+
+    public static $flushCacheOnUpdate = true;
+    public $cacheFor = 120;
 
     protected $with = ['user', 'lastUser', 'category'];
     protected $saveToReport = ['content'];
@@ -87,7 +92,7 @@ class Thread extends Model implements SubscribableInterface
     public $commentsOrder = 'ASC';
 
     protected $guarded = [];
-    
+
     protected $casts = [
         'bumped_at' => 'datetime',
         'announce_until' => 'datetime',
@@ -101,7 +106,7 @@ class Thread extends Model implements SubscribableInterface
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function lastUser() : BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -121,7 +126,7 @@ class Thread extends Model implements SubscribableInterface
     {
         return $this->belongsTo(ForumCategory::class);
     }
-    
+
     public function comments() : MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('reply_to');
