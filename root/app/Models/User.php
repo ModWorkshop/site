@@ -149,7 +149,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, HasApiTokens, Notifiable, Reportable;
     use QueryCacheable, HasRelationshipObservables;
 
-    public $cacheFor = 60;
+    public $cacheFor = 120;
     public $membersRole = null; // TODO: smartly cache it or something?
     public static $flushCacheOnUpdate = true;
 
@@ -252,7 +252,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(FollowedMod::class);
     }
- 
+
     public function followedMods() : BelongsToMany
     {
         return $this->belongsToMany(Mod::class, FollowedMod::class)->select('mods.*');
@@ -353,7 +353,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The users the user "soft blocked" i.e. hid their mods (also includes fully blocked)
-     * 
+     *
      */
     public function blockedUsers(): BelongsToMany
     {
@@ -365,7 +365,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function blockedTags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, BlockedTag::class)->select('tags.*');;        
+        return $this->belongsToMany(Tag::class, BlockedTag::class)->select('tags.*');
     }
 
     public function allBlockedTags()
@@ -397,7 +397,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Role::class)->orderBy('order')->distinct();
     }
-    
+
     public function allGameRoles(): BelongsToMany
     {
         return $this->belongsToMany(GameRole::class)->orderBy('order')->distinct();
@@ -556,13 +556,13 @@ class User extends Authenticatable implements MustVerifyEmail
             }
 
             $this->permissions = Utils::collectPermissions($this->roleList);
-            
+
             if ($this->id === 1) {
                 return ['admin' => true];
             }
 
             $this->permissionsLoaded = true;
-    
+
             return $this->permissions;
         });
     }
@@ -590,10 +590,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
                 return $highest;
             }
-    
+
         });
     }
-    
+
     public function getLastGameBanAttribute()
     {
         if (isset($this->currentGameId)) {
@@ -920,12 +920,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Sets the game roles of a user while making sure the auth user can do so.
-     * Makes sure not to remove other game's roles. 
+     * Makes sure not to remove other game's roles.
      * $newRoles must be valid with all roles being from said game.
-     * 
+     *
      * It is very similar to the regular syncRoles function, but to keep proper separation, I decided to not use the same code.
      * It makes sure things don't just mixed up.
-     * 
+     *
      * !See syncRoles if you update this function!
      */
     public function syncGameRoles(Game $game, array $newRoles)

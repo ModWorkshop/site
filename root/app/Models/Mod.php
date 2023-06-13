@@ -105,7 +105,8 @@ abstract class Visibility {
  * @property-read mixed $tag_ids
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read int|null $images_count
- * @property int|null $download_id
+ * @property int|null $
+ * _id
  * @property string|null $download_type
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
  * @property-read int|null $files_count
@@ -168,7 +169,7 @@ class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
     use QueryCacheable, HasRelationshipObservables;
-    
+
     public static $flushCacheOnUpdate = true;
     public $cacheFor = 60;
 
