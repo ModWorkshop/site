@@ -32,7 +32,7 @@ class Permission extends Model
 {
     use HasFactory, QueryCacheable;
 
-    public $cacheFor = 10;
+    public $cacheFor = 3600;
     public static $flushCacheOnUpdate = true;
 
     public function getMorphClass(): string {

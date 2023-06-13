@@ -39,7 +39,7 @@ class InstructsTemplate extends Model
 {
     use HasFactory, QueryCacheable;
 
-    public $cacheFor = 120;
+    public $cacheFor = 3600;
     public static $flushCacheOnUpdate = true;
 
     protected $with = ['dependencies'];

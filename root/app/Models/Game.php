@@ -68,7 +68,7 @@ class Game extends Model
     use HasFactory;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 60;
+    public $cacheFor = 3600;
     public static $flushCacheOnUpdate = true;
 
     protected $guarded = [];
