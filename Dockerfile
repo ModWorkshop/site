@@ -1,6 +1,12 @@
 FROM trafex/php-nginx as build
 USER root
 
+RUN apk --no-cache add \
+  php81-ffi \
+  php81-simplexml \
+  php81-tokenizer \
+  php81-fileinfo
+
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc musl-dev make vips \
