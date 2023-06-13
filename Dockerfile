@@ -53,13 +53,12 @@ FROM build as prod
 # RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
 # Copy stuff
-RUN mkdir -p /app/public
-WORKDIR /app/public
-COPY --chown=application:application ./root /app/public
+WORKDIR /app
+COPY --chown=application:www-data ./root /app
 
 # Install composer packages
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-interaction --no-dev
+USER application
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 RUN php artisan route:cache
 
 FROM build as dev
