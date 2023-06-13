@@ -11,22 +11,21 @@
 FROM webdevops/php-nginx:8.1-alpine as build
 
 # Configure ENV variables
-ENV FPM_MAX_REQUESTS=1000
-ENV FPM_PM_MAX_CHILDREN=25
-ENV FPM_PM_START_SERVERS=5
-ENV FPM_PM_MIN_SPARE_SERVERS=5
-ENV FPM_PM_MAX_SPARE_SERVERS=10
-ENV PHP_MAX_EXECUTION_TIME=30
-ENV FPM_PROCESS_IDLE_TIMEOUT=120
-ENV LOG_STDERR=/proc/self/fd/2
-ENV WEB_DOCUMENT_ROOT=/var/www/html/public
+# ENV FPM_MAX_REQUESTS=1000
+# ENV FPM_PM_MAX_CHILDREN=25
+# ENV FPM_PM_START_SERVERS=5
+# ENV FPM_PM_MIN_SPARE_SERVERS=5
+# ENV FPM_PM_MAX_SPARE_SERVERS=10
+# ENV PHP_MAX_EXECUTION_TIME=30
+# ENV FPM_PROCESS_IDLE_TIMEOUT=120
+ENV WEB_DOCUMENT_ROOT=/app/public
 
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev imagemagick-dev gcc musl-dev make vips \
-    && pecl install apfd imagick excimer \
+    && pecl install apfd imagick \
+    # && pecl install excimer \
     && apk del .build-deps
-RUN apk add redis
 
 # Install dev dependencies
 # RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev imagemagick-dev \
@@ -42,7 +41,7 @@ RUN apk add redis
 # PHP ini configuration
 RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
-RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
+# RUN echo "extension=excimer" >> /opt/docker/etc/php/php.ini
 RUN echo "pm = static" >> /opt/docker/etc/php/fpm/pool.d/application.conf
 RUN echo "pm = static" >> /opt/docker/etc/php/fpm/php-fpm.conf
 # RUN echo "extension=swoole" >> /opt/docker/etc/php/php.ini
@@ -51,27 +50,16 @@ RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
 
 FROM build as prod
 # Cron Job
-RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
+# RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
 # Copy stuff
-WORKDIR /var/www/html
-# COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
-# COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
-# COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-# COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
-# COPY ./conf.d/Caddyfile /etc/caddy/Caddyfile
-COPY --chown=nobody ./root /var/www/html
-RUN mkdir /.config
-RUN chown -R nobody.nobody /run /.config
+RUN mkdir -p /app/public
+WORKDIR /app/public
+COPY --chown=1000:1000 ./root /var/www/html
 
 # Install composer packages
 RUN composer install --no-interaction --no-dev
 RUN php artisan route:cache
-
-# Start things and set to nobody
-USER nobody
-EXPOSE 8080
-# CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 FROM build as dev
 
