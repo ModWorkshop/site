@@ -1,13 +1,10 @@
 #### Stage Caddy ####
-# FROM caddy:builder-alpine AS caddy-builder
-# RUN xcaddy build
+FROM caddy:builder-alpine AS caddy-builder
+RUN xcaddy build
 ########
 
 #### Stage 1 ####
-FROM nginx:alpine as builder
-# https://github.com/hoosin/alpine-nginx-nodejs/blob/master/Dockerfile
-# Install nvm with node and npm
-RUN apk add --update nodejs npm yarn
+FROM node:18.16.0-alpine as builder
 
 # Copy and set directory
 COPY ./root /var/www/html
@@ -18,29 +15,23 @@ RUN yarn && yarn build
 ########
 
 #### Stage 2 ####
-FROM builder as prod
+FROM node:18.16.0-alpine as prod
 
 # Copy caddy stuff
-# COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
-# COPY ./Caddyfile /etc/caddy/Caddyfile
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+COPY ./Caddyfile /etc/caddy/Caddyfile
 
 WORKDIR /var/www/html
+
 COPY --from=builder  /var/www/html/.output  ./.output
 
-EXPOSE 80
-
-RUN nginx -t
-
-RUN apk add --update nodejs npm yarn
-
 # All ready now
-CMD node .output/server/index.mjs && nginx
+EXPOSE 3000
+CMD ["/bin/sh", "-c", "node .output/server/index.mjs & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
 
 #### Stage 2 DEV ####
-FROM builder as dev
+FROM node:18.16.0-alpine as dev
 
 WORKDIR /var/www/html
 CMD yarn && yarn dev
-
 EXPOSE 3000
