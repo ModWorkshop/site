@@ -12,8 +12,8 @@
 	reverse_proxy localhost:3000 {
 		header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
 		header_up X-Forwarded-Host {header.X-Forwarded-Host}
-		header_up Host {header.X-Forwarded-Host}
 		header_up X-Forwarded-For {header.X-Forwarded-For}
+		header_up X-Real-IP {header.X-Forwarded-For}
 	}
 
 	file_server

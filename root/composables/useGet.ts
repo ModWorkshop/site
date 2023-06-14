@@ -26,6 +26,7 @@ export default async function<T = unknown>(url: string, options?) {
         headersToSend['x-forwarded-proto'] = headers['X-forwarded-proto'];
         headersToSend['x-forwarded-host'] = headers['x-forwarded-host'];
         headersToSend['x-forwarded-for'] = headers['x-forwarded-for'];
+        headersToSend['x-forwarded-ip'] = headers['x-forwarded-for'];
     }
 
     //No point running this for non GET
