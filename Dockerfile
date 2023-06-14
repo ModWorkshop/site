@@ -27,11 +27,12 @@ RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
 FROM build as prod
 # Cron Job TODO
-# RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
+RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
 # Copy stuff
 COPY --chown=nobody ./root /var/www/html
 COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
 
 # Install composer from the official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
