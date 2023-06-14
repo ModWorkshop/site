@@ -97,8 +97,6 @@ export default defineNuxtConfig({
 		},
 	},
 
-	ssr: false,
-
 	i18n: {
 		strategy: 'no_prefix',
 
@@ -119,7 +117,7 @@ export default defineNuxtConfig({
 			{ code: 'ru', file: 'ru.json', name: 'Русский' },
 			{ code: 'tr', file: 'tr.json', name: 'Türkçe' },
 			{ code: 'zh-cn', file: 'zh_Hans.json', name: '中文' },
-			// { code: 'owo', file: 'owo.ts', name: 'OwO' },
+			{ code: 'owo', file: 'owo.ts', name: 'OwO' },
 		],
 
 		experimental: {
