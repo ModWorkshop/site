@@ -9,18 +9,38 @@ RUN apk --no-cache add \
   php81-redis \
   php81-pdo \ 
   php81-exif \ 
-  php81-pdo_pgsql
+  php81-pdo_pgsql \
+  php81-xmlwriter \
+  php81-cli
 
 # Install stuff
-RUN <<EOF
-  set -eux
-  apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc musl-dev make
-  pecl install apfd
-  apk del .build-deps
+RUN set -eux \
+    && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc musl-dev make vips \
+    && pecl install apfd \
+    && apk del .build-deps
 
-  apk add vips
-EOF
+RUN apk add vips
 
+# PHP ini configuration
+# So php ini doesn't break
+RUN echo "" >> /etc/php81/conf.d/custom.ini
+RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
+RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
+RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "max_execution_time=65" >> /etc/php81/conf.d/custom.ini
+#FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
+RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
+
+# Install composer from the official image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# Copy stuff
+COPY --chown=nobody ./root /var/www/html
+COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
+
+FROM build as prod
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
 RUN apk add --no-cache dcron libcap && \
     chown nobody:nobody /usr/sbin/crond && \
@@ -35,29 +55,9 @@ RUN chmod +x /scripts/entrypoint.sh
 
 ENTRYPOINT ["/scripts/entrypoint.sh"]
 
-# PHP ini configuration
-# So php ini doesn't break
-RUN echo "" >> /etc/php81/conf.d/custom.ini
-RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
-RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
-RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
-RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
-RUN echo "max_execution_time=65" >> /etc/php81/conf.d/custom.ini
-#FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
-RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
-FROM build as prod
-
-# Copy stuff
-COPY --chown=nobody ./root /var/www/html
-COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
-
-# Install composer from the official image
-COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Install composer packages
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress
 RUN php artisan route:cache
-
 # Switch to use a non-root user from here on
 USER nobody
 
@@ -66,3 +66,5 @@ FROM build as dev
 CMD composer install --no-interaction \
     && php artisan mws:install --auto \
     && php artisan serve
+
+USER nobody
