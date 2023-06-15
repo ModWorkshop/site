@@ -87,7 +87,7 @@ class SocialLoginController extends Controller
         $socialLogin = SocialLogin::where('social_id', $provider)->where('user_id', $user->id)->firstOrFail();
 
         $count = $user->socialLogins()->count();
-        if ($count < 2) {
+        if ($count < 1) {
             if (!$user->signable) {
                 abort(405, 'Cannot remove last provider when account has no email and password setup!');
             }
