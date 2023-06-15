@@ -108,7 +108,7 @@ class GameController extends Controller
         return new GameResource($game);
     }
 
-    public function delete(Game $game)
+    public function destroy(Game $game)
     {
         if ($game->mods()->count == 0) {
             $game->delete();
