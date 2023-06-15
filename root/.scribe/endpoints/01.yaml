@@ -34,26 +34,26 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: idhusawgytyvazrpqpbmiuepk
+        example: gkrwfjyxsdegoklu
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 19
+        example: 9
         type: integer
         custom: []
     cleanBodyParameters:
-      query: idhusawgytyvazrpqpbmiuepk
-      limit: 19
+      query: gkrwfjyxsdegoklu
+      limit: 9
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
-              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 38825 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %idhusawgytyvazrpqpbmiuepk%)",
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 38825 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %gkrwfjyxsdegoklu%)",
               "exception": "Illuminate\\Database\\QueryException",
               "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
               "line": 795,
@@ -748,24 +748,24 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: euzczbshms
+        example: qginphaatelbinj
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 2
+        example: 1
         type: integer
         custom: []
     cleanBodyParameters:
-      query: euzczbshms
-      limit: 2
+      query: qginphaatelbinj
+      limit: 1
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/links","per_page":2,"to":null,"total":0}}'
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/links","per_page":1,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -889,11 +889,11 @@ endpoints:
         name: accept
         description: ''
         required: true
-        example: false
+        example: true
         type: boolean
         custom: []
     cleanBodyParameters:
-      accept: false
+      accept: true
     fileParameters: []
     responses: []
     responseFields: []
@@ -935,19 +935,19 @@ endpoints:
         name: user_id
         description: 'Must be at least 1.'
         required: true
-        example: 17
+        example: 31
         type: integer
         custom: []
       level:
         name: level
         description: 'Must be one of <code>maintainer</code>, <code>collaborator</code>, <code>viewer</code>, or <code>contributor</code>.'
         required: true
-        example: collaborator
+        example: contributor
         type: string
         custom: []
     cleanBodyParameters:
-      user_id: 17
-      level: collaborator
+      user_id: 31
+      level: contributor
     fileParameters: []
     responses: []
     responseFields: []
@@ -998,11 +998,11 @@ endpoints:
         name: level
         description: 'Must be one of <code>collaborator</code>, <code>maintainer</code>, <code>viewer</code>, or <code>contributor</code>.'
         required: true
-        example: maintainer
+        example: contributor
         type: string
         custom: []
     cleanBodyParameters:
-      level: maintainer
+      level: contributor
     fileParameters: []
     responses: []
     responseFields: []
@@ -1270,26 +1270,26 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: ry
+        example: tymq
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 6
+        example: 5
         type: integer
         custom: []
     cleanBodyParameters:
-      query: ry
-      limit: 6
+      query: tymq
+      limit: 5
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
-              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %ry% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 38825))",
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %tymq% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 38825))",
               "exception": "Illuminate\\Database\\QueryException",
               "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
               "line": 795,
