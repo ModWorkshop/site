@@ -252,7 +252,7 @@ class ModService {
             abort(406, 'Reached maximum allowed storage usage for the mod!');
         }
 
-        $fileType = $file->extension();
+        $fileType = $file->clientExtension();
         $fileName = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$fileType;
         $file->storePubliclyAs('mods/files', $fileName);
 
