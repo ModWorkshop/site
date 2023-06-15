@@ -100,11 +100,13 @@ class GameController extends Controller
 
     public function show(Game $game)
     {
+        APIService::setCurrentGame($game);
+
         if (Auth::hasUser()) {
             $game->loadMissing('followed');
             $game->loadMissing('roles');
+            Auth::user()->currentGameId = APIService::currentGame();
         }
-        APIService::setCurrentGame($game);
         return new GameResource($game);
     }
 

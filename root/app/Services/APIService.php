@@ -152,7 +152,7 @@ class APIService {
         return AnnouncementResource::collection($announcements->take(2));
     }
 
-    public static function currentGame()
+    public static function currentGame(): int
     {
         return app('siteState')->getCurrentGame();
     }
