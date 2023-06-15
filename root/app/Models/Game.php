@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\MissingValue;
 use Log;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\QueryBuilder\QueryBuilder;
+use Storage;
 
 /**
  * App\Models\Game
@@ -74,9 +75,9 @@ class Game extends Model
     protected $guarded = [];
 
     protected $hidden = ['webhook_url'];
-    
+
     protected $appends = [];
-    
+
     protected $with = ['followed', 'roles'];
 
     protected $casts = [
@@ -162,7 +163,7 @@ class Game extends Model
     {
         return Attribute::make(fn() => $this->reports()->whereArchived(false)->count());
     }
-        
+
 
     public function announcements(): Attribute
     {
