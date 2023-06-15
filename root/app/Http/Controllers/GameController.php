@@ -110,7 +110,7 @@ class GameController extends Controller
 
     public function destroy(Game $game)
     {
-        if ($game->mods()->count == 0) {
+        if ($game->mods()->count() == 0) {
             $game->delete();
         }
     }
