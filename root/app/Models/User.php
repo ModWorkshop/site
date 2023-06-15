@@ -877,13 +877,13 @@ class User extends Authenticatable implements MustVerifyEmail
         $myHighestOrder = $me->highestRoleOrder;
 
         if ($me->id !== $this->id && !$canManageRoles) {
-            throw new Exception("You cannot edit roles of other users.");
+            abort(403, "You cannot edit roles of other users.");
         }
 
         //Make sure the roles we try to fetch match the roles we are trying to set!
         $roles = Role::whereIn('id', $newRoles)->get();
         if (count($roles) !== count($newRoles)) {
-            throw new Exception("One or more of the roles given are invalid! " . count($roles) . ' != ' . count($newRoles) );
+            abort(403, "One or more of the roles given are invalid! " . count($roles) . ' != ' . count($newRoles) );
         }
 
         //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
@@ -892,7 +892,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
                 } else {
-                    throw new Exception("You don't have the right permissions to remove this role from any user.");
+                    abort(403, "You don't have the right permissions to remove this role from any user.");
                 }
             }
         }
@@ -904,7 +904,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 if ($role->id !== 1 && (($canManageRoles && $myHighestOrder > $role->order) || ($role->is_vanity && $role->self_assignable))) {
                     $attach[] = $role->id;
                 } else {
-                    throw new Exception("You don't have the right permissions to add this role to any user.");
+                    abort(403, "You don't have the right permissions to add this role to any user.");
                 }
             }
         }
@@ -940,13 +940,13 @@ class User extends Authenticatable implements MustVerifyEmail
         $myHighestOrder = $me->getGameHighestOrder($game->id);
 
         if ($me->id !== $this->id && !$canManageRoles) {
-            throw new Exception("You cannot edit roles of other users.");
+            abort(403, "You cannot edit roles of other users.");
         }
 
         //Make sure the roles we try to fetch are the game's roles and nothing else. The count must match!
         $roles = GameRole::where('game_id', $game->id)->whereIn('id', $newRoles)->get();
         if (count($roles) !== count($newRoles)) {
-            throw new Exception("One or more of the roles given are invalid!");
+            abort(403, "One or more of the roles given are invalid!");
         }
 
         //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
@@ -955,7 +955,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
                 } else {
-                    throw new Exception("You don't have the right permissions to remove this role from any user.");
+                    abort(403, "You don't have the right permissions to remove this role from any user.");
                 }
             }
         }
@@ -966,7 +966,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 if (($role->is_vanity && $role->self_assignable) || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
                 } else {
-                    throw new Exception("You don't have the right permissions to add this role to any user.");
+                    abort(403, "You don't have the right permissions to add this role to any user.");
                 }
             }
         }

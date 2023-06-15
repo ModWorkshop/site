@@ -109,13 +109,13 @@ class GameRole extends Model
         $me = Auth::user();
         foreach ($perms as $perm) {
             if (!$me->hasPermission($perm, $this->game)) {
-                throw new Exception("You can't assign permissions you don't have yourself to game roles.");
+                abort(403, "You can't assign permissions you don't have yourself to game roles.");
             }
         }
 
         foreach ($this->permissions as $perm) {
             if (!isset($perms[$perm->name]) && !$me->hasPermission($perm, $this->game)) {
-                throw new Exception("You can't deny permissions you don't have yourself to game roles.");
+                abort(403, "You can't deny permissions you don't have yourself to game roles.");
             }
         }
 

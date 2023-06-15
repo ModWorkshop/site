@@ -170,12 +170,12 @@ class CommentService {
         }
 
         if ($comment->reply_to && isset($val['pinned'])) {
-            throw new Exception('Only regular comments can be pinned!');
+            abort(403, 'Only regular comments can be pinned!');
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
         if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
-            throw new Exception('You cannot edit the comment!');
+            abort(403, 'You cannot edit the comment!');
         }
 
         if (isset($mentions)) {
