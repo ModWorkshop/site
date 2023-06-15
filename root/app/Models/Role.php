@@ -44,7 +44,7 @@ class Role extends Model
 {
     use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 3600;
+    public $cacheFor = 600;
     public static $flushCacheOnUpdate = true;
 
     protected $with = [];

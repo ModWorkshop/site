@@ -915,6 +915,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $rolesRelation->attach($attach);
 
         Role::flushQueryCache();
+        User::flushQueryCache();
+
         $this->load('roles');
     }
 
@@ -975,6 +977,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $gameRolesRelation->attach($attach);
 
         GameRole::flushQueryCache();
+        User::flushQueryCache();
     }
 
     #endregion

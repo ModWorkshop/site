@@ -60,7 +60,7 @@ class Category extends Model
 {
     use HasFactory, QueryCacheable;
 
-    public $cacheFor = 3600;
+    public $cacheFor = 600;
     public static $flushCacheOnUpdate = true;
 
     protected $guarded = [];
