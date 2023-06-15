@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Rennokki\QueryCache\Traits\QueryCacheable;
-
+use Storage;
 /**
  * App\Models\Category
  *
@@ -66,7 +66,7 @@ class Category extends Model
     protected $guarded = [];
 
     protected $hidden = ['parent', 'game'];
-    
+
     protected $with = [];
 
     protected $appends = [];
@@ -95,13 +95,13 @@ class Category extends Model
 
         return $path;
     }
-    
-    public function game() : HasOne 
+
+    public function game() : HasOne
     {
         return $this->hasOne(Game::class, "id", 'game_id');
     }
 
-    public function parent() : HasOne 
+    public function parent() : HasOne
     {
         return $this->hasOne(Category::class, "id", 'parent_id');
     }
@@ -122,7 +122,7 @@ class Category extends Model
 
     public static function booted()
     {
-        return static::creating(function(Category $cat) {
+        static::creating(function(Category $cat) {
             if (!isset($cat->last_date)) {
                 $cat->last_date = Carbon::now();
             }

@@ -17,7 +17,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Games
- * 
+ *
  * API routes for interacting with game sections.
  */
 class GameController extends Controller
@@ -134,7 +134,7 @@ class GameController extends Controller
         $data = [
             'announcements' => $game->announcements,
         ];
-    
+
         if (Auth::hasUser()) {
             $user = Auth::user();
             if ($user->hasPermission('moderate-users')) {
