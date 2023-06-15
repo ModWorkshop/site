@@ -30,13 +30,18 @@ class Controller extends BaseController
             APIService::setCurrentGame($game);
         } else {
             if (!empty(request()->route($resource))) {
-                $class::retrieved(function($model) {
-                    if (property_exists($model, 'game_id')) {
-                        APIService::setCurrentGame($model->game);
+                $called = false;
+                $event = $class::retrieved(function($model) use (&$called) {
+                    if (!$called) {
+                        $called = true; // TODO: maybe we need to run this more than once? find a better way.
+                        if (property_exists($model, 'game_id')) {
+                            APIService::setCurrentGame($model->game);
+                        }
+                        if (method_exists($model, 'withFetchResourceGame')) {
+                            $model->withFetchResourceGame();
+                        }
                     }
-                    if (method_exists($model, 'withFetchResourceGame')) {
-                        $model->withFetchResourceGame();
-                    }
+
                 });
             }
 

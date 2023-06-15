@@ -58,6 +58,6 @@ class Dependency extends Model
 
     public function mod(): BelongsTo
     {
-        return $this->belongsTo(Mod::class);
+        return $this->belongsTo(Mod::class)->without(['dependencies']);
     }
 }
