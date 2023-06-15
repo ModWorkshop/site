@@ -24,11 +24,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -36,620 +36,620 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: cnftvavigjkvwlo
+        example: iukmiiqbhokaups
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 8
+        example: 19
         type: integer
         custom: []
     cleanBodyParameters:
-      query: cnftvavigjkvwlo
-      limit: 8
+      query: iukmiiqbhokaups
+      limit: 19
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
-              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 34 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %cnftvavigjkvwlo%)",
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 38825 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %iukmiiqbhokaups%)",
               "exception": "Illuminate\\Database\\QueryException",
-              "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-              "line": 793,
+              "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+              "line": 795,
               "trace": [
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-                      "line": 753,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+                      "line": 755,
                       "function": "runQueryCallback",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-                      "line": 422,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+                      "line": 424,
                       "function": "run",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2719,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2736,
                       "function": "select",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2707,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2724,
                       "function": "runSelect",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 3248,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 3278,
                       "function": "Illuminate\\Database\\Query\\{closure}",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2708,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2725,
                       "function": "onceWithColumns",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2858,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2888,
                       "function": "get",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2817,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2847,
                       "function": "runPaginationCountQuery",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
                       "line": 901,
                       "function": "getCountForPagination",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Providers/PaginationService.php",
+                      "file": "/var/www/html/app/Providers/PaginationService.php",
                       "line": 53,
                       "function": "paginate",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
-                      "line": 1896,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
+                      "line": 1914,
                       "function": "App\\Providers\\{closure}",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php",
                       "line": 23,
                       "function": "__call",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php",
                       "line": 52,
                       "function": "forwardCallTo",
                       "class": "Illuminate\\Database\\Eloquent\\Relations\\Relation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/Relation.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/Relation.php",
                       "line": 517,
                       "function": "forwardDecoratedCallTo",
                       "class": "Illuminate\\Database\\Eloquent\\Relations\\Relation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Http/Controllers/ImageController.php",
+                      "file": "/var/www/html/app/Http/Controllers/ImageController.php",
                       "line": 26,
                       "function": "__call",
                       "class": "Illuminate\\Database\\Eloquent\\Relations\\Relation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
                       "line": 54,
                       "function": "index",
                       "class": "App\\Http\\Controllers\\ImageController",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
                       "line": 43,
                       "function": "callAction",
                       "class": "Illuminate\\Routing\\Controller",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
                       "line": 260,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\ControllerDispatcher",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
                       "line": 205,
                       "function": "runController",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 798,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 799,
                       "function": "run",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Illuminate\\Routing\\{closure}",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
-                      "line": 45,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
+                      "line": 57,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Auth\\Middleware\\Authorize",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Http/Middleware/UserAuth.php",
-                      "line": 36,
+                      "file": "/var/www/html/app/Http/Middleware/UserAuth.php",
+                      "line": 45,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "App\\Http\\Middleware\\UserAuth",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
                       "line": 50,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 126,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 159,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 102,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 135,
                       "function": "handleRequest",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 54,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 87,
                       "function": "handleRequestUsingNamedLimiter",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 33,
+                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 25,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 34,
+                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 26,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 799,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 800,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 776,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 777,
                       "function": "runRouteWithinStack",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 740,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 741,
                       "function": "runRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 729,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 730,
                       "function": "dispatchToRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 200,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Illuminate\\Foundation\\Http\\{closure}",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
                       "line": 31,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
                       "line": 40,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
                       "line": 27,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
                       "line": 86,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
                       "line": 62,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\HandleCors",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
                       "line": 39,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\TrustProxies",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 175,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 144,
                       "function": "sendRequestThroughRouter",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 299,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 287,
                       "function": "callLaravelOrLumenRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 92,
                       "function": "makeApiCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 45,
                       "function": "makeResponseCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 35,
                       "function": "makeResponseCallIfConditionsPass",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 209,
                       "function": "__invoke",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 166,
                       "function": "iterateThroughStrategies",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 95,
                       "function": "fetchResponses",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 124,
                       "function": "processRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 71,
                       "function": "extractEndpointsInfoFromLaravelApp",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 49,
                       "function": "extractEndpointsInfoAndWriteToDisk",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
                       "line": 51,
                       "function": "get",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 36,
                       "function": "handle",
                       "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/Util.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php",
                       "line": 41,
                       "function": "Illuminate\\Container\\{closure}",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 93,
                       "function": "unwrapIfClosure",
                       "class": "Illuminate\\Container\\Util",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 37,
                       "function": "callBoundMethod",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/Container.php",
-                      "line": 661,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php",
+                      "line": 662,
                       "function": "call",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 194,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 208,
                       "function": "call",
                       "class": "Illuminate\\Container\\Container",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Command/Command.php",
-                      "line": 312,
+                      "file": "/var/www/html/vendor/symfony/console/Command/Command.php",
+                      "line": 326,
                       "function": "execute",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 164,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 178,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Command\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 1040,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 1081,
                       "function": "run",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 314,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 320,
                       "function": "doRunCommand",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 168,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 174,
                       "function": "doRun",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
                       "line": 200,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/artisan",
+                      "file": "/var/www/html/artisan",
                       "line": 37,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Console\\Kernel",
@@ -692,11 +692,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -738,11 +738,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -750,29 +750,29 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: iihbvhz
+        example: vmnuqwwgiw
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 17
+        example: 7
         type: integer
         custom: []
     cleanBodyParameters:
-      query: iihbvhz
-      limit: 17
+      query: vmnuqwwgiw
+      limit: 7
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/192.168.146.128:8000\/mods\/34\/links?page=1","last":"http:\/\/192.168.146.128:8000\/mods\/34\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/192.168.146.128:8000\/mods\/34\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/192.168.146.128:8000\/mods\/34\/links","per_page":17,"to":null,"total":0}}'
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/links","per_page":7,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '55'
+          x-ratelimit-remaining: '54'
           vary: Origin
         description: null
         custom: []
@@ -803,11 +803,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -841,15 +841,61 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'mods/{mod_id}/members/accept'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Accepts incoming member request and make it active or delete it if rejected.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      mod_id:
+        name: mod_id
+        description: 'The ID of the mod.'
+        required: true
+        example: 38825
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      mod_id: 38825
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      accept:
+        name: accept
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        custom: []
+    cleanBodyParameters:
+      accept: false
     fileParameters: []
     responses: []
     responseFields: []
@@ -879,11 +925,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -891,19 +937,19 @@ endpoints:
         name: user_id
         description: 'Must be at least 1.'
         required: true
-        example: 75
+        example: 86
         type: integer
         custom: []
       level:
         name: level
         description: 'Must be one of <code>maintainer</code>, <code>collaborator</code>, <code>viewer</code>, or <code>contributor</code>.'
         required: true
-        example: viewer
+        example: collaborator
         type: string
         custom: []
     cleanBodyParameters:
-      user_id: 75
-      level: viewer
+      user_id: 86
+      level: collaborator
     fileParameters: []
     responses: []
     responseFields: []
@@ -934,19 +980,19 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
       id:
         name: id
         description: 'The ID of the member.'
         required: true
-        example: 7
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
-      id: 7
+      mod_id: 38825
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -954,11 +1000,11 @@ endpoints:
         name: level
         description: 'Must be one of <code>collaborator</code>, <code>maintainer</code>, <code>viewer</code>, or <code>contributor</code>.'
         required: true
-        example: viewer
+        example: maintainer
         type: string
         custom: []
     cleanBodyParameters:
-      level: viewer
+      level: maintainer
     fileParameters: []
     responses: []
     responseFields: []
@@ -988,19 +1034,19 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
       id:
         name: id
         description: 'The ID of the member.'
         required: true
-        example: deleniti
-        type: string
+        example: 2
+        type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
-      id: deleniti
+      mod_id: 38825
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1034,11 +1080,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1073,7 +1119,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
       id:
@@ -1084,7 +1130,7 @@ endpoints:
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
       id: 1
     queryParameters: []
     cleanQueryParameters: []
@@ -1119,7 +1165,7 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
       id:
@@ -1130,66 +1176,12 @@ endpoints:
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
       id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PATCH
-    uri: 'mods/{mod_id}/members/{member_id}/accept'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Accepts incoming member request and make it active or deletes it if rejected.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      mod_id:
-        name: mod_id
-        description: 'The ID of the mod.'
-        required: true
-        example: 34
-        type: integer
-        custom: []
-      member_id:
-        name: member_id
-        description: 'The ID of the member.'
-        required: true
-        example: 7
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      mod_id: 34
-      member_id: 7
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      accept:
-        name: accept
-        description: ''
-        required: true
-        example: false
-        type: boolean
-        custom: []
-    cleanBodyParameters:
-      accept: false
     fileParameters: []
     responses: []
     responseFields: []
@@ -1219,11 +1211,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1232,12 +1224,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: ''
+        content: '1.0'
         headers:
           content-type: 'text/html; charset=UTF-8'
           cache-control: 'no-cache, private'
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '52'
+          x-ratelimit-remaining: '50'
           vary: Origin
         description: null
         custom: []
@@ -1268,11 +1260,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1280,641 +1272,641 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: paffvpauxiynxtbemcjzvc
+        example: xsapfkzahxemzlykzomkkcu
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 12
+        example: 2
         type: integer
         custom: []
     cleanBodyParameters:
-      query: paffvpauxiynxtbemcjzvc
-      limit: 12
+      query: xsapfkzahxemzlykzomkkcu
+      limit: 2
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
-              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %paffvpauxiynxtbemcjzvc% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 34))",
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %xsapfkzahxemzlykzomkkcu% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 38825))",
               "exception": "Illuminate\\Database\\QueryException",
-              "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-              "line": 793,
+              "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+              "line": 795,
               "trace": [
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-                      "line": 753,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+                      "line": 755,
                       "function": "runQueryCallback",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-                      "line": 422,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+                      "line": 424,
                       "function": "run",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2719,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2736,
                       "function": "select",
                       "class": "Illuminate\\Database\\Connection",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2707,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2724,
                       "function": "runSelect",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 3248,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 3278,
                       "function": "Illuminate\\Database\\Query\\{closure}",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2708,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2725,
                       "function": "onceWithColumns",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/rennokki/laravel-eloquent-query-cache/src/Query/Builder.php",
+                      "file": "/var/www/html/vendor/rennokki/laravel-eloquent-query-cache/src/Query/Builder.php",
                       "line": 20,
                       "function": "get",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/rennokki/laravel-eloquent-query-cache/src/Traits/QueryCacheModule.php",
+                      "file": "/var/www/html/vendor/rennokki/laravel-eloquent-query-cache/src/Traits/QueryCacheModule.php",
                       "line": 103,
                       "function": "get",
                       "class": "Rennokki\\QueryCache\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Cache/Repository.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Repository.php",
                       "line": 397,
                       "function": "Rennokki\\QueryCache\\Traits\\{closure}",
                       "class": "Rennokki\\QueryCache\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/rennokki/laravel-eloquent-query-cache/src/Traits/QueryCacheModule.php",
+                      "file": "/var/www/html/vendor/rennokki/laravel-eloquent-query-cache/src/Traits/QueryCacheModule.php",
                       "line": 84,
                       "function": "remember",
                       "class": "Illuminate\\Cache\\Repository",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/rennokki/laravel-eloquent-query-cache/src/Query/Builder.php",
+                      "file": "/var/www/html/vendor/rennokki/laravel-eloquent-query-cache/src/Query/Builder.php",
                       "line": 21,
                       "function": "getFromQueryCache",
                       "class": "Rennokki\\QueryCache\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2858,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2888,
                       "function": "get",
                       "class": "Rennokki\\QueryCache\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
-                      "line": 2817,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php",
+                      "line": 2847,
                       "function": "runPaginationCountQuery",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
                       "line": 901,
                       "function": "getCountForPagination",
                       "class": "Illuminate\\Database\\Query\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Providers/PaginationService.php",
+                      "file": "/var/www/html/app/Providers/PaginationService.php",
                       "line": 53,
                       "function": "paginate",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
-                      "line": 1896,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
+                      "line": 1914,
                       "function": "App\\Providers\\{closure}",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Services/CommentService.php",
+                      "file": "/var/www/html/app/Services/CommentService.php",
                       "line": 49,
                       "function": "__call",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Http/Controllers/ModCommentsController.php",
+                      "file": "/var/www/html/app/Http/Controllers/ModCommentsController.php",
                       "line": 26,
                       "function": "index",
                       "class": "App\\Services\\CommentService",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
                       "line": 54,
                       "function": "index",
                       "class": "App\\Http\\Controllers\\ModCommentsController",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
                       "line": 43,
                       "function": "callAction",
                       "class": "Illuminate\\Routing\\Controller",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
                       "line": 260,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\ControllerDispatcher",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
                       "line": 205,
                       "function": "runController",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 798,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 799,
                       "function": "run",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Illuminate\\Routing\\{closure}",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
-                      "line": 45,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
+                      "line": 57,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Auth\\Middleware\\Authorize",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/app/Http/Middleware/UserAuth.php",
-                      "line": 36,
+                      "file": "/var/www/html/app/Http/Middleware/UserAuth.php",
+                      "line": 45,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "App\\Http\\Middleware\\UserAuth",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
                       "line": 50,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 126,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 159,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 102,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 135,
                       "function": "handleRequest",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 54,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 87,
                       "function": "handleRequestUsingNamedLimiter",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 33,
+                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 25,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 34,
+                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 26,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 799,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 800,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 776,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 777,
                       "function": "runRouteWithinStack",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 740,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 741,
                       "function": "runRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 729,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 730,
                       "function": "dispatchToRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 200,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 141,
                       "function": "Illuminate\\Foundation\\Http\\{closure}",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
                       "line": 31,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
                       "line": 40,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
                       "line": 27,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
                       "line": 86,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
                       "line": 62,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\HandleCors",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
                       "line": 39,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 180,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\TrustProxies",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
                       "line": 116,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 175,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
                       "line": 144,
                       "function": "sendRequestThroughRouter",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 299,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 287,
                       "function": "callLaravelOrLumenRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 92,
                       "function": "makeApiCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 45,
                       "function": "makeResponseCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
                       "line": 35,
                       "function": "makeResponseCallIfConditionsPass",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 209,
                       "function": "__invoke",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 166,
                       "function": "iterateThroughStrategies",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
                       "line": 95,
                       "function": "fetchResponses",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 124,
                       "function": "processRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 71,
                       "function": "extractEndpointsInfoFromLaravelApp",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
                       "line": 49,
                       "function": "extractEndpointsInfoAndWriteToDisk",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
+                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
                       "line": 51,
                       "function": "get",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 36,
                       "function": "handle",
                       "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/Util.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php",
                       "line": 41,
                       "function": "Illuminate\\Container\\{closure}",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 93,
                       "function": "unwrapIfClosure",
                       "class": "Illuminate\\Container\\Util",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
                       "line": 37,
                       "function": "callBoundMethod",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Container/Container.php",
-                      "line": 661,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php",
+                      "line": 662,
                       "function": "call",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 194,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 208,
                       "function": "call",
                       "class": "Illuminate\\Container\\Container",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Command/Command.php",
-                      "line": 312,
+                      "file": "/var/www/html/vendor/symfony/console/Command/Command.php",
+                      "line": 326,
                       "function": "execute",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 164,
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 178,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Command\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 1040,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 1081,
                       "function": "run",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 314,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 320,
                       "function": "doRunCommand",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/symfony/console/Application.php",
-                      "line": 168,
+                      "file": "/var/www/html/vendor/symfony/console/Application.php",
+                      "line": 174,
                       "function": "doRun",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
                       "line": 200,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/luffy/mws-next-backend/artisan",
+                      "file": "/var/www/html/artisan",
                       "line": 37,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Console\\Kernel",
@@ -1926,7 +1918,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '51'
+          x-ratelimit-remaining: '49'
           vary: Origin
         description: null
         custom: []
@@ -1957,87 +1949,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'mods/{mod_id}/comments/subscription'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      mod_id:
-        name: mod_id
-        description: 'The ID of the mod.'
-        required: true
-        example: 34
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      mod_id: 34
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'mods/{mod_id}/comments/subscription'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      mod_id:
-        name: mod_id
-        description: 'The ID of the mod.'
-        required: true
-        example: 34
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

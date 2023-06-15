@@ -12,8 +12,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
+      title: 'Get Mod Files'
+      description: 'Returns a list of files of a mod.'
       authenticated: false
       custom: []
     headers:
@@ -24,11 +24,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -36,24 +36,24 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: ebbozqvdbysfjgzjx
+        example: kgrajqilsjbpmpkvxqteohw
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 13
+        example: 2
         type: integer
         custom: []
     cleanBodyParameters:
-      query: ebbozqvdbysfjgzjx
-      limit: 13
+      query: kgrajqilsjbpmpkvxqteohw
+      limit: 2
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/192.168.146.128:8000\/mods\/34\/files?page=1","last":"http:\/\/192.168.146.128:8000\/mods\/34\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/192.168.146.128:8000\/mods\/34\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/192.168.146.128:8000\/mods\/34\/files","per_page":13,"to":null,"total":0}}'
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/files","per_page":2,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -77,9 +77,9 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
-      authenticated: false
+      title: 'Upload Mod File'
+      description: 'Upload a new file to a mod.'
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -89,11 +89,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -122,8 +122,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
+      title: 'Get File'
+      description: 'Returns a file. If the mod it belongs to is accessible.'
       authenticated: false
       custom: []
     headers:
@@ -134,11 +134,11 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 7
+        example: 31771
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 31771
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -147,7 +147,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"id":7,"user_id":6,"mod_id":13,"name":"sigma.png","desc":"","file":"6_1680788237_5c968ab5df9433e14a82d9e4c55d3c0b.webp","type":"webp","image_id":null,"size":37170,"label":"","version":"","created_at":"2023-04-06T13:37:18.000000Z","updated_at":"2023-04-06T13:37:18.000000Z","unique_name":null,"user":{"id":6,"name":"dasdas","custom_color":"","avatar":"","unique_name":"xdd","banner":"","bio":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel turpis lorem\r\n. Phasellus sit amet suscipit ante. Cras mi elit, dictum eget mattis nec, scelerisque \r\nut dolor. Nullam sit amet interdum augue. Cras viverra nisl sapien. Quisque sed consequat odio. Phasellus eu tellus risus. Morbi egestas fringilla orci, accumsan scelerisque nibh commodo eu. Vivamus accumsan pellentesque venenatis. Pellente\r\nsque hendrerit enim et nisi pharetra, ut laoreet orci rutrum. Sed erat metus, condim\r\nentum vel sagittis eu, mollis eu nunc. Mauris ipsum mi, dapibus eu quam nec, rhoncus condimentum diam. Mauris ac neque ut nunc consectetur consequat varius nec mauris. Nam eu urna ex. Ut egestas nisl vel molestie dapibus. Sed turpis\r\n lacus, rhoncus eget interdum quis, efficitur in magna.\r\n\r\nQuisque a tempus risus. Duis in posuere tortor. Sed posuere aliquet leo eget pelle\r\nntesque. Quisque luctus blandit urna, vel varius tortor vulputate ut. Maecenas eu\r\n sagittis lorem. Mauris semper, tortor gravida tincidunt rutrum, quam lacus tempor eros, tincidunt tincidunt nibh augue et mauris. Suspendisse bibendum aliquam diam eget posuere. Sed vel sapien ut neque accumsan dapibus eget ac ris\r\nus. Nunc efficitur velit ac ligula bibendum, ac hendrerit risus aliquam. Vivamus ut maximus mi. Maecenas id eleifend erat. Nunc semper ullamcorper ex, pellentesque volutpat orci sodales sed. Donec at pellentesque erat.\r\n\r\nCurabitur sit amet consequat eros, ut euismod nisl. Maecenas eleifend ex id arcu rutrum, nec facilisis risus viverra. Maecenas sodales, odio at sollicitudin ultrices, lacus quam accumsan est, et feugiat mauris ligula quis nisi. In eu velit nec leo pul\r\nvinar dignissim nec ac eros. Nulla facilisi. Pellentesque sed consequat enim. In hac\r\n habitasse platea dictumst. Cras ultrices, odio vitae tincidunt commodo, quam leo sagittis felis, ac volutpat dui orci eu sem. Quisque purus sem, feugiat lacinia tellus eget, fringilla ultricies lectus.\r\n\r\n\r\nCras aliquam lorem nunc, a mollis ex sodales malesuada. Ut pulvinar ipsum id lectus egestas pellentesque. Integer arcu libero, dignissim sit amet mi vitae, ullamcorper pharetra libero. Nunc sit amet laoreet est. Maecenas auctor dictum ve\r\nlit fermentum condimentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus rhoncus quam vel interdum rhoncus. Phasellus commodo, purus in rutrum finibus, tellus est tristique nulla, vel\r\nblandit quam leo at dui. Sed at quam at lectus commodo ornare. Sed imperdiet tur\r\npis nibh, vel elementum sapien ullamcorper eu. Morbi condimentum sagittis quam non varius. Suspendisse potenti. Aenean metus leo, efficitur vel rutrum a, pulvinar in urna.","private_profile":false,"custom_title":"","invisible":false,"donation_url":"","last_online":"2023-04-07T13:40:07.000000Z","show_tag":"supporter_or_role","created_at":"2023-03-30T13:13:50.000000Z","updated_at":"2023-04-07T13:40:07.000000Z","mods_count":3,"activated":true,"waiting_email":null,"pending_email_set_at":null,"color":null,"ban":null,"supporter":null}}'
+        content: '{"id":31771,"user_id":7573,"mod_id":21203,"name":"Ghost145ReNew.zip","desc":"","file":"download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip","type":"application\/x-zip-compressed","image_id":null,"size":5460,"label":"","version":"","created_at":"2020-09-26T09:26:28.000000Z","updated_at":"2020-09-26T09:26:28.000000Z","download_url":"#public url\/mods\/files\/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip","user":{"id":7573,"name":"Dr_Newbie","custom_color":"#ff7f0","avatar":"https:\/\/avatars.steamstatic.com\/4af55df4bbf3cf9e2be3f49b8e4c8bae2588937c_full.jpg","unique_name":"dr_newbie","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":"#ff7f0","active_supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"},"ban":null,"supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"}}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -172,9 +172,9 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
+      title: 'Update File'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -184,11 +184,11 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 7
+        example: 31771
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 31771
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -196,43 +196,50 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: essmpwvuxyawdxcophmqpsxwo
+        example: kp
         type: string
         custom: []
       label:
         name: label
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: zwybzngmpaoytio
+        example: kfuwkvihylqscmrlwqqzua
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: wysjbxnisw
+        example: lqzpvegjb
         type: string
         custom: []
       version:
         name: version
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: k
+        example: hlcqnpdmngo
         type: string
         custom: []
       image_id:
         name: image_id
         description: ''
         required: false
-        example: 4
+        example: 18
         type: integer
         custom: []
+      change_file:
+        name: change_file
+        description: ''
+        required: false
+        example: null
+        type: string
+        custom: []
     cleanBodyParameters:
-      name: essmpwvuxyawdxcophmqpsxwo
-      label: zwybzngmpaoytio
-      desc: wysjbxnisw
-      version: k
-      image_id: 4
+      name: kp
+      label: kfuwkvihylqscmrlwqqzua
+      desc: lqzpvegjb
+      version: hlcqnpdmngo
+      image_id: 18
     fileParameters: []
     responses: []
     responseFields: []
@@ -250,9 +257,9 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
+      title: 'Delete File'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -262,11 +269,11 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 7
+        example: 31771
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 31771
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -300,11 +307,11 @@ endpoints:
         name: file_id
         description: 'The ID of the file.'
         required: true
-        example: 7
+        example: 31771
         type: integer
         custom: []
     cleanUrlParameters:
-      file_id: 7
+      file_id: 31771
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -312,12 +319,24 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 200
-        content: ''
+        status: 302
+        content: |-
+          <!DOCTYPE html>
+          <html>
+              <head>
+                  <meta charset="UTF-8" />
+                  <meta http-equiv="refresh" content="0;url='#public url/mods/files/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip'" />
+
+                  <title>Redirecting to #public url/mods/files/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip</title>
+              </head>
+              <body>
+                  Redirecting to <a href="#public url/mods/files/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip">#public url/mods/files/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip</a>.
+              </body>
+          </html>
         headers:
-          content-type: image/webp
-          content-disposition: 'attachment; filename=6_1680788237_5c968ab5df9433e14a82d9e4c55d3c0b.webp'
           cache-control: 'no-cache, private'
+          location: '#public url/mods/files/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip'
+          content-type: application/json
           x-ratelimit-limit: '60'
           x-ratelimit-remaining: '56'
           vary: Origin
@@ -338,9 +357,9 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Deletes all files of a mod'
+      title: 'Deletes All Mod FIles'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -350,11 +369,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 34
+        example: 38825
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 34
+      mod_id: 38825
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

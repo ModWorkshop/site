@@ -165,7 +165,7 @@ return [
          * URL path to use for the docs endpoint (if `add_routes` is true).
          * By default, `/docs` opens the HTML page, `/docs.postman` opens the Postman collection, and `/docs.openapi` the OpenAPI spec.
          */
-        'docs_url' => '/docs',
+        'docs_url' => '/',
 
         /*
          * Middleware to attach to the docs endpoint (if `add_routes` is true).
