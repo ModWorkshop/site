@@ -57,6 +57,7 @@ ENTRYPOINT ["/scripts/entrypoint.sh"]
 # Install composer packages
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress
 RUN php artisan route:cache
+RUN php artisan storage:link
 # Switch to use a non-root user from here on
 USER nobody
 
