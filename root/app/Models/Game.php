@@ -185,5 +185,10 @@ class Game extends Model
     {
         static::saving(fn(Game $game) => $game->ensureForumExists());
         static::created(fn(Game $game) => $game->ensureForumExists());
+
+        static::deleting(function(Game $game) {
+            Storage::delete('games/images/'.$game->banner);
+            Storage::delete('games/images/'.$game->thumbnail);
+        });
     }
 }

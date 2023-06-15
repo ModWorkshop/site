@@ -66,7 +66,7 @@ class GamePolicy
      */
     public function delete(User $user, Game $game)
     {
-        return $user->hasPermission('manage-games', $game) ? Response::allow() : Response::deny('You cannot delete games');
+        return $user->hasPermission('manage-games') ? Response::allow() : Response::deny('You cannot delete games');
     }
 
     /**

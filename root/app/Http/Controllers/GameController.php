@@ -108,9 +108,11 @@ class GameController extends Controller
         return new GameResource($game);
     }
 
-    public function delete()
+    public function delete(Game $game)
     {
-        
+        if ($game->mods()->count == 0) {
+            $game->delete();
+        }
     }
 
     public function setUserGameRoles(Request $request, Game $game, User $user)
