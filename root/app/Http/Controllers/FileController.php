@@ -58,7 +58,7 @@ class FileController extends Controller
             'desc' => '',
             'user_id' => $this->user()->id,
             'file' => $name,
-            'type' => $uploadedFile->getType(),
+            'type' => $uploadedFile->getClientOriginalExtension(),
             'size' => $uploadedFile->getSize()
         ]);
 
