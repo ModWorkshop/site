@@ -30,6 +30,6 @@ class BlockedUser extends Model
 {
     use HasFactory, QueryCacheable;
 
-    public $cacheFor = 600;
+    public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
 }

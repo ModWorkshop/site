@@ -84,7 +84,7 @@ class Thread extends Model implements SubscribableInterface
     use QueryCacheable, HasRelationshipObservables;
 
     public static $flushCacheOnUpdate = true;
-    public $cacheFor = 120;
+    public $cacheFor = 10;
 
     protected $with = ['user', 'lastUser', 'category'];
     protected $saveToReport = ['content'];

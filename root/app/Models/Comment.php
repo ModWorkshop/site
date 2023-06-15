@@ -65,7 +65,7 @@ class Comment extends Model implements SubscribableInterface
     use HasFactory, Subscribable, Reportable;
     use QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
 
-    public $cacheFor = 60;
+    public $cacheFor = 10;
     public static $flushCacheOnUpdate = true;
 
     protected $with = ['user', 'replies', 'subscribed'];

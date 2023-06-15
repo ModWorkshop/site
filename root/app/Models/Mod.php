@@ -171,7 +171,7 @@ class Mod extends Model implements SubscribableInterface
     use QueryCacheable, HasRelationshipObservables;
 
     public static $flushCacheOnUpdate = true;
-    public $cacheFor = 60;
+    public $cacheFor = 5;
 
     public $commentsOrder = 'DESC';
 

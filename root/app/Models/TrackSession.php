@@ -12,7 +12,7 @@ class TrackSession extends Model
     const CREATED_AT = null;
 
     use QueryCacheable, HasRelationshipObservables;
-    public $cacheFor = 300;
+    public $cacheFor = 60;
 
     protected $guarded = [];
 
