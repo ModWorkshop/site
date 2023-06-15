@@ -20,6 +20,20 @@ RUN <<EOF
   apk add vips
 EOF
 
+#cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
+RUN apk add --no-cache dcron libcap && \
+    chown nobody:nobody /usr/sbin/crond && \
+    setcap cap_setgid=ep /usr/sbin/crond
+RUN echo '* * * * * cd /var/www/html && php artisan schedule:run' >> /etc/crontabs/nobody
+RUN crontab -u nobody /etc/crontabs/nobody
+RUN chown -R nobody /var/spool/cron/crontabs/nobody
+RUN chmod 0644 /var/spool/cron/crontabs/nobody
+COPY entrypoint.sh /scripts/entrypoint.sh
+RUN chown -R nobody /scripts/entrypoint.sh
+RUN chmod +x /scripts/entrypoint.sh
+
+ENTRYPOINT ["/scripts/entrypoint.sh"]
+
 # PHP ini configuration
 # So php ini doesn't break
 RUN echo "" >> /etc/php81/conf.d/custom.ini
@@ -30,8 +44,6 @@ RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 #FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
 RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
 FROM build as prod
-# Cron Job TODO
-RUN echo "* * * * * cd /var/www/html && php artisan schedule:run" >>  /var/spool/cron/crontabs/nobody 
 
 # Copy stuff
 COPY --chown=nobody ./root /var/www/html
