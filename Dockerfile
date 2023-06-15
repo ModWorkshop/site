@@ -42,6 +42,7 @@ RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
 RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "memory_limit=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "max_execution_time=65" >> /etc/php81/conf.d/custom.ini
 #FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
 RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
