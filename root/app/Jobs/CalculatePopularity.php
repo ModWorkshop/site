@@ -31,6 +31,9 @@ class CalculatePopularity implements ShouldQueue
      */
     public function handle(): void
     {
+        \set_time_limit(600);
+        ni_set('memory_limit', '2G');
+
         Log::info('Calculating Popularity...');
 
         PopularityLog::whereDate('updated_at', '>', Carbon::now()->addYear(1))->delete();
