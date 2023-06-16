@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 
-if (app()->environment('production')) {
+if (env('APP_ENV') == 'production') {
     $prefix = config('scribe.laravel.docs_url', '/');
     $middleware = config('scribe.laravel.middleware', []);
 
