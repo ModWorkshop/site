@@ -36,41 +36,24 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-<<<<<<< HEAD
-        example: a
-=======
-        example: kgrajqilsjbpmpkvxqteohw
->>>>>>> parent of 792401d (add static scribe)
+        example: fvuuxbtgueshogjqxdn
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-<<<<<<< HEAD
-        example: 13
-        type: integer
-        custom: []
-    cleanBodyParameters:
-      query: a
-      limit: 13
-=======
         example: 2
         type: integer
         custom: []
     cleanBodyParameters:
-      query: kgrajqilsjbpmpkvxqteohw
+      query: fvuuxbtgueshogjqxdn
       limit: 2
->>>>>>> parent of 792401d (add static scribe)
     fileParameters: []
     responses:
       -
         status: 200
-<<<<<<< HEAD
-        content: '{"data":[{"id":54973,"user_id":83688,"mod_id":38825,"name":"Miku Charm.zip","desc":"","file":"download_83688_1659218017_db7a5315c0fbeaef412f272c9fa5df76.zip","type":"application\/zip","image_id":null,"size":480060,"label":"","version":"","created_at":"2022-07-30T21:53:37.000000Z","updated_at":"2022-07-30T21:53:37.000000Z","download_url":"#public url\/mods\/files\/download_83688_1659218017_db7a5315c0fbeaef412f272c9fa5df76.zip?response-content-disposition=attachment;filename=38825 - Miku Charm.zip","user":{"id":83688,"name":"the polis","custom_color":"","avatar":"https:\/\/avatars.akamai.steamstatic.com\/af35e1c288fb5c7a0d94adc5bea5320f4fe02538_full.jpg","unique_name":"thepolis","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"active_supporter":null,"ban":null,"supporter":null}}],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/files","per_page":13,"to":1,"total":1}}'
-=======
         content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/files","per_page":2,"to":null,"total":0}}'
->>>>>>> parent of 792401d (add static scribe)
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -213,55 +196,35 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-<<<<<<< HEAD
-        example: vfxeookcwfeshwrofczw
-=======
-        example: kp
->>>>>>> parent of 792401d (add static scribe)
+        example: ozwasaolxblmmscdu
         type: string
         custom: []
       label:
         name: label
         description: 'Must not be greater than 100 characters.'
         required: false
-<<<<<<< HEAD
-        example: irvrdjratjcehhbgyj
-=======
-        example: kfuwkvihylqscmrlwqqzua
->>>>>>> parent of 792401d (add static scribe)
+        example: uxgzzpslthhamtqfd
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-<<<<<<< HEAD
-        example: mx
-=======
-        example: lqzpvegjb
->>>>>>> parent of 792401d (add static scribe)
+        example: gdppemqerrpmtab
         type: string
         custom: []
       version:
         name: version
         description: 'Must not be greater than 255 characters.'
         required: false
-<<<<<<< HEAD
-        example: ffig
-=======
-        example: hlcqnpdmngo
->>>>>>> parent of 792401d (add static scribe)
+        example: u
         type: string
         custom: []
       image_id:
         name: image_id
         description: ''
         required: false
-<<<<<<< HEAD
-        example: 2
-=======
-        example: 18
->>>>>>> parent of 792401d (add static scribe)
+        example: 6
         type: integer
         custom: []
       change_file:
@@ -272,19 +235,11 @@ endpoints:
         type: string
         custom: []
     cleanBodyParameters:
-<<<<<<< HEAD
-      name: vfxeookcwfeshwrofczw
-      label: irvrdjratjcehhbgyj
-      desc: mx
-      version: ffig
-      image_id: 2
-=======
-      name: kp
-      label: kfuwkvihylqscmrlwqqzua
-      desc: lqzpvegjb
-      version: hlcqnpdmngo
-      image_id: 18
->>>>>>> parent of 792401d (add static scribe)
+      name: ozwasaolxblmmscdu
+      label: uxgzzpslthhamtqfd
+      desc: gdppemqerrpmtab
+      version: u
+      image_id: 6
     fileParameters: []
     responses: []
     responseFields: []
