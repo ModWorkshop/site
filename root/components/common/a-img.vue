@@ -1,5 +1,5 @@
 <template>
-    <img :src="compSrc" :alt="alt">
+    <img :src="compSrc" :alt="alt" :onerror="`this.src = '${props.fallback}'`">
 </template>
 
 <script setup lang="ts">
