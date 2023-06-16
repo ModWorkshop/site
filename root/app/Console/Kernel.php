@@ -29,13 +29,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new CalculatePopularity)->everyThirtyMinutes();
+        $schedule->job(new CalculatePopularity)->everyMinute();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
         $schedule->job(new CalculateModCounts)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
-        $schedule->command('telescope:prune')->everyTwoHours();
+        if (env('TELESCOPE_ENABLED')) {
+            $schedule->command('telescope:prune')->everyTwoHours();
+        }
     }
 
     /**

@@ -49,6 +49,7 @@ RUN crontab -u nobody /etc/crontabs/nobody
 RUN chown -R nobody /var/spool/cron/crontabs/nobody
 RUN chmod 0644 /var/spool/cron/crontabs/nobody
 COPY entrypoint.sh /scripts/entrypoint.sh
+COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chown -R nobody /scripts/entrypoint.sh
 RUN chmod +x /scripts/entrypoint.sh
 
