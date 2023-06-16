@@ -47,7 +47,7 @@ class UserCaseController extends Controller
                 $q->where('user_id', $val['user_id']);
             }
 
-            $q->orderByDesc('expire_date');
+            $q->orderByRaw('active DESC, expire_date ASC NULLS LAST, created_at DESC');
         }));
     }
 
