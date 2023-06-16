@@ -125,7 +125,7 @@ const searchParams = reactive({
     category_id: selectedCategory,
     tags: selectedTags,
     collab: collabComp,
-    categories: selectedCategories,
+    // categories: selectedCategories,
     block_tags: selectedBlockTags,
     sort: sortBy,
     limit: computed(() => props.limit),
