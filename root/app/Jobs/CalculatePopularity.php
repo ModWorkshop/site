@@ -32,7 +32,7 @@ class CalculatePopularity implements ShouldQueue
     public function handle(): void
     {
         \set_time_limit(600);
-        ni_set('memory_limit', '2G');
+        ini_set('memory_limit', '2G');
 
         Log::info('Calculating Popularity...');
 
