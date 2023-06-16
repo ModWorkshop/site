@@ -836,7 +836,7 @@
             <div class="sl-prose sl-markdown-viewer sl-my-4">
                 <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>api.modworkshop.net</code>
+    <strong>Base URL</strong>: <code>https://api.modworkshop.net</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -867,7 +867,7 @@ You can switch the language used with the tabs at the top right (or from the nav
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/download"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/download"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -877,7 +877,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/download</div>
                     </div>
 
@@ -1149,7 +1149,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/download" \
+    --get "https://api.modworkshop.net/mods/38825/download" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -1159,7 +1159,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/download"
+    "https://api.modworkshop.net/mods/38825/download"
 );
 
 const headers = {
@@ -1269,7 +1269,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods"
+            <div title="https://api.modworkshop.net/mods"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -1279,7 +1279,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods</div>
                     </div>
 
@@ -1360,7 +1360,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        bojtahmpgtnhfdqfsxizmx
+                        xj
                     </div>
                 </div>
             </div>
@@ -1385,7 +1385,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        18
+                        19
                     </div>
                 </div>
             </div>
@@ -1410,7 +1410,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        79
+                        32
                     </div>
                 </div>
             </div>
@@ -1435,7 +1435,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        89
+                        33
                     </div>
                 </div>
             </div>
@@ -1460,7 +1460,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [73]
+                        [25]
                     </div>
                 </div>
             </div>
@@ -1499,7 +1499,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [34]
+                        [16]
                     </div>
                 </div>
             </div>
@@ -1524,7 +1524,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [37]
+                        [44]
                     </div>
                 </div>
             </div>
@@ -1549,7 +1549,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        28
+                        51
                     </div>
                 </div>
             </div>
@@ -1581,7 +1581,15 @@ fetch(url, {
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
-                            </div>
+                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        1
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
 
             </div>
@@ -1602,7 +1610,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        score
+                        published_at
                     </div>
                 </div>
             </div>
@@ -1696,24 +1704,24 @@ fetch(url, {
                                      id="json-body-GETmods"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "bojtahmpgtnhfdqfsxizmx",
-    "limit": 18,
-    "game_id": 79,
-    "category_id": 89,
+    "query": "xj",
+    "limit": 19,
+    "game_id": 32,
+    "category_id": 33,
     "tags": [
-        73
+        25
     ],
     "liked": false,
     "categories": [
-        34
+        16
     ],
     "block_tags": [
-        37
+        44
     ],
-    "user_id": 28,
+    "user_id": 51,
     "collab": false,
-    "ignore_blocked_users": false,
-    "sort": "score"
+    "ignore_blocked_users": true,
+    "sort": "published_at"
 }</div>
                             </div>
                                             </div>
@@ -1805,28 +1813,28 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods" \
+    --get "https://api.modworkshop.net/mods" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"bojtahmpgtnhfdqfsxizmx\",
-    \"limit\": 18,
-    \"game_id\": 79,
-    \"category_id\": 89,
+    \"query\": \"xj\",
+    \"limit\": 19,
+    \"game_id\": 32,
+    \"category_id\": 33,
     \"tags\": [
-        73
+        25
     ],
     \"liked\": false,
     \"categories\": [
-        34
+        16
     ],
     \"block_tags\": [
-        37
+        44
     ],
-    \"user_id\": 28,
+    \"user_id\": 51,
     \"collab\": false,
-    \"ignore_blocked_users\": false,
-    \"sort\": \"score\"
+    \"ignore_blocked_users\": true,
+    \"sort\": \"published_at\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -1836,7 +1844,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods"
+    "https://api.modworkshop.net/mods"
 );
 
 const headers = {
@@ -1845,24 +1853,24 @@ const headers = {
 };
 
 let body = {
-    "query": "bojtahmpgtnhfdqfsxizmx",
-    "limit": 18,
-    "game_id": 79,
-    "category_id": 89,
+    "query": "xj",
+    "limit": 19,
+    "game_id": 32,
+    "category_id": 33,
     "tags": [
-        73
+        25
     ],
     "liked": false,
     "categories": [
-        34
+        16
     ],
     "block_tags": [
-        37
+        44
     ],
-    "user_id": 28,
+    "user_id": 51,
     "collab": false,
-    "ignore_blocked_users": false,
-    "sort": "score"
+    "ignore_blocked_users": true,
+    "sort": "published_at"
 };
 
 fetch(url, {
@@ -1962,7 +1970,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{id}"
+            <div title="https://api.modworkshop.net/mods/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -1972,7 +1980,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{id}</div>
                     </div>
 
@@ -2244,7 +2252,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825" \
+    --get "https://api.modworkshop.net/mods/38825" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -2254,7 +2262,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825"
+    "https://api.modworkshop.net/mods/38825"
 );
 
 const headers = {
@@ -8505,7 +8513,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{id}"
+            <div title="https://api.modworkshop.net/mods/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -8520,7 +8528,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{id}</div>
                     </div>
 
@@ -8635,7 +8643,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        exocyjxpggzz
+                        gzlgfpccym
                     </div>
                 </div>
             </div>
@@ -8660,7 +8668,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        vktrwsslctpyb
+                        qws
                     </div>
                 </div>
             </div>
@@ -8685,7 +8693,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        qmnz
+                        rfrvoxscwgqoxsanpbhhnij
                     </div>
                 </div>
             </div>
@@ -8710,7 +8718,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        sggtlcbpdspoz
+                        rmbogbesjoqkc
                     </div>
                 </div>
             </div>
@@ -8735,7 +8743,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        zuezaaupq
+                        tivhqzokecqjcxorirzsrkqpm
                     </div>
                 </div>
             </div>
@@ -8760,7 +8768,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        vjwjlxamtyhlnpqgoulstei
+                        bzppqdint
                     </div>
                 </div>
             </div>
@@ -8785,7 +8793,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        mw
+                        opamlcaa
                     </div>
                 </div>
             </div>
@@ -8810,7 +8818,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        fdzmbaapczwacbnzcrb
+                        gzzoqbnhxczqibyvanlo
                     </div>
                 </div>
             </div>
@@ -8835,7 +8843,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        unlisted
+                        public
                     </div>
                 </div>
             </div>
@@ -8860,7 +8868,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        86
+                        73
                     </div>
                 </div>
             </div>
@@ -8885,7 +8893,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        40
+                        2
                     </div>
                 </div>
             </div>
@@ -8910,7 +8918,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        88
+                        1
                     </div>
                 </div>
             </div>
@@ -8935,7 +8943,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        45
+                        73
                     </div>
                 </div>
             </div>
@@ -8960,7 +8968,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        66
+                        75
                     </div>
                 </div>
             </div>
@@ -8985,7 +8993,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [90]
+                        [78]
                     </div>
                 </div>
             </div>
@@ -9010,7 +9018,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        60
+                        34
                     </div>
                 </div>
             </div>
@@ -9035,7 +9043,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        3
+                        23
                     </div>
                 </div>
             </div>
@@ -9078,15 +9086,7 @@ fetch(url, {
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
-                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
-                <span>Example:</span> <!-- <span> important for spacing -->
-                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
-                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        1
-                    </div>
-                </div>
-            </div>
-            </div>
+                            </div>
 </div>
 
             </div>
@@ -9281,27 +9281,27 @@ fetch(url, {
                                      id="json-body-PUTmods--id-"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "name": "exocyjxpggzz",
-    "desc": "vktrwsslctpyb",
-    "license": "qmnz",
-    "changelog": "sggtlcbpdspoz",
-    "instructions": "zuezaaupq",
-    "short_desc": "vjwjlxamtyhlnpqgoulstei",
-    "donation": "mw",
-    "version": "fdzmbaapczwacbnzcrb",
-    "visibility": "unlisted",
-    "category_id": 86,
-    "thumbnail_id": 40,
-    "game_id": 88,
-    "banner_id": 45,
-    "instructs_template_id": 66,
+    "name": "gzlgfpccym",
+    "desc": "qws",
+    "license": "rfrvoxscwgqoxsanpbhhnij",
+    "changelog": "rmbogbesjoqkc",
+    "instructions": "tivhqzokecqjcxorirzsrkqpm",
+    "short_desc": "bzppqdint",
+    "donation": "opamlcaa",
+    "version": "gzzoqbnhxczqibyvanlo",
+    "visibility": "public",
+    "category_id": 73,
+    "thumbnail_id": 2,
+    "game_id": 1,
+    "banner_id": 73,
+    "instructs_template_id": 75,
     "tag_ids": [
-        90
+        78
     ],
-    "download_id": 60,
-    "allowed_storage": 3,
+    "download_id": 34,
+    "allowed_storage": 23,
     "download_type": "file",
-    "comments_disabled": true,
+    "comments_disabled": false,
     "send_for_approval": true,
     "publish": false
 }</div>
@@ -9395,31 +9395,31 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PUT \
-    "api.modworkshop.net/mods/38825" \
+    "https://api.modworkshop.net/mods/38825" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"exocyjxpggzz\",
-    \"desc\": \"vktrwsslctpyb\",
-    \"license\": \"qmnz\",
-    \"changelog\": \"sggtlcbpdspoz\",
-    \"instructions\": \"zuezaaupq\",
-    \"short_desc\": \"vjwjlxamtyhlnpqgoulstei\",
-    \"donation\": \"mw\",
-    \"version\": \"fdzmbaapczwacbnzcrb\",
-    \"visibility\": \"unlisted\",
-    \"category_id\": 86,
-    \"thumbnail_id\": 40,
-    \"game_id\": 88,
-    \"banner_id\": 45,
-    \"instructs_template_id\": 66,
+    \"name\": \"gzlgfpccym\",
+    \"desc\": \"qws\",
+    \"license\": \"rfrvoxscwgqoxsanpbhhnij\",
+    \"changelog\": \"rmbogbesjoqkc\",
+    \"instructions\": \"tivhqzokecqjcxorirzsrkqpm\",
+    \"short_desc\": \"bzppqdint\",
+    \"donation\": \"opamlcaa\",
+    \"version\": \"gzzoqbnhxczqibyvanlo\",
+    \"visibility\": \"public\",
+    \"category_id\": 73,
+    \"thumbnail_id\": 2,
+    \"game_id\": 1,
+    \"banner_id\": 73,
+    \"instructs_template_id\": 75,
     \"tag_ids\": [
-        90
+        78
     ],
-    \"download_id\": 60,
-    \"allowed_storage\": 3,
+    \"download_id\": 34,
+    \"allowed_storage\": 23,
     \"download_type\": \"file\",
-    \"comments_disabled\": true,
+    \"comments_disabled\": false,
     \"send_for_approval\": true,
     \"publish\": false
 }"
@@ -9431,7 +9431,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825"
+    "https://api.modworkshop.net/mods/38825"
 );
 
 const headers = {
@@ -9440,27 +9440,27 @@ const headers = {
 };
 
 let body = {
-    "name": "exocyjxpggzz",
-    "desc": "vktrwsslctpyb",
-    "license": "qmnz",
-    "changelog": "sggtlcbpdspoz",
-    "instructions": "zuezaaupq",
-    "short_desc": "vjwjlxamtyhlnpqgoulstei",
-    "donation": "mw",
-    "version": "fdzmbaapczwacbnzcrb",
-    "visibility": "unlisted",
-    "category_id": 86,
-    "thumbnail_id": 40,
-    "game_id": 88,
-    "banner_id": 45,
-    "instructs_template_id": 66,
+    "name": "gzlgfpccym",
+    "desc": "qws",
+    "license": "rfrvoxscwgqoxsanpbhhnij",
+    "changelog": "rmbogbesjoqkc",
+    "instructions": "tivhqzokecqjcxorirzsrkqpm",
+    "short_desc": "bzppqdint",
+    "donation": "opamlcaa",
+    "version": "gzzoqbnhxczqibyvanlo",
+    "visibility": "public",
+    "category_id": 73,
+    "thumbnail_id": 2,
+    "game_id": 1,
+    "banner_id": 73,
+    "instructs_template_id": 75,
     "tag_ids": [
-        90
+        78
     ],
-    "download_id": 60,
-    "allowed_storage": 3,
+    "download_id": 34,
+    "allowed_storage": 23,
     "download_type": "file",
-    "comments_disabled": true,
+    "comments_disabled": false,
     "send_for_approval": true,
     "publish": false
 };
@@ -9490,7 +9490,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{id}"
+            <div title="https://api.modworkshop.net/mods/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -9500,7 +9500,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{id}</div>
                     </div>
 
@@ -9812,7 +9812,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/mods/38825" \
+    "https://api.modworkshop.net/mods/38825" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -9822,7 +9822,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825"
+    "https://api.modworkshop.net/mods/38825"
 );
 
 const headers = {
@@ -9854,7 +9854,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/owner"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/owner"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -9864,7 +9864,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/owner</div>
                     </div>
 
@@ -9981,7 +9981,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        34
+                        2
                     </div>
                 </div>
             </div>
@@ -10006,7 +10006,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        contributor
+                        collaborator
                     </div>
                 </div>
             </div>
@@ -10169,8 +10169,8 @@ fetch(url, {
                                      id="json-body-PATCHmods--mod_id--owner"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "owner_id": 34,
-    "keep_owner_level": "contributor"
+    "owner_id": 2,
+    "keep_owner_level": "collaborator"
 }</div>
                             </div>
                                             </div>
@@ -10262,12 +10262,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/owner" \
+    "https://api.modworkshop.net/mods/38825/owner" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"owner_id\": 34,
-    \"keep_owner_level\": \"contributor\"
+    \"owner_id\": 2,
+    \"keep_owner_level\": \"collaborator\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -10277,7 +10277,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/owner"
+    "https://api.modworkshop.net/mods/38825/owner"
 );
 
 const headers = {
@@ -10286,8 +10286,8 @@ const headers = {
 };
 
 let body = {
-    "owner_id": 34,
-    "keep_owner_level": "contributor"
+    "owner_id": 2,
+    "keep_owner_level": "collaborator"
 };
 
 fetch(url, {
@@ -10315,7 +10315,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/owner/cancel"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/owner/cancel"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -10325,7 +10325,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/owner/cancel</div>
                     </div>
 
@@ -10637,7 +10637,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/owner/cancel" \
+    "https://api.modworkshop.net/mods/38825/owner/cancel" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -10647,7 +10647,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/owner/cancel"
+    "https://api.modworkshop.net/mods/38825/owner/cancel"
 );
 
 const headers = {
@@ -10679,7 +10679,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/owner/accept"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/owner/accept"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -10689,7 +10689,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/owner/accept</div>
                     </div>
 
@@ -10799,7 +10799,15 @@ fetch(url, {
                                     <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
                     <span class="sl-ml-2 sl-text-warning">required</span>
                                     </div>
-                            </div>
+                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        1
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
 
             </div>
@@ -10958,7 +10966,7 @@ fetch(url, {
                                      id="json-body-PATCHmods--mod_id--owner-accept"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "accept": false
+    "accept": true
 }</div>
                             </div>
                                             </div>
@@ -11050,11 +11058,11 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/owner/accept" \
+    "https://api.modworkshop.net/mods/38825/owner/accept" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"accept\": false
+    \"accept\": true
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -11064,7 +11072,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/owner/accept"
+    "https://api.modworkshop.net/mods/38825/owner/accept"
 );
 
 const headers = {
@@ -11073,7 +11081,7 @@ const headers = {
 };
 
 let body = {
-    "accept": false
+    "accept": true
 };
 
 fetch(url, {
@@ -11101,7 +11109,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/register-view"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/register-view"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -11111,7 +11119,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/register-view</div>
                     </div>
 
@@ -11384,7 +11392,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/register-view" \
+    "https://api.modworkshop.net/mods/38825/register-view" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -11394,7 +11402,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/register-view"
+    "https://api.modworkshop.net/mods/38825/register-view"
 );
 
 const headers = {
@@ -11426,7 +11434,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/register-download"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/register-download"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -11436,7 +11444,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/register-download</div>
                     </div>
 
@@ -11709,7 +11717,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/register-download" \
+    "https://api.modworkshop.net/mods/38825/register-download" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -11719,7 +11727,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/register-download"
+    "https://api.modworkshop.net/mods/38825/register-download"
 );
 
 const headers = {
@@ -11751,7 +11759,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/waiting"
+            <div title="https://api.modworkshop.net/mods/waiting"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -11761,7 +11769,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/waiting</div>
                     </div>
 
@@ -11846,7 +11854,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        clfavowzmm
+                        atzb
                     </div>
                 </div>
             </div>
@@ -11871,7 +11879,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        4
+                        3
                     </div>
                 </div>
             </div>
@@ -11896,7 +11904,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        27
+                        86
                     </div>
                 </div>
             </div>
@@ -11921,7 +11929,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        31
+                        20
                     </div>
                 </div>
             </div>
@@ -11946,7 +11954,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [81]
+                        [21]
                     </div>
                 </div>
             </div>
@@ -11964,15 +11972,7 @@ fetch(url, {
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
-                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
-                <span>Example:</span> <!-- <span> important for spacing -->
-                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
-                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        1
-                    </div>
-                </div>
-            </div>
-            </div>
+                            </div>
 </div>
 
             </div>
@@ -11993,7 +11993,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [32]
+                        [38]
                     </div>
                 </div>
             </div>
@@ -12018,7 +12018,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [17]
+                        [74]
                     </div>
                 </div>
             </div>
@@ -12043,7 +12043,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        58
+                        64
                     </div>
                 </div>
             </div>
@@ -12104,7 +12104,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        downloads
+                        published_at
                     </div>
                 </div>
             </div>
@@ -12234,24 +12234,24 @@ fetch(url, {
                                      id="json-body-GETmods-waiting"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "clfavowzmm",
-    "limit": 4,
-    "game_id": 27,
-    "category_id": 31,
+    "query": "atzb",
+    "limit": 3,
+    "game_id": 86,
+    "category_id": 20,
     "tags": [
-        81
+        21
     ],
-    "liked": true,
+    "liked": false,
     "categories": [
-        32
+        38
     ],
     "block_tags": [
-        17
+        74
     ],
-    "user_id": 58,
+    "user_id": 64,
     "collab": false,
     "ignore_blocked_users": true,
-    "sort": "downloads"
+    "sort": "published_at"
 }</div>
                             </div>
                                             </div>
@@ -12343,28 +12343,28 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/waiting" \
+    --get "https://api.modworkshop.net/mods/waiting" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"clfavowzmm\",
-    \"limit\": 4,
-    \"game_id\": 27,
-    \"category_id\": 31,
+    \"query\": \"atzb\",
+    \"limit\": 3,
+    \"game_id\": 86,
+    \"category_id\": 20,
     \"tags\": [
-        81
+        21
     ],
-    \"liked\": true,
+    \"liked\": false,
     \"categories\": [
-        32
+        38
     ],
     \"block_tags\": [
-        17
+        74
     ],
-    \"user_id\": 58,
+    \"user_id\": 64,
     \"collab\": false,
     \"ignore_blocked_users\": true,
-    \"sort\": \"downloads\"
+    \"sort\": \"published_at\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -12374,7 +12374,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/waiting"
+    "https://api.modworkshop.net/mods/waiting"
 );
 
 const headers = {
@@ -12383,24 +12383,24 @@ const headers = {
 };
 
 let body = {
-    "query": "clfavowzmm",
-    "limit": 4,
-    "game_id": 27,
-    "category_id": 31,
+    "query": "atzb",
+    "limit": 3,
+    "game_id": 86,
+    "category_id": 20,
     "tags": [
-        81
+        21
     ],
-    "liked": true,
+    "liked": false,
     "categories": [
-        32
+        38
     ],
     "block_tags": [
-        17
+        74
     ],
-    "user_id": 58,
+    "user_id": 64,
     "collab": false,
     "ignore_blocked_users": true,
-    "sort": "downloads"
+    "sort": "published_at"
 };
 
 fetch(url, {
@@ -12500,7 +12500,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/suspended"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/suspended"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -12510,7 +12510,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/suspended</div>
                     </div>
 
@@ -12634,7 +12634,15 @@ fetch(url, {
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
-                            </div>
+                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        1
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
 
             </div>
@@ -12655,7 +12663,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        odsaqzvvionmiamxsmos
+                        yfzvpvfzmtgt
                     </div>
                 </div>
             </div>
@@ -12819,8 +12827,8 @@ fetch(url, {
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
     "status": false,
-    "notify": false,
-    "reason": "odsaqzvvionmiamxsmos"
+    "notify": true,
+    "reason": "yfzvpvfzmtgt"
 }</div>
                             </div>
                                             </div>
@@ -12912,13 +12920,13 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/suspended" \
+    "https://api.modworkshop.net/mods/38825/suspended" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"status\": false,
-    \"notify\": false,
-    \"reason\": \"odsaqzvvionmiamxsmos\"
+    \"notify\": true,
+    \"reason\": \"yfzvpvfzmtgt\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -12928,7 +12936,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/suspended"
+    "https://api.modworkshop.net/mods/38825/suspended"
 );
 
 const headers = {
@@ -12938,8 +12946,8 @@ const headers = {
 
 let body = {
     "status": false,
-    "notify": false,
-    "reason": "odsaqzvvionmiamxsmos"
+    "notify": true,
+    "reason": "yfzvpvfzmtgt"
 };
 
 fetch(url, {
@@ -12967,7 +12975,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/approved"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/approved"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -12977,7 +12985,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/approved</div>
                     </div>
 
@@ -13101,7 +13109,15 @@ fetch(url, {
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
-                            </div>
+                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        1
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
 
             </div>
@@ -13122,7 +13138,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        dhsoratnkzcyufoga
+                        equhajsmlkzxiaf
                     </div>
                 </div>
             </div>
@@ -13286,8 +13302,8 @@ fetch(url, {
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
     "status": false,
-    "notify": false,
-    "reason": "dhsoratnkzcyufoga"
+    "notify": true,
+    "reason": "equhajsmlkzxiaf"
 }</div>
                             </div>
                                             </div>
@@ -13379,13 +13395,13 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/approved" \
+    "https://api.modworkshop.net/mods/38825/approved" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"status\": false,
-    \"notify\": false,
-    \"reason\": \"dhsoratnkzcyufoga\"
+    \"notify\": true,
+    \"reason\": \"equhajsmlkzxiaf\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -13395,7 +13411,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/approved"
+    "https://api.modworkshop.net/mods/38825/approved"
 );
 
 const headers = {
@@ -13405,8 +13421,8 @@ const headers = {
 
 let body = {
     "status": false,
-    "notify": false,
-    "reason": "dhsoratnkzcyufoga"
+    "notify": true,
+    "reason": "equhajsmlkzxiaf"
 };
 
 fetch(url, {
@@ -13434,7 +13450,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/reports"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/reports"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -13444,7 +13460,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/reports</div>
                     </div>
 
@@ -13756,7 +13772,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/reports" \
+    "https://api.modworkshop.net/mods/38825/reports" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -13766,7 +13782,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/reports"
+    "https://api.modworkshop.net/mods/38825/reports"
 );
 
 const headers = {
@@ -13798,7 +13814,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/toggle-liked"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/toggle-liked"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -13808,7 +13824,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/toggle-liked</div>
                     </div>
 
@@ -14120,7 +14136,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/toggle-liked" \
+    "https://api.modworkshop.net/mods/38825/toggle-liked" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -14130,7 +14146,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/toggle-liked"
+    "https://api.modworkshop.net/mods/38825/toggle-liked"
 );
 
 const headers = {
@@ -14162,7 +14178,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/liked"
+            <div title="https://api.modworkshop.net/mods/liked"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -14172,7 +14188,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/liked</div>
                     </div>
 
@@ -14257,7 +14273,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        kykmiergccrdzolboyjhy
+                        zlhm
                     </div>
                 </div>
             </div>
@@ -14282,7 +14298,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        7
+                        9
                     </div>
                 </div>
             </div>
@@ -14307,7 +14323,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        52
+                        90
                     </div>
                 </div>
             </div>
@@ -14332,7 +14348,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        84
+                        37
                     </div>
                 </div>
             </div>
@@ -14357,7 +14373,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [72]
+                        [15]
                     </div>
                 </div>
             </div>
@@ -14396,7 +14412,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [75]
+                        [29]
                     </div>
                 </div>
             </div>
@@ -14421,7 +14437,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        [56]
+                        [69]
                     </div>
                 </div>
             </div>
@@ -14446,7 +14462,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        11
+                        57
                     </div>
                 </div>
             </div>
@@ -14461,20 +14477,6 @@ fetch(url, {
         <div class="sl-flex sl-items-center sl-max-w-full">
                                         <div class="sl-flex sl-items-baseline sl-text-base">
                     <div class="sl-font-mono sl-font-semibold sl-mr-2">collab</div>
-                                            <span class="sl-truncate sl-text-muted">boolean</span>
-                                    </div>
-                                    </div>
-                            </div>
-</div>
-
-            </div>
-    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
-        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
-    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
-    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
-        <div class="sl-flex sl-items-center sl-max-w-full">
-                                        <div class="sl-flex sl-items-baseline sl-text-base">
-                    <div class="sl-font-mono sl-font-semibold sl-mr-2">ignore_blocked_users</div>
                                             <span class="sl-truncate sl-text-muted">boolean</span>
                                     </div>
                                     </div>
@@ -14496,6 +14498,20 @@ fetch(url, {
     <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
         <div class="sl-flex sl-items-center sl-max-w-full">
                                         <div class="sl-flex sl-items-baseline sl-text-base">
+                    <div class="sl-font-mono sl-font-semibold sl-mr-2">ignore_blocked_users</div>
+                                            <span class="sl-truncate sl-text-muted">boolean</span>
+                                    </div>
+                                    </div>
+                            </div>
+</div>
+
+            </div>
+    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
+        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
+    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
+    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
+        <div class="sl-flex sl-items-center sl-max-w-full">
+                                        <div class="sl-flex sl-items-baseline sl-text-base">
                     <div class="sl-font-mono sl-font-semibold sl-mr-2">sort</div>
                                             <span class="sl-truncate sl-text-muted">string</span>
                                     </div>
@@ -14507,7 +14523,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        score
+                        likes
                     </div>
                 </div>
             </div>
@@ -14637,24 +14653,24 @@ fetch(url, {
                                      id="json-body-GETmods-liked"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "kykmiergccrdzolboyjhy",
-    "limit": 7,
-    "game_id": 52,
-    "category_id": 84,
+    "query": "zlhm",
+    "limit": 9,
+    "game_id": 90,
+    "category_id": 37,
     "tags": [
-        72
+        15
     ],
     "liked": false,
     "categories": [
-        75
+        29
     ],
     "block_tags": [
-        56
+        69
     ],
-    "user_id": 11,
-    "collab": false,
-    "ignore_blocked_users": true,
-    "sort": "score"
+    "user_id": 57,
+    "collab": true,
+    "ignore_blocked_users": false,
+    "sort": "likes"
 }</div>
                             </div>
                                             </div>
@@ -14746,28 +14762,28 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/liked" \
+    --get "https://api.modworkshop.net/mods/liked" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"kykmiergccrdzolboyjhy\",
-    \"limit\": 7,
-    \"game_id\": 52,
-    \"category_id\": 84,
+    \"query\": \"zlhm\",
+    \"limit\": 9,
+    \"game_id\": 90,
+    \"category_id\": 37,
     \"tags\": [
-        72
+        15
     ],
     \"liked\": false,
     \"categories\": [
-        75
+        29
     ],
     \"block_tags\": [
-        56
+        69
     ],
-    \"user_id\": 11,
-    \"collab\": false,
-    \"ignore_blocked_users\": true,
-    \"sort\": \"score\"
+    \"user_id\": 57,
+    \"collab\": true,
+    \"ignore_blocked_users\": false,
+    \"sort\": \"likes\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -14777,7 +14793,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/liked"
+    "https://api.modworkshop.net/mods/liked"
 );
 
 const headers = {
@@ -14786,24 +14802,24 @@ const headers = {
 };
 
 let body = {
-    "query": "kykmiergccrdzolboyjhy",
-    "limit": 7,
-    "game_id": 52,
-    "category_id": 84,
+    "query": "zlhm",
+    "limit": 9,
+    "game_id": 90,
+    "category_id": 37,
     "tags": [
-        72
+        15
     ],
     "liked": false,
     "categories": [
-        75
+        29
     ],
     "block_tags": [
-        56
+        69
     ],
-    "user_id": 11,
-    "collab": false,
-    "ignore_blocked_users": true,
-    "sort": "score"
+    "user_id": 57,
+    "collab": true,
+    "ignore_blocked_users": false,
+    "sort": "likes"
 };
 
 fetch(url, {
@@ -14902,7 +14918,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/files"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/files"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -14912,7 +14928,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/files</div>
                     </div>
 
@@ -15023,7 +15039,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        cov
+                        ldwcluydzugrn
                     </div>
                 </div>
             </div>
@@ -15048,7 +15064,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        14
+                        16
                     </div>
                 </div>
             </div>
@@ -15175,8 +15191,8 @@ fetch(url, {
                                      id="json-body-GETmods--mod_id--files"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "cov",
-    "limit": 14
+    "query": "ldwcluydzugrn",
+    "limit": 16
 }</div>
                             </div>
                                             </div>
@@ -15268,12 +15284,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/files" \
+    --get "https://api.modworkshop.net/mods/38825/files" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"cov\",
-    \"limit\": 14
+    \"query\": \"ldwcluydzugrn\",
+    \"limit\": 16
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -15283,7 +15299,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/files"
+    "https://api.modworkshop.net/mods/38825/files"
 );
 
 const headers = {
@@ -15292,8 +15308,8 @@ const headers = {
 };
 
 let body = {
-    "query": "cov",
-    "limit": 14
+    "query": "ldwcluydzugrn",
+    "limit": 16
 };
 
 fetch(url, {
@@ -15396,7 +15412,7 @@ fetch(url, {
             }
         ],
         &quot;path&quot;: &quot;http://localhost:8000/mods/38825/files&quot;,
-        &quot;per_page&quot;: 14,
+        &quot;per_page&quot;: 16,
         &quot;to&quot;: null,
         &quot;total&quot;: 0
     }
@@ -15420,7 +15436,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/files"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/files"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -15430,7 +15446,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/files</div>
                     </div>
 
@@ -15789,7 +15805,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/files" \
+    "https://api.modworkshop.net/mods/38825/files" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
 </code></pre>                                        </div>
@@ -15800,7 +15816,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/files"
+    "https://api.modworkshop.net/mods/38825/files"
 );
 
 const headers = {
@@ -15832,7 +15848,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/files/{id}"
+            <div title="https://api.modworkshop.net/files/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -15842,7 +15858,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/files/{id}</div>
                     </div>
 
@@ -16114,7 +16130,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/files/31771" \
+    --get "https://api.modworkshop.net/files/31771" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -16124,7 +16140,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/files/31771"
+    "https://api.modworkshop.net/files/31771"
 );
 
 const headers = {
@@ -16268,7 +16284,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/files/{id}"
+            <div title="https://api.modworkshop.net/files/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -16283,7 +16299,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/files/{id}</div>
                     </div>
 
@@ -16398,7 +16414,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        jxjywrk
+                        onsaxvmagiiwcnkpj
                     </div>
                 </div>
             </div>
@@ -16423,7 +16439,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        kunuyrqpvuaqmspcylbll
+                        uaocmgcotnwilbirnrw
                     </div>
                 </div>
             </div>
@@ -16448,7 +16464,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        klxhhofsj
+                        lqqdavguru
                     </div>
                 </div>
             </div>
@@ -16473,7 +16489,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        yjsrqylczgkukkvojxx
+                        espbuiffkku
                     </div>
                 </div>
             </div>
@@ -16495,7 +16511,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        3
+                        18
                     </div>
                 </div>
             </div>
@@ -16672,11 +16688,11 @@ fetch(url, {
                                      id="json-body-PUTfiles--id-"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "name": "jxjywrk",
-    "label": "kunuyrqpvuaqmspcylbll",
-    "desc": "klxhhofsj",
-    "version": "yjsrqylczgkukkvojxx",
-    "image_id": 3,
+    "name": "onsaxvmagiiwcnkpj",
+    "label": "uaocmgcotnwilbirnrw",
+    "desc": "lqqdavguru",
+    "version": "espbuiffkku",
+    "image_id": 18,
     "change_file": null
 }</div>
                             </div>
@@ -16769,15 +16785,15 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PUT \
-    "api.modworkshop.net/files/31771" \
+    "https://api.modworkshop.net/files/31771" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"jxjywrk\",
-    \"label\": \"kunuyrqpvuaqmspcylbll\",
-    \"desc\": \"klxhhofsj\",
-    \"version\": \"yjsrqylczgkukkvojxx\",
-    \"image_id\": 3
+    \"name\": \"onsaxvmagiiwcnkpj\",
+    \"label\": \"uaocmgcotnwilbirnrw\",
+    \"desc\": \"lqqdavguru\",
+    \"version\": \"espbuiffkku\",
+    \"image_id\": 18
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -16787,7 +16803,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/files/31771"
+    "https://api.modworkshop.net/files/31771"
 );
 
 const headers = {
@@ -16796,11 +16812,11 @@ const headers = {
 };
 
 let body = {
-    "name": "jxjywrk",
-    "label": "kunuyrqpvuaqmspcylbll",
-    "desc": "klxhhofsj",
-    "version": "yjsrqylczgkukkvojxx",
-    "image_id": 3
+    "name": "onsaxvmagiiwcnkpj",
+    "label": "uaocmgcotnwilbirnrw",
+    "desc": "lqqdavguru",
+    "version": "espbuiffkku",
+    "image_id": 18
 };
 
 fetch(url, {
@@ -16828,7 +16844,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/files/{id}"
+            <div title="https://api.modworkshop.net/files/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -16838,7 +16854,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/files/{id}</div>
                     </div>
 
@@ -17150,7 +17166,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/files/31771" \
+    "https://api.modworkshop.net/files/31771" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -17160,7 +17176,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/files/31771"
+    "https://api.modworkshop.net/files/31771"
 );
 
 const headers = {
@@ -17192,7 +17208,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/files/{file_id}/download"
+            <div title="https://api.modworkshop.net/files/{file_id}/download"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -17202,7 +17218,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/files/{file_id}/download</div>
                     </div>
 
@@ -17474,7 +17490,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/files/31771/download" \
+    --get "https://api.modworkshop.net/files/31771/download" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -17484,7 +17500,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/files/31771/download"
+    "https://api.modworkshop.net/files/31771/download"
 );
 
 const headers = {
@@ -17594,7 +17610,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/files"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/files"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -17604,7 +17620,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/files</div>
                     </div>
 
@@ -17916,7 +17932,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/mods/38825/files" \
+    "https://api.modworkshop.net/mods/38825/files" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -17926,7 +17942,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/files"
+    "https://api.modworkshop.net/mods/38825/files"
 );
 
 const headers = {
@@ -17966,7 +17982,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/images"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/images"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -17976,7 +17992,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/images</div>
                     </div>
 
@@ -18087,7 +18103,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        dkecpsi
+                        rhgesnigceitapgsnrzwzm
                     </div>
                 </div>
             </div>
@@ -18112,7 +18128,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        8
+                        5
                     </div>
                 </div>
             </div>
@@ -18239,8 +18255,8 @@ fetch(url, {
                                      id="json-body-GETmods--mod_id--images"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "dkecpsi",
-    "limit": 8
+    "query": "rhgesnigceitapgsnrzwzm",
+    "limit": 5
 }</div>
                             </div>
                                             </div>
@@ -18332,12 +18348,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/images" \
+    --get "https://api.modworkshop.net/mods/38825/images" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"dkecpsi\",
-    \"limit\": 8
+    \"query\": \"rhgesnigceitapgsnrzwzm\",
+    \"limit\": 5
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -18347,7 +18363,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/images"
+    "https://api.modworkshop.net/mods/38825/images"
 );
 
 const headers = {
@@ -18356,8 +18372,8 @@ const headers = {
 };
 
 let body = {
-    "query": "dkecpsi",
-    "limit": 8
+    "query": "rhgesnigceitapgsnrzwzm",
+    "limit": 5
 };
 
 fetch(url, {
@@ -18431,7 +18447,7 @@ fetch(url, {
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;SQLSTATE[42703]: Undefined column: 7 ERROR:  column \&quot;name\&quot; does not exist\nLINE 1: ...od_id\&quot; = $1 and \&quot;images\&quot;.\&quot;mod_id\&quot; is not null and \&quot;name\&quot;::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \&quot;images\&quot; where \&quot;images\&quot;.\&quot;mod_id\&quot; = 38825 and \&quot;images\&quot;.\&quot;mod_id\&quot; is not null and \&quot;name\&quot;::text ILIKE %dkecpsi%)&quot;,
+    &quot;message&quot;: &quot;SQLSTATE[42703]: Undefined column: 7 ERROR:  column \&quot;name\&quot; does not exist\nLINE 1: ...od_id\&quot; = $1 and \&quot;images\&quot;.\&quot;mod_id\&quot; is not null and \&quot;name\&quot;::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \&quot;images\&quot; where \&quot;images\&quot;.\&quot;mod_id\&quot; = 38825 and \&quot;images\&quot;.\&quot;mod_id\&quot; is not null and \&quot;name\&quot;::text ILIKE %rhgesnigceitapgsnrzwzm%)&quot;,
     &quot;exception&quot;: &quot;Illuminate\\Database\\QueryException&quot;,
     &quot;file&quot;: &quot;/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php&quot;,
     &quot;line&quot;: 795,
@@ -19052,7 +19068,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/images"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/images"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -19062,7 +19078,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/images</div>
                     </div>
 
@@ -19175,7 +19191,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        /tmp/phpCEjfFC
+                        /tmp/phpimDfLC
                     </div>
                 </div>
             </div>
@@ -19400,10 +19416,10 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/images" \
+    "https://api.modworkshop.net/mods/38825/images" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "file=@/tmp/phpCEjfFC" </code></pre>                                        </div>
+    --form "file=@/tmp/phpimDfLC" </code></pre>                                        </div>
                                     </div>
                                 </div>
                                                             <div class="sl-bg-canvas-100 example-request example-request-javascript"
@@ -19411,7 +19427,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/images"
+    "https://api.modworkshop.net/mods/38825/images"
 );
 
 const headers = {
@@ -19447,7 +19463,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/links"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/links"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -19457,7 +19473,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/links</div>
                     </div>
 
@@ -19568,7 +19584,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        zhflj
+                        txuaspkvkpyfkubj
                     </div>
                 </div>
             </div>
@@ -19593,7 +19609,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        9
+                        3
                     </div>
                 </div>
             </div>
@@ -19720,8 +19736,8 @@ fetch(url, {
                                      id="json-body-GETmods--mod_id--links"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "zhflj",
-    "limit": 9
+    "query": "txuaspkvkpyfkubj",
+    "limit": 3
 }</div>
                             </div>
                                             </div>
@@ -19813,12 +19829,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/links" \
+    --get "https://api.modworkshop.net/mods/38825/links" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"zhflj\",
-    \"limit\": 9
+    \"query\": \"txuaspkvkpyfkubj\",
+    \"limit\": 3
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -19828,7 +19844,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/links"
+    "https://api.modworkshop.net/mods/38825/links"
 );
 
 const headers = {
@@ -19837,8 +19853,8 @@ const headers = {
 };
 
 let body = {
-    "query": "zhflj",
-    "limit": 9
+    "query": "txuaspkvkpyfkubj",
+    "limit": 3
 };
 
 fetch(url, {
@@ -19941,7 +19957,7 @@ fetch(url, {
             }
         ],
         &quot;path&quot;: &quot;http://localhost:8000/mods/38825/links&quot;,
-        &quot;per_page&quot;: 9,
+        &quot;per_page&quot;: 3,
         &quot;to&quot;: null,
         &quot;total&quot;: 0
     }
@@ -19965,7 +19981,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/links"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/links"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -19975,7 +19991,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/links</div>
                     </div>
 
@@ -20247,7 +20263,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/links" \
+    "https://api.modworkshop.net/mods/38825/links" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -20257,7 +20273,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/links"
+    "https://api.modworkshop.net/mods/38825/links"
 );
 
 const headers = {
@@ -20289,7 +20305,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/images"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/images"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -20299,7 +20315,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/images</div>
                     </div>
 
@@ -20571,7 +20587,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/mods/38825/images" \
+    "https://api.modworkshop.net/mods/38825/images" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -20581,7 +20597,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/images"
+    "https://api.modworkshop.net/mods/38825/images"
 );
 
 const headers = {
@@ -20613,7 +20629,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/members/accept"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/members/accept"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -20623,7 +20639,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/members/accept</div>
                     </div>
 
@@ -20729,7 +20745,15 @@ fetch(url, {
                                     <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
                     <span class="sl-ml-2 sl-text-warning">required</span>
                                     </div>
-                            </div>
+                                    <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        1
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
 
             </div>
@@ -20852,7 +20876,7 @@ fetch(url, {
                                      id="json-body-PATCHmods--mod_id--members-accept"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "accept": false
+    "accept": true
 }</div>
                             </div>
                                             </div>
@@ -20944,11 +20968,11 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PATCH \
-    "api.modworkshop.net/mods/38825/members/accept" \
+    "https://api.modworkshop.net/mods/38825/members/accept" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"accept\": false
+    \"accept\": true
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -20958,7 +20982,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/members/accept"
+    "https://api.modworkshop.net/mods/38825/members/accept"
 );
 
 const headers = {
@@ -20967,7 +20991,7 @@ const headers = {
 };
 
 let body = {
-    "accept": false
+    "accept": true
 };
 
 fetch(url, {
@@ -20995,7 +21019,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/members"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/members"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -21005,7 +21029,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/members</div>
                     </div>
 
@@ -21118,7 +21142,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        54
+                        41
                     </div>
                 </div>
             </div>
@@ -21145,7 +21169,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        maintainer
+                        collaborator
                     </div>
                 </div>
             </div>
@@ -21272,8 +21296,8 @@ fetch(url, {
                                      id="json-body-POSTmods--mod_id--members"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": 54,
-    "level": "maintainer"
+    "user_id": 41,
+    "level": "collaborator"
 }</div>
                             </div>
                                             </div>
@@ -21365,12 +21389,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/members" \
+    "https://api.modworkshop.net/mods/38825/members" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": 54,
-    \"level\": \"maintainer\"
+    \"user_id\": 41,
+    \"level\": \"collaborator\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -21380,7 +21404,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/members"
+    "https://api.modworkshop.net/mods/38825/members"
 );
 
 const headers = {
@@ -21389,8 +21413,8 @@ const headers = {
 };
 
 let body = {
-    "user_id": 54,
-    "level": "maintainer"
+    "user_id": 41,
+    "level": "collaborator"
 };
 
 fetch(url, {
@@ -21418,7 +21442,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/members/{id}"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/members/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -21433,7 +21457,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/members/{id}</div>
                     </div>
 
@@ -21570,7 +21594,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        maintainer
+                        contributor
                     </div>
                 </div>
             </div>
@@ -21709,7 +21733,7 @@ fetch(url, {
                                      id="json-body-PUTmods--mod_id--members--id-"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "level": "maintainer"
+    "level": "contributor"
 }</div>
                             </div>
                                             </div>
@@ -21801,11 +21825,11 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PUT \
-    "api.modworkshop.net/mods/38825/members/2" \
+    "https://api.modworkshop.net/mods/38825/members/2" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"level\": \"maintainer\"
+    \"level\": \"contributor\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -21815,7 +21839,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/members/2"
+    "https://api.modworkshop.net/mods/38825/members/2"
 );
 
 const headers = {
@@ -21824,7 +21848,7 @@ const headers = {
 };
 
 let body = {
-    "level": "maintainer"
+    "level": "contributor"
 };
 
 fetch(url, {
@@ -21852,7 +21876,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/members/{id}"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/members/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -21862,7 +21886,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/members/{id}</div>
                     </div>
 
@@ -22170,7 +22194,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/mods/38825/members/2" \
+    "https://api.modworkshop.net/mods/38825/members/2" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -22180,7 +22204,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/members/2"
+    "https://api.modworkshop.net/mods/38825/members/2"
 );
 
 const headers = {
@@ -22212,7 +22236,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/dependencies"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/dependencies"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -22222,7 +22246,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/dependencies</div>
                     </div>
 
@@ -22494,7 +22518,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/dependencies" \
+    "https://api.modworkshop.net/mods/38825/dependencies" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -22504,7 +22528,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/dependencies"
+    "https://api.modworkshop.net/mods/38825/dependencies"
 );
 
 const headers = {
@@ -22536,7 +22560,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/dependencies/{id}"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/dependencies/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -22551,7 +22575,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/dependencies/{id}</div>
                     </div>
 
@@ -22859,7 +22883,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request PUT \
-    "api.modworkshop.net/mods/38825/dependencies/1" \
+    "https://api.modworkshop.net/mods/38825/dependencies/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -22869,7 +22893,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/dependencies/1"
+    "https://api.modworkshop.net/mods/38825/dependencies/1"
 );
 
 const headers = {
@@ -22901,7 +22925,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/dependencies/{id}"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/dependencies/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -22911,7 +22935,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/dependencies/{id}</div>
                     </div>
 
@@ -23219,7 +23243,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request DELETE \
-    "api.modworkshop.net/mods/38825/dependencies/1" \
+    "https://api.modworkshop.net/mods/38825/dependencies/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -23229,7 +23253,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/dependencies/1"
+    "https://api.modworkshop.net/mods/38825/dependencies/1"
 );
 
 const headers = {
@@ -23261,7 +23285,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/version"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/version"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -23271,7 +23295,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/version</div>
                     </div>
 
@@ -23543,7 +23567,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/version" \
+    --get "https://api.modworkshop.net/mods/38825/version" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -23553,7 +23577,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/version"
+    "https://api.modworkshop.net/mods/38825/version"
 );
 
 const headers = {
@@ -23650,7 +23674,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/comments"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/comments"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -23660,7 +23684,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/comments</div>
                     </div>
 
@@ -23771,7 +23795,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        rzwmrijrajiaxvs
+                        ehjmz
                     </div>
                 </div>
             </div>
@@ -23796,7 +23820,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        9
+                        5
                     </div>
                 </div>
             </div>
@@ -23923,8 +23947,8 @@ fetch(url, {
                                      id="json-body-GETmods--mod_id--comments"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "query": "rzwmrijrajiaxvs",
-    "limit": 9
+    "query": "ehjmz",
+    "limit": 5
 }</div>
                             </div>
                                             </div>
@@ -24016,12 +24040,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "api.modworkshop.net/mods/38825/comments" \
+    --get "https://api.modworkshop.net/mods/38825/comments" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"query\": \"rzwmrijrajiaxvs\",
-    \"limit\": 9
+    \"query\": \"ehjmz\",
+    \"limit\": 5
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -24031,7 +24055,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/comments"
+    "https://api.modworkshop.net/mods/38825/comments"
 );
 
 const headers = {
@@ -24040,8 +24064,8 @@ const headers = {
 };
 
 let body = {
-    "query": "rzwmrijrajiaxvs",
-    "limit": 9
+    "query": "ehjmz",
+    "limit": 5
 };
 
 fetch(url, {
@@ -24115,7 +24139,7 @@ fetch(url, {
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;SQLSTATE[42703]: Undefined column: 7 ERROR:  column \&quot;name\&quot; does not exist\nLINE 1: ...elect count(*) as aggregate from \&quot;comments\&quot; where \&quot;name\&quot;::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \&quot;comments\&quot; where \&quot;name\&quot;::text ILIKE %rzwmrijrajiaxvs% and \&quot;reply_to\&quot; is null and (\&quot;commentable_type\&quot; = mod and \&quot;commentable_id\&quot; = 38825))&quot;,
+    &quot;message&quot;: &quot;SQLSTATE[42703]: Undefined column: 7 ERROR:  column \&quot;name\&quot; does not exist\nLINE 1: ...elect count(*) as aggregate from \&quot;comments\&quot; where \&quot;name\&quot;::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \&quot;comments\&quot; where \&quot;name\&quot;::text ILIKE %ehjmz% and \&quot;reply_to\&quot; is null and (\&quot;commentable_type\&quot; = mod and \&quot;commentable_id\&quot; = 38825))&quot;,
     &quot;exception&quot;: &quot;Illuminate\\Database\\QueryException&quot;,
     &quot;file&quot;: &quot;/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php&quot;,
     &quot;line&quot;: 795,
@@ -24757,7 +24781,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="api.modworkshop.net/mods/{mod_id}/comments"
+            <div title="https://api.modworkshop.net/mods/{mod_id}/comments"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -24767,7 +24791,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">api.modworkshop.net</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">https://api.modworkshop.net</div>
                         <div class="sl-flex-1 sl-font-semibold">/mods/{mod_id}/comments</div>
                     </div>
 
@@ -25039,7 +25063,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "api.modworkshop.net/mods/38825/comments" \
+    "https://api.modworkshop.net/mods/38825/comments" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -25049,7 +25073,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "api.modworkshop.net/mods/38825/comments"
+    "https://api.modworkshop.net/mods/38825/comments"
 );
 
 const headers = {

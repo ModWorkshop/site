@@ -3,7 +3,7 @@
 
 
 <aside>
-    <strong>Base URL</strong>: <code>api.modworkshop.net</code>
+    <strong>Base URL</strong>: <code>https://api.modworkshop.net</code>
 </aside>
 
 This documentation aims to provide all the information you need to work with our API.
