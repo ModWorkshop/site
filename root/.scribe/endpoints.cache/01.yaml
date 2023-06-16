@@ -36,7 +36,11 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
+<<<<<<< HEAD
         example: oxgprwus
+=======
+        example: iukmiiqbhokaups
+>>>>>>> parent of 792401d (add static scribe)
         type: string
         custom: []
       limit:
@@ -47,15 +51,24 @@ endpoints:
         type: integer
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       query: oxgprwus
       limit: 2
+=======
+      query: iukmiiqbhokaups
+      limit: 19
+>>>>>>> parent of 792401d (add static scribe)
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
+<<<<<<< HEAD
               "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 38825 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %oxgprwus%)",
+=======
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...od_id\" = $1 and \"images\".\"mod_id\" is not null and \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"images\" where \"images\".\"mod_id\" = 38825 and \"images\".\"mod_id\" is not null and \"name\"::text ILIKE %iukmiiqbhokaups%)",
+>>>>>>> parent of 792401d (add static scribe)
               "exception": "Illuminate\\Database\\QueryException",
               "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
               "line": 795,
@@ -750,24 +763,41 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
+<<<<<<< HEAD
         example: wfasolokxnfmucho
+=======
+        example: vmnuqwwgiw
+>>>>>>> parent of 792401d (add static scribe)
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
+<<<<<<< HEAD
         example: 20
         type: integer
         custom: []
     cleanBodyParameters:
       query: wfasolokxnfmucho
       limit: 20
+=======
+        example: 7
+        type: integer
+        custom: []
+    cleanBodyParameters:
+      query: vmnuqwwgiw
+      limit: 7
+>>>>>>> parent of 792401d (add static scribe)
     fileParameters: []
     responses:
       -
         status: 200
+<<<<<<< HEAD
         content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/links","per_page":20,"to":null,"total":0}}'
+=======
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/links?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/links","per_page":7,"to":null,"total":0}}'
+>>>>>>> parent of 792401d (add static scribe)
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -937,7 +967,11 @@ endpoints:
         name: user_id
         description: 'Must be at least 1.'
         required: true
+<<<<<<< HEAD
         example: 29
+=======
+        example: 86
+>>>>>>> parent of 792401d (add static scribe)
         type: integer
         custom: []
       level:
@@ -948,8 +982,13 @@ endpoints:
         type: string
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       user_id: 29
       level: maintainer
+=======
+      user_id: 86
+      level: collaborator
+>>>>>>> parent of 792401d (add static scribe)
     fileParameters: []
     responses: []
     responseFields: []
@@ -1272,26 +1311,43 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
+<<<<<<< HEAD
         example: pyulkoxngmtfvdqfjglbjkkt
+=======
+        example: xsapfkzahxemzlykzomkkcu
+>>>>>>> parent of 792401d (add static scribe)
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
+<<<<<<< HEAD
         example: 25
         type: integer
         custom: []
     cleanBodyParameters:
       query: pyulkoxngmtfvdqfjglbjkkt
       limit: 25
+=======
+        example: 2
+        type: integer
+        custom: []
+    cleanBodyParameters:
+      query: xsapfkzahxemzlykzomkkcu
+      limit: 2
+>>>>>>> parent of 792401d (add static scribe)
     fileParameters: []
     responses:
       -
         status: 500
         content: |-
           {
+<<<<<<< HEAD
               "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %pyulkoxngmtfvdqfjglbjkkt% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 38825))",
+=======
+              "message": "SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"name\" does not exist\nLINE 1: ...elect count(*) as aggregate from \"comments\" where \"name\"::te...\n                                                             ^ (Connection: pgsql, SQL: select count(*) as aggregate from \"comments\" where \"name\"::text ILIKE %xsapfkzahxemzlykzomkkcu% and \"reply_to\" is null and (\"commentable_type\" = mod and \"commentable_id\" = 38825))",
+>>>>>>> parent of 792401d (add static scribe)
               "exception": "Illuminate\\Database\\QueryException",
               "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
               "line": 795,
