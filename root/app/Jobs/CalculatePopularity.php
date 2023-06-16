@@ -38,7 +38,7 @@ class CalculatePopularity implements ShouldQueue
 
         PopularityLog::whereDate('updated_at', '>', Carbon::now()->addYear(1))->delete();
 
-        function getScores(Carbon $date) {
+        $getScores = function(Carbon $date) {
             $scores = [];
             PopularityLog::select('mod_id', DB::raw("SUM(
                 CASE 
@@ -56,14 +56,14 @@ class CalculatePopularity implements ShouldQueue
             });
 
             return $scores;
-        }
+        };
 
         print_r('Getting monthly scores...');
-        $scoresMonthly = getScores(Carbon::now()->addMonth(1));
+        $scoresMonthly = $getScores(Carbon::now()->addMonth(1));
         print_r('Getting weekly scores...');
-        $scoresWeekly = getScores(Carbon::now()->addWeek(1));
+        $scoresWeekly = $getScores(Carbon::now()->addWeek(1));
         print_r('Getting daily scores...');
-        $scoresDaily = getScores(Carbon::now()->addDay(1));
+        $scoresDaily = $getScores(Carbon::now()->addDay(1));
 
         print_r('Calculating scores of all mods...');
         Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly) {
