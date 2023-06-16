@@ -21,8 +21,15 @@ class SupporterController extends Controller
      */
     public function index(FilteredRequest $request)
     {
+        $val = $request->val([
+            'active_only' => 'boolean'
+        ]);
+
         return JsonResource::collection(Supporter::queryGet($request->val(), function($q) {
             $q->orderByRaw('expire_date DESC NULLS LAST, expired ASC');
+            if (isset($val['active_only']) && $val['active_only']) {
+                $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now());
+            }
         }));
     }
 
