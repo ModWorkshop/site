@@ -57,6 +57,7 @@
                                 :placeholder="$t('search')"
                                 maxlength="150"
                                 @click="showSearch = true"
+                                @keydown="onKeydownSearch"
                                 @keyup.up.self="setSelectedSearch(-1)"
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
@@ -216,11 +217,14 @@ watch(showNotifications, async () => {
     }
 });
 
-watch(search, val => {
-    unlockedOwO.value = val.toLowerCase() === 'owo';
-    if (val) {
+function onKeydownSearch() {
+    if (search.value) {
         showSearch.value = true;
     }
+}
+
+watch(search, val => {
+    unlockedOwO.value = val.toLowerCase() === 'owo';
 });
 
 function setSelectedSearch(direction: number) {
