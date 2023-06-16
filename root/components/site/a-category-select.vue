@@ -15,7 +15,7 @@
 import { Category } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
-    modelValue?: number,
+    modelValue?: number|number[]|null,
     setQuery?: boolean,
     categories: Category[],
     maxHeight?: number,

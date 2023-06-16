@@ -3,7 +3,7 @@
     <a-game-select v-if="!game" v-model="filters.game_id" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
     <a-category-select
         v-if="categories && categories.data.length"
-        set-query
+        v-model="filters.category_id"
         :max-height="400"
         :categories="categories.data"
         :label="$t('categories')"
@@ -24,10 +24,10 @@ const props = defineProps<{
         game_id: number;
         tags: number[];
         block_tags: number[];
+        category_id: number|null
     };
 }>();
 
-const selectedCategory = useRouteQuery('category');
 const gameId = computed(() => props.game?.id ?? props.filters.game_id);
 
 const { data: tags } = await useFetchMany<Tag>(gameId.value ? `games/${gameId.value}/tags` : 'tags', { 
@@ -41,7 +41,7 @@ const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(
 });
 
 watch(() => props.filters.game_id, async () => {
-    selectedCategory.value = null;
+    props.filters.categories = null;
 
     await props.refresh();
 

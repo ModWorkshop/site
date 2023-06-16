@@ -64,7 +64,7 @@ const props = withDefaults(defineProps<{
     limit: 20
 });
 
-const query = props.query ? useRouteQuery('query', '') : ref('');
+const query = props.query ? useRouteQuery('query', '', null, true); : ref('');
 const page = props.query ? useRouteQuery('page', 1, 'number') : ref(1);
 const categoryId = props.query ? useRouteQuery('category') : ref();
 const selectedForum = props.query ? useRouteQuery('forum') : ref();

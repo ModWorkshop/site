@@ -5,7 +5,7 @@ import clone from 'rfdc/default';
 //Trying to make this work with typescript is just... No
 let queue = {};
 
-export default function(name, defaultValue, cast) {
+export default function(name, defaultValue, cast, statefully) {
     const router = useRouter();
     const route = useRoute();
 
@@ -15,7 +15,12 @@ export default function(name, defaultValue, cast) {
 
     cast ??= typeof defaultValue;
 
-    const current = ref(route.query[name]);
+    let current;
+    if (statefully) {
+        current = useState(name, () => route.query[name]);
+    } else {
+        current = ref(route.query[name]);
+    }
 
     return computed({
         get() {

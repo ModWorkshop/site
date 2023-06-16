@@ -24,7 +24,7 @@ import { User } from '~~/types/models';
 import { Game } from '../../types/models';
 
 const page = useRouteQuery('page', 1);
-const query = useRouteQuery('query', '');
+const query = useRouteQuery('query', '', null, true);
 const roleIds = useRouteQuery('role_ids', []);
 const gameRoleIds = useRouteQuery('game_role_ids', []);
 

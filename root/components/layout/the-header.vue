@@ -145,6 +145,8 @@ const store = useStore();
 const settings = computed(() => store.settings);
 
 const router = useRouter();
+const route = useRoute();
+
 const { 
     user,
     notifications,
@@ -153,7 +155,20 @@ const {
     reportCount,
     waitingCount,
 } = storeToRefs(store);
-const search = ref('');
+const refSearch = ref('');
+const querySearch = useRouteQuery('query', '', null, true);
+const search = computed({
+    get() {
+        return route.path?.startsWith('/search') ? querySearch.value : refSearch.value;
+    },
+    set(value) {
+        if (route.path?.startsWith('/search')) {
+            querySearch.value = value;
+        } else {
+            refSearch.value = value;
+        }
+    }
+});
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(0);
