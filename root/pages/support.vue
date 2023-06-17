@@ -34,7 +34,7 @@ const { user } = useStore();
 const store = useStore();
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 
-const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1');
+const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1&sort_by_id=1');
 </script>
 
 <style scoped>
