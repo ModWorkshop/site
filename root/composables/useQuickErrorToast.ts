@@ -46,6 +46,7 @@ export default function() {
             404: t('error_404'),
             500: t('error_500'),
             502: t('error_502'),
+            429: t('error_429'),
             ...errorStrings
         };
 
