@@ -49,7 +49,7 @@ async function upgrade() {
     try {
         const supporter = await postRequest<Supporter>('supporters', {
             user_id: user.value,
-            duration: duration.value
+            expire_date: duration.value
         });
         supporters.value?.data.unshift(supporter);
     } catch (error) {
