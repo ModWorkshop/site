@@ -64,6 +64,7 @@ APIService::resource('files', FileController::class, 'mods');
 APIService::resource('images', ImageController::class, 'mods');
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
+Route::middleware('can:view,file')->get('files/{file}/version', [FileController::class, 'fileVersion']);
 Route::middleware('can:view,mod')->get('mods/{mod}/download', [ModController::class, 'downloadFirstFile']);
 
 //General mods

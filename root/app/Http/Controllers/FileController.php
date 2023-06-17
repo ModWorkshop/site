@@ -129,15 +129,24 @@ class FileController extends Controller
         $file->delete(); //Deletion of files handled in the model class.
     }
 
-
     /**
      * Download File
-     * 
+     *
      * Begins a download of a file
      */
     public function downloadFile(File $file, Mod $mod=null)
     {
         return redirect($file->downloadUrl);
+    }
+
+    /**
+     * File Version
+     *
+     * Returns the version set for the file
+     */
+    public function fileVersion(File $file, Mod $mod=null)
+    {
+        return $file->version;
     }
 
     /**
