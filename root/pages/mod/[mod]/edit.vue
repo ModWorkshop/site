@@ -41,7 +41,7 @@ import { Paginator } from '~~/types/paginator';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
 const { user, setGame } = useStore();
-const { showToast } = useToaster();
+const showErrorToast = useQuickErrorToast();
 
 const { t } = useI18n();
 
@@ -111,10 +111,6 @@ function ignoreChanges() {
 
 provide('ignoreChanges', ignoreChanges);
 
-function catchError(error) {
-    showToast({ desc: error.data.message, color: 'danger' });
-}
-
 async function save() {
     try {
         let fetchedMod;
@@ -130,7 +126,7 @@ async function save() {
             mod.value = fetchedMod;
         }
     } catch (error) {
-        catchError(error);
+        showErrorToast(error);
         return;
     }
 }
