@@ -6,9 +6,8 @@ function getErrorString(e) {
     let i = 1;
             
     if (e) {
-        if (e.data && e.data.message) {
-            const data = e.data;
-
+        const data = e.response?.data ?? e.data?.data;
+        if (data) {
             if (data.errors) {
                 let errStr = '';
                 for (const err of Object.values(data.errors)) {
