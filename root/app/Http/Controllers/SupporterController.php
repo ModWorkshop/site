@@ -16,21 +16,26 @@ class SupporterController extends Controller
     }
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(FilteredRequest $request)
     {
         $val = $request->val([
-            'active_only' => 'boolean'
+            'active_only' => 'boolean',
+            'sort_by_id' => 'boolean',
         ]);
 
-        return JsonResource::collection(Supporter::queryGet($request->val(), function($q) {
+        $q = Supporter::query();
+
+        if (isset($val['sort_by_id']) && $val['sort_by_id']) {
+            $q->groupBy('id');
+        } else {
             $q->orderByRaw('expire_date DESC NULLS LAST, expired ASC');
-            if (isset($val['active_only']) && $val['active_only']) {
-                $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now());
-            }
-        }));
+        }
+        if (isset($val['active_only']) && $val['active_only']) {
+            $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now());
+        }
+
+        return JsonResource::collection($q->get()->unique('user_id')->flatten()->paginate(1000));
     }
 
     /**
@@ -47,8 +52,8 @@ class SupporterController extends Controller
         ]);
 
         Utils::convertToUTC($val, 'expire_date');
-        
-        if (Supporter::where('user_id', $val['user_id'])->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now())->exists()) {
+
+        if (Supporter::where('user_id', $val['user_id'])->where(fn($q) => $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now()))->exists()) {
             abort(409, 'Supporter membership already exists!');
         }
 
