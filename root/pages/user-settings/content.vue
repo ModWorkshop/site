@@ -35,7 +35,7 @@
                 </template>
             </a-items>            
             <h2>{{$t('followed_mods')}}</h2>
-            <a-items :items="followedMods" :loading="loadingMods" :item-link="item => `mod/${item.id}`">
+            <a-items :items="followedMods" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="height: 64px;"/>
                 </template>
