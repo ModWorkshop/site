@@ -35,7 +35,7 @@ const { data: document } = await useResource<Document>('document', 'documents', 
 
 const breadcrumb = computed(() => {
     const breadcrumb: Breadcrumb[] = [
-        { name: t('docs'), attachToPrev: 'docs' },
+        { name: t('docs'), attachToPrev: 'documents' },
         { name: document.value.name, id: document.value.id, type: 'document' },
     ];
 
