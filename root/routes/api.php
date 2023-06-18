@@ -260,7 +260,7 @@ Route::get('v2API', function(Request $request) {
                 return;
             }
 
-            return ($val['vid'] ?? null) === $mod->version ? 'true ' : $mod->version . ' ';
+            return ($val['vid'] ?? null) == $mod->version ? 'true ' : $mod->version . ' ';
         case 'Version':
             if (!isset($mod)) {
                 return;
