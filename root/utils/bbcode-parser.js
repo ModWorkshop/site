@@ -51,13 +51,7 @@ const tags = {
     },
     code: {
         type: 'content',
-        replace: (_, content) => `<pre><code class="language">${content.replace(/&nbsp;/g, ' ')}</code></pre>`,
-        noParse: true,
-        block: true
-    },
-    php: {
-        type: 'content',
-        replace: (_, content) => `<pre><code class="language-php">${content.replace(/&nbsp;/g, ' ')}</code></pre>`,
+        replace: (_, content) => `<pre><code class="hljs language">${content.replace(/&nbsp;/g, ' ')}</code></pre>`,
         noParse: true,
         block: true
     },

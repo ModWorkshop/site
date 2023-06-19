@@ -76,6 +76,10 @@
 	background-color: var(--alt-content-bg-color);
 }
 
+.markdown code {
+	display: inline-block;
+}
+
 blockquote {
 	position: relative;
 }
