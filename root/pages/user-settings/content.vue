@@ -16,7 +16,7 @@
         </a-tab>
         <a-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>
-            <a-items :items="followedGames" :loading="loadingGames" :item-link="item => `g/${item.short_name}`">
+            <a-items :items="followedGames" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="height: 64px;"/>
                 </template>
