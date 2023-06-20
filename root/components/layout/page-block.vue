@@ -20,22 +20,22 @@
                         <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
                         <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
                     </flex>
-                    <flex class="ml-auto items-center" gap="4">
-                        <flex v-if="store.gameBan" v-once column>
-                            <span class="text-danger">
-                                <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
-                            </span>
-                            <span>
-                                <i18n-t keypath="expires_t" scope="global">
-                                    <template #time>
-                                        <time-ago :time="store.gameBan.expire_date"/>
-                                    </template>
-                                </i18n-t>
-                            </span>
-                        </flex>
-                    </flex>
-                    <flex class="ml-auto" gap="2" wrap>
+                    <flex class="ml-auto items-center" gap="2" wrap>
                         <flex class="mr-4" gap="2">
+                            <flex v-if="store.gameBan" gap="0" v-once column>
+                                <span class="text-danger">
+                                    <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
+                                </span>
+                                <span>
+                                    <i18n-t keypath="expires_t" scope="global">
+                                        <template #time>
+                                            <time-ago :time="store.gameBan.expire_date"/>
+                                        </template>
+                                    </i18n-t>
+                                </span>
+                            </flex>
+
+                            
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
                                 <a-icon icon="mdi:alert-box"/> {{reportCount}}
                             </NuxtLink>
