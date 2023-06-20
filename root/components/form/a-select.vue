@@ -178,7 +178,7 @@ const selectedOption = computed(() => {
 });
 
 const compClearable = computed(() => {    
-    return selected.value.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+    return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 function defaultBy(option, propName) {
