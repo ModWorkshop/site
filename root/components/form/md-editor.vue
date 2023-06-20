@@ -4,7 +4,7 @@
             <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
             <flex class="p-2 overflow-hidden h-full">
                 <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
-                <a-markdown ref="mdText" class="h-full preview" :style="{'height': previewHeight}" v-bind="$attrs"/>
+                <a-markdown ref="mdText" class="h-full preview" :style="{'height': previewHeight}" :text="vm"/>
             </flex>
         </flex>
         <a-tabs v-else :class="classes" style="flex:1;">
