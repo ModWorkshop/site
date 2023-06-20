@@ -55,7 +55,7 @@ class Utils {
                 curl_setopt($handle, CURLOPT_POSTFIELDS, $data_string);
                 curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($data_string)]);
-        
+
                 //Execute CURL
                 curl_exec($handle);
                 curl_close($handle);
@@ -84,7 +84,7 @@ class Utils {
      * Returns a unique name for a user
      */
     public static function getUniqueName(string $name, bool $cacheUsers=false): string
-    {        
+    {
         $uniqueName ??= $name;
         $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
         if (strlen($uniqueName) == 0) {
@@ -108,14 +108,14 @@ class Utils {
 
         return $uniqueName;
     }
-    
+
     /**
      * Returns a unique name for a user (DO NOT USE, only migration code)
      */
     public static function getUniqueNameCached(string $name): string
     {
         static $used = [];
- 
+
         $uniqueName ??= $name;
         $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
         if (strlen($uniqueName) == 0) {
@@ -183,7 +183,7 @@ class Utils {
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {
-            $q->where('is_private', true)->where(fn($q) => 
+            $q->where('is_private', true)->where(fn($q) =>
                 $q->whereHasIn('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
                 ->when(isset($gameRoleIds))->orWhereHasIn('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
             )->orWhere('is_private', false)->where(fn($q) =>

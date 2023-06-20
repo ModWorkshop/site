@@ -71,7 +71,7 @@ class FileController extends Controller
 
     /**
      * Get File
-     * 
+     *
      * Returns a file. If the mod it belongs to is accessible.
      */
     public function show(File $file)
@@ -81,7 +81,7 @@ class FileController extends Controller
 
     /**
      * Update File
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, File $file)
