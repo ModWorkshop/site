@@ -6,7 +6,7 @@
         v-model="filters.category_id"
         :max-height="400"
         :categories="categories.data"
-        :label="$t('categories')"
+        :label="$t('category')"
     />
     <a-select v-model="filters.tags" :label="$t('tags')" multiple clearable list-tags color-by="color" :options="tags?.data" max="10" max-shown="2"/>
     <a-select v-model="filters.block_tags" :label="$t('filter_out_tags')" multiple clearable list-tags color-by="color" :options="tags?.data" max="10" max-shown="2"/>
