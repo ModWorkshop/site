@@ -38,11 +38,9 @@
             <flex gap="3" column class="details md:flex-row">
                 <content-block class="p-4 place-self-start">
                     <flex gap="3" column style="min-width: 300px;">
-                        <a-user class="text-2xl" :user="user" :avatar="false" static>
-                            <template #after-name>
-                                <div v-if="!userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
-                            </template>
+                        <a-user class="text-2xl" :user="user" :avatar="false" static show-online-state>
                             <template #details>
+                                <span v-if="user.unique_name" class="user-at text-base">@{{user.unique_name}} / ID {{user.id}}</span>
                                 <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
                             </template>
                         </a-user>
@@ -161,12 +159,13 @@ const tempBlockOverride = ref(false);
 const displayMods = ref('personal');
 
 const isOnline = computed(() => {
+    if (!user.value.last_online) {
+        return false;
+    }
     const last = DateTime.fromISO(user.value.last_online);
     const now = DateTime.now();
     return (now.diff(last, 'minutes').toObject()?.minutes ?? 0) < 5;
 });
-const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
-const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const userInvisible = computed(() => user.value.invisible);
 const isPublic = computed(() => !user.value.private_profile || isOwnOrModerator.value);
 

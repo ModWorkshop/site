@@ -15,7 +15,9 @@
                 <NuxtLink class="flex gap-1 items-center" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user?.name ?? $t('invalid_user')}}</component>
                     <a-tag v-if="userTag" small>{{userTag}}</a-tag>
-                    <span v-if="showAt" class="user-at">@{{user?.unique_name}}</span>
+                    <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
+                    <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
+
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
                 <slot name="details" :user="user">
@@ -34,6 +36,8 @@
 import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
 import { vOnClickOutside } from '@vueuse/components';
+import { DateTime } from 'luxon';
+import { useStore } from '~/store';
 
 const props = withDefaults(defineProps<{
     details?: string,
@@ -45,16 +49,34 @@ const props = withDefaults(defineProps<{
     avatarSize?: string,
     showAt?: boolean,
     static?: boolean,
+    showOnlineState?: boolean,
 }>(), { 
     avatar: true,
     tag: true,
     noColor: false,
-    miniProfile: true
+    miniProfile: true,
+    showOnlineState: false
 });
 
 const { t } = useI18n();
+const { hasPermission, user: me } = useStore();
 
 const renderProfile = ref(false);
+const isOnline = computed(() => {
+    if (!props.user?.last_online) {
+        return false;
+    }
+    const last = DateTime.fromISO(props.user.last_online);
+    const now = DateTime.now();
+    return (now.diff(last, 'minutes').toObject()?.minutes ?? 0) < 5;
+});
+const userInvisible = computed(() => props.user?.invisible);
+const isPublic = computed(() => !props.user?.private_profile || isOwnOrModerator.value);
+const canModerateUsers = computed(() => hasPermission('moderate-users'));
+const isOwnOrModerator = computed(() => me && (props.user?.id === me.id || canModerateUsers.value));
+const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
+const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
+
 const isBanned = computed(() => !!(props.user?.ban || props.user?.game_ban));
 const userTag = computed(() => {
     if (props.user && props.user.show_tag !== 'none') {
