@@ -33,7 +33,7 @@ class GetModsRequest extends FilteredRequest
             'tags' => 'array|max:10',
             'liked' => 'boolean|nullable',
             'tags.*' => 'integer|min:1|nullable',
-            'categories' => 'array|max:10',
+            'categories' => 'array|nullable|max:10',
             'categories.*' => 'integer|min:1|nullable',
             'block_tags' => 'array|max:10',
             'block_tags.*' => 'integer|min:1|nullable',
