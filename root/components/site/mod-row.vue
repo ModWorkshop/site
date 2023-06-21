@@ -7,7 +7,7 @@
         </td>
 
         <td>
-            <NuxtLink class="mod-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
+            <NuxtLink class="mod-title" style="min-width: 150px;" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
                 <mod-status :mod="mod"/>
                 {{mod.name}}
             </NuxtLink>

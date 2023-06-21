@@ -12,7 +12,7 @@
                     <th>{{$t('owner')}}</th>
                     <th>{{$t('date')}}</th>
                     <th>{{$t('active')}}</th>
-                    <th style="width: 300px;">{{$t('reason')}}</th>
+                    <th>{{$t('reason')}}</th>
                     <th>{{$t('actions')}}</th>
                 </template>
                 <template #body>
@@ -20,7 +20,7 @@
                         <template #definitions>
                             <td><time-ago :time="suspension.created_at"/></td>
                             <td>{{suspension.status ? '✔' : '❌'}}</td>
-                            <td>{{suspension.reason}}</td>
+                            <td style="min-width: 300px;" class="whitespace-break-spaces">{{suspension.reason}}</td>
                             <td>
                                 <mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
                                 <a-button v-else icon="mdi:delete" @click="deleteSuspension(suspension)">{{ $t('delete') }}</a-button>
