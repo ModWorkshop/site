@@ -83,7 +83,7 @@ const dependencies = computed(() => {
     return combinedDeps.sort((a,b) => a.order == b.order ? a.id - b.id : a.order - b.order);
 });
 
-const instructions = computed(() => (props.mod.instructs_template ? props.mod.instructs_template.instructions + '\n' : '') + props.mod.instructions);
+const instructions = computed(() => (props.mod.instructs_template ? props.mod.instructs_template.instructions + '\n\n' : '') + props.mod.instructions);
 
 const imageIndex = ref(0);
 const galleryVisible = ref(false);
