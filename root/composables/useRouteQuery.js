@@ -5,6 +5,8 @@ import clone from 'rfdc/default';
 //Trying to make this work with typescript is just... No
 let queue = {};
 
+let currentTimeout;
+
 export default function(name, defaultValue, cast, statefully) {
     const router = useRouter();
     const route = useRoute();
@@ -57,10 +59,15 @@ export default function(name, defaultValue, cast, statefully) {
             queue[name] = (v === defaultValue || v === null) ? undefined : v;
             current.value = queue[name];
 
-            nextTick(() => {
+            if (currentTimeout) {
+                clearTimeout(currentTimeout);
+            }
+            currentTimeout = setTimeout(() => {
                 router.replace({ query: { ...route.query, ...queue } });
-                nextTick(() => queue = {});
-            });
+                currentTimeout = null;
+                queue = {}
+            }, 100);
+            
         }
     });
 }
