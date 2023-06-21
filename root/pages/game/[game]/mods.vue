@@ -1,7 +1,7 @@
 <template>
     <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
         <Title>{{game.name}}</Title>
-        <mod-list :game="game" :url="`games/${game.id}/mods`" side-filters/>
+        <mod-list :game="game" :url="`games/${game.id}/mods`" side-filters query/>
     </page-block>
 </template>
 

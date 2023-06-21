@@ -46,6 +46,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
+const searchBus = useEventBus<string>('search')
 
 const props = withDefaults(defineProps<{
     title?: string,
@@ -64,7 +65,12 @@ const props = withDefaults(defineProps<{
     limit: 20
 });
 
-const query = props.query ? useRouteQuery('query', '', null, true) : ref('');
+const query = props.query ? useRouteQuery('query', '') : ref('');
+
+if (query) {
+    searchBus.on(search => query.value = search);
+}
+
 const page = props.query ? useRouteQuery('page', 1, 'number') : ref(1);
 const categoryId = props.query ? useRouteQuery('category') : ref();
 const selectedForum = props.query ? useRouteQuery('forum') : ref();

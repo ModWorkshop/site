@@ -24,9 +24,12 @@ import { User } from '~~/types/models';
 import { Game } from '../../types/models';
 
 const page = useRouteQuery('page', 1);
-const query = useRouteQuery('query', '', null, true);
+const query = useRouteQuery('query', '');
 const roleIds = useRouteQuery('role_ids', []);
 const gameRoleIds = useRouteQuery('game_role_ids', []);
+const searchBus = useEventBus<string>('search')
+
+searchBus.on(search => query.value = search);
 
 const props = withDefaults(defineProps<{
     userLink?: (user: User) => string,

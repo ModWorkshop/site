@@ -51,7 +51,7 @@
                         <div>
                             <a-input 
                                 id="header-search"
-                                v-model="search"
+                                v-model="query"
                                 v-on-click-outside="() => showSearch = false"
                                 class="search"
                                 :placeholder="$t('search')"
@@ -71,14 +71,14 @@
                                     <a-button
                                         v-for="[i, button] in searchButtons.entries()"
                                         :key="button.text"
-                                        :to="`${button.to}?query=${search}`"
+                                        :to="`${button.to}?query=${query}`"
                                         :color="selectedSearch == i ? 'primary' : 'subtle'"
                                         class="search-button"
                                     >
-                                        {{$t(button.text, [search, currentGame?.name])}}
+                                        {{$t(button.text, [query, currentGame?.name])}}
                                     </a-button>
                                 </flex>
-                                <template v-if="search && mods && mods.data.length">
+                                <template v-if="query && mods && mods.data.length">
                                     <h3>{{$t('mods')}}</h3>
                                     <flex column gap="1">
                                         <template v-if="mods">
@@ -156,24 +156,12 @@ const {
     reportCount,
     waitingCount,
 } = storeToRefs(store);
-const refSearch = ref('');
-const querySearch = useRouteQuery('query', '', null, true);
-const search = computed({
-    get() {
-        return route.path?.startsWith('/search') ? querySearch.value : refSearch.value;
-    },
-    set(value) {
-        if (route.path?.startsWith('/search')) {
-            querySearch.value = value;
-        } else {
-            refSearch.value = value;
-        }
-    }
-});
+const query = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(0);
 const unlockedOwO = useState('unlockedOwO');
+const searchBus = useEventBus<string>('search')
 
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
@@ -191,7 +179,7 @@ const userLink = computed(() => {
 });
 
 const searchButtons = computed(() => {
-    const searching = search.value.length > 0;
+    const searching = query.value.length > 0;
     const buttons = [
         { to: `/search/mods`, text: searching ? 'search_mods_matching' : 'mods' },
         { to: `/search/threads`, text: searching ? 'search_threads_matching' : 'threads' },
@@ -208,8 +196,8 @@ const searchButtons = computed(() => {
 const { data: mods } = await useWatchedFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
     limit: 5,
     sort: 'views',
-    query: search,
-}, { onChange: () => search.value.length > 0, immediate: false });
+    query: query,
+}, { onChange: () => query.value.length > 0, immediate: false });
 
 watch(showNotifications, async () => {
     if (!notifications.value) {
@@ -218,13 +206,14 @@ watch(showNotifications, async () => {
 });
 
 function onKeydownSearch() {
-    if (search.value) {
+    if (query.value) {
         showSearch.value = true;
     }
 }
 
-watch(search, val => {
+watch(query, val => {
     unlockedOwO.value = val.toLowerCase() === 'owo';
+    searchBus.emit(val);
 });
 
 function setSelectedSearch(direction: number) {
@@ -240,7 +229,10 @@ function setSelectedSearch(direction: number) {
 }
 
 function clickSelectedSearch() {
-    router.push((searchButtons.value[selectedSearch.value]?.to ?? '/search/mods') + `?query=${search.value}`);
+    router.replace({
+        path: searchButtons.value[selectedSearch.value]?.to ?? '/search/mods',
+        query: { query: query.value }
+    });
 }
 </script>
 <style scoped>

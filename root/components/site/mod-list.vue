@@ -81,6 +81,8 @@ import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 
+const searchBus = useEventBus<string>('search')
+
 const props = withDefaults(defineProps<{
     title?: string,
     titleLink?: string,
@@ -90,16 +92,23 @@ const props = withDefaults(defineProps<{
     triggerRefresh?: EventRaiser,
     sideFilters?: boolean,
     limit?: number,
+    query: boolean,
     url?: string,
     params?: object
 }>(), {
     limit: 40,
-    url: 'mods'
+    url: 'mods',
+    query: false
 });
 
 const { user } = useStore();
 
-const query = useRouteQuery('query', '', null, true);
+const query = props.query ? useRouteQuery('query', '') : ref('');
+
+if (props.query) {
+    searchBus.on(search => query.value = search);
+}
+
 const page = useRouteQuery('page', 1, 'number');
 const loadMorePageOverride = ref<number>();
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
