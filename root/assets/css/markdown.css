@@ -71,9 +71,13 @@
 .markdown .codeblock, blockquote, code, .spoiler {
 	margin: 0px;
 	padding: 0.5rem;
-	margin-bottom: 1rem;
 	font-family: revert;
+	border-radius: var(--border-radius);
 	background-color: var(--alt-content-bg-color);
+}
+
+.markdown .codeblock, blockquote, .spoiler {
+	margin-bottom: 1rem;
 }
 
 .markdown code {
