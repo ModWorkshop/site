@@ -4,7 +4,7 @@ module.exports = {
             name: 'mws',
             port: '3000',
             exec_mode: 'cluster',
-            instances: 25,
+            instances: 2,
             script: './.output/server/index.mjs'
         }
     ]
