@@ -134,15 +134,11 @@ export default defineNuxtConfig({
 	gtag: {
 		id: 'G-EGYBGTBHRV'
 	},
-	sentry: {
-		dsn: 'https://42aa13a46eea451aa586566e7d7448d9@o4505340098576384.ingest.sentry.io/4505403940143104',
-	},
-
+	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		// 'nuxt-delay-hydration',
 		'@pinia/nuxt',
-		'@nuxtjs/sentry',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'nuxt-icon',
