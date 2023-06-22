@@ -7,6 +7,7 @@ RUN apk --no-cache add \
   php81-tokenizer \
   php81-fileinfo \
   php81-redis \
+  php81-pdo_mysql \
   php81-pdo \ 
   php81-exif \ 
   php81-pdo_pgsql \
@@ -37,7 +38,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Copy stuff
 COPY --chown=nobody ./root /var/www/html
 COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
-# COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
+COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
 
 FROM build as prod
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
