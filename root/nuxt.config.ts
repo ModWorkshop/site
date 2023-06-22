@@ -71,13 +71,13 @@ export default defineNuxtConfig({
 		]
 	},
 
-	delayHydration: {
-		mode: 'init'
-	},
+	// delayHydration: {
+	// 	mode: 'init'
+	// },
 
-	nitro: {
-		compressPublicAssets: true,
-	},
+	// nitro: {
+	// 	compressPublicAssets: true,
+	// },
 	
 	components: [
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
@@ -97,7 +97,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	ssr: false,
+	// ssr: false,
 
 	i18n: {
 		strategy: 'no_prefix',
@@ -137,7 +137,7 @@ export default defineNuxtConfig({
 	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
-		'nuxt-delay-hydration',
+		// 'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
