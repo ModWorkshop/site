@@ -15,7 +15,7 @@ use Log;
 class TagController extends Controller
 {
     public function __construct(Request $request) {
-        $this->authorizeGameResource(Tag::class, 'tag');
+        $this->authorizeGameResource(Tag::class);
     }
 
     /**

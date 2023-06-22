@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class DocumentController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Document::class, 'document');
+        $this->authorizeGameResource(Document::class);
     }
 
     /**

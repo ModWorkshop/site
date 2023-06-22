@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class InstructsTemplateController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(InstructsTemplate::class, 'instructs_template');
+        $this->authorizeGameResource(InstructsTemplate::class);
     }
     /**
      * Display a listing of the resource.

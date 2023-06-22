@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class ThreadCommentsController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Comment::class, 'comment');
+        $this->authorizeWithParentResource(Comment::class, Thread::class);
     }
 
     /**

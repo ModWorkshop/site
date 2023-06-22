@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class SuspensionController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Suspension::class, 'suspension');
+        $this->authorizeGameResource(Suspension::class);
     }
 
     /**

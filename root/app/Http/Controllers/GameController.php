@@ -105,7 +105,6 @@ class GameController extends Controller
         if (Auth::hasUser()) {
             $game->loadMissing('followed');
             $game->loadMissing('roles');
-            Auth::user()->currentGameId = APIService::currentGame();
         }
         return new GameResource($game);
     }
@@ -155,6 +154,12 @@ class GameController extends Controller
         return [
             'role_ids' => array_values(array_unique(Arr::pluck($roles, 'id'))),
             'highest_role_order' => $user->getGameHighestOrder($game->id),
+            'ban' => $user->getLastGameban($game->id)
         ];
+    }
+
+    
+    public function getGameUser(UserController $con, Game $game=null, string $user) {
+        return $con->getUser($user, $game);
     }
 }

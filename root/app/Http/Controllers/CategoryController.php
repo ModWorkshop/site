@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Category::class, 'category');
+        $this->authorizeGameResource(Category::class);
     }
 
     /**

@@ -12,7 +12,7 @@ use Log;
 class ReportController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Report::class, 'report');
+        $this->authorizeGameResource(Report::class);
     }
    
     /**

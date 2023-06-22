@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 class InstructsTemplateDependencyController extends Controller
 {
     public function __construct() {
-        app(InstructsTemplate::class)->resolveRouteBinding(request()->route('instructs_template'));
-        $this->authorizeResource([Dependency::class, 'instructs_template'], ["dependency", 'instructs_template']);
+        $this->authorizeWithParentResource(Dependency::class, InstructsTemplate::class);
     }
 
     /**

@@ -19,7 +19,7 @@ class UserCaseController extends Controller
 {
     public function __construct(Request $request)
     {
-        $this->authorizeGameResource(UserCase::class, 'user_case');
+        $this->authorizeGameResource(UserCase::class);
     }
 
     /**

@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 class ModDependencyController extends Controller
 {
     public function __construct() {
-        app(Mod::class)->resolveRouteBinding(request()->route('mod'));
-        $this->authorizeResource([Dependency::class, 'mod'], "dependency, mod");
+        $this->authorizeWithParentResource(Dependency::class, Mod::class);
     }
 
     /**

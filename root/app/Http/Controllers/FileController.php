@@ -23,7 +23,7 @@ use Storage;
 class FileController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource([File::class, 'mod'], "file, mod");
+        $this->authorizeWithParentResource(File::class, Mod::class);
     }
 
     /**

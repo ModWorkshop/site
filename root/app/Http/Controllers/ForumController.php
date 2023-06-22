@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ForumController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(Forum::class, 'forum');
+        $this->authorizeGameResource(Forum::class);
     }
 
     /**

@@ -20,15 +20,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ThreadController extends Controller
 {
     public function __construct(Request $request) {
-        if ($request->route('forum')) {
-            $forum = app(Forum::class)->resolveRouteBinding($request->route('forum'));
-            if (isset($forum->game_id)) {
-                APIService::setCurrentGame($forum->game);
-            }
-            $this->authorizeResource([Thread::class, 'forum'], 'thread, forum');
-        } else {
-            $this->authorizeResource(Thread::class, 'thread');
-        }
+        $this->authorizeWithParentResource(Thread::class, Forum::class);
     }
 
     /**
@@ -46,6 +38,13 @@ class ThreadController extends Controller
             'no_pins' => 'boolean|nullable',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
         ]);
+
+        if (isset($val['forum_id'])) {
+            $forum = Forum::where('id', $val['forum_id'])->first();
+            if (isset($forum) && $forum->game_id) {
+                APIService::setCurrentGame($forum->game);
+            }
+        }
 
         return ThreadResource::collection(Thread::queryGet($val, function($query, array $val) use($request) {
             $user = $request->user();

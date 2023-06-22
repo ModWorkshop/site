@@ -33,7 +33,7 @@ use Str;
 class ModController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Mod::class, 'mod');
+        $this->authorizeGameResource(Mod::class);
     }
 
     /**
@@ -404,7 +404,7 @@ class ModController extends Controller
 
         $user = User::find($val['owner_id']);
 
-        if (isset($user->last_ban) || isset($user->last_game_ban)) {
+        if ($user->isBanned($mod->game_id)) {
             abort(405, 'Cannot transfer ownership to banned users.');
         }
 

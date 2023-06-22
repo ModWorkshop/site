@@ -153,7 +153,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public $membersRole = null; // TODO: smartly cache it or something?
     public static $flushCacheOnUpdate = true;
 
-    public $currentGameId = null;
     protected $saveToReport = ['bio', 'custom_title'];
 
     // Always return roles for users
@@ -165,6 +164,9 @@ class User extends Authenticatable implements MustVerifyEmail
     private $permissions = [];
     private $gamePermissions = [];
     private $permissionsLoaded = false;
+
+    // DO NOT use for permission checking it's safer to load games again
+    public int $eagerLoadedGameId = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -294,14 +296,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return true;
     }
 
+    public function __construct() {
+        $this->currentGameChanged();
+        if (Auth::hasUser()) {
+            $this->with[] = 'blockedByMe';
+            $this->with[] = 'blockedMe';
+        }
+    }
+
     protected static function booted()
     {
         static::retrieved(function(User $user) {
-            $currentGame = app('siteState')->getCurrentGame();
-            if ($currentGame) {
-                $user->with = ['roles', 'gameRoles', 'ban', 'gameBan', 'supporter'];
-                $user->currentGameId = $currentGame;
-            }
+            $user->currentGameChanged();
             if (Auth::hasUser()) {
                 $user->with[] = 'blockedByMe';
                 $user->with[] = 'blockedMe';
@@ -405,7 +411,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function gameRoles(): BelongsToMany
     {
-        return $this->belongsToMany(GameRole::class)->where('game_id', $this->currentGameId)->orderBy('order')->distinct();
+        return $this->belongsToMany(GameRole::class)->where('game_id', $this->eagerLoadedGameId)->orderBy('order')->distinct();
     }
 
     public function ban() : HasOne
@@ -415,12 +421,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function gameBan(): HasOne
     {
-        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', $this->currentGameId);
+        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', $this->eagerLoadedGameId);
     }
 
     public function gameBans(): HasMany
     {
-        return $this->hasMany(Ban::class);
+        return $this->hasMany(Ban::class)->whereNotNull('game_id');
     }
 
     public function supporter(): HasOne
@@ -489,7 +495,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $firstGlobalVanity = $firstVanity($this->roles);
             $firstGlobalRegular = $firstRegular($this->roles);
 
-            if ($this->currentGameId) {
+            if ($this->eagerLoadedGameId) {
                 return $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
             }
 
@@ -524,7 +530,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $firstGlobalRegular = $firstRegular($this->roles);
             $firstGlobalVanity = $firstVanity($this->roles);
 
-            if ($this->currentGameId) {
+            if ($this->eagerLoadedGameId) {
                 return $firstGlobalRegular ?? $firstRegular($this->gameRoles) ?? $firstVanity($this->gameRoles) ?? $firstGlobalVanity;
             }
 
@@ -594,9 +600,10 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    // Returns last (eager loaded game) game ban. Use only for display!
     public function getLastGameBanAttribute()
     {
-        if (isset($this->currentGameId)) {
+        if (isset($this->eagerLoadedGameId)) {
             if (!$this->relationLoaded('gameBan')) {
                 $this->load('gameBan');
             }
@@ -609,6 +616,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return null;
     }
 
+    // Returns last ban. This is fine to use anywhere
     public function getLastBanAttribute()
     {
         if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
@@ -625,6 +633,27 @@ class User extends Authenticatable implements MustVerifyEmail
     #endregion
 
     #region Methods
+    function isBanned(int $gameId=null) {
+        return isset($this->last_ban) || (isset($gameId) && $this->getLastGameban($gameId) !== NULL);
+    }
+
+    public function currentGameChanged(): void
+    {
+        $currentGame = APIService::currentGame();
+        $this->eagerLoadedGameId = $currentGame;
+
+        if ($currentGame) {
+            if ($this->relationLoaded('roles')) {
+                $this->load(['gameBan', 'gameRoles.permissions']);
+            } else {
+                $this->with[] = 'gameRoles';
+                $this->with[] = 'gameBan';
+            }
+        } else {
+            $this->unsetRelation('gameBan');
+            $this->unsetRelation('gameRoles');
+        }
+    }
 
     public function sendEmailVerification()
     {
@@ -692,8 +721,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Returns specific game's roles
-     *
-     * @return Collection<Game>
      */
     public function getGameRoles(int $gameId, bool $withPerms=false)
     {
@@ -701,23 +728,21 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->gameRolesCache[$gameId];
         }
 
-        $gameRoles = [];
-        if ($gameId === $this->currentGameId) {
-            if ($withPerms && !$this->relationLoaded('gameRoles.permissions')) {
-                $this->load('gameRoles.permissions');
-            }
-            $gameRoles = $this->gameRoles;
-        } else {
-            if ($withPerms && !$this->relationLoaded('allGameRoles.permissions')) {
-                $this->load('allGameRoles.permissions');
-            }
-
-            $gameRoles = $this->allGameRoles;
-            $gameRoles = $this->allGameRoles()->where('game_id', $gameId)->get();
-        }
+        $gameRoles = $this->allGameRoles()->when($withPerms, fn($q) => $q->with('permissions'))->where('game_id', $gameId)->get();
 
         $this->gameRolesCache[$gameId] = $gameRoles;
         return $gameRoles;
+    }
+
+    /**
+     * Safely check if a user is banned in game
+     */
+    function getLastGameban(int $gameId) {
+        $ban = $this->gameBans()->where('game_id', $gameId)->first();
+        if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
+            return $ban;
+        }
+        return null;
     }
 
     public function getGamePerms(int $gameId): array
@@ -786,7 +811,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
         //Check game first
         if (isset($game)) {
-            APIService::setCurrentGame($game);
             $gamePerms = $this->getGamePerms($game->id);
             //Game version of the admin permission
 
@@ -794,7 +818,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 return true;
             }
 
-            if (!$byPassBanCheck && !$this->existsAndTrue($gamePerms, 'moderate-users') && isset($this->last_game_ban)) {
+            $lastGameBan = $this->getLastGameban($game->id);
+            if (!$byPassBanCheck && !$this->existsAndTrue($gamePerms, 'moderate-users') && isset($lastGameBan)) {
                 return false;
             }
             if ($this->existsAndTrue($gamePerms, $toWhat)) {
@@ -810,14 +835,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return isset($perms[$toWhat]) && $perms[$toWhat] === true;
     }
 
-    public function getGameHighestOrder(int $gameId)
+    public function getGameHighestOrder(int $gameId, bool $useEagerLoaded=false)
     {
         //!Special case for the Super Admin!//
         if ($this->id === 1) {
             return pow(10, 10);
         } else {
             $highest = null;
-            $gameRoles = $this->getGameRoles($gameId);
+            $gameRoles = $useEagerLoaded ? $this->gameRoles : $this->getGameRoles($gameId);
             foreach ($gameRoles as $role) {
                 if (!$role->is_vanity && ($highest === null || $role->order > $highest)) {
                     $highest = $role->order;

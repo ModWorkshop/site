@@ -13,11 +13,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LinkController extends Controller
 {
     public function __construct() {
-        $mod = app(Mod::class)->resolveRouteBinding(request()->route('mod'));
-
-        if (isset($mod)) {
-            $this->authorizeResource([Link::class, 'mod'], "link, mod");
-        }
+        $this->authorizeWithParentResource(Link::class, Mod::class);
     }
 
     /**

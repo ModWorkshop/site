@@ -148,7 +148,7 @@ class Game extends Model
                 'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this->id), 'id'))),
                 'highest_role_order' => $user->getGameHighestOrder($this->id),
                 'permissions' => $user->getGamePerms($this->id),
-                'ban' => $user->last_game_ban
+                'ban' => $user->getLastGameban($this->id)
             ] : new MissingValue;
         });
     }

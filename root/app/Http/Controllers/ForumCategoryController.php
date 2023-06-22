@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ForumCategoryController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(ForumCategory::class, 'forum_category');
+        $this->authorizeGameResource(ForumCategory::class);
     }
 
     /**

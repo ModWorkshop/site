@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class GameRoleController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource([GameRole::class, 'game'], 'game_role, game');
+        $this->authorizeGameResource(GameRole::class);
     }
 
     /**

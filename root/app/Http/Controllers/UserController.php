@@ -76,10 +76,6 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function getGameUser(Game $game=null, string $user) {
-        return $this->getUser($user, $game);
-    }
-
     /**
      * User
      * 

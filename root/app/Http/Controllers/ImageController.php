@@ -15,8 +15,7 @@ use Illuminate\Validation\Rules\File;
 class ImageController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource([Image::class, 'mod'], "image, mod");
-
+        $this->authorizeWithParentResource(Image::class, Mod::class);
     }
     /**
      * Display a listing of the resource.

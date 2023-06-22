@@ -72,7 +72,7 @@ class ThreadPolicy
         }
 
         $canAppeal = $user->last_ban?->can_appeal ?? true;
-        $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
+        $canAppealGame = isset($game) ? ($user->getLastGameban($game->id)?->can_appeal ?? true) : false;
 
         return $user->hasPermission('create-discussions', $game, $category?->banned_can_post && $canAppeal && $canAppealGame);
     }
@@ -97,7 +97,7 @@ class ThreadPolicy
         }
 
         $canAppeal = $user->last_ban?->can_appeal ?? true;
-        $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
+        $canAppealGame = isset($game) ? ($user->getLastGameban($game->id)?->can_appeal ?? true) : false;
 
         $canPost = $user->hasPermission('create-discussions', $game, $thread->category?->banned_can_post && $canAppeal && $canAppealGame);
         return $canPost && $thread->user_id === $user->id;
@@ -141,7 +141,8 @@ class ThreadPolicy
 
     public function createComment(User $user, Thread $thread)
     {
-        if ($user->hasPermission('manage-discussions')) {
+        $game = $thread->forum->game;
+        if ($user->hasPermission('manage-discussions', $game)) {
             return true;
         }
 
@@ -151,10 +152,10 @@ class ThreadPolicy
 
         $category = $thread->category;
         $canAppeal = $user->last_ban?->can_appeal ?? true;
-        $canAppealGame = $user->last_game_ban?->can_appeal ?? true;
+        $canAppealGame = isset($game) ? ($user->getLastGameban($game->id)?->can_appeal ?? true) : false;
         $byPassBan = $thread->user_id === $user->id && $category?->banned_can_post && $canAppeal && $canAppealGame;
 
-        return $user->hasPermission('create-discussions', $thread->forum->game, $byPassBan) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
+        return $user->hasPermission('create-discussions', $game, $byPassBan) && (!$thread->locked || ($user->id === $thread->user_id && !$thread->locked_by_mod));
     }
 
     // Can we report this thread? Of course if we can see it.

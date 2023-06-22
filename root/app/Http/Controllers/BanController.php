@@ -17,7 +17,7 @@ use Log;
 class BanController extends Controller
 {
     public function __construct() {
-        $this->authorizeGameResource(Ban::class, 'ban');
+        $this->authorizeGameResource(Ban::class);
     }
 
     /**
