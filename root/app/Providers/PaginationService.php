@@ -35,7 +35,7 @@ class PaginationService extends ServiceProvider
             /**
              * @var Builder $this
             */
-        
+
             if (isset($val['query']) && !empty($val['query'])) {
                 $query = $val['query'];
                 //As far as I know searching with less than 3 characters using trigrams is VERY slow
@@ -49,8 +49,8 @@ class PaginationService extends ServiceProvider
             if (isset($callback)) {
                 $callback($this, $val);
             }
-    
-            return $this->simplePaginate($val['limit'] ?? 50);
+
+            return $this->paginate($val['limit'] ?? 50);
         });
     }
 }
