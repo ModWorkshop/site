@@ -30,7 +30,6 @@ RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 #FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
 RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
-RUN echo "pm.max_children=50" >> /etc/php81/php-fpm.d/www.conf
 
 # Install composer from the official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
