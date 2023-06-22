@@ -49,7 +49,7 @@
             </flex>
             <h2>{{$t('third_party_cookies')}}</h2>
             {{$t('third_party_cookies_desc')}}
-            <NuxtLink>Some random ad provider's policy</NuxtLink>
+            <NuxtLink to="https://www.enthusiastgaming.com/privacy-policy/">EnthusiastGaming Policy</NuxtLink>
         </content-block>
     </page-block>
 </template>
