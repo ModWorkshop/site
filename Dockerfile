@@ -29,10 +29,9 @@ COPY --from=builder  /var/www/html/.output  ./.output
 EXPOSE 3000
 
 ENV NITRO_PRESET=node_cluster
-ENV PM2_HOME=/var/www/html
 RUN yarn global add pm2
 
-CMD ["/bin/sh", "-c", "pm2 start ecosystem.config.js & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+CMD ["/bin/sh", "-c", "pm2 start /var/www/html/ecosystem.config.js & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
 
 #### Stage 2 DEV ####
 FROM node:18.16.0-alpine as dev
