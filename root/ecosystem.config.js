@@ -3,8 +3,9 @@ module.exports = {
         {
             name: 'mws',
             port: '3000',
-            exec_mode: 'cluster',
-            instances: 5,
+            exec_mode: 'fork',
+            max_memory_restart: "1G",
+            instances: 4,
             script: './.output/server/index.mjs'
         }
     ]
