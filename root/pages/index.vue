@@ -10,8 +10,8 @@
                 <h2>{{$t('last_updated_games')}}</h2>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
-            <flex class="games-grid gap-2">
-                <a-game v-for="game of lastGames" :key="game.id" :game="game"/>
+            <flex v-if="games" class="games-grid gap-2">
+                <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>
         
@@ -45,13 +45,12 @@
 </template>
 
 <script setup lang="ts">
+import { Game } from '~/types/models';
 import { useStore } from '~~/store';
 
-const { user, fetchGames } = useStore();
+const { user } = useStore();
 
-const games = await fetchGames();
-
-const allGames = ref(false);
+const { data: games } = await useFetchMany<Game>('games', { params: { limit: 6 } });
 
 const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
 
@@ -63,16 +62,4 @@ const links = {
     all: 'mods',
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
-
-const lastGames = computed(() => {
-    if (!games) {
-        return [];
-    }
-
-    if (allGames.value) {
-        return games.data;
-    } else {
-        return games.data.slice(0, 6);
-    }
-});
 </script>
