@@ -24,6 +24,7 @@ COPY ./Caddyfile /etc/caddy/Caddyfile
 WORKDIR /var/www/html
 
 COPY --from=builder  /var/www/html/.output  ./.output
+COPY --from=builder  /var/www/html/ecosystem.config.js ./ecosystem.config.js
 
 # All ready now
 EXPOSE 3000
