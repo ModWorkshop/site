@@ -74,11 +74,11 @@ class Game extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['webhook_url', 'categories'];
+    protected $hidden = ['webhook_url'];
 
     protected $appends = [];
 
-    protected $with = ['followed', 'roles'];
+    protected $with = ['followed'];
 
     protected $casts = [
         'last_date' => 'datetime',
@@ -95,7 +95,7 @@ class Game extends Model
         }
 
         $game = QueryBuilder::for(Game::class)
-            ->allowedIncludes(['roles', 'forum'])
+            ->allowedIncludes(['roles', 'forum', 'categories'])
             ->with('forum');
 
         if (is_numeric($value)) {

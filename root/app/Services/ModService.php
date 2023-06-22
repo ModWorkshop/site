@@ -100,7 +100,7 @@ class ModService {
 
         }
 
-        app('siteState')->categories ??= Arr::keyBy(($game ?? $category->game)->categories, 'id');
+        app('siteState')->categories ??= Arr::keyBy(($game ?? $category->game)->categories()->get(), 'id');
         $categories = app('siteState')->categories;
 
         if (isset($category)) {
