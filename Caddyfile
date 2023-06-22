@@ -9,7 +9,7 @@
 
 	encode zstd gzip
 
-	reverse_proxy localhost:3001 {
+	reverse_proxy localhost:3000 {
 		header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
 		header_up X-Forwarded-Host {header.X-Forwarded-Host}
 		header_up X-Forwarded-For {header.X-Forwarded-For}
