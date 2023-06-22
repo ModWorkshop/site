@@ -50,7 +50,7 @@ class PaginationService extends ServiceProvider
                 $callback($this, $val);
             }
     
-            return $this->paginate($val['limit'] ?? 50);
+            return $this->simplePaginate($val['limit'] ?? 50);
         });
     }
 }
