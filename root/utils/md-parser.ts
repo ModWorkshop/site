@@ -1,6 +1,6 @@
 import MarkdownIt  from 'markdown-it';
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
@@ -213,8 +213,8 @@ export function parseMarkdown(text: string) {
 	});
 	text = text.replace(inlineRegExp, parseMedia);
     text = md.render(text); //Parse using markdown it
-    return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
-        ADD_TAGS: ['iframe'],
-        ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
+    return sanitizeHtml(text, { //Finally, DOMPurify it!
+		allowedTags: sanitizeHtml.defaults.allowedTags.concat(['iframe']),
+		allowedAttributes: {iframe: ['frameborder', 'allow', 'allowfullscreen', 'src', 'width', 'height'], ...sanitizeHtml.defaults.allowedAttributes},
     });
 }
