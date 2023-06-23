@@ -39,7 +39,7 @@
                                 <flex column>
                                     <template v-if="dep.mod">
                                         <NuxtLink :to="`/mod/${dep.mod_id}`">
-                                            {{dep.mod.name}}
+                                            {{dep.mod.name}} <a-tag v-if="dep.optional">{{$t('optional')}}</a-tag>
                                         </NuxtLink>
                                         <a-user avatar-size="sm" :user="dep.mod.user"/>
                                     </template>
