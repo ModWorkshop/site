@@ -6,10 +6,6 @@ export const ProcessVersionsNodePlugin = () =>
   ({
     name: "process-versions-node",
     transform(code) {
-      if (process.env.NITRO_PRESET !== "cloudflare-pages") {
-        return;
-      }
-
       return {
         code: code.replace(
           /process\.versions\.node/g,
