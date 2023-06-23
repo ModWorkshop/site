@@ -10,7 +10,7 @@ export default defineEventHandler(async event => {
             });
     
             if (data.game) {
-                return sendRedirect(event, `/g/${data.game.short_name}?category=${data.id}`);
+                return sendRedirect(event, `/g/${data.game.short_name}/mods?category=${data.id}`);
             }
         } catch (error) {
             //Do nothing
