@@ -1,5 +1,7 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 
+import { ProcessVersionsNodePlugin } from "./rollup-plugins/process-versions-node";
+
 export default defineNuxtConfig({
 	devServer: {
 		host: '0.0.0.0',
@@ -133,6 +135,13 @@ export default defineNuxtConfig({
 
 	gtag: {
 		id: 'G-EGYBGTBHRV'
+	},
+
+	nitro: {
+		rollupConfig: {
+			// @ts-expect-error ???
+			plugins: [ProcessVersionsNodePlugin()],
+		},
 	},
 	
 	modules: [
