@@ -1,6 +1,6 @@
 <template>
     <a-list
-        url="documents"
+        :url="apiUrl"
         query
         :item-link="item => `${url}/${item.id}`"
         :new-button="`${url}/new`"
@@ -9,13 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import { Game } from '../../../types/models';
 
 const props = defineProps<{
     game: Game
 }>();
 
-useNeedsPermission('manage-docs', props.game);
+useNeedsPermission('manage-documents', props.game);
 
 const url = computed(() => getAdminUrl('documents', props.game));
+const apiUrl = computed(() => getGameResourceUrl('documents', props.game));
 </script>
