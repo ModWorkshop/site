@@ -6,7 +6,7 @@ export const ProcessVersionsNodePlugin = () =>
   ({
     name: "process-versions-node",
     transform(code) {
-      if (process.env.NITRO_PRESET !== "deno") {
+      if (process.env.NITRO_PRESET !== "cloudflare") {
         return;
       }
 
