@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<{
     url?: string,
     params?: object
 }>(), {
-    limit: 40,
+    limit: 20,
     url: 'mods',
     query: false
 });
