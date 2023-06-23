@@ -10,7 +10,7 @@
                 <h2>{{$t('last_updated_games')}}</h2>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
-            <flex v-if="games" class="games-grid gap-2">
+            <flex v-if="games" class="latest-games games-grid gap-2">
                 <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>

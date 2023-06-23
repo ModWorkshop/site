@@ -367,7 +367,7 @@ a {
 }
 
 @media (max-width:768px) {
-    .games-grid>a:nth-of-type(n+5) {
+    .latest-games.games-grid>a:nth-of-type(n+5) {
         display: none
     }
 
@@ -377,7 +377,7 @@ a {
 }
 
 @media (min-width:768px) and (max-width:1280px) {
-    .games-grid>a:nth-of-type(n+5) {
+    .latest-games.games-grid>a:nth-of-type(n+5) {
         display: none
     }
 
@@ -387,7 +387,7 @@ a {
 }
 
 @media (min-width:1280px) and (max-width:1536px) {
-    .games-grid>a:nth-of-type(n+7) {
+    .latest-games.games-grid>a:nth-of-type(n+7) {
         display: none
     }
 
