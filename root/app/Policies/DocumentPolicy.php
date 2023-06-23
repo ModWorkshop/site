@@ -29,7 +29,7 @@ class DocumentPolicy
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, $document)
+    public function view(?User $user, Document $document)
     {
         return true;
     }

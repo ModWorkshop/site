@@ -37,7 +37,7 @@ class DocumentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Game $game)
     {
         return $this->update($request);
     }
@@ -70,7 +70,7 @@ class DocumentController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
-            'desc' => 'string|min:3|max:30000',
+            'desc' => 'string|min:3|max:50000',
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'url_name' => 'string|nullable|max:30|alpha_dash'
         ]);
