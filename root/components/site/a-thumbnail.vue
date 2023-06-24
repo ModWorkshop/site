@@ -1,16 +1,13 @@
 <template>
-    <picture>
-        <source v-if="compSrc" :srcset="compSrc">
-        <source :srcset="noPreviewSrc" type="image/png">
-        <img :src="noPreviewSrc" class="ratio-image round" alt="thumbnail" v-bind="$attrs">
-    </picture>
+    <a-img loading="lazy" class="ratio-image round" :src="src" :url-prefix="urlPrefix" :fallback="noPreviewSrc" :use-thumb="hasThumb && !preferHq"/>
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~~/store';
+import { useStore } from '../../store';
+
 const store = useStore();
 
-const props = defineProps<{
+defineProps<{
     src?: string|Blob,
     preferHq?: boolean,
     hasThumb?: boolean,
@@ -18,5 +15,4 @@ const props = defineProps<{
 }>();
 
 const noPreviewSrc = computed(() => `/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
-const compSrc = computed(() => useSrc(props.urlPrefix, props.src, false, props.hasThumb && !props.preferHq));
 </script>

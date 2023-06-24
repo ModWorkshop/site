@@ -1,7 +1,7 @@
 <template>
     <flex wrap class="flex-col md:flex-row list-button">
         <div class="mr-2">
-            <a-img v-if="image" url-prefix="mods/images" :src="image.file" width="128" height="128"/>
+            <a-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="128" height="128"/>
             <a-img v-else src="file-download.webp" is-asset width="128" height="128"/>
         </div>
         <flex grow column style="flex: 1;">

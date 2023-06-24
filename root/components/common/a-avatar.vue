@@ -2,6 +2,7 @@
     <a-img
         :alt="$t('avatar')"
         :src="avatarUrl"
+        loading="lazy"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
         :fallback="`${assetsUrl}/default-avatar.webp`"

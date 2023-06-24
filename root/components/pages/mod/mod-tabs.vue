@@ -8,6 +8,7 @@
                 <a-img 
                     v-for="(image, i) of mod.images"
                     :key="image.id" 
+                    loading="lazy"
                     class="mod-image cursor-pointer"
                     url-prefix="mods/images"
                     :src="`${(image.has_thumb ? 'thumbnail_' : '') + image.file}`" 

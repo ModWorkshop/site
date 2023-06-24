@@ -2,7 +2,7 @@
     <a-input :id="labelId">
         <label class="flex items-end gap-2" :for="labelId">
             <slot name="label" :src="currentSrc">
-                <a-img class="w-full round" :src="currentSrc" :url-prefix="urlPrefix"/>
+                <a-img class="w-full round" loading="lazy" :src="currentSrc" :url-prefix="urlPrefix"/>
             </slot>
         </label>
         <input :id="labelId" ref="input" class="mt-1" type="file" @change="onChange">

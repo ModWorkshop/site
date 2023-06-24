@@ -77,7 +77,7 @@
         <a-input v-model="currentLink.version" :label="$t('version')"/>
         <a-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
-                <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />
+                <a-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
             </template>
         </a-select>
         <md-editor v-model="currentLink.desc" rows="8" :label="$t('description')"/>
@@ -89,7 +89,7 @@
         <a-input v-model:elementRef="changeFile" type="file" :label="$t('upload_file')"/>
         <a-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
-                <a-img style="width: 150px; height: 150px; object-fit: contain" url-prefix="mods/images" :src="option.file" />
+                <a-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
             </template>
         </a-select>
         <md-editor v-model="currentFile.desc" rows="8" :label="$t('description')"/>

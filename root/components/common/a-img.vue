@@ -5,7 +5,7 @@
 <script setup lang="ts">
 const props = defineProps({
     src: {
-        default: '',
+        default: undefined,
         type: [String, Blob],
     },
     urlPrefix: {
@@ -16,9 +16,13 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    useThumb: {
+        type: Boolean,
+        default: false
+    },
     fallback: String,
     alt: String
 });
 
-const compSrc = computed(() => useSrc(props.urlPrefix, props.src, props.isAsset) ?? props.fallback);
+const compSrc = computed(() => (props.src ? useSrc(props.urlPrefix, props.src, props.isAsset, props.useThumb) : props.fallback) ?? props.fallback);
 </script>

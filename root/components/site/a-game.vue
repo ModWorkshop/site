@@ -1,6 +1,6 @@
 <template>
     <NuxtLink class="content-block" :to="`/g/${game.short_name}`">
-        <a-thumbnail class="ratio-image round" url-prefix="games/images" :src="game.thumbnail"/>
+        <a-thumbnail url-prefix="games/images" :src="game.thumbnail" :title="game.name"/>
         <flex wrap class="p-2">
             {{game.name}}
             <span class="text-secondary ml-auto">{{$t('mod_count', { n: game.mod_count })}}</span>
