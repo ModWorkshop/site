@@ -16,7 +16,7 @@
         <div class="text-3xl">{{thread.name}}</div>
         <content-block :padding="4">
             <flex>
-                <NuxtLink class="mr-1" :to="`/user/${thread.user_id}`">
+                <NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
                     <a-avatar class="align-middle" :src="thread.user.avatar" size="lg"/>
                 </NuxtLink>
                 <flex column wrap class="overflow-hidden w-full">
