@@ -34,6 +34,9 @@ RUN echo "ffi.enable = true" >> /opt/docker/etc/php/php.ini
 RUN echo "extension=apfd" >> /opt/docker/etc/php/php.ini
 RUN echo "post_max_size = 1G" >> /opt/docker/etc/php/php.ini
 RUN echo "upload_max_filesize = 1G" >> /opt/docker/etc/php/php.ini
+COPY ./conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 FROM build as prod
 # Cron Job
