@@ -144,4 +144,8 @@ if (props.query) {
     flex-direction: column;
     position: relative;
 }
+
+.nav-menu-content {
+    width: 100%;
+}
 </style>
