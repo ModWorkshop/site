@@ -18,6 +18,7 @@ RUN apk --no-cache add \
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc musl-dev make vips \
     && pecl install apfd \
+    && pecl install swoole \
     && apk del .build-deps
 
 RUN apk add vips
@@ -27,6 +28,7 @@ RUN apk add vips
 RUN echo "" >> /etc/php81/conf.d/custom.ini
 RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
+RUN echo "extension=swoole" >> /etc/php81/conf.d/custom.ini
 RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 #FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
@@ -45,6 +47,7 @@ FROM build as prod
 RUN apk add --no-cache dcron libcap && \
     chown nobody:nobody /usr/sbin/crond && \
     setcap cap_setgid=ep /usr/sbin/crond
+
 RUN echo '* * * * * cd /var/www/html && php artisan schedule:run' >> /etc/crontabs/nobody
 RUN crontab -u nobody /etc/crontabs/nobody
 RUN chown -R nobody /var/spool/cron/crontabs/nobody
