@@ -12,7 +12,8 @@ RUN apk --no-cache add \
   php81-exif \ 
   php81-pdo_pgsql \
   php81-xmlwriter \
-  php81-cli
+  php81-cli \
+  php81-pcntl
 
 # Install stuff
 RUN set -eux \
