@@ -294,7 +294,7 @@ class ModController extends Controller
 
         if (
             (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
-        || (!isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        || (isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
         ) {
             return;
         }
@@ -329,7 +329,7 @@ class ModController extends Controller
 
         if (
             (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
-        || (!isset($user) && ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        || (isset($user) && ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
         ) {
             return;
         }
