@@ -1,5 +1,5 @@
 <template>
-    <img :src="compSrc" :alt="alt" :onerror="`this.src = '${props.fallback}'`">
+    <img :loading="loading" :src="compSrc" :alt="alt" :onerror="`this.src = '${props.fallback}'`">
 </template>
 
 <script setup lang="ts">
@@ -7,6 +7,10 @@ const props = defineProps({
     src: {
         default: undefined,
         type: [String, Blob],
+    },
+    loading : {
+        default: undefined,
+        type: String
     },
     urlPrefix: {
         type: String,

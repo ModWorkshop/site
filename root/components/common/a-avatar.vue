@@ -1,8 +1,8 @@
 <template>
     <a-img
         :alt="$t('avatar')"
-        :src="avatarUrl"
         loading="lazy"
+        :src="avatarUrl"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
         :fallback="`${assetsUrl}/default-avatar.webp`"
