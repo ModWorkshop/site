@@ -1,7 +1,7 @@
 <template>
     <content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="3" :class="classes">
         <flex class="comment-body">
-            <NuxtLink class="mr-1" :to="`/user/${comment.user_id}`">
+            <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
                 <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
             </NuxtLink>
             <flex column wrap class="overflow-hidden w-full">
