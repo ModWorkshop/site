@@ -1,5 +1,5 @@
 <template>
-    <flex column class="self-start">
+    <flex column class="self-start mod-info-holder">
         <flex column gap="3" class="mod-info content-block">
             <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
             <flex column class="p-4 pt-0" gap="4">
@@ -66,3 +66,17 @@ const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.do
 
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 </script>
+
+<style>
+@media (max-width:1100px) {
+    .mod-thumbnail img {
+        width: 300px;
+    }
+
+    .mod-info {
+        padding: 1rem;
+        flex-direction: row;
+        gap: 1px;
+    }
+}
+</style>

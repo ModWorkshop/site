@@ -82,18 +82,19 @@ function commentSpecialTag(comment: Comment) {
     }
 }
 
-@media (max-width:850px) {
+@media (max-width:1100px) {
     .mod-banner {
-        height: 295px;
+        height: 150px !important;
     }
 
-    .mod-info {
+    .mod-info-holder {
         order: -1;
     }
 
     .mod-main {
         grid-template-columns: auto;
         margin-right: 0;
+        gap: 1px;
     }
     .contributor-block .info{
         line-height: 32px;

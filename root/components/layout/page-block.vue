@@ -204,6 +204,31 @@ const innerClasses = computed(() => ({
     width: 50%;
 }
 
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+    .page-block-nm {
+        width: 68%
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+    .page-block-nm {
+        width: 74%
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1600px) {
+    .page-block-nm {
+        width: 77%
+    }
+}
+
+@media (min-width: 1600px) and (max-width: 1700px) {
+    .page-block-nm {
+        width: 80%
+    }
+}
+
 @media (max-width:1024px) {
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
         width: 100% !important;
