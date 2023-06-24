@@ -82,7 +82,13 @@ function commentSpecialTag(comment: Comment) {
     }
 }
 
-@media (max-width:1100px) {
+@media (min-width:1280px) and (max-width:1500px) {
+    .mod-main {
+        grid-template-columns: 60% 40%;
+    }
+}
+
+@media (max-width:1280px) {
     .mod-banner {
         height: 150px !important;
     }

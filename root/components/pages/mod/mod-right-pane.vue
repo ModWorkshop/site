@@ -2,8 +2,8 @@
     <flex column class="self-start mod-info-holder">
         <flex column gap="3" class="mod-info content-block">
             <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
-            <flex column class="p-4 pt-0" gap="4">
-                <flex class="text-lg" gap="2">
+            <flex column class="p-4 pt-0 flex-1" gap="4">
+                <flex class="text-lg flex-wrap" gap="2">
                     <span>
                         <a-icon icon="mdi:heart"/> {{likes}}
                     </span>
@@ -28,7 +28,7 @@
                 </flex>
     
                 <flex class="colllaborators-block" column>
-                    <flex>
+                    <flex wrap>
                         <a-user :user="mod.user" :details="$t('owner')"/>
                         <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
                     </flex>
@@ -68,7 +68,7 @@ const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 </script>
 
 <style>
-@media (max-width:1100px) {
+@media (min-width:650px) and (max-width:1280px) {
     .mod-thumbnail img {
         width: 300px;
     }
