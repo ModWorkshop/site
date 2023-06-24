@@ -82,6 +82,9 @@
 
 .markdown code {
 	display: inline-block;
+	word-break: break-word;
+	width: 100%;
+    overflow-x: auto;
 }
 
 blockquote {
@@ -97,8 +100,4 @@ blockquote::after {
 	left: 0;
 	height: 100%;
 	width: 3px;
-}
-
-.markdown code {
-	word-break: break-word;
 }
