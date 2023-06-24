@@ -4,7 +4,7 @@
             <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
                 <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
             </NuxtLink>
-            <flex column wrap class="overflow-hidden w-full">
+            <flex column wrap class="overflow-hidden w-full ">
                 <flex wrap>
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
@@ -14,10 +14,10 @@
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <a-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
-                <a-markdown class="mt-1" :text="content"/>
+                <a-markdown class="mt-1 w-100" :text="content"/>
             </flex>
             <div class="float-right">
-                <flex class="comment-actions text-body" :style="{visibility: areActionsVisible ? 'visible' : null}">
+                <flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
                     <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" icon="mdi:reply" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')"/>
                     <a-button
                         v-if="!isReply"
