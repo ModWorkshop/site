@@ -12,7 +12,7 @@
                     class="mod-image cursor-pointer"
                     url-prefix="mods/images"
                     :src="`${(image.has_thumb ? 'thumbnail_' : '') + image.file}`" 
-                    style="max-height: 200px;" 
+                    height="200"
                     @click="showImage(i)"
                 />
                 <ClientOnly>

@@ -69,7 +69,7 @@ const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 
 <style>
 @media (min-width:650px) and (max-width:1280px) {
-    .mod-thumbnail img {
+    .mod-info.mod-thumbnail img {
         width: 300px;
     }
 
