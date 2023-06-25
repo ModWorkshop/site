@@ -5,7 +5,7 @@ namespace App\Models;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Rennokki\QueryCache\Traits\QueryCacheable;
+use App\Traits\QueryCacheable;
 
 class TrackSession extends Model
 {

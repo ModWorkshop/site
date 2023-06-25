@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
 use Log;
-use Rennokki\QueryCache\Traits\QueryCacheable;
+use App\Traits\QueryCacheable;
 use Spatie\QueryBuilder\QueryBuilder;
 use Storage;
 

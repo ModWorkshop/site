@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Log;
-use Rennokki\QueryCache\Traits\QueryCacheable;
+use App\Traits\QueryCacheable;
 
 /**
  * App\Models\Ban
