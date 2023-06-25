@@ -11,12 +11,15 @@ class CustomBuilder extends BaseBuilder implements QueryCacheModuleInterface
 {
     use QueryCacheModule;
 
-    public function getCacheKey(string $method = 'get', string $id = null, string $appends = null): string
+    public function generateCacheKey(string $method = 'get', string $id = null, string $appends = null): string
     {
-        $key = $this->generateCacheKey($method, $id, $appends);
-        $prefix = $this->getCachePrefix();
+        $key = $this->generatePlainCacheKey($method, $id, $appends);
 
-        return "{$key}";
+        if ($this->shouldUsePlainKey()) {
+            return $key;
+        }
+
+        return hash('sha1', $key);
     }
 
     /**
