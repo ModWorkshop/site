@@ -34,6 +34,7 @@ RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=swoole" >> /etc/php81/conf.d/custom.ini
 RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
+RUN echo "memory_limit=500M" >> /etc/php81/conf.d/custom.ini
 #FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
 RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
 
