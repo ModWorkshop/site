@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Rennokki\QueryCache\FlushQueryCacheObserver;
-use App\Query\CustomBuilder;
+use App\Query\Builder;
 
 /**
  * @method static bool flushQueryCache(array $tags = [])
@@ -82,7 +82,7 @@ trait QueryCacheable
         /** @var \Illuminate\Database\Eloquent\Model $this */
         $connection = $this->getConnection();
 
-        $builder = new CustomBuilder(
+        $builder = new Builder(
             $connection,
             $connection->getQueryGrammar(),
             $connection->getPostProcessor()

@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Rennokki\QueryCache\Contracts\QueryCacheModuleInterface;
 use Rennokki\QueryCache\Traits\QueryCacheModule;
 
-class CustomBuilder extends BaseBuilder implements QueryCacheModuleInterface
+class Builder extends BaseBuilder implements QueryCacheModuleInterface
 {
     use QueryCacheModule;
 
