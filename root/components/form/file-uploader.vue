@@ -89,6 +89,7 @@ const props = defineProps<{
 const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
+const { public: runtimeConfig } = useRuntimeConfig();
 
 function getFileThumb(file) {
     if (file.thumbnail) {
@@ -190,6 +191,7 @@ async function upload(files: FileList|null) {
             try {
     
                 const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
+                    baseURL: runtimeConfig.uploadUrl,
                     headers: {'Content-Type': 'multipart/form-data'},
                     onUploadProgress: function(progressEvent) {
                         const reactiveFile = filesArr.value[0];
