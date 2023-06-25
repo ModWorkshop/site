@@ -236,6 +236,8 @@ class ModService {
      */
     public static function attemptUpload(Mod $mod, UploadedFile $file)
     {
+        ini_set('memory_limit', '1G');
+
         $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
 
         $fileSize = $file->getSize();
