@@ -26,7 +26,7 @@ use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Log;
 use Notification;
-use App\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
 /**

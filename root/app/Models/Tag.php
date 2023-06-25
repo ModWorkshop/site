@@ -6,7 +6,7 @@ use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Tag

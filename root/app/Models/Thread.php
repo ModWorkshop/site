@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use App\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Thread

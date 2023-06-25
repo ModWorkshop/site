@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
-use App\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
     const public = 'public';

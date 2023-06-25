@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\QueryCacheable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Setting
