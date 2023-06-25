@@ -62,6 +62,7 @@ return [
             'endpoint' => env('R2_ENDPOINT'),
             'url' => env('R2_URL'),
             'temporary_url' => env('R2_URL'),
+            'timeout' => env('R2_TIMEOUT', 1500),
             'visibility' => 'public'
         ],
     ],
