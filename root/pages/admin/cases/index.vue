@@ -35,7 +35,7 @@ const url = computed(() => getGameResourceUrl('user-cases', props.game));
 const caseItemsUrl = computed(() => getGameResourceUrl('cases', props.game));
 
 const warnUser = useRouteQuery('user', null, 'number');
-const user = useRouteQuery('filter-user', null, 'number');
+const user = useRouteQuery('filter-user', warnUser.value, 'number');
 const page = useRouteQuery('page', 1, 'number');
 
 const showErrorToast = useQuickErrorToast();
