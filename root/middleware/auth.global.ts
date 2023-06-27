@@ -9,6 +9,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
             console.log('Navigate egAps');
             window.egAps.reinstate()
+            window.egAps.render('div-gpt-ad-mws-1')
+            window.egAps.render('div-gpt-ad-mws-2')
+            window.egAps.render('div-gpt-ad-mws-3')
+            window.egAps.render('div-gpt-ad-mws-4')
         }
 
         //Don't keep the game since we could go to the home page where there's no specificed game.
