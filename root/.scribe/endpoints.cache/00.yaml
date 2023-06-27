@@ -24,11 +24,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38825
+        example: 38808
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 38825
+      mod_id: 38808
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -36,24 +36,24 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: ldwcluydzugrn
+        example: hckqhvgtklwyxufkjqfyk
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 16
+        example: 19
         type: integer
         custom: []
     cleanBodyParameters:
-      query: ldwcluydzugrn
-      limit: 16
+      query: hckqhvgtklwyxufkjqfyk
+      limit: 19
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","last":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38825\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38825\/files","per_page":16,"to":null,"total":0}}'
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/mods\/38808\/files?page=1","last":"http:\/\/localhost:8000\/mods\/38808\/files?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/mods\/38808\/files?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/mods\/38808\/files","per_page":19,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -89,11 +89,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38825
+        example: 38808
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 38825
+      mod_id: 38808
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -147,7 +147,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"id":31771,"user_id":7573,"mod_id":21203,"name":"Ghost145ReNew.zip","desc":"","file":"download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip","type":"application\/x-zip-compressed","image_id":null,"size":5460,"label":"","version":"","created_at":"2020-09-26T09:26:28.000000Z","updated_at":"2020-09-26T09:26:28.000000Z","download_url":"#public url\/mods\/files\/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip","user":{"id":7573,"name":"Dr_Newbie","custom_color":"#ff7f0","avatar":"https:\/\/avatars.steamstatic.com\/4af55df4bbf3cf9e2be3f49b8e4c8bae2588937c_full.jpg","unique_name":"dr_newbie","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":"#ff7f0","active_supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"},"ban":null,"supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"}}}'
+        content: '{"id":31771,"user_id":7573,"mod_id":21203,"name":"Ghost145ReNew.zip","desc":"","file":"download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip","type":"application\/x-zip-compressed","image_id":null,"size":5460,"label":"","version":"","created_at":"2020-09-26T09:26:28.000000Z","updated_at":"2020-09-26T09:26:28.000000Z","download_url":"#public url\/mods\/files\/download_7573_1601112388_003efb1a16e499c909e36585d97e9a07.zip?response-content-disposition=attachment;filename=21203 - Ghost145ReNew.zip","user":{"id":7573,"name":"Dr_Newbie","custom_color":"#ff7f0","avatar":"https:\/\/avatars.steamstatic.com\/4af55df4bbf3cf9e2be3f49b8e4c8bae2588937c_full.jpg","unique_name":"dr_newbie","banner":"","private_profile":false,"invisible":false,"donation_url":"https:\/\/ko-fi.com\/nonenull","show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":"#ff7f0","active_supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"},"ban":null,"supporter":{"id":107,"user_id":7573,"expire_date":"2025-11-05T00:00:00.000000Z","expired":false,"created_at":"2021-11-05T18:24:44.000000Z","updated_at":"2023-06-09T22:37:20.000000Z"},"game_roles":[],"game_ban":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -196,35 +196,35 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: onsaxvmagiiwcnkpj
+        example: xym
         type: string
         custom: []
       label:
         name: label
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: uaocmgcotnwilbirnrw
+        example: batqnuhtgdzpyd
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: lqqdavguru
+        example: qpytnbykhounaygxjfjmer
         type: string
         custom: []
       version:
         name: version
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: espbuiffkku
+        example: krhormugyok
         type: string
         custom: []
       image_id:
         name: image_id
         description: ''
         required: false
-        example: 18
+        example: 14
         type: integer
         custom: []
       change_file:
@@ -235,11 +235,11 @@ endpoints:
         type: string
         custom: []
     cleanBodyParameters:
-      name: onsaxvmagiiwcnkpj
-      label: uaocmgcotnwilbirnrw
-      desc: lqqdavguru
-      version: espbuiffkku
-      image_id: 18
+      name: xym
+      label: batqnuhtgdzpyd
+      desc: qpytnbykhounaygxjfjmer
+      version: krhormugyok
+      image_id: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -350,6 +350,55 @@ endpoints:
     custom: []
   -
     httpMethods:
+      - GET
+    uri: 'files/{file_id}/version'
+    metadata:
+      groupName: Files
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'File Version'
+      description: 'Returns the version set for the file'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      file_id:
+        name: file_id
+        description: 'The ID of the file.'
+        required: true
+        example: 31771
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      file_id: 31771
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: ''
+        headers:
+          content-type: 'text/html; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '55'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
       - DELETE
     uri: 'mods/{mod_id}/files'
     metadata:
@@ -369,11 +418,11 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38825
+        example: 38808
         type: integer
         custom: []
     cleanUrlParameters:
-      mod_id: 38825
+      mod_id: 38808
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
