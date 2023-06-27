@@ -497,6 +497,12 @@ class Mod extends Model implements SubscribableInterface
                 $this->id
             ]);
         }
+
+        // Update the game's last date since the mod was published
+        $game->update([
+            'last_date' => Carbon::now()
+        ]);
+        Game::flushQueryCache();
     }
 
     public function bump($save=true)
