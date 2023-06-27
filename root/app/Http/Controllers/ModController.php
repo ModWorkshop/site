@@ -311,6 +311,8 @@ class ModController extends Controller
         $mod->views++;
         $mod->save();
 
+        Mod::flushQueryCache();
+
         return response()->noContent(201);
     }
 
@@ -345,6 +347,8 @@ class ModController extends Controller
         $download->save();
         $mod->downloads++;
         $mod->save();
+
+        Mod::flushQueryCache();
 
         return response()->noContent(201);
     }

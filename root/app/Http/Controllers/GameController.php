@@ -58,6 +58,8 @@ class GameController extends Controller
             $game->update($val);
         }
 
+        Game::flushQueryCache();
+
         return $game;
     }
 
