@@ -9,19 +9,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
         if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
-            if (lastTimeout) {
-                clearTimeout(lastTimeout);
-            }
-            lastTimeout = setTimeout(() => {
-                console.log('reinstate ads');
-                window.egAps.reinstate();
-                window.egAps.render('div-gpt-ad-mws-1');
-                window.egAps.render('div-gpt-ad-mws-2');
-                window.egAps.render('div-gpt-ad-mws-3');
-                if (document.querySelector('#div-gpt-ad-mws-4')) {
-                    window.egAps.render('div-gpt-ad-mws-4')
-                }
-            }, 500);
+            console.log('Reinstate ads');
+            window.egAps.reinstate();
         }
 
         //Don't keep the game since we could go to the home page where there's no specificed game.
