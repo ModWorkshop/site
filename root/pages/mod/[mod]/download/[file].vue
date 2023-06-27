@@ -17,6 +17,7 @@
                 >
                 {{$t('downloading_file_help')}}
             </a-button>
+            <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
             </flex>
         </flex>
     </mod-page>
