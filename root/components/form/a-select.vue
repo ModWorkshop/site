@@ -108,7 +108,27 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 	}),
 });
 
-const opts = computed(() => props.options ?? asyncOptions.value?.data);
+// Only necessary to retrieve the v-model that may not be contained in asyncOptions
+// Example: user query parameter to prefill a user
+const { data: fetchedVModel } = await useFetchData((props.url && props.modelValue) ? `${props.url}/${props.modelValue}` : 'a', {
+    immediate: props.url && props.modelValue,
+});
+
+// The options of the select that are actulaly shown
+const opts = computed(() => {
+    if (props.options) {
+        return props.options;
+    } else if (typeof(asyncOptions.value?.data) == 'object') {
+        console.log(fetchedVModel.value);
+        if (fetchedVModel.value) {
+            return [fetchedVModel.value, ...(asyncOptions.value?.data)]
+        } else {
+            return asyncOptions.value?.data;
+        }
+    } else {
+        return [];
+    }
+});
 const selectedValue = computed(() => props.modelValue ?? props.default);
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
 const selectedMax = computed(() => props.max ? selected.value.length >= props.max : false);
