@@ -44,7 +44,7 @@ class BanController extends Controller
             }
             $query->with('user');
             $query->with('modUser');
-            $query->orderByRaw('active DESC, expire_date ASC NULLS LAST, created_at DESC');
+            $query->orderByRaw('active DESC, created_at DESC');
         }));
     }
 
