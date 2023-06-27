@@ -58,6 +58,10 @@ class Report extends Model
     protected $guarded = [];
     protected $with = ['user', 'reportable'];
 
+    public function getMorphClass(): string {
+        return 'report';
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

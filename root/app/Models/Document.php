@@ -43,9 +43,13 @@ class Document extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
+    }
+
+    public function getMorphClass(): string {
+        return 'document';
     }
 }

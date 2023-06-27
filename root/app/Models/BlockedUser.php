@@ -32,4 +32,8 @@ class BlockedUser extends Model
 
     public $cacheFor = 60;
     public static $flushCacheOnUpdate = true;
+
+    public function getMorphClass(): string {
+        return 'blocked_user';
+    }
 }

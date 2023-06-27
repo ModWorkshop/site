@@ -39,6 +39,10 @@ class Setting extends Model
 
     protected $guarded = ['type', 'name'];
 
+    public function getMorphClass(): string {
+        return 'setting';
+    }
+
     public static function get(string $name)
     {
         return parent::where('name', $name)->first();
@@ -73,5 +77,5 @@ class Setting extends Model
         } else {
             return parent::getCastType($key);
         }
-    }      
+    }
 }

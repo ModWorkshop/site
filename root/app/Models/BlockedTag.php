@@ -26,4 +26,8 @@ use Illuminate\Database\Eloquent\Model;
 class BlockedTag extends Model
 {
     use HasFactory;
+
+    public function getMorphClass(): string {
+        return 'blocked_tag';
+    }
 }

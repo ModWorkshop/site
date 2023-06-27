@@ -33,6 +33,10 @@ class Subscription extends Model
 
     protected $guarded = [];
 
+    public function getMorphClass(): string {
+        return 'subscription';
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);

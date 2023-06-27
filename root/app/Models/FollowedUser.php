@@ -37,4 +37,8 @@ class FollowedUser extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getMorphClass(): string {
+        return 'followed_user';
+    }
 }

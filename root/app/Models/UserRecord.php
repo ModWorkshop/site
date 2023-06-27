@@ -36,4 +36,8 @@ class UserRecord extends Model
     ];
 
     use HasFactory;
+
+    public function getMorphClass(): string {
+        return 'user_record';
+    }
 }
