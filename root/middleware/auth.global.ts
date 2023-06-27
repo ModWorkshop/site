@@ -7,7 +7,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
         if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
-            console.log('Navigate egAps');
             window.egAps.reinstate()
             window.egAps.render('div-gpt-ad-mws-1')
             window.egAps.render('div-gpt-ad-mws-2')
