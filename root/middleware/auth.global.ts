@@ -13,6 +13,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 clearTimeout(lastTimeout);
             }
             lastTimeout = setTimeout(() => {
+                console.log('reinstate ads');
                 window.egAps.reinstate();
                 window.egAps.render('div-gpt-ad-mws-1');
                 window.egAps.render('div-gpt-ad-mws-2');
