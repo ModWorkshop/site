@@ -15,10 +15,10 @@
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
                     </h2>
                     <flex wrap gap="4">
-                        <a-link-button v-if="!store.user || !store.isBanned" v-once :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
-                        <a-link-button :to="`/g/${game.short_name}/mods`">{{$t('mods')}}</a-link-button>
-                        <a-link-button :to="`/g/${game.short_name}/forum`">{{$t('forum')}}</a-link-button>
-                        <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
+                        <a-link-button v-if="!store.user || !store.isBanned" v-once icon="mdi:upload" :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/mods`" icon="mdi:puzzle">{{$t('browse_mods')}}</a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/forum`" icon="mdi:forum">{{$t('forum')}}</a-link-button>
+                        <a-link-button v-for="button in buttons" :key="button[0]" :icon="button[2]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
                     </flex>
                     <flex class="ml-auto items-center" gap="2" wrap>
                         <flex class="mr-4" gap="2">
