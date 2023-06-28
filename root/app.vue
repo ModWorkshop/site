@@ -49,13 +49,6 @@ useServerSeoMeta({
 	themeColor: '#006ce0',
 	twitterCard: 'summary',
 });
-
-onMounted(() => {
-	if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
-		console.log('Launch ads');
-		egAps.launchAds();
-	}
-});
 </script>
 
 <style>
