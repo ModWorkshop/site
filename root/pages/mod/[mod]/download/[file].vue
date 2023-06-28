@@ -55,4 +55,11 @@ watch(download, () => {
         registerDownload(mod.value);
     }
 });
+
+onMounted(() => {
+    if (dataLayer) {
+        console.log('Load video');
+        dataLayer.push({event: "loadVideo"});
+    }
+});
 </script>
