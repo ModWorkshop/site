@@ -98,6 +98,8 @@ APIService::resource('comments', ModCommentsController::class, 'mods');
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
     Route::get('mods/liked', [ModController::class, 'liked']);
+    Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModController::class, 'subscribe']);
+    Route::delete('mods/{mod}/comments/subscription', [ModController::class, 'unsubscribe']);
 });
 
 //Games/categories/tags
@@ -129,6 +131,10 @@ Route::resource('comments', CommentController::class)->only(['destroy', 'update'
 Route::middleware('can:report,thread')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('can:view,mod')->post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
+    Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
+});
 
 Route::middleware('auth:sanctum')->delete('comments/{comment}/subscription', [CommentController::class, 'unsubscribe']); //A user should be allowed to unsubscribe anytime
 Route::middleware('can:view,comment')->group(function() {
