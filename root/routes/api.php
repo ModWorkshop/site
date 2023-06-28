@@ -98,8 +98,8 @@ APIService::resource('comments', ModCommentsController::class, 'mods');
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
     Route::get('mods/liked', [ModController::class, 'liked']);
-    Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModController::class, 'subscribe']);
-    Route::delete('mods/{mod}/comments/subscription', [ModController::class, 'unsubscribe']);
+    Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
+    Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
 
 //Games/categories/tags
