@@ -51,7 +51,7 @@ FROM build as prod
 RUN apk add --no-cache dcron libcap && \
     chown nobody:nobody /usr/sbin/crond && \
     setcap cap_setgid=ep /usr/sbin/crond
-RUN echo '* * * * * cd /var/www/html && php artisan schedule:run' >> /etc/crontabs/nobody
+RUN echo '* * * * * php /var/www/html/artisan schedule:run' >> /etc/crontabs/nobody
 RUN crontab -u nobody /etc/crontabs/nobody
 RUN chown -R nobody /var/spool/cron/crontabs/nobody
 RUN chmod 0644 /var/spool/cron/crontabs/nobody
