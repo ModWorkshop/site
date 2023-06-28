@@ -132,7 +132,7 @@ Route::middleware('can:report,thread')->post('threads/{thread}/reports', [Thread
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
 Route::middleware('auth:sanctum')->group(function() {
-    Route::middleware('can:view,mod')->post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
+    Route::middleware('can:view,thread')->post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
     Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);
 });
 
