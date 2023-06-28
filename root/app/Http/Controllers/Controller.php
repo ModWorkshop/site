@@ -64,10 +64,12 @@ class Controller extends BaseController
         } else {
             if (!empty(request()->route($resource))) {
                 $resourceModel = app($class)->resolveRouteBinding(request()->route($resource));
-                
-                $parent = $resourceModel[$parentResource];
-                if (isset($parent->game_id) && $parent->game_id) {
-                    APIService::setCurrentGame($parent->game);
+
+                if (isset($resourceModel)) {
+                    $parent = $resourceModel[$parentResource];
+                    if (isset($parent->game_id) && $parent->game_id) {
+                        APIService::setCurrentGame($parent->game);
+                    }
                 }
             }
 
