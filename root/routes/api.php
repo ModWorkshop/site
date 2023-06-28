@@ -129,9 +129,10 @@ Route::resource('comments', CommentController::class)->only(['destroy', 'update'
 Route::middleware('can:report,thread')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
 Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
 Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
+
 Route::middleware('auth:sanctum')->delete('comments/{comment}/subscription', [CommentController::class, 'unsubscribe']); //A user should be allowed to unsubscribe anytime
 Route::middleware('can:view,comment')->group(function() {
-    Route::post('comments/{comment}/subscription', [CommentController::class, 'subscribe']);
+    Route::middleware('auth:sanctum')->post('comments/{comment}/subscription', [CommentController::class, 'subscribe']);
     Route::get('comments/{comment}/page', [CommentController::class, 'page']);
     Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
     Route::middleware('can:report,comment')->post('comments/{comment}/reports', [CommentController::class, 'report']);
