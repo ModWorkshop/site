@@ -83,7 +83,6 @@
 .markdown code {
 	display: inline-block;
 	word-break: break-word;
-	width: 100%;
     overflow-x: auto;
 }
 
