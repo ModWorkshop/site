@@ -43,8 +43,8 @@ class CalculatePopularity implements ShouldQueue
             PopularityLog::select('mod_id', DB::raw("SUM(
                 CASE
                     WHEN type = 'view' THEN 1
-                    WHEN type = 'down' THEN 2
-                    WHEN type = 'like' THEN 5
+                    WHEN type = 'down' THEN 4
+                    WHEN type = 'like' THEN 6
                 END) AS score"))
             ->whereDate('updated_at', '>', $date)
             ->groupBy('mod_id')
@@ -58,14 +58,14 @@ class CalculatePopularity implements ShouldQueue
             return $scores;
         };
 
-        print_r('Getting monthly scores...');
+        Log::info('Getting monthly scores...');
         $scoresMonthly = $getScores(Carbon::now()->subMonth());
-        print_r('Getting weekly scores...');
+        Log::info('Getting weekly scores...');
         $scoresWeekly = $getScores(Carbon::now()->subWeek());
-        print_r('Getting daily scores...');
+        Log::info('Getting daily scores...');
         $scoresDaily = $getScores(Carbon::now()->subDay());
 
-        print_r('Calculating scores of all mods...');
+        Log::info('Calculating scores of all mods...');
         Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly) {
             foreach ($mods as $mod) {
                 $weeks = Carbon::now()->diffInWeeks($mod->bumped_at);
