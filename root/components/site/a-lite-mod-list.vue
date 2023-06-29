@@ -15,7 +15,7 @@
         </flex>
         <flex column>
             <mod-list-skeleton
-                sort-by="score"
+                sort-by="daily_score"
                 :display-mode="displayMode"
                 :no-game="!!game"
                 :error="popularError"
