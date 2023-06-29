@@ -60,7 +60,7 @@ const { data: latest, error: latestError } = await useFetchMany(props.game ? `ga
 const { data: popular, error: popularError } = await useFetchMany(props.game ? `games/${props.game.id}/mods` : 'mods', { 
     params: { 
         'fields[mods]': listModFields.join(','),
-        sort: 'score',
+        sort: 'daily_score',
         limit: 5
     }
 });
