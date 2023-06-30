@@ -9,7 +9,7 @@
             </button-group>
         </flex>
         <flex class="p-2">
-            <NuxtLink class="text-body h2 my-auto" :to="`${link}?sort=daily_score`">
+            <NuxtLink class="text-body h2 my-auto" :to="link">
                 {{$t('popular_mods')}}🌟
             </NuxtLink>
         </flex>
@@ -38,7 +38,7 @@
                 :mods="latest?.data"
             />
         </flex>
-        <a-button color="subtle" icon="mdi:puzzle" :to="`${link}?sort=daily_score`">{{$t('browse_mods')}}</a-button>
+        <a-button color="subtle" icon="mdi:puzzle" :to="link">{{$t('browse_mods')}}</a-button>
     </flex>
 </template>
 
