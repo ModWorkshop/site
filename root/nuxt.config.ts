@@ -124,7 +124,7 @@ export default defineNuxtConfig({
 			{ code: 'ko', file: 'ko.json', name: '한국어' },
 			{ code: 'ja', file: 'ja.json', name: '日本語' },
 			{ code: 'id', file: 'id.json', name: 'Bahasa Indonesia' },
-			{ code: 'owo', file: 'owo.ts', name: 'OwO' },
+			// { code: 'owo', file: 'owo.ts', name: 'OwO' },
 		],
 
 		experimental: {
