@@ -2,7 +2,7 @@
     <tr class="cursor-pointer content-block thread">
         <td @click.self="clickThread(thread)">
             <a-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
-            <NuxtLink :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+            <NuxtLink class="whitespace-pre-line" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
         </td>
         <td @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
         <td v-if="!noCategory" @click.self="clickThread(thread)">
