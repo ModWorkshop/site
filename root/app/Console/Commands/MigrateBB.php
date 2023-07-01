@@ -801,7 +801,7 @@ class MigrateBB extends Command
     public function handleFollowsAndSubs()
     {
         $bar = $this->progress('Converting discussion subscriptions', $this->con->table('mws_subs')->count());
-        $this->con->table('mws_subs')->chunkById(100000, function($subs) use ($bar) {
+        $this->con->table('mws_subs')->chunkById(1000, function($subs) use ($bar) {
             $insert = [];
 
             foreach ($subs as $sub) {
@@ -819,7 +819,9 @@ class MigrateBB extends Command
                 $insert[] = [
                     'user_id' => $sub->uid,
                     'subscribable_type' => $type,
-                    'subscribable_id' => $sub->id
+                    'subscribable_id' => $sub->id,
+                    'created_at' => $sub->date,
+                    'updated_at' => $sub->date,
                 ];
             }
 
