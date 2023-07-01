@@ -52,7 +52,5 @@ class SettingsController extends Controller
         foreach ($val as $key => $value) {
             Setting::where('name', $key)->where('value', '!=', $value)->update(['value' => $value]);
         }
-
-        Setting::flushQueryCache();
     }
 }

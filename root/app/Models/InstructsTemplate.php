@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\InstructsTemplate
@@ -37,10 +36,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class InstructsTemplate extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    public $cacheFor = 600;
-    public static $flushCacheOnUpdate = true;
+    use HasFactory;
 
     protected $with = ['dependencies'];
     protected $guarded = [];

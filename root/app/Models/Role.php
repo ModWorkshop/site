@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Role
@@ -42,10 +41,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Role extends Model
 {
-    use HasFactory, QueryCacheable, HasBelongsToManyEvents, HasRelationshipObservables;
-
-    public $cacheFor = 600;
-    public static $flushCacheOnUpdate = true;
+    use HasFactory;
 
     protected $with = [];
  

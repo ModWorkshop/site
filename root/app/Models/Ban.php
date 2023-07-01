@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Log;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Ban
@@ -43,10 +42,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Ban extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    public $cacheFor = 600;
-    public static $flushCacheOnUpdate = true;
+    use HasFactory;
 
     protected $guarded = [];
     

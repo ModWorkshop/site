@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Thread
@@ -81,10 +80,6 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Thread extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable;
-    use QueryCacheable, HasRelationshipObservables;
-
-    public static $flushCacheOnUpdate = true;
-    public $cacheFor = 10;
 
     protected $with = ['user', 'lastUser', 'category'];
     protected $saveToReport = ['content'];

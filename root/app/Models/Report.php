@@ -6,7 +6,6 @@ use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Report
@@ -46,10 +45,6 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Report extends Model
 {
     use HasFactory;
-    use QueryCacheable;
-
-    public $cacheFor = 1200;
-    public static $flushCacheOnUpdate = true;
 
     protected $casts = [
         'data' => 'array'

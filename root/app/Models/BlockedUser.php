@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\BlockedUser
@@ -28,10 +27,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class BlockedUser extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    public $cacheFor = 60;
-    public static $flushCacheOnUpdate = true;
+    use HasFactory;
 
     public function getMorphClass(): string {
         return 'blocked_user';

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * App\Models\Permission
@@ -30,10 +29,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Permission extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    public $cacheFor = 3600;
-    public static $flushCacheOnUpdate = true;
+    use HasFactory;
 
     public function getMorphClass(): string {
         return 'permission';

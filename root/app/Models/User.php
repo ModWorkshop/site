@@ -26,7 +26,6 @@ use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Log;
 use Notification;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 
 /**
@@ -147,11 +146,6 @@ use Storage;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasApiTokens, Notifiable, Reportable;
-    use QueryCacheable, HasRelationshipObservables;
-
-    public $cacheFor = 10;
-    public $membersRole = null; // TODO: smartly cache it or something?
-    public static $flushCacheOnUpdate = true;
 
     protected $saveToReport = ['bio', 'custom_title'];
 
@@ -939,9 +933,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $rolesRelation->detach($detach);
         $rolesRelation->attach($attach);
 
-        Role::flushQueryCache();
-        User::flushQueryCache();
-
         $this->load('roles');
     }
 
@@ -1000,9 +991,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $gameRolesRelation = $this->allGameRoles();
         $gameRolesRelation->detach($detach);
         $gameRolesRelation->attach($attach);
-
-        GameRole::flushQueryCache();
-        User::flushQueryCache();
     }
 
     #endregion

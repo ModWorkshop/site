@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 use Storage;
 /**
  * App\Models\Category
@@ -58,11 +57,6 @@ use Storage;
  */
 class Category extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    public $cacheFor = 600;
-    public static $flushCacheOnUpdate = true;
-
     protected $guarded = [];
 
     protected $hidden = ['parent', 'game'];

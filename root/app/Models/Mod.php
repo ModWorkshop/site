@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 
 abstract class Visibility {
     const public = 'public';
@@ -168,10 +167,6 @@ abstract class Visibility {
 class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
-    use QueryCacheable, HasRelationshipObservables;
-
-    public static $flushCacheOnUpdate = true;
-    public $cacheFor = 5;
 
     public $commentsOrder = 'DESC';
 
@@ -279,9 +274,6 @@ class Mod extends Model implements SubscribableInterface
 
             $mod->user->increment('mod_count');
         });
-
-        //Make sure game cache is invalidated on update
-        static::updated(fn(Mod $mod) => Game::flushQueryCache());
     }
 
     public function scopeList(Builder $query)
@@ -502,7 +494,6 @@ class Mod extends Model implements SubscribableInterface
         $game->update([
             'last_date' => Carbon::now()
         ]);
-        Game::flushQueryCache();
     }
 
     public function bump($save=true)

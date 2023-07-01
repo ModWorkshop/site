@@ -123,7 +123,6 @@ class GameRoleController extends Controller
             } else {
                 $gameRole->syncPerms(array_keys($permissions));
             }
-            Permission::flushQueryCache(); // I assume https://github.com/renoki-co/laravel-eloquent-query-cache/issues/152
             $gameRole->load('permissions');
         }
 
