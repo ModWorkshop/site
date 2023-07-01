@@ -8,8 +8,6 @@ use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
 use Carbon\Carbon;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;

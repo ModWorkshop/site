@@ -6,8 +6,6 @@ use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Auth;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

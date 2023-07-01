@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Auth;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

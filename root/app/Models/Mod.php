@@ -11,8 +11,6 @@ use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Auth;
 use Carbon\Carbon;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

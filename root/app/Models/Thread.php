@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
