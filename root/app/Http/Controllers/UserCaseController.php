@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserCase;
 use App\Services\Utils;
 use Arr;
+use Illuminate\Http\Response;
 use Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class UserCaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request, Game $game=null)
     {
@@ -54,8 +55,8 @@ class UserCaseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Game $game=null)
     {
@@ -66,7 +67,7 @@ class UserCaseController extends Controller
         ]);
 
         Utils::convertToUTC($val, 'expire_date');
-        
+
         if (isset($game)) {
             $val['game_id'] = $game->id;
         }
@@ -94,7 +95,7 @@ class UserCaseController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(UserCase $userCase)
     {
@@ -104,9 +105,9 @@ class UserCaseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, UserCase $userCase)
     {
@@ -127,7 +128,7 @@ class UserCaseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(UserCase $userCase)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @property array $dispatchesEvents
  */
 trait RelationsListener {
-    
+
     /**
      * Fire the given event for the model.
      *
@@ -46,7 +47,7 @@ trait RelationsListener {
      * Register a model event with the dispatcher.
      *
      * @param  string  $event
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     abstract protected static function registerModelEvent($event, $callback);

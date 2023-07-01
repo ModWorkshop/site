@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\UserRecord
@@ -13,19 +16,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $email
  * @property string|null $last_ip_address
  * @property array|null $social_logins
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord query()
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereLastIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereSocialLogins($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserRecord whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|UserRecord newModelQuery()
+ * @method static Builder|UserRecord newQuery()
+ * @method static Builder|UserRecord query()
+ * @method static Builder|UserRecord whereCreatedAt($value)
+ * @method static Builder|UserRecord whereEmail($value)
+ * @method static Builder|UserRecord whereId($value)
+ * @method static Builder|UserRecord whereLastIpAddress($value)
+ * @method static Builder|UserRecord whereSocialLogins($value)
+ * @method static Builder|UserRecord whereUpdatedAt($value)
+ * @method static Builder|UserRecord whereUserId($value)
+ * @mixin Eloquent
  */
 class UserRecord extends Model
 {

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        \set_time_limit(600);
+        set_time_limit(600);
         ini_set('memory_limit', '1G');
         Mod::setEagerLoads([])->whereNotNull('download_id')->where('download_type', 'file')->chunkById(1000, function($mods) {
             foreach ($mods as $mod) {
@@ -21,7 +21,7 @@ return new class extends Migration
                     $mod->download_id = null;
                     $mod->download_type = null;
                     $mod->save();
-                }                
+                }
             }
         });
     }

@@ -10,6 +10,7 @@ use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ModCommentsController extends Controller
 {
@@ -20,7 +21,7 @@ class ModCommentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FormRequest $request, Mod $mod)
     {
@@ -34,8 +35,8 @@ class ModCommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Mod $mod)
     {

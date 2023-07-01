@@ -17,12 +17,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CommentService {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public static function index(FormRequest $request, Model $commentable, array $options=[], $replies=null)
     {
@@ -58,8 +59,8 @@ class CommentService {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public static function store(Request $request, Model $commentable, array $extraSet=null)
     {
@@ -146,10 +147,10 @@ class CommentService {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  Mod  $mod
      * @param Comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public static function update(Request $request, Comment $comment)
     {

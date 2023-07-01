@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use Auth;
+use Eloquent;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Role
@@ -17,26 +22,26 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $desc
  * @property string $color
  * @property int $order
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Role query()
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereTag($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @method static Builder|Role newModelQuery()
+ * @method static Builder|Role newQuery()
+ * @method static Builder|Role query()
+ * @method static Builder|Role whereColor($value)
+ * @method static Builder|Role whereCreatedAt($value)
+ * @method static Builder|Role whereDesc($value)
+ * @method static Builder|Role whereId($value)
+ * @method static Builder|Role whereName($value)
+ * @method static Builder|Role whereOrder($value)
+ * @method static Builder|Role whereTag($value)
+ * @method static Builder|Role whereUpdatedAt($value)
  * @property bool $is_vanity
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
+ * @method static Builder|Role whereIsVanity($value)
  * @property bool $self_assignable
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereSelfAssignable($value)
- * @mixin \Eloquent
+ * @method static Builder|Role whereSelfAssignable($value)
+ * @mixin Eloquent
  */
 class Role extends Model
 {

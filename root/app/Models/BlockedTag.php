@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\BlockedTag
@@ -11,17 +14,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $user_id
  * @property int $tag_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag query()
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag whereTagId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlockedTag whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|BlockedTag newModelQuery()
+ * @method static Builder|BlockedTag newQuery()
+ * @method static Builder|BlockedTag query()
+ * @method static Builder|BlockedTag whereCreatedAt($value)
+ * @method static Builder|BlockedTag whereId($value)
+ * @method static Builder|BlockedTag whereTagId($value)
+ * @method static Builder|BlockedTag whereUpdatedAt($value)
+ * @method static Builder|BlockedTag whereUserId($value)
+ * @mixin Eloquent
  */
 class BlockedTag extends Model
 {

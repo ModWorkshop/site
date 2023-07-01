@@ -11,6 +11,7 @@ use Arr;
 use Date;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * @group Categories
@@ -24,7 +25,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -44,11 +45,11 @@ class CategoryController extends Controller
             if (($val['only_names'] ?? false)) {
                 $query->select(['id', 'name']);
             }
-    
+
             if (isset($game)) {
                 $val['game_id'] ??= $game->id;
             }
-    
+
             if (!empty($val['game_id'])) {
                 $query->where('game_id', $val['game_id']);
             }
@@ -65,8 +66,8 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, ?Game $game)
     {
@@ -77,7 +78,7 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param  Category  $category
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Category $category)
     {
@@ -89,9 +90,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  Category  $category
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Game $game=null, Category $category=null)
     {

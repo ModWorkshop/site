@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -31,7 +32,7 @@ class PaginationService extends ServiceProvider
         //     $model->query()->queryGet($val, $callback);
         // });
 
-        Builder::macro('queryGet', function(array $val, \Closure $callback = null, $useTrigrams=false) {
+        Builder::macro('queryGet', function(array $val, Closure $callback = null, $useTrigrams=false) {
             /**
              * @var Builder $this
             */

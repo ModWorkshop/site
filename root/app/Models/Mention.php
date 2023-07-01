@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Mention
@@ -11,23 +14,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $user_id
  * @property int $comment_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Mention newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Mention newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Mention query()
- * @method static \Illuminate\Database\Eloquent\Builder|Mention whereCommentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mention whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mention whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mention whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Mention whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Mention newModelQuery()
+ * @method static Builder|Mention newQuery()
+ * @method static Builder|Mention query()
+ * @method static Builder|Mention whereCommentId($value)
+ * @method static Builder|Mention whereCreatedAt($value)
+ * @method static Builder|Mention whereId($value)
+ * @method static Builder|Mention whereUpdatedAt($value)
+ * @method static Builder|Mention whereUserId($value)
+ * @mixin Eloquent
  */
 class Mention extends Model
 {
     use HasFactory;
 
-    
+
     public function getMorphClass(): string {
         return 'mention';
     }

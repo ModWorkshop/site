@@ -6,7 +6,10 @@ use App\Services\APIService;
 use Arr;
 use Auth;
 use Carbon\Carbon;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,38 +34,40 @@ use Storage;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $breadcrumb
- * @method static \Illuminate\Database\Eloquent\Builder|Game newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Game newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Game query()
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereBanner($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereButtons($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereDisporder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereLastDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereThumbnail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereWebhookUrl($value)
- * @property-read \App\Models\Forum|null $forum
+ * @method static Builder|Game newModelQuery()
+ * @method static Builder|Game newQuery()
+ * @method static Builder|Game query()
+ * @method static Builder|Game whereBanner($value)
+ * @method static Builder|Game whereButtons($value)
+ * @method static Builder|Game whereCreatedAt($value)
+ * @method static Builder|Game whereDisporder($value)
+ * @method static Builder|Game whereId($value)
+ * @method static Builder|Game whereLastDate($value)
+ * @method static Builder|Game whereName($value)
+ * @method static Builder|Game whereShortName($value)
+ * @method static Builder|Game whereThumbnail($value)
+ * @method static Builder|Game whereUpdatedAt($value)
+ * @method static Builder|Game whereWebhookUrl($value)
+ * @property-read Forum|null $forum
  * @property int|null $forum_id
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereForumId($value)
- * @property-read \App\Models\FollowedGame|null $followed
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @method static Builder|Game whereForumId($value)
+ * @property-read FollowedGame|null $followed
+ * @property-read Collection|Mod[] $mods
  * @property-read int|null $mod_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $roles
+ * @property-read Collection|GameRole[] $roles
  * @property-read int|null $roles_count
  * @property-read mixed $user_data
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereModsCount($value)
+ * @method static Builder|Game whereModsCount($value)
  * @property-read int|null $mods_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
+ * @property-read Collection<int, Report> $reports
  * @property-read int|null $reports_count
- * @method static \Illuminate\Database\Eloquent\Builder|Game whereModCount($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+ * @method static Builder|Game whereModCount($value)
+ * @property-read Collection<int, Category> $categories
  * @property-read int|null $categories_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
- * @mixin \Eloquent
+ * @property-read Collection<int, Report> $reports
+ * @property-read Collection<int, \App\Models\Category> $categories
+ * @property-read Collection<int, \App\Models\Report> $reports
+ * @mixin Eloquent
  */
 class Game extends Model
 {

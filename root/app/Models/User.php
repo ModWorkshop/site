@@ -8,10 +8,13 @@ use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
 use Carbon\Carbon;
+use Database\Factories\UserFactory;
+use Eloquent;
 use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,9 +22,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Log;
 use Notification;
 use Storage;
@@ -40,11 +46,11 @@ use Storage;
  * @property string $avatar
  * @property-read mixed $permissions
  * @property-read mixed $role_names
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
@@ -58,32 +64,32 @@ use Storage;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User withPermissions()
- * @property-read \App\Models\UserExtra|null $extra
+ * @property-read UserExtra|null $extra
  * @property string $custom_color
  * @method static Builder|User whereCustomColor($value)
  * @property string|null $unique_name
  * @method static Builder|User whereUniqueName($value)
- * @property-read \App\Models\Ban|null $lastBan
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedTag[] $blockedTags
+ * @property-read Ban|null $lastBan
+ * @property-read Collection|BlockedTag[] $blockedTags
  * @property-read int|null $blocked_tags_count
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $blockedUsers
+ * @property-read Collection|User[] $blockedUsers
  * @property-read int|null $blocked_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $fullyBlockedUsers
+ * @property-read Collection|User[] $fullyBlockedUsers
  * @property-read int|null $fully_blocked_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $mods
+ * @property-read Collection|Mod[] $mods
  * @property-read int|null $mod_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Game[] $followedGames
+ * @property-read Collection|Game[] $followedGames
  * @property-read int|null $followed_games_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mod[] $followedMods
+ * @property-read Collection|Mod[] $followedMods
  * @property-read int|null $followed_mod_count
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers
+ * @property-read Collection|User[] $followedUsers
  * @property-read int|null $followed_users_count
  * @property \Illuminate\Support\Carbon|null $last_online
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $allGameRoles
+ * @property-read Collection|GameRole[] $allGameRoles
  * @property-read int|null $all_game_roles_count
- * @property-read \App\Models\Ban|null $ban
+ * @property-read Ban|null $ban
  * @property-read mixed $last_ban
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read Collection|Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|User whereLastOnline($value)
  * @property string $banner
@@ -93,15 +99,15 @@ use Storage;
  * @property bool $invisible
  * @property string|null $donation_url
  * @property string $show_tag
- * @property-read \App\Models\Ban|null $gameBan
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ban[] $gameBans
+ * @property-read Ban|null $gameBan
+ * @property-read Collection|Ban[] $gameBans
  * @property-read int|null $game_bans_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read Collection|GameRole[] $gameRoles
  * @property-read int|null $game_roles_count
  * @property-read mixed $last_game_ban
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SocialLogin[] $socialLogins
+ * @property-read Collection|SocialLogin[] $socialLogins
  * @property-read int|null $social_logins_count
- * @property-read \App\Models\Supporter|null $supporter
+ * @property-read Supporter|null $supporter
  * @method static Builder|User whereBanner($value)
  * @method static Builder|User whereBio($value)
  * @method static Builder|User whereCustomTitle($value)
@@ -109,21 +115,21 @@ use Storage;
  * @method static Builder|User whereInvisible($value)
  * @method static Builder|User wherePrivateProfile($value)
  * @method static Builder|User whereShowTag($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedTag[] $allBlockedTags
+ * @property-read Collection|BlockedTag[] $allBlockedTags
  * @property-read int|null $all_blocked_tags_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlockedUser[] $allBlockedUsers
+ * @property-read Collection|BlockedUser[] $allBlockedUsers
  * @property-read int|null $all_blocked_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedGame[] $allFollowedGames
+ * @property-read Collection|FollowedGame[] $allFollowedGames
  * @property-read int|null $all_followed_games_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $allFollowedMods
+ * @property-read Collection|FollowedMod[] $allFollowedMods
  * @property-read int|null $all_followed_mod_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedUser[] $allFollowedUsers
+ * @property-read Collection|FollowedUser[] $allFollowedUsers
  * @property-read int|null $all_followed_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read Collection|Comment[] $comments
  * @property-read int|null $comment_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
+ * @property-read Collection|Thread[] $threads
  * @property-read int|null $threads_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read Collection|PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @property string|null $last_ip_address
  * @property bool $activated
@@ -140,8 +146,8 @@ use Storage;
  * @method static Builder|User wherePendingEmailSetAt($value)
  * @method static Builder|User whereWaitingEmail($value)
  * @property-read int|null $comments_count
- * @property-read \App\Models\TrackSession|null $trackSession
- * @mixin \Eloquent
+ * @property-read TrackSession|null $trackSession
+ * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -357,7 +363,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function blockedUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent')->select('users.*');;
+        return $this->belongsToMany(User::class, BlockedUser::class, null, 'block_user_id')->withPivot('silent')->select('users.*');
     }
 
     /**

@@ -16,6 +16,7 @@ use App\Services\APIService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -24,7 +25,7 @@ use Str;
 
 /**
  * @group Users
- * 
+ *
  * API routes for interacting with users
  */
 class UserController extends Controller
@@ -36,7 +37,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -78,9 +79,9 @@ class UserController extends Controller
 
     /**
      * User
-     * 
+     *
      * Returns a user
-     * 
+     *
      * @urlParam user integer required The ID of the user
      *
      * @param string $user
@@ -114,12 +115,12 @@ class UserController extends Controller
 
     /**
      * POST users/{user}
-     * 
+     *
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, User $user)
     {
@@ -221,7 +222,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(User $user)
     {
@@ -230,7 +231,7 @@ class UserController extends Controller
 
     /**
      * Current User
-     * 
+     *
      * Returns the currently authenticated user
      *
      * @authenticated
@@ -291,7 +292,7 @@ class UserController extends Controller
     public function deleteDiscussions(User $user)
     {
         $this->authorize('manageDiscussions', $user);
-     
+
         foreach ($user->threads as $thread) {
             $thread->delete();
         }

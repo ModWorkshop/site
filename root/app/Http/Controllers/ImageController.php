@@ -51,7 +51,7 @@ class ImageController extends Controller
             'size' => $size
         ] = APIService::storeImage($file, 'mods/images', null, 300);
 
-        $img = Image::create([
+        return Image::create([
             'user_id' => $this->userId(),
             'mod_id' => $mod->id,
             'file' => $name,
@@ -59,8 +59,6 @@ class ImageController extends Controller
             'type' => $type,
             'size' => $size
         ]);
-
-        return $img;
     }
 
     /**

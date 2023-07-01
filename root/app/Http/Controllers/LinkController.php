@@ -9,6 +9,7 @@ use App\Services\APIService;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class LinkController extends Controller
 {
@@ -19,7 +20,7 @@ class LinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
@@ -29,8 +30,8 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Mod $mod)
     {
@@ -41,7 +42,7 @@ class LinkController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Mod $mod, Link $link)
     {
@@ -51,9 +52,9 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Mod $mod, Link $link=null)
     {
@@ -69,7 +70,7 @@ class LinkController extends Controller
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         $user = $request->user();
-        
+
         if (isset($link)) {
             if (isset($val['version']) && $link->version !== $val['version']) {
                 $mod->bump(true);
@@ -90,7 +91,7 @@ class LinkController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Mod $mod, Link $link)
     {

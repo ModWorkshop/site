@@ -8,6 +8,7 @@ use App\Models\Suspension;
 use Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class SuspensionController extends Controller
 {
@@ -18,7 +19,7 @@ class SuspensionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -26,7 +27,7 @@ class SuspensionController extends Controller
             'user_id' => 'int|min:0|nullable|exists:users,id',
             'mod_id' => 'int|min:0|nullable|exists:mods,id',
         ]);
-        
+
         $query = Arr::pull($val, 'query');
 
         return JsonResource::collection(Suspension::queryGet($val, function($q, array $val) use($query, $game) {
@@ -65,7 +66,7 @@ class SuspensionController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Suspension $suspension)
     {
@@ -75,9 +76,9 @@ class SuspensionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Suspension $suspension)
     {
@@ -92,7 +93,7 @@ class SuspensionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Suspension $suspension)
     {
@@ -104,7 +105,7 @@ class SuspensionController extends Controller
                 $mod->update([
                     'suspended' => false
                 ]);
-            } 
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameRole;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class GameRolePolicy
 {
@@ -14,8 +15,8 @@ class GameRolePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
     public function viewAny(?User $user, Game $game)
     {
@@ -25,9 +26,9 @@ class GameRolePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\GameRole  $gameRole
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param GameRole $gameRole
+     * @return Response|bool
      */
     public function view(?User $user, GameRole $gameRole)
     {
@@ -37,8 +38,8 @@ class GameRolePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
     public function create(User $user, Game $game)
     {
@@ -48,9 +49,9 @@ class GameRolePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\GameRole  $gameRole
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param GameRole $gameRole
+     * @return Response|bool
      */
     public function update(User $user, GameRole $gameRole)
     {
@@ -60,9 +61,9 @@ class GameRolePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\GameRole  $gameRole
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param GameRole $gameRole
+     * @return Response|bool
      */
     public function delete(User $user, GameRole $gameRole)
     {
@@ -72,9 +73,9 @@ class GameRolePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\GameRole  $gameRole
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param GameRole $gameRole
+     * @return Response|bool
      */
     public function restore(User $user, GameRole $gameRole)
     {
@@ -84,9 +85,9 @@ class GameRolePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\GameRole  $gameRole
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param GameRole $gameRole
+     * @return Response|bool
      */
     public function forceDelete(User $user, GameRole $gameRole)
     {

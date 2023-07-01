@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('mod_views', function (Blueprint $table) {
             $table->id();
             $table->integer('mod_id')->unsigned();
-            $table->integer('user_id')->unsigned()->nullable();;
+            $table->integer('user_id')->unsigned()->nullable();
             $table->ipAddress()->nullable();
             $table->timestamps();
             $table->index('user_id');

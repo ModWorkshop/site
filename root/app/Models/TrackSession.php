@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\TrackSession
@@ -11,15 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $ip_address
  * @property int|null $user_id
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession query()
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession whereIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TrackSession whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $updated_at
+ * @method static Builder|TrackSession newModelQuery()
+ * @method static Builder|TrackSession newQuery()
+ * @method static Builder|TrackSession query()
+ * @method static Builder|TrackSession whereId($value)
+ * @method static Builder|TrackSession whereIpAddress($value)
+ * @method static Builder|TrackSession whereUpdatedAt($value)
+ * @method static Builder|TrackSession whereUserId($value)
+ * @mixin Eloquent
  */
 class TrackSession extends Model
 {

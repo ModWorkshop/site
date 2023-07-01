@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Arr;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -11,7 +12,7 @@ class UserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)
@@ -20,7 +21,7 @@ class UserResource extends JsonResource
         $user = $request->user();
 
         $isMe = $user?->id === $this->id;
-        $notMeNotGuest = isset($user) && !$isMe;        
+        $notMeNotGuest = isset($user) && !$isMe;
 
         return [
             'id' => $this->id,

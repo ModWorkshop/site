@@ -46,7 +46,7 @@ class Utils {
 
         //Build the Curl request and its settings.
         if (!is_array($webhook)) {
-            $webHook = [$webHook];
+            $webHook = [$webhook];
         }
         foreach ($webhook as $wb) {
             $handle = curl_init($wb);

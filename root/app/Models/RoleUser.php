@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\RoleUser
@@ -12,17 +15,17 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $id
  * @property int $user_id
  * @property int $role_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser query()
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoleUser whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|RoleUser newModelQuery()
+ * @method static Builder|RoleUser newQuery()
+ * @method static Builder|RoleUser query()
+ * @method static Builder|RoleUser whereCreatedAt($value)
+ * @method static Builder|RoleUser whereId($value)
+ * @method static Builder|RoleUser whereRoleId($value)
+ * @method static Builder|RoleUser whereUpdatedAt($value)
+ * @method static Builder|RoleUser whereUserId($value)
+ * @mixin Eloquent
  */
 class RoleUser extends Pivot
 {

@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Auth;
+use Eloquent;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\GameRole
@@ -20,28 +24,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $color
  * @property int $game_id
  * @property int $order
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property bool $is_vanity
- * @property-read \App\Models\Game $game
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property-read Game $game
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole query()
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereIsVanity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereTag($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereUpdatedAt($value)
+ * @method static Builder|GameRole newModelQuery()
+ * @method static Builder|GameRole newQuery()
+ * @method static Builder|GameRole query()
+ * @method static Builder|GameRole whereColor($value)
+ * @method static Builder|GameRole whereCreatedAt($value)
+ * @method static Builder|GameRole whereDesc($value)
+ * @method static Builder|GameRole whereGameId($value)
+ * @method static Builder|GameRole whereId($value)
+ * @method static Builder|GameRole whereIsVanity($value)
+ * @method static Builder|GameRole whereName($value)
+ * @method static Builder|GameRole whereOrder($value)
+ * @method static Builder|GameRole whereTag($value)
+ * @method static Builder|GameRole whereUpdatedAt($value)
  * @property bool $self_assignable
- * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereSelfAssignable($value)
- * @mixin \Eloquent
+ * @method static Builder|GameRole whereSelfAssignable($value)
+ * @mixin Eloquent
  */
 class GameRole extends Model
 {

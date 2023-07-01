@@ -18,8 +18,8 @@ class ModPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
     public function viewAny(?User $user)
     {
@@ -29,9 +29,9 @@ class ModPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Mod $mod
+     * @return Response|bool
      */
     public function view(?User $user, Mod $mod)
     {
@@ -72,8 +72,8 @@ class ModPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
     public function create(User $user, Game $game)
     {
@@ -83,9 +83,9 @@ class ModPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Mod $mod
+     * @return Response|bool
      */
     public function update(User $user, Mod $mod)
     {
@@ -122,9 +122,9 @@ class ModPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Mod $mod
+     * @return Response|bool
      */
     public function delete(User $user, Mod $mod)
     {
@@ -149,9 +149,9 @@ class ModPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Mod $mod
+     * @return Response|bool
      */
     public function restore(User $user, Mod $mod)
     {
@@ -161,9 +161,9 @@ class ModPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Mod  $mod
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Mod $mod
+     * @return Response|bool
      */
     public function forceDelete(User $user, Mod $mod)
     {
