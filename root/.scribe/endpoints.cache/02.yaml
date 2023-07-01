@@ -90,28 +90,28 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: exwzrfnetx
+        example: ozspmlxgiqrqlqhevmj
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 16
+        example: 4
         type: integer
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 50
+        example: 27
         type: integer
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 20
+        example: 38
         type: integer
         custom: []
       tags:
@@ -119,7 +119,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 89
+          - 12
         type: 'integer[]'
         custom: []
       liked:
@@ -134,7 +134,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 16
+          - 46
         type: 'integer[]'
         custom: []
       block_tags:
@@ -142,14 +142,14 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 37
+          - 43
         type: 'integer[]'
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 21
+        example: 83
         type: integer
         custom: []
       collab:
@@ -170,25 +170,25 @@ endpoints:
         name: sort
         description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, or <code>name</code>.'
         required: false
-        example: likes
+        example: name
         type: string
         custom: []
     cleanBodyParameters:
-      query: exwzrfnetx
-      limit: 16
-      game_id: 50
-      category_id: 20
+      query: ozspmlxgiqrqlqhevmj
+      limit: 4
+      game_id: 27
+      category_id: 38
       tags:
-        - 89
+        - 12
       liked: false
       categories:
-        - 16
+        - 46
       block_tags:
-        - 37
-      user_id: 21
+        - 43
+      user_id: 83
       collab: false
       ignore_blocked_users: false
-      sort: likes
+      sort: name
     fileParameters: []
     responses:
       -
@@ -244,10 +244,10 @@ endpoints:
         status: 500
         content: |-
           {
-              "message": "App\\Models\\Role::permissions(): Return value must be of type Chelout\\RelationshipEvents\\BelongsToMany, Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany returned",
+              "message": "App\\Models\\Role::permissions(): Return value must be of type App\\Models\\BelongsToMany, Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany returned",
               "exception": "TypeError",
               "file": "/var/www/html/app/Models/Role.php",
-              "line": 67,
+              "line": 64,
               "trace": [
                   {
                       "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php",
@@ -307,7 +307,7 @@ endpoints:
                   },
                   {
                       "file": "/var/www/html/app/Models/User.php",
-                      "line": 543,
+                      "line": 541,
                       "function": "find",
                       "class": "Illuminate\\Database\\Eloquent\\Builder",
                       "type": "->"
@@ -352,7 +352,7 @@ endpoints:
                   },
                   {
                       "file": "/var/www/html/app/Models/User.php",
-                      "line": 560,
+                      "line": 558,
                       "function": "__get",
                       "class": "Illuminate\\Database\\Eloquent\\Model",
                       "type": "->"
@@ -397,14 +397,14 @@ endpoints:
                   },
                   {
                       "file": "/var/www/html/app/Models/User.php",
-                      "line": 792,
+                      "line": 790,
                       "function": "__get",
                       "class": "Illuminate\\Database\\Eloquent\\Model",
                       "type": "->"
                   },
                   {
                       "file": "/var/www/html/app/Models/User.php",
-                      "line": 618,
+                      "line": 616,
                       "function": "hasPermission",
                       "class": "App\\Models\\User",
                       "type": "->"
@@ -1043,56 +1043,56 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: kusiyqrgibeihzqwsgfkzczc
+        example: clyqizdjbegxpjn
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must be at least 3 characters. Must not be greater than 30000 characters.'
         required: false
-        example: xnbbubfawthqggvibrdz
+        example: tqrqepqwrnooklivlzlhclrvw
         type: string
         custom: []
       license:
         name: license
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: fglevcpft
+        example: axsbbdxiypydll
         type: string
         custom: []
       changelog:
         name: changelog
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: vughb
+        example: epnkowxt
         type: string
         custom: []
       instructions:
         name: instructions
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: jdjy
+        example: voxvtzdhciosg
         type: string
         custom: []
       short_desc:
         name: short_desc
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: hvumbnnzkemvzzbiyiuvhcj
+        example: jjphxdcxquydvynn
         type: string
         custom: []
       donation:
         name: donation
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: jz
+        example: bczeje
         type: string
         custom: []
       version:
         name: version
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: fewyjytygfdhlhfdgoaqkm
+        example: gvxnhtqr
         type: string
         custom: []
       visibility:
@@ -1106,35 +1106,35 @@ endpoints:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 9
+        example: 54
         type: integer
         custom: []
       thumbnail_id:
         name: thumbnail_id
         description: 'Must be at least 1.'
         required: false
-        example: 80
+        example: 58
         type: integer
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 76
+        example: 46
         type: integer
         custom: []
       banner_id:
         name: banner_id
         description: 'Must be at least 1.'
         required: false
-        example: 34
+        example: 89
         type: integer
         custom: []
       instructs_template_id:
         name: instructs_template_id
         description: 'Must be at least 1.'
         required: false
-        example: 1
+        example: 53
         type: integer
         custom: []
       tag_ids:
@@ -1142,28 +1142,28 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 75
+          - 49
         type: 'integer[]'
         custom: []
       download_id:
         name: download_id
         description: 'Must be at least 1.'
         required: false
-        example: 47
+        example: 30
         type: integer
         custom: []
       allowed_storage:
         name: allowed_storage
         description: 'Must be at least 1. Must not be greater than 1000.'
         required: false
-        example: 8
+        example: 4
         type: integer
         custom: []
       download_type:
         name: download_type
         description: 'Must be one of <code>file</code> or <code>link</code>.'
         required: false
-        example: link
+        example: file
         type: string
         custom: []
       comments_disabled:
@@ -1184,32 +1184,32 @@ endpoints:
         name: publish
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: kusiyqrgibeihzqwsgfkzczc
-      desc: xnbbubfawthqggvibrdz
-      license: fglevcpft
-      changelog: vughb
-      instructions: jdjy
-      short_desc: hvumbnnzkemvzzbiyiuvhcj
-      donation: jz
-      version: fewyjytygfdhlhfdgoaqkm
+      name: clyqizdjbegxpjn
+      desc: tqrqepqwrnooklivlzlhclrvw
+      license: axsbbdxiypydll
+      changelog: epnkowxt
+      instructions: voxvtzdhciosg
+      short_desc: jjphxdcxquydvynn
+      donation: bczeje
+      version: gvxnhtqr
       visibility: public
-      category_id: 9
-      thumbnail_id: 80
-      game_id: 76
-      banner_id: 34
-      instructs_template_id: 1
+      category_id: 54
+      thumbnail_id: 58
+      game_id: 46
+      banner_id: 89
+      instructs_template_id: 53
       tag_ids:
-        - 75
-      download_id: 47
-      allowed_storage: 8
-      download_type: link
+        - 49
+      download_id: 30
+      allowed_storage: 4
+      download_type: file
       comments_disabled: true
       send_for_approval: true
-      publish: true
+      publish: false
     fileParameters: []
     responses: []
     responseFields: []
@@ -1289,7 +1289,7 @@ endpoints:
         name: owner_id
         description: 'Must be at least 1.'
         required: true
-        example: 90
+        example: 47
         type: integer
         custom: []
       keep_owner_level:
@@ -1300,7 +1300,7 @@ endpoints:
         type: string
         custom: []
     cleanBodyParameters:
-      owner_id: 90
+      owner_id: 47
       keep_owner_level: contributor
     fileParameters: []
     responses: []
@@ -1499,28 +1499,28 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: g
+        example: ellgg
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 2
+        example: 13
         type: integer
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 59
+        example: 71
         type: integer
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 35
+        example: 83
         type: integer
         custom: []
       tags:
@@ -1528,7 +1528,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 2
+          - 65
         type: 'integer[]'
         custom: []
       liked:
@@ -1543,7 +1543,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 51
+          - 7
         type: 'integer[]'
         custom: []
       block_tags:
@@ -1551,14 +1551,14 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 82
+          - 84
         type: 'integer[]'
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 24
+        example: 27
         type: integer
         custom: []
       collab:
@@ -1579,25 +1579,25 @@ endpoints:
         name: sort
         description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, or <code>name</code>.'
         required: false
-        example: downloads
+        example: name
         type: string
         custom: []
     cleanBodyParameters:
-      query: g
-      limit: 2
-      game_id: 59
-      category_id: 35
+      query: ellgg
+      limit: 13
+      game_id: 71
+      category_id: 83
       tags:
-        - 2
+        - 65
       liked: false
       categories:
-        - 51
+        - 7
       block_tags:
-        - 82
-      user_id: 24
+        - 84
+      user_id: 27
       collab: false
       ignore_blocked_users: true
-      sort: downloads
+      sort: name
     fileParameters: []
     responses:
       -
@@ -1650,7 +1650,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: false
+        example: true
         type: boolean
         custom: []
       notify:
@@ -1664,13 +1664,13 @@ endpoints:
         name: reason
         description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: false
-        example: boxlnddzmzkmhyhboiqlwvq
+        example: dap
         type: string
         custom: []
     cleanBodyParameters:
-      status: false
+      status: true
       notify: true
-      reason: boxlnddzmzkmhyhboiqlwvq
+      reason: dap
     fileParameters: []
     responses: []
     responseFields: []
@@ -1712,7 +1712,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: false
+        example: true
         type: boolean
         custom: []
       notify:
@@ -1726,13 +1726,13 @@ endpoints:
         name: reason
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: xpk
+        example: gzfgvssdmokaldiwqts
         type: string
         custom: []
     cleanBodyParameters:
-      status: false
+      status: true
       notify: true
-      reason: xpk
+      reason: gzfgvssdmokaldiwqts
     fileParameters: []
     responses: []
     responseFields: []
@@ -1842,28 +1842,28 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: gklwpxbviljhar
+        example: jtybq
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 13
+        example: 5
         type: integer
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 48
+        example: 89
         type: integer
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 85
+        example: 23
         type: integer
         custom: []
       tags:
@@ -1871,7 +1871,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 5
+          - 54
         type: 'integer[]'
         custom: []
       liked:
@@ -1886,7 +1886,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 75
+          - 42
         type: 'integer[]'
         custom: []
       block_tags:
@@ -1894,21 +1894,21 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 32
+          - 2
         type: 'integer[]'
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 13
+        example: 2
         type: integer
         custom: []
       collab:
         name: collab
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       ignore_blocked_users:
@@ -1922,25 +1922,25 @@ endpoints:
         name: sort
         description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, or <code>name</code>.'
         required: false
-        example: published_at
+        example: name
         type: string
         custom: []
     cleanBodyParameters:
-      query: gklwpxbviljhar
-      limit: 13
-      game_id: 48
-      category_id: 85
+      query: jtybq
+      limit: 5
+      game_id: 89
+      category_id: 23
       tags:
-        - 5
+        - 54
       liked: false
       categories:
-        - 75
+        - 42
       block_tags:
-        - 32
-      user_id: 13
-      collab: false
+        - 2
+      user_id: 2
+      collab: true
       ignore_blocked_users: false
-      sort: published_at
+      sort: name
     fileParameters: []
     responses:
       -
