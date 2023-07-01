@@ -75,7 +75,7 @@ class Notification extends Model
         if (isset($notifiable)) {
             $notif->notifiable()->associate($notifiable);
         }
-        
+
         if (isset($context)) {
             $notif->context()->associate($context);
         }
@@ -88,7 +88,7 @@ class Notification extends Model
 
         return $notif;
     }
-    
+
     /**
      * Handy way of deleting related notifications to notifiable or context models
      * For example: User deletes comment -> Related notifications are deleted -> User is not confused by dead notifications

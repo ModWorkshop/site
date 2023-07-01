@@ -58,7 +58,7 @@ class ThreadController extends Controller
             if (!isset($user) || !$user->hasPermission('manage-discussions')) {
                 $query->where(function($q) use ($user) {
                     $q->where('threads.user_id', $user?->id)->orWhereNull('category_id')->orWhereRelation('category', fn($q) => Utils::forumCategoriesFilter($q, true));
-                });                
+                });
             }
 
             $query->where(function($query) use ($val) {
@@ -193,7 +193,7 @@ class ThreadController extends Controller
             //If a moderator archives this, make it so the poster cannot unarchive it.
             if ($canManageThreads && $thread->user->id !== $user->id) {
                 $thread->locked_by_mod = $changeArchive;
-            } 
+            }
         }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.

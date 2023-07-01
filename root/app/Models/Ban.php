@@ -45,7 +45,7 @@ class Ban extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
+
     protected $with = ['modUser'];
 
     protected $casts = [
@@ -65,7 +65,7 @@ class Ban extends Model
     {
         return $this->belongsTo(User::class)->without('ban');
     }
-    
+
     public function deactivate()
     {
         $this->update([

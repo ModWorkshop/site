@@ -44,7 +44,7 @@ class Role extends Model
     use HasFactory;
 
     protected $with = [];
- 
+
     protected $guarded = [
         'is_vanity'
     ];

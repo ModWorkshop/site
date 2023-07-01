@@ -33,7 +33,7 @@ class GameRoleController extends Controller
             'with_permissions' => 'boolean|nullable',
             'limit' => 'integer|min:1|max:50'
         ]);
-        
+
         $gameRoles = QueryBuilder::for($game->roles())
             ->allowedFilters([AllowedFilter::exact('is_vanity')])
             ->allowedIncludes('permissions')
@@ -93,7 +93,7 @@ class GameRoleController extends Controller
         if (!$bypass && ((isset($order) && !RoleService::canEditGameRole($game, $order)))) {
             abort(403, 'You cannot edit or create roles with an order equal or higher than your highest');
         }
-        
+
         if (isset($gameRole)) {
             if ($gameRole->is_vanity) {
                 $val['self_assignable'] = $selfAssignable;
@@ -101,7 +101,7 @@ class GameRoleController extends Controller
             $gameRole->update($val);
         } else {
             if (!isset($val['order'])) {
-                $lowestOrder = GameRole::orderBy('order')->first()->order;    
+                $lowestOrder = GameRole::orderBy('order')->first()->order;
                 $val['order'] = $lowestOrder - 2;
             }
 

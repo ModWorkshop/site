@@ -14,7 +14,7 @@ class RoleService {
     public static function canEdit(int $order): bool
     {
         $user = Auth::user();
-        
+
         if (!isset($user)) {
             return false;
         }
@@ -28,7 +28,7 @@ class RoleService {
     public static function canEditGameRole(Game $game, int $order): bool
     {
         $user = Auth::user();
-        
+
         if (!isset($user)) {
             return false;
         }
@@ -58,7 +58,6 @@ class RoleService {
      */
     public static function reordrGameRoles(Game $game)
     {
-
         $roles = GameRole::where('game_id', $game->id)->orderByDesc('order')->get();
 
         $nextOrder = 1000;

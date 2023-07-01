@@ -35,7 +35,7 @@ class RoleController extends Controller
             'only_assignable' => 'boolean|nullable',
             'with_permissions' => 'boolean|nullable',
         ]);
-        
+
         $gameRoles = QueryBuilder::for(Role::class)
             ->allowedFilters([AllowedFilter::exact('is_vanity')])
             ->allowedIncludes('permissions')
@@ -96,7 +96,7 @@ class RoleController extends Controller
             $role->update($val);
         } else {
             if (!isset($val['order'])) {
-                $lowestOrder = Role::orderBy('order')->first()->order;    
+                $lowestOrder = Role::orderBy('order')->first()->order;
                 $val['order'] = $lowestOrder - 2;
             }
 

@@ -14,11 +14,9 @@ class ReportController extends Controller
     public function __construct() {
         $this->authorizeGameResource(Report::class);
     }
-   
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -40,17 +38,13 @@ class ReportController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Report $report)
     {
         $val = $request->validate([
             'archived' => 'boolean|required'
         ]);
-        
+
         $report->update([
             'archived' => $val['archived']
         ]);
@@ -58,9 +52,6 @@ class ReportController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Report $report)
     {

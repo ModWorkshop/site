@@ -158,7 +158,7 @@ class GameController extends Controller
         ];
     }
 
-    
+
     public function getGameUser(UserController $con, Game $game=null, string $user) {
         return $con->getUser($user, $game);
     }

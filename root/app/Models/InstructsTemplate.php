@@ -40,7 +40,7 @@ class InstructsTemplate extends Model
 
     protected $with = ['dependencies'];
     protected $guarded = [];
-    
+
     public function getMorphClass(): string {
         return 'instructs_template';
     }

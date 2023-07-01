@@ -48,7 +48,7 @@ class GameRole extends Model
     use HasFactory;
 
     protected $with = [];
- 
+
     protected $guarded = [];
 
     public function getMorphClass(): string {
@@ -88,7 +88,7 @@ class GameRole extends Model
 
         if ($me->id === 1) {
             return true;
-        } else if ($me->hasPermission('manage-roles')) { 
+        } else if ($me->hasPermission('manage-roles')) {
             //A user that can manage roles globally, can essentially edit any game role.
             return true;
         } else {

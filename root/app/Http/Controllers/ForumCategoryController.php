@@ -33,7 +33,7 @@ class ForumCategoryController extends Controller
             'game_id' => 'integer|min:1|nullable|exists:games,id'
         ]);
 
-        
+
         return JsonResource::collection(ForumCategory::queryGet($val, function($query, array $val) {
             if (isset($val['forum_id'])) {
                 $query->where('forum_id', $val['forum_id']);
@@ -90,7 +90,7 @@ class ForumCategoryController extends Controller
 
         $rolesArr = Arr::pull($val, 'role_policies');
         $gameRolesArr = Arr::pull($val, 'game_role_policies');
- 
+
         APIService::nullToEmptyStr($val, 'desc', 'emoji');
 
         if (isset($forumCategory)) {

@@ -100,7 +100,7 @@ class Comment extends Model implements SubscribableInterface
             return $this->replies->paginate(3);
         });
     }
-    
+
     protected function totalReplies() : Attribute
     {
         return Attribute::make(function() {
@@ -111,7 +111,7 @@ class Comment extends Model implements SubscribableInterface
             return $this->last_replies->total();
         });
     }
-    
+
     public function replyingComment() : BelongsTo
     {
         return $this->belongsTo(Comment::class, 'id', 'reply_to');

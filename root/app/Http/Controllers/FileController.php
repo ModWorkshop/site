@@ -28,7 +28,7 @@ class FileController extends Controller
 
     /**
      * Get Mod Files
-     * 
+     *
      * Returns a list of files of a mod.
      */
     public function index(FilteredRequest $request, Mod $mod)
@@ -38,9 +38,9 @@ class FileController extends Controller
 
     /**
      * Upload Mod File
-     * 
+     *
      * Upload a new file to a mod.
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request, Mod $mod)
@@ -52,7 +52,7 @@ class FileController extends Controller
         ]);
 
         [$uploadedFile, $name] = ModService::attemptUpload($mod, $val['file']);
-        
+
         $file = $mod->files()->create([
             'name' => $uploadedFile->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
             'desc' => '',
