@@ -118,6 +118,11 @@ class Game extends Model
         return $this->hasMany(Mod::class);
     }
 
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
