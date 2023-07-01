@@ -186,7 +186,7 @@ class Game extends Model
         static::deleting(function(Game $game) {
             Storage::delete('games/images/'.$game->banner);
             Storage::delete('games/images/'.$game->thumbnail);
-            $this->categories()->delete();
+            $game->categories()->delete();
         });
     }
 }
