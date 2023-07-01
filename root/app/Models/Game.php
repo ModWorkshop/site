@@ -192,6 +192,7 @@ class Game extends Model
             Storage::delete('games/images/'.$game->banner);
             Storage::delete('games/images/'.$game->thumbnail);
             $game->categories()->delete();
+            $game->tagsc()->delete();
         });
     }
 }
