@@ -141,6 +141,8 @@ use Storage;
  * @method static Builder|User wherePendingEmail($value)
  * @method static Builder|User wherePendingEmailSetAt($value)
  * @method static Builder|User whereWaitingEmail($value)
+ * @property-read int|null $comments_count
+ * @property-read \App\Models\TrackSession|null $trackSession
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail

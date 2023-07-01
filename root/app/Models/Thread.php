@@ -75,6 +75,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read \App\Models\Game|null $game
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereCommentCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Thread whereGameId($value)
+ * @property-read int|null $comments_count
  * @mixin \Eloquent
  */
 class Thread extends Model implements SubscribableInterface

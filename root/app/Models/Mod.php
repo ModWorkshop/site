@@ -162,6 +162,9 @@ abstract class Visibility {
  * @method static Builder|Mod whereAllowedStorage($value)
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
+ * @property int|null $download_id
+ * @property-read \App\Models\BlockedUser|null $blockedByMe
+ * @property-read int|null $comments_count
  * @mixin \Eloquent
  */
 class Mod extends Model implements SubscribableInterface

@@ -61,6 +61,9 @@ use Storage;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  * @property-read int|null $reports_count
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereModCount($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+ * @property-read int|null $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  * @mixin \Eloquent
  */
 class Game extends Model

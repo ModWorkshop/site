@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereUpdatedAt($value)
+ * @property bool $self_assignable
+ * @method static \Illuminate\Database\Eloquent\Builder|GameRole whereSelfAssignable($value)
  * @mixin \Eloquent
  */
 class GameRole extends Model

@@ -37,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @property bool $is_vanity
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereIsVanity($value)
+ * @property bool $self_assignable
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereSelfAssignable($value)
  * @mixin \Eloquent
  */
 class Role extends Model

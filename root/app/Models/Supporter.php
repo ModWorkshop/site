@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereIsCancelled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereExpired($value)
  * @mixin \Eloquent
  */
 class Supporter extends Model
