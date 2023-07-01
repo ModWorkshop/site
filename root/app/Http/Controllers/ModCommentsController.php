@@ -8,6 +8,7 @@ use App\Models\Mod;
 use App\Services\APIService;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 class ModCommentsController extends Controller
@@ -21,8 +22,12 @@ class ModCommentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request, Mod $mod)
+    public function index(FormRequest $request, Mod $mod)
     {
+        $request->validate([
+            'limit' => 'integer|min:1|max:50'
+        ]);
+
         return CommentService::index($request, $mod);
     }
 

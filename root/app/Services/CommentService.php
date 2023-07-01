@@ -15,15 +15,16 @@ use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class CommentService { 
+class CommentService {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public static function index(FilteredRequest $request, Model $commentable, array $options=[], $replies=null)
+    public static function index(FormRequest $request, Model $commentable, array $options=[], $replies=null)
     {
         /**
          * @var Builder
@@ -91,7 +92,7 @@ class CommentService {
             if ($replyToComment->commentable_type !== $commentable->getMorphClass() || $replyToComment->commentable_id !== $commentable->id) {
                 abort(409, "Invalid comment to reply to");
             }
-            
+
             //Make sure we are not blocked
             if (!$user->hasPermission('manage-discussions') && $replyToComment->user->blockedMe) {
                 abort(401);
@@ -101,7 +102,7 @@ class CommentService {
         if (isset($extraSet)) {
             $val = [...$val, ...$extraSet];
         }
-        
+
         /**
          * @var Comment
          */

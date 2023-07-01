@@ -9,6 +9,7 @@ use App\Services\APIService;
 use App\Services\CommentService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 class ThreadCommentsController extends Controller
@@ -22,7 +23,7 @@ class ThreadCommentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilteredRequest $request, Thread $thread)
+    public function index(FormRequest $request, Thread $thread)
     {
         return CommentService::index($request, $thread, ['orderBy' => 'pinned DESC, created_at ASC']);
     }
