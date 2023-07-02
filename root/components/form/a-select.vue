@@ -120,8 +120,9 @@ const opts = computed(() => {
     if (props.options) {
         return props.options;
     } else if (typeof(asyncOptions.value?.data) == 'object') {
-        // Don't duplicate...
-        if (fetchedVModel.value && asyncOptions.value.data.includes(fetchedVModel.value)) {
+        const fethcedOptionValue = optionValue(fetchedVModel.value);
+        // Check if it exists at all or was already added
+        if (!fetchedVModel.value || asyncOptions.value.data.find(option => optionValue(option) === fethcedOptionValue)) {
             return asyncOptions.value.data;
         } else {
             return [fetchedVModel.value, ...asyncOptions.value.data];
