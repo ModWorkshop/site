@@ -114,17 +114,20 @@ const { data: fetchedVModel } = await useFetchData((props.url && props.modelValu
     immediate: props.url && props.modelValue,
 });
 
-// The options of the select that are actulaly shown
+// The options of the select that are actually shown
+// This also handles selected value that may not be in options
 const opts = computed(() => {
     if (props.options) {
         return props.options;
     } else if (typeof(asyncOptions.value?.data) == 'object') {
-        console.log(fetchedVModel.value);
-        if (fetchedVModel.value) {
-            return [fetchedVModel.value, ...(asyncOptions.value?.data)]
+        // Don't duplicate...
+        if (fetchedVModel.value && asyncOptions.value.data.includes(fetchedVModel.value)) {
+            return asyncOptions.value.data;
         } else {
-            return asyncOptions.value?.data;
+            return [fetchedVModel.value, ...asyncOptions.value.data];
         }
+    } else if (fetchedVModel.value) {
+        return [fetchedVModel.value];
     } else {
         return [];
     }
