@@ -6,6 +6,7 @@ use App\Models\Mod;
 use App\Models\ModMember;
 use App\Models\Notification;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Log;
@@ -70,7 +71,7 @@ class ModMemberController extends Controller
             type: 'membership_request'
         );
 
-        return [...$member->toArray(), 'level' => $member->pivot->level];
+        return [...$member->toArray(), 'created_at' => Carbon::now(), 'level' => $member->pivot->level];
     }
 
     /**
