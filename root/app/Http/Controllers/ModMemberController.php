@@ -65,6 +65,7 @@ class ModMemberController extends Controller
 
         Notification::send(
             notifiable: $mod,
+            context: $member,
             user: $user,
             type: 'membership_request'
         );
@@ -121,6 +122,8 @@ class ModMemberController extends Controller
                 abort(403);
             }
         }
+
+        Notification::deleteRelated($member,'membership_request');
 
         $mod->members()->detach($member);
     }
