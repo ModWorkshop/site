@@ -35,6 +35,7 @@ import { useStore } from '~~/store';
 definePageMeta({ alias: '/g/:game/user/:user' });
 
 const { user: me, hasPermission } = useStore();
+const showError = useQuickErrorToast();
 
 const { data: game } = await useResource<User>('game', 'games');
 const { data: user } = await useResource<User>('user', `games/${game.value.id}/users`);
@@ -44,12 +45,21 @@ const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immed
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 
 const { data: gameRoles } = await useFetchMany<Role>(() => `games/${game.value.id}/roles`, { immediate: !!game.value });
-    async function saveGameRoles() {
-    await patchRequest(`games/${game.value.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
+
+async function saveGameRoles() {
+    try {
+        await patchRequest(`games/${game.value.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
+    } catch (error) {
+        showError(error);
+    }
 }
 
 async function saveRoles() {
-    await patchRequest(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
+    try {
+        await patchRequest(`users/${user.value.id}/roles`, { role_ids: user.value.role_ids });
+    } catch (error) {
+        showError(error);
+    }
 }
 
 watch(user.value.role_ids, racalculateUserStuff);
