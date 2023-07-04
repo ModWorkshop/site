@@ -22,6 +22,7 @@
                 <template #popper>
                     <flex column>
                         <button-group v-model:selected="sortBy" column>
+                            <a-group-button icon="mdi:magnify" name="best_match">{{$t('best_match')}}</a-group-button>
                             <a-group-button icon="mdi:dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
                             <a-group-button icon="mdi:heart" name="likes">{{$t('likes')}}</a-group-button>
                             <a-group-button icon="mdi:download" name="downloads">{{$t('downloads')}}</a-group-button>
