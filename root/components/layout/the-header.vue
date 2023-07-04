@@ -114,6 +114,10 @@
                                 <a-dropdown-item icon="mdi:account-settings-variant" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
                                 <a-dropdown-item icon="mdi:eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
                                 <a-dropdown-item v-if="canSeeAdminPage" icon="mdi:cog" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
+                                <div class="dropdown-splitter"/>
+                                <a-dropdown-item icon="mdi:plus" to="/followed-mods">{{$t('followed_mods')}}</a-dropdown-item>
+                                <a-dropdown-item icon="mdi:heart" to="/liked-mods">{{$t('liked_mods')}}</a-dropdown-item>
+                                <div class="dropdown-splitter"/>
                                 <a-dropdown-item icon="mdi:logout" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
                                 <a-dropdown-item :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme">
