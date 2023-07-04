@@ -24,7 +24,7 @@
     "@vueuse/router": "^10.1.2",
     "eslint": "^8.33.0",
     "eslint-plugin-vue": "^9.9.0",
-    "floating-vue": "^2.0.0-beta.20",
+    "floating-vue": "^2.0.0-beta.24",
     "nuxt": "^3.6.1",
     "nuxt-delay-hydration": "^1.2.1",
     "nuxt-icon": "^0.4.0",

@@ -151,6 +151,7 @@ export default defineNuxtConfig({
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		// 'nuxt-delay-hydration',
 		'@pinia/nuxt',
+		'floating-vue/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'nuxt-icon',
