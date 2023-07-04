@@ -33,7 +33,7 @@
                         <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
                     </a-button>
                     <VDropdown v-else-if="download && download_type == 'link'">
-                        <a-button class="large-button w-full text-center" icon="mdi:download" @click="!!static && registerDownload">
+                        <a-button class="large-button w-full text-center" icon="mdi:download" @click="!static && registerDownload(mod)">
                             {{$t('show_download_link')}}
                         </a-button>
                         <template #popper>

@@ -30,7 +30,7 @@
                 <small class="mt-2 text-center block">{{(file as File).type}} - {{friendlySize((file as File).size)}}</small>
             </a-button>
             <VDropdown v-else>
-                <a-button class="text-xl text-center" icon="mdi:download">
+                <a-button class="text-xl text-center" icon="mdi:download" @click="registerDownload(mod)">
                     {{$t('show_download_link')}}
                 </a-button>
                 <template #popper>
