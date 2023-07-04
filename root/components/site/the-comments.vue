@@ -52,11 +52,11 @@
             <a-loading v-else-if="!isLoaded"/>
             <h4 v-else class="text-center">{{$t(`no_${resourceName}_found`)}}</h4>
         </flex>
-        <VDropdown v-model:shown="showMentions" strategy="fixed" class="fixed" placement="right-start" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`}">
+        <VDropdown v-model:shown="showMentions" class="fixed" strategy="fixed" placement="right-end" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`}" auto-size="min" no-auto-focus>
             <template #popper>
-                <flex v-if="users" column class="p-3">
+                <flex v-if="users" column class="p-3" style="max-width: 300px; word-break: normal; overflow: hidden;">
                     <template v-if="users.data.length">
-                        <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer" @click="e => onClickMention(e, u)"/>
+                        <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer whitespace-pre" @click="e => onClickMention(e, u)"/>
                     </template>
                     <div v-else>{{ $t('no_users_found') }}</div>
                 </flex>
@@ -177,12 +177,12 @@ function onTextareaKeyup(event: KeyboardEvent) {
 function onTextareaInput(event: InputEvent) {
     const textArea = event.target as HTMLTextAreaElement;
 
-    if (event.inputType == 'insertText') {
-        if (event.data == '@') {
+    if (event.inputType == 'insertText' || event.inputType == 'insertFromPaste') {
+        if (event.inputType == 'insertText' && event.data == '@') {
             mentionRange.value = [textArea.selectionEnd, textArea.selectionEnd];
             showMentions.value = true;
         } else if (showMentions.value) {
-            mentionRange.value[1] = textArea.selectionEnd;
+            mentionRange.value = [mentionRange.value[0], textArea.selectionEnd];
         }
     } else if (event.inputType == 'deleteContentBackward' && commentContent.value.charAt(textArea.selectionEnd) == '@') {
         showMentions.value = false;
@@ -202,13 +202,13 @@ function onClickMention(e: MouseEvent, user: User) {
     commentContent.value = strReplacRange(commentContent.value, range[0]-1, range[1], `@${user.unique_name}`);
 }
 
-let lastTimeout: number;
-watch(commentContent, async (val: string) => {
+let lastTimeout: NodeJS.Timeout;
+watch([commentContent, mentionRange], async () => {
     if (lastTimeout) {
         clearTimeout(lastTimeout);
     }
     if (showMentions.value) {
-        const query = val.substring(mentionRange.value[0], mentionRange.value[1]);
+        const query = commentContent.value.substring(mentionRange.value[0], mentionRange.value[1]);
         
         lastTimeout = setTimeout(async () => {
             users.value = undefined;
@@ -216,7 +216,7 @@ watch(commentContent, async (val: string) => {
             for (const user of users.value.data) {
                 usersCache[user.unique_name] = user;
             }
-        }, 200);
+        }, 150);
     }
 });
 

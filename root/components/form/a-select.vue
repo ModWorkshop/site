@@ -29,7 +29,7 @@
             </flex>
         </flex>
         <template #popper>
-            <flex column :class="listClass" style="height: 100%;">
+            <flex column :class="listClass" style="min-width: 200px">
                 <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
                 <flex column class="overflow-auto">
                     <a-dropdown-item 

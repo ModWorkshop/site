@@ -12,7 +12,7 @@
             </NuxtLink>
 
             <flex gap="1" column>
-                <NuxtLink class="flex gap-1 items-center" :to="link">
+                <NuxtLink class="flex gap-1 items-center flex-wrap" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user?.name ?? $t('invalid_user')}}</component>
                     <a-tag v-if="userTag" small>{{userTag}}</a-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>

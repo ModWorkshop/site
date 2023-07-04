@@ -5,7 +5,7 @@
     color: var(--text-color) !important;
     border-radius: var(--border-radius) !important;
     border-color: var(--input-border-color) !important;
-    max-height: 48vh;
+    max-height: 450px !important;
 }
 
 .v-popper {
