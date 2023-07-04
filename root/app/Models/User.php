@@ -958,6 +958,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $attach = [];
 
         $me = Auth::user();
+        $canManageRolesGlobally = $me->hasPermission('manage-roles');
         $canManageRoles = $me->hasPermission('manage-roles', $game);
         $myHighestOrder = $me->getGameHighestOrder($game->id);
 
