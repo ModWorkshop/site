@@ -7,6 +7,7 @@ use App\Services\APIService;
 use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
+use Cache;
 use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Eloquent;
@@ -157,7 +158,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles', 'ban', 'supporter'];
+    protected $with = ['roles.permissions', 'ban', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -544,7 +545,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roleList(): Attribute
     {
         return Attribute::make(function() {
-            $this->membersRole ??= Role::with('permissions')->find(1);
+            $this->membersRole ??= Cache::remember('membersRole', 60, function() {
+                return Role::with('permissions')->find(1);
+            });
             $roles = [...$this->roles];
             if (isset($this->membersRole) && !in_array($this->membersRole, $roles)) {
                 $roles[] = $this->membersRole;
@@ -603,7 +606,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // Returns last (eager loaded game) game ban. Use only for display!
     public function getLastGameBanAttribute()
     {
-        if (isset($this->eagerLoadedGameId)) {
+        if ($this->eagerLoadedGameId) {
             if (!$this->relationLoaded('gameBan')) {
                 $this->load('gameBan');
             }
