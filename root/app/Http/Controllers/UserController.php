@@ -53,23 +53,52 @@ class UserController extends Controller
             APIService::setCurrentGame($game);
         }
 
-        $users = User::queryGet($val, function($query, $val) use ($game) {
+        $query = Arr::pull($val, 'query');
+
+        $users = User::queryGet($val, function($q, $val) use ($game, $query) {
             if (isset($val['id'])) {
-                $query->where('id', $val['id']);
+                $q->where('id', $val['id']);
             }
-            if (isset($val['query']) && !empty($val['query'])) {
-                $query->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $val['query'])->orWhere('unique_name', 'ILIKE', '%'.$val['query'].'%'));
+            if (isset($query) && !empty($query)) {
+                if (ctype_digit($query) && $query < PHP_INT_MAX) {
+                    $q->where('id', $query);
+                }
+                if (mb_strlen($query) > 2) {
+                    $q->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $query)->orWhereRaw("unique_name ILIKE '%' || ? || '%'", $query));
+                    $q->orWhere(fn($q) => $q->whereRaw('name % ?', $query)->orWhereRaw("name ILIKE '%' || ? || '%'", $query));
+                }
             }
             if (isset($val['role_ids'])) {
                 $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
                 if (!empty($roleIds)) {
-                    $query->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
+                    $q->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
                 }
             }
             if (isset($game) && isset($val['game_role_ids'])) {
                 $roleIds = $val['game_role_ids'];
                 if (!empty($roleIds)) {
-                    $query->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                    $q->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                }
+            }
+
+            if (isset($query) && mb_strlen($query) > 2) {
+                if (ctype_digit($query) && $query < PHP_INT_MAX) {
+                    $q->orderByRaw("
+                        id = $1 DESC,
+                        unique_name = $1 DESC,
+                        unique_name ILIKE '%' || $1 || '%' DESC,
+                        unique_name % $1 DESC,
+                        name ILIKE '%' || $1 || '%' DESC,
+                        name % $1 DESC
+                    ");
+                } else {
+                    $q->orderByRaw("
+                        unique_name = $1 DESC,
+                        unique_name ILIKE '%' || $1 || '%' DESC,
+                        unique_name % $1 DESC,
+                        name ILIKE '%' || $1 || '%' DESC,
+                        name % $1 DESC
+                    ");
                 }
             }
         });
