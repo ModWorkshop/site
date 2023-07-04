@@ -25,7 +25,10 @@
             <a-button icon="image" :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
         </template>
     </file-uploader>
-    
+    <flex class="mr-auto">
+        <a-button icon="mdi:close" @click="setBanner(null)">{{ $t('reset_banner') }}</a-button>
+        <a-button icon="mdi:close" @click="setThumbnail(null)">{{ $t('reset_thumbnail') }}</a-button>
+    </flex>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">
         <div style="width: 300px;">
@@ -53,12 +56,12 @@ const images = ref(clone(props.mod.images));
 const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
 
 function setBanner(banner?: Image) {
-    props.mod.banner_id = banner && banner.id || undefined;
+    props.mod.banner_id = banner && banner.id || null;
     props.mod.banner = banner;
 }
 
 function setThumbnail(thumb?: Image) {
-    props.mod.thumbnail_id = thumb && thumb.id || undefined;
+    props.mod.thumbnail_id = thumb && thumb.id || null;
     props.mod.thumbnail = thumb;
 }
 
