@@ -138,7 +138,11 @@ class ModService {
         $user = Auth::user();
 
         $sortBy = $val['sort'] ?? 'bumped_at';
-        $name = $val['query'];
+        $name = $val['query'] ?? null;
+
+        if (!isset($name) && $sortBy == 'best_match') {
+            $sortBy = 'name';
+        }
 
         if ($sortBy === 'random') {
             $query->orderByRaw('RANDOM()');
