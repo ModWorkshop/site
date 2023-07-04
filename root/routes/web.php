@@ -33,3 +33,7 @@ Route::middleware($middleware)->group(function () use ($prefix) {
         return response()->file(Storage::disk('local')->path('scribe/openapi.yaml'));
     })->name('scribe.openapi');
 });
+
+Route::name('login')->get('login', function() {
+    return abort(401);
+});
