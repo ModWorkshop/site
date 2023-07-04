@@ -14,7 +14,7 @@
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <a-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
                 </flex>
-                <a-markdown class="mt-1 w-full" :text="content"/>
+                <a-markdown class="w-full" :text="content"/>
             </flex>
             <div class="float-right">
                 <flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
