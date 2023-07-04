@@ -978,7 +978,7 @@ class User extends Authenticatable implements MustVerifyEmail
         //Handles removal of roles that aren't present in $newRoles. Makes sure we can remove them.
         foreach ($this->getGameRoles($game->id) as $role) {
             if (!in_array($role->id, $newRoles)) {
-                if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
+                if ($role->is_vanity || $canManageRolesGlobally || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
                 } else {
                     abort(403, "You don't have the right permissions to remove this role from any user.");
@@ -989,7 +989,7 @@ class User extends Authenticatable implements MustVerifyEmail
         //Handles addition of roles that are present in $newRoles. Makes sure we can add them.
         foreach ($roles as $role) {
             if (!$this->hasGameRole($game->id, $role->id)) {
-                if (($role->is_vanity && $role->self_assignable) || ($canManageRoles && $myHighestOrder > $role->order)) {
+                if (($role->is_vanity && $role->self_assignable) || $canManageRolesGlobally || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
                 } else {
                     abort(403, "You don't have the right permissions to add this role to any user.");
