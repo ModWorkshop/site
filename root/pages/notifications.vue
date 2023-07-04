@@ -20,6 +20,10 @@
 import { useI18n } from 'vue-i18n';
 import { Notification } from '~~/types/models';
 
+definePageMeta({
+    middleware: 'users-only',
+});
+
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 const page = useRouteQuery('page', 1);
