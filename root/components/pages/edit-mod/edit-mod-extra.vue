@@ -8,8 +8,11 @@
     <a-select v-if="isModerator" v-model="mod.game_id" :label="$t('game')" :options="games?.data"/>
 
     <a-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="150" :desc="$t('short_desc_desc')"/>
+    <a-input v-model="mod.donation" :label="$t('donation')"/>
+    
 
     <a-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
+
 
     <a-alert v-if="canDelete" class="w-full" color="danger" :title="$t('danger_zone')">
         <div>
