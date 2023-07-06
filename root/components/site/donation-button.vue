@@ -21,7 +21,7 @@ const link = computed(() => {
         if (kofi.test(l)) {
             return `https://ko-fi.com/${l.match(kofi)![1]}`;
         } else if (bmc.test(l)) {
-            return `https://buymecoffee.com/${l.match(bmc)![1]}`;
+            return `https://buymeacoffee.com/${l.match(bmc)![1]}`;
         } else if (paypalme.test(l)) {
             return `https://paypal.me/${l.match(paypalme)![1]}`;
         } else if (paypal.test(l)) {
@@ -36,7 +36,7 @@ const image = computed(() => {
         if (kofi.test(l)) {
             return `kofi.png`;
         } else if (bmc.test(l)) {
-            return `buymecoffee.png`;
+            return `buymeacoffee.png`;
         } else if (paypalme.test(l) || paypal.test(l)) {
             return `paypal.png`;
         }
