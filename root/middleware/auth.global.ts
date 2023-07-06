@@ -8,11 +8,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const store = useStore($pinia);
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
-        if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
-            console.log('Reinstate ads');
-            window.egAps.reinstate();
-        }
-
         //Don't keep the game since we could go to the home page where there's no specificed game.
         store.currentGame = null;
         //https://github.com/nuxt/framework/issues/6475
