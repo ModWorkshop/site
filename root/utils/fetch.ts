@@ -1,6 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
+interface AxiosRequestConfigPlus extends AxiosRequestConfig {
+    onResponse: (response: any) => void;
+}
+
 export function buildQueryParams(params) {
     return qs.stringify(params, { 
         arrayFormat: 'brackets',
@@ -14,10 +18,10 @@ export function buildQueryParams(params) {
     });
 }
 
-export async function postRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfig) {
+export async function postRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
     const { public: runtimeConfig } = useRuntimeConfig();
 
-    const { data } = await axios.request<T>({
+    const response = await axios.request<T>({
         method: 'POST',
         url,
         data: body,
@@ -26,17 +30,21 @@ export async function postRequest<T>(url: string, body?: object|null, config?: A
         ...config
     });
 
-    return data;
+    if (config?.onResponse) {
+        config.onResponse(response);
+    }
+
+    return response.data;
 }
 
-export async function patchRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfig) {
+export async function patchRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
     return postRequest<T>(url, body, {
         method: 'PATCH',
         ...config
     });
 }
 
-export async function deleteRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfig) {
+export async function deleteRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
     return postRequest<T>(url, body, {
         method: 'DELETE',
         ...config

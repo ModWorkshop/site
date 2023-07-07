@@ -45,9 +45,11 @@ if (props.mod.game) {
     setGame(props.mod.game);
 }
 
-postRequest(`mods/${props.mod.id}/register-view`).then((response: any) => {
-    if (response.status == 201) {
-        props.mod.views++;
+postRequest(`mods/${props.mod.id}/register-view`, null, {
+    onResponse(response: any) {
+        if (response.status == 201) {
+            props.mod.views++;
+        }
     }
 });
 
