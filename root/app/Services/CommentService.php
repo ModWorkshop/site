@@ -166,20 +166,20 @@ class CommentService {
         $mentionedUsers = [];
         $mentionedIds = [];
 
-        if (isset($mentions)) {
-            $uniqueNames = array_slice($mentions, 0, 10);
-            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
-        }
-
         if ($comment->reply_to && isset($val['pinned'])) {
             abort(403, 'Only regular comments can be pinned!');
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
-        if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
+        if ((isset($val['content']) || isset($mentions)) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
             abort(403, 'You cannot edit the comment!');
         }
 
+        if (isset($mentions)) {
+            $uniqueNames = array_slice($mentions, 0, 10);
+            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
+        }
+        
         if (isset($mentions)) {
             foreach ($mentionedUsers as $mentionedUser) {
                 $mentionedIds[] = $mentionedUser->id;
