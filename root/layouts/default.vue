@@ -1,5 +1,6 @@
 <template>
     <div class="layout">
+        <the-header/>
         <main>
             <a-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :closable="false">
                 <span class="whitespace-pre">
@@ -39,7 +40,6 @@
                 </flex>
             </a-alert>
         </flex>
-        <the-header/>
         <the-footer/>
     </div>
 </template>
