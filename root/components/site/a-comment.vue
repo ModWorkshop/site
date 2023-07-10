@@ -131,7 +131,7 @@ const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(pro
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
 
 watch(replies, (val: Paginator<Comment>) => {
-    props.comment.replies = val.data;
+    props.comment.replies = val?.data ?? [];
 }, { immediate: true });
 
 content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
