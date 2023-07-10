@@ -111,7 +111,7 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
 const { data: fetchedVModel } = await useFetchData((props.url && props.modelValue) ? `${props.url}/${props.modelValue}` : 'a', {
-    immediate: props.url && props.modelValue,
+    immediate: !!(props.url && props.modelValue)
 });
 
 // The options of the select that are actually shown
