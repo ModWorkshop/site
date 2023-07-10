@@ -4,8 +4,12 @@
         query
         :item-link="item => `${url}/${item.id}`"
         :new-button="`${url}/new`"
-        :params="{ game_id: game?.id }"
-    />
+        :params="{ game_id: game?.id, get_unlisted: true }"
+    >
+        <template #item-buttons="{ item }">
+            <a-button icon="mdi:launch" @click.prevent="$router.push(`/${pageUrl}/${item.id}`)"/>
+        </template>
+    </a-list>
 </template>
 
 <script setup lang="ts">
@@ -19,4 +23,5 @@ useNeedsPermission('manage-documents', props.game);
 
 const url = computed(() => getAdminUrl('documents', props.game));
 const apiUrl = computed(() => getGameResourceUrl('documents', props.game));
+const pageUrl = computed(() => getGameResourceUrl('document', props.game));
 </script>
