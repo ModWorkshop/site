@@ -303,6 +303,8 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->with[] = 'blockedByMe';
             $this->with[] = 'blockedMe';
         }
+
+        parent::__construct();
     }
 
     protected static function booted()
