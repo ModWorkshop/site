@@ -1,5 +1,5 @@
 <template>
-    <tr class="cursor-pointer content-block thread">
+    <tr @click.self="clickThread(thread)" class="cursor-pointer content-block thread">
         <td @click.self="clickThread(thread)">
             <a-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
             <NuxtLink class="whitespace-pre-line" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
