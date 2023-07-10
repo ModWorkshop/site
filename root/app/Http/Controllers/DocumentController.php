@@ -18,25 +18,35 @@ class DocumentController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
-        return JsonResource::collection(Document::queryGet($request->val(), function($q) use($game) {
+        $val = $request->val([
+            'show_unlisted' => 'boolean',
+        ]);
+
+        $user = $this->user();
+
+        $manageDocs = $user->hasPermission('manage-documents');
+        $manageDocsGame = $user->hasPermission('manage-documents', $game);
+
+        return JsonResource::collection(Document::queryGet($val, function($q) use($game, $manageDocs, $manageDocsGame) {
             if (isset($game)) {
                 $q->where('game_id', $game->id);
+                if (!$manageDocsGame) {
+                    $q->where('is_unlisted', false);
+                }
             } else {
                 $q->whereNull('game_id');
+                if (!$manageDocs) {
+                    $q->where('is_unlisted', false);
+                }
             }
         }));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function store(Request $request, Game $game)
     {
@@ -45,9 +55,6 @@ class DocumentController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
      */
     public function getDocument(Request $request, $document)
     {
@@ -62,16 +69,13 @@ class DocumentController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
      */
     public function update(Request $request, Document $document=null)
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
             'desc' => 'string|min:3|max:50000',
+            'is_unlisted' => 'boolean|nullable',
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'url_name' => 'string|nullable|max:30|alpha_dash'
         ]);
@@ -107,9 +111,6 @@ class DocumentController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
      */
     public function destroy(Document $document)
     {
