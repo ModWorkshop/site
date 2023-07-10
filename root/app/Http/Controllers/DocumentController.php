@@ -60,7 +60,12 @@ class DocumentController extends Controller
     public function getDocument(Request $request, $document)
     {
         $query = Document::query();
-        return $query->where('url_name', $document)->firstOrFail();
+
+        if (is_numeric($document)) {
+            return $query->findOrFail($document);
+        } else {
+            return $query->where('url_name', $document)->firstOrFail();
+        }
     }
 
     /**
