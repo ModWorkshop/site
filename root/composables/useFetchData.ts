@@ -7,14 +7,14 @@ export interface DifferentFetchOptions extends FetchOptions {
     lazy?: boolean;
 }
 
-export default async function<T>(url: string|(() => string), options: DifferentFetchOptions = {}, key?: string) {
+export default function<T>(url: string|(() => string), options: DifferentFetchOptions = {}, key?: string) {
     key ??='';
     key += hash(JSON.stringify({
         url: typeof url == 'function' ? url() : url,
         params: options.params
     }));
 
-    return await useAsyncData(key ?? '', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
+    return useAsyncData(key ?? '', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
         lazy: options.lazy,
         immediate: options.immediate
     });

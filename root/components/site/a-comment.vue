@@ -122,14 +122,17 @@ onMounted(() => {
 });
 
 const page = ref(1);
-let { data: replies, refresh: loadReplies } = await useFetchMany<Comment>(() => props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
-    immediate: props.fetchReplies, 
+const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
+    immediate: props.fetchReplies,
+    lazy: true,
     params: reactive({ page, limit: 20 })
 });
 
-if (!props.fetchReplies) {    
-    replies = ref(new Paginator<Comment>(props.comment.last_replies));
-}
+const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
+
+watch(replies, (val: Paginator<Comment>) => {
+    props.comment.replies = val.data;
+}, { immediate: true });
 
 content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
     const user = props.comment.mentions.find(user => user.id == id);

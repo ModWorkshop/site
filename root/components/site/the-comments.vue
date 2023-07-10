@@ -265,9 +265,9 @@ async function postComment() {
             mentions,
             reply_to: replyingComment.value?.id
         });
-        if (replyingComment.value) {
-            replyingComment.value.last_replies ??= [];
-            replyingComment.value.last_replies.push(comment);
+        if (replyingComment.value && replyingComment.value.replies) {
+            replyingComment.value.replies ??= [];
+            replyingComment.value.replies.push(comment);
         } else if (comments.value) {
             comments.value.data.unshift(comment);
         }

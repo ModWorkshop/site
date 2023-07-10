@@ -43,6 +43,7 @@ export interface Comment {
     commentable?: Mod|Thread;
     last_replies?: Comment[];
     total_replies?: number;
+    replies?: Comment[];
     replying_comment?: Comment | null;
     subscribed?: boolean;
 }
