@@ -30,15 +30,16 @@ class DocumentController extends Controller
         $manageDocs = $user->hasPermission('manage-documents');
         $manageDocsGame = $user->hasPermission('manage-documents', $game);
 
-        return JsonResource::collection(Document::queryGet($val, function($q) use($game, $manageDocs, $manageDocsGame) {
+        return JsonResource::collection(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
+            $getUnlisted = Arr::get($val, 'get_unlisted');
             if (isset($game)) {
                 $q->where('game_id', $game->id);
-                if (!$manageDocsGame) {
+                if (!$getUnlisted || !$manageDocsGame) {
                     $q->where('is_unlisted', false);
                 }
             } else {
                 $q->whereNull('game_id');
-                if (!$manageDocs) {
+                if (!$getUnlisted || !$manageDocs) {
                     $q->where('is_unlisted', false);
                 }
             }
@@ -59,12 +60,7 @@ class DocumentController extends Controller
     public function getDocument(Request $request, $document)
     {
         $query = Document::query();
-
-        if (is_numeric($document)) {
-            return $query->findOrFail($document);
-        } else {
-            return $query->where('url_name', $document)->firstOrFail();
-        }
+        return $query->where('url_name', $document)->firstOrFail();
     }
 
     /**
