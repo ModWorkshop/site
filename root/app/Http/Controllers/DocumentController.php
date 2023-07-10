@@ -22,7 +22,7 @@ class DocumentController extends Controller
     public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
-            'show_unlisted' => 'boolean',
+            'get_unlisted' => 'boolean',
         ]);
 
         $user = $this->user();
