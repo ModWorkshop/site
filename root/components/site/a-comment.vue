@@ -115,7 +115,7 @@ onMounted(() => {
         if (element) {
             setTimeout(() => {
                 element.scrollIntoView({ block: 'nearest' });
-                window.scrollBy(0, -64);
+                window.scrollBy(0, 16);
             }, 150);
         }
     }
