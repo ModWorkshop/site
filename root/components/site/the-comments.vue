@@ -102,6 +102,7 @@ const props = withDefaults(defineProps<{
 const { user } = useStore();
 const router = useRouter();
 const route = useRoute();
+const focusComment = useRouteQuery('comment');
 
 const isLoaded = ref(false);
 const page = useRouteQuery('page', 1);
@@ -123,7 +124,7 @@ const posting = ref(false);
 const showError = useQuickErrorToast();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
-    immediate: !props.lazy && !route.params.comment,
+    immediate: (!props.lazy || focusComment.value) && !route.params.comment,
     params: reactive({
         page,
         limit: 20
