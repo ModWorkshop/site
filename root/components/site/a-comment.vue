@@ -108,7 +108,7 @@ const showReportModal = ref(false);
 const contentBlockRef = ref();
 
 onMounted(() => {
-    if ((focusComment.value == props.comment.id) || params.comment) {
+    if ((focusComment.value == props.comment?.id) || params.comment) {
         const element: HTMLDivElement = contentBlockRef.value.element;
         console.log(element);
         
