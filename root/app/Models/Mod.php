@@ -468,7 +468,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function publish(bool $save=true)
     {
-        if (!$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
+        if (isset($this->published_at) || !$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
             return;
         }
 
