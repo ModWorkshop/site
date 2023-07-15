@@ -22,6 +22,13 @@ export default function(name, defaultValue, cast, statefully) {
         current = ref(route.query[name]);
     }
 
+    // Listen for changes, but avoid doing so when when the composable did it
+    watch(() => route.query[name], v => {
+        if (!queue[name]) {
+            current.value = v;
+        }
+    });
+
     return computed({
         get() {
             const data = current.value;
