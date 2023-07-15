@@ -44,7 +44,7 @@ class LinkController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show(Mod $mod, Link $link)
+    public function show(Link $link)
     {
         return $link;
     }
@@ -56,7 +56,7 @@ class LinkController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, Mod $mod, Link $link=null)
+    public function update(Request $request, Link $link=null)
     {
         $val = $request->validate([
             'name' => 'required|min:3|max:255',
@@ -70,6 +70,7 @@ class LinkController extends Controller
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         $user = $request->user();
+        $mod = $link->mod;
 
         if (isset($link)) {
             if (isset($val['version']) && $link->version !== $val['version']) {
@@ -93,7 +94,7 @@ class LinkController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy(Mod $mod, Link $link)
+    public function destroy(Link $link)
     {
         $link->delete();
     }
