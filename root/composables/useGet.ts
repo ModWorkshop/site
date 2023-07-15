@@ -9,9 +9,7 @@ export default async function<T = unknown>(url: string, options?) {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
     };
 
-    if (!config.is_production) {
-        headersToSend.referer = config.siteUrl;
-    }
+    headersToSend.referer = config.siteUrl;
 
     if (headers.cookie) {
         headersToSend['cookie'] = headers.cookie;
