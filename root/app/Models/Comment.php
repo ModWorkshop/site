@@ -64,7 +64,7 @@ class Comment extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable;
 
-    protected $with = ['user', 'replies', 'subscribed'];
+    protected $with = ['user', 'replies', 'mentions', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
     protected $saveToReport = ['content'];
