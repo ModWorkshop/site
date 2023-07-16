@@ -51,12 +51,8 @@ class LinkController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
      */
-    public function update(Request $request, Link $link=null)
+    public function update(Request $request, Mod $mod, Link $link=null)
     {
         $val = $request->validate([
             'name' => 'required|min:3|max:255',
@@ -70,7 +66,7 @@ class LinkController extends Controller
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
         $user = $request->user();
-        $mod = $link->mod;
+        $mod = isset($link) ? $link->mod : $mod;
 
         if (isset($link)) {
             if (isset($val['version']) && $link->version !== $val['version']) {
