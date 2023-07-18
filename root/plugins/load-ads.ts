@@ -4,15 +4,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     const launched = ref(false);
     nuxtApp.hook('app:created', () => {
         if (process.client) {
-            Element.prototype._addEventListener = Element.prototype.addEventListener;
-            Element.prototype._removeEventListener = Element.prototype.removeEventListener;
-            Element.prototype.addEventListener = function(type,listener,useCapture=false) {
+            document._addEventListener = document.addEventListener;
+            document._removeEventListener = document.removeEventListener;
+            document.addEventListener = function(type,listener,useCapture=false) {
                 this._addEventListener(type,listener,useCapture);
                 if(!this.eventListenerList) this.eventListenerList = {};
                 if(!this.eventListenerList[type]) this.eventListenerList[type] = [];
                 this.eventListenerList[type].push( {type, listener, useCapture} );
             };
-            Element.prototype.removeEventListener = function(type,listener,useCapture=false) {
+            document.removeEventListener = function(type,listener,useCapture=false) {
                 this._removeEventListener(type,listener,useCapture);
                 if(!this.eventListenerList) this.eventListenerList = {};
                 if(!this.eventListenerList[type]) this.eventListenerList[type] = [];
