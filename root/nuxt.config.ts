@@ -155,7 +155,6 @@ export default defineNuxtConfig({
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
 		'nuxt-icon',
-		'nuxt-simple-sitemap',
 		'@nuxtjs/i18n',
 		'nuxt-gtag'
 	],
