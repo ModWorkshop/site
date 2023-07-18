@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Log;
+use function set_time_limit;
 
 class CalculatePopularity implements ShouldQueue
 {
@@ -31,7 +32,7 @@ class CalculatePopularity implements ShouldQueue
      */
     public function handle(): void
     {
-        \set_time_limit(600);
+        set_time_limit(600);
         ini_set('memory_limit', '1G');
 
         Log::info('Calculating Popularity...');

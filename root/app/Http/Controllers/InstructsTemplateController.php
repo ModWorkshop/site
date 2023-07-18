@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\InstructsTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class InstructsTemplateController extends Controller
 {
@@ -16,7 +17,7 @@ class InstructsTemplateController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Game $game, FilteredRequest $request)
     {
@@ -28,8 +29,8 @@ class InstructsTemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Game $game)
     {
@@ -40,7 +41,7 @@ class InstructsTemplateController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Game $game, InstructsTemplate $instructsTemplate)
     {
@@ -50,9 +51,9 @@ class InstructsTemplateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Game $game, InstructsTemplate $instructsTemplate=null)
     {
@@ -76,7 +77,7 @@ class InstructsTemplateController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(InstructsTemplate $instructsTemplate)
     {

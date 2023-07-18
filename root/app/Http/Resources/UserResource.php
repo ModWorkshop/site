@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Arr;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -11,7 +12,7 @@ class UserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)
@@ -20,7 +21,7 @@ class UserResource extends JsonResource
         $user = $request->user();
 
         $isMe = $user?->id === $this->id;
-        $notMeNotGuest = isset($user) && !$isMe;        
+        $notMeNotGuest = isset($user) && !$isMe;
 
         return [
             'id' => $this->id,
@@ -40,8 +41,8 @@ class UserResource extends JsonResource
             'activated' => $this->when($isMe, $this->activated),
             'followed' => $this->whenLoaded('followed'),
             'role_ids' => $this->whenLoaded('roles', fn() => array_filter(Arr::pluck($this->roles, 'id'), fn($id) => $id !== 1)),
-            'game_role_ids' => $this->when(isset($this->eagerLoadedGameId), fn() => Arr::pluck($this->gameRoles, 'id')),
-            'game_highest_role_order' => $this->when(isset($this->eagerLoadedGameId), fn() => $this->getGameHighestOrder($this->eagerLoadedGameId, true)),
+            'game_role_ids' => $this->when(!empty($this->eagerLoadedGameId), fn() => Arr::pluck($this->gameRoles, 'id')),
+            'game_highest_role_order' => $this->when(!empty($this->eagerLoadedGameId), fn() => $this->getGameHighestOrder($this->eagerLoadedGameId, true)),
             'last_online' => $this->when($this->isVisibleForProfile('last_online'), $this->last_online),
             'blocked_by_me' => $this->when($notMeNotGuest, fn() => $this->blockedByMe),
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),

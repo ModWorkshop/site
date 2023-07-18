@@ -12,6 +12,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Log;
 
 class BanController extends Controller
@@ -23,7 +24,7 @@ class BanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -31,7 +32,7 @@ class BanController extends Controller
             'user_id' => 'int|min:1|nullable|exists:users,id',
             'limit' => 'integer|min:1|max:1000',
         ]);
-        
+
         return JsonResource::collection(Ban::queryGet($val, function($query) use ($game, $val) {
             if (isset($game)) {
                 $query->where('game_id', $game->id);
@@ -51,8 +52,8 @@ class BanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Game $game=null)
     {
@@ -91,16 +92,16 @@ class BanController extends Controller
         $ban = Ban::create($val);
         $ban->load('user');
 
-        
+
         return $ban;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Ban $ban)
     {
@@ -125,7 +126,7 @@ class BanController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Ban $ban)
     {
@@ -136,7 +137,7 @@ class BanController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Ban $ban)
     {

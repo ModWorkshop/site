@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Storage;
 
 /**
@@ -16,23 +19,23 @@ use Storage;
  * @property string $file
  * @property string $type
  * @property int $size
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image query()
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereFile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereHasThumb($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Image newModelQuery()
+ * @method static Builder|Image newQuery()
+ * @method static Builder|Image query()
+ * @method static Builder|Image whereCreatedAt($value)
+ * @method static Builder|Image whereFile($value)
+ * @method static Builder|Image whereHasThumb($value)
+ * @method static Builder|Image whereId($value)
+ * @method static Builder|Image whereSize($value)
+ * @method static Builder|Image whereType($value)
+ * @method static Builder|Image whereUpdatedAt($value)
+ * @method static Builder|Image whereUserId($value)
  * @property int $mod_id
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereModId($value)
- * @property-read \App\Models\Mod $mod
- * @mixin \Eloquent
+ * @method static Builder|Image whereModId($value)
+ * @property-read Mod $mod
+ * @mixin Eloquent
  */
 class Image extends Model
 {

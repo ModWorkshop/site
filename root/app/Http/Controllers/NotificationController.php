@@ -9,6 +9,7 @@ use App\Services\APIService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class NotificationController extends Controller
 {
@@ -24,7 +25,7 @@ class NotificationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request)
     {
@@ -41,15 +42,15 @@ class NotificationController extends Controller
                 $query->where('seen', false);
             }
         });
-        
+
         return NotificationResource::collection($notifications);
     }
 
     /**
      * Display the specified resource.
-     * 
+     *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Notification $notification)
     {
@@ -59,9 +60,9 @@ class NotificationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Notification $notification)
     {
@@ -76,7 +77,7 @@ class NotificationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Notification $notification)
     {

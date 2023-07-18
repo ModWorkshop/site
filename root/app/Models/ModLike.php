@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ModLike
@@ -11,17 +14,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $mod_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike query()
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike whereModId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModLike whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|ModLike newModelQuery()
+ * @method static Builder|ModLike newQuery()
+ * @method static Builder|ModLike query()
+ * @method static Builder|ModLike whereCreatedAt($value)
+ * @method static Builder|ModLike whereId($value)
+ * @method static Builder|ModLike whereModId($value)
+ * @method static Builder|ModLike whereUpdatedAt($value)
+ * @method static Builder|ModLike whereUserId($value)
+ * @mixin Eloquent
  */
 class ModLike extends Model
 {

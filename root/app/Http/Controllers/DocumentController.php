@@ -8,6 +8,7 @@ use App\Models\Game;
 use Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class DocumentController extends Controller
 {
@@ -17,25 +18,36 @@ class DocumentController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
-        return JsonResource::collection(Document::queryGet($request->val(), function($q) use($game) {
+        $val = $request->val([
+            'get_unlisted' => 'boolean',
+        ]);
+
+        $user = $this->user();
+
+        $manageDocs = $user->hasPermission('manage-documents');
+        $manageDocsGame = $user->hasPermission('manage-documents', $game);
+
+        return JsonResource::collection(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
+            $getUnlisted = Arr::get($val, 'get_unlisted');
             if (isset($game)) {
                 $q->where('game_id', $game->id);
+                if (!$getUnlisted || !$manageDocsGame) {
+                    $q->where('is_unlisted', false);
+                }
             } else {
                 $q->whereNull('game_id');
+                if (!$getUnlisted || !$manageDocs) {
+                    $q->where('is_unlisted', false);
+                }
             }
         }));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Game $game)
     {
@@ -44,9 +56,6 @@ class DocumentController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function getDocument(Request $request, $document)
     {
@@ -61,16 +70,13 @@ class DocumentController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Document $document=null)
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
             'desc' => 'string|min:3|max:50000',
+            'is_unlisted' => 'boolean|nullable',
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'url_name' => 'string|nullable|max:30|alpha_dash'
         ]);
@@ -106,9 +112,6 @@ class DocumentController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Document $document)
     {

@@ -7,6 +7,7 @@ use App\Http\Resources\TagResource;
 use App\Models\Game;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Log;
 
 /**
@@ -21,7 +22,7 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -52,8 +53,8 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Game $game=null)
     {
@@ -64,7 +65,7 @@ class TagController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Tag $tag)
     {
@@ -74,9 +75,9 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Game $game=null, Tag $tag=null)
     {
@@ -107,7 +108,7 @@ class TagController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Tag $tag)
     {

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\FollowedGame
@@ -12,18 +15,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property int $game_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame query()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedGame whereUserId($value)
- * @property-read \App\Models\User $user
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|FollowedGame newModelQuery()
+ * @method static Builder|FollowedGame newQuery()
+ * @method static Builder|FollowedGame query()
+ * @method static Builder|FollowedGame whereCreatedAt($value)
+ * @method static Builder|FollowedGame whereGameId($value)
+ * @method static Builder|FollowedGame whereId($value)
+ * @method static Builder|FollowedGame whereUpdatedAt($value)
+ * @method static Builder|FollowedGame whereUserId($value)
+ * @property-read User $user
+ * @mixin Eloquent
  */
 class FollowedGame extends Model
 {

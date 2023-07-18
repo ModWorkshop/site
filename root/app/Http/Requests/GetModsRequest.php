@@ -27,7 +27,7 @@ class GetModsRequest extends FilteredRequest
     {
         return [
             ...parent::rules(),
-            // How many mods should this return. 
+            // How many mods should this return.
             'game_id' => 'integer|nullable|min:1|exists:games,id',
             'category_id' => 'integer|nullable|min:1|exists:categories,id',
             'tags' => 'array|max:10',
@@ -50,6 +50,7 @@ class GetModsRequest extends FilteredRequest
                 'weekly_score',
                 'daily_score',
                 'random',
+                'best_match',
                 'name'
             ])
         ];

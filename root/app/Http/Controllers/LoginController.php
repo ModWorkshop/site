@@ -38,15 +38,15 @@ use Throwable;
 class LoginController extends Controller
 {
     public function __construct() {
-        
+
     }
     /**
      * Login
-     * 
+     *
      * Attempts to login a user with the provided username and password
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function login(Request $request)
     {
@@ -68,13 +68,13 @@ class LoginController extends Controller
 
     /**
      * Logout
-     * 
+     *
      * Logs out the currently authenticated user.
      *
      * @authenticated
-     * 
+     *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function logout(Request $request) {
         Auth::logout();
@@ -84,11 +84,11 @@ class LoginController extends Controller
 
     /**
      * Register
-     * 
+     *
      * Attempts to register users
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function register(Request $request)
     {
@@ -105,7 +105,7 @@ class LoginController extends Controller
         }
 
         $avatarFile = Arr::pull($val, 'avatar_file');
-        
+
         $avatar = APIService::storeImage($avatarFile, 'users/images');
 
         $user = User::forceCreate([
@@ -229,7 +229,7 @@ class LoginController extends Controller
                 'avatar' => $avatarFileName,
                 'activated' => true
             ]);
-    
+
             //Create a social login so the user can login with it later
             SocialLogin::create([
                 'social_id' => $provider,
@@ -243,7 +243,7 @@ class LoginController extends Controller
                 Utils::partlyRestoreUser($record, $user->id);
             }
         }
-    
+
         //Attention: this only runs AFTER we verify the user has logged in. This data is returned by the provider, therefore we can safely login the user.
         if (Auth::login($user, true)) {
             $request->session()->regenerate();
@@ -277,17 +277,17 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],
         ]);
-     
+
         $status = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
-    
+
             $user->save();
-    
+
             event(new PasswordReset($user));
         });
-    
+
         return __($status);
     }
 
@@ -300,7 +300,7 @@ class LoginController extends Controller
         if (!$reset) {
             return false;
         }
-        
+
         return Hash::check($request->token, $reset->token);
     }
 }

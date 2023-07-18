@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Taggable
@@ -12,18 +15,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $tag_id
  * @property string $taggable_type
  * @property int $taggable_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable query()
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereTagId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereTaggableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereTaggableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Taggable whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Taggable newModelQuery()
+ * @method static Builder|Taggable newQuery()
+ * @method static Builder|Taggable query()
+ * @method static Builder|Taggable whereCreatedAt($value)
+ * @method static Builder|Taggable whereId($value)
+ * @method static Builder|Taggable whereTagId($value)
+ * @method static Builder|Taggable whereTaggableId($value)
+ * @method static Builder|Taggable whereTaggableType($value)
+ * @method static Builder|Taggable whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Taggable extends Model
 {

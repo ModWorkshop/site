@@ -208,9 +208,9 @@ Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
-    $fiveMinAgo = Carbon::now()->subMinutes(5);
-    $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $fiveMinAgo)->count();
-    $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $fiveMinAgo)->count();
+    $MinAgo = Carbon::now()->subMinutes(15);
+    $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $MinAgo)->count();
+    $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $MinAgo)->count();
 
     $data = [
         'unseen_notifications' => $unseen,

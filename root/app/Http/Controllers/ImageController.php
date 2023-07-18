@@ -20,9 +20,13 @@ class ImageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(FilteredRequest $request, Mod $mod)
+    public function index(Request $request, Mod $mod)
     {
-        return JsonResource::collection($mod->images()->queryGet($request->val()));
+        $val = $request->validate([
+            'limit' => 'integer|min:1|max:50'
+        ]);
+
+        return JsonResource::collection($mod->images()->queryGet($val));
     }
 
     /**
@@ -47,7 +51,7 @@ class ImageController extends Controller
             'size' => $size
         ] = APIService::storeImage($file, 'mods/images', null, 300);
 
-        $img = Image::create([
+        return Image::create([
             'user_id' => $this->userId(),
             'mod_id' => $mod->id,
             'file' => $name,
@@ -55,8 +59,6 @@ class ImageController extends Controller
             'type' => $type,
             'size' => $size
         ]);
-
-        return $img;
     }
 
     /**

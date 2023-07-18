@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Services\ModService;
 use Carbon\Carbon;
+use Database\Factories\CategoryFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,29 +34,29 @@ use Storage;
  * @property-read Category|null $game
  * @property-read mixed $path
  * @property-read Category|null $parent
- * @method static \Database\Factories\CategoryFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereApprovalOnly($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereBanner($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereButtons($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereDisporder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereGrid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereHidden($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereLastDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereShortName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereThumbnail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereWebhookUrl($value)
+ * @method static CategoryFactory factory(...$parameters)
+ * @method static Builder|Category newModelQuery()
+ * @method static Builder|Category newQuery()
+ * @method static Builder|Category query()
+ * @method static Builder|Category whereApprovalOnly($value)
+ * @method static Builder|Category whereBanner($value)
+ * @method static Builder|Category whereButtons($value)
+ * @method static Builder|Category whereCreatedAt($value)
+ * @method static Builder|Category whereDesc($value)
+ * @method static Builder|Category whereDisporder($value)
+ * @method static Builder|Category whereGameId($value)
+ * @method static Builder|Category whereGrid($value)
+ * @method static Builder|Category whereHidden($value)
+ * @method static Builder|Category whereId($value)
+ * @method static Builder|Category whereLastDate($value)
+ * @method static Builder|Category whereName($value)
+ * @method static Builder|Category whereParentId($value)
+ * @method static Builder|Category whereShortName($value)
+ * @method static Builder|Category whereThumbnail($value)
+ * @method static Builder|Category whereUpdatedAt($value)
+ * @method static Builder|Category whereWebhookUrl($value)
  * @property-read mixed $breadcrumb
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Category extends Model
 {

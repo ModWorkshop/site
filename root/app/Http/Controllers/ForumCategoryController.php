@@ -14,6 +14,7 @@ use Arr;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class ForumCategoryController extends Controller
 {
@@ -24,7 +25,7 @@ class ForumCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request)
     {
@@ -49,8 +50,8 @@ class ForumCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Game $game=null)
     {
@@ -61,7 +62,7 @@ class ForumCategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(ForumCategory $forumCategory)
     {
@@ -71,9 +72,9 @@ class ForumCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, ForumCategory $forumCategory=null, Game $game=null)
     {
@@ -160,7 +161,7 @@ class ForumCategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(ForumCategory $forumCategory)
     {

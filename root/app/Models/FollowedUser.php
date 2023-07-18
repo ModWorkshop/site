@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\FollowedUser
@@ -13,19 +16,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $follow_user_id
  * @property bool $notify
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser query()
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereFollowUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereNotify($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FollowedUser whereUserId($value)
- * @property-read \App\Models\User $user
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|FollowedUser newModelQuery()
+ * @method static Builder|FollowedUser newQuery()
+ * @method static Builder|FollowedUser query()
+ * @method static Builder|FollowedUser whereCreatedAt($value)
+ * @method static Builder|FollowedUser whereFollowUserId($value)
+ * @method static Builder|FollowedUser whereId($value)
+ * @method static Builder|FollowedUser whereNotify($value)
+ * @method static Builder|FollowedUser whereUpdatedAt($value)
+ * @method static Builder|FollowedUser whereUserId($value)
+ * @property-read User $user
+ * @mixin Eloquent
  */
 class FollowedUser extends Model
 {

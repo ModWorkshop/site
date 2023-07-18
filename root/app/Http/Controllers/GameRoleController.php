@@ -12,6 +12,7 @@ use App\Services\APIService;
 use App\Services\RoleService;
 use Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,7 +25,7 @@ class GameRoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game)
     {
@@ -50,8 +51,8 @@ class GameRoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(UpsertRoleRequest $request, Game $game)
     {
@@ -62,7 +63,7 @@ class GameRoleController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Game $game, GameRole $gameRole)
     {
@@ -73,9 +74,9 @@ class GameRoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(UpsertRoleRequest $request, Game $game, GameRole $gameRole=null)
     {
@@ -135,7 +136,7 @@ class GameRoleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Game $game, GameRole $gameRole)
     {

@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Arr;
 use Auth;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ForumCategory
@@ -17,33 +21,33 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string $name
  * @property string $desc
  * @property int $forum_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereForumId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereUpdatedAt($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|ForumCategory newModelQuery()
+ * @method static Builder|ForumCategory newQuery()
+ * @method static Builder|ForumCategory query()
+ * @method static Builder|ForumCategory whereCreatedAt($value)
+ * @method static Builder|ForumCategory whereDesc($value)
+ * @method static Builder|ForumCategory whereForumId($value)
+ * @method static Builder|ForumCategory whereId($value)
+ * @method static Builder|ForumCategory whereName($value)
+ * @method static Builder|ForumCategory whereUpdatedAt($value)
  * @property string $emoji
- * @property-read \App\Models\Forum $forum
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereEmoji($value)
+ * @property-read Forum $forum
+ * @method static Builder|ForumCategory whereEmoji($value)
  * @property bool $is_private
  * @property bool $private_threads
  * @property bool $banned_can_post
  * @property string|null $announce_until
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GameRole[] $gameRoles
+ * @property-read Collection|GameRole[] $gameRoles
  * @property-read int|null $game_roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereAnnounceUntil($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereBannedCanPost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory whereIsPrivate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ForumCategory wherePrivateThreads($value)
- * @mixin \Eloquent
+ * @method static Builder|ForumCategory whereAnnounceUntil($value)
+ * @method static Builder|ForumCategory whereBannedCanPost($value)
+ * @method static Builder|ForumCategory whereIsPrivate($value)
+ * @method static Builder|ForumCategory wherePrivateThreads($value)
+ * @mixin Eloquent
  */
 class ForumCategory extends Model
 {
@@ -85,7 +89,7 @@ class ForumCategory extends Model
             return (object)$roles;
         });
     }
- 
+
     public function roles(): MorphToMany
     {
         return $this->morphedByMany(Role::class, 'role', 'forum_category_roles')->withPivot(['can_view', 'can_post']);
@@ -104,13 +108,13 @@ class ForumCategory extends Model
     {
         return Attribute::make(function() {
             $user = Auth::user();
-    
+
             if (isset($user) && $user->hasPermission('manage-discussions')) {
                 return true;
             }
-    
+
             $canView = true;
-    
+
             foreach ($this->roles as $role) {
                 if ($role->id === 1 || (isset($user) && $user->hasRole($role->id))) {
                     if ($role->id !== 1 && $role->pivot->can_view === true) {
@@ -120,7 +124,7 @@ class ForumCategory extends Model
                     }
                 }
             }
-    
+
             if (isset($this->game_id)) {
                 foreach ($this->gameRoles as $role) {
                     if ((isset($user) && $user->hasGameRole($this->game_id, $role->id))) {
@@ -132,7 +136,7 @@ class ForumCategory extends Model
                     }
                 }
             }
-    
+
             return $canView && !$this->is_private;
         });
     }
@@ -145,18 +149,18 @@ class ForumCategory extends Model
     {
         return Attribute::make(function() {
             $user = Auth::user();
-            
+
             //Only users can post of course
             if (!isset($user)) {
                 return false;
             }
-    
+
             if ($user->hasPermission('manage-discussions')) {
                 return true;
             }
-    
+
             $canPost = true;
-    
+
             foreach ($this->roles as $role) {
                 if ($role->id === 1 || (isset($user) && $user->hasRole($role->id))) {
                     if ($role->id !== 1 && $role->pivot->can_post === true) {
@@ -166,7 +170,7 @@ class ForumCategory extends Model
                     }
                 }
             }
-    
+
             if (isset($this->game_id)) {
                 foreach ($this->gameRoles as $role) {
                     if ((isset($user) && $user->hasGameRole($this->game_id, $role->id))) {
@@ -178,7 +182,7 @@ class ForumCategory extends Model
                     }
                 }
             }
-    
+
             return $canPost && !$this->is_private;
         });
     }

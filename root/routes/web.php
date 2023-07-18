@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laminas\Diactoros\Response\JsonResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,8 @@ Route::middleware($middleware)->group(function () use ($prefix) {
     Route::get("$prefix.openapi", function () {
         return response()->file(Storage::disk('local')->path('scribe/openapi.yaml'));
     })->name('scribe.openapi');
+});
+
+Route::name('login')->get('login', function() {
+    return abort(401);
 });

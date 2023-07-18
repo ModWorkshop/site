@@ -6,16 +6,17 @@ use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Auth;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
+use Eloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
@@ -29,41 +30,41 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  * @property string $content
  * @property bool $pinned
  * @property int|null $reply_to
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Model|\Eloquent $commentable
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $lastReplies
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Model|Eloquent $commentable
+ * @property-read Collection|Comment[] $lastReplies
  * @property-read int|null $last_replies_count
  * @property-read Comment $replyingComment
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment wherePinned($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereReplyTo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $mentions
+ * @property-read User $user
+ * @method static Builder|Comment newModelQuery()
+ * @method static Builder|Comment newQuery()
+ * @method static Builder|Comment query()
+ * @method static Builder|Comment whereCommentableId($value)
+ * @method static Builder|Comment whereCommentableType($value)
+ * @method static Builder|Comment whereContent($value)
+ * @method static Builder|Comment whereCreatedAt($value)
+ * @method static Builder|Comment whereId($value)
+ * @method static Builder|Comment wherePinned($value)
+ * @method static Builder|Comment whereReplyTo($value)
+ * @method static Builder|Comment whereUpdatedAt($value)
+ * @method static Builder|Comment whereUserId($value)
+ * @property-read Collection|User[] $mentions
  * @property-read int|null $mentions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read Collection|Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $replies
+ * @property-read Collection|Comment[] $replies
  * @property-read int|null $replies_count
- * @property-read \App\Models\Subscription|null $subscribed
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read Subscription|null $subscribed
+ * @property-read Collection|Report[] $reports
  * @property-read int|null $reports_count
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Comment extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable;
 
-    protected $with = ['user', 'replies', 'subscribed'];
+    protected $with = ['user', 'replies', 'mentions', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
     protected $saveToReport = ['content'];

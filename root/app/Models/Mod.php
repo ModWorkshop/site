@@ -11,9 +11,10 @@ use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Auth;
 use Carbon\Carbon;
-use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
-use Chelout\RelationshipEvents\Traits\HasRelationshipObservables;
+use Database\Factories\ModFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -62,12 +63,12 @@ abstract class Visibility {
  * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Category|null $category
- * @property-read \App\Models\Game|null $game
- * @property-read \App\Models\User|null $user
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read Category|null $category
+ * @property-read Game|null $game
+ * @property-read User|null $user
+ * @property-read Collection|Tag[] $tags
  * @property-read int|null $tags_count
- * @method static \Database\Factories\ModFactory factory(...$parameters)
+ * @method static ModFactory factory(...$parameters)
  * @method static Builder|Mod list()
  * @method static Builder|Mod newModelQuery()
  * @method static Builder|Mod newQuery()
@@ -102,58 +103,58 @@ abstract class Visibility {
  * @method static Builder|Mod whereVisibility($value)
  * @property-read void $breadcrumb
  * @property-read mixed $tag_ids
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read Collection|Image[] $images
  * @property-read int|null $images_count
  * @property int|null $
  * _id
  * @property string|null $download_type
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
+ * @property-read Collection|File[] $files
  * @property-read int|null $files_count
  * @method static Builder|Mod whereDownloadId($value)
  * @method static Builder|Mod whereDownloadType($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read Collection|Comment[] $comments
  * @property-read int|null $comment_count
- * @property-read Model|\Eloquent $download
+ * @property-read Model|Eloquent $download
  * @method static Builder|Mod whereUserId($value)
- * @property-read \App\Models\Image|null $thumbnail
+ * @property-read Image|null $thumbnail
  * @property int|null $banner_id
- * @property-read \App\Models\Image|null $banner
+ * @property-read Image|null $banner
  * @property-read bool $liked
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Link[] $links
+ * @property-read Collection|Link[] $links
  * @property-read int|null $links_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ModMember[] $members
+ * @property-read Collection|ModMember[] $members
  * @property-read int|null $members_count
  * @method static Builder|Mod whereBannerId($value)
  * @method static Builder|Mod whereLikes($value)
  * @method static Builder|Mod whereBumpedAt($value)
  * @method static Builder|Mod wherePublishedAt($value)
- * @property-read \App\Models\TransferRequest|null $transferRequest
+ * @property-read TransferRequest|null $transferRequest
  * @property int|null $last_user_id
- * @property-read \App\Models\User|null $lastUser
+ * @property-read User|null $lastUser
  * @method static Builder|Mod whereLastUserId($value)
  * @property string $access_ids
- * @property-read \App\Models\Follows|null $follows
- * @property-read \App\Models\Follows|null $followsUsingCategory
- * @property-read \App\Models\Suspension|null $lastSuspension
- * @property-read \App\Models\FollowedMod|null $followed
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Taggable[] $tagsSpecial
+ * @property-read Follows|null $follows
+ * @property-read Follows|null $followsUsingCategory
+ * @property-read Suspension|null $lastSuspension
+ * @property-read FollowedMod|null $followed
+ * @property-read Collection|Taggable[] $tagsSpecial
  * @property-read int|null $tags_special_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $subscriptions
+ * @property-read Collection|Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FollowedMod[] $followers
+ * @property-read Collection|FollowedMod[] $followers
  * @property-read int|null $followers_count
- * @property-read \App\Models\Subscription|null $subscribed
+ * @property-read Subscription|null $subscribed
  * @property bool $has_download
  * @property bool $approved
  * @method static Builder|Mod whereApproved($value)
  * @method static Builder|Mod whereHasDownload($value)
  * @property int|null $instructs_template_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
+ * @property-read Collection|Dependency[] $dependencies
  * @property-read int|null $dependencies_count
- * @property-read \App\Models\InstructsTemplate|null $instructsTemplate
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $membersThatCanEdit
+ * @property-read InstructsTemplate|null $instructsTemplate
+ * @property-read Collection|User[] $membersThatCanEdit
  * @property-read int|null $members_that_can_edit_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Report[] $reports
+ * @property-read Collection|Report[] $reports
  * @property-read int|null $reports_count
  * @method static Builder|Mod whereInstructsTemplateId($value)
  * @property float $daily_score
@@ -162,7 +163,10 @@ abstract class Visibility {
  * @method static Builder|Mod whereAllowedStorage($value)
  * @method static Builder|Mod whereDailyScore($value)
  * @method static Builder|Mod whereWeeklyScore($value)
- * @mixin \Eloquent
+ * @property int|null $download_id
+ * @property-read BlockedUser|null $blockedByMe
+ * @property-read int|null $comments_count
+ * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
 {
@@ -464,7 +468,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function publish(bool $save=true)
     {
-        if (!$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
+        if (isset($this->published_at) || !$this->approved || !$this->has_download || $this->visibility != Visibility::public) {
             return;
         }
 

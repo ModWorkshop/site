@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Auth;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Notification
@@ -19,30 +21,30 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $type
  * @property bool $seen
  * @property mixed $data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereContextId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereContextType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereSeen($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
- * @property-read Model|\Eloquent $context
- * @property-read Model|\Eloquent $notifiable
- * @property-read \App\Models\User $user
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Notification newModelQuery()
+ * @method static Builder|Notification newQuery()
+ * @method static Builder|Notification query()
+ * @method static Builder|Notification whereContextId($value)
+ * @method static Builder|Notification whereContextType($value)
+ * @method static Builder|Notification whereCreatedAt($value)
+ * @method static Builder|Notification whereData($value)
+ * @method static Builder|Notification whereId($value)
+ * @method static Builder|Notification whereNotifiableId($value)
+ * @method static Builder|Notification whereNotifiableType($value)
+ * @method static Builder|Notification whereSeen($value)
+ * @method static Builder|Notification whereType($value)
+ * @method static Builder|Notification whereUpdatedAt($value)
+ * @property-read Model|Eloquent $context
+ * @property-read Model|Eloquent $notifiable
+ * @property-read User $user
  * @property int $user_id
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
+ * @method static Builder|Notification whereUserId($value)
  * @property int|null $from_user_id
- * @property-read \App\Models\User|null $fromUser
+ * @property-read User|null $fromUser
  * @method static Builder|Notification whereFromUserId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Notification extends Model
 {

@@ -6,7 +6,9 @@ use App\Models\Mod;
 use App\Models\ModMember;
 use App\Models\Notification;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Log;
 
 const MOD_MEMBER_RULES_OVER = [
@@ -23,8 +25,8 @@ class ModMemberController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, Mod $mod)
     {
@@ -64,19 +66,20 @@ class ModMemberController extends Controller
 
         Notification::send(
             notifiable: $mod,
+            context: $member,
             user: $user,
             type: 'membership_request'
         );
 
-        return [...$member->toArray(), 'level' => $member->pivot->level];
+        return [...$member->toArray(), 'created_at' => Carbon::now(), 'level' => $member->pivot->level];
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Mod $mod, User $member)
     {
@@ -102,7 +105,7 @@ class ModMemberController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, Mod $mod, User $member)
     {
@@ -120,6 +123,8 @@ class ModMemberController extends Controller
                 abort(403);
             }
         }
+
+        Notification::deleteRelated($member,'membership_request');
 
         $mod->members()->detach($member);
     }

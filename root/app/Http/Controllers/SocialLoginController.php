@@ -6,6 +6,7 @@ use App\Models\SocialLogin;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Socialite;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
@@ -13,13 +14,13 @@ use Throwable;
 class SocialLoginController extends Controller
 {
     public function __construct() {
-        
+
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -60,7 +61,7 @@ class SocialLoginController extends Controller
         } catch (Throwable $e) {
             abort(400);
         }
-        
+
         $user = $this->user();
 
         /** @var SocialLogin */
@@ -95,7 +96,7 @@ class SocialLoginController extends Controller
             $user->activated = false;
             $user->save();
         }
-        
+
 
         $socialLogin->delete();
     }

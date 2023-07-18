@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\SocialLogin
@@ -13,19 +16,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $user_id
  * @property string $social_id
  * @property string $special_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin query()
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereSocialId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereSpecialId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SocialLogin whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User|null $user
+ * @method static Builder|SocialLogin newModelQuery()
+ * @method static Builder|SocialLogin newQuery()
+ * @method static Builder|SocialLogin query()
+ * @method static Builder|SocialLogin whereCreatedAt($value)
+ * @method static Builder|SocialLogin whereId($value)
+ * @method static Builder|SocialLogin whereSocialId($value)
+ * @method static Builder|SocialLogin whereSpecialId($value)
+ * @method static Builder|SocialLogin whereUpdatedAt($value)
+ * @method static Builder|SocialLogin whereUserId($value)
+ * @mixin Eloquent
  */
 class SocialLogin extends Model
 {

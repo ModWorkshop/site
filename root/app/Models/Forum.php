@@ -2,33 +2,37 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Forum
  *
  * @property int $id
  * @property int|null $game_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Forum newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Forum newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Forum query()
- * @method static \Illuminate\Database\Eloquent\Builder|Forum whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Forum whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Forum whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Forum whereUpdatedAt($value)
- * @property-read \App\Models\Game|null $game
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thread[] $threads
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Forum newModelQuery()
+ * @method static Builder|Forum newQuery()
+ * @method static Builder|Forum query()
+ * @method static Builder|Forum whereCreatedAt($value)
+ * @method static Builder|Forum whereGameId($value)
+ * @method static Builder|Forum whereId($value)
+ * @method static Builder|Forum whereUpdatedAt($value)
+ * @property-read Game|null $game
+ * @property-read Collection|Thread[] $threads
  * @property-read int|null $threads_count
  * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumCategory[] $categories
+ * @property-read Collection|ForumCategory[] $categories
  * @property-read int|null $categories_count
- * @method static \Illuminate\Database\Eloquent\Builder|Forum whereName($value)
- * @mixin \Eloquent
+ * @method static Builder|Forum whereName($value)
+ * @mixin Eloquent
  */
 class Forum extends Model
 {

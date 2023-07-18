@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.6.2.
+ * Generated for Laravel 10.14.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1762,7 +1762,7 @@
                     /**
          * Set the Artisan application instance.
          *
-         * @param \Illuminate\Console\Application $artisan
+         * @param \Illuminate\Console\Application|null $artisan
          * @return void 
          * @static 
          */ 
@@ -2293,13 +2293,13 @@
          * Set the current user.
          *
          * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return void 
+         * @return \Illuminate\Auth\SessionGuard 
          * @static 
          */ 
         public static function setUser($user)
         {
                         /** @var \Illuminate\Auth\SessionGuard $instance */
-                        $instance->setUser($user);
+                        return $instance->setUser($user);
         }
                     /**
          * Get the current request instance.
@@ -3333,13 +3333,13 @@
          * Specify the jobs that should be dispatched instead of faked.
          *
          * @param array|string $jobsToDispatch
-         * @return void 
+         * @return \Illuminate\Support\Testing\Fakes\BusFake 
          * @static 
          */ 
         public static function except($jobsToDispatch)
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
-                        $instance->except($jobsToDispatch);
+                        return $instance->except($jobsToDispatch);
         }
                     /**
          * Assert if a job was dispatched based on a truth-test callback.
@@ -4283,6 +4283,28 @@
                         return $instance->macroCall($method, $parameters);
         }
                     /**
+         * Remove all items from the cache.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function flush()
+        {
+                        /** @var \Illuminate\Cache\ArrayStore $instance */
+                        return $instance->flush();
+        }
+                    /**
+         * Get the cache key prefix.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getPrefix()
+        {
+                        /** @var \Illuminate\Cache\ArrayStore $instance */
+                        return $instance->getPrefix();
+        }
+                    /**
          * Get a lock instance.
          *
          * @param string $name
@@ -4293,7 +4315,7 @@
          */ 
         public static function lock($name, $seconds = 0, $owner = null)
         {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        /** @var \Illuminate\Cache\ArrayStore $instance */
                         return $instance->lock($name, $seconds, $owner);
         }
                     /**
@@ -4306,110 +4328,8 @@
          */ 
         public static function restoreLock($name, $owner)
         {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        /** @var \Illuminate\Cache\ArrayStore $instance */
                         return $instance->restoreLock($name, $owner);
-        }
-                    /**
-         * Remove all items from the cache.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function flush()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->flush();
-        }
-                    /**
-         * Remove all expired tag set entries.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function flushStaleTags()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->flushStaleTags();
-        }
-                    /**
-         * Get the Redis connection instance.
-         *
-         * @return \Illuminate\Redis\Connections\Connection 
-         * @static 
-         */ 
-        public static function connection()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->connection();
-        }
-                    /**
-         * Get the Redis connection instance that should be used to manage locks.
-         *
-         * @return \Illuminate\Redis\Connections\Connection 
-         * @static 
-         */ 
-        public static function lockConnection()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->lockConnection();
-        }
-                    /**
-         * Specify the name of the connection that should be used to store data.
-         *
-         * @param string $connection
-         * @return void 
-         * @static 
-         */ 
-        public static function setConnection($connection)
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        $instance->setConnection($connection);
-        }
-                    /**
-         * Specify the name of the connection that should be used to manage locks.
-         *
-         * @param string $connection
-         * @return \Illuminate\Cache\RedisStore 
-         * @static 
-         */ 
-        public static function setLockConnection($connection)
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->setLockConnection($connection);
-        }
-                    /**
-         * Get the Redis database instance.
-         *
-         * @return \Illuminate\Contracts\Redis\Factory 
-         * @static 
-         */ 
-        public static function getRedis()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->getRedis();
-        }
-                    /**
-         * Get the cache key prefix.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getPrefix()
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        return $instance->getPrefix();
-        }
-                    /**
-         * Set the cache key prefix.
-         *
-         * @param string $prefix
-         * @return void 
-         * @static 
-         */ 
-        public static function setPrefix($prefix)
-        {
-                        /** @var \Illuminate\Cache\RedisStore $instance */
-                        $instance->setPrefix($prefix);
         }
          
     }
@@ -5353,7 +5273,7 @@
                     /**
          * Begin a fluent query against a database table.
          *
-         * @param \Closure|\Illuminate\Database\Query\Builder|string $table
+         * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|string $table
          * @param string|null $as
          * @return \Illuminate\Database\Query\Builder 
          * @static 
@@ -5678,6 +5598,19 @@
         {            //Method inherited from \Illuminate\Database\Connection         
                         /** @var \Illuminate\Database\PostgresConnection $instance */
                         return $instance->raw($value);
+        }
+                    /**
+         * Escape a value for safe SQL embedding.
+         *
+         * @param string|float|int|bool|null $value
+         * @param bool $binary
+         * @return string 
+         * @static 
+         */ 
+        public static function escape($value, $binary = false)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\PostgresConnection $instance */
+                        return $instance->escape($value, $binary);
         }
                     /**
          * Determine if the database connection has modified any database records.
@@ -7581,6 +7514,18 @@
                         return $instance->policies();
         }
                     /**
+         * Set the default denial response for gates and policies.
+         *
+         * @param \Illuminate\Auth\Access\Response $response
+         * @return \Illuminate\Auth\Access\Gate 
+         * @static 
+         */ 
+        public static function defaultDenialResponse($response)
+        {
+                        /** @var \Illuminate\Auth\Access\Gate $instance */
+                        return $instance->defaultDenialResponse($response);
+        }
+                    /**
          * Set the container instance used by the gate.
          *
          * @param \Illuminate\Contracts\Container\Container $container
@@ -7714,6 +7659,18 @@
                         return $instance->needsRehash($hashedValue, $options);
         }
                     /**
+         * Determine if a given string is already hashed.
+         *
+         * @param string $value
+         * @return bool 
+         * @static 
+         */ 
+        public static function isHashed($value)
+        {
+                        /** @var \Illuminate\Hashing\HashManager $instance */
+                        return $instance->isHashed($value);
+        }
+                    /**
          * Get the default driver name.
          *
          * @return string 
@@ -7807,10 +7764,13 @@
      * @method static \Illuminate\Http\Client\PendingRequest attach(string|array $name, string|resource $contents = '', string|null $filename = null, array $headers = [])
      * @method static \Illuminate\Http\Client\PendingRequest asMultipart()
      * @method static \Illuminate\Http\Client\PendingRequest bodyFormat(string $format)
+     * @method static \Illuminate\Http\Client\PendingRequest withQueryParameters(array $parameters)
      * @method static \Illuminate\Http\Client\PendingRequest contentType(string $contentType)
      * @method static \Illuminate\Http\Client\PendingRequest acceptJson()
      * @method static \Illuminate\Http\Client\PendingRequest accept(string $contentType)
      * @method static \Illuminate\Http\Client\PendingRequest withHeaders(array $headers)
+     * @method static \Illuminate\Http\Client\PendingRequest withHeader(string $name, mixed $value)
+     * @method static \Illuminate\Http\Client\PendingRequest replaceHeaders(array $headers)
      * @method static \Illuminate\Http\Client\PendingRequest withBasicAuth(string $username, string $password)
      * @method static \Illuminate\Http\Client\PendingRequest withDigestAuth(string $username, string $password)
      * @method static \Illuminate\Http\Client\PendingRequest withToken(string $token, string $type = 'Bearer')
@@ -7826,6 +7786,8 @@
      * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, Closure|int $sleepMilliseconds = 0, callable|null $when = null, bool $throw = true)
      * @method static \Illuminate\Http\Client\PendingRequest withOptions(array $options)
      * @method static \Illuminate\Http\Client\PendingRequest withMiddleware(callable $middleware)
+     * @method static \Illuminate\Http\Client\PendingRequest withRequestMiddleware(callable $middleware)
+     * @method static \Illuminate\Http\Client\PendingRequest withResponseMiddleware(callable $middleware)
      * @method static \Illuminate\Http\Client\PendingRequest beforeSending(callable $callback)
      * @method static \Illuminate\Http\Client\PendingRequest throw(callable|null $callback = null)
      * @method static \Illuminate\Http\Client\PendingRequest throwIf(callable|bool $condition, callable|null $throwCallback = null)
@@ -7860,6 +7822,42 @@
      * @see \Illuminate\Http\Client\Factory
      */ 
         class Http {
+                    /**
+         * Add middleware to apply to every request.
+         *
+         * @param callable $middleware
+         * @return \Illuminate\Http\Client\Factory 
+         * @static 
+         */ 
+        public static function globalMiddleware($middleware)
+        {
+                        /** @var \Illuminate\Http\Client\Factory $instance */
+                        return $instance->globalMiddleware($middleware);
+        }
+                    /**
+         * Add request middleware to apply to every request.
+         *
+         * @param callable $middleware
+         * @return \Illuminate\Http\Client\Factory 
+         * @static 
+         */ 
+        public static function globalRequestMiddleware($middleware)
+        {
+                        /** @var \Illuminate\Http\Client\Factory $instance */
+                        return $instance->globalRequestMiddleware($middleware);
+        }
+                    /**
+         * Add response middleware to apply to every request.
+         *
+         * @param callable $middleware
+         * @return \Illuminate\Http\Client\Factory 
+         * @static 
+         */ 
+        public static function globalResponseMiddleware($middleware)
+        {
+                        /** @var \Illuminate\Http\Client\Factory $instance */
+                        return $instance->globalResponseMiddleware($middleware);
+        }
                     /**
          * Create a new response instance for use during stubbing.
          *
@@ -10018,6 +10016,83 @@
                         return $instance->setConnectionName($name);
         }
                     /**
+         * Release a reserved job back onto the queue after (n) seconds.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->release($queue, $job, $delay);
+        }
+                    /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteReserved($queue, $id);
+        }
+                    /**
+         * Delete a reserved job from the reserved queue and release it.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJob $job
+         * @param int $delay
+         * @return void 
+         * @static 
+         */ 
+        public static function deleteAndRelease($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteAndRelease($queue, $job, $delay);
+        }
+                    /**
+         * Delete all of the jobs from the queue.
+         *
+         * @param string $queue
+         * @return int 
+         * @static 
+         */ 
+        public static function clear($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->clear($queue);
+        }
+                    /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+                    /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getDatabase();
+        }
+                    /**
          * Get the backoff for an object-based queue handler.
          *
          * @param mixed $job
@@ -10026,7 +10101,7 @@
          */ 
         public static function getJobBackoff($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobBackoff($job);
         }
                     /**
@@ -10038,7 +10113,7 @@
          */ 
         public static function getJobExpiration($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobExpiration($job);
         }
                     /**
@@ -10050,7 +10125,7 @@
          */ 
         public static function createPayloadUsing($callback)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\DatabaseQueue::createPayloadUsing($callback);
         }
                     /**
          * Get the container instance being used by the connection.
@@ -10060,7 +10135,7 @@
          */ 
         public static function getContainer()
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getContainer();
         }
                     /**
@@ -10072,7 +10147,7 @@
          */ 
         public static function setContainer($container)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         $instance->setContainer($container);
         }
          
@@ -10971,12 +11046,13 @@
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @param string|resource|null $content The raw body data
+         * @return void 
          * @static 
          */ 
         public static function initialize($query = [], $request = [], $attributes = [], $cookies = [], $files = [], $server = [], $content = null)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+                        $instance->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
         }
                     /**
          * Creates a new request with values from PHP's super globals.
@@ -11013,11 +11089,12 @@
          * to keep BC with an existing system. It should not be used for any
          * other purpose.
          *
+         * @return void 
          * @static 
          */ 
         public static function setFactory($callable)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
-                        return \Illuminate\Http\Request::setFactory($callable);
+                        \Illuminate\Http\Request::setFactory($callable);
         }
                     /**
          * Overrides the PHP global variables according to this request instance.
@@ -11025,12 +11102,13 @@
          * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
          * $_FILES is never overridden, see rfc1867
          *
+         * @return void 
          * @static 
          */ 
         public static function overrideGlobals()
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->overrideGlobals();
+                        $instance->overrideGlobals();
         }
                     /**
          * Sets a list of trusted proxies.
@@ -11039,11 +11117,12 @@
          *
          * @param array $proxies A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR']
          * @param int $trustedHeaderSet A bit field of Request::HEADER_*, to set which headers to trust from your proxies
+         * @return void 
          * @static 
          */ 
         public static function setTrustedProxies($proxies, $trustedHeaderSet)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
-                        return \Illuminate\Http\Request::setTrustedProxies($proxies, $trustedHeaderSet);
+                        \Illuminate\Http\Request::setTrustedProxies($proxies, $trustedHeaderSet);
         }
                     /**
          * Gets the list of trusted proxies.
@@ -11071,11 +11150,12 @@
          * You should only list the hosts you manage using regexs.
          *
          * @param array $hostPatterns A list of trusted host patterns
+         * @return void 
          * @static 
          */ 
         public static function setTrustedHosts($hostPatterns)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
-                        return \Illuminate\Http\Request::setTrustedHosts($hostPatterns);
+                        \Illuminate\Http\Request::setTrustedHosts($hostPatterns);
         }
                     /**
          * Gets the list of trusted host patterns.
@@ -11110,11 +11190,12 @@
          * 
          * The HTTP method can only be overridden when the real HTTP method is POST.
          *
+         * @return void 
          * @static 
          */ 
         public static function enableHttpMethodParameterOverride()
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
-                        return \Illuminate\Http\Request::enableHttpMethodParameterOverride();
+                        \Illuminate\Http\Request::enableHttpMethodParameterOverride();
         }
                     /**
          * Checks whether support for the _method request parameter is enabled.
@@ -11139,12 +11220,13 @@
                     /**
          * 
          *
+         * @return void 
          * @static 
          */ 
         public static function setSession($session)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setSession($session);
+                        $instance->setSession($session);
         }
                     /**
          * 
@@ -11445,12 +11527,13 @@
                     /**
          * Sets the request method.
          *
+         * @return void 
          * @static 
          */ 
         public static function setMethod($method)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setMethod($method);
+                        $instance->setMethod($method);
         }
                     /**
          * Gets the request "intended" method.
@@ -11516,12 +11599,13 @@
          * Associates a format with mime types.
          *
          * @param string|string[] $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
+         * @return void 
          * @static 
          */ 
         public static function setFormat($format, $mimeTypes)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setFormat($format, $mimeTypes);
+                        $instance->setFormat($format, $mimeTypes);
         }
                     /**
          * Gets the request format.
@@ -11543,12 +11627,13 @@
                     /**
          * Sets the request format.
          *
+         * @return void 
          * @static 
          */ 
         public static function setRequestFormat($format)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setRequestFormat($format);
+                        $instance->setRequestFormat($format);
         }
                     /**
          * Gets the usual name of the format associated with the request's media type (provided in the Content-Type header).
@@ -11575,12 +11660,13 @@
                     /**
          * Sets the default locale.
          *
+         * @return void 
          * @static 
          */ 
         public static function setDefaultLocale($locale)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setDefaultLocale($locale);
+                        $instance->setDefaultLocale($locale);
         }
                     /**
          * Get the default locale.
@@ -11595,12 +11681,13 @@
                     /**
          * Sets the locale.
          *
+         * @return void 
          * @static 
          */ 
         public static function setLocale($locale)
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->setLocale($locale);
+                        $instance->setLocale($locale);
         }
                     /**
          * Get the locale.
@@ -11683,6 +11770,16 @@
         {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
                         /** @var \Illuminate\Http\Request $instance */
                         return $instance->getContent($asResource);
+        }
+                    /**
+         * Gets the decoded form or json request body.
+         *
+         * @static 
+         */ 
+        public static function getPayload()
+        {            //Method inherited from \Symfony\Component\HttpFoundation\Request         
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->getPayload();
         }
                     /**
          * Gets the Etags.
@@ -14936,7 +15033,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function drive($name = null)
@@ -14948,7 +15045,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function disk($name = null)
@@ -14959,7 +15056,7 @@
                     /**
          * Get a default cloud filesystem instance.
          *
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function cloud()
@@ -14971,7 +15068,7 @@
          * Build an on-demand disk.
          *
          * @param string|array $config
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function build($config)
@@ -14983,7 +15080,7 @@
          * Create an instance of the local driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createLocalDriver($config)
@@ -14995,7 +15092,7 @@
          * Create an instance of the ftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createFtpDriver($config)
@@ -15007,7 +15104,7 @@
          * Create an instance of the sftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createSftpDriver($config)
@@ -15031,7 +15128,7 @@
          * Create a scoped driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createScopedDriver($config)
@@ -15124,103 +15221,40 @@
                         return $instance->setApplication($app);
         }
                     /**
-         * Get the URL for the file at the given path.
-         *
-         * @param string $path
-         * @return string 
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function url($path)
-        {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
-                        return $instance->url($path);
-        }
-                    /**
-         * Determine if temporary URLs can be generated.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function providesTemporaryUrls()
-        {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
-                        return $instance->providesTemporaryUrls();
-        }
-                    /**
-         * Get a temporary URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return string 
-         * @static 
-         */ 
-        public static function temporaryUrl($path, $expiration, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
-                        return $instance->temporaryUrl($path, $expiration, $options);
-        }
-                    /**
-         * Get a temporary upload URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return array 
-         * @static 
-         */ 
-        public static function temporaryUploadUrl($path, $expiration, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
-                        return $instance->temporaryUploadUrl($path, $expiration, $options);
-        }
-                    /**
-         * Get the underlying S3 client.
-         *
-         * @return \Aws\S3\S3Client 
-         * @static 
-         */ 
-        public static function getClient()
-        {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
-                        return $instance->getClient();
-        }
-                    /**
          * Assert that the given file or directory exists.
          *
          * @param string|array $path
          * @param string|null $content
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function assertExists($path, $content = null)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->assertExists($path, $content);
         }
                     /**
          * Assert that the given file or directory does not exist.
          *
          * @param string|array $path
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function assertMissing($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->assertMissing($path);
         }
                     /**
          * Assert that the given directory is empty.
          *
          * @param string $path
-         * @return \Illuminate\Filesystem\AwsS3V3Adapter 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function assertDirectoryEmpty($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->assertDirectoryEmpty($path);
         }
                     /**
@@ -15231,8 +15265,8 @@
          * @static 
          */ 
         public static function exists($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->exists($path);
         }
                     /**
@@ -15243,8 +15277,8 @@
          * @static 
          */ 
         public static function missing($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->missing($path);
         }
                     /**
@@ -15255,8 +15289,8 @@
          * @static 
          */ 
         public static function fileExists($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->fileExists($path);
         }
                     /**
@@ -15267,8 +15301,8 @@
          * @static 
          */ 
         public static function fileMissing($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->fileMissing($path);
         }
                     /**
@@ -15279,8 +15313,8 @@
          * @static 
          */ 
         public static function directoryExists($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->directoryExists($path);
         }
                     /**
@@ -15291,8 +15325,8 @@
          * @static 
          */ 
         public static function directoryMissing($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->directoryMissing($path);
         }
                     /**
@@ -15303,8 +15337,8 @@
          * @static 
          */ 
         public static function path($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->path($path);
         }
                     /**
@@ -15315,8 +15349,8 @@
          * @static 
          */ 
         public static function get($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->get($path);
         }
                     /**
@@ -15328,8 +15362,8 @@
          * @static 
          */ 
         public static function json($path, $flags = 0)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->json($path, $flags);
         }
                     /**
@@ -15343,8 +15377,8 @@
          * @static 
          */ 
         public static function response($path, $name = null, $headers = [], $disposition = 'inline')
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->response($path, $name, $headers, $disposition);
         }
                     /**
@@ -15356,8 +15390,8 @@
          * @static 
          */ 
         public static function download($path, $name = null, $headers = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->download($path, $name, $headers);
         }
                     /**
@@ -15370,8 +15404,8 @@
          * @static 
          */ 
         public static function put($path, $contents, $options = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->put($path, $contents, $options);
         }
                     /**
@@ -15384,8 +15418,8 @@
          * @static 
          */ 
         public static function putFile($path, $file = null, $options = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->putFile($path, $file, $options);
         }
                     /**
@@ -15399,8 +15433,8 @@
          * @static 
          */ 
         public static function putFileAs($path, $file, $name = null, $options = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->putFileAs($path, $file, $name, $options);
         }
                     /**
@@ -15411,8 +15445,8 @@
          * @static 
          */ 
         public static function getVisibility($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getVisibility($path);
         }
                     /**
@@ -15424,8 +15458,8 @@
          * @static 
          */ 
         public static function setVisibility($path, $visibility)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->setVisibility($path, $visibility);
         }
                     /**
@@ -15439,8 +15473,8 @@
          */ 
         public static function prepend($path, $data, $separator = '
 ')
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->prepend($path, $data, $separator);
         }
                     /**
@@ -15454,8 +15488,8 @@
          */ 
         public static function append($path, $data, $separator = '
 ')
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->append($path, $data, $separator);
         }
                     /**
@@ -15466,8 +15500,8 @@
          * @static 
          */ 
         public static function delete($paths)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->delete($paths);
         }
                     /**
@@ -15479,8 +15513,8 @@
          * @static 
          */ 
         public static function copy($from, $to)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->copy($from, $to);
         }
                     /**
@@ -15492,8 +15526,8 @@
          * @static 
          */ 
         public static function move($from, $to)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->move($from, $to);
         }
                     /**
@@ -15504,8 +15538,8 @@
          * @static 
          */ 
         public static function size($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->size($path);
         }
                     /**
@@ -15516,8 +15550,8 @@
          * @static 
          */ 
         public static function checksum($path, $options = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->checksum($path, $options);
         }
                     /**
@@ -15528,8 +15562,8 @@
          * @static 
          */ 
         public static function mimeType($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->mimeType($path);
         }
                     /**
@@ -15540,8 +15574,8 @@
          * @static 
          */ 
         public static function lastModified($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->lastModified($path);
         }
                     /**
@@ -15552,8 +15586,8 @@
          * @static 
          */ 
         public static function readStream($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->readStream($path);
         }
                     /**
@@ -15566,9 +15600,63 @@
          * @static 
          */ 
         public static function writeStream($path, $resource, $options = [])
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->writeStream($path, $resource, $options);
+        }
+                    /**
+         * Get the URL for the file at the given path.
+         *
+         * @param string $path
+         * @return string 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function url($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->url($path);
+        }
+                    /**
+         * Determine if temporary URLs can be generated.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function providesTemporaryUrls()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->providesTemporaryUrls();
+        }
+                    /**
+         * Get a temporary URL for the file at the given path.
+         *
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return string 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function temporaryUrl($path, $expiration, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->temporaryUrl($path, $expiration, $options);
+        }
+                    /**
+         * Get a temporary upload URL for the file at the given path.
+         *
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return array 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function temporaryUploadUrl($path, $expiration, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
                     /**
          * Get an array of all files in a directory.
@@ -15579,8 +15667,8 @@
          * @static 
          */ 
         public static function files($directory = null, $recursive = false)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->files($directory, $recursive);
         }
                     /**
@@ -15591,8 +15679,8 @@
          * @static 
          */ 
         public static function allFiles($directory = null)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->allFiles($directory);
         }
                     /**
@@ -15604,8 +15692,8 @@
          * @static 
          */ 
         public static function directories($directory = null, $recursive = false)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->directories($directory, $recursive);
         }
                     /**
@@ -15616,8 +15704,8 @@
          * @static 
          */ 
         public static function allDirectories($directory = null)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->allDirectories($directory);
         }
                     /**
@@ -15628,8 +15716,8 @@
          * @static 
          */ 
         public static function makeDirectory($path)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->makeDirectory($path);
         }
                     /**
@@ -15640,8 +15728,8 @@
          * @static 
          */ 
         public static function deleteDirectory($directory)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->deleteDirectory($directory);
         }
                     /**
@@ -15651,8 +15739,8 @@
          * @static 
          */ 
         public static function getDriver()
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getDriver();
         }
                     /**
@@ -15662,8 +15750,8 @@
          * @static 
          */ 
         public static function getAdapter()
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getAdapter();
         }
                     /**
@@ -15673,8 +15761,8 @@
          * @static 
          */ 
         public static function getConfig()
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getConfig();
         }
                     /**
@@ -15685,8 +15773,8 @@
          * @static 
          */ 
         public static function buildTemporaryUrlsUsing($callback)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         $instance->buildTemporaryUrlsUsing($callback);
         }
                     /**
@@ -15702,7 +15790,7 @@
          */ 
         public static function when($value = null, $callback = null, $default = null)
         {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->when($value, $callback, $default);
         }
                     /**
@@ -15718,7 +15806,7 @@
          */ 
         public static function unless($value = null, $callback = null, $default = null)
         {
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->unless($value, $callback, $default);
         }
                     /**
@@ -15730,8 +15818,8 @@
          * @static 
          */ 
         public static function macro($name, $macro)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        \Illuminate\Filesystem\AwsS3V3Adapter::macro($name, $macro);
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
         }
                     /**
          * Mix another object into the class.
@@ -15743,8 +15831,8 @@
          * @static 
          */ 
         public static function mixin($mixin, $replace = true)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        \Illuminate\Filesystem\AwsS3V3Adapter::mixin($mixin, $replace);
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
         }
                     /**
          * Checks if macro is registered.
@@ -15754,8 +15842,8 @@
          * @static 
          */ 
         public static function hasMacro($name)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        return \Illuminate\Filesystem\AwsS3V3Adapter::hasMacro($name);
+        {
+                        return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
         }
                     /**
          * Flush the existing macros.
@@ -15764,8 +15852,8 @@
          * @static 
          */ 
         public static function flushMacros()
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        \Illuminate\Filesystem\AwsS3V3Adapter::flushMacros();
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::flushMacros();
         }
                     /**
          * Dynamically handle calls to the class.
@@ -15777,8 +15865,8 @@
          * @static 
          */ 
         public static function macroCall($method, $parameters)
-        {            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter         
-                        /** @var \Illuminate\Filesystem\AwsS3V3Adapter $instance */
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->macroCall($method, $parameters);
         }
          
@@ -17468,7 +17556,7 @@
      * 
      *
      * @template TKey of array-key
-     * @template TValue
+     * @template-covariant TValue
      * @implements \ArrayAccess<TKey, TValue>
      * @implements \Illuminate\Support\Enumerable<TKey, TValue>
      */ 
@@ -17492,7 +17580,142 @@
      
 }
 
-        namespace Laravel\Socialite\Facades { 
+        namespace Laravel\Octane\Facades { 
+            /**
+     * 
+     *
+     * @see \Laravel\Octane\Octane
+     */ 
+        class Octane {
+                    /**
+         * Get a Swoole table instance.
+         *
+         * @static 
+         */ 
+        public static function table($table)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->table($table);
+        }
+                    /**
+         * Format an exception to a string that should be returned to the client.
+         *
+         * @static 
+         */ 
+        public static function formatExceptionForClient($e, $debug = false)
+        {
+                        return \Laravel\Octane\Octane::formatExceptionForClient($e, $debug);
+        }
+                    /**
+         * Concurrently resolve the given callbacks via background tasks, returning the results.
+         * 
+         * Results will be keyed by their given keys - if a task did not finish, the tasks value will be "false".
+         *
+         * @return array 
+         * @throws \Laravel\Octane\Exceptions\TaskException
+         * @throws \Laravel\Octane\Exceptions\TaskTimeoutException
+         * @static 
+         */ 
+        public static function concurrently($tasks, $waitMilliseconds = 3000)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->concurrently($tasks, $waitMilliseconds);
+        }
+                    /**
+         * Get the task dispatcher.
+         *
+         * @return \Laravel\Octane\Contracts\DispatchesTasks 
+         * @static 
+         */ 
+        public static function tasks()
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->tasks();
+        }
+                    /**
+         * Get the listeners that will prepare the Laravel application for a new request.
+         *
+         * @static 
+         */ 
+        public static function prepareApplicationForNextRequest()
+        {
+                        return \Laravel\Octane\Octane::prepareApplicationForNextRequest();
+        }
+                    /**
+         * Get the listeners that will prepare the Laravel application for a new operation.
+         *
+         * @static 
+         */ 
+        public static function prepareApplicationForNextOperation()
+        {
+                        return \Laravel\Octane\Octane::prepareApplicationForNextOperation();
+        }
+                    /**
+         * Get the container bindings / services that should be pre-resolved by default.
+         *
+         * @static 
+         */ 
+        public static function defaultServicesToWarm()
+        {
+                        return \Laravel\Octane\Octane::defaultServicesToWarm();
+        }
+                    /**
+         * Register a Octane route.
+         *
+         * @static 
+         */ 
+        public static function route($method, $uri, $callback)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->route($method, $uri, $callback);
+        }
+                    /**
+         * Determine if a route exists for the given method and URI.
+         *
+         * @static 
+         */ 
+        public static function hasRouteFor($method, $uri)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->hasRouteFor($method, $uri);
+        }
+                    /**
+         * Invoke the route for the given method and URI.
+         *
+         * @static 
+         */ 
+        public static function invokeRoute($request, $method, $uri)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->invokeRoute($request, $method, $uri);
+        }
+                    /**
+         * Get the registered Octane routes.
+         *
+         * @static 
+         */ 
+        public static function getRoutes()
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->getRoutes();
+        }
+                    /**
+         * Register a callback to be called every N seconds.
+         *
+         * @return \Laravel\Octane\Swoole\InvokeTickCallable 
+         * @static 
+         */ 
+        public static function tick($key, $callback, $seconds = 1, $immediate = true)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->tick($key, $callback, $seconds, $immediate);
+        }
+         
+    }
+     
+}
+
+    namespace Laravel\Socialite\Facades { 
             /**
      * 
      *
@@ -17804,7 +18027,7 @@
                     /**
          * 
          *
-         * @param \Spatie\FlareClient\FlareMiddleware\FlareMiddleware|array<FlareMiddleware>|\Spatie\FlareClient\class-string<FlareMiddleware> $middleware
+         * @param \Spatie\FlareClient\FlareMiddleware\FlareMiddleware|array<FlareMiddleware>|\Spatie\FlareClient\class-string<FlareMiddleware>|callable $middleware
          * @return \Spatie\FlareClient\Flare 
          * @static 
          */ 
@@ -18316,6 +18539,13 @@
      * 
      *
      */ 
+        class UpsertRoleRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
         class ModUpsertRequest {
          
     }
@@ -18331,13 +18561,6 @@
      *
      */ 
         class EmailVerifyRequest {
-         
-    }
-            /**
-     * 
-     *
-     */ 
-        class UpsertRoleRequest {
          
     }
             /**
@@ -18948,6 +19171,19 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->forceCreate($attributes);
+            }
+             
+                /**
+             * Save a new model instance with mass assignment without raising model events.
+             *
+             * @param array $attributes
+             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @static 
+             */ 
+            public static function forceCreateQuietly($attributes = [])
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->forceCreateQuietly($attributes);
             }
              
                 /**
@@ -19762,7 +19998,7 @@ namespace  {
              * Add a morph-to relationship condition to the query.
              *
              * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
-             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */ 
@@ -19790,7 +20026,7 @@ namespace  {
              * Add a morph-to relationship condition to the query with an "or where" clause.
              *
              * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
-             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */ 
@@ -21576,7 +21812,7 @@ namespace  {
                 /**
              * Add a "having" clause to the query.
              *
-             * @param \Closure|string $column
+             * @param \Illuminate\Contracts\Database\Query\Expression|\Closure|string $column
              * @param string|int|float|null $operator
              * @param string|int|float|null $value
              * @param string $boolean
@@ -21592,7 +21828,7 @@ namespace  {
                 /**
              * Add an "or having" clause to the query.
              *
-             * @param \Closure|string $column
+             * @param \Illuminate\Contracts\Database\Query\Expression|\Closure|string $column
              * @param string|int|float|null $operator
              * @param string|int|float|null $value
              * @return \Illuminate\Database\Query\Builder 
@@ -22609,6 +22845,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class Octane extends \Laravel\Octane\Facades\Octane {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      

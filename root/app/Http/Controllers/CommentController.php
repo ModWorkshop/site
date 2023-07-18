@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Services\APIService;
 use App\Services\CommentService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
@@ -18,7 +19,7 @@ class CommentController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Comment $comment)
     {
@@ -28,9 +29,9 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Comment $comment)
     {
@@ -41,7 +42,7 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Comment $comment)
     {

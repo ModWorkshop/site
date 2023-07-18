@@ -11,6 +11,7 @@ use App\Services\APIService;
 use App\Services\RoleService;
 use Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -27,7 +28,7 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request)
     {
@@ -52,8 +53,8 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(UpsertRoleRequest $request)
     {
@@ -64,7 +65,7 @@ class RoleController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Role $role)
     {
@@ -129,7 +130,7 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Role $role)
     {

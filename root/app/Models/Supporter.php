@@ -2,30 +2,34 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Supporter
  *
  * @property int $id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $expire_date
+ * @property Carbon|null $expire_date
  * @property bool $expired
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter query()
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereExpireDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereIsCancelled($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Supporter whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $user
+ * @method static Builder|Supporter newModelQuery()
+ * @method static Builder|Supporter newQuery()
+ * @method static Builder|Supporter query()
+ * @method static Builder|Supporter whereCreatedAt($value)
+ * @method static Builder|Supporter whereExpireDate($value)
+ * @method static Builder|Supporter whereId($value)
+ * @method static Builder|Supporter whereIsCancelled($value)
+ * @method static Builder|Supporter whereUpdatedAt($value)
+ * @method static Builder|Supporter whereUserId($value)
+ * @method static Builder|Supporter whereExpired($value)
+ * @mixin Eloquent
  */
 class Supporter extends Model
 {
@@ -37,7 +41,7 @@ class Supporter extends Model
     protected $casts = [
         'expire_date' => 'datetime',
     ];
-    
+
     public function getMorphClass(): string {
         return 'supporter';
     }

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ModDownload
@@ -12,25 +15,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $mod_id
  * @property int $user_id
  * @property string $ip_address
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload query()
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereModId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ModDownload whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|ModDownload newModelQuery()
+ * @method static Builder|ModDownload newQuery()
+ * @method static Builder|ModDownload query()
+ * @method static Builder|ModDownload whereCreatedAt($value)
+ * @method static Builder|ModDownload whereId($value)
+ * @method static Builder|ModDownload whereIpAddress($value)
+ * @method static Builder|ModDownload whereModId($value)
+ * @method static Builder|ModDownload whereUpdatedAt($value)
+ * @method static Builder|ModDownload whereUserId($value)
+ * @mixin Eloquent
  */
 class ModDownload extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    
+
     public function getMorphClass(): string {
         return 'mod_download';
     }

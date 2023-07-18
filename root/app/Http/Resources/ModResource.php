@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\File;
 use App\Models\Link;
 use Arr;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
@@ -13,7 +14,7 @@ class ModResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)

@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\InstructsTemplate
@@ -17,22 +21,22 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string $instructions
  * @property bool $localized
  * @property int $game_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dependency[] $dependencies
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Dependency[] $dependencies
  * @property-read int|null $dependencies_count
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate query()
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereInstructions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereLocalized($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|InstructsTemplate whereUpdatedAt($value)
- * @property-read \App\Models\Game $game
- * @mixin \Eloquent
+ * @method static Builder|InstructsTemplate newModelQuery()
+ * @method static Builder|InstructsTemplate newQuery()
+ * @method static Builder|InstructsTemplate query()
+ * @method static Builder|InstructsTemplate whereCreatedAt($value)
+ * @method static Builder|InstructsTemplate whereGameId($value)
+ * @method static Builder|InstructsTemplate whereId($value)
+ * @method static Builder|InstructsTemplate whereInstructions($value)
+ * @method static Builder|InstructsTemplate whereLocalized($value)
+ * @method static Builder|InstructsTemplate whereName($value)
+ * @method static Builder|InstructsTemplate whereUpdatedAt($value)
+ * @property-read Game $game
+ * @mixin Eloquent
  */
 class InstructsTemplate extends Model
 {

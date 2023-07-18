@@ -16,6 +16,7 @@ use App\Services\APIService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -24,7 +25,7 @@ use Str;
 
 /**
  * @group Users
- * 
+ *
  * API routes for interacting with users
  */
 class UserController extends Controller
@@ -36,7 +37,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -52,23 +53,52 @@ class UserController extends Controller
             APIService::setCurrentGame($game);
         }
 
-        $users = User::queryGet($val, function($query, $val) use ($game) {
+        $query = Arr::pull($val, 'query');
+
+        $users = User::queryGet($val, function($q, $val) use ($game, $query) {
             if (isset($val['id'])) {
-                $query->where('id', $val['id']);
+                $q->where('id', $val['id']);
             }
-            if (isset($val['query']) && !empty($val['query'])) {
-                $query->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $val['query'])->orWhere('unique_name', 'ILIKE', '%'.$val['query'].'%'));
+            if (isset($query) && !empty($query)) {
+                if (ctype_digit($query) && $query < PHP_INT_MAX) {
+                    $q->where('id', $query);
+                }
+                if (mb_strlen($query) > 2) {
+                    $q->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $query)->orWhereRaw("unique_name ILIKE '%' || ? || '%'", $query));
+                    $q->orWhere(fn($q) => $q->whereRaw('name % ?', $query)->orWhereRaw("name ILIKE '%' || ? || '%'", $query));
+                }
             }
             if (isset($val['role_ids'])) {
                 $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
                 if (!empty($roleIds)) {
-                    $query->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
+                    $q->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
                 }
             }
             if (isset($game) && isset($val['game_role_ids'])) {
                 $roleIds = $val['game_role_ids'];
                 if (!empty($roleIds)) {
-                    $query->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                    $q->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
+                }
+            }
+
+            if (isset($query) && mb_strlen($query) > 2) {
+                if (ctype_digit($query) && $query < PHP_INT_MAX) {
+                    $q->orderByRaw("
+                        id = $1 DESC,
+                        unique_name = $1 DESC,
+                        unique_name ILIKE '%' || $1 || '%' DESC,
+                        unique_name % $1 DESC,
+                        name ILIKE '%' || $1 || '%' DESC,
+                        name % $1 DESC
+                    ");
+                } else {
+                    $q->orderByRaw("
+                        unique_name = $1 DESC,
+                        unique_name ILIKE '%' || $1 || '%' DESC,
+                        unique_name % $1 DESC,
+                        name ILIKE '%' || $1 || '%' DESC,
+                        name % $1 DESC
+                    ");
                 }
             }
         });
@@ -78,9 +108,9 @@ class UserController extends Controller
 
     /**
      * User
-     * 
+     *
      * Returns a user
-     * 
+     *
      * @urlParam user integer required The ID of the user
      *
      * @param string $user
@@ -114,12 +144,12 @@ class UserController extends Controller
 
     /**
      * POST users/{user}
-     * 
+     *
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, User $user)
     {
@@ -221,7 +251,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(User $user)
     {
@@ -230,7 +260,7 @@ class UserController extends Controller
 
     /**
      * Current User
-     * 
+     *
      * Returns the currently authenticated user
      *
      * @authenticated
@@ -291,7 +321,7 @@ class UserController extends Controller
     public function deleteDiscussions(User $user)
     {
         $this->authorize('manageDiscussions', $user);
-     
+
         foreach ($user->threads as $thread) {
             $thread->delete();
         }

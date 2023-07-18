@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTelescopeEntriesTable extends Migration
@@ -9,7 +10,7 @@ class CreateTelescopeEntriesTable extends Migration
     /**
      * The database schema.
      *
-     * @var \Illuminate\Database\Schema\Builder
+     * @var Builder
      */
     protected $schema;
 

@@ -138,11 +138,18 @@ class ModService {
         $user = Auth::user();
 
         $sortBy = $val['sort'] ?? 'bumped_at';
+        $name = $val['query'] ?? null;
+
+        if (!isset($name) && $sortBy == 'best_match') {
+            $sortBy = 'name';
+        }
 
         if ($sortBy === 'random') {
             $query->orderByRaw('RANDOM()');
         } else if ($sortBy === 'name') {
             $query->orderBy('name');
+        } else if ($sortBy === 'best_match') {
+            $query->orderByRaw("lower(name) = lower(?) DESC, name ILIKE '%' || ? || '%' DESC, name % ? DESC", [$name, $name, $name]);
         } else {
             if ($sortBy === 'published_at') {
                 $query->orderByRaw('published_at DESC NULLS LAST');

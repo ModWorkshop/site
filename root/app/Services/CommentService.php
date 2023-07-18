@@ -15,15 +15,17 @@ use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class CommentService { 
+class CommentService {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public static function index(FilteredRequest $request, Model $commentable, array $options=[], $replies=null)
+    public static function index(FormRequest $request, Model $commentable, array $options=[], $replies=null)
     {
         /**
          * @var Builder
@@ -57,8 +59,8 @@ class CommentService {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public static function store(Request $request, Model $commentable, array $extraSet=null)
     {
@@ -91,7 +93,7 @@ class CommentService {
             if ($replyToComment->commentable_type !== $commentable->getMorphClass() || $replyToComment->commentable_id !== $commentable->id) {
                 abort(409, "Invalid comment to reply to");
             }
-            
+
             //Make sure we are not blocked
             if (!$user->hasPermission('manage-discussions') && $replyToComment->user->blockedMe) {
                 abort(401);
@@ -101,7 +103,7 @@ class CommentService {
         if (isset($extraSet)) {
             $val = [...$val, ...$extraSet];
         }
-        
+
         /**
          * @var Comment
          */
@@ -145,10 +147,10 @@ class CommentService {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  Mod  $mod
      * @param Comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public static function update(Request $request, Comment $comment)
     {
@@ -164,20 +166,20 @@ class CommentService {
         $mentionedUsers = [];
         $mentionedIds = [];
 
-        if (isset($mentions)) {
-            $uniqueNames = array_slice($mentions, 0, 10);
-            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
-        }
-
         if ($comment->reply_to && isset($val['pinned'])) {
             abort(403, 'Only regular comments can be pinned!');
         }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
-        if (isset($val['content']) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
+        if ((isset($val['content']) || isset($mentions)) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
             abort(403, 'You cannot edit the comment!');
         }
 
+        if (isset($mentions)) {
+            $uniqueNames = array_slice($mentions, 0, 10);
+            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
+        }
+        
         if (isset($mentions)) {
             foreach ($mentionedUsers as $mentionedUser) {
                 $mentionedIds[] = $mentionedUser->id;

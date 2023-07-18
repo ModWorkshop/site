@@ -6,6 +6,7 @@ use App\Models\Dependency;
 use App\Models\InstructsTemplate;
 use App\Services\DependencyService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class InstructsTemplateDependencyController extends Controller
 {
@@ -16,8 +17,8 @@ class InstructsTemplateDependencyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request, InstructsTemplate $instructsTemplate)
     {
@@ -27,9 +28,9 @@ class InstructsTemplateDependencyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {
@@ -40,7 +41,7 @@ class InstructsTemplateDependencyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {

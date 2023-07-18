@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Services\APIService;
 use Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SettingsController extends Controller
 {
@@ -15,7 +16,7 @@ class SettingsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -25,9 +26,9 @@ class SettingsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request)
     {

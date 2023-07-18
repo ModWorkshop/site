@@ -134,9 +134,9 @@ class MigrateBB extends Command
      */
     public function handle()
     {
-        #mbb_attachments 
+        #mbb_attachments
         # Current forum does not have file uploading, backup the files to somewhere.
-        #mbb_banfilters 
+        #mbb_banfilters
 
         $t = time();
         $this->info("Converting old-ass data to new-and-improved data!");
@@ -169,7 +169,7 @@ class MigrateBB extends Command
         $this->handleLikes();
         $this->handlePopularityLog();
         // $this->handleModDownloads();
-        // $this->handleModViews(); 
+        // $this->handleModViews();
 
         // $this->handleUpdateMods();
         // $this->handleUpdateFiles();
@@ -190,7 +190,7 @@ class MigrateBB extends Command
             $insertUsers = [];
             $insertLogins = [];
             $insertUserRoles = [];
-            
+
             foreach ($users as $user) {
                 $bar->advance();
 
@@ -328,7 +328,7 @@ class MigrateBB extends Command
             $bar->advance();
             if ($case->strikes) {
                 $strikes = max(1, min($case->strikes, 3));
-                for ($i=0; $i < STRIKES_TO_WARNINGS[$strikes]; $i++) { 
+                for ($i=0; $i < STRIKES_TO_WARNINGS[$strikes]; $i++) {
                     if (isset($this->userIds[$case->uid])) {
                         UserCase::forceCreate([
                             'user_id' => $case->uid, # Changed
@@ -440,9 +440,9 @@ class MigrateBB extends Command
             $gameId = $games[0] ?? null;
             if (empty($gameId)) {
                 $gameId = null;
-            };
+            }
             Tag::forceCreate([
-                'id' => $tag->tid, 
+                'id' => $tag->tid,
                 'name' => $tag->tag,
                 'color' => $tag->color,
                 'notice' => $tag->notice,
@@ -597,7 +597,7 @@ class MigrateBB extends Command
             $bar->advance();
             # Score is recalculated.
             # Invited removed due to underuse.
-            
+
             $date = $this->handleUnixDate($mod->date);
             $publishDate = null;
             if (empty($mod->pub_date) && (NEW_VISIBILITY[$mod->hidden] ?? Visibility::public) == Visibility::public) {
@@ -801,7 +801,7 @@ class MigrateBB extends Command
     public function handleFollowsAndSubs()
     {
         $bar = $this->progress('Converting discussion subscriptions', $this->con->table('mws_subs')->count());
-        $this->con->table('mws_subs')->chunkById(100000, function($subs) use ($bar) {
+        $this->con->table('mws_subs')->chunkById(1000, function($subs) use ($bar) {
             $insert = [];
 
             foreach ($subs as $sub) {
@@ -809,17 +809,19 @@ class MigrateBB extends Command
                 $bar->advance();
 
                 if (
-                    $type == 'mod' && !isset($this->modIds[$sub->id]) 
-                    || $type == 'comment' && !Comment::where('id', $sub->id)->exists() 
+                    $type == 'mod' && !isset($this->modIds[$sub->id])
+                    || $type == 'comment' && !Comment::where('id', $sub->id)->exists()
                     || !isset($this->userIds[$sub->uid])
                 ) {
                     continue;
                 }
-    
+
                 $insert[] = [
                     'user_id' => $sub->uid,
                     'subscribable_type' => $type,
-                    'subscribable_id' => $sub->id
+                    'subscribable_id' => $sub->id,
+                    'created_at' => $sub->date,
+                    'updated_at' => $sub->date,
                 ];
             }
 
@@ -1060,11 +1062,11 @@ class MigrateBB extends Command
             ModDownload::insert($insertAtOnceIpless);
             ModDownload::insert($insertAtOnceUserless);
             ModDownload::insert($insertBroken);
-    
+
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
             $insertAtOnceUserless = [];
-            $insertBroken = [];    
+            $insertBroken = [];
         };
 
         foreach ($downloads as $download) {
@@ -1077,7 +1079,7 @@ class MigrateBB extends Command
             $insert = [
                 'mod_id' => $download->did, # Changed
             ];
-            
+
             $hasUser = false;
             $hasIp = false;
             if ($download->uid) {
@@ -1132,11 +1134,11 @@ class MigrateBB extends Command
             ModView::insert($insertAtOnceIpless);
             ModView::insert($insertAtOnceUserless);
             ModView::insert($insertBroken);
-    
+
             $insertAtOnce = [];
             $insertAtOnceIpless = [];
             $insertAtOnceUserless = [];
-            $insertBroken = [];    
+            $insertBroken = [];
         };
 
         foreach ($views as $view) {
@@ -1223,7 +1225,7 @@ class MigrateBB extends Command
             unset($insert);
             unset($likes);
         }, 'rid');
-        
+
         $bar->finish();
     }
 
@@ -1270,7 +1272,7 @@ class MigrateBB extends Command
             } else {
                 $insertUserless[] = $newLog;
             }
-    
+
             if ($i % 500 == 0) {
                 $doInsert();
             }
@@ -1284,5 +1286,5 @@ class MigrateBB extends Command
         unset($insertUserless);
         unset($logs);
     }
-    
+
 }
