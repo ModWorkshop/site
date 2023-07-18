@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3de909d81601421f32462d91b8b1af50",
+    "content-hash": "c54a25a59c4a7a102d16c23c863d47aa",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -224,20 +224,26 @@
         },
         {
             "name": "biiiiiigmonster/hasin",
-            "version": "v2.0.0",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/biiiiiigmonster/hasin.git",
-                "reference": "118d0842d32ccf5e7a815a348fd2635b28685c44"
+                "reference": "8e2df117583a51f177e29e6f982da9e27db407cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/biiiiiigmonster/hasin/zipball/118d0842d32ccf5e7a815a348fd2635b28685c44",
-                "reference": "118d0842d32ccf5e7a815a348fd2635b28685c44",
+                "url": "https://api.github.com/repos/biiiiiigmonster/hasin/zipball/8e2df117583a51f177e29e6f982da9e27db407cd",
+                "reference": "8e2df117583a51f177e29e6f982da9e27db407cd",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": ">=9"
+                "laravel/framework": "^10"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
             },
             "type": "library",
             "extra": {
@@ -249,7 +255,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "BiiiiiigMonster\\Hasin\\": "src/"
+                    "BiiiiiigMonster\\Hasin\\": "src",
+                    "BiiiiiigMonster\\Hasin\\Database\\Factories\\": "database/factories"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -271,9 +278,9 @@
             ],
             "support": {
                 "issues": "https://github.com/biiiiiigmonster/hasin/issues",
-                "source": "https://github.com/biiiiiigmonster/hasin/tree/v2.0.0"
+                "source": "https://github.com/biiiiiigmonster/hasin/tree/v3.0.2"
             },
-            "time": "2022-05-12T09:18:43+00:00"
+            "time": "2023-05-15T08:42:27+00:00"
         },
         {
             "name": "brick/math",
@@ -1700,6 +1707,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/c7599dc92e04532824bafbd226c2936ce6a905b8",
                 "reference": "c7599dc92e04532824bafbd226c2936ce6a905b8",
+
                 "shasum": ""
             },
             "require": {
