@@ -73,9 +73,9 @@ export default defineNuxtConfig({
 		]
 	},
 
-	// delayHydration: {
-	// 	mode: 'init'
-	// },
+	delayHydration: {
+		mode: 'mount'
+	},
 
 	// nitro: {
 	// 	compressPublicAssets: true,
@@ -149,7 +149,7 @@ export default defineNuxtConfig({
 	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
-		// 'nuxt-delay-hydration',
+		'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'floating-vue/nuxt',
 		'@nuxtjs/tailwindcss',
