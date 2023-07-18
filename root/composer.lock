@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c54a25a59c4a7a102d16c23c863d47aa",
+    "content-hash": "c2e9d5c098ebf393d326d1cda6db0fa0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1439,16 +1439,16 @@
         },
         {
             "name": "hammerstone/fast-paginate",
-            "version": "v0.1.12",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hammerstonedev/fast-paginate.git",
-                "reference": "9bfd726113317cf60d0a1d3b7a13ed8636fb1f84"
+                "reference": "1e9b31ded2fdd8526e654f6101d6c545b06fdda0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hammerstonedev/fast-paginate/zipball/9bfd726113317cf60d0a1d3b7a13ed8636fb1f84",
-                "reference": "9bfd726113317cf60d0a1d3b7a13ed8636fb1f84",
+                "url": "https://api.github.com/repos/hammerstonedev/fast-paginate/zipball/1e9b31ded2fdd8526e654f6101d6c545b06fdda0",
+                "reference": "1e9b31ded2fdd8526e654f6101d6c545b06fdda0",
                 "shasum": ""
             },
             "require": {
@@ -1487,9 +1487,9 @@
             "description": "Fast paginate for Laravel",
             "support": {
                 "issues": "https://github.com/hammerstonedev/fast-paginate/issues",
-                "source": "https://github.com/hammerstonedev/fast-paginate/tree/v0.1.12"
+                "source": "https://github.com/hammerstonedev/fast-paginate/tree/v1.0.1"
             },
-            "time": "2023-02-14T03:28:31+00:00"
+            "time": "2023-04-29T18:13:05+00:00"
         },
         {
             "name": "http-interop/http-factory-guzzle",
@@ -1707,7 +1707,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/c7599dc92e04532824bafbd226c2936ce6a905b8",
                 "reference": "c7599dc92e04532824bafbd226c2936ce6a905b8",
-
                 "shasum": ""
             },
             "require": {
