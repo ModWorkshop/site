@@ -13,7 +13,8 @@
                 </i18n-t>
             </a-alert>
             <span>{{$t('supporter_after_donating')}}</span>
-            <donation-button link="https://ko-fi.com/luffydafloffi"/>
+            <!-- <donation-button link="https://ko-fi.com/luffydafloffi"/> -->
+            <donation-button link="https://paypal.me/milkdeluxe"/>
             <template v-if="supporters?.data.length">
                 <h2>{{$t('currently_supported')}}</h2>
                 <flex wrap class="mb-3" style="max-width: 500px;">
