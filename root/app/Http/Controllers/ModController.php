@@ -291,7 +291,7 @@ class ModController extends Controller
 
         if (
             (isset($user) && ModView::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
-        || (isset($user) && ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        || ModView::where('ip_address', $ip)->where('mod_id', $mod->id)->exists()
         ) {
             return;
         }
@@ -305,8 +305,7 @@ class ModController extends Controller
         $view->ip_address = $ip;
 
         $view->save();
-        $mod->views++;
-        $mod->save();
+        $mod->increment('views');
 
         return response()->noContent(201);
     }
@@ -326,7 +325,7 @@ class ModController extends Controller
 
         if (
             (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
-        || (isset($user) && ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists())
+        || ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists()
         ) {
             return;
         }
@@ -340,8 +339,7 @@ class ModController extends Controller
         $download->ip_address = $ip;
 
         $download->save();
-        $mod->downloads++;
-        $mod->save();
+        $mod->increment('downloads');
 
         return response()->noContent(201);
     }
