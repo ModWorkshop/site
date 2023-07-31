@@ -30,6 +30,8 @@ class ModLike extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function getMorphClass(): string {
         return 'mod_like';
     }
