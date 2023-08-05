@@ -12,12 +12,6 @@
 
 <script setup lang="ts">
 // The $ sign tells it where to put the cursor and text if selected.
-interface Tool {
-    icon: string,
-    insert: string
-}
-
-const fullscreen = ref(false);
 
 const props = withDefaults(defineProps<{
     fullscreen: boolean,
@@ -36,11 +30,16 @@ const emit = defineEmits<{
 const fullscreenVm = useVModel(props, 'fullscreen', emit);
 const splitModeVm = useVModel(props, 'splitMode', emit);
 
-const toolGroups = [ 
+interface ToolGroup {
+    name: string,
+    tools: Tool[]
+}
+
+const toolGroups: ToolGroup[] = [ 
     {
         name: 'main',
         tools: [
-            {icon: 'mdi:format-bold', insert: '**$**'},
+            {icon: 'mdi:format-bold',  insert: '**$**'},
             {icon: 'mdi:format-italic', insert: '*$*'},
             {icon: 'mdi:format-strikethrough', insert: '~~$~~'},
             {icon: 'mdi:format-underline', insert: '__$__'},
@@ -53,8 +52,8 @@ const toolGroups = [
         tools: [
             {icon: 'mdi:format-quote-open', insert: '> $'},
             {icon: 'mdi:code-braces', insert: '```\n$\n```'},
-            {icon: 'mdi:format-list-bulleted', insert: '* $'},
-            {icon: 'mdi:format-list-numbered', insert: '1. $'},
+            {icon: 'mdi:format-list-bulleted', insert: '* $', multiline: true},
+            {icon: 'mdi:format-list-numbered', insert: '$line. $', multiline: true},
             {icon: 'mdi:eye-off', insert: '||$||'}, //Spoiler
         ]
     },
