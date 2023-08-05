@@ -144,7 +144,7 @@ class APIService {
 
         $now = Carbon::now();
         foreach ($announcements as $annoucement) {
-            if (isset($annoucement->annouce_until) && $now->greaterThan($annoucement->annouce_until)) {
+            if (isset($annoucement->announce_until) && $now->greaterThan($annoucement->announce_until)) {
                 $annoucement->update(['announce' => false]);
             }
         }
