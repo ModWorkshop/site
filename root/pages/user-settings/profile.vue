@@ -1,6 +1,6 @@
 <template>
     <flex gap="2" column>
-        <img-uploader v-model="user.avatar_file" :label="$t('avatar')" :src="user.avatar">
+        <img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
             <template #label="{ src }">
                 <a-avatar size="xl" :src="src"/>
                 <a-avatar size="lg" :src="src"/>
@@ -8,7 +8,7 @@
             </template>
         </img-uploader>
 
-        <img-uploader v-model="user.banner_file" :label="$t('banner')" :src="user.banner">
+        <img-uploader v-model="user.banner_file" :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })" :src="user.banner">
             <template #label="{ src }">
                 <a-banner :src="src" url-prefix="users/images"/>
             </template>
@@ -28,12 +28,15 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { UserForm } from '~~/types/models';
+import { useStore } from '../../store/index';
 
 defineProps<{
     user: UserForm
 }>();
 
 const { t } = useI18n();
+const { settings } = useStore();
+const imageSize = computed(() => friendlySize(settings?.image_max_file_size));
 
 const showTagOptions = [
     { id: 'role', name: t('show_tag_role') },

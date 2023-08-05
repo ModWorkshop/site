@@ -20,7 +20,7 @@
         </img-uploader>
         <a-input v-model="vmGame.name" :label="$t('name')"/>
         <a-input v-model="vmGame.short_name" :label="$t('short_name')"/>
-        <a-input v-model="vmGame.buttons" :label="$t('game_buttons')"/>
+        <a-input v-model="vmGame.buttons" :label="$t('game_buttons')" :desc="$t('game_buttons_desc')"/>
         <a-input v-model="vmGame.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
     </simple-resource-form>
 </template>
