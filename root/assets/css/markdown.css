@@ -101,3 +101,8 @@ blockquote::after {
 	height: 100%;
 	width: 3px;
 }
+
+.markdown table {
+    overflow-x: auto;
+    display: block;
+}
