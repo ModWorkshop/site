@@ -85,18 +85,14 @@ defineProps({
     background-color: var(--alt-table-odd-color);
 }
 
-.markdown .table tr:first-child td:first-child, .table tr:first-child td:first-child { 
+.table td:first-child, .table th:first-child {
+    border-bottom-left-radius: var(--border-radius);
     border-top-left-radius: var(--border-radius);
 }
 
-.markdown tr:first-child td:last-child, .table tr:first-child td:last-child {
+.table td:last-child, .table th:last-child {
+    border-bottom-right-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
 }
 
-.markdown table tr:last-child td:first-child, .table tr:last-child td:first-child { 
-    border-bottom-left-radius: var(--border-radius);
-}
-.markdown table tr:last-child td:last-child, .table tr:last-child td:last-child {
-    border-bottom-right-radius: var(--border-radius);
-}
 </style>
