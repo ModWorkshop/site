@@ -2,7 +2,7 @@
     <NuxtLink :to="`/thread/${thread.id}`" class="no-hover announcement">
         <content-block :column="false" padding="4" gap="0">
             <div>
-                <h3> {{thread.name}}</h3>
+                <h3>📢 {{thread.name}}</h3>
                 <span class="ml-2">{{thread.content}}</span>
             </div>
             <a-icon class="ml-auto mb-auto" icon="xmark" @click.prevent="$emit('hide', thread)"/>

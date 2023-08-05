@@ -1,13 +1,7 @@
 <template>
     <flex column :class="classes" :gap="gap">
         <flex class="page-block-nm mx-auto" column gap="4">
-            <flex v-if="announcements?.length" column>
-                <h4>📢 {{$t('announcements')}}</h4>
-                <flex class="md:flex-row flex-col">
-                    <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
-            </flex>
-
+            <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="game?.id" gap="0" column>
                 <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
                 <content-block :column="false" wrap class="items-center" gap="4">
@@ -51,21 +45,13 @@
                     </flex>
                 </content-block>
             </flex>
-            <flex v-if="gameAnnouncements.length" column>
-                <h4 >📢 {{$t('game_announcements')}}</h4>
-                <flex class="md:flex-row flex-col">
-                    <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
+            <flex v-if="gameAnnouncements.length || announcements?.length" column class="md:flex-row flex-col">
+                <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
             </flex>
         </flex>
         <flex :class="innerClasses" column :gap="gap">
-            <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <slot/>
-            
-            <flex v-if="store.activity" gap="2" class="text-xl">
-                <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
-                <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
-            </flex>
         </flex>
     </flex>
 </template>
@@ -159,6 +145,7 @@ const classes = computed(() => ({
 
 const innerClasses = computed(() => ({
     'mx-auto': true,
+    'mt-2': true,
     'page-block-nm': props.size == 'nm',
     'page-block-full': props.size == 'full',
     'page-block-md': props.size == 'md',
@@ -179,6 +166,10 @@ const innerClasses = computed(() => ({
 /* .page-block:first-child {
     margin-top: 8px;
 } */
+
+.page-block-nm, .page-block-full, .page-block-md, .page-block-nm, .page-block-sm, .page-block-xs, .page-block-2xs {
+    align-self: center;
+}
 
 .page-block-nm {
     width: 82%;
