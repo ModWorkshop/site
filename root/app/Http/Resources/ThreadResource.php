@@ -21,6 +21,7 @@ class ThreadResource extends JsonResource
         return array_merge(parent::toArray($request), [
             'forum' => $this->whenLoaded('forum', fn() => new ForumResource($this->forum)),
             'user' => $this->whenLoaded('user', fn() => new UserResource($this->user)),
+            'game' => $this->whenLoaded('game', fn() => new GameResource($this->game)),
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'subscribed' => $this->when($this->relationLoaded('subscribed'), fn() => isset($this->subscribed)),
         ]);
