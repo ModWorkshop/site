@@ -1,5 +1,5 @@
 <template>
     <page-block>
-        <upload-page/>
+        <forum-page/>
     </page-block>
 </template>

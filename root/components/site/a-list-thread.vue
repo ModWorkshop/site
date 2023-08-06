@@ -17,26 +17,24 @@
 </template>
 
 <script setup lang="ts">
-import { Thread } from '~/types/models';
+import { Forum, Thread } from '~/types/models';
 
-const props = defineProps<{
+const { thread, categoryLink } = defineProps<{
     thread: Thread,
     noPins?: boolean,
+    forum: Forum,
     categoryLink?: boolean,
-    noCategory?: boolean,
+    noCategory?: boolean
 }>();
 
 const router = useRouter();
 
-const forum = computed(() => props.thread?.forum);
-const game = computed(() => forum.value?.game);
-
 const to = computed(() => {
-    if (!forum.value) {
-        return;
+    if (!categoryLink) {
+        return undefined;
     }
 
-    return (game.value ? `/g/${game.value.short_name}/forum?category=` : '/forum?category=') + props.thread.category_id; 
+    return (thread.game ? `/g/${thread.game.short_name}/forum?category=` : '/forum?category=') + thread.category_id; 
 });
 
 function clickThread(thread: Thread) {

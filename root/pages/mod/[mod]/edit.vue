@@ -1,49 +1,38 @@
 <template>
-    <page-block size="md" :game="mod.game" :breadcrumb="breadcrumb">
-        <flex>
-            <NuxtLink v-if="mod.id" :to="`/mod/${mod.id}`">
-                <a-button icon="arrow-left">{{$t('return_to_mod')}}</a-button>
-            </NuxtLink> 
-        </flex>
-        <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
-            <content-block :padding="false" class="max-md:p-4 p-8">
-                <a-tabs padding="4" side query>
-                    <a-tab name="main" :title="$t('main_tab')">
-                        <edit-mod-main :mod="mod"/>
-                    </a-tab>
-                    <a-tab name="downloads" :title="$t('downloads_tab')">
-                        <edit-mod-files :mod="mod"/>
-                    </a-tab>
-                    <a-tab name="images" :title="$t('images_tab')">
-                        <edit-mod-images :mod="mod"/>
-                    </a-tab>
-                    <a-tab name="members" :title="$t('members_tab')">
-                        <edit-mod-members :mod="mod"/>
-                    </a-tab>
-                    <a-tab name="instructions" :title="$t('instructions_tab')">
-                        <edit-mod-deps :mod="mod"/>
-                    </a-tab>
-                    <a-tab name="extra" :title="$t('extra_tab')">
-                        <edit-mod-extra :mod="mod"/>
-                    </a-tab>
-                </a-tabs>
-            </content-block>
-        </a-form>
-    </page-block>
+    <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
+        <content-block :padding="false" class="max-md:p-4 p-8">
+            <a-tabs padding="4" side query>
+                <a-tab name="main" :title="$t('main_tab')">
+                    <edit-mod-main :mod="mod"/>
+                </a-tab>
+                <a-tab name="downloads" :title="$t('downloads_tab')">
+                    <edit-mod-files :mod="mod"/>
+                </a-tab>
+                <a-tab name="images" :title="$t('images_tab')">
+                    <edit-mod-images :mod="mod"/>
+                </a-tab>
+                <a-tab name="members" :title="$t('members_tab')">
+                    <edit-mod-members :mod="mod"/>
+                </a-tab>
+                <a-tab name="instructions" :title="$t('instructions_tab')">
+                    <edit-mod-deps :mod="mod"/>
+                </a-tab>
+                <a-tab name="extra" :title="$t('extra_tab')">
+                    <edit-mod-extra :mod="mod"/>
+                </a-tab>
+            </a-tabs>
+        </content-block>
+    </a-form>
 </template>
 
 <script setup lang="ts">
 import clone from 'rfdc/default';
-import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-import { Paginator } from '~~/types/paginator';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
-const { user, setGame } = useStore();
+const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
-
-const { t } = useI18n();
 
 definePageMeta({
     middleware: 'users-only',
@@ -51,54 +40,22 @@ definePageMeta({
 
 const router = useRouter();
 
-const { data: mod } = await useEditResource<Mod>('mod', 'mods', {
-    id: -1,
-    name: '',
-    desc: '',
-    images: [],
-    files: new Paginator(),
-    links: new Paginator(),
-    members: [],
-    short_desc: '',
-    changelog: '',
-    license: '',
-    instructions: '',
-    donation: '',
-    legacy_banner_url: '',
-    game_id: -1,
-    version: '',
-    user_id: user!.id,
-    user: user!,
-    downloads: 0,
-    likes: 0,
-    views: 0,
-    visibility: 'public',
-    suspended: false,
-    comments_disabled: false,
-    has_download: false,
-    approved: false,
-});
+const { mod } = defineProps<{
+    mod: Mod;
+}>();
 
-const breadcrumb = computed(() => {
-    return [
-        { name: t('games'), to: 'games' },
-        ...(mod.value.breadcrumb ? mod.value.breadcrumb : []),
-        { name: t('edit') }
-    ];
-});
+mod.send_for_approval ??= false;
 
-mod.value.send_for_approval ??= false;
-
-if (!canEditMod(mod.value)) {
+if (!canEditMod(mod)) {
     useNoPermsPage();
 }
 
-provide('canSuperUpdate', canSuperUpdate(mod.value));
-provide('mod', mod.value);
+provide('canSuperUpdate', canSuperUpdate(mod));
+provide('mod', mod);
 
-watch(() => mod.value.game, () => {
-    if (mod.value.game) {
-        setGame(mod.value.game);
+watch(() => mod.game, () => {
+    if (mod.game) {
+        setGame(mod.game);
     }
 }, { immediate: true });
 
@@ -106,7 +63,7 @@ watch(() => mod.value.game, () => {
  * Only used in cases the changes were saved but AForm doesn't know about it
  */
 function ignoreChanges() {
-    mod.value = clone(mod.value);
+    Object.assign(mod, clone(mod));
 }
 
 provide('ignoreChanges', ignoreChanges);
@@ -114,16 +71,16 @@ provide('ignoreChanges', ignoreChanges);
 async function save() {
     try {
         let fetchedMod;
-        if (mod.value.id == -1) {
-            fetchedMod = await postRequest<Mod>('mods', mod.value);
+        if (mod.id == -1) {
+            fetchedMod = await postRequest<Mod>('mods', mod);
             if (fetchedMod) {
-                router.replace({ path: `/mod/${mod.value.id}/edit` });
+                router.replace({ path: `/mod/${mod.id}/edit` });
             }
         } else {
-            fetchedMod = await patchRequest<Mod>(`mods/${mod.value.id}`, mod.value);
+            fetchedMod = await patchRequest<Mod>(`mods/${mod.id}`, mod);
         }
         if (fetchedMod) {
-            mod.value = fetchedMod;
+            Object.assign(mod, fetchedMod);
         }
     } catch (error) {
         showErrorToast(error);

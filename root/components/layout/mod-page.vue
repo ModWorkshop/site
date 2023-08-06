@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { setGame } = useStore();
+const route = useRoute();
 
 const { public: config } = useRuntimeConfig();
 
@@ -59,6 +60,10 @@ const breadcrumb = computed(() => {
     ];
     if (props.mod.breadcrumb) {
         breadcrumb.push(...props.mod.breadcrumb);
+    }
+
+    if (route.name == 'mod-mod-edit') {
+        breadcrumb.push({ name: t('edit') });
     }
 
     return breadcrumb;

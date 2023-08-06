@@ -1,26 +1,24 @@
 <template>
-    <mod-page v-if="mod" :mod="mod">
-        <flex column class="items-center text-center">
-            <h2>{{$t('downloading_file')}}</h2>
-            <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
-            <h3>{{$t('downloading_file_should')}}</h3>
-            <flex>
-                <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
-                <a ref="download" download :href="file.download_url">
-                    <a-button icon="mdi:download">{{$t('downloading_file_force')}}</a-button>
-                </a>
-                <a-button 
-                    v-if="mod.instructs_template || mod.instructions" 
-                    :to="`/mod/${mod.id}?tab=instructions`"
-                    icon="circle-question"
-                    color="warning"
-                >
-                {{$t('downloading_file_help')}}
-            </a-button>
-        </flex>
-        <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
-        </flex>
-    </mod-page>
+    <flex column class="items-center text-center">
+        <h2>{{$t('downloading_file')}}</h2>
+        <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
+        <h3>{{$t('downloading_file_should')}}</h3>
+        <flex>
+            <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
+            <a ref="download" download :href="file.download_url">
+                <a-button icon="mdi:download">{{$t('downloading_file_force')}}</a-button>
+            </a>
+            <a-button 
+                v-if="mod.instructs_template || mod.instructions" 
+                :to="`/mod/${mod.id}?tab=instructions`"
+                icon="circle-question"
+                color="warning"
+            >
+            {{$t('downloading_file_help')}}
+        </a-button>
+    </flex>
+    <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
+    </flex>
 </template>
 
 <script setup lang="ts">
@@ -31,11 +29,9 @@ import { registerDownload } from '~~/utils/mod-helpers';
 
 const { t } = useI18n();
 
-const { data: mod } = await useResource<Mod>('mod', 'mods', {
-    suspended: t('error_suspended'),
-    rejected: t('error_rejected'),
-    unapproved: t('error_unapproved'),
-});
+defineProps<{
+    mod: Mod;
+}>();
 
 const download = ref<HTMLAnchorElement>();
 

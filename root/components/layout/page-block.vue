@@ -1,6 +1,6 @@
 <template>
     <flex column :class="classes" :gap="gap">
-        <flex class="page-block-nm mx-auto" column gap="4">
+        <flex class="page-block-nm mx-auto" column gap="3">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="game?.id" gap="0" column>
                 <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
@@ -145,7 +145,6 @@ const classes = computed(() => ({
 
 const innerClasses = computed(() => ({
     'mx-auto': true,
-    'mt-2': true,
     'page-block-nm': props.size == 'nm',
     'page-block-full': props.size == 'full',
     'page-block-md': props.size == 'md',
