@@ -21,14 +21,12 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Breadcrumb, ForumCategory, Game, Tag, Thread } from '~~/types/models';
+import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
 const store = useStore();
 const { isBanned, ban, gameBan } = storeToRefs(store);
 
-const { t } = useI18n();
 const { user } = useStore();
 
 const { game, thread } = defineProps<{
@@ -54,7 +52,7 @@ const editThread = ref(thread ?? {
 const g = game ?? thread?.forum?.game;
 store.setGame(g);
 
-if (!useCanEditThread(editThread, g)) {
+if (!useCanEditThread(editThread.value, g)) {
     useNoPermsPage();
 }
 
@@ -70,7 +68,7 @@ const { data: tags } = await useFetchMany<Tag>('tags', {
 
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
     params: {
-        forum_id: editThread.forum_id
+        forum_id: editThread.value.forum_id
     }
 });
 
@@ -81,32 +79,11 @@ const allowedCategories = computed(() => {
     return categories.value?.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame))) ?? [];
 });
 
-if (!editThread.id && isBanned.value && !allowedCategories.value.length) {
+if (!editThread.value.id && isBanned.value && !allowedCategories.value.length) {
     useNoPermsPage();
 }
 
-const threadGame = computed(() => game ?? (editThread.forum ? editThread.forum.game : null));
+const threadGame = computed(() => game ?? (editThread.value.forum ? editThread.value.forum.game : null));
 
 const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.value.short_name}/forum` : `/forum`);
-
-const breadcrumb = computed(() => {
-    let crumbs: Breadcrumb[] = [
-        { name: t('forum'), attachToPrev: 'forum' }
-    ];
-
-    if (threadGame.value) {
-        crumbs.unshift({ name: threadGame.value.name, id: threadGame.value.short_name, type: 'game' });
-    }
-
-    if (editThread.id && editThread.category) {
-        crumbs.push({ name: editThread.category.name, id: editThread.category.id, type: 'forum_category' });
-    }
-    
-    crumbs.push({ name: editThread.id ? editThread.name : t('post'), id: editThread.id, type: 'thread' });
-    if (editThread.id) {
-        crumbs.push({ name: t('edit') });
-    }
-
-    return crumbs;
-});
 </script>

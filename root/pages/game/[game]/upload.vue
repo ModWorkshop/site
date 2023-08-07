@@ -9,4 +9,7 @@ const { game } = defineProps<{
     game: Game
 }>();
 
+definePageMeta({
+    middleware: 'unbanned-users-only'
+});
 </script>

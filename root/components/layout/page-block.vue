@@ -9,7 +9,7 @@
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
                     </h2>
                     <flex wrap gap="4">
-                        <a-link-button v-if="!store.user || !store.isBanned" v-once icon="mdi:upload" :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                        <a-link-button v-if="!store.isBanned" v-once icon="mdi:upload" :to="user ? `/g/${game.short_name}/upload` : '/login'">{{$t('upload_mod')}}</a-link-button>
                         <a-link-button :to="`/g/${game.short_name}/mods`" icon="mdi:puzzle">{{$t('browse_mods')}}</a-link-button>
                         <a-link-button :to="`/g/${game.short_name}/forum`" icon="mdi:forum">{{$t('forum')}}</a-link-button>
                         <a-link-button v-for="button in buttons" :key="button[0]" :icon="button[2]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
@@ -61,6 +61,7 @@ import { useStore } from '~~/store';
 import { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
 import { adminGamePagePerms } from '~~/utils/helpers';
+import { storeToRefs } from 'pinia';
 
 const props = withDefaults(defineProps<{
     gap?: number;
@@ -72,6 +73,7 @@ const props = withDefaults(defineProps<{
 }>(), { gap: 3, size: 'nm', defineMeta: true });
 
 const store = useStore();
+const { user } = storeToRefs(store);
 
 const bannerUrl = computed(() => useSrc('games/images', props.game?.banner));
 
