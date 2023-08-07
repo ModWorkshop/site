@@ -56,10 +56,12 @@ const showMembers = {
     'contributor': true
 };
 const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));
+const i18n = useI18n();
+const locale = ref(i18n.locale.value);
 
-const likes = computed(() => props.mod.likes);
-const downloads = computed(() => props.mod.downloads);
-const views = computed(() => props.mod.views);
+const likes = computed(() => friendlyNumber(locale.value, props.mod.likes));
+const downloads = computed(() => friendlyNumber(locale.value, props.mod.downloads));
+const views = computed(() => friendlyNumber(locale.value, props.mod.views));
 
 //If the user set their own donation, show that.
 const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);

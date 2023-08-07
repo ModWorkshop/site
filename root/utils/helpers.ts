@@ -89,10 +89,17 @@ export function shortStat(n: number): string {
     if (n < 1000) {
         return n.toString();
     } else if (n < million) {
-        return Math.round(n / 1000) + 'K';
+        return (n / 1000).toFixed(1) + 'K';
     } else {
-        return Math.round(n / million) + 'M';
+        return (n / million).toFixed(1) + 'M';
     }
+}
+
+/**
+ * Returns a friendly version of a number. 12345 -> 12,345 (based on locale)
+ */
+export function friendlyNumber(locale: string, n: number): string {
+    return new Intl.NumberFormat(locale).format(n);
 }
 
 /**
