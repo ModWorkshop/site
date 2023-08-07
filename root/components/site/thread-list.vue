@@ -18,7 +18,10 @@
                     </button-group>
                 </flex>
             </content-block>
-            <flex column style="flex: 4;">
+            <flex column gap="3" style="flex: 4;">
+                <a-alert v-if="currentCategory && currentCategory.desc" color="info">
+                    {{ currentCategory.desc}}
+                </a-alert>
                 <a-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
                 <a-table v-if="threads?.data.length && !loading" class="threads">
                     <template #head>
@@ -30,7 +33,15 @@
                         <th>{{$t('last_reply_by')}}</th>
                     </template>
                     <template v-if="threads.data.length" #body>
-                        <a-list-thread v-for="thread in threads.data" :key="thread.created_at" :thread="thread" :no-category="!!categoryId" :no-pins="noPins" :category-link="!filters"/>
+                        <a-list-thread 
+                            v-for="thread in threads.data"
+                            :key="thread.created_at"
+                            :thread="thread"
+                            category-link
+                            :no-category="!!categoryId"
+                            :no-pins="noPins"
+                            :forum="selectedForum"
+                        />
                     </template>
                 </a-table>
                 <a-loading v-else-if="loading" class="m-auto"/>
@@ -46,7 +57,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
-const searchBus = useEventBus<string>('search')
+const searchBus = useEventBus<string>('search');
 
 const props = withDefaults(defineProps<{
     title?: string,

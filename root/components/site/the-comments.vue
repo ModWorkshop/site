@@ -2,7 +2,7 @@
     <div v-intersection-observer="onVisChange">
         <flex column gap="3">
             <flex class="items-center">
-                <h3>{{$t(resourceName)}}</h3>
+                <span class="h3">{{$t(resourceName)}}</span>
                 <flex class="ml-auto">
                     <a-button v-if="viewingComment" icon="arrow-left" :to="pageUrl">{{$t(`return_to_${resourceName}`)}}</a-button>
                     <VTooltip v-else :disabled="canComment">

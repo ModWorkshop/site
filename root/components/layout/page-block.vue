@@ -1,13 +1,7 @@
 <template>
     <flex column :class="classes" :gap="gap">
-        <flex class="page-block-nm mx-auto" column gap="4">
-            <flex v-if="announcements?.length" column>
-                <h4>📢 {{$t('announcements')}}</h4>
-                <flex class="md:flex-row flex-col">
-                    <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
-            </flex>
-
+        <flex class="page-block-nm mx-auto" column gap="3">
+            <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="game?.id" gap="0" column>
                 <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
                 <content-block :column="false" wrap class="items-center" gap="4">
@@ -15,7 +9,7 @@
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
                     </h2>
                     <flex wrap gap="4">
-                        <a-link-button v-if="!store.user || !store.isBanned" v-once icon="mdi:upload" :to="`/g/${game.short_name}/upload`">{{$t('upload_mod')}}</a-link-button>
+                        <a-link-button v-if="!store.isBanned" v-once icon="mdi:upload" :to="user ? `/g/${game.short_name}/upload` : '/login'">{{$t('upload_mod')}}</a-link-button>
                         <a-link-button :to="`/g/${game.short_name}/mods`" icon="mdi:puzzle">{{$t('browse_mods')}}</a-link-button>
                         <a-link-button :to="`/g/${game.short_name}/forum`" icon="mdi:forum">{{$t('forum')}}</a-link-button>
                         <a-link-button v-for="button in buttons" :key="button[0]" :icon="button[2]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
@@ -51,21 +45,13 @@
                     </flex>
                 </content-block>
             </flex>
-            <flex v-if="gameAnnouncements.length" column>
-                <h4 >📢 {{$t('game_announcements')}}</h4>
-                <flex class="md:flex-row flex-col">
-                    <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
-                </flex>
+            <flex v-if="gameAnnouncements.length || announcements?.length" column class="md:flex-row flex-col">
+                <a-announcement v-for="thread of announcements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
+                <a-announcement v-for="thread of gameAnnouncements" :key="thread.id" :thread="thread" @hide="hideAnnouncement(thread)"/>
             </flex>
         </flex>
         <flex :class="innerClasses" column :gap="gap">
-            <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <slot/>
-            
-            <flex v-if="store.activity" gap="2" class="text-xl">
-                <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
-                <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
-            </flex>
         </flex>
     </flex>
 </template>
@@ -75,6 +61,7 @@ import { useStore } from '~~/store';
 import { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
 import { adminGamePagePerms } from '~~/utils/helpers';
+import { storeToRefs } from 'pinia';
 
 const props = withDefaults(defineProps<{
     gap?: number;
@@ -86,6 +73,7 @@ const props = withDefaults(defineProps<{
 }>(), { gap: 3, size: 'nm', defineMeta: true });
 
 const store = useStore();
+const { user } = storeToRefs(store);
 
 const bannerUrl = computed(() => useSrc('games/images', props.game?.banner));
 
@@ -179,6 +167,10 @@ const innerClasses = computed(() => ({
 /* .page-block:first-child {
     margin-top: 8px;
 } */
+
+.page-block-nm, .page-block-full, .page-block-md, .page-block-nm, .page-block-sm, .page-block-xs, .page-block-2xs {
+    align-self: center;
+}
 
 .page-block-nm {
     width: 82%;

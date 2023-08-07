@@ -19,7 +19,7 @@
 			</flex>
 
             <ClientOnly>
-                <div id="div-gpt-ad-mws-1" class="ad mx-auto mb-3" style="max-height: 90px;max-height: 200px;text-align: center;position: relative;"/>
+                <div id="div-gpt-ad-mws-1" class="ad mx-auto" style="max-height: 90px;max-height: 200px;text-align: center;position: relative;"/>
                 <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                     <div id="div-gpt-ad-mws-2"/>
                 </div>
@@ -29,6 +29,10 @@
             </ClientOnly>
 
             <slot/>
+            <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
+                <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
+                <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
+            </flex>
         </main>
         <flex v-if="allowCookies === undefined" class="cookie-banner">
             <a-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">

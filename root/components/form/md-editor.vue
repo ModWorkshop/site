@@ -64,21 +64,31 @@ onMounted(() => {
     }
 });
 
-interface Tool {
-    icon: string,
-    insert: string
-}
-
 function clickTool(tool: Tool) {
     const textarea = textArea.value;
     
     if (textarea) {
         textarea.focus(); //Force focus
         const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
-        const selectedText = textarea.value?.substring(start, end) ?? '';
-        let insert = tool.insert;
+        const selectedText: string = textarea.value?.substring(start, end) ?? '';
+        const insert = tool.insert;
         let focus = start + insert.indexOf('$');
-        const inserted = insert.replace('$', selectedText);
+        let inserted;
+        
+        if (tool.multiline) {
+            const lines = selectedText.split('\n');
+            inserted = '';
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (i != 0) {
+                    inserted += '\n';
+                }
+                inserted += insert.replace('$line', (i + 1).toString()).replace('$', line);
+            }
+        } else{
+            inserted = insert.replace('$', selectedText);
+        }
+
         // textarea.setRangeText(inserted, start, end, 'select');
         document.execCommand("insertText", false, inserted); //If it's deprecated, then what the fuck am I supposed to use?
         emit('update:modelValue', textarea.value);

@@ -7,6 +7,8 @@
         </i18n-t>
     </a-alert>
     
+    <a-alert :desc="$t('images_help')"/>
+
     <label>{{$t('images')}}</label>
     <file-uploader 
             name="images"

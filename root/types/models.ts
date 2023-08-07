@@ -367,6 +367,8 @@ export interface Thread {
     tag_ids?: number[];
     tags?: Tag[];
     subscribed?: boolean;
+    game_id?: number;
+    game?: Game
 }
 
 export interface Forum {
