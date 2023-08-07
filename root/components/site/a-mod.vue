@@ -56,7 +56,7 @@ const props = defineProps<{
 }>();
 
 const i18n = useI18n();
-const locale = ref(i18n.locale.value);
+const locale = computed(() => i18n.locale.value);
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
 const likes = computed(() => shortStat(props.mod.likes));

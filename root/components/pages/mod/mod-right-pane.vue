@@ -57,7 +57,7 @@ const showMembers = {
 };
 const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));
 const i18n = useI18n();
-const locale = ref(i18n.locale.value);
+const locale = computed(() => i18n.locale.value);
 
 const likes = computed(() => friendlyNumber(locale.value, props.mod.likes));
 const downloads = computed(() => friendlyNumber(locale.value, props.mod.downloads));
