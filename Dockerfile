@@ -38,7 +38,7 @@ CMD ["/bin/sh", "-c", "pm2 start /var/www/html/ecosystem.config.js & caddy run -
 FROM node:18.16.0-alpine as dev
 
 ARG GIT_VERSION_HASH
-ENV NUXT_VERSION_HASH=GIT_VERSION_HASH
+ENV NUXT_VERSION_HASH=$GIT_VERSION_HASH
 
 WORKDIR /var/www/html
 CMD yarn && yarn dev
