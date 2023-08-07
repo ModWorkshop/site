@@ -19,7 +19,7 @@
                 </flex>
             </content-block>
             <flex column gap="3" style="flex: 4;">
-                <a-alert v-if="currentCategory" color="info" :icon="false" :title="currentCategory.name">
+                <a-alert v-if="currentCategory && currentCategory.desc" color="info">
                     {{ currentCategory.desc}}
                 </a-alert>
                 <a-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
