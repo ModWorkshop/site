@@ -10,7 +10,7 @@
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop 3.0
+                ModWorkshop Build {{runtimeConfig.version_hash || 'N/A'}}
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
@@ -43,6 +43,8 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { colorSchemes, longExpiration } from '~~/utils/helpers';
 import { Settings } from 'luxon';
+
+const { public: runtimeConfig } = useRuntimeConfig();
 
 const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
