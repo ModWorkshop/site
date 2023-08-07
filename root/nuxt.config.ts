@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, version_hash: ''},
+		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, versionHash: ''},
 		innerApiUrl: ''
 	},
 

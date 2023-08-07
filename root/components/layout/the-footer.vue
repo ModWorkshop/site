@@ -10,7 +10,7 @@
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop Build {{runtimeConfig.version_hash || 'N/A'}}
+                ModWorkshop Build {{runtimeConfig.versionHash || 'N/A'}}
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
