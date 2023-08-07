@@ -10,7 +10,7 @@
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop Build {{runtimeConfig.versionHash || 'N/A'}}
+                ModWorkshop Build {{buildVersion}}
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
@@ -55,6 +55,7 @@ const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
 const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
+const buildVersion = computed(() => (runtimeConfig.versionHash || 'N/A').substring(7));
 
 watch(locale, val => {
     i18n.setLocale(val);
