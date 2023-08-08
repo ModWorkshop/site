@@ -29,7 +29,7 @@ import { registerDownload } from '~~/utils/mod-helpers';
 
 const { t } = useI18n();
 
-defineProps<{
+const { mod } = defineProps<{
     mod: Mod;
 }>();
 
@@ -48,7 +48,7 @@ if (!file.value) {
 watch(download, () => {
     if (download.value) {
         download.value.click();
-        registerDownload(mod.value);
+        registerDownload(mod);
     }
 });
 
