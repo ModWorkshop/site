@@ -29,7 +29,10 @@ COPY --from=builder  /var/www/html/ecosystem.config.js ./ecosystem.config.js
 # All ready now
 EXPOSE 3000
 
+ARG GIT_VERSION_HASH
 ENV NITRO_PRESET=node_cluster
+ENV NUXT_PUBLIC_VERSION_HASH=${GIT_VERSION_HASH}
+
 RUN yarn global add pm2
 
 CMD ["/bin/sh", "-c", "pm2 start /var/www/html/ecosystem.config.js & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]

@@ -1,35 +1,33 @@
 <template>
-    <page-block :game="game" size="2xs" game-banner>
-        <content-block>
-            <a-user :user="user"/>
-            <flex gap="3" class="p-4 input-bg" column>
-                <a-tag-selector
-                    v-model="user.role_ids"
-                    multiple
-                    :label="$t('role')"
-                    :options="roles?.data"
-                    :disabled="user.id !== me!.id && !hasPermission('manage-roles')"
-                    :enabled-by="role => role.assignable"
-                    :color-by="item => item.color"
-                    @update:model-value="prepareSaveRoles"
-                />
-                <a-tag-selector 
-                    v-model="user.game_role_ids"
-                    :label="$t('game_roles')"
-                    multiple
-                    :disabled="user.id !== me!.id && !hasPermission('manage-roles', game)"
-                    :options="gameRoles?.data" 
-                    :enabled-by="role => role.assignable"
-                    :color-by="item => item.color"
-                    @update:model-value="prepareSaveGameRoles"
-                />
-            </flex>
-        </content-block>
-    </page-block>
+    <content-block class="page-block-2xs">
+        <a-user :user="user"/>
+        <flex gap="3" class="p-4 input-bg" column>
+            <a-tag-selector
+                v-model="user.role_ids"
+                multiple
+                :label="$t('role')"
+                :options="roles?.data"
+                :disabled="user.id !== me!.id && !hasPermission('manage-roles')"
+                :enabled-by="role => role.assignable"
+                :color-by="item => item.color"
+                @update:model-value="prepareSaveRoles"
+            />
+            <a-tag-selector 
+                v-model="user.game_role_ids"
+                :label="$t('game_roles')"
+                multiple
+                :disabled="user.id !== me!.id && !hasPermission('manage-roles', game)"
+                :options="gameRoles?.data" 
+                :enabled-by="role => role.assignable"
+                :color-by="item => item.color"
+                @update:model-value="prepareSaveGameRoles"
+            />
+        </flex>
+    </content-block>
 </template>
 
 <script setup lang="ts">
-import { Role, User } from '~/types/models';
+import { Game, Role, User } from '~/types/models';
 import { useStore } from '~~/store';
 
 definePageMeta({ alias: '/g/:game/user/:user' });
@@ -37,18 +35,20 @@ definePageMeta({ alias: '/g/:game/user/:user' });
 const { user: me, hasPermission } = useStore();
 const showError = useQuickErrorToast();
 
-const { data: game } = await useResource<User>('game', 'games');
-const { data: user } = await useResource<User>('user', `games/${game.value.id}/users`);
+const { game } = defineProps<{
+    game: Game
+}>();
+const { data: user } = await useResource<User>('user', `games/${game.id}/users`);
 const { data: roles } = await useFetchMany<Role>('roles');
 
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 
-const { data: gameRoles } = await useFetchMany<Role>(() => `games/${game.value.id}/roles`, { immediate: !!game.value });
+const { data: gameRoles } = await useFetchMany<Role>(() => `games/${game.id}/roles`, { immediate: !!game });
 
 async function saveGameRoles() {
     try {
-        await patchRequest(`games/${game.value.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
+        await patchRequest(`games/${game.id}/users/${user.value.id}/roles`, { role_ids: user.value?.game_role_ids });
     } catch (error) {
         showError(error);
     }

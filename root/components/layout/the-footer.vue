@@ -10,7 +10,7 @@
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop 3.0
+                ModWorkshop Build {{buildVersion}}
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
@@ -44,6 +44,8 @@ import { useStore } from '~~/store';
 import { colorSchemes, longExpiration } from '~~/utils/helpers';
 import { Settings } from 'luxon';
 
+const { public: runtimeConfig } = useRuntimeConfig();
+
 const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
 const store = useStore();
@@ -53,6 +55,7 @@ const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
 const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
+const buildVersion = computed(() => (runtimeConfig.versionHash || 'N/A').substring(0, 7));
 
 watch(locale, val => {
     i18n.setLocale(val);

@@ -1,26 +1,24 @@
 <template>
-    <mod-page v-if="mod" :mod="mod">
-        <flex column gap="3">
-            <div>
-                <mod-banner :mod="mod"/>
-            </div>
-            <div class="mod-main">
-                <mod-tabs :mod="mod"/>
-                <mod-right-pane :mod="mod"/>
-            </div>
-            <the-comments
-                lazy
-                :url="`mods/${mod.id}/comments`"
-                :page-url="`/mod/${mod.id}`"
-                :commentable="mod"
-                :can-edit-all="canEditComments"
-                :can-delete-all="canDeleteComments"
-                :get-special-tag="commentSpecialTag"
-                :can-comment="canComment"
-                :cannot-comment-reason="cannotCommentReason"
-            />
-        </flex>
-    </mod-page>
+    <flex gap="3" column>
+        <div>
+            <mod-banner :mod="mod"/>
+        </div>
+        <div class="mod-main">
+            <mod-tabs :mod="mod"/>
+            <mod-right-pane :mod="mod"/>
+        </div>
+        <the-comments
+            lazy
+            :url="`mods/${mod.id}/comments`"
+            :page-url="`/mod/${mod.id}`"
+            :commentable="mod"
+            :can-edit-all="canEditComments"
+            :can-delete-all="canDeleteComments"
+            :get-special-tag="commentSpecialTag"
+            :can-comment="canComment"
+            :cannot-comment-reason="cannotCommentReason"
+        />
+    </flex>
 </template>
 
 <script setup lang="ts">
@@ -31,19 +29,16 @@ import { canEditMod } from '~~/utils/mod-helpers';
 const store = useStore();
 const { t } = useI18n();
 
-const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', {
-    suspended: t('error_suspended'),
-    rejected: t('error_rejected'),
-    unapproved: t('error_unapproved'),
-});
+const { mod } = defineProps<{
+    mod: Mod;
+}>();
 
-
-const canEdit = computed(() => canEditMod(mod.value));
-const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.value.game));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.value.game)));
-const canComment = computed(() => !mod.value.user.blocked_me && !store.isBanned && (!mod.value.comments_disabled || canEdit.value));
+const canEdit = computed(() => canEditMod(mod));
+const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.game));
+const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game)));
+const canComment = computed(() => !mod.user.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
-    if (mod.value.comments_disabled) {
+    if (mod.comments_disabled) {
         return t('comments_disabled');
     }
 
@@ -51,16 +46,16 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_banned');
     }
 
-    if (mod.value.user.blocked_me) {
+    if (mod.user.blocked_me) {
         return t('cannot_comment_blocked_mod');
     }
 });
 
 function commentSpecialTag(comment: Comment) {
-    if (comment.user_id === mod.value.user_id) {
+    if (comment.user_id === mod.user_id) {
         return `${t('owner')}`;
     } else {
-        const member: ModMember = mod.value.members.find(member => comment.user_id === member.id);
+        const member: ModMember = mod.members.find(member => comment.user_id === member.id);
         if (member && member.accepted) {
             return t(`member_level_${member.level}`);
         }

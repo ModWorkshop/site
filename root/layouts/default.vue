@@ -29,7 +29,7 @@
             </ClientOnly>
 
             <slot/>
-            <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto">
+            <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
                 <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
                 <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
             </flex>

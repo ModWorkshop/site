@@ -24,13 +24,13 @@
             </template>
 
             <flex>
-                <span :title="mod.likes.toString()">
+                <span :title="fullLikes">
                     <a-icon icon="mdi:heart"/> {{likes}}
                 </span>
-                <span :title="mod.downloads.toString()">
+                <span :title="fullDownloads">
                     <a-icon icon="mdi:download"/> {{downloads}}
                 </span>
-                <span :title="mod.views.toString()">
+                <span :title="fullViews">
                     <a-icon icon="mdi:eye"/> {{views}}
                 </span>
                 <span v-if="date" class="inline-block ml-auto">
@@ -55,11 +55,17 @@ const props = defineProps<{
     static?: boolean
 }>();
 
+const i18n = useI18n();
+const locale = computed(() => i18n.locale.value);
 const showGame = computed(() => !props.noGame && props.mod.game);
 const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
 const likes = computed(() => shortStat(props.mod.likes));
 const downloads = computed(() => shortStat(props.mod.downloads));
 const views = computed(() => shortStat(props.mod.views));
+
+const fullLikes = computed(() => friendlyNumber(locale.value, props.mod.likes));
+const fullDownloads = computed(() => friendlyNumber(locale.value, props.mod.downloads));
+const fullViews = computed(() => friendlyNumber(locale.value, props.mod.views));
 
 const link = computed(() => !props.static ? `/mod/${props.mod.id}` : undefined);
 const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game?.short_name || props.mod.game?.id}`);

@@ -73,10 +73,17 @@ const memberWaitingRole = computed(() => {
 });
 const showPublish = computed(() => canEdit.value && !props.mod.published_at && props.mod.visibility == 'public' && props.mod.has_download);
 
-const hasAlerts = computed(() => 
-    props.mod && (!props.mod.has_download || props.mod.approved !== true || props.mod.suspended 
-    || memberWaiting.value || (props.mod.transfer_request && props.mod.transfer_request.user_id == user?.id)) || showPublish
-);
+const hasAlerts = computed(() => {
+    const mod = props.mod;
+    
+    if (!mod) {
+        return false;
+    }
+
+    const transfer = mod.transfer_request && mod.transfer_request.user_id == user?.id;
+
+    return !mod.has_download || !mod.approved || mod.suspended || memberWaiting.value || transfer || showPublish.value;
+});
 
 async function acceptMembership(accept: boolean) {
     await patchRequest(`mods/${props.mod.id}/members/accept`, { accept });

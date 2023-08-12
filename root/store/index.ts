@@ -60,13 +60,13 @@ export const useStore = defineStore('main', {
             this.savedTheme = this.theme === 'light' ? null : 'light';
             useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
-        setGame(game: Game|null) {
+        setGame(game?: Game|null) {
             // if (game) {
             //     console.log('Setting game to', game.name);
             // } else {
             //     console.log('Setting to no game');
             // }
-            this.currentGame = game;
+            this.currentGame = game || null;
         },
         /**
          * Attempts to login the user (automatically)

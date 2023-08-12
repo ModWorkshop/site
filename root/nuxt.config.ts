@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false},
+		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, versionHash: ''},
 		innerApiUrl: ''
 	},
 
@@ -26,18 +26,18 @@ export default defineNuxtConfig({
 						{ path: "api", file: '~/pages/user-settings/api.vue' },
 					]
 				},
-				{ path: "/mod/:mod/post/:comment", file: '~/pages/mod/[mod]/index.vue' },
-				{ path: "/forum/post", file: '~~/pages/thread/[thread]/edit.vue' },
-				{ path: "/g/:game/upload", file: '~/pages/upload.vue' },
-				{ path: "/g/:game/forum", file: '~/pages/forum.vue' },
-				{ path: "/g/:game/forum/post", file: '~~/pages/thread/[thread]/edit.vue' },
-				{ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' },
 				{ path: "/g/:game/documents", file: '~/pages/documents.vue' },
-				{ path: "/g/:game/document/:documentId", file: '~/pages/document/[document].vue' },
+				{ path: "/g/:game/document/:document", file: '~/pages/document/[document].vue' },
 			]);
 
 
 			//Kinda disgusting, but other way is making components for each one of them and then pages...
+			const mod = routes.find(page => page.path == '/mod/:mod()');
+			mod?.children?.push({ path: "/mod/:mod/post/:comment", file: '~~/pages/mod/[mod]/index.vue' });
+			
+			const thread = routes.find(page => page.path == '/thread/:thread()');
+			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' });
+
 			const game = routes.find(page => page.path == '/game/:game()/admin');
 
 			if (game && game.children) {
@@ -81,6 +81,11 @@ export default defineNuxtConfig({
 	// 	compressPublicAssets: true,
 	// },
 	
+	vue: {
+		defineModel: true,
+		propsDestructure: true
+	},
+
 	components: [
 		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
 	],

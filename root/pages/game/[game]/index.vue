@@ -1,6 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
-        <Title>{{game.name}}</Title>
+    <div>
         <a-lite-mod-list
             v-if="store.user?.extra?.game_show_mods ?? true"
             :link="`/g/${game.short_name}/mods`"
@@ -17,24 +16,18 @@
             :query="false"
             :filters="false"
         />
-    </page-block>
+    </div>
 </template>
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 const store = useStore();
-const { t } = useI18n();
 
 definePageMeta({ alias: '/g/:game' });
 
-const { data: game } = await useResource<Game>('game', 'games');
+const { game } = defineProps<{
+    game: Game
+}>();
 
-const breadcrumb = computed(() => {
-    if (game.value) {
-        return [ { name: t('games'), to: 'games' }, { name: game.value.name } ];
-    }
-});
-
-watch(() => game.value, () =>  store.currentGame = game.value, { immediate: true });
+watch(() => game, () =>  store.currentGame = game, { immediate: true });
 </script>
