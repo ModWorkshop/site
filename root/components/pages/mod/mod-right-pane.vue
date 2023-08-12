@@ -40,7 +40,8 @@
                 </flex>
             </flex>
         </flex>
-        <div id="div-gpt-ad-mws-4" class="ad mt-1" style="max-height: 400px;"/>
+        <!-- <div id="div-gpt-ad-mws-4" class="ad mt-1" style="max-height: 400px;"/> -->
+        <div id="mws-ads-mod-pane" class="ad mt-1"/>
     </flex>
 </template>
 
@@ -67,6 +68,29 @@ const views = computed(() => friendlyNumber(locale.value, props.mod.views));
 const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
 
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
+
+onMounted(() => {
+    if (process.client) {
+        window['nitroAds'].createAd('mws-ads-mod-pane', {
+            "refreshLimit": 20,
+            "refreshTime": 60,
+            "renderVisibleOnly": false,
+            "refreshVisibleOnly": true,
+            "sizes": [
+                [
+                "336",
+                "280"
+                ]
+            ],
+            "report": {
+                "enabled": true,
+                "icon": true,
+                "wording": "Report Ad",
+                "position": "bottom-right"
+            },
+        });
+    }
+})
 </script>
 
 <style>

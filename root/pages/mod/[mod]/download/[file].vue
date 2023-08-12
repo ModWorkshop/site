@@ -14,10 +14,11 @@
                 icon="circle-question"
                 color="warning"
             >
-            {{$t('downloading_file_help')}}
-        </a-button>
-    </flex>
-    <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
+                {{$t('downloading_file_help')}}
+            </a-button>
+        </flex>
+        <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
+        <div id="mws-ads-video-ad"/>
     </flex>
 </template>
 
@@ -53,9 +54,23 @@ watch(download, () => {
 });
 
 onMounted(() => {
-    if (dataLayer) {
-        console.log('Load video');
-        dataLayer.push({event: "loadVideo"});
+    if (process.client) {
+        // if (dataLayer) {
+        //     console.log('Load video');
+        //     dataLayer.push({event: "loadVideo"});
+        // }
+        window['nitroAds'].createAd('mws-ads-video-ad', {
+            "format": "video-nc",
+            "report": {
+                "enabled": true,
+                "icon": true,
+                "wording": "Report Ad",
+                "position": "bottom-right"
+            },
+            "video": {
+                "float": "never"
+            }
+        });
     }
 });
 </script>

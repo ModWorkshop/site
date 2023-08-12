@@ -7,6 +7,22 @@ export default defineNuxtConfig({
 		host: '0.0.0.0',
 	},
 
+	app: {
+		head: {
+			script: [
+				{
+					innerHTML: 'window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};',
+					'data-cfasync': false,
+				},
+				{
+					src: 'https://s.nitropay.com/ads-92.js',
+					'data-cfasync': false,
+					async: true
+				}
+			]
+		}
+	},
+
 	runtimeConfig: {
 		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, versionHash: ''},
 		innerApiUrl: ''
