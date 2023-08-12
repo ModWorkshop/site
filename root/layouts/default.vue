@@ -127,16 +127,24 @@ onMounted(() => {
             "refreshVisibleOnly": true,
             "sizes": [
                 [
-                "970",
-                "250"
+                "320",
+                "100"
+                ],
+                [
+                "728",
+                "90"
+                ],
+                [
+                "320",
+                "50"
                 ]
             ],
             "report": {
                 "enabled": true,
                 "icon": true,
                 "wording": "Report Ad",
-                "position": "bottom-right"
-            },
+                "position": "top-right"
+            }
         });
     }
 
