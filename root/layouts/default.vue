@@ -86,7 +86,7 @@ const adClasses = computed(() => ({
     'ad-scroll': adScroll
 }));
 
-onMounted(() => {
+onMounted(async () => {
     let def = 0;
     document.addEventListener("scroll", () => {
         if (leftAd.value) {
@@ -117,10 +117,10 @@ onMounted(() => {
                 "position": "bottom-right"
             },
         };
-    
-        window['nitroAds'].createAd('mws-ads-left', adConfig);
-        window['nitroAds'].createAd('mws-ads-right', adConfig);
-        window['nitroAds'].createAd('mws-ads-top', {
+
+        const leftAd = await window['nitroAds'].createAd('mws-ads-left', adConfig);
+        const rightAd = await window['nitroAds'].createAd('mws-ads-right', adConfig);
+        const topAd = await window['nitroAds'].createAd('mws-ads-top', {
             "refreshLimit": 20,
             "refreshTime": 60,
             "renderVisibleOnly": false,
@@ -146,6 +146,10 @@ onMounted(() => {
                 "position": "top-right"
             }
         });
+
+        store.ads.push(leftAd);
+        store.ads.push(rightAd);
+        store.ads.push(topAd);
     }
 
 });

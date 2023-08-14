@@ -14,6 +14,7 @@ interface MainStore {
         users: number,
         guests: number
     }|null,
+    ads: any[],
     currentGame: Game|null,
     savedTheme: CookieRef<string>|null,
     announcements: Thread[],
@@ -39,7 +40,8 @@ export const useStore = defineStore('main', {
         settings: null,
         games: null,
         tags: null,
-        user: null
+        user: null,
+        ads: []
     }),
     getters: {
         theme(state) {
