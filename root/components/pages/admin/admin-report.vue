@@ -6,7 +6,7 @@
             <flex class="items-center">{{$t('reported_user')}}: <a-user :user="reportedUser" avatar-size="xs"/></flex>
             <span>{{ $t('reason') }}:</span>
             <blockquote>{{report.reason}}</blockquote>
-            <span>{{ contentTitle }}: <span v-if="content && currentContent != content">{{$t('edited')}}</span></span>
+            <span>{{ contentTitle }}: <span v-if="content && currentContent != content">{{$t(report.reportable ? 'edited' : 'deleted')}}</span></span>
             <details>{{ content }}</details>
         </flex>
         <flex column class="ml-auto my-auto" gap="2">
