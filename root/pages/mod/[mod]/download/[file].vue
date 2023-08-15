@@ -17,7 +17,7 @@
                 {{$t('downloading_file_help')}}
             </a-button>
         </flex>
-        <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/>
+        <!-- <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/> -->
         <div id="mws-ads-video-ad"/>
     </flex>
 </template>
