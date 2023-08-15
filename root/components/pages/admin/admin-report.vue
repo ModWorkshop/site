@@ -12,7 +12,7 @@
         <flex column class="ml-auto my-auto" gap="2">
             <flex class="ml-auto">
                 <a-button v-if="report.reportable" :to="`/admin/${casesUrl}?user=${report.reportable.user_id}`">{{$t('warn_owner')}}</a-button>
-                <mod-suspend v-if="report.reportable_type == 'mod'" :mod="report.reportable"/>
+                <mod-suspend v-if="report.reportable_type == 'mod' && report.reportable" :mod="report.reportable"/>
                 <a-button @click="goToContent(report)">{{$t('go_to_content')}}</a-button>
             </flex>
             <flex class="ml-auto">
