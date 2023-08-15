@@ -167,7 +167,7 @@ onMounted(async () => {
                 "wording": "Report Ad",
                 "position": "top-right"
             },
-            "mediaQuery": "(min-width: 1025px)"
+            "mediaQuery": "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
         });
 
         store.ads.push(leftAd);
