@@ -20,6 +20,7 @@
 
             <!-- <div id="div-gpt-ad-mws-1" class="ad mx-auto" style="text-align: center;position: relative;"/> -->
             <div id="mws-ads-top" class="ad mx-auto"/>
+            <div id="mws-ads-top-mobile" class="ad mx-auto"/>
             
             <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                 <div id="mws-ads-left"/>
@@ -129,12 +130,31 @@ onMounted(async () => {
             "refreshVisibleOnly": true,
             "sizes": [
                 [
-                "320",
-                "100"
+                "970",
+                "90"
                 ],
                 [
                 "728",
                 "90"
+                ]
+            ],
+            "report": {
+                "enabled": true,
+                "icon": true,
+                "wording": "Report Ad",
+                "position": "top-right"
+            },
+            "mediaQuery": "(min-width: 1025px)"
+        });
+        const topAdMobile = await window['nitroAds'].createAd('mws-ads-top-mobile', {
+            "refreshLimit": 20,
+            "refreshTime": 60,
+            "renderVisibleOnly": false,
+            "refreshVisibleOnly": true,
+            "sizes": [
+                [
+                "320",
+                "100"
                 ],
                 [
                 "320",
@@ -146,12 +166,14 @@ onMounted(async () => {
                 "icon": true,
                 "wording": "Report Ad",
                 "position": "top-right"
-            }
+            },
+            "mediaQuery": "(min-width: 1025px)"
         });
 
         store.ads.push(leftAd);
         store.ads.push(rightAd);
         store.ads.push(topAd);
+        store.ads.push(topAdMobile);
     }
 
 });
