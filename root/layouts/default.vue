@@ -98,6 +98,8 @@ onMounted(async () => {
         }
     });
     
+    console.log("mount ads");
+
     if (process.client) {
         const adConfig = {
             "refreshLimit": 20,

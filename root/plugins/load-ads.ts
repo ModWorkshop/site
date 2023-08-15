@@ -10,8 +10,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             return;
         }
 
+        console.log("Ad on navigate. Refreshing", ads?.length || 0, " ads");
         for (const ad of ads) {
-            console.log("Ad on navigate");
             ad.onNavigate();
         }
         // console.log('Page finished loading. Attempting to launch or reinstate ads.');
