@@ -13,6 +13,7 @@ const props = defineProps({
 const bmc = /(?:https:\/\/)?(?:www\.)?buymeacoffee\.com\/(\w+)/;
 const kofi = /(?:https:\/\/)?(?:www\.)?ko-fi\.com\/(\w+)/;
 const paypalme  = /(?:https:\/\/)?(?:www\.)?paypal\.me\/(\w+)/;
+const paypalBtn = /(?:https:\/\/)?(?:www\.)?paypal(?:\.me|\.com)\/donate\/\?hosted_button_id=(\w+)/;
 const paypal = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 const link = computed(() => {
@@ -26,6 +27,8 @@ const link = computed(() => {
             return `https://paypal.me/${l.match(paypalme)![1]}`;
         } else if (paypal.test(l)) {
             return `https://www.paypal.com/donate/?business=${l}`;
+        } else if (paypalBtn.test(l)) {
+            return `https://www.paypal.com/donate/?hosted_button_id=${l.match(paypalBtn)![1]}`;
         }
     }
 });
@@ -37,7 +40,7 @@ const image = computed(() => {
             return `kofi.png`;
         } else if (bmc.test(l)) {
             return `buymeacoffee.png`;
-        } else if (paypalme.test(l) || paypal.test(l)) {
+        } else if (paypalme.test(l) || paypal.test(l) || paypalBtn.test(l)) {
             return `paypal.png`;
         }
     }
