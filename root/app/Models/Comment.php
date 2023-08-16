@@ -115,7 +115,7 @@ class Comment extends Model implements SubscribableInterface
 
     public function replyingComment() : BelongsTo
     {
-        return $this->belongsTo(Comment::class, 'id', 'reply_to');
+        return $this->belongsTo(Comment::class, 'reply_to', 'id');
     }
 
     public function mentions()
@@ -136,9 +136,15 @@ class Comment extends Model implements SubscribableInterface
         static::created(function(Comment $comment) {
             $id = Auth::user()?->id;
             if (isset($id)) {
-                $comment->subscriptions()->create([
-                    'user_id' => $id
-                ]);
+                if (isset($comment->reply_to)) {
+                    $comment->replyingComment->subscriptions()->create([
+                        'user_id' => $id
+                    ]);
+                } else {
+                    $comment->subscriptions()->create([
+                        'user_id' => $id
+                    ]);
+                }
             }
         });
 
