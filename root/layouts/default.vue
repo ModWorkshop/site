@@ -32,10 +32,12 @@
             </div>
 
             <slot/>
-            <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
-                <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
-                <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
-            </flex>
+            <div class="page-block-nm">
+                <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
+                    <span :title="$t('users')"><a-icon icon="mdi:account"/> {{ store.activity.users }}</span>
+                    <span :title="$t('guests')"><a-icon icon="mdi:hand-wave"/> {{ store.activity.guests }}</span>
+                </flex>
+            </div>
         </main>
         <flex v-if="allowCookies === undefined" class="cookie-banner">
             <a-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">
