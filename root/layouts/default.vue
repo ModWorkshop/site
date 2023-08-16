@@ -19,8 +19,8 @@
 			</flex>
 
             <!-- <div id="div-gpt-ad-mws-1" class="ad mx-auto" style="text-align: center;position: relative;"/> -->
-            <div id="mws-ads-top" class="ad mx-auto"/>
-            <div id="mws-ads-top-mobile" class="ad mx-auto"/>
+            <div id="mws-ads-top" class="ad mx-auto mt-2"/>
+            <div id="mws-ads-top-mobile" class="ad mx-auto mt-2"/>
             
             <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                 <div id="mws-ads-left"/>
@@ -142,7 +142,7 @@ onMounted(async () => {
                 "enabled": true,
                 "icon": true,
                 "wording": "Report Ad",
-                "position": "top-right"
+                "position": "bottom-right"
             },
             "mediaQuery": "(min-width: 1025px)"
         });
@@ -165,7 +165,7 @@ onMounted(async () => {
                 "enabled": true,
                 "icon": true,
                 "wording": "Report Ad",
-                "position": "top-right"
+                "position": "bottom-right"
             },
             "mediaQuery": "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
         });
