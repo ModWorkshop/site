@@ -5,69 +5,13 @@
 This repository contains the source code for the backend side of ModWorkshop
 The backend uses the Laravel framework.
 
-## Installation
+## Developing
+Developing the backend, alongside the frontend, requires the use of [Docker](https://www.docker.com/).
+Visit https://github.com/ModWorkshop/mws-docker-setup for more information.
+While it is possible to install all dependencies by yourself, it is not that recommended as Docker can install all instantly.
 
-### Linux
-Guide is written for Debian based distros.
-
-1. Install PHP 8.1+ and Composer
-    1. ```bash
-        sudo apt-get install php8.1 php8.1-dev php8.1-xml php8.1-curl
-        ```
-    2. ```bash
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-        php composer-setup.php
-        php -r "unlink('composer-setup.php');"
-        ```
-    3. ```bash
-        sudo mv composer.phar /usr/local/bin/composer
-        ```
-2. Install the apfd extension:
-*This is necessary due to a very annoying ignored issue by the PHP devs https://bugs.php.net/bug.php?id=55815*
-    1. `pecl install apfd`
-    2. Enable it in php.ini by adding `extension=apfd` around line 950.
-3. Install libvips (Image compression and how we convert them efficiently to webp, including gifs)
-```bash
-sudo apt-get install --no-install-recommends libvips42
-```
-4. Install postgresql
-    1. ```bash
-        sudo apt install postgresql postgresql-contrib php8.1-pgsql
-        ```
-    2. Create a database named mws by running: 
-        ```bash
-        sudo -u postgres createdb mws
-        ```
-    3. Set a password for the postgres user, for developement you can set it to `postgres` like so:
-        ```bash
-        sudo -u postgres psql -c "ALTER ROLE postgres WITH password 'postgres'"
-        ```
-
-5. Copy .env.example to .env and fill the main information as bare minimum.
-6. Run on the directory of the backend the following command:
-    ```bash
-    php artisan initial-setup
-    ```
-
-The backend should be ready to use now.
-
-Optional (but necessary in production):
-1. Install Redis:
-    1. ```bash
-        sudo apt-get install redis-server php8.1-redis
-        ```
-    2. ```bash
-        sudo pecl install redis
-        ```
-    3. Set CACHE_DRIVER to 'redis' in the .env.
-2. Setup CloudFlare R2 https://dash.cloudflare.com. Fill all the data needed in the .env and set FILESYSTEM_DRIVER to r2.
-3. Set a strong password for Postgres. https://bitwarden.com/password-generator/
-3. Setup all social logins (Just visit each site linked in the .env)
-
-### Windows
-Will be done in the future. There are currently a few issues with Windows and some of the packages we use.
-
+# Style Guide
+Keep consistent style, database columns are snake_case, Class names are PascalCase, function names are camelCase. 4 Tab Spaces.
 
 ## Learning Laravel
 
