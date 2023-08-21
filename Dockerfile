@@ -1,4 +1,4 @@
-FROM trafex/php-nginx as build
+FROM trafex/php-nginx:3.1.0 as build
 USER root
 
 RUN apk --no-cache add \
@@ -14,8 +14,6 @@ RUN apk --no-cache add \
   php81-xmlwriter \
   php81-cli \
   php81-pcntl \
-  php81-phar \
-  php81-dom \
   php81-posix
 
 # Install stuff
