@@ -79,51 +79,51 @@ endpoints:
         name: name
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: xlmqjoscfxvhjlmisnppgsv
+        example: rclolftgsxugeuqcwpyzfwbdr
         type: string
         custom: []
       buttons:
         name: buttons
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: xlahdyiyjr
+        example: wayeexvpefx
         type: string
         custom: []
       thumbnail_file:
         name: thumbnail_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: pdciffgqbzmdkbdowtudslalb
+        example: zodyncfftivbqcxpqbnfhw
         type: string
         custom: []
       banner_file:
         name: banner_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: iyyxcarydsyokgbbdvzaqy
+        example: qiqwoejwh
         type: string
         custom: []
       short_name:
         name: short_name
         description: 'Must not be greater than 30 characters.'
         required: false
-        example: jknpr
+        example: nn
         type: string
         custom: []
       webhook_url:
         name: webhook_url
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: 'http://www.braun.info/quis-deserunt-a-id-est-laudantium-repellat'
+        example: 'http://gleason.info/ipsa-quod-dignissimos-ut-et-ut-voluptatum-atque'
         type: string
         custom: []
     cleanBodyParameters:
-      name: xlmqjoscfxvhjlmisnppgsv
-      buttons: xlahdyiyjr
-      thumbnail_file: pdciffgqbzmdkbdowtudslalb
-      banner_file: iyyxcarydsyokgbbdvzaqy
-      short_name: jknpr
-      webhook_url: 'http://www.braun.info/quis-deserunt-a-id-est-laudantium-repellat'
+      name: rclolftgsxugeuqcwpyzfwbdr
+      buttons: wayeexvpefx
+      thumbnail_file: zodyncfftivbqcxpqbnfhw
+      banner_file: qiqwoejwh
+      short_name: nn
+      webhook_url: 'http://gleason.info/ipsa-quod-dignissimos-ut-et-ut-voluptatum-atque'
     fileParameters: []
     responses: []
     responseFields: []
@@ -352,12 +352,12 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 68
+          - 30
         type: 'integer[]'
         custom: []
     cleanBodyParameters:
       role_ids:
-        - 68
+        - 30
     fileParameters: []
     responses: []
     responseFields: []
@@ -399,19 +399,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: amw
+        example: qxedmocdllznbuhruapfghph
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 25
+        example: 8
         type: integer
         custom: []
     cleanBodyParameters:
-      query: amw
-      limit: 25
+      query: qxedmocdllznbuhruapfghph
+      limit: 8
     fileParameters: []
     responses: []
     responseFields: []
@@ -453,49 +453,49 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: qbfhlhcbvv
+        example: fchgl
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: rpithhd
+        example: nwojgwl
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: gbckhuaoyxydjqesga
+        example: ocgydhu
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: ike
+        example: viomun
         type: string
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       self_assignable:
         name: self_assignable
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 14
+        example: 17
         type: integer
         custom: []
       permissions:
@@ -506,13 +506,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: qbfhlhcbvv
-      tag: rpithhd
-      desc: gbckhuaoyxydjqesga
-      color: ike
-      is_vanity: false
-      self_assignable: true
-      order: 14
+      name: fchgl
+      tag: nwojgwl
+      desc: ocgydhu
+      color: viomun
+      is_vanity: true
+      self_assignable: false
+      order: 17
     fileParameters: []
     responses: []
     responseFields: []
@@ -609,28 +609,28 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: uoljl
+        example: taqfo
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: cxghorlliaax
+        example: sbmldhtjcbwtzcgiccfsaz
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: cebohlgubffxiawopuqmabytv
+        example: eytyipeyvkqfnhmjdgjlgcut
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: f
+        example: hjsfi
         type: string
         custom: []
       is_vanity:
@@ -644,14 +644,14 @@ endpoints:
         name: self_assignable
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 24
+        example: 18
         type: integer
         custom: []
       permissions:
@@ -662,13 +662,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: uoljl
-      tag: cxghorlliaax
-      desc: cebohlgubffxiawopuqmabytv
-      color: f
+      name: taqfo
+      tag: sbmldhtjcbwtzcgiccfsaz
+      desc: eytyipeyvkqfnhmjdgjlgcut
+      color: hjsfi
       is_vanity: true
-      self_assignable: false
-      order: 24
+      self_assignable: true
+      order: 18
     fileParameters: []
     responses: []
     responseFields: []

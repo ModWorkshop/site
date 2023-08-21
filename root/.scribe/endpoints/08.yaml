@@ -73,49 +73,49 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: pveexbmayoms
+        example: xqgudsgsbimbdqkaxxgikhbn
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: ptlmmetc
+        example: bgphxxjmj
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: pzupmxzcygrln
+        example: qyiesinzovgwi
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: t
+        example: mlqmr
         type: string
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       self_assignable:
         name: self_assignable
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 8
+        example: 9
         type: integer
         custom: []
       permissions:
@@ -126,13 +126,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: pveexbmayoms
-      tag: ptlmmetc
-      desc: pzupmxzcygrln
-      color: t
-      is_vanity: false
-      self_assignable: true
-      order: 8
+      name: xqgudsgsbimbdqkaxxgikhbn
+      tag: bgphxxjmj
+      desc: qyiesinzovgwi
+      color: mlqmr
+      is_vanity: true
+      self_assignable: false
+      order: 9
     fileParameters: []
     responses: []
     responseFields: []

@@ -34,19 +34,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: gzrhjenwgiygh
+        example: ppijlcghcsxqbbqteiz
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 22
+        example: 17
         type: integer
         custom: []
     cleanBodyParameters:
-      query: gzrhjenwgiygh
-      limit: 22
+      query: ppijlcghcsxqbbqteiz
+      limit: 17
     fileParameters: []
     responses: []
     responseFields: []
@@ -88,43 +88,43 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: mkhnraevowgnmyllxnquylfhw
+        example: irtre
         type: string
         custom: []
       content:
         name: content
         description: 'Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: true
-        example: jjsaisbzcanbtphexkfld
+        example: uiwxwayfeglz
         type: string
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T21:11:11'
+        example: '2023-08-21T21:19:44'
         type: string
         custom: []
       announce:
         name: announce
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 67
+        example: 63
         type: integer
         custom: []
     cleanBodyParameters:
-      name: mkhnraevowgnmyllxnquylfhw
-      content: jjsaisbzcanbtphexkfld
-      announce_until: '2023-08-21T21:11:11'
-      announce: true
-      category_id: 67
+      name: irtre
+      content: uiwxwayfeglz
+      announce_until: '2023-08-21T21:19:44'
+      announce: false
+      category_id: 63
     fileParameters: []
     responses: []
     responseFields: []
@@ -205,35 +205,35 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: ypaaerwjw
+        example: clvbcudmru
         type: string
         custom: []
       content:
         name: content
         description: 'This field is required when none of <code>pinned</code> and <code>locked</code> are present. Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: false
-        example: mmdwqwotlfmuzovhd
+        example: beveyqjk
         type: string
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 67
+        example: 45
         type: integer
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T21:11:11'
+        example: '2023-08-21T21:19:44'
         type: string
         custom: []
       announce:
         name: announce
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       tag_ids:
@@ -241,33 +241,33 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 81
+          - 59
         type: 'integer[]'
         custom: []
       pinned:
         name: pinned
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       locked:
         name: locked
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: ypaaerwjw
-      content: mmdwqwotlfmuzovhd
-      category_id: 67
-      announce_until: '2023-08-21T21:11:11'
-      announce: true
+      name: clvbcudmru
+      content: beveyqjk
+      category_id: 45
+      announce_until: '2023-08-21T21:19:44'
+      announce: false
       tag_ids:
-        - 81
-      pinned: false
-      locked: true
+        - 59
+      pinned: true
+      locked: false
     fileParameters: []
     responses: []
     responseFields: []

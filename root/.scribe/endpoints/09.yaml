@@ -34,19 +34,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: jxfpkjdqhbdcbxugxebksumai
+        example: fmauovnzrponrzqqhecrkm
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 7
+        example: 9
         type: integer
         custom: []
     cleanBodyParameters:
-      query: jxfpkjdqhbdcbxugxebksumai
-      limit: 7
+      query: fmauovnzrponrzqqhecrkm
+      limit: 9
     fileParameters: []
     responses: []
     responseFields: []
@@ -165,43 +165,43 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: zhxdydlzngdj
+        example: emsdtyiohxbriyfowivsykw
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must be at least 3 characters. Must not be greater than 50000 characters.'
         required: false
-        example: hctdeciefgznyk
+        example: wk
         type: string
         custom: []
       is_unlisted:
         name: is_unlisted
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 67
+        example: 9
         type: integer
         custom: []
       url_name:
         name: url_name
         description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 30 characters.'
         required: false
-        example: jijvgiuglquoninqzarwqluzc
+        example: xhyzrtanzkatjjqzdkplm
         type: string
         custom: []
     cleanBodyParameters:
-      name: zhxdydlzngdj
-      desc: hctdeciefgznyk
-      is_unlisted: false
-      game_id: 67
-      url_name: jijvgiuglquoninqzarwqluzc
+      name: emsdtyiohxbriyfowivsykw
+      desc: wk
+      is_unlisted: true
+      game_id: 9
+      url_name: xhyzrtanzkatjjqzdkplm
     fileParameters: []
     responses: []
     responseFields: []

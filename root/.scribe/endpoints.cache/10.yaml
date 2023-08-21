@@ -36,19 +36,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: bfdwxdnhudbozjxmrnnukligb
+        example: ibwogytoqparwozlxqaulxh
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 20
+        example: 24
         type: integer
         custom: []
     cleanBodyParameters:
-      query: bfdwxdnhudbozjxmrnnukligb
-      limit: 20
+      query: ibwogytoqparwozlxqaulxh
+      limit: 24
     fileParameters: []
     responses: []
     responseFields: []

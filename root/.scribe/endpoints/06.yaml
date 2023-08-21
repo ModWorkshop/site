@@ -34,19 +34,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: ksxebkkmvzrwfh
+        example: qycjoosmuzzqsifykbnzcgpjx
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 1
+        example: 22
         type: integer
         custom: []
     cleanBodyParameters:
-      query: ksxebkkmvzrwfh
-      limit: 1
+      query: qycjoosmuzzqsifykbnzcgpjx
+      limit: 22
     fileParameters: []
     responses: []
     responseFields: []
@@ -165,21 +165,21 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: ttnuutrkbfssixqmeiesbke
+        example: fdyenjgeftymcffqrg
         type: string
         custom: []
       emoji:
         name: emoji
         description: 'Must not be greater than 6 characters.'
         required: false
-        example: tvobwo
+        example: rcx
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: wpgmgcn
+        example: jqmztmewevlxdtsrjazj
         type: string
         custom: []
       is_private:
@@ -200,7 +200,7 @@ endpoints:
         name: private_threads
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       role_policies:
@@ -218,12 +218,12 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: ttnuutrkbfssixqmeiesbke
-      emoji: tvobwo
-      desc: wpgmgcn
+      name: fdyenjgeftymcffqrg
+      emoji: rcx
+      desc: jqmztmewevlxdtsrjazj
       is_private: false
       banned_can_post: false
-      private_threads: false
+      private_threads: true
     fileParameters: []
     responses: []
     responseFields: []

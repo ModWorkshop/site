@@ -36,19 +36,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: lxtvwbiofqikaiorggv
+        example: wilidxmlhlxjljtzyc
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 19
+        example: 13
         type: integer
         custom: []
     cleanBodyParameters:
-      query: lxtvwbiofqikaiorggv
-      limit: 19
+      query: wilidxmlhlxjljtzyc
+      limit: 13
     fileParameters: []
     responses: []
     responseFields: []
@@ -167,21 +167,21 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: true
-        example: xgkxvoyfapriff
+        example: xetvgyhfemxwqw
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: true
-        example: d
+        example: s
         type: string
         custom: []
       notice:
         name: notice
         description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: false
-        example: boegq
+        example: etybwwthnjnrntyflbncehgv
         type: string
         custom: []
       notice_type:
@@ -195,7 +195,7 @@ endpoints:
         name: type
         description: 'Must be one of <code>all</code>, <code>forum</code>, or <code>mod</code>.'
         required: false
-        example: forum
+        example: all
         type: string
         custom: []
       notice_localized:
@@ -206,11 +206,11 @@ endpoints:
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: xgkxvoyfapriff
-      color: d
-      notice: boegq
+      name: xetvgyhfemxwqw
+      color: s
+      notice: etybwwthnjnrntyflbncehgv
       notice_type: info
-      type: forum
+      type: all
       notice_localized: true
     fileParameters: []
     responses: []
