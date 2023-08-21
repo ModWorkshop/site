@@ -34,32 +34,21 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: sjqtbd
+        example: yfcpafcelylxr
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 20
+        example: 17
         type: integer
         custom: []
     cleanBodyParameters:
-      query: sjqtbd
-      limit: 20
+      query: yfcpafcelylxr
+      limit: 17
     fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/forums\/1\/threads?page=1","last":"http:\/\/localhost:8000\/forums\/1\/threads?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/forums\/1\/threads?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/forums\/1\/threads","per_page":20,"to":null,"total":0}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '59'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -99,21 +88,21 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: mivdrjmg
+        example: uih
         type: string
         custom: []
       content:
         name: content
         description: 'Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: true
-        example: a
+        example: spbbnfqd
         type: string
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T03:03:00'
+        example: '2023-08-21T20:37:44'
         type: string
         custom: []
       announce:
@@ -127,15 +116,15 @@ endpoints:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 63
+        example: 28
         type: integer
         custom: []
     cleanBodyParameters:
-      name: mivdrjmg
-      content: a
-      announce_until: '2023-08-21T03:03:00'
+      name: uih
+      content: spbbnfqd
+      announce_until: '2023-08-21T20:37:44'
       announce: true
-      category_id: 63
+      category_id: 28
     fileParameters: []
     responses: []
     responseFields: []
@@ -175,18 +164,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"id":7753,"name":"C++ Exception crash","content":"Trying to play a heist and it crashes a little bit into the assault wave, think anyone can help?\r\n\r\n\r\n\r\nFri Jun 15 21:37:37 2018\r\n\r\n\r\nApplication has crashed: C++ exception\r\nbad allocation\r\n\r\n-------------------------------\r\n\r\nCallstack:\r\n\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 zip_get_name\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 ntdll\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ZwFreeVirtualMemory\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 KERNELBASE\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 VirtualFree\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 ntdll\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 RtlGetFullPathName_UstrEx\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 payday2_win32_release\u00a0 (???)\u00a0\u00a0\u00a0\u00a0 ???\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\r\n\r\n-------------------------------\r\n\r\nCurrent thread: Main\r\nScript stack:\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 GetModImage()\u00a0 @mods\/base\/req\/BLTMod.lua:303\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 init()\u00a0 @mods\/base\/req\/ui\/BLTUIControls.lua:265\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 new()\u00a0 @mods\/base\/req\/utils\/UtilsClass.lua:26\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 _setup()\u00a0 @mods\/base\/req\/ui\/BLTDownloadManagerGui.lua:125\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 init()\u00a0 @mods\/base\/req\/ui\/BLTDownloadManagerGui.lua:34\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 new()\u00a0 @mods\/base\/req\/utils\/UtilsClass.lua:26\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 create()\u00a0 @mods\/base\/req\/ui\/BLTDownloadManagerGui.lua:271\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 set_active_components()\u00a0 lib\/managers\/menu\/menucomponentmanager.lua:449\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 original()\u00a0 @mods\/base\/lua\/MenuComponentManager.lua:19\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 set_active_components()\u00a0 @mods\/base\/req\/core\/Hooks.lua:260\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 core\/lib\/managers\/menu\/coremenulogic.lua:89\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 _execute_action_queue()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\ncore\/lib\/managers\/menu\/coremenulogic.lua:54\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 core\/lib\/managers\/menu\/coremenulogic.lua:64\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\ncore\/lib\/managers\/menu\/coremenumanager.lua:155\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 lib\/managers\/menumanagerpd2.lua:17\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0 lib\/setups\/setup.lua:839\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 lib\/setups\/menusetup.lua:336\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 update()\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n@mods\/base\/lua\/MenuSetup.lua:6\u00a0 core\/lib\/setups\/coresetup.lua:540\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\r\n\r\n-------------------------------\r\n\r\nSystem information:\r\n\u00a0\u00a0 \u00a0Application version : 1.89.606\r\n\u00a0\u00a0 \u00a0CPU : Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz (2 cores); SSE; SSE2; SSE3; SSSE3; SSE4.1; SSE4.2\r\n\u00a0\u00a0 \u00a0DirectX : 9.0c\r\n\u00a0\u00a0 \u00a0GPU : NVIDIA GeForce GTX 970M \/ nvldumd.dll[23.21.13.8912]\r\n\u00a0\u00a0 \u00a0Language : english\r\n\u00a0\u00a0 \u00a0Memory :\u00a0\u00a0\u00a0\u00a0 8091MB 616KB\r\n\u00a0\u00a0 \u00a0OS : 5.1.2600 (Service Pack 3) 0x300-0x1 (64 bits)\r\n\u00a0\u00a0 \u00a0Physics : threaded\r\n\u00a0\u00a0 \u00a0Renderer : DX9 threaded\r\n\u00a0\u00a0 \u00a0Sound : CREATIVE (Speakers (Sound Blaster Recon3Di))","views":0,"comment_count":4,"locked":false,"bumped_at":"2018-07-22T21:49:57.000000Z","pinned_at":null,"forum_id":1,"category_id":9,"user_id":39912,"last_user_id":10162,"locked_by_mod":false,"announce":false,"announce_until":null,"game_id":null,"created_at":"2018-07-21T13:32:07.000000Z","updated_at":"2023-06-10T15:44:08.000000Z","user":{"id":39912,"name":"Genderfluid Hyena","ban":null,"game_ban":null,"unique_name":"genderfluidhyena","created_at":"2017-03-12T09:27:45.000000Z","color":null,"avatar":"https:\/\/steamcdn-a.akamaihd.net\/steamcommunity\/public\/images\/avatars\/70\/70a4217c54eb865391f7bb629765a9e527e4bebc_full.jpg","role_names":["Member"],"tag":null,"role_ids":[],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2020-09-10T20:07:49.000000Z","custom_color":"","highest_role_order":null,"banner":"","bio":"","invisible":false,"private_profile":false,"custom_title":"","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":0},"last_user":{"id":10162,"name":"Alcat101","custom_color":"","avatar":"https:\/\/avatars.akamai.steamstatic.com\/e4f917435642a78e80fb524124aa57f40f762671_full.jpg","unique_name":"alcat101","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":null,"active_supporter":null,"ban":null,"supporter":null,"game_roles":[],"game_ban":null},"category":{"id":9,"name":"Help","desc":"","emoji":"\ud83d\ude4f","forum_id":1,"private_threads":false,"banned_can_post":false,"is_private":false,"created_at":"2023-06-09T23:03:05.000000Z","updated_at":"2023-06-15T03:52:38.000000Z","role_policies":{},"game_role_policies":{},"can_post":false,"roles":[],"game_roles":[]},"game":null,"forum":{"id":1,"name":"global","game_id":null,"created_at":"2023-06-09T22:36:04.000000Z","updated_at":"2023-06-09T22:36:04.000000Z","game":null},"tags":[],"subscribed":false,"tag_ids":[]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '58'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -227,28 +205,28 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: oxmirjlwnrrjoyia
+        example: eadyyrsxtifcrjrz
         type: string
         custom: []
       content:
         name: content
         description: 'This field is required when none of <code>pinned</code> and <code>locked</code> are present. Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: false
-        example: ywvqeht
+        example: kiwulotpxsgjddljczbf
         type: string
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 41
+        example: 1
         type: integer
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T03:03:00'
+        example: '2023-08-21T20:37:44'
         type: string
         custom: []
       announce:
@@ -263,14 +241,14 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 49
+          - 87
         type: 'integer[]'
         custom: []
       pinned:
         name: pinned
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       locked:
@@ -281,14 +259,14 @@ endpoints:
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: oxmirjlwnrrjoyia
-      content: ywvqeht
-      category_id: 41
-      announce_until: '2023-08-21T03:03:00'
+      name: eadyyrsxtifcrjrz
+      content: kiwulotpxsgjddljczbf
+      category_id: 1
+      announce_until: '2023-08-21T20:37:44'
       announce: false
       tag_ids:
-        - 49
-      pinned: true
+        - 87
+      pinned: false
       locked: false
     fileParameters: []
     responses: []
@@ -367,18 +345,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"data":[{"id":216288,"commentable_type":"thread","commentable_id":7753,"user_id":10162,"content":"This is just some guessing, but during the assault until the crash have you seen or hears cop sniper shooting or spawning?\r\nI have similar crash long time ago like this, on the middle of assault end.\r\nTurns out that one of cops enemy are affected by a mod, and Payday 2 udpate make the mod incompatible hence crashing the game when said enemy is being spawned.","pinned":false,"reply_to":null,"created_at":"2018-07-22T08:53:51.000000Z","updated_at":"2018-07-22T08:53:51.000000Z","last_replies":[],"total_replies":0,"user":{"id":10162,"name":"Alcat101","ban":null,"game_ban":null,"unique_name":"alcat101","created_at":"2015-10-12T00:22:51.000000Z","color":null,"avatar":"https:\/\/avatars.akamai.steamstatic.com\/e4f917435642a78e80fb524124aa57f40f762671_full.jpg","role_names":["Modder","Moderators","Member"],"tag":null,"role_ids":[9,4],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2023-06-16T15:13:59.000000Z","custom_color":"","highest_role_order":996,"banner":"","bio":"If you want to contact me, add me on Steam and leave a comment about the reason you want to contact me.\r\n\r\nWelcome to my shop! Its mostly gun here tho.\r\nSince Im primarily porting stuff, and have close to nil skills on creating new stuff, what you''ll see here is guns that are ''forcibly'' ported in Payday 2 with existing asset (mostly animation) that almost match how they look\/move irl.\r\nIn short, expect jankness! and see a plethora of unique gun and parts that I think might be a good addition to the Payday gang arsenal!","invisible":false,"private_profile":false,"custom_title":"Jank Armorer","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":172},"replies":[],"mentions":[],"subscribed":null},{"id":216538,"commentable_type":"thread","commentable_id":7753,"user_id":39912,"content":"Was doing hotline miami day one so it might be snipers, I do have bandana dees DC on so I''ll remove the sniper retexture in case its conflicting with the enemy visual revamp","pinned":false,"reply_to":null,"created_at":"2018-07-22T10:49:32.000000Z","updated_at":"2018-07-22T10:49:32.000000Z","last_replies":[],"total_replies":0,"user":{"id":39912,"name":"Genderfluid Hyena","ban":null,"game_ban":null,"unique_name":"genderfluidhyena","created_at":"2017-03-12T09:27:45.000000Z","color":null,"avatar":"https:\/\/steamcdn-a.akamaihd.net\/steamcommunity\/public\/images\/avatars\/70\/70a4217c54eb865391f7bb629765a9e527e4bebc_full.jpg","role_names":["Member"],"tag":null,"role_ids":[],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2020-09-10T20:07:49.000000Z","custom_color":"","highest_role_order":null,"banner":"","bio":"","invisible":false,"private_profile":false,"custom_title":"","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":0},"replies":[],"mentions":[],"subscribed":null},{"id":216616,"commentable_type":"thread","commentable_id":7753,"user_id":39912,"content":"Deleted the cop texture mod and the crash stopped. Thanks for the help!","pinned":false,"reply_to":null,"created_at":"2018-07-22T12:44:19.000000Z","updated_at":"2018-07-22T12:44:19.000000Z","last_replies":[],"total_replies":0,"user":{"id":39912,"name":"Genderfluid Hyena","ban":null,"game_ban":null,"unique_name":"genderfluidhyena","created_at":"2017-03-12T09:27:45.000000Z","color":null,"avatar":"https:\/\/steamcdn-a.akamaihd.net\/steamcommunity\/public\/images\/avatars\/70\/70a4217c54eb865391f7bb629765a9e527e4bebc_full.jpg","role_names":["Member"],"tag":null,"role_ids":[],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2020-09-10T20:07:49.000000Z","custom_color":"","highest_role_order":null,"banner":"","bio":"","invisible":false,"private_profile":false,"custom_title":"","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":0},"replies":[],"mentions":[],"subscribed":null},{"id":216617,"commentable_type":"thread","commentable_id":7753,"user_id":10162,"content":"Glad to help!","pinned":false,"reply_to":null,"created_at":"2018-07-22T21:49:57.000000Z","updated_at":"2018-07-22T21:49:57.000000Z","last_replies":[],"total_replies":0,"user":{"id":10162,"name":"Alcat101","ban":null,"game_ban":null,"unique_name":"alcat101","created_at":"2015-10-12T00:22:51.000000Z","color":null,"avatar":"https:\/\/avatars.akamai.steamstatic.com\/e4f917435642a78e80fb524124aa57f40f762671_full.jpg","role_names":["Modder","Moderators","Member"],"tag":null,"role_ids":[9,4],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2023-06-16T15:13:59.000000Z","custom_color":"","highest_role_order":996,"banner":"","bio":"If you want to contact me, add me on Steam and leave a comment about the reason you want to contact me.\r\n\r\nWelcome to my shop! Its mostly gun here tho.\r\nSince Im primarily porting stuff, and have close to nil skills on creating new stuff, what you''ll see here is guns that are ''forcibly'' ported in Payday 2 with existing asset (mostly animation) that almost match how they look\/move irl.\r\nIn short, expect jankness! and see a plethora of unique gun and parts that I think might be a good addition to the Payday gang arsenal!","invisible":false,"private_profile":false,"custom_title":"Jank Armorer","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":172},"replies":[],"mentions":[],"subscribed":null}],"links":{"first":"http:\/\/localhost:8000\/threads\/7753\/comments?page=1","last":"http:\/\/localhost:8000\/threads\/7753\/comments?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/threads\/7753\/comments?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/threads\/7753\/comments","per_page":50,"to":4,"total":4}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '57'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null

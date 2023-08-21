@@ -32,18 +32,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"id":14,"name":"Translator","tag":"","color":"","order":1000,"is_vanity":true,"assignable":true,"self_assignable":true,"permissions":{}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '55'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -84,28 +73,28 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: sggmnv
+        example: hypbwclgmmykvwqlgbau
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: vpmcppsbji
+        example: tccxfycbyvppxssbct
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: okwj
+        example: fjvmagmzl
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: q
+        example: jlldzspb
         type: string
         custom: []
       is_vanity:
@@ -119,14 +108,14 @@ endpoints:
         name: self_assignable
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 10
+        example: 17
         type: integer
         custom: []
       permissions:
@@ -137,13 +126,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: sggmnv
-      tag: vpmcppsbji
-      desc: okwj
-      color: q
+      name: hypbwclgmmykvwqlgbau
+      tag: tccxfycbyvppxssbct
+      desc: fjvmagmzl
+      color: jlldzspb
       is_vanity: true
-      self_assignable: true
-      order: 10
+      self_assignable: false
+      order: 17
     fileParameters: []
     responses: []
     responseFields: []

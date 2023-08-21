@@ -36,530 +36,21 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: dqwmkscdznus
+        example: jiltkjbtdysetyefz
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 7
+        example: 11
         type: integer
         custom: []
     cleanBodyParameters:
-      query: dqwmkscdznus
-      limit: 7
+      query: jiltkjbtdysetyefz
+      limit: 11
     fileParameters: []
-    responses:
-      -
-        status: 500
-        content: |-
-          {
-              "message": "Call to a member function hasPermission() on null",
-              "exception": "Error",
-              "file": "/var/www/html/app/Http/Controllers/DocumentController.php",
-              "line": 33,
-              "trace": [
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
-                      "line": 54,
-                      "function": "index",
-                      "class": "App\\Http\\Controllers\\DocumentController",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
-                      "line": 43,
-                      "function": "callAction",
-                      "class": "Illuminate\\Routing\\Controller",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
-                      "line": 260,
-                      "function": "dispatch",
-                      "class": "Illuminate\\Routing\\ControllerDispatcher",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
-                      "line": 205,
-                      "function": "runController",
-                      "class": "Illuminate\\Routing\\Route",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 799,
-                      "function": "run",
-                      "class": "Illuminate\\Routing\\Route",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 141,
-                      "function": "Illuminate\\Routing\\{closure}",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
-                      "line": 57,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Auth\\Middleware\\Authorize",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/app/Http/Middleware/UserAuth.php",
-                      "line": 47,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "App\\Http\\Middleware\\UserAuth",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
-                      "line": 50,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 159,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 135,
-                      "function": "handleRequest",
-                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-                      "line": 87,
-                      "function": "handleRequestUsingNamedLimiter",
-                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 25,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 141,
-                      "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
-                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 116,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
-                      "line": 26,
-                      "function": "then",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 116,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 800,
-                      "function": "then",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 777,
-                      "function": "runRouteWithinStack",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 741,
-                      "function": "runRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 730,
-                      "function": "dispatchToRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 200,
-                      "function": "dispatch",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 141,
-                      "function": "Illuminate\\Foundation\\Http\\{closure}",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
-                      "line": 31,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
-                      "line": 40,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
-                      "line": 27,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
-                      "line": 86,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
-                      "line": 62,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Http\\Middleware\\HandleCors",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
-                      "line": 39,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 180,
-                      "function": "handle",
-                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 116,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 175,
-                      "function": "then",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 144,
-                      "function": "sendRequestThroughRouter",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 299,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 287,
-                      "function": "callLaravelOrLumenRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 92,
-                      "function": "makeApiCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 45,
-                      "function": "makeResponseCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 35,
-                      "function": "makeResponseCallIfConditionsPass",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 209,
-                      "function": "__invoke",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 166,
-                      "function": "iterateThroughStrategies",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 95,
-                      "function": "fetchResponses",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 124,
-                      "function": "processRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 71,
-                      "function": "extractEndpointsInfoFromLaravelApp",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 49,
-                      "function": "extractEndpointsInfoAndWriteToDisk",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
-                      "line": 51,
-                      "function": "get",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 36,
-                      "function": "handle",
-                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php",
-                      "line": 41,
-                      "function": "Illuminate\\Container\\{closure}",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 93,
-                      "function": "unwrapIfClosure",
-                      "class": "Illuminate\\Container\\Util",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 37,
-                      "function": "callBoundMethod",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php",
-                      "line": 662,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 208,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\Container",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/symfony/console/Command/Command.php",
-                      "line": 326,
-                      "function": "execute",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 178,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Command\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/symfony/console/Application.php",
-                      "line": 1081,
-                      "function": "run",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/symfony/console/Application.php",
-                      "line": 320,
-                      "function": "doRunCommand",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/symfony/console/Application.php",
-                      "line": 174,
-                      "function": "doRun",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
-                      "line": 201,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/artisan",
-                      "line": 37,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Console\\Kernel",
-                      "type": "->"
-                  }
-              ]
-          }
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '54'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -635,18 +126,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"id":3,"name":"Terms of Service","url_name":"terms","desc":"## Terms of Service for modworkshop.net\nLast Updated: 26 September 2021\n\nIf you require any more information or have any questions about our Terms of Service, please feel free to contact us by email at: [floofytsuna@outlook.com](mailto:floofytsuna@outlook.com?Subject=Terms%20Of%20Service)\n\n### Introduction\n\nThese terms and conditions govern your use of this website; by using this website, you accept these terms and conditions in full and without reservation. If you disagree with these terms and conditions or any part of these terms and conditions, you must not use this website. You must be at least 18 [eighteen] years of age to use this website. By using this website and by agreeing to these terms and conditions, you warrant and represent that you are at least 18 years of age.\n\n### License to Use Website\nUnless otherwise stated, modworkshop.net and\/or its licensors own the intellectual property rights published on this website and materials used on modworkshop.net. Subject to the license below, all these intellectual property rights are reserved. You may view, download for caching purposes only, and print pages, files orother content from the website for your own personal use, subject to the restrictions set out below and elsewhere in these terms and conditions. \n\nYou **must** not:\n* republish material from this website in neither print nor digital media or documents without permission. (including republication on another website);\n* sell, rent or sub-license material from the website;\n* show any material from the website in public;\n* reproduce, duplicate, copy or otherwise exploit material on this website for a commercial purpose;\n* edit or otherwise modify any material on the website;\n* redistribute material from this website - except for content specifically and expressly made available for redistribution; or\n* publish or use any excessively offensive content, doing so will result in a ban from the website.\n* republish or reproduce any part of this website through the use of iframes or screenscrapers.\n\nWhere content is specifically made available for redistribution, it may only be redistributed within your organisation.\n\n### Acceptable Use\nYou must not use this website in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of modworkshop.net orin any way which is unlawful, illegal, fraudulent or harmful, or in connection with any unlawful, illegal, fraudulent or harmful purpose or activity. You must notuse this website to copy, store, host, transmit, send, use, publish or distribute any material which consists of (or is linked to) any spyware, computer virus,Trojan horse, worm, keystroke logger, rootkit or other malicious computer software. You must not conduct any systematic or automated data collection activities onor in relation to this website without modworkshop.net''s express written consent.\n\nThis includes:\n* scraping\n* data mining\n* data extraction\n* data harvesting\n* ''framing'' (iframes)\n* Article ''Spinning''\n\nYou must not use this website or any part of it to transmit or send unsolicited commercial communications. You must not use this website for any purposesrelated to marketing without the express written consent of modworkshop.net.\n\n#### Restricted Access\nAccess to certain areas of this website is restricted. modworkshop.net reserves the right to restrict access to certain areas of this website, or at our discretion,\nthis entire website. modworkshop.net may change or modify this policy without notice. If modworkshop.net provides you with a user ID and password to enable you to\naccess restricted areas of this website or other content or services, you must ensure that the user ID and password are kept confidential. You alone are\nresponsible for your password and user ID security.. modworkshop.net may disable your user ID and password at modworkshop.net''s sole discretion without notice or\nexplanation.\n\n#### User Content\nIn these terms and conditions, ''your user content'' means material (including without limitation text, images, audio material, video material and audio-visual\nmaterial) that you submit to this website, for whatever purpose. You grant to modworkshop.net a worldwide, irrevocable, non-exclusive, royalty-free license to use,\nreproduce, adapt, publish, translate and distribute your user content in any existing or future media. You also grant to modworkshop.net the right to sub-license\nthese rights, and the right to bring an action for infringement of these rights. Your user content must not be illegal or unlawful, must not infringe any third\nparty''s legal rights, and must not be capable of giving rise to legal action whether against you or modworkshop.net or a third party (in each case under any\napplicable law). You must not submit any user content to the website that is or has ever been the subject of any threatened or actual legal proceedings or other\nsimilar complaint. modworkshop.net reserves the right to edit or remove any material submitted to this website, or stored on the servers of modworkshop.net, or\nhosted or published upon this website. modworkshop.net does not undertake to monitor the submission of such content to, or the publication of such content on, this website.\n\n#### No Warranties \nThis website is provided \"as is\" without any representations or warranties, express or implied. modworkshop.net makes no representations or warranties in relation\nto this website or the information and materials provided on this website. Without prejudice to the generality of the foregoing paragraph, modworkshop.net does not\nwarrant that:\n* this website will be constantly available, or available at all; or\n* the information on this website is complete, true, accurate or non-misleading.\n\nNothing on this website constitutes, or is meant to constitute, advice of any kind. If you require advice in relation to any legal, financial or medical\nmatter you should consult an appropriate professional.\n\n#### Limitations of liability\nmodworkshop.net will not be liable to you (whether under the law of contact, the law of torts or otherwise) in relation to the contents of, or use of, or otherwise\nin connection with, this website:\n\n* to the extent that the website is provided free-of-charge, for any direct loss;\n* for any indirect, special or consequential loss; or\n* for any business losses, loss of revenue, income, profits or anticipated savings, loss of contracts or business relationships, loss of reputation or goodwill, or loss or corruption of information or data.\n\nThese limitations of liability apply even if modworkshop.net has been expressly advised of the potential loss.\n\n#### Exceptions\nNothing in this website disclaimer will exclude or limit any warranty implied by law that it would be unlawful to exclude or limit; and nothing in this website\ndisclaimer will exclude or limit the liability of modworkshop.net in respect of any:\n\n* death or personal injury caused by the negligence of modworkshop.net or its agents, employees or shareholders\/owners;\n* fraud or fraudulent misrepresentation on the part of modworkshop.net; or\n* matter which it would be illegal or unlawful for modworkshop.net to exclude or limit, or to attempt or purport to exclude or limit, its liability.\n\n#### Reasonableness\nBy using this website, you agree that the exclusions and limitations of liability set out in this website disclaimer are reasonable. If you do not think they are\nreasonable, you must not use this website.\n\n#### Other Parties\nYou accept that, as a limited liability entity, modworkshop.net has an interest in limiting the personal liability of its officers and employees. You agree that you\nwill not bring any claim personally against modworkshop.net''s officers or employees in respect of any losses you suffer in connection with the website. Without\nprejudice to the foregoing paragraph, you agree that the limitations of warranties and liability set out in this website disclaimer will protect modworkshop.net''s\nofficers, employees, agents, subsidiaries, successors, assigns and sub-contractors as well as modworkshop.net.\n\n#### Unenforceable Provisions\nIf any provision of this website disclaimer is, or is found to be, unenforceable under applicable law, that will not affect the enforceability of the other\nprovisions of this website disclaimer.\n\n#### Indemnity\nYou hereby indemnify modworkshop.net and undertake to keep modworkshop.net indemnified against any losses, damages, costs, liabilities and expenses (including\nwithout limitation legal expenses and any amounts paid by modworkshop.net to a third party in settlement of a claim or dispute on the advice of modworkshop.net''s\nlegal advisers) incurred or suffered by modworkshop.net arising out of any breach by you of any provision of these terms and conditions, or arising out of any claim\nthat you have breached any provision of these terms and conditions.\n\n#### Breaches of these terms and conditions\nWithout prejudice to modworkshop.net''s other rights under these terms and conditions, if you breach these terms and conditions in any way, modworkshop.net may take\nsuch action as modworkshop.net deems appropriate to deal with the breach, including suspending your access to the website, prohibiting you from accessing the\nwebsite, blocking computers using your IP address from accessing the website, contacting your internet service provider to request that they block your access to\nthe website and\/or bringing court proceedings against you.\n\n#### Variation\nmodworkshop.net may revise these terms and conditions from time-to-time. Revised terms and conditions will apply to the use of this website from the date of the\npublication of the revised terms and conditions on this website. Please check this page regularly to ensure you are familiar with the current version.\n\n#### Assignment\nmodworkshop.net may transfer, sub-contract or otherwise deal with modworkshop.net''s rights and\/or obligations under these terms and conditions without notifying you\nor obtaining your consent. You may not transfer, sub-contract or otherwise deal with your rights and\/or obligations under these terms and conditions.\n\n#### Severability\nIf a provision of these terms and conditions is determined by any court or other competent authority to be unlawful and\/or unenforceable, the other provisions will\ncontinue in effect. If any unlawful and\/or unenforceable provision would be lawful or enforceable if part of it were deleted, that part will be deemed to be\ndeleted, and the rest of the provision will continue in effect.\n\n#### Entire Agreement\n\nThese terms and conditions, together with modworkshop.net''s [Privacy Policy](\/privacy) constitute the entire agreement between you and modworkshop.net in relation to your use of\nthis website, and supersede all previous agreements in respect of your use of this website.\n\n#### modworkshop.net''s Details\nYou can contact modworkshop.net by email at [floofytsuna@outlook.com](mailto:floofytsuna@outlook.com?Subject=Terms%20Of%20Service).","game_id":null,"last_user_id":1,"created_at":"2023-06-10T20:18:40.000000Z","updated_at":"2023-06-10T20:18:40.000000Z","is_unlisted":false,"last_user":{"id":1,"name":"ModWorkshop","custom_color":"","avatar":"","unique_name":"","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":null,"active_supporter":null,"ban":null,"supporter":null,"game_roles":[],"game_ban":null}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '53'
-          vary: Origin
-        description: null
-        custom: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -687,14 +167,14 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: qkjbwjpgzwsfqwc
+        example: cfslflkqdbfojpl
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must be at least 3 characters. Must not be greater than 50000 characters.'
         required: false
-        example: oeqluvzsodvvyqospclulslj
+        example: dllukrcaqzasgvrj
         type: string
         custom: []
       is_unlisted:
@@ -708,22 +188,22 @@ endpoints:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 28
+        example: 49
         type: integer
         custom: []
       url_name:
         name: url_name
         description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 30 characters.'
         required: false
-        example: rltkdhw
+        example: uccmlffnrbndnmyeg
         type: string
         custom: []
     cleanBodyParameters:
-      name: qkjbwjpgzwsfqwc
-      desc: oeqluvzsodvvyqospclulslj
+      name: cfslflkqdbfojpl
+      desc: dllukrcaqzasgvrj
       is_unlisted: true
-      game_id: 28
-      url_name: rltkdhw
+      game_id: 49
+      url_name: uccmlffnrbndnmyeg
     fileParameters: []
     responses: []
     responseFields: []
