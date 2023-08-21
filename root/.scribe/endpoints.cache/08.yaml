@@ -75,49 +75,49 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: hypbwclgmmykvwqlgbau
+        example: pveexbmayoms
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: tccxfycbyvppxssbct
+        example: ptlmmetc
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: fjvmagmzl
+        example: pzupmxzcygrln
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: jlldzspb
+        example: t
         type: string
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       self_assignable:
         name: self_assignable
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 17
+        example: 8
         type: integer
         custom: []
       permissions:
@@ -128,13 +128,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: hypbwclgmmykvwqlgbau
-      tag: tccxfycbyvppxssbct
-      desc: fjvmagmzl
-      color: jlldzspb
-      is_vanity: true
-      self_assignable: false
-      order: 17
+      name: pveexbmayoms
+      tag: ptlmmetc
+      desc: pzupmxzcygrln
+      color: t
+      is_vanity: false
+      self_assignable: true
+      order: 8
     fileParameters: []
     responses: []
     responseFields: []

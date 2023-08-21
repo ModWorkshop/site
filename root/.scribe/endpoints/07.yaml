@@ -34,19 +34,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: yfcpafcelylxr
+        example: gzrhjenwgiygh
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 17
+        example: 22
         type: integer
         custom: []
     cleanBodyParameters:
-      query: yfcpafcelylxr
-      limit: 17
+      query: gzrhjenwgiygh
+      limit: 22
     fileParameters: []
     responses: []
     responseFields: []
@@ -88,21 +88,21 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: uih
+        example: mkhnraevowgnmyllxnquylfhw
         type: string
         custom: []
       content:
         name: content
         description: 'Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: true
-        example: spbbnfqd
+        example: jjsaisbzcanbtphexkfld
         type: string
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T20:37:44'
+        example: '2023-08-21T21:11:11'
         type: string
         custom: []
       announce:
@@ -116,15 +116,15 @@ endpoints:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 28
+        example: 67
         type: integer
         custom: []
     cleanBodyParameters:
-      name: uih
-      content: spbbnfqd
-      announce_until: '2023-08-21T20:37:44'
+      name: mkhnraevowgnmyllxnquylfhw
+      content: jjsaisbzcanbtphexkfld
+      announce_until: '2023-08-21T21:11:11'
       announce: true
-      category_id: 28
+      category_id: 67
     fileParameters: []
     responses: []
     responseFields: []
@@ -205,35 +205,35 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: eadyyrsxtifcrjrz
+        example: ypaaerwjw
         type: string
         custom: []
       content:
         name: content
         description: 'This field is required when none of <code>pinned</code> and <code>locked</code> are present. Must be at least 2 characters. Must not be greater than 30000 characters.'
         required: false
-        example: kiwulotpxsgjddljczbf
+        example: mmdwqwotlfmuzovhd
         type: string
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 1
+        example: 67
         type: integer
         custom: []
       announce_until:
         name: announce_until
         description: 'Must be a valid date.'
         required: false
-        example: '2023-08-21T20:37:44'
+        example: '2023-08-21T21:11:11'
         type: string
         custom: []
       announce:
         name: announce
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       tag_ids:
@@ -241,7 +241,7 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 87
+          - 81
         type: 'integer[]'
         custom: []
       pinned:
@@ -255,19 +255,19 @@ endpoints:
         name: locked
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: eadyyrsxtifcrjrz
-      content: kiwulotpxsgjddljczbf
-      category_id: 1
-      announce_until: '2023-08-21T20:37:44'
-      announce: false
+      name: ypaaerwjw
+      content: mmdwqwotlfmuzovhd
+      category_id: 67
+      announce_until: '2023-08-21T21:11:11'
+      announce: true
       tag_ids:
-        - 87
+        - 81
       pinned: false
-      locked: false
+      locked: true
     fileParameters: []
     responses: []
     responseFields: []

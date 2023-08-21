@@ -81,51 +81,51 @@ endpoints:
         name: name
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: pc
+        example: xlmqjoscfxvhjlmisnppgsv
         type: string
         custom: []
       buttons:
         name: buttons
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: yawvrectbgtgviacbsnujx
+        example: xlahdyiyjr
         type: string
         custom: []
       thumbnail_file:
         name: thumbnail_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: hqyvybes
+        example: pdciffgqbzmdkbdowtudslalb
         type: string
         custom: []
       banner_file:
         name: banner_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: lq
+        example: iyyxcarydsyokgbbdvzaqy
         type: string
         custom: []
       short_name:
         name: short_name
         description: 'Must not be greater than 30 characters.'
         required: false
-        example: bebiehtu
+        example: jknpr
         type: string
         custom: []
       webhook_url:
         name: webhook_url
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: 'http://cummerata.com/quod-est-quae-tenetur-consequatur'
+        example: 'http://www.braun.info/quis-deserunt-a-id-est-laudantium-repellat'
         type: string
         custom: []
     cleanBodyParameters:
-      name: pc
-      buttons: yawvrectbgtgviacbsnujx
-      thumbnail_file: hqyvybes
-      banner_file: lq
-      short_name: bebiehtu
-      webhook_url: 'http://cummerata.com/quod-est-quae-tenetur-consequatur'
+      name: xlmqjoscfxvhjlmisnppgsv
+      buttons: xlahdyiyjr
+      thumbnail_file: pdciffgqbzmdkbdowtudslalb
+      banner_file: iyyxcarydsyokgbbdvzaqy
+      short_name: jknpr
+      webhook_url: 'http://www.braun.info/quis-deserunt-a-id-est-laudantium-repellat'
     fileParameters: []
     responses: []
     responseFields: []
@@ -354,12 +354,12 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 87
+          - 68
         type: 'integer[]'
         custom: []
     cleanBodyParameters:
       role_ids:
-        - 87
+        - 68
     fileParameters: []
     responses: []
     responseFields: []
@@ -401,7 +401,7 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: nnpgbrsuza
+        example: amw
         type: string
         custom: []
       limit:
@@ -412,7 +412,7 @@ endpoints:
         type: integer
         custom: []
     cleanBodyParameters:
-      query: nnpgbrsuza
+      query: amw
       limit: 25
     fileParameters: []
     responses: []
@@ -455,35 +455,35 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: cgtsvathk
+        example: qbfhlhcbvv
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: npfmey
+        example: rpithhd
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: fwndkmqcxnlrihwrbb
+        example: gbckhuaoyxydjqesga
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: cc
+        example: ike
         type: string
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       self_assignable:
@@ -497,7 +497,7 @@ endpoints:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 19
+        example: 14
         type: integer
         custom: []
       permissions:
@@ -508,13 +508,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: cgtsvathk
-      tag: npfmey
-      desc: fwndkmqcxnlrihwrbb
-      color: cc
-      is_vanity: true
+      name: qbfhlhcbvv
+      tag: rpithhd
+      desc: gbckhuaoyxydjqesga
+      color: ike
+      is_vanity: false
       self_assignable: true
-      order: 19
+      order: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -611,28 +611,28 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: nyowekwl
+        example: uoljl
         type: string
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: mkx
+        example: cxghorlliaax
         type: string
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: eijjaajo
+        example: cebohlgubffxiawopuqmabytv
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: yb
+        example: f
         type: string
         custom: []
       is_vanity:
@@ -646,14 +646,14 @@ endpoints:
         name: self_assignable
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 17
+        example: 24
         type: integer
         custom: []
       permissions:
@@ -664,13 +664,13 @@ endpoints:
         type: object
         custom: []
     cleanBodyParameters:
-      name: nyowekwl
-      tag: mkx
-      desc: eijjaajo
-      color: yb
+      name: uoljl
+      tag: cxghorlliaax
+      desc: cebohlgubffxiawopuqmabytv
+      color: f
       is_vanity: true
-      self_assignable: true
-      order: 17
+      self_assignable: false
+      order: 24
     fileParameters: []
     responses: []
     responseFields: []

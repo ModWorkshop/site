@@ -34,19 +34,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: gftwhafxwtao
+        example: lxtvwbiofqikaiorggv
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 6
+        example: 19
         type: integer
         custom: []
     cleanBodyParameters:
-      query: gftwhafxwtao
-      limit: 6
+      query: lxtvwbiofqikaiorggv
+      limit: 19
     fileParameters: []
     responses: []
     responseFields: []
@@ -165,28 +165,28 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: true
-        example: vldu
+        example: xgkxvoyfapriff
         type: string
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: true
-        example: yjlddbf
+        example: d
         type: string
         custom: []
       notice:
         name: notice
         description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: false
-        example: pfcdarxwv
+        example: boegq
         type: string
         custom: []
       notice_type:
         name: notice_type
         description: 'Must be one of <code>info</code>, <code>warning</code>, or <code>danger</code>.'
         required: false
-        example: danger
+        example: info
         type: string
         custom: []
       type:
@@ -204,10 +204,10 @@ endpoints:
         type: boolean
         custom: []
     cleanBodyParameters:
-      name: vldu
-      color: yjlddbf
-      notice: pfcdarxwv
-      notice_type: danger
+      name: xgkxvoyfapriff
+      color: d
+      notice: boegq
+      notice_type: info
       type: forum
       notice_localized: true
     fileParameters: []
