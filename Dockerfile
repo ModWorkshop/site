@@ -15,6 +15,7 @@ RUN apk --no-cache add \
   php81-cli \
   php81-pcntl \
   php81-phar \
+  php81-dom \
   php81-posix
 
 # Install stuff
