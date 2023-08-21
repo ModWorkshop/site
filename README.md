@@ -1,6 +1,6 @@
 <p align="center"><a href="https://modworkshop.net" target="_blank"><img src="https://modworkshop.net/assets/mws_logo_white.svg" width="200"></a></p>
 
-## ModWorkshop Backend
+# ModWorkshop Backend
 
 This repository contains the source code for the backend side of ModWorkshop
 The backend uses the Laravel framework.
