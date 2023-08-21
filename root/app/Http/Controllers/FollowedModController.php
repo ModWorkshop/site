@@ -14,6 +14,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Users
+ * 
+ * @subgroup Followed Mods
+ * 
+ * @authenticated
+ */
 class FollowedModController extends Controller
 {
     public function __construct()
@@ -22,9 +29,7 @@ class FollowedModController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Followed Mods
      */
     public function index(GetModsRequest $request, Authenticatable $user)
     {
@@ -41,10 +46,7 @@ class FollowedModController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Add Followed Mod
      */
     public function store(Request $request, Authenticatable $user)
     {
@@ -64,11 +66,7 @@ class FollowedModController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @hideFromApiDocumentation
      */
     public function update(Request $request, $id)
     {
@@ -76,10 +74,7 @@ class FollowedModController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Followed Mod
      */
     public function destroy(int $id, Authenticatable $user)
     {

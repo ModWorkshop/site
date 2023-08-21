@@ -9,15 +9,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Instructions Templates
+ * 
+ * @authenticated
+ */
 class InstructsTemplateController extends Controller
 {
     public function __construct() {
         $this->authorizeGameResource(InstructsTemplate::class);
     }
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get list of Instructions Templates
      */
     public function index(Game $game, FilteredRequest $request)
     {
@@ -27,10 +30,9 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Instructions Template
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Game $game)
     {
@@ -38,10 +40,7 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Instructions Template
      */
     public function show(Game $game, InstructsTemplate $instructsTemplate)
     {
@@ -49,11 +48,9 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Instructions Template
+     * 
+     * @authenticated
      */
     public function update(Request $request, Game $game, InstructsTemplate $instructsTemplate=null)
     {
@@ -74,10 +71,9 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Instructions Template
+     * 
+     * @authenticated
      */
     public function destroy(InstructsTemplate $instructsTemplate)
     {

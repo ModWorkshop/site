@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Mods
+ * 
+ * @subgroup Links
+ */
 class LinkController extends Controller
 {
     public function __construct() {
@@ -18,7 +23,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get List of Mod Links
      *
      * @return Response
      */
@@ -28,10 +33,9 @@ class LinkController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Link
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -39,7 +43,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get Link
      *
      * @param  int  $id
      * @return Response
@@ -50,7 +54,9 @@ class LinkController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Link
+     * 
+     * @authenticated
      */
     public function update(Request $request, Mod $mod, Link $link=null)
     {
@@ -85,10 +91,9 @@ class LinkController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Link
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Link $link)
     {

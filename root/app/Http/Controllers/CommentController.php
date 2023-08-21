@@ -77,7 +77,11 @@ class CommentController extends Controller
     }
 
     /**
-     * Reports the resource for moderators to look at.
+     * Report Comment
+     *
+     * Reports the comment for moderators to look at it.
+     *
+     * @authenticated
      */
     public function report(Request $request, Comment $comment)
     {

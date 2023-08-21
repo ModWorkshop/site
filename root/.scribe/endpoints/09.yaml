@@ -1,425 +1,16 @@
-name: Games
-description: |-
-
-  API routes for interacting with game sections.
+name: Documents
+description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{id}'
+    uri: 'games/{game_id}/documents'
     metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get Game'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"id":249,"name":"Other Games","short_name":"other","disporder":9998,"thumbnail":"category_1577218117_0c68c7c3a2d12fad93930e7b04b3b657.png","banner":"","buttons":"","last_date":"2023-06-08T02:29:15.000000Z","mod_count":106,"created_at":"2023-06-09T22:38:08.000000Z","updated_at":"2023-06-09T22:54:22.000000Z","forum_id":11,"announcements":[],"followed":null,"forum":{"id":11,"name":null,"game_id":249,"created_at":"2023-06-09T22:38:08.000000Z","updated_at":"2023-06-09T22:38:08.000000Z"},"0":null}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '72'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'games/{id}'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Edit Game'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: rnfrltlalqge
-        type: string
-        custom: []
-      buttons:
-        name: buttons
-        description: 'Must not be greater than 1000 characters.'
-        required: false
-        example: bcncqtojvpidmppuy
-        type: string
-        custom: []
-      thumbnail_file:
-        name: thumbnail_file
-        description: 'Must not be greater than 512000 characters.'
-        required: false
-        example: tnjgpeop
-        type: string
-        custom: []
-      banner_file:
-        name: banner_file
-        description: 'Must not be greater than 512000 characters.'
-        required: false
-        example: mqgravawlxt
-        type: string
-        custom: []
-      short_name:
-        name: short_name
-        description: 'Must not be greater than 30 characters.'
-        required: false
-        example: diycxawogxeeosbstwr
-        type: string
-        custom: []
-      webhook_url:
-        name: webhook_url
-        description: 'Must not be greater than 1000 characters.'
-        required: false
-        example: 'http://effertz.com/'
-        type: string
-        custom: []
-    cleanBodyParameters:
-      name: rnfrltlalqge
-      buttons: bcncqtojvpidmppuy
-      thumbnail_file: tnjgpeop
-      banner_file: mqgravawlxt
-      short_name: diycxawogxeeosbstwr
-      webhook_url: 'http://effertz.com/'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'games/{id}'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Delete Game'
-      description: 'Deletes a game, if it has no mods.'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game_id}/users/{user}'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get Game User'
-      description: 'Returns the user as they are supposed to be when inside of a game. Handles roles and colors.'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-      user:
-        name: user
-        description: 'The user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-      user: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"id":126181,"name":"Mika","ban":null,"game_ban":null,"unique_name":"mika-4","created_at":"2022-07-22T13:10:28.000000Z","color":null,"avatar":"https:\/\/avatars.akamai.steamstatic.com\/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg","role_names":["Member"],"tag":null,"role_ids":[],"game_role_ids":[],"game_highest_role_order":null,"last_online":"2022-07-22T13:10:28.000000Z","custom_color":"","highest_role_order":null,"banner":"","bio":"","invisible":false,"private_profile":false,"custom_title":"","donation_url":null,"show_tag":"supporter_or_role","active_supporter":null,"mod_count":0}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '71'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game_id}/users/{user_id}/data'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get Game User Data'
-      description: 'Returns game data for a user. Currently used for roles.'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-      user_id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"role_ids":[],"highest_role_order":null,"ban":null}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '69'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game_id}/data'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get Game Data'
-      description: 'Returns basic game data like announcements. For moderators, it returns report and waiting mods count.'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"announcements":[]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '68'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PATCH
-    uri: 'games/{game_id}/users/{user_id}/roles'
-    metadata:
-      groupName: Games
-      groupDescription: |-
-
-        API routes for interacting with game sections.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Set User Roles'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-      user_id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      role_ids:
-        name: role_ids
-        description: 'Must be at least 1.'
-        required: false
-        example:
-          - 7
-        type: 'integer[]'
-        custom: []
-    cleanBodyParameters:
-      role_ids:
-        - 7
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game_id}/roles'
-    metadata:
-      groupName: Games
+      groupName: Documents
       groupDescription: ''
-      subgroup: Roles
+      subgroup: ''
       subgroupDescription: ''
-      title: 'Get List of Games Roles'
+      title: 'Get List of Documents'
       description: ''
       authenticated: false
       custom: []
@@ -443,214 +34,112 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: cykllxcpnuu
+        example: dqwmkscdznus
         type: string
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 24
+        example: 7
         type: integer
         custom: []
     cleanBodyParameters:
-      query: cykllxcpnuu
-      limit: 24
+      query: dqwmkscdznus
+      limit: 7
     fileParameters: []
     responses:
       -
-        status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/games\/249\/roles?page=1","last":"http:\/\/localhost:8000\/games\/249\/roles?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/games\/249\/roles?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/games\/249\/roles","per_page":24,"to":null,"total":0}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '64'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'games/{game_id}/roles'
-    metadata:
-      groupName: Games
-      groupDescription: ''
-      subgroup: Roles
-      subgroupDescription: ''
-      title: 'Create Game Role'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
-        required: false
-        example: xjsdi
-        type: string
-        custom: []
-      tag:
-        name: tag
-        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
-        required: false
-        example: ykmq
-        type: string
-        custom: []
-      desc:
-        name: desc
-        description: 'Must not be greater than 1000 characters.'
-        required: false
-        example: kyidzwhskregxfwhz
-        type: string
-        custom: []
-      color:
-        name: color
-        description: 'Must not be greater than 8 characters.'
-        required: false
-        example: od
-        type: string
-        custom: []
-      is_vanity:
-        name: is_vanity
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      self_assignable:
-        name: self_assignable
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      order:
-        name: order
-        description: 'Must not be greater than 1001.'
-        required: false
-        example: 12
-        type: integer
-        custom: []
-      permissions:
-        name: permissions
-        description: ''
-        required: false
-        example: null
-        type: object
-        custom: []
-    cleanBodyParameters:
-      name: xjsdi
-      tag: ykmq
-      desc: kyidzwhskregxfwhz
-      color: od
-      is_vanity: false
-      self_assignable: false
-      order: 12
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'games/{game_id}/roles/{game_role}'
-    metadata:
-      groupName: Games
-      groupDescription: ''
-      subgroup: Roles
-      subgroupDescription: ''
-      title: 'Get Game Role'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-      game_role:
-        name: game_role
-        description: ''
-        required: true
-        example: 14
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-      game_role: 14
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 404
+        status: 500
         content: |-
           {
-              "message": "No query results for model [App\\Models\\GameRole] 14",
-              "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
-              "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php",
-              "line": 423,
+              "message": "Call to a member function hasPermission() on null",
+              "exception": "Error",
+              "file": "/var/www/html/app/Http/Controllers/DocumentController.php",
+              "line": 33,
               "trace": [
                   {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php",
-                      "line": 399,
-                      "function": "prepareException",
-                      "class": "Illuminate\\Foundation\\Exceptions\\Handler",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/html/vendor/nunomaduro/collision/src/Adapters/Laravel/ExceptionHandler.php",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
                       "line": 54,
-                      "function": "render",
-                      "class": "Illuminate\\Foundation\\Exceptions\\Handler",
+                      "function": "index",
+                      "class": "App\\Http\\Controllers\\DocumentController",
                       "type": "->"
                   },
                   {
-                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-                      "line": 51,
-                      "function": "render",
-                      "class": "NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler",
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
+                      "line": 43,
+                      "function": "callAction",
+                      "class": "Illuminate\\Routing\\Controller",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "line": 260,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\ControllerDispatcher",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "line": 205,
+                      "function": "runController",
+                      "class": "Illuminate\\Routing\\Route",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 799,
+                      "function": "run",
+                      "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
                       "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 185,
-                      "function": "handleException",
-                      "class": "Illuminate\\Routing\\Pipeline",
+                      "line": 141,
+                      "function": "Illuminate\\Routing\\{closure}",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php",
+                      "line": 57,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Auth\\Middleware\\Authorize",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/app/Http/Middleware/UserAuth.php",
+                      "line": 47,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "App\\Http\\Middleware\\UserAuth",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
+                      "line": 50,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
                       "type": "->"
                   },
                   {
@@ -1065,7 +554,94 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '90'
-          x-ratelimit-remaining: '63'
+          x-ratelimit-remaining: '54'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'games/{game_id}/documents'
+    metadata:
+      groupName: Documents
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create Document'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 249
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      game_id: 249
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'documents/{document}'
+    metadata:
+      groupName: Documents
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get Document'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      document:
+        name: document
+        description: 'The document.'
+        required: true
+        example: 3
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      document: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"id":3,"name":"Terms of Service","url_name":"terms","desc":"## Terms of Service for modworkshop.net\nLast Updated: 26 September 2021\n\nIf you require any more information or have any questions about our Terms of Service, please feel free to contact us by email at: [floofytsuna@outlook.com](mailto:floofytsuna@outlook.com?Subject=Terms%20Of%20Service)\n\n### Introduction\n\nThese terms and conditions govern your use of this website; by using this website, you accept these terms and conditions in full and without reservation. If you disagree with these terms and conditions or any part of these terms and conditions, you must not use this website. You must be at least 18 [eighteen] years of age to use this website. By using this website and by agreeing to these terms and conditions, you warrant and represent that you are at least 18 years of age.\n\n### License to Use Website\nUnless otherwise stated, modworkshop.net and\/or its licensors own the intellectual property rights published on this website and materials used on modworkshop.net. Subject to the license below, all these intellectual property rights are reserved. You may view, download for caching purposes only, and print pages, files orother content from the website for your own personal use, subject to the restrictions set out below and elsewhere in these terms and conditions. \n\nYou **must** not:\n* republish material from this website in neither print nor digital media or documents without permission. (including republication on another website);\n* sell, rent or sub-license material from the website;\n* show any material from the website in public;\n* reproduce, duplicate, copy or otherwise exploit material on this website for a commercial purpose;\n* edit or otherwise modify any material on the website;\n* redistribute material from this website - except for content specifically and expressly made available for redistribution; or\n* publish or use any excessively offensive content, doing so will result in a ban from the website.\n* republish or reproduce any part of this website through the use of iframes or screenscrapers.\n\nWhere content is specifically made available for redistribution, it may only be redistributed within your organisation.\n\n### Acceptable Use\nYou must not use this website in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of modworkshop.net orin any way which is unlawful, illegal, fraudulent or harmful, or in connection with any unlawful, illegal, fraudulent or harmful purpose or activity. You must notuse this website to copy, store, host, transmit, send, use, publish or distribute any material which consists of (or is linked to) any spyware, computer virus,Trojan horse, worm, keystroke logger, rootkit or other malicious computer software. You must not conduct any systematic or automated data collection activities onor in relation to this website without modworkshop.net''s express written consent.\n\nThis includes:\n* scraping\n* data mining\n* data extraction\n* data harvesting\n* ''framing'' (iframes)\n* Article ''Spinning''\n\nYou must not use this website or any part of it to transmit or send unsolicited commercial communications. You must not use this website for any purposesrelated to marketing without the express written consent of modworkshop.net.\n\n#### Restricted Access\nAccess to certain areas of this website is restricted. modworkshop.net reserves the right to restrict access to certain areas of this website, or at our discretion,\nthis entire website. modworkshop.net may change or modify this policy without notice. If modworkshop.net provides you with a user ID and password to enable you to\naccess restricted areas of this website or other content or services, you must ensure that the user ID and password are kept confidential. You alone are\nresponsible for your password and user ID security.. modworkshop.net may disable your user ID and password at modworkshop.net''s sole discretion without notice or\nexplanation.\n\n#### User Content\nIn these terms and conditions, ''your user content'' means material (including without limitation text, images, audio material, video material and audio-visual\nmaterial) that you submit to this website, for whatever purpose. You grant to modworkshop.net a worldwide, irrevocable, non-exclusive, royalty-free license to use,\nreproduce, adapt, publish, translate and distribute your user content in any existing or future media. You also grant to modworkshop.net the right to sub-license\nthese rights, and the right to bring an action for infringement of these rights. Your user content must not be illegal or unlawful, must not infringe any third\nparty''s legal rights, and must not be capable of giving rise to legal action whether against you or modworkshop.net or a third party (in each case under any\napplicable law). You must not submit any user content to the website that is or has ever been the subject of any threatened or actual legal proceedings or other\nsimilar complaint. modworkshop.net reserves the right to edit or remove any material submitted to this website, or stored on the servers of modworkshop.net, or\nhosted or published upon this website. modworkshop.net does not undertake to monitor the submission of such content to, or the publication of such content on, this website.\n\n#### No Warranties \nThis website is provided \"as is\" without any representations or warranties, express or implied. modworkshop.net makes no representations or warranties in relation\nto this website or the information and materials provided on this website. Without prejudice to the generality of the foregoing paragraph, modworkshop.net does not\nwarrant that:\n* this website will be constantly available, or available at all; or\n* the information on this website is complete, true, accurate or non-misleading.\n\nNothing on this website constitutes, or is meant to constitute, advice of any kind. If you require advice in relation to any legal, financial or medical\nmatter you should consult an appropriate professional.\n\n#### Limitations of liability\nmodworkshop.net will not be liable to you (whether under the law of contact, the law of torts or otherwise) in relation to the contents of, or use of, or otherwise\nin connection with, this website:\n\n* to the extent that the website is provided free-of-charge, for any direct loss;\n* for any indirect, special or consequential loss; or\n* for any business losses, loss of revenue, income, profits or anticipated savings, loss of contracts or business relationships, loss of reputation or goodwill, or loss or corruption of information or data.\n\nThese limitations of liability apply even if modworkshop.net has been expressly advised of the potential loss.\n\n#### Exceptions\nNothing in this website disclaimer will exclude or limit any warranty implied by law that it would be unlawful to exclude or limit; and nothing in this website\ndisclaimer will exclude or limit the liability of modworkshop.net in respect of any:\n\n* death or personal injury caused by the negligence of modworkshop.net or its agents, employees or shareholders\/owners;\n* fraud or fraudulent misrepresentation on the part of modworkshop.net; or\n* matter which it would be illegal or unlawful for modworkshop.net to exclude or limit, or to attempt or purport to exclude or limit, its liability.\n\n#### Reasonableness\nBy using this website, you agree that the exclusions and limitations of liability set out in this website disclaimer are reasonable. If you do not think they are\nreasonable, you must not use this website.\n\n#### Other Parties\nYou accept that, as a limited liability entity, modworkshop.net has an interest in limiting the personal liability of its officers and employees. You agree that you\nwill not bring any claim personally against modworkshop.net''s officers or employees in respect of any losses you suffer in connection with the website. Without\nprejudice to the foregoing paragraph, you agree that the limitations of warranties and liability set out in this website disclaimer will protect modworkshop.net''s\nofficers, employees, agents, subsidiaries, successors, assigns and sub-contractors as well as modworkshop.net.\n\n#### Unenforceable Provisions\nIf any provision of this website disclaimer is, or is found to be, unenforceable under applicable law, that will not affect the enforceability of the other\nprovisions of this website disclaimer.\n\n#### Indemnity\nYou hereby indemnify modworkshop.net and undertake to keep modworkshop.net indemnified against any losses, damages, costs, liabilities and expenses (including\nwithout limitation legal expenses and any amounts paid by modworkshop.net to a third party in settlement of a claim or dispute on the advice of modworkshop.net''s\nlegal advisers) incurred or suffered by modworkshop.net arising out of any breach by you of any provision of these terms and conditions, or arising out of any claim\nthat you have breached any provision of these terms and conditions.\n\n#### Breaches of these terms and conditions\nWithout prejudice to modworkshop.net''s other rights under these terms and conditions, if you breach these terms and conditions in any way, modworkshop.net may take\nsuch action as modworkshop.net deems appropriate to deal with the breach, including suspending your access to the website, prohibiting you from accessing the\nwebsite, blocking computers using your IP address from accessing the website, contacting your internet service provider to request that they block your access to\nthe website and\/or bringing court proceedings against you.\n\n#### Variation\nmodworkshop.net may revise these terms and conditions from time-to-time. Revised terms and conditions will apply to the use of this website from the date of the\npublication of the revised terms and conditions on this website. Please check this page regularly to ensure you are familiar with the current version.\n\n#### Assignment\nmodworkshop.net may transfer, sub-contract or otherwise deal with modworkshop.net''s rights and\/or obligations under these terms and conditions without notifying you\nor obtaining your consent. You may not transfer, sub-contract or otherwise deal with your rights and\/or obligations under these terms and conditions.\n\n#### Severability\nIf a provision of these terms and conditions is determined by any court or other competent authority to be unlawful and\/or unenforceable, the other provisions will\ncontinue in effect. If any unlawful and\/or unenforceable provision would be lawful or enforceable if part of it were deleted, that part will be deemed to be\ndeleted, and the rest of the provision will continue in effect.\n\n#### Entire Agreement\n\nThese terms and conditions, together with modworkshop.net''s [Privacy Policy](\/privacy) constitute the entire agreement between you and modworkshop.net in relation to your use of\nthis website, and supersede all previous agreements in respect of your use of this website.\n\n#### modworkshop.net''s Details\nYou can contact modworkshop.net by email at [floofytsuna@outlook.com](mailto:floofytsuna@outlook.com?Subject=Terms%20Of%20Service).","game_id":null,"last_user_id":1,"created_at":"2023-06-10T20:18:40.000000Z","updated_at":"2023-06-10T20:18:40.000000Z","is_unlisted":false,"last_user":{"id":1,"name":"ModWorkshop","custom_color":"","avatar":"","unique_name":"","banner":"","private_profile":false,"invisible":false,"donation_url":null,"show_tag":"supporter_or_role","activated":true,"pending_email_set_at":null,"color":null,"active_supporter":null,"ban":null,"supporter":null,"game_roles":[],"game_ban":null}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '90'
+          x-ratelimit-remaining: '53'
           vary: Origin
         description: null
         custom: []
@@ -1079,13 +655,13 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'games/{game_id}/roles/{game_role}'
+    uri: 'documents/{id}'
     metadata:
-      groupName: Games
+      groupName: Documents
       groupDescription: ''
-      subgroup: Roles
+      subgroup: ''
       subgroupDescription: ''
-      title: 'Edit Game Role'
+      title: 'Edit Document'
       description: ''
       authenticated: true
       custom: []
@@ -1093,90 +669,59 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
+      id:
+        name: id
+        description: 'The ID of the document.'
         required: true
-        example: 249
-        type: integer
-        custom: []
-      game_role:
-        name: game_role
-        description: ''
-        required: true
-        example: 14
+        example: 3
         type: integer
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      game_role: 14
+      id: 3
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
       name:
         name: name
-        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+        description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
         required: false
-        example: v
-        type: string
-        custom: []
-      tag:
-        name: tag
-        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
-        required: false
-        example: vfusmfxfqyos
+        example: qkjbwjpgzwsfqwc
         type: string
         custom: []
       desc:
         name: desc
-        description: 'Must not be greater than 1000 characters.'
+        description: 'Must be at least 3 characters. Must not be greater than 50000 characters.'
         required: false
-        example: puqjiboiskjyvhapotqn
+        example: oeqluvzsodvvyqospclulslj
         type: string
         custom: []
-      color:
-        name: color
-        description: 'Must not be greater than 8 characters.'
-        required: false
-        example: ppl
-        type: string
-        custom: []
-      is_vanity:
-        name: is_vanity
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      self_assignable:
-        name: self_assignable
+      is_unlisted:
+        name: is_unlisted
         description: ''
         required: false
         example: true
         type: boolean
         custom: []
-      order:
-        name: order
-        description: 'Must not be greater than 1001.'
+      game_id:
+        name: game_id
+        description: 'Must be at least 1.'
         required: false
-        example: 8
+        example: 28
         type: integer
         custom: []
-      permissions:
-        name: permissions
-        description: ''
+      url_name:
+        name: url_name
+        description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 30 characters.'
         required: false
-        example: null
-        type: object
+        example: rltkdhw
+        type: string
         custom: []
     cleanBodyParameters:
-      name: v
-      tag: vfusmfxfqyos
-      desc: puqjiboiskjyvhapotqn
-      color: ppl
-      is_vanity: false
-      self_assignable: true
-      order: 8
+      name: qkjbwjpgzwsfqwc
+      desc: oeqluvzsodvvyqospclulslj
+      is_unlisted: true
+      game_id: 28
+      url_name: rltkdhw
     fileParameters: []
     responses: []
     responseFields: []
@@ -1188,13 +733,13 @@ endpoints:
   -
     httpMethods:
       - DELETE
-    uri: 'games/{game_id}/roles/{game_role}'
+    uri: 'documents/{id}'
     metadata:
-      groupName: Games
+      groupName: Documents
       groupDescription: ''
-      subgroup: Roles
+      subgroup: ''
       subgroupDescription: ''
-      title: 'Delete Game Role'
+      title: 'Delete Document'
       description: ''
       authenticated: true
       custom: []
@@ -1202,23 +747,15 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
+      id:
+        name: id
+        description: 'The ID of the document.'
         required: true
-        example: 249
-        type: integer
-        custom: []
-      game_role:
-        name: game_role
-        description: ''
-        required: true
-        example: 14
+        example: 3
         type: integer
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      game_role: 14
+      id: 3
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

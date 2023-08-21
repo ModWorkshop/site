@@ -27,6 +27,11 @@ class GameController extends Controller
         $this->authorizeResource(Game::class, 'game');
     }
 
+    /**
+     * Edit Game
+     *
+     * @authenticated
+     */
     public function update(Request $request, Game $game=null)
     {
         $val = $request->validate([
@@ -63,10 +68,9 @@ class GameController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Game
+     * 
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -74,11 +78,7 @@ class GameController extends Controller
     }
 
     /**
-     * Mod Cateogries
-     *
-     * @param Request $request
-     * @param Category|null $game
-     * @return void
+     * Get List of Games
      */
     public function index(FilteredRequest $request)
     {
@@ -99,6 +99,9 @@ class GameController extends Controller
         return GameResource::collection($games);
     }
 
+    /**
+     * Get Game
+     */
     public function show(Game $game)
     {
         APIService::setCurrentGame($game);
@@ -110,6 +113,13 @@ class GameController extends Controller
         return new GameResource($game);
     }
 
+    /**
+     * Delete Game
+     * 
+     * Deletes a game, if it has no mods.
+     * 
+     * @autehnticated
+     */
     public function destroy(Game $game)
     {
         if ($game->mods()->count() == 0) {
@@ -117,6 +127,11 @@ class GameController extends Controller
         }
     }
 
+    /**
+     * Set User Roles
+     * 
+     * @authenticated
+     */
     public function setUserGameRoles(Request $request, Game $game, User $user)
     {
         $this->authorize('manageRoles', [$game, $user]);
@@ -129,6 +144,11 @@ class GameController extends Controller
         $user->syncGameRoles($game, array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
     }
 
+    /**
+     * Get Game Data
+     * 
+     * Returns basic game data like announcements. For moderators, it returns report and waiting mods count.
+     */
     public function getGameData(Game $game)
     {
         $data = [
@@ -137,7 +157,7 @@ class GameController extends Controller
 
         if (Auth::hasUser()) {
             $user = Auth::user();
-            if ($user->hasPermission('moderate-users')) {
+            if ($user->hasPermission('moderate-users', $game)) {
                 $data['report_count'] = $game->reportCount;
                 $data['waiting_count'] = $game->waitingCount;
             }
@@ -147,6 +167,8 @@ class GameController extends Controller
     }
 
     /**
+     * Get Game User Data
+     * 
      * Returns game data for a user. Currently used for roles.
      */
     public function getGameUserData(Game $game, User $user)
@@ -160,6 +182,11 @@ class GameController extends Controller
     }
 
 
+    /**
+     * Get Game User
+     *
+     * Returns the user as they are supposed to be when inside of a game. Handles roles and colors.
+     */
     public function getGameUser(UserController $con, Game $game=null, string $user) {
         return $con->getUser($user, $game);
     }

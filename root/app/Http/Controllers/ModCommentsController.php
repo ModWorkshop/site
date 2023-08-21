@@ -12,6 +12,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Mods
+ * 
+ * @subgroup Comments
+ */
 class ModCommentsController extends Controller
 {
     public function __construct() {
@@ -19,7 +24,7 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get List of Comments
      *
      * @return Response
      */
@@ -33,10 +38,9 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Comment
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -45,16 +49,29 @@ class ModCommentsController extends Controller
         return CommentService::store($request, $mod);
     }
 
+    /**
+     * Get Comment
+     */
     public function show(Comment $comment)
     {
         return $comment;
     }
 
+    /**
+     * Subscribe to Comment
+     *
+     * @authenticated
+     */
     public function subscribe(Mod $mod)
     {
         CommentService::subscribe($mod);
     }
 
+    /**
+     * Unsubscribe from Comment
+     *
+     * @authenticated
+     */
     public function unsubscribe(Mod $mod)
     {
         CommentService::unsubscribe($mod);

@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Blocked Users
+ * 
+ * @authenticated
+ */
 class BlockedUserController extends Controller
 {
     public function __construct()
@@ -17,9 +22,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Blocked Users
      */
     public function index(FilteredRequest $request)
     {
@@ -27,10 +30,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Blocked User
      */
     public function store(Request $request)
     {
@@ -54,10 +54,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Blocked User
      */
     public function destroy(Request $request, $id)
     {

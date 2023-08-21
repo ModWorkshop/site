@@ -1,0 +1,106 @@
+name: 'Instructions Templates'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: 'games/{game_id}/instructs-templates'
+    metadata:
+      groupName: 'Instructions Templates'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get list of Instructions Templates'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 249
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      game_id: 249
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      query:
+        name: query
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: izbcxhkpkzdohqtcmgmsg
+        type: string
+        custom: []
+      limit:
+        name: limit
+        description: 'Must be at least 1. Must not be greater than 50.'
+        required: false
+        example: 14
+        type: integer
+        custom: []
+    cleanBodyParameters:
+      query: izbcxhkpkzdohqtcmgmsg
+      limit: 14
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[],"links":{"first":"http:\/\/localhost:8000\/games\/249\/instructs-templates?page=1","last":"http:\/\/localhost:8000\/games\/249\/instructs-templates?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/games\/249\/instructs-templates?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/games\/249\/instructs-templates","per_page":14,"to":null,"total":0}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '90'
+          x-ratelimit-remaining: '65'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'games/{game_id}/instructs-templates'
+    metadata:
+      groupName: 'Instructions Templates'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create Instructions Template'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 249
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      game_id: 249
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

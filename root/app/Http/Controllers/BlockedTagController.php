@@ -9,15 +9,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Blocked Tags
+ * 
+ * @authenticated
+ */
 class BlockedTagController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
     }
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Blocked Tags
      */
     public function index(FilteredRequest $request)
     {
@@ -25,10 +28,7 @@ class BlockedTagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Blocked Tag
      */
     public function store(Request $request)
     {
@@ -47,10 +47,7 @@ class BlockedTagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Blocked Tag
      */
     public function destroy($id)
     {

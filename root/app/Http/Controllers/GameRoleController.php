@@ -16,6 +16,11 @@ use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @group Games
+ * 
+ * @subgroup Roles
+ */
 class GameRoleController extends Controller
 {
     public function __construct() {
@@ -23,9 +28,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Games Roles
      */
     public function index(FilteredRequest $request, Game $game)
     {
@@ -49,10 +52,9 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Game Role
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(UpsertRoleRequest $request, Game $game)
     {
@@ -60,10 +62,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Game Role
      */
     public function show(Game $game, GameRole $gameRole)
     {
@@ -72,11 +71,9 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Game Role
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function update(UpsertRoleRequest $request, Game $game, GameRole $gameRole=null)
     {
@@ -133,10 +130,9 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Game Role
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Game $game, GameRole $gameRole)
     {

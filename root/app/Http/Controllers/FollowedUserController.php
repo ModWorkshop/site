@@ -15,6 +15,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Users
+ * 
+ * @subgroup Followed Users
+ * 
+ * @authenticated
+ */
 class FollowedUserController extends Controller
 {
     public function __construct()
@@ -23,15 +30,20 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Follwoed Users
      */
     public function index(FilteredRequest $request)
     {
         return UserResource::collection($this->user()->followedUsers()->queryGet($request->val()));
     }
 
+    /**
+     * Get List of Followed Users' Mods
+     *
+     * @param GetModsRequest $request
+     * @param Authenticatable $user
+     * @return void
+     */
     public function mods(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
@@ -47,10 +59,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Add Followed User
      */
     public function store(Request $request, Authenticatable $user)
     {
@@ -70,11 +79,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @hideFromApiDocumentation
      */
     public function update(Request $request, $id)
     {
@@ -82,10 +87,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Followed User
      */
     public function destroy(int $id, Authenticatable $user)
     {

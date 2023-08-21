@@ -12,13 +12,20 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\File;
 
+/**
+ * @group Mods
+ * 
+ * @subgroup Images
+ */
 class ImageController extends Controller
 {
     public function __construct() {
         $this->authorizeWithParentResource(Image::class, Mod::class);
     }
     /**
-     * Display a listing of the resource.
+     * Get List of Mod Images
+     * 
+     * Returns images of the mod
      */
     public function index(Request $request, Mod $mod)
     {
@@ -30,7 +37,9 @@ class ImageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Upload Image
+     * 
+     * Upload a new image to the mod
      */
     public function store(Request $request, Mod $mod)
     {
@@ -62,7 +71,9 @@ class ImageController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get Image
+     * 
+     * Returns data about a single image
      */
     public function show(Image $image)
     {
@@ -70,7 +81,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     *  @hideFromAPIDocumentation
      */
     public function update(Request $request, Mod $mod, Image $image)
     {
@@ -78,7 +89,9 @@ class ImageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an Image
+     * 
+     * @authenticated
      */
     public function destroy(Image $image)
     {
@@ -86,19 +99,9 @@ class ImageController extends Controller
     }
 
     /**
-     * Deletes all files of a mod
-     */
-    public function deleteAllFiles(Mod $mod)
-    {
-        foreach ($mod->files as $file) {
-            $file->delete();
-        }
-
-        $mod->calculateFileStatus();
-    }
-
-    /**
-     * Deletes all images of a mod
+     * Delete all Mod Images
+     * 
+     * @authenticated
      */
     public function deleteAllImages(Mod $mod)
     {

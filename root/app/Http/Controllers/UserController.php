@@ -35,9 +35,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Users
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -107,14 +105,9 @@ class UserController extends Controller
     }
 
     /**
-     * User
-     *
-     * Returns a user
+     * Get User
      *
      * @urlParam user integer required The ID of the user
-     *
-     * @param string $user
-     * @return User
      */
     public function getUser(string $user, Game $game=null)
     {
@@ -143,13 +136,9 @@ class UserController extends Controller
     }
 
     /**
-     * POST users/{user}
+     * Edit User
      *
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function update(Request $request, User $user)
     {
@@ -236,6 +225,11 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    /**
+     * Set User Roles
+     *
+     * @authenticated
+     */
     function setUserRoles(Request $request, User $user) {
         $this->authorize('manageRoles', $user);
 
@@ -248,10 +242,9 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete User
+     * 
+     * @authenticated
      */
     public function destroy(User $user)
     {
@@ -264,8 +257,6 @@ class UserController extends Controller
      * Returns the currently authenticated user
      *
      * @authenticated
-     * @param Request $request
-     * @return void
      */
     public function currentUser(Request $request)
     {
@@ -277,6 +268,8 @@ class UserController extends Controller
     }
 
     /**
+     * Get User Data
+     * 
      * Returns GDPR compliant user data we store.
      */
     public function userData()
@@ -302,13 +295,22 @@ class UserController extends Controller
     }
 
     /**
-     * Reports the resource for moderators to look at.
+     * Report User
+     *
+     * Reports the user for moderators to look at it.
+     *
+     * @authenticated
      */
     public function report(Request $request, User $user)
     {
         APIService::report($request, $user);
     }
 
+    /**
+     * Delete User Mods
+     *
+     * @authenticated
+     */
     public function deleteMods(User $user)
     {
         $this->authorize('manageMods', $user);
@@ -318,6 +320,11 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Delete User Discussions
+     *
+     * @authenticated
+     */
     public function deleteDiscussions(User $user)
     {
         $this->authorize('manageDiscussions', $user);
@@ -333,6 +340,8 @@ class UserController extends Controller
 
     /**
      * Verifies email via a link sent to the email
+     * 
+     * @hideFromApiDocumentation
      */
     public function verifyEmail(EmailVerifyRequest $request)
     {
@@ -344,6 +353,8 @@ class UserController extends Controller
 
     /**
      * Resends email verification to user's email
+     * 
+     * @hideFromApiDocumentation
      */
     public function resendEmail(Request $request)
     {
@@ -352,6 +363,8 @@ class UserController extends Controller
 
     /**
      * Cancels pending email if the user changes their mind.
+     * 
+     * @hideFromApiDocumentation
      */
     public function cancelPendingEmail()
     {

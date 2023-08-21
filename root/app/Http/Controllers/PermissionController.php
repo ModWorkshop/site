@@ -16,9 +16,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Permissions
      */
     public function index()
     {
@@ -26,10 +24,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Permission
      */
     public function show(Permission $perm)
     {

@@ -11,21 +11,19 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Users
+ * @subgroup Notifications
+ * @authenticated
+ */
 class NotificationController extends Controller
 {
     public function __construct() {
         $this->authorizeResource(Notification::class, 'notification');
     }
 
-    public function unseenCount()
-    {
-        return APIService::getUnseenNotifications();
-    }
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Notifications
      */
     public function index(FilteredRequest $request)
     {
@@ -47,10 +45,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Notification
      */
     public function show(Notification $notification)
     {
@@ -58,11 +53,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Notification
      */
     public function update(Request $request, Notification $notification)
     {
@@ -74,26 +65,40 @@ class NotificationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Unseen Notifications Count
+     */
+    public function unseenCount()
+    {
+        return APIService::getUnseenNotifications();
+    }
+
+    /**
+     * Delete Notification
      */
     public function destroy(Notification $notification)
     {
         $notification->delete();
     }
 
+    /**
+     * Delete All Notifications
+     */
     public function deleteAllNotifications(Request $request)
     {
         Notification::where('user_id', $request->user()->id)->delete();
     }
 
+    /**
+     * Delete All Read Notifications
+     */
     public function deleteReadNotifications(Request $request)
     {
         Notification::where('user_id', $request->user()->id)->where('seen', true)->delete();
     }
 
+    /**
+     * Read All notifications
+     */
     public function readAllNotifications(Request $request)
     {
         Notification::where('user_id', $request->user()->id)->where('seen', false)->update([

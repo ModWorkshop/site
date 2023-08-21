@@ -20,9 +20,9 @@ class TagController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Tags
+     * 
+     * Returns a list of tags
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -51,10 +51,9 @@ class TagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Tag
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Game $game=null)
     {
@@ -62,10 +61,7 @@ class TagController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Tag
      */
     public function show(Tag $tag)
     {
@@ -73,11 +69,9 @@ class TagController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Tag
+     * 
+     * @authenticated
      */
     public function update(Request $request, Game $game=null, Tag $tag=null)
     {
@@ -105,10 +99,9 @@ class TagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Tag
+     * 
+     * @authenticated
      */
     public function destroy(Tag $tag)
     {

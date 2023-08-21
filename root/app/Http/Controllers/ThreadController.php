@@ -18,6 +18,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Threads
+ */
 class ThreadController extends Controller
 {
     public function __construct(Request $request) {
@@ -25,9 +28,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Threads
      */
     public function index(FilteredRequest $request)
     {
@@ -83,10 +84,9 @@ class ThreadController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Thread
+     * 
+     * @authenticated
      */
     public function store(Request $request, Forum $forum)
     {
@@ -124,10 +124,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Thread
      */
     public function show(Thread $thread)
     {
@@ -138,11 +135,9 @@ class ThreadController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Thread
+     * 
+     * @authenticated
      */
     public function update(Request $request, Thread $thread)
     {
@@ -214,10 +209,9 @@ class ThreadController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Thread
+     * 
+     * @authenticated
      */
     public function destroy(Thread $thread)
     {
@@ -225,7 +219,11 @@ class ThreadController extends Controller
     }
 
     /**
-     * Reports the resource for moderators to look at.
+     * Report Thread
+     *
+     * Reports the thread for moderators to look at it.
+     *
+     * @authenticated
      */
     public function report(Request $request, Thread $thread)
     {

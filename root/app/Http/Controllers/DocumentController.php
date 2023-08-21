@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Documents
+ */
 class DocumentController extends Controller
 {
     public function __construct() {
@@ -17,7 +20,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get List of Documents
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -47,7 +50,9 @@ class DocumentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Document
+     * 
+     * @authenticated
      */
     public function store(Request $request, Game $game)
     {
@@ -55,7 +60,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get Document
      */
     public function getDocument(Request $request, $document)
     {
@@ -69,7 +74,9 @@ class DocumentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Document
+     * 
+     * @authenticated
      */
     public function update(Request $request, Document $document=null)
     {
@@ -111,7 +118,9 @@ class DocumentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Document
+     * 
+     * @authenticated
      */
     public function destroy(Document $document)
     {

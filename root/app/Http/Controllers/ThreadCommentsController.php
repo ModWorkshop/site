@@ -13,6 +13,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Threads
+ * 
+ * @subgroup Comments
+ */
 class ThreadCommentsController extends Controller
 {
     public function __construct() {
@@ -20,7 +25,7 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get List of Thread Comments
      *
      * @return Response
      */
@@ -30,10 +35,9 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Thread Comment
+     * 
+     * @authenticated
      */
     public function store(Request $request, Thread $thread)
     {
@@ -49,11 +53,21 @@ class ThreadCommentsController extends Controller
         return $comment;
     }
 
+    /**
+     * Subscribe to Thread Comment
+     *
+     * @authenticated
+     */
     public function subscribe(Thread $thread)
     {
         CommentService::subscribe($thread);
     }
 
+    /**
+     * Unsubscribe to Thread Comment
+     *
+     * @authenticated
+     */
     public function unsubscribe(Thread $thread)
     {
         CommentService::unsubscribe($thread);

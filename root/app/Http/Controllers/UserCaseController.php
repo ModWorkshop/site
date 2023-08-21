@@ -16,6 +16,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @group User Cases
+ * @authenticated
+ * 
+ * @hideFromApiDocumentation
+ */
 class UserCaseController extends Controller
 {
     public function __construct(Request $request)
@@ -24,9 +30,9 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * User Cases
      *
-     * @return Response
+     * Returns user cases (warnings) that the user has
      */
     public function index(Request $request, Game $game=null)
     {
@@ -53,10 +59,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create User Case
      */
     public function store(Request $request, Game $game=null)
     {
@@ -92,10 +95,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get User Case
      */
     public function show(UserCase $userCase)
     {
@@ -103,11 +103,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit User Case
      */
     public function update(Request $request, UserCase $userCase)
     {
@@ -125,10 +121,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete User Case
      */
     public function destroy(UserCase $userCase)
     {

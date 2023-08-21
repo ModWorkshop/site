@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Suspenions
+ * 
+ * @authenciated
+ * @hideFromApiDocumentation
+ */
 class SuspensionController extends Controller
 {
     public function __construct() {
@@ -17,9 +23,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Suspensions
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -63,10 +67,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Suspension
      */
     public function show(Suspension $suspension)
     {
@@ -74,11 +75,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Suspension
      */
     public function update(Request $request, Suspension $suspension)
     {
@@ -90,10 +87,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Suspension
      */
     public function destroy(Suspension $suspension)
     {

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Forum
+ */
 class ForumController extends Controller
 {
     public function __construct() {
@@ -16,9 +19,7 @@ class ForumController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Forums
      */
     public function index(FilteredRequest $request)
     {
@@ -28,10 +29,7 @@ class ForumController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Forum
      */
     public function show(Forum $forum)
     {
@@ -39,11 +37,7 @@ class ForumController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @hideFromApiDocumentation
      */
     public function update(Request $request, $id)
     {

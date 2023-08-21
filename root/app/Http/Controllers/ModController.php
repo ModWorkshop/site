@@ -37,11 +37,9 @@ class ModController extends Controller
     }
 
     /**
-     * Mods
+     * Get List of Mods
      *
      * Returns many mods, has a few options for searching the right mods
-     *
-     *
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
@@ -58,7 +56,7 @@ class ModController extends Controller
     }
 
     /**
-     * Liked Mods
+     * Get List of Liked Mods
      *
      * Returns mods the user liked
      *
@@ -76,7 +74,7 @@ class ModController extends Controller
     }
 
     /**
-     * Waiting for approval
+     * List of Waiting for Approval Mods
      *
      * Returns mods waiting for approval (approval == null)
      *
@@ -107,7 +105,7 @@ class ModController extends Controller
     }
 
     /**
-     * Update Mod
+     * Edit Mod
      *
      * Updates data of a mod
      *
@@ -269,6 +267,8 @@ class ModController extends Controller
     /**
      * Delete Mod
      *
+     * Deletes a mod and all of its contents.
+     * 
      * @authenticated
      */
     public function destroy(Mod $mod, Game $game=null)
@@ -277,7 +277,7 @@ class ModController extends Controller
     }
 
     /**
-     * Register a View
+     * POST Register a View
      *
      * Registers a view for a mod, doesn't let you 'view' it twice
      * Works with guests
@@ -311,7 +311,7 @@ class ModController extends Controller
     }
 
     /**
-     * Register a Download
+     * Register Download
      *
      * Registers a download for a mod, doesn't let you 'download' it twice
      * Works with guests
@@ -383,7 +383,7 @@ class ModController extends Controller
     }
 
     /**
-     * Transfer Ownership
+     * Transfer Ownership of a Mod
      *
      * Creates a transfer request, only once a user accepts can the mod be fully transfered.
      *
@@ -612,6 +612,13 @@ class ModController extends Controller
         APIService::report($request, $mod);
     }
 
+    /**
+     * Download First File
+     * 
+     * Downloads the first available file
+     * 
+     * @subgroup Files
+     */
     function downloadFirstFile(Mod $mod) {
         $file = $mod->files()->firstOrFail();
         return redirect($file->downloadUrl);

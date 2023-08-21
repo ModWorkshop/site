@@ -8,6 +8,11 @@ use App\Services\DependencyService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Mods
+ * 
+ * @subgroup Dependencies
+ */
 class ModDependencyController extends Controller
 {
     public function __construct() {
@@ -15,10 +20,9 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Dependency
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -26,11 +30,9 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Dependency
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function update(Request $request, Mod $mod, Dependency $dependency)
     {
@@ -38,10 +40,9 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Dependency
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Request $request, Mod $mod, Dependency $dependency)
     {

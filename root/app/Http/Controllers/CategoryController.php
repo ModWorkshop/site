@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @group Categories
+ * @group Mods
+ * @subgroup Categories
  */
 class CategoryController extends Controller
 {
@@ -23,9 +24,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Categories
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -64,10 +63,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Category
+     * 
+     * @authenticated
      */
     public function store(Request $request, ?Game $game)
     {
@@ -75,10 +73,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Category  $category
-     * @return Response
+     * Get Category
      */
     public function show(Category $category)
     {
@@ -88,11 +83,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  Category  $category
-     * @return Response
+     * Edit Category
+     * 
+     * @authenticated
      */
     public function update(Request $request, Game $game=null, Category $category=null)
     {
@@ -133,7 +126,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes the category.
+     * Deletes Category.
+     * 
+     * @authenticated
      */
     public function destroy(Category $category)
     {

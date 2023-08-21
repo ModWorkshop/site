@@ -26,9 +26,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Roles
      */
     public function index(FilteredRequest $request)
     {
@@ -51,10 +49,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Role
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(UpsertRoleRequest $request)
     {
@@ -62,10 +59,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Role
      */
     public function show(Role $role)
     {
@@ -74,7 +68,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Role
+     * 
+     * @authenticated
      */
     public function update(UpsertRoleRequest $request, Role $role=null)
     {
@@ -127,10 +123,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Role
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Role $role)
     {

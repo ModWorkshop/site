@@ -18,7 +18,9 @@ use Log;
 use Storage;
 
 /**
- * @group Files
+ * @group Mods
+ * 
+ * @subgroup Files
  */
 class FileController extends Controller
 {
@@ -27,7 +29,7 @@ class FileController extends Controller
     }
 
     /**
-     * Get Mod Files
+     * List of Mod Files
      *
      * Returns a list of files of a mod.
      */
@@ -140,7 +142,7 @@ class FileController extends Controller
     }
 
     /**
-     * File Version
+     * Get File Version
      *
      * Returns the version set for the file
      */
@@ -150,7 +152,7 @@ class FileController extends Controller
     }
 
     /**
-     * Deletes All Mod FIles
+     * Delete All Mod FIles
      *
      * @authenticated
      */

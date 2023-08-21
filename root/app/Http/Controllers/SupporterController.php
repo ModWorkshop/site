@@ -10,13 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Supporters
+ */
 class SupporterController extends Controller
 {
     public function __construct() {
         $this->authorizeResource(Supporter::class, 'supporter');
     }
     /**
-     * Display a listing of the resource.
+     * Get List of Supporters
      */
     public function index(FilteredRequest $request)
     {
@@ -40,10 +43,9 @@ class SupporterController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Supporter
+     * 
+     * @authenticated
      */
     public function store(Request $request)
     {
@@ -62,10 +64,7 @@ class SupporterController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Show Supporter
      */
     public function show(Supporter $supporter)
     {
@@ -73,11 +72,9 @@ class SupporterController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Supporter
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function update(Request $request, Supporter $supporter)
     {
@@ -94,10 +91,9 @@ class SupporterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Supporter
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Supporter $supporter)
     {

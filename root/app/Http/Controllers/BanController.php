@@ -15,6 +15,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Log;
 
+/**
+ * @group Bans
+ * @authenticated
+ * @hideFromApiDocumentation
+ */
 class BanController extends Controller
 {
     public function __construct() {
@@ -22,9 +27,7 @@ class BanController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Bans
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -50,10 +53,7 @@ class BanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create Ban
      */
     public function store(Request $request, Game $game=null)
     {
@@ -97,11 +97,7 @@ class BanController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Ban
      */
     public function update(Request $request, Ban $ban)
     {
@@ -134,10 +130,7 @@ class BanController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Ban
      */
     public function destroy(Ban $ban)
     {

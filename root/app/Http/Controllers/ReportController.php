@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Log;
 
+/**
+ * @group Reports
+ * 
+ * @authenticated
+ */
 class ReportController extends Controller
 {
     public function __construct() {
@@ -16,7 +21,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get List of Reports
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -37,7 +42,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit Report
      */
     public function update(Request $request, Report $report)
     {
@@ -51,7 +56,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Report
      */
     public function destroy(Report $report)
     {

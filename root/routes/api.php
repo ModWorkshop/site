@@ -87,6 +87,10 @@ Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
+/**
+ * Get Mod Version
+ * @group Mods
+ */
 Route::middleware('can:view,mod')->get('mods/{mod}/version', fn(Mod $mod) => $mod->version);
 Route::middleware('can:manage,mod')->group(function() {
     Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
@@ -293,8 +297,5 @@ Route::get('v2API', function(Request $request) {
     }
     echo $val['command'];
 });
-
-
-Route::get('test', fn() => 'it works');
 
 // Route::middleware('has_permission:create-api-tokens')->resource('tokens', TokenController::class);

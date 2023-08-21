@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
+/**
+ * @group Forums
+ * @subgroup Categories
+ */
 class ForumCategoryController extends Controller
 {
     public function __construct() {
@@ -23,9 +27,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Forum Categories
      */
     public function index(FilteredRequest $request)
     {
@@ -48,10 +50,9 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Forum Category
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Game $game=null)
     {
@@ -59,10 +60,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get Forum Category
      */
     public function show(ForumCategory $forumCategory)
     {
@@ -70,11 +68,9 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Forum Category
+     * 
+     * @authenticated
      */
     public function update(Request $request, ForumCategory $forumCategory=null, Game $game=null)
     {
@@ -158,10 +154,9 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Forum Category
+     * 
+     * @authenticated
      */
     public function destroy(ForumCategory $forumCategory)
     {

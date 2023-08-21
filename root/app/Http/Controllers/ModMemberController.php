@@ -17,16 +17,22 @@ const MOD_MEMBER_RULES_OVER = [
     'collaborator' => ['contributor', 'viewer'],
 ];
 
+/**
+ * @group Mods
+ * 
+ * @subgroup Members
+ */
 class ModMemberController extends Controller
 {
     public function __construct() {
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Mod Member
+     * 
+     * Add someone to be a mod member, it sends them a notification so they can accept the request
      *
-     * @param Request $request
-     * @return Response
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -75,11 +81,9 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Edit Member
+     * 
+     * @@authenticated
      */
     public function update(Request $request, Mod $mod, User $member)
     {
@@ -102,10 +106,9 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove Member
      *
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function destroy(Request $request, Mod $mod, User $member)
     {
@@ -130,12 +133,11 @@ class ModMemberController extends Controller
     }
 
     /**
+     * Accept Member Request
+     * 
      * Accepts incoming member request and make it active or delete it if rejected.
      *
-     * @param Request $request
-     * @param Mod $mod
-     * @param User $member
-     * @return void
+     * @authenticated
      */
     public function accept(Request $request, Mod $mod)
     {

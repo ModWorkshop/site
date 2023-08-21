@@ -14,6 +14,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Users
+ * 
+ * @subgroup Followed Games
+ * 
+ * @authenticated
+ */
 class FollowedGameController extends Controller
 {
     public function __construct()
@@ -22,9 +29,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * Get List of Followed Games
      */
     public function index(Request $request)
     {
@@ -35,6 +40,9 @@ class FollowedGameController extends Controller
         return GameResource::collection($this->user()->followedGames()->queryGet($val));
     }
 
+    /**
+     * Get List of Followed Games Mods
+     */
     public function mods(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
@@ -50,10 +58,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Add Followed Game
      */
     public function store(Request $request, Authenticatable $user)
     {
@@ -70,10 +75,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete Followed Game
      */
     public function destroy(int $id)
     {
