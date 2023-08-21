@@ -14,6 +14,7 @@ RUN apk --no-cache add \
   php81-xmlwriter \
   php81-cli \
   php81-pcntl \
+  php81-phar \
   php81-posix
 
 # Install stuff
@@ -32,7 +33,6 @@ RUN echo "" >> /etc/php81/conf.d/custom.ini
 RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
 RUN echo "extension=swoole" >> /etc/php81/conf.d/custom.ini
-RUN echo "extension=phar" >> /etc/php81/conf.d/custom.ini
 RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
 RUN echo "memory_limit=500M" >> /etc/php81/conf.d/custom.ini
