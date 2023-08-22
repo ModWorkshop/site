@@ -4,18 +4,18 @@ RUN xcaddy build
 ########
 
 #### Stage 1 ####
-FROM node:18.16.0-alpine as builder
+FROM node:18-bookworm-slim as builder
 
 # Copy and set directory
 COPY ./root /var/www/html
-WORKDIR /var/www/html 
+WORKDIR /var/www/html
 
 # Install deps and build the site
 RUN yarn && yarn build
 ########
 
 #### Stage 2 ####
-FROM node:18.16.0-alpine as prod
+FROM node:18-bookworm-slim as prod
 
 # Copy caddy stuff
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
@@ -38,7 +38,7 @@ RUN yarn global add pm2
 CMD ["/bin/sh", "-c", "pm2 start /var/www/html/ecosystem.config.js & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
 
 #### Stage 2 DEV ####
-FROM node:18.16.0-alpine as dev
+FROM node:18-bookworm-slim as dev
 
 WORKDIR /var/www/html
 CMD yarn && yarn dev
