@@ -25,8 +25,13 @@
                         </span>
                     </span>
                 </flex>
-                <flex class="md:ml-auto">
+                <flex class="md:ml-auto" style="box-shadow: initial; text-shadow: initial;">
                     <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : undefined" @click="toggleLiked"/>
+
+                    <a-button v-if="download && download_type == 'file'" class="text-center" icon="mdi:application-cog" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
+                        Install With MO2
+                    </a-button>
+
                     <a-button v-if="download && download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : undefined">
                         {{$t('download')}}
                         <br>
@@ -111,10 +116,8 @@ function switchToFiles() {
 </script>
 <style>
 .large-button {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     padding: 0.5rem 1.5rem !important;
-    box-shadow: initial;
-    text-shadow: initial;
 }
 </style>
 <style scoped>
