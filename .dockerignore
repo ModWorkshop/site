@@ -1,0 +1,6 @@
+root/.vscode/
+root/node_modules/
+root/.env.sample
+root/.gitignore
+root/.nuxt/
+root/.output/

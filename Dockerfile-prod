@@ -1,0 +1,31 @@
+#### Stage 1 ####
+FROM node:18-bookworm-slim as builder
+
+# Copy and set directory
+COPY ./root /var/www/html
+WORKDIR /var/www/html
+
+# Install deps and cache image layer
+RUN yarn
+# Build project and cache image layer
+RUN yarn build
+########
+
+#### Stage 2 ####
+FROM node:18-bookworm-slim as prod
+
+WORKDIR /var/www/html
+
+COPY --from=builder  /var/www/html/.output  ./.output
+COPY --from=builder  /var/www/html/ecosystem.config.js ./ecosystem.config.js
+
+# All ready now
+EXPOSE 3000
+
+ARG GIT_VERSION_HASH
+ENV NITRO_PRESET=node_cluster
+ENV NUXT_PUBLIC_VERSION_HASH=${GIT_VERSION_HASH}
+
+RUN npm install pm2 -g
+
+CMD ["pm2-runtime", "ecosystem.config.js"]

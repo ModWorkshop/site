@@ -1,0 +1,12 @@
+#### DEV ####
+FROM node:18-bookworm-slim as dev
+
+WORKDIR /var/www/html
+EXPOSE 3000
+
+COPY ./root /var/www/html
+
+# install deps and cache image layer
+RUN yarn
+# Run
+CMD ["yarn", "dev"]
