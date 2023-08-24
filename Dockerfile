@@ -74,5 +74,3 @@ FROM build as dev
 CMD composer install --no-interaction \
     && php artisan mws:install --auto \
     && php artisan serve
-
-USER nobody
