@@ -82,7 +82,7 @@ import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 
-const searchBus = useEventBus<string>('search')
+const searchBus = useEventBus<string>('search');
 
 const props = withDefaults(defineProps<{
     title?: string,

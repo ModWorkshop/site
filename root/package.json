@@ -1,10 +1,21 @@
 {
+  "name": "mws-frontend",
+  "version": "",
+  "description": "ModWorkshop Frontend",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ModWorkshop/mws-frontend.git"
+  },
+  "author": "ModWorkshop",
+  "license": "",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "lint:eslint": "eslint \"./**/*.{js,ts,vue}\"",
+    "format:eslint": "eslint --fix \"./**/*.{js,ts,vue}\""
   },
   "type": "module",
   "devDependencies": {
@@ -56,6 +67,8 @@
   "overrides": {
     "semver": "^7.5.3"
   },
-  "packageManager": "yarn@3.3.1",
-  "optionalDependencies": {}
+  "packageManager": "yarn@3.6.3",
+  "engines": {
+    "node": ">=18"
+  }
 }

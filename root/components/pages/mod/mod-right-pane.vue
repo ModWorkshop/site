@@ -90,7 +90,7 @@ onMounted(() => {
             },
         });
     }
-})
+});
 </script>
 
 <style>

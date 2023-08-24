@@ -16,7 +16,7 @@
                     </flex>
                     <flex class="ml-auto items-center" gap="2" wrap>
                         <flex class="mr-4" gap="2">
-                            <flex v-if="store.gameBan" gap="0" v-once column>
+                            <flex v-if="store.gameBan" v-once gap="0" column>
                                 <span class="text-danger">
                                     <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
                                 </span>
