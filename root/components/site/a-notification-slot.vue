@@ -1,7 +1,7 @@
 <template>
     <a-user v-if="type == 'user' && object && typeof object == 'object'" :user="(object as User)" :avatar="false" @click.prevent/>
     <template v-else>
-        <NuxtLink v-if="link" @click.stop :to="link">{{name}}</NuxtLink>
+        <NuxtLink v-if="link" :to="link" @click.stop>{{name}}</NuxtLink>
         <span v-else>{{name}}</span><span v-if="typeHint"> ({{typeHint}})</span>
     </template>
 </template>

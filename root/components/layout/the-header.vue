@@ -165,7 +165,7 @@ const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(0);
 const unlockedOwO = useState('unlockedOwO');
-const searchBus = useEventBus<string>('search')
+const searchBus = useEventBus<string>('search');
 
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
