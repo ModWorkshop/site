@@ -34,6 +34,7 @@ yarn build
 ## Docker Build and Run
 
 You can access the server on http://localhost:3000 like development.
+
 **NOTE: Frontend container would not run correctly if the backend container is not running and there is no container networking.**<br />
 **Recommend to use [docker-setup](https://github.com/ModWorkshop/mws-docker-setup) instead because the settings are hard.**<br />
 **Otherwise, creating docker-compose.yml is a solution (need docker compose)**
