@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM trafex/php-nginx:3.1.0 as build
 USER root
 
@@ -8,35 +9,36 @@ RUN apk --no-cache add \
   php81-fileinfo \
   php81-redis \
   php81-pdo_mysql \
-  php81-pdo \ 
-  php81-exif \ 
+  php81-pdo \
+  php81-exif \
   php81-pdo_pgsql \
   php81-xmlwriter \
   php81-cli \
   php81-pcntl \
-  php81-posix
+  php81-posix \
+  vips
 
 # Install stuff
 RUN set -eux \
     && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc g++ libc-dev musl-dev make linux-headers autoconf git \
     && pecl install apfd \
     && pecl install swoole \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/* 
+    && apk del --purge .build-deps \
+    && rm -rf /var/cache/apk/*
 
-RUN apk add vips
-
+# Using heredoc from dockerfile:1.4 (ref: https://www.docker.com/blog/introduction-to-heredocs-in-dockerfiles/)
 # PHP ini configuration
 # So php ini doesn't break
-RUN echo "" >> /etc/php81/conf.d/custom.ini
-RUN echo "ffi.enable=true" >> /etc/php81/conf.d/custom.ini
-RUN echo "extension=apfd" >> /etc/php81/conf.d/custom.ini
-RUN echo "extension=swoole" >> /etc/php81/conf.d/custom.ini
-RUN echo "post_max_size=1G" >> /etc/php81/conf.d/custom.ini
-RUN echo "upload_max_filesize=1G" >> /etc/php81/conf.d/custom.ini
-RUN echo "memory_limit=500M" >> /etc/php81/conf.d/custom.ini
-#FUCK YOU WHOEVER MADE THIS SHITTY FUCKING FUNCTION
-RUN echo "disable_functions=phpinfo" >> /etc/php81/conf.d/custom.ini
+RUN <<EOF cat >> /etc/php81/conf.d/custom.ini
+
+ffi.enable=true
+extension=apfd
+extension=swoole
+post_max_size=1G
+upload_max_filesize=1G
+memory_limit=500M
+disable_functions=phpinfo
+EOF
 
 # Install composer from the official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -48,31 +50,32 @@ COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
 
 FROM build as prod
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
-RUN apk add --no-cache dcron libcap && \
-    chown nobody:nobody /usr/sbin/crond && \
-    setcap cap_setgid=ep /usr/sbin/crond
-RUN echo '* * * * * php /var/www/html/artisan schedule:run >> /var/www/html/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody
-RUN crontab -u nobody /etc/crontabs/nobody
-RUN chown -R nobody /var/spool/cron/crontabs/nobody
-RUN chmod 0644 /var/spool/cron/crontabs/nobody
 COPY entrypoint.sh /scripts/entrypoint.sh
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-RUN chown -R nobody /scripts/entrypoint.sh
-RUN chmod +x /scripts/entrypoint.sh
 
-ENTRYPOINT ["/scripts/entrypoint.sh"]
+RUN apk add --no-cache dcron libcap \
+    && chown nobody:nobody /usr/sbin/crond \
+    && setcap cap_setgid=ep /usr/sbin/crond \
+    && echo '* * * * * php /var/www/html/artisan schedule:run >> /var/www/html/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
+    && crontab -u nobody /etc/crontabs/nobody \
+    && chown -R nobody /var/spool/cron/crontabs/nobody /scripts/entrypoint.sh \
+    && chmod 0644 /var/spool/cron/crontabs/nobody /scripts/entrypoint.sh
 
-# Install composer packages
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress
-RUN php artisan route:cache
-RUN php artisan storage:link
+# Install composer packages & cache this layer
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress \
+    && php artisan optimize \
+    && php artisan storage:link
+
 # Switch to use a non-root user from here on
 USER nobody
 
+ENTRYPOINT ["/scripts/entrypoint.sh"]
+
 FROM build as dev
+
 # Install composer packages
-CMD composer install --no-interaction \
-    && php artisan mws:install --auto \
-    && php artisan serve
+RUN composer install --no-interaction
+
+CMD ["/bin/sh", "-c" "php artisan mws:install --auto && php artisan serve"]
 
 USER nobody
