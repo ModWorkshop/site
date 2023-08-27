@@ -12,8 +12,8 @@ While it is possible to install all dependencies by yourself, it is not that rec
 
 ## Docker Build
 
-Recommend to use [docker-setup](https://github.com/ModWorkshop/mws-docker-setup) with docker compose if running this.
-This instruction is only **building** purpose, not running.
+It's recommended to use [docker-setup](https://github.com/ModWorkshop/mws-docker-setup) with docker compose.
+These instructions are only for **building** purpose, not running.
 
 ### Development Environment
 
