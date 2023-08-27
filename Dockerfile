@@ -44,11 +44,12 @@ EOF
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Copy stuff
-COPY --chown=nobody ./root /var/www/html
 COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
 COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
 
 FROM build as prod
+COPY --chown=nobody ./root /var/www/html
+
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
 COPY entrypoint.sh /scripts/entrypoint.sh
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -74,8 +75,4 @@ ENTRYPOINT ["/scripts/entrypoint.sh"]
 FROM build as dev
 
 # Install composer packages
-RUN composer install --no-interaction
-
-CMD ["/bin/sh", "-c", "php artisan mws:install --auto && php artisan serve"]
-
-USER nobody
+CMD ["/bin/sh", "-c", "composer install --no-interaction && php artisan mws:install --auto && php artisan serve"]
