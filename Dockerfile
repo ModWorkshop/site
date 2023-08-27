@@ -76,6 +76,6 @@ FROM build as dev
 # Install composer packages
 RUN composer install --no-interaction
 
-CMD ["/bin/sh", "-c" "php artisan mws:install --auto && php artisan serve"]
+CMD ["/bin/sh", "-c", "php artisan mws:install --auto && php artisan serve"]
 
 USER nobody
