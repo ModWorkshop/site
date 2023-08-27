@@ -1,6 +1,5 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 
-import { ProcessVersionsNodePlugin } from "./rollup-plugins/process-versions-node";
 
 export default defineNuxtConfig({
 	devServer: {
@@ -161,13 +160,6 @@ export default defineNuxtConfig({
 		id: 'G-EGYBGTBHRV'
 	},
 
-	nitro: {
-		rollupConfig: {
-			// @ts-expect-error ???
-			plugins: [ProcessVersionsNodePlugin()],
-		},
-	},
-	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		// 'nuxt-delay-hydration',
