@@ -1,0 +1,7 @@
+root/_ide_helper*
+root/.editorconfig
+root/.env.sample
+root/tests/
+root/.styleci.yml
+root/phpunit.xml
+root/.gitignore

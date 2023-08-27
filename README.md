@@ -10,6 +10,27 @@ Developing the backend, alongside the frontend, requires the use of [Docker](htt
 Visit https://github.com/ModWorkshop/mws-docker-setup for more information.
 While it is possible to install all dependencies by yourself, it is not that recommended as Docker can install all instantly.
 
+## Docker Build
+
+It's recommended to use [docker-setup](https://github.com/ModWorkshop/mws-docker-setup) with docker compose.
+These instructions are only for **building** purpose, not running.
+
+### Development Environment
+
+Run this command:
+
+```bash
+docker build . -t mws-backend-dev --target dev
+```
+
+### Production Environment
+
+Run this command:
+
+```bash
+docker build . -t mws-backend-prod --target prod
+```
+
 # Style Guide
 Keep consistent style, database columns are snake_case, Class names are PascalCase, function names are camelCase. 4 Tab Spaces.
 
