@@ -20,7 +20,7 @@
   "type": "module",
   "devDependencies": {
     "@antfu/utils": "^0.7.4",
-    "@nuxtjs/i18n": "8.0.0-beta.13",
+    "@nuxtjs/i18n": "8.0.0-rc.3",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@pinia/nuxt": "^0.4.10",
