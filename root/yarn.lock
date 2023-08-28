@@ -4296,10 +4296,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"filesize@npm:^10.0.6":
-  version: 10.0.7
-  resolution: "filesize@npm:10.0.7"
-  checksum: acabe6ddcf0c06eb86a9b2ac0a93db48d2438037dce4f7ec5cf6ee32284a8d961b1efc251af1c05e7316ccf1e78c68cdc32655511745cc2580f9b8c309b523ce
+"filesize@npm:^10.0.12":
+  version: 10.0.12
+  resolution: "filesize@npm:10.0.12"
+  checksum: 1719683813fabf8afb39133871b80dcc71f31695c70b866814d7fd15151888fc3405d6ca0b9ac2665c59c046e7104e8776e938e6f5c68b2fda060d35d256416b
   languageName: node
   linkType: hard
 
@@ -6270,7 +6270,7 @@ __metadata:
     eslint: ^8.33.0
     eslint-plugin-vue: ^9.17.0
     fast-equals: ^5.0.1
-    filesize: ^10.0.6
+    filesize: ^10.0.12
     floating-vue: ^2.0.0-beta.24
     highlight.js: ^11.7.0
     humanize-duration: ^3.29.0
