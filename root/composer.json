@@ -9,6 +9,7 @@
         "biiiiiigmonster/hasin": "^3.0",
         "chelout/laravel-relationship-events": "^2.0",
         "fileeye/mimemap": "^2.0",
+        "genealabs/laravel-model-caching": "^0.13.4",
         "guzzlehttp/guzzle": "^7.0.1",
         "hammerstone/fast-paginate": "^1.0.1",
         "http-interop/http-factory-guzzle": "^1.2",

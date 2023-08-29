@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
@@ -31,7 +32,7 @@ use Illuminate\Support\Carbon;
  */
 class Permission extends Model
 {
-    use HasFactory;
+    use HasFactory, Cachable;
 
     public function getMorphClass(): string {
         return 'permission';

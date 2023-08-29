@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 /**
  * App\Models\Thread
@@ -83,7 +84,7 @@ use Illuminate\Support\Carbon;
  */
 class Thread extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable, Reportable;
+    use HasFactory, Subscribable, Reportable, Cachable;
 
     protected $with = ['user', 'lastUser', 'category', 'game'];
     protected $saveToReport = ['content'];

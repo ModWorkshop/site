@@ -6,6 +6,7 @@ use App\Services\ModService;
 use Carbon\Carbon;
 use Database\Factories\CategoryFactory;
 use Eloquent;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -59,6 +60,8 @@ use Storage;
  */
 class Category extends Model
 {
+    use Cachable;
+
     protected $guarded = [];
 
     protected $hidden = ['parent', 'game'];

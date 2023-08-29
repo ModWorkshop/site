@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +33,7 @@ use Illuminate\Support\Carbon;
  */
 class Setting extends Model
 {
-    use HasFactory;
+    use HasFactory, Cachable;
 
     protected $guarded = ['type', 'name'];
 
