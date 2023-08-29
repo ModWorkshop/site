@@ -5,6 +5,7 @@ namespace App\Models;
 use Auth;
 use Eloquent;
 use Exception;
+use Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,6 +55,11 @@ class GameRole extends Model
 
     protected $guarded = [];
 
+    public function cacheKey()
+    {
+        return sprintf("%s/%s-%s", $this->getTable(), $this->getKey(), $this->updated_at->timestamp);
+    }
+
     public function getMorphClass(): string {
         return 'game_role';
     }
@@ -73,6 +79,12 @@ class GameRole extends Model
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    function cachedPermissions(): Attribute {
+        return Attribute::make(
+            fn() => Cache::remember($this->cacheKey().':permission', 60, fn() => $this->permissions)
+        );
     }
 
         /**

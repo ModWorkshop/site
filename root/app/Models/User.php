@@ -158,7 +158,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles.permissions', 'ban', 'supporter'];
+    protected $with = ['roles', 'ban', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -310,6 +310,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected static function booted()
     {
         static::retrieved(function(User $user) {
+            app('siteState')->addUser($user);
+
             $user->currentGameChanged();
             if (Auth::hasUser()) {
                 $user->with[] = 'blockedByMe';
@@ -547,12 +549,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roleList(): Attribute
     {
         return Attribute::make(function() {
-            $this->membersRole ??= Cache::remember('membersRole', 60, function() {
-                return Role::with('permissions')->find(1);
-            });
+            $membersRole = app('siteState')->getMembersRole();
             $roles = [...$this->roles];
-            if (isset($this->membersRole) && !in_array($this->membersRole, $roles)) {
-                $roles[] = $this->membersRole;
+            if (isset($membersRole) && !in_array($membersRole, $roles)) {
+                $roles[] = $membersRole;
             }
 
             return $roles;
@@ -649,7 +649,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if ($currentGame) {
             if ($this->relationLoaded('roles')) {
-                $this->load(['gameBan', 'gameRoles.permissions']);
+                $this->load(['gameBan', 'gameRoles']);
             } else {
                 $this->with[] = 'gameRoles';
                 $this->with[] = 'gameBan';
@@ -733,7 +733,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->gameRolesCache[$gameId];
         }
 
-        $gameRoles = $this->allGameRoles()->when($withPerms, fn($q) => $q->with('permissions'))->where('game_id', $gameId)->get();
+        $gameRoles = $this->allGameRoles()->where('game_id', $gameId)->get();
 
         $this->gameRolesCache[$gameId] = $gameRoles;
         return $gameRoles;
@@ -797,7 +797,6 @@ class User extends Authenticatable implements MustVerifyEmail
      * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
      */
     function hasPermission(string $toWhat, Game $game=null, bool $byPassBanCheck=false): bool {
-        $this->roles->loadMissing('permissions');
         $perms = $this->permissionList;
 
         //Admin bypasses all
