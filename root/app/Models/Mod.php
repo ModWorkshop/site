@@ -508,11 +508,11 @@ class Mod extends Model implements SubscribableInterface
         ];
     }
 
-    function fileCounts(): Attribute {
+    function filesCounts(): Attribute {
         return Attribute::make(fn() => $this->files()->count());
     }
 
-    function linkCounts(): Attribute {
+    function linksCounts(): Attribute {
         return Attribute::make(fn() => $this->links()->count());
     }
 
