@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Database\Factories\ModFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
+use Spatie\Sitemap\Tags\Url;
+use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class Visibility {
     const public = 'public';
@@ -171,6 +174,63 @@ class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
 
+    public static $allowedIncludes = [
+        'category',
+        'thumbnail',
+        'user',
+        'tags',
+        'images',
+        'files',
+        'links',
+        'game',
+        'download',
+        'members',
+        'banner',
+        'lastUser',
+        'liked',
+        'transferRequest',
+        'subscribed',
+        'dependencies',
+        'instructsTemplate',
+    ];
+
+    public static $allowedFields = [
+        'id',
+        'category_id',
+        'game_id',
+        'user_id',
+        'name',
+        'desc',
+        'short_desc',
+        'changelog',
+        'license',
+        'instructions',
+        'visibility',
+        'legacy_banner_url',
+        'downloads',
+        'likes',
+        'views',
+        'version',
+        'donation',
+        'suspended',
+        'comments_disabled',
+        'score',
+        'daily_score',
+        'weekly_score',
+        'bumped_at',
+        'published_at',
+        'download_id',
+        'download_type',
+        'last_user_id',
+        'has_download',
+        'approved',
+        'thumbnail_id',
+        'banner_id',
+        'allowed_storage',
+        'updated_at',
+        'created_at',
+    ];
+
     public $commentsOrder = 'DESC';
 
     /**
@@ -184,23 +244,21 @@ class Mod extends Model implements SubscribableInterface
 
     public const DEFAULT_MOD_WITH = [
         'user',
-        'game',
+        'game'
+    ];
+
+    public const LIST_MOD_WITH = [
         'category',
         'thumbnail',
-        'members'
     ];
 
     public $fullLoad = false;
 
-    public const FULL_MOD_WITH = [
-        'user',
+    // Gets loaded in mod page
+    public const SHOW_MOD_WITH = [
         'tags',
         'images',
-        // 'files',
-        // 'links',
-        'game',
         'download',
-        'members',
         'banner',
         'lastUser',
         'liked',
@@ -208,6 +266,9 @@ class Mod extends Model implements SubscribableInterface
         'subscribed',
         'dependencies',
         'instructsTemplate',
+        'members',
+        'category',
+        'thumbnail',
     ];
 
     protected $with = self::DEFAULT_MOD_WITH;
@@ -219,6 +280,12 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $mod = QueryBuilder::for(app(Mod::class))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        return $mod->findOrFail($value);
+    }
+
     public function getMorphClass(): string {
         return 'mod';
     }
@@ -227,18 +294,28 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
-        $this->loadMissing(self::FULL_MOD_WITH);
+        $this->loadMissing(self::SHOW_MOD_WITH);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
         }
         if ($this->suspended) {
             $this->loadMissing('lastSuspension');
         }
-        $this->category?->loadMissing('parent');
     }
 
+    public function toSitemapTag(): Url | string | array
+    {
+        return Url::create(env('FRONTEND_URL').'/mod/'.$this->id)
+            ->setLastModificationDate(Carbon::create($this->bumped_at))
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(1);
+    }
 
     protected static function booted() {
+        static::retrieved(function(Mod $mod) {
+            app('siteState')->addMod($mod);
+        });
+
         static::deleting(function(Mod $mod) {
             if ($mod->approved == null) {
                 // Send to discord about this
@@ -417,6 +494,10 @@ class Mod extends Model implements SubscribableInterface
      */
     public function getBreadcrumbAttribute()
     {
+        if (!$this->relationLoaded('game') || !$this->relationLoaded('category')) {
+            return [];
+        }
+
         return [
             ...ModService::makeBreadcrumb($this->game, $this->category),
             [
@@ -425,6 +506,14 @@ class Mod extends Model implements SubscribableInterface
                 'type' => 'mod'
             ]
         ];
+    }
+
+    function fileCounts(): Attribute {
+        return Attribute::make(fn() => $this->files()->count());
+    }
+
+    function linkCounts(): Attribute {
+        return Attribute::make(fn() => $this->links()->count());
     }
 
     public function liked()

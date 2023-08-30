@@ -24,8 +24,10 @@ class ModResource extends JsonResource
 
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->whenLoaded('user')),
-            'files' => $this->when($this->fullLoad, fn() => new LightCollection($this->files()->paginate(5))),
-            'links' => $this->when($this->fullLoad, fn() => new LightCollection($this->links()->paginate(5))),
+            'files' => $this->whenLoaded('files', fn() => new LightCollection($this->files()->paginate(5))),
+            'links' => $this->whenLoaded('links', fn() => new LightCollection($this->links()->paginate(5))),
+            'files_count' => $this->when($this->fullLoad, fn() => $this->filesCount),
+            'links_count' => $this->when($this->fullLoad, fn() => $this->linksCount),
             'images' => $this->whenLoaded('images'),
             'followed' => $this->whenLoaded('followed'),
             'members' => $this->whenLoaded('members', function() use ($missingValue, $request) {

@@ -7,7 +7,6 @@ use App\Models\Game;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\Thread;
-use App\Models\User;
 use Arr;
 use Auth;
 use Carbon\Carbon;
@@ -152,15 +151,14 @@ class APIService {
         return AnnouncementResource::collection($announcements->take(2));
     }
 
-    public static function currentGame(): int
+    public static function currentGame(): ?Game
     {
         return app('siteState')->getCurrentGame();
     }
 
-    public static function setCurrentGame(Game $game)
+    public static function setCurrentGame(?Game $game)
     {
-        app('siteState')->currentGame = $game->id;
-        $game->append('announcements');
+        app('siteState')->setCurrentGame($game);
     }
 
     public static function getSettings()

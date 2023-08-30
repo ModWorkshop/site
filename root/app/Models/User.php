@@ -645,7 +645,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function currentGameChanged(): void
     {
         $currentGame = APIService::currentGame();
-        $this->eagerLoadedGameId = $currentGame;
+        $this->eagerLoadedGameId = $currentGame?->id ?? 0;
 
         if ($currentGame) {
             if ($this->relationLoaded('roles')) {

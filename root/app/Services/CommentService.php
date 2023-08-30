@@ -42,16 +42,14 @@ class CommentService {
         }
 
         $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
-            $query->with(['mentions']);
+            $query->with('lastReplies');
+            $query->withCount('replies');
             $query->orderByRaw($options['orderBy'] ?? 'pinned DESC, created_at DESC');
             if (!isset($replies)) {
                 $query->whereNull('reply_to');
             }
             $query->whereMorphedTo('commentable', $commentable);
         });
-
-        APIService::appendToItems($comments, 'last_replies');
-        APIService::appendToItems($comments, 'total_replies');
 
         return CommentResource::collection($comments);
     }

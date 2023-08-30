@@ -97,7 +97,7 @@ class File extends Model
     {
         return Attribute::make(function() {
             $name = preg_replace('/[^A-Za-z0-9\s\-]/', '', explode('.', $this->name)[0]);
-            $version = !empty($this->version) ? $this->version : $this->mod->version;
+            $version = !empty($this->version) ? $this->version : (app('siteState')->getMod($this->mod_id) ?? $this->mod)->version;
             $version = !empty($version) ? '@'.preg_replace('/[^A-Za-z0-9\s\-\.]/', '', $version) : '';
             return "{$this->mod_id}-{$name}{$version}.{$this->file_ext}";
         });

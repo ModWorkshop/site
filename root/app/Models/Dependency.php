@@ -47,7 +47,7 @@ class Dependency extends Model
 
     protected $guarded = [];
 
-    protected $with = ['mod'];
+    protected $with = ['mod' => Mod::LIST_MOD_WITH];
 
     public function getMorphClass(): string {
         return 'dependency';

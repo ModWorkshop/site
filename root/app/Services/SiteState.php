@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Game;
 use \App\Models\Role;
+use \App\Models\Mod;
 use \App\Models\User;
 
 use Cache;
@@ -13,21 +15,39 @@ use Cache;
 // While it's currently not done, it's possible two games may need to be loaded at once.
 
 class SiteState {
-    public int $currentGame;
+    public ?Game $currentGame = null;
+
+    public array $mods = [];
     public array $categories;
 
     public array $users = [];
     public ?Role $membersRole = null;
 
-    // When we are in a route that fetches a single resource (like mods/12345) we want to load the game.
-    public bool $showResourceRoute = false;
+    // What resource we are showing currently (or not)
+    public ?string $showResourceRoute = null;
+
+    // For optimization purposes, if a mod is needed (For example for files) we can avoid loading it again.
+    function getMod(int $id): ?Mod {
+        return $this->mods[$id];
+    }
+
+    function addMod(Mod $mod) {
+        $this->mods[$mod->id] = $mod;
+    }
 
     function addUser(User $user) {
         $this->users[$user->id] = $user;
     }
 
-    function getCurrentGame(): int {
-        return $this->currentGame ?? 0;
+    function setCurrentGame(Game $game){
+        $this->currentGame = $game;
+        if (isset($game)) {
+            $game->append('announcements');
+        }
+    }
+
+    function getCurrentGame(): ?Game {
+        return $this->currentGame;
     }
 
     function getCategories(): ?array {
