@@ -2,11 +2,13 @@
     <page-block v-if="user">
         <Title>{{user.name}}</Title>
         <flex v-if="me && user.id != me.id">
-            <a-button v-if="false && !user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
+            <a-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</a-button>
             <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
             <VDropdown :disabled="user.followed">
-                <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
-                    {{$t(user.followed ? 'unfollow' : 'follow')}} <a-icon v-if="!user.followed" icon="caret-down"/>
+                <a-button @click="user.followed && setFollowUser(user, false)">
+                    <i-mdi-minus-thick v-if="user.followed"/>
+                    <i-mdi-plus-thick v-else/>
+                    {{$t(user.followed ? 'unfollow' : 'follow')}}
                 </a-button>
                 <template #popper>
                     <a-dropdown-item @click="setFollowUser(user, true)">{{$t('follow_with_notifs')}}</a-dropdown-item>
@@ -14,20 +16,26 @@
                 </template>
             </VDropdown>
             <VDropdown :disabled="isBlocked">
-                <a-button icon="user-xmark" @click="isBlocked && blockUser()">{{isBlocked ? $t('unblock') : `${$t('block')}/${$t('hide_mods')}`}}</a-button>
+                <a-button @click="isBlocked && blockUser()">
+                    <i-mdi-account-off/> {{isBlocked ? $t('unblock') : `${$t('block')}/${$t('hide_mods')}`}}
+                </a-button>
                 <template #popper>
-                    <a-dropdown-item icon="user-xmark" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-dropdown-item>
-                    <a-dropdown-item icon="eye-slash" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-dropdown-item>
+                    <a-dropdown-item @click="blockUser">
+                        <i-mdi-account-off/> {{$t(isBlocked ? 'unblock' : 'block')}}
+                    </a-dropdown-item>
+                    <a-dropdown-item @click="hideUserMods">
+                        <i-mdi-eye-off/> {{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}
+                    </a-dropdown-item>
                 </template>
             </VDropdown>
             <VDropdown v-if="canModerate" arrow>
-                <a-button icon="caret-down">{{$t('moderation')}}</a-button>
+                <a-button><i-mdi-caret-down/> {{$t('moderation')}}</a-button>
                 <template #popper>
-                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="mdi:cog">{{$t('edit')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageMods" icon="mdi:trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageDiscussions" icon="mdi:trash" @click="showDeleteDiscussionsModal">{{$t('delete_all_discussions')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</a-dropdown-item>
                 </template>
             </VDropdown>
         </flex>

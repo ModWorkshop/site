@@ -35,8 +35,8 @@
                     <td>{{fullDate(m.created_at)}}</td>
                     <td class="text-center p-1">
                         <flex inline>
-                            <a-button :disabled="!canEditMember(m)" icon="mdi:cog" @click.prevent="editMember(m)"/>
-                            <a-button :disabled="!canEditMember(m)" icon="mdi:trash" @click.prevent="deleteMember(m)"/>
+                            <a-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></a-button>
+                            <a-button :disabled="!canEditMember(m)" @click.prevent="deleteMember(m)"><i-mdi-delete/></a-button>
                         </flex>
                     </td>
                 </tr> 

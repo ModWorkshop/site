@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    name: String,
-    to: String,
-    icon: String,
-    title: String,
-    selected: Boolean,
-});
+const props = defineProps<{
+    name: string,
+    to: string,
+    icon: Component,
+    title: string,
+    selected: boolean,
+}>();
 
 const route = useRoute();
 

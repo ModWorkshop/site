@@ -6,13 +6,15 @@
         </flex>
         <div class="categories">
             <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
-                <a-icon 
+                <span 
                     v-if="currentCategories.length"
                     class="mx-1"
                     :style="{opacity: forciblyOpen ? 0.25 : 1}"
-                    :icon="isOpen ? `ic:round-keyboard-arrow-down` : `ic:round-keyboard-arrow-right`"
                     @click="open = !open"
-                />
+                >
+                    <i-mdi-chevron-down v-if="isOpen"/>
+                    <i-mdi-chevron-right v-else/>
+                </span>
                 <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
                 <slot name="button" :category="category"/>
             </div>

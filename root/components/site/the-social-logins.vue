@@ -1,9 +1,9 @@
 <template>
     <flex class="text-xl">
-        <a-button :to="`${url}/social-logins/steam/login-redirect`" icon="cib:steam"/>
-        <a-button :to="`${url}/social-logins/github/login-redirect`" icon="cib:github"/>
-        <a-button :to="`${url}/social-logins/gitlab/login-redirect`" icon="cib:gitlab"/>
-        <a-button :to="`${url}/social-logins/discord/login-redirect`" icon="cib:discord"/>
+        <a-button :to="`${url}/social-logins/steam/login-redirect`"><i-cib-steam/></a-button>
+        <a-button :to="`${url}/social-logins/github/login-redirect`"><i-cib-github/></a-button>
+        <a-button :to="`${url}/social-logins/gitlab/login-redirect`"><i-cib-gitlab/></a-button>
+        <a-button :to="`${url}/social-logins/discord/login-redirect`"><i-cib-discord/></a-button>
     </flex>
 </template>
 

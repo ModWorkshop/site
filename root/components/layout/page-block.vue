@@ -9,16 +9,18 @@
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
                     </h2>
                     <flex wrap gap="4">
-                        <a-link-button v-if="!store.isBanned" v-once icon="mdi:upload" :to="user ? `/g/${game.short_name}/upload` : '/login'">{{$t('upload_mod')}}</a-link-button>
-                        <a-link-button :to="`/g/${game.short_name}/mods`" icon="mdi:puzzle">{{$t('browse_mods')}}</a-link-button>
-                        <a-link-button :to="`/g/${game.short_name}/forum`" icon="mdi:forum">{{$t('forum')}}</a-link-button>
-                        <a-link-button v-for="button in buttons" :key="button[0]" :icon="button[2]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
+                        <a-link-button v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">
+                            <i-mdi-upload/> {{$t('upload_mod')}}
+                        </a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/mods`"><i-mdi-puzzle/> {{$t('browse_mods')}}</a-link-button>
+                        <a-link-button :to="`/g/${game.short_name}/forum`"><i-mdi-forum/> {{$t('forum')}}</a-link-button>
+                        <a-link-button v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</a-link-button>
                     </flex>
                     <flex class="ml-auto items-center" gap="2" wrap>
                         <flex class="mr-4" gap="2">
                             <flex v-if="store.gameBan" v-once gap="0" column>
                                 <span class="text-danger">
-                                    <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
+                                    <i-mdi-alert/> {{$t('banned')}}
                                 </span>
                                 <span>
                                     <i18n-t keypath="expires_t" scope="global">
@@ -31,17 +33,23 @@
 
                             
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
-                                <a-icon icon="mdi:alert-box"/> {{reportCount}}
+                                <i-mdi-alert-box/> {{reportCount}}
                             </NuxtLink>
                             <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.short_name}/admin/approvals`">
-                                <a-icon icon="mdi:clock"/> {{waitingCount}}
+                                <i-mdi-clock/> {{waitingCount}}
                             </NuxtLink>
-                            <a-link-button v-if="canSeeAdminGamePage" icon="mdi:cogs" :to="`/g/${game.short_name}/admin`">{{$t('admin_page')}}</a-link-button>
+                            <a-link-button v-if="canSeeAdminGamePage" :to="`/g/${game.short_name}/admin`"><i-mdi-cogs/> {{$t('admin_page')}}</a-link-button>
                         </flex>
 
-                        <a-link-button v-if="store.user" icon="mdi:account-settings-variant" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">{{$t('game_preferences')}}</a-link-button>
-                        <a-link-button v-if="store.user" :icon="game.followed ? 'mdi:minus-thick' : 'mdi:plus-thick'" @click="setFollowGame(game!)">{{$t(game.followed ? 'unfollow' : 'follow')}}</a-link-button>
-                        <a-link-button v-else icon="mdi:plus-thick" to="/login">{{$t('follow')}}</a-link-button>
+                        <a-link-button v-if="store.user" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">
+                            <i-mdi-account-settings-variant/> {{$t('game_preferences')}}
+                        </a-link-button>
+                        <a-link-button v-if="store.user" @click="setFollowGame(game!)">
+                            <mdi-minus-thick v-if="game.followed"/>
+                            <mdi-plus-thick v-else/>
+                            {{$t(game.followed ? 'unfollow' : 'follow')}}
+                        </a-link-button>
+                        <a-link-button v-else to="/login"><i-mdi-plus-thick/> {{$t('follow')}}</a-link-button>
                     </flex>
                 </content-block>
             </flex>

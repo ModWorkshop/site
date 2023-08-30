@@ -5,15 +5,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    iconSize: String,
-    command: [String, Number, Object],
-    to: String,
-    href: String,
-    disabled: Boolean,
-    type: String,
-    icon: String
-});
+defineProps<{
+    iconSize: string,
+    command: string|number|object,
+    to: string,
+    href: string,
+    disabled: boolean,
+    type: string,
+    icon: Component
+}>();
 
 const emit = defineEmits(['click']);
 

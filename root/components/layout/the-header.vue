@@ -12,7 +12,7 @@
                 </span>
             </flex>
             <div class="mt-4">
-                <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
+                <a-button to="/notifications" @click="showNotifications = false"><i-mdi-eye/> {{$t('browse_all_notifications')}}</a-button>
             </div>
         </template>
     </a-modal>
@@ -22,7 +22,7 @@
         <NuxtLink to="/">
             <a-img alt="logo" :src="logo" width="36" height="36" is-asset/>
         </NuxtLink>
-        <a-link-button class="ml-auto text-4xl sm:hidden" icon="bars" @click="headerClosed = !headerClosed"/>
+        <a-link-button class="ml-auto text-4xl sm:hidden" @click="headerClosed = !headerClosed"><i-mdi-menu/></a-link-button>
         <Transition name="left-slide">
             <flex v-show="!headerClosed" class="header-content">
                 <flex id="header-buttons" gap="4" class="ml-3 sm:items-center">
@@ -35,7 +35,7 @@
                     <a-link-button class="max-lg:hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/support">{{$t('support_us')}}</a-link-button>
                     <VDropdown class="hidden max-lg:block max-sm:hidden">
-                        <a-link-button icon="ellipsis-vertical"/>
+                        <a-link-button><i-mdi-dots-vertical/></a-link-button>
                         <template #popper>
                             <a-dropdown-item to="/forum?category=news">{{$t('news')}}</a-dropdown-item>
                             <a-dropdown-item to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-dropdown-item>
@@ -62,7 +62,9 @@
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <a-button icon="ant-design:search-outlined" :aria-label="$t('search')" @click="clickSelectedSearch"/>
+                            <a-button :aria-label="$t('search')" @click="clickSelectedSearch">
+                                <i-mdi-magnify/>
+                            </a-button>
                         </div>
                         <template #popper>
                             <ClientOnly>
@@ -92,7 +94,7 @@
                     <flex v-if="user" class="items-center" gap="3">
                         <flex v-if="user.ban" column>
                             <span class="text-danger">
-                                <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
+                                <i-mdi-alert/> {{$t('banned')}}
                             </span>
                             <span>
                                 {{$t('expires')}}: <time-ago :time="user.ban.expire_date"/>
@@ -100,27 +102,29 @@
                         </flex>
                         <flex class="text-lg" gap="4">
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports">
-                                <a-icon icon="mdi:alert-box"/> {{reportCount}}
+                                <i-mdi-alert-box/> {{reportCount}}
                             </NuxtLink>
                             <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" to="/admin/approvals">
-                                <a-icon icon="mdi:clock"/> {{waitingCount}}
+                                <i-mdi-clock/> {{waitingCount}}
                             </NuxtLink>
-                            <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="mdi:bell"/> {{notificationCount}}</span>
+                            <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
                             <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
                             <template #popper>
-                                <a-dropdown-item icon="mdi:user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:account-settings-variant" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
-                                <a-dropdown-item v-if="canSeeAdminPage" icon="mdi:cog" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
+                                <a-dropdown-item :to="userLink"><i-mdi-user/> {{$t('profile')}}</a-dropdown-item>
+                                <a-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{$t('user_settings')}}</a-dropdown-item>
+                                <a-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{$t('content_settings')}}</a-dropdown-item>
+                                <a-dropdown-item v-if="canSeeAdminPage" to="/admin"><i-mdi-cog/> {{$t('admin_page')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item icon="mdi:plus" to="/followed-mods">{{$t('followed_mods')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:heart" to="/liked-mods">{{$t('liked_mods')}}</a-dropdown-item>
+                                <a-dropdown-item to="/followed-mods"><i-mdi-plus/> {{$t('followed_mods')}}</a-dropdown-item>
+                                <a-dropdown-item to="/liked-mods"><i-mdi-heart/> {{$t('liked_mods')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item icon="mdi:logout" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
+                                <a-dropdown-item @click="store.logout"><i-mdi-logout/> {{$t('logout')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme">
+                                <a-dropdown-item @click="store.toggleTheme">
+                                    <i-mdi-white-balance-sunny v-if="store.theme == 'light'"/>
+                                    <i-mdi-weather-night v-else/>
                                     {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                                 </a-dropdown-item>
                             </template>
@@ -129,7 +133,10 @@
                     <flex v-else class="my-auto" gap="4">
                         <a-link-button to="/login">{{$t('login')}}</a-link-button>
                         <a-link-button to="/register">{{$t('register')}}</a-link-button>
-                        <a-link-button :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme"/>
+                        <a-link-button @click="store.toggleTheme">
+                            <i-mdi-white-balance-sunny v-if="store.theme === 'light'"/>
+                            <i-mdi-weather-night v-else/>
+                        </a-link-button>
                     </flex>
                 </flex>
             </flex>

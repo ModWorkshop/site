@@ -536,7 +536,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 }
 
 .icon {
-    vertical-align: -.125em !important;
+    vertical-align: -0.25em !important;
     overflow: visible !important;
 }
 
@@ -574,4 +574,8 @@ svg:not(:root).icon, svg:not(:host).icon {
         width: 160px;
         height: 610px;
     }
+}
+
+.icon {
+    display: inline-block;
 }

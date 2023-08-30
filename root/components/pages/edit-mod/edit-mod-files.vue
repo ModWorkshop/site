@@ -1,7 +1,7 @@
 <template>
     <a-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
     <md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-    <a-button class="mr-auto" icon="mdi:close" @click="setPrimaryDownload()">{{ $t('clear_primary_download') }}</a-button>
+    <a-button class="mr-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</a-button>
 
     <label>{{$t('files')}}</label>
     <flex column>
@@ -27,7 +27,9 @@
                 </td>
             </template>
             <template #buttons="{file}">
-                <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
+                <a-button class="file-button" @click.prevent="editFile(file as File)">
+                    <i-mdi-cog/>
+                </a-button>
             </template>
         </file-uploader>
     </flex>
@@ -35,7 +37,9 @@
     <flex column>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
-            <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" icon="mdi:plus-thick" @click="createNewLink"/>
+            <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" @click="createNewLink">
+                <i-mdi-plus-thick/>
+            </a-button>
         </flex>
         <flex column class="alt-content-bg p-3">
             <table v-if="links?.data.length">
@@ -55,8 +59,8 @@
                         <td>{{fullDate(link.updated_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
-                                <a-button icon="mdi:cog" @click.prevent="editLink(link)"/>
-                                <a-button icon="mdi:trash" @click.prevent="deleteLink(link)"/>
+                                <a-button @click.prevent="editLink(link)"><i-mdi-cog/></a-button>
+                                <a-button @click.prevent="deleteLink(link)"><i-mdi-delete/></a-button>
                             </flex>
                         </td>
                         <td class="text-center">

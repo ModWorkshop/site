@@ -7,7 +7,7 @@
         :params="{ game_id: game?.id, get_unlisted: true }"
     >
         <template #item-buttons="{ item }">
-            <a-button icon="mdi:launch" @click.prevent="$router.push(`/${pageUrl}/${item.id}`)"/>
+            <a-button @click.prevent="$router.push(`/${pageUrl}/${item.id}`)"><i-mdi-launch/></a-button>
         </template>
     </a-list>
 </template>

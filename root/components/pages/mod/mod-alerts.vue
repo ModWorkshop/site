@@ -44,7 +44,7 @@
 
         <a-alert v-if="showPublish" color="warning">
             {{$t('publish_mod_desc')}}
-            <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
+            <a-button class="mr-auto" @click="publish"><i-mdi-upload/> {{ $t('publish_mod') }}</a-button>
         </a-alert>
     </flex>
 </template>

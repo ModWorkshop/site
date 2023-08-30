@@ -3,9 +3,9 @@
         <Title>{{$t('notifications')}}</Title>
         <content-block>
             <flex class="ml-auto">
-                <a-button color="danger" icon="mdi:trash" @click="deleteAll()">{{$t('delete_all_notifications')}}</a-button>
-                <a-button color="danger" icon="clock" @click="deleteReadNotifications()">{{$t('delete_seen_notifications')}}</a-button>
-                <a-button icon="clock" @click="markAllAsRead()">{{$t('mark_all_notifications')}}</a-button>
+                <a-button color="danger" @click="deleteAll()"><i-mdi-delete/> {{$t('delete_all_notifications')}}</a-button>
+                <a-button color="danger" @click="deleteReadNotifications()"><i-mdi-clock/> {{$t('delete_seen_notifications')}}</a-button>
+                <a-button @click="markAllAsRead()"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
             </flex>
             <a-items :items="notifications" :loading="loading">
                 <template #item="{ item }">

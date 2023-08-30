@@ -1,7 +1,9 @@
 <template>
     <flex class="tabs" gap="3">
         <flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
-            <a-link-button class="collapse-button" icon="bars"/>
+            <a-link-button class="collapse-button">
+                <i-mdi-menu/>
+            </a-link-button>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
         <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">

@@ -4,12 +4,20 @@
             <flex class="items-center">
                 <span class="h3">{{$t(resourceName)}}</span>
                 <flex class="ml-auto">
-                    <a-button v-if="viewingComment" icon="arrow-left" :to="pageUrl">{{$t(`return_to_${resourceName}`)}}</a-button>
+                    <a-button v-if="viewingComment" :to="pageUrl">
+                        <i-mdi-arrow-left/> {{$t(`return_to_${resourceName}`)}}
+                    </a-button>
                     <VTooltip v-else :disabled="canComment">
-                        <a-button icon="mdi:comment" :disabled="!canComment" @click="onClickComment">{{$t('post')}}</a-button>
+                        <a-button :disabled="!canComment" @click="onClickComment">
+                            <i-mdi-comment/> {{$t('post')}}
+                        </a-button>
                         <template #popper>{{cannotCommentReason}}</template>
                     </VTooltip>
-                    <a-button :icon="commentable.subscribed ? 'mdi:bell-off' : 'mdi:bell'" @click="subscribe">{{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}</a-button>
+                    <a-button @click="subscribe">
+                        <i-mdi-bell-off v-if="commentable.subscribed"/>
+                        <i-mdi-bell v-else/>
+                        {{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}
+                    </a-button>
                 </flex>
             </flex>
             <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
@@ -69,8 +77,12 @@
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
                     <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" maxlength="5000" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <flex class="text-right p-2">
-                        <a-button icon="mdi:comment" :disabled="!posting && commentContent.length < 2" @click="submit">{{$t('submit')}}</a-button>
-                        <a-button icon="mdi:close-thick" @click="setCommentDialog(false)">{{$t('close')}}</a-button>
+                        <a-button :disabled="!posting && commentContent.length < 2" @click="submit">
+                            <i-mdi-comment/> {{$t('submit')}}
+                        </a-button>
+                        <a-button @click="setCommentDialog(false)">
+                            <i-mdi-close-thick/> {{$t('close')}}
+                        </a-button>
                     </flex>
                 </flex>
             </div>

@@ -11,7 +11,7 @@
                 <flex v-if="currentForumId" column>
                     <label>{{$t('category')}}</label>
                     <button-group v-if="categories?.data.length" v-model:selected="categoryId" class="mt-2" column button-style="nav">
-                        <a-group-button :name="undefined"><a-icon icon="comments"/> {{$t('all')}}</a-group-button>
+                        <a-group-button :name="undefined"><i-mdi-comment/> {{$t('all')}}</a-group-button>
                         <a-group-button v-for="category of categories.data" :key="category.id" :name="category.id">
                             {{category.emoji}} {{category.name}}
                         </a-group-button>

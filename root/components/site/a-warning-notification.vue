@@ -1,6 +1,6 @@
 <template>
     <flex>
-        <a-icon icon="mdi:alert-box" class="text-4xl p-2 my-auto"/>
+        <i-mdi-alert-box class="text-4xl p-2 my-auto"/>
         <div>
             {{ $t('notification_warning') }}
             <h4>{{ $t('reason') }}:</h4>

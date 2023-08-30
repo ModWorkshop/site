@@ -16,7 +16,7 @@
                 <a-button @click="goToContent(report)">{{$t('go_to_content')}}</a-button>
             </flex>
             <flex class="ml-auto">
-                <a-button v-if="report.archived" color="danger" icon="mdi:trash" @click="deleteReport(report)">{{$t('delete')}}</a-button>
+                <a-button v-if="report.archived" color="danger" @click="deleteReport(report)"><i-mdi-delete/> {{$t('delete')}}</a-button>
                 <a-button style="opacity: 1;" @click="toggleArchiveReport(report)">{{$t(report.archived ? 'unarchive' : 'archive')}}</a-button>
             </flex>
         </flex>

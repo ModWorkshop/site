@@ -12,24 +12,32 @@
                         <time-ago :time="comment.created_at"/>
                     </NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
-                    <a-icon v-if="comment.pinned" class="transform rotate-45" icon="thumbtack" :title="$t('pinned')"/>
+                    <span :title="$t('pinned')">
+                        <i-mdi-pin v-if="comment.pinned" class="transform rotate-45"/>
+                    </span>
                 </flex>
                 <a-markdown class="w-full" :text="content"/>
             </flex>
             <div class="float-right">
                 <flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" icon="mdi:reply" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')"/>
+                    <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
+                        <i-mdi-reply/>
+                    </a-button>
                     <a-button
                         v-if="!isReply"
                         class="cursor-pointer"
                         size="sm"
                         :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
-                        :icon="comment.subscribed ? 'mdi:bell-off' : 'mdi:bell'"
                         @click="subscribe"
-                    />
+                    >
+                        <i-mdi-bell-off v-if="comment.subscribed"/>
+                        <i-mdi-bell v-else/>
+                    </a-button>
                     <a-report v-if="user" v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
                     <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
-                        <a-button class="cursor-pointer" icon="mdi:dots-vertical" size="sm"/>
+                        <a-button class="cursor-pointer" size="sm">
+                            <i-mdi-dots-vertical/>
+                        </a-button>
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>

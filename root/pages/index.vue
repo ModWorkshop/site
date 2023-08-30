@@ -22,11 +22,11 @@
         <mod-list v-else-if="user.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
-                    <a-group-button name="all" icon="mdi:layers">{{$t('all')}}</a-group-button>
-                    <a-group-button name="games" icon="mdi:gamepad">{{$t('followed_games')}}</a-group-button>
-                    <a-group-button name="mods" icon="mdi:puzzle">{{$t('followed_mods')}}</a-group-button>
-                    <a-group-button name="users" icon="mdi:users">{{$t('followed_users')}}</a-group-button>
-                    <a-group-button name="liked" icon="mdi:heart">{{$t('liked')}}</a-group-button>
+                    <a-group-button name="all"><i-mdi-layers/> {{$t('all')}}</a-group-button>
+                    <a-group-button name="games"><i-mdi-gamepad/> {{$t('followed_games')}}</a-group-button>
+                    <a-group-button name="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</a-group-button>
+                    <a-group-button name="users"><i-mdi-users/> {{$t('followed_users')}}</a-group-button>
+                    <a-group-button name="liked"><i-mdi-heart/> {{$t('liked')}}</a-group-button>
                 </button-group>
             </template>
         </mod-list>

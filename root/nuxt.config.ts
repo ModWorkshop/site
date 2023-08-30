@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
 
 export default defineNuxtConfig({
 	devServer: {
@@ -117,6 +120,14 @@ export default defineNuxtConfig({
 		build: {
 			chunkSizeWarningLimit: 1000
 		},
+		plugins: [
+			Components({
+				resolvers: [IconsResolver()],
+			}),
+			Icons({
+				defaultClass: 'icon'
+			}),
+		],
 	},
 
 	// ssr: false,
@@ -167,7 +178,7 @@ export default defineNuxtConfig({
 		'floating-vue/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
-		'nuxt-icon',
+		['unplugin-icons/nuxt'],
 		'@nuxtjs/i18n',
 		'nuxt-gtag'
 	],

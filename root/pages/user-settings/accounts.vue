@@ -5,7 +5,7 @@
             <flex v-for="[name, provider] of Object.entries(providers)" :key="name" class="list-button items-center">
                 <flex column>
                     <flex class="items-center">
-                        <a-icon :icon="`cib:${name}`" class="text-3xl"/>
+                        <a-icon :icon="provider.icon" class="text-3xl"/>
                         {{provider.name}}
                     </flex>
                     <span v-if="provider.account">
@@ -40,6 +40,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { SocialLogin, UserForm } from '~~/types/models';
+import CibGitHub from '~icons/cib/github';
+import CibGitLab from '~icons/cib/gitlab';
+import CibDiscord from '~icons/cib/discord';
+import CibSteam from '~icons/cib/steam';
 
 const props = defineProps<{
     user: UserForm
@@ -60,11 +64,11 @@ const { data: accounts, refresh } = await useFetchData<SocialLogin[]>('social-lo
 const canUnlink = computed(() =>  accounts.value && accounts.value.length > 1 || props.user.signable);
 
 const providers = computed(() => {
-    const providers: Record<string, { name: string, account?: SocialLogin }> = {
-        github: { name: 'GitHub' },
-        gitlab: { name: 'GitLab' },
-        steam: {  name: 'Steam' },
-        discord: {  name: 'Discord' }
+    const providers: Record<string, { name: string, account?: SocialLogin, icon: Component }> = {
+        github: { name: 'GitHub', icon: CibGitHub },
+        gitlab: { name: 'GitLab', icon: CibGitLab },
+        steam: {  name: 'Steam', icon: CibSteam },
+        discord: {  name: 'Discord', icon: CibDiscord }
     };
 
     if (accounts.value) {

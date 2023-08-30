@@ -5,7 +5,7 @@
                 <a-button class="ml-auto" to="categories/new">{{$t('new')}}</a-button>
             </template>
             <template #button="{category}">
-                <a-button class="ml-auto" icon="mdi:cog" :to="`${gameUrl}/${category.id}`">{{$t('edit')}}</a-button>
+                <a-button class="ml-auto" :to="`${gameUrl}/${category.id}`"><i-mdi-cog/> {{$t('edit')}}</a-button>
             </template>
         </category-tree>
     </flex>

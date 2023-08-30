@@ -1,7 +1,7 @@
 <template>
     <div v-if="button" @click="vm = true">
         <slot>
-            <a-button icon="mdi:flag" color="danger">{{$t('report')}}</a-button>
+            <a-button color="danger"><i-mdi-flag/> {{$t('report')}}</a-button>
         </slot>
     </div>
     <Teleport to="body">

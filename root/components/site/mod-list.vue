@@ -5,41 +5,47 @@
         </h2>
         <slot name="buttons"/>
         <flex wrap class="overflow-auto">
-            <a-button :disabled="sortBy == 'bumped_at'" icon="mdi:clock" @click="setSortBy('bumped_at')">{{$t('last_updated')}}</a-button>
-            <a-button :disabled="sortBy == 'published_at'" icon="mdi:upload" @click="setSortBy('published_at')">{{$t('published_at')}}</a-button>
+            <a-button :disabled="sortBy == 'bumped_at'" @click="setSortBy('bumped_at')">
+                <i-mdi-clock/> {{$t('last_updated')}}
+            </a-button>
+            <a-button :disabled="sortBy == 'published_at'" @click="setSortBy('published_at')">
+                <i-mdi-upload/> {{$t('published_at')}}
+            </a-button>
             <VDropdown>
-                <a-button icon="mdi:star">{{$t('popularity')}}</a-button>
+                <a-button><i-mdi-star/> {{$t('popularity')}}</a-button>
                 <template #popper>
                     <button-group v-model:selected="sortBy" column>
-                        <a-group-button name="score" icon="calendar">{{$t('popular_monthly')}}</a-group-button>
-                        <a-group-button name="weekly_score" icon="calendar-week">{{$t('popular_weekly')}}</a-group-button>
-                        <a-group-button name="daily_score" icon="calendar-days">{{$t('popular_today')}}</a-group-button>
+                        <a-group-button name="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</a-group-button>
+                        <a-group-button name="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</a-group-button>
+                        <a-group-button name="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</a-group-button>
                     </button-group>
                 </template>
             </VDropdown>
             <VDropdown>
-                <a-button icon="mdi:dots-vertical"/>
+                <a-button>
+                    <i-mdi-dots-vertical/>
+                </a-button>
                 <template #popper>
                     <flex column>
                         <button-group v-model:selected="sortBy" column>
-                            <a-group-button icon="mdi:magnify" name="best_match">{{$t('best_match')}}</a-group-button>
-                            <a-group-button icon="mdi:dice" name="random" @click="sortBy == 'random' && refresh()">{{$t('random')}}</a-group-button>
-                            <a-group-button icon="mdi:heart" name="likes">{{$t('likes')}}</a-group-button>
-                            <a-group-button icon="mdi:download" name="downloads">{{$t('downloads')}}</a-group-button>
-                            <a-group-button icon="mdi:eye" name="views">{{$t('views')}}</a-group-button>
-                            <a-group-button icon="mdi:pencil" name="name">{{$t('name')}}</a-group-button>
+                            <a-group-button name="best_match"><i-mdi-magnify/> {{$t('best_match')}} </a-group-button>
+                            <a-group-button name="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</a-group-button>
+                            <a-group-button name="likes"><i-mdi-heart/> {{$t('likes')}}</a-group-button>
+                            <a-group-button name="downloads"><i-mdi-download/> {{$t('downloads')}}</a-group-button>
+                            <a-group-button name="views"><i-mdi-eye/>{{$t('views')}}</a-group-button>
+                            <a-group-button name="name"><i-mdi-pencil/> {{$t('name')}}</a-group-button>
                         </button-group>
                     </flex>
                 </template>
             </VDropdown>
             <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                <a-group-button icon="mdi:view-grid" :name="0"/>
-                <a-group-button icon="mdi:view-list" :name="1"/>
-                <a-group-button icon="mdi:view-headline" :name="2"/>
+                <a-group-button :name="0"><i-mdi-view-grid/></a-group-button>
+                <a-group-button :name="1"><i-mdi-view-list/></a-group-button>
+                <a-group-button :name="2"><i-mdi-view-headline/></a-group-button>
             </button-group>
             <flex v-if="!sideFilters">
                 <VDropdown>
-                    <a-button icon="mdi:filter"/>
+                    <a-button><i-mdi-filter/></a-button>
                     <template #popper>
                         <Suspense>
                             <flex class="p-4" gap="3" column style="width: 300px">
@@ -68,7 +74,7 @@
                             :game="game"
                             :mods="currentMods"
                         />
-                        <a-button v-if="hasMore" :loading="loadingButton" color="subtle" icon="chevron-down" @click="loadMore">{{$t('load_more')}}</a-button>
+                        <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
                         <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
                     </template>
                 </flex>

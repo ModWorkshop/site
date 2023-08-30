@@ -23,13 +23,21 @@
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
-            <a-button icon="image" :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">{{$t('thumbnail')}}</a-button>
-            <a-button icon="image" :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
+            <a-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
+                <i-mdi-image-outline/> {{$t('thumbnail')}}
+            </a-button>
+            <a-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
+                <i-mdi-image-outline/> {{$t('banner')}}
+            </a-button>
         </template>
     </file-uploader>
     <flex class="mr-auto">
-        <a-button icon="mdi:close" @click="setBanner(null)">{{ $t('reset_banner') }}</a-button>
-        <a-button icon="mdi:close" @click="setThumbnail(null)">{{ $t('reset_thumbnail') }}</a-button>
+        <a-button @click="setBanner(null)">
+            <i_mdi-close/> {{ $t('reset_banner') }}
+        </a-button>
+        <a-button @click="setThumbnail(null)">
+            <i_mdi-close/> {{ $t('reset_thumbnail') }}
+        </a-button>
     </flex>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">

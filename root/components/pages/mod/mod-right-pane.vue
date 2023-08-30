@@ -5,19 +5,21 @@
             <flex column class="p-4 pt-0 flex-1" gap="4">
                 <flex class="text-lg flex-wrap" gap="2">
                     <span>
-                        <a-icon icon="mdi:heart"/> {{likes}}
+                        <i-mdi-heart/> {{likes}}
                     </span>
                     <span>
-                        <a-icon icon="mdi:download"/> {{downloads}}
+                        <i-mdi-download/> {{downloads}}
                     </span>
                     <span>
-                        <a-icon icon="mdi:eye"/> {{views}}
+                        <i-mdi-eye/> {{views}}
                     </span>
                     <span v-if="mod.published_at" class="ml-auto">
-                        <a-icon icon="mdi:calendar-import" :title="$t('published_at')"/> <time-ago :time="mod.published_at"/>
+                        <span :title="$t('published_at')"><i-mdi-calendar-import/></span>
+                        <time-ago :time="mod.published_at"/>
                     </span>
                     <span v-else-if="mod.created_at" class="ml-auto">
-                        <a-icon icon="mdi:calendar-plus" :title="$t('upload_date')"/> <time-ago :time="mod.created_at"/>
+                        <span :title="$t('published_at')"><i-mdi-calendar-plus/></span>
+                        <time-ago :time="mod.created_at"/>
                     </span>
                 </flex>
     

@@ -18,8 +18,8 @@
                 <td v-else><NuxtLink :to="dep.url">{{dep.url}}</NuxtLink></td>
                 <td>{{dep.optional ? '✔' : '❌'}}</td>
                 <td class="flex gap-1">
-                    <a-button icon="mdi:cog" @click="editDep(dep)">{{$t('edit')}}</a-button>
-                    <a-button color="danger" icon="mdi:trash" @click="deleteDep(dep)">{{$t('remove')}}</a-button>
+                    <a-button @click="editDep(dep)"><i-mdi-cog/> {{$t('edit')}}</a-button>
+                    <a-button color="danger" @click="deleteDep(dep)"><i-mdi-delete/> {{$t('remove')}}</a-button>
                 </td>
             </tr>
         </template>

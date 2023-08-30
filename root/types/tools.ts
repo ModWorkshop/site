@@ -1,5 +1,5 @@
 interface Tool {
-    icon: string;
+    icon: Component;
     insert: string;
     multiline?: boolean;
 }

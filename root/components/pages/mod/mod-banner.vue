@@ -7,11 +7,13 @@
             </flex>
             <flex column class="mt-auto md:flex-row">
                 <flex gap="3" class="items-center mt-auto">
-                    <span v-if="mod.version">
-                        <a-icon icon="mdi:tag" :title="$t('version')"/> {{mod.version}}
+                    <span v-if="mod.version" :title="$t('version')">
+                        <i-mdi-tag/> {{mod.version}}
                     </span>
                     <span v-if="mod.bumped_at">
-                        <a-icon icon="mdi:clock" :title="$t('last_updated')" class="mr-1"/>
+                        <span :title="$t('last_updated')" class="mr-1">
+                            <i-mdi-clock/>
+                        </span>
                         <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
                         <span v-else class="items-center inline-flex gap-1">
                             <i18n-t keypath="by_user_time_ago" scope="global">
@@ -26,20 +28,22 @@
                     </span>
                 </flex>
                 <flex class="md:ml-auto" style="box-shadow: initial; text-shadow: initial;">
-                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" icon="heart" :to="!user ? '/login' : undefined" @click="toggleLiked"/>
-
-                    <a-button v-if="download && download_type == 'file'" class="text-center" icon="mdi:application-cog" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
-                        Install With MO2
+                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" :to="!user ? '/login' : undefined" @click="toggleLiked">
+                        <i-mdi-heart/>
                     </a-button>
 
-                    <a-button v-if="download && download_type == 'file'" class="large-button text-center" icon="mdi:download" :to="!static ? downloadUrl : undefined">
-                        {{$t('download')}}
+                    <a-button v-if="download && download_type == 'file'" class="text-center" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
+                        <i-mdi-application-cog/> Install With MO2
+                    </a-button>
+
+                    <a-button v-if="download && download_type == 'file'" class="large-button text-center" :to="!static ? downloadUrl : undefined">
+                        <i-mdi-download/> {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
                     </a-button>
                     <VDropdown v-else-if="download && download_type == 'link'">
-                        <a-button class="large-button w-full text-center" icon="mdi:download" @click="!static && registerDownload(mod)">
-                            {{$t('show_download_link')}}
+                        <a-button class="large-button w-full text-center" @click="!static && registerDownload(mod)">
+                            <i-mdi-download/> {{$t('show_download_link')}}
                         </a-button>
                         <template #popper>
                             <div class="word-break p-2" style="width: 250px;">
@@ -49,8 +53,8 @@
                             </div>
                         </template>
                     </VDropdown>
-                    <a-button v-else-if="(mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button" icon="mdi:download" @click="switchToFiles">{{$t('downloads')}}</a-button>
-                    <a-button v-else class="large-button" disabled>{{$t('no_downloads')}}</a-button>
+                    <a-button v-else-if="(mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button" @click="switchToFiles">{{$t('downloads')}}</a-button>
+                    <a-button v-else class="large-button" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
                 </flex>
             </flex>
         </flex>

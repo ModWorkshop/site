@@ -22,7 +22,7 @@
                         <td>{{addedRole.role.name}}</td>
                         <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
                         <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
-                        <td><a-button color="danger" icon="mdi:trash" @click="removeRolePolicy(addedRole.id)">{{$t('delete')}}</a-button></td>
+                        <td><a-button color="danger" @click="removeRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</a-button></td>
                     </tr>
                 </template>
             </a-table>
@@ -45,7 +45,7 @@
                         <td>{{addedRole.role.name}}</td>
                         <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
                         <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
-                        <td><a-button color="danger" icon="mdi:trash" @click="removeGameRolePolicy(addedRole.id)">{{$t('delete')}}</a-button></td>
+                        <td><a-button color="danger" @click="removeGameRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</a-button></td>
                     </tr>
                 </template>
             </a-table>

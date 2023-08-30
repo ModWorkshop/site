@@ -20,6 +20,9 @@
   "type": "module",
   "devDependencies": {
     "@antfu/utils": "^0.7.4",
+    "@iconify-json/cib": "^1.1.5",
+    "@iconify-json/mdi": "^1.1.54",
+    "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxtjs/i18n": "8.0.0-beta.13",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.8.0",
@@ -38,8 +41,9 @@
     "floating-vue": "^2.0.0-beta.24",
     "nuxt": "^3.6.5",
     "nuxt-delay-hydration": "^1.2.1",
-    "nuxt-icon": "^0.4.0",
     "typescript": "^5.0.4",
+    "unplugin-icons": "^0.16.5",
+    "unplugin-vue-components": "^0.25.1",
     "vue-easy-lightbox": "^1.13.0"
   },
   "dependencies": {

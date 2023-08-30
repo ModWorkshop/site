@@ -12,6 +12,12 @@
 </template>
 
 <script setup lang="ts">
+import MdiCheckCircle from '~icons/mdi/check-circle';
+import MdiAlert from '~icons/mdi/alert';
+import MdiInformation from '~icons/mdi/information';
+import MdiAlertBox from '~icons/mdi/alert-box';
+
+
 const NuxtLink = resolveComponent('NuxtLink');
 
 const props = defineProps({
@@ -26,10 +32,10 @@ const props = defineProps({
 });
 
 const icons = {
-    success: 'mdi:check-circle',
-    danger: 'mdi:alert',
-    info: 'mdi:information',
-    warning: 'mdi:alert-box',
+    success: MdiCheckCircle,
+    danger: MdiAlert,
+    info: MdiInformation,
+    warning: MdiAlertBox,
 };
 
 const currIcon = computed(() =>  {

@@ -6,7 +6,7 @@
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <slot name="any-option" :option="option">
                             <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
-                                <a-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                                <i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click="deselectOption(option)"/> {{optionName(option)}}
                             </a-tag>
                         </slot>
                     </slot>
@@ -24,8 +24,8 @@
                 </span>
             </flex>
             <flex class="ml-auto" gap="2">
-                <a-icon v-if="compClearable" icon="xmark" @click.stop="clearAll"/>
-                <a-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
+                <i-mdi-close v-if="compClearable" @click.stop="clearAll"/>
+                <i-mdi-menu-down v-if="classic" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
             </flex>
         </flex>
         <template #popper>
