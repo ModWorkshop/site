@@ -6,7 +6,5 @@ EXPOSE 3000
 
 COPY ./root /var/www/html
 
-# install deps and cache image layer
-RUN yarn
-# Run
-CMD ["yarn", "dev"]
+# Install deps and Run
+CMD ["/bin/sh", "-c", "yarn && yarn dev"]
