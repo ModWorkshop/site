@@ -1,5 +1,5 @@
 <template>
-    <flex column>
+    <flex v-intersection-observer="onVisChange" column>
         <h2 v-if="title">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </h2>
@@ -44,7 +44,7 @@
                         />
                     </template>
                 </a-table>
-                <a-loading v-else-if="loading" class="m-auto"/>
+                <a-loading v-else-if="loading || !loaded" class="m-auto"/>
                 <h2 v-else class="m-auto">
                     {{$t('no_threads_found')}}
                 </h2>
@@ -57,6 +57,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
+import { vIntersectionObserver } from '@vueuse/components';
+
 const searchBus = useEventBus<string>('search');
 
 const props = withDefaults(defineProps<{
@@ -87,6 +89,8 @@ const categoryId = props.query ? useRouteQuery('category') : ref();
 const selectedForum = props.query ? useRouteQuery('forum') : ref();
 const selectedTags = props.query ?  useRouteQuery('selected-tags', []) : ref([]);
 const loading = ref(false);
+const loaded = ref(!props.lazy);
+
 const { t } = useI18n();
 
 const emit = defineEmits<{
@@ -117,7 +121,14 @@ const params = reactive({
     page
 });
 
-const { data: threads, refresh } = await useFetchMany<Thread>('threads', { lazy: props.lazy, params });
+const { data: threads, refresh } = await useFetchMany<Thread>('threads', { immediate: !props.lazy, params });
+
+async function onVisChange(entries: IntersectionObserverEntry[]) {
+    if (entries[0].isIntersecting) {
+        await refresh();
+        loaded.value = true;
+    }
+}
 
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId}/tags` : 'tags', {
     immediate: props.filters,
