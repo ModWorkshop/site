@@ -75,8 +75,8 @@
                 :per-page="replies.meta.per_page" 
                 @update="loadReplies"
             />
-            <NuxtLink v-else-if="!fetchReplies && comment.total_replies && comment.total_replies > 3" class="my-2" :to="commentPage">
-                {{$t('read_all_replies')}} ({{$t('replies_n', comment.total_replies)}})
+            <NuxtLink v-else-if="!fetchReplies && comment.replies_count && comment.replies_count > 3" class="my-2" :to="commentPage">
+                {{$t('read_all_replies')}} ({{$t('replies_n', comment.replies_count)}})
             </NuxtLink>
         </div>
     </content-block>
