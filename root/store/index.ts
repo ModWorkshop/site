@@ -87,17 +87,27 @@ export const useStore = defineStore('main', {
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
    
-            const [ siteData ] = await Promise.all([
-                useGet<{
-                    settings: Settings,
-                    announcements: Thread[],
-                    unseen_notifications: number,
-                    report_count?: number,
-                    waiting_count?: number,
-                    user?: User
-                }>('site-data'),
-                reloadToken()
-            ]);
+            type SiteData = {
+                settings: Settings,
+                announcements: Thread[],
+                unseen_notifications: number,
+                report_count?: number,
+                waiting_count?: number,
+                user?: User,
+                activity: { users: number, guests: number },
+            };
+
+            let siteData;
+            if (process.client) {
+                const data = await Promise.all([
+                    useGet<SiteData>('site-data'),
+                    reloadToken()
+                ]);
+
+                siteData = data[0];
+            } else {
+                siteData = await useGet<SiteData>('site-data');
+            }
 
             if (siteData.user) {
                 this.user = siteData.user;
