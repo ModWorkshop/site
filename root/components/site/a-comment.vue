@@ -4,7 +4,7 @@
             <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
                 <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
             </NuxtLink>
-            <flex column wrap class="overflow-hidden w-full ">
+            <flex column wrap class="overflow-hidden w-full">
                 <flex wrap>
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
@@ -16,9 +16,9 @@
                         <i-mdi-pin v-if="comment.pinned" class="transform rotate-45"/>
                     </span>
                 </flex>
-                <a-markdown class="w-full" :text="content"/>
+                <a-markdown class="w-full comment-content" :text="content"/>
             </flex>
-            <div class="float-right">
+            <div class="absolute" style="right: -0.5rem; top: -0.5rem;">
                 <flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
                     <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
                         <i-mdi-reply/>
@@ -170,6 +170,7 @@ const canReply = computed(() => props.canComment && !props.comment.user?.blocked
 const classes = computed(() => ({
     comment: true,
     reply: props.isReply,
+    relative: true,
     focus: focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id)
 }));
 
@@ -222,6 +223,12 @@ function openDeleteModal() {
 .comment {
     transition: border, background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 }
+
+.comment-content {
+    max-height: 500px;
+    overflow: auto;
+}
+
 .reply {
     background-color: var(--alt-content-bg-color);
 }
