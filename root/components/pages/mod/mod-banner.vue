@@ -32,16 +32,16 @@
                         <i-mdi-heart/>
                     </a-button>
 
-                    <a-button v-if="download && download_type == 'file'" class="text-center" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
+                    <a-button v-if="download && downloadType == 'file'" class="text-center" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
                         <i-mdi-application-cog/> Install With MO2
                     </a-button>
 
-                    <a-button v-if="download && download_type == 'file'" class="large-button text-center" :to="!static ? downloadUrl : undefined">
+                    <a-button v-if="download && downloadType == 'file'" class="large-button text-center" :to="!static ? downloadUrl : undefined">
                         <i-mdi-download/> {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
                     </a-button>
-                    <VDropdown v-else-if="download && download_type == 'link'">
+                    <VDropdown v-else-if="download && downloadType == 'link'">
                         <a-button class="large-button w-full text-center" @click="!static && registerDownload(mod)">
                             <i-mdi-download/> {{$t('show_download_link')}}
                         </a-button>
@@ -53,7 +53,7 @@
                             </div>
                         </template>
                     </VDropdown>
-                    <a-button v-else-if="(mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button" @click="switchToFiles">{{$t('downloads')}}</a-button>
+                    <a-button v-else-if="(mod.files_count || (mod.files && mod.files.data.length)) || (mod.links && mod.links.data.length)" class="large-button" @click="switchToFiles">{{$t('downloads')}}</a-button>
                     <a-button v-else class="large-button" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
                 </flex>
             </flex>
@@ -76,29 +76,12 @@ const { user, hasPermission } = useStore();
 //Guests can't actually like the mod, it's just a redirect.
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
 
-const download = computed(() => {
-    if (props.mod.download) {
-        return props.mod.download;
-    }
-
-    const links = props.mod.links?.meta.total ?? 0;
-    const files = props.mod.files?.meta.total ?? 0;
-
-    if ((links == 1 && files == 0) || (links == 0 && files == 1)) {
-        return links === 1 ? props.mod.links!.data[0] : props.mod.files!.data[0];
-    }
-});
-
-const download_type = computed(() => {
+const download = computed(() => props.mod.download);
+const downloadType = computed(() => {
     if (props.mod.download_type) {
         return props.mod.download_type;
-    }
-
-    const links = props.mod.links?.meta.total ?? 0;
-    const files = props.mod.files?.meta.total ?? 0;
-
-    if ((links == 1 && files == 0) || (links == 0 && files == 1)) {
-        return links === 1 ? 'link' : 'file';
+    } else if (download.value) {
+        return Object.hasOwn(download.value, 'file') ? 'file' : 'link';
     }
 });
 

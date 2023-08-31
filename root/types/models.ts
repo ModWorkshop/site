@@ -42,7 +42,7 @@ export interface Comment {
     user?: User | null;
     commentable?: Mod|Thread;
     last_replies?: Comment[];
-    total_replies?: number;
+    replies_count?: number;
     replies?: Comment[];
     replying_comment?: Comment | null;
     subscribed?: boolean;
@@ -137,9 +137,10 @@ export interface Mod {
     followed?: { notify: boolean };
     subscribed?: boolean;
     send_for_approval?: boolean;
-    dependencies?: Dependency[],
-    instructs_template_id?: number
-    instructs_template?: InstructsTemplate
+    dependencies?: Dependency[];
+    instructs_template_id?: number;
+    instructs_template?: InstructsTemplate;
+    links_count: number;
 }
 
 export interface Breadcrumb {
