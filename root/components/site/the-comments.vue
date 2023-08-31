@@ -136,7 +136,7 @@ const posting = ref(false);
 const showError = useQuickErrorToast();
 
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
-    immediate: (!props.lazy || focusComment?.value) && !route.params.comment,
+    immediate: (!props.lazy || !!focusComment?.value) && !route.params.comment,
     params: reactive({
         page,
         limit: 20
