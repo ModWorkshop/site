@@ -63,6 +63,7 @@ declare module 'vue' {
     IMdiMenu: typeof import('~icons/mdi/menu')['default']
     IMdiMenuDown: typeof import('~icons/mdi/menu-down')['default']
     IMdiMinus: typeof import('~icons/mdi/minus')['default']
+    IMdiMinusThick: typeof import('~icons/mdi/minus-thick')['default']
     IMdiPencil: typeof import('~icons/mdi/pencil')['default']
     IMdiPin: typeof import('~icons/mdi/pin')['default']
     IMdiPlus: typeof import('~icons/mdi/plus')['default']
