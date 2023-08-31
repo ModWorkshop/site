@@ -64,6 +64,8 @@ RUN apk add --no-cache dcron libcap \
 
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress \
+    && php artisan route:cache \
+    && php artisan config:cache \
     && php artisan optimize \
     && php artisan storage:link
 
