@@ -59,8 +59,10 @@ RUN apk add --no-cache dcron libcap \
     && setcap cap_setgid=ep /usr/sbin/crond \
     && echo '* * * * * php /var/www/html/artisan schedule:run >> /var/www/html/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
     && crontab -u nobody /etc/crontabs/nobody \
-    && chown -R nobody /var/spool/cron/crontabs/nobody /scripts/entrypoint.sh \
-    && chmod 0644 /var/spool/cron/crontabs/nobody /scripts/entrypoint.sh
+    && chown -R nobody /var/spool/cron/crontabs/nobody \
+    && chmod 0644 /var/spool/cron/crontabs/nobody \
+    && chown -R nobody /scripts/entrypoint.sh \
+    && chmod +x /scripts/entrypoint.sh
 
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress \
