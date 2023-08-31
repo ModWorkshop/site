@@ -45,8 +45,8 @@
                             <i-mdi-account-settings-variant/> {{$t('game_preferences')}}
                         </a-link-button>
                         <a-link-button v-if="store.user" @click="setFollowGame(game!)">
-                            <mdi-minus-thick v-if="game.followed"/>
-                            <mdi-plus-thick v-else/>
+                            <i-mdi-minus-thick v-if="game.followed"/>
+                            <i-mdi-plus-thick v-else/>
                             {{$t(game.followed ? 'unfollow' : 'follow')}}
                         </a-link-button>
                         <a-link-button v-else to="/login"><i-mdi-plus-thick/> {{$t('follow')}}</a-link-button>
