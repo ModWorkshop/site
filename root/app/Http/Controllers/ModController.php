@@ -143,12 +143,12 @@ class ModController extends Controller
                 }
 
                 if (isset($download)) {
-                    $mod->download()->associate($download);
+                    $mod->downloadRelation()->associate($download);
                 } else {
                     throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
                 }
             } else {
-                $mod->download()->dissociate();
+                $mod->downloadRelation()->dissociate();
             }
         }
 

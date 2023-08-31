@@ -258,7 +258,6 @@ class Mod extends Model implements SubscribableInterface
     public const SHOW_MOD_WITH = [
         'tags',
         'images',
-        'download',
         'banner',
         'lastUser',
         'liked',
@@ -295,6 +294,7 @@ class Mod extends Model implements SubscribableInterface
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
         $this->loadMissing(self::SHOW_MOD_WITH);
+        $this->append('download');
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
         }
@@ -413,12 +413,12 @@ class Mod extends Model implements SubscribableInterface
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class)->orderByDesc('updated_at');
+        return $this->hasMany(File::class)->orderByDesc('updated_at')->limit(5);
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->orderByDesc('updated_at');
+        return $this->hasMany(Link::class)->orderByDesc('updated_at')->limit(5);
     }
 
     public function members()
@@ -482,9 +482,9 @@ class Mod extends Model implements SubscribableInterface
      *
      * @return MorphTo
      */
-    public function download() : MorphTo
+    public function downloadRelation() : MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo(__FUNCTION__, 'download_type', 'download_id');
     }
 
     /**
@@ -508,12 +508,71 @@ class Mod extends Model implements SubscribableInterface
         ];
     }
 
-    function filesCounts(): Attribute {
-        return Attribute::make(fn() => $this->files()->count());
+    function filesCount(): Attribute {
+        return Attribute::make(fn() => $this->files()->count())->shouldCache();
     }
 
-    function linksCounts(): Attribute {
-        return Attribute::make(fn() => $this->links()->count());
+    function linksCount(): Attribute {
+        return Attribute::make(fn() => $this->links()->count())->shouldCache();
+    }
+
+    /**
+     * Smartly returns current download ($this->download)
+     * In case it's not loaded, tries to calculate it using download_id and download_type
+     * If download_id is not set, it will return either first link or first file.
+     */
+    function download(): Attribute {
+        return Attribute::make(function() {
+            $linksLoaded = $this->relationLoaded('links');
+            $filesLoaded = $this->relationLoaded('files');
+
+            // If download exists, just return it
+            if ($this->relationLoaded('downloadRelation') || !($linksLoaded && $filesLoaded)) {
+                if (isset($this->downloadRelation)) {
+                    return $this->downloadRelation;
+                }
+            }
+
+            $id = $this->download_id;
+            $type = $this->download_type;
+            $filesCount = $this->files_count;
+            $linksCount = $this->links_count;
+            $hasPrimary = isset($id) && isset($type);
+
+
+            // Has no files or links
+            if ($filesCount == 0 && $linksCount == 0) {
+                return null;
+            }
+
+            // Has primary download and both links and files relations are loaded
+            if ($hasPrimary) {
+                if ($type == 'link') {
+                    if ($linksLoaded && ($link = $this->links->find($id))) {
+                        return $link;
+                    } else {
+                        return $this->links()->find($id);
+                    }
+                } else {
+                    if ($filesLoaded && ($link = $this->files->find($id))) {
+                        return $link;
+                    } else {
+                        return $this->files()->find($id);
+                    }
+                }
+            }
+
+            //Has only a single file/link so just ruturn it
+            if (abs($filesCount - $linksCount) === 1) {
+                if ($linksLoaded && $link = $this->links[0]) {
+                    return $link;
+                } else if ($filesLoaded) {
+                    return $this->files[0];
+                }else {
+                    return $this->links()->first() ?? $this->files()->first();
+                }
+            }
+        });
     }
 
     public function liked()
