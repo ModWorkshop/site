@@ -97,17 +97,11 @@ export const useStore = defineStore('main', {
                 activity: { users: number, guests: number },
             };
 
-            let siteData;
-            if (process.client) {
-                const data = await Promise.all([
-                    useGet<SiteData>('site-data'),
-                    reloadToken()
-                ]);
+           const siteData = await useGet<SiteData>('site-data');
 
-                siteData = data[0];
-            } else {
-                siteData = await useGet<SiteData>('site-data');
-            }
+           if (process.client) {
+               reloadToken(); // Don't block navigation
+           }
 
             if (siteData.user) {
                 this.user = siteData.user;
@@ -156,19 +150,18 @@ export const useStore = defineStore('main', {
         },
 
         // Essentially reloads the site data so people don't have to refresh the page
-        async reloadSiteData(first = false) {
-            if (this.user) {
-                if (!first) {
-                    await this.loadSiteData();
+        async reloadSiteData(run = false) {
+            if (run) {
+                await this.loadSiteData();
 
-                    // Refresh game data too if exists.
-                    if (this.currentGame) {
-                        await this.getGameData();
-                    }
+                // Refresh game data too if exists.
+                if (this.currentGame) {
+                    await this.getGameData();
                 }
-                if (this.notifications) {
-                    await this.getNotifications();
-                }
+            }
+
+            if (this.user && this.notifications) {
+                await this.getNotifications();
             }
 
             if (lastTimeout) {
