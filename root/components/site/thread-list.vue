@@ -157,8 +157,10 @@ const { start } = useTimeoutFn(async () => {
     loading.value = false;
 }, 200, { immediate: false });
 watch(params, () => {
-    loading.value = true;
-    start();
+    if (props.filters) {
+        loading.value = true;
+        start();
+    }
 });
 
 watch(selectedForum, async () => {
