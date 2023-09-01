@@ -8,5 +8,5 @@ COPY ./root /var/www/html
 
 # install deps and cache image layer
 RUN yarn
-# Run
-CMD ["yarn", "dev"]
+# Run (Ensure previous worker is deleted if exists)
+CMD ["/bin/sh", "-c", "rm -rf /tmp/nitro && yarn dev"]
