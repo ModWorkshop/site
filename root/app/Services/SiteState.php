@@ -56,7 +56,7 @@ class SiteState {
 
     function getMembersRole(): ?Role
     {
-        $this->members ??= Cache::remember('membersRole', 60, function() {
+        $this->membersRole ??= Cache::remember('membersRole', 60, function() {
             return Role::with('permissions')->find(1);
         });
 
