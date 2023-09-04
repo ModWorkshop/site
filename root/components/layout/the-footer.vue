@@ -6,11 +6,12 @@
                 <a-link-button to="/document/rules">{{$t('rules')}}</a-link-button>
                 <a-link-button to="/document/about">{{$t('about')}}</a-link-button>
                 <a-link-button to="/document/terms">{{$t('terms')}}</a-link-button>
+                <a-link-button to="/document/impressum">{{$t('impressum')}}</a-link-button>
                 <a-link-button to="/document/policy">{{$t('privacy')}}</a-link-button>
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                ModWorkshop Build {{buildVersion}}
+                {{ $t('mws_build_version', { version: buildVersion }) }}
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
