@@ -17,13 +17,12 @@ class Model extends \Illuminate\Database\Eloquent\Model
             if (method_exists($this, 'game')) {
                 $this->with = array_filter($this->with, fn ($a) => $a != 'game');
             }
+            static::retrieved(function($model) {
+                $game = app('siteState')->currentGame;
+                if (isset($game) && $model->game_id == $game?->id) {
+                    $model->setRelation('game', $game);
+                }
+            });
         }
-
-        static::retrieved(function($model) {
-            $game = app('siteState')->currentGame;
-            if ($model->game_id == $game?->id) {
-                $model->setRelation('game', $game);
-            }
-        });
     }
 }
