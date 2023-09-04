@@ -77,4 +77,6 @@ ENTRYPOINT ["/scripts/entrypoint.sh"]
 FROM build as dev
 
 # Install composer packages
-CMD ["/bin/sh", "-c", "composer install --no-interaction && php artisan mws:install --auto && php artisan serve"]
+RUN apk add git
+
+CMD ["/bin/sh", "-c", "composer install --prefer-dist --no-interaction && php artisan telescope:install && php artisan mws:install --auto && php artisan serve"]
