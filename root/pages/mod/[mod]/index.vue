@@ -14,6 +14,7 @@
             :commentable="mod"
             :can-edit-all="canEditComments"
             :can-delete-all="canDeleteComments"
+            :can-pin="canEdit"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"

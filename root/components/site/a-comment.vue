@@ -40,7 +40,7 @@
                         </a-button>
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
-                            <a-dropdown-item v-if="!isReply && canEditAll" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
+                            <a-dropdown-item v-if="!isReply && (canPin || canEditAll)" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canEdit || canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
                             <a-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</a-dropdown-item>
                         </template>
@@ -97,6 +97,7 @@ const props = defineProps<{
     canComment: boolean,
     canEditAll: boolean,
     canDeleteAll: boolean,
+    canPin?: boolean,
     isReply?: boolean,
     commentable: { id: number, game?: Game },
     getSpecialTag: (comment: Comment) => string|undefined,

@@ -46,6 +46,7 @@
                         :comment="comment"
                         :can-comment="canComment"
                         :can-edit-all="canEditAll"
+                        :can-pin="canPin"
                         :can-delete-all="canDeleteAll"
                         :current-focus="replyingComment || editingComment"
                         :get-special-tag="getSpecialTag"
@@ -107,6 +108,7 @@ const props = withDefaults(defineProps<{
     canComment: boolean,
     getSpecialTag: (comment: Comment) => string|undefined,
     canEditAll: boolean,
+    canPin: boolean,
     cannotCommentReason?: string,
     canDeleteAll: boolean
 }>(), { resourceName: 'comments', lazy: false });
@@ -358,7 +360,7 @@ function replyToComment(replyTo: Comment, mention: User) {
  */
 async function setCommentPinState(comment: Comment) {
     try {
-        await patchRequest(`comments/${comment.id}`, { pinned: comment.pinned });
+        await patchRequest(`comments/${comment.id}/pinned`, { status: comment.pinned });
         loadComments();
     } catch (error) {
         showError(error);
