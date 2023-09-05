@@ -7,7 +7,7 @@
                 <a-button color="danger" @click="deleteReadNotifications()"><i-mdi-clock/> {{$t('delete_seen_notifications')}}</a-button>
                 <a-button @click="markAllAsRead()"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
             </flex>
-            <a-items :items="notifications" :loading="loading">
+            <a-items v-model:page="page" :items="notifications" :loading="loading">
                 <template #item="{ item }">
                     <a-notification :notification="item" :notifications="notifications!"/>
                 </template>

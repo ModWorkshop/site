@@ -6,7 +6,7 @@
         
         <slot name="buttons"/>
 
-        <a-pagination v-model="vPage" :total="total" :per-page="perPage">
+        <a-pagination v-model="page" :total="total" :per-page="perPage">
             <slot name="pagination" :items="items"/>
         </a-pagination>
 
@@ -32,7 +32,7 @@
             </slot>
         </flex>
 
-        <a-pagination v-if="!loading" v-model="vPage" :total="total" :per-page="perPage">
+        <a-pagination v-if="!loading" v-model="page" :total="total" :per-page="perPage">
             <slot name="pagination"/>
         </a-pagination>
     </flex>
@@ -44,18 +44,13 @@ import { Paginator } from '~~/types/paginator';
 const props = defineProps<{
     title?: string,
     gap?: number,
-    page?: number,
     items: Paginator<any>|null,
     loading?: boolean,
     itemLink?: (item?) => string,
     textBy?: string,
 }>();
 
-const emit = defineEmits<{
-    (e: 'update:page', page: number|null): void
-}>();
-
 const total = computed(() => props.items?.meta?.total ?? 0);
 const perPage = computed(() => props.items?.meta?.per_page ?? 1);
-const vPage = useVModel(props, 'page', emit);
+const page = defineModel<number>('page', { default: 1, local: true });
 </script>
