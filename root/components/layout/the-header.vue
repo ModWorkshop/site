@@ -158,7 +158,6 @@ const store = useStore();
 const settings = computed(() => store.settings);
 
 const router = useRouter();
-const route = useRoute();
 
 const { 
     user,

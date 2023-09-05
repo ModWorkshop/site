@@ -6,13 +6,13 @@
 
 <script setup lang="ts">
 defineProps<{
-    iconSize: string,
-    command: string|number|object,
-    to: string,
-    href: string,
-    disabled: boolean,
-    type: string,
-    icon: Component
+    iconSize?: string,
+    command?: string|number|object,
+    to?: string,
+    href?: string,
+    disabled?: boolean,
+    type?: string,
+    icon?: Component
 }>();
 
 const emit = defineEmits(['click']);

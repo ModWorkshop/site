@@ -150,7 +150,7 @@ export function isSrcExternal(src?: string|any) {
 
 export function getObjectLink(type: string, object: Record<string, unknown>) {
     if (!object) {
-        return null;
+        return undefined;
     }
     switch(type) {
         case 'mod':
@@ -163,7 +163,7 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
             return `/user/${object.id}`;
     }
 
-    return null;
+    return undefined;
 }
 
 export async function getCommentLink(comment: Comment) {
