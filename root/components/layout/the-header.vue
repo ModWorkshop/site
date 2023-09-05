@@ -11,9 +11,10 @@
                     {{$t('no_alerts_found')}}
                 </span>
             </flex>
-            <div class="mt-4">
+            <flex class="mt-4">
                 <a-button to="/notifications" @click="showNotifications = false"><i-mdi-eye/> {{$t('browse_all_notifications')}}</a-button>
-            </div>
+                <a-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
+            </flex>
         </template>
     </a-modal>
     
@@ -244,6 +245,10 @@ function clickSelectedSearch() {
         path: searchButtons.value[selectedSearch.value]?.to ?? '/search/mods',
         query: { query: query.value }
     });
+}
+
+async function markAsRead() {
+    await markAllNotificationsAsRead(notifications.value?.data, notificationCount);
 }
 </script>
 <style scoped>

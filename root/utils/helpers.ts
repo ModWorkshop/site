@@ -1,4 +1,4 @@
-import { Comment, Game } from './../types/models';
+import { Comment, Game, Notification } from './../types/models';
 import { partial } from "filesize";
 import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
@@ -247,4 +247,16 @@ export function getContrast(color1: string|number[], color2: string|number[]) {
     const lum2 = luminance(typeof color2 == 'string' ? hexToColor(color2) : color2);
 
     return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
+}
+
+// Marks all notifications as read, if needed updates a given array of notifications
+export async function markAllNotificationsAsRead(notifications?: Notification[], count?: Ref<number|null>) {
+    await postRequest('notifications/read-all');
+    if (notifications) {
+        notifications.forEach(item => item.seen = true);
+    }
+
+    if (count) {
+        count.value = 0;
+    }
 }
