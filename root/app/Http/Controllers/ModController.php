@@ -515,12 +515,13 @@ class ModController extends Controller
         }
 
         // Send to discord about this
+        $moderator = $this->user();
         $send = [Setting::getValue('discord_approval_webhook')];
         if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
             $status = $approve ? 'approved' : 'rejected';
             $reason = !$approve ? "\nReason: ".$val['reason'] : '';
-            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! <{$siteUrl}/mod/%s>.{$reason}", [
+            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! by {$moderator->name} <{$siteUrl}/mod/%s>.{$reason}", [
                 $mod->name,
                 $mod->id
             ]);
