@@ -97,7 +97,9 @@ md.inline.ruler.after('emphasis', 'mention', function(state, silent) {
 	let end = state.pos+1;
 	const max = state.posMax, start = state.pos;	
 
-	if (silent || state.src.charCodeAt(start) !== 64/* @ */ || state.src.charCodeAt(start-1) === 59) { 
+	const prev = state.src.charCodeAt(start-1);
+	// A mention must begin with either nothing, line feed, tab or space. Otherwise ignore. Prevents highlighting things such as emails.
+	if (silent || state.src.charCodeAt(start) !== 64/* @ */ || !(prev == 10 || prev == 9 || prev == 32 || Number.isNaN(prev))) { 
 		return false;
 	}
 	if (start + 2 >= max) { 
