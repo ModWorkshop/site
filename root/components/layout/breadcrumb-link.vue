@@ -35,9 +35,9 @@ function getTo(item: Breadcrumb, i: number) {
             return `/category/${item.id}`;
         }
     } else if (item.type == 'forum_category') {
-        const first = props.items[0];
-        if (first && first.type == 'game') {
-            return getTo(first, 0)+`/forum?category=${item.id}`;
+        const second = props.items[1];
+        if (second && second.type == 'game') {
+            return getTo(second, 0)+`/forum?category=${item.id}`;
         } else {
             return `/forum?category=${item.id}`;
         }
