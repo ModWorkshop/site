@@ -3,7 +3,7 @@
         <flex column :class="{archived: report.archived}">
             <a-tag class="capitalize mr-auto">{{report.reportable_type}}</a-tag>
             <flex class="items-center">{{$t('reported_by')}}: <a-user :user="report.user" avatar-size="xs"/> <time-ago :time="report.created_at"/></flex>
-            <flex class="items-center">{{$t('reported_user')}}: <a-user :user="reportedUser" avatar-size="xs"/></flex>
+            <flex class="items-center">{{$t('reported_user')}}: <a-user :user="report.reported_user ?? reportedUser" avatar-size="xs"/></flex>
             <span>{{ $t('reason') }}:</span>
             <blockquote>{{report.reason}}</blockquote>
             <span>{{ contentTitle }}: <span v-if="content && currentContent != content">{{$t('edited')}}</span></span>
