@@ -145,6 +145,8 @@ Route::middleware('can:view,comment')->group(function() {
     Route::middleware('auth:sanctum')->post('comments/{comment}/subscription', [CommentController::class, 'subscribe']);
     Route::get('comments/{comment}/page', [CommentController::class, 'page']);
     Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
+    Route::middleware('can:pin,comment')->patch('comments/{comment}/pinned', [CommentController::class, 'setPinned']);
+
     Route::middleware('can:report,comment')->post('comments/{comment}/reports', [CommentController::class, 'report']);
 });
 

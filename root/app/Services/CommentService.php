@@ -156,17 +156,12 @@ class CommentService {
         $val = $request->validate([
             'mentions' => 'array',
             'content' => 'string|required_without:pinned|min:3|max:5000',
-            'pinned' => 'boolean'
         ]);
 
         $mentions = Arr::pull($val, 'mentions');
         $uniqueNames = [];
         $mentionedUsers = [];
         $mentionedIds = [];
-
-        if ($comment->reply_to && isset($val['pinned'])) {
-            abort(403, 'Only regular comments can be pinned!');
-        }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
         if ((isset($val['content']) || isset($mentions)) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
@@ -190,6 +185,25 @@ class CommentService {
         $comment->update($val);
 
         return new CommentResource($comment);
+    }
+
+    /**
+     * Set the pinned state of a comment
+     */
+    public static function setPinned(Request $request, Comment $comment) {
+        $val = $request->validate([
+            'status' => 'boolean'
+        ]);
+
+        if ($comment->reply_to && isset($val['status'])) {
+            abort(403, 'Only regular comments can be pinned!');
+        }
+
+        $comment->timestamps = false;
+
+        $comment->update([
+            'pinned' => $val['status']
+        ]);
     }
 
     /**

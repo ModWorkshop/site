@@ -87,4 +87,11 @@ class CommentController extends Controller
     {
         APIService::report($request, $comment);
     }
+
+    /**
+     * Set the pinned state of a comment
+     */
+    function setPinned(Request $request, Comment $comment) {
+        CommentService::setPinned($request, $comment);
+    }
 }
