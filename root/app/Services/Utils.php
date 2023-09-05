@@ -151,6 +151,9 @@ class Utils {
             UserCase::where('user_id', $record->user_id)->update([
                 'user_id' => $newUserId,
             ]);
+            Report::where('reported_user_id', $record->user_id)->update([
+                'reported_user_id' => $newUserId,
+            ]);
             $record->delete();
         }
     }

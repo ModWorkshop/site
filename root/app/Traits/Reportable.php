@@ -28,6 +28,7 @@ trait Reportable {
             'user_id' => $user->id,
             'game_id' => $this->game_id,
             'reason' => $reason,
+            'reported_user_id' => $this::class == 'App\Models\User' ? $this->id : $this->user_id,
             'data' => $data
         ]);
 
