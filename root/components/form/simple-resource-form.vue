@@ -1,6 +1,6 @@
 <template>
     <a-form 
-        :model="vm"
+        v-model="vm"
         :created="vm && !!vm.id"
         float-save-gui
         :can-save="canSave"
@@ -32,7 +32,6 @@ const showError = useQuickErrorToast();
 const { t } = useI18n();
 
 const props = withDefaults(defineProps<{
-    modelValue: any,
     url: string,
     createUrl?: string,
     redirectTo?: string,
@@ -45,8 +44,8 @@ const props = withDefaults(defineProps<{
 }>(), { deleteButton: true });
 
 
-const emit = defineEmits(['submit', 'update:modelValue']);
-const vm = useVModel(props, 'modelValue', emit);
+const emit = defineEmits(['submit']);
+const vm = defineModel<any>();
 const ic = computed(() => props.ignoreChanges ?? useEventRaiser());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
@@ -55,14 +54,14 @@ async function submit() {
         let params;
         if (props.mergeParams) {
             params = serializeObject({
-                ...props.modelValue,
+                ...vm.value,
                 ...props.mergeParams
             });
         } else {
-            params = props.modelValue;
+            params = vm.value;
         }
 
-        if (!props.modelValue.id) {
+        if (!vm.value.id) {
             const model = await postRequest<{id: number}>(createUrl.value, params);
             if (props.redirectTo) {
                 router.replace(`${props.redirectTo}/${model.id}`);
@@ -84,7 +83,7 @@ async function doDelete() {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await deleteRequest(`${props.url}/${props.modelValue.id}`);
+            await deleteRequest(`${props.url}/${vm.value.id}`);
             const to = props.deleteRedirectTo ?? props.redirectTo;
             if (to) {
                 router.replace(to);

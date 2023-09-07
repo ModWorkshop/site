@@ -25,19 +25,18 @@ import clone from 'rfdc/default';
 import { deepEqual } from 'fast-equals';
 import { useI18n } from 'vue-i18n';
 
-let props = defineProps({
-    floatSaveGui: Boolean,
-    canSave: Boolean,
-    ignoreChanges: Object,
-    created: {
-        default: true,
-        type: Boolean
-    },
-    saveText: String,
-    saveButtonText: String,
-    model: Object,
-    models: Array
-});
+const { created = true, saveButtonText, flushChanges, canSave, transformForCompare } = defineProps<{
+    transformForCompare?: (a, b) => void,
+    floatSaveGui?: boolean,
+    canSave?: boolean,
+    flushChanges?: EventRaiser,
+    created?: boolean,
+    saveText?: string,
+    saveButtonText?: string,
+    models?: any[]
+}>();
+
+const model = defineModel<any>();
 
 const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
@@ -45,26 +44,28 @@ const disableButtons = ref(false);
 const modelCopy = ref();
 const { t } = useI18n();
 
-watch(() => props.model, val => {
-    disableButtons.value = false;
-    modelCopy.value = clone(val);
-}, { immediate: true });
-
 const currentCanSave = computed(() => {
-    return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
+    let A = model.value, B = modelCopy.value;
+    if (transformForCompare) {
+        A = clone(A);
+        B = clone(B);
+
+        transformForCompare(A, B);
+    }
+
+    return !created || canSave || !deepEqual(A, B);
 });
 
-if (props.ignoreChanges) {
-    watch(props.ignoreChanges.listen, () => modelCopy.value = clone(props.model));
-}
+watch(flushChanges?.listen ?? ref(), () => {
+    disableButtons.value = false;
+    modelCopy.value = clone(model.value);
+}, { immediate: true });
 
 watch(currentCanSave, val => {
     emit('stateChanged', val);
 });
 
-provide('model', props.model);
-
-const currentSaveButtonText = computed(() => props.saveButtonText || (props.created ? t('save') : t('submit')));
+const currentSaveButtonText = computed(() => saveButtonText || (created ? t('save') : t('submit')));
 
 function submit() {
     disableButtons.value = true;
@@ -73,9 +74,7 @@ function submit() {
 }
 
 function discard() {
-    if (props.model) {
-        Object.assign(props.model, modelCopy.value);
-    }
+    Object.assign(model.value, modelCopy.value);
     emit('discard');
 }
 </script>

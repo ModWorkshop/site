@@ -2,7 +2,7 @@
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
         <content-block class="p-8">
-            <a-form :model="user" float-save-gui autocomplete="off" @submit="save">
+            <a-form v-model="user" float-save-gui autocomplete="off" @submit="save">
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="" :title="$t('account_tab')"/>
                     <a-nav-link to="profile" :title="$t('profile')"/>

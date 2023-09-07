@@ -1,24 +1,24 @@
 <template>
-    <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
+    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" @submit="save" :transform-for-compare="excludeFromCompare">
         <content-block :padding="false" class="max-md:p-4 p-8">
             <a-tabs padding="4" side query>
                 <a-tab name="main" :title="$t('main_tab')">
-                    <edit-mod-main :mod="mod"/>
+                    <edit-mod-main v-model="mod"/>
                 </a-tab>
                 <a-tab name="downloads" :title="$t('downloads_tab')">
-                    <edit-mod-files :mod="mod"/>
+                    <edit-mod-files v-model="mod"/>
                 </a-tab>
                 <a-tab name="images" :title="$t('images_tab')">
-                    <edit-mod-images :mod="mod"/>
+                    <edit-mod-images v-model="mod"/>
                 </a-tab>
                 <a-tab name="members" :title="$t('members_tab')">
-                    <edit-mod-members :mod="mod"/>
+                    <edit-mod-members v-model="mod"/>
                 </a-tab>
                 <a-tab name="instructions" :title="$t('instructions_tab')">
-                    <edit-mod-deps :mod="mod"/>
+                    <edit-mod-deps v-model="mod"/>
                 </a-tab>
                 <a-tab name="extra" :title="$t('extra_tab')">
-                    <edit-mod-extra :mod="mod"/>
+                    <edit-mod-extra v-model="mod"/>
                 </a-tab>
             </a-tabs>
         </content-block>
@@ -33,6 +33,7 @@ import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
 
 const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
+const flushChanges = useEventRaiser();
 
 definePageMeta({
     middleware: 'users-only',
@@ -40,22 +41,20 @@ definePageMeta({
 
 const router = useRouter();
 
-const { mod } = defineProps<{
-    mod: Mod;
-}>();
+const mod = defineModel<Mod>('mod', { required: true });
 
-mod.send_for_approval ??= false;
+mod.value.send_for_approval ??= false;
 
-if (!canEditMod(mod)) {
+if (!canEditMod(mod.value)) {
     useNoPermsPage();
 }
 
-provide('canSuperUpdate', canSuperUpdate(mod));
+provide('canSuperUpdate', canSuperUpdate(mod.value));
 provide('mod', mod);
 
-watch(() => mod.game, () => {
-    if (mod.game) {
-        setGame(mod.game);
+watch(() => mod.value.game, () => {
+    if (mod.value.game) {
+        setGame(mod.value.game);
     }
 }, { immediate: true });
 
@@ -71,16 +70,17 @@ provide('ignoreChanges', ignoreChanges);
 async function save() {
     try {
         let fetchedMod;
-        if (mod.id == -1) {
-            fetchedMod = await postRequest<Mod>('mods', mod);
+        if (mod.value.id == -1) {
+            fetchedMod = await postRequest<Mod>('mods', mod.value);
             if (fetchedMod) {
-                router.replace({ path: `/mod/${mod.id}/edit` });
+                router.replace({ path: `/mod/${mod.value.id}/edit` });
             }
         } else {
-            fetchedMod = await patchRequest<Mod>(`mods/${mod.id}`, mod);
+            fetchedMod = await patchRequest<Mod>(`mods/${mod.value.id}`, mod.value);
         }
         if (fetchedMod) {
-            Object.assign(mod, fetchedMod);
+            flushChanges.execute();
+            mod.value = fetchedMod;
         }
     } catch (error) {
         showErrorToast(error);
@@ -88,4 +88,17 @@ async function save() {
     }
 }
 
+/**
+ * Excludes things like 'download' that do not need to be tracked so the save float doesn't show up.
+ */
+function excludeFromCompare(A: Mod, B: Mod) {
+    A.download = undefined;
+    B.download = undefined;
+    A.images = undefined;
+    B.images = undefined;
+    A.files = undefined;
+    B.files = undefined;
+    A.links = undefined;
+    B.links = undefined;
+}
 </script>

@@ -108,22 +108,23 @@ import { friendlySize, fullDate } from '~~/utils/helpers';
 
 const { settings, hasPermission } = useStore();
 
-const props = defineProps<{
-    mod: Mod,
+defineProps<{
     light?: boolean
 }>();
 
-const { data: files } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { limit: 25 });
-const { data: links } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { limit: 25 });
+const mod = defineModel<Mod>({ required: true });
+
+const { data: files } = await useWatchedFetchMany(`mods/${mod.value.id}/files`, { limit: 25 });
+const { data: links } = await useWatchedFetchMany(`mods/${mod.value.id}/links`, { limit: 25 });
 
 const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
 const changeFile = ref<HTMLInputElement>();
-const canModerate = computed(() => hasPermission('manage-mods', props.mod.game));
+const canModerate = computed(() => hasPermission('manage-mods', mod.value.game));
 
-const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
+const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
 const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);
 
 const usedFileSize = computed(() => files.value?.data.reduce((prev, curr) => prev + curr.size, 0));
@@ -135,7 +136,7 @@ const usedSizeText = computed(() => {
 });
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
 
-const uploadLink = computed(() => `mods/${props.mod.id}/files`);
+const uploadLink = computed(() => `mods/${mod.value.id}/files`);
 
 const ignoreChanges = inject<() => void>('ignoreChanges');
 
@@ -180,7 +181,7 @@ async function saveEditFile(error) {
 }
 
 function updateHasDownload() {
-    props.mod.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
+    mod.value.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
     ignoreChanges?.();
 }
 
@@ -215,7 +216,7 @@ async function saveEditLink(error) {
     try {
         if (link) {
             if (link.id == -1) {
-                const newLink = await postRequest<Link>(`mods/${props.mod.id}/links`, link);
+                const newLink = await postRequest<Link>(`mods/${mod.value.id}/links`, link);
                 if (links.value) {
                     links.value.data.push(newLink);
                 }
@@ -242,7 +243,7 @@ async function saveEditLink(error) {
 }
 
 function fileDeleted(file: File) {
-    if (props.mod.download_id === file.id) {
+    if (mod.value.download_id === file.id) {
         setPrimaryDownload();
     }
 
@@ -250,8 +251,8 @@ function fileDeleted(file: File) {
 }
 
 function setPrimaryDownload(type?: 'file'|'link', download?: File|Link) {
-    props.mod.download_type = type ?? null;
-    props.mod.download_id = (download && download.id) ?? null;
-    props.mod.download = download;
+    mod.value.download_type = type ?? null;
+    mod.value.download_id = (download && download.id) ?? null;
+    mod.value.download = download;
 }
 </script>

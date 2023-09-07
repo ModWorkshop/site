@@ -1,7 +1,7 @@
 <template>
     <div style="width: 80%; align-self: center;">
         <Title>{{$t('upload_mod')}}</Title>
-        <a-form :model="mod" :created="false" @submit="create">
+        <a-form v-model="mod" :created="false" @submit="create">
             <content-block v-if="step == 1" padding="8">
                 <h2 class="text-center">{{$t('mod_creation_1')}}</h2>
     

@@ -1,5 +1,5 @@
 <template>
-    <a-form v-if="settings" :model="settings" created float-save-gui :ignore-changes="ignoreChanges" @submit="submit">
+    <a-form v-if="settings" v-model="settings" created float-save-gui :ignore-changes="ignoreChanges" @submit="submit">
         <flex column gap="3">
             <a-input v-model="settings.max_file_size" type="number" label="Max file size"/>
             <a-input v-model="settings.image_max_file_size" type="number" label="Image max file size"/>

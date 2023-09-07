@@ -57,33 +57,30 @@ import { useStore } from '~~/store';
 
 const { settings } = useStore();
 
-const props = defineProps<{
-    mod: Mod,
-}>();
-
-const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');
-const images = ref(clone(props.mod.images));
-const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
+const mod = defineModel<Mod>({ required: true });
+const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '');
+const images = ref(clone(mod.value.images));
+const flushChanges: (() => void)|undefined = inject('flushChanges');
 
 function setBanner(banner?: Image) {
-    props.mod.banner_id = banner && banner.id || null;
-    props.mod.banner = banner;
+    mod.value.banner_id = banner && banner.id || null;
+    mod.value.banner = banner;
 }
 
 function setThumbnail(thumb?: Image) {
-    props.mod.thumbnail_id = thumb && thumb.id || null;
-    props.mod.thumbnail = thumb;
+    mod.value.thumbnail_id = thumb && thumb.id || null;
+    mod.value.thumbnail = thumb;
 }
 
 function fileDeleted(image: Image) {
-    if (props.mod.thumbnail_id === image.id) {
+    if (mod.value.thumbnail_id === image.id) {
         setThumbnail();
     }
 
-    if (props.mod.banner_id === image.id) {
+    if (mod.value.banner_id === image.id) {
         setBanner();
     }
 
-    ignoreChanges?.();
+    flushChanges?.();
 }
 </script>

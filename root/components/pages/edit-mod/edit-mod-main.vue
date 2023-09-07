@@ -18,9 +18,7 @@ import { Category, Mod, Tag } from '~~/types/models.js';
 
 const { t } = useI18n();
 
-const props = defineProps<{
-    mod: Mod
-}>();
+const mod = defineModel<Mod>({ required: true });
 
 const visItems = [
     { name: t('public'), id: 'public' },
@@ -28,7 +26,7 @@ const visItems = [
     { name: t('unlisted'), id: 'unlisted' }
 ];
 
-const gameId = computed(() => props.mod.game_id);
+const gameId = computed(() => mod.value.game_id);
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`);
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', { 
     params: reactive({ 
@@ -39,13 +37,13 @@ const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
 });
 
 const approvalOnlyForced = computed(() => {
-    const category = categories.value?.data.find(cat => cat.id === props.mod.category_id);
-    return props.mod.approved === null && (category?.approval_only ?? false);
+    const category = categories.value?.data.find(cat => cat.id === mod.value.category_id);
+    return mod.value.approved === null && (category?.approval_only ?? false);
 });
 
 watch(() => categories.value, () => {
     if (categories.value && categories.value.data.length === 0) {
-        props.mod.category_id = undefined;
+        mod.value.category_id = undefined;
     }
 }); 
 

@@ -6,7 +6,5 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
-defineProps<{
-    mod: Mod,
-}>();
+const mod = defineModel<Mod>({ required: true });
 </script>
