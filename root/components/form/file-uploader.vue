@@ -45,7 +45,7 @@
         </div>
         <div v-else-if="files.length" class="grid file-list p-3 alt-content-bg">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
-                <a-img class="file-thumbnail" height="200" loading="lazy" :url-prefix="urlPrefix"/>
+                <a-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
