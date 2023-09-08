@@ -49,7 +49,7 @@ class Role extends Model
 
     public function cacheKey()
     {
-        return sprintf("%s/%s-%s", $this->getTable(), $this->getKey(), ($this->updated_at ?? $this->created_at)->timestamp);
+        return sprintf("%s/%s-%s", $this->getTable(), $this->getKey(), $this->updated_at?->timestamp ?? $this->id);
     }
 
     protected $with = [];
