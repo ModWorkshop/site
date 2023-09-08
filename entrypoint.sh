@@ -3,4 +3,4 @@
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 # Cache stuff for performance
-php artisan route:cache && php artisan config:cache
+php artisan config:clear && php artisan config:cache
