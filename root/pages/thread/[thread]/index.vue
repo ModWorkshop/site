@@ -4,7 +4,7 @@
         <content-block :padding="4">
             <flex>
                 <NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
-                    <a-avatar class="align-middle" :src="thread.user.avatar" size="lg"/>
+                    <a-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
                 </NuxtLink>
                 <flex column wrap class="overflow-hidden w-full">
                     <flex>
@@ -57,12 +57,12 @@ const commentSpecialTag = function(comment: Comment) {
     } 
 };
 
-const threadGame = computed(() => thread.forum.game);
+const threadGame = computed(() => thread.forum?.game);
 const canEditComments = computed(() => hasPermission('manage-discussions', threadGame.value));
-const canPin = computed(() => user && user.id === thread.user_id);
+const canPin = computed(() => user ? user.id === thread.user_id : false);
 
 const thumbnail = computed(() => {
-    const avatar = thread.user.avatar;
+    const avatar = thread.user?.avatar;
     if (avatar) {
         return `${config.storageUrl}/users/images/${avatar}`;
     } else {
@@ -72,7 +72,7 @@ const thumbnail = computed(() => {
 
 useServerSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
-	ogTitle: `${thread.name} by ${thread.user.name}`,
+	ogTitle: `${thread.name} by ${thread.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });
@@ -86,7 +86,7 @@ const bannedCommenting = computed(() => {
 });
 
 const canComment = computed(() => {
-    if (bannedCommenting.value || thread.user.blocked_me) {
+    if (bannedCommenting.value || thread.user?.blocked_me) {
         return false;
     }
     return !thread.locked || canModerate.value || (thread.user_id === user?.id && !thread.locked_by_mod);
@@ -101,7 +101,7 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_banned');
     }
 
-    if (thread.user.blocked_me) {
+    if (thread.user?.blocked_me) {
         return t('cannot_comment_blocked');
     }
 });

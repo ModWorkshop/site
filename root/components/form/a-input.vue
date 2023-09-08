@@ -17,7 +17,7 @@
             >
             <textarea 
                 v-if="type == 'textarea'"
-                ref="input"
+                ref="elementRef"
                 v-model="vm"
                 class="mw-input"
                 :rows="rows"
@@ -28,7 +28,7 @@
                 v-else-if="isCheckbox" 
                 :id="labelId"
                 v-bind="$attrs"
-                ref="input"
+                ref="elementRef"
                 v-model="vm"
                 :class="classes"
                 type="checkbox"
@@ -38,7 +38,7 @@
                 v-else
                 :id="labelId"
                 v-bind="$attrs"
-                ref="input"
+                ref="elementRef"
                 v-model="vm"
                 :class="classes"
                 :type="type"
@@ -61,28 +61,27 @@ const props = defineProps<{
     id?: string,
     desc?: string,
     label?: string|boolean,
-    modelValue?: any,
     validity?: string,
-    elementRef?: HTMLInputElement,
     rows?: number|string,
     type?: string,
     value?: string,
 }>();
-const emit = defineEmits(['update:modelValue', 'update:elementRef']);
+const emit = defineEmits(['update:elementRef', 'update:modelValue']);
 
-const vm = useVModel(props, 'modelValue', emit);
-const input = ref<HTMLInputElement>();
-const err = useWatchValidation(vm, input);
+const vm = defineModel<any>('modelValue', { local: true });
+const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
 
-watch(input, val => emit('update:elementRef', val));
+const err = useWatchValidation(vm, elementRef);
+
+watch(elementRef, val => emit('update:elementRef', val));
 
 watch(() => props.validity, val => {
 
-    if (input.value) {
+    if (elementRef.value) {
         if (val) {
-            input.value.setCustomValidity(val);
+            elementRef.value.setCustomValidity(val);
         } else {
-            input.value.setCustomValidity('');
+            elementRef.value.setCustomValidity('');
         }
     }
 });

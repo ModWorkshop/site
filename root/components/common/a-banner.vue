@@ -8,7 +8,7 @@ import { useStore } from '~~/store';
 const store = useStore();
 
 const props = withDefaults(defineProps<{
-    src: string|Blob,
+    src?: string|Blob,
     urlPrefix: string,
     height?: number|string,
 }>(), {

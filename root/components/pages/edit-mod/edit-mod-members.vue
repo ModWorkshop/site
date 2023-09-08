@@ -90,7 +90,7 @@ const memberPerms = computed(() => {
 
 const levelOptions = computed(() => {
     if (!superUpdate && (!member.value || (member.value.level !== 'maintainer' && member.value.level !== 'collaborator'))) {
-        return null;
+        return undefined;
     }
 
     const levels = [

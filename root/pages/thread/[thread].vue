@@ -32,10 +32,10 @@ const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 
-const threadGame = computed(() => thread.value.forum.game);
+const threadGame = computed(() => thread.value.forum?.game);
 
 const thumbnail = computed(() => {
-    const avatar = thread.value.user.avatar;
+    const avatar = thread.value.user?.avatar;
     if (avatar) {
         return `${config.storageUrl}/users/images/${avatar}`;
     } else {
@@ -45,7 +45,7 @@ const thumbnail = computed(() => {
 
 useServerSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
-	ogTitle: `${thread.value.name} by ${thread.value.user.name}`,
+	ogTitle: `${thread.value.name} by ${thread.value.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });

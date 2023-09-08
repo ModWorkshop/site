@@ -85,7 +85,7 @@ onMounted(() => {
 });
 
 // Get rid of the observer when the component is unmounted.
-onBeforeUnmount(() => observer.disconnect());
+onBeforeUnmount(() => observer?.disconnect());
 
 const tabState: { focus: number, current?: string } = reactive({
     current: props.query ? route.query.tab as string : undefined, 

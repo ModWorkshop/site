@@ -10,13 +10,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    modelValue: Blob,
-    id: String,
-    src: String,
-    urlPrefix: String,
-});
+const props = defineProps<{
+    id?: string,
+    src?: string,
+    urlPrefix?: string,
+}>();
 
+const modelValue = defineModel<Blob|null|undefined>();
 const emit = defineEmits(['update:modelValue']);
 
 const fileRef = ref();
@@ -27,7 +27,7 @@ const currentSrc = computed(() => blob.value || props.src);
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
 
-watch(() => props.modelValue, (value, oldValue) => {
+watch(modelValue, (value, oldValue) => {
     if (input.value && oldValue && !value) {
         blob.value = null;
         input.value.value = '';

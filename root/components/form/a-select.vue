@@ -135,7 +135,13 @@ const opts = computed(() => {
 });
 const selectedValue = computed(() => props.modelValue ?? props.default);
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
-const selectedMax = computed(() => props.max ? selected.value.length >= props.max : false);
+const selectedMax = computed(() => {
+    if (!props.max) {
+        return false;
+    }
+    const max = typeof props.max == 'number' ? props.max : parseInt(props.max);
+    return selected.value.length >= max;
+});
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value && opts.value.length > 10));
 const filtered = computed(() => {
     const searchLower = searchDebounced.value.toLowerCase();
@@ -191,7 +197,9 @@ const selectedOptions = computed(() => {
 	}
 });
 
-const shownOptions = computed(() => selectedOptions.value.filter((_, i) => !props.maxShown || (i + 1) <= props.maxShown));
+const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
+    return !props.maxShown || (i + 1) <= (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
+}));
 
 const selectedOption = computed(() => {
 	if (opts.value) {

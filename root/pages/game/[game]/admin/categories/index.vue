@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import { Category, Game } from '~~/types/models';
 
 const props = defineProps<{
     game: Game
@@ -25,5 +25,5 @@ const route = useRoute();
 const url = computed(() => `games/${route.params.game}/categories`);
 const gameUrl = computed(() => getAdminUrl('categories', props.game));
 
-const { data: categories } = await useFetchMany(() => url.value);
+const { data: categories } = await useFetchMany<Category>(() => url.value);
 </script>

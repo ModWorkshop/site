@@ -67,7 +67,7 @@ const downloads = computed(() => friendlyNumber(locale.value, props.mod.download
 const views = computed(() => friendlyNumber(locale.value, props.mod.views));
 
 //If the user set their own donation, show that.
-const ownerDonation = computed(() => props.mod.user.donation_url || props.mod.donation);
+const ownerDonation = computed(() => props.mod.user?.donation_url || props.mod.donation);
 
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 

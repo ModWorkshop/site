@@ -45,7 +45,7 @@
         </div>
         <div v-else-if="files.length" class="grid file-list p-3 alt-content-bg">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
-                <a-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
+                <a-img class="file-thumbnail" height="200" loading="lazy" :url-prefix="urlPrefix"/>
                 <flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <flex column class="file-buttons">
@@ -91,7 +91,7 @@ const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const { public: runtimeConfig } = useRuntimeConfig();
 
-function getFileThumb(file) {
+function getFileThumb(file: UploadFile) {
     if (file.thumbnail) {
         return file.thumbnail;
     }
@@ -120,11 +120,17 @@ type UploadFile = SimpleFile & {
     cancel?: Canceler,
     progress?: number,
     thumbnail?: string,
+    has_thumb?: boolean
 }
 
 const filesArr = toRef(props, 'files');
 const input = ref();
-const reachedMaxFiles = computed<boolean>(() => props.maxFiles && filesArr.value.length >= props.maxFiles || false);
+const reachedMaxFiles = computed<boolean>(() => {
+    if (!props.maxFiles) {
+        return false;
+    }
+    return filesArr.value.length >= (typeof(props.maxFiles) == "string" ? parseInt(props.maxFiles) : props.maxFiles);
+});
 const usedSize = computed(() => filesArr.value.reduce((prev, curr) => prev + curr.size, 0));
 
 const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
@@ -169,7 +175,7 @@ async function upload(files: FileList|null) {
         else {
             const insertFile: UploadFile = {
                 id: 0,
-                created_at: DateTime.now().toISO(),
+                created_at: DateTime.now().toISO()?.toString() || undefined,
                 name: file.name,
                 size: file.size,
                 file: '',

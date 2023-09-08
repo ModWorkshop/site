@@ -9,13 +9,13 @@
     <span v-if="!fetchedMods?.data.length" class="text-center">{{$t('no_mods_found')}}</span>
 </template>
 <script setup lang="ts">
-import { SearchParams } from 'ohmyfetch';
+import { SearchParameters } from 'ofetch';
 import { Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 
 const props = defineProps<{
     forcedGame?: number,
-    params?: SearchParams
+    params?: SearchParameters
 }>();
 
 const sortBy = computed(() => props.params?.sort);

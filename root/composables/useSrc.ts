@@ -13,11 +13,11 @@ export default function(prefix: string, src?: string|object|Blob, isAsset = fals
         } else if (typeof src === 'object') {
             return src.toString();
         } else if (isSrcExternal(src)) {
-            return src;
+            return src.toString();
         } else {
             return `${isAsset ? `/assets` : config.storageUrl}/${prefix ? prefix + '/' : ''}${useThumb ? 'thumbnail_' : ''}${src}`;
         }
     } else {
-        return null;
+        return undefined;
     }
 }

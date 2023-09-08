@@ -6,17 +6,17 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-    name: string,
-    to: string,
-    icon: Component,
-    title: string,
-    selected: boolean,
+    name?: string,
+    to?: string,
+    icon?: Component,
+    title?: string,
+    selected?: boolean,
 }>();
 
 const route = useRoute();
 
 const side = inject<boolean>('side', false);
-const menuOpen = inject<Ref<boolean>>('menuOpen', null);
+const menuOpen = inject<Ref<boolean>>('menuOpen');
 const root = inject<string>('root', '');
 
 const compTo = computed(() => props.to ? `${root}/${props.to}` : root);

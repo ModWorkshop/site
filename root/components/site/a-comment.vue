@@ -139,7 +139,7 @@ const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(pro
 
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
 
-watch(replies, (val: Paginator<Comment>) => {
+watch(replies, val => {
     props.comment.replies = val?.data ?? [];
 }, { immediate: true });
 

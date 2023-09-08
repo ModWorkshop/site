@@ -48,9 +48,8 @@ const textArea = computed(() => textAreaComp.value?.element);
 
 const previewHeight = ref('0');
 
-
-
 const err = useWatchValidation(vm, textArea);
+provide('err', err);
 
 onMounted(() => {
     const textarea = textArea.value;

@@ -36,7 +36,7 @@ defineProps<{
 
 const { t } = useI18n();
 const { settings } = useStore();
-const imageSize = computed(() => friendlySize(settings?.image_max_file_size));
+const imageSize = computed(() => friendlySize(settings?.image_max_file_size ?? 0));
 
 const showTagOptions = [
     { id: 'role', name: t('show_tag_role') },

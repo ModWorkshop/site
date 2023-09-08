@@ -106,7 +106,7 @@ async function doDelete() {
         desc: t('irreversible_action'),
         async yes() {
             await deleteRequest(`users/${props.user.id}`);
-            if (store.user.id === props.user.id) {
+            if (me!.id === props.user.id) {
                 await store.logout();
             }
         }

@@ -15,7 +15,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint:eslint": "eslint \"./**/*.{js,ts,vue}\"",
-    "format:eslint": "eslint --fix \"./**/*.{js,ts,vue}\""
+    "format:eslint": "eslint --fix \"./**/*.{js,ts,vue}\"",
+    "lint:ts": "vue-tsc --noemit"
   },
   "type": "module",
   "devDependencies": {
@@ -44,7 +45,8 @@
     "typescript": "^5.0.4",
     "unplugin-icons": "^0.16.5",
     "unplugin-vue-components": "^0.25.1",
-    "vue-easy-lightbox": "^1.13.0"
+    "vue-easy-lightbox": "^1.13.0",
+    "vue-tsc": "^1.8.10"
   },
   "dependencies": {
     "@gerhobbelt/markdown-it-regexp": "^0.6.0-15",

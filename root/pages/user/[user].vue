@@ -194,7 +194,7 @@ async function blockUser() {
     } else {
         await deleteRequest(`blocked-users/${user.value.id}`);
         tempBlockOverride.value = false;
-        user.value.blocked_by_me = null;
+        user.value.blocked_by_me = undefined;
     }
 
 }
@@ -213,7 +213,7 @@ function hideUserMods() {
             }
 
             tempBlockOverride.value = false;
-            user.value.blocked_by_me = block ? { silent: true } : null;
+            user.value.blocked_by_me = block ? { silent: true } : undefined;
         }
     });
 

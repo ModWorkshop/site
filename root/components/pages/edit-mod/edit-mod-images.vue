@@ -32,10 +32,10 @@
         </template>
     </file-uploader>
     <flex class="mr-auto">
-        <a-button @click="setBanner(null)">
+        <a-button @click="setBanner()">
             <i_mdi-close/> {{ $t('reset_banner') }}
         </a-button>
-        <a-button @click="setThumbnail(null)">
+        <a-button @click="setThumbnail()">
             <i_mdi-close/> {{ $t('reset_thumbnail') }}
         </a-button>
     </flex>
@@ -63,12 +63,12 @@ const images = ref(clone(mod.value.images));
 const flushChanges: (() => void)|undefined = inject('flushChanges');
 
 function setBanner(banner?: Image) {
-    mod.value.banner_id = banner && banner.id || null;
+    mod.value.banner_id = banner && banner.id || undefined;
     mod.value.banner = banner;
 }
 
 function setThumbnail(thumb?: Image) {
-    mod.value.thumbnail_id = thumb && thumb.id || null;
+    mod.value.thumbnail_id = thumb && thumb.id || undefined;
     mod.value.thumbnail = thumb;
 }
 

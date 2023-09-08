@@ -1,5 +1,5 @@
 import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import { SearchParams } from 'ohmyfetch';
+import { SearchParameters } from 'ofetch';
 import { useI18n } from "vue-i18n";
 
 /**
@@ -25,7 +25,7 @@ export default async function<T>(
     name: string,
     url: string,
     errorMessages: Record<number|string, string> = {},
-    params?: SearchParams,
+    params?: SearchParameters,
     fallback?: T,
     key?: string
 ): Promise<_AsyncData<T, Error | null>> {

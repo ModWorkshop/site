@@ -177,7 +177,7 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
-		['unplugin-icons/nuxt'],
+		'unplugin-icons/nuxt',
 		'@nuxtjs/i18n',
 		'nuxt-gtag'
 	],

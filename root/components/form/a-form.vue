@@ -32,16 +32,15 @@ const { created = true, saveButtonText, flushChanges, canSave, transformForCompa
     flushChanges?: EventRaiser,
     created?: boolean,
     saveText?: string,
-    saveButtonText?: string,
-    models?: any[]
+    saveButtonText?: string
 }>();
 
-const model = defineModel<any>();
+const model = defineModel<object>();
 
 const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
 const disableButtons = ref(false);
-const modelCopy = ref();
+const modelCopy = ref<object>();
 const { t } = useI18n();
 
 const currentCanSave = computed(() => {
@@ -74,7 +73,9 @@ function submit() {
 }
 
 function discard() {
-    Object.assign(model.value, modelCopy.value);
+    if (model.value) {
+        Object.assign(model.value, modelCopy.value);
+    }
     emit('discard');
 }
 </script>
