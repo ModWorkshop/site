@@ -32,10 +32,6 @@
                         <i-mdi-heart/>
                     </a-button>
 
-                    <a-button v-if="download && downloadType == 'file'" class="text-center" :to="!static ? `mws://install/${mod.id}/${download.id}` : undefined">
-                        <i-mdi-application-cog/> Install With MO2
-                    </a-button>
-
                     <a-button v-if="download && downloadType == 'file'" class="large-button text-center" :to="!static ? downloadUrl : undefined">
                         <i-mdi-download/> {{$t('download')}}
                         <br>
