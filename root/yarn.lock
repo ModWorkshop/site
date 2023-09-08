@@ -6131,7 +6131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.1":
+"minimatch@npm:^9.0.1, minimatch@npm:^9.0.3":
   version: 9.0.3
   resolution: "minimatch@npm:9.0.3"
   dependencies:
@@ -6348,7 +6348,7 @@ __metadata:
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
     unplugin-icons: ^0.16.5
-    unplugin-vue-components: ^0.25.1
+    unplugin-vue-components: ^0.25.2
     vue-easy-lightbox: ^1.13.0
   languageName: unknown
   linkType: soft
@@ -8971,20 +8971,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue-components@npm:^0.25.1":
-  version: 0.25.1
-  resolution: "unplugin-vue-components@npm:0.25.1"
+"unplugin-vue-components@npm:^0.25.2":
+  version: 0.25.2
+  resolution: "unplugin-vue-components@npm:0.25.2"
   dependencies:
-    "@antfu/utils": ^0.7.4
+    "@antfu/utils": ^0.7.5
     "@rollup/pluginutils": ^5.0.2
     chokidar: ^3.5.3
     debug: ^4.3.4
-    fast-glob: ^3.2.12
+    fast-glob: ^3.3.0
     local-pkg: ^0.4.3
-    magic-string: ^0.30.0
-    minimatch: ^9.0.1
+    magic-string: ^0.30.1
+    minimatch: ^9.0.3
     resolve: ^1.22.2
-    unplugin: ^1.3.1
+    unplugin: ^1.4.0
   peerDependencies:
     "@babel/parser": ^7.15.8
     "@nuxt/kit": ^3.2.2
@@ -8994,7 +8994,7 @@ __metadata:
       optional: true
     "@nuxt/kit":
       optional: true
-  checksum: 5630bf21c41ce487ba3eaa6db2b2a10d17e7e95c67b9c99e628a4f19eb436de2af34399b8d1f265cf4d10b4046e18c4addd92c4c453c90176e924dbb8f26502b
+  checksum: d42c436a0e48e254ffe59bce244f347a4f59be1656071ebfaf843b30457e4160a8ee538d7dc98e6f6ac140ee266491d04da72d971f5c8da110d84b2ac9062039
   languageName: node
   linkType: hard
 
@@ -9033,6 +9033,18 @@ __metadata:
     webpack-sources: ^3.2.3
     webpack-virtual-modules: ^0.5.0
   checksum: b075f4c58615168d880077848f504f13a23085bcbab6bf2c98036ce4c0eb7de58d79dd369cf08b65bcfe7f5a181f38ac9dd444ff88c349360f0e2b2678d68e48
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "unplugin@npm:1.4.0"
+  dependencies:
+    acorn: ^8.9.0
+    chokidar: ^3.5.3
+    webpack-sources: ^3.2.3
+    webpack-virtual-modules: ^0.5.0
+  checksum: 49f586b07988397aa130b44710e8017a0472e825d08a218557031f08d694788b3ee61d686e67af153cb39b73132e2616c2f135222b83ff8aa2f7a89027f74600
   languageName: node
   linkType: hard
 

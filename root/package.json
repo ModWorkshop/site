@@ -43,7 +43,7 @@
     "nuxt-delay-hydration": "^1.2.1",
     "typescript": "^5.0.4",
     "unplugin-icons": "^0.16.5",
-    "unplugin-vue-components": "^0.25.1",
+    "unplugin-vue-components": "^0.25.2",
     "vue-easy-lightbox": "^1.13.0"
   },
   "dependencies": {
