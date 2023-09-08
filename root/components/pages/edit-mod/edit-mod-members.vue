@@ -69,7 +69,6 @@ const showToast = useQuickErrorToast();
 const { t } = useI18n();
 const { user } = useStore();
 
-const flushChanges: (() => void)|undefined = inject('flushChanges');
 const mod = defineModel<Mod>({ required: true });
 
 const superUpdate = inject<boolean>('canSuperUpdate');
@@ -131,8 +130,6 @@ async function deleteMember(member: ModMember) {
             await deleteRequest(`mods/${mod.value.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
             mod.value.members = clone(members.value);
-
-            flushChanges?.();
         }
     });
 }
@@ -165,7 +162,6 @@ async function saveMember(error: (e) => void) {
             }
         }
     
-        flushChanges?.();
         showModal.value = false;
     } catch(e) {
         error(e);
@@ -177,7 +173,6 @@ async function transferOwnership() {
         const request = await patchRequest<TransferRequest>(`mods/${mod.value.id}/owner`, transferOwner.value);
         mod.value.transfer_request = request;
         showTransferOwner.value = false;
-        flushChanges?.();
     } catch (error) {
         showToast(error);
     }
@@ -187,7 +182,6 @@ async function cancelTransferRequest() {
     try {
         await patchRequest(`mods/${mod.value.id}/owner/cancel`);
         mod.value.transfer_request = undefined;
-        flushChanges?.();
     } catch (error) {
         showToast(error);
     }

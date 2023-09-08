@@ -1,5 +1,5 @@
 <template>
-    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" @submit="save" :transform-for-compare="excludeFromCompare">
+    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :transform-for-compare="excludeFromCompare" @submit="save">
         <content-block :padding="false" class="max-md:p-4 p-8">
             <a-tabs padding="4" side query>
                 <a-tab name="main" :title="$t('main_tab')">
@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
@@ -58,13 +57,6 @@ watch(() => mod.value.game, () => {
     }
 }, { immediate: true });
 
-/**
- * Only used in cases the changes were saved but AForm doesn't know about it
- */
-function flushChanges() {
-    Object.assign(mod, clone(mod));
-}
-
 provide('flushChanges', flushChanges);
 
 async function save() {
@@ -91,14 +83,23 @@ async function save() {
 /**
  * Excludes things like 'download' that do not need to be tracked so the save float doesn't show up.
  */
+
+ const keys = [
+    'download',
+    'thumbnail',
+    'banner',
+    'images',
+    'files',
+    'links',
+    'transfer_request',
+    'members',
+    'has_download'
+];
+
 function excludeFromCompare(A: Mod, B: Mod) {
-    A.download = undefined;
-    B.download = undefined;
-    A.images = undefined;
-    B.images = undefined;
-    A.files = undefined;
-    B.files = undefined;
-    A.links = undefined;
-    B.links = undefined;
+    for (const key of keys) {
+        delete A[key];
+        delete B[key];
+    }
 }
 </script>

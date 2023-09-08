@@ -60,7 +60,6 @@ const { settings } = useStore();
 const mod = defineModel<Mod>({ required: true });
 const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '');
 const images = ref(clone(mod.value.images));
-const flushChanges: (() => void)|undefined = inject('flushChanges');
 
 function setBanner(banner?: Image) {
     mod.value.banner_id = banner && banner.id || undefined;
@@ -80,7 +79,5 @@ function fileDeleted(image: Image) {
     if (mod.value.banner_id === image.id) {
         setBanner();
     }
-
-    flushChanges?.();
 }
 </script>
