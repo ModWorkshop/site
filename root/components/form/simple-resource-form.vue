@@ -4,7 +4,7 @@
         :created="vm && !!vm.id"
         float-save-gui
         :can-save="canSave"
-        :ignore-changes="ic"
+        :flush-changes="ic"
         @submit="submit"
     >
         <flex column gap="3">
@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<{
     deleteRedirectTo?: string,
     mergeParams?: object,
     canSave?: boolean,
-    ignoreChanges?: EventRaiser,
+    flushChanges?: EventRaiser,
     deleteButton?: boolean,
     game?: Game
 }>(), { deleteButton: true });
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits(['submit']);
 const vm = defineModel<any>();
-const ic = computed(() => props.ignoreChanges ?? useEventRaiser());
+const ic = computed(() => props.flushChanges ?? useEventRaiser());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {

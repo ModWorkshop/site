@@ -61,11 +61,11 @@ watch(() => mod.value.game, () => {
 /**
  * Only used in cases the changes were saved but AForm doesn't know about it
  */
-function ignoreChanges() {
+function flushChanges() {
     Object.assign(mod, clone(mod));
 }
 
-provide('ignoreChanges', ignoreChanges);
+provide('flushChanges', flushChanges);
 
 async function save() {
     try {

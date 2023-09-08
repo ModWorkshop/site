@@ -138,7 +138,7 @@ const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'p
 
 const uploadLink = computed(() => `mods/${mod.value.id}/files`);
 
-const ignoreChanges = inject<() => void>('ignoreChanges');
+const flushChanges = inject<() => void>('flushChanges');
 
 function editFile(file: File) {
     showEditFile.value = true;
@@ -172,7 +172,7 @@ async function saveEditFile(error) {
                 }
             }
     
-            ignoreChanges?.();
+            flushChanges?.();
             showEditFile.value = false;
         }
     } catch (e) {
@@ -182,7 +182,7 @@ async function saveEditFile(error) {
 
 function updateHasDownload() {
     mod.value.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
-    ignoreChanges?.();
+    flushChanges?.();
 }
 
 function editLink(link: Link) {
