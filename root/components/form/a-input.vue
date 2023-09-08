@@ -68,7 +68,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(['update:elementRef', 'update:modelValue']);
 
-const vm = defineModel<any>('modelValue', { local: true });
+const vm = defineModel<any>('modelValue');
 const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
 
 const err = useWatchValidation(vm, elementRef);
