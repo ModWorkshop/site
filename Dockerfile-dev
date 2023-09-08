@@ -6,7 +6,5 @@ EXPOSE 3000
 
 COPY ./root /var/www/html
 
-# install deps and cache image layer
-RUN yarn
-# Run (Ensure previous worker is deleted if exists)
-CMD ["/bin/sh", "-c", "rm -rf /tmp/nitro && yarn dev"]
+# Install deps and Run
+CMD ["/bin/sh", "-c", "yarn && rm -rf /tmp/nitro && yarn dev"]
