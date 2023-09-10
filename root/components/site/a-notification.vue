@@ -44,16 +44,12 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { storeToRefs } from 'pinia';
-import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Comment, Notification } from '~~/types/models';
+import { Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 import { getObjectLink } from '~~/utils/helpers';
-const yesNoModal = useYesNoModal();
 
 const NuxtLink = resolveComponent('NuxtLink');
-
-const { t } = useI18n();
 
 const props = defineProps<{
     notification: Notification,
@@ -61,7 +57,6 @@ const props = defineProps<{
     ok?: () => void
 }>();
 
-const router = useRouter();
 const notif = toRef(props, 'notification');
 const store = useStore();
 const { notificationCount } = storeToRefs(store);
@@ -71,7 +66,23 @@ const fromUser = computed(() => notif.value.from_user);
 const data = computed(() => notif.value.data || {});
 
 const defintion = computed(() => (typeDefintions[notif.value.type] || typeDefintions.default)());
-const to = computed(() => !defintion.value.onClick ? getObjectLink(notif.value.notifiable_type, notifiable.value) : null);
+const to = computed(() => {
+    if (defintion.value.to) {
+        return defintion.value.to;
+    } else {
+        let obj, objType;
+        
+        if (defintion.value.link_object == 'context') {
+            obj = context.value;
+            objType = notif.value.context_type;
+        } else {
+            obj = notifiable.value;
+            objType = notif.value.notifiable_type;
+        }
+
+        return !defintion.value.onClick ? getObjectLink(objType, obj) : null;
+    }
+});
 
 const classes = computed(() => ({
     notification: true,
@@ -82,13 +93,6 @@ const classes = computed(() => ({
     'gap-2': true,
     'cursor-pointer': true
 }));
-
-async function clickComment(comment: Comment) {
-    router.push(await getCommentLink(comment));
-    if (props.ok) {
-        props.ok();
-    }
-}
 
 const typeDefintions = {
     default: () => ({
@@ -123,19 +127,13 @@ const typeDefintions = {
         }
     }),
     sub_mod: () => ({
-        onClick() {
-            clickComment(context.value);
-        },
+        link_object: 'context'
     }),
     sub_thread: () => ({
-        onClick() {
-            clickComment(context.value);
-        },
+        link_object: 'context'
     }),
     sub_comment: () => ({
-        onClick() {
-            clickComment(context.value);
-        },
+        link_object: 'context',
         extra: {
             type: notifiable.value.commentable_type,
             object: notifiable.value.commentable
@@ -150,9 +148,6 @@ const typeDefintions = {
         thumbnail: 'mod'
     }),
     comment_mention: () => ({
-        async onClick() {
-            await clickComment(notifiable.value);
-        },
     }),
 };
 

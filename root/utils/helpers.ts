@@ -161,15 +161,11 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
             return `/g/${object.short_name}`;
         case 'user':
             return `/user/${object.id}`;
+        case 'comment':
+            return `/${object.commentable_type}/${object.commentable_id}/${object.reply_to ? `post/${object.reply_to}` : ''}?comment=${object.id}`;
     }
 
     return undefined;
-}
-
-export async function getCommentLink(comment: Comment) {
-    const type = comment.commentable_type, id = comment.commentable_id;
-    const page = await useGet(`comments/${comment.id}/page`);
-    return `/${type}/${id}/${comment.reply_to ? `post/${comment.reply_to}` : ''}?page=${page}&comment=${comment.id}`;
 }
 
 export function getGameResourceUrl(resource: string, game?: Game) {
