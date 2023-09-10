@@ -313,8 +313,6 @@ class UserController extends Controller
      */
     public function deleteMods(User $user)
     {
-        $this->authorize('manageMods', $user);
-
         foreach ($user->mods as $user) {
             $user->delete();
         }
@@ -327,8 +325,6 @@ class UserController extends Controller
      */
     public function deleteDiscussions(User $user)
     {
-        $this->authorize('manageDiscussions', $user);
-
         foreach ($user->threads as $thread) {
             $thread->delete();
         }
