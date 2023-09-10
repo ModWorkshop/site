@@ -83,6 +83,10 @@ class UserPolicy
         return $user->id === $model->id || $user->hasPermission('manage-mods');
     }
 
+    public function viewDiscussions(?User $user, User $model) {
+        return $user->id === $model->id || $user->hasPermission('manage-discussions');
+    }
+
     /**
      * Determine whether the user can restore the model.
      *

@@ -42,13 +42,19 @@ class CommentService {
         }
 
         $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
-            $query->with('lastReplies');
+            if ($options['include_last_replies'] ?? true) {
+                $query->with('lastReplies');
+            }
             $query->withCount('replies');
             $query->orderByRaw($options['orderBy'] ?? 'pinned DESC, created_at DESC');
-            if (!isset($replies)) {
+            if (!isset($replies) && !($options['include_replies'] ?? false)) {
                 $query->whereNull('reply_to');
             }
-            $query->whereMorphedTo('commentable', $commentable);
+            if ($options['commentable_is_user'] ?? false) {
+                $query->whereUserId($commentable->id);
+            } else {
+                $query->whereMorphedTo('commentable', $commentable);
+            }
         });
 
         return CommentResource::collection($comments);
@@ -173,7 +179,7 @@ class CommentService {
             $uniqueNames = array_slice($mentions, 0, 10);
             $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
         }
-        
+
         if (isset($mentions)) {
             foreach ($mentionedUsers as $mentionedUser) {
                 $mentionedIds[] = $mentionedUser->id;

@@ -166,6 +166,9 @@ Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
 
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 
+Route::middleware('can:viewDiscussions,user')->get('users/{user}/comments', [UserController::class, 'getComments']);
+Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [UserController::class, 'getThreads']);
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
     Route::middleware('throttle:1,1')->get('/user-data', [UserController::class, 'userData']);

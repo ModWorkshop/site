@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\GetThreadRequest;
 use App\Http\Resources\ThreadResource;
 use App\Models\Forum;
 use App\Models\ForumCategory;
@@ -10,6 +11,7 @@ use App\Models\Tag;
 use App\Models\Thread;
 use App\Services\APIService;
 use App\Services\CommentService;
+use App\Services\ThreadService;
 use App\Services\Utils;
 use Arr;
 use Carbon\Carbon;
@@ -30,62 +32,14 @@ class ThreadController extends Controller
     /**
      * Get List of Threads
      */
-    public function index(FilteredRequest $request)
+    public function index(GetThreadRequest $request)
     {
-        $val = $request->val([
-            'category_name' => 'string|max:100|nullable',
-            'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
-            'tags' => 'array|max:10',
-            'tags.*' => 'integer|min:1|nullable',
-            'no_pins' => 'boolean|nullable',
-            'forum_id' => 'integer|min:1|nullable|exists:forums,id',
-        ]);
-
-        if (isset($val['forum_id'])) {
-            $forum = Forum::where('id', $val['forum_id'])->first();
-            if (isset($forum) && $forum->game_id) {
-                APIService::setCurrentGame($forum->game);
-            }
-        }
-
-        return ThreadResource::collection(Thread::queryGet($val, function($query, array $val) use($request) {
-            $user = $request->user();
-
-            if (isset($val['no_pins']) && $val['no_pins']) {
-                $query->orderByDesc('bumped_at');
-            } else {
-                $query->orderByRaw('pinned_at DESC NULLS LAST, bumped_at DESC');
-            }
-
-            if (!isset($user) || !$user->hasPermission('manage-discussions')) {
-                $query->where(function($q) use ($user) {
-                    $q->where('threads.user_id', $user?->id)->orWhereNull('category_id')->orWhereRelation('category', fn($q) => Utils::forumCategoriesFilter($q, true));
-                });
-            }
-
-            $query->where(function($query) use ($val) {
-                if (isset($val['category_id'])) {
-                    $query->where('category_id', $val['category_id']);
-                }
-                if (isset($val['category_name'])) {
-                    $query->orWhereRelation('category', fn($q) => $q->where('name', $val['category_name']));
-                }
-                if (isset($val['forum_id'])) {
-                    $query->where('forum_id', $val['forum_id']);
-                }
-
-                if (!empty($val['tags'])) {
-                    $query->whereHasIn('tagsSpecial', function($q) use ($val) {
-                        $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
-                    });
-                }
-            });
-        }));
+        return ThreadResource::collection(ThreadService::threads($request->val()));
     }
 
     /**
      * Create Thread
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request, Forum $forum)
@@ -136,7 +90,7 @@ class ThreadController extends Controller
 
     /**
      * Edit Thread
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Thread $thread)
@@ -210,7 +164,7 @@ class ThreadController extends Controller
 
     /**
      * Delete Thread
-     * 
+     *
      * @authenticated
      */
     public function destroy(Thread $thread)

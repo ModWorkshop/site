@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailVerifyRequest;
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\GetThreadRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ModResource;
 use App\Http\Resources\ThreadResource;
@@ -13,8 +14,11 @@ use App\Models\Mod;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
+use App\Services\CommentService;
+use App\Services\ThreadService;
 use Auth;
 use DB;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -243,7 +247,7 @@ class UserController extends Controller
 
     /**
      * Delete User
-     * 
+     *
      * @authenticated
      */
     public function destroy(User $user)
@@ -269,7 +273,7 @@ class UserController extends Controller
 
     /**
      * Get User Data
-     * 
+     *
      * Returns GDPR compliant user data we store.
      */
     public function userData()
@@ -334,9 +338,22 @@ class UserController extends Controller
         }
     }
 
+    public function getComments(FormRequest $request, User $user) {
+        return CommentService::index($request, $user, [
+            'commentable_is_user' => true,
+            'include_replies' => true,
+            'include_last_replies' => false,
+            'orderBy' => 'created_at DESC'
+        ]);
+    }
+
+    public function getThreads(GetThreadRequest $request, User $user) {
+        return ThreadResource::collection(ThreadService::threads($request->val(), $user->threads()->getQuery()));
+    }
+
     /**
      * Verifies email via a link sent to the email
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function verifyEmail(EmailVerifyRequest $request)
@@ -349,7 +366,7 @@ class UserController extends Controller
 
     /**
      * Resends email verification to user's email
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function resendEmail(Request $request)
@@ -359,7 +376,7 @@ class UserController extends Controller
 
     /**
      * Cancels pending email if the user changes their mind.
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function cancelPendingEmail()
