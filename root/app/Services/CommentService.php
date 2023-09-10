@@ -127,7 +127,8 @@ class CommentService {
         $comment->mentions()->sync($mentionedIds);
 
         $notifiable = ($isReply ? $replyToComment : $commentable);
-        $subs = $notifiable->subscriptions;
+        // Send subscription notification, avoid sending notification again to who mentioned users
+        $subs = $notifiable->subscriptions()->whereNotIn('user_id', $mentionedIds)->get();
         foreach ($subs as $sub) {
             Notification::send(
                 notifiable: $notifiable,
