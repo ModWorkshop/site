@@ -1,6 +1,7 @@
 <template>
     <content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="3" :class="classes">
         <flex class="comment-body">
+            <div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
             <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
                 <a-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
             </NuxtLink>
@@ -12,8 +13,8 @@
                         <time-ago :time="comment.created_at"/>
                     </NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
-                    <span :title="$t('pinned')">
-                        <i-mdi-pin v-if="comment.pinned" class="transform rotate-45"/>
+                    <span v-if="showPins && comment.pinned" :title="$t('pinned')">
+                        <i-mdi-pin class="transform rotate-45"/>
                     </span>
                 </flex>
                 <a-markdown class="w-full comment-content" :text="content"/>
@@ -28,6 +29,7 @@
                         class="cursor-pointer"
                         size="sm"
                         :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
+                        :to="!user ? '/login' : undefined"
                         @click="subscribe"
                     >
                         <i-mdi-bell-off v-if="comment.subscribed"/>
@@ -40,7 +42,7 @@
                         </a-button>
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
-                            <a-dropdown-item v-if="!isReply && (canPin || canEditAll)" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
+                            <a-dropdown-item v-if="canPin && !comment.reply_to" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canEdit || canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
                             <a-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</a-dropdown-item>
                         </template>
@@ -60,7 +62,6 @@
                     :can-delete-all="canDeleteAll"
                     :current-focus="currentFocus"
                     :get-special-tag="getSpecialTag"
-                    :commentable="commentable"
                     is-reply
                     @edit="() => $emit('edit', reply)"
                     @reply="$emit('reply', comment, reply.user)"
@@ -88,55 +89,44 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Comment, Game } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
-const YesNoModal = useYesNoModal();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     comment: Comment,
+    game?: Game,
     url: string,
-    pageUrl: string,
-    canComment: boolean,
-    canEditAll: boolean,
-    canDeleteAll: boolean,
+    pageUrl?: string,
+    canComment?: boolean,
+    canEditAll?: boolean,
+    canDeleteAll?: boolean,
     canPin?: boolean,
     isReply?: boolean,
-    commentable: { id: number, game?: Game },
-    getSpecialTag: (comment: Comment) => string|undefined,
+    showPins?: boolean,
+    getSpecialTag?: (comment: Comment) => string|undefined,
     currentFocus?: Comment,
     fetchReplies?: boolean
-}>();
+}>(), { showPins: true });
+const emit = defineEmits(['reply', 'delete', 'pin', 'edit']);
 
+const page = useRouteQuery('page', 1, null, true);
+const store = useStore();
+const { user } = store;
+const YesNoModal = useYesNoModal();
 const { t } = useI18n();
-const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
+
 const focusComment = useRouteQuery('comment');
 const { params } = useRoute();
-
 const content = toRef(props.comment, 'content');
-
 const showReportModal = ref(false);
-
 const contentBlockRef = ref();
+const areActionsVisible = ref(false);
 
-onMounted(() => {
-    if ((focusComment.value == props.comment?.id) || params.comment) {
-        const element: HTMLDivElement = contentBlockRef.value.element;
-        console.log(element);
-        
-        if (element) {
-            setTimeout(() => {
-                element.scrollIntoView({ block: 'nearest' });
-                window.scrollBy(0, 16);
-            }, 150);
-        }
-    }
-});
+const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 
-const page = ref(1);
 const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
     immediate: props.fetchReplies,
     lazy: true,
     params: reactive({ page, limit: 20 })
 });
-
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
 
 watch(replies, val => {
@@ -155,17 +145,7 @@ if (props.comment.mentions) {
     });
 }
 
-const emit = defineEmits([
-    'reply',
-    'delete',
-    'pin',
-    'edit'
-]);
-
-const { user, hasPermission } = useStore();
-
-const areActionsVisible = ref(false);
-const canEdit = computed(() => user && (hasPermission('create-discussions', props.commentable.game) && user.id === props.comment.user_id) || props.canEditAll);
+const canEdit = computed(() => user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll);
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
 const classes = computed(() => ({
@@ -177,9 +157,22 @@ const classes = computed(() => ({
 
 const commentPage = computed(() => {
     if (props.comment.reply_to) {
-        return `${props.pageUrl}/post/${props.comment.reply_to}?comment=${props.comment.id}`;
+        return `/${props.comment.commentable_type}/${props.comment.commentable_id}/post/${props.comment.reply_to}?comment=${props.comment.id}`;
     } else {
-        return `${props.pageUrl}/post/${props.comment.id}`;
+        return `/${props.comment.commentable_type}/${props.comment.commentable_id}/post/${props.comment.id}`;
+    }
+});
+
+onMounted(() => {
+    if ((focusComment.value == props.comment?.id) || params.comment) {
+        const element: HTMLDivElement = contentBlockRef.value.element;
+        
+        if (element) {
+            setTimeout(() => {
+                element.scrollIntoView({ block: 'nearest' });
+                window.scrollBy(0, 16);
+            }, 150);
+        }
     }
 });
 
@@ -235,10 +228,10 @@ function openDeleteModal() {
 }
 
 .comment-body .comment-actions {
-    visibility: hidden
+    visibility: hidden;
 }
 
 .comment-body:hover .comment-actions {
-    visibility: visible
+    visibility: visible;
 }
 </style>

@@ -12,7 +12,6 @@
             :url="`mods/${mod.id}/comments`"
             :page-url="`/mod/${mod.id}`"
             :commentable="mod"
-            :can-edit-all="canEditComments"
             :can-delete-all="canDeleteComments"
             :can-pin="canEdit"
             :get-special-tag="commentSpecialTag"
@@ -35,8 +34,7 @@ const { mod } = defineProps<{
 }>();
 
 const canEdit = computed(() => canEditMod(mod));
-const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.game));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game)));
+const canDeleteComments = computed(() => canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game));
 const canComment = computed(() => !mod.user?.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
     if (mod.comments_disabled) {

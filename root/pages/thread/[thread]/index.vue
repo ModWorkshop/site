@@ -26,8 +26,6 @@
             :page-url="`/thread/${thread.id}`"
             resource-name="replies"
             :commentable="thread" 
-            :can-edit-all="canEditComments"
-            :can-delete-all="canEditComments"
             :can-pin="canPin"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
@@ -58,7 +56,6 @@ const commentSpecialTag = function(comment: Comment) {
 };
 
 const threadGame = computed(() => thread.forum?.game);
-const canEditComments = computed(() => hasPermission('manage-discussions', threadGame.value));
 const canPin = computed(() => user ? user.id === thread.user_id : false);
 
 const thumbnail = computed(() => {

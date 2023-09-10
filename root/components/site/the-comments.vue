@@ -3,7 +3,7 @@
         <flex column gap="3">
             <flex class="items-center">
                 <span class="h3">{{$t(resourceName)}}</span>
-                <flex class="ml-auto">
+                <flex v-if="commentable" class="ml-auto">
                     <a-button v-if="viewingComment" :to="pageUrl">
                         <i-mdi-arrow-left/> {{$t(`return_to_${resourceName}`)}}
                     </a-button>
@@ -22,41 +22,25 @@
             </flex>
             <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
             <flex v-if="viewingComment || (comments && comments.data.length)" column gap="2">
-                <a-comment v-if="viewingComment"
+                <a-comment v-for="comment of renderComments" 
+                    :key="comment.id"
                     :url="url"
                     :page-url="pageUrl"
-                    :comment="viewingComment"
-                    :can-comment="canComment"
+                    :comment="comment"
+                    :can-comment="showButtons && canComment"
                     :can-edit-all="canEditAll"
+                    :can-pin="canPin"
                     :can-delete-all="canDeleteAll"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
-                    :commentable="commentable"
-                    fetch-replies
+                    :show-pins="showPins"
+                    :game="game"
+                    :fetch-replies="!!viewingComment"
                     @delete="deleteComment"
                     @reply="replyToComment"
                     @pin="setCommentPinState"
                     @edit="beginEditingComment"
                 />
-                <template v-else-if="comments">
-                    <a-comment v-for="comment of comments.data" 
-                        :key="comment.id"
-                        :url="url"
-                        :page-url="pageUrl"
-                        :comment="comment"
-                        :can-comment="canComment"
-                        :can-edit-all="canEditAll"
-                        :can-pin="canPin"
-                        :can-delete-all="canDeleteAll"
-                        :current-focus="replyingComment || editingComment"
-                        :get-special-tag="getSpecialTag"
-                        :commentable="commentable"
-                        @delete="deleteComment"
-                        @reply="replyToComment"
-                        @pin="setCommentPinState"
-                        @edit="beginEditingComment"
-                    />
-                </template>
             </flex>
             <a-loading v-else-if="!isLoaded"/>
             <h4 v-else class="text-center">{{$t(`no_${resourceName}_found`)}}</h4>
@@ -100,18 +84,21 @@ import { remove } from '@antfu/utils';
 import getCaretCoordinates from 'textarea-caret';
 
 const props = withDefaults(defineProps<{
+    game?: Game,
     lazy?: boolean,
     url: string,
-    pageUrl: string,
+    pageUrl?: string,
     resourceName?: string,
-    commentable: { id: number, subscribed?: boolean, game?: Game },
-    canComment: boolean,
-    getSpecialTag: (comment: Comment) => string|undefined,
-    canEditAll: boolean,
-    canPin: boolean,
+    commentable?: { id: number, subscribed?: boolean, game?: Game },
+    canComment?: boolean,
+    showButtons?: boolean,
+    getSpecialTag?: (comment: Comment) => string|undefined,
+    canEditAll?: boolean,
+    canPin?: boolean,
     cannotCommentReason?: string,
-    canDeleteAll: boolean
-}>(), { resourceName: 'comments', lazy: false });
+    canDeleteAll?: boolean,
+    showPins?: boolean,
+}>(), { resourceName: 'comments', lazy: false, showButtons: true, showPins: true });
 
 const { user } = useStore();
 const router = useRouter();
@@ -119,7 +106,7 @@ const route = useRoute();
 const focusComment = useRouteQuery('comment');
 
 const isLoaded = ref(false);
-const page = useRouteQuery('page', 1);
+const page = useRouteQuery('page', 1, null, true);
 
 const commentContent = ref('');
 const showCommentDialog = ref(false);
@@ -137,6 +124,12 @@ const posting = ref(false);
 
 const showError = useQuickErrorToast();
 
+if (focusComment.value) {
+    const { data: foundPage } = await useFetchData<number>(`comments/${focusComment.value}/page`);
+    
+    page.value = foundPage.value;
+}
+
 const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
     immediate: (!props.lazy || !!focusComment?.value) && !route.params.comment,
     params: reactive({
@@ -148,18 +141,45 @@ const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(pr
 watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
 watch(page, loadComments);
 
+let lastTimeout: NodeJS.Timeout;
+watch([commentContent, mentionRange], async () => {
+    if (lastTimeout) {
+        clearTimeout(lastTimeout);
+    }
+    if (showMentions.value) {
+        const query = commentContent.value.substring(mentionRange.value[0], mentionRange.value[1]);
+        
+        lastTimeout = setTimeout(async () => {
+            users.value = undefined;
+            users.value = await useGetMany<User>('users', { params: { query } });
+            for (const user of users.value.data) {
+                usersCache[user.unique_name] = user;
+            }
+        }, 150);
+    }
+});
+
 const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.params.comment}`, {
     immediate: !!route.params.comment
 });
 
+const renderComments = computed(() => {
+    if (viewingComment.value) {
+        return [viewingComment.value];
+    } else if (comments.value?.data) {
+        return comments.value.data;
+    }
+    return null;
+});
+
 async function subscribe() {
     try {
-        if (props.commentable.subscribed) {
+        if (props.commentable!.subscribed) {
             await deleteRequest(`${props.url}/subscription`);
         } else {
             await postRequest(`${props.url}/subscription`);
         }
-        props.commentable.subscribed = !props.commentable.subscribed;
+        props.commentable!.subscribed = !props.commentable!.subscribed;
     } catch (error) {
         showError(error);
     }
@@ -216,24 +236,6 @@ function onClickMention(e: MouseEvent, user: User) {
 
     commentContent.value = strReplacRange(commentContent.value, range[0]-1, range[1], `@${user.unique_name}`);
 }
-
-let lastTimeout: NodeJS.Timeout;
-watch([commentContent, mentionRange], async () => {
-    if (lastTimeout) {
-        clearTimeout(lastTimeout);
-    }
-    if (showMentions.value) {
-        const query = commentContent.value.substring(mentionRange.value[0], mentionRange.value[1]);
-        
-        lastTimeout = setTimeout(async () => {
-            users.value = undefined;
-            users.value = await useGetMany<User>('users', { params: { query } });
-            for (const user of users.value.data) {
-                usersCache[user.unique_name] = user;
-            }
-        }, 150);
-    }
-});
 
 /**
  * Sets visiblity of the comments float
