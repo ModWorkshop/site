@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{
 	url?: string,

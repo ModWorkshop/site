@@ -53,7 +53,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 const props = defineProps<{
     mod: Mod
 }>();

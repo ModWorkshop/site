@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Supporter } from '~~/types/models';
 

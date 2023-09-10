@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Game, Mod, Tag, User, UserForm } from '~~/types/models';
 import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';

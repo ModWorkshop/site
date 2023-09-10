@@ -96,7 +96,7 @@ import { Comment, Game, User } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import getCaretCoordinates from 'textarea-caret';
 
 const props = withDefaults(defineProps<{

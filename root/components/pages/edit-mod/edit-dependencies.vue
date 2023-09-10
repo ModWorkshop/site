@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { Dependency } from '~~/types/models';
 import clone from 'rfdc/default';
 

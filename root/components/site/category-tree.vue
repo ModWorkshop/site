@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { Category } from '~~/types/models';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{
     categories?: Category[],
