@@ -18,9 +18,15 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
-    public static function mods($query=null)
+    public static function mods(array $val, callable $querySetup=null, $query=null)
     {
-        return QueryBuilder::for($query ?? Mod::class)->with(Mod::LIST_MOD_WITH)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        $mods = QueryBuilder::for($query ?? Mod::class)->with(Mod::LIST_MOD_WITH)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        return $mods->queryGet($val, function($q) {
+            if (isset($querySetup)) {
+                $querySetup($q, $val);
+            }
+            ModService::filters(...);
+        }, true);
     }
 
     /**
