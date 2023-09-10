@@ -22,7 +22,7 @@ class Controller extends BaseController
         throw new Error('You must implement policy for ' . $this::class);
     }
 
-    private function handleGameModel(string $class, string $resource, int $id) {
+    private function handleGameModel(string $class, string $resource, $id) {
         $called = false;
         $class::retrieved(function($model) use (&$called, $resource, $id) {
             if ($model->id == $id) {
