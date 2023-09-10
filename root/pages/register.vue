@@ -102,6 +102,7 @@ async function register() {
         loading.value = true;
         await postRequest('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
         store.attemptLoginUser();
+        reloadToken();
     } catch (e) {
         showErrorToast(e, {
             409: t('register_error_409'),

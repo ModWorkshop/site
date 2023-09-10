@@ -51,6 +51,7 @@ async function login() {
     try {
         await postRequest('/login', user);
         store.attemptLoginUser();
+        reloadToken();
     } catch (e) {
         showErrorToast(e, {
             401: t('login_error_401'),
