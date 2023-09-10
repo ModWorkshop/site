@@ -67,16 +67,17 @@ const props = defineProps<{
     value?: string,
 }>();
 const emit = defineEmits(['update:elementRef', 'update:modelValue']);
-
 const vm = defineModel<any>('modelValue');
 const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
-
+const uniqueId = useGetUniqueId();
 const err = useWatchValidation(vm, elementRef);
 
+const labelId = computed(() => props.id || uniqueId);
+const isCheckbox = computed(() => props.type == 'checkbox');
+const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}));
+
 watch(elementRef, val => emit('update:elementRef', val));
-
 watch(() => props.validity, val => {
-
     if (elementRef.value) {
         if (val) {
             elementRef.value.setCustomValidity(val);
@@ -85,13 +86,6 @@ watch(() => props.validity, val => {
         }
     }
 });
-
-const uniqueId = useGetUniqueId();
-const labelId = computed(() => props.id || uniqueId);
-
-const isCheckbox = computed(() => props.type == 'checkbox');
-
-const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}));
 </script>
 
 <style>
