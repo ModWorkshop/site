@@ -24,15 +24,15 @@ import { storeToRefs } from 'pinia';
 import { useStore } from '~~/store';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 
-const store = useStore();
-const { isBanned, ban, gameBan } = storeToRefs(store);
-
-const { user } = useStore();
-
 const { game, thread } = defineProps<{
     game?: Game;
     thread?: Thread;
 }>();
+
+const store = useStore();
+const { isBanned, ban, gameBan, user } = storeToRefs(store);
+const categoryId = useRouteQuery('category');
+
 
 const forumId = game ? game.forum_id : 1;
 
@@ -45,8 +45,9 @@ const editThread = ref(thread ?? {
     name: '',
     content: '',
     tag_ids: [],
-    user_id: user!.id,
+    user_id: user.value!.id,
     forum_id: forumId,
+    category_id: categoryId.value ? parseInt(categoryId.value) : undefined
 });
 
 const g = game ?? thread?.forum?.game;
