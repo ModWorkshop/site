@@ -224,9 +224,20 @@ class CommentService {
     {
         $limit = $request->query->getInt('limit', 20);
 
+        $order = 'ASC';
+        if (!isset($comment->reply_to) && !$comment->commentable_type == 'mod') {
+            $order = 'DESC';
+        }
+
         $comments = DB::table('comments')
-            ->select(['id', 'commentable_id', 'commentable_type', 'reply_to', DB::raw('row_number() over(ORDER BY pinned DESC, created_at DESC) AS position')])
-            ->orderByRaw('pinned DESC, created_at DESC');
+            ->select([
+                'id',
+                'commentable_id',
+                'commentable_type',
+                'reply_to',
+                DB::raw("row_number() over(ORDER BY pinned DESC, created_at {$order}) AS position")
+            ])
+        ->orderByRaw("pinned DESC, created_at {$order}");
 
         if ($comment->reply_to) {
             $comments->where('reply_to', $comment->reply_to);
