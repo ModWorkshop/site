@@ -18,3 +18,4 @@ yarn-error.log
 .env.testing
 root/15
 root/dump.rdb
+root/public/vendor/telescope

@@ -19,10 +19,8 @@ class UserAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        /**
-         * @var User
-         */
-        if ($request->header('Referer') === env('FRONTEND_URL')) {
+        $url = env('FRONTEND_URL');
+        if ($request->header('Referer') === $url || $request->header('Origin') === $url) {
             $ip = $request->ip();
             $user = $request->user();
 
@@ -32,7 +30,7 @@ class UserAuth
                 'user_id' => $user?->id,
                 'updated_at' => Carbon::now()
             ]);
-    
+
             // Update the last online every 5 minutes or so.
             if (isset($user)) {
                 if (!isset($user->last_online) || $user->last_online->diffInMinutes(Carbon::now()) > 1) {
