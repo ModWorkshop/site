@@ -22,7 +22,7 @@ class UserAuth
         /**
          * @var User
          */
-        if ($request->header('Referer') === env('FRONTEND_URL')) {
+        if (request()->getSchemeAndHttpHost() === env('FRONTEND_URL')) {
             $ip = $request->ip();
             $user = $request->user();
 
@@ -32,7 +32,7 @@ class UserAuth
                 'user_id' => $user?->id,
                 'updated_at' => Carbon::now()
             ]);
-    
+
             // Update the last online every 5 minutes or so.
             if (isset($user)) {
                 if (!isset($user->last_online) || $user->last_online->diffInMinutes(Carbon::now()) > 1) {
