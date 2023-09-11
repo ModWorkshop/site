@@ -19,10 +19,8 @@ class UserAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        /**
-         * @var User
-         */
-        if (request()->getSchemeAndHttpHost() === env('FRONTEND_URL')) {
+        $host = request()->getSchemeAndHttpHost();
+        if ($host === env('FRONTEND_URL') || $host === env('INNER_FRONTEND_URL')) {
             $ip = $request->ip();
             $user = $request->user();
 
