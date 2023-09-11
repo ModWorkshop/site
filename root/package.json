@@ -58,7 +58,7 @@
     "humanize-duration": "^3.29.0",
     "isomorphic-dompurify": "^1.6.0",
     "lodash": "^4.17.21",
-    "luxon": "^3.2.1",
+    "luxon": "^3.4.3",
     "markdown-it": "^13.0.1",
     "markdown-it-html5-media": "^0.7.1",
     "markdown-it-task-lists": "^2.1.1",
