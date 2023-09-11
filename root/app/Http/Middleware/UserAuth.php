@@ -19,8 +19,8 @@ class UserAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        $host = request()->getSchemeAndHttpHost();
-        if ($host === env('FRONTEND_URL') || $host === env('INNER_FRONTEND_URL')) {
+        $url = env('FRONTEND_URL');
+        if ($request->header('Referer') === $url || $request->header('Origin') === $url) {
             $ip = $request->ip();
             $user = $request->user();
 
