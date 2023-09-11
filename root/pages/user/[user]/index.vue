@@ -1,7 +1,7 @@
 <template>
     <template v-if="tempBlockOverride || !isBlocked">
         <a-banner :src="user.banner" url-prefix="users/images">
-            <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
+            <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="3xl" :src="user.avatar"/>
         </a-banner>
         <flex gap="3" column class="details md:flex-row">
             <content-block class="p-4 place-self-start">

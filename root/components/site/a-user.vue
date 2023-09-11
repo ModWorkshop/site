@@ -3,23 +3,25 @@
         v-model:shown="renderProfile"
         :delay="{ show: 500, hide: 100 }"
         placement="bottom-start"
+        class="user"
         :auto-hide="false"
         :disabled="!miniProfile || static"
     >
-        <flex inline class="items-center" :gap="neededGap">
+        <flex inline :column="column" class="items-center" :gap="neededGap">
             <NuxtLink v-if="avatar" class="inline-flex" :to="link">
                 <a-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
             </NuxtLink>
 
-            <flex gap="1" column>
+            <flex gap="1" class="break-words" column>
                 <NuxtLink class="flex gap-1 items-center flex-wrap" :to="link">
-                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}">{{user?.name ?? $t('invalid_user')}}</component>
-                    <a-tag v-if="userTag" small>{{userTag}}</a-tag>
+                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all">{{user?.name ?? $t('invalid_user')}}</component>
+                    <a-tag v-if="tag && userTag" small>{{userTag}}</a-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
                     <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
 
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
+                <small v-if="title">{{ user?.custom_title }}</small>
                 <slot name="details" :user="user">
                     <span v-if="details">{{details}}</span>
                 </slot>
@@ -49,6 +51,8 @@ const props = withDefaults(defineProps<{
     avatarSize?: string,
     showAt?: boolean,
     static?: boolean,
+    column?: boolean,
+    title?: boolean,
     showOnlineState?: boolean,
 }>(), { 
     avatar: true,
@@ -121,5 +125,9 @@ const link = computed(() => {
 <style>
 .user-at {
     color: var(--text-inactive);
+}
+
+.user > div {
+    width: 100%;
 }
 </style>

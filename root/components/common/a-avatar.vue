@@ -71,11 +71,16 @@ const sizeNumber = computed(() => sizes[props.size] ?? 36);
 }
 
 .avatar-xl {
+    width: 100px;
+    height: 100px;
+}
+
+.avatar-2xl {
     width: 150px;
     height: 150px;
 }
 
-.avatar-2xl {
+.avatar-3xl {
     width: 200px;
     height: 200px;
 }
