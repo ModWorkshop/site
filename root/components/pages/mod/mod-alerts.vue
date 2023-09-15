@@ -41,8 +41,7 @@
             <mod-approve v-if="canManage" :mod="mod"/>
         </a-alert>
         <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
-
-        <a-alert v-if="showPublish" color="warning">
+        <a-alert v-else-if="showPublish" color="warning">
             {{$t('publish_mod_desc')}}
             <a-button class="mr-auto" @click="publish"><i-mdi-upload/> {{ $t('publish_mod') }}</a-button>
         </a-alert>
