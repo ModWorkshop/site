@@ -30,7 +30,7 @@
         </flex>
         <template #popper>
             <flex column :class="listClass" style="min-width: 200px">
-                <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
+                <a-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
                 <flex column class="overflow-auto">
                     <a-dropdown-item 
                         v-for="option of filtered"
@@ -94,6 +94,7 @@ const search = ref('');
 const searchDebounced = refThrottled(search, props.url ? 500 : 10);
 const dropdownOpen = ref(false);
 const showInvalid = ref(false);
+const searchElement = ref<HTMLInputElement>();
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: any|any[]): void,
@@ -211,6 +212,16 @@ const selectedOption = computed(() => {
 
 const compClearable = computed(() => {    
     return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+});
+
+watch(dropdownOpen, val => {
+    if (val) {
+        setTimeout(() => {
+            if (searchElement.value) {
+                searchElement.value.focus();
+            }
+        }, 100);
+    }
 });
 
 function defaultBy(option, propName) {
