@@ -369,12 +369,6 @@ a {
     width: 100%;
 }
 
-@media (max-width: 1024px) {
-    #header-search {
-        width: 150px !important;
-    }
-}
-
 @media (max-width:768px) {
     .latest-games.games-grid>a:nth-of-type(n+5) {
         display: none
@@ -409,10 +403,6 @@ a {
     .games-grid {
         grid-template-columns: repeat(6, 1fr)
     }
-}
-
-#header-search {
-    width: 200px;
 }
 
 .mods-grid {
@@ -578,4 +568,15 @@ svg:not(:root).icon, svg:not(:host).icon {
 
 .icon {
     display: inline-block;
+}
+
+kbd {
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
 }
