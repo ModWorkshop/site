@@ -55,10 +55,16 @@ const currentCanSave = computed(() => {
     return !created || canSave || !deepEqual(A, B);
 });
 
-watch(flushChanges?.listen ?? ref(), () => {
+
+watch(model, () => {
     disableButtons.value = false;
     modelCopy.value = clone(model.value);
 }, { immediate: true });
+
+watch(flushChanges?.listen ?? ref(), () => {
+    disableButtons.value = false;
+    modelCopy.value = clone(model.value);
+});
 
 watch(currentCanSave, val => {
     emit('stateChanged', val);
