@@ -52,14 +52,13 @@
 
 <script setup lang="ts">
 import { Mod, Image } from '~~/types/models';
-import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 
 const { settings } = useStore();
 
 const mod = defineModel<Mod>({ required: true });
 const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '');
-const images = ref(clone(mod.value.images));
+const images = ref(mod.value.images);
 
 function setBanner(banner?: Image) {
     mod.value.banner_id = banner && banner.id || undefined;
