@@ -1237,7 +1237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.7.3, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.4.1, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.1, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.5":
+"@nuxt/kit@npm:3.7.3, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.4.1, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.1, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.5, @nuxt/kit@npm:^3.7.1":
   version: 3.7.3
   resolution: "@nuxt/kit@npm:3.7.3"
   dependencies:
@@ -6431,7 +6431,7 @@ __metadata:
     markdown-it-task-lists: ^2.1.1
     nuxt: ^3.7.3
     nuxt-delay-hydration: ^1.2.1
-    nuxt-gtag: ^0.5.7
+    nuxt-gtag: ^1.1.0
     object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
     postcss-custom-properties: ^13.2.0
@@ -6786,14 +6786,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-gtag@npm:^0.5.7":
-  version: 0.5.9
-  resolution: "nuxt-gtag@npm:0.5.9"
+"nuxt-gtag@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "nuxt-gtag@npm:1.1.0"
   dependencies:
-    "@nuxt/kit": ^3.6.5
+    "@nuxt/kit": ^3.7.1
     defu: ^6.1.2
     pathe: ^1.1.1
-  checksum: 5596b49932fdd8c11c992d11065daf2362a1c26240a0cf2c8d2d22aaff9a1af7e4f9eb4baa3c616e6315d282cee9758fd0b7d35e58e8d8262b5dd00fc985cca6
+  checksum: b88472b4760951932886a0c741af68da5dbf847f6d303c9863ff551c07872e70926afb8ff3c11ee93ab17dea3847cfb12bcfaa3d7cdd88d8b638215d5bce256a
   languageName: node
   linkType: hard
 
