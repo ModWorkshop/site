@@ -24,6 +24,12 @@
             </template>
 
             <flex>
+                <span v-if="date" class="inline-block">
+                    <i-mdi-clock/> <time-ago :time="date"/>
+                </span>
+            </flex>
+
+            <flex>
                 <span :title="fullLikes">
                     <i-mdi-heart/> {{likes}}
                 </span>
@@ -32,9 +38,6 @@
                 </span>
                 <span :title="fullViews">
                     <i-mdi-eye/> {{views}}
-                </span>
-                <span v-if="date" class="inline-block ml-auto">
-                    <i-mdi-clock/> <time-ago :time="date"/>
                 </span>
             </flex>
         </div>
@@ -73,7 +76,7 @@ const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame
 
 <style scoped>
 .mod-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     overflow: hidden;
     word-break: break-word;
     max-height: 60%;
@@ -94,7 +97,7 @@ const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame
 }
 
 .mod-details {
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     color: var(--secondary-text-color);
     place-content: space-around;
     display: flex;
