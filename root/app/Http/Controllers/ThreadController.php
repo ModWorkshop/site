@@ -148,6 +148,7 @@ class ThreadController extends Controller
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
+        $val['edited_at'] = Carbon::now();
         $thread->update($val);
         $thread->load('forum.game');
 
