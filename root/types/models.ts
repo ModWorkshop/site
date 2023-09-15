@@ -370,7 +370,8 @@ export interface Thread {
     tags?: Tag[];
     subscribed?: boolean;
     game_id?: number;
-    game?: Game
+    game?: Game;
+    edited_at?: string;
 }
 
 export interface Forum {

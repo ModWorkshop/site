@@ -12,7 +12,7 @@
                         <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
                             <time-ago :time="thread.created_at"/>
                         </NuxtLink>
-                        <span v-if="thread.updated_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
+                        <span v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
                     </flex>
                     <a-markdown class="mt-1" :text="thread.content"/>
                 </flex>
