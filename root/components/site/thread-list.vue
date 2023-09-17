@@ -173,3 +173,9 @@ watch(selectedForum, async () => {
     await refreshTags();
 });
 </script>
+
+<style scoped>
+.threads {
+    word-break: break-word;
+}
+</style>
