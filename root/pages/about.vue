@@ -1,5 +1,5 @@
 <template>
-    <flex class="items-center text-2xl" style="gap: 4rem; max-width: 1200px;" column>
+    <flex class="items-center text-xl" style="gap: 4rem; max-width: 1000px;" column>
         <a-img is-asset height="256" src="mws_logo_white.svg"/>
         <flex column>
             <b class="text-4xl mx-auto">{{ $t('about_mws') }}</b>
