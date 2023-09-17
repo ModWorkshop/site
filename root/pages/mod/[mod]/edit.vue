@@ -1,5 +1,5 @@
 <template>
-    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :transform-for-compare="excludeFromCompare" @submit="save">
+    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :exclude-from-compare="excludeFromCompare" @submit="save">
         <content-block :padding="false" class="max-md:p-4 p-8">
             <a-tabs padding="4" side query>
                 <a-tab name="main" :title="$t('main_tab')">
@@ -29,31 +29,33 @@
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
+import clone from 'rfdc/default';
 
 const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
-const flushChanges = useEventRaiser();
+const flushChanges = createEventHook();
 
 definePageMeta({
     middleware: 'users-only',
 });
 
+const initialMod = defineModel<Mod>('mod', { required: true });
+const mod = reactive(clone(initialMod.value));
+
 const router = useRouter();
 
-const mod = defineModel<Mod>('mod', { required: true });
+mod.send_for_approval ??= false;
 
-mod.value.send_for_approval ??= false;
-
-if (!canEditMod(mod.value)) {
+if (!canEditMod(mod)) {
     useNoPermsPage();
 }
 
-provide('canSuperUpdate', canSuperUpdate(mod.value));
+provide('canSuperUpdate', canSuperUpdate(mod));
 provide('mod', mod);
 
-watch(() => mod.value.game, () => {
-    if (mod.value.game) {
-        setGame(mod.value.game);
+watch(() => mod.game, () => {
+    if (mod.game) {
+        setGame(mod.game);
     }
 }, { immediate: true });
 
@@ -62,17 +64,17 @@ provide('flushChanges', flushChanges);
 async function save() {
     try {
         let fetchedMod;
-        if (mod.value.id == -1) {
-            fetchedMod = await postRequest<Mod>('mods', mod.value);
+        if (mod.id == -1) {
+            fetchedMod = await postRequest<Mod>('mods', mod);
             if (fetchedMod) {
-                router.replace({ path: `/mod/${mod.value.id}/edit` });
+                router.replace({ path: `/mod/${mod.id}/edit` });
             }
         } else {
-            fetchedMod = await patchRequest<Mod>(`mods/${mod.value.id}`, mod.value);
+            fetchedMod = await patchRequest<Mod>(`mods/${mod.id}`, mod);
         }
         if (fetchedMod) {
-            flushChanges.execute();
-            mod.value = fetchedMod;
+            flushChanges.trigger(mod);
+            initialMod.value = mod;
         }
     } catch (error) {
         showErrorToast(error);
@@ -83,8 +85,7 @@ async function save() {
 /**
  * Excludes things like 'download' that do not need to be tracked so the save float doesn't show up.
  */
-
- const keys = [
+ const excludeFromCompare = [
     'download',
     'thumbnail',
     'banner',
@@ -95,11 +96,4 @@ async function save() {
     'members',
     'has_download'
 ];
-
-function excludeFromCompare(A: Mod, B: Mod) {
-    for (const key of keys) {
-        delete A[key];
-        delete B[key];
-    }
-}
 </script>

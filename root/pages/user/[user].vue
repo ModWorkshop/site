@@ -49,7 +49,7 @@
                 </template>
             </VDropdown>
         </flex>
-        <NuxtPage :user="user"/>
+        <NuxtPage :user="user" :trigger-refresh="triggerRefresh"/>
     </page-block>
 </template>
 <script setup lang="ts">
@@ -59,7 +59,7 @@ import { User } from '~~/types/models';
 import { useStore } from '~~/store';
 
 const yesNoModal = useYesNoModal();
-const triggerRefresh = useEventRaiser();
+const triggerRefresh = createEventHook<void>();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
@@ -147,7 +147,7 @@ function showDeleteAllModsModal() {
         desc: 'This will delete all mods the user uploaded to the site!',
         async yes() {
             await deleteRequest(`users/${user.value.id}/mods`);
-            triggerRefresh.execute();
+            triggerRefresh.trigger();
         }
     });
 }

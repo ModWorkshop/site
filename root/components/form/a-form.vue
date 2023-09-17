@@ -24,12 +24,14 @@
 import clone from 'rfdc/default';
 import { deepEqual } from 'fast-equals';
 import { useI18n } from 'vue-i18n';
+import { EventHook } from '@vueuse/core';
 
-const { created = true, saveButtonText, flushChanges, canSave, transformForCompare } = defineProps<{
-    transformForCompare?: (a, b) => void,
+const { created = true, saveButtonText, flushChanges, canSave, preCompare, excludeFromCompare } = defineProps<{
+    preCompare?: (v) => void,
+    excludeFromCompare?: string[],
     floatSaveGui?: boolean,
     canSave?: boolean,
-    flushChanges?: EventRaiser,
+    flushChanges?: EventHook<object>,
     created?: boolean,
     saveText?: string,
     saveButtonText?: string
@@ -45,26 +47,40 @@ const { t } = useI18n();
 
 const currentCanSave = computed(() => {
     let A = model.value, B = modelCopy.value;
-    if (transformForCompare) {
+    if (preCompare || excludeFromCompare) {
         A = clone(A);
         B = clone(B);
-
-        transformForCompare(A, B);
+    }
+    
+    if (preCompare) {
+        preCompare(A);
+        preCompare(B);
+    }
+    if (excludeFromCompare) {
+        if (A) {
+            excludeFromCompare.forEach(key => delete A![key]);
+        }
+        if (B) {
+            excludeFromCompare.forEach(key => delete B![key]);
+        }
     }
 
     return !created || canSave || !deepEqual(A, B);
 });
 
+disableButtons.value = false;
+modelCopy.value = clone(model.value);
 
-watch(model, () => {
-    disableButtons.value = false;
-    modelCopy.value = clone(model.value);
+watch(() => flushChanges, () => {
+    flushChanges?.on(newModel => {
+        disableButtons.value = false;
+        model.value = newModel;
+        modelCopy.value = clone(newModel);
+        console.log('..');
+        
+    });
 }, { immediate: true });
 
-watch(flushChanges?.listen ?? ref(), () => {
-    disableButtons.value = false;
-    modelCopy.value = clone(model.value);
-});
 
 watch(currentCanSave, val => {
     emit('stateChanged', val);

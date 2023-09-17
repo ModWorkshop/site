@@ -17,7 +17,6 @@ declare module 'vue' {
     IMdiAlert: typeof import('~icons/mdi/alert')['default']
     IMdiAlertBox: typeof import('~icons/mdi/alert-box')['default']
     IMdiAlertCircle: typeof import('~icons/mdi/alert-circle')['default']
-    IMdiApplicationCog: typeof import('~icons/mdi/application-cog')['default']
     IMdiArrowLeft: typeof import('~icons/mdi/arrow-left')['default']
     IMdiBell: typeof import('~icons/mdi/bell')['default']
     IMdiBellOff: typeof import('~icons/mdi/bell-off')['default']

@@ -83,10 +83,10 @@
     </flex>
 </template>
 <script setup lang="ts">
-import { EventRaiser } from '~~/composables/useEventRaiser';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
+import { EventHook } from '@vueuse/core';
 
 const searchBus = useEventBus<string>('search');
 
@@ -96,7 +96,7 @@ const props = withDefaults(defineProps<{
     game?: Game,
     userId?: number,
     collab?: boolean,
-    triggerRefresh?: EventRaiser,
+    triggerRefresh?: EventHook<void>,
     sideFilters?: boolean,
     limit?: number,
     query: boolean,
@@ -153,7 +153,9 @@ const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => prop
 });
 
 if (props.triggerRefresh) {
-    watch(props.triggerRefresh.listen, refresh);
+    props.triggerRefresh.on(() => {
+        refresh();
+    });
 }
 
 let { start: planLoad } = useTimeoutFn(async () => {

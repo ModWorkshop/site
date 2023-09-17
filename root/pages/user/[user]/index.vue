@@ -81,13 +81,13 @@ import { DateTime } from 'luxon';
 import { User } from '~~/types/models';
 import { useStore } from '~~/store';
 import { date, getTimeAgo } from '~~/utils/helpers';
+import { EventHook } from '@vueuse/core';
 
-const triggerRefresh = useEventRaiser();
 const { public: config } = useRuntimeConfig();
-
 
 const { user } = defineProps<{
     user: User;
+    triggerRefresh: EventHook
 }>();
 
 const thumbnail = computed(() => {

@@ -4,7 +4,7 @@
         :created="vm && !!vm.id"
         float-save-gui
         :can-save="canSave"
-        :flush-changes="ic"
+        :flush-changes="fc"
         @submit="submit"
     >
         <flex column gap="3">
@@ -21,9 +21,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
 import { Game } from '../../types/models';
+import { EventHook } from '@vueuse/core';
 
 const router = useRouter();
 const yesNoModal = useYesNoModal();
@@ -38,15 +38,14 @@ const props = withDefaults(defineProps<{
     deleteRedirectTo?: string,
     mergeParams?: object,
     canSave?: boolean,
-    flushChanges?: EventRaiser,
+    flushChanges?: EventHook,
     deleteButton?: boolean,
-    game?: Game
+    game?: Game,
 }>(), { deleteButton: true });
-
 
 const emit = defineEmits(['submit']);
 const vm = defineModel<any>();
-const ic = computed(() => props.flushChanges ?? useEventRaiser());
+const fc = computed(() => props.flushChanges ?? createEventHook());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {
@@ -67,8 +66,7 @@ async function submit() {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }
         } else {
-            vm.value = await patchRequest(`${props.url}/${vm.value.id}`, params);
-            ic.value.execute();
+            fc.value.trigger(await patchRequest(`${props.url}/${vm.value.id}`, params));
         }
 
         emit('submit');

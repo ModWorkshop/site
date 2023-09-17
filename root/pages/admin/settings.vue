@@ -30,15 +30,14 @@ import { Settings } from '~~/types/models';
 useNeedsPermission('admin');
 
 const showError = useQuickErrorToast();
-
-const flushChanges = useEventRaiser();
+const flushChanges = createEventHook();
 
 const { data: settings } = await useFetchData<Settings>('settings');
 
 async function submit() {
     try {
         await patchRequest('settings', settings.value!);
-        flushChanges.execute();
+        flushChanges.trigger(settings);
     } catch (error) {
         showError(error);
     }
