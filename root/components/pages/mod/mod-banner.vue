@@ -27,18 +27,18 @@
                         </span>
                     </span>
                 </flex>
-                <flex class="md:ml-auto" style="box-shadow: initial; text-shadow: initial;">
+                <flex class="md:ml-auto max-md:content-stretch" style="box-shadow: initial; text-shadow: initial;">
                     <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" :to="!user ? '/login' : undefined" @click="toggleLiked">
                         <i-mdi-heart/>
                     </a-button>
 
-                    <a-button v-if="download && downloadType == 'file'" class="large-button text-center" :to="!static ? downloadUrl : undefined">
+                    <a-button v-if="download && downloadType == 'file'" class="large-button flex-1" :to="!static ? downloadUrl : undefined">
                         <i-mdi-download/> {{$t('download')}}
                         <br>
                         <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
                     </a-button>
                     <VDropdown v-else-if="download && downloadType == 'link'">
-                        <a-button class="large-button w-full text-center" @click="!static && registerDownload(mod)">
+                        <a-button class="large-button flex-1" @click="!static && registerDownload(mod)">
                             <i-mdi-download/> {{$t('show_download_link')}}
                         </a-button>
                         <template #popper>
@@ -49,8 +49,8 @@
                             </div>
                         </template>
                     </VDropdown>
-                    <a-button v-else-if="(mod.files_count || (mod.files && mod.files.data.length)) || (mod.links && mod.links.data.length)" class="large-button" @click="switchToFiles">{{$t('downloads')}}</a-button>
-                    <a-button v-else class="large-button" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
+                    <a-button v-else-if="(mod.files_count || (mod.files && mod.files.data.length)) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</a-button>
+                    <a-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
                 </flex>
             </flex>
         </flex>
@@ -101,6 +101,7 @@ function switchToFiles() {
 .large-button {
     font-size: 1.25rem;
     padding: 0.5rem 1.5rem !important;
+    text-align: center;
 }
 </style>
 <style scoped>

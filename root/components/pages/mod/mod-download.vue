@@ -9,7 +9,7 @@
             <h3 v-if="file.name">{{file.name}}</h3>
             <h3 v-else>{{$t(`file_type_${type}`)}}</h3>
             <span v-if="file.version" :title="$t('version')">
-                <a-mdi-tag/> {{file.version}}
+                <i-mdi-tag/> {{file.version}}
             </span>
             <a-markdown v-if="file.desc" class="mt-3" :text="file.desc"/>
             <flex class="items-center mt-auto">
@@ -27,19 +27,19 @@
             </flex>
         </flex>
         <div class="my-auto mx-auto">
-            <a-button v-if="type == 'file' && (file as File).size" class="text-xl text-center" :to="`${modUrl}/download/${file.id}`">
+            <a-button v-if="type == 'file' && (file as File).size" class="large-button" :to="`${modUrl}/download/${file.id}`">
                 <i-mdi-download/> {{$t('download')}}
                 <small class="mt-2 text-center block">{{(file as File).type}} - {{friendlySize((file as File).size)}}</small>
             </a-button>
             <VDropdown v-else>
-                <a-button class="text-xl text-center" @click="registerDownload(mod)">
+                <a-button class="large-button" @click="registerDownload(mod)">
                     <i-mdi-download/> {{$t('show_download_link')}}
                 </a-button>
                 <template #popper>
                     <div class="word-break p-2" style="width: 250px;">
                         {{$t('show_download_link_warn')}}
                         <br>
-                        <a class="text-lg font-bold" :href="(file as any).url">{{(file as any).url}}</a>
+                        <a class="font-bold" :href="(file as any).url">{{(file as any).url}}</a>
                     </div>
                 </template>
             </VDropdown>
