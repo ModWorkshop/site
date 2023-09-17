@@ -1,6 +1,6 @@
 <template>
     <flex column gap="3">
-        <div class="text-3xl">{{thread.name}}</div>
+        <div class="text-3xl break-words overflow-hidden">{{thread.name}}</div>
         <content-block :padding="4">
             <flex>
                 <NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
