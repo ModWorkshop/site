@@ -83,10 +83,6 @@ function commentSpecialTag(comment: Comment) {
 }
 
 @media (max-width:1280px) {
-    .mod-banner {
-        height: 150px !important;
-    }
-
     .mod-info-holder {
         order: -1;
     }
