@@ -1,6 +1,6 @@
 <template>
     <flex grow class="overflow-hidden self-start" style="min-height: 365px;">
-        <a-tabs class="content-block p-2 flex-grow" query lazy>
+        <a-tabs class="content-block p-2 flex-grow" query lazy scroll-on-overflow>
             <a-tab name="description" :title="$t('description')">
                 <a-markdown :text="mod.desc"/>
             </a-tab>

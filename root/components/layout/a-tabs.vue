@@ -6,11 +6,17 @@
             </a-link-button>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
-        <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!props.side" :gap="gap ?? (side ? 8 : 2)">
+        <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!side" :gap="gap ?? (side ? 8 : 2)">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
-                <flex v-show="!side || menuOpen" wrap class="nav-menu" :style="{flex: side ? 1 : undefined}" :column="side" role="tablist">
-                    <flex wrap grow :column="side">
+                <flex 
+                    v-show="!side || menuOpen"
+                    :wrap="!scrollOnOverflow"
+                    :class="{'nav-menu': true, 'pb-3': scrollOnOverflow, 'overflow-x-auto': scrollOnOverflow}"
+                    :style="{flex: side ? 1 : undefined}"
+                    :column="side" role="tablist"
+                >
+                    <flex :wrap="!scrollOnOverflow" grow :column="side">
                         <a-tab-link 
                             v-for="tab of tabs"
                             ref="tabLinks"
@@ -37,16 +43,14 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const props = defineProps({
-    side: Boolean,
-    query: Boolean,
-    gap: [String, Number],
-    lazy: Boolean,
-    padding: {
-        default: 2,
-        type: [String, Number]
-    }
-});
+const { padding = 2, side, query, lazy } = defineProps<{
+    side?: boolean,
+    query?: boolean,
+    gap?: string|number,
+    lazy?: boolean,
+    scrollOnOverflow?: boolean,
+    padding?: string|number
+}>();
 
 const slots = useSlots();
 const tabLinks = ref();
@@ -88,7 +92,7 @@ onMounted(() => {
 onBeforeUnmount(() => observer?.disconnect());
 
 const tabState: { focus: number, current?: string } = reactive({
-    current: props.query ? route.query.tab as string : undefined, 
+    current: query ? route.query.tab as string : undefined, 
     focus: 0
 });
 
@@ -101,8 +105,8 @@ if (tabs.value.length > 0) {
 }
 
 provide('tabState', tabState);
-provide('side', props.side);
-provide('lazy', props.lazy);
+provide('side', side);
+provide('lazy', lazy);
 
 function arrowKeysMove(left: boolean) {
     let focus = tabState.focus;
@@ -124,7 +128,7 @@ function arrowKeysMove(left: boolean) {
 }
 
 function setCurrentTab(name: string, skipSetQuery = false) {
-    if (props.query && !skipSetQuery) {
+    if (query && !skipSetQuery) {
         //We only want to set the query
         queryTab.value = name;
     }
@@ -134,7 +138,7 @@ function setCurrentTab(name: string, skipSetQuery = false) {
     menuOpen.value = false;
 }
 
-if (props.query) {
+if (query) {
     watch(queryTab, val => {
         setCurrentTab(val, true);
     });
