@@ -6373,7 +6373,7 @@ __metadata:
     markdown-it-task-lists: ^2.1.1
     nuxt: ^3.7.3
     nuxt-delay-hydration: ^1.2.1
-    nuxt-gtag: ^1.1.0
+    nuxt-gtag: ^1.1.1
     object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
     postcss-custom-properties: ^13.2.0
@@ -6728,14 +6728,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-gtag@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "nuxt-gtag@npm:1.1.0"
+"nuxt-gtag@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "nuxt-gtag@npm:1.1.1"
   dependencies:
     "@nuxt/kit": ^3.7.1
     defu: ^6.1.2
     pathe: ^1.1.1
-  checksum: b88472b4760951932886a0c741af68da5dbf847f6d303c9863ff551c07872e70926afb8ff3c11ee93ab17dea3847cfb12bcfaa3d7cdd88d8b638215d5bce256a
+  checksum: a8173216da0de95b3e708aa7795c39cc1dcbd34c71105e6ed27ca5645f8d3ffc007b049620b84e08e92a688e48acfde2bf56e0d326c8c0e06124092c664a0834
   languageName: node
   linkType: hard
 
