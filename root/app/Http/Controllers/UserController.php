@@ -243,12 +243,12 @@ class UserController extends Controller
 
     /**
      * Delete User
-     * 
+     *
      * @authenticated
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        // $user->delete();
     }
 
     /**
@@ -269,7 +269,7 @@ class UserController extends Controller
 
     /**
      * Get User Data
-     * 
+     *
      * Returns GDPR compliant user data we store.
      */
     public function userData()
@@ -340,7 +340,7 @@ class UserController extends Controller
 
     /**
      * Verifies email via a link sent to the email
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function verifyEmail(EmailVerifyRequest $request)
@@ -353,7 +353,7 @@ class UserController extends Controller
 
     /**
      * Resends email verification to user's email
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function resendEmail(Request $request)
@@ -363,7 +363,7 @@ class UserController extends Controller
 
     /**
      * Cancels pending email if the user changes their mind.
-     * 
+     *
      * @hideFromApiDocumentation
      */
     public function cancelPendingEmail()
