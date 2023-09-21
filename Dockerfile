@@ -37,6 +37,7 @@ extension=swoole
 post_max_size=1G
 upload_max_filesize=1G
 memory_limit=500M
+max_execution_time=300
 disable_functions=phpinfo
 EOF
 
