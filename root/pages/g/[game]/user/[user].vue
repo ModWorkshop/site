@@ -30,7 +30,7 @@
 import { Game, Role, User } from '~/types/models';
 import { useStore } from '~~/store';
 
-definePageMeta({ alias: '/g/:game/user/:user' });
+definePageMeta({ alias: '/game/:game/user/:user' });
 
 const { user: me, hasPermission } = useStore();
 const showError = useQuickErrorToast();

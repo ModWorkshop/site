@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { Game } from '~~/types/models';
 
-definePageMeta({ alias: '/g/:game/mods' });
+definePageMeta({ alias: '/game/:game/mods' });
 
 const { game } = defineProps<{
     game: Game

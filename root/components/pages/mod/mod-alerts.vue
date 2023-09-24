@@ -13,7 +13,7 @@
                     <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
                 </template>
                 <template #forum>
-                    <NuxtLink :to="`/game/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
+                    <NuxtLink :to="`/g/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
                 </template>
             </i18n-t>
         </a-alert>

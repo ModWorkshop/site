@@ -25,7 +25,7 @@ import { Game } from '~~/types/models';
 const store = useStore();
 const { user } = store;
 
-definePageMeta({ alias: '/g/:game' });
+definePageMeta({ alias: '/game/:game' });
 
 const { game } = defineProps<{
     game: Game

@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { Game } from '~/types/models';
 
-definePageMeta({ alias: '/g/:game/forum/post' });
+definePageMeta({ alias: '/game/:game/forum/post' });
 
 definePageMeta({
     middleware: 'unbanned-users-only'

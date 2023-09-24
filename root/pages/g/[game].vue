@@ -12,7 +12,7 @@ const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 
-definePageMeta({ alias: '/g/:game' });
+definePageMeta({ alias: '/game/:game' });
 
 const { data: game } = await useResource<Game>('game', 'games');
 

@@ -56,7 +56,7 @@ export default defineNuxtConfig({
 			const thread = routes.find(page => page.path == '/thread/:thread()');
 			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' });
 
-			const game = routes.find(page => page.path == '/game/:game()');
+			const game = routes.find(page => page.path == '/g/:game()');
 
 			if (game && game.children) {
 				const gameAdmin = game.children.find(page => page.path == 'admin');

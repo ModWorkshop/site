@@ -36,7 +36,7 @@ import { useStore } from '~~/store';
 import { Game } from '~~/types/models';
 import { adminGamePagePerms } from '~~/utils/helpers';
 
-definePageMeta({ alias: '/g/:game/admin' });
+definePageMeta({ alias: '/game/:game/admin' });
 
 const { game } = defineProps<{
     game: Game
