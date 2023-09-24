@@ -7,7 +7,7 @@
                 <span v-else-if="desc">{{desc}}</span>
                 <slot/>
                 <flex gap="1">
-                    <a-button type="submit">{{saveText ?? $t('submit')}}</a-button>
+                    <a-button :disabled="!canSubmit" type="submit">{{saveText ?? $t('submit')}}</a-button>
                     <a-button color="danger" @click="onCancel()">{{cancelText ?? $t('cancel')}}</a-button>
                 </flex>
             </flex>
@@ -16,18 +16,18 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+const { canSubmit = true } = defineProps<{
     title?: string;
-    desc?: string,
-    descType?: string,
-    size?: 'lg' | 'md' | 'sm',
-    modelValue: boolean,
-    saveText?: string
-    cancelText?: string
+    desc?: string;
+    descType?: string;
+    size?: 'lg' | 'md' | 'sm';
+    saveText?: string;
+    cancelText?: string;
+    canSubmit?: boolean;
 }>();
 
-const emit = defineEmits(['submit', 'cancel', 'update:modelValue']);
-const vModel = useVModel(props, 'modelValue', emit);
+const emit = defineEmits(['submit', 'cancel']);
+const vModel = defineModel<boolean>({ required: true });
 const showToast = useQuickErrorToast();
 
 function onSubmit() {

@@ -1,5 +1,7 @@
 <template>
     <flex gap="2" column>
+        <a-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
+
         <img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
             <template #label="{ src }">
                 <a-avatar size="xl" :src="src"/>
@@ -33,6 +35,8 @@ import { useStore } from '../../store/index';
 defineProps<{
     user: UserForm
 }>();
+
+definePageMeta({ alias: ['/user-settings', '/user/{user}/edit'] });
 
 const { t } = useI18n();
 const { settings } = useStore();
