@@ -53,8 +53,14 @@ class LoginController extends Controller
         $val = $request->validate([
             'email' => 'required|email', //blabla@email.com
             'password' => ['required', 'max:128'],
-            'remember' => 'boolean'
+            'remember' => 'boolean',
         ]);
+
+        if (app()->isProduction()) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+            ]);
+        }
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
             $request->session()->regenerate();
@@ -99,6 +105,12 @@ class LoginController extends Controller
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
+
+        if (app()->isProduction()) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+            ]);
+        }
 
         if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
             abort(409);
