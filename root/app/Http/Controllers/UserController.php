@@ -260,7 +260,7 @@ class UserController extends Controller
         ]);
 
         if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
-            abort(406, 'The unique name must match and you must agree to deletion!');
+            abort(406, 'The unique name must match and you must agree to the deletion!');
         }
 
         $user->delete();
