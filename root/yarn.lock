@@ -1230,7 +1230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.7.3, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.1, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.5, @nuxt/kit@npm:^3.7.0, @nuxt/kit@npm:^3.7.1":
+"@nuxt/kit@npm:3.7.3, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.6.5, @nuxt/kit@npm:^3.7.0, @nuxt/kit@npm:^3.7.1, @nuxt/kit@npm:^3.7.3":
   version: 3.7.3
   resolution: "@nuxt/kit@npm:3.7.3"
   dependencies:
@@ -1796,22 +1796,6 @@ __metadata:
   version: 7.0.12
   resolution: "@types/json-schema@npm:7.0.12"
   checksum: 00239e97234eeb5ceefb0c1875d98ade6e922bfec39dd365ec6bd360b5c2f825e612ac4f6e5f1d13601b8b30f378f15e6faa805a3a732f4a1bbe61915163d293
-  languageName: node
-  linkType: hard
-
-"@types/lodash.template@npm:^4.5.1":
-  version: 4.5.1
-  resolution: "@types/lodash.template@npm:4.5.1"
-  dependencies:
-    "@types/lodash": "*"
-  checksum: b2f5726946ca23c366b39608cc6f4ee90cfefc27a2c8b10856f02dc9748b27a565196b8958ad30de90a7ffa4cb449db24cf7e474dc6322cccfce1fabe996cb0f
-  languageName: node
-  linkType: hard
-
-"@types/lodash@npm:*":
-  version: 4.14.198
-  resolution: "@types/lodash@npm:4.14.198"
-  checksum: b290e4480707151bcec738bca40527915defe52a0d8e26c83685c674163a265e1a88cb2ee56b0fb587a89819d0cd5df86ada836aec3e9c2e4bf516e7d348d524
   languageName: node
   linkType: hard
 
@@ -5795,10 +5779,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash._reinterpolate@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "lodash._reinterpolate@npm:3.0.0"
-  checksum: 06d2d5f33169604fa5e9f27b6067ed9fb85d51a84202a656901e5ffb63b426781a601508466f039c720af111b0c685d12f1a5c14ff8df5d5f27e491e562784b2
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
   languageName: node
   linkType: hard
 
@@ -5841,25 +5825,6 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.pick@npm:4.4.0"
   checksum: 2c36cab7da6b999a20bd3373b40e31a3ef81fa264f34a6979c852c5bc8ac039379686b27380f0cb8e3781610844fafec6949c6fbbebc059c98f8fa8570e3675f
-  languageName: node
-  linkType: hard
-
-"lodash.template@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.template@npm:4.5.0"
-  dependencies:
-    lodash._reinterpolate: ^3.0.0
-    lodash.templatesettings: ^4.0.0
-  checksum: ca64e5f07b6646c9d3dbc0fe3aaa995cb227c4918abd1cef7a9024cd9c924f2fa389a0ec4296aa6634667e029bc81d4bbdb8efbfde11df76d66085e6c529b450
-  languageName: node
-  linkType: hard
-
-"lodash.templatesettings@npm:^4.0.0":
-  version: 4.2.0
-  resolution: "lodash.templatesettings@npm:4.2.0"
-  dependencies:
-    lodash._reinterpolate: ^3.0.0
-  checksum: 863e025478b092997e11a04e9d9e735875eeff1ffcd6c61742aa8272e3c2cddc89ce795eb9726c4e74cef5991f722897ff37df7738a125895f23fc7d12a7bb59
   languageName: node
   linkType: hard
 
@@ -6379,7 +6344,7 @@ __metadata:
     markdown-it-html5-media: ^0.7.1
     markdown-it-task-lists: ^2.1.1
     nuxt: ^3.7.3
-    nuxt-delay-hydration: ^1.2.1
+    nuxt-delay-hydration: ^1.2.2
     nuxt-gtag: ^1.1.1
     object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
@@ -6722,16 +6687,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-delay-hydration@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "nuxt-delay-hydration@npm:1.2.1"
+"nuxt-delay-hydration@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "nuxt-delay-hydration@npm:1.2.2"
   dependencies:
-    "@nuxt/kit": ^3.5.1
-    "@types/lodash.template": ^4.5.1
-    lodash.template: ^4.5.0
+    "@nuxt/kit": ^3.7.3
+    lodash-es: ^4.17.21
     packrup: ^0.1.0
-    radix3: ^1.0.1
-  checksum: 89595a2fb427ac1f532330a37307d2f960350f8aba79c6a04d8d0657405da46454bc8da282ff80bd02bfca7661e081b2605e40441a3b036ca837722004ebe809
+    radix3: ^1.1.0
+  checksum: 4ab7d7841887828ed336df193b6d7ed8040f8c2e6a113d05291f1174449a0b08ceb52f4474c49e82e4b9b27a7cfa58be2c50c3061e1e65d667c510f17a563e89
   languageName: node
   linkType: hard
 
