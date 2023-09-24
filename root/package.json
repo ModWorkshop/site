@@ -55,7 +55,7 @@
     "fast-equals": "^5.0.1",
     "filesize": "^10.0.6",
     "highlight.js": "^11.7.0",
-    "humanize-duration": "^3.29.0",
+    "humanize-duration": "^3.30.0",
     "isomorphic-dompurify": "^1.6.0",
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
