@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Str;
+use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 
 /**
  * @group Users
@@ -250,9 +251,19 @@ class UserController extends Controller
      *
      * @authenticated
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        // $user->delete();
+        $val = $request->validate([
+            'unique_name' => 'alpha_dash|required|min:3|max:50',
+            'are_you_sure' => 'required|boolean',
+            'cf-turnstile-response' => ['required', new TurnstileCheck()],
+        ]);
+
+        if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
+            abort(406, 'The unique name must match and you must agree to deletion!');
+        }
+
+        $user->delete();
     }
 
     /**
