@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules\File;
 
 /**
  * @group Mods
- * 
+ *
  * @subgroup Images
  */
 class ImageController extends Controller
@@ -24,7 +24,7 @@ class ImageController extends Controller
     }
     /**
      * Get List of Mod Images
-     * 
+     *
      * Returns images of the mod
      */
     public function index(Request $request, Mod $mod)
@@ -38,11 +38,13 @@ class ImageController extends Controller
 
     /**
      * Upload Image
-     * 
+     *
      * Upload a new image to the mod
      */
     public function store(Request $request, Mod $mod)
     {
+        set_time_limit(1800);
+
         if ($mod->images()->count() >= Setting::getValue('mod_max_image_count')) {
             abort(406, 'Reached maximum allowed images for the mod!');
         }
@@ -72,7 +74,7 @@ class ImageController extends Controller
 
     /**
      * Get Image
-     * 
+     *
      * Returns data about a single image
      */
     public function show(Image $image)
@@ -90,7 +92,7 @@ class ImageController extends Controller
 
     /**
      * Delete an Image
-     * 
+     *
      * @authenticated
      */
     public function destroy(Image $image)
@@ -100,7 +102,7 @@ class ImageController extends Controller
 
     /**
      * Delete all Mod Images
-     * 
+     *
      * @authenticated
      */
     public function deleteAllImages(Mod $mod)

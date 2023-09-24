@@ -19,7 +19,7 @@ use Storage;
 
 /**
  * @group Mods
- * 
+ *
  * @subgroup Files
  */
 class FileController extends Controller
@@ -47,6 +47,7 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
+        set_time_limit(1800);
         $maxSize = Setting::getValue('max_file_size');
 
         $val = $request->validate([
