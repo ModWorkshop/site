@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0b0101096322e00473c3e905c0b2f43",
+    "content-hash": "640646354569c505d43d9ac9733b67c9",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1671,16 +1671,16 @@
         },
         {
             "name": "jcupitt/vips",
-            "version": "v2.1.1",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/libvips/php-vips.git",
-                "reference": "ff7cb36fde54887ca61647b3ff76598caa69bd25"
+                "reference": "ce833a6d38cea395aad5cd24f9c142ed36ab70b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libvips/php-vips/zipball/ff7cb36fde54887ca61647b3ff76598caa69bd25",
-                "reference": "ff7cb36fde54887ca61647b3ff76598caa69bd25",
+                "url": "https://api.github.com/repos/libvips/php-vips/zipball/ce833a6d38cea395aad5cd24f9c142ed36ab70b4",
+                "reference": "ce833a6d38cea395aad5cd24f9c142ed36ab70b4",
                 "shasum": ""
             },
             "require": {
@@ -1726,9 +1726,9 @@
             ],
             "support": {
                 "issues": "https://github.com/libvips/php-vips/issues",
-                "source": "https://github.com/libvips/php-vips/tree/v2.1.1"
+                "source": "https://github.com/libvips/php-vips/tree/v2.2.0"
             },
-            "time": "2022-11-13T16:59:57+00:00"
+            "time": "2023-08-16T23:49:01+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
