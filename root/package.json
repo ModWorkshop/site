@@ -24,7 +24,7 @@
     "@iconify-json/cib": "^1.1.5",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "@nuxtjs/i18n": "8.0.0-rc.2",
+    "@nuxtjs/i18n": "8.0.0-rc.4",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@pinia/nuxt": "^0.4.10",
