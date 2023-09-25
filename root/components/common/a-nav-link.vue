@@ -27,13 +27,15 @@ const compAlias = computed(() => {
     }
 });
 
+const normalizedPath = computed(() => route.path + '/');
+
 const classes = computed(() => ({
     'nav-link': true,
     'nav-link-side': side,
     selected: 
         props.selected 
-        || (compTo.value == root ? route.path == root : route.path.startsWith(compTo.value))
-        || (compAlias.value == root ? route.path == root : route.path.startsWith(compAlias.value))
+        || (compTo.value == root ? normalizedPath.value == root : normalizedPath.value.startsWith(compTo.value + '/'))
+        || (compAlias.value == root ? route.path == root : (compAlias.value && route.path.startsWith(compAlias.value)))
 }));
 
 function clickLink() {

@@ -32,6 +32,10 @@ export default defineNuxtConfig({
 
 	hooks: {
 		'pages:extend': (routes) => {
+			const userSettings = routes.find(page => page.path == '/user-settings');
+
+			userSettings?.children?.push({ path: "/user-settings/profile", file: '~/pages/user-settings/index.vue' });
+
 			routes.push(...[
 				{
 					path: "/user/:user/edit",
@@ -39,7 +43,7 @@ export default defineNuxtConfig({
 					children: [
 						{ path: "account", file: '~/pages/user-settings/account.vue' },
 						{ path: "content", file: '~/pages/user-settings/content.vue' },
-						{ path: "profile", file: '~/pages/user-settings/profile.vue' },
+						{ path: "profile", file: '~/pages/user-settings/index.vue' },
 						{ path: "accounts", file: '~/pages/user-settings/accounts.vue' },
 						{ path: "api", file: '~/pages/user-settings/api.vue' },
 					]

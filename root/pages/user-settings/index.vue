@@ -36,8 +36,6 @@ defineProps<{
     user: UserForm
 }>();
 
-definePageMeta({ alias: ['/user-settings', '/user/{user}/edit'] });
-
 const { t } = useI18n();
 const { settings } = useStore();
 const imageSize = computed(() => friendlySize(settings?.image_max_file_size ?? 0));
