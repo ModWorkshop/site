@@ -26,7 +26,15 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, versionHash: ''},
+		public: { 
+			apiUrl: '',
+			siteUrl: '',
+			uploadUrl: '',
+			storageUrl: '',
+			debug_legacy_images: false,
+			version: '3.3',
+			commitHash: ''
+		},
 		innerApiUrl: ''
 	},
 
