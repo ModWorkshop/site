@@ -21,7 +21,7 @@ class ModService {
     public static function mods(array $val, callable $querySetup=null, $query=null)
     {
         $mods = QueryBuilder::for($query ?? Mod::class)->with(Mod::LIST_MOD_WITH)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
-        return $mods->queryGet($val, function($q) use($val) {
+        return $mods->queryGet($val, function($q) use($val, $querySetup) {
             if (isset($querySetup)) {
                 $querySetup($q, $val);
             }
