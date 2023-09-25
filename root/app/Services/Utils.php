@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Ban;
+use App\Models\Report;
 use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
