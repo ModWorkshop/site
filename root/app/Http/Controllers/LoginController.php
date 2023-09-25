@@ -121,12 +121,17 @@ class LoginController extends Controller
 
         $avatar = APIService::storeImage($avatarFile, 'users/images');
 
+        // Skip verification on dev
+        $shouldVerify = app()->isLocal() && empty(env('MAIL_HOST'));
+
         $user = User::forceCreate([
             'name' => $val['name'],
             'unique_name' => $val['unique_name'],
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
             'avatar' => $avatar['name'] ?? '',
+            'email_verified_at' => $shouldVerify ? Carbon::now() : null,
+            'activated' => $shouldVerify,
         ]);
 
         event(new Registered($user));
