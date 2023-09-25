@@ -1,22 +1,26 @@
 import { FetchError } from 'ofetch';
 import { useStore } from '../store';
 
-let lastTimeout;
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const { $pinia, $i18n } = useNuxtApp();
     const store = useStore($pinia);
+    
+    const doAsync = useState('reloadSiteDataAsync', () => true);
+
+    let firstTimeOnClient = true;
 
     if (to.path !== from.path || to.fullPath === from.fullPath) {
         //Don't keep the game since we could go to the home page where there's no specificed game.
         store.currentGame = null;
         //https://github.com/nuxt/framework/issues/6475
         try {
-            if (!store.user) {
-                await store.attemptLoginUser(false);
-            }
-            if (store.user) {
+            if (doAsync.value) {
                 await store.reloadSiteData(true);
+                doAsync.value = false;
+            } else {
+                store.reloadSiteData(!firstTimeOnClient);
+                firstTimeOnClient = false;
             }
         } catch (error) {
             if (error instanceof FetchError) {

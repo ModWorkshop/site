@@ -1,12 +1,12 @@
 <template>
-    <div ref="element" class="markdown p-2" v-html="parseMarkdown(text)"/>
+    <div ref="element" class="markdown p-2" v-html="text ? parseMarkdown(text) : ''"/>
 </template>
 
 <script setup lang="ts">
 import { parseMarkdown } from "~~/utils/md-parser";
 
 defineProps<{
-    text: string        
+    text?: string
 }>();
 
 const element = ref();

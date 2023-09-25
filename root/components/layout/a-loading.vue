@@ -1,6 +1,6 @@
 <template>
     <flex>
-        <Icon :class="['loading', 'mx-auto', color && 'text-'+color, 'text-'+size]" name="svg-spinners:pulse-2"/>
+        <i-svg-spinners-pulse-2 :class="['loading', 'mx-auto', color && 'text-'+color, 'text-'+size]"/>
     </flex>
 </template>
 

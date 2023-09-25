@@ -3,11 +3,11 @@
         <Title>{{$t('notifications')}}</Title>
         <content-block>
             <flex class="ml-auto">
-                <a-button color="danger" icon="mdi:trash" @click="deleteAll()">{{$t('delete_all_notifications')}}</a-button>
-                <a-button color="danger" icon="clock" @click="deleteReadNotifications()">{{$t('delete_seen_notifications')}}</a-button>
-                <a-button icon="clock" @click="markAllAsRead()">{{$t('mark_all_notifications')}}</a-button>
+                <a-button color="danger" @click="deleteAll"><i-mdi-delete/> {{$t('delete_all_notifications')}}</a-button>
+                <a-button color="danger" @click="deleteReadNotifications"><i-mdi-clock/> {{$t('delete_seen_notifications')}}</a-button>
+                <a-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
             </flex>
-            <a-items :items="notifications" :loading="loading">
+            <a-items v-model:page="page" :items="notifications" :loading="loading">
                 <template #item="{ item }">
                     <a-notification :notification="item" :notifications="notifications!"/>
                 </template>
@@ -19,6 +19,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { Notification } from '~~/types/models';
+import { useStore } from '../store/index';
+import { storeToRefs } from 'pinia';
 
 definePageMeta({
     middleware: 'users-only',
@@ -27,6 +29,7 @@ definePageMeta({
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 const page = useRouteQuery('page', 1);
+const { notificationCount } = storeToRefs(useStore());
 
 const { data: notifications, loading } = await useWatchedFetchMany<Notification>('notifications', { page, limit: 20 });
 
@@ -62,11 +65,7 @@ async function deleteReadNotifications() {
     });
 }
 
-async function markAllAsRead() {
-    await postRequest('notifications/read-all');
-    if (notifications.value) {
-        notifications.value.data.forEach(item => item.seen = true);
-    }
+async function markAsRead() {
+    await markAllNotificationsAsRead(notifications.value?.data, notificationCount);
 }
-
 </script>

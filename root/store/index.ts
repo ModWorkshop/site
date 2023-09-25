@@ -87,17 +87,21 @@ export const useStore = defineStore('main', {
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
    
-            const [ siteData ] = await Promise.all([
-                useGet<{
-                    settings: Settings,
-                    announcements: Thread[],
-                    unseen_notifications: number,
-                    report_count?: number,
-                    waiting_count?: number,
-                    user?: User
-                }>('site-data'),
-                reloadToken()
-            ]);
+            type SiteData = {
+                settings: Settings,
+                announcements: Thread[],
+                unseen_notifications: number,
+                report_count?: number,
+                waiting_count?: number,
+                user?: User,
+                activity: { users: number, guests: number },
+            };
+
+           const siteData = await useGet<SiteData>('site-data');
+
+           if (process.client) {
+               reloadToken(); // Don't block navigation
+           }
 
             if (siteData.user) {
                 this.user = siteData.user;
@@ -146,19 +150,18 @@ export const useStore = defineStore('main', {
         },
 
         // Essentially reloads the site data so people don't have to refresh the page
-        async reloadSiteData(first = false) {
-            if (this.user) {
-                if (!first) {
-                    await this.loadSiteData();
+        async reloadSiteData(run = false) {
+            if (run) {
+                await this.loadSiteData();
 
-                    // Refresh game data too if exists.
-                    if (this.currentGame) {
-                        await this.getGameData();
-                    }
+                // Refresh game data too if exists.
+                if (this.currentGame) {
+                    await this.getGameData();
                 }
-                if (this.notifications) {
-                    await this.getNotifications();
-                }
+            }
+
+            if (this.user && this.notifications) {
+                await this.getNotifications();
             }
 
             if (lastTimeout) {

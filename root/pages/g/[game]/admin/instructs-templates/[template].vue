@@ -1,5 +1,11 @@
 <template>
-    <simple-resource-form v-model="template" url="instructs-templates" :game="game" :ignore-changes="ignoreChanges" :redirect-to="redirectTo">
+    <simple-resource-form 
+        v-model="template"
+        url="instructs-templates"
+        :game="game"
+        :redirect-to="redirectTo"
+        :exclude-from-compare="['dependencies']"
+    >
         <a-input v-model="template.name" :label="$t('name')"/>
         <md-editor v-model="template.instructions" :label="$t('instructions')"/>
         <a-input v-model="template.localized" type="checkbox" :label="$t('localized')"/>
@@ -25,8 +31,4 @@ const { data: template } = await useEditResource<InstructsTemplate>('template', 
     localized: false,
     game_id: props.game.id,
 });
-
-const ignoreChanges = useEventRaiser();
-
-watch(() => template.value.dependencies, () => ignoreChanges.execute());
 </script>

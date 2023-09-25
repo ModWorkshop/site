@@ -1,16 +1,36 @@
 <template>
     <flex wrap class="my-auto items-center text-xl">
         <template v-for="[i, group] of toolGroups.entries()">
-            <a-button v-for="tool of group.tools" :key="tool.icon" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
+            <a-button v-for="tool of group.tools" :key="tool.icon.name" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
             <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
         </template>
         <span class="tools-splitter"/>
-        <a-button color="none" :icon="splitMode ? 'material-symbols:rectangle-rounded' : 'material-symbols:splitscreen-left'" @click="splitModeVm = !splitModeVm"/>
-        <a-button color="none" :icon="fullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'" @click="fullscreenVm = !fullscreenVm"/>
+        <a-button color="none" :icon="splitMode ? MdiRectangle : MdiViewSplitVertical" @click="splitModeVm = !splitModeVm"/>
+        <a-button color="none" :icon="fullscreen ? IMdiFullScreenExit : IMdiFullScreen" @click="fullscreenVm = !fullscreenVm"/>
     </flex>
 </template>
 
 <script setup lang="ts">
+import IMdiFormatBold from '~icons/mdi/format-bold';
+import IMdiFormatItalic from '~icons/mdi/format-italic';
+import IMdiFormatStrikeThrough from '~icons/mdi/format-strikethrough';
+import IMdiFormatUnderline from '~icons/mdi/format-underline';
+import IMdiFormatHeaderPound from '~icons/mdi/format-header-pound';
+import IMdiFormatAlignCenter from '~icons/mdi/format-align-center';
+import IMdiFormatQuoteOpen from '~icons/mdi/format-quote-open';
+import IMdiFormatCodeBraces from '~icons/mdi/code-braces';
+import IMdiFormatEyeOff from '~icons/mdi/eye-off';
+import IMdiFormatListNumbered from '~icons/mdi/format-list-numbered';
+import IMdiFormatListBulleted from '~icons/mdi/format-list-bulleted';
+import IMdiLinkVariant from '~icons/mdi/link-variant';
+import IMdiMultimedia from '~icons/mdi/multimedia';
+import IMdiColorHelper from '~icons/mdi/color-helper';
+import IMdiTable from '~icons/mdi/table';
+import IMdiFullScreenExit from '~icons/mdi/fullscreen-exit';
+import IMdiFullScreen from '~icons/mdi/fullscreen';
+import MdiViewSplitVertical from '~icons/mdi/view-split-vertical';
+import MdiRectangle from '~icons/mdi/rectangle';
+
 // The $ sign tells it where to put the cursor and text if selected.
 
 const props = withDefaults(defineProps<{
@@ -39,31 +59,31 @@ const toolGroups: ToolGroup[] = [
     {
         name: 'main',
         tools: [
-            {icon: 'mdi:format-bold',  insert: '**$**'},
-            {icon: 'mdi:format-italic', insert: '*$*'},
-            {icon: 'mdi:format-strikethrough', insert: '~~$~~'},
-            {icon: 'mdi:format-underline', insert: '__$__'},
-            {icon: 'mdi:format-header-pound', insert: '# $'},
-            {icon: 'mdi:format-align-center', insert: ':::$:::'},
+            {icon: IMdiFormatBold,  insert: '**$**'},
+            {icon: IMdiFormatItalic, insert: '*$*'},
+            {icon: IMdiFormatStrikeThrough, insert: '~~$~~'},
+            {icon: IMdiFormatUnderline, insert: '__$__'},
+            {icon: IMdiFormatHeaderPound, insert: '# $'},
+            {icon: IMdiFormatAlignCenter, insert: ':::$:::'},
         ]
     },
     {
         name: 'fuck',
         tools: [
-            {icon: 'mdi:format-quote-open', insert: '> $'},
-            {icon: 'mdi:code-braces', insert: '```\n$\n```'},
-            {icon: 'mdi:format-list-bulleted', insert: '* $', multiline: true},
-            {icon: 'mdi:format-list-numbered', insert: '$line. $', multiline: true},
-            {icon: 'mdi:eye-off', insert: '||$||'}, //Spoiler
+            {icon: IMdiFormatQuoteOpen, insert: '> $'},
+            {icon: IMdiFormatCodeBraces, insert: '```\n$\n```'},
+            {icon: IMdiFormatListBulleted, insert: '* $', multiline: true},
+            {icon: IMdiFormatListNumbered, insert: '$line. $', multiline: true},
+            {icon: IMdiFormatEyeOff, insert: '||$||'}, //Spoiler
         ]
     },
     {
         name: 'media',
         tools: [
-            {icon: 'mdi:link-variant', insert: '[$](https://)'},
-            {icon: 'mdi:multimedia', insert: '![](https://$)'},
-            {icon: 'ic:baseline-horizontal-rule', insert: '$\n\n-----'},
-            {icon: 'mdi:table', insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| $     | Text     | Text     |'},
+            {icon: IMdiLinkVariant, insert: '[$](https://)'},
+            {icon: IMdiMultimedia, insert: '![](https://$)'},
+            {icon: IMdiColorHelper, insert: '$\n\n-----'},
+            {icon: IMdiTable, insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| $     | Text     | Text     |'},
         ]
     }
 ];

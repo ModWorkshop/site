@@ -35,5 +35,7 @@ const cannotPost = computed(() => {
 
 const forumId = game ? game.forum_id : 1;
 
-const newThreadLink = computed(() => game ? `/g/${game.short_name}/forum/post` : '/forum/post');
+const newThreadLink = computed(() => {
+    return (game ? `/g/${game.short_name}/forum/post` : '/forum/post') + (category.value ? `?category=${category.value.id}` : '');
+});
 </script>

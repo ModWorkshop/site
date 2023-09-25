@@ -4,17 +4,16 @@
         <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
         <h3>{{$t('downloading_file_should')}}</h3>
         <flex>
-            <a-button icon="arrow-left" :to="`/mod/${mod.id}`">{{$t('return_to_mod')}}</a-button>
+            <a-button :to="`/mod/${mod.id}`"><i-mdi-arrow-left/> {{$t('return_to_mod')}}</a-button>
             <a ref="download" download :href="file.download_url">
-                <a-button icon="mdi:download">{{$t('downloading_file_force')}}</a-button>
+                <a-button><i-mdi-download/> {{$t('downloading_file_force')}}</a-button>
             </a>
             <a-button 
                 v-if="mod.instructs_template || mod.instructions" 
                 :to="`/mod/${mod.id}?tab=instructions`"
-                icon="circle-question"
                 color="warning"
             >
-                {{$t('downloading_file_help')}}
+                <i-mdi-help/> {{$t('downloading_file_help')}}
             </a-button>
         </flex>
         <!-- <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/> -->

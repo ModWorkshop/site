@@ -21,7 +21,7 @@
                     <game-thumbnail :src="item.thumbnail" style="height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="mdi:remove" @click.prevent="unfollowGame(item)">{{$t('unfollow')}}</a-button>
+                    <a-button @click.prevent="unfollowGame(item)"><i-mdi-remove/> {{$t('unfollow')}}</a-button>
                 </template>
             </a-items>
             <h2>{{$t('followed_users')}}</h2>
@@ -29,7 +29,9 @@
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <a-button icon="mdi:remove" class="ml-auto my-auto" @click.prevent="unfollowUser(item)">{{$t('unfollow')}}</a-button>
+                            <a-button class="ml-auto my-auto" @click.prevent="unfollowUser(item)">
+                                <i-mdi-remove/> {{$t('unfollow')}}
+                            </a-button>
                         </template>
                     </a-user>
                 </template>
@@ -40,7 +42,7 @@
                     <mod-thumbnail :thumbnail="item.thumbnail" style="height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="mdi:remove" @click.prevent="unfollowMod(item)">{{$t('unfollow')}}</a-button>
+                    <a-button @click.prevent="unfollowMod(item)"><i-mdi-remove/> {{$t('unfollow')}}</a-button>
                 </template>
             </a-items>
         </a-tab>
@@ -53,7 +55,9 @@
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <a-button icon="mdi:remove" class="ml-auto my-auto" @click.prevent="unblockUser(item)">{{$t('unblock')}}</a-button>
+                            <a-button class="ml-auto my-auto" @click.prevent="unblockUser(item)">
+                                <i-mdi-remove/> {{$t('unblock')}}
+                            </a-button>
                         </template>
                     </a-user>
                 </template>
@@ -67,7 +71,7 @@
                     <a-tag>{{ item.name }}</a-tag>
                 </template>
                 <template #item-buttons="{ item }">
-                    <a-button icon="mdi:remove" @click.prevent="unblockTag(item)">{{$t('unblock')}}</a-button>
+                    <a-button @click.prevent="unblockTag(item)"><i-mdi-remove/> {{$t('unblock')}}</a-button>
                 </template>
             </a-items>
         </a-tab>
@@ -75,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Game, Mod, Tag, User, UserForm } from '~~/types/models';
 import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';

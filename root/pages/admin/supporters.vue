@@ -21,7 +21,7 @@
                             {{ $t('expired') }}
                         </div>
                     </flex>
-                    <a-button class="ml-auto self-center" icon="mdi:trash" @click="removeSupporter(item)">{{$t('stop')}}</a-button>
+                    <a-button class="ml-auto self-center" @click="removeSupporter(item)"><i-mdi-trash/> {{$t('stop')}}</a-button>
                 </flex>
             </template>
         </a-items>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Supporter } from '~~/types/models';
 

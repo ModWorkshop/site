@@ -1,123 +1,65 @@
 <template>
     <page-block v-if="user">
         <Title>{{user.name}}</Title>
-        <flex v-if="me && user.id != me.id">
-            <a-button v-if="false && !user.blocked_me" icon="message">{{$t('send_pm')}}</a-button>
-            <a-report resource-name="user" :url="`users/${user.id}/reports`"/>
-            <VDropdown :disabled="user.followed">
-                <a-button :icon="user.followed ? 'minus' : 'plus'" @click="user.followed && setFollowUser(user, false)">
-                    {{$t(user.followed ? 'unfollow' : 'follow')}} <a-icon v-if="!user.followed" icon="caret-down"/>
-                </a-button>
+        <flex v-if="me">
+            <a-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</a-button>
+            <a-report v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
+            <VDropdown v-if="canModerate" arrow placement="bottom-start">
+                <a-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</a-button>
                 <template #popper>
-                    <a-dropdown-item @click="setFollowUser(user, true)">{{$t('follow_with_notifs')}}</a-dropdown-item>
-                    <a-dropdown-item @click="setFollowUser(user, false)">{{$t('follow')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</a-dropdown-item>
                 </template>
             </VDropdown>
-            <VDropdown :disabled="isBlocked">
-                <a-button icon="user-xmark" @click="isBlocked && blockUser()">{{isBlocked ? $t('unblock') : `${$t('block')}/${$t('hide_mods')}`}}</a-button>
+            <VDropdown placement="bottom-start">
+                <a-button><i-mdi-caret-down/></a-button>
                 <template #popper>
-                    <a-dropdown-item icon="user-xmark" @click="blockUser">{{$t(isBlocked ? 'unblock' : 'block')}}</a-dropdown-item>
-                    <a-dropdown-item icon="eye-slash" @click="hideUserMods">{{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}</a-dropdown-item>
-                </template>
-            </VDropdown>
-            <VDropdown v-if="canModerate" arrow>
-                <a-button icon="caret-down">{{$t('moderation')}}</a-button>
-                <template #popper>
-                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`" icon="mdi:cog">{{$t('edit')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`" icon="circle-exclamation">{{$t('warn')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`" icon="triangle-exclamation">{{$t('ban')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageMods" icon="mdi:trash" @click="showDeleteAllModsModal">{{$t('delete_all_mods')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageDiscussions" icon="mdi:trash" @click="showDeleteDiscussionsModal">{{$t('delete_all_discussions')}}</a-dropdown-item>
+                    <template v-if="isMe || canManageDiscussions">
+                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}`">
+                            <i-mdi-account/> {{$t('profile')}}
+                        </a-dropdown-item>
+                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}/comments`">
+                            <i-mdi-comment/> {{$t('comments')}}
+                        </a-dropdown-item>
+                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}/threads`">
+                            <i-mdi-forum/> {{$t('threads')}}
+                        </a-dropdown-item>
+                    </template>
+                    <a-dropdown-item v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
+                        <i-mdi-minus-thick/> {{$t('unfollow')}}
+                    </a-dropdown-item>
+                    <template v-else>
+                        <a-dropdown-item @click="setFollowUser(user, true)"><i-mdi-bell/> {{$t('follow_with_notifs')}}</a-dropdown-item>
+                        <a-dropdown-item @click="setFollowUser(user, false)"><i-mdi-plus-thick/> {{$t('follow')}}</a-dropdown-item>
+                    </template>
+                    <a-dropdown-item v-if="isBlocked" @click="isBlocked && blockUser()">
+                        <i-mdi-account-off/> {{$t('unblock')}}
+                    </a-dropdown-item>
+                    <template v-else>
+                        <a-dropdown-item @click="blockUser">
+                            <i-mdi-account-off/> {{$t(isBlocked ? 'unblock' : 'block')}}
+                        </a-dropdown-item>
+                        <a-dropdown-item @click="hideUserMods">
+                            <i-mdi-eye-off/> {{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}
+                        </a-dropdown-item>
+                    </template>
                 </template>
             </VDropdown>
         </flex>
-        <template v-if="tempBlockOverride || !isBlocked">
-            <a-banner :src="user.banner" url-prefix="users/images">
-                <a-avatar class="mt-auto d-inline-block mb-2 ml-2" size="2xl" :src="user.avatar"/>
-            </a-banner>
-            <flex gap="3" column class="details md:flex-row">
-                <content-block class="p-4 place-self-start">
-                    <flex gap="3" column style="min-width: 300px;">
-                        <a-user class="text-2xl" :user="user" :avatar="false" static show-online-state>
-                            <template #details>
-                                <span v-if="user.unique_name" class="user-at text-base">@{{user.unique_name}} / ID {{user.id}}</span>
-                                <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
-                            </template>
-                        </a-user>
-                        <template v-if="isPublic">
-                            <flex v-if="user.created_at" column>
-                                {{$t('registration_date')}} 
-                                <span class="text-secondary">{{date(user.created_at)}}</span>
-                            </flex>
-                            <flex v-if="!isOnline" column>
-                                {{$t('last_visit')}} 
-                                <span class="text-secondary">{{getTimeAgo($t, user.last_online)}}</span>
-                            </flex>
-                            <flex column>
-                                {{$t('mods')}}
-                                <span class="text-secondary">{{user.mod_count}}</span>
-                            </flex>
-                            <flex v-if="user.donation_url" column>
-                                {{$t('support_user')}}
-                                <donation-button :link="user.donation_url"/>
-                            </flex>
-                            <flex column>
-                                <role-selector :user="user"/>
-                            </flex>
-                        </template>
-                    </flex>
-                </content-block>
-                <content-block class="bio p-4 w-full">
-                    <span class="text-lg">
-                        <template v-if="isPublic">
-                            <a-markdown v-if="user.bio" :text="user.bio"/>
-                            <div v-else class="w-full">{{$t('no_bio')}}</div>
-                        </template>
-                        <div v-else>{{$t('private_profile_notice')}}</div>
-                    </span>
-                </content-block>
-            </flex>
-            <template v-if="isPublic">
-                <template v-if="tempBlockOverride || !isHidingMods">
-                    <button-group v-model:selected="displayMods" gap="1" button-style="nav">
-                        <a-group-button name="personal">{{$t('personal_mods')}}</a-group-button>
-                        <a-group-button name="collab">{{$t('collab_mods')}}</a-group-button>
-                    </button-group>
-                    <mod-list 
-                        v-if="isPublic || isOwnOrModerator"
-                        :trigger-refresh="triggerRefresh"
-                        :user-id="user.id"
-                        :collab="displayMods == 'collab'"
-                        :params="{ ignore_blocked_users: true }"
-                    />
-                </template>
-                <content-block v-else>
-                    {{$t('hiding_mods_view')}}
-                    <div>
-                        <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
-                    </div>
-                </content-block>
-            </template>
-        </template>
-        <content-block v-else>
-            {{$t('blocked_user_view')}}
-            <flex>
-                <a-button @click="tempBlockOverride = true">{{$t('view')}}</a-button>
-                <a-button to="/">{{$t('back_to_home')}}</a-button>
-            </flex>
-        </content-block>
+        <NuxtPage :user="user" :trigger-refresh="triggerRefresh"/>
     </page-block>
 </template>
 <script setup lang="ts">
 import { setFollowUser } from '~~/utils/follow-helpers';
-import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import { User } from '~~/types/models';
 import { useStore } from '~~/store';
-import { date, getTimeAgo } from '~~/utils/helpers';
 
 const yesNoModal = useYesNoModal();
-const triggerRefresh = useEventRaiser();
+const triggerRefresh = createEventHook<void>();
 const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
@@ -141,6 +83,7 @@ useServerSeoMeta({
 
 const { hasPermission, user: me } = useStore();
 
+const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const canModerateUsers = computed(() => hasPermission('moderate-users'));
 const canManageUsers = computed(() => hasPermission('manage-users'));
 const canManageMods = computed(() => hasPermission('manage-mods'));
@@ -151,23 +94,10 @@ const canModerate = computed(() =>
     canManageMods.value || 
     canManageDiscussions.value
 );
+const isMe = computed(() => me?.id === user.value.id);
 
-const isOwnOrModerator = computed(() => me && (user.value.id === me.id || canModerateUsers.value));
-const isBlocked = computed(() => user.value.blocked_by_me?.silent === false);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
-const displayMods = ref('personal');
-
-const isOnline = computed(() => {
-    if (!user.value.last_online) {
-        return false;
-    }
-    const last = DateTime.fromISO(user.value.last_online);
-    const now = DateTime.now();
-    return (now.diff(last, 'minutes').toObject()?.minutes ?? 0) < 5;
-});
-const userInvisible = computed(() => user.value.invisible);
-const isPublic = computed(() => !user.value.private_profile || isOwnOrModerator.value);
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;
@@ -186,7 +116,7 @@ async function blockUser() {
     } else {
         await deleteRequest(`blocked-users/${user.value.id}`);
         tempBlockOverride.value = false;
-        user.value.blocked_by_me = null;
+        user.value.blocked_by_me = undefined;
     }
 
 }
@@ -205,7 +135,7 @@ function hideUserMods() {
             }
 
             tempBlockOverride.value = false;
-            user.value.blocked_by_me = block ? { silent: true } : null;
+            user.value.blocked_by_me = block ? { silent: true } : undefined;
         }
     });
 
@@ -217,7 +147,7 @@ function showDeleteAllModsModal() {
         desc: 'This will delete all mods the user uploaded to the site!',
         async yes() {
             await deleteRequest(`users/${user.value.id}/mods`);
-            triggerRefresh.execute();
+            triggerRefresh.trigger();
         }
     });
 }
@@ -232,10 +162,3 @@ function showDeleteDiscussionsModal() {
     });
 }
 </script>
-
-<style scoped>
-.bio {
-    max-height: 500px;
-    overflow: auto;
-}
-</style>

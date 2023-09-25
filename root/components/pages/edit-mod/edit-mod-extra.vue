@@ -26,9 +26,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 
-const props = defineProps<{
-    mod: Mod
-}>();
+const mod = defineModel<Mod>({ required: true });
 
 const yesNoModal = useYesNoModal();
 const router = useRouter();
@@ -37,11 +35,11 @@ const { t } = useI18n();
 
 const superUpdate = inject<boolean>('canSuperUpdate');
 
-const isModerator = computed(() => hasPermission('manage-mods', props.mod.game));
-const member = computed(() => user ? props.mod.members.find(member => member.id == user.id) : null);
+const isModerator = computed(() => hasPermission('manage-mods', mod.value.game));
+const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
 const canDelete = computed(() => superUpdate || member.value?.level === 'maintainer');
 
-watch(() => props.mod.game_id, () => props.mod.category_id = undefined);
+watch(() => mod.value.game_id, () => mod.value.category_id = undefined);
 
 const { data: games } = await useFetchMany<Game>('games', { immediate: isModerator.value });
 
@@ -49,7 +47,7 @@ function deleteMod() {
     yesNoModal({
         desc: t('delete_mod_desc'),
         async yes() {
-            await deleteRequest(`mods/${props.mod.id}`);
+            await deleteRequest(`mods/${mod.value.id}`);
             router.push('/');
         }
     });

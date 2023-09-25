@@ -369,12 +369,6 @@ a {
     width: 100%;
 }
 
-@media (max-width: 1024px) {
-    #header-search {
-        width: 150px !important;
-    }
-}
-
 @media (max-width:768px) {
     .latest-games.games-grid>a:nth-of-type(n+5) {
         display: none
@@ -409,10 +403,6 @@ a {
     .games-grid {
         grid-template-columns: repeat(6, 1fr)
     }
-}
-
-#header-search {
-    width: 200px;
 }
 
 .mods-grid {
@@ -536,7 +526,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 }
 
 .icon {
-    vertical-align: -.125em !important;
+    vertical-align: -0.25em !important;
     overflow: visible !important;
 }
 
@@ -574,4 +564,19 @@ svg:not(:root).icon, svg:not(:host).icon {
         width: 160px;
         height: 610px;
     }
+}
+
+.icon {
+    display: inline-block;
+}
+
+kbd {
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
 }

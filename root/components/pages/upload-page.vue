@@ -1,7 +1,7 @@
 <template>
     <div style="width: 80%; align-self: center;">
         <Title>{{$t('upload_mod')}}</Title>
-        <a-form :model="mod" :created="false" @submit="create">
+        <a-form v-model="mod" :created="false" @submit="create">
             <content-block v-if="step == 1" padding="8">
                 <h2 class="text-center">{{$t('mod_creation_1')}}</h2>
     
@@ -27,7 +27,7 @@
             </content-block>
             <content-block v-if="step == 2" gap="4">
                 <h3 class="text-center">{{$t('mod_creation_2')}}</h3>
-                <edit-mod-images v-if="mod.id" :mod="mod" light/>
+                <edit-mod-images v-if="mod.id" v-model="mod" light/>
                 <flex class="mx-auto">
                     <a-button :to="`/mod/${mod.id}`">{{$t('go_to_mod_page')}}</a-button>
                     <a-button type="submit" @click="save(false, false)">{{$t('next')}}</a-button>
@@ -35,7 +35,7 @@
             </content-block>
             <content-block v-if="step == 3" gap="4">
                 <h3 class="text-center">{{$t('mod_creation_3')}}</h3>
-                <edit-mod-files v-if="mod.id" :mod="mod" light/>
+                <edit-mod-files v-if="mod.id" v-model="mod" light/>
                 <flex class="mx-auto" column>
                     <a-input v-if="mod.visibility == 'public'" v-model="publish" :label="$t('publish_mod')" type="checkbox"/>
                     <a-button class="place-self-center" @click="save(true)">{{$t('finish')}}</a-button>

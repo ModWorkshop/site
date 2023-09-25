@@ -1,7 +1,7 @@
-import { SearchParams } from "ohmyfetch";
+import { SearchParameters } from "ofetch";
 import { useI18n } from "vue-i18n";
 
-export default async function<T>(name: string, url: string, template: T|null=null, params?: SearchParams, key?: string) {
+export default async function<T>(name: string, url: string, template: T|null=null, params?: SearchParameters, key?: string) {
     const route = useRoute();
     const { t } = useI18n();
 

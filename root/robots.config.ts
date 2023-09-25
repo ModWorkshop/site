@@ -1,7 +1,8 @@
 export default [
     { UserAgent: '*' },
     { Disallow: '/admin/*' },
-    { Disallow: '/games/*/admin/*' },
+    { Disallow: '/g/*/admin/*' },
+    { Disallow: '/game/*/admin/*' },
     { Disallow: '/verify-email' },
     { Disallow: '/login-redirect' },
     { Disallow: '/link-redirect' },

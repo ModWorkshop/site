@@ -32,6 +32,7 @@ if (process.client) {
     
     try {
         await postRequest(`/social-logins/${route.params.provider}/login-callback`, newQuery);
+        await reloadToken();
         store.attemptLoginUser('/');
     } catch (e) {
         if (e instanceof AxiosError && e.response) {

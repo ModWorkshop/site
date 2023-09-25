@@ -1,4 +1,4 @@
-import { Comment, Game } from './../types/models';
+import { Comment, Game, Notification } from './../types/models';
 import { partial } from "filesize";
 import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
@@ -150,7 +150,7 @@ export function isSrcExternal(src?: string|any) {
 
 export function getObjectLink(type: string, object: Record<string, unknown>) {
     if (!object) {
-        return null;
+        return undefined;
     }
     switch(type) {
         case 'mod':
@@ -161,15 +161,11 @@ export function getObjectLink(type: string, object: Record<string, unknown>) {
             return `/g/${object.short_name}`;
         case 'user':
             return `/user/${object.id}`;
+        case 'comment':
+            return `/${object.commentable_type}/${object.commentable_id}/${object.reply_to ? `post/${object.reply_to}` : ''}?comment=${object.id}`;
     }
 
-    return null;
-}
-
-export async function getCommentLink(comment: Comment) {
-    const type = comment.commentable_type, id = comment.commentable_id;
-    const page = await useGet(`comments/${comment.id}/page`);
-    return `/${type}/${id}/${comment.reply_to ? `post/${comment.reply_to}` : ''}?page=${page}&comment=${comment.id}`;
+    return undefined;
 }
 
 export function getGameResourceUrl(resource: string, game?: Game) {
@@ -247,4 +243,16 @@ export function getContrast(color1: string|number[], color2: string|number[]) {
     const lum2 = luminance(typeof color2 == 'string' ? hexToColor(color2) : color2);
 
     return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
+}
+
+// Marks all notifications as read, if needed updates a given array of notifications
+export async function markAllNotificationsAsRead(notifications?: Notification[], count?: Ref<number|null>) {
+    await postRequest('notifications/read-all');
+    if (notifications) {
+        notifications.forEach(item => item.seen = true);
+    }
+
+    if (count) {
+        count.value = 0;
+    }
 }

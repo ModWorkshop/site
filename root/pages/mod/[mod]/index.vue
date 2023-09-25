@@ -12,8 +12,8 @@
             :url="`mods/${mod.id}/comments`"
             :page-url="`/mod/${mod.id}`"
             :commentable="mod"
-            :can-edit-all="canEditComments"
             :can-delete-all="canDeleteComments"
+            :can-pin="canEdit"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod, Comment, ModMember } from '~~/types/models';
+import { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod } from '~~/utils/mod-helpers';
 const store = useStore();
@@ -34,9 +34,8 @@ const { mod } = defineProps<{
 }>();
 
 const canEdit = computed(() => canEditMod(mod));
-const canEditComments = computed(() => store.hasPermission('manage-discussions', mod.game));
-const canDeleteComments = computed(() => canEditComments.value || (canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game)));
-const canComment = computed(() => !mod.user.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
+const canDeleteComments = computed(() => canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game));
+const canComment = computed(() => !mod.user?.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
 const cannotCommentReason = computed(() => {
     if (mod.comments_disabled) {
         return t('comments_disabled');
@@ -46,7 +45,7 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_banned');
     }
 
-    if (mod.user.blocked_me) {
+    if (mod.user?.blocked_me) {
         return t('cannot_comment_blocked_mod');
     }
 });
@@ -55,7 +54,7 @@ function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.user_id) {
         return `${t('owner')}`;
     } else {
-        const member: ModMember = mod.members.find(member => comment.user_id === member.id);
+        const member = mod.members.find(member => comment.user_id === member.id);
         if (member && member.accepted) {
             return t(`member_level_${member.level}`);
         }
@@ -84,10 +83,6 @@ function commentSpecialTag(comment: Comment) {
 }
 
 @media (max-width:1280px) {
-    .mod-banner {
-        height: 150px !important;
-    }
-
     .mod-info-holder {
         order: -1;
     }

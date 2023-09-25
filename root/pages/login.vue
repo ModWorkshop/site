@@ -20,6 +20,7 @@
                         <the-social-logins/>
                     </flex>
                 </flex>
+                <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
             </content-block>
         </a-form>    
     </page-block>
@@ -47,15 +48,24 @@ const user = reactive({
 const canLogin = computed(() => user.email && user.password);
 const store = useStore();
 
+const turnstile = ref();
+const turnstileToken = ref<string>();
+
 async function login() {
+    const token = turnstileToken.value;
+    turnstileToken.value = '';
+
     try {
-        await postRequest('/login', user);
+        await postRequest('/login', {...user, 'cf-turnstile-response': token});
         store.attemptLoginUser();
+        reloadToken();
     } catch (e) {
         showErrorToast(e, {
             401: t('login_error_401'),
             422: t('login_error_422')
         });
+
+        turnstile.value?.reset();
     }
 }
 </script>

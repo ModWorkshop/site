@@ -35,7 +35,7 @@
                         <td class="text-center p-1">
                             <flex inline>
                                 <slot name="buttons" :file="file"/>
-                                <a-button icon="mdi:trash" @click.prevent="handleRemove(file)"/>
+                                <a-button @click.prevent="handleRemove(file)"><i-mdi-trash/></a-button>
                             </flex>
                         </td>
                         <slot name="rows" :file="file"/>
@@ -51,7 +51,7 @@
                     <flex column class="file-buttons">
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
-                        <a-button icon="mdi:trash" @click="handleRemove(file)">{{$t('delete')}}</a-button>
+                        <a-button @click="handleRemove(file)"><i-mdi-delete/> {{$t('delete')}}</a-button>
                     </flex>
                 </flex>
             </div>
@@ -91,7 +91,7 @@ const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const { public: runtimeConfig } = useRuntimeConfig();
 
-function getFileThumb(file) {
+function getFileThumb(file: UploadFile) {
     if (file.thumbnail) {
         return file.thumbnail;
     }
@@ -120,11 +120,17 @@ type UploadFile = SimpleFile & {
     cancel?: Canceler,
     progress?: number,
     thumbnail?: string,
+    has_thumb?: boolean
 }
 
 const filesArr = toRef(props, 'files');
 const input = ref();
-const reachedMaxFiles = computed<boolean>(() => props.maxFiles && filesArr.value.length >= props.maxFiles || false);
+const reachedMaxFiles = computed<boolean>(() => {
+    if (!props.maxFiles) {
+        return false;
+    }
+    return filesArr.value.length >= (typeof(props.maxFiles) == "string" ? parseInt(props.maxFiles) : props.maxFiles);
+});
 const usedSize = computed(() => filesArr.value.reduce((prev, curr) => prev + curr.size, 0));
 
 const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
@@ -169,7 +175,7 @@ async function upload(files: FileList|null) {
         else {
             const insertFile: UploadFile = {
                 id: 0,
-                created_at: DateTime.now().toISO(),
+                created_at: DateTime.now().toISO()?.toString() || undefined,
                 name: file.name,
                 size: file.size,
                 file: '',

@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { Mod } from '~~/types/models';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 
 const props = defineProps<{
     mod: Mod,

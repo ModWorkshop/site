@@ -24,47 +24,69 @@
 import clone from 'rfdc/default';
 import { deepEqual } from 'fast-equals';
 import { useI18n } from 'vue-i18n';
+import { EventHook } from '@vueuse/core';
 
-let props = defineProps({
-    floatSaveGui: Boolean,
-    canSave: Boolean,
-    ignoreChanges: Object,
-    created: {
-        default: true,
-        type: Boolean
-    },
-    saveText: String,
-    saveButtonText: String,
-    model: Object,
-    models: Array
-});
+const { created = true, saveButtonText, flushChanges, canSave, preCompare, excludeFromCompare } = defineProps<{
+    preCompare?: (v) => void,
+    excludeFromCompare?: string[],
+    floatSaveGui?: boolean,
+    canSave?: boolean,
+    flushChanges?: EventHook<object>,
+    created?: boolean,
+    saveText?: string,
+    saveButtonText?: string
+}>();
+
+const model = defineModel<object>();
 
 const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
 const disableButtons = ref(false);
-const modelCopy = ref();
+const modelCopy = ref<object>();
 const { t } = useI18n();
 
-watch(() => props.model, val => {
-    disableButtons.value = false;
-    modelCopy.value = clone(val);
-}, { immediate: true });
-
 const currentCanSave = computed(() => {
-    return !props.created || props.canSave || !deepEqual(props.model, modelCopy.value);
+    let A = model.value, B = modelCopy.value;
+    if (preCompare || excludeFromCompare) {
+        A = clone(A);
+        B = clone(B);
+    }
+    
+    if (preCompare) {
+        preCompare(A);
+        preCompare(B);
+    }
+    if (excludeFromCompare) {
+        if (A) {
+            excludeFromCompare.forEach(key => delete A![key]);
+        }
+        if (B) {
+            excludeFromCompare.forEach(key => delete B![key]);
+        }
+    }
+
+    return !created || canSave || !deepEqual(A, B);
 });
 
-if (props.ignoreChanges) {
-    watch(props.ignoreChanges.listen, () => modelCopy.value = clone(props.model));
-}
+disableButtons.value = false;
+modelCopy.value = clone(model.value);
+
+watch(() => flushChanges, () => {
+    flushChanges?.on(newModel => {
+        disableButtons.value = false;
+        model.value = newModel;
+        modelCopy.value = clone(newModel);
+        console.log('..');
+        
+    });
+}, { immediate: true });
+
 
 watch(currentCanSave, val => {
     emit('stateChanged', val);
 });
 
-provide('model', props.model);
-
-const currentSaveButtonText = computed(() => props.saveButtonText || (props.created ? t('save') : t('submit')));
+const currentSaveButtonText = computed(() => saveButtonText || (created ? t('save') : t('submit')));
 
 function submit() {
     disableButtons.value = true;
@@ -73,8 +95,8 @@ function submit() {
 }
 
 function discard() {
-    if (props.model) {
-        Object.assign(props.model, modelCopy.value);
+    if (model.value) {
+        Object.assign(model.value, modelCopy.value);
     }
     emit('discard');
 }

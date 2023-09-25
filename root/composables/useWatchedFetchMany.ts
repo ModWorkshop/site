@@ -1,4 +1,4 @@
-import { SearchParams } from 'ohmyfetch';
+import { SearchParameters } from 'ofetch';
 import { DifferentFetchOptions } from './useFetchData';
 
 export interface WatchedFetchManyOptions extends DifferentFetchOptions {
@@ -8,11 +8,26 @@ export interface WatchedFetchManyOptions extends DifferentFetchOptions {
 /**
     This is useFetchMany but tailored for handling parameter changes for lists and so on.
  */
-export default async function<T=any>(url: string|(() => string), params: SearchParams, options?: WatchedFetchManyOptions, key?: string) {
+export default async function<T=any>(url: string|(() => string), params: SearchParameters, options?: WatchedFetchManyOptions, key?: string) {
+    // eslint is being stupid about this because it clearly doesn't need to be a const.
+    // eslint-disable-next-line prefer-const 
+    let loading: Ref<boolean>;
     const ret = await useFetchMany<T>(url, {
         params: reactive(params),
+        async onRequest() {
+            if (loading) {
+                loading.value = true;
+            }
+        },
+        async onResponse() {
+            if (loading) {
+                loading.value = false;
+            }
+        },
         ...options
     }, key);
 
-    return { ...ret, loading: useHandleParam(ret.refresh, params, options?.onChange) };
+    loading = useHandleParam(ret.refresh, params, options?.onChange);
+
+    return { ...ret, loading: loading };
 }

@@ -23,13 +23,21 @@
             @file-deleted="fileDeleted"
         >
         <template #buttons="{file}">
-            <a-button icon="image" :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">{{$t('thumbnail')}}</a-button>
-            <a-button icon="image" :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">{{$t('banner')}}</a-button>
+            <a-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
+                <i-mdi-image-outline/> {{$t('thumbnail')}}
+            </a-button>
+            <a-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
+                <i-mdi-image-outline/> {{$t('banner')}}
+            </a-button>
         </template>
     </file-uploader>
     <flex class="mr-auto">
-        <a-button icon="mdi:close" @click="setBanner(null)">{{ $t('reset_banner') }}</a-button>
-        <a-button icon="mdi:close" @click="setThumbnail(null)">{{ $t('reset_thumbnail') }}</a-button>
+        <a-button @click="setBanner()">
+            <i_mdi-close/> {{ $t('reset_banner') }}
+        </a-button>
+        <a-button @click="setThumbnail()">
+            <i_mdi-close/> {{ $t('reset_thumbnail') }}
+        </a-button>
     </flex>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">
@@ -44,38 +52,31 @@
 
 <script setup lang="ts">
 import { Mod, Image } from '~~/types/models';
-import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 
 const { settings } = useStore();
 
-const props = defineProps<{
-    mod: Mod,
-}>();
-
-const uploadLink = computed(() => props.mod ? `mods/${props.mod.id}/images`: '');
-const images = ref(clone(props.mod.images));
-const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
+const mod = defineModel<Mod>({ required: true });
+const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '');
+const images = ref(mod.value.images);
 
 function setBanner(banner?: Image) {
-    props.mod.banner_id = banner && banner.id || null;
-    props.mod.banner = banner;
+    mod.value.banner_id = banner && banner.id || undefined;
+    mod.value.banner = banner;
 }
 
 function setThumbnail(thumb?: Image) {
-    props.mod.thumbnail_id = thumb && thumb.id || null;
-    props.mod.thumbnail = thumb;
+    mod.value.thumbnail_id = thumb && thumb.id || undefined;
+    mod.value.thumbnail = thumb;
 }
 
 function fileDeleted(image: Image) {
-    if (props.mod.thumbnail_id === image.id) {
+    if (mod.value.thumbnail_id === image.id) {
         setThumbnail();
     }
 
-    if (props.mod.banner_id === image.id) {
+    if (mod.value.banner_id === image.id) {
         setBanner();
     }
-
-    ignoreChanges?.();
 }
 </script>

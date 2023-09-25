@@ -1,10 +1,11 @@
 <template>
     <tr class="cursor-pointer content-block thread" @click.self="clickThread(thread)">
         <td @click.self="clickThread(thread)">
-            <a-icon v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2" icon="thumbtack"/>
+            <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
             <NuxtLink class="whitespace-pre-line" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
         </td>
-        <td @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
+        <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
+        <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>
         <td v-if="!noCategory" @click.self="clickThread(thread)">
             <NuxtLink v-if="thread.category" :to="to">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
             <span v-else>-</span>
@@ -17,12 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { Forum, Thread } from '~/types/models';
+import { Thread } from '~/types/models';
 
 const { thread, categoryLink } = defineProps<{
     thread: Thread,
+    userId?: number,
     noPins?: boolean,
-    forum: Forum,
+    forumId?: number,
     categoryLink?: boolean,
     noCategory?: boolean
 }>();

@@ -1,14 +1,16 @@
 <template>
     <NuxtLink v-if="toOrHref && !isDisabled" :to="toOrHref" :class="clss" :download="download">
         <span>
-            <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
-            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+            <i-svg-spinners-pulse-2 v-if="loading" class="loading text-xl ml-2"/>
+            <a-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/>    
+            <slot/>
         </span>
     </NuxtLink>
     <button v-else :disabled="isDisabled" :class="clss" :type="type"> 
         <span>
-            <Icon v-if="loading" class="loading text-xl ml-2" name="svg-spinners:pulse-2"/>
-            <a-icon v-if="icon" :name="icon" :size="iconSize" :style="iconStyle"/> <slot/>
+            <i-svg-spinners-pulse v-if="loading" class="loading text-xl ml-2"/>
+            <a-icon v-if="icon" :icon="icon" :size="iconSize" :style="iconStyle"/>
+            <slot/>
         </span>
     </button>
 </template>
@@ -25,7 +27,7 @@ const props = withDefaults(defineProps<{
     noBg?: boolean,
     download?: string|boolean,
     iconSize?: string,
-    icon?: string | number,
+    icon?: Component,
     iconRotation?: number,
     disabled?: boolean
 }>(), {

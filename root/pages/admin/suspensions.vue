@@ -23,7 +23,7 @@
                             <td style="min-width: 300px;" class="whitespace-break-spaces">{{suspension.reason}}</td>
                             <td>
                                 <mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
-                                <a-button v-else icon="mdi:delete" @click="deleteSuspension(suspension)">{{ $t('delete') }}</a-button>
+                                <a-button v-else @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</a-button>
                             </td>
                         </template>
                     </mod-row>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Game, Suspension } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';

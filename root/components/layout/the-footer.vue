@@ -4,14 +4,14 @@
             <flex wrap gap="3">
                 <a-link-button @click="scrollToTop">{{$t('return_to_top')}}</a-link-button>
                 <a-link-button to="/document/rules">{{$t('rules')}}</a-link-button>
-                <a-link-button to="/document/about">{{$t('about')}}</a-link-button>
+                <a-link-button to="/about">{{$t('about')}}</a-link-button>
                 <a-link-button to="/document/terms">{{$t('terms')}}</a-link-button>
                 <a-link-button to="/document/impressum">{{$t('impressum')}}</a-link-button>
                 <a-link-button to="/document/policy">{{$t('privacy')}}</a-link-button>
                 <a-link-button to="/cookies">{{$t('cookie_policy')}}</a-link-button>
             </flex>
             <flex column>
-                {{ $t('mws_build_version', { version: buildVersion }) }}
+                ModWorkshop {{ runtimeConfig.version }} ({{ commitHash }})
                 <span>
                     <i18n-t keypath="made_with_love" scope="global">
                         <template #luffy>
@@ -56,7 +56,7 @@ const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
 const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
-const buildVersion = computed(() => (runtimeConfig.versionHash || 'N/A').substring(0, 7));
+const commitHash = computed(() => (runtimeConfig.commitHash || 'N/A').substring(0, 7));
 
 watch(locale, val => {
     i18n.setLocale(val);

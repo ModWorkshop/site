@@ -35,8 +35,8 @@
                     <td>{{fullDate(m.created_at)}}</td>
                     <td class="text-center p-1">
                         <flex inline>
-                            <a-button :disabled="!canEditMember(m)" icon="mdi:cog" @click.prevent="editMember(m)"/>
-                            <a-button :disabled="!canEditMember(m)" icon="mdi:trash" @click.prevent="deleteMember(m)"/>
+                            <a-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></a-button>
+                            <a-button :disabled="!canEditMember(m)" @click.prevent="deleteMember(m)"><i-mdi-delete/></a-button>
                         </flex>
                     </td>
                 </tr> 
@@ -69,10 +69,8 @@ const showToast = useQuickErrorToast();
 const { t } = useI18n();
 const { user } = useStore();
 
-const ignoreChanges: (() => void)|undefined = inject('ignoreChanges');
-const props = defineProps<{
-    mod: Mod,
-}>();
+const mod = defineModel<Mod>({ required: true });
+
 const superUpdate = inject<boolean>('canSuperUpdate');
 
 const MOD_MEMBER_RULES_OVER = {
@@ -91,7 +89,7 @@ const memberPerms = computed(() => {
 
 const levelOptions = computed(() => {
     if (!superUpdate && (!member.value || (member.value.level !== 'maintainer' && member.value.level !== 'collaborator'))) {
-        return null;
+        return undefined;
     }
 
     const levels = [
@@ -119,21 +117,19 @@ interface EditModMember {
 
 const showModal = ref(false);
 const showTransferOwner = ref(false);
-const members = ref<ModMember[]>(clone(props.mod.members));
+const members = ref<ModMember[]>(clone(mod.value.members));
 const currentMember = ref<EditModMember>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
-const member = computed(() => user ? props.mod.members.find(member => member.id == user.id) : null);
+const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
 
 async function deleteMember(member: ModMember) {
     yesNoModal({
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await deleteRequest(`mods/${props.mod.id}/members/${member.id}`);
+            await deleteRequest(`mods/${mod.value.id}/members/${member.id}`);
             members.value = members.value.filter(l => l.id !== member.id);
-            props.mod.members = clone(members.value);
-
-            ignoreChanges?.();
+            mod.value.members = clone(members.value);
         }
     });
 }
@@ -154,10 +150,10 @@ async function saveMember(error: (e) => void) {
 
     try {
         if (member.new) {
-            const newMember = await postRequest<ModMember>(`mods/${props.mod.id}/members`, data);
+            const newMember = await postRequest<ModMember>(`mods/${mod.value.id}/members`, data);
             members.value.push(newMember);
         } else {
-            await patchRequest(`mods/${props.mod.id}/members/${member.user!.id}`, data);
+            await patchRequest(`mods/${mod.value.id}/members/${member.user!.id}`, data);
         }
     
         for (const m of members.value) {
@@ -166,7 +162,6 @@ async function saveMember(error: (e) => void) {
             }
         }
     
-        ignoreChanges?.();
         showModal.value = false;
     } catch(e) {
         error(e);
@@ -175,10 +170,9 @@ async function saveMember(error: (e) => void) {
 
 async function transferOwnership() {
     try {
-        const request = await patchRequest<TransferRequest>(`mods/${props.mod.id}/owner`, transferOwner.value);
-        props.mod.transfer_request = request;
+        const request = await patchRequest<TransferRequest>(`mods/${mod.value.id}/owner`, transferOwner.value);
+        mod.value.transfer_request = request;
         showTransferOwner.value = false;
-        ignoreChanges?.();
     } catch (error) {
         showToast(error);
     }
@@ -186,9 +180,8 @@ async function transferOwnership() {
 
 async function cancelTransferRequest() {
     try {
-        await patchRequest(`mods/${props.mod.id}/owner/cancel`);
-        props.mod.transfer_request = undefined;
-        ignoreChanges?.();
+        await patchRequest(`mods/${mod.value.id}/owner/cancel`);
+        mod.value.transfer_request = undefined;
     } catch (error) {
         showToast(error);
     }

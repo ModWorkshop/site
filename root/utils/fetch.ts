@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 interface AxiosRequestConfigPlus extends AxiosRequestConfig {
-    onResponse: (response: any) => void;
+    onResponse?: (response: any) => void;
 }
 
 export function buildQueryParams(params) {

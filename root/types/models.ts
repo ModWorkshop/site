@@ -42,7 +42,7 @@ export interface Comment {
     user?: User | null;
     commentable?: Mod|Thread;
     last_replies?: Comment[];
-    total_replies?: number;
+    replies_count?: number;
     replies?: Comment[];
     replying_comment?: Comment | null;
     subscribed?: boolean;
@@ -137,9 +137,10 @@ export interface Mod {
     followed?: { notify: boolean };
     subscribed?: boolean;
     send_for_approval?: boolean;
-    dependencies?: Dependency[],
-    instructs_template_id?: number
-    instructs_template?: InstructsTemplate
+    dependencies?: Dependency[];
+    instructs_template_id?: number;
+    instructs_template?: InstructsTemplate;
+    links_count?: number;
 }
 
 export interface Breadcrumb {
@@ -255,8 +256,8 @@ export interface User {
     role_ids?: number[];
     game_role_ids?: number[];
     custom_color: string;
-    color: string;
-    tag: string;
+    color?: string;
+    tag?: string;
     readonly role_names?: Record<string, boolean>;
     readonly permissions?: Record<string, boolean>;
     banner: string;
@@ -286,14 +287,15 @@ export interface User {
         game_show_threads: boolean;
     };
     mod_count: number;
+    supporter?: Supporter;
 }
 
 export interface UserForm extends User {
     password: string;
     confirm_password: string;
     current_password: string;
-    avatar_file?: Blob;
-    banner_file?: Blob;
+    avatar_file?: Blob|null;
+    banner_file?: Blob|null;
 
 }
 export interface Link {
@@ -368,7 +370,8 @@ export interface Thread {
     tags?: Tag[];
     subscribed?: boolean;
     game_id?: number;
-    game?: Game
+    game?: Game;
+    edited_at?: string;
 }
 
 export interface Forum {
@@ -433,6 +436,7 @@ export interface Document {
     last_user?: User;
     created_at?: string;
     updated_at?: string;
+    is_unlisted: boolean;
 }
 
 export interface UserCase {
@@ -508,4 +512,5 @@ export interface Report {
     updated_at?: string;
     user?: User | null;
     reportable?: any | null;
+    reported_user?: User
 }

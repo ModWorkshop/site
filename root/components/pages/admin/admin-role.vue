@@ -8,7 +8,7 @@
             @dragend="$emit('dragend')"
         >
             <span v-if="!roleCanBeEdited">🔒</span>
-            <a-icon v-else-if="role.id != 1 || game" icon="grip-lines"/>
+            <i-mdi-equal v-else-if="role.id != 1 || game"/>
             <flex column>
                 <span class="my-auto">
                     <a-tag :color="role.color">{{role.name}}</a-tag>

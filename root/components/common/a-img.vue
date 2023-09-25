@@ -1,32 +1,24 @@
 <template>
-    <img :loading="loading" :src="compSrc" :alt="alt" :onerror="`this.src = '${props.fallback}'`">
+    <img :loading="loading" :src="compSrc" :alt="alt" :onerror="`this.src = '${fallback}'`">
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    src: {
-        default: undefined,
-        type: [String, Blob],
-    },
-    loading : {
-        default: undefined,
-        type: String
-    },
-    urlPrefix: {
-        type: String,
-        default: ''
-    },
-    isAsset: {
-        type: Boolean,
-        default: false
-    },
-    useThumb: {
-        type: Boolean,
-        default: false
-    },
-    fallback: String,
-    alt: String
-});
+const { 
+    src,
+    loading,
+    urlPrefix = '',
+    isAsset = false,
+    useThumb = false,
+    fallback
+} = defineProps<{
+    src?: string|Blob|null,
+    loading?: string,
+    urlPrefix?: string,
+    isAsset?: boolean,
+    useThumb?: boolean,
+    fallback?: string,
+    alt?: string
+}>();
 
-const compSrc = computed(() => (props.src ? useSrc(props.urlPrefix, props.src, props.isAsset, props.useThumb) : props.fallback) ?? props.fallback);
+const compSrc = computed(() => (src ? useSrc(urlPrefix, src, isAsset, useThumb) : fallback) ?? fallback);
 </script>

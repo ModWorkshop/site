@@ -6,7 +6,7 @@
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <slot name="any-option" :option="option">
                             <a-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
-                                <a-icon v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" icon="circle-xmark" @click="deselectOption(option)"/> {{optionName(option)}}
+                                <i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click="deselectOption(option)"/> {{optionName(option)}}
                             </a-tag>
                         </slot>
                     </slot>
@@ -24,13 +24,13 @@
                 </span>
             </flex>
             <flex class="ml-auto" gap="2">
-                <a-icon v-if="compClearable" icon="xmark" @click.stop="clearAll"/>
-                <a-icon v-if="classic" icon="angle-down" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
+                <i-mdi-close v-if="compClearable" @click.stop="clearAll"/>
+                <i-mdi-menu-down v-if="classic" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
             </flex>
         </flex>
         <template #popper>
             <flex column :class="listClass" style="min-width: 200px">
-                <a-input v-if="compFilterable" v-model="search" class="flex-grow"/>
+                <a-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
                 <flex column class="overflow-auto">
                     <a-dropdown-item 
                         v-for="option of filtered"
@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{
 	url?: string,
@@ -79,7 +79,8 @@ const props = withDefaults(defineProps<{
 	maxShown?: string|number,
     listClass?: string|string[],
     listTags?: boolean,
-    postFetchFilter?: boolean
+    postFetchFilter?: boolean,
+    nullClear?: boolean,
 }>(), {
     valueBy: 'id',
     textBy: 'name',
@@ -87,13 +88,15 @@ const props = withDefaults(defineProps<{
     filterSelected: false,
     postFetchFilter: false,
     classic: true,
-    listTags: false
+    listTags: false,
+    nullClear: false
 });
 
 const search = ref('');
 const searchDebounced = refThrottled(search, props.url ? 500 : 10);
 const dropdownOpen = ref(false);
 const showInvalid = ref(false);
+const searchElement = ref<HTMLInputElement>();
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: any|any[]): void,
@@ -135,7 +138,13 @@ const opts = computed(() => {
 });
 const selectedValue = computed(() => props.modelValue ?? props.default);
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
-const selectedMax = computed(() => props.max ? selected.value.length >= props.max : false);
+const selectedMax = computed(() => {
+    if (!props.max) {
+        return false;
+    }
+    const max = typeof props.max == 'number' ? props.max : parseInt(props.max);
+    return selected.value.length >= max;
+});
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value && opts.value.length > 10));
 const filtered = computed(() => {
     const searchLower = searchDebounced.value.toLowerCase();
@@ -191,7 +200,9 @@ const selectedOptions = computed(() => {
 	}
 });
 
-const shownOptions = computed(() => selectedOptions.value.filter((_, i) => !props.maxShown || (i + 1) <= props.maxShown));
+const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
+    return !props.maxShown || (i + 1) <= (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
+}));
 
 const selectedOption = computed(() => {
 	if (opts.value) {
@@ -203,6 +214,16 @@ const selectedOption = computed(() => {
 
 const compClearable = computed(() => {    
     return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+});
+
+watch(dropdownOpen, val => {
+    if (val) {
+        setTimeout(() => {
+            if (searchElement.value) {
+                searchElement.value.focus();
+            }
+        }, 100);
+    }
 });
 
 function defaultBy(option, propName) {
@@ -333,7 +354,7 @@ function deselectOption(item) {
         remove(selectedValue.value, value);
         emit('update:modelValue', selectedValue.value);
     } else if (props.clearable) {
-        emit('update:modelValue', undefined);
+        emit('update:modelValue', props.nullClear ? null : undefined);
         dropdownOpen.value = false;
     } 
 }

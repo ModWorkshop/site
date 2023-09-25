@@ -9,7 +9,7 @@
         />
         <flex class="mt-auto mb-1" wrap>
             <VDropdown>
-                <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('days') }}</a-button>
+                <a-button><i-mdi-menu-down/> {{ $t('days') }}</a-button>
                 <template #popper>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(6).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('days', i+1)">{{i+1}}</a-dropdown-item>
@@ -17,7 +17,7 @@
                 </template>
             </VDropdown>
             <VDropdown>
-                <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('weeks') }}</a-button>
+                <a-button><i-mdi-menu-down/> {{ $t('weeks') }}</a-button>
                 <template #popper>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(4).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('weeks', i+1)">{{i+1}}</a-dropdown-item>
@@ -25,7 +25,7 @@
                 </template>
             </VDropdown>
             <VDropdown>
-                <a-button icon="ic:outline-keyboard-arrow-down">{{ $t('months') }}</a-button>
+                <a-button><i-mdi-menu-down/> {{ $t('months') }}</a-button>
                 <template #popper>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(12).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('months', i+1)">{{i+1}}</a-dropdown-item>

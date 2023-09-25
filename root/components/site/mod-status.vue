@@ -7,6 +7,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { Mod } from '~~/types/models';
+import MdiCancel from '~icons/mdi/cancel';
+import MdiCloseThick from '~icons/mdi/close-thick';
+import MdiClock from '~icons/mdi/clock';
+import MdiAlertCircle from '~icons/mdi/alert-circle';
+import MdiEyeOff from '~icons/mdi/eye-off';
+import MdiNewspaperRemove from '~icons/mdi/newspaper-remove';
+
+
 
 const props = defineProps<{
     mod: Mod
@@ -38,17 +46,17 @@ const statusText = computed(() => {
 const statusIcon = computed(() => {
     const mod = props.mod;
     if (mod.suspended) {
-        return 'mdi:cancel';
+        return MdiCancel;
     } else if (mod.approved === false) {
-        return 'mdi:close-thick';
+        return MdiCloseThick;
     } else if (mod.approved === null) {
-        return 'mdi:clock';
+        return MdiClock;
     } else if (!mod.has_download) {
-        return 'mdi:alert-circle';
+        return MdiAlertCircle;
     } else if (mod.visibility != 'public') {
-        return 'mdi:eye-off';
+        return MdiEyeOff;
     } else if (!mod.published_at) {
-        return 'mdi:newspaper-remove';
+        return MdiNewspaperRemove;
     }
 });
 

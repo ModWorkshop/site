@@ -11,9 +11,10 @@
                     {{$t('no_alerts_found')}}
                 </span>
             </flex>
-            <div class="mt-4">
-                <a-button icon="eye" to="/notifications" @click="showNotifications = false">{{$t('browse_all_notifications')}}</a-button>
-            </div>
+            <flex class="mt-4">
+                <a-button to="/notifications" @click="showNotifications = false"><i-mdi-eye/> {{$t('browse_all_notifications')}}</a-button>
+                <a-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
+            </flex>
         </template>
     </a-modal>
     
@@ -22,48 +23,57 @@
         <NuxtLink to="/">
             <a-img alt="logo" :src="logo" width="36" height="36" is-asset/>
         </NuxtLink>
-        <a-link-button class="ml-auto text-4xl sm:hidden" icon="bars" @click="headerClosed = !headerClosed"/>
+        <a-link-button class="ml-auto text-4xl md:hidden" @click="headerClosed = !headerClosed"><i-mdi-menu/></a-link-button>
         <Transition name="left-slide">
             <flex v-show="!headerClosed" class="header-content">
-                <flex id="header-buttons" gap="4" class="ml-3 sm:items-center">
+                <flex id="header-buttons" gap="4" class="ml-3">
                     <a-link-button v-if="!user?.ban" :to="user ? '/upload' : '/login'">{{$t('upload_mod')}}</a-link-button>
-                    <a-link-button to="/games">{{$t('games')}}</a-link-button>
+                    <a-link-button to="/search/mods">{{$t('browse_mods')}}</a-link-button>
+                    <a-link-button class="max-lg:hidden" to="/games">{{$t('games')}}</a-link-button>
                     <a-link-button v-if="settings?.news_forum_category" class="max-lg:hidden" :to="`/forum?category=${settings?.news_forum_category}`">{{$t('news')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="/forum">{{$t('forum')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="/document/rules">{{$t('rules')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
-                    <a-link-button class="max-lg:hidden" to="/support">{{$t('support_us')}}</a-link-button>
-                    <VDropdown class="hidden max-lg:block max-sm:hidden">
-                        <a-link-button icon="ellipsis-vertical"/>
+                    <a-link-button class="max-xl:hidden" to="/forum">{{$t('forum')}}</a-link-button>
+                    <a-link-button class="max-xl:hidden" to="/support">{{$t('support_us')}}</a-link-button>
+                    <VDropdown class="max-md:hidden">
+                        <a-link-button><i-mdi-chevron-down/> {{$t('more')}}</a-link-button>
                         <template #popper>
-                            <a-dropdown-item to="/forum?category=news">{{$t('news')}}</a-dropdown-item>
-                            <a-dropdown-item to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-dropdown-item>
-                            <a-dropdown-item to="/forum">{{$t('forum')}}</a-dropdown-item>
-                            <a-dropdown-item to="/rules">{{$t('rules')}}</a-dropdown-item>
                             <a-dropdown-item to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-dropdown-item>
-                            <a-dropdown-item to="/support">{{$t('support_us')}}</a-dropdown-item>
+                            <a-dropdown-item to="https://translate.modworkshop.net/">{{$t('translation_site')}}</a-dropdown-item>
+                            <a-dropdown-item to="/docs/rules">{{$t('rules')}}</a-dropdown-item>
+                            <a-dropdown-item to="/games" class="lg:!hidden">{{$t('games')}}</a-dropdown-item>
+                            <a-dropdown-item to="/forum" class="xl:!hidden">{{$t('forum')}}</a-dropdown-item>
+                            <a-dropdown-item to="/support" class="xl:!hidden">{{$t('support_us')}}</a-dropdown-item>
+                            <a-dropdown-item to="/forum?category=news" class="lg:!hidden">{{$t('news')}}</a-dropdown-item>
                         </template>
                     </VDropdown>
+
+                    <a-link-button class="max-sm:block hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
+                    <a-link-button class="max-sm:block hidden" to="https://translate.modworkshop.net/">{{$t('translation_site')}}</a-link-button>
                 </flex>
                 <flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4"> 
                     <VDropdown :shown="showSearch" no-auto-focus :triggers="[]" :auto-hide="false" popper-class="popper-big">
-                        <div>
-                            <a-input 
+                        <flex>
+                            <a-input
+                                v-if="showSearch"
                                 id="header-search"
                                 v-model="query"
+                                v-model:elementRef="searchInput"
                                 v-on-click-outside="() => showSearch = false"
                                 class="search"
+                                inline
                                 :placeholder="$t('search')"
-                                maxlength="150"
-                                @click="showSearch = true"
                                 @keydown="onKeydownSearch"
                                 @keyup.up.self="setSelectedSearch(-1)"
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <a-button icon="ant-design:search-outlined" :aria-label="$t('search')" @click="clickSelectedSearch"/>
-                        </div>
+                            <flex v-else id="header-search" inline class="mw-input" @click="showSearch = true">
+                                <i-mdi-magnify/><span class="text-secondary">{{$t('search')}}</span>
+                                <span class="ml-auto">
+                                    <kbd>CTRL</kbd> <kbd>K</kbd>
+                                </span>
+                            </flex>
+                        </flex>
                         <template #popper>
                             <ClientOnly>
                                 <h3>{{$t('search')}}</h3>
@@ -78,21 +88,21 @@
                                         {{$t(button.text, [query, currentGame?.name])}}
                                     </a-button>
                                 </flex>
-                                <template v-if="query && mods && mods.data.length">
+                                <emplate v-if="query && mods && mods.data.length">
                                     <h3>{{$t('mods')}}</h3>
                                     <flex column gap="1">
                                         <template v-if="mods">
                                             <list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
                                         </template>
                                     </flex>
-                                </template>
+                                </emplate>
                             </ClientOnly>
                         </template>
                     </VDropdown>
                     <flex v-if="user" class="items-center" gap="3">
                         <flex v-if="user.ban" column>
                             <span class="text-danger">
-                                <a-icon icon="triangle-exclamation"/> {{$t('banned')}}
+                                <i-mdi-alert/> {{$t('banned')}}
                             </span>
                             <span>
                                 {{$t('expires')}}: <time-ago :time="user.ban.expire_date"/>
@@ -100,27 +110,29 @@
                         </flex>
                         <flex class="text-lg" gap="4">
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports">
-                                <a-icon icon="mdi:alert-box"/> {{reportCount}}
+                                <i-mdi-alert-box/> {{reportCount}}
                             </NuxtLink>
                             <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" to="/admin/approvals">
-                                <a-icon icon="mdi:clock"/> {{waitingCount}}
+                                <i-mdi-clock/> {{waitingCount}}
                             </NuxtLink>
-                            <span class="cursor-pointer" @click="showNotifications = true"><a-icon icon="mdi:bell"/> {{notificationCount}}</span>
+                            <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </flex>
                         <VDropdown class="-order-1 md:order-1">
                             <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
                             <template #popper>
-                                <a-dropdown-item icon="mdi:user" :to="userLink">{{$t('profile')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:account-settings-variant" to="/user-settings">{{$t('user_settings')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:eye" to="/user-settings/content">{{$t('content_settings')}}</a-dropdown-item>
-                                <a-dropdown-item v-if="canSeeAdminPage" icon="mdi:cog" to="/admin">{{$t('admin_page')}}</a-dropdown-item>
+                                <a-dropdown-item :to="userLink"><i-mdi-user/> {{$t('profile')}}</a-dropdown-item>
+                                <a-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{$t('user_settings')}}</a-dropdown-item>
+                                <a-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{$t('content_settings')}}</a-dropdown-item>
+                                <a-dropdown-item v-if="canSeeAdminPage" to="/admin"><i-mdi-cog/> {{$t('admin_page')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item icon="mdi:plus" to="/followed-mods">{{$t('followed_mods')}}</a-dropdown-item>
-                                <a-dropdown-item icon="mdi:heart" to="/liked-mods">{{$t('liked_mods')}}</a-dropdown-item>
+                                <a-dropdown-item to="/followed-mods"><i-mdi-plus/> {{$t('followed_mods')}}</a-dropdown-item>
+                                <a-dropdown-item to="/liked-mods"><i-mdi-heart/> {{$t('liked_mods')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item icon="mdi:logout" @click="store.logout">{{$t('logout')}}</a-dropdown-item>
+                                <a-dropdown-item @click="store.logout"><i-mdi-logout/> {{$t('logout')}}</a-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <a-dropdown-item :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme">
+                                <a-dropdown-item @click="store.toggleTheme">
+                                    <i-mdi-white-balance-sunny v-if="store.theme == 'light'"/>
+                                    <i-mdi-weather-night v-else/>
                                     {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                                 </a-dropdown-item>
                             </template>
@@ -129,7 +141,10 @@
                     <flex v-else class="my-auto" gap="4">
                         <a-link-button to="/login">{{$t('login')}}</a-link-button>
                         <a-link-button to="/register">{{$t('register')}}</a-link-button>
-                        <a-link-button :icon="store.theme === 'light' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'" @click="store.toggleTheme"/>
+                        <a-link-button @click="store.toggleTheme">
+                            <i-mdi-white-balance-sunny v-if="store.theme === 'light'"/>
+                            <i-mdi-weather-night v-else/>
+                        </a-link-button>
                     </flex>
                 </flex>
             </flex>
@@ -144,14 +159,9 @@ import { useStore } from '../../store';
 import { vOnClickOutside } from '@vueuse/components';
 import { Mod } from '../../types/models';
 
-const headerClosed = ref(true);
+const router = useRouter();
 
 const store = useStore();
-const settings = computed(() => store.settings);
-
-const router = useRouter();
-const route = useRoute();
-
 const { 
     user,
     notifications,
@@ -160,13 +170,17 @@ const {
     reportCount,
     waitingCount,
 } = storeToRefs(store);
+
+const headerClosed = ref(true);
 const query = ref('');
 const showNotifications = ref(false);
 const showSearch = ref(false);
 const selectedSearch = ref(0);
+const searchInput = ref();
 const unlockedOwO = useState('unlockedOwO');
 const searchBus = useEventBus<string>('search');
 
+const settings = computed(() => store.settings);
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
 const hasReports = computed(() => reportCount?.value && reportCount.value > 0);
@@ -209,16 +223,35 @@ watch(showNotifications, async () => {
     }
 });
 
-function onKeydownSearch() {
-    if (query.value) {
-        showSearch.value = true;
+watch(searchInput, val => {
+    if (val) {
+        val.focus();
     }
-}
+});
 
 watch(query, val => {
     unlockedOwO.value = val.toLowerCase() === 'owo';
     searchBus.emit(val);
 });
+
+onMounted(() => {
+    window.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key == 'k' /** k */) { 
+            showSearch.value = true;
+            e.preventDefault(); 
+        }
+
+        if (e.key == 'Escape') {
+            showSearch.value = false;
+        }
+    });
+});
+
+function onKeydownSearch() {
+    if (query.value) {
+        showSearch.value = true;
+    }
+}
 
 function setSelectedSearch(direction: number) {
     selectedSearch.value += direction;
@@ -238,6 +271,10 @@ function clickSelectedSearch() {
         query: { query: query.value }
     });
 }
+
+async function markAsRead() {
+    await markAllNotificationsAsRead(notifications.value?.data, notificationCount);
+}
 </script>
 <style scoped>
 .header-closer {
@@ -252,8 +289,7 @@ function clickSelectedSearch() {
 }
 
 .search-button {
-    padding: 0.5rem;
-    min-width: 200px;
+    min-width: 300px;
 }
 
 header {
@@ -266,19 +302,34 @@ header {
     grid-area: header;
     transition: left 0.25s;
 }
-</style>
-<style>
+
+kbd {
+    vertical-align: middle;
+}
+
+#header-buttons {
+    align-items: center;
+}
+
 .header-content {
     flex-grow: 1;
 }
 
-@media (min-width:640px) {
+.user {
+    display: flex;
+}
+
+.navbar {
+    background-color: var(--header-footer-color);
+}
+
+@media (min-width:768px) {
     .header-content {
         display: flex !important;
     }
 }
 
-@media (max-width:640px) {
+@media (max-width:768px) {
     .header-content {
         flex-direction: column-reverse;
         justify-content: flex-end;
@@ -301,44 +352,44 @@ header {
 
     #header-buttons {
         flex-direction: column;
+        align-items: start !important;
+    }
+}
+</style>
+
+<style>
+#header-search {
+    line-height: revert;
+    width: 300px;
+    height: 36px;
+}
+
+
+@media (max-width:1024px) {
+    #header-search {
+        width: 120px;
+    }
+
+    #header-search kbd {
+        display: none;
     }
 }
 
-.search .input {
-    border-right: none;
-}
-.user {
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
-}
-
-.user:hover {
-    color: var(--text-color);
-}
-
-.header-items {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.navbar {
-    background-color: var(--header-footer-color);
+@media (min-width:1024px) and (max-width:1240px) {
+    #header-search {
+        width: 200px;
+    }
 }
 
 .md-editor-open header {
     z-index: 0;
 }
 
-
-.left-slide-move, /* apply transition to moving elements */
-.left-slide-enter-active,
-.left-slide-leave-active {
+.left-slide-move, .left-slide-enter-active, .left-slide-leave-active {
   transition: all 0.25s ease;
 }
 
-.left-slide-enter-from,
-.left-slide-leave-to {
+.left-slide-enter-from, .left-slide-leave-to {
   opacity: 0;
   transform: translateX(-100%);
 }

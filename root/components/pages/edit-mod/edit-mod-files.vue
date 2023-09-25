@@ -1,7 +1,7 @@
 <template>
     <a-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
     <md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-    <a-button class="mr-auto" icon="mdi:close" @click="setPrimaryDownload()">{{ $t('clear_primary_download') }}</a-button>
+    <a-button class="mr-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</a-button>
 
     <label>{{$t('files')}}</label>
     <flex column>
@@ -27,7 +27,9 @@
                 </td>
             </template>
             <template #buttons="{file}">
-                <a-button class="file-button" icon="mdi:cog" @click.prevent="editFile(file as File)"/>
+                <a-button class="file-button" @click.prevent="editFile(file as File)">
+                    <i-mdi-cog/>
+                </a-button>
             </template>
         </file-uploader>
     </flex>
@@ -35,7 +37,9 @@
     <flex column>
         <flex class="items-center">
             <label>{{$t('links')}}</label>
-            <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" icon="mdi:plus-thick" @click="createNewLink"/>
+            <a-button v-if="links && links.data.length < 25" class="ml-auto mb-2" @click="createNewLink">
+                <i-mdi-plus-thick/>
+            </a-button>
         </flex>
         <flex column class="alt-content-bg p-3">
             <table v-if="links?.data.length">
@@ -55,8 +59,8 @@
                         <td>{{fullDate(link.updated_at)}}</td>
                         <td class="text-center p-1">
                             <flex inline>
-                                <a-button icon="mdi:cog" @click.prevent="editLink(link)"/>
-                                <a-button icon="mdi:trash" @click.prevent="deleteLink(link)"/>
+                                <a-button @click.prevent="editLink(link)"><i-mdi-cog/></a-button>
+                                <a-button @click.prevent="deleteLink(link)"><i-mdi-delete/></a-button>
                             </flex>
                         </td>
                         <td class="text-center">
@@ -104,22 +108,23 @@ import { friendlySize, fullDate } from '~~/utils/helpers';
 
 const { settings, hasPermission } = useStore();
 
-const props = defineProps<{
-    mod: Mod,
+defineProps<{
     light?: boolean
 }>();
 
-const { data: files } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { limit: 25 });
-const { data: links } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { limit: 25 });
+const mod = defineModel<Mod>({ required: true });
+
+const { data: files } = await useWatchedFetchMany(`mods/${mod.value.id}/files`, { limit: 25 });
+const { data: links } = await useWatchedFetchMany(`mods/${mod.value.id}/links`, { limit: 25 });
 
 const showEditFile = ref(false);
 const showEditLink = ref(false);
 const currentFile = ref<File>();
 const currentLink = ref<Link>();
 const changeFile = ref<HTMLInputElement>();
-const canModerate = computed(() => hasPermission('manage-mods', props.mod.game));
+const canModerate = computed(() => hasPermission('manage-mods', mod.value.game));
 
-const allowedStorage = computed(() => props.mod.allowed_storage ? (props.mod.allowed_storage * Math.pow(1024, 2)) : null);
+const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
 const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);
 
 const usedFileSize = computed(() => files.value?.data.reduce((prev, curr) => prev + curr.size, 0));
@@ -131,9 +136,7 @@ const usedSizeText = computed(() => {
 });
 const fileSizeColor =  computed(() => usedSizePercent.value > 80 ? 'danger' : 'primary');
 
-const uploadLink = computed(() => `mods/${props.mod.id}/files`);
-
-const ignoreChanges = inject<() => void>('ignoreChanges');
+const uploadLink = computed(() => `mods/${mod.value.id}/files`);
 
 function editFile(file: File) {
     showEditFile.value = true;
@@ -167,7 +170,6 @@ async function saveEditFile(error) {
                 }
             }
     
-            ignoreChanges?.();
             showEditFile.value = false;
         }
     } catch (e) {
@@ -176,8 +178,7 @@ async function saveEditFile(error) {
 }
 
 function updateHasDownload() {
-    props.mod.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
-    ignoreChanges?.();
+    mod.value.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
 }
 
 function editLink(link: Link) {
@@ -211,7 +212,7 @@ async function saveEditLink(error) {
     try {
         if (link) {
             if (link.id == -1) {
-                const newLink = await postRequest<Link>(`mods/${props.mod.id}/links`, link);
+                const newLink = await postRequest<Link>(`mods/${mod.value.id}/links`, link);
                 if (links.value) {
                     links.value.data.push(newLink);
                 }
@@ -238,7 +239,7 @@ async function saveEditLink(error) {
 }
 
 function fileDeleted(file: File) {
-    if (props.mod.download_id === file.id) {
+    if (mod.value.download_id === file.id) {
         setPrimaryDownload();
     }
 
@@ -246,8 +247,8 @@ function fileDeleted(file: File) {
 }
 
 function setPrimaryDownload(type?: 'file'|'link', download?: File|Link) {
-    props.mod.download_type = type ?? null;
-    props.mod.download_id = (download && download.id) ?? null;
-    props.mod.download = download;
+    mod.value.download_type = type ?? null;
+    mod.value.download_id = (download && download.id) ?? null;
+    mod.value.download = download;
 }
 </script>

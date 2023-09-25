@@ -5,11 +5,13 @@
         <a-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
         <flex>
             <NuxtLink v-if="$route.name == 'thread-thread-edit'" :to="`/thread/${thread.id}`">
-                <a-button icon="arrow-left">{{$t('return_to_thread')}}</a-button>
+                <a-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</a-button>
             </NuxtLink> 
-            <a-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`" icon="mdi:cog">{{$t('edit')}}</a-button>
-            <a-button v-if="canModerate" icon="thumbtack" @click="pinThread">{{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
-            <a-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" :icon="thread.locked ? 'unlock' : 'lock'" @click="lockThread">
+            <a-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-button>
+            <a-button v-if="canModerate" @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
+            <a-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
+                <i-mdi-lock-open v-if="thread.locked"/>
+                <i-mdi-lock v-else/>
                 {{thread.locked ? $t('unlock') : $t('lock')}}
             </a-button>
             <a-report resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
@@ -30,10 +32,10 @@ const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 
-const threadGame = computed(() => thread.value.forum.game);
+const threadGame = computed(() => thread.value.forum?.game);
 
 const thumbnail = computed(() => {
-    const avatar = thread.value.user.avatar;
+    const avatar = thread.value.user?.avatar;
     if (avatar) {
         return `${config.storageUrl}/users/images/${avatar}`;
     } else {
@@ -43,7 +45,7 @@ const thumbnail = computed(() => {
 
 useServerSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
-	ogTitle: `${thread.value.name} by ${thread.value.user.name}`,
+	ogTitle: `${thread.value.name} by ${thread.value.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });

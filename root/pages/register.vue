@@ -48,6 +48,7 @@
                     {{$t('login_using_services')}}
                     <the-social-logins/>
                 </flex>
+                <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
             </content-block>
         </a-form>    
     </page-block>
@@ -89,7 +90,10 @@ const confirmPassValidity = computed(() => {
 });
 
 const loading = ref(false);
-const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm);
+const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && turnstileToken.value);
+
+const turnstile = ref();
+const turnstileToken = ref<string>();
 
 const store = useStore();
 
@@ -98,16 +102,26 @@ async function register() {
         return;
     }
 
+    const token = turnstileToken.value;
+    turnstileToken.value = '';
+
     try {
         loading.value = true;
-        await postRequest('/register', serializeObject({...user, avatar_file: avatarBlob.value}));  
+        await postRequest('/register', serializeObject({
+            ...user,
+            avatar_file: avatarBlob.value,
+            'cf-turnstile-response': token
+        }));  
         store.attemptLoginUser();
+        reloadToken();
     } catch (e) {
         showErrorToast(e, {
             409: t('register_error_409'),
         });
 
         loading.value = false;
+
+        turnstile.value?.reset();
     }
 }
 </script>

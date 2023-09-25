@@ -5,26 +5,39 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    name: String,
-    to: String,
-    icon: String,
-    title: String,
-    selected: Boolean,
-});
+const props = defineProps<{
+    name?: string,
+    to?: string,
+    alias?: string,
+    icon?: Component,
+    title?: string,
+    selected?: boolean,
+}>();
 
 const route = useRoute();
 
 const side = inject<boolean>('side', false);
-const menuOpen = inject<Ref<boolean>>('menuOpen', null);
+const menuOpen = inject<Ref<boolean>>('menuOpen');
 const root = inject<string>('root', '');
+
+const compAlias = computed(() => {
+    if (typeof(props.alias) == 'string') {
+        return props.alias ? `${root}/${props.alias}` : root;
+    }
+});
+
+const normalizedRoot = computed(() => root + '/');
+const normalizedPath = computed(() => route.path + '/');
 
 const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 
 const classes = computed(() => ({
     'nav-link': true,
     'nav-link-side': side,
-    selected: props.selected || (compTo.value == root ? route.path == root : route.path.startsWith(compTo.value))
+    selected: 
+        props.selected 
+        || (compTo.value == root ? normalizedPath.value == normalizedRoot.value : normalizedPath.value.startsWith(compTo.value + '/'))
+        || (compAlias.value == root ? route.path == root : (compAlias.value && route.path.startsWith(compAlias.value)))
 }));
 
 function clickLink() {

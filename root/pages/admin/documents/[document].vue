@@ -28,5 +28,6 @@ const { data: doc } = await useEditResource<Document>('document', 'documents', {
     url_name: '',
     desc: '',
     game_id: props.game?.id,
+    is_unlisted: false
 }, { game_id: gameId });
 </script>

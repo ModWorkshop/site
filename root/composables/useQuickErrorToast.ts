@@ -49,22 +49,18 @@ export default function() {
             ...errorStrings
         };
 
-        const code = e.status ?? e.response?.status ?? 502;
-        let message;
-        if (e instanceof FetchError) {
-            message = e.message ?? e.data?.message;
-        } else {
-            message = e.message;
-        }
-
+        const code = e.status ?? e.response?.status;
+        const laravelMessage = (e instanceof FetchError ? e.data : e.response?.data)?.message ?? '';
+  
         let desc = '';
         if (code === 422) {
             desc = getErrorString(e);
-        } else {
-            desc = errorStrings[message] || errorStrings[code] || t('something_went_wrong');
+        } else if (code) {
+            desc = errorStrings[e.message ?? laravelMessage] || errorStrings[code];
         }
 
-        desc += ` (${code})`;
+        desc ??= laravelMessage ?? t('something_went_wrong');
+        desc += `(${code})`;
 
         return showToast({
             color: 'danger',

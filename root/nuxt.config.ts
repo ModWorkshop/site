@@ -1,6 +1,8 @@
-// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
+// https://nuxt.com/docs/api/configuration/nuxt-config
 
-import { ProcessVersionsNodePlugin } from "./rollup-plugins/process-versions-node";
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
 
 export default defineNuxtConfig({
 	devServer: {
@@ -24,20 +26,32 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
-		public: { apiUrl: '', siteUrl: '', uploadUrl: '', storageUrl: '', debug_legacy_images: false, versionHash: ''},
+		public: { 
+			apiUrl: '',
+			siteUrl: '',
+			uploadUrl: '',
+			storageUrl: '',
+			debug_legacy_images: false,
+			version: '3.3',
+			commitHash: ''
+		},
 		innerApiUrl: ''
 	},
 
 	hooks: {
 		'pages:extend': (routes) => {
+			const userSettings = routes.find(page => page.path == '/user-settings');
+
+			userSettings?.children?.push({ path: "/user-settings/profile", file: '~/pages/user-settings/index.vue' });
+
 			routes.push(...[
 				{
 					path: "/user/:user/edit",
 					file: '~/pages/user-settings.vue',
 					children: [
-						{ path: "", file: '~/pages/user-settings/index.vue' },
+						{ path: "account", file: '~/pages/user-settings/account.vue' },
 						{ path: "content", file: '~/pages/user-settings/content.vue' },
-						{ path: "profile", file: '~/pages/user-settings/profile.vue' },
+						{ path: "profile", file: '~/pages/user-settings/index.vue' },
 						{ path: "accounts", file: '~/pages/user-settings/accounts.vue' },
 						{ path: "api", file: '~/pages/user-settings/api.vue' },
 					]
@@ -54,7 +68,7 @@ export default defineNuxtConfig({
 			const thread = routes.find(page => page.path == '/thread/:thread()');
 			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' });
 
-			const game = routes.find(page => page.path == '/game/:game()');
+			const game = routes.find(page => page.path == '/g/:game()');
 
 			if (game && game.children) {
 				const gameAdmin = game.children.find(page => page.path == 'admin');
@@ -122,6 +136,14 @@ export default defineNuxtConfig({
 		build: {
 			chunkSizeWarningLimit: 1000
 		},
+		plugins: [
+			Components({
+				resolvers: [IconsResolver()],
+			}),
+			Icons({
+				defaultClass: 'icon'
+			}),
+		],
 	},
 
 	// ssr: false,
@@ -165,21 +187,14 @@ export default defineNuxtConfig({
 		id: 'G-EGYBGTBHRV'
 	},
 
-	nitro: {
-		rollupConfig: {
-			// @ts-expect-error ???
-			plugins: [ProcessVersionsNodePlugin()],
-		},
-	},
-	
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
+		'@nuxtjs/turnstile',
 		// 'nuxt-delay-hydration',
 		'@pinia/nuxt',
-		'floating-vue/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
-		'nuxt-icon',
+		'unplugin-icons/nuxt',
 		'@nuxtjs/i18n',
 		'nuxt-gtag'
 	],

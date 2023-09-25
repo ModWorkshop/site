@@ -10,7 +10,7 @@
         >
         <img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="vmGame.thumbnail">
             <template #label="{ src }">
-                <game-thumbnail :src="src" style="height: 250px;"/>
+                <game-thumbnail :src="src" style="width: 250px;"/>
             </template>
         </img-uploader>
         <img-uploader id="banner" v-model="bannerBlob" :label="$t('banner')" :src="vmGame.banner">
@@ -18,8 +18,10 @@
                 <a-banner :src="src" url-prefix="games/images"/>
             </template>
         </img-uploader>
-        <a-input v-model="vmGame.name" :label="$t('name')"/>
-        <a-input v-model="vmGame.short_name" :label="$t('short_name')"/>
+        <flex>
+            <a-input v-model="vmGame.name" :label="$t('name')"/>
+            <a-input v-model="vmGame.short_name" :label="$t('short_name')"/>
+        </flex>
         <a-input v-model="vmGame.buttons" :label="$t('game_buttons')" :desc="$t('game_buttons_desc')"/>
         <a-input v-model="vmGame.webhook_url" :label="$t('webhook_url')" desc="Whenever a new mod is published to this category, the site will call this webhook (generally Discord)"/>
     </simple-resource-form>

@@ -6,7 +6,8 @@
     "types": [
       // ...
       "@pinia/nuxt",
-      "@types/node"
+      "@types/node",
+      "unplugin-icons/types/vue"
     ]
   }
 }

@@ -6,13 +6,15 @@
         </flex>
         <div class="categories">
             <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
-                <a-icon 
+                <span 
                     v-if="currentCategories.length"
                     class="mx-1"
                     :style="{opacity: forciblyOpen ? 0.25 : 1}"
-                    :icon="isOpen ? `ic:round-keyboard-arrow-down` : `ic:round-keyboard-arrow-right`"
                     @click="open = !open"
-                />
+                >
+                    <i-mdi-chevron-down v-if="isOpen"/>
+                    <i-mdi-chevron-right v-else/>
+                </span>
                 <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
                 <slot name="button" :category="category"/>
             </div>
@@ -21,12 +23,11 @@
                     v-for="c in currentCategories"
                     :key="c.id"
                     v-model:search="queryVm" 
+                    v-model="modelValue" 
                     :first="false"
-                    :model-value="modelValue" 
                     :category="c"
                     :categories="categories"
                     :set-query="setQuery"
-                    @update:model-value="value => $emit('update:modelValue', value)"
                 >
                     <template #button="{ category: cat }">
                         <slot name="button" :category="cat"/>
@@ -39,18 +40,18 @@
 
 <script setup lang="ts">
 import { Category } from '~~/types/models';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{
-    modelValue?: number|null,
-    categories: Category[],
+    categories?: Category[],
     category?: Category,
     setQuery?: boolean,
     first?: boolean,
     search?: string
-}>(), { first: true, search: '' });
+}>(), { first: true, search: '', categories: () => [] });
 
 const emit = defineEmits(['update:modelValue', 'update:search']);
+const modelValue = defineModel<number|number[]|null>();
 const queryVm = useVModel(props, 'search', emit, { passive: true });
 const queryDelayed = refDebounced(queryVm, 250);
 const lowSearch = computed(() => queryDelayed.value.toLocaleLowerCase());

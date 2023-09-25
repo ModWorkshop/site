@@ -24,7 +24,7 @@ const props = defineProps<{
         game_id: number;
         tags: number[];
         block_tags: number[];
-        category_id: number|null
+        category_id: number|null;
     };
 }>();
 
@@ -41,8 +41,6 @@ const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(
 });
 
 watch(() => props.filters.game_id, async () => {
-    props.filters.categories = null;
-
     await props.refresh();
 
     if (props.filters.game_id) {

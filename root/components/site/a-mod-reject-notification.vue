@@ -1,6 +1,6 @@
 <template>
     <flex class="items-center ">
-        <a-icon icon="mdi:alert-box" class="text-4xl p-2 my-auto"/>
+        <i-mdi-alert-box class="text-4xl p-2 my-auto"/>
         <div>
             <i18n-t keypath="notification_mod_rejected" tag="span" style="word-wrap: anywhere;" scope="global">
                 <template #notifiable>

@@ -1,10 +1,10 @@
 <template>
     <a-form 
-        :model="vm"
+        v-model="vm"
         :created="vm && !!vm.id"
         float-save-gui
         :can-save="canSave"
-        :ignore-changes="ic"
+        :flush-changes="fc"
         @submit="submit"
     >
         <flex column gap="3">
@@ -21,9 +21,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { EventRaiser } from '~~/composables/useEventRaiser';
 import { serializeObject } from '~~/utils/helpers';
 import { Game } from '../../types/models';
+import { EventHook } from '@vueuse/core';
 
 const router = useRouter();
 const yesNoModal = useYesNoModal();
@@ -32,22 +32,20 @@ const showError = useQuickErrorToast();
 const { t } = useI18n();
 
 const props = withDefaults(defineProps<{
-    modelValue: any,
     url: string,
     createUrl?: string,
     redirectTo?: string,
     deleteRedirectTo?: string,
     mergeParams?: object,
     canSave?: boolean,
-    ignoreChanges?: EventRaiser,
+    flushChanges?: EventHook,
     deleteButton?: boolean,
-    game?: Game
+    game?: Game,
 }>(), { deleteButton: true });
 
-
-const emit = defineEmits(['submit', 'update:modelValue']);
-const vm = useVModel(props, 'modelValue', emit);
-const ic = computed(() => props.ignoreChanges ?? useEventRaiser());
+const emit = defineEmits(['submit']);
+const vm = defineModel<any>();
+const fc = computed(() => props.flushChanges ?? createEventHook());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {
@@ -55,21 +53,20 @@ async function submit() {
         let params;
         if (props.mergeParams) {
             params = serializeObject({
-                ...props.modelValue,
+                ...vm.value,
                 ...props.mergeParams
             });
         } else {
-            params = props.modelValue;
+            params = vm.value;
         }
 
-        if (!props.modelValue.id) {
+        if (!vm.value.id) {
             const model = await postRequest<{id: number}>(createUrl.value, params);
             if (props.redirectTo) {
                 router.replace(`${props.redirectTo}/${model.id}`);
             }
         } else {
-            vm.value = await patchRequest(`${props.url}/${vm.value.id}`, params);
-            ic.value.execute();
+            fc.value.trigger(await patchRequest(`${props.url}/${vm.value.id}`, params));
         }
 
         emit('submit');
@@ -84,7 +81,7 @@ async function doDelete() {
         title: t('are_you_sure'),
         desc: t('irreversible_action'),
         async yes() {
-            await deleteRequest(`${props.url}/${props.modelValue.id}`);
+            await deleteRequest(`${props.url}/${vm.value.id}`);
             const to = props.deleteRedirectTo ?? props.redirectTo;
             if (to) {
                 router.replace(to);

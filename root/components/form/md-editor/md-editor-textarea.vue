@@ -21,6 +21,7 @@ const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
 const vm = useVModel(props, 'modelValue', emit);
 
 const element = ref();
+const err = inject<Ref<boolean>>('err');
 
 defineExpose({
     element

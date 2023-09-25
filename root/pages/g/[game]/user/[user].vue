@@ -30,7 +30,7 @@
 import { Game, Role, User } from '~/types/models';
 import { useStore } from '~~/store';
 
-definePageMeta({ alias: '/g/:game/user/:user' });
+definePageMeta({ alias: '/game/:game/user/:user' });
 
 const { user: me, hasPermission } = useStore();
 const showError = useQuickErrorToast();
@@ -62,11 +62,11 @@ async function saveRoles() {
     }
 }
 
-watch(user.value.role_ids, racalculateUserStuff);
-watch(user.value.game_role_ids, racalculateUserStuff);
+watch(() => user.value.role_ids, racalculateUserStuff);
+watch(() => user.value.game_role_ids, racalculateUserStuff);
 
-const hasRoles = computed(() => roles.value?.data.filter(role => user.value.role_ids.includes(role.id)));
-const hasGameRoles = computed(() => gameRoles.value?.data.filter(role => user.value.game_role_ids.includes(role.id)));
+const hasRoles = computed(() => roles.value?.data.filter(role => user.value.role_ids?.includes(role.id)));
+const hasGameRoles = computed(() => gameRoles.value?.data.filter(role => user.value.game_role_ids?.includes(role.id)));
 
 function racalculateUserStuff() {
     if (!roles.value || !gameRoles.value) {
@@ -84,7 +84,7 @@ function racalculateUserStuff() {
          ?? firstRegular('color', hasRoles.value)?.color;
     }
 
-    if (user.value.show_tag !== 'none' || (!user.value.supporter || user.value.show_tag !== 'supporter_or_role')) {
+    if (user.value.show_tag !== 'none' && (!user.value.supporter || user.value.show_tag !== 'supporter_or_role')) {
         user.value.tag = 
             firstRegular('tag', hasRoles.value)?.tag
          ?? firstRegular('tag', hasGameRoles.value)?.tag

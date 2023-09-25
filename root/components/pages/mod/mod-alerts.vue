@@ -13,7 +13,7 @@
                     <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
                 </template>
                 <template #forum>
-                    <NuxtLink :to="`/game/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
+                    <NuxtLink :to="`/g/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
                 </template>
             </i18n-t>
         </a-alert>
@@ -41,10 +41,9 @@
             <mod-approve v-if="canManage" :mod="mod"/>
         </a-alert>
         <a-alert v-else-if="mod.approved === false" color="danger" :title="$t('mod_rejected')" :desc="$t('mod_rejected_desc')"/>
-
-        <a-alert v-if="showPublish" color="warning">
+        <a-alert v-else-if="showPublish" color="warning">
             {{$t('publish_mod_desc')}}
-            <a-button class="mr-auto" icon="mdi:upload" @click="publish">{{ $t('publish_mod') }}</a-button>
+            <a-button class="mr-auto" @click="publish"><i-mdi-upload/> {{ $t('publish_mod') }}</a-button>
         </a-alert>
     </flex>
 </template>
@@ -53,7 +52,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 const props = defineProps<{
     mod: Mod
 }>();

@@ -1,24 +1,24 @@
 <template>
-    <a-form :model="mod" :created="!!mod.id" float-save-gui @submit="save">
+    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :exclude-from-compare="excludeFromCompare" @submit="save">
         <content-block :padding="false" class="max-md:p-4 p-8">
             <a-tabs padding="4" side query>
                 <a-tab name="main" :title="$t('main_tab')">
-                    <edit-mod-main :mod="mod"/>
+                    <edit-mod-main v-model="mod"/>
                 </a-tab>
                 <a-tab name="downloads" :title="$t('downloads_tab')">
-                    <edit-mod-files :mod="mod"/>
+                    <edit-mod-files v-model="mod"/>
                 </a-tab>
                 <a-tab name="images" :title="$t('images_tab')">
-                    <edit-mod-images :mod="mod"/>
+                    <edit-mod-images v-model="mod"/>
                 </a-tab>
                 <a-tab name="members" :title="$t('members_tab')">
-                    <edit-mod-members :mod="mod"/>
+                    <edit-mod-members v-model="mod"/>
                 </a-tab>
                 <a-tab name="instructions" :title="$t('instructions_tab')">
-                    <edit-mod-deps :mod="mod"/>
+                    <edit-mod-deps v-model="mod"/>
                 </a-tab>
                 <a-tab name="extra" :title="$t('extra_tab')">
-                    <edit-mod-extra :mod="mod"/>
+                    <edit-mod-extra v-model="mod"/>
                 </a-tab>
             </a-tabs>
         </content-block>
@@ -26,23 +26,23 @@
 </template>
 
 <script setup lang="ts">
-import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { Mod } from '~~/types/models';
 import { canEditMod, canSuperUpdate } from '~~/utils/mod-helpers';
+import clone from 'rfdc/default';
 
 const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
+const flushChanges = createEventHook();
 
 definePageMeta({
     middleware: 'users-only',
 });
 
-const router = useRouter();
+const initialMod = defineModel<Mod>('mod', { required: true });
+const mod = reactive(clone(initialMod.value));
 
-const { mod } = defineProps<{
-    mod: Mod;
-}>();
+const router = useRouter();
 
 mod.send_for_approval ??= false;
 
@@ -59,14 +59,7 @@ watch(() => mod.game, () => {
     }
 }, { immediate: true });
 
-/**
- * Only used in cases the changes were saved but AForm doesn't know about it
- */
-function ignoreChanges() {
-    Object.assign(mod, clone(mod));
-}
-
-provide('ignoreChanges', ignoreChanges);
+provide('flushChanges', flushChanges);
 
 async function save() {
     try {
@@ -80,7 +73,8 @@ async function save() {
             fetchedMod = await patchRequest<Mod>(`mods/${mod.id}`, mod);
         }
         if (fetchedMod) {
-            Object.assign(mod, fetchedMod);
+            flushChanges.trigger(mod);
+            initialMod.value = mod;
         }
     } catch (error) {
         showErrorToast(error);
@@ -88,4 +82,18 @@ async function save() {
     }
 }
 
+/**
+ * Excludes things like 'download' that do not need to be tracked so the save float doesn't show up.
+ */
+ const excludeFromCompare = [
+    'download',
+    'thumbnail',
+    'banner',
+    'images',
+    'files',
+    'links',
+    'transfer_request',
+    'members',
+    'has_download'
+];
 </script>

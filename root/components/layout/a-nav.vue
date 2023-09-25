@@ -1,7 +1,9 @@
 <template>
     <flex class="nav" column gap="3">
         <flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
-            <a-link-button class="collapse-button" icon="bars"/>
+            <a-link-button class="collapse-button">
+                <i-mdi-menu/>
+            </a-link-button>
         </flex>
         <flex :class="{'menu-open': menuOpen}" :column="!side" :gap="side ? 8 : 2">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>

@@ -5,7 +5,7 @@
                 <h3>📢 {{thread.name}}</h3>
                 <span class="ml-2">{{thread.content}}</span>
             </div>
-            <a-icon class="ml-auto mb-auto" icon="xmark" @click.prevent="$emit('hide', thread)"/>
+            <i-mdi-close class="ml-auto mb-auto" @click.prevent="$emit('hide', thread)"/>
         </content-block>
     </NuxtLink>
 </template>

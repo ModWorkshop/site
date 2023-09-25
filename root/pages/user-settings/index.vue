@@ -1,128 +1,48 @@
 <template>
     <flex gap="2" column>
-        <a-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
         <a-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
-        <a-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
-        <a-input v-model="user.email" maxlength="255" :label="$t('email')"/>
-        <flex class="items-center my-3">
-            <h3>{{$t('change_password')}} </h3>
-            <a-button class="ml-auto" @click="changePassword = !changePassword">{{$t(changePassword ? 'cancel' : 'edit')}}</a-button>
-        </flex>
-        <template v-if="changePassword">
-            <flex>
-                <a-input 
-                    v-if="isMe && user.signable"
-                    v-model="user.current_password"
-                    autocomplete="off"
-                    :label="$t('current_password')"
-                    type="password"
-                    minlength="12"
-                    maxlength="128"
-                />
-                <a-input 
-                    v-model="user.password"
-                    :validity="passValidity"
-                    autocomplete="off"
-                    :label="$t('new_password')"
-                    type="password"
-                    minlength="12"
-                    maxlength="128"
-                />
-                <a-input
-                    v-model="user.confirm_password"
-                    :validity="confirmPassValidity"
-                    :label="$t('confirm_password')"
-                    type="password"
-                    minlength="12"
-                    maxlength="128"
-                />
-            </flex>
-            <small>{{$t('password_guide')}}</small>
-            <a-link-button v-if="user.signable" disabled @click="reset">{{$t('forgot_password_button')}}</a-link-button>
-        </template>
-        <a-alert v-if="isMe" color="info" :title="$t('request_my_data')">
-            {{$t('request_my_data_desc')}}
-            <a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
-            <div>
-                <a-button @click="downloadData">{{$t('download')}}</a-button>
-            </div>
-        </a-alert>
 
-        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
-            <div>
-                <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
-            </div>
-        </a-alert>
+        <img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
+            <template #label="{ src }">
+                <a-avatar size="xl" :src="src"/>
+                <a-avatar size="lg" :src="src"/>
+                <a-avatar size="md" :src="src"/>
+            </template>
+        </img-uploader>
+
+        <img-uploader v-model="user.banner_file" :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })" :src="user.banner">
+            <template #label="{ src }">
+                <a-banner :src="src" url-prefix="users/images"/>
+            </template>
+        </img-uploader>
+
+        <a-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
+
+        <a-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
+        <a-input v-model="user.custom_title" :label="$t('custom_title')"/>
+        <a-input v-if="user.active_supporter" v-model="user.custom_color" :label="$t('custom_color')" :desc="$t('custom_color_desc')" type="color"/>
+        <a-input v-model="user.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
+        <a-input v-model="user.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
+        <md-editor v-model="user.bio" rows="12" :label="$t('bio')" :desc="$t('bio_desc')"/>
     </flex>
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~~/store';
-import { UserForm } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
-import { passwordValidity } from '~~/utils/helpers';
+import { UserForm } from '~~/types/models';
+import { useStore } from '../../store/index';
 
-const props = defineProps<{
+defineProps<{
     user: UserForm
 }>();
 
-const { public: config } = useRuntimeConfig();
-
 const { t } = useI18n();
-const changePassword = ref(false);
-const { user: me } = useStore();
+const { settings } = useStore();
+const imageSize = computed(() => friendlySize(settings?.image_max_file_size ?? 0));
 
-const store = useStore();
-
-const { showToast } = useToaster();
-
-const downloadDataButton = ref<HTMLAnchorElement>();
-
-function downloadData() {
-    if (downloadDataButton.value) {
-        downloadDataButton.value.click();
-    }
-}
-
-const passValidity = computed(() => {
-    const validity = passwordValidity(props.user.password);
-    if (validity) {
-        return t(validity);
-    }
-});
-
-const confirmPassValidity = computed(() => {
-    if (props.user.confirm_password && props.user.password !== props.user.confirm_password) {
-        return t('password_error_match');
-    }
-});
-
-const yesNoModal = useYesNoModal();
-const isMe = inject<boolean>('isMe');
-
-async function doDelete() {
-    yesNoModal({
-        title: t('are_you_sure'),
-        desc: t('irreversible_action'),
-        async yes() {
-            await deleteRequest(`users/${props.user.id}`);
-            if (store.user.id === props.user.id) {
-                await store.logout();
-            }
-        }
-    });
-}
-
-async function reset() {
-    if (me) {
-        await postRequest('forgot-password', {
-            email: me.email
-        });
-
-        showToast({
-            color: 'success',
-            desc: t('password_reset_sent_unknown')
-        });
-    }
-}
+const showTagOptions = [
+    { id: 'role', name: t('show_tag_role') },
+    { id: 'supporter_or_role', name: t('show_tag_supporter_or_role') },
+    { id: 'none', name: t('hide') },
+];
 </script>

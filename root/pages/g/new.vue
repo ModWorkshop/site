@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { Game } from '~~/types/models';
-definePageMeta({ alias: '/g/new' });
+definePageMeta({ alias: '/game/new' });
 
 const game = ref<Game>({
     id: 0,

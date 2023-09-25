@@ -1,5 +1,5 @@
 <template>
-    <flex column>
+    <flex v-intersection-observer="onVisChange" column>
         <h2 v-if="title">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </h2>
@@ -8,10 +8,10 @@
                 <a-input v-model="query" :label="$t('search')"/>
                 <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
                 <a-select v-if="tags" v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
-                <flex v-if="currentForumId" column>
+                <flex v-if="currentForumId && categories?.data.length" column>
                     <label>{{$t('category')}}</label>
-                    <button-group v-if="categories?.data.length" v-model:selected="categoryId" class="mt-2" column button-style="nav">
-                        <a-group-button :name="undefined"><a-icon icon="comments"/> {{$t('all')}}</a-group-button>
+                    <button-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
+                        <a-group-button :name="undefined"><i-mdi-comment/> {{$t('all')}}</a-group-button>
                         <a-group-button v-for="category of categories.data" :key="category.id" :name="category.id">
                             {{category.emoji}} {{category.name}}
                         </a-group-button>
@@ -26,7 +26,8 @@
                 <a-table v-if="threads?.data.length && !loading" class="threads">
                     <template #head>
                         <th>{{$t('title')}}</th>
-                        <th>{{$t('poster')}}</th>
+                        <th v-if="!userId">{{$t('poster')}}</th>
+                        <th v-if="!currentForumId">{{$t('forum')}}</th>
                         <th v-if="!categoryId">{{$t('category')}}</th>
                         <th>{{$t('replies')}}</th>
                         <th>{{$t('last_activity')}}</th>
@@ -40,11 +41,12 @@
                             category-link
                             :no-category="!!categoryId"
                             :no-pins="noPins"
-                            :forum="selectedForum"
+                            :forum-id="currentForumId"
+                            :user-id="userId"
                         />
                     </template>
                 </a-table>
-                <a-loading v-else-if="loading" class="m-auto"/>
+                <a-loading v-else-if="loading || !loaded" class="m-auto"/>
                 <h2 v-else class="m-auto">
                     {{$t('no_threads_found')}}
                 </h2>
@@ -57,6 +59,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
+import { vIntersectionObserver } from '@vueuse/components';
+
 const searchBus = useEventBus<string>('search');
 
 const props = withDefaults(defineProps<{
@@ -68,12 +72,14 @@ const props = withDefaults(defineProps<{
     query?: boolean,
     filters?: boolean,
     limit?: number,
-    lazy?: boolean
+    lazy?: boolean,
+    url?: string,
+    userId?: number,
 }>(), {
     lazy: false,
     query: true,
     filters: true,
-    limit: 20
+    limit: 20,
 });
 
 const query = props.query ? useRouteQuery('query', '') : ref('');
@@ -83,10 +89,12 @@ if (query) {
 }
 
 const page = props.query ? useRouteQuery('page', 1, 'number') : ref(1);
-const categoryId = props.query ? useRouteQuery('category') : ref();
-const selectedForum = props.query ? useRouteQuery('forum') : ref();
+const categoryId = props.query ? useRouteQuery('category', null, 'number') : ref();
+const selectedForum = props.query ? useRouteQuery('forum', null, 'number') : ref();
 const selectedTags = props.query ?  useRouteQuery('selected-tags', []) : ref([]);
 const loading = ref(false);
+const loaded = ref(!props.lazy);
+
 const { t } = useI18n();
 
 const emit = defineEmits<{
@@ -95,6 +103,7 @@ const emit = defineEmits<{
 
 const currentForumId = computed(() => selectedForum.value ?? props.forumId);
 const currentGameId = computed(() => props.gameId);
+const currentUrl = computed(() => props.url ?? (props.userId ? `/users/${props.userId}/threads` : '/threads'));
 
 const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCategory>('forum-categories', {
     params: reactive({ forum_id: currentForumId }),
@@ -117,7 +126,14 @@ const params = reactive({
     page
 });
 
-const { data: threads, refresh } = await useFetchMany<Thread>('threads', { lazy: props.lazy, params });
+const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, params });
+
+async function onVisChange(entries: IntersectionObserverEntry[]) {
+    if (entries[0].isIntersecting) {
+        await refresh();
+        loaded.value = true;
+    }
+}
 
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId}/tags` : 'tags', {
     immediate: props.filters,
@@ -146,8 +162,10 @@ const { start } = useTimeoutFn(async () => {
     loading.value = false;
 }, 200, { immediate: false });
 watch(params, () => {
-    loading.value = true;
-    start();
+    if (props.filters) {
+        loading.value = true;
+        start();
+    }
 });
 
 watch(selectedForum, async () => {
@@ -155,3 +173,9 @@ watch(selectedForum, async () => {
     await refreshTags();
 });
 </script>
+
+<style scoped>
+.threads {
+    word-break: break-word;
+}
+</style>

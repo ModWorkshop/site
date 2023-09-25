@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { remove } from '@vue/shared';
+import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { Ban, Game } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
