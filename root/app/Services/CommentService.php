@@ -42,16 +42,20 @@ class CommentService {
         }
 
         $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
-            $query->with(['mentions']);
+            if ($options['include_last_replies'] ?? true) {
+                $query->with('lastReplies');
+            }
+            $query->withCount('replies');
             $query->orderByRaw($options['orderBy'] ?? 'pinned DESC, created_at DESC');
-            if (!isset($replies)) {
+            if (!isset($replies) && !($options['include_replies'] ?? false)) {
                 $query->whereNull('reply_to');
             }
-            $query->whereMorphedTo('commentable', $commentable);
+            if ($options['commentable_is_user'] ?? false) {
+                $query->whereUserId($commentable->id);
+            } else {
+                $query->whereMorphedTo('commentable', $commentable);
+            }
         });
-
-        APIService::appendToItems($comments, 'last_replies');
-        APIService::appendToItems($comments, 'total_replies');
 
         return CommentResource::collection($comments);
     }
@@ -129,7 +133,8 @@ class CommentService {
         $comment->mentions()->sync($mentionedIds);
 
         $notifiable = ($isReply ? $replyToComment : $commentable);
-        $subs = $notifiable->subscriptions;
+        // Send subscription notification, avoid sending notification again to who mentioned users
+        $subs = $notifiable->subscriptions()->whereNotIn('user_id', $mentionedIds)->get();
         foreach ($subs as $sub) {
             Notification::send(
                 notifiable: $notifiable,
@@ -158,17 +163,12 @@ class CommentService {
         $val = $request->validate([
             'mentions' => 'array',
             'content' => 'string|required_without:pinned|min:3|max:5000',
-            'pinned' => 'boolean'
         ]);
 
         $mentions = Arr::pull($val, 'mentions');
         $uniqueNames = [];
         $mentionedUsers = [];
         $mentionedIds = [];
-
-        if ($comment->reply_to && isset($val['pinned'])) {
-            abort(403, 'Only regular comments can be pinned!');
-        }
 
         //While we allow mod members to pin comments, we should NEVER allow them to edit them!
         if ((isset($val['content']) || isset($mentions)) && (!$user->hasPermission('manage-discussions', $comment->commentable->game) && $comment->user->id !== $user->id)) {
@@ -179,7 +179,7 @@ class CommentService {
             $uniqueNames = array_slice($mentions, 0, 10);
             $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
         }
-        
+
         if (isset($mentions)) {
             foreach ($mentionedUsers as $mentionedUser) {
                 $mentionedIds[] = $mentionedUser->id;
@@ -192,6 +192,25 @@ class CommentService {
         $comment->update($val);
 
         return new CommentResource($comment);
+    }
+
+    /**
+     * Set the pinned state of a comment
+     */
+    public static function setPinned(Request $request, Comment $comment) {
+        $val = $request->validate([
+            'status' => 'boolean'
+        ]);
+
+        if ($comment->reply_to && isset($val['status'])) {
+            abort(403, 'Only regular comments can be pinned!');
+        }
+
+        $comment->timestamps = false;
+
+        $comment->update([
+            'pinned' => $val['status']
+        ]);
     }
 
     /**
@@ -211,9 +230,20 @@ class CommentService {
     {
         $limit = $request->query->getInt('limit', 20);
 
+        $order = 'ASC';
+        if (!isset($comment->reply_to) && !$comment->commentable_type == 'mod') {
+            $order = 'DESC';
+        }
+
         $comments = DB::table('comments')
-            ->select(['id', 'commentable_id', 'commentable_type', 'reply_to', DB::raw('row_number() over(ORDER BY pinned DESC, created_at DESC) AS position')])
-            ->orderByRaw('pinned DESC, created_at DESC');
+            ->select([
+                'id',
+                'commentable_id',
+                'commentable_type',
+                'reply_to',
+                DB::raw("row_number() over(ORDER BY pinned DESC, created_at {$order}) AS position")
+            ])
+        ->orderByRaw("pinned DESC, created_at {$order}");
 
         if ($comment->reply_to) {
             $comments->where('reply_to', $comment->reply_to);

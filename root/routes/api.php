@@ -145,6 +145,8 @@ Route::middleware('can:view,comment')->group(function() {
     Route::middleware('auth:sanctum')->post('comments/{comment}/subscription', [CommentController::class, 'subscribe']);
     Route::get('comments/{comment}/page', [CommentController::class, 'page']);
     Route::get('comments/{comment}/replies', [CommentController::class, 'replies']);
+    Route::middleware('can:pin,comment')->patch('comments/{comment}/pinned', [CommentController::class, 'setPinned']);
+
     Route::middleware('can:report,comment')->post('comments/{comment}/reports', [CommentController::class, 'report']);
 });
 
@@ -164,13 +166,15 @@ Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
 
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
 
+Route::middleware('can:viewDiscussions,user')->get('users/{user}/comments', [UserController::class, 'getComments']);
+Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [UserController::class, 'getThreads']);
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
     Route::middleware('throttle:1,1')->get('/user-data', [UserController::class, 'userData']);
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
-    Route::delete('users/{user}/mods', [UserController::class, 'deleteMods']);
-    Route::delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
-
+    Route::middleware('can:manageMods,user')->delete('users/{user}/mods', [UserController::class, 'deleteMods']);
+    Route::middleware('can:manageDiscussions,user')->delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
     Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
     Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');
     Route::resource('followed-mods', FollowedModController::class)->except('show');

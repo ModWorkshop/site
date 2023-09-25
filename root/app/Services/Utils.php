@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Ban;
+use App\Models\Report;
 use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
@@ -71,7 +72,7 @@ class Utils {
         $permissions = [];
         foreach ($roles as $role) {
             if (!$role->is_vanity && $role->relationLoaded('permissions')) {
-                foreach ($role->permissions as $perm) {
+                foreach ($role->cachedPermissions as $perm) {
                     $permissions[$perm->name] = true;
                 }
             }
@@ -150,6 +151,9 @@ class Utils {
             ]);
             UserCase::where('user_id', $record->user_id)->update([
                 'user_id' => $newUserId,
+            ]);
+            Report::where('reported_user_id', $record->user_id)->update([
+                'reported_user_id' => $newUserId,
             ]);
             $record->delete();
         }

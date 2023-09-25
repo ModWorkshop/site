@@ -66,6 +66,15 @@ class CommentPolicy
     }
 
     /**
+     * Determine whether the user can pin the comment.
+     */
+    public function pin(User $user, Comment $comment) {
+        $commentable = $comment->commentable;
+        // Either you can manage discussions or edit the resource that the comment belongs to (mod, thread)
+        return $user->hasPermission('manage-discussions', $commentable->game) || $this->authorize('update', $commentable);
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param User $user

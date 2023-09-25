@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailVerifyRequest;
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\GetThreadRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ModResource;
 use App\Http\Resources\ThreadResource;
@@ -13,8 +14,11 @@ use App\Models\Mod;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
+use App\Services\CommentService;
+use App\Services\ThreadService;
 use Auth;
 use DB;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -22,6 +26,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Str;
+use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 
 /**
  * @group Users
@@ -246,9 +251,19 @@ class UserController extends Controller
      *
      * @authenticated
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        // $user->delete();
+        $val = $request->validate([
+            'unique_name' => 'alpha_dash|required|min:3|max:50',
+            'are_you_sure' => 'required|boolean',
+            'cf-turnstile-response' => ['required', new TurnstileCheck()],
+        ]);
+
+        if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
+            abort(406, 'The unique name must match and you must agree to the deletion!');
+        }
+
+        $user->delete();
     }
 
     /**
@@ -313,8 +328,6 @@ class UserController extends Controller
      */
     public function deleteMods(User $user)
     {
-        $this->authorize('manageMods', $user);
-
         foreach ($user->mods as $user) {
             $user->delete();
         }
@@ -327,8 +340,6 @@ class UserController extends Controller
      */
     public function deleteDiscussions(User $user)
     {
-        $this->authorize('manageDiscussions', $user);
-
         foreach ($user->threads as $thread) {
             $thread->delete();
         }
@@ -336,6 +347,19 @@ class UserController extends Controller
         foreach ($user->comments as $comment) {
             $comment->delete();
         }
+    }
+
+    public function getComments(FormRequest $request, User $user) {
+        return CommentService::index($request, $user, [
+            'commentable_is_user' => true,
+            'include_replies' => true,
+            'include_last_replies' => false,
+            'orderBy' => 'created_at DESC'
+        ]);
+    }
+
+    public function getThreads(GetThreadRequest $request, User $user) {
+        return ThreadResource::collection(ThreadService::threads($request->val(), $user->threads()->getQuery()));
     }
 
     /**

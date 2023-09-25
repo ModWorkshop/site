@@ -24,8 +24,10 @@ class ModResource extends JsonResource
 
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->whenLoaded('user')),
-            'files' => $this->when($this->fullLoad, fn() => new LightCollection($this->files()->paginate(5))),
-            'links' => $this->when($this->fullLoad, fn() => new LightCollection($this->links()->paginate(5))),
+            'files' => $this->whenLoaded('files', fn() => new LightCollection($this->files()->paginate(5))),
+            'links' => $this->whenLoaded('links', fn() => new LightCollection($this->links()->paginate(5))),
+            'files_count' => $this->when($this->fullLoad, fn() => $this->filesCount),
+            'links_count' => $this->when($this->fullLoad, fn() => $this->linksCount),
             'images' => $this->whenLoaded('images'),
             'followed' => $this->whenLoaded('followed'),
             'members' => $this->whenLoaded('members', function() use ($missingValue, $request) {
@@ -46,7 +48,6 @@ class ModResource extends JsonResource
             'transfer_request' => $this->whenLoaded('transferRequest'),
             'last_user' => $this->whenLoaded('lastUser', fn() => new UserResource($this->lastUser)),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
-            'download' => $this->whenLoaded('download'),
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'liked' => $this->whenLoaded('liked'),
             'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),

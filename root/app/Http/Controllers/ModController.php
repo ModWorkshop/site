@@ -46,12 +46,11 @@ class ModController extends Controller
         $val = $request->val();
 
         if (isset($game)) {
-            $mods = ModService::mods($game->mods()->without('game'));
+            $mods = ModService::mods(val: $val, query: $game->mods()->without('game'));
         } else {
-            $mods = ModService::mods();
+            $mods = ModService::mods($val);
         }
 
-        $mods = $mods->queryGet($val, ModService::filters(...), true);
         return ModResource::collection($mods);
     }
 
@@ -64,11 +63,9 @@ class ModController extends Controller
      */
     public function liked(GetModsRequest $request)
     {
-        $val = $request->val();
-        $mods = ModService::mods()->queryGet($val, function($q, $val) {
+        $mods = ModService::mods($request->val(), function($q, $val) {
             $q->whereHasIn('liked');
-            ModService::filters($q, $val);
-        }, true);
+        });
 
         return ModResource::collection($mods);
     }
@@ -84,14 +81,11 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $val = $request->val();
-
-        $mods = ModService::mods()->queryGet($val, function($q, $val) {
+        $mods = ModService::mods($request->val(), function($q, $val) {
             $q->whereNull('approved');
-            ModService::filters($q, $val);
-        }, true);
-        return ModResource::collection($mods);
+        });
 
+        return ModResource::collection($mods);
     }
 
     /**
@@ -143,12 +137,12 @@ class ModController extends Controller
                 }
 
                 if (isset($download)) {
-                    $mod->download()->associate($download);
+                    $mod->downloadRelation()->associate($download);
                 } else {
                     throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
                 }
             } else {
-                $mod->download()->dissociate();
+                $mod->downloadRelation()->dissociate();
             }
         }
 
@@ -268,7 +262,7 @@ class ModController extends Controller
      * Delete Mod
      *
      * Deletes a mod and all of its contents.
-     * 
+     *
      * @authenticated
      */
     public function destroy(Mod $mod, Game $game=null)
@@ -515,12 +509,13 @@ class ModController extends Controller
         }
 
         // Send to discord about this
+        $moderator = $this->user();
         $send = [Setting::getValue('discord_approval_webhook')];
         if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
             $status = $approve ? 'approved' : 'rejected';
             $reason = !$approve ? "\nReason: ".$val['reason'] : '';
-            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! <{$siteUrl}/mod/%s>.{$reason}", [
+            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! by {$moderator->name} <{$siteUrl}/mod/%s>.{$reason}", [
                 $mod->name,
                 $mod->id
             ]);
@@ -614,9 +609,9 @@ class ModController extends Controller
 
     /**
      * Download First File
-     * 
+     *
      * Downloads the first available file
-     * 
+     *
      * @subgroup Files
      */
     function downloadFirstFile(Mod $mod) {

@@ -5,7 +5,6 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
@@ -48,7 +47,7 @@ class Dependency extends Model
 
     protected $guarded = [];
 
-    protected $with = ['mod'];
+    protected $with = ['mod' => Mod::LIST_MOD_WITH];
 
     public function getMorphClass(): string {
         return 'dependency';

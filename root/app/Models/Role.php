@@ -5,11 +5,11 @@ namespace App\Models;
 use Auth;
 use Eloquent;
 use Exception;
+use Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
@@ -47,6 +47,11 @@ class Role extends Model
 {
     use HasFactory;
 
+    public function cacheKey()
+    {
+        return sprintf("%s/%s-%s", $this->getTable(), $this->getKey(), $this->updated_at?->timestamp ?? $this->id);
+    }
+
     protected $with = [];
 
     protected $guarded = [
@@ -57,16 +62,20 @@ class Role extends Model
         return 'role';
     }
 
-    public function color() : Attribute
-    {
-        return Attribute::make(
-            get: fn($value) =>  preg_replace('/\s+/', '', $value)
-        );
-    }
-
     public function permissions() : BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function color(): Attribute
+    {
+        return Attribute::make(fn($value) =>  preg_replace('/\s+/', '', $value));
+    }
+
+    function cachedPermissions(): Attribute {
+        return Attribute::make(
+            fn() => Cache::remember($this->cacheKey().':permission', 60, fn() => $this->permissions)
+        );
     }
 
     /**

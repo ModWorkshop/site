@@ -12,6 +12,7 @@ use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
 use Carbon\Carbon;
+use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 use DB;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
@@ -53,8 +54,14 @@ class LoginController extends Controller
         $val = $request->validate([
             'email' => 'required|email', //blabla@email.com
             'password' => ['required', 'max:128'],
-            'remember' => 'boolean'
+            'remember' => 'boolean',
         ]);
+
+        if (app()->isProduction()) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+            ]);
+        }
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
             $request->session()->regenerate();
@@ -100,6 +107,12 @@ class LoginController extends Controller
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
+        if (app()->isProduction()) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+            ]);
+        }
+
         if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
             abort(409);
         }
@@ -108,12 +121,17 @@ class LoginController extends Controller
 
         $avatar = APIService::storeImage($avatarFile, 'users/images');
 
+        // Skip verification on dev
+        $shouldVerify = app()->isLocal() && empty(env('MAIL_HOST'));
+
         $user = User::forceCreate([
             'name' => $val['name'],
             'unique_name' => $val['unique_name'],
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
             'avatar' => $avatar['name'] ?? '',
+            'email_verified_at' => $shouldVerify ? Carbon::now() : null,
+            'activated' => $shouldVerify,
         ]);
 
         event(new Registered($user));

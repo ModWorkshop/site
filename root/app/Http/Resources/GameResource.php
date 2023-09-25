@@ -30,7 +30,7 @@ class GameResource extends JsonResource
         $moderateUsers = $user?->hasPermission('moderate-users', $this->resource);
         $manageMods = $user?->hasPermission('manage-mods', $this->resource);
 
-        $isCurrent = APIService::currentGame() === $this->id;
+        $isCurrent = APIService::currentGame()?->id === $this->id;
 
         return [
             ...parent::toArray($request),

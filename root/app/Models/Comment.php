@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -62,9 +61,9 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  */
 class Comment extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable, Reportable;
+    use HasFactory, Subscribable, Reportable, HasEagerLimit;
 
-    protected $with = ['user', 'replies', 'mentions', 'subscribed'];
+    protected $with = ['user', 'mentions', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
     protected $saveToReport = ['content'];
@@ -88,29 +87,9 @@ class Comment extends Model implements SubscribableInterface
         return $this->hasMany(Comment::class, 'reply_to', 'id')->orderBy('id');
     }
 
-    protected function lastReplies() : Attribute
+    public function lastReplies()
     {
-        return Attribute::make(function() {
-            if (isset($this->reply_id)) {
-                return null;
-            }
-
-            //Really shit way of doing this, but if you try to load each 3 you'll lose on eagerloading which is significantly slower.
-
-            /** @var Builder */
-            return $this->replies->paginate(3);
-        });
-    }
-
-    protected function totalReplies() : Attribute
-    {
-        return Attribute::make(function() {
-            if (isset($this->reply_id)) {
-                return null;
-            }
-
-            return $this->last_replies->total();
-        });
+        return $this->hasMany(Comment::class, 'reply_to', 'id')->orderBy('id')->limit(3);
     }
 
     public function replyingComment() : BelongsTo

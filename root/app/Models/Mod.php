@@ -14,9 +14,9 @@ use Carbon\Carbon;
 use Database\Factories\ModFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
+use Spatie\Sitemap\Tags\Url;
+use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class Visibility {
     const public = 'public';
@@ -172,6 +174,63 @@ class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
 
+    public static $allowedIncludes = [
+        'category',
+        'thumbnail',
+        'user',
+        'tags',
+        'images',
+        'files',
+        'links',
+        'game',
+        'download',
+        'members',
+        'banner',
+        'lastUser',
+        'liked',
+        'transferRequest',
+        'subscribed',
+        'dependencies',
+        'instructsTemplate',
+    ];
+
+    public static $allowedFields = [
+        'id',
+        'category_id',
+        'game_id',
+        'user_id',
+        'name',
+        'desc',
+        'short_desc',
+        'changelog',
+        'license',
+        'instructions',
+        'visibility',
+        'legacy_banner_url',
+        'downloads',
+        'likes',
+        'views',
+        'version',
+        'donation',
+        'suspended',
+        'comments_disabled',
+        'score',
+        'daily_score',
+        'weekly_score',
+        'bumped_at',
+        'published_at',
+        'download_id',
+        'download_type',
+        'last_user_id',
+        'has_download',
+        'approved',
+        'thumbnail_id',
+        'banner_id',
+        'allowed_storage',
+        'updated_at',
+        'created_at',
+    ];
+
     public $commentsOrder = 'DESC';
 
     /**
@@ -185,23 +244,20 @@ class Mod extends Model implements SubscribableInterface
 
     public const DEFAULT_MOD_WITH = [
         'user',
-        'game',
+        'game'
+    ];
+
+    public const LIST_MOD_WITH = [
         'category',
         'thumbnail',
-        'members'
     ];
 
     public $fullLoad = false;
 
-    public const FULL_MOD_WITH = [
-        'user',
+    // Gets loaded in mod page
+    public const SHOW_MOD_WITH = [
         'tags',
         'images',
-        // 'files',
-        // 'links',
-        'game',
-        'download',
-        'members',
         'banner',
         'lastUser',
         'liked',
@@ -209,6 +265,9 @@ class Mod extends Model implements SubscribableInterface
         'subscribed',
         'dependencies',
         'instructsTemplate',
+        'members',
+        'category',
+        'thumbnail',
     ];
 
     protected $with = self::DEFAULT_MOD_WITH;
@@ -220,6 +279,12 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $mod = QueryBuilder::for(app(Mod::class))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        return $mod->findOrFail($value);
+    }
+
     public function getMorphClass(): string {
         return 'mod';
     }
@@ -228,18 +293,29 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
-        $this->loadMissing(self::FULL_MOD_WITH);
+        $this->loadMissing(self::SHOW_MOD_WITH);
+        $this->append('download');
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
         }
         if ($this->suspended) {
             $this->loadMissing('lastSuspension');
         }
-        $this->category?->loadMissing('parent');
     }
 
+    public function toSitemapTag(): Url | string | array
+    {
+        return Url::create(env('FRONTEND_URL').'/mod/'.$this->id)
+            ->setLastModificationDate(Carbon::create($this->bumped_at))
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(1);
+    }
 
     protected static function booted() {
+        static::retrieved(function(Mod $mod) {
+            app('siteState')->addMod($mod);
+        });
+
         static::deleting(function(Mod $mod) {
             if ($mod->approved == null) {
                 // Send to discord about this
@@ -337,12 +413,12 @@ class Mod extends Model implements SubscribableInterface
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class)->orderByDesc('updated_at');
+        return $this->hasMany(File::class)->orderByDesc('updated_at')->limit(5);
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->orderByDesc('updated_at');
+        return $this->hasMany(Link::class)->orderByDesc('updated_at')->limit(5);
     }
 
     public function members()
@@ -406,9 +482,9 @@ class Mod extends Model implements SubscribableInterface
      *
      * @return MorphTo
      */
-    public function download() : MorphTo
+    public function downloadRelation() : MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo(__FUNCTION__, 'download_type', 'download_id');
     }
 
     /**
@@ -418,6 +494,10 @@ class Mod extends Model implements SubscribableInterface
      */
     public function getBreadcrumbAttribute()
     {
+        if (!$this->relationLoaded('game') || !$this->relationLoaded('category')) {
+            return [];
+        }
+
         return [
             ...ModService::makeBreadcrumb($this->game, $this->category),
             [
@@ -426,6 +506,73 @@ class Mod extends Model implements SubscribableInterface
                 'type' => 'mod'
             ]
         ];
+    }
+
+    function filesCount(): Attribute {
+        return Attribute::make(fn() => $this->files()->count())->shouldCache();
+    }
+
+    function linksCount(): Attribute {
+        return Attribute::make(fn() => $this->links()->count())->shouldCache();
+    }
+
+    /**
+     * Smartly returns current download ($this->download)
+     * In case it's not loaded, tries to calculate it using download_id and download_type
+     * If download_id is not set, it will return either first link or first file.
+     */
+    function download(): Attribute {
+        return Attribute::make(function() {
+            $linksLoaded = $this->relationLoaded('links');
+            $filesLoaded = $this->relationLoaded('files');
+
+            // If download exists, just return it
+            if ($this->relationLoaded('downloadRelation') || !($linksLoaded && $filesLoaded)) {
+                if (isset($this->downloadRelation)) {
+                    return $this->downloadRelation;
+                }
+            }
+
+            $id = $this->download_id;
+            $type = $this->download_type;
+            $filesCount = $this->files_count;
+            $linksCount = $this->links_count;
+            $hasPrimary = isset($id) && isset($type);
+
+
+            // Has no files or links
+            if ($filesCount == 0 && $linksCount == 0) {
+                return null;
+            }
+
+            // Has primary download and both links and files relations are loaded
+            if ($hasPrimary) {
+                if ($type == 'link') {
+                    if ($linksLoaded && ($link = $this->links->find($id))) {
+                        return $link;
+                    } else {
+                        return $this->links()->find($id);
+                    }
+                } else {
+                    if ($filesLoaded && ($link = $this->files->find($id))) {
+                        return $link;
+                    } else {
+                        return $this->files()->find($id);
+                    }
+                }
+            }
+
+            //Has only a single file/link so just ruturn it
+            if (abs($filesCount - $linksCount) === 1) {
+                if ($linksLoaded && $link = $this->links[0]) {
+                    return $link;
+                } else if ($filesLoaded) {
+                    return $this->files[0];
+                }else {
+                    return $this->links()->first() ?? $this->files()->first();
+                }
+            }
+        });
     }
 
     public function liked()
