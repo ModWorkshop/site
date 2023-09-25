@@ -79,7 +79,8 @@ const props = withDefaults(defineProps<{
 	maxShown?: string|number,
     listClass?: string|string[],
     listTags?: boolean,
-    postFetchFilter?: boolean
+    postFetchFilter?: boolean,
+    nullClear?: boolean,
 }>(), {
     valueBy: 'id',
     textBy: 'name',
@@ -87,7 +88,8 @@ const props = withDefaults(defineProps<{
     filterSelected: false,
     postFetchFilter: false,
     classic: true,
-    listTags: false
+    listTags: false,
+    nullClear: false
 });
 
 const search = ref('');
@@ -352,7 +354,7 @@ function deselectOption(item) {
         remove(selectedValue.value, value);
         emit('update:modelValue', selectedValue.value);
     } else if (props.clearable) {
-        emit('update:modelValue', undefined);
+        emit('update:modelValue', props.nullClear ? null : undefined);
         dropdownOpen.value = false;
     } 
 }
