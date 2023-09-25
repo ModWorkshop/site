@@ -20,21 +20,23 @@ const side = inject<boolean>('side', false);
 const menuOpen = inject<Ref<boolean>>('menuOpen');
 const root = inject<string>('root', '');
 
-const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 const compAlias = computed(() => {
     if (typeof(props.alias) == 'string') {
         return props.alias ? `${root}/${props.alias}` : root;
     }
 });
 
+const normalizedRoot = computed(() => root + '/');
 const normalizedPath = computed(() => route.path + '/');
+
+const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 
 const classes = computed(() => ({
     'nav-link': true,
     'nav-link-side': side,
     selected: 
         props.selected 
-        || (compTo.value == root ? normalizedPath.value == root : normalizedPath.value.startsWith(compTo.value + '/'))
+        || (compTo.value == root ? normalizedPath.value == normalizedRoot.value : normalizedPath.value.startsWith(compTo.value + '/'))
         || (compAlias.value == root ? route.path == root : (compAlias.value && route.path.startsWith(compAlias.value)))
 }));
 
