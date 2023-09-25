@@ -20,7 +20,7 @@ const desc = `Visit the ${game.value} game section. Find mods, discussions & mor
 
 useServerSeoMeta({
     ogSiteName: `ModWorkshop - ${game.value.name} - Mod`,
-	ogTitle: `${game.value}`,
+	ogTitle: `${game.value.name}`,
 	description: desc,
 	ogDescription:desc,
 	ogImage: `games/images/${game.value.thumbnail}`,
