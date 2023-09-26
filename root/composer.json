@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.7.3",
         "league/flysystem-aws-s3-v3": "^3.10",
         "mailersend/laravel-driver": "^2.2",
+        "sentry/sentry-laravel": "^3.8",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/gitlab": "^4.1",
