@@ -515,7 +515,7 @@ class ModController extends Controller
             $siteUrl = env('FRONTEND_URL');
             $status = $approve ? 'approved' : 'rejected';
             $reason = !$approve ? "\nReason: ".$val['reason'] : '';
-            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status}! by {$moderator->name} <{$siteUrl}/mod/%s>.{$reason}", [
+            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status} by {$moderator->name} <{$siteUrl}/mod/%s>.{$reason}", [
                 $mod->name,
                 $mod->id
             ]);
