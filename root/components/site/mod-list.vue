@@ -137,7 +137,6 @@ const searchParams = reactive({
     page: fetchPage,
     query: query,
     'fields[mods]': listModFields.join(','),
-    'include[]': props.game ? 'game' : undefined,
     game_id: selectedGame,
     category_id: selectedCategory,
     tags: selectedTags,
