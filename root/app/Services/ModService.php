@@ -124,6 +124,10 @@ class ModService {
             }
         }
 
+        if (!isset($game)) {
+            $query->with(['game']);
+        }
+
         //These are global filters. Either things user has blocked or limits in general.
         $query->where(function($query) use ($user, $game, $val) {
             //Hide blocked user's mods (unless a moderator)
