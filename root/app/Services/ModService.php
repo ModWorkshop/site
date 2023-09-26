@@ -61,7 +61,7 @@ class ModService {
                 if (isset($game)) {
                     $arr = [
                         ...$arr,
-                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                        ...self::makeBreadcrumb(null, $categories[$category->parent_id] ?? $category->parent, [[
                             'name' => $category->name,
                             'id' => $category->id,
                             'type' => 'category'
@@ -69,7 +69,7 @@ class ModService {
                     ];
                 } else {
                     $arr = [
-                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                        ...self::makeBreadcrumb(null, $categories[$category->parent_id] ?? $category->parent, [[
                             'name' => $category->name,
                             'id' => $category->id,
                             'type' => 'category'
