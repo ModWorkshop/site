@@ -24,18 +24,28 @@ class UserAuth
             $ip = $request->ip();
             $user = $request->user();
 
-            TrackSession::updateOrInsert([
-                'ip_address' => $ip,
-            ], [
-                'user_id' => $user?->id,
-                'updated_at' => Carbon::now()
-            ]);
+            $session = TrackSession::where('ip_address', $ip)->first();
+            $now = Carbon::now();
+            if (isset($session)) {
+                if ($session->updated_at->diffInSeconds($now) > 60) {
+                    $session->update([
+                        'user_id' => $user?->id,
+                        'updated_at' => $now
+                    ]);
+                }
+            } else {
+                TrackSession::create([
+                    'ip_address' => $ip,
+                    'user_id' => $user?->id,
+                    'updated_at' => $now
+                ]);
+            }
 
             // Update the last online every 5 minutes or so.
             if (isset($user)) {
-                if (!isset($user->last_online) || $user->last_online->diffInMinutes(Carbon::now()) > 1) {
+                if (!isset($user->last_online) || $user->last_online->diffInSeconds($now) > 60) {
                     $user->update([
-                        'last_online' => Carbon::now(),
+                        'last_online' => $now,
                         'last_ip_address' => $request->ip
                     ]);
                 }
