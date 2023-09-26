@@ -55,7 +55,7 @@ const { data: latest, error: latestError } = await useFetchMany(props.game ? `ga
     params: { 
         limit: 10,
         'fields[mods]': listModFields.join(','),
-        'include[]': props.game ? 'game' : undefined,\
+        'include[]': props.game ? 'game' : undefined,
     }
 });
 const { data: popular, error: popularError } = await useFetchMany(props.game ? `games/${props.game.id}/mods` : 'mods', { 
