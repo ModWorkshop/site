@@ -39,6 +39,7 @@ upload_max_filesize=1G
 memory_limit=500M
 max_execution_time=300
 disable_functions=phpinfo
+opcache.enable_cli=1
 EOF
 
 # Install composer from the official image
