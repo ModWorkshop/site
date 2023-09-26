@@ -16,7 +16,7 @@ definePageMeta({ alias: '/game/:game' });
 
 const { data: game } = await useResource<Game>('game', 'games');
 
-const desc = `Visit the ${game.value} game section. Find mods, discussions & more!`;
+const desc = `Explore ${game.value.name} mods, discussions & more on ModWorkshop!`;
 
 useServerSeoMeta({
     ogSiteName: `ModWorkshop - ${game.value.name} - Mod`,
