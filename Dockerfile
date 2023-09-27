@@ -1,35 +1,35 @@
 # syntax=docker/dockerfile:1
-FROM trafex/php-nginx:3.1.0 as build
+FROM trafex/php-nginx:3.3.0 as build
 USER root
 
 RUN apk --no-cache add \
-  php81-ffi \
-  php81-simplexml \
-  php81-tokenizer \
-  php81-fileinfo \
-  php81-redis \
-  php81-pdo_mysql \
-  php81-pdo \
-  php81-exif \
-  php81-pdo_pgsql \
-  php81-xmlwriter \
-  php81-cli \
-  php81-pcntl \
-  php81-posix \
+  php82-ffi \
+  php82-simplexml \
+  php82-tokenizer \
+  php82-fileinfo \
+  php82-redis \
+  php82-pdo_mysql \
+  php82-pdo \
+  php82-exif \
+  php82-pdo_pgsql \
+  php82-xmlwriter \
+  php82-cli \
+  php82-pcntl \
+  php82-posix \
   vips
 
 # Install stuff
 RUN set -eux \
-    && apk add --no-cache --virtual .build-deps php81-pear php81-dev gcc g++ libc-dev musl-dev make linux-headers autoconf git \
-    && pecl install apfd \
-    && pecl install swoole \
+    && apk add --no-cache --virtual .build-deps php82-pear php82-dev gcc g++ libc-dev musl-dev make linux-headers autoconf git \
+    && pecl82 install apfd \
+    && pecl82 install swoole \
     && apk del --purge .build-deps \
     && rm -rf /var/cache/apk/*
 
 # Using heredoc from dockerfile:1.4 (ref: https://www.docker.com/blog/introduction-to-heredocs-in-dockerfiles/)
 # PHP ini configuration
 # So php ini doesn't break
-RUN <<EOF cat >> /etc/php81/conf.d/custom.ini
+RUN <<EOF cat >> /etc/php82/conf.d/custom.ini
 
 ffi.enable=true
 extension=apfd
@@ -48,7 +48,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Copy stuff
 COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY --chown=nobody ./conf.d/www.conf /etc/php81/php-fpm.d/www.conf
+COPY --chown=nobody ./conf.d/www.conf /etc/php82/php-fpm.d/www.conf
 
 FROM build as prod
 COPY --chown=nobody ./root /var/www/html
