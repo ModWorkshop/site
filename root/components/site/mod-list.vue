@@ -38,17 +38,12 @@
                     </flex>
                 </template>
             </VDropdown>
-            <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                <a-group-button :name="0"><i-mdi-view-grid/></a-group-button>
-                <a-group-button :name="1"><i-mdi-view-list/></a-group-button>
-                <a-group-button :name="2"><i-mdi-view-headline/></a-group-button>
-            </button-group>
             <flex v-if="!sideFilters">
                 <VDropdown>
                     <a-button><i-mdi-filter/></a-button>
                     <template #popper>
                         <Suspense>
-                            <flex class="p-4" gap="3" column style="width: 300px">
+                            <flex class="p-4" gap="3" column style="width: 300px;">
                                 <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
                             </flex>
                         </Suspense>
@@ -58,25 +53,34 @@
         </flex>
 
         <flex column gap="3">
-            <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40"/>
             <flex gap="3" class="md:flex-row flex-col">
-                <content-block v-if="sideFilters" class="mod-filters">
+                <content-block v-if="sideFilters" class="mod-filters" style="width: 300px;">
                     <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
                 </content-block>
-                <flex column gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
-                    <a-loading v-if="loading" class="my-auto"/>
-                    <template v-else>
-                        <mod-list-skeleton
-                            :display-mode="displayMode"
-                            :sort-by="sortBy"
-                            :no-game="!!game"
-                            :error="error"
-                            :game="game"
-                            :mods="currentMods"
-                        />
-                        <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
-                        <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
-                    </template>
+                <flex column grow gap="3">
+                    <flex>
+                        <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="40"/>
+                        <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
+                            <a-group-button :name="0"><i-mdi-view-grid/></a-group-button>
+                            <a-group-button :name="1"><i-mdi-view-list/></a-group-button>
+                            <a-group-button :name="2"><i-mdi-view-headline/></a-group-button>
+                        </button-group>
+                    </flex>
+                    <flex column gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
+                        <a-loading v-if="loading" class="my-auto"/>
+                        <template v-else>
+                            <mod-list-skeleton
+                                :display-mode="displayMode"
+                                :sort-by="sortBy"
+                                :no-game="!!game"
+                                :error="error"
+                                :game="game"
+                                :mods="currentMods"
+                            />
+                            <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
+                            <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
+                        </template>
+                    </flex>
                 </flex>
             </flex>
         </flex>
