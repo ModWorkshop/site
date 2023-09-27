@@ -62,7 +62,7 @@
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
                     <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" maxlength="5000" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
                     <flex class="text-right p-2">
-                        <a-button :disabled="!posting && commentContent.length < 2" @click="submit">
+                        <a-button :disabled="posting || commentContent.length < 2" @click="submit">
                             <i-mdi-comment/> {{$t('submit')}}
                         </a-button>
                         <a-button @click="setCommentDialog(false)">
@@ -273,10 +273,10 @@ function processMentions(content: string) {
 }
 
 async function postComment() {
+    posting.value = true;
     let content = commentContent.value;
     try {
         const { mentions, content: processedContent } = processMentions(content);
-        posting.value = true;
         const comment = await postRequest<Comment>(props.url, {
             content: processedContent,
             mentions,
@@ -288,8 +288,8 @@ async function postComment() {
         } else if (comments.value) {
             comments.value.data.unshift(comment);
         }
-        posting.value = false;
         commentContent.value = '';
+        posting.value = false;
         setCommentDialog(false);
     } catch (error) {
         posting.value = false;
