@@ -1,9 +1,9 @@
 <template>
-    <NuxtLink class="content-block" :to="`/g/${game.short_name}`">
+    <NuxtLink class="game content-block" :to="`/g/${game.short_name}`">
         <a-thumbnail url-prefix="games/images" :src="game.thumbnail" :title="game.name"/>
-        <flex wrap class="p-2">
+        <flex wrap column class="p-2 items-center">
             {{game.name}}
-            <span class="text-secondary ml-auto">{{$t('mod_count', { n: game.mod_count })}}</span>
+            <span class="text-secondary">{{$t('mod_count', { n: game.mod_count })}}</span>
         </flex>
     </NuxtLink>
 </template>
@@ -15,3 +15,9 @@ defineProps<{
     game: Game
 }>();
 </script>
+
+<style scoped>
+.game {
+    width: 100%;
+}
+</style>

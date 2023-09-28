@@ -42,6 +42,8 @@ const breadcrumb = computed(() => {
         breadcrumb.push({ name: t('mods') });
     } else if (route.name == 'game-game-user-user') {
         breadcrumb.push({ name: t('game_preferences') });
+    } else {
+        return undefined;
     }
 
     if (route.name == 'game-game-forum-post') {

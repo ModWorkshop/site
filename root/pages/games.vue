@@ -10,7 +10,7 @@
             </i18n-t>
         </flex>
         <a-pagination v-model="page" per-page="50" set-query :total="games?.meta.total"/>
-        <flex v-if="games" class="games-grid gap-2">
+        <flex v-if="games" class="gap-2 games-grid" wrap>
             <a-game v-for="game of games.data" :key="game.id" :game="game"/>
         </flex>
     </page-block>

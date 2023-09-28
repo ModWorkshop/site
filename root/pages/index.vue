@@ -7,10 +7,10 @@
 
         <flex v-if="user?.extra?.home_show_last_games ?? true" column :gap="2">
             <flex>
-                <h2>{{$t('last_updated_games')}}</h2>
+                <span class="h2">{{$t('games')}}</span>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
-            <flex v-if="games" class="latest-games games-grid gap-2">
+            <flex v-if="games" class="latest-games gap-2">
                 <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>
@@ -19,7 +19,14 @@
             v-if="!user"
             :link="`/mods`"
         />
-        <mod-list v-else-if="user.extra?.home_show_mods ?? true" :title="$t('mods')" title-link="/search/mods" :limit="20" :url="user ? currentFollowUrl : undefined">
+        <mod-list 
+            v-else-if="user.extra?.home_show_mods ?? true"
+            :title="$t('mods')" 
+            title-link="/search/mods"
+            :limit="20"
+            :url="user ? currentFollowUrl : undefined"
+            side-filters
+        >
             <template #buttons>
                 <button-group v-if="user" v-model:selected="selectedView" button-style="nav">
                     <a-group-button name="all"><i-mdi-layers/> {{$t('all')}}</a-group-button>
@@ -50,7 +57,7 @@ import { useStore } from '~~/store';
 
 const { user } = useStore();
 
-const { data: games } = await useFetchMany<Game>('games', { params: { limit: 6 } });
+const { data: games } = await useFetchMany<Game>('games', { params: { limit: 8 } });
 
 const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
 

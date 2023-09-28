@@ -370,43 +370,29 @@ a {
 }
 
 @media (max-width:768px) {
-    .latest-games.games-grid>a:nth-of-type(n+5) {
-        display: none
-    }
-
-    .games-grid {
-        grid-template-columns: repeat(2, 1fr)
+    .latest-games .game:nth-of-type(n+4) {
+        display: none;
     }
 }
 
 @media (min-width:768px) and (max-width:1280px) {
-    .latest-games.games-grid>a:nth-of-type(n+5) {
-        display: none
-    }
-
-    .games-grid {
-        grid-template-columns: repeat(4, 1fr)
+    .latest-games .game:nth-of-type(n+5) {
+        display: none;
     }
 }
 
 @media (min-width:1280px) and (max-width:1536px) {
-    .latest-games.games-grid>a:nth-of-type(n+7) {
+    .latest-games .game:nth-of-type(n+7) {
         display: none
-    }
-
-    .games-grid {
-        grid-template-columns: repeat(6, 1fr)
-    }
-}
-
-@media (min-width:1536px) {
-    .games-grid {
-        grid-template-columns: repeat(6, 1fr)
     }
 }
 
 .mods-grid {
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+.games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .games-grid, .mods-grid {

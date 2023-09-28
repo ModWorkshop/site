@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentDisplayMode == 0" class="mods mods-grid gap-2">
+    <div v-if="currentDisplayMode == 0" class="mods mods-grid gap-3">
         <div v-if="error">{{$t('error_fetching_mods')}}</div>
         <template v-else>
             <a-mod v-for="mod in mods" :key="mod.id" :mod="mod" :game="game" :no-game="noGame" :sort="sortBy"/>
@@ -28,7 +28,7 @@ const savedDisplayMode = useConsentedCookie('mods-displaymode', { default: () =>
 
 const props = defineProps<{
     displayMode?: number,
-    sortBy: string,
+    sortBy?: string,
     game?: Game,
     noGame: boolean,
     error?: Error|null,
