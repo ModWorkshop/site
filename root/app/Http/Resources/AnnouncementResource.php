@@ -21,7 +21,7 @@ class AnnouncementResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'content' => Str::limit($this->content, 200),
+            'content' => $this->content,
         ];
     }
 }
