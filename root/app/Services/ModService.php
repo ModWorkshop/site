@@ -21,7 +21,7 @@ class ModService {
     public static function mods(array $val, callable $querySetup=null, $query=null)
     {
         $mods = QueryBuilder::for($query ?? Mod::class)->with(Mod::LIST_MOD_WITH)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
-        return $mods->queryGet($val, function($q) use($val) {
+        return $mods->queryGet($val, function($q) use($val, $querySetup) {
             if (isset($querySetup)) {
                 $querySetup($q, $val);
             }
@@ -61,7 +61,7 @@ class ModService {
                 if (isset($game)) {
                     $arr = [
                         ...$arr,
-                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                        ...self::makeBreadcrumb(null, $categories[$category->parent_id] ?? $category->parent, [[
                             'name' => $category->name,
                             'id' => $category->id,
                             'type' => 'category'
@@ -69,7 +69,7 @@ class ModService {
                     ];
                 } else {
                     $arr = [
-                        ...self::makeBreadcrumb(null, self::$categories[$category->parent_id] ?? $category->parent, [[
+                        ...self::makeBreadcrumb(null, $categories[$category->parent_id] ?? $category->parent, [[
                             'name' => $category->name,
                             'id' => $category->id,
                             'type' => 'category'
@@ -122,6 +122,10 @@ class ModService {
             if (isset($game)) {
                 APIService::setCurrentGame($game);
             }
+        }
+
+        if (!isset($game)) {
+            $query->with(['game']);
         }
 
         //These are global filters. Either things user has blocked or limits in general.
