@@ -24,11 +24,8 @@ defineEmits<{
 
 <style scoped>
 .announcement {
-    flex: 1;
-}
-
-.announcement div {
     height: 85px;
     overflow: hidden;
+    flex-grow: 1;
 }
 </style>
