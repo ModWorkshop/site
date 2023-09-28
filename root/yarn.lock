@@ -902,17 +902,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@intlify/core-base@npm:9.4.1":
-  version: 9.4.1
-  resolution: "@intlify/core-base@npm:9.4.1"
+"@intlify/core-base@npm:@intlify/core-base-edge@9.4.1-2c1a08e":
+  version: 9.4.1-2c1a08e
+  resolution: "@intlify/core-base-edge@npm:9.4.1-2c1a08e"
   dependencies:
-    "@intlify/message-compiler": 9.4.1
-    "@intlify/shared": 9.4.1
-  checksum: 753464c1e66be3df98800c2507673a76f5914bd3c3030f7886fe0f0e634a2e011d0d0f775d697a697371f22be8f3e105bffc6b866302c9f804ab6087aeeddca7
+    "@intlify/message-compiler": "npm:@intlify/message-compiler-edge@9.4.1-2c1a08e"
+    "@intlify/shared": "npm:@intlify/shared-edge@9.4.1-2c1a08e"
+  checksum: 77e237b57cde1e305d436b018e11d7a524b2b682da641fe618b7cb3e510b97b9affe1ac426bfbc91aaa2ab8579759abe19638ae53aecf6d995df8c7215f3a5f4
   languageName: node
   linkType: hard
 
-"@intlify/message-compiler@npm:9.4.1, @intlify/message-compiler@npm:^9.4.0":
+"@intlify/message-compiler@npm:@intlify/message-compiler-edge@9.4.1-2c1a08e":
+  version: 9.4.1-2c1a08e
+  resolution: "@intlify/message-compiler-edge@npm:9.4.1-2c1a08e"
+  dependencies:
+    "@intlify/shared": "npm:@intlify/shared-edge@9.4.1-2c1a08e"
+    source-map-js: ^1.0.2
+  checksum: c6b993b9a02b32f6812ba0e325e9f3cd66f54879af4daf827828da73c681bfaa5e0f2436910362d073bb6f66155d2fed5868a7514dd69795c8ac4a4167d08106
+  languageName: node
+  linkType: hard
+
+"@intlify/message-compiler@npm:^9.4.0":
   version: 9.4.1
   resolution: "@intlify/message-compiler@npm:9.4.1"
   dependencies:
@@ -926,6 +936,13 @@ __metadata:
   version: 9.4.1
   resolution: "@intlify/shared@npm:9.4.1"
   checksum: 58faa632efa06de705b76b853b879e60a6cb81c0589d353a66d31f7aa3f62258bd6dda1c87652f66e16bcc1cc63694ed7ff371815c818bc3e00a72fbf7ef94b7
+  languageName: node
+  linkType: hard
+
+"@intlify/shared@npm:@intlify/shared-edge@9.4.1-2c1a08e":
+  version: 9.4.1-2c1a08e
+  resolution: "@intlify/shared-edge@npm:9.4.1-2c1a08e"
+  checksum: b6610c0d84903a25087f1534d77dd23b6c8f876393b68a049912d94255831f40ace47e52dfbaa3ef887013e6ae6c048be767bcc2286625d297d63240b8b9d7ce
   languageName: node
   linkType: hard
 
@@ -9446,16 +9463,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-i18n@npm:9.4.1":
-  version: 9.4.1
-  resolution: "vue-i18n@npm:9.4.1"
+"vue-i18n@npm:vue-i18n-edge@9.4.1-2c1a08e":
+  version: 9.4.1-2c1a08e
+  resolution: "vue-i18n-edge@npm:9.4.1-2c1a08e"
   dependencies:
-    "@intlify/core-base": 9.4.1
-    "@intlify/shared": 9.4.1
+    "@intlify/core-base": "npm:@intlify/core-base-edge@9.4.1-2c1a08e"
+    "@intlify/shared": "npm:@intlify/shared-edge@9.4.1-2c1a08e"
     "@vue/devtools-api": ^6.5.0
   peerDependencies:
     vue: ^3.0.0
-  checksum: 50516a4441c70be36d3d471cd9660f09d15aafe61cd508a794a63d6f8111bb1c25ba6b256b45d447a6fef52cfe76ece28b5a042f1c6cff92ac5e47a1117bfd7c
+  checksum: 5779e76b8917b8577c0478bbd2dc21b286e1bf30e8c0ab0e4da9c27660c13592381e21d91a23ae78a9db9f4731671f8c9883d245ae8669adc92b88407825596a
   languageName: node
   linkType: hard
 

@@ -74,6 +74,9 @@
   "overrides": {
     "semver": "^7.5.3"
   },
+  "resolutions": {
+    "vue-i18n": "npm:vue-i18n-edge@9.4.1-2c1a08e"
+  },
   "packageManager": "yarn@3.6.3",
   "engines": {
     "node": ">=18"
