@@ -2,7 +2,7 @@
     <tr class="cursor-pointer content-block thread" @click.self="clickThread(thread)">
         <td @click.self="clickThread(thread)">
             <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
-            <NuxtLink class="whitespace-pre-line" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+            <NuxtLink class="list-thread" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
         </td>
         <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
         <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>
@@ -45,3 +45,10 @@ function clickThread(thread: Thread) {
     router.push(`/thread/${thread.id}`);
 }
 </script>
+
+<style scoped>
+.list-thread {
+    white-space: pre-line;
+    min-width: 100px;
+}
+</style>
