@@ -39,7 +39,7 @@
                         <template #popper>
                             <a-dropdown-item to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-dropdown-item>
                             <a-dropdown-item to="https://translate.modworkshop.net/">{{$t('translation_site')}}</a-dropdown-item>
-                            <a-dropdown-item to="/docs/rules">{{$t('rules')}}</a-dropdown-item>
+                            <a-dropdown-item to="/document/rules">{{$t('rules')}}</a-dropdown-item>
                             <a-dropdown-item to="/games" class="lg:!hidden">{{$t('games')}}</a-dropdown-item>
                             <a-dropdown-item to="/forum" class="xl:!hidden">{{$t('forum')}}</a-dropdown-item>
                             <a-dropdown-item to="/support" class="xl:!hidden">{{$t('support_us')}}</a-dropdown-item>
