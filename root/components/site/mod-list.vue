@@ -72,28 +72,24 @@
             </flex>
         </flex>
 
-        <flex column gap="3">
-            <flex gap="3" class="md:flex-row flex-col">
-                <content-block v-if="sideFilters" class="mod-filters" style="width: 300px;">
-                    <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
-                </content-block>
-                <flex column grow gap="3">
-                    <flex column gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
-                        <a-loading v-if="loading" class="my-auto"/>
-                        <template v-else>
-                            <mod-list-skeleton
-                                :display-mode="displayMode"
-                                :sort-by="sortBy"
-                                :no-game="!!game"
-                                :error="error"
-                                :game="game"
-                                :mods="currentMods"
-                            />
-                            <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
-                            <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
-                        </template>
-                    </flex>
-                </flex>
+        <flex gap="3" class="md:flex-row flex-col">
+            <content-block v-if="sideFilters" class="mod-filters max-md:!w-full" style="width: 300px;">
+                <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+            </content-block>
+            <flex column grow gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
+                <a-loading v-if="loading" class="my-auto"/>
+                <template v-else>
+                    <mod-list-skeleton
+                        :display-mode="displayMode"
+                        :sort-by="sortBy"
+                        :no-game="!!game"
+                        :error="error"
+                        :game="game"
+                        :mods="currentMods"
+                    />
+                    <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
+                    <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
+                </template>
             </flex>
         </flex>
     </flex>
