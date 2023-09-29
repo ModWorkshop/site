@@ -28,7 +28,14 @@
                     </span>
                 </flex>
                 <flex class="md:ml-auto max-md:content-stretch" style="box-shadow: initial; text-shadow: initial;">
-                    <a-button v-if="canLike" :color="mod.liked && 'danger' || 'secondary'" class="large-button" :to="!user ? '/login' : undefined" @click="toggleLiked">
+                    <a-button 
+                        v-if="canLike"
+                        :color="mod.liked && 'danger' || 'secondary'"
+                        class="large-button"
+                        :title="$t('like_mod')"
+                        :to="!user ? '/login' : undefined"
+                        @click="toggleLiked"
+                    >
                         <i-mdi-heart/>
                     </a-button>
 

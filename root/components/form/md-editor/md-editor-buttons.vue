@@ -1,12 +1,14 @@
 <template>
-    <flex wrap class="my-auto items-center text-xl">
-        <template v-for="[i, group] of toolGroups.entries()">
-            <a-button v-for="tool of group.tools" :key="tool.icon.name" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
-            <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
-        </template>
-        <span class="tools-splitter"/>
-        <a-button color="none" :icon="splitMode ? MdiRectangle : MdiViewSplitVertical" @click="splitModeVm = !splitModeVm"/>
-        <a-button color="none" :icon="fullscreen ? IMdiFullScreenExit : IMdiFullScreen" @click="fullscreenVm = !fullscreenVm"/>
+    <flex class="overflow-auto">
+        <flex class="my-auto items-center text-xl flex-shrink-0">
+            <template v-for="[i, group] of toolGroups.entries()">
+                <a-button v-for="tool of group.tools" :key="tool.icon.name" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
+                <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
+            </template>
+            <span class="tools-splitter"/>
+            <a-button color="none" :icon="splitMode ? MdiRectangle : MdiViewSplitVertical" @click="splitModeVm = !splitModeVm"/>
+            <a-button color="none" :icon="fullscreen ? IMdiFullScreenExit : IMdiFullScreen" @click="fullscreenVm = !fullscreenVm"/>
+        </flex>
     </flex>
 </template>
 

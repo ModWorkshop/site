@@ -16,7 +16,7 @@
                     :style="{flex: side ? 1 : undefined}"
                     :column="side" role="tablist"
                 >
-                    <flex :wrap="!scrollOnOverflow" grow :column="side">
+                    <flex :wrap="!scrollOnOverflow" grow :column="side" :class="{'flex-shrink-0': scrollOnOverflow}">
                         <a-tab-link 
                             v-for="tab of tabs"
                             ref="tabLinks"
