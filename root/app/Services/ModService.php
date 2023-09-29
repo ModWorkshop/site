@@ -194,19 +194,21 @@ class ModService {
 
     // More lightweight version of filters that skips on the whole options
     public static function viewFilters($query, array $opt = []) {
-        $user = Auth::user();
-
         $query->where(function($query) {
+            $user = Auth::user();
+
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-            if (!isset($user) || !$user->hasPermission('manage-mods', APIService::currentGame())) {
-                $query->where('visibility', Visibility::public)->whereNotNull('published_at')->where('suspended', false)->where('approved', true)->where('has_download', true);
+            if ($user?->hasPermission('manage-mods', APIService::currentGame())) {
+                return;
             }
+
+            $query->where('visibility', Visibility::public)->whereNotNull('published_at')->where('suspended', false)->where('approved', true)->where('has_download', true);
 
             if (isset($user)) {
                 $query->orWhere('user_id', $user->id);
 
                 //let members see mods if they've accepted their membership
-                if ($opt['check_members'] ?? true) { // Due to technical limits, it's possible you'd want to disable this, it's slow in some cases.
+                if ($opt['check_members'] ?? true) {
                     $query->orWhereHasIn('selfMember');
                 }
             }
