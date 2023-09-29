@@ -4,58 +4,60 @@
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
         <slot name="buttons"/>
-        <flex wrap class="overflow-auto">
-            <flex>
-                <a-button :disabled="sortBy == 'bumped_at'" @click="setSortBy('bumped_at')">
-                    <i-mdi-clock/> {{$t('last_updated')}}
-                </a-button>
-                <a-button :disabled="sortBy == 'published_at'" @click="setSortBy('published_at')">
-                    <i-mdi-upload/> {{$t('published_at')}}
-                </a-button>
-                <VDropdown>
-                    <a-button><i-mdi-star/> {{$t('popularity')}}</a-button>
-                    <template #popper>
-                        <button-group v-model:selected="sortBy" column>
-                            <a-group-button name="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</a-group-button>
-                            <a-group-button name="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</a-group-button>
-                            <a-group-button name="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</a-group-button>
-                        </button-group>
-                    </template>
-                </VDropdown>
-                <VDropdown>
-                        <a-button :title="$t('sort_by')">
-                        <i-mdi-dots-vertical/>
+        <flex class="max-md:flex-col">
+            <flex class="overflow-auto">
+                <flex class="flex-shrink-0">
+                    <a-button :disabled="sortBy == 'bumped_at'" @click="setSortBy('bumped_at')">
+                        <i-mdi-clock/> {{$t('last_updated')}}
                     </a-button>
-                    <template #popper>
-                        <flex column>
-                            <button-group v-model:selected="sortBy" column>
-                                <a-group-button name="best_match"><i-mdi-magnify/> {{$t('best_match')}} </a-group-button>
-                                <a-group-button name="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</a-group-button>
-                                <a-group-button name="likes"><i-mdi-heart/> {{$t('likes')}}</a-group-button>
-                                <a-group-button name="downloads"><i-mdi-download/> {{$t('downloads')}}</a-group-button>
-                                <a-group-button name="views"><i-mdi-eye/>{{$t('views')}}</a-group-button>
-                                <a-group-button name="name"><i-mdi-pencil/> {{$t('name')}}</a-group-button>
-                            </button-group>
-                        </flex>
-                    </template>
-                </VDropdown>
-                <flex v-if="!sideFilters">
+                    <a-button :disabled="sortBy == 'published_at'" @click="setSortBy('published_at')">
+                        <i-mdi-upload/> {{$t('published_at')}}
+                    </a-button>
                     <VDropdown>
-                        <a-button><i-mdi-filter/></a-button>
+                        <a-button><i-mdi-star/> {{$t('popularity')}}</a-button>
                         <template #popper>
-                            <Suspense>
-                                <flex class="p-4" gap="3" column style="width: 300px;">
-                                    <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
-                                </flex>
-                            </Suspense>
+                            <button-group v-model:selected="sortBy" column>
+                                <a-group-button name="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</a-group-button>
+                                <a-group-button name="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</a-group-button>
+                                <a-group-button name="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</a-group-button>
+                            </button-group>
                         </template>
                     </VDropdown>
+                    <VDropdown>
+                        <a-button :title="$t('sort_by')">
+                            <i-mdi-dots-vertical/>
+                        </a-button>
+                        <template #popper>
+                            <flex column>
+                                <button-group v-model:selected="sortBy" column>
+                                    <a-group-button name="best_match"><i-mdi-magnify/> {{$t('best_match')}} </a-group-button>
+                                    <a-group-button name="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</a-group-button>
+                                    <a-group-button name="likes"><i-mdi-heart/> {{$t('likes')}}</a-group-button>
+                                    <a-group-button name="downloads"><i-mdi-download/> {{$t('downloads')}}</a-group-button>
+                                    <a-group-button name="views"><i-mdi-eye/>{{$t('views')}}</a-group-button>
+                                    <a-group-button name="name"><i-mdi-pencil/> {{$t('name')}}</a-group-button>
+                                </button-group>
+                            </flex>
+                        </template>
+                    </VDropdown>
+                    <flex v-if="!sideFilters">
+                        <VDropdown>
+                            <a-button><i-mdi-filter/></a-button>
+                            <template #popper>
+                                <Suspense>
+                                    <flex class="p-4" gap="3" column style="width: 300px;">
+                                        <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+                                    </flex>
+                                </Suspense>
+                            </template>
+                        </VDropdown>
+                    </flex>
                 </flex>
             </flex>
             
-            <flex class="ml-auto" gap="2">
+            <flex class="md:ml-auto" gap="2">
                 <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="fetchedMods.meta.per_page" no-hiding/>
-                <VDropdown>
+                <VDropdown class="max-sm:hidden">
                     <a-button :title="$t('settings')"><i-mdi-cog/></a-button>
                     <template #popper>
                         <flex column class="p-2">

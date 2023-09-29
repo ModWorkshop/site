@@ -155,6 +155,7 @@ watch(fullscreen, status => {
     background-color: var(--alt-content-bg-color);
     border-radius: var(--border-radius);
     resize: vertical;
+    max-width: 100%;
 }
 
 textarea {
