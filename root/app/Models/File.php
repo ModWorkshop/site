@@ -96,7 +96,10 @@ class File extends Model
     public function safeFileName(): Attribute
     {
         return Attribute::make(function() {
-            $name = preg_replace('/[^A-Za-z0-9\s\-]/', '', explode('.', $this->name)[0]) || $this->mod_id;
+            $name = preg_replace('/[^A-Za-z0-9\s\-]/', '', explode('.', $this->name)[0]);
+            if (!isset($name) || empty($name)) {
+                $name = $this->mod_id;
+            }
             return "{$name}.{$this->file_ext}";
         });
     }
