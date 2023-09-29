@@ -1,5 +1,13 @@
 <template>
-    <a-img loading="lazy" class="ratio-image round" :src="src" :url-prefix="urlPrefix" :fallback="noPreviewSrc" :use-thumb="hasThumb && !preferHq"/>
+    <a-img 
+        loading="lazy"
+        class="ratio-image round"
+        :src="src"
+        :url-prefix="urlPrefix"
+        :fallback="noPreviewSrc"
+        :use-thumb="hasThumb && !preferHq"
+        :alt="$t('thumbnail')"
+    />
 </template>
 
 <script setup lang="ts">

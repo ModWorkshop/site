@@ -1,5 +1,11 @@
 <template>
-    <a-thumbnail class="mod-thumbnail" :src="thumbnail?.file" :has-thumb="thumbnail?.has_thumb" url-prefix="mods/images" :prefer-hq="preferHq"/>
+    <a-thumbnail 
+        class="mod-thumbnail"
+        :src="thumbnail?.file"
+        :has-thumb="thumbnail?.has_thumb"
+        url-prefix="mods/images"
+        :prefer-hq="preferHq"
+    />
 </template>
 
 <script setup lang="ts">

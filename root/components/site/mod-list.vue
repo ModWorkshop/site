@@ -23,7 +23,7 @@
                     </template>
                 </VDropdown>
                 <VDropdown>
-                    <a-button>
+                        <a-button :title="$t('sort_by')">
                         <i-mdi-dots-vertical/>
                     </a-button>
                     <template #popper>
@@ -56,7 +56,7 @@
             <flex class="ml-auto" gap="2">
                 <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="fetchedMods.meta.per_page" no-hiding/>
                 <VDropdown>
-                    <a-button><i-mdi-cog/></a-button>
+                    <a-button :title="$t('settings')"><i-mdi-cog/></a-button>
                     <template #popper>
                         <flex column class="p-2">
                             <a-input :label="$t('display_mode')">

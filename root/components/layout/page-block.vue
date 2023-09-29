@@ -3,7 +3,7 @@
         <flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="game?.id" gap="0" column>
-                <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
+                <img v-if="gameBanner" :class="{'game-banner': true}" :alt="$t('banner')" :src="bannerUrl">
                 <content-block :column="false" wrap class="items-center" gap="4">
                     <h2 class="my-auto mb-1">
                         <a-link-button :to="`/g/${game.short_name}`">{{game.name}}</a-link-button>
