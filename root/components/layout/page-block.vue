@@ -229,7 +229,7 @@ const innerClasses = computed(() => ({
     }
 }
 
-@media (max-width:1024px) {
+@media (max-width:1279px) {
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
         width: 100% !important;
     }
