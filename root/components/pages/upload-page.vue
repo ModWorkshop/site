@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 80%; align-self: center;">
+    <div class="page-block-nm" style="align-self: center;">
         <Title>{{$t('upload_mod')}}</Title>
         <a-form v-model="mod" :created="false" @submit="create">
             <content-block v-if="step == 1" padding="8">
