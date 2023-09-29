@@ -336,23 +336,17 @@ class Mod extends Model implements SubscribableInterface
             foreach ($mod->files as $file) {
                 $file->delete();
             }
-            $mod->game->decrement('mod_count');
             $mod->subscriptions()->delete();
-            $mod->user->decrement('mod_count');
         });
         static::creating(function(Mod $mod) {
             $mod->bumped_at ??= $mod->freshTimestampString();
         });
 
         static::created(function(Mod $mod) {
-            $mod->game->increment('mod_count');
-
             //Auto-sub ourselves
             $mod->subscriptions()->create([
                 'user_id' => $mod->user_id
             ]);
-
-            $mod->user->increment('mod_count');
         });
     }
 
@@ -419,6 +413,14 @@ class Mod extends Model implements SubscribableInterface
     public function links()
     {
         return $this->hasMany(Link::class)->orderByDesc('updated_at')->limit(5);
+    }
+
+    public function selfMember()
+    {
+        $user = Auth::user();
+        return $this->hasOne(ModMember::class)
+            ->when(isset($user), fn($q) => $q->where('user_id', $user->id))
+            ->where('accepted', true);
     }
 
     public function members()

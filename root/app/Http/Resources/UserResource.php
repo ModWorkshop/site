@@ -60,7 +60,10 @@ class UserResource extends JsonResource
             'active_supporter' => $this->activeSupporter,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
-            'mod_count' => $this->when($this->isVisibleForProfile('mod_count'), $this->mod_count)
+            'mods_count' => $this->when(
+                $this->whenCounted('viewableMods') && $this->isVisibleForProfile('mods_count'),
+                    fn() => $this->viewable_mods_count
+                )
         ];
     }
 }

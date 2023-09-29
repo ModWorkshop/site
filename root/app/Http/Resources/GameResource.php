@@ -41,6 +41,7 @@ class GameResource extends JsonResource
             'waiting_count' => $this->when($isCurrent && $manageMods, fn() => $this->waitingCount),
             'user_data' => $this->when($isCurrent, fn() => $this->userData),
             'announcements' => $this->when($isCurrent, fn() => $this->announcements),
+            'mods_count' => $this->whenCounted('viewableMods')
         ];
     }
 }

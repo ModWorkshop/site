@@ -48,8 +48,6 @@ class CreateUsersTable extends Migration
 
             $table->ipAddress('last_ip_address')->nullable();
 
-            $table->integer('mod_count')->default(0);
-
             $table->index('unique_name');
 
             $table->boolean('activated')->default(false);
