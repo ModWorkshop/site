@@ -73,7 +73,7 @@ class ThreadPolicy
         }
 
         $canAppeal = $user->last_ban?->can_appeal ?? true;
-        $canAppealGame = isset($game) ? ($user->getLastGameban($game->id)?->can_appeal ?? true) : false;
+        $canAppealGame = isset($game) ? ($user->getLastGameban($game->id)?->can_appeal ?? true) : true;
 
         return $user->hasPermission('create-discussions', $game, $category?->banned_can_post && $canAppeal && $canAppealGame);
     }

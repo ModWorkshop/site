@@ -89,6 +89,7 @@ class GameController extends Controller
         ]);
 
         $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
+            $query->withCount('viewableMods');
             if (($val['only_names'] ?? false)) {
                 $query->select(['id', 'name']);
             }
@@ -105,6 +106,8 @@ class GameController extends Controller
     public function show(Game $game)
     {
         APIService::setCurrentGame($game);
+
+        $game->loadCount('viewableMods');
 
         if (Auth::hasUser()) {
             $game->loadMissing('followed');

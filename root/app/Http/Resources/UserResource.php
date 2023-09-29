@@ -48,19 +48,20 @@ class UserResource extends JsonResource
             'blocked_me' => $this->when($notMeNotGuest, fn() => $this->blockedMe),
             'custom_color' => $this->custom_color,
             'highest_role_order' => $this->highestRoleOrder,
-            'tag' => $this->tag,
             'banner' => $this->banner,
             'bio' => $this->when($this->isVisibleForProfile('bio'), $this->bio),
             'invisible' => $this->invisible,
             'private_profile' => $this->private_profile,
             'custom_title' => $this->when($this->isVisibleForProfile('custom_title'), $this->custom_title),
             'donation_url' => $this->donation_url,
-            'invisible' => $this->invisible,
             'show_tag' => $this->when('show_tag', $this->show_tag),
             'active_supporter' => $this->activeSupporter,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
-            'mod_count' => $this->when($this->isVisibleForProfile('mod_count'), $this->mod_count)
+            'mods_count' => $this->when(
+                $this->whenCounted('viewableMods') && $this->isVisibleForProfile('mods_count'),
+                    fn() => $this->viewable_mods_count
+                )
         ];
     }
 }

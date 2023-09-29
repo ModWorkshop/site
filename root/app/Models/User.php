@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\PendingEmailVerificationNotification;
 use App\Services\APIService;
+use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
@@ -186,7 +187,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'custom_title',
         'donation_url',
         'show_tag',
-        'mod_count'
     ];
 
     /**
@@ -204,7 +204,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
         'last_online',
         'bio',
-        'mod_count',
         'custom_title',
         'created_at',
     ];
@@ -283,7 +282,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $profileHidden = [
             'last_online',
             'bio',
-            'mod_count',
+            'mods_count',
             'custom_title',
             'created_at',
         ];
@@ -382,6 +381,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function allBlockedTags()
     {
         return $this->hasMany(BlockedTag::class);
+    }
+
+    // Mods that the current user is able to see
+    public function viewableMods(): HasMany
+    {
+        $mods = $this->hasMany(Mod::class);
+        ModService::viewFilters($mods->getQuery(), ['check_members' => false]);
+        return $mods;
     }
 
     public function mods(): HasMany

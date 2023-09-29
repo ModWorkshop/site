@@ -46,9 +46,9 @@ class UserController extends Controller
     {
         $val = $request->val([
             'id' => 'integer|min:1',
-            'role_ids.*' => 'array|max:10',
+            'role_ids' => 'array|max:10',
             'role_ids.*' => 'integer|min:1|nullable',
-            'game_role_ids.*' => 'array|max:10',
+            'game_role_ids' => 'array|max:10',
             'game_role_ids.*' => 'integer|min:1|nullable',
         ]);
 
@@ -59,6 +59,8 @@ class UserController extends Controller
         $query = Arr::pull($val, 'query');
 
         $users = User::queryGet($val, function($q, $val) use ($game, $query) {
+            $q->withCount('viewableMods');
+
             if (isset($val['id'])) {
                 $q->where('id', $val['id']);
             }
@@ -128,6 +130,7 @@ class UserController extends Controller
             $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->firstOrFail();
         }
 
+        $foundUser->loadCOunt('viewableMods');
         $foundUser->loadMissing('blockedUsers');
         if (Auth::hasUser()) {
             $foundUser->loadMissing('followed');

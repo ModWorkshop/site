@@ -395,7 +395,7 @@ class MigrateBB extends Command
                     'disporder' => $cat->disporder,
                     'last_date' => $this->handleUnixDate($cat->last_date),
                     'webhook_url' => $cat->webhook_url,
-                    'mod_count' => $cat->downloads
+                    'mods_count' => $cat->downloads
                 ]);
             }
         }

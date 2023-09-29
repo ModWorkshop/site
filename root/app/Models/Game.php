@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Services\APIService;
+use App\Services\ModService;
 use Arr;
 use Auth;
-use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
-use Log;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Spatie\QueryBuilder\QueryBuilder;
 use Storage;
 
@@ -70,14 +70,13 @@ use Storage;
  */
 class Game extends Model
 {
+    use Cachable;
+
     use HasFactory;
 
     protected $guarded = [];
-
-    protected $hidden = ['webhook_url'];
-
+    protected $hidden = ['webhook_url', 'viewable_mods_count'];
     protected $appends = [];
-
     protected $with = ['followed'];
 
     protected $casts = [
@@ -110,6 +109,14 @@ class Game extends Model
     public function forum() : HasOne
     {
         return $this->hasOne(Forum::class);
+    }
+
+    // Mods that the current user is able to see
+    public function viewableMods(): HasMany
+    {
+        $mods = $this->hasMany(Mod::class);
+        ModService::viewFilters($mods->getQuery(), ['check_members' => false]);
+        return $mods;
     }
 
     public function mods(): HasMany
