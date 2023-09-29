@@ -46,9 +46,9 @@ class UserController extends Controller
     {
         $val = $request->val([
             'id' => 'integer|min:1',
-            'role_ids.*' => 'array|max:10',
+            'role_ids' => 'array|max:10',
             'role_ids.*' => 'integer|min:1|nullable',
-            'game_role_ids.*' => 'array|max:10',
+            'game_role_ids' => 'array|max:10',
             'game_role_ids.*' => 'integer|min:1|nullable',
         ]);
 
