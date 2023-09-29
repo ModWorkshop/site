@@ -559,7 +559,7 @@ svg:not(:root).icon, svg:not(:host).icon {
     height: 610px;
 }
 
-@media (min-width:1024px) {
+@media (min-width:1279px) {
     .ad-sides {
         display: block !important;
         width: 160px;
