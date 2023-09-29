@@ -115,7 +115,7 @@ class Game extends Model
     public function viewableMods(): HasMany
     {
         $mods = $this->hasMany(Mod::class);
-        ModService::viewFilters($mods->getQuery(), ['check_members' => false]);
+        ModService::viewFilters($mods, ['check_members' => false]);
         return $mods;
     }
 
