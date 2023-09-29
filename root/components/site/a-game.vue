@@ -15,9 +15,3 @@ defineProps<{
     game: Game
 }>();
 </script>
-
-<style scoped>
-.game {
-    width: 100%;
-}
-</style>

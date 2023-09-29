@@ -10,7 +10,7 @@
                 <span class="h2">{{$t('games')}}</span>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
-            <flex v-if="games" class="latest-games gap-2">
+            <flex v-if="games" class="latest-games gap-2" style="">
                 <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>
@@ -70,3 +70,10 @@ const links = {
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
 </script>
+
+<style>
+.latest-games .game {
+    max-width: 230px;
+    flex: 1;
+}
+</style>
