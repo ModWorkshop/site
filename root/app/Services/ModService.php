@@ -150,9 +150,7 @@ class ModService {
                 $query->orWhere('user_id', $user->id);
 
                 //let members see mods if they've accepted their membership
-                $query->orWhereHasIn('members', function($q) use ($user) {
-                    $q->where('user_id', $user->id)->where('accepted', true);
-                });
+                $query->orWhereHasIn('selfMember');
             }
         });
 
