@@ -387,7 +387,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function viewableMods(): HasMany
     {
         $mods = $this->hasMany(Mod::class);
-        ModService::viewFilters($mods->getQuery(), ['check_members' => false]);
+        ModService::viewFilters($mods);
         return $mods;
     }
 
