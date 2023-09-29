@@ -41,7 +41,7 @@
     </flex>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">
-        <div style="width: 300px;">
+        <div style="max-width: 300px;">
             <a-mod :mod="mod" static/>
         </div>
     </div>
