@@ -2,7 +2,7 @@
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
         <content-block class="p-8">
-            <a-form v-model="user" float-save-gui autocomplete="off" @submit="save">
+            <a-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
                 <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                     <a-nav-link to="profile" alias="" :title="$t('profile')"/>
                     <a-nav-link to="account" :title="$t('account_tab')"/>
@@ -31,8 +31,8 @@ definePageMeta({
 });
 
 const store = useStore();
-
 const route = useRoute();
+const flushChanges = createEventHook();
 const isMe = !route.params.user;
 
 provide('isMe', isMe);
@@ -61,6 +61,7 @@ async function save() {
             current_password: '',
             confirm_password: ''
         };
+        flushChanges.trigger(nextUser);
     } catch (error) {
         showToast(error);
     }

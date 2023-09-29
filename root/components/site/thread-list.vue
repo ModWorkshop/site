@@ -1,8 +1,8 @@
 <template>
     <flex v-intersection-observer="onVisChange" column>
-        <h2 v-if="title">
+        <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
-        </h2>
+        </span>
         <flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
             <content-block v-if="filters" column class="md:self-start" style="flex: 1;">
                 <a-input v-model="query" :label="$t('search')"/>

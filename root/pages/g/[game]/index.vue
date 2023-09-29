@@ -1,8 +1,11 @@
 <template>
     <div>
-        <a-lite-mod-list
+        <mod-list 
             v-if="user?.extra?.game_show_mods ?? true"
-            :link="`/g/${game.short_name}/mods`"
+            :title="$t('mods')"
+            :title-link="`/g/${game.short_name}/mods`"
+            side-filters
+            query
             :game="game"
         />
         <thread-list 

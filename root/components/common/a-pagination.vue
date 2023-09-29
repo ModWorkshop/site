@@ -33,7 +33,7 @@ const actualPage = computed(() => clamp(parseInt(props.modelValue as string), 1,
 
 watch(pages, val => emit('update:pages', val), { immediate: true });
 const pageNumbers = computed(() => {
-    if (pages.value <= 1) {
+    if (pages.value <= 1 && !props.noHiding) {
         return [];
     }
 
@@ -49,7 +49,9 @@ const pageNumbers = computed(() => {
         numbers.push(startingPoint+i);
     }
 
-    numbers.push(pages.value);
+    if (pages.value > 1) {
+        numbers.push(pages.value);
+    }
 
     return numbers;
 });

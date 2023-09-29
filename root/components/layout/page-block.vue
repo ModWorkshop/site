@@ -1,6 +1,6 @@
 <template>
     <flex column :class="classes" :gap="gap">
-        <flex class="page-block-nm mx-auto" column gap="3">
+        <flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
             <the-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
             <flex v-if="game?.id" gap="0" column>
                 <img v-if="gameBanner" :class="{'game-banner': true}" :src="bannerUrl">
@@ -229,7 +229,7 @@ const innerClasses = computed(() => ({
     }
 }
 
-@media (max-width:1024px) {
+@media (max-width:1279px) {
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
         width: 100% !important;
     }

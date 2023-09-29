@@ -102,7 +102,8 @@ const mod: Ref<Mod> = ref({
 });
 
 const gameName = computed(() => route.params.game);
-const disableCreate = computed(() => (!route.params.game && !mod.value.game_id) || !mod.value.name || !mod.value.desc);
+const creating = ref(false);
+const disableCreate = computed(() => creating.value || ((!route.params.game && !mod.value.game_id) || !mod.value.name || !mod.value.desc));
 
 const gameId = computed(() => game ? game.id : mod.value.game_id);
 
@@ -134,6 +135,7 @@ async function save(goToPage: boolean, publishMod?: boolean) {
 }
 
 async function create(goToPage: boolean) {
+    creating.value = true;
     try {
         mod.value.game_id = gameId.value;
         mod.value = await postRequest<Mod>(`games/${gameId.value}/mods`, mod.value);
@@ -144,6 +146,7 @@ async function create(goToPage: boolean) {
         }
     } catch (error) {
         showToast(error);
+        creating.value = false;
     }
 }
 </script>

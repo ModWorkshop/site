@@ -24,7 +24,7 @@
     "@iconify-json/cib": "^1.1.5",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "@nuxtjs/i18n": "8.0.0-rc.4",
+    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge@latest",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@pinia/nuxt": "^0.4.10",
@@ -40,7 +40,7 @@
     "eslint": "^8.33.0",
     "eslint-plugin-vue": "^9.17.0",
     "floating-vue": "^2.0.0-beta.24",
-    "nuxt": "^3.7.3",
+    "nuxt": "^3.7.4",
     "nuxt-delay-hydration": "^1.2.2",
     "typescript": "^5.0.4",
     "unplugin-icons": "^0.17.0",
@@ -73,6 +73,9 @@
   },
   "overrides": {
     "semver": "^7.5.3"
+  },
+  "resolutions": {
+    "vue-i18n": "npm:vue-i18n-edge@9.4.1-2c1a08e"
   },
   "packageManager": "yarn@3.6.3",
   "engines": {

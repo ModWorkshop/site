@@ -1,5 +1,5 @@
 <template>
-    <img :loading="loading" :src="compSrc" :alt="alt" :onerror="`this.src = '${fallback}'`">
+    <img :loading="loading" :src="compSrc" :alt="alt" @error="onError">
 </template>
 
 <script setup lang="ts">
@@ -20,5 +20,15 @@ const {
     alt?: string
 }>();
 
-const compSrc = computed(() => (src ? useSrc(urlPrefix, src, isAsset, useThumb) : fallback) ?? fallback);
+const forceSrc = ref();
+const compSrc = computed(() => forceSrc.value ?? (src ? useSrc(urlPrefix, src, isAsset, useThumb) : fallback) ?? fallback);
+const errorFired = ref(false);
+
+function onError() {
+    if (errorFired.value) {
+        return;
+    }
+    errorFired.value = true;
+    forceSrc.value = fallback;
+}
 </script>

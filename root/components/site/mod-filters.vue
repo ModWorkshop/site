@@ -4,7 +4,7 @@
     <a-category-select
         v-if="categories && categories.data.length"
         v-model="filters.category_id"
-        :max-height="400"
+        :max-height="500"
         :categories="categories.data"
         :label="$t('category')"
     />

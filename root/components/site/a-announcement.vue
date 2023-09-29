@@ -2,8 +2,8 @@
     <NuxtLink :to="`/thread/${thread.id}`" class="no-hover announcement">
         <content-block :column="false" padding="4" gap="0">
             <div>
-                <h3>📢 {{thread.name}}</h3>
-                <span class="ml-2">{{thread.content}}</span>
+                <span class="h2">📢 {{thread.name}}</span>
+                <a-markdown class="ml-2" :text="thread.content"/>
             </div>
             <i-mdi-close class="ml-auto mb-auto" @click.prevent="$emit('hide', thread)"/>
         </content-block>
@@ -24,10 +24,8 @@ defineEmits<{
 
 <style scoped>
 .announcement {
-    flex: 1;
-}
-
-.announcement div {
-    height: 100%;
+    height: 85px;
+    overflow: hidden;
+    flex-grow: 1;
 }
 </style>
