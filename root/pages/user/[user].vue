@@ -35,6 +35,7 @@
                         <a-dropdown-item @click="setFollowUser(user, true)"><i-mdi-bell/> {{$t('follow_with_notifs')}}</a-dropdown-item>
                         <a-dropdown-item @click="setFollowUser(user, false)"><i-mdi-plus-thick/> {{$t('follow')}}</a-dropdown-item>
                     </template>
+                    <template v-if="!isMe">
                     <a-dropdown-item v-if="isBlocked" @click="isBlocked && blockUser()">
                         <i-mdi-account-off/> {{$t('unblock')}}
                     </a-dropdown-item>
@@ -46,6 +47,7 @@
                             <i-mdi-eye-off/> {{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}
                         </a-dropdown-item>
                     </template>
+                </template>
                 </template>
             </VDropdown>
         </flex>
