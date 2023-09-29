@@ -48,6 +48,8 @@ const progressClasses = computed(() => {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100%;
+    text-align: center;
     transform: translate(-50%, -50%);
 }
 </style>
