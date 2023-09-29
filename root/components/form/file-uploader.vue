@@ -15,8 +15,8 @@
             multiple
             @change="e => upload((e.target as HTMLInputElement).files)"
         >
-        <div v-if="list && files.length" class="p-3 alt-content-bg round">
-            <table class="w-full">
+        <div v-if="list && files.length" class="alt-content-bg round">
+            <a-table :background="false">
                 <thead>
                     <tr>
                         <th>{{$t('name')}}</th>
@@ -41,7 +41,7 @@
                         <slot name="rows" :file="file"/>
                     </tr>
                 </tbody>
-            </table>
+            </a-table>
         </div>
         <div v-else-if="files.length" class="grid file-list p-3 alt-content-bg">
             <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
