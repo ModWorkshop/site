@@ -23,7 +23,7 @@
                         </flex>
                         <flex column>
                             {{$t('mods')}}
-                            <span class="text-secondary">{{user.mod_count}}</span>
+                            <span class="text-secondary">{{user.mods_count}}</span>
                         </flex>
                         <flex v-if="user.donation_url" column>
                             {{$t('support_user')}}

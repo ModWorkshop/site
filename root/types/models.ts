@@ -189,7 +189,7 @@ export interface Game {
     forum?: Forum,
     path?: string;
     followed?: boolean;
-    mod_count?: number;
+    mods_count?: number;
     roles?: Role[];
     user_data?: GameUserData;
     announcements?: Thread[];
@@ -286,7 +286,7 @@ export interface User {
         game_show_mods: boolean;
         game_show_threads: boolean;
     };
-    mod_count: number;
+    mods_count: number;
     supporter?: Supporter;
 }
 
