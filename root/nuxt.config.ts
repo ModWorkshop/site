@@ -107,9 +107,9 @@ export default defineNuxtConfig({
 		]
 	},
 
-	// delayHydration: {
-	// 	mode: 'mount'
-	// },
+	delayHydration: {
+		mode: 'mount'
+	},
 
 	// nitro: {
 	// 	compressPublicAssets: true,
