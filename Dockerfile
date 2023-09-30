@@ -48,6 +48,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Copy stuff
 COPY --chown=nobody ./conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY --chown=nobody ./conf.d/nginx.conf /etc/nginx/conf.d/nginx.conf
 COPY --chown=nobody ./conf.d/www.conf /etc/php82/php-fpm.d/www.conf
 
 FROM build as prod
