@@ -17,7 +17,9 @@ definePageMeta({ alias: '/game/:game' });
 
 const { data: game } = await useResource<Game>('game', 'games');
 
-const desc = `Explore ${game.value.name} mods, discussions & more on ModWorkshop!`;
+const desc = `
+Browse ${game.value.mods_count} mods for ${game.value.name}. Find a big variety of mods to customize ${game.value.name} and enjoy the creativity of the modding community.
+ModWorkshop is the platform for sharing and downloading mods for ${game.value.name}. Working together as a community to create tools, guides and more.`;
 
 useServerSeoMeta({
     ogSiteName: `ModWorkshop - ${game.value.name}`,
@@ -25,6 +27,7 @@ useServerSeoMeta({
 	description: desc,
 	ogDescription:desc,
 	ogImage: `games/images/${game.value.thumbnail}`,
+    keywords: `${game.value.name}, ${game.value.name} mod, ${game.value.name} mods, mod, mods, modding, modworkshop, modworkshopnet`,
 	twitterCard: 'summary',
 });
 
