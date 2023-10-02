@@ -1760,7 +1760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dompurify@npm:^3.0.2":
+"@types/dompurify@npm:^3.0.3":
   version: 3.0.3
   resolution: "@types/dompurify@npm:3.0.3"
   dependencies:
@@ -3704,10 +3704,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "dompurify@npm:3.0.5"
-  checksum: 2d9421570c833ce26ce7022955241749b646d41e8bf453f42ede9f22d0e98af482cedb7dfbf8129419eb48b351c1d677a08fc9f1cd91836ce7f6c1807a0676b2
+"dompurify@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "dompurify@npm:3.0.6"
+  checksum: e5c6cdc5fe972a9d0859d939f1d86320de275be00bbef7bd5591c80b1e538935f6ce236624459a1b0c84ecd7c6a1e248684aa4637512659fccc0ce7c353828a6
   languageName: node
   linkType: hard
 
@@ -5383,14 +5383,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-dompurify@npm:^1.6.0":
-  version: 1.8.0
-  resolution: "isomorphic-dompurify@npm:1.8.0"
+"isomorphic-dompurify@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "isomorphic-dompurify@npm:1.9.0"
   dependencies:
-    "@types/dompurify": ^3.0.2
-    dompurify: ^3.0.5
+    "@types/dompurify": ^3.0.3
+    dompurify: ^3.0.6
     jsdom: ^22.1.0
-  checksum: 5ac39dd13bf9923fdc2932e18cf5f7c4e777fa8c2ffd018ee755207b53cdb739d7e6f2e36103b7bd0a1d2eceb5172954ccd40873cea8c772b42c341a19597897
+  checksum: 44cbcc42ec1dffbb1f61b47feeca5b627830776fa183e4ec86367e93ea27062c89490d41ed33e47e0781750223551a71fb0e061f991b7ef638f5ebd26dab76d7
   languageName: node
   linkType: hard
 
@@ -6328,7 +6328,7 @@ __metadata:
     floating-vue: ^2.0.0-beta.24
     highlight.js: ^11.7.0
     humanize-duration: ^3.30.0
-    isomorphic-dompurify: ^1.6.0
+    isomorphic-dompurify: ^1.9.0
     lodash: ^4.17.21
     luxon: ^3.2.1
     markdown-it: ^13.0.1
