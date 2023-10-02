@@ -1,6 +1,7 @@
 <template>
     <page-block v-if="mod" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
-        <Title>{{mod.name}}</Title>
+        <Title v-if="mod.game">{{mod.name}} - {{ mod.game.name }} Mods</Title>
+        <Title v-else>{{ mod.name }}</Title>
         <mod-alerts :mod="mod"/>
         <mod-buttons :mod="mod"/>
         <slot/>

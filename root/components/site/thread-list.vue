@@ -1,5 +1,5 @@
 <template>
-    <flex v-intersection-observer="onVisChange" column>
+    <flex v-intersection-observer="onVisChange" column gap=3>
         <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>

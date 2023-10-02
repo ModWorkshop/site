@@ -1,6 +1,7 @@
 <template>
     <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
-        <Title>{{game.name}}</Title>
+        <Title>{{ game.name }} Mods</Title>
+
         <NuxtPage :game="game"/>
     </page-block>
 </template>
@@ -19,7 +20,7 @@ const { data: game } = await useResource<Game>('game', 'games');
 const desc = `Explore ${game.value.name} mods, discussions & more on ModWorkshop!`;
 
 useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${game.value.name} - Mod`,
+    ogSiteName: `ModWorkshop - ${game.value.name}`,
 	ogTitle: `${game.value.name}`,
 	description: desc,
 	ogDescription:desc,

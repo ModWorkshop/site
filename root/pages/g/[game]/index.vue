@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <flex column gap="3">
         <mod-list 
             v-if="user?.extra?.game_show_mods ?? true"
-            :title="$t('mods')"
+            :title="$t('search_mods_game', [,game.name])"
             :title-link="`/g/${game.short_name}/mods`"
             side-filters
             query
@@ -10,7 +10,7 @@
         />
         <thread-list 
             v-if="user?.extra?.game_show_threads ?? true"
-            :title="$t('threads')"
+            :title="$t('search_threads_game', [,game.name])"
             :title-link="`/g/${game.short_name}/forum`"
             :game-id="game?.id"
             :forum-id="game?.forum_id"
@@ -20,7 +20,7 @@
             :query="false"
             :filters="false"
         />
-    </div>
+    </flex>
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
