@@ -40,7 +40,7 @@ class GenerateSitemap extends Command
     {
         ini_set('memory_limit', '2G');
 
-        $frontendApi = env('FRONTEND_URL').'/api/';
+        $frontendApi = env('FRONTEND_URL');
 
         Sitemap::create()->add(ModService::viewFilters(Mod::with([]))->get())->writeToFile('./public/mods_sitemap.xml');
         Sitemap::create()->add(ThreadService::filters(Thread::with([]))->get())->writeToFile('./public/threads_sitemap.xml');
