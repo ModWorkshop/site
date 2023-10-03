@@ -40,7 +40,7 @@ class GenerateSitemap extends Command
     {
         ini_set('memory_limit', '2G');
 
-        $frontendApi = env('FRONTEND_URL');
+        $frontendApi = env('FRONTEND_URL').'/';
 
         Sitemap::create()->add(ModService::viewFilters(Mod::with([]))->get())->writeToFile('./public/mods_sitemap.xml');
         Sitemap::create()->add(ThreadService::filters(Thread::with([]))->get())->writeToFile('./public/threads_sitemap.xml');
@@ -53,10 +53,10 @@ class GenerateSitemap extends Command
             Sitemap::create()->add($users)->writeToFile('./public/users_'.$userI.'_sitemap.xml');
         });
 
-        $index = SitemapIndex::create()->add($frontendApi.'mods_sitemap.xml')->add($frontendApi.'games_sitemap.xml')->add('/threads_sitemap.xml');
+        $index = SitemapIndex::create()->add($frontendApi.'mods_sitemap.xml')->add($frontendApi.'games_sitemap.xml')->add($frontendApi.'threads_sitemap.xml');
 
         for ($i = 1; $i <= $userI; $i++) {
-            $index->add('/users_'.$i.'_sitemap.xml');
+            $index->add($frontendApi.'users_'.$i.'_sitemap.xml');
         }
 
         $index->writeToFile('./public/sitemap_index.xml');
