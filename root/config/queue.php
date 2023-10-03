@@ -71,6 +71,9 @@ return [
             'after_commit' => false,
         ],
 
+        'swoole' => [
+            'driver' => 'swoole'
+        ],
     ],
 
     /*
