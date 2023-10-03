@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
-        $schedule->job(new GenerateSitemap)->everyThirtyMinutes();
+        $schedule->command('sitemap:generate')->everyThirtyMinutes();
 
         if (env('TELESCOPE_ENABLED')) {
             $schedule->command('telescope:prune')->everyTwoHours();
