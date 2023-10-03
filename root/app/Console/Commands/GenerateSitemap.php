@@ -40,15 +40,25 @@ class GenerateSitemap extends Command
     {
         ini_set('memory_limit', '2G');
 
-        Sitemap::create()->add(ModService::viewFilters(Mod::query())->get())->writeToFile('./public/mods_sitemap.xml');
-        Sitemap::create()->add(ThreadService::filters(Thread::query())->get())->writeToFile('./public/threads_sitemap.xml');
+        $frontendApi = env('FRONTEND_URL').'/api/';
 
-        Sitemap::create()->add(Game::all())->add(Category::all())->add(Forum::all())->writeToFile('./public/games_sitemap.xml');
+        Sitemap::create()->add(ModService::viewFilters(Mod::with([]))->get())->writeToFile('./public/mods_sitemap.xml');
+        Sitemap::create()->add(ThreadService::filters(Thread::with([]))->get())->writeToFile('./public/threads_sitemap.xml');
+        Sitemap::create()->add(Game::with([])->get())->add(Category::with(['game'])->get())->add(Forum::with(['game'])->get())->writeToFile('./public/games_sitemap.xml');
 
-        SitemapIndex::create()
-            ->add('/mods_sitemap.xml')
-            ->add('/games_sitemap.xml')
-            ->add('/threads_sitemap.xml')
-            ->writeToFile('./public/sitemap.xml');
+        $pubUsers = User::wherePrivateProfile(false)->with([])->select(['id', 'updated_at']);
+        $userI = 0;
+        $pubUsers->chunk(50000, function($users) use (&$userI) {
+            $userI++;
+            Sitemap::create()->add($users)->writeToFile('./public/users_'.$userI.'_sitemap.xml');
+        });
+
+        $index = SitemapIndex::create()->add($frontendApi.'mods_sitemap.xml')->add($frontendApi.'games_sitemap.xml')->add('/threads_sitemap.xml');
+
+        for ($i = 1; $i <= $userI; $i++) {
+            $index->add('/users_'.$i.'_sitemap.xml');
+        }
+
+        $index->writeToFile('./public/sitemap_index.xml');
     }
 }
