@@ -46,9 +46,9 @@ class GenerateSitemap extends Command
         Sitemap::create()->add(Game::all())->add(Category::all())->add(Forum::all())->writeToFile('./public/games_sitemap.xml');
 
         SitemapIndex::create()
-            ->add(env('FRONTEND_URL').'/mods_sitemap.xml')
-            ->add(env('FRONTEND_URL').'/games_sitemap.xml')
-            ->add(env('FRONTEND_URL').'/threads_sitemap.xml')
+            ->add('/mods_sitemap.xml')
+            ->add('/games_sitemap.xml')
+            ->add('/threads_sitemap.xml')
             ->writeToFile('./public/sitemap.xml');
     }
 }
