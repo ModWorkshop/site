@@ -194,7 +194,7 @@ class ModService {
 
     // More lightweight version of filters that skips on the whole options
     public static function viewFilters($query, array $opt = []) {
-        $query->where(function($query) {
+         $query->where(function($query) {
             $user = Auth::user();
 
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
@@ -212,7 +212,9 @@ class ModService {
                     $query->orWhereHasIn('selfMember');
                 }
             }
-        });
+         });
+
+         return $query;
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\GenerateSitemap;
 use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
@@ -32,9 +33,10 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculatePopularity)->everyThirtyMinutes();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
-        $schedule->job(new CalculateModCounts)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
+        $schedule->job(new GenerateSitemap)->everyThirtyMinutes();
+
         if (env('TELESCOPE_ENABLED')) {
             $schedule->command('telescope:prune')->everyTwoHours();
         }

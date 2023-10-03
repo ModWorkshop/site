@@ -6,6 +6,7 @@ use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
 use Auth;
+use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\Sitemap\Contracts\Sitemapable;
+use Spatie\Sitemap\Tags\Url;
 use Storage;
 
 /**
@@ -63,12 +66,9 @@ use Storage;
  * @method static Builder|Game whereModCount($value)
  * @property-read Collection<int, Category> $categories
  * @property-read int|null $categories_count
- * @property-read Collection<int, Report> $reports
- * @property-read Collection<int, \App\Models\Category> $categories
- * @property-read Collection<int, \App\Models\Report> $reports
  * @mixin Eloquent
  */
-class Game extends Model
+class Game extends Model implements Sitemapable
 {
     use Cachable;
 
@@ -82,6 +82,14 @@ class Game extends Model
     protected $casts = [
         'last_date' => 'datetime',
     ];
+
+    public function toSitemapTag(): Url | string | array
+    {
+        return Url::create(env('FRONTEND_URL').'/g/'.$this->short_name)
+            ->setLastModificationDate(Carbon::create($this->last_date))
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_HOURLY)
+            ->setPriority(0.9);
+    }
 
     public function getMorphClass(): string {
         return 'game';

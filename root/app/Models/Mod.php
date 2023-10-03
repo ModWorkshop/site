@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Log;
+use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -170,7 +171,7 @@ abstract class Visibility {
  * @property-read int|null $comments_count
  * @mixin Eloquent
  */
-class Mod extends Model implements SubscribableInterface
+class Mod extends Model implements SubscribableInterface, Sitemapable
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
 
@@ -279,6 +280,14 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
+    public function toSitemapTag(): Url | string | array
+    {
+        return Url::create(env('FRONTEND_URL').'/mod/'.$this->id)
+            ->setLastModificationDate(Carbon::create($this->bumped_at))
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.8);
+    }
+
     public function resolveRouteBinding($value, $field = null)
     {
         $mod = QueryBuilder::for(app(Mod::class))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
@@ -301,14 +310,6 @@ class Mod extends Model implements SubscribableInterface
         if ($this->suspended) {
             $this->loadMissing('lastSuspension');
         }
-    }
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').'/mod/'.$this->id)
-            ->setLastModificationDate(Carbon::create($this->bumped_at))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-            ->setPriority(1);
     }
 
     protected static function booted() {

@@ -19,3 +19,4 @@ yarn-error.log
 root/15
 root/dump.rdb
 root/public/vendor/telescope
+root/public/*.xml

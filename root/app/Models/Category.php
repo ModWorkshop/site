@@ -10,6 +10,8 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Sitemap\Contracts\Sitemapable;
+use Spatie\Sitemap\Tags\Url;
 use Storage;
 /**
  * App\Models\Category
@@ -58,7 +60,7 @@ use Storage;
  * @property-read mixed $breadcrumb
  * @mixin Eloquent
  */
-class Category extends Model
+class Category extends Model implements Sitemapable
 {
     use Cachable;
 
@@ -76,6 +78,14 @@ class Category extends Model
 
     public function getMorphClass(): string {
         return 'category';
+    }
+
+    public function toSitemapTag(): Url | string | array
+    {
+        return Url::create(env('FRONTEND_URL').'/g/'.$this->game->short_name.'?category='.$this->id.'&category-name='.$this->name)
+            ->setLastModificationDate(Carbon::create($this->last_date))
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+            ->setPriority(0.8);
     }
 
     public function getPathAttribute()

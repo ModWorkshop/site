@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "biiiiiigmonster/hasin": "^3.0",
         "chelout/laravel-relationship-events": "^2.0",
         "coderflex/laravel-turnstile": "^1.0",
@@ -30,6 +30,7 @@
         "socialiteproviders/steam": "^4.1",
         "spatie/laravel-morph-map-generator": "^1.1.0",
         "spatie/laravel-query-builder": "^5.1.2",
+        "spatie/laravel-sitemap": "^6.3",
         "spatie/laravel-validation-rules": "^3.2",
         "staudenmeir/eloquent-eager-limit": "^1.6"
     },
