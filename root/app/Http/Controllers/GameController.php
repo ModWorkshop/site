@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Requests\GetModsRequest;
 use App\Http\Resources\GameResource;
+use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\User;
 use App\Services\APIService;
+use App\Services\ModService;
 use Arr;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,8 +71,32 @@ class GameController extends Controller
     }
 
     /**
+     * Game Section Data
+     *
+     * It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster.
+     */
+    function gameSectionData(GetModsRequest $request, Game $game) {
+        /** @var \Illuminate\Pagination\LengthAwarePaginator $mods */
+        $mods = ModService::mods(val: $request->val(), query: $game->mods()->without('game'), cacheForGuests: $game->short_name.'-index');
+        $game = $this->show($game);
+
+        return new Response([
+            'mods' => [
+                'data' => ModResource::collection($mods),
+                'meta' => [
+                    'current_page' => $mods->currentPage(),
+                    'last_page' => $mods->lastPage(),
+                    'total' => $mods->total(),
+                    'per_page' => $mods->perPage()
+                ]
+            ],
+            'game' => $game
+        ]);
+    }
+
+    /**
      * Create Game
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request)
@@ -118,9 +145,9 @@ class GameController extends Controller
 
     /**
      * Delete Game
-     * 
+     *
      * Deletes a game, if it has no mods.
-     * 
+     *
      * @autehnticated
      */
     public function destroy(Game $game)
@@ -132,7 +159,7 @@ class GameController extends Controller
 
     /**
      * Set User Roles
-     * 
+     *
      * @authenticated
      */
     public function setUserGameRoles(Request $request, Game $game, User $user)
@@ -149,7 +176,7 @@ class GameController extends Controller
 
     /**
      * Get Game Data
-     * 
+     *
      * Returns basic game data like announcements. For moderators, it returns report and waiting mods count.
      */
     public function getGameData(Game $game)
@@ -171,7 +198,7 @@ class GameController extends Controller
 
     /**
      * Get Game User Data
-     * 
+     *
      * Returns game data for a user. Currently used for roles.
      */
     public function getGameUserData(Game $game, User $user)

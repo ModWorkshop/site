@@ -109,6 +109,7 @@ Route::middleware('auth:sanctum')->group(function() {
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);
 Route::resource('games', GameController::class);
+Route::get('games/{game}/game_section_data', [GameController::class, 'gameSectionData']);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUser']);
 Route::get('games/{game}/users', [UserController::class, 'index']);
