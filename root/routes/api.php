@@ -87,6 +87,10 @@ Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
+Route::get('games/{game}/mods', [ModController::class, 'index']);
+Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAndLatest']);
+Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
+
 /**
  * Get Mod Version
  * @group Mods

@@ -54,6 +54,21 @@ class ModController extends Controller
         return ModResource::collectionResponse($mods);
     }
 
+    public function popularAndLatest(Request $request, Game $game=null)
+    {
+        if (isset($game)) {
+            return [
+                'latest' => ModService::mods(['limit' => 10], query: $game->mods(), cacheForGuests: 'index')->items(),
+                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], query: $game->mods(), cacheForGuests: 'index')->items(),
+            ];
+        } else {
+            return [
+                'latest' => ModService::mods(['limit' => 10], cacheForGuests: 'index')->items(),
+                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], cacheForGuests: 'index')->items(),
+            ];
+        }
+    }
+
     /**
      * Get List of Liked Mods
      *
