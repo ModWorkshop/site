@@ -5,12 +5,14 @@ import { useStore } from '../store';
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const { $pinia, $i18n } = useNuxtApp();
     const store = useStore($pinia);
-    
+    const attemptedOnce = useState(() => false);
     const doAsync = useState('reloadSiteDataAsync', () => true);
 
     let firstTimeOnClient = true;
 
-    if (to.path !== from.path || to.fullPath === from.fullPath) {
+    if (!attemptedOnce.value || to.path !== from.path || to.fullPath === from.fullPath) {
+        attemptedOnce.value = true;
+        
         //Don't keep the game since we could go to the home page where there's no specificed game.
         store.currentGame = null;
         //https://github.com/nuxt/framework/issues/6475
