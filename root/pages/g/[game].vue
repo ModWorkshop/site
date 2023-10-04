@@ -37,9 +37,7 @@ if (route.name == 'g-game') {
     game = data.value;
 }
 
-const desc = `
-Browse ${game.mods_count} mods for ${game.name}. Find a big variety of mods to customize ${game.name} and enjoy the creativity of the modding community.
-ModWorkshop is the platform for sharing and downloading mods for ${game.name}. Working together as a community to create tools, guides and more.`;
+const desc = `Browse ${shortStat(game.mods_count!)} ${game.name} mods. Find a big variety of mods to customize ${game.name} on ModWorkshop!`;
 
 useServerSeoMeta({
     ogSiteName: `ModWorkshop - ${game.name}`,
