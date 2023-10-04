@@ -18,9 +18,9 @@
                 sort-by="daily_score"
                 :display-mode="displayMode"
                 :no-game="!!game"
-                :error="popularError"
+                :error="error"
                 :game="game"
-                :mods="popular?.data"
+                :mods="data?.popular"
             />
         </flex>
         <flex class="p-2">
@@ -33,9 +33,9 @@
                 sort-by="latest"
                 :display-mode="displayMode"
                 :no-game="!!game"
-                :error="latestError"
+                :error="error"
                 :game="game"
-                :mods="latest?.data"
+                :mods="data?.latest"
             />
         </flex>
         <a-button color="subtle" :to="link"><i-mdi-puzzle/> {{$t('browse_mods')}}</a-button>
@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import { Game } from '~/types/models';
+import { Mod } from '~~/types/models';
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
 
 const props = defineProps<{
@@ -51,17 +52,5 @@ const props = defineProps<{
     link?: string,
 }>();
 
-const { data: latest, error: latestError } = await useFetchMany(props.game ? `games/${props.game.id}/mods` : 'mods', { 
-    params: { 
-        limit: 10,
-        'fields[mods]': listModFields.join(','),
-    }
-});
-const { data: popular, error: popularError } = await useFetchMany(props.game ? `games/${props.game.id}/mods` : 'mods', { 
-    params: { 
-        'fields[mods]': listModFields.join(','),
-        sort: 'daily_score',
-        limit: 5
-    }
-});
+const { data, error } = await useFetchData<{ latest: Mod[], popular: Mod[] }>(props.game ? `games/${props.game.id}/popular-and-latest` : 'popular-and-latest');
 </script>
