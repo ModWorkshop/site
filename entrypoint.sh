@@ -7,7 +7,4 @@ php artisan config:clear && php artisan config:cache
 
 echo "Run crond + visord"
 /usr/sbin/crond -b
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
-
-echo "Generate sitemap"
-php artisan sitemap:generate
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
