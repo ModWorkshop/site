@@ -24,7 +24,7 @@ class ModService {
     {
         $user = Auth::user();
         if (!isset($user) && isset($cacheForGuests)) {
-            return Cache::remember('mods-'.$cacheForGuests.'-'.APIService::hashByQuery(), 5, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
+            return Cache::remember('mods-'.$cacheForGuests.'-'.APIService::hashByQuery(), 30, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
         } else {
             return self::_mods($val, $querySetup, $query, $cacheForGuests);
         }
