@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 
 /**
  * App\Models\Thread
@@ -84,7 +82,7 @@ use Spatie\Sitemap\Tags\Url;
  * @property-read int|null $comments_count
  * @mixin Eloquent
  */
-class Thread extends Model implements SubscribableInterface, Sitemapable
+class Thread extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable, Cachable;
 
@@ -99,14 +97,6 @@ class Thread extends Model implements SubscribableInterface, Sitemapable
         'bumped_at' => 'datetime',
         'announce_until' => 'datetime',
     ];
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').'/thread/'.$this->id)
-            ->setLastModificationDate(Carbon::create($this->bumped_at))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-            ->setPriority(0.6);
-    }
 
     public function getMorphClass(): string {
         return 'thread';

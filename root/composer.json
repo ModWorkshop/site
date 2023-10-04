@@ -30,9 +30,9 @@
         "socialiteproviders/steam": "^4.1",
         "spatie/laravel-morph-map-generator": "^1.1.0",
         "spatie/laravel-query-builder": "^5.1.2",
-        "spatie/laravel-sitemap": "^6.3",
         "spatie/laravel-validation-rules": "^3.2",
-        "staudenmeir/eloquent-eager-limit": "^1.6"
+        "staudenmeir/eloquent-eager-limit": "^1.6",
+        "ultrono/laravel-sitemap": "^9.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

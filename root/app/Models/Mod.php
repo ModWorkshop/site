@@ -171,7 +171,7 @@ abstract class Visibility {
  * @property-read int|null $comments_count
  * @mixin Eloquent
  */
-class Mod extends Model implements SubscribableInterface, Sitemapable
+class Mod extends Model implements SubscribableInterface
 {
     use HasFactory, RelationsListener, Subscribable, Reportable;
 
@@ -279,14 +279,6 @@ class Mod extends Model implements SubscribableInterface, Sitemapable
         'bumped_at' => 'datetime',
         'published_at' => 'datetime',
     ];
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').'/mod/'.$this->id)
-            ->setLastModificationDate(Carbon::create($this->bumped_at))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-            ->setPriority(0.8);
-    }
 
     public function resolveRouteBinding($value, $field = null)
     {

@@ -32,8 +32,6 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Log;
 use Notification;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 use Storage;
 
 /**
@@ -153,7 +151,7 @@ use Storage;
  * @property-read TrackSession|null $trackSession
  * @mixin Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail, Sitemapable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasApiTokens, Notifiable, Reportable;
 
@@ -348,14 +346,6 @@ class User extends Authenticatable implements MustVerifyEmail, Sitemapable
                 $mod->delete();
             }
         });
-    }
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').'/user/'.$this->id)
-            ->setLastModificationDate(Carbon::create($this->updated_at))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-            ->setPriority(0.5);
     }
 
     public function allBlockedUsers()

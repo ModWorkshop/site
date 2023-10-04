@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 
 /**
  * App\Models\Forum
@@ -35,19 +33,11 @@ use Spatie\Sitemap\Tags\Url;
  * @method static Builder|Forum whereName($value)
  * @mixin Eloquent
  */
-class Forum extends Model implements Sitemapable
+class Forum extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').(isset($this->game) ? '/g/'.$this->game->short_name.'/forum' : '/forum'))
-            ->setLastModificationDate(\Carbon\Carbon::create($this->last_date))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-            ->setPriority(0.8);
-    }
 
     public function getMorphClass(): string {
         return 'forum';

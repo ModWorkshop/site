@@ -17,8 +17,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\MissingValue;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 use Storage;
 
 /**
@@ -68,7 +66,7 @@ use Storage;
  * @property-read int|null $categories_count
  * @mixin Eloquent
  */
-class Game extends Model implements Sitemapable
+class Game extends Model
 {
     use Cachable;
 
@@ -82,14 +80,6 @@ class Game extends Model implements Sitemapable
     protected $casts = [
         'last_date' => 'datetime',
     ];
-
-    public function toSitemapTag(): Url | string | array
-    {
-        return Url::create(env('FRONTEND_URL').'/g/'.$this->short_name)
-            ->setLastModificationDate(Carbon::create($this->last_date))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_HOURLY)
-            ->setPriority(0.9);
-    }
 
     public function getMorphClass(): string {
         return 'game';
