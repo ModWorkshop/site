@@ -88,14 +88,14 @@
                                         {{$t(button.text, [query, currentGame?.name])}}
                                     </a-button>
                                 </flex>
-                                <emplate v-if="query && mods && mods.data.length">
+                                <template v-if="query && mods && mods.data.length">
                                     <h3>{{$t('mods')}}</h3>
                                     <flex column gap="1">
                                         <template v-if="mods">
                                             <list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
                                         </template>
                                     </flex>
-                                </emplate>
+                                </template>
                             </ClientOnly>
                         </template>
                     </VDropdown>
