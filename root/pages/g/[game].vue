@@ -20,7 +20,7 @@ let game: Game;
 let mods: Paginator<Mod>;
 
 if (route.name == 'g-game') {
-    const { data } = await useResource<{ game: Game, mods: Paginator<Mod> }>('game', id => `games/${id}/game_section_data`, undefined, {
+    const { data } = await useResource<{ game: Game, mods: Paginator<Mod> }>('game', id => `games/${id}/game-section-data`, undefined, {
         page: route.query.page,
         query: route.query.query,
         'fields[mods]': listModFields.join(','),
