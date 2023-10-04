@@ -7,7 +7,7 @@ use App\Models\Document;
 use App\Models\Game;
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -33,7 +33,7 @@ class DocumentController extends Controller
         $manageDocs = $user->hasPermission('manage-documents');
         $manageDocsGame = $user->hasPermission('manage-documents', $game);
 
-        return JsonResource::collection(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
+        return BaseResource::collectionResponse(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
             $getUnlisted = Arr::get($val, 'get_unlisted');
             if (isset($game)) {
                 $q->where('game_id', $game->id);
@@ -51,7 +51,7 @@ class DocumentController extends Controller
 
     /**
      * Create Document
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request, Game $game)
@@ -75,7 +75,7 @@ class DocumentController extends Controller
 
     /**
      * Edit Document
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Document $document=null)
@@ -119,7 +119,7 @@ class DocumentController extends Controller
 
     /**
      * Delete Document
-     * 
+     *
      * @authenticated
      */
     public function destroy(Document $document)

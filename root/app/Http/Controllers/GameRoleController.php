@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Games
- * 
+ *
  * @subgroup Roles
  */
 class GameRoleController extends Controller
@@ -43,7 +43,7 @@ class GameRoleController extends Controller
             ->allowedIncludes('permissions')
             ->orderByDesc('order');
 
-        return RoleResource::collection($gameRoles->queryGet($val, function($query, $val) {
+        return RoleResource::collectionResponse($gameRoles->queryGet($val, function($query, $val) {
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
                 $query->where('self_assignable', true);

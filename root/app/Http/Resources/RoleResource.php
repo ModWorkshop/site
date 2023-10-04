@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 
-class RoleResource extends JsonResource
+class RoleResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

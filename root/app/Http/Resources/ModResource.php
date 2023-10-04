@@ -6,10 +6,10 @@ use App\Models\File;
 use App\Models\Link;
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Resources\MissingValue;
 
-class ModResource extends JsonResource
+class ModResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

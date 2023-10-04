@@ -6,12 +6,12 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\TagResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
  * @group Blocked Tags
- * 
+ *
  * @authenticated
  */
 class BlockedTagController extends Controller
@@ -24,7 +24,7 @@ class BlockedTagController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        return TagResource::collection($this->user()->blockedTags()->queryGet($request->val()));
+        return TagResource::collectionResponse($this->user()->blockedTags()->queryGet($request->val()));
     }
 
     /**

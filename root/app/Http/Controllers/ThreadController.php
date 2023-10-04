@@ -17,7 +17,7 @@ use Arr;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -34,7 +34,7 @@ class ThreadController extends Controller
      */
     public function index(GetThreadRequest $request)
     {
-        return ThreadResource::collection(ThreadService::threads($request->val()));
+        return ThreadResource::collectionResponse(ThreadService::threads($request->val()));
     }
 
     /**

@@ -59,12 +59,12 @@ class CategoryController extends Controller
             APIService::appendToItems($categories, 'path');
         }
 
-        return CategoryResource::collection($categories);
+        return CategoryResource::collectionResponse($categories);
     }
 
     /**
      * Create Category
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request, ?Game $game)
@@ -84,7 +84,7 @@ class CategoryController extends Controller
 
     /**
      * Edit Category
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Game $game=null, Category $category=null)
@@ -127,7 +127,7 @@ class CategoryController extends Controller
 
     /**
      * Deletes Category.
-     * 
+     *
      * @authenticated
      */
     public function destroy(Category $category)

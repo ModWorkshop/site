@@ -12,7 +12,7 @@ use App\Services\ModService;
 use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\UploadedFile;
 use Log;
 use Storage;
@@ -35,7 +35,7 @@ class FileController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        return JsonResource::collection($mod->files()->queryGet($request->val()));
+        return BaseResource::collectionResponse($mod->files()->queryGet($request->val()));
     }
 
     /**

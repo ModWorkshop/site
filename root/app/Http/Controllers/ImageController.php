@@ -8,7 +8,7 @@ use App\Models\Mod;
 use App\Models\Setting;
 use App\Services\APIService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\File;
 
@@ -33,7 +33,7 @@ class ImageController extends Controller
             'limit' => 'integer|min:1|max:50'
         ]);
 
-        return JsonResource::collection($mod->images()->queryGet($val));
+        return BaseResource::collectionResponse($mod->images()->queryGet($val));
     }
 
     /**

@@ -40,7 +40,7 @@ class RoleController extends Controller
             ->allowedIncludes('permissions')
             ->orderByDesc('order');
 
-        return RoleResource::collection($gameRoles->queryGet($val, function($query, $val) {
+        return RoleResource::collectionResponse($gameRoles->queryGet($val, function($query, $val) {
             if ($val['only_assignable'] ?? false) {
                 $query->where('id', '!=', 1);
                 $query->where('self_assignable', true);
@@ -69,7 +69,7 @@ class RoleController extends Controller
 
     /**
      * Edit Role
-     * 
+     *
      * @authenticated
      */
     public function update(UpsertRoleRequest $request, Role $role=null)

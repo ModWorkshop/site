@@ -5,10 +5,10 @@ namespace App\Http\Resources;
 use Arr;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use JsonSerializable;
 
-class ThreadResource extends JsonResource
+class ThreadResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

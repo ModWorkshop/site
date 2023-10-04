@@ -7,7 +7,7 @@ use App\Models\Supporter;
 use App\Services\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -39,12 +39,12 @@ class SupporterController extends Controller
             $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now());
         }
 
-        return JsonResource::collection($q->get()->unique('user_id')->flatten()->paginate(1000));
+        return BaseResource::collectionResponse($q->get()->unique('user_id')->flatten()->paginate(1000));
     }
 
     /**
      * Create Supporter
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request)

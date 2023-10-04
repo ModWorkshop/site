@@ -57,7 +57,7 @@ class CommentService {
             }
         });
 
-        return CommentResource::collection($comments);
+        return CommentResource::collectionResponse($comments);
     }
 
     /**

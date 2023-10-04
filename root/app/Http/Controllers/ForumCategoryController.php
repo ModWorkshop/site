@@ -13,7 +13,7 @@ use App\Services\Utils;
 use Arr;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -37,7 +37,7 @@ class ForumCategoryController extends Controller
         ]);
 
 
-        return JsonResource::collection(ForumCategory::queryGet($val, function($query, array $val) {
+        return BaseResource::collectionResponse(ForumCategory::queryGet($val, function($query, array $val) {
             if (isset($val['forum_id'])) {
                 $query->where('forum_id', $val['forum_id']);
             }
@@ -69,7 +69,7 @@ class ForumCategoryController extends Controller
 
     /**
      * Edit Forum Category
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, ForumCategory $forumCategory=null, Game $game=null)
@@ -155,7 +155,7 @@ class ForumCategoryController extends Controller
 
     /**
      * Delete Forum Category
-     * 
+     *
      * @authenticated
      */
     public function destroy(ForumCategory $forumCategory)

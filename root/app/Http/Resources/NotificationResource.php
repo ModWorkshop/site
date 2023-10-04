@@ -8,11 +8,11 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Resources\MissingValue;
 use JsonSerializable;
 
-class NotificationResource extends JsonResource
+class NotificationResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

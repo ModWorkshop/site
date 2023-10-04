@@ -14,12 +14,12 @@ use Illuminate\Http\Response;
 use Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 
 /**
  * @group User Cases
  * @authenticated
- * 
+ *
  * @hideFromApiDocumentation
  */
 class UserCaseController extends Controller
@@ -41,7 +41,7 @@ class UserCaseController extends Controller
             'all' => 'boolean|nullable'
         ]);
 
-        return JsonResource::collection(UserCase::with('modUser')->queryGet($val, function($q, $val) use($game) {
+        return BaseResource::collectionResponse(UserCase::with('modUser')->queryGet($val, function($q, $val) use($game) {
             if (isset($game)) {
                 $q->where('game_id', $game->id);
             } else {

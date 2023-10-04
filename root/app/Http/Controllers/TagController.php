@@ -21,7 +21,7 @@ class TagController extends Controller
 
     /**
      * Tags
-     * 
+     *
      * Returns a list of tags
      */
     public function index(FilteredRequest $request, Game $game=null)
@@ -47,7 +47,7 @@ class TagController extends Controller
             });
         });
 
-        return TagResource::collection($tags);
+        return TagResource::collectionResponse($tags);
     }
 
     /**
@@ -70,7 +70,7 @@ class TagController extends Controller
 
     /**
      * Edit Tag
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Game $game=null, Tag $tag=null)
@@ -100,7 +100,7 @@ class TagController extends Controller
 
     /**
      * Delete Tag
-     * 
+     *
      * @authenticated
      */
     public function destroy(Tag $tag)

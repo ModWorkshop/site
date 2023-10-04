@@ -8,12 +8,12 @@ use App\Models\Mod;
 use App\Services\APIService;
 use File;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
  * @group Mods
- * 
+ *
  * @subgroup Links
  */
 class LinkController extends Controller
@@ -29,7 +29,7 @@ class LinkController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        return JsonResource::collection($mod->links()->queryGet($request->val()));
+        return BaseResource::collectionResponse($mod->links()->queryGet($request->val()));
     }
 
     /**
@@ -55,7 +55,7 @@ class LinkController extends Controller
 
     /**
      * Edit Link
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Mod $mod, Link $link=null)

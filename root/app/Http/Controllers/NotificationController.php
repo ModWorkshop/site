@@ -8,7 +8,7 @@ use App\Models\Notification;
 use App\Services\APIService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -41,7 +41,7 @@ class NotificationController extends Controller
             }
         });
 
-        return NotificationResource::collection($notifications);
+        return NotificationResource::collectionResponse($notifications);
     }
 
     /**

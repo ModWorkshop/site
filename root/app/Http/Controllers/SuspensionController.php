@@ -7,12 +7,12 @@ use App\Models\Game;
 use App\Models\Suspension;
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
  * @group Suspenions
- * 
+ *
  * @authenciated
  * @hideFromApiDocumentation
  */
@@ -34,7 +34,7 @@ class SuspensionController extends Controller
 
         $query = Arr::pull($val, 'query');
 
-        return JsonResource::collection(Suspension::queryGet($val, function($q, array $val) use($query, $game) {
+        return BaseResource::collectionResponse(Suspension::queryGet($val, function($q, array $val) use($query, $game) {
             $q->with('mod');
             $q->orderByDesc('created_at');
 

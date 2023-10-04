@@ -17,9 +17,9 @@ use Illuminate\Http\Response;
 
 /**
  * @group Users
- * 
+ *
  * @subgroup Followed Users
- * 
+ *
  * @authenticated
  */
 class FollowedUserController extends Controller
@@ -34,7 +34,7 @@ class FollowedUserController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        return UserResource::collection($this->user()->followedUsers()->queryGet($request->val()));
+        return UserResource::collectionResponse($this->user()->followedUsers()->queryGet($request->val()));
     }
 
     /**
@@ -55,7 +55,7 @@ class FollowedUserController extends Controller
 
             ModService::filters($query, $val);
         });
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**

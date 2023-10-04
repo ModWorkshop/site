@@ -16,9 +16,9 @@ use Illuminate\Http\Response;
 
 /**
  * @group Users
- * 
+ *
  * @subgroup Followed Mods
- * 
+ *
  * @authenticated
  */
 class FollowedModController extends Controller
@@ -42,7 +42,7 @@ class FollowedModController extends Controller
 
             ModService::filters($query, $val);
         }, true);
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**

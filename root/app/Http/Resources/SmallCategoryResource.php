@@ -4,10 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use JsonSerializable;
 
-class SmallCategoryResource extends JsonResource
+class SmallCategoryResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

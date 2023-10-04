@@ -16,9 +16,9 @@ use Illuminate\Http\Response;
 
 /**
  * @group Users
- * 
+ *
  * @subgroup Followed Games
- * 
+ *
  * @authenticated
  */
 class FollowedGameController extends Controller
@@ -37,7 +37,7 @@ class FollowedGameController extends Controller
             'limit' => 'integer|min:1|max:50'
         ]);
 
-        return GameResource::collection($this->user()->followedGames()->queryGet($val));
+        return GameResource::collectionResponse($this->user()->followedGames()->queryGet($val));
     }
 
     /**
@@ -54,7 +54,7 @@ class FollowedGameController extends Controller
 
             ModService::filters($query, $val);
         }, true);
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**

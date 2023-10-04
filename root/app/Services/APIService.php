@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\Password;
 use Storage;
@@ -201,4 +202,23 @@ class APIService {
         return self::resource($resource, $class, 'games', $config);
     }
 
+    /**
+     * Returns an array of 'data' and 'meta' (no links because that shit is a waste of space).
+     * Meta contains current_page, last_page, total and per_page.
+     */
+    public static function paginatedResponse(ResourceCollection $collection)
+    {
+        $resource = $collection->resource;
+        return [
+            'data' => $collection,
+            'meta' => [
+                'current_page' => $resource->currentPage(),
+                'from' => $resource->firstItem(),
+                'last_page' => $resource->lastPage(),
+                'per_page' => $resource->perPage(),
+                'to' => $resource->lastItem(),
+                'total' => $resource->total(),
+            ]
+        ];
+    }
 }

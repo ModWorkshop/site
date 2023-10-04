@@ -81,15 +81,7 @@ class GameController extends Controller
         $game = $this->show($game);
 
         return new Response([
-            'mods' => [
-                'data' => ModResource::collection($mods),
-                'meta' => [
-                    'current_page' => $mods->currentPage(),
-                    'last_page' => $mods->lastPage(),
-                    'total' => $mods->total(),
-                    'per_page' => $mods->perPage()
-                ]
-            ],
+            'mods' => ModResource::collectionResponse($mods),
             'game' => $game
         ]);
     }
@@ -116,15 +108,15 @@ class GameController extends Controller
         ]);
 
         $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
-            $query->withCount('viewableMods');
-            if (($val['only_names'] ?? false)) {
-                $query->select(['id', 'name']);
-            }
+                $query->withCount('viewableMods');
+                if (($val['only_names'] ?? false)) {
+                    $query->select(['id', 'name']);
+                }
 
-            $query->OrderByRaw('last_date DESC nulls last');
-        });
+                $query->OrderByRaw('last_date DESC nulls last');
+            });
 
-        return GameResource::collection($games);
+        return GameResource::collectionResponse($games);
     }
 
     /**

@@ -5,9 +5,9 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 
-class UserResource extends JsonResource
+class UserResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

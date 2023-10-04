@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FilteredRequest;
+use App\Http\Resources\BaseResource;
 use App\Models\Game;
 use App\Models\Report;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Log;
 
 /**
  * @group Reports
- * 
+ *
  * @authenticated
  */
 class ReportController extends Controller
@@ -29,7 +28,7 @@ class ReportController extends Controller
             'all' => 'boolean|nullable'
         ]);
 
-        return JsonResource::collection(Report::queryGet($val, function($q, $val) use($game) {
+        return BaseResource::collectionResponse(Report::queryGet($val, function($q, $val) use($game) {
             $q->orderByDesc('created_at');
             if (isset($game)) {
                 $q->where('game_id', $game->id);

@@ -6,12 +6,12 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\Game;
 use App\Models\InstructsTemplate;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
  * @group Instructions Templates
- * 
+ *
  * @authenticated
  */
 class InstructsTemplateController extends Controller
@@ -24,7 +24,7 @@ class InstructsTemplateController extends Controller
      */
     public function index(Game $game, FilteredRequest $request)
     {
-        return JsonResource::collection(InstructsTemplate::queryGet($request->val(), function($q) use ($game) {
+        return BaseResource::collectionResponse(InstructsTemplate::queryGet($request->val(), function($q) use ($game) {
             $q->where('game_id', $game->id);
         }));
     }
@@ -49,7 +49,7 @@ class InstructsTemplateController extends Controller
 
     /**
      * Edit Instructions Template
-     * 
+     *
      * @authenticated
      */
     public function update(Request $request, Game $game, InstructsTemplate $instructsTemplate=null)
@@ -72,7 +72,7 @@ class InstructsTemplateController extends Controller
 
     /**
      * Delete Instructions Template
-     * 
+     *
      * @authenticated
      */
     public function destroy(InstructsTemplate $instructsTemplate)

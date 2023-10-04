@@ -6,12 +6,12 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\BlockedUser;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
  * @group Blocked Users
- * 
+ *
  * @authenticated
  */
 class BlockedUserController extends Controller
@@ -26,7 +26,7 @@ class BlockedUserController extends Controller
      */
     public function index(FilteredRequest $request)
     {
-        return JsonResource::collection($this->user()->blockedUsers()->queryGet($request->val()));
+        return BaseResource::collectionResponse($this->user()->blockedUsers()->queryGet($request->val()));
     }
 
     /**

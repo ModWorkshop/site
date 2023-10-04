@@ -10,11 +10,11 @@ use Arr;
 use Auth;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Resources\MissingValue;
 use JsonSerializable;
 
-class GameResource extends JsonResource
+class GameResource extends BaseResource
 {
     /**
      * Transform the resource into an array.

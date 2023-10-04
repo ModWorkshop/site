@@ -129,7 +129,7 @@ class Game extends Model implements Sitemapable
 
     public function mods(): HasMany
     {
-        return $this->hasMany(Mod::class);
+        return $this->hasMany(Mod::class)->without('game');
     }
 
     public function tags(): HasMany

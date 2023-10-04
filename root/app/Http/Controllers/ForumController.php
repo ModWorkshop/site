@@ -6,7 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Models\Forum;
 use App\Models\Thread;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
@@ -25,7 +25,7 @@ class ForumController extends Controller
     {
         $val = $request->val();
 
-        return JsonResource::collection(Forum::queryGet($val));
+        return BaseResource::collectionResponse(Forum::queryGet($val));
     }
 
     /**

@@ -46,12 +46,12 @@ class ModController extends Controller
         $val = $request->val();
 
         if (isset($game)) {
-            $mods = ModService::mods(val: $val, query: $game->mods()->without('game'), cacheForGuests: $game->short_name.'-index');
+            $mods = ModService::mods(val: $val, query: $game->mods(), cacheForGuests: $game->short_name.'-index');
         } else {
             $mods = ModService::mods($val, cacheForGuests: 'index');
         }
 
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**
@@ -67,7 +67,7 @@ class ModController extends Controller
             $q->whereHasIn('liked');
         });
 
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**
@@ -85,7 +85,7 @@ class ModController extends Controller
             $q->whereNull('approved');
         });
 
-        return ModResource::collection($mods);
+        return ModResource::collectionResponse($mods);
     }
 
     /**

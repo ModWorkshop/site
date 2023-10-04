@@ -11,7 +11,7 @@ use Arr;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 use Log;
 
@@ -36,7 +36,7 @@ class BanController extends Controller
             'limit' => 'integer|min:1|max:1000',
         ]);
 
-        return JsonResource::collection(Ban::queryGet($val, function($query) use ($game, $val) {
+        return BaseResource::collectionResponse(Ban::queryGet($val, function($query) use ($game, $val) {
             if (isset($game)) {
                 $query->where('game_id', $game->id);
             } else {
