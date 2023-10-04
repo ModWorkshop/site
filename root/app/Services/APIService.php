@@ -221,4 +221,12 @@ class APIService {
             ]
         ];
     }
+
+    /**
+     * Returns a hash string that is built off the current given query. Used in caching when the user doesn't affect the data.
+     */
+    public static function hashByQuery()
+    {
+        return md5(serialize(request()->getQueryString()));
+    }
 }

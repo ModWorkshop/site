@@ -13,6 +13,7 @@ use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
 use Auth;
+use Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -107,7 +108,9 @@ class GameController extends Controller
             'include_paths' => 'boolean'
         ]);
 
-        $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
+
+        $games = Cache::remember('games'.'-'.md5(serialize($request->getQueryString())), 60, function() use ($val) {
+            return QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
                 $query->withCount('viewableMods');
                 if (($val['only_names'] ?? false)) {
                     $query->select(['id', 'name']);
@@ -115,6 +118,7 @@ class GameController extends Controller
 
                 $query->OrderByRaw('last_date DESC nulls last');
             });
+        });
 
         return GameResource::collectionResponse($games);
     }

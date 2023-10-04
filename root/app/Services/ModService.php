@@ -14,16 +14,17 @@ use DB;
 use Hash;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
-    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null)
+    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null): LengthAwarePaginator
     {
         $user = Auth::user();
         if (!isset($user) && isset($cacheForGuests)) {
-            return Cache::remember('mods_'.$cacheForGuests.'_'.md5(serialize($val)), 5, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
+            return Cache::remember('mods-'.$cacheForGuests.'-'.APIService::hashByQuery(), 5, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
         } else {
             return self::_mods($val, $querySetup, $query, $cacheForGuests);
         }
