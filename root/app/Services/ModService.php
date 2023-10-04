@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Visibility;
 use Arr;
 use Auth;
+use Cache;
 use DB;
 use Hash;
 use Illuminate\Database\Query\Builder;
@@ -18,15 +19,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
-    public static function mods(array $val, callable $querySetup=null, $query=null)
+    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null)
     {
-        $mods = QueryBuilder::for($query ?? Mod::class)->with(Mod::LIST_MOD_WITH)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
-        return $mods->queryGet($val, function($q) use($val, $querySetup) {
-            if (isset($querySetup)) {
-                $querySetup($q, $val);
-            }
-            ModService::filters($q, $val);
-        }, true);
+        $user = Auth::user();
+        if (!isset($user) && isset($cacheForGuests)) {
+            return Cache::remember('mods_'.$cacheForGuests.'_'.md5(serialize($val)), 5, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
+        } else {
+            return self::_mods($val, $querySetup, $query, $cacheForGuests);
+        }
+    }
+
+    private static function _mods(array $val, callable $querySetup=null, $query=null) {
+        return QueryBuilder::for($query ?? Mod::class)
+            ->with(Mod::LIST_MOD_WITH)
+            ->allowedFields(Mod::$allowedFields)
+            ->allowedIncludes(Mod::$allowedIncludes)
+            ->queryGet($val, function($q) use($val, $querySetup) {
+                if (isset($querySetup)) {
+                    $querySetup($q, $val);
+                }
+                ModService::filters($q, $val);
+            });
     }
 
     /**
