@@ -101,6 +101,7 @@ import { useStore } from '~~/store';
 import { Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 import { EventHook } from '@vueuse/core';
+import { Paginator } from '../../types/paginator';
 
 const searchBus = useEventBus<string>('search');
 
@@ -115,7 +116,8 @@ const props = withDefaults(defineProps<{
     limit?: number,
     query: boolean,
     url?: string,
-    params?: object
+    params?: object,
+    initialMods?: Paginator<Mod>
 }>(), {
     limit: 20,
     url: 'mods',
@@ -162,9 +164,14 @@ const searchParams = reactive({
     ...props.params
 });
 
-const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
-    params: searchParams
+let { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
+    params: searchParams,
+    immediate: !props.initialMods
 });
+
+if (props.initialMods) {
+    fetchedMods.value = props.initialMods;
+}
 
 if (props.triggerRefresh) {
     props.triggerRefresh.on(() => {

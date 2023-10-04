@@ -1,16 +1,20 @@
 <template>
     <flex column gap="3">
+        <span class="ml-auto">
+            {{$t('mod_game_count', { n: game.mods_count, game: game.name })}} <i-mdi-information/>
+        </span>
         <mod-list 
             v-if="user?.extra?.game_show_mods ?? true"
-            :title="$t('search_mods_game', [,game.name])"
+            :title="$t('mods')"
             :title-link="`/g/${game.short_name}/mods`"
             side-filters
+            :initial-mods="mods"
             query
             :game="game"
         />
         <thread-list 
             v-if="user?.extra?.game_show_threads ?? true"
-            :title="$t('search_threads_game', [,game.name])"
+            :title="$t('threads')"
             :title-link="`/g/${game.short_name}/forum`"
             :game-id="game?.id"
             :forum-id="game?.forum_id"
@@ -23,15 +27,17 @@
     </flex>
 </template>
 <script setup lang="ts">
+import { Paginator } from '~/types/paginator';
 import { useStore } from '~~/store';
-import { Game } from '~~/types/models';
+import { Game, Mod } from '~~/types/models';
 const store = useStore();
 const { user } = store;
 
 definePageMeta({ alias: '/game/:game' });
 
 const { game } = defineProps<{
-    game: Game
+    game: Game,
+    mods?: Paginator<Mod>
 }>();
 
 watch(() => game, () =>  store.currentGame = game, { immediate: true });

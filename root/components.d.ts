@@ -50,6 +50,7 @@ declare module 'vue' {
     IMdiHeart: typeof import('~icons/mdi/heart')['default']
     IMdiHelp: typeof import('~icons/mdi/help')['default']
     IMdiImageOutline: typeof import('~icons/mdi/image-outline')['default']
+    IMdiInformation: typeof import('~icons/mdi/information')['default']
     IMdiLaunch: typeof import('~icons/mdi/launch')['default']
     IMdiLayers: typeof import('~icons/mdi/layers')['default']
     IMdiLock: typeof import('~icons/mdi/lock')['default']

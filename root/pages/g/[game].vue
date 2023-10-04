@@ -1,41 +1,61 @@
 <template>
     <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
         <Title>{{ game.name }} Mods</Title>
-
-        <NuxtPage :game="game"/>
+        <NuxtPage :game="game" :mods="mods"/>
     </page-block>
 </template>
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { Breadcrumb, Game } from '~~/types/models';
+import { Paginator } from '../../types/paginator';
+import { Mod } from '../../types/models';
 const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 
 definePageMeta({ alias: '/game/:game' });
 
-const { data: game } = await useResource<Game>('game', 'games');
+let game: Game;
+let mods: Paginator<Mod>;
+
+if (route.name == 'g-game') {
+    const { data } = await useResource<{ game: Game, mods: Paginator<Mod> }>('game', id => `games/${id}/game_section_data`, undefined, {
+        page: route.query.page,
+        query: route.query.query,
+        'fields[mods]': listModFields.join(','),
+        category_id: route.query.category,
+        tags: useRouteQuery('selected-tags', []).value,
+        block_tags: useRouteQuery('filtered-tags', []).value,
+        sort: useRouteQuery('sort', 'bumped_at').value,
+        limit: 20
+    });
+    game = data.value.game;
+    mods = data.value.mods;
+} else {
+    const { data } = await useResource<Game>('game', 'games');
+    game = data.value;
+}
 
 const desc = `
-Browse ${game.value.mods_count} mods for ${game.value.name}. Find a big variety of mods to customize ${game.value.name} and enjoy the creativity of the modding community.
-ModWorkshop is the platform for sharing and downloading mods for ${game.value.name}. Working together as a community to create tools, guides and more.`;
+Browse ${game.mods_count} mods for ${game.name}. Find a big variety of mods to customize ${game.name} and enjoy the creativity of the modding community.
+ModWorkshop is the platform for sharing and downloading mods for ${game.name}. Working together as a community to create tools, guides and more.`;
 
 useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${game.value.name}`,
-	ogTitle: `${game.value.name}`,
+    ogSiteName: `ModWorkshop - ${game.name}`,
+	ogTitle: `${game.name}`,
 	description: desc,
 	ogDescription:desc,
-	ogImage: `games/images/${game.value.thumbnail}`,
-    keywords: `${game.value.name}, ${game.value.name} mod, ${game.value.name} mods, mod, mods, modding, modworkshop, modworkshopnet`,
+	ogImage: `games/images/${game.thumbnail}`,
+    keywords: `${game.name}, ${game.name} mod, ${game.name} mods, mod, mods, modding, modworkshop, modworkshopnet`,
 	twitterCard: 'summary',
 });
 
 const breadcrumb = computed(() => {
     const breadcrumb: Breadcrumb[] = [];
-    if (game.value) {
+    if (game) {
         breadcrumb.push({ name: t('games'), to: 'games' });
-        breadcrumb.push({ name: game.value.name, to: `g/${game.value.short_name || game.value.id}` });
+        breadcrumb.push({ name: game.name, to: `g/${game.short_name || game.id}` });
     }
 
     if (route.name == 'game-game-upload') {
@@ -57,5 +77,5 @@ const breadcrumb = computed(() => {
     return breadcrumb;
 });
 
-watch(() => game.value, () =>  store.currentGame = game.value, { immediate: true });
+watch(() => game, () =>  store.currentGame = game, { immediate: true });
 </script>
