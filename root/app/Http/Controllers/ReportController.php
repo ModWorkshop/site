@@ -6,8 +6,8 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\Game;
 use App\Models\Report;
+use Illuminate\Http\Request;
 use Log;
-use Request;
 
 /**
  * @group Reports
