@@ -47,6 +47,7 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
+        ini_set('memory_limit', '2G');
         set_time_limit(1800);
         $maxSize = Setting::getValue('max_file_size');
 
@@ -89,6 +90,7 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
+        ini_set('memory_limit', '2G');
         $maxSize = Setting::getValue('max_file_size');
 
         $val = $request->validate([
