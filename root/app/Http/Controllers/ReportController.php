@@ -7,6 +7,7 @@ use App\Http\Resources\BaseResource;
 use App\Models\Game;
 use App\Models\Report;
 use Log;
+use Request;
 
 /**
  * @group Reports
