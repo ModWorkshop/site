@@ -1873,21 +1873,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^6.7.0":
-  version: 6.7.3
-  resolution: "@typescript-eslint/parser@npm:6.7.3"
+"@typescript-eslint/parser@npm:^6.7.5":
+  version: 6.7.5
+  resolution: "@typescript-eslint/parser@npm:6.7.5"
   dependencies:
-    "@typescript-eslint/scope-manager": 6.7.3
-    "@typescript-eslint/types": 6.7.3
-    "@typescript-eslint/typescript-estree": 6.7.3
-    "@typescript-eslint/visitor-keys": 6.7.3
+    "@typescript-eslint/scope-manager": 6.7.5
+    "@typescript-eslint/types": 6.7.5
+    "@typescript-eslint/typescript-estree": 6.7.5
+    "@typescript-eslint/visitor-keys": 6.7.5
     debug: ^4.3.4
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 658f3294b281db06ebb46884b92172d45eb402ec25c7d4a09cc2461eee359266029af7a49eb9006ee7c3e0003ba53a06f4bee84aa2e99d2d9a3507b9c84ff775
+  checksum: 63f988c1c87697bd20487933be952b97f7a5f2a9977f505af671c7d49367fc01ca508817576646caa937c15cc0a0ef1e86adff9111eb19df8b489e7436d10620
   languageName: node
   linkType: hard
 
@@ -1898,6 +1898,16 @@ __metadata:
     "@typescript-eslint/types": 6.7.3
     "@typescript-eslint/visitor-keys": 6.7.3
   checksum: 08215444b7c70af5c45e185ba3c31c550a0a671ab464a67058cbee680c94aa9d1a062958976d8b09f7bcabf2f63114cdc7be2e4e32e2dfdcb2d7cc79961b7b32
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/scope-manager@npm:6.7.5":
+  version: 6.7.5
+  resolution: "@typescript-eslint/scope-manager@npm:6.7.5"
+  dependencies:
+    "@typescript-eslint/types": 6.7.5
+    "@typescript-eslint/visitor-keys": 6.7.5
+  checksum: f21858ed78f81ab2d9879139f69657fda2a7b901078f79df64d1262d80f84ef66c56525ed0bb5e393fa5ca5474ad97f2225b7f713977c2d0f79cda31b2744af9
   languageName: node
   linkType: hard
 
@@ -1925,6 +1935,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/types@npm:6.7.5":
+  version: 6.7.5
+  resolution: "@typescript-eslint/types@npm:6.7.5"
+  checksum: f21e5726b60f13feb3a920c92515fbc1205ba0e9bba9959b2e42c02c282a0ab4fb0e5ae84f3807b9b1cf95036027e9033d92a911fa88e6c243a87621d8dd7a01
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/typescript-estree@npm:6.7.3":
   version: 6.7.3
   resolution: "@typescript-eslint/typescript-estree@npm:6.7.3"
@@ -1940,6 +1957,24 @@ __metadata:
     typescript:
       optional: true
   checksum: eaba1feb0e6882b0bad292172c118aac43ba683d1f04b940b542a20035468d030b062b036ea49eca36aa21782e9b1019e87717003b3c3db7d12dc707466b7eb7
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:6.7.5":
+  version: 6.7.5
+  resolution: "@typescript-eslint/typescript-estree@npm:6.7.5"
+  dependencies:
+    "@typescript-eslint/types": 6.7.5
+    "@typescript-eslint/visitor-keys": 6.7.5
+    debug: ^4.3.4
+    globby: ^11.1.0
+    is-glob: ^4.0.3
+    semver: ^7.5.4
+    ts-api-utils: ^1.0.1
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 17685e8321edce1d1ec4278d84e63c0f41ccb19e9308f21c37450943ad0c33328755ac52b966e7855af17e01d22bc83d1fcda79c279fabe7d3460c8f315a7265
   languageName: node
   linkType: hard
 
@@ -1967,6 +2002,16 @@ __metadata:
     "@typescript-eslint/types": 6.7.3
     eslint-visitor-keys: ^3.4.1
   checksum: cef64173a919107f420703e204d97d0afef0d9bd7a67570df5bdb39ac9464211c5a7b3af735d8f41e8004b443ab83e88b1d6fb951886aed4d3fe9d4778667199
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:6.7.5":
+  version: 6.7.5
+  resolution: "@typescript-eslint/visitor-keys@npm:6.7.5"
+  dependencies:
+    "@typescript-eslint/types": 6.7.5
+    eslint-visitor-keys: ^3.4.1
+  checksum: 2df996742f63d89fa339b0e8ff3a3a289d36b3f584f7538a7626bed3869e9ae27f8f56ab31748519d25a63de2ae22a43dd8413610b00436ff342b0a17eb85289
   languageName: node
   linkType: hard
 
@@ -6315,7 +6360,7 @@ __metadata:
     "@types/node": ^20.6.2
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^6.6.0
-    "@typescript-eslint/parser": ^6.7.0
+    "@typescript-eslint/parser": ^6.7.5
     "@vueuse/components": ^10.2.0
     "@vueuse/core": ^10.0.2
     "@vueuse/nuxt": ^10.3.0
