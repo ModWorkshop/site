@@ -56,7 +56,7 @@
                             </div>
                         </template>
                     </VDropdown>
-                    <a-button v-else-if="(mod.files_count || (mod.files && mod.files.data.length)) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</a-button>
+                    <a-button v-else-if="mod.files_count || mod.links_count || (mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</a-button>
                     <a-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
                 </flex>
             </flex>
