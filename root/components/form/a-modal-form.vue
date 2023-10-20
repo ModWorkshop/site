@@ -1,14 +1,17 @@
 <template>
-    <a-modal v-model="vModel" :size="size">
+    <a-modal v-model="vModel" :size="size" :title="title">
+        <template #title>
+            <h2 v-if="title">{{title}}</h2>
+            <i-mdi-close class="cursor-pointer ml-auto text-xl" @click="onCancel"/>
+        </template>
         <a-form @submit="onSubmit()">
             <flex column gap="4">
-                <h2 v-if="title">{{title}}</h2>
                 <a-alert v-if="descType" :color="descType" :desc="desc"/>
                 <span v-else-if="desc">{{desc}}</span>
                 <slot/>
                 <flex gap="1">
                     <a-button :disabled="!canSubmit" type="submit">{{saveText ?? $t('submit')}}</a-button>
-                    <a-button color="danger" @click="onCancel()">{{cancelText ?? $t('cancel')}}</a-button>
+                    <a-button color="danger" @click="onCancel">{{cancelText ?? $t('cancel')}}</a-button>
                 </flex>
             </flex>
         </a-form>
