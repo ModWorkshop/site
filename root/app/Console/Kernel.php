@@ -35,7 +35,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
-        if (!file_exists(public_path().'sitemap_index.xml')) { // Not the best way, but can't find a good place for it..
+
+        if (!file_exists(public_path().'/sitemap_index.xml')) { // Not the best way, but can't find a good place for it..
             $schedule->command('sitemap:generate')->everyMinute();
         } else {
             $schedule->command('sitemap:generate')->everySixHours();
