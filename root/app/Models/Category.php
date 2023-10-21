@@ -62,8 +62,6 @@ use Storage;
  */
 class Category extends Model
 {
-    use Cachable;
-
     protected $guarded = [];
 
     protected $hidden = ['parent', 'game', 'computed_breadcrumb', 'computed_children'];
