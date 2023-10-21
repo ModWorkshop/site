@@ -179,6 +179,12 @@ async function saveEditFile(error) {
 
 function updateHasDownload() {
     mod.value.has_download = (files.value && files.value.data.length > 0) || (links.value && links.value.data.length > 0) || false;
+    mod.value.files_count = files.value?.data.length ?? 0;
+    mod.value.links_count = links.value?.data.length ?? 0;
+
+    if (Math.abs(mod.value.files_count - mod.value.links_count) === 1) {
+        mod.value.download = files.value?.data[0] ?? links.value?.data[0];
+    }
 }
 
 function editLink(link: Link) {
