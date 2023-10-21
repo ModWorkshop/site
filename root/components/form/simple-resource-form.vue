@@ -10,10 +10,10 @@
         <flex column gap="3">
             <slot/>
             <a-alert v-if="deleteButton && vm.id" class="w-full" :title="$t('danger_zone')" color="danger">
-                <slot name="danger-zone"/>
-                <div>
-                    <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
-                </div>
+                <flex gap="2">
+                    <slot name="danger-zone"/>
+                    <a-button color="danger" @click="doDelete"><i-mdi-delete/> {{$t('delete')}}</a-button>
+                </flex>
             </a-alert>
         </flex>
     </a-form>
