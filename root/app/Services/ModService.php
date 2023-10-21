@@ -77,7 +77,7 @@ class ModService {
         } else {
             $request = request();
             $game = $request->route('game');
-            if (isset($game)) {
+            if (isset($game) && get_class($game) === Game::class) {
                 APIService::setCurrentGame($game);
             }
         }
