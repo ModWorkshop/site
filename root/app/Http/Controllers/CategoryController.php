@@ -39,7 +39,7 @@ class CategoryController extends Controller
         $val['limit'] ??= 1000;
 
         $categories = Category::queryGet($val, function($query, array $val) use ($game) {
-            $query->orderBy('name');
+            $query->orderByRaw("display_order DESC, name ASC");
 
             if (($val['only_names'] ?? false)) {
                 $query->select(['id', 'name']);
@@ -94,6 +94,7 @@ class CategoryController extends Controller
             'desc' => 'string|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'parent_id' => 'integer|min:1|nullable|exists:categories,id',
+            'display_order' => 'integer|min:-1000|max:1000|nullable',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'approval_only' => 'boolean',
             'webhook_url' => 'string|nullable|max:1000',
@@ -126,12 +127,33 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes Category.
+     * Mass updates mods of a category, only used to move mods.
+     */
+    public function updateMods(Request $request, Category $category)
+    {
+        $val = $request->validate([
+            'category_id' => 'integer|min:1|nullable|exists:categories,id',
+            'are_you_sure' => 'required|boolean',
+        ]);
+
+        if (!$val['are_you_sure']) {
+            abort(406, 'You must tick the are you sure to do thsi action!');
+        }
+
+        $category->mods()->update([
+            'category_id' => $val['category_id']
+        ]);
+    }
+
+    /**
+     * Deletes Category. Only if it's empty
      *
      * @authenticated
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        if ($category->mods()->count() === 0) {
+            $category->delete();
+        }
     }
 }

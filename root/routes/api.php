@@ -82,7 +82,6 @@ Route::patch('mods/{mod}/members/accept', [ModMemberController::class, 'accept']
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/owner/accept', [ModController::class, 'acceptTransferRequest']);
-Route::get('mods/followed', [ModController::class, 'followed']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
@@ -112,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);
+Route::middleware('can:massUpdateMods,category')->patch('categories/{category}/mods', [CategoryController::class, 'updateMods']);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/game-section-data', [GameController::class, 'gameSectionData']);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);

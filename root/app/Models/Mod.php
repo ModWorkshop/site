@@ -494,7 +494,12 @@ class Mod extends Model implements SubscribableInterface
         }
 
         return [
-            ...ModService::makeBreadcrumb($this->game, $this->category),
+            [
+                'name' => $this->game->name,
+                'id' => $this->game->short_name ?? $this->game->id,
+                'type' => 'game'
+            ],
+            ...$this->category?->computed_breadcrumb ?? [],
             [
                 'name' => $this->name,
                 'id' => $this->id,
@@ -557,7 +562,7 @@ class Mod extends Model implements SubscribableInterface
                 }
             }
 
-            //Has only a single file/link so just ruturn it
+            //Has only a single file/link so just return it
             if (abs($filesCount - $linksCount) === 1) {
                 if ($linksLoaded && $link = $this->links[0]) {
                     return $link;

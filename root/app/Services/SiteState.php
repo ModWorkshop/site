@@ -18,7 +18,6 @@ class SiteState {
     public ?Game $currentGame = null;
 
     public array $mods = [];
-    public array $categories;
 
     public array $users = [];
     public ?Role $membersRole = null;
@@ -48,10 +47,6 @@ class SiteState {
 
     function getCurrentGame(): ?Game {
         return $this->currentGame;
-    }
-
-    function getCategories(): ?array {
-        return $this->categories ?? [];
     }
 
     function getMembersRole(): ?Role

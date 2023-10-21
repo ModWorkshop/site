@@ -71,6 +71,14 @@ class CategoryPolicy
     }
 
     /**
+     * Determine whether the user can mass update mods
+     */
+    public function massUpdateMods(User $user, Category $category)
+    {
+        return $user->hasPermission('admin');
+    }
+
+    /**
      * Determine whether the user can restore the model.
      *
      * @param User $user

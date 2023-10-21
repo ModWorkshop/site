@@ -9,10 +9,10 @@ use App\Models\FollowedMod;
 use App\Models\Mod;
 use App\Models\User;
 use App\Services\ModService;
-use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @group Users
@@ -33,15 +33,12 @@ class FollowedModController extends Controller
      */
     public function index(GetModsRequest $request, Authenticatable $user)
     {
-        $val = $request->val();
-        $mods = Mod::queryGet($val, function($query, $val) use ($user) {
+        $mods = ModService::mods($request->val(), function($query) use ($user) {
             $query->whereExists(function($query) use ($user) {
                 $query->from('followed_mods')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_mods.mod_id', 'mods.id');
             });
-
-            ModService::filters($query, $val);
-        }, true);
+        });
         return ModResource::collectionResponse($mods);
     }
 
