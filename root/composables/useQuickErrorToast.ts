@@ -50,17 +50,17 @@ export default function() {
         };
 
         const code = e.status ?? e.response?.status;
-        const laravelMessage = (e instanceof FetchError ? e.data : e.response?.data)?.message ?? '';
+        const laravelMessage = firstNonEmpty((e instanceof FetchError ? e.data : e.response?.data)?.message) ?? '';
   
-        let desc = '';
+        let desc;
         if (code === 422) {
             desc = getErrorString(e);
         } else if (code) {
-            desc = errorStrings[e.message ?? laravelMessage] || errorStrings[code];
+            desc = firstNonEmpty(errorStrings[e.message ?? laravelMessage], errorStrings[code]);
         }
 
-        desc ??= laravelMessage ?? t('something_went_wrong');
-        desc += `(${code})`;
+        desc = firstNonEmpty(desc, laravelMessage, t('something_went_wrong'));
+        desc += ` (${code})`;
 
         return showToast({
             color: 'danger',
