@@ -10,6 +10,7 @@ use Eloquent;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Storage;
 /**
@@ -101,6 +102,11 @@ class Category extends Model
     public function game() : HasOne
     {
         return $this->hasOne(Game::class, "id", 'game_id');
+    }
+
+    public function mods(): HasMany
+    {
+        return $this->hasMany(Mod::class);
     }
 
     public function parent() : HasOne

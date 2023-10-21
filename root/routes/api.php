@@ -111,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);
+Route::middleware('can:massUpdateMods,category')->patch('categories/{category}/mods', [CategoryController::class, 'updateMods']);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/game-section-data', [GameController::class, 'gameSectionData']);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);

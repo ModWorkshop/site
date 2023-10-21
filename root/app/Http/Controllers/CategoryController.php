@@ -127,12 +127,33 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes Category.
+     * Mass updates mods of a category, only used to move mods.
+     */
+    public function updateMods(Request $request, Category $category)
+    {
+        $val = $request->validate([
+            'category_id' => 'integer|min:1|nullable|exists:categories,id',
+            'are_you_sure' => 'required|boolean',
+        ]);
+
+        if (!$val['are_you_sure']) {
+            abort(406, 'You must tick the are you sure to do thsi action!');
+        }
+
+        $category->mods()->update([
+            'category_id' => $val['category_id']
+        ]);
+    }
+
+    /**
+     * Deletes Category. Only if it's empty
      *
      * @authenticated
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        if ($category->mods()->count() === 0) {
+            $category->delete();
+        }
     }
 }
