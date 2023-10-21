@@ -12,6 +12,7 @@ use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
@@ -37,13 +38,15 @@ class ForumCategoryController extends Controller
         ]);
 
 
-        return BaseResource::collectionResponse(ForumCategory::queryGet($val, function($query, array $val) {
+        return BaseResource::collectionResponse(ForumCategory::queryGet($val, function(Builder $query, array $val) {
             if (isset($val['forum_id'])) {
                 $query->where('forum_id', $val['forum_id']);
             }
             if (isset($val['game_id'])) {
                 $query->whereRelation('forum', fn($q) => $q->where('game_id', $val['game_id']));
             }
+
+            $query->orderByRaw("display_order DESC, name ASC");
 
             Utils::forumCategoriesFilter($query);
         }));
@@ -83,6 +86,7 @@ class ForumCategoryController extends Controller
             'private_threads' => 'boolean',
             'role_policies' => 'array',
             'game_role_policies' => 'array',
+            'display_order' => 'integer|min:-1000|max:1000|nullable',
         ]);
 
         $rolesArr = Arr::pull($val, 'role_policies');
