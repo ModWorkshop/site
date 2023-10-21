@@ -120,7 +120,7 @@ class ModService {
 
             if (isset($val['category_id'])) {
                 $cat = Category::where('id', $val['category_id'])->first();
-                $query->whereIn('category_id', [$cat->id, ...$cat->computed_children]);
+                $query->whereIn('category_id', [$cat->id, ...($cat->computed_children ?? [])]);
             }
 
             if (isset($val['user_id'])) {
