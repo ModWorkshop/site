@@ -24,7 +24,7 @@
     "@iconify-json/cib": "^1.1.5",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge@latest",
+    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge@8.0.0-rc.5-28296269.d5d5540",
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@pinia/nuxt": "^0.4.10",
@@ -73,9 +73,6 @@
   },
   "overrides": {
     "semver": "^7.5.3"
-  },
-  "resolutions": {
-    "vue-i18n": "npm:vue-i18n-edge@9.4.1-2c1a08e"
   },
   "packageManager": "yarn@3.6.3",
   "engines": {
