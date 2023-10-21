@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\ComputeCategoryColumns;
 use App\Services\ModService;
 use Carbon\Carbon;
 use Database\Factories\CategoryFactory;
@@ -64,7 +65,7 @@ class Category extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['parent', 'game'];
+    protected $hidden = ['parent', 'game', 'computed_breadcrumb', 'computed_children'];
 
     protected $with = [];
 
@@ -72,6 +73,8 @@ class Category extends Model
 
     protected $casts = [
         'last_date' => 'datetime',
+        'computed_breadcrumb' => 'array',
+        'computed_children' => 'array'
     ];
 
     public function getMorphClass(): string {
@@ -107,7 +110,17 @@ class Category extends Model
 
     public function getBreadcrumbAttribute($includeGame=true)
     {
-        return ModService::makeBreadcrumb($includeGame ? $this->game : null, $this);
+        if (!$includeGame) {
+            return $this->computed_breadcrumb;
+        }
+        return [
+            [
+                'name' => $this->game->name,
+                'id' => $this->game->short_name ?? $this->game->id,
+                'type' => 'game'
+            ],
+            ...$this->computed_breadcrumb
+        ];
     }
 
     public function toSearchableArray()
@@ -126,5 +139,9 @@ class Category extends Model
                 $cat->last_date = Carbon::now();
             }
         });
+
+        static::deleted(fn() => (new ComputeCategoryColumns)->dispatch());
+        static::created(fn() => (new ComputeCategoryColumns)->dispatch());
+        static::updated(fn() => (new ComputeCategoryColumns)->dispatch());
     }
 }
