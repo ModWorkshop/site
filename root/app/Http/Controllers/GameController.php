@@ -109,15 +109,13 @@ class GameController extends Controller
         ]);
 
 
-        $games = Cache::remember('games'.'-'.md5(serialize($request->getQueryString())), 60, function() use ($val) {
-            return QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
-                $query->withCount('viewableMods');
-                if (($val['only_names'] ?? false)) {
-                    $query->select(['id', 'name']);
-                }
+        $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
+            $query->withCount('viewableMods');
+            if (($val['only_names'] ?? false)) {
+                $query->select(['id', 'name']);
+            }
 
-                $query->OrderByRaw('last_date DESC nulls last');
-            });
+            $query->OrderByRaw('last_date DESC nulls last');
         });
 
         return GameResource::collectionResponse($games);
