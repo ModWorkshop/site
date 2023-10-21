@@ -2,6 +2,7 @@
     <simple-resource-form v-model="category" url="forum-categories" :game="game" :redirect-to="redirectUrl">
         <a-input v-model="category.name" required :label="$t('name')"/>
         <a-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
+        <a-input v-model="category.display_order" :label="$t('order')" type="number"/>
 
         <md-editor v-model="category.desc" :label="$t('description')"/>
         <flex column>

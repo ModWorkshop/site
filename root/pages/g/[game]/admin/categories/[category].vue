@@ -1,7 +1,7 @@
 <template>
     <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage">
         <a-input v-model="category.name" :label="$t('name')"/>
-        <a-input v-model="category.order" :label="$t('order')"/>
+        <a-input v-model="category.display_order" :label="$t('order')" type="number"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
         <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" :desc="$t('approval_only_desc')"/>
         <md-editor v-model="category.desc" :label="$t('description')"/>
