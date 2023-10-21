@@ -11,6 +11,7 @@ declare module 'vue' {
     ICibGithub: typeof import('~icons/cib/github')['default']
     ICibGitlab: typeof import('~icons/cib/gitlab')['default']
     ICibSteam: typeof import('~icons/cib/steam')['default']
+    'IMdi:cursorMove': typeof import('~icons/mdi/cursor-move')['default']
     IMdiAccount: typeof import('~icons/mdi/account')['default']
     IMdiAccountOff: typeof import('~icons/mdi/account-off')['default']
     IMdiAccountSettingsVariant: typeof import('~icons/mdi/account-settings-variant')['default']
