@@ -1,7 +1,7 @@
 <template>
     <flex class="overflow-auto">
         <flex class="flex-shrink-0">
-            <NuxtLink v-if="$route.name == 'mod-mod-edit'" :to="`/mod/${mod.id}`">
+            <NuxtLink v-if="$route.name == 'mod-mod-edit'" :to="`/mod/${mod.id}`" external>
                 <a-button><i-mdi-arrow-left/> {{$t('return_to_mod')}}</a-button>
             </NuxtLink> 
             <a-button v-else-if="canEdit" :to="`/mod/${mod.id}/edit`"><i-mdi-cog/> {{$t('edit_mod')}}</a-button>

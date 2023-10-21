@@ -256,3 +256,16 @@ export async function markAllNotificationsAsRead(notifications?: Notification[],
         count.value = 0;
     }
 }
+
+/**
+ * Returns the first non empty string from given arguments
+ */
+export function firstNonEmpty(...strs) {
+    for (const s of strs) {
+        if (typeof s == 'string' && s.length > 0) {
+            return s;
+        }
+    }
+    
+    return null;
+}

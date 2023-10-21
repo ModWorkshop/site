@@ -4,6 +4,12 @@
             <Suspense>
                 <flex v-if="modelValue" class="modal" @click.self="$emit('update:modelValue', false)">
                     <flex column :class="classes" v-bind="$attrs">
+                        <flex>
+                            <slot name="title">
+                                <h2 v-if="title">{{title}}</h2>
+                                <i-mdi-close class="cursor-pointer ml-auto text-xl" @click="$emit('update:modelValue', false)"/>
+                            </slot>
+                        </flex>
                         <slot/>
                     </flex>
                 </flex>
@@ -16,6 +22,7 @@
 const props = withDefaults(defineProps<{
     modelValue: boolean,
     size?: 'lg' | 'md' | 'sm',
+    title?: string,
 }>(), { size: 'md' });
 
 const emit = defineEmits<{

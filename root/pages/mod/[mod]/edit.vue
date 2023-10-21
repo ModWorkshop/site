@@ -94,6 +94,8 @@ async function save() {
     'links',
     'transfer_request',
     'members',
-    'has_download'
+    'has_download',
+    'links_count',
+    'files_count'
 ];
 </script>
