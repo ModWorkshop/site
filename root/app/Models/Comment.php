@@ -116,9 +116,12 @@ class Comment extends Model implements SubscribableInterface
             $id = Auth::user()?->id;
             if (isset($id)) {
                 if (isset($comment->reply_to)) {
-                    $comment->replyingComment->subscriptions()->create([
-                        'user_id' => $id
-                    ]);
+                    $subs = $comment->replyingComment->subscriptions();
+                    if (isset($subs) && !$subs->where('user_id', $id)->exists()) {
+                        $comment->replyingComment->subscriptions()->create([
+                            'user_id' => $id
+                        ]);
+                    }
                 } else {
                     $comment->subscriptions()->create([
                         'user_id' => $id

@@ -134,7 +134,8 @@ class CommentService {
 
         $notifiable = ($isReply ? $replyToComment : $commentable);
         // Send subscription notification, avoid sending notification again to who mentioned users
-        $subs = $notifiable->subscriptions()->whereNotIn('user_id', $mentionedIds)->get();
+        //TODO: move to a job rather than do it in the same request
+        $subs = $notifiable->subscriptions()->whereNotIn('user_id', $mentionedIds)->get()->unique('user_id');
         foreach ($subs as $sub) {
             Notification::send(
                 notifiable: $notifiable,
