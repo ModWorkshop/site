@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "hammerstone/fast-paginate": "^1.0.1",
         "http-interop/http-factory-guzzle": "^1.2",
-        "jcupitt/vips": "2.2.0",
+        "jcupitt/vips": "2.3.0",
         "laravel/framework": "^10.5.1",
         "laravel/octane": "^2.0.1",
         "laravel/sanctum": "^3.2",
