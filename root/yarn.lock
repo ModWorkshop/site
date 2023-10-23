@@ -1871,10 +1871,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:^6.9.7":
-  version: 6.9.8
-  resolution: "@types/qs@npm:6.9.8"
-  checksum: c28e07d00d07970e5134c6eed184a0189b8a4649e28fdf36d9117fe671c067a44820890de6bdecef18217647a95e9c6aebdaaae69f5fe4b0bec9345db885f77e
+"@types/qs@npm:^6.9.9":
+  version: 6.9.9
+  resolution: "@types/qs@npm:6.9.9"
+  checksum: 03ddbd032bcaa8f07429efe9de6d0fc027ccdd1e24eac1656bd931c2210c204bbc25be0937a9d46702fb6262fb6ffcc2980e040b399b62a3f91ec6e387c2edae
   languageName: node
   linkType: hard
 
@@ -6499,7 +6499,7 @@ __metadata:
     "@pinia/nuxt": ^0.4.10
     "@types/luxon": ^3.3.1
     "@types/node": ^20.8.6
-    "@types/qs": ^6.9.7
+    "@types/qs": ^6.9.9
     "@typescript-eslint/eslint-plugin": ^6.6.0
     "@typescript-eslint/parser": ^6.8.0
     "@vueuse/components": ^10.5.0

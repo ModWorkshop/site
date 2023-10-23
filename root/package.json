@@ -30,7 +30,7 @@
     "@pinia/nuxt": "^0.4.10",
     "@types/luxon": "^3.3.1",
     "@types/node": "^20.8.6",
-    "@types/qs": "^6.9.7",
+    "@types/qs": "^6.9.9",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.8.0",
     "@vueuse/components": "^10.5.0",
