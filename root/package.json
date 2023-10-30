@@ -46,7 +46,7 @@
     "unplugin-icons": "^0.17.0",
     "unplugin-vue-components": "^0.25.1",
     "vue-easy-lightbox": "^1.13.0",
-    "vue-tsc": "^1.8.10"
+    "vue-tsc": "^1.8.22"
   },
   "dependencies": {
     "@gerhobbelt/markdown-it-regexp": "^0.6.0-15",
