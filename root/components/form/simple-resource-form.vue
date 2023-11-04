@@ -54,12 +54,16 @@ const fc = computed(() => props.flushChanges ?? createEventHook());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {
+    const token = turnstileToken.value;
+    turnstileToken.value = '';
+
     try {
         let params;
         if (props.mergeParams) {
             params = serializeObject({
                 ...vm.value,
-                ...props.mergeParams
+                ...props.mergeParams,
+                'cf-turnstile-response': token
             });
         } else {
             params = vm.value;
