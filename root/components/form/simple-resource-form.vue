@@ -15,6 +15,7 @@
                     <a-button color="danger" @click="doDelete">{{$t('delete')}}</a-button>
                 </div>
             </a-alert>
+            <NuxtTurnstile v-if="captcha" ref="turnstile" v-model="turnstileToken"/>
         </flex>
     </a-form>
 </template>
@@ -29,6 +30,9 @@ const router = useRouter();
 const yesNoModal = useYesNoModal();
 const showError = useQuickErrorToast();
 
+const turnstile = ref();
+const turnstileToken = ref<string>();
+
 const { t } = useI18n();
 
 const props = withDefaults(defineProps<{
@@ -41,6 +45,7 @@ const props = withDefaults(defineProps<{
     flushChanges?: EventHook,
     deleteButton?: boolean,
     game?: Game,
+    captcha?: boolean
 }>(), { deleteButton: true });
 
 const emit = defineEmits(['submit']);
