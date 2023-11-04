@@ -67,6 +67,8 @@ async function submit() {
             });
         } else {
             params = vm.value;
+            params ??= {};
+            params['cf-turnstile-response'] = token;
         }
 
         if (!vm.value.id) {
