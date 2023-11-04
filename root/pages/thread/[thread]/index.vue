@@ -14,7 +14,7 @@
                         </NuxtLink>
                         <span v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
                     </flex>
-                    <a-markdown class="mt-1" :text="thread.content"/>
+                    <a-markdown class="mt-1 w-full" :text="thread.content"/>
                 </flex>
             </flex>
             <flex v-if="thread.tags?.length">

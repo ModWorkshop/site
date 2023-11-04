@@ -1,8 +1,7 @@
 <template>
-    <a-modal v-model="showNotifications" size="md">
+    <a-modal v-model="showNotifications" size="md" :title="$t('notifications')">
         <a-loading v-if="!notifications"/>
         <template v-else>
-            <h2>{{$t('notifications')}}</h2>
             <flex column :class="{'overflow-y-scroll': notifications.data.length, 'p-2': true}" style="min-height: 150px;">
                 <template v-if="notifications.data.length">
                     <a-notification v-for="notif of notifications.data" :key="notif.id" :notification="notif" :ok="() => showNotifications = false" :notifications="notifications"/>

@@ -12,7 +12,7 @@ export interface Category {
     desc: string;
     hidden: boolean;
     grid: boolean;
-    disporder: number;
+    display_order: number;
     parent_id: number | null;
     game_id: number;
     thumbnail?: string;
@@ -395,6 +395,7 @@ export interface ForumCategory {
     forum_id: number;
     created_at?: string;
     updated_at?: string;
+    display_order: number;
     role_policies?: Record<number, RolePolicy>;
     game_role_policies?: Record<number, RolePolicy>;
     banned_can_post: boolean;
