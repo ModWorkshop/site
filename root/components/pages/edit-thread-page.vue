@@ -7,6 +7,7 @@
             :create-url="`forums/${forumId}/threads`"
             :delete-redirect-to="deleteRedirectTo"
             assign-object
+            :captcha="!thread.id"
             @submit="initialThread = thread"
         >
             <a-input v-model="thread.name" :label="$t('title')" minlength="2" maxlength="150"/>
