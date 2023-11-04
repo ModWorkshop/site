@@ -19,6 +19,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
+use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 
 /**
  * @group Threads
@@ -51,6 +52,12 @@ class ThreadController extends Controller
             'announce' => 'boolean',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
         ]);
+
+        if (app()->isProduction()) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+            ]);
+        }
 
         Utils::convertToUTC($val, 'announce_until');
 
