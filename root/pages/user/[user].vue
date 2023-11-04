@@ -12,6 +12,7 @@
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</a-dropdown-item>
+                    <a-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</a-dropdown-item>
                 </template>
             </VDropdown>
             <a-button v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
@@ -104,6 +105,23 @@ const isMe = computed(() => me?.id === user.value.id);
 
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 const tempBlockOverride = ref(false);
+
+async function purgeSpammer() {
+    yesNoModal({
+        title: t('are_you_sure'),
+        desc: 'This action should only be done against spammers! It deletes all mods and discussions made by the user and bans them permanently!',
+        async yes() {
+            await deleteRequest(`users/${user.value.id}/discussions`);
+            await deleteRequest(`users/${user.value.id}/mods`);
+            await postRequest('bans', {
+                user_id: user.value.id,
+                reason: 'Purged Spammer'
+            });
+
+            location.reload();
+        }
+    });
+}
 
 async function blockUser() {
     const block = !user.value.blocked_by_me || user.value.blocked_by_me.silent === true;
