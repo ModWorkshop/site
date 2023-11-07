@@ -29,6 +29,8 @@ class CreateRolesTable extends Migration
             $table->smallInteger('order');
             $table->boolean('is_vanity')->default(false);
 
+            $table->boolean('self_assignable')->default(false);
+
             $table->timestamps();
         });
     }

@@ -28,6 +28,8 @@ return new class extends Migration
 
             $table->boolean('is_private')->default(false);
 
+            $table->smallInteger('display_order')->default(0);
+
             $table->index('forum_id');
 
             $table->timestamps();

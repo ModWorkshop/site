@@ -32,10 +32,13 @@ return new class extends Migration
              */
 
             $table->smallInteger('order');
+            $table->boolean('self_assignable')->default(false);
+
             $table->index('game_id');
             $table->timestamps();
+
         });
-        
+
     }
 
     /**

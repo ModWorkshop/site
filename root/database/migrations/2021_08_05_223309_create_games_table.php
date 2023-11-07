@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->tinyText('name');
             $table->tinyText('short_name')->unique();
-            $table->tinyInteger('disporder')->unsigned()->default(0);
 
             $table->tinyText('thumbnail')->default(''); // Was background
             $table->tinyText('banner')->default(''); // Was background
@@ -26,6 +25,9 @@ return new class extends Migration
             $table->dateTime('last_date')->nullable();
 
             $table->timestamps();
+
+            $table->index('last_date');
+            $table->index('short_name');
         });
     }
 

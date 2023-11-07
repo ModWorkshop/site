@@ -46,6 +46,8 @@ return new class extends Migration
             $table->bigInteger('game_id')->unsigned()->nullable();
             $table->foreign('game_id')->references('id')->on('games');
 
+            $table->timestamp('edited_at')->nullable();
+
             $table->timestamps();
         });
     }

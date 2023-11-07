@@ -17,6 +17,10 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('updated_at')->nullable();
+
+            $table->index('updated_at');
+            $table->index('ip_address');
+            $table->index('user_id');
         });
     }
 
