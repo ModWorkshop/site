@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
-import { Game, UserCase } from '~~/types/models';
+import type { Game, UserCase } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{

@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { File, Mod } from '~~/types/models';
+import type { File, Mod } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 

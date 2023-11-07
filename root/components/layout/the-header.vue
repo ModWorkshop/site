@@ -158,7 +158,7 @@ import { storeToRefs } from 'pinia';
 import { adminPagePerms } from '~~/utils/helpers';
 import { useStore } from '../../store';
 import { vOnClickOutside } from '@vueuse/components';
-import { Mod } from '../../types/models';
+import type { Mod } from '../../types/models';
 
 const router = useRouter();
 

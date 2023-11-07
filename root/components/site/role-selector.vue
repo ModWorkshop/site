@@ -28,7 +28,7 @@
 import clone from 'rfdc/default';
 
 import { useStore } from '~~/store';
-import { User, Role } from '../../types/models';
+import type { User, Role } from '../../types/models';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{

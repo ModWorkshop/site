@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserForm } from '~~/types/models';
+import type { UserForm } from '~~/types/models';
 
 const props = defineProps<{
     user: UserForm

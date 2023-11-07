@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 
 const props = defineProps<{
     mod: Mod

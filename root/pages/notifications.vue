@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Notification } from '~~/types/models';
+import type { Notification } from '~~/types/models';
 import { useStore } from '../store/index';
 import { storeToRefs } from 'pinia';
 

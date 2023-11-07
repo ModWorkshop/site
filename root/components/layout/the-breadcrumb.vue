@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breadcrumb } from '../../types/models';
+import type { Breadcrumb } from '../../types/models';
 
 defineProps<{
     items: Breadcrumb[]

@@ -1,5 +1,5 @@
 <template>
-    <flex v-intersection-observer="onVisChange" column gap=3>
+    <flex v-intersection-observer="onVisChange" column gap="3">
         <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
+import type { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 import { vIntersectionObserver } from '@vueuse/components';
 
 const searchBus = useEventBus<string>('search');

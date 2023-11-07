@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { Image } from '~~/types/models';
+import type { Image } from '~~/types/models';
 
 defineProps<{
     thumbnail?: Image,

@@ -1,5 +1,5 @@
 import { useStore } from "~~/store";
-import { Mod } from "~~/types/models";
+import type { Mod } from "~~/types/models";
 
 export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();

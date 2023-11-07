@@ -65,7 +65,7 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 import { friendlySize, setQuery } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 

@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { Category } from '~~/types/models';
+import type { Category } from '~~/types/models';
 import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{

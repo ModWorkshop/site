@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Game, Report } from '~~/types/models';
+import type { Game, Report } from '~~/types/models';
 import { useStore } from '../../../store/index';
 
 const { game, report, reports } = defineProps<{
@@ -38,7 +38,6 @@ const { game, report, reports } = defineProps<{
 const store = useStore();
 
 const { t } = useI18n();
-const router = useRouter();
 const casesUrl = computed(() => getGameResourceUrl('cases', game));
 const contentTitle = computed(() => {
     if (report.reportable_type == 'mod' || report.reportable_type == 'user') {

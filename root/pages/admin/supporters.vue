@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Supporter } from '~~/types/models';
+import type { Supporter } from '~~/types/models';
 
 useNeedsPermission('manage-users');
 

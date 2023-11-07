@@ -58,8 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ForumCategory, Game, Role, RolePolicy } from "~~/types/models";
-import { getGameResourceUrl } from "~~/utils/helpers";
+import type { ForumCategory, Game, Role, RolePolicy } from "~~/types/models";
 
 const props = defineProps<{
     game?: Game

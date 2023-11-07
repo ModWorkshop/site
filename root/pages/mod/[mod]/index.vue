@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Mod, Comment } from '~~/types/models';
+import type { Mod, Comment } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { canEditMod } from '~~/utils/mod-helpers';
 const store = useStore();

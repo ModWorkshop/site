@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breadcrumb } from '~~/types/models';
+import type { Breadcrumb } from '~~/types/models';
 
 const props = defineProps<{
     item: Breadcrumb,

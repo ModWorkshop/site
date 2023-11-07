@@ -29,9 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import type { Game, Mod } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
-import { Mod } from '../../types/models';
 import { useStore } from '../../store/index';
 
 const props = defineProps<{

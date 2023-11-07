@@ -43,8 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~/types/models';
-import { Mod } from '~~/types/models';
+import type { Game, Mod } from '~/types/models';
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
 
 const props = defineProps<{

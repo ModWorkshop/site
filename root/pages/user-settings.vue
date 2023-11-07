@@ -22,7 +22,7 @@
 import clone from 'rfdc/default';
 import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
-import { User, UserForm } from '../types/models';
+import type { User, UserForm } from '../types/models';
 
 const showToast = useQuickErrorToast();
 

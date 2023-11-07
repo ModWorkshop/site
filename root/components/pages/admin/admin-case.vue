@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { UserCase } from '~~/types/models';
+import type { UserCase } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{

@@ -37,8 +37,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Thread } from '~~/types/models';
-import { Comment } from '../../../types/models';
+import type { Thread, Comment } from '~~/types/models';
 
 const { t } = useI18n();
 

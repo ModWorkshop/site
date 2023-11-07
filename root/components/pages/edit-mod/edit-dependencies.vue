@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
-import { Dependency } from '~~/types/models';
+import type { Dependency } from '~~/types/models';
 import clone from 'rfdc/default';
 
 const props = defineProps<{

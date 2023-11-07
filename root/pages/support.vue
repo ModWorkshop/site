@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Supporter } from '~~/types/models';
+import type { Supporter } from '~~/types/models';
 
 const { user } = useStore();
 const store = useStore();

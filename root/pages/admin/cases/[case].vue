@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game, UserCase } from '~~/types/models';
+import type { Game, UserCase } from '~~/types/models';
 
 const props = defineProps<{
     game: Game

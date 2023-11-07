@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mod, Image } from '~~/types/models';
+import type { Mod, Image } from '~~/types/models';
 import { useStore } from '~~/store';
 
 const { settings } = useStore();

@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 import { Paginator } from '../../../types/paginator';
 
 const props = defineProps<{

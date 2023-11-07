@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { Thread } from '~/types/models';
+import type { Thread } from '~/types/models';
 
 const { thread, categoryLink } = defineProps<{
     thread: Thread,
@@ -40,8 +40,6 @@ const to = computed(() => {
 });
 
 function clickThread(thread: Thread) {
-    console.log('...');
-    
     router.push(`/thread/${thread.id}`);
 }
 </script>

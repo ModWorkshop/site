@@ -45,7 +45,7 @@
 import { remove } from '@antfu/utils';
 import { storeToRefs } from 'pinia';
 import { useStore } from '~~/store';
-import { Notification } from '~~/types/models';
+import {type  Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 import { getObjectLink } from '~~/utils/helpers';
 

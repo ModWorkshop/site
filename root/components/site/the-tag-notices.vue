@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Tag } from '~~/types/models';
+import type { Tag } from '~~/types/models';
 
 const props = defineProps<{
     tags: Tag[]

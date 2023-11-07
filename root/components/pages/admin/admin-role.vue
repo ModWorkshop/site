@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~/store';
-import { Role, Game } from '../../../types/models';
+import type { Role, Game } from '../../../types/models';
 
 const props = defineProps<{
     role: Role,

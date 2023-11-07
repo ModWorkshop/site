@@ -98,9 +98,9 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Game, Mod } from '~~/types/models';
+import type { Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
-import { EventHook } from '@vueuse/core';
+import type { EventHook } from '@vueuse/core';
 import { Paginator } from '../../types/paginator';
 
 const searchBus = useEventBus<string>('search');

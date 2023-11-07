@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { useStore } from "~~/store";
-import { Mod } from "~~/types/models";
+import type { Mod } from "~~/types/models";
 const store = useStore();
 
 const props = withDefaults(defineProps<{

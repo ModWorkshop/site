@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mod, Suspension } from '~~/types/models';
+import type { Mod, Suspension } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     mod: Mod,

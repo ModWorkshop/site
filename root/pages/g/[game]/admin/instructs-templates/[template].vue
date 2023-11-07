@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game, InstructsTemplate } from '~~/types/models';
+import type { Game, InstructsTemplate } from '~~/types/models';
 
 const props = defineProps<{
     game: Game

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 import MdiCancel from '~icons/mdi/cancel';
 import MdiCloseThick from '~icons/mdi/close-thick';
 import MdiClock from '~icons/mdi/clock';

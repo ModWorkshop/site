@@ -61,9 +61,9 @@
 
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
-import { File as MWSFile, SimpleFile } from '~~/types/models';
+import type { File as MWSFile, SimpleFile } from '~~/types/models';
 import { DateTime } from 'luxon';
-import axios, { AxiosError, Canceler } from 'axios';
+import axios, { AxiosError, type Canceler } from 'axios';
 import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits([

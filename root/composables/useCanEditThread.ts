@@ -1,5 +1,5 @@
 import { useStore } from './../store/index';
-import { Thread, Game } from './../types/models';
+import type { Thread, Game } from './../types/models';
 
 export default function(thread: Thread, game?: Game) {
     const { user, hasPermission } = useStore();

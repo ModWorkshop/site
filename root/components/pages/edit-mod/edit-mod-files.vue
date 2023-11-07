@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { File, Link, Mod } from '~~/types/models';
+import type { File, Link, Mod } from '~~/types/models';
 import clone from 'rfdc/default';
 import { useStore } from '~~/store';
 import { friendlySize, fullDate } from '~~/utils/helpers';

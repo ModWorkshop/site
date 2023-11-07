@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Category, Mod, Tag } from '~~/types/models.js';
+import type { Category, Mod, Tag } from '~~/types/models.js';
 
 const { t } = useI18n();
 

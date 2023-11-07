@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Game, Mod } from '~~/types/models';
+import type { Game, Mod } from '~~/types/models';
 
 const mod = defineModel<Mod>({ required: true });
 

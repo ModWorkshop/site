@@ -78,10 +78,10 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 import { useStore } from '~~/store';
 import { date, getTimeAgo } from '~~/utils/helpers';
-import { EventHook } from '@vueuse/core';
+import type { EventHook } from '@vueuse/core';
 
 const { public: config } = useRuntimeConfig();
 

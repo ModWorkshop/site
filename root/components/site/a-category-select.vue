@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Category } from '~~/types/models';
+import type { Category } from '~~/types/models';
 
 const props = withDefaults(defineProps<{
     modelValue?: number|number[]|null,

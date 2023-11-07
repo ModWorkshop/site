@@ -1,4 +1,4 @@
-import { Game } from './../types/models';
+import type { Game } from './../types/models';
 import { useStore } from './../store/index';
 import { useI18n } from 'vue-i18n';
 

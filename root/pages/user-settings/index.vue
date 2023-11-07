@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { UserForm } from '~~/types/models';
+import type { UserForm } from '~~/types/models';
 import { useStore } from '../../store/index';
 
 defineProps<{

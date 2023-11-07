@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Game } from '~~/types/models';
+import type { Game } from '~~/types/models';
 
 const { t } = useI18n();
 const store = useStore();

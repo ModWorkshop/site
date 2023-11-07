@@ -10,7 +10,7 @@
                 <span class="h2">{{$t('games')}}</span>
                 <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
             </flex>
-            <flex v-if="games" class="latest-games gap-2" style="">
+            <flex v-if="games" class="latest-games gap-2">
                 <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~/types/models';
+import type { Game } from '~/types/models';
 import { useStore } from '~~/store';
 
 const { user } = useStore();

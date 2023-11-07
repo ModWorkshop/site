@@ -11,6 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 const mod = defineModel<Mod>({ required: true });
 </script>

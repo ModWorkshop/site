@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from '~~/types/models';
-import { Game } from '../../types/models';
+import type { User, Game } from '~~/types/models';
 
 const page = useRouteQuery('page', 1);
 const query = useRouteQuery('query', '');

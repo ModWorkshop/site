@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import { Category, Game, Tag } from '~~/types/models';
+import type { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
+import type { Category, Game, Tag } from '~~/types/models';
 
 const props = defineProps<{
     refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>,

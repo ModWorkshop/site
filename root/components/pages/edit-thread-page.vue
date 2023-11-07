@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useStore } from '~~/store';
-import { ForumCategory, Game, Tag, Thread } from '~~/types/models';
+import type { ForumCategory, Game, Tag, Thread } from '~~/types/models';
 import clone from 'rfdc/default';
 
 const { game } = defineProps<{

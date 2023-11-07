@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Breadcrumb, Game, Thread } from '~~/types/models';
+import type { Breadcrumb, Game, Thread } from '~~/types/models';
 import { setFollowGame } from '~~/utils/follow-helpers';
 import { adminGamePagePerms } from '~~/utils/helpers';
 import { storeToRefs } from 'pinia';

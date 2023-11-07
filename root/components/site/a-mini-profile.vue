@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 
 const props = defineProps<{
     user: User

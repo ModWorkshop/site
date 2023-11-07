@@ -24,7 +24,7 @@
 import clone from 'rfdc/default';
 import { deepEqual } from 'fast-equals';
 import { useI18n } from 'vue-i18n';
-import { EventHook } from '@vueuse/core';
+import type { EventHook } from '@vueuse/core';
 
 const { created = true, saveButtonText, flushChanges, canSave, preCompare, excludeFromCompare } = defineProps<{
     preCompare?: (v) => void,

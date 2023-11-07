@@ -9,8 +9,8 @@
     <span v-if="!fetchedMods?.data.length" class="text-center">{{$t('no_mods_found')}}</span>
 </template>
 <script setup lang="ts">
-import { SearchParameters } from 'ofetch';
-import { Mod } from '~~/types/models';
+import type { SearchParameters } from 'ofetch';
+import type { Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 
 const props = defineProps<{

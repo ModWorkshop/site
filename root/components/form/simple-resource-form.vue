@@ -23,8 +23,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { serializeObject } from '~~/utils/helpers';
-import { Game } from '../../types/models';
-import { EventHook } from '@vueuse/core';
+import type { Game } from '../../types/models';
+import type { EventHook } from '@vueuse/core';
 
 const router = useRouter();
 const yesNoModal = useYesNoModal();

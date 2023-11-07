@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon';
-import { Ban, Game } from '~~/types/models';
+import type { Ban, Game } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{

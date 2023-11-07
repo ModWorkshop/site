@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Category, Game, Mod } from '~~/types/models';
+import type { Category, Game, Mod } from '~~/types/models';
 
 const store = useStore();
 const router = useRouter();

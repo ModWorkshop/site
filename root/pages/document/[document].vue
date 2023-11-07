@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Breadcrumb, Document, Game } from '~~/types/models';
+import type { Breadcrumb, Document, Game } from '~~/types/models';
 
 const { t } = useI18n();
 const store = useStore();

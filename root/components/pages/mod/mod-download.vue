@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { File, Link, Mod } from '~~/types/models';
+import type { File, Link, Mod } from '~~/types/models';
 
 const props = defineProps<{
     file: File & Link,

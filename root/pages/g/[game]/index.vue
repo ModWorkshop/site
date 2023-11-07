@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { Paginator } from '~/types/paginator';
 import { useStore } from '~~/store';
-import { Game, Mod } from '~~/types/models';
+import type { Game, Mod } from '~~/types/models';
 const store = useStore();
 const { user } = store;
 

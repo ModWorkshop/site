@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, Game, User } from '~~/types/models';
+import type { Comment, Game, User } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~~/store';

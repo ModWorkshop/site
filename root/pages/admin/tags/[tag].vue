@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { Game, Tag } from "~~/types/models";
+import type { Game, Tag } from "~~/types/models";
 
 const props = defineProps<{
     game: Game

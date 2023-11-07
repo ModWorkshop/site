@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useStore } from '~~/store';
-import { ForumCategory, Game } from '~~/types/models';
+import type { ForumCategory, Game } from '~~/types/models';
 
 const store = useStore();
 const { isBanned, ban, gameBan } = storeToRefs(useStore());

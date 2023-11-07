@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { SocialLogin, UserForm } from '~~/types/models';
+import type { SocialLogin, UserForm } from '~~/types/models';
 import CibGitHub from '~icons/cib/github';
 import CibGitLab from '~icons/cib/gitlab';
 import CibDiscord from '~icons/cib/discord';

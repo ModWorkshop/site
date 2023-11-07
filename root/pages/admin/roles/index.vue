@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Game, Role } from '~~/types/models';
+import type { Game, Role } from '~~/types/models';
 
 const props = defineProps<{
     game?: Game

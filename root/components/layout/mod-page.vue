@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breadcrumb, Mod } from '~~/types/models';
+import type { Breadcrumb, Mod } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 

@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Game, Suspension } from '~~/types/models';
+import type { Game, Suspension } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{

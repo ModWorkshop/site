@@ -7,9 +7,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Breadcrumb, Game } from '~~/types/models';
+import type { Breadcrumb, Game, Mod } from '~~/types/models';
 import { Paginator } from '../../types/paginator';
-import { Mod } from '../../types/models';
 const store = useStore();
 const route = useRoute();
 const { t } = useI18n();

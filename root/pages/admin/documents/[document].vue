@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Document, Game } from '~~/types/models';
+import type { Document, Game } from '~~/types/models';
 
 const props = defineProps<{
     game: Game

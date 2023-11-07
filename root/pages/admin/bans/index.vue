@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Ban, Game } from '~~/types/models';
+import type { Ban, Game } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{

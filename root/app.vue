@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { YesNoModal } from './composables/useYesNoModal';
+import type { YesNoModal } from './composables/useYesNoModal';
 import { useStore } from './store';
 
 const store = useStore();

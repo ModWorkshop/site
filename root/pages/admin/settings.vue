@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { Settings } from '~~/types/models';
+import type { Settings } from '~~/types/models';
 useNeedsPermission('admin');
 
 const showError = useQuickErrorToast();

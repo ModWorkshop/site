@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { UserForm } from '~~/types/models';
+import type { UserForm } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { passwordValidity } from '~~/utils/helpers';
 

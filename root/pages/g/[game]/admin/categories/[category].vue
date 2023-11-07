@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { Category, Game } from "~~/types/models";
+import type { Category, Game } from "~~/types/models";
 import { useStore } from '~~/store';
 
 const props = defineProps<{

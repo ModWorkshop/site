@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { Thread } from '~~/types/models';
+import type { Thread } from '~~/types/models';
 
 defineProps<{
     thread: Thread

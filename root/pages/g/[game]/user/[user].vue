@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game, Role, User } from '~/types/models';
+import type { Game, Role, User } from '~/types/models';
 import { useStore } from '~~/store';
 
 definePageMeta({ alias: '/game/:game/user/:user' });

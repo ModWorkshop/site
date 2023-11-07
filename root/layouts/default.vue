@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import { Toast } from '~~/types/toast';
+import type { Toast } from '~~/types/toast';
 import { longExpiration } from '~~/utils/helpers';
 import { storeToRefs } from 'pinia';
 

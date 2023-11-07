@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game, Report, } from '~~/types/models';
+import type { Game, Report } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{

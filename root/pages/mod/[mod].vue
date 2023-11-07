@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 

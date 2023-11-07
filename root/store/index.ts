@@ -1,7 +1,7 @@
-import { User, Game, Tag, Notification, Settings, Thread } from './../types/models';
+import type { User, Game, Tag, Notification, Settings, Thread } from './../types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
-import { CookieRef } from '#app';
+import type { CookieRef } from '#app';
 import { longExpiration, reloadToken } from '~~/utils/helpers';
 
 interface MainStore {

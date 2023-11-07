@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import type { Game } from '~~/types/models';
 definePageMeta({ alias: '/game/new' });
 
 const game = ref<Game>({

@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { useStore } from '~/store';
-import { User } from '~/types/models';
+import type { User } from '~/types/models';
 
 const { user: me } = useStore();
 

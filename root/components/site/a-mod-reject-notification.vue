@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { Notification, UserCase } from '~~/types/models';
+import type { Notification, UserCase } from '~~/types/models';
 
 defineProps<{
     notification: Notification,

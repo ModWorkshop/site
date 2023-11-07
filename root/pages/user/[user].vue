@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { setFollowUser } from '~~/utils/follow-helpers';
 import { useI18n } from 'vue-i18n';
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 import { useStore } from '~~/store';
 
 const yesNoModal = useYesNoModal();

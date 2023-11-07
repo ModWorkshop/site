@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 import { vOnClickOutside } from '@vueuse/components';
 import { DateTime } from 'luxon';
 import { useStore } from '~/store';

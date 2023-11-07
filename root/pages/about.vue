@@ -28,8 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from '~/types/models';
-import { useStore } from '../store/index';
+import type { User } from '~/types/models';
 
 const { data: management } = await useFetchMany<User>('users', { params: { role_ids: [3] } });
 const { data: moderators } = await useFetchMany<User>('users', { params: { role_ids: [4] } });
