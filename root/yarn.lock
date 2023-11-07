@@ -1802,13 +1802,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/nuxt@npm:^0.4.10":
-  version: 0.4.11
-  resolution: "@pinia/nuxt@npm:0.4.11"
+"@pinia/nuxt@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@pinia/nuxt@npm:0.5.1"
   dependencies:
     "@nuxt/kit": ^3.5.0
-    pinia: ">=2.1.0"
-  checksum: 1a634ab7cbd1ecc3fd18d909e2ef6ef7d9cd161503d638f452e1dbd87233e9f05ccd0c11d50d40a66ceb37d569b02521dfdce895b39653b513d7be39cfb8af1e
+    pinia: ">=2.1.7"
+  checksum: d9f6aa9f5fa50e811d538931162aa55c193d66324df48c74044b63916c3fa03dd64441b4ef1ce7043d3c3f1009d6cbf2d180ec4990f39d781e0c5c279275c465
   languageName: node
   linkType: hard
 
@@ -6780,7 +6780,7 @@ __metadata:
     "@nuxtjs/robots": ^3.0.0
     "@nuxtjs/tailwindcss": 6.8.0
     "@nuxtjs/turnstile": ^0.6.3
-    "@pinia/nuxt": ^0.4.10
+    "@pinia/nuxt": ^0.5.1
     "@types/luxon": ^3.3.1
     "@types/node": ^20.8.6
     "@types/qs": ^6.9.7
@@ -7709,7 +7709,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinia@npm:>=2.1.0":
+"pinia@npm:>=2.1.7":
   version: 2.1.7
   resolution: "pinia@npm:2.1.7"
   dependencies:
