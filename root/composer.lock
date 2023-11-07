@@ -2367,16 +2367,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v10.3.0",
+            "version": "v10.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "b7972cffc879c8c7c255781b341a8867cb411076"
+                "reference": "f3fe30438a4792752d19366d8b2e03c3f77d8754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/b7972cffc879c8c7c255781b341a8867cb411076",
-                "reference": "b7972cffc879c8c7c255781b341a8867cb411076",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/f3fe30438a4792752d19366d8b2e03c3f77d8754",
+                "reference": "f3fe30438a4792752d19366d8b2e03c3f77d8754",
                 "shasum": ""
             },
             "require": {
@@ -2393,7 +2393,7 @@
                 "algolia/algoliasearch-client-php": "^3.2",
                 "meilisearch/meilisearch-php": "^1.0",
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^7.0|^8.0",
+                "orchestra/testbench": "^7.31|^8.11",
                 "php-http/guzzle7-adapter": "^1.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.3"
@@ -2438,7 +2438,7 @@
                 "issues": "https://github.com/laravel/scout/issues",
                 "source": "https://github.com/laravel/scout"
             },
-            "time": "2023-09-05T15:47:47+00:00"
+            "time": "2023-10-31T15:23:07+00:00"
         },
         {
             "name": "laravel/serializable-closure",
