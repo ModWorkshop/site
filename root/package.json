@@ -22,7 +22,7 @@
   "devDependencies": {
     "@antfu/utils": "^0.7.4",
     "@iconify-json/cib": "^1.1.5",
-    "@iconify-json/material-symbols": "^1.1.61",
+    "@iconify-json/material-symbols": "^1.1.62",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge@8.0.0-rc.5-28296269.d5d5540",
