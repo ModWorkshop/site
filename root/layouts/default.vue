@@ -105,8 +105,8 @@ onMounted(async () => {
 
     if (process.client) {
         const adConfig = {
-            "refreshLimit": 20,
-            "refreshTime": 60,
+            "refreshLimit": 0,
+            "refreshTime": 30,
             "renderVisibleOnly": false,
             "refreshVisibleOnly": true,
             "sizes": [
@@ -126,8 +126,8 @@ onMounted(async () => {
         const leftAd = await window['nitroAds'].createAd('mws-ads-left', adConfig);
         const rightAd = await window['nitroAds'].createAd('mws-ads-right', adConfig);
         const topAd = await window['nitroAds'].createAd('mws-ads-top', {
-            "refreshLimit": 20,
-            "refreshTime": 60,
+            "refreshLimit": 0,
+            "refreshTime": 30,
             "renderVisibleOnly": false,
             "refreshVisibleOnly": true,
             "sizes": [
@@ -149,8 +149,8 @@ onMounted(async () => {
             "mediaQuery": "(min-width: 1025px)"
         });
         const topAdMobile = await window['nitroAds'].createAd('mws-ads-top-mobile', {
-            "refreshLimit": 20,
-            "refreshTime": 60,
+            "refreshLimit": 0,
+            "refreshTime": 30,
             "renderVisibleOnly": false,
             "refreshVisibleOnly": true,
             "sizes": [

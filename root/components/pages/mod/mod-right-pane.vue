@@ -74,8 +74,8 @@ const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 onMounted(() => {
     if (process.client) {
         window['nitroAds'].createAd('mws-ads-mod-pane', {
-            "refreshLimit": 20,
-            "refreshTime": 60,
+            "refreshLimit": 0,
+            "refreshTime": 30,
             "renderVisibleOnly": false,
             "refreshVisibleOnly": true,
             "sizes": [
