@@ -26,7 +26,7 @@ import IMdiFormatListNumbered from '~icons/mdi/format-list-numbered';
 import IMdiFormatListBulleted from '~icons/mdi/format-list-bulleted';
 import IMdiLinkVariant from '~icons/mdi/link-variant';
 import IMdiMultimedia from '~icons/mdi/multimedia';
-import IMdiColorHelper from '~icons/mdi/color-helper';
+import HorizontalRule from '~icons/material-symbols/horizontal-rule';
 import IMdiTable from '~icons/mdi/table';
 import IMdiFullScreenExit from '~icons/mdi/fullscreen-exit';
 import IMdiFullScreen from '~icons/mdi/fullscreen';
@@ -84,7 +84,7 @@ const toolGroups: ToolGroup[] = [
         tools: [
             {icon: IMdiLinkVariant, insert: '[$](https://)'},
             {icon: IMdiMultimedia, insert: '![](https://$)'},
-            {icon: IMdiColorHelper, insert: '$\n\n-----'},
+            {icon: HorizontalRule, insert: '$\n\n-----'},
             {icon: IMdiTable, insert: '| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| $     | Text     | Text     |'},
         ]
     }
