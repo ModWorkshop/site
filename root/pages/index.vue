@@ -59,7 +59,7 @@ import { useStore } from '~~/store';
 
 const { user } = useStore();
 
-const { data: games } = await useFetchMany<Game>('games', { params: { limit: 8 } });
+const { data: games } = await useFetchMany<Game>('games', { params: { limit: 7 } });
 
 const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
 

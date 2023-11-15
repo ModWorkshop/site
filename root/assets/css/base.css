@@ -379,7 +379,7 @@ a {
 }
 
 @media (min-width:768px) and (max-width:1280px) {
-    .latest-games .game:nth-of-type(n+6) {
+    .latest-games .game:nth-of-type(n+5) {
         display: none;
     }
     .mods-grid {
@@ -388,7 +388,7 @@ a {
 }
 
 @media (min-width:1280px) and (max-width:1536px) {
-    .latest-games .game:nth-of-type(n+7) {
+    .latest-games .game:nth-of-type(n+6) {
         display: none
     }
     .mods-grid {
