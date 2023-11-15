@@ -18,9 +18,13 @@ export function buildQueryParams(params) {
     });
 }
 
-export async function postRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
+export async function postRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus = {}) {
     const { public: runtimeConfig } = useRuntimeConfig();
+    const token = useCookie('XSRF-TOKEN');
 
+    config.headers ??= {};
+    config.headers['X-XSRF-TOKEN'] = token.value;
+    
     const response = await axios.request<T>({
         method: 'POST',
         url,
