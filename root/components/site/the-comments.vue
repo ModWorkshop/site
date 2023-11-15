@@ -28,18 +28,20 @@
                     :page-url="pageUrl"
                     :comment="comment"
                     :can-comment="showButtons && canComment"
-                    :can-edit-all="canEditAll"
-                    :can-pin="canPin"
+                    :can-edit-all="compCanEditAll"
+                    :can-pin="compCanEditAll || canPin"
                     :can-delete-all="canDeleteAll"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
                     :show-pins="showPins"
                     :game="game"
                     :fetch-replies="!!viewingComment"
+                    :commentable="commentable"
                     @delete="deleteComment"
                     @reply="replyToComment"
                     @pin="setCommentPinState"
                     @edit="beginEditingComment"
+                    @mark-as-answer="comment => $emit('markAsAnswer', comment)"
                 />
             </flex>
             <a-loading v-else-if="!isLoaded"/>
@@ -100,7 +102,11 @@ const props = withDefaults(defineProps<{
     showPins?: boolean,
 }>(), { resourceName: 'comments', lazy: false, showButtons: true, showPins: true });
 
-const { user } = useStore();
+defineEmits<{
+    markAsAnswer: [comment: Comment]
+}>();
+
+const { user, hasPermission } = useStore();
 const router = useRouter();
 const route = useRoute();
 const focusComment = useRouteQuery('comment');
@@ -162,6 +168,8 @@ watch([commentContent, mentionRange], async () => {
 const { data: viewingComment } = await useFetchData<Comment>(`comments/${route.params.comment}`, {
     immediate: !!route.params.comment
 });
+
+const compCanEditAll = computed(() =>  hasPermission('manage-discussions', props.game) || props.canEditAll);
 
 const renderComments = computed(() => {
     if (viewingComment.value) {
@@ -343,7 +351,7 @@ async function deleteComment(comment: Comment, isReply=false) {
     }
 }
 
-function replyToComment(replyTo: Comment, mention: User) {
+function replyToComment(replyTo: Comment, mention?: User) {
     setCommentDialog(true);
     
     if (replyTo) {

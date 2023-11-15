@@ -21,6 +21,12 @@
                 <a-tag v-for="tag in thread.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
             </flex>
         </content-block>
+        <flex v-if="thread.answer_comment" column gap="4">
+            <span class="h3">
+                This reply was chosen as the answer for the post
+            </span>
+            <a-comment :comment="thread.answer_comment" :commentable="thread"/>
+        </flex>
         <the-comments
             :url="`threads/${thread.id}/comments`" 
             :page-url="`/thread/${thread.id}`"
@@ -30,6 +36,7 @@
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"
+            @mark-as-answer="markCommentAsAnswer"
         />
     </flex>
 </template>
@@ -47,6 +54,8 @@ const { public: config } = useRuntimeConfig();
 const { thread } = defineProps<{
    thread: Thread 
 }>();
+
+const showError = useQuickErrorToast();
 
 const commentSpecialTag = function(comment: Comment) {
     if (comment.user_id === thread.user_id) {
@@ -101,4 +110,25 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_blocked');
     }
 });
+
+async function markCommentAsAnswer(comment: Comment) {
+    try {
+        if (thread.answer_comment_id == comment.id) {
+            await patchRequest(`threads/${thread.id}`, {
+                answer_comment_id: null
+            });
+
+            thread.answer_comment_id = null;
+        } else {
+            await patchRequest(`threads/${thread.id}`, {
+                answer_comment_id: comment.id
+            });
+
+            thread.answer_comment_id = comment.id;
+        }
+        
+    } catch (error) {
+        showError(error);
+    }
+}
 </script>

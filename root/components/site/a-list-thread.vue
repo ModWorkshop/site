@@ -1,8 +1,11 @@
 <template>
-    <tr class="cursor-pointer content-block thread" @click.self="clickThread(thread)">
+    <tr :class="{'cursor-pointer': true, 'thread': true}" @click.self="clickThread(thread)">
         <td @click.self="clickThread(thread)">
-            <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
-            <NuxtLink class="list-thread" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+            <flex>
+                <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
+                <i-material-symbols-check-circle v-if="!!thread.answer_comment_id" class="mr-2 text-success"/>
+                <NuxtLink :class="{'list-thread': truncate, 'opacity-60': !!thread.answer_comment_id}" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+            </flex>
         </td>
         <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
         <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>

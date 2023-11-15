@@ -19,7 +19,7 @@
                 </flex>
                 <a-markdown class="w-full comment-content" :text="content"/>
             </flex>
-            <div class="absolute" style="right: -0.5rem; top: -0.5rem;">
+            <div v-if="url" class="absolute" style="right: -0.5rem; top: -0.5rem;">
                 <flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
                     <a-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
                         <i-mdi-reply/>
@@ -43,6 +43,12 @@
                         <template #popper>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canPin && !comment.reply_to" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
+                            <a-dropdown-item
+                                v-if="canPin && comment.commentable_type == 'thread'"
+                                @click="$emit('markAsAnswer', comment)"
+                            >
+                                {{(commentable as Thread).answer_comment_id == comment.id ? $t('unmark_as_answer') : $t('mark_as_answer')}}
+                            </a-dropdown-item>
                             <a-dropdown-item v-if="canEdit || canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
                             <a-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</a-dropdown-item>
                         </template>
@@ -87,17 +93,18 @@
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import type { Comment, Game } from '~~/types/models';
+import type { Comment, Game, Mod, User, Thread } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
 const props = withDefaults(defineProps<{
     comment: Comment,
     game?: Game,
-    url: string,
+    url?: string,
     pageUrl?: string,
     canComment?: boolean,
     canEditAll?: boolean,
     canDeleteAll?: boolean,
+    commentable?: Thread|Mod,
     canPin?: boolean,
     isReply?: boolean,
     showPins?: boolean,
@@ -105,7 +112,14 @@ const props = withDefaults(defineProps<{
     currentFocus?: Comment,
     fetchReplies?: boolean
 }>(), { showPins: true });
-const emit = defineEmits(['reply', 'delete', 'pin', 'edit']);
+
+const emit = defineEmits<{
+    reply: [comment: Comment, user?: User],
+    delete: [comment: Comment, isReply: boolean],
+    pin: [comment: Comment],
+    edit: [comment: Comment],
+    markAsAnswer: [comment: Comment]
+}>();
 
 const page = useRouteQuery('page', 1, null, true);
 const store = useStore();
@@ -128,6 +142,11 @@ const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(pro
     params: reactive({ page, limit: 20 })
 });
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
+
+const isAnswer = computed(() => {
+    return props.commentable && Object.hasOwn(props.commentable, 'answer_comment_id') 
+        && (props.commentable as Thread)?.answer_comment_id == props.comment.id;
+});
 
 watch(replies, val => {
     props.comment.replies = val?.data ?? [];
@@ -152,7 +171,8 @@ const classes = computed(() => ({
     comment: true,
     reply: props.isReply,
     relative: true,
-    focus: focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id)
+    focus: focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id),
+    answer: isAnswer.value
 }));
 
 const commentPage = computed(() => {
@@ -212,6 +232,14 @@ function openDeleteModal() {
     });    
 }
 </script>
+
+<style scoped>
+.answer {
+    background-color: #73ff001a !important;
+    border-left: solid 3px #09ff00;
+    border-radius: var(--border-radius);
+}
+</style>
 
 <style>
 .comment {

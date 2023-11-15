@@ -36,15 +36,15 @@ export interface Comment {
     content: string;
     pinned: boolean;
     mentions: User[],
-    reply_to: number | null;
+    reply_to: number;
     created_at?: string;
     updated_at?: string;
-    user?: User | null;
+    user?: User;
     commentable?: Mod|Thread;
     last_replies?: Comment[];
     replies_count?: number;
     replies?: Comment[];
-    replying_comment?: Comment | null;
+    replying_comment?: Comment;
     subscribed?: boolean;
 }
 
@@ -351,6 +351,8 @@ export interface Thread {
     views: number;
     locked: boolean;
     locked_by_mod: boolean;
+    answer_comment_id: number|null;
+    answer_comment?: Comment;
     announce: boolean;
     announce_until?: string;
     bumped_at?: string;
