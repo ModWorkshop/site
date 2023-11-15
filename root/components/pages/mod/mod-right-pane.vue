@@ -1,34 +1,59 @@
 <template>
-    <flex column class="self-start mod-info-holder">
-        <flex column gap="3" class="mod-info content-block">
-            <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
-            <flex column class="p-4 pt-0 flex-1" gap="4">
-                <flex class="text-lg flex-wrap" gap="2">
-                    <span>
-                        <i-mdi-heart/> {{likes}}
+    <flex column class="self-start mod-info-holder" gap="3">
+        <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
+
+        <flex class="content-block p-4" gap="2" column>
+            <mod-buttons :mod="mod" :static="static"/>
+        </flex>
+
+        <flex column gap="3" class="mod-info content-block p-4">
+            <flex>
+                <span class="text-secondary"> <i-mdi-download/> {{ $t('downloads') }}</span>
+                <span class="ml-auto">{{downloads}}</span>
+            </flex>
+
+            <flex>
+                <span class="text-secondary"> <i-mdi-eye/> {{ $t('views') }}</span>
+                <span class="ml-auto">{{views}}</span>
+            </flex>
+
+            <flex v-if="mod.published_at">
+                <span class="text-secondary"> <i-mdi-calendar-import/> {{ $t('published_at') }}</span>
+                <time-ago :time="mod.published_at" class="ml-auto"/>
+            </flex>
+            <flex v-else-if="mod.created_at">
+                <span class="text-secondary"> <i-mdi-calendar-plus/> {{ $t('upload_date') }}</span>
+                <time-ago :time="mod.created_at" class="ml-auto"/>
+            </flex>
+
+            <flex class="items-center" gap="0">
+                <span :title="$t('last_updated')" class="text-secondary">
+                    <i-mdi-clock/> {{ $t('last_updated') }}
+                </span>
+                <span v-if="mod.bumped_at" class="ml-auto">
+                    <time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
+                    <span v-else class="items-center inline-flex gap-1">
+                        <i18n-t keypath="by_user_time_ago" scope="global">
+                            <template #user>
+                                <a-user avatar-size="xs" :user="mod.last_user" :tag="false" :avatar="false"/>
+                            </template>
+                            <template #time>
+                                <time-ago :time="mod.bumped_at"/>
+                            </template>
+                        </i18n-t>
                     </span>
-                    <span>
-                        <i-mdi-download/> {{downloads}}
-                    </span>
-                    <span>
-                        <i-mdi-eye/> {{views}}
-                    </span>
-                    <span v-if="mod.published_at" class="ml-auto">
-                        <span :title="$t('published_at')"><i-mdi-calendar-import/></span>
-                        <time-ago :time="mod.published_at"/>
-                    </span>
-                    <span v-else-if="mod.created_at" class="ml-auto">
-                        <span :title="$t('published_at')"><i-mdi-calendar-plus/></span>
-                        <time-ago :time="mod.created_at"/>
-                    </span>
-                </flex>
-    
-                <flex v-if="mod.tags && mod.tags.length > 0" wrap>
-                    <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
-                        <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
-                    </a-tag>
-                </flex>
-    
+                </span>
+            </flex>
+
+            <flex v-if="mod.version" :title="$t('version')">
+                <span class="text-secondary"><i-mdi-tag/> {{$t('version')}} </span>
+                <span class="ml-auto">{{mod.version}}</span>
+            </flex>
+
+            <flex gap="2" column>
+                <span class="text-secondary">
+                    <i-mdi-account-group/> {{ $t('members_tab') }}
+                </span>
                 <flex class="colllaborators-block" column>
                     <flex wrap>
                         <a-user :user="mod.user" :details="$t('owner')"/>
@@ -41,6 +66,17 @@
                     </flex>
                 </flex>
             </flex>
+            
+            <flex v-if="mod.tags && mod.tags.length > 0" column gap="2">
+                <span class="text-secondary">
+                    <i-mdi-tag-multiple/> {{ $t('tags') }}
+                </span>
+                <flex class="items-center" wrap>
+                    <a-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
+                        <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
+                    </a-tag>
+                </flex>
+            </flex>
         </flex>
         <!-- <div id="div-gpt-ad-mws-4" class="ad mt-1" style="max-height: 400px;"/> -->
         <div id="mws-ads-mod-pane" class="ad mt-1"/>
@@ -50,7 +86,8 @@
 <script setup lang="ts">
 import type { Mod } from '~~/types/models';
 const props = defineProps<{
-    mod: Mod
+    mod: Mod,
+    static?: boolean
 }>();
 
 const showMembers = {
@@ -62,7 +99,6 @@ const members = computed(() => props.mod.members.filter(member => member.accepte
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
 
-const likes = computed(() => friendlyNumber(locale.value, props.mod.likes));
 const downloads = computed(() => friendlyNumber(locale.value, props.mod.downloads));
 const views = computed(() => friendlyNumber(locale.value, props.mod.views));
 
@@ -102,9 +138,7 @@ onMounted(() => {
     }
 
     .mod-info {
-        padding: 1rem;
-        flex-direction: row;
-        gap: 1px;
+        padding: 1.5rem;
     }
 }
 </style>

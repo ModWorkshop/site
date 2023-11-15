@@ -17,3 +17,14 @@ const props = withDefaults(defineProps<{
 
 const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? `/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`);
 </script>
+
+<style scope>
+.banner {
+    background-position: center;
+    background-size: cover;
+}
+
+.default-banner {
+    background-size: auto;
+}
+</style>

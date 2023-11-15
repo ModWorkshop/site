@@ -1,81 +1,50 @@
 <template>
-    <flex class="overflow-auto">
-        <flex class="flex-shrink-0">
-            <NuxtLink v-if="$route.name == 'mod-mod-edit'" :to="`/mod/${mod.id}`" external>
-                <a-button><i-mdi-arrow-left/> {{$t('return_to_mod')}}</a-button>
-            </NuxtLink> 
-            <a-button v-else-if="canEdit" :to="`/mod/${mod.id}/edit`"><i-mdi-cog/> {{$t('edit_mod')}}</a-button>
-            <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
-            <VDropdown :disabled="mod.followed">
-                <a-button @click="mod.followed && setFollowMod(mod, false)">
-                    <i-mdi-minus-thick v-if="mod.followed"/>
-                    <i-mdi-plus-thick v-else/>
-                    {{$t(mod.followed ? 'unfollow' : 'follow')}}
-                </a-button>
-                <template #popper>
-                    <a-dropdown-item @click="setFollowMod(mod, true)">{{$t('follow_mod_notifs')}}</a-dropdown-item>
-                    <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
-                </template>
-            </VDropdown>
-            <mod-suspend v-model:show-modal="showSuspension" :button="false" :mod="mod"/>
-            <VDropdown v-if="canManage" arrow dispose-timout="0">
-                <a-button><i-mdi-gavel/> {{$t('moderation')}}</a-button>
-                <template #popper>
-                    <a-dropdown-item @click="showSuspension = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="mod.images?.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="mod.files?.data.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
-                </template>
-            </VDropdown>
-        </flex>
-    </flex>
+    <mod-download-buttons :mod="mod" :download="mod.download">
+        <template v-if="!mod.download">
+            <a-button v-if="mod.files_count || mod.links_count || (mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</a-button>
+            <a-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</a-button>
+            <a-button 
+                v-if="canLike"
+                :color="mod.liked && 'danger' || 'secondary'"
+                class="large-button"
+                :title="$t('like_mod')"
+                :to="!user ? '/login' : undefined"
+                @click="toggleLiked"
+            >
+                <i-mdi-heart/> {{ likes }}
+            </a-button>
+        </template>
+    </mod-download-buttons>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import type { Mod } from '~/types/models';
 import { useStore } from '~~/store';
-import type { Mod } from '~~/types/models';
-import { Paginator } from '../../../types/paginator';
 
 const props = defineProps<{
     mod: Mod,
+    static?: boolean
 }>();
 
-const showSuspension = ref(false);
+const { user, hasPermission } = useStore();
+const i18n = useI18n();
 
-const { hasPermission } = useStore();
-const yesNoModal = useYesNoModal();
-const { t } = useI18n();
-const canEdit = computed(() => canEditMod(props.mod));
-const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
+//Guests can't actually like the mod, it's just a redirect.
+const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
+const locale = computed(() => i18n.locale.value);
+const likes = computed(() => friendlyNumber(locale.value, props.mod.likes));
 
-function deleteAllFiles() {
-    yesNoModal({
-        desc: t('delete_files_desc'),
-        descType: 'warning',
-        async yes() {
-            await deleteRequest(`mods/${props.mod.id}/files`);
-            props.mod.files = new Paginator();
-            if (props.mod.download_type == 'file') {
-                props.mod.download = undefined;
-                props.mod.download_type = undefined;
-            }
-            props.mod.has_download = props.mod.links ? props.mod.links.data.length > 0 : false;
-        }
-    });
+async function toggleLiked() {
+    if (props.static || !user) {
+        return;
+    }
+
+    const data = await postRequest<{ liked: boolean, likes: number }>(`mods/${props.mod.id}/toggle-liked`);
+    props.mod.likes = data.likes;
+    props.mod.liked = data.liked;
 }
 
-function deleteAllImages() {
-    yesNoModal({
-        desc: t('delete_images_desc'),
-        descType: 'warning',
-        async yes() {
-            await deleteRequest(`mods/${props.mod.id}/images`);
-            props.mod.images = [];
-            props.mod.thumbnail = undefined;
-            props.mod.thumbnail_id = undefined;
-            props.mod.banner = undefined;
-            props.mod.banner_id = undefined;
-        }
-    });
+function switchToFiles() {
+    setQuery('tab', 'downloads');
 }
 </script>

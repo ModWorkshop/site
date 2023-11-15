@@ -1,10 +1,17 @@
 <template>
     <flex gap="3" column>
-        <div>
-            <mod-banner :mod="mod"/>
-        </div>
+        <flex column gap="3">
+            <flex>
+                <span class="mod-title">{{mod.name}}</span>
+                <mod-status class="ml-auto text-xl" :mod="mod"/>
+            </flex>
+        </flex>
         <div class="mod-main">
-            <mod-tabs :mod="mod"/>
+            <flex class="overflow-x-hidden" column gap="3">
+                <mod-banner class="desktop-banner" :mod="mod"/>
+                <mod-tabs :mod="mod"/>
+            </flex>
+            <mod-banner class="mobile-banner" :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
         <the-comments
@@ -62,12 +69,24 @@ function commentSpecialTag(comment: Comment) {
 }
 </script>
 
+<style>
+.large-button {
+    font-size: 1.25rem;
+    padding: 1rem !important;
+    text-align: center;
+}
+</style>
+
 <style scoped>
+.mod-title {
+    font-size: 2rem;
+}
+
 .mod-main {
     display: grid;
     grid-gap: .75rem;
     margin-right: .75rem;
-    grid-template-columns: 70% 30%
+    grid-template-columns: 70% 30%;
 }
 
 @media (min-width:600px) and (max-width:850px) {
@@ -82,8 +101,36 @@ function commentSpecialTag(comment: Comment) {
     }
 }
 
-@media (max-width:1280px) {
+@media (min-width:800px) and (max-width:1280px) {
+    .mod-main {
+        grid-template-columns: 55% 45%;
+    }
+}
+
+@media (min-width:800px) {
+    .mobile-banner {
+        display: none;
+    }
+    
+    .desktop-banner {
+        display: block;
+    }
+}
+
+@media (max-width:800px) {
+    .mobile-banner {
+        display: block;
+    }
+    
+    .desktop-banner {
+        display: none;
+    }
+
     .mod-info-holder {
+        order: -1;
+    }
+
+    .mod-banner {
         order: -1;
     }
 
@@ -92,12 +139,9 @@ function commentSpecialTag(comment: Comment) {
         margin-right: 0;
         gap: 1px;
     }
-    .contributor-block .info{
-        line-height: 32px;
-    }
-    .contributor-block .avatar {
-        height: 64px;
-        width: 64px;
-    }
+}
+
+.mobile-banner {
+    margin-bottom: 1rem;
 }
 </style>
