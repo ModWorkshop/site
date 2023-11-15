@@ -46,7 +46,7 @@
                             <template #popper>
                                 <Suspense>
                                     <flex class="p-4" gap="3" column style="width: 300px;">
-                                        <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+                                        <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                                     </flex>
                                 </Suspense>
                             </template>
@@ -76,29 +76,34 @@
 
         <flex gap="3" class="md:flex-row flex-col">
             <content-block v-if="sideFilters" class="mod-filters max-md:!w-full" style="width: 300px;">
-                <mod-filters :refresh="refresh" :filters="searchParams" :game="game"/>
+                <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
             </content-block>
-            <flex column grow gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
-                <a-loading v-if="loading" class="my-auto"/>
-                <template v-else>
-                    <mod-list-skeleton
-                        :display-mode="displayMode"
-                        :sort-by="sortBy"
-                        :no-game="!!game"
-                        :error="error"
-                        :game="game"
-                        :mods="currentMods"
-                    />
-                    <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
-                    <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
-                </template>
+            <flex column class="flex-1">
+                <div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
+                    <a-category v-for="cat of currentDisplayCats" :key="cat.id" :game="game" :category="cat"/>
+                </div>
+                <flex column grow gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
+                    <a-loading v-if="loading" class="my-auto"/>
+                    <template v-else>
+                        <mod-list-skeleton
+                            :display-mode="displayMode"
+                            :sort-by="sortBy"
+                            :no-game="!!game"
+                            :error="error"
+                            :game="game"
+                            :mods="currentMods"
+                        />
+                        <a-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</a-button>
+                        <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
+                    </template>
+                </flex>
             </flex>
         </flex>
     </flex>
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
-import type { Game, Mod } from '~~/types/models';
+import type { Category, Game, Mod } from '~~/types/models';
 import { longExpiration } from '~~/utils/helpers';
 import type { EventHook } from '@vueuse/core';
 import { Paginator } from '../../types/paginator';
@@ -164,9 +169,32 @@ const searchParams = reactive({
     ...props.params
 });
 
+const gameId = computed(() => props.game?.id ?? searchParams.game_id);
+
+const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { 
+    immediate: !!searchParams.game_id,
+    lazy: true
+});
+
 let { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, { 
     params: searchParams,
     immediate: !props.initialMods
+});
+
+const currentDisplayCats = computed(() => {
+    if (!categories.value) {
+        return [];
+    }
+
+    const cats: Category[] = [];
+
+    for (const cat of categories.value.data) {
+        if (cat.parent_id == selectedCategory.value) {
+            cats.push(cat);
+        }
+    }
+
+    return cats;
 });
 
 if (props.initialMods) {
@@ -239,7 +267,12 @@ function loadMore() {
 }
 </script>
 
-<style>
+<style scoped>
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
 @media(min-width: 768px) {
     .mod-filters {
         width: 280px;

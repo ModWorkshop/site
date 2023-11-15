@@ -14,11 +14,14 @@
 
 <script setup lang="ts">
 import type { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import type { Category, Game, Tag } from '~~/types/models';
+import type { Category, Game, Mod, Tag } from '~~/types/models';
+import { Paginator } from '~~/types/paginator';
 
 const props = defineProps<{
-    refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>,
+    refresh: (opts?: AsyncDataExecuteOptions) => Promise<Paginator<Mod> | null>,
     game?: Game;
+    categories?: Paginator<Category>|null;
+    refreshCategories: (opts?: AsyncDataExecuteOptions) => Promise<Paginator<Category> | null>;
     filters: {
         query: string;
         game_id: number;
@@ -35,16 +38,11 @@ const { data: tags } = await useFetchMany<Tag>(gameId.value ? `games/${gameId.va
     lazy: true
 });
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { 
-    immediate: !!props.filters.game_id,
-    lazy: true
-});
-
 watch(() => props.filters.game_id, async () => {
     await props.refresh();
 
     if (props.filters.game_id) {
-        await refetchCats();
+        await props.refreshCategories();
     }
 });
 </script>
