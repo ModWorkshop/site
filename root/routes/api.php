@@ -22,6 +22,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
+use App\Http\Controllers\ModManagerController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
@@ -108,6 +109,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
+APIService::gameResource('mod-managers', ModManagerController::class, ['parentOptional' => true]);
+
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);

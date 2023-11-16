@@ -8,6 +8,7 @@ use App\Http\Resources\GameResource;
 use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\ModManager;
 use App\Models\User;
 use App\Services\APIService;
 use App\Services\ModService;
@@ -45,12 +46,24 @@ class GameController extends Controller
             'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'short_name' => 'string|nullable|max:30',
             'webhook_url' => 'string|nullable|max:1000',
+            'mod_manager_ids' => 'array|nullable',
+            'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id',
+            'default_mod_manager_id' => 'exists:mod_managers,id|nullable'
         ]);
 
         APIService::nullToEmptyStr($val, 'webhook_url', 'buttons');
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
         $bannerFile = Arr::pull($val, 'banner_file');
+        $ModManagerIds = Arr::pull($val, 'mod_manager_ids');
+
+        $modManagers = ModManager::whereIdIn($ModManagerIds);
+        foreach ($modManagers as $manager) {
+            if (!empty($manager->game_id)) {
+                abort(406, 'You cannot add mod managers that the game owns.');
+            }
+        }
+        $game->modManagers()->sync($ModManagerIds);
 
         $wasCreated = false;
         if (!isset($game)) {
@@ -129,6 +142,7 @@ class GameController extends Controller
         APIService::setCurrentGame($game);
 
         $game->loadCount('viewableMods');
+        $game->loadMissing('modManagers');
 
         if (Auth::hasUser()) {
             $game->loadMissing('followed');

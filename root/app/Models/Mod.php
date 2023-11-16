@@ -516,6 +516,13 @@ class Mod extends Model implements SubscribableInterface
         return Attribute::make(fn() => $this->links()->count())->shouldCache();
     }
 
+    function modManagers(): Attribute {
+        return Attribute::make(function() {
+            $gameId = $this->game_id;
+            return ModManager::where('game_id', $gameId)->orWhereHasIn('games', fn($q) => $q->where('game_id', $gameId))->get();
+        });
+    }
+
     /**
      * Smartly returns current download ($this->download)
      * In case it's not loaded, tries to calculate it using download_id and download_type

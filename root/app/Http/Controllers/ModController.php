@@ -110,6 +110,7 @@ class ModController extends Controller
      */
     public function show(Game $game=null, Mod $mod)
     {
+        $mod->append('mod_managers');
         return new ModResource($mod);
     }
 

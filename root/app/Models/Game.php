@@ -68,8 +68,6 @@ use Storage;
  */
 class Game extends Model
 {
-    use Cachable;
-
     use HasFactory;
 
     protected $guarded = [];
@@ -140,6 +138,15 @@ class Game extends Model
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function ownModManagers()
+    {
+        return $this->hasMany(ModManager::class);
+    }
+
+    function modManagers() {
+        return $this->belongsToMany(ModManager::class);
     }
 
     /**
