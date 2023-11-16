@@ -91,11 +91,4 @@ class CommentController extends Controller
     function setPinned(Request $request, Comment $comment) {
         CommentService::setPinned($request, $comment);
     }
-
-    /**
-     * Sets whether the comment is an answer
-     */
-    function setIsAnswer(Request $request, Comment $comment) {
-        CommentService::setIsAnswer($request, $comment);
-    }
 }
