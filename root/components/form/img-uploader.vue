@@ -2,7 +2,7 @@
     <a-input :id="labelId">
         <label class="flex items-end gap-2" :for="labelId">
             <slot name="label" :src="currentSrc">
-                <a-img class="w-full round" loading="lazy" :src="currentSrc" :url-prefix="urlPrefix"/>
+                <a-img class="round" loading="lazy" :src="currentSrc" :url-prefix="urlPrefix" :width="width" :height="height"/>
             </slot>
         </label>
         <input :id="labelId" ref="input" class="mt-1" type="file" @change="onChange">
@@ -14,6 +14,8 @@ const props = defineProps<{
     id?: string,
     src?: string,
     urlPrefix?: string,
+    width?: string|number,
+    height?: string|number
 }>();
 
 const modelValue = defineModel<Blob|null|undefined>();
