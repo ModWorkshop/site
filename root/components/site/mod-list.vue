@@ -60,7 +60,7 @@
                 <VDropdown class="max-sm:hidden">
                     <a-button :title="$t('settings')"><i-mdi-cog/></a-button>
                     <template #popper>
-                        <flex column class="p-2">
+                        <flex column class="p-2" gap="2">
                             <a-input :label="$t('display_mode')">
                                 <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
                                     <a-group-button :name="0"><i-mdi-view-grid/></a-group-button>
@@ -68,6 +68,7 @@
                                     <a-group-button :name="2"><i-mdi-view-headline/></a-group-button>
                                 </button-group>
                             </a-input>
+                            <a-button v-if="user" to="/user-settings/content">{{ $t('content_settings') }}</a-button>
                         </flex>
                     </template>
                 </VDropdown>
