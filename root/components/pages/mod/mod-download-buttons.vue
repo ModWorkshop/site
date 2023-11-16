@@ -19,10 +19,28 @@
         </VDropdown>
         <slot/>
     </flex>
+    <flex v-if="primaryModManager && download && downloadType == 'file'">
+        <VDropdown>
+            <a-button class="large-button text-center h-full">
+                <i-mdi-chevron-down/>
+            </a-button>
+            <template #popper>
+                <a-dropdown-item v-for="manager of mod.mod_managers" :key="manager.id" @click="() => setModManager(manager)">{{ manager.name }}</a-dropdown-item>
+            </template>
+        </VDropdown>
+
+        <a-button class="large-button" style="flex: 6;" :to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined">
+            <template #container>
+                <flex class="w-full text-center">
+                    <span class="flex-1"><i-mdi:cog-box/> {{ primaryModManager.name }} <br> <small>{{$t('mod_manager_install')}}</small></span>
+                </flex>
+            </template>
+        </a-button>
+    </flex>
 </template>
 
 <script setup lang="ts">
-import type { Mod, File, Link } from '~~/types/models';
+import type { Mod, ModManager, File, Link } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 
@@ -32,6 +50,9 @@ const props = defineProps<{
     static?: boolean;
 }>();
 
+const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
+
+const managers = computed(() => props.mod.mod_managers ?? []);
 const downloadType = computed(() => {
     if (props.mod.download_type) {
         return props.mod.download_type;
@@ -41,4 +62,34 @@ const downloadType = computed(() => {
 });
 
 const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.download!.id}`);
+
+const primaryModManager = computed(() => {
+    if (props.mod.disable_mod_managers || props.mod.category?.disable_mod_managers) {
+        return null;
+    }
+
+    const chosen = chosenModManager.value;
+    const defaultManager = props.mod.game?.default_mod_manager_id;
+
+    let manager: ModManager|undefined = managers.value[0];
+    if (chosen) {
+        manager = managers.value?.find(manager => manager.id == defaultManager || manager.id == chosen) ?? manager;
+    }
+
+    return manager;
+});
+
+function setModManager(manager: ModManager) {
+    chosenModManager.value = manager.id;
+}
+
+function getManagerDownloadUrl(manager: ModManager, file: File) {
+    const replace = {
+        ':mod_id': props.mod.id,
+        ':file_id': file.id,
+        ':manager_name': manager.name,
+        ':game_id': props.mod.game?.id,
+    };
+    return manager.download_url.replaceAll(/:\w+_?\w*/g, (str) => replace[str]);
+}
 </script>

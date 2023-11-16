@@ -22,6 +22,7 @@
             <a-nav-link v-if="hasPermission('manage-categories', game)" to="categories" :title="$t('categories')"/>
             <a-nav-link v-if="hasPermission('manage-forum-categories', game)" to="forum-categories" :title="$t('forum_categories')"/>
             <a-nav-link v-if="hasPermission('manage-instructions', game)" to="instructs-templates" :title="$t('instructions_templates')"/>
+            <a-nav-link v-if="manageMods" to="mod-managers" :title="$t('mod_managers')"/>
             <template #content>
                 <NuxtPage :game="game"/>
             </template>

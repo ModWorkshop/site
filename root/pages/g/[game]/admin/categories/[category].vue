@@ -4,6 +4,7 @@
         <a-input v-model="category.display_order" :label="$t('order')" type="number"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
         <a-input v-model="category.approval_only" :label="$t('approval_only')" type="checkbox" :desc="$t('approval_only_desc')"/>
+        <a-input v-model="category.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
         <md-editor v-model="category.desc" :label="$t('description')"/>
         <template #danger-zone>
             <a-button v-if="hasPermission('admin')" color="danger" @click="showMoveMods = true"><i-mdi:cursor-move/> Move Mods</a-button>
@@ -61,7 +62,8 @@ const { data: category } = await useEditResource<Category>('category', 'categori
     approval_only: false,
     last_date: "",
     created_at: "",
-    updated_at: ""
+    updated_at: "",
+    disable_mod_managers: false
 });
 
 const { data: categories } = await useFetchMany<Category>(`games/${gameId}/categories`);

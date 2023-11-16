@@ -99,6 +99,7 @@ const mod: Ref<Mod> = ref({
     comments_disabled: false,
     approved: false,
     has_download: false,
+    disable_mod_managers: false
 });
 
 const gameName = computed(() => route.params.game);

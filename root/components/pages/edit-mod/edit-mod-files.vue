@@ -1,5 +1,6 @@
 <template>
     <a-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
+    <a-input v-if="!light" v-model="mod.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
     <md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
     <a-button class="mr-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</a-button>
 

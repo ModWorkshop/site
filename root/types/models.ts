@@ -25,6 +25,7 @@ export interface Category {
     updated_at?: string;
     game?: Category | null;
     parent?: Category | null;
+    disable_mod_managers: boolean;
     readonly path?: any;
 }
 
@@ -141,6 +142,8 @@ export interface Mod {
     instructs_template_id?: number;
     instructs_template?: InstructsTemplate;
     links_count?: number;
+    mod_managers?: ModManager[];
+    disable_mod_managers: boolean;
 }
 
 export interface Breadcrumb {
@@ -195,6 +198,9 @@ export interface Game {
     announcements?: Thread[];
     report_count?: number;
     waiting_count?: number;
+    mod_managers?: ModManager[];
+    mod_manager_ids?: number[];
+    default_mod_manager_id: number;
 }
 
 export interface SocialLogin {
@@ -516,4 +522,14 @@ export interface Report {
     user?: User | null;
     reportable?: any | null;
     reported_user?: User
+}
+
+export interface ModManager {
+    id: number;
+    name: string;
+    image?: string;
+    download_url: string;
+    site_url: string;
+    updated_at?: string;
+    created_at?: string;
 }

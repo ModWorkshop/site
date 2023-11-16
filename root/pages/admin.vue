@@ -20,6 +20,7 @@
                 <a-nav-link v-if="hasPermission('manage-docs')" to="documents" :title="$t('documents')"/>
                 <a-nav-link v-if="hasPermission('manage-users')" to="users" :title="$t('users')"/>
                 <a-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" :title="$t('forum_categories')"/>
+                <a-nav-link v-if="manageMods" to="mod-managers" :title="$t('mod_managers')"/>
                 <template #content>
                     <NuxtPage/>
                 </template>

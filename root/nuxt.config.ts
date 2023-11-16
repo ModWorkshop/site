@@ -90,6 +90,8 @@ export default defineNuxtConfig({
 						{ path: 'mods', file: '~/pages/admin/mods.vue' },
 						{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
 						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
+						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
+						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
 					]);
 				}
 			}
