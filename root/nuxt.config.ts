@@ -49,6 +49,7 @@ export default defineNuxtConfig({
 					path: "/user/:user/edit",
 					file: '~/pages/user-settings.vue',
 					children: [
+						{ path: "", file: '~/pages/user-settings/index.vue' },
 						{ path: "account", file: '~/pages/user-settings/account.vue' },
 						{ path: "content", file: '~/pages/user-settings/content.vue' },
 						{ path: "profile", file: '~/pages/user-settings/index.vue' },
