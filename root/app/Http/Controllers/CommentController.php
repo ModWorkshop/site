@@ -40,13 +40,10 @@ class CommentController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
      */
     public function destroy(Comment $comment)
     {
-        return CommentService::destroy($comment);
+        CommentService::destroy($comment);
     }
 
     public function page(Request $request, Comment $comment)
@@ -93,5 +90,12 @@ class CommentController extends Controller
      */
     function setPinned(Request $request, Comment $comment) {
         CommentService::setPinned($request, $comment);
+    }
+
+    /**
+     * Sets whether the comment is an answer
+     */
+    function setIsAnswer(Request $request, Comment $comment) {
+        CommentService::setIsAnswer($request, $comment);
     }
 }

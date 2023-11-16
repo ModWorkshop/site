@@ -152,6 +152,10 @@ class Thread extends Model implements SubscribableInterface
         ]);
     }
 
+    public function answerComment()
+    {
+        return $this->belongsTo(Comment::class);
+    }
     protected static function booted() {
         static::created(function(Thread $thread) {
             $thread->game_id = $thread->forum->game_id;
