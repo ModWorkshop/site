@@ -3,7 +3,7 @@
         <a-thumbnail url-prefix="games/images" :src="game.thumbnail" :title="game.name"/>
         <flex wrap column class="p-2 items-center">
             {{game.name}}
-            <span class="text-secondary">{{$t('mod_count', { n: game.mods_count })}}</span>
+            <span v-if="game.mods_count" class="text-secondary">{{$t('mod_count', { n: game.mods_count })}}</span>
         </flex>
     </NuxtLink>
 </template>
