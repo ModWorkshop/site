@@ -352,7 +352,7 @@ class UserController extends Controller
         }
     }
 
-    public function getComments(FormRequest $request, User $user) {
+    public function getComments(FilteredRequest $request, User $user) {
         return CommentService::index($request, $user, [
             'commentable_is_user' => true,
             'include_replies' => true,
