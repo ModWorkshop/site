@@ -55,6 +55,7 @@ const categoriesPage = getAdminUrl('categories', props.game);
 const mergeParams = reactive({
     thumbnail_file: thumbnailBlob,
 });
+
 const { data: category } = await useEditResource<Category>('category', 'categories', {
     name: '',
     id: 0,
@@ -64,7 +65,7 @@ const { data: category } = await useEditResource<Category>('category', 'categori
     desc: "",
     hidden: false,
     grid: false,
-    disporder: 0,
+    display_order: 0,
     thumbnail: "",
     banner: "",
     buttons: "",
