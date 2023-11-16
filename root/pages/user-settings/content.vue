@@ -18,7 +18,7 @@
             <h2>{{$t('followed_games')}}</h2>
             <a-items :items="followedGames" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
                 <template #before-item="{ item }">
-                    <game-thumbnail :src="item.thumbnail" style="height: 64px;"/>
+                    <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
                     <a-button @click.prevent="unfollowGame(item)"><i-mdi-remove/> {{$t('unfollow')}}</a-button>
@@ -35,11 +35,11 @@
                         </template>
                     </a-user>
                 </template>
-            </a-items>            
+            </a-items>
             <h2>{{$t('followed_mods')}}</h2>
             <a-items :items="followedMods" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
                 <template #before-item="{ item }">
-                    <mod-thumbnail :thumbnail="item.thumbnail" style="height: 64px;"/>
+                    <mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
                 <template #item-buttons="{ item }">
                     <a-button @click.prevent="unfollowMod(item)"><i-mdi-remove/> {{$t('unfollow')}}</a-button>
