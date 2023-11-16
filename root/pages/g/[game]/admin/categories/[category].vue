@@ -1,5 +1,10 @@
 <template>
-    <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage">
+    <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage" :merge-params="mergeParams">
+        <img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="category.thumbnail">
+            <template #label="{ src }">
+                <game-thumbnail :src="src" style="width: 250px;"/>
+            </template>
+        </img-uploader>
         <a-input v-model="category.name" :label="$t('name')"/>
         <a-input v-model="category.display_order" :label="$t('order')" type="number"/>
         <a-input v-model="category.webhook_url" :label="$t('webhook_url')" :desc="$t('webhook_url_desc')"/>
@@ -40,11 +45,16 @@ const showError = useQuickErrorToast();
 const moveModsCategoryId = ref();
 const areYouSure = ref(false);
 const showMoveMods = ref(false);
+const thumbnailBlob = ref();
+
 watch(() => showMoveMods, () => areYouSure.value = false);
 
 const gameId = route.params.game;
 const categoriesPage = getAdminUrl('categories', props.game);
 
+const mergeParams = reactive({
+    thumbnail_file: thumbnailBlob,
+});
 const { data: category } = await useEditResource<Category>('category', 'categories', {
     name: '',
     id: 0,
