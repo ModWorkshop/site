@@ -6822,7 +6822,7 @@ __metadata:
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
-    unplugin-icons: ^0.17.0
+    unplugin-icons: ^0.17.4
     unplugin-vue-components: ^0.25.1
     vue-easy-lightbox: ^1.13.0
     vue-tsc: ^1.8.10
@@ -9690,9 +9690,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-icons@npm:^0.17.0":
-  version: 0.17.3
-  resolution: "unplugin-icons@npm:0.17.3"
+"unplugin-icons@npm:^0.17.4":
+  version: 0.17.4
+  resolution: "unplugin-icons@npm:0.17.4"
   dependencies:
     "@antfu/install-pkg": ^0.1.1
     "@antfu/utils": ^0.7.6
@@ -9718,7 +9718,7 @@ __metadata:
       optional: true
     vue-template-es2015-compiler:
       optional: true
-  checksum: 0a62e03464c288d8bc711fa2d5062afe470f9390e78b3d9615bf7e9246833550d96f54809e118406a8d9e83b2571327c44ceff777108ebd959c185d899f78183
+  checksum: bd1615ee2a8b85c46c45a57c6e39cd1b2c489d6161391768d8716369f50bc9b0a76e3a66277c2094b7c5a8080c4a9e367fe034981bd70fabf3d77e8d5b199dcc
   languageName: node
   linkType: hard
 
