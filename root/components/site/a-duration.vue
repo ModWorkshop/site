@@ -8,30 +8,30 @@
             style="resize: none;"
         />
         <flex class="mt-auto mb-1" wrap>
-            <VDropdown>
+            <mws-dropdown>
                 <a-button><i-mdi-menu-down/> {{ $t('days') }}</a-button>
-                <template #popper>
+                <template #content>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(6).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('days', i+1)">{{i+1}}</a-dropdown-item>
                     </flex>
                 </template>
-            </VDropdown>
-            <VDropdown>
+            </mws-dropdown>
+            <mws-dropdown>
                 <a-button><i-mdi-menu-down/> {{ $t('weeks') }}</a-button>
-                <template #popper>
+                <template #content>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(4).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('weeks', i+1)">{{i+1}}</a-dropdown-item>
                     </flex>
                 </template>
-            </VDropdown>
-            <VDropdown>
+            </mws-dropdown>
+            <mws-dropdown>
                 <a-button><i-mdi-menu-down/> {{ $t('months') }}</a-button>
-                <template #popper>
+                <template #content>
                     <flex column>
                         <a-dropdown-item v-for="i in [...Array(12).keys()]" :key="`day_shortcut_${i}`" @click="bumpDate('months', i+1)">{{i+1}}</a-dropdown-item>
                     </flex>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
             <a-button @click="$emit('update:modelValue')">{{$t('forever')}}</a-button>
         </flex>
     </flex>

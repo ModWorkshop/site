@@ -1,47 +1,27 @@
 <template>
     <a-input>
-        <VDropdown
-            v-if="classic"
-            :shown="shown"
-            class="max-w-full"
-            distance="0"
-            :placement="placement"
-            auto-size="max" 
-            auto-boundary-max-size
-            handle-resize
-            :overflow-padding="64"
-            @update:shown="(val: boolean) => $emit('update:shown', val)"
-        >
+        <mws-dropdown v-if="classic" v-model:open="shown" class="max-w-full" dropdown-class="!overflow-hidden">
             <slot/>
-            <template #popper>
-                <slot name="popper"/>
+            <template #content>
+                <slot name="content"/>
             </template>
-        </VDropdown>
+        </mws-dropdown>
         <flex v-else class="items-center">
             <slot/>
-            <VDropdown 
-                v-if="!disabled"
-                :shown="shown"
-                distance="0"
-                auto-boundary-max-size
-                handle-resize
-                :overflow-padding="16"
-                @update:shown="(val: boolean) => $emit('update:shown', val)"
-            >
+            <mws-dropdown v-if="!disabled" v-model:open="shown" dropdown-class="!overflow-hidden">
                 <a-button>
                     <i-mdi-plus-thick class="text-sm"/>
                 </a-button>
-                <template #popper>
-                    <slot name="popper"/>
+                <template #content>
+                    <slot name="content"/>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
         </flex>
     </a-input>
 </template>
 
 <script setup lang="ts">
 withDefaults(defineProps<{
-    shown: boolean,
     disabled?: boolean,
     placement?: string,
     classic?: boolean
@@ -50,7 +30,5 @@ withDefaults(defineProps<{
     placement: 'bottom-start'
 });
 
-defineEmits<{
-    ( e: 'update:shown', val: boolean ): void
-}>();
+const shown = defineModel<boolean>('shown', { local: true, default: false });
 </script>

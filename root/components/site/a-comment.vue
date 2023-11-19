@@ -36,11 +36,11 @@
                         <i-mdi-bell v-else/>
                     </a-button>
                     <a-report v-if="user" v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
-                    <VDropdown v-model:shown="areActionsVisible" style="margin: 0; border: 0;">
+                    <mws-dropdown v-model:open="areActionsVisible" style="margin: 0; border: 0;">
                         <a-button class="cursor-pointer" size="sm">
                             <i-mdi-dots-vertical/>
                         </a-button>
-                        <template #popper>
+                        <template #content>
                             <a-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</a-dropdown-item>
                             <a-dropdown-item v-if="canPin && !comment.reply_to" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</a-dropdown-item>
                             <a-dropdown-item
@@ -52,7 +52,7 @@
                             <a-dropdown-item v-if="canEdit || canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</a-dropdown-item>
                             <a-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</a-dropdown-item>
                         </template>
-                    </VDropdown>
+                    </mws-dropdown>
                 </flex>
             </div>
         </flex>

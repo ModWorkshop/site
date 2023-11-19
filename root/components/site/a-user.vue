@@ -1,10 +1,9 @@
 <template>
-    <VMenu 
-        v-model:shown="renderProfile"
+    <mws-dropdown
+        v-model:open="renderProfile"
         :delay="{ show: 500, hide: 100 }"
-        placement="bottom-start"
         class="user"
-        :auto-hide="false"
+        type="tooltip"
         :disabled="!miniProfile || static"
     >
         <flex inline :column="column" class="items-center" :gap="neededGap">
@@ -28,10 +27,10 @@
             </flex>
             <slot name="attach"/>
         </flex>
-        <template #popper>
+        <template #content>
             <a-mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
         </template>
-    </VMenu>
+    </mws-dropdown>
 </template>
 
 <script setup lang="ts">

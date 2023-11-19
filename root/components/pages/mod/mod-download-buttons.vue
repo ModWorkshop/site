@@ -5,29 +5,29 @@
             <br>
             <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
         </a-button>
-        <VDropdown v-else-if="download && downloadType == 'link'" class="flex-1 flex">
+        <mws-dropdown v-else-if="download && downloadType == 'link'" class="flex-1 flex">
             <a-button class="large-button flex-1" @click="!static && registerDownload(mod)">
                 <i-mdi-download/> {{$t('show_download_link')}}
             </a-button>
-            <template #popper>
+            <template #content>
                 <div class="word-break p-2" style="width: 250px;">
                     {{$t('show_download_link_warn')}}
                     <br>
                     <a class="text-lg font-bold" :href="(download as any).url">{{(download as any).url}}</a>
                 </div>
             </template>
-        </VDropdown>
+        </mws-dropdown>
         <slot/>
     </flex>
     <flex v-if="primaryModManager && download && downloadType == 'file'">
-        <VDropdown>
+        <mws-dropdown>
             <a-button class="large-button text-center h-full">
                 <i-mdi-chevron-down/>
             </a-button>
-            <template #popper>
+            <template #content>
                 <a-dropdown-item v-for="manager of mod.mod_managers" :key="manager.id" @click="() => setModManager(manager)">{{ manager.name }}</a-dropdown-item>
             </template>
-        </VDropdown>
+        </mws-dropdown>
 
         <a-button class="large-button" style="flex: 6;" :to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined">
             <template #container>

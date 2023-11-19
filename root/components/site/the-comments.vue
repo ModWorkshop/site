@@ -7,12 +7,12 @@
                     <a-button v-if="viewingComment" :to="pageUrl">
                         <i-mdi-arrow-left/> {{$t(`return_to_${resourceName}`)}}
                     </a-button>
-                    <VTooltip v-else :disabled="canComment">
+                    <mws-dropdown v-else type="tooltip" dropdown-class="p-2" :disabled="canComment">
                         <a-button :disabled="!canComment" @click="onClickComment">
                             <i-mdi-comment/> {{$t('post')}}
                         </a-button>
-                        <template #popper>{{cannotCommentReason}}</template>
-                    </VTooltip>
+                        <template #content>{{cannotCommentReason}}</template>
+                    </mws-dropdown>
                     <a-button @click="subscribe">
                         <i-mdi-bell-off v-if="commentable.subscribed"/>
                         <i-mdi-bell v-else/>
@@ -47,8 +47,8 @@
             <a-loading v-else-if="!isLoaded"/>
             <h4 v-else class="text-center">{{$t(`no_${resourceName}_found`)}}</h4>
         </flex>
-        <VDropdown v-model:shown="showMentions" class="fixed" strategy="fixed" placement="right-end" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`}" auto-size="min" no-auto-focus>
-            <template #popper>
+        <mws-dropdown v-model:open="showMentions" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`, position: 'fixed'}">
+            <template #content>
                 <flex v-if="users" column class="p-3" style="max-width: 300px; word-break: normal; overflow: hidden;">
                     <template v-if="users.data.length">
                         <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer whitespace-pre" @click="e => onClickMention(e, u)"/>
@@ -56,7 +56,7 @@
                     <div v-else>{{ $t('no_users_found') }}</div>
                 </flex>
             </template>
-        </VDropdown>
+        </mws-dropdown>
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
                 <flex column class="mx-auto page-block-xs float-bg" gap="0">

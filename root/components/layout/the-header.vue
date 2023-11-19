@@ -34,9 +34,9 @@
                     <a-link-button class="max-2xl:hidden" to="/forum">{{$t('forum')}}</a-link-button>
                     <a-link-button class="max-xl:hidden" to="/support">{{$t('support_us')}}</a-link-button>
                     <a-link-button class="max-lg:hidden" to="/document/rules">{{$t('rules')}}</a-link-button>
-                    <VDropdown class="max-md:hidden">
+                    <mws-dropdown class="max-md:hidden">
                         <a-link-button><i-mdi-chevron-down/> {{$t('more')}}</a-link-button>
-                        <template #popper>
+                        <template #content>
                             <a-dropdown-item to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-dropdown-item>
                             <a-dropdown-item to="https://translate.modworkshop.net/">{{$t('translation_site')}}</a-dropdown-item>
                             <a-dropdown-item class="lg:!hidden" to="https://discord.gg/Eear4JW">{{$t('discord')}}</a-dropdown-item>
@@ -46,13 +46,13 @@
                             <a-dropdown-item to="/forum" class="2xl:!hidden">{{$t('forum')}}</a-dropdown-item>
                             <a-dropdown-item to="/support" class="xl:!hidden">{{$t('support_us')}}</a-dropdown-item>
                         </template>
-                    </VDropdown>
+                    </mws-dropdown>
 
                     <a-link-button class="max-sm:block hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</a-link-button>
                     <a-link-button class="max-sm:block hidden" to="https://translate.modworkshop.net/">{{$t('translation_site')}}</a-link-button>
                 </flex>
-                <flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4"> 
-                    <VDropdown :shown="showSearch" no-auto-focus :triggers="[]" :auto-hide="false" popper-class="popper-big">
+                <flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4">
+                    <mws-dropdown v-model:open="showSearch" :trap-focus="false" :triggers="[]" :auto-hide="false" dropdown-class="popper-big">
                         <flex>
                             <a-input
                                 v-if="showSearch"
@@ -68,14 +68,14 @@
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
                             />
-                            <flex v-else id="header-search" inline class="mw-input" @click="showSearch = true">
+                            <flex v-else id="header-search" inline class="mw-input">
                                 <i-mdi-magnify/><span class="text-secondary">{{$t('search')}}</span>
                                 <span class="ml-auto">
                                     <kbd>CTRL</kbd> <kbd>K</kbd>
                                 </span>
                             </flex>
                         </flex>
-                        <template #popper>
+                        <template #content>
                             <ClientOnly>
                                 <h3>{{$t('search')}}</h3>
                                 <flex column gap="1">
@@ -99,7 +99,7 @@
                                 </template>
                             </ClientOnly>
                         </template>
-                    </VDropdown>
+                    </mws-dropdown>
                     <flex v-if="user" class="items-center" gap="3">
                         <flex v-if="user.ban" column>
                             <span class="text-danger">
@@ -118,9 +118,9 @@
                             </NuxtLink>
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </flex>
-                        <VDropdown class="-order-1 md:order-1">
+                        <mws-dropdown class="-order-1 md:order-1">
                             <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
-                            <template #popper>
+                            <template #content>
                                 <a-dropdown-item :to="userLink"><i-mdi-user/> {{$t('profile')}}</a-dropdown-item>
                                 <a-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{$t('user_settings')}}</a-dropdown-item>
                                 <a-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{$t('content_settings')}}</a-dropdown-item>
@@ -137,7 +137,7 @@
                                     {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
                                 </a-dropdown-item>
                             </template>
-                        </VDropdown>
+                        </mws-dropdown>
                     </flex>
                     <flex v-else class="my-auto" gap="4">
                         <a-link-button to="/login">{{$t('login')}}</a-link-button>
@@ -226,7 +226,7 @@ watch(showNotifications, async () => {
 
 watch(searchInput, val => {
     if (val) {
-        val.focus();
+        setTimeout(() => val.focus(), 100);
     }
 });
 
@@ -395,7 +395,7 @@ kbd {
   transform: translateX(-100%);
 }
 
-.popper-big .v-popper__inner {
+.popper-big {
     max-height: 64vh;
     padding: 1rem;
 }

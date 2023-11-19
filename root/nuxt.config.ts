@@ -124,14 +124,19 @@ export default defineNuxtConfig({
 	},
 
 	components: [
-		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
+		"~/components",
+		"~/components/mws",
+		"~/components/common",
+		"~/components/form",
+		"~/components/site",
+		"~/components/layout",
+		"~/components/pages",
 	],
 
 	css: [
 		"@/assets/css/normalize.css",
 		"@/assets/css/base.css",
 		"@/assets/css/markdown.css",
-		"@/assets/css/module-changes.css",
 		"@/assets/css/github-dark.css",
 	],
 

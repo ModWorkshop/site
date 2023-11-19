@@ -6,26 +6,26 @@
             </NuxtLink> 
             <a-button v-else-if="canEdit" :to="`/mod/${mod.id}/edit`"><i-mdi-cog/> {{$t('edit_mod')}}</a-button>
             <a-report resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
-            <VDropdown :disabled="mod.followed">
+            <mws-dropdown :disabled="!!mod.followed">
                 <a-button @click="mod.followed && setFollowMod(mod, false)">
                     <i-mdi-minus-thick v-if="mod.followed"/>
                     <i-mdi-plus-thick v-else/>
                     {{$t(mod.followed ? 'unfollow' : 'follow')}}
                 </a-button>
-                <template #popper>
+                <template #content>
                     <a-dropdown-item @click="setFollowMod(mod, true)">{{$t('follow_mod_notifs')}}</a-dropdown-item>
                     <a-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</a-dropdown-item>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
             <mod-suspend v-model:show-modal="showSuspension" :button="false" :mod="mod"/>
-            <VDropdown v-if="canManage" arrow dispose-timout="0">
+            <mws-dropdown v-if="canManage">
                 <a-button><i-mdi-gavel/> {{$t('moderation')}}</a-button>
-                <template #popper>
+                <template #content>
                     <a-dropdown-item @click="showSuspension = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</a-dropdown-item>
                     <a-dropdown-item v-if="mod.images?.length" @click="deleteAllImages">{{$t('delete_images')}}</a-dropdown-item>
                     <a-dropdown-item v-if="mod.files?.data.length" @click="deleteAllFiles">{{$t('delete_files')}}</a-dropdown-item>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
         </flex>
     </flex>
 </template>

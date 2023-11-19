@@ -17,12 +17,12 @@
                     </span>
                 </flex>
                 
-                <VTooltip v-if="provider.account" :disabled="canUnlink" content="" class="my-auto ml-auto">
+                <mws-dropdown v-if="provider.account" type="tooltip" :disabled="canUnlink" class="my-auto ml-auto">
                     <div>
                         <a-button :disabled="!canUnlink" @click="unlink(name)">{{$t('unlink')}}</a-button>
                     </div>
-                    <template #popper>{{$t('cannot_unlink_reason')}}</template>
-                </VTooltip>
+                    <template #content>{{$t('cannot_unlink_reason')}}</template>
+                </mws-dropdown>
                 <a-button 
                     v-else
                     :to="`${config.apiUrl}/social-logins/${name}/link-redirect`"

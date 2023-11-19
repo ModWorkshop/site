@@ -13,21 +13,21 @@
                     <a-button :disabled="sortBy == 'published_at'" @click="setSortBy('published_at')">
                         <i-mdi-upload/> {{$t('published_at')}}
                     </a-button>
-                    <VDropdown>
+                    <mws-dropdown>
                         <a-button><i-mdi-star/> {{$t('popularity')}}</a-button>
-                        <template #popper>
+                        <template #content>
                             <button-group v-model:selected="sortBy" column>
                                 <a-group-button name="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</a-group-button>
                                 <a-group-button name="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</a-group-button>
                                 <a-group-button name="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</a-group-button>
                             </button-group>
                         </template>
-                    </VDropdown>
-                    <VDropdown>
+                    </mws-dropdown>
+                    <mws-dropdown>
                         <a-button :title="$t('sort_by')">
                             <i-mdi-dots-vertical/>
                         </a-button>
-                        <template #popper>
+                        <template #content>
                             <flex column>
                                 <button-group v-model:selected="sortBy" column>
                                     <a-group-button name="best_match"><i-mdi-magnify/> {{$t('best_match')}} </a-group-button>
@@ -39,27 +39,27 @@
                                 </button-group>
                             </flex>
                         </template>
-                    </VDropdown>
+                    </mws-dropdown>
                     <flex v-if="!sideFilters">
-                        <VDropdown>
+                        <mws-dropdown>
                             <a-button><i-mdi-filter/></a-button>
-                            <template #popper>
+                            <template #content>
                                 <Suspense>
                                     <flex class="p-4" gap="3" column style="width: 300px;">
                                         <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                                     </flex>
                                 </Suspense>
                             </template>
-                        </VDropdown>
+                        </mws-dropdown>
                     </flex>
                 </flex>
             </flex>
             
             <flex class="md:ml-auto" gap="2">
                 <a-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="fetchedMods.meta.per_page" no-hiding/>
-                <VDropdown class="max-sm:hidden">
+                <mws-dropdown class="max-sm:hidden">
                     <a-button :title="$t('settings')"><i-mdi-cog/></a-button>
-                    <template #popper>
+                    <template #content>
                         <flex column class="p-2" gap="2">
                             <a-input :label="$t('display_mode')">
                                 <button-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
@@ -71,7 +71,7 @@
                             <a-button v-if="user" to="/user-settings/content">{{ $t('content_settings') }}</a-button>
                         </flex>
                     </template>
-                </VDropdown>
+                </mws-dropdown>
             </flex>
         </flex>
 

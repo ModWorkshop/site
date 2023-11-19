@@ -28,26 +28,28 @@
                 <i-mdi-menu-down v-if="classic" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
             </flex>
         </flex>
-        <template #popper>
-            <flex column :class="listClass" style="min-width: 200px">
+        <template #content>
+            <flex column :class="listClass" style="min-width: 200px; max-height: inherit;">
                 <a-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
-                <flex column class="overflow-auto">
-                    <a-dropdown-item 
-                        v-for="option of filtered"
-                        :key="optionValue(option)"
-                        :disabled="!props.multiple && !props.clearable && optionSelected(option)"
-                        :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
-                        @click="toggleOption(option)"
-                    >
-                        <slot name="list-option" :option="option">
-                            <slot name="any-option" :option="option">
-                                <a-tag v-if="listTags" :color="option.color">{{ optionName(option) }}</a-tag>
-                                <template v-else>
-                                    {{ optionName(option) }}
-                                </template>
+                <flex column class="overflow-hidden">
+                    <flex column class="overflow-auto">
+                        <a-dropdown-item 
+                            v-for="option of filtered"
+                            :key="optionValue(option)"
+                            :disabled="!props.multiple && !props.clearable && optionSelected(option)"
+                            :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
+                            @click="toggleOption(option)"
+                        >
+                            <slot name="list-option" :option="option">
+                                <slot name="any-option" :option="option">
+                                    <a-tag v-if="listTags" :color="option.color">{{ optionName(option) }}</a-tag>
+                                    <template v-else>
+                                        {{ optionName(option) }}
+                                    </template>
+                                </slot>
                             </slot>
-                        </slot>
-                    </a-dropdown-item>
+                        </a-dropdown-item>
+                    </flex>
                 </flex>
             </flex>
         </template>

@@ -4,9 +4,9 @@
         <flex v-if="me">
             <a-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</a-button>
             <a-report v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
-            <VDropdown v-if="canModerate" arrow placement="bottom-start">
+            <mws-dropdown v-if="canModerate">
                 <a-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</a-button>
-                <template #popper>
+                <template #content>
                     <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</a-dropdown-item>
@@ -14,21 +14,21 @@
                     <a-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</a-dropdown-item>
                     <a-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</a-dropdown-item>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
             <a-button v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
                 <i-mdi-minus-thick/> {{$t('unfollow')}}
             </a-button>
-            <VDropdown v-else placement="bottom-start">
+            <mws-dropdown v-else>
                 <a-button>{{$t('follow')}} <i-mdi-caret-down/></a-button>
-                <template #popper>
+                <template #content>
                     <a-dropdown-item @click="setFollowUser(user, true)"><i-mdi-bell/> {{$t('follow_with_notifs')}}</a-dropdown-item>
                     <a-dropdown-item @click="setFollowUser(user, false)"><i-mdi-plus-thick/> {{$t('follow')}}</a-dropdown-item>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
 
-            <VDropdown placement="bottom-start">
+            <mws-dropdown>
                 <a-button>{{ $t('more') }} <i-mdi-caret-down/></a-button>
-                <template #popper>
+                <template #content>
                     <template v-if="isMe || canManageDiscussions">
                         <a-dropdown-item :to="`/user/${user.unique_name || user.id}`">
                             <i-mdi-account/> {{$t('profile')}}
@@ -54,7 +54,7 @@
                         </template>
                     </template>
                 </template>
-            </VDropdown>
+            </mws-dropdown>
         </flex>
         <NuxtPage :user="user" :trigger-refresh="triggerRefresh"/>
     </page-block>
