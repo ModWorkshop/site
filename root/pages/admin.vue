@@ -1,6 +1,6 @@
 <template>
     <page-block size="md">
-        <content-block class="p-6">
+        <flex class="p-6">
             <a-nav side root="/admin">
                 <h3>{{$t('general')}}</h3>
                 <a-nav-link to="" :title="$t('home')"/>
@@ -25,7 +25,7 @@
                     <NuxtPage/>
                 </template>
             </a-nav>
-        </content-block>
+        </flex>
     </page-block>
 </template>
 

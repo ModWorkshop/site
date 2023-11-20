@@ -14,7 +14,7 @@
                 <a-game v-for="game of games.data" :key="game.id" :game="game"/>
             </flex>
         </flex>
-        
+
         <a-lite-mod-list
             v-if="!user"
             :link="`/mods`"

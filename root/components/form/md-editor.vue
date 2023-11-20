@@ -7,7 +7,7 @@
                 <a-markdown ref="mdText" class="h-full preview" :style="{'height': previewHeight}" :text="vm"/>
             </flex>
         </flex>
-        <a-tabs v-else :class="classes" style="flex:1;">
+        <a-tabs v-else :class="classes" style="flex:1;" padding="1">
             <a-tab name="write" :title="$t('write_tab')" style="flex:1;">
                 <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs"/>
             </a-tab>

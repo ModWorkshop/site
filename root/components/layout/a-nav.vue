@@ -1,20 +1,20 @@
 <template>
-    <flex class="nav" column gap="3">
+    <flex class="nav" grow column gap="3">
         <flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
             <a-link-button class="collapse-button">
                 <i-mdi-menu/>
             </a-link-button>
         </flex>
-        <flex :class="{'menu-open': menuOpen}" :column="!side" :gap="side ? 8 : 2">
+        <flex :class="{'menu-open': menuOpen}" :column="!side" :gap="2">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
-                <flex v-show="!side || menuOpen" class="nav-menu" :column="side">
+                <flex v-show="!side || menuOpen" class="nav-menu p-6" :column="side">
                     <slot/>
                 </flex>
             </Transition>
-            <flex class="nav-menu-content overflow-hidden" column grow gap="3">
+            <content-block class="nav-menu-content overflow-hidden" column grow gap="3" padding="6">
                 <slot name="content"/>
-            </flex>
+            </content-block>
         </flex>
     </flex>
 </template>

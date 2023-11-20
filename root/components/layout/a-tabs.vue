@@ -6,17 +6,17 @@
             </a-link-button>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </flex>
-        <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!side" :gap="gap ?? (side ? 8 : 2)">
+        <flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!side" :gap="gap">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
                 <flex 
                     v-show="!side || menuOpen"
                     :wrap="!scrollOnOverflow"
-                    :class="{'nav-menu': true, 'pb-3': scrollOnOverflow, 'overflow-x-auto': scrollOnOverflow}"
+                    :class="{'nav-menu': true, 'overflow-x-auto': scrollOnOverflow}"
                     :style="{flex: side ? 1 : undefined}"
                     :column="side" role="tablist"
                 >
-                    <flex :wrap="!scrollOnOverflow" grow :column="side" :class="{'flex-shrink-0': scrollOnOverflow}">
+                    <flex :wrap="!scrollOnOverflow" grow :column="side" :class="{'flex-shrink-0': scrollOnOverflow, [`p-${padding}`]: padding !== 0}">
                         <a-tab-link 
                             v-for="tab of tabs"
                             ref="tabLinks"
@@ -32,7 +32,7 @@
                 </flex>
             </Transition>
             <slot name="pre-panels"/>
-            <div ref="tabContentHolder" :class="{'nav-menu-content': true, [`px-${padding}`]: padding !== 0}" :style="{flex: 4}">
+            <div ref="tabContentHolder" :class="{'nav-menu-content': true, 'nav-menu-bg': background, [`p-${padding}`]: padding !== 0}" :style="{flex: 4}">
                 <slot/>
             </div>
         </flex>
@@ -43,13 +43,14 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const { padding = 2, side, query, lazy } = defineProps<{
+const { padding = 2, side, query, lazy, background = false, gap = 0 } = defineProps<{
     side?: boolean,
     query?: boolean,
     gap?: string|number,
     lazy?: boolean,
     scrollOnOverflow?: boolean,
-    padding?: string|number
+    padding?: string|number,
+    background?: boolean
 }>();
 
 const slots = useSlots();
@@ -153,5 +154,11 @@ if (query) {
 
 .nav-menu-content {
     width: 100%;
+}
+
+.nav-menu-bg {
+    border-radius: var(--content-border-radius);
+    background-color: var(--content-bg-color);
+    padding: 1.5rem;
 }
 </style>

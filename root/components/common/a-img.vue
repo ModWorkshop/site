@@ -1,5 +1,5 @@
 <template>
-    <img :loading="loading" :src="compSrc" :alt="alt" @error="onError">
+    <img :loading="loading" :src="compSrc" :alt="alt" :width="width" :height="height" @error="onError">
 </template>
 
 <script setup lang="ts">
@@ -11,13 +11,15 @@ const {
     useThumb = false,
     fallback
 } = defineProps<{
-    src?: string|Blob|null,
-    loading?: string,
-    urlPrefix?: string,
-    isAsset?: boolean,
-    useThumb?: boolean,
-    fallback?: string,
-    alt?: string
+    src?: string|Blob|null;
+    loading?: "lazy" | "eager" | undefined;
+    urlPrefix?: string;
+    isAsset?: boolean;
+    useThumb?: boolean;
+    fallback?: string;
+    alt?: string;
+    width?: number;
+    height?: number;
 }>();
 
 const forceSrc = ref();

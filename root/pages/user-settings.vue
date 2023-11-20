@@ -1,20 +1,18 @@
 <template>
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
-        <content-block class="p-8">
-            <a-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
-                <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
-                    <a-nav-link to="profile" alias="" :title="$t('profile')"/>
-                    <a-nav-link to="account" :title="$t('account_tab')"/>
-                    <a-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
-                    <a-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
-                    <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
-                    <template #content>
-                        <NuxtPage :user="user"/>
-                    </template>
-                </a-nav>
-            </a-form>
-        </content-block>
+        <a-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
+            <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
+                <a-nav-link to="profile" alias="" :title="$t('profile')"/>
+                <a-nav-link to="account" :title="$t('account_tab')"/>
+                <a-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
+                <a-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
+                <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
+                <template #content>
+                    <NuxtPage :user="user"/>
+                </template>
+            </a-nav>
+        </a-form>
     </page-block>
 </template>
 

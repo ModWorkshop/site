@@ -1,5 +1,5 @@
 <template>
-    <content-block class="p-6">
+    <flex column>
         <h3 v-if="game?.id">
             {{$t('game_name_settings', { game: game.name })}}
         </h3>
@@ -28,7 +28,7 @@
             </template>
         </a-nav>
         <NuxtPage v-else :game="game"/>
-    </content-block>
+    </flex>
 </template>
 
 <script setup lang="ts">

@@ -497,11 +497,6 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
     font-size: 1.5rem;
 }
 
-.nav-menu.flex-col {
-    border-right: 1px solid var(--tab-selected-color);
-    padding: 1rem;
-}
-
 @media (min-width:1024px) {
     .nav-menu.flex-col {
         display: flex !important;
