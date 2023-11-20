@@ -1464,7 +1464,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.8.1, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.7.0, @nuxt/kit@npm:^3.7.1, @nuxt/kit@npm:^3.7.4":
+"@nuxt/kit@npm:3.8.1, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.5.3, @nuxt/kit@npm:^3.7.0, @nuxt/kit@npm:^3.7.1, @nuxt/kit@npm:^3.7.4, @nuxt/kit@npm:^3.8.1":
   version: 3.8.1
   resolution: "@nuxt/kit@npm:3.8.1"
   dependencies:
@@ -2627,7 +2627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^10.6.1":
+"@vueuse/core@npm:10.6.1, @vueuse/core@npm:^10.6.1":
   version: 10.6.1
   resolution: "@vueuse/core@npm:10.6.1"
   dependencies:
@@ -2653,19 +2653,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/nuxt@npm:^10.3.0":
-  version: 10.5.0
-  resolution: "@vueuse/nuxt@npm:10.5.0"
+"@vueuse/nuxt@npm:^10.6.1":
+  version: 10.6.1
+  resolution: "@vueuse/nuxt@npm:10.6.1"
   dependencies:
-    "@nuxt/kit": ^3.7.4
-    "@vueuse/core": 10.5.0
-    "@vueuse/metadata": 10.5.0
+    "@nuxt/kit": ^3.8.1
+    "@vueuse/core": 10.6.1
+    "@vueuse/metadata": 10.6.1
     local-pkg: ^0.5.0
-    nuxt: ^3.7.4
+    nuxt: ^3.8.1
     vue-demi: ">=0.14.6"
   peerDependencies:
     nuxt: ^3.0.0
-  checksum: 688b788d994f152887611f274c7b412e6f7c984c357badbc65f7e3a1a91336cc6b18d065180a02cadf7538be419d9a92fa1549b7dfc7bcaeb49066f5d150b33f
+  checksum: f909da4c2c359e58ca173b8843945bce5ca54e7f578b98cd97320770c3a270701c7f7fa28d270ccdd0ddcf30bf2cb94403d175f2ce9328b6f973278b90aa0cce
   languageName: node
   linkType: hard
 
@@ -6831,7 +6831,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.8.0
     "@vueuse/components": ^10.5.0
     "@vueuse/core": ^10.6.1
-    "@vueuse/nuxt": ^10.3.0
+    "@vueuse/nuxt": ^10.6.1
     "@vueuse/router": ^10.3.0
     axios: ^1.3.2
     eslint: ^8.33.0
@@ -7268,7 +7268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt@npm:^3.7.4, nuxt@npm:^3.8.1":
+"nuxt@npm:^3.8.1":
   version: 3.8.1
   resolution: "nuxt@npm:3.8.1"
   dependencies:
