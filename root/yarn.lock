@@ -906,12 +906,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify-json/cib@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "@iconify-json/cib@npm:1.1.5"
+"@iconify-json/cib@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "@iconify-json/cib@npm:1.1.6"
   dependencies:
     "@iconify/types": "*"
-  checksum: 103c28337f32c960d390c668c497f71b5634176287929c5c02763acdce2b45aa329991a121aedb8fa614218563c25ffae63e081b1301dadac7b2cbd41aae8157
+  checksum: 1a11c0f256ad8f58380e4d7e354377fcc07681b2641b3c8fe434f189ceb98253c79fb69805de63a64b4984c7a7d8a722270be94bd6a8c96426249f95306b6c5c
   languageName: node
   linkType: hard
 
@@ -6868,7 +6868,7 @@ __metadata:
   dependencies:
     "@antfu/utils": ^0.7.4
     "@gerhobbelt/markdown-it-regexp": ^0.6.0-15
-    "@iconify-json/cib": ^1.1.5
+    "@iconify-json/cib": ^1.1.6
     "@iconify-json/material-symbols": ^1.1.62
     "@iconify-json/mdi": ^1.1.54
     "@iconify-json/svg-spinners": ^1.1.2
