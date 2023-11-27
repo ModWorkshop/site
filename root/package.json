@@ -21,7 +21,7 @@
   "type": "module",
   "devDependencies": {
     "@antfu/utils": "^0.7.4",
-    "@iconify-json/cib": "^1.1.5",
+    "@iconify-json/cib": "^1.1.6",
     "@iconify-json/material-symbols": "^1.1.62",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
