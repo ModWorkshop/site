@@ -1,18 +1,18 @@
 <template>
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
-        <a-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
-            <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
-                <a-nav-link to="profile" alias="" :title="$t('profile')"/>
-                <a-nav-link to="account" :title="$t('account_tab')"/>
-                <a-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
-                <a-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
-                <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
+        <m-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
+            <m-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
+                <m-nav-link to="profile" alias="" :title="$t('profile')"/>
+                <m-nav-link to="account" :title="$t('account_tab')"/>
+                <m-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
+                <m-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
+                <!-- <m-nav-link to="api" :title="$t('api_access_tab')"/> -->
                 <template #content>
                     <NuxtPage :user="user"/>
                 </template>
-            </a-nav>
-        </a-form>
+            </m-nav>
+        </m-form>
     </page-block>
 </template>
 

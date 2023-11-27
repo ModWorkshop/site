@@ -1,13 +1,13 @@
 <template>
     <page-block>
-        <flex v-if="!error" column class="mx-auto">
+        <m-flex v-if="!error" column class="mx-auto">
             <h2 class="mx-auto">{{$t('logging_you_in')}}</h2>
-            <a-loading/>
-        </flex>
+            <m-loading/>
+        </m-flex>
     </page-block>
 </template>
 <script setup lang="ts">
-import { useStore } from '../../store';
+import { useStore } from '~~/store';
 import { AxiosError } from 'axios';
 
 definePageMeta({

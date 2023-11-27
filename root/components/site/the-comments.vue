@@ -1,28 +1,28 @@
 <template>
     <div v-intersection-observer="onVisChange">
-        <flex column gap="3">
-            <flex class="items-center">
+        <m-flex column gap="3">
+            <m-flex class="items-center">
                 <span class="h3">{{$t(resourceName)}}</span>
-                <flex v-if="commentable" class="ml-auto">
-                    <a-button v-if="viewingComment" :to="pageUrl">
+                <m-flex v-if="commentable" class="ml-auto">
+                    <m-button v-if="viewingComment" :to="pageUrl">
                         <i-mdi-arrow-left/> {{$t(`return_to_${resourceName}`)}}
-                    </a-button>
-                    <mws-dropdown v-else type="tooltip" dropdown-class="p-2" :disabled="canComment">
-                        <a-button :disabled="!canComment" @click="onClickComment">
+                    </m-button>
+                    <m-dropdown v-else type="tooltip" dropdown-class="p-2" :disabled="canComment">
+                        <m-button :disabled="!canComment" @click="onClickComment">
                             <i-mdi-comment/> {{$t('post')}}
-                        </a-button>
+                        </m-button>
                         <template #content>{{cannotCommentReason}}</template>
-                    </mws-dropdown>
-                    <a-button @click="subscribe">
+                    </m-dropdown>
+                    <m-button @click="subscribe">
                         <i-mdi-bell-off v-if="commentable.subscribed"/>
                         <i-mdi-bell v-else/>
                         {{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}
-                    </a-button>
-                </flex>
-            </flex>
-            <a-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
-            <flex v-if="viewingComment || (comments && comments.data.length)" column gap="2">
-                <a-comment v-for="comment of renderComments" 
+                    </m-button>
+                </m-flex>
+            </m-flex>
+            <m-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
+            <m-flex v-if="viewingComment || (comments && comments.data.length)" column gap="2">
+                <list-comment v-for="comment of renderComments" 
                     :key="comment.id"
                     :url="url"
                     :page-url="pageUrl"
@@ -43,35 +43,35 @@
                     @edit="beginEditingComment"
                     @mark-as-answer="comment => $emit('markAsAnswer', comment)"
                 />
-            </flex>
-            <a-loading v-else-if="!isLoaded"/>
+            </m-flex>
+            <m-loading v-else-if="!isLoaded"/>
             <h4 v-else class="text-center">{{$t(`no_${resourceName}_found`)}}</h4>
-        </flex>
-        <mws-dropdown v-model:open="showMentions" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`, position: 'fixed'}">
+        </m-flex>
+        <m-dropdown v-model:open="showMentions" :style="{left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`, position: 'fixed'}">
             <template #content>
-                <flex v-if="users" column class="p-3" style="max-width: 300px; word-break: normal; overflow: hidden;">
+                <m-flex v-if="users" column class="p-3" style="max-width: 300px; word-break: normal; overflow: hidden;">
                     <template v-if="users.data.length">
                         <a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer whitespace-pre" @click="e => onClickMention(e, u)"/>
                     </template>
                     <div v-else>{{ $t('no_users_found') }}</div>
-                </flex>
+                </m-flex>
             </template>
-        </mws-dropdown>
+        </m-dropdown>
         <transition>
             <div v-if="showCommentDialog" class="floating-editor">
-                <flex column class="mx-auto page-block-xs float-bg" gap="0">
+                <m-flex column class="mx-auto page-block-xs float-bg" gap="0">
                     <h3 v-if="replyingComment">{{$t('replying')}}</h3>
                     <h3 v-else-if="editingComment">{{$t('editing')}}</h3>
                     <md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" maxlength="5000" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
-                    <flex class="text-right p-2">
-                        <a-button :disabled="posting || commentContent.length < 2" @click="submit">
+                    <m-flex class="text-right p-2">
+                        <m-button :disabled="posting || commentContent.length < 2" @click="submit">
                             <i-mdi-comment/> {{$t('submit')}}
-                        </a-button>
-                        <a-button @click="setCommentDialog(false)">
+                        </m-button>
+                        <m-button @click="setCommentDialog(false)">
                             <i-mdi-close-thick/> {{$t('close')}}
-                        </a-button>
-                    </flex>
-                </flex>
+                        </m-button>
+                    </m-flex>
+                </m-flex>
             </div>
         </transition>
     </div>

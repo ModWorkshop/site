@@ -1,4 +1,4 @@
-import type { User, Game, Tag, Notification, Settings, Thread } from './../types/models';
+import type { User, Game, Tag, Notification, Settings, Thread } from '~~/types/models';
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import type { CookieRef } from '#app';

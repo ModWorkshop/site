@@ -1,32 +1,32 @@
 <template>
-    <flex column gap="3">
+    <m-flex column gap="3">
         <div class="text-3xl break-words overflow-hidden">{{thread.name}}</div>
-        <content-block :padding="4">
-            <flex>
+        <m-content-block :padding="4">
+            <m-flex>
                 <NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
-                    <a-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
+                    <m-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
                 </NuxtLink>
-                <flex column wrap class="overflow-hidden w-full">
-                    <flex>
+                <m-flex column wrap class="overflow-hidden w-full">
+                    <m-flex>
                         <a-user :avatar="false" :user="thread.user"/>
                         <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
-                            <time-ago :time="thread.created_at"/>
+                            <m-time-ago :time="thread.created_at"/>
                         </NuxtLink>
                         <span v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
-                    </flex>
-                    <a-markdown class="mt-1 w-full" :text="thread.content"/>
-                </flex>
-            </flex>
-            <flex v-if="thread.tags?.length">
-                <a-tag v-for="tag in thread.tags" :key="tag.id" :color="tag.color">{{tag.name}}</a-tag>
-            </flex>
-        </content-block>
-        <flex v-if="thread.answer_comment" column gap="4">
+                    </m-flex>
+                    <md-content class="mt-1 w-full" :text="thread.content"/>
+                </m-flex>
+            </m-flex>
+            <m-flex v-if="thread.tags?.length">
+                <m-tag v-for="tag in thread.tags" :key="tag.id" :color="tag.color">{{tag.name}}</m-tag>
+            </m-flex>
+        </m-content-block>
+        <m-flex v-if="thread.answer_comment" column gap="4">
             <span class="h3">
                 This reply was chosen as the answer for the post
             </span>
-            <a-comment :comment="thread.answer_comment" :commentable="thread"/>
-        </flex>
+            <list-comment :comment="thread.answer_comment" :commentable="thread"/>
+        </m-flex>
         <the-comments
             :url="`threads/${thread.id}/comments`" 
             :page-url="`/thread/${thread.id}`"
@@ -38,7 +38,7 @@
             :cannot-comment-reason="cannotCommentReason"
             @mark-as-answer="markCommentAsAnswer"
         />
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

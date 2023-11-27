@@ -1,26 +1,26 @@
 <template>
-    <a-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :exclude-from-compare="excludeFromCompare" @submit="save">
-        <a-tabs padding="4" side query background>
-            <a-tab name="main" :title="$t('main_tab')">
+    <m-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :exclude-from-compare="excludeFromCompare" @submit="save">
+        <m-tabs padding="4" side query background>
+            <m-tab name="main" :title="$t('main_tab')">
                 <edit-mod-main v-model="mod"/>
-            </a-tab>
-            <a-tab name="downloads" :title="$t('downloads_tab')">
+            </m-tab>
+            <m-tab name="downloads" :title="$t('downloads_tab')">
                 <edit-mod-files v-model="mod"/>
-            </a-tab>
-            <a-tab name="images" :title="$t('images_tab')">
+            </m-tab>
+            <m-tab name="images" :title="$t('images_tab')">
                 <edit-mod-images v-model="mod"/>
-            </a-tab>
-            <a-tab name="members" :title="$t('members_tab')">
+            </m-tab>
+            <m-tab name="members" :title="$t('members_tab')">
                 <edit-mod-members v-model="mod"/>
-            </a-tab>
-            <a-tab name="instructions" :title="$t('instructions_tab')">
+            </m-tab>
+            <m-tab name="instructions" :title="$t('instructions_tab')">
                 <edit-mod-deps v-model="mod"/>
-            </a-tab>
-            <a-tab name="extra" :title="$t('extra_tab')">
+            </m-tab>
+            <m-tab name="extra" :title="$t('extra_tab')">
                 <edit-mod-extra v-model="mod"/>
-            </a-tab>
-        </a-tabs>
-    </a-form>
+            </m-tab>
+        </m-tabs>
+    </m-form>
 </template>
 
 <script setup lang="ts">

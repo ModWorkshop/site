@@ -1,22 +1,22 @@
 <template>
     <page-block size="2xs">
         <Title>{{$t('register')}}</Title>
-        <a-form autocomplete="off" @submit="register">
+        <m-form autocomplete="off" @submit="register">
             <h1>{{$t('register')}}</h1>
-            <content-block column gap="3" class="p-4">
-                <img-uploader v-model="avatarBlob" :label="$t('avatar')">
+            <m-content-block column gap="3" class="p-4">
+                <m-img-uploader v-model="avatarBlob" :label="$t('avatar')">
                     <template #label="{ src }">
-                        <a-avatar size="xl" :src="src"/>
-                        <a-avatar size="lg" :src="src"/>
-                        <a-avatar size="md" :src="src"/>
+                        <m-avatar size="xl" :src="src"/>
+                        <m-avatar size="lg" :src="src"/>
+                        <m-avatar size="md" :src="src"/>
                     </template>
-                </img-uploader>
-                <a-input v-model="user.name" required autocomplete="off" :label="$t('display_name')"/>
-                <a-input v-model="user.unique_name" maxlength="30" required autocomplete="off" :label="$t('unique_name')"/>
-                <a-input v-model="user.email" required autocomplete="off" maxlength="255" :label="$t('email')" type="email"/>
-                <flex column>
-                    <flex>
-                        <a-input 
+                </m-img-uploader>
+                <m-input v-model="user.name" required autocomplete="off" :label="$t('display_name')"/>
+                <m-input v-model="user.unique_name" maxlength="30" required autocomplete="off" :label="$t('unique_name')"/>
+                <m-input v-model="user.email" required autocomplete="off" maxlength="255" :label="$t('email')" type="email"/>
+                <m-flex column>
+                    <m-flex>
+                        <m-input 
                             v-model="user.password"
                             required
                             autocomplete="off"
@@ -26,7 +26,7 @@
                             :label="$t('password')" 
                             type="password"
                         />
-                        <a-input 
+                        <m-input 
                             v-model="user.password_confirm"
                             required
                             autocomplete="off"
@@ -36,21 +36,21 @@
                             :label="$t('confirm_password')" 
                             type="password"
                         />
-                    </flex>
+                    </m-flex>
                     <small>{{$t('password_guide')}}</small>
-                </flex>
+                </m-flex>
                 <div>
-                    <a-button type="submit" :loading="loading" :disabled="!canRegister">{{$t('register')}}</a-button>
+                    <m-button type="submit" :loading="loading" :disabled="!canRegister">{{$t('register')}}</m-button>
                 </div>
 
                 <NuxtLink class="mt-2" to="register">{{$t('already_have_account')}}</NuxtLink>
-                <flex column>
+                <m-flex column>
                     {{$t('login_using_services')}}
                     <the-social-logins/>
-                </flex>
+                </m-flex>
                 <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
-            </content-block>
-        </a-form>    
+            </m-content-block>
+        </m-form>    
     </page-block>
 </template>
 

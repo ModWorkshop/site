@@ -1,34 +1,34 @@
 <template>
-    <flex column>
+    <m-flex column>
         <h3 v-if="game?.id">
             {{$t('game_name_settings', { game: game.name })}}
         </h3>
-        <a-nav v-if="game?.id" side :root="root">
+        <m-nav v-if="game?.id" side :root="root">
             <h3>{{$t('general')}}</h3>
-            <a-nav-link to="" :title="$t('home')"/>
-            <a-nav-link v-if="hasPermission('manage-game', game)" to="settings" :title="$t('settings')"/>
-            <a-nav-link v-if="hasPermission('manage-roles', game)" to="roles" :title="$t('roles')"/>
+            <m-nav-link to="" :title="$t('home')"/>
+            <m-nav-link v-if="hasPermission('manage-game', game)" to="settings" :title="$t('settings')"/>
+            <m-nav-link v-if="hasPermission('manage-roles', game)" to="roles" :title="$t('roles')"/>
             <h3 class="mt-2">{{$t('moderation')}}</h3>
-            <a-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
-            <a-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
-            <a-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
-            <a-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
-            <a-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+            <m-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
+            <m-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
+            <m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
+            <m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
+            <m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
             <h3 class="mt-2">{{$t('content')}}</h3>
-            <a-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
-            <a-nav-link v-if="hasPermission('manage-tags', game)" to="tags" :title="$t('tags')"/>
-            <a-nav-link v-if="hasPermission('manage-docs', game)" to="documents" :title="$t('docs')"/>
-            <a-nav-link v-if="hasPermission('manage-roles', game)" to="users" :title="$t('users')"/>
-            <a-nav-link v-if="hasPermission('manage-categories', game)" to="categories" :title="$t('categories')"/>
-            <a-nav-link v-if="hasPermission('manage-forum-categories', game)" to="forum-categories" :title="$t('forum_categories')"/>
-            <a-nav-link v-if="hasPermission('manage-instructions', game)" to="instructs-templates" :title="$t('instructions_templates')"/>
-            <a-nav-link v-if="manageMods" to="mod-managers" :title="$t('mod_managers')"/>
+            <m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
+            <m-nav-link v-if="hasPermission('manage-tags', game)" to="tags" :title="$t('tags')"/>
+            <m-nav-link v-if="hasPermission('manage-docs', game)" to="documents" :title="$t('docs')"/>
+            <m-nav-link v-if="hasPermission('manage-roles', game)" to="users" :title="$t('users')"/>
+            <m-nav-link v-if="hasPermission('manage-categories', game)" to="categories" :title="$t('categories')"/>
+            <m-nav-link v-if="hasPermission('manage-forum-categories', game)" to="forum-categories" :title="$t('forum_categories')"/>
+            <m-nav-link v-if="hasPermission('manage-instructions', game)" to="instructs-templates" :title="$t('instructions_templates')"/>
+            <m-nav-link v-if="manageMods" to="mod-managers" :title="$t('mod_managers')"/>
             <template #content>
                 <NuxtPage :game="game"/>
             </template>
-        </a-nav>
+        </m-nav>
         <NuxtPage v-else :game="game"/>
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

@@ -8,7 +8,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import type { Breadcrumb, Game, Mod } from '~~/types/models';
-import { Paginator } from '../../types/paginator';
+import { Paginator } from '~~/types/paginator';
 const store = useStore();
 const route = useRoute();
 const { t } = useI18n();

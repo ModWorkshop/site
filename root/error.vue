@@ -1,12 +1,12 @@
 <template>
 	<NuxtLayout>
-		<flex column class="items-center mt-1">
+		<m-flex column class="items-center mt-1">
 			<h1 class="mx-auto">{{$t('error')}}</h1>
 			<h3>{{error.statusCode}}</h3>
 			<h3>{{error.statusMessage}}</h3>
-			<a-button @click="clearError({ redirect: '/' })">{{$t('back_to_home')}}</a-button>
+			<m-button @click="clearError({ redirect: '/' })">{{$t('back_to_home')}}</m-button>
 			<div v-if="dev && error.description" class="mt-4" v-html="error.description"/>
-		</flex>
+		</m-flex>
 	</NuxtLayout>
 </template>
 

@@ -124,13 +124,12 @@ export default defineNuxtConfig({
 	},
 
 	components: [
-		"~/components",
-		"~/components/mws",
-		"~/components/common",
-		"~/components/form",
+		"~/components/ui/controls",
+		"~/components/ui/layout",
 		"~/components/site",
-		"~/components/layout",
-		"~/components/pages",
+		"~/components/site/pages",
+		"~/components/site/mod",
+		"~/components/site/notifications",
 	],
 
 	css: [

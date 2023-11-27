@@ -1,8 +1,8 @@
 <template>
     <mod-page v-if="mod" :mod="mod">
-        <flex column gap="3">
+        <m-flex column gap="3">
             <NuxtPage v-model:mod="mod"/>
-        </flex>
+        </m-flex>
     </mod-page>
 </template>
 

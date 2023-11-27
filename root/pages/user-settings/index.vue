@@ -1,36 +1,36 @@
 <template>
-    <flex gap="2" column>
-        <a-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
+    <m-flex gap="2" column>
+        <m-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
 
-        <img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
+        <m-img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
             <template #label="{ src }">
-                <a-avatar size="xl" :src="src"/>
-                <a-avatar size="lg" :src="src"/>
-                <a-avatar size="md" :src="src"/>
+                <m-avatar size="xl" :src="src"/>
+                <m-avatar size="lg" :src="src"/>
+                <m-avatar size="md" :src="src"/>
             </template>
-        </img-uploader>
+        </m-img-uploader>
 
-        <img-uploader v-model="user.banner_file" :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })" :src="user.banner">
+        <m-img-uploader v-model="user.banner_file" :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })" :src="user.banner">
             <template #label="{ src }">
-                <a-banner :src="src" url-prefix="users/images"/>
+                <m-banner :src="src" url-prefix="users/images"/>
             </template>
-        </img-uploader>
+        </m-img-uploader>
 
-        <a-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
+        <m-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
 
-        <a-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
-        <a-input v-model="user.custom_title" :label="$t('custom_title')"/>
-        <a-input v-if="user.active_supporter" v-model="user.custom_color" :label="$t('custom_color')" :desc="$t('custom_color_desc')" type="color"/>
-        <a-input v-model="user.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
-        <a-input v-model="user.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
+        <m-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
+        <m-input v-model="user.custom_title" :label="$t('custom_title')"/>
+        <m-input v-if="user.active_supporter" v-model="user.custom_color" :label="$t('custom_color')" :desc="$t('custom_color_desc')" type="color"/>
+        <m-input v-model="user.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
+        <m-input v-model="user.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
         <md-editor v-model="user.bio" rows="12" :label="$t('bio')" :desc="$t('bio_desc')"/>
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { UserForm } from '~~/types/models';
-import { useStore } from '../../store/index';
+import { useStore } from '~~/store/index';
 
 defineProps<{
     user: UserForm

@@ -1,8 +1,8 @@
 <template>
     <simple-resource-form v-model="ban" url="bans" :game="game">
-        <a-duration v-model="ban.expire_date" :label="$t('duration')"/>
-        <a-input v-model="ban.reason" type="textarea" :label="$t('reason')"/>
-        <a-input v-model="ban.can_appeal" type="checkbox" :label="$t('can_appeal')"/>
+        <m-duration v-model="ban.expire_date" :label="$t('duration')"/>
+        <m-input v-model="ban.reason" type="textarea" :label="$t('reason')"/>
+        <m-input v-model="ban.can_appeal" type="checkbox" :label="$t('can_appeal')"/>
     </simple-resource-form>
 </template>
 

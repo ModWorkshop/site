@@ -1,11 +1,11 @@
 <template>
-    <a-items :items="mods">
+    <m-list :items="mods">
         <template #buttons>
-            <a-input v-model="query" :label="$t('search')"/>
-            <a-user-select v-model="userId" clearable/>
+            <m-input v-model="query" :label="$t('search')"/>
+            <user-select v-model="userId" clearable/>
         </template>
         <template #items="{ items }">
-            <a-table alt-background>
+            <m-table alt-background>
                 <template #head>
                     <th>{{$t('thumbnail')}}</th>
                     <th>{{$t('name')}}</th>
@@ -16,22 +16,22 @@
                 <template #body>
                     <mod-row v-for="mod in items!.data" :key="mod.id" :mod="mod" lite>
                         <template #definitions>
-                            <td><time-ago :time="mod.updated_at"/></td>
+                            <td><m-time-ago :time="mod.updated_at"/></td>
                                 <td>
                                 <mod-approve :mod="mod" :mods="mods!.data" @approved="modApproved"/>
                             </td>
                         </template>
                     </mod-row>
                 </template>
-            </a-table>
+            </m-table>
         </template>
-    </a-items>
+    </m-list>
 </template>
 
 <script setup lang="ts">
 import type { Game, Mod } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
-import { useStore } from '../../store/index';
+import { useStore } from '~~/store/index';
 
 const props = defineProps<{
     game: Game

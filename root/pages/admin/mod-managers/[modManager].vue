@@ -7,10 +7,10 @@
         :can-save="canSaveOverride"
         :merge-params="mergeParams"
     >
-        <!-- <img-uploader id="image" v-model="imageBlob" :label="$t('thumbnail')" :src="manager.image" url-prefix="mod-managers" width="200"/> -->
-        <a-input v-model="manager.name" :label="$t('name')"/>
-        <a-input v-model="manager.site_url" :label="$t('site_url')"/>
-        <a-input v-model="manager.download_url" :label="$t('download_url')"/>
+        <!-- <m-img-uploader id="image" v-model="imageBlob" :label="$t('thumbnail')" :src="manager.image" url-prefix="mod-managers" width="200"/> -->
+        <m-input v-model="manager.name" :label="$t('name')"/>
+        <m-input v-model="manager.site_url" :label="$t('site_url')"/>
+        <m-input v-model="manager.download_url" :label="$t('download_url')"/>
     </simple-resource-form>
 </template>
 

@@ -1,17 +1,17 @@
 <template>
     <page-block>
-        <flex column class="mx-auto">
+        <m-flex column class="mx-auto">
             <template v-if="!done">
                 <h2 class="mx-auto">{{$t('linking_account')}}</h2>
-                <a-loading/>
+                <m-loading/>
             </template>
             <span v-else>{{$t('done_linking_account')}}</span>
-        </flex>
+        </m-flex>
     </page-block>
 </template>
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useStore } from '../../store/index';
+import { useStore } from '~~/store/index';
 
 definePageMeta({
     middleware: 'users-only'

@@ -1,8 +1,8 @@
 <template>
     <simple-resource-form v-model="doc" url="documents" :game="game" :redirect-to="redirectTo">
-        <a-input v-model="doc.name" :label="$t('name')"/>
-        <a-input v-model="doc.url_name" :label="$t('url_name')" :desc="$t('url_name_desc')"/>
-        <a-input v-model="doc.is_unlisted" :label="$t('unlisted')" type="checkbox"/>
+        <m-input v-model="doc.name" :label="$t('name')"/>
+        <m-input v-model="doc.url_name" :label="$t('url_name')" :desc="$t('url_name_desc')"/>
+        <m-input v-model="doc.is_unlisted" :label="$t('unlisted')" type="checkbox"/>
         <md-editor v-model="doc.desc" :label="$t('description')"/>
     </simple-resource-form>
 </template>

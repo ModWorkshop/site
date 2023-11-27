@@ -1,5 +1,5 @@
 <template>
-    <a-list 
+    <m-list 
         query 
         :new-button="`${url}/new`"
         :url="`games/${gameId}/instructs-templates`" 

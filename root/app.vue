@@ -4,7 +4,7 @@
 			<NuxtPage/>
 			<NuxtLoadingIndicator color="var(--primary-color)"/>
 		</NuxtLayout>
-		<a-modal-form 
+		<m-form-modal 
 			v-if="firstModal"
 			v-model="firstModal.modelValue"
 			:title="firstModal.title || 'Are you sure?'"

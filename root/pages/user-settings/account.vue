@@ -1,15 +1,15 @@
 <template>
-    <flex gap="2" column>
-        <a-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
-        <a-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
-        <a-input v-model="user.email" maxlength="255" :label="$t('email')"/>
-        <flex class="items-center my-3">
+    <m-flex gap="2" column>
+        <m-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
+        <m-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
+        <m-input v-model="user.email" maxlength="255" :label="$t('email')"/>
+        <m-flex class="items-center my-3">
             <h3>{{$t('change_password')}} </h3>
-            <a-button class="ml-auto" @click="changePassword = !changePassword">{{$t(changePassword ? 'cancel' : 'edit')}}</a-button>
-        </flex>
+            <m-button class="ml-auto" @click="changePassword = !changePassword">{{$t(changePassword ? 'cancel' : 'edit')}}</m-button>
+        </m-flex>
         <template v-if="changePassword">
-            <flex>
-                <a-input 
+            <m-flex>
+                <m-input 
                     v-if="isMe && user.signable"
                     v-model="user.current_password"
                     autocomplete="off"
@@ -18,7 +18,7 @@
                     minlength="12"
                     maxlength="128"
                 />
-                <a-input 
+                <m-input 
                     v-model="user.password"
                     :validity="passValidity"
                     autocomplete="off"
@@ -27,7 +27,7 @@
                     minlength="12"
                     maxlength="128"
                 />
-                <a-input
+                <m-input
                     v-model="user.confirm_password"
                     :validity="confirmPassValidity"
                     :label="$t('confirm_password')"
@@ -35,33 +35,33 @@
                     minlength="12"
                     maxlength="128"
                 />
-            </flex>
+            </m-flex>
             <small>{{$t('password_guide')}}</small>
-            <a-link-button v-if="user.signable" disabled @click="reset">{{$t('forgot_password_button')}}</a-link-button>
+            <m-link v-if="user.signable" disabled @click="reset">{{$t('forgot_password_button')}}</m-link>
         </template>
-        <a-alert v-if="isMe" color="info" :title="$t('request_my_data')">
+        <m-alert v-if="isMe" color="info" :title="$t('request_my_data')">
             {{$t('request_my_data_desc')}}
             <a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
             <div>
-                <a-button @click="downloadData">{{$t('download')}}</a-button>
+                <m-button @click="downloadData">{{$t('download')}}</m-button>
             </div>
-        </a-alert>
+        </m-alert>
 
-        <a-alert class="w-full" color="danger" :title="$t('danger_zone')">
+        <m-alert class="w-full" color="danger" :title="$t('danger_zone')">
             <div>
-                <a-button color="danger" @click="showDeleteUser">{{$t('delete')}}</a-button>
+                <m-button color="danger" @click="showDeleteUser">{{$t('delete')}}</m-button>
             </div>
-        </a-alert>
+        </m-alert>
 
-        <a-modal-form v-model="showDeletUser" :title="$t('delete_user')" :desc="$t('delete_user_desc')" :can-submit="canDeleteUser" @submit="doDelete">
-            <a-alert color="danger">
+        <m-form-modal v-model="showDeletUser" :title="$t('delete_user')" :desc="$t('delete_user_desc')" :can-submit="canDeleteUser" @submit="doDelete">
+            <m-alert color="danger">
                 {{$t('delete_user_warn')}}
-            </a-alert>
-            <a-input v-model="deleteUserUniqueName" :label="$t('unique_name')"/>
-            <a-input v-model="deleteUserCheckBox" :label="$t('delete_user_checkbox')" type="checkbox"/>
+            </m-alert>
+            <m-input v-model="deleteUserUniqueName" :label="$t('unique_name')"/>
+            <m-input v-model="deleteUserCheckBox" :label="$t('delete_user_checkbox')" type="checkbox"/>
             <NuxtTurnstile v-model="turnstileToken"/>
-        </a-modal-form>
-    </flex>
+        </m-form-modal>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

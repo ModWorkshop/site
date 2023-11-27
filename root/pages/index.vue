@@ -1,21 +1,21 @@
 <template>
     <page-block :gap="6">
-        <flex v-if="!user" class="items-center" column>
+        <m-flex v-if="!user" class="items-center" column>
             <h1>{{$t('welcome_to_mws')}}</h1>
             <h2>{{$t('mws_short_about')}}</h2>
-        </flex>
+        </m-flex>
 
-        <flex v-if="user?.extra?.home_show_last_games ?? true" column :gap="2">
-            <flex>
+        <m-flex v-if="user?.extra?.home_show_last_games ?? true" column :gap="2">
+            <m-flex>
                 <span class="h2">{{$t('games')}}</span>
-                <a-button class="ml-auto" to="/games">{{$t('view_all_games')}}</a-button>
-            </flex>
-            <flex v-if="games" class="latest-games gap-2">
-                <a-game v-for="game of games.data" :key="game.id" :game="game"/>
-            </flex>
-        </flex>
+                <m-button class="ml-auto" to="/games">{{$t('view_all_games')}}</m-button>
+            </m-flex>
+            <m-flex v-if="games" class="latest-games gap-2">
+                <grid-game v-for="game of games.data" :key="game.id" :game="game"/>
+            </m-flex>
+        </m-flex>
 
-        <a-lite-mod-list
+        <lite-mod-list
             v-if="!user"
             :link="`/mods`"
         />
@@ -28,15 +28,15 @@
             side-filters
         >
             <template #buttons>
-                <button-group v-if="user" v-model:selected="selectedView" button-style="nav" :wrap="false" class="overflow-auto">
-                    <flex class="flex-shrink-0">
-                        <a-group-button name="all"><i-mdi-layers/> {{$t('all')}}</a-group-button>
-                        <a-group-button name="games"><i-mdi-gamepad/> {{$t('followed_games')}}</a-group-button>
-                        <a-group-button name="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</a-group-button>
-                        <a-group-button name="users"><i-mdi-users/> {{$t('followed_users')}}</a-group-button>
-                        <a-group-button name="liked"><i-mdi-heart/> {{$t('liked')}}</a-group-button>
-                    </flex>
-                </button-group>
+                <m-toggle-group v-if="user" v-model:selected="selectedView" button-style="nav" :wrap="false" class="overflow-auto">
+                    <m-flex class="flex-shrink-0">
+                        <m-toggle-group-item name="all"><i-mdi-layers/> {{$t('all')}}</m-toggle-group-item>
+                        <m-toggle-group-item name="games"><i-mdi-gamepad/> {{$t('followed_games')}}</m-toggle-group-item>
+                        <m-toggle-group-item name="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</m-toggle-group-item>
+                        <m-toggle-group-item name="users"><i-mdi-users/> {{$t('followed_users')}}</m-toggle-group-item>
+                        <m-toggle-group-item name="liked"><i-mdi-heart/> {{$t('liked')}}</m-toggle-group-item>
+                    </m-flex>
+                </m-toggle-group>
             </template>
         </mod-list>
         <thread-list 

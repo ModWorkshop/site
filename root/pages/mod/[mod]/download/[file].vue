@@ -1,24 +1,24 @@
 <template>
-    <flex column class="items-center text-center">
+    <m-flex column class="items-center text-center">
         <h2>{{$t('downloading_file')}}</h2>
         <h3>{{file.type}} - {{friendlySize(file.size)}}</h3>
         <h3>{{$t('downloading_file_should')}}</h3>
-        <flex>
-            <a-button :to="`/mod/${mod.id}`"><i-mdi-arrow-left/> {{$t('return_to_mod')}}</a-button>
+        <m-flex>
+            <m-button :to="`/mod/${mod.id}`"><i-mdi-arrow-left/> {{$t('return_to_mod')}}</m-button>
             <a ref="download" download :href="file.download_url">
-                <a-button><i-mdi-download/> {{$t('downloading_file_force')}}</a-button>
+                <m-button><i-mdi-download/> {{$t('downloading_file_force')}}</m-button>
             </a>
-            <a-button 
+            <m-button 
                 v-if="mod.instructs_template || mod.instructions" 
                 :to="`/mod/${mod.id}?tab=instructions`"
                 color="warning"
             >
                 <i-mdi-help/> {{$t('downloading_file_help')}}
-            </a-button>
-        </flex>
+            </m-button>
+        </m-flex>
         <!-- <div class="mt-3" id="video_player" style="width: 640px; height: 360px;"/> -->
         <div id="mws-ads-video-ad"/>
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

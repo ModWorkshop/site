@@ -1,29 +1,29 @@
 <template>
-    <flex v-intersection-observer="onVisChange" column gap="3">
+    <m-flex v-intersection-observer="onVisChange" column gap="3">
         <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
-        <flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
-            <content-block v-if="filters" column class="md:self-start" style="flex: 1;">
-                <a-input v-model="query" :label="$t('search')"/>
-                <a-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
-                <a-select v-if="tags" v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
-                <flex v-if="currentForumId && categories?.data.length" column>
+        <m-flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
+            <m-content-block v-if="filters" column class="md:self-start" style="flex: 1;">
+                <m-input v-model="query" :label="$t('search')"/>
+                <m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
+                <m-select v-if="tags" v-model="selectedTags" :label="$t('tags')" multiple clearable :options="tags.data" max-selections="10"/>
+                <m-flex v-if="currentForumId && categories?.data.length" column>
                     <label>{{$t('category')}}</label>
-                    <button-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
-                        <a-group-button :name="undefined"><i-mdi-comment/> {{$t('all')}}</a-group-button>
-                        <a-group-button v-for="category of categories.data" :key="category.id" :name="category.id">
+                    <m-toggle-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
+                        <m-toggle-group-item :name="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
+                        <m-toggle-group-item v-for="category of categories.data" :key="category.id" :name="category.id">
                             {{category.emoji}} {{category.name}}
-                        </a-group-button>
-                    </button-group>
-                </flex>
-            </content-block>
-            <flex column gap="3" style="flex: 4;">
-                <a-alert v-if="currentCategory && currentCategory.desc" color="info">
+                        </m-toggle-group-item>
+                    </m-toggle-group>
+                </m-flex>
+            </m-content-block>
+            <m-flex column gap="3" style="flex: 4;">
+                <m-alert v-if="currentCategory && currentCategory.desc" color="info">
                     {{ currentCategory.desc}}
-                </a-alert>
-                <a-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
-                <a-table v-if="threads?.data.length && !loading" class="threads">
+                </m-alert>
+                <m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
+                <m-table v-if="threads?.data.length && !loading" class="threads">
                     <template #head>
                         <th>{{$t('title')}}</th>
                         <th v-if="!userId">{{$t('poster')}}</th>
@@ -34,7 +34,7 @@
                         <th>{{$t('last_reply_by')}}</th>
                     </template>
                     <template v-if="threads.data.length" #body>
-                        <a-list-thread 
+                        <thread-row 
                             v-for="thread in threads.data"
                             :key="thread.created_at"
                             :thread="thread"
@@ -45,15 +45,15 @@
                             :user-id="userId"
                         />
                     </template>
-                </a-table>
-                <a-loading v-else-if="loading || !loaded" class="m-auto"/>
+                </m-table>
+                <m-loading v-else-if="loading || !loaded" class="m-auto"/>
                 <h2 v-else class="m-auto">
                     {{$t('no_threads_found')}}
                 </h2>
-                <a-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
-            </flex>
-        </flex>
-    </flex>
+                <m-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
+            </m-flex>
+        </m-flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

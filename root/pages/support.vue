@@ -1,29 +1,29 @@
 <template>
     <page-block>
         <Title>{{$t('support_us')}}</Title>
-        <flex gap="3" class="items-center" column>
-            <a-img alt="logo" :src="logo" width="128" height="128" is-asset/>
+        <m-flex gap="3" class="items-center" column>
+            <m-img alt="logo" :src="logo" width="128" height="128" is-asset/>
             <h1 class="text-primary m-auto">{{ $t('support_mws') }}</h1>
             <h2>{{$t('supporter_desc')}}</h2>
-            <a-alert v-if="user?.active_supporter" color="success" :icon="false">
+            <m-alert v-if="user?.active_supporter" color="success" :icon="false">
                 <i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center" scope="global">
                     <template #time>
-                        <time-ago null-is-never :time="user.active_supporter.expire_date"/>
+                        <m-time-ago null-is-never :time="user.active_supporter.expire_date"/>
                     </template>
                 </i18n-t>
-            </a-alert>
+            </m-alert>
             <span>{{$t('supporter_after_donating')}}</span>
             <!-- <donation-button link="https://ko-fi.com/luffydafloffi"/> -->
             <donation-button link="https://www.paypal.com/donate/?hosted_button_id=EU55X9RVECM4C"/>
             <template v-if="supporters?.data.length">
                 <h2>{{$t('currently_supported')}}</h2>
-                <flex wrap class="mb-3" style="max-width: 500px;">
+                <m-flex wrap class="mb-3" style="max-width: 500px;">
                     <NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user.unique_name}`">
-                        <a-avatar :src="supporter.user.avatar"/>
+                        <m-avatar :src="supporter.user.avatar"/>
                     </NuxtLink>
-                </flex>
+                </m-flex>
             </template>
-        </flex>
+        </m-flex>
     </page-block>
 </template>
 

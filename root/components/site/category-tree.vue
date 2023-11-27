@@ -1,9 +1,9 @@
 <template>
-    <flex column class="category">
-        <flex>
-            <a-input v-if="first" v-model="queryVm" class="w-full" type="search"/>
+    <m-flex column class="category">
+        <m-flex>
+            <m-input v-if="first" v-model="queryVm" class="w-full" type="search"/>
             <slot name="buttons"/>
-        </flex>
+        </m-flex>
         <div class="categories">
             <div v-if="category" :class="classes" @click.self="onClickCategory(category!)">
                 <span 
@@ -18,7 +18,7 @@
                 <strong :class="{'mx-6': !currentCategories.length}" @click="onClickCategory(category!)">{{category.name}}</strong> 
                 <slot name="button" :category="category"/>
             </div>
-            <flex v-if="isOpen" column :class="{'px-5': !!category}">
+            <m-flex v-if="isOpen" column :class="{'px-5': !!category}">
                 <category-tree 
                     v-for="c in currentCategories"
                     :key="c.id"
@@ -33,9 +33,9 @@
                         <slot name="button" :category="cat"/>
                     </template>
                 </category-tree>
-            </flex>
+            </m-flex>
         </div>
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

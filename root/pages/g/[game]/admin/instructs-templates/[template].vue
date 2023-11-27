@@ -6,9 +6,9 @@
         :redirect-to="redirectTo"
         :exclude-from-compare="['dependencies']"
     >
-        <a-input v-model="template.name" :label="$t('name')"/>
+        <m-input v-model="template.name" :label="$t('name')"/>
         <md-editor v-model="template.instructions" :label="$t('instructions')"/>
-        <a-input v-model="template.localized" type="checkbox" :label="$t('localized')"/>
+        <m-input v-model="template.localized" type="checkbox" :label="$t('localized')"/>
         <edit-mod-edit-dependencies v-if="template.id" :dependable="template" url="instructs-templates"/>
     </simple-resource-form>
 </template>

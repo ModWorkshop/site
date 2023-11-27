@@ -1,5 +1,5 @@
 <template>
-    <flex column gap="3">
+    <m-flex column gap="3">
         <span class="ml-auto">
             {{$t('mod_game_count', { n: game.mods_count, game: game.name })}} <i-mdi-information/>
         </span>
@@ -24,7 +24,7 @@
             :query="false"
             :filters="false"
         />
-    </flex>
+    </m-flex>
 </template>
 <script setup lang="ts">
 import { Paginator } from '~/types/paginator';

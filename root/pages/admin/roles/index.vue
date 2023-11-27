@@ -1,10 +1,10 @@
 <template>
     <div>
-        <flex>
-            <a-input v-model="query" :label="$t('search')"/>
-            <a-button class="mt-auto" :to="`${adminUrl}/new`">{{ $t('new') }}</a-button>
-        </flex>
-        <a-items v-model:page="page" :loading="loading" :items="roles">
+        <m-flex>
+            <m-input v-model="query" :label="$t('search')"/>
+            <m-button class="mt-auto" :to="`${adminUrl}/new`">{{ $t('new') }}</m-button>
+        </m-flex>
+        <m-list v-model:page="page" query :loading="loading" :items="roles">
             <template #items>
                 <TransitionGroup name="list">
                     <admin-role v-for="[, role] of Object.entries(rolesSorted)"
@@ -22,7 +22,7 @@
                     />
                 </TransitionGroup>
             </template>
-        </a-items>
+        </m-list>
     </div>
 </template>
 
@@ -41,7 +41,7 @@ const gameId = route.params.game;
 
 const { user, hasPermission } = useStore();
 
-const page = useRouteQuery('page', 1);
+const page = ref(1);
 const query = useRouteQuery('query');
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 const adminUrl = computed(() => getAdminUrl('roles', props.game));

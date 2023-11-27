@@ -1,5 +1,5 @@
 <template>
-    <a-list :url="apiLink" query :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`" :params="{ global: !game }"/>
+    <m-list :url="apiLink" query :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`" :params="{ global: !game }"/>
 </template>
 
 <script setup lang="ts">

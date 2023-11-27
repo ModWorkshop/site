@@ -1,5 +1,5 @@
 <template>
-    <a-img 
+    <m-img 
         loading="lazy"
         class="ratio-image round"
         :src="src"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '../../store';
+import { useStore } from '~~/store';
 
 const store = useStore();
 

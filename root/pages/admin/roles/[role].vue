@@ -1,23 +1,23 @@
 <template>
     <simple-resource-form v-if="role" v-model="role" :url="url" :redirect-to="adminUrl" :delete-button="role.id !== 1 || !!gameId">
-        <a-alert v-if="role.id == 1 && !gameId" color="warning">
+        <m-alert v-if="role.id == 1 && !gameId" color="warning">
             <span>{{$t('members_role_desc')}}</span>
-        </a-alert>
-        <a-alert v-if="role.id && role.is_vanity" :title="`${$t('vanity_role')}✨`" :desc="$t('vanity_role_desc')"/>
-        <a-input v-model="role.name" :label="$t('name')" maxlength="30" minlength="2"/>
-        <a-input v-model="role.tag" :label="$t('user_tag')" :desc="$t('user_tag_help')" maxlength="30" minlength="2"/>
-        <a-input v-model="role.color" :label="$t('color')" type="color"/>
-        <a-input v-if="!role.id" v-model="role.is_vanity" type="checkbox" :label="$t('vanity_role')" :desc="$t('vanity_role_desc')"/>
-        <a-input v-if="role.is_vanity" v-model="role.self_assignable" type="checkbox" :label="$t('self_assignable_role')" :desc="$t('self_assignable_role_desc')"/>
-        <a-input v-if="!role.is_vanity" :label="$t('permissions')">
-            <flex style="background-color: var(--alt-content-bg-color)" column grow>
-                <flex 
+        </m-alert>
+        <m-alert v-if="role.id && role.is_vanity" :title="`${$t('vanity_role')}✨`" :desc="$t('vanity_role_desc')"/>
+        <m-input v-model="role.name" :label="$t('name')" maxlength="30" minlength="2"/>
+        <m-input v-model="role.tag" :label="$t('user_tag')" :desc="$t('user_tag_help')" maxlength="30" minlength="2"/>
+        <m-input v-model="role.color" :label="$t('color')" type="color"/>
+        <m-input v-if="!role.id" v-model="role.is_vanity" type="checkbox" :label="$t('vanity_role')" :desc="$t('vanity_role_desc')"/>
+        <m-input v-if="role.is_vanity" v-model="role.self_assignable" type="checkbox" :label="$t('self_assignable_role')" :desc="$t('self_assignable_role_desc')"/>
+        <m-input v-if="!role.is_vanity" :label="$t('permissions')">
+            <m-flex style="background-color: var(--alt-content-bg-color)" column grow>
+                <m-flex 
                     v-for="perm of validPerms"
                     :key="perm.id"
                     class="perm items-center p-2"
                     :title="hasPermission(perm.name, game) ? undefined : $t('cant_grant_permission')"
                 >
-                    <a-input
+                    <m-input
                         v-model="role.permissions![perm.name]"
                         class="p-3"
                         :label="perm.name"
@@ -26,9 +26,9 @@
                         @update:model-value="togglePermission(perm.name)"
                     />
                     <span v-if="!hasPermission(perm.name, game)">🔒</span>
-                </flex>
-            </flex>
-        </a-input>
+                </m-flex>
+            </m-flex>
+        </m-input>
     </simple-resource-form>
 </template>
 

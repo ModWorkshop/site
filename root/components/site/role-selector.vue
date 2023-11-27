@@ -1,5 +1,5 @@
 <template>
-    <a-tag-selector
+    <m-select
         v-model="user.role_ids"
         multiple
         url="roles"
@@ -8,9 +8,12 @@
         :enabled-by="role => role.assignable"
         :color-by="item => item.color"
         :before-select="askAreYouSure"
+        :classic="false" 
+        :clearable="false"
+        list-tags
         @update:model-value="prepareSaveRoles"
     />
-    <a-tag-selector 
+    <m-select
         v-if="currentGame"
         v-model="user.game_role_ids"
         :url="`games/${currentGame?.id}/roles`"
@@ -20,6 +23,9 @@
         :enabled-by="role => role.assignable"
         :color-by="item => item.color"
         :before-select="askAreYouSure"
+        :classic="false" 
+        :clearable="false"
+        list-tags
         @update:model-value="prepareSaveGameRoles"
     />
 </template>
@@ -28,7 +34,7 @@
 import clone from 'rfdc/default';
 
 import { useStore } from '~~/store';
-import type { User, Role } from '../../types/models';
+import type { User, Role } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{

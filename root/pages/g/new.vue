@@ -1,8 +1,8 @@
 <template>
     <page-block :game="game" size="xs">
-        <content-block>
+        <m-content-block>
             <admin-edit-game :game="game"/>
-        </content-block>
+        </m-content-block>
     </page-block>
 </template>
 

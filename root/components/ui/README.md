@@ -1,0 +1,1 @@
+This folder contains the generic UI components. It's possible one day we'll split this from the main project into its own thing (especially if we ever introduce additional sites)

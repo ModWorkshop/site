@@ -2,21 +2,21 @@
     <div class="layout">
         <the-header/>
         <main>
-            <a-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :closable="false">
+            <m-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :closable="false">
                 <span class="whitespace-pre">
                     {{ $t(user.pending_email ? 'pending_email' : 'inactive_account', [user.pending_email]) }}
                 </span>
-                <flex class="mr-auto">
-                    <a-button :loading="resending" @click="resendVerification">{{$t('resend')}}</a-button>
-                    <a-button v-if="user.pending_email" color="danger" :loading="resending" @click="cancelPending">{{$t('cancel')}}</a-button>
-                </flex>
-            </a-toast>
+                <m-flex class="mr-auto">
+                    <m-button :loading="resending" @click="resendVerification">{{$t('resend')}}</m-button>
+                    <m-button v-if="user.pending_email" color="danger" :loading="resending" @click="cancelPending">{{$t('cancel')}}</m-button>
+                </m-flex>
+            </m-toast>
             
-            <flex id="toaster" column gap="2">
+            <m-flex id="toaster" column gap="2">
 				<TransitionGroup name="toasts">
-					<a-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
+					<m-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
 				</TransitionGroup>
-			</flex>
+			</m-flex>
 
             <!-- <div id="div-gpt-ad-mws-1" class="ad mx-auto" style="text-align: center;position: relative;"/> -->
             <div id="mws-ads-top" class="ad mx-auto mt-2"/>
@@ -33,22 +33,22 @@
 
             <slot/>
             <div class="page-block-nm">
-                <flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
+                <m-flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
                     <span :title="$t('users')"><i-mdi-account/> {{ store.activity.users }}</span>
                     <span :title="$t('guests')"><i-mdi-hand-wave/> {{ store.activity.guests }}</span>
-                </flex>
+                </m-flex>
             </div>
         </main>
-        <flex v-if="allowCookies === undefined" class="cookie-banner">
-            <a-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">
+        <m-flex v-if="allowCookies === undefined" class="cookie-banner">
+            <m-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">
                 {{$t('cookies_banner_desc')}}
-                <flex>
-                    <a-button @click="allowCookies = true">{{$t('allow_cookies')}}</a-button>
-                    <a-button color="danger" @click="allowCookies = false">{{$t('disallow_cookies')}}</a-button>
-                    <a-button to="/cookies">{{$t('cookie_policy')}}</a-button>
-                </flex>
-            </a-alert>
-        </flex>
+                <m-flex>
+                    <m-button @click="allowCookies = true">{{$t('allow_cookies')}}</m-button>
+                    <m-button color="danger" @click="allowCookies = false">{{$t('disallow_cookies')}}</m-button>
+                    <m-button to="/cookies">{{$t('cookie_policy')}}</m-button>
+                </m-flex>
+            </m-alert>
+        </m-flex>
         <the-footer/>
     </div>
 </template>

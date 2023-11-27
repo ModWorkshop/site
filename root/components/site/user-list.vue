@@ -1,28 +1,28 @@
 <template>
-    <flex column>
-        <flex :gap="column ? 0 : 3" :class="{'flex-col': true, 'md:flex-row': !column}">
-            <content-block grow :class="{'self-auto': true, 'md:self-start': !column}" style="flex: 1;">
-                <a-input v-model="query" :label="$t('search')"/>
-                <a-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
-                <a-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
-            </content-block>
-            <content-block grow style="flex: 4;" gap="1">
-                <a-items v-model:page="page" :items="users" :loading="loading">
+    <m-flex column>
+        <m-flex :gap="column ? 0 : 3" :class="{'flex-col': true, 'md:flex-row': !column}">
+            <m-content-block grow :class="{'self-auto': true, 'md:self-start': !column}" style="flex: 1;">
+                <m-input v-model="query" :label="$t('search')"/>
+                <m-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
+                <m-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
+            </m-content-block>
+            <m-content-block grow style="flex: 4;" gap="1">
+                <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
                         <NuxtLink :key="item.id" :to="userLink(item)" class="list-button">
                             <a-user :user="item" static/>
                         </NuxtLink>
                     </template>
-                </a-items>
-            </content-block>
-        </flex>
-    </flex>
+                </m-list>
+            </m-content-block>
+        </m-flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import type { User, Game } from '~~/types/models';
 
-const page = useRouteQuery('page', 1);
+const page = ref(1);
 const query = useRouteQuery('query', '');
 const roleIds = useRouteQuery('role_ids', []);
 const gameRoleIds = useRouteQuery('game_role_ids', []);

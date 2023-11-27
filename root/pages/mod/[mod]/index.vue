@@ -1,16 +1,16 @@
 <template>
-    <flex gap="3" column>
-        <flex column gap="3">
-            <flex>
+    <m-flex gap="3" column>
+        <m-flex column gap="3">
+            <m-flex>
                 <span class="mod-title">{{mod.name}}</span>
                 <mod-status class="ml-auto text-xl" :mod="mod"/>
-            </flex>
-        </flex>
+            </m-flex>
+        </m-flex>
         <div class="mod-main">
-            <flex class="overflow-x-hidden" column gap="3">
+            <m-flex class="overflow-x-hidden" column gap="3">
                 <mod-banner class="desktop-banner" :mod="mod"/>
                 <mod-tabs :mod="mod"/>
-            </flex>
+            </m-flex>
             <mod-banner class="mobile-banner" :mod="mod"/>
             <mod-right-pane :mod="mod"/>
         </div>
@@ -25,7 +25,7 @@
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"
         />
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
