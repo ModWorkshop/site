@@ -151,9 +151,13 @@ if (query) {
     flex-direction: column;
     position: relative;
 }
+</style>
+
+<style>
 
 .nav-menu-content {
     width: 100%;
+    overflow-x: hidden;
 }
 
 .nav-menu-bg {

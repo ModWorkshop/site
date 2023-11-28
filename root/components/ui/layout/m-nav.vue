@@ -1,5 +1,5 @@
 <template>
-    <m-flex class="nav" grow column gap="3">
+    <div class="nav">
         <m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
             <m-link class="collapse-button">
                 <i-mdi-menu/>
@@ -12,11 +12,11 @@
                     <slot/>
                 </m-flex>
             </Transition>
-            <m-content-block class="nav-menu-content overflow-hidden" column grow gap="3" padding="6">
+            <m-content-block class="nav-menu-content" column grow gap="3" padding="6">
                 <slot name="content"/>
             </m-content-block>
         </m-flex>
-    </m-flex>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -35,3 +35,14 @@ provide('root', props.root);
 provide('side', props.side);
 provide('menuOpen', menuOpen.value);
 </script>
+
+<style scoped>
+.nav {
+    display: flex;
+    grid-gap: 12px;
+    gap: 12px;
+    overflow-x: hidden;
+    flex-grow: 1;
+    flex-direction: column;
+}
+</style>

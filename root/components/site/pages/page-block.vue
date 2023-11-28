@@ -155,6 +155,7 @@ const classes = computed(() => ({
 
 const innerClasses = computed(() => ({
     'mx-auto': true,
+    'page-content': true,
     'page-block-nm': props.size == 'nm',
     'page-block-full': props.size == 'full',
     'page-block-md': props.size == 'md',
@@ -164,6 +165,12 @@ const innerClasses = computed(() => ({
 }));
 
 </script>
+
+<style>
+.page-content {
+    overflow: hidden;
+}
+</style>
 
 <style>
 .page-block {

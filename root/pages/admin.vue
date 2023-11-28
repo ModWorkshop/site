@@ -1,5 +1,5 @@
 <template>
-    <page-block size="md">
+    <page-block size="nm">
         <m-flex class="p-6">
             <m-nav side root="/admin">
                 <h3>{{$t('general')}}</h3>
