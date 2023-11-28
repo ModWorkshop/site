@@ -89,6 +89,7 @@ Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods', [ModController::class, 'index']);
 Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAndLatest']);
+Route::get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
 Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
 
 /**
@@ -254,6 +255,8 @@ Route::get('site-data', function(Request $request) {
 
     return $data;
 });
+
+Route::get('admin-data', fn() => APIService::adminData());
 
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
