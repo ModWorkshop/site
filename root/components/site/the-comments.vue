@@ -13,7 +13,7 @@
                         </m-button>
                         <template #content>{{cannotCommentReason}}</template>
                     </m-dropdown>
-                    <m-button @click="subscribe">
+                    <m-button :to="!user ? '/login' : undefined" @click="subscribe">
                         <i-mdi-bell-off v-if="commentable.subscribed"/>
                         <i-mdi-bell v-else/>
                         {{$t(commentable.subscribed ? 'unsubscribe' : 'subscribe')}}
@@ -181,6 +181,10 @@ const renderComments = computed(() => {
 });
 
 async function subscribe() {
+    if (!user) {
+        return;
+    }
+
     try {
         if (props.commentable!.subscribed) {
             await deleteRequest(`${props.url}/subscription`);
