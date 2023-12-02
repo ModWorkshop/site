@@ -33,10 +33,10 @@
     </m-file-uploader>
     <m-flex class="mr-auto">
         <m-button @click="setBanner()">
-            <i_mdi-close/> {{ $t('reset_banner') }}
+            <i-mdi-close/> {{ $t('reset_banner') }}
         </m-button>
         <m-button @click="setThumbnail()">
-            <i_mdi-close/> {{ $t('reset_thumbnail') }}
+            <i-mdi-close/> {{ $t('reset_thumbnail') }}
         </m-button>
     </m-flex>
     <label>{{$t('thumbnail_preview')}}</label>
