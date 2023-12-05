@@ -18,17 +18,14 @@
 				</TransitionGroup>
 			</m-flex>
 
-            <!-- <div id="div-gpt-ad-mws-1" class="ad mx-auto" style="text-align: center;position: relative;"/> -->
             <div id="mws-ads-top" class="ad mx-auto mt-2"/>
             <div id="mws-ads-top-mobile" class="ad mx-auto mt-2"/>
             
             <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                 <div id="mws-ads-left"/>
-                <!-- <div id="div-gpt-ad-mws-2"/> -->
             </div>
             <div :class="adClasses" style="right:0.5rem;">
                 <div id="mws-ads-right"/>
-                <!-- <div id="div-gpt-ad-mws-3"/> -->
             </div>
 
             <slot/>
