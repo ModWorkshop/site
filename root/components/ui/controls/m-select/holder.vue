@@ -1,5 +1,6 @@
 <template>
-    <m-input>
+    <m-input class="relative" :required="required">
+        <input class="kinda-hidden" :value="hasValue ? 1 : undefined" :required="required">
         <m-dropdown v-if="classic" v-model:open="shown" class="max-w-full" dropdown-class="!overflow-hidden">
             <slot/>
             <template #content>
@@ -24,7 +25,9 @@
 withDefaults(defineProps<{
     disabled?: boolean,
     placement?: string,
-    classic?: boolean
+    classic?: boolean,
+    required?: boolean,
+    hasValue?: boolean,
 }>(), {
     classic: true,
     placement: 'bottom-start'
@@ -32,3 +35,13 @@ withDefaults(defineProps<{
 
 const shown = defineModel<boolean>('shown', { local: true, default: false });
 </script>
+
+<style scoped>
+.kinda-hidden {
+    opacity: 0;
+    width: 100%;
+    z-index: -999;
+    transform: translateY(42px);
+    position: absolute;
+}
+</style>
