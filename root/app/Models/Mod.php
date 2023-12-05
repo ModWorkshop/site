@@ -257,6 +257,8 @@ class Mod extends Model implements SubscribableInterface
 
     // Gets loaded in mod page
     public const SHOW_MOD_WITH = [
+        'game',
+        'user',
         'tags',
         'images',
         'banner',
