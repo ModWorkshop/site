@@ -6,7 +6,6 @@
         :data-selected="tabState.current == tabName"
         :tabindex="tabState.current == tabName ? 0 : -1"
         :aria-selected="tabState.current == tabName"
-        href="#"
         :aria-controls="`${tabName}-tab-panel`"
     >
         <m-icon v-if="icon" :icon="icon" :size="iconSize"/> {{tabTitle}}
