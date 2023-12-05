@@ -226,7 +226,7 @@ class ModController extends Controller
             }
 
             $val['user_id'] = $request->user()->id;
-            $val['game_id'] = $game->id;
+            $val['game_id'] = $gameId;
 
             $mod = Mod::create($val);
         }
