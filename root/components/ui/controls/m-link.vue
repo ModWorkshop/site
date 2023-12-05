@@ -5,9 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationRaw } from '#vue-router';
+
 const props = defineProps<{
     href?: string,
-    to?: string,
+    to?: RouteLocationRaw,
     iconSize?: string,
     icon?: Component,
     iconRotation?: number,
