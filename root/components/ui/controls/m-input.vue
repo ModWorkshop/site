@@ -1,6 +1,6 @@
 <template>
     <m-flex class="input-container" inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
-        <label v-if="!isCheckbox && label" :for="labelId">
+        <label v-if="!isCheckbox && label" :class="{ required }" :for="labelId">
             <slot name="label">
                 {{label}}
             </slot>
@@ -65,6 +65,7 @@ const props = defineProps<{
     rows?: number|string,
     type?: string,
     value?: string,
+    required?: boolean,
 }>();
 const emit = defineEmits(['update:elementRef', 'update:modelValue']);
 const vm = defineModel<any>('modelValue');
@@ -87,6 +88,13 @@ watch(() => props.validity, val => {
     }
 });
 </script>
+
+<style scoped>
+.required:after {
+    content: ' *';
+    color: rgb(255, 88, 88);
+}
+</style>
 
 <style>
 .flex > .input-container:not(.flex-col > .input-container) {
