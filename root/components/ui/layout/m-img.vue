@@ -18,8 +18,8 @@ const {
     useThumb?: boolean;
     fallback?: string;
     alt?: string;
-    width?: number;
-    height?: number;
+    width?: number|string;
+    height?: number|string;
 }>();
 
 const forceSrc = ref();
