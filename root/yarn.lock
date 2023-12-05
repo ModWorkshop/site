@@ -2660,10 +2660,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^3.3.5":
-  version: 3.3.5
-  resolution: "@types/luxon@npm:3.3.5"
-  checksum: 7fd31c673600dd494dedefe8c405d2e6957c0ba101f8445f7eaf9afcf4a1fa1ca649cab01c9777523ff9de58c3c35e2589a1a004a0c629cd7953033115ac74f5
+"@types/luxon@npm:^3.3.7":
+  version: 3.3.7
+  resolution: "@types/luxon@npm:3.3.7"
+  checksum: 97026557e92bcba308a5592f981591cd200d493fc8997874d79acecf6a2ec41debeded3ac5cd80c371ef7f6f56cc0d1be0a5aca846e03d3e6b4a2be37256fe2f
   languageName: node
   linkType: hard
 
@@ -7525,7 +7525,7 @@ __metadata:
     "@nuxtjs/tailwindcss": 6.10.1
     "@nuxtjs/turnstile": ^0.6.3
     "@pinia/nuxt": ^0.5.1
-    "@types/luxon": ^3.3.5
+    "@types/luxon": ^3.3.7
     "@types/node": ^20.10.3
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^6.12.0
