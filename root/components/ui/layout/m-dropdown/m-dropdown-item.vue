@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink v-close-popper :class="{'dropdown-item': true, disabled}" :to="to" @click="click">
+    <NuxtLink :class="{'dropdown-item': true, disabled}" :to="to" @click="click">
         <m-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </NuxtLink>
 </template>
