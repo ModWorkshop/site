@@ -1,36 +1,38 @@
 <template>
-    <PopoverRoot v-if="type == 'dropdown'" v-model:open="open">
-        <PopoverTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
-            <slot/>
-        </PopoverTrigger>
-        <PopoverPortal>
-            <PopoverContent 
-                :side="side"
-                :align="align"
-                :class="computedClass"
-                :side-offset="2"
-                :trap-focus="trapFocus"
-                update-position-strategy="optimized"
-                @click="open = false"
-            >
-                <slot name="content"/>
-                <PopoverArrow class="m-dropdown-arrow"/>
-            </PopoverContent>
-        </PopoverPortal>
-    </PopoverRoot>
-    <TooltipProvider v-else-if="type == 'tooltip'" :delay-duration="toolTipDelay">
-        <TooltipRoot v-model:open="open">
-            <TooltipTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
+    <div>
+        <PopoverRoot v-if="type == 'dropdown'" v-model:open="open">
+            <PopoverTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
                 <slot/>
-            </TooltipTrigger>
-            <TooltipPortal v-if="!disabled">
-                <TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
+            </PopoverTrigger>
+            <PopoverPortal>
+                <PopoverContent 
+                    :side="side"
+                    :align="align"
+                    :class="computedClass"
+                    :side-offset="2"
+                    :trap-focus="trapFocus"
+                    update-position-strategy="optimized"
+                    @click="open = false"
+                >
                     <slot name="content"/>
-                    <TooltipArrow class="m-dropdown-arrow"/>
-                </TooltipContent>
-            </TooltipPortal>
-        </TooltipRoot>
-    </TooltipProvider>
+                    <PopoverArrow class="m-dropdown-arrow"/>
+                </PopoverContent>
+            </PopoverPortal>
+        </PopoverRoot>
+        <TooltipProvider v-else-if="type == 'tooltip'" :delay-duration="toolTipDelay">
+            <TooltipRoot v-model:open="open">
+                <TooltipTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
+                    <slot/>
+                </TooltipTrigger>
+                <TooltipPortal v-if="!disabled">
+                    <TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
+                        <slot name="content"/>
+                        <TooltipArrow class="m-dropdown-arrow"/>
+                    </TooltipContent>
+                </TooltipPortal>
+            </TooltipRoot>
+        </TooltipProvider>
+    </div>
 </template>
   
 <script setup lang="ts">
