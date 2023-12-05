@@ -1,5 +1,5 @@
 <template>
-    <m-select-holder v-model:shown="dropdownOpen" :classic="classic" :disabled="disabled">
+    <m-select-holder v-model:shown="dropdownOpen" :has-value="!!modelValue" :classic="classic" :disabled="disabled">
         <m-flex :gap="classic ? 2 : 0" :class="{'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
             <m-flex wrap class="overflow-hidden">
                 <template v-if="multiple && shownOptions.length">
@@ -102,6 +102,7 @@ const searchElement = ref<HTMLInputElement>();
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: any|any[]): void,
+    (e: 'selectOption', option: any|any[]): void,
 	(e: 'fetched', options: any[]): void
 }>();
 
@@ -312,6 +313,8 @@ function toggleOption(option) {
 // Triggers when selecting an option from the liust
 function selectOption(option) {
     const value = optionValue(option);
+    emit('selectOption', option);
+
     if (props.multiple && typeof selectedValue.value == 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;

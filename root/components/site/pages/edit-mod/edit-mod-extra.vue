@@ -5,16 +5,11 @@
         </template>
     </md-editor>
 
-    <m-select v-if="isModerator" v-model="mod.game_id" :label="$t('game')" :options="games?.data"/>
-
     <m-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="150" :desc="$t('short_desc_desc')"/>
     <m-input v-model="mod.donation" :label="$t('donation')"/>
-    
-
     <m-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
 
-
-    <m-alert v-if="canDelete" class="w-full" color="danger" :title="$t('danger_zone')">
+    <m-alert v-if="mod.id && canDelete" class="w-full" color="danger" :title="$t('danger_zone')">
         <div>
             <m-button color="danger" @click="deleteMod">{{$t('delete')}}</m-button>
         </div>
@@ -24,24 +19,21 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import type { Game, Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 
 const mod = defineModel<Mod>({ required: true });
 
 const yesNoModal = useYesNoModal();
 const router = useRouter();
-const { hasPermission, user } = useStore();
+const { user } = useStore();
 const { t } = useI18n();
 
 const superUpdate = inject<boolean>('canSuperUpdate');
 
-const isModerator = computed(() => hasPermission('manage-mods', mod.value.game));
 const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
 const canDelete = computed(() => superUpdate || member.value?.level === 'maintainer');
 
 watch(() => mod.value.game_id, () => mod.value.category_id = undefined);
-
-const { data: games } = await useFetchMany<Game>('games', { immediate: isModerator.value });
 
 function deleteMod() {
     yesNoModal({

@@ -11,12 +11,9 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-    modelValue?: number;
+withDefaults(defineProps<{
     url: string
 }>(), { url: 'mods' });
 
-
-const emit = defineEmits(['update:modelValue']);
-const vm = useVModel(props, 'modelValue', emit);
+const vm = defineModel();
 </script>

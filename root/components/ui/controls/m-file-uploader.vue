@@ -1,37 +1,36 @@
 <template>
-    <m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="e => upload(e.dataTransfer.files)">
+    <m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="e => register(e.dataTransfer.files)">
         <label :class="classes" :for="`${name}-file-browser-open`">
             <span class="text-3xl">
                 {{$t('file_uploader_drop')}}
-                <template v-if="maxFiles">({{files.length}}/{{maxFiles}})</template>
+                <template v-if="maxFiles">({{vm.length}}/{{maxFiles}})</template>
             </span>
         </label>
         <input 
             :id="`${name}-file-browser-open`"
             ref="input" 
-            :disabled="reachedMaxFiles"
+            :disabled="disabled || reachedMaxFiles"
             type="file"
             hidden
             multiple
-            @change="e => upload((e.target as HTMLInputElement).files)"
+            @change="e => register((e.target as HTMLInputElement).files)"
         >
-        <div v-if="list && files.length" class="alt-content-bg round">
-            <m-table :background="false">
-                <thead>
-                    <tr>
-                        <th>{{$t('name')}}</th>
-                        <th>{{$t('file_size')}}</th>
-                        <th>{{$t('upload_date')}}</th>
-                        <th class="text-center">{{$t('actions')}}</th>
-                        <slot name="headers"/>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="file of files" :key="file.created_at">
+        <m-table v-if="list" alt-background>
+            <thead>
+                <th>{{$t('name')}}</th>
+                <th>{{$t('file_size')}}</th>
+                <th>{{$t('upload_date')}}</th>
+                <th class="text-center">{{$t('actions')}}</th>
+                <slot name="headers"/>
+            </thead>
+            <tbody>
+                <template v-if="vm.length">
+                    <tr v-for="file of vm" :key="file.created_at">
                         <td>{{file.name}}</td>
                         <td>{{friendlySize(file.size)}}</td>
                         <td v-if="file.progress">{{$t('uploading', [file.progress])}} </td>
-                        <td v-else>{{fullDate(file.created_at)}}</td>
+                        <td v-else-if="file.created_at">{{fullDate(file.created_at)}}</td>
+                        <td v-else>{{$t('waiting')}}</td>
                         <td class="text-center p-1">
                             <m-flex inline>
                                 <slot name="buttons" :file="file"/>
@@ -40,15 +39,23 @@
                         </td>
                         <slot name="rows" :file="file"/>
                     </tr>
-                </tbody>
-            </m-table>
-        </div>
-        <div v-else-if="files.length" class="grid file-list p-3 alt-content-bg">
-            <div v-for="file of files" :key="file.created_at" class="file-item" @click.prevent>
+                </template>
+                <tr v-else>
+                    <td colspan="100" class="text-center">
+                        {{$t('nothing_found')}}
+                    </td>
+                </tr>
+            </tbody>
+        </m-table>
+        <div v-else-if="vm.length" class="grid file-list p-3 alt-content-bg">
+            <div v-for="file of vm" :key="file.created_at" class="file-item" @click.prevent>
                 <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <m-flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <m-flex column class="file-buttons">
+                        <span v-if="paused" class="self-center">{{$t('waiting')}}</span>
+                        <span v-if="file.progress" class="self-center">{{$t('uploading', [file.progress])}}</span>
+                        <span v-else-if="file.created_at" class="self-center">{{fullDate(file.created_at)}}</span>
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
                         <m-button @click="handleRemove(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
@@ -62,9 +69,9 @@
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
 import type { File as MWSFile, SimpleFile } from '~~/types/models';
-import { DateTime } from 'luxon';
 import axios, { AxiosError, type Canceler } from 'axios';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~~/store/index';
 
 const emit = defineEmits([
     'file-begin',
@@ -74,13 +81,14 @@ const emit = defineEmits([
 
 const props = defineProps<{
     list?: boolean,
+    disabled?: boolean,
+    paused?: boolean,
     url: string,
     uploadUrl: string,
     urlPrefix?: string,
     useFileAsThumb?: boolean,
     name: string,
-    files: UploadFile[],
-    extensions?: string[]
+    extensions?: string[],
     maxFileSize?: number|string,
     maxSize: number|string,
     maxFiles?: number|string
@@ -90,6 +98,10 @@ const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const { public: runtimeConfig } = useRuntimeConfig();
+const store = useStore();
+const noPreviewSrc = computed(() => `/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
+
+const vm = defineModel<UploadFile[]>({ default: [] }) ;
 
 function getFileThumb(file: UploadFile) {
     if (file.thumbnail) {
@@ -111,7 +123,7 @@ const classes = computed(() => {
         'p-6': true,
         'text-center': true,
         'upload-area': true,
-        'upload-area-disabled': reachedMaxFiles.value
+        'upload-area-disabled': reachedMaxFiles.value || props.disabled
     };
 });
 
@@ -120,26 +132,29 @@ type UploadFile = SimpleFile & {
     cancel?: Canceler,
     progress?: number,
     thumbnail?: string,
-    has_thumb?: boolean
+    has_thumb?: boolean,
+    waiting?: boolean,
+    actualFile?: File
 }
 
-const filesArr = toRef(props, 'files');
 const input = ref();
 const reachedMaxFiles = computed<boolean>(() => {
     if (!props.maxFiles) {
         return false;
     }
-    return filesArr.value.length >= (typeof(props.maxFiles) == "string" ? parseInt(props.maxFiles) : props.maxFiles);
+    return vm.value.length >= (typeof(props.maxFiles) == "string" ? parseInt(props.maxFiles) : props.maxFiles);
 });
-const usedSize = computed(() => filesArr.value.reduce((prev, curr) => prev + curr.size, 0));
+const usedSize = computed(() => vm.value.reduce((prev, curr) => prev + curr.size, 0));
 
-const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
+const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string));
 const maxSizeBytes = computed(() => parseInt(props.maxSize as string) * Math.pow(1024, 2));
 
+watch(() => props.paused, uploadWaitingFiles);
+
 function removeFile(file: UploadFile) {
-    for (const [k, f] of Object.entries(props.files)) {
+    for (const [k, f] of Object.entries(vm.value)) {
         if (toRaw(f) == toRaw(file)) {
-            filesArr.value.splice(parseInt(k), 1);
+            vm.value.splice(parseInt(k), 1);
         }
     }
 }
@@ -147,7 +162,7 @@ function removeFile(file: UploadFile) {
 /**
  * Handles the actual upload of the file(s)
  */
-async function upload(files: FileList|null) {
+function register(files: FileList|null) {
     if (!files) {
         return;
     }
@@ -175,55 +190,73 @@ async function upload(files: FileList|null) {
         else {
             const insertFile: UploadFile = {
                 id: 0,
-                created_at: DateTime.now().toISO()?.toString() || undefined,
                 name: file.name,
                 size: file.size,
+                thumbnail: noPreviewSrc.value,
                 file: '',
-                type: ''
+                type: '',
+                waiting: true,
+                actualFile: file
             };
+
+            vm.value.unshift(insertFile);
     
            //Read the file and get blob src
-            let reader = new FileReader();
-            reader.onload = () => {
-                insertFile.thumbnail = reader.result as string;
-                filesArr.value.unshift(insertFile);
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                const refFile = vm.value.find(file => toRaw(file) == insertFile);
+                if (refFile) {
+                    refFile.thumbnail = reader.result as string;
+                }
                 emit('file-begin', insertFile);
-            };
+            });
             reader.readAsDataURL(file);
+        }
+    }
+    input.value.value = null;
     
+    uploadWaitingFiles();
+}
+
+async function uploadWaitingFiles() {
+    if (props.paused) {
+        return;
+    }
+
+    for (const uploadFile of vm.value) {
+        if (uploadFile.waiting) {
+            uploadFile.waiting = false;
             const formData = new FormData();
-            formData.append('file', file);
-            
-            try {
-    
-                const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
-                    baseURL: runtimeConfig.uploadUrl,
-                    headers: {'Content-Type': 'multipart/form-data'},
-                    onUploadProgress: function(progressEvent) {
-                        const reactiveFile = filesArr.value[0];
-                        if (progressEvent.progress) {
-                            reactiveFile.progress = Math.round(100 * progressEvent.progress);
-                        }
-                    },
-                    cancelToken: new axios.CancelToken(c => insertFile.cancel = c)
-                });
-    
-                const reactiveFile = filesArr.value[0];
+            if (uploadFile.actualFile) {
+                formData.append('file', uploadFile.actualFile);
+            }
+
+            postRequest<MWSFile>(props.uploadUrl, formData, {
+                baseURL: runtimeConfig.uploadUrl,
+                headers: {'Content-Type': 'multipart/form-data'},
+                onUploadProgress: function(progressEvent) {
+                    const reactiveFile = vm.value[0];
+                    if (progressEvent.progress) {
+                        reactiveFile.progress = Math.round(100 * progressEvent.progress);
+                    }
+                },
+                cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
+            }).then(data => {
+                const reactiveFile = vm.value[0];
                 Object.assign(reactiveFile, data);
                 reactiveFile.cancel = undefined;
                 reactiveFile.progress = undefined;
     
                 emit('file-uploaded', reactiveFile);
-            } catch (e) {
+            }).catch(e => {
                 if (e instanceof AxiosError) {
                     input.value.value = null;
-                    removeFile(insertFile);
+                    removeFile(uploadFile);
                     showErrorToast(e, {}, t('failed_upload'));
                 }
-            }
+            });
         }
     }
-    input.value.value = null;
 }
 
 /**
@@ -232,7 +265,7 @@ async function upload(files: FileList|null) {
 async function handleRemove(file: UploadFile) {
     if (file.cancel) {
         file.cancel('cancelled');
-    } else {
+    } else if (file.id) {
         await deleteRequest(`${props.url}/${file.id}`);
     }
 

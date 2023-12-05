@@ -9,19 +9,28 @@
     
     <m-alert :desc="$t('images_help')"/>
 
-    <label>{{$t('images')}}</label>
+    <m-flex class="items-center">
+        <label>{{$t('images')}}</label>
+        <m-button class="ml-auto" @click="setBanner()">
+            <i-mdi-close/> {{ $t('reset_banner') }}
+        </m-button>
+        <m-button @click="setThumbnail()">
+            <i-mdi-close/> {{ $t('reset_thumbnail') }}
+        </m-button>
+    </m-flex>
     <m-file-uploader 
-            name="images"
-            :upload-url="uploadLink"
-            url="images"
-            :files="images"
-            url-prefix="mods/images" 
-            :max-files="settings?.mod_max_image_count" 
-            :max-file-size="settings?.image_max_file_size" 
-            max-size="50" 
-            use-file-as-thumb 
-            @file-deleted="fileDeleted"
-        >
+        v-model="images"
+        name="images"
+        :upload-url="uploadLink"
+        url="images"
+        url-prefix="mods/images"
+        :max-files="settings?.mod_max_image_count"
+        :max-file-size="settings?.image_max_file_size"
+        :paused="!mod.id"
+        max-size="50"
+        use-file-as-thumb
+        @file-deleted="fileDeleted"
+    >
         <template #buttons="{file}">
             <m-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
                 <i-mdi-image-outline/> {{$t('thumbnail')}}
@@ -31,14 +40,6 @@
             </m-button>
         </template>
     </m-file-uploader>
-    <m-flex class="mr-auto">
-        <m-button @click="setBanner()">
-            <i-mdi-close/> {{ $t('reset_banner') }}
-        </m-button>
-        <m-button @click="setThumbnail()">
-            <i-mdi-close/> {{ $t('reset_thumbnail') }}
-        </m-button>
-    </m-flex>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">
         <div style="max-width: 300px;">
@@ -57,8 +58,10 @@ import { useStore } from '~~/store';
 const { settings } = useStore();
 
 const mod = defineModel<Mod>({ required: true });
+
 const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '');
-const images = ref(mod.value.images);
+
+const images = ref<Image[]>(mod.value.images ?? []);
 
 function setBanner(banner?: Image) {
     mod.value.banner_id = banner && banner.id || undefined;

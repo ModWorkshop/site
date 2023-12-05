@@ -15,7 +15,7 @@
         </div>
     </m-flex>
     <m-flex column class="overflow-hidden">
-        <m-flex class="items-center mb-2">
+        <m-flex class="items-center">
             <label>{{$t('members_tab')}}</label>
             <m-button v-if="levelOptions" class="ml-auto" @click="newMember()">{{$t('new')}}</m-button>
         </m-flex>
@@ -28,28 +28,33 @@
                 <th class="text-center">{{$t("actions")}}</th>
             </template>
             <template #body>
-                <tr v-for="m of members" :key="m.id">
-                    <td><a-user :user="m"/></td>
-                    <td>{{$t(`member_level_${m.level}`)}}</td>
-                    <td>{{m.accepted ? '✔' : '❌'}}</td>
-                    <td>{{fullDate(m.created_at)}}</td>
-                    <td class="text-center p-1">
-                        <m-flex inline>
-                            <m-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></m-button>
-                            <m-button :disabled="!canEditMember(m)" @click.prevent="deleteMember(m)"><i-mdi-delete/></m-button>
-                        </m-flex>
+                <template v-if="members.length">
+                    <tr v-for="m of members" :key="m.id">
+                        <td><a-user :user="m"/></td>
+                        <td>{{$t(`member_level_${m.level}`)}}</td>
+                        <td>{{m.accepted ? '✔' : '❌'}}</td>
+                        <td>{{mod.id ? fullDate(m.created_at) : $t('waiting_for_mod')}}</td>
+                        <td class="text-center p-1">
+                            <m-flex inline>
+                                <m-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></m-button>
+                                <m-button :disabled="!canEditMember(m)" @click.prevent="deleteMember(m)"><i-mdi-delete/></m-button>
+                            </m-flex>
+                        </td>
+                    </tr>
+                </template>
+                <tr v-else>
+                    <td colspan="5" class="text-center">
+                        {{$t('nothing_found')}}
                     </td>
-                </tr> 
+                </tr>
             </template>
         </m-table>
     </m-flex>
 
 
     <m-form-modal v-model="showModal" :title="$t('edit_member')" @submit="saveMember">
-        <template v-if="currentMember">
-            <user-select v-if="currentMember.new" v-model="currentMember.user" value-by="" :label="$t('user')"/>
-            <m-select v-model="currentMember.level" :options="levelOptions" :label="$t('member_level')"/>
-        </template>
+        <user-select v-if="addingNew" v-model="selectedUser" required value-by="" :label="$t('user')"/>
+        <m-select v-model="selectedLevel" :options="levelOptions" :label="$t('member_level')"/>
     </m-form-modal>
 
     <m-form-modal v-model="showTransferOwner" :title="$t('transfer_ownership')" :desc="$t('transfer_mod_warning')" @submit="transferOwnership()">
@@ -59,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Mod, ModMember, TransferRequest } from '~~/types/models';
+import type { Mod, ModMember, TransferRequest, User } from '~~/types/models';
 import clone from 'rfdc/default';
 import { fullDate } from '~~/utils/helpers';
 import { useI18n } from 'vue-i18n';
@@ -108,57 +113,76 @@ const levelOptions = computed(() => {
     return levels;
 });
 
-interface EditModMember {
-    level: 'collaborator'|'maintainer'|'contributor'|'viewer',
-    created_at?: string,
-    user?: ModMember,
-    new?: boolean,
-}
-
 const showModal = ref(false);
+const addingNew = ref(false);
 const showTransferOwner = ref(false);
 const members = ref<ModMember[]>(clone(mod.value.members));
-const currentMember = ref<EditModMember>();
 const transferOwner = ref({owner_id: null, keep_owner_level: null});
 const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
 
-async function deleteMember(member: ModMember) {
-    yesNoModal({
-        title: t('are_you_sure'),
-        desc: t('irreversible_action'),
-        async yes() {
-            await deleteRequest(`mods/${mod.value.id}/members/${member.id}`);
-            members.value = members.value.filter(l => l.id !== member.id);
-            mod.value.members = clone(members.value);
+const selectedUser = ref<User>();
+const selectedLevel = ref<'collaborator'|'maintainer'|'contributor'|'viewer'>('collaborator');
+
+watch(() => mod.value.id, async () => {
+    if (mod.value.id) {
+        for (const member of members.value) {
+            const newMember = await postRequest<ModMember>(`mods/${mod.value.id}/members`, { user_id: member.id, level: member.level });
+            Object.assign(member, newMember);
         }
-    });
+    }
+});
+
+async function deleteMember(member: ModMember) {
+    if (mod.value.id) {
+        yesNoModal({
+            title: t('are_you_sure'),
+            desc: t('irreversible_action'),
+            async yes() {
+                await deleteRequest(`mods/${mod.value.id}/members/${member.id}`);
+                members.value = members.value.filter(l => l!.id !== member.id);
+                mod.value.members = clone(members.value);
+            }
+        });
+    } else {
+        members.value = members.value.filter(l => l!.id !== member.id);
+        mod.value.members = clone(members.value);
+    }
 }
 
 function newMember() {
-    currentMember.value = { level: 'collaborator', new: true };
+    addingNew.value = true;
     showModal.value = true;
+
+    selectedUser.value = undefined;
+    selectedLevel.value = 'collaborator';
 }
 
 function editMember(member: ModMember) {
     showModal.value = true;
-    currentMember.value = { level: member.level, user: member };
+    addingNew.value = false;
+
+    selectedUser.value = member;
 }
 
 async function saveMember(error: (e) => void) {
-    const member = currentMember.value!;
-    const data = { user_id: member.user!.id, level: member.level };
+    const user = selectedUser.value!;
+    const level = selectedLevel.value;
 
     try {
-        if (member.new) {
-            const newMember = await postRequest<ModMember>(`mods/${mod.value.id}/members`, data);
-            members.value.push(newMember);
-        } else {
-            await patchRequest(`mods/${mod.value.id}/members/${member.user!.id}`, data);
+        if (addingNew.value) {
+            if (mod.value.id) {
+                const newMember = await postRequest<ModMember>(`mods/${mod.value.id}/members`, { user_id: user.id, level });
+                members.value.push(newMember);
+            } else {
+                members.value.push({ level, accepted: false, ...user});
+            }
+        } else if (mod.value.id) {
+            await patchRequest(`mods/${mod.value.id}/members/${user.id}`, { level });
         }
     
         for (const m of members.value) {
-            if (m.id === member.user!.id) {
-                m.level = member.level;
+            if (m.id === user.id) {
+                m.level = level;
             }
         }
     

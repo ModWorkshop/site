@@ -1,9 +1,9 @@
 <template>
-    <page-block v-if="mod" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
+    <page-block :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
         <Title v-if="mod.game">{{mod.name}} - {{ mod.game.name }} Mods</Title>
         <Title v-else>{{ mod.name }}</Title>
-        <mod-alerts :mod="mod"/>
-        <mod-top-buttons :mod="mod"/>
+        <mod-alerts v-if="mod.id" :mod="mod"/>
+        <mod-top-buttons v-if="mod.id" :mod="mod"/>
         <slot/>
     </page-block>
 </template>
@@ -47,18 +47,22 @@ if (props.mod.game) {
     setGame(props.mod.game);
 }
 
-postRequest(`mods/${props.mod.id}/register-view`, null, {
-    onResponse(response: any) {
-        if (response.status == 201) {
-            props.mod.views++;
+if (props.mod.id && process.client) {
+    postRequest(`mods/${props.mod.id}/register-view`, null, {
+        onResponse(response: any) {
+            if (response.status == 201) {
+                props.mod.views++;
+            }
         }
-    }
-});
+    });
+}
+
 
 const breadcrumb = computed(() => {
     const breadcrumb: Breadcrumb[] = [
         { name: t('games'), to: 'games' },
     ];
+
     if (props.mod.breadcrumb) {
         breadcrumb.push(...props.mod.breadcrumb);
     }
@@ -67,6 +71,10 @@ const breadcrumb = computed(() => {
         breadcrumb.push({ name: t('edit') });
     }
 
-    return breadcrumb;
+    if (props.mod.id) {
+        return breadcrumb;
+    } else {
+        return [];
+    }
 });
 </script>
