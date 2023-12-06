@@ -146,7 +146,7 @@ const reachedMaxFiles = computed<boolean>(() => {
 });
 const usedSize = computed(() => vm.value.reduce((prev, curr) => prev + curr.size, 0));
 
-const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string));
+const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
 const maxSizeBytes = computed(() => parseInt(props.maxSize as string) * Math.pow(1024, 2));
 
 watch(() => props.paused, uploadWaitingFiles);
@@ -168,7 +168,7 @@ function register(files: FileList|null) {
     }
 
     for (const file of files) {
-        if (file.size > maxFileSizeBytes.value) {
+        if (maxFileSizeBytes.value && file.size > maxFileSizeBytes.value) {
             showToast({ 
                 desc: t('file_name_too_large', { name: file.name }),
                 color: 'danger'
