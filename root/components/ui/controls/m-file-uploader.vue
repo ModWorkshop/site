@@ -146,8 +146,8 @@ const reachedMaxFiles = computed<boolean>(() => {
 });
 const usedSize = computed(() => vm.value.reduce((prev, curr) => prev + curr.size, 0));
 
-const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string) * Math.pow(1024, 2));
-const maxSizeBytes = computed(() => parseInt(props.maxSize as string) * Math.pow(1024, 2));
+const maxFileSizeBytes = computed(() => parseInt((props.maxFileSize || props.maxSize) as string));
+const maxSizeBytes = computed(() => parseInt(props.maxSize as string));
 
 watch(() => props.paused, uploadWaitingFiles);
 

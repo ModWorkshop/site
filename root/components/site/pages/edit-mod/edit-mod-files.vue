@@ -15,7 +15,7 @@
             :upload-url="uploadLink"
             max-files="25"
             :paused="!mod.id"
-            :max-size="(settings?.max_file_size || 0) / Math.pow(1024, 2)"
+            :max-size="(settings?.max_file_size || 0)"
             url="files"
             @file-uploaded="updateHasDownload"
             @file-deleted="fileDeleted"
