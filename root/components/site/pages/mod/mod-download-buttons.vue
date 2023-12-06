@@ -1,11 +1,11 @@
 <template>
     <m-flex>
-        <m-button v-if="download && downloadType == 'file'" class="large-button flex-1" :to="!static ? downloadUrl : undefined">
+        <m-button v-if="download && type == 'file'" class="large-button flex-1" :to="!static ? downloadUrl : undefined">
             <i-mdi-download/> {{$t('download')}}
             <br>
             <span class="text-sm">{{(download as any).type}} - {{friendlySize((download as any).size)}}</span>
         </m-button>
-        <m-dropdown v-else-if="download && downloadType == 'link'" class="flex-1 flex">
+        <m-dropdown v-else-if="download && type == 'link'" class="flex-1 flex">
             <m-button class="large-button flex-1" @click="!static && registerDownload(mod)">
                 <i-mdi-download/> {{$t('show_download_link')}}
             </m-button>
@@ -19,7 +19,7 @@
         </m-dropdown>
         <slot/>
     </m-flex>
-    <m-flex v-if="primaryModManager && download && downloadType == 'file'">
+    <m-flex v-if="primaryModManager && download && type == 'file'">
         <m-dropdown>
             <m-button class="large-button text-center h-full">
                 <i-mdi-chevron-down/>
@@ -48,18 +48,13 @@ const props = defineProps<{
     mod: Mod;
     download?: File|Link;
     static?: boolean;
+    type?: 'link'|'file';
 }>();
 
 const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
 
 const managers = computed(() => props.mod.mod_managers ?? []);
-const downloadType = computed(() => {
-    if (props.mod.download_type) {
-        return props.mod.download_type;
-    } else if (props.download) {
-        return Object.hasOwn(props.download, 'file') ? 'file' : 'link';
-    }
-});
+
 
 const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.download!.id}`);
 

@@ -29,7 +29,7 @@
             </m-flex>
         </m-flex>
         <m-flex column class="my-auto mx-auto" gap="1">
-            <mod-download-buttons :mod="mod" :download="file"/>
+            <mod-download-buttons :mod="mod" :download="file" :type="type"/>
         </m-flex>
     </m-flex>
 </template>

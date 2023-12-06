@@ -1,5 +1,5 @@
 <template>
-    <mod-download-buttons :mod="mod" :download="mod.download">
+    <mod-download-buttons :mod="mod" :download="mod.download" :type="downloadType">
         <template v-if="!mod.download">
             <m-button v-if="mod.files_count || mod.links_count || (mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</m-button>
             <m-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</m-button>
@@ -33,6 +33,14 @@ const i18n = useI18n();
 const canLike = computed(() => !user || (user.id !== props.mod.user_id && hasPermission('like-mods', props.mod.game)));
 const locale = computed(() => i18n.locale.value);
 const likes = computed(() => friendlyNumber(locale.value, props.mod.likes));
+
+const downloadType = computed(() => {
+    if (props.mod.download_type) {
+        return props.mod.download_type;
+    } else if (props.mod.download) {
+        return Object.hasOwn(props.mod.download, 'file') ? 'file' : 'link';
+    }
+});
 
 async function toggleLiked() {
     if (props.static || !user) {

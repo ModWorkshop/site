@@ -114,7 +114,7 @@ export interface Mod {
     created_at?: string;
     updated_at?: string;
     download_id?: number|null;
-    download_type?: string|null;
+    download_type?: 'link'|'file'|null;
     user?: User;
     last_user?: User;
     category?: Category;
