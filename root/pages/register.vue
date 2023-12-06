@@ -4,7 +4,7 @@
         <m-form autocomplete="off" @submit="register">
             <h1>{{$t('register')}}</h1>
             <m-content-block column gap="3" class="p-4">
-                <m-img-uploader v-model="avatarBlob" :label="$t('avatar')">
+                <m-img-uploader v-model="avatarBlob" :label="$t('avatar')" :max-file-size="settings?.image_max_file_size">
                     <template #label="{ src }">
                         <m-avatar size="xl" :src="src"/>
                         <m-avatar size="lg" :src="src"/>
@@ -64,6 +64,7 @@ definePageMeta({
 });
 
 const { t } = useI18n();
+const { settings } = useStore();
 const showErrorToast = useQuickErrorToast();
 
 const user = reactive({

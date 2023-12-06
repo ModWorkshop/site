@@ -2,7 +2,13 @@
     <m-flex gap="2" column>
         <m-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
 
-        <m-img-uploader v-model="user.avatar_file" :label="$t('avatar')" :desc="$t('user_avatar_desc', { size: imageSize })" :src="user.avatar">
+        <m-img-uploader
+            v-model="user.avatar_file"
+            :label="$t('avatar')"
+            :desc="$t('user_avatar_desc', { size: imageSize })"
+            :src="user.avatar"
+            :max-file-size="settings?.image_max_file_size"
+        >
             <template #label="{ src }">
                 <m-avatar size="xl" :src="src"/>
                 <m-avatar size="lg" :src="src"/>
@@ -10,7 +16,12 @@
             </template>
         </m-img-uploader>
 
-        <m-img-uploader v-model="user.banner_file" :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })" :src="user.banner">
+        <m-img-uploader 
+            v-model="user.banner_file"
+            :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })"
+            :src="user.banner"
+            :max-file-size="settings?.image_max_file_size"
+        >
             <template #label="{ src }">
                 <m-banner :src="src" url-prefix="users/images"/>
             </template>

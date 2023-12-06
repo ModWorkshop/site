@@ -15,11 +15,14 @@ const props = defineProps<{
     src?: string,
     urlPrefix?: string,
     width?: string|number,
-    height?: string|number
+    height?: string|number,
+    maxFileSize?: number|string,
 }>();
 
 const modelValue = defineModel<Blob|null|undefined>();
 const emit = defineEmits(['update:modelValue']);
+const { showToast } = useToaster();
+const { t } = useI18n();
 
 const fileRef = ref();
 const input = ref<HTMLInputElement>();
@@ -28,6 +31,8 @@ const currentSrc = computed(() => blob.value || props.src);
 
 const uniqueId = useGetUniqueId();
 const labelId = computed(() => props.id || uniqueId);
+
+const maxFileSizeBytes = computed(() => parseInt(props.maxFileSize as string));
 
 watch(modelValue, (value, oldValue) => {
     if (input.value && oldValue && !value) {
@@ -39,10 +44,16 @@ watch(modelValue, (value, oldValue) => {
 function onChange() {
     const file = input.value?.files?.[0];
     if (file) {
+        if (maxFileSizeBytes.value && file.size > maxFileSizeBytes.value) {
+            showToast({ 
+                desc: t('file_name_too_large', { name: file.name }),
+                color: 'danger'
+            });
+            return;
+        }
+
         const reader = new FileReader();
-        reader.onload = () => {
-            blob.value = reader.result; 
-        };
+        reader.addEventListener('load', () => blob.value = reader.result);
 
         if (file instanceof Blob) {
             reader.readAsDataURL(file);    
