@@ -4,7 +4,7 @@
         <m-input v-model="user.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
         <m-input v-model="user.email" maxlength="255" :label="$t('email')"/>
         <m-flex class="items-center my-3">
-            <h3>{{$t('change_password')}} </h3>
+            <label>{{$t('change_password')}}</label>
             <m-button class="ml-auto" @click="changePassword = !changePassword">{{$t(changePassword ? 'cancel' : 'edit')}}</m-button>
         </m-flex>
         <template v-if="changePassword">
