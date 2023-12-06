@@ -68,7 +68,7 @@ async function save() {
         if (!mod.value.id) {
             fetchedMod = await postRequest<Mod>(`/games/${mod.value.game_id}/mods`, mod.value);
             if (fetchedMod) {
-                router.push({ path: `/mod/${fetchedMod.id}/edit`, query: { tab: route.query.tab } });
+                // router.push({ path: `/mod/${fetchedMod.id}/edit`, query: { tab: route.query.tab } });
                 flushChanges.trigger(fetchedMod);
             }
         } else {

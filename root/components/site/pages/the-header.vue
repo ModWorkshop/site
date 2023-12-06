@@ -26,7 +26,7 @@
         <Transition name="left-slide">
             <m-flex v-show="!headerClosed" class="header-content">
                 <m-flex id="header-buttons" gap="4" class="ml-3">
-                    <m-link v-if="!user?.ban" :to="user ? '/mod/new' : '/login'">{{$t('upload_mod')}}</m-link>
+                    <m-link v-if="!user?.ban" :to="user ? '/upload' : '/login'">{{$t('upload_mod')}}</m-link>
                     <m-link to="/search/mods">{{$t('browse_mods')}}</m-link>
                     <m-link class="max-lg:hidden" to="/games">{{$t('games')}}</m-link>
                     <m-link v-if="settings?.news_forum_category" class="max-xl:hidden" :to="`/forum?category=${settings?.news_forum_category}`">{{$t('news')}}</m-link>

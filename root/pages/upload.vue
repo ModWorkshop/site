@@ -1,3 +1,3 @@
-<script lang="ts" setup>
-navigateTo('/mod/new');
-</script>
+<template>
+    <upload-page/>
+</template>

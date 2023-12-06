@@ -9,7 +9,7 @@
                         <m-link :to="`/g/${game.short_name}`">{{game.name}}</m-link>
                     </h2>
                     <m-flex wrap gap="4">
-                        <m-link v-if="!store.isBanned" v-once :to="user ? `/mod/new?game=${game.id}` : '/login'">
+                        <m-link v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">
                             <i-mdi-upload/> {{$t('upload_mod')}}
                         </m-link>
                         <m-link :to="`/g/${game.short_name}/mods`"><i-mdi-puzzle/> {{$t('browse_mods')}}</m-link>
