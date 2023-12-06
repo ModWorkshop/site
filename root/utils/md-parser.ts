@@ -88,8 +88,7 @@ md.use(taskLists, {enabled: true});
 md.use(markdownItRegex(
 	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
 	function([, , match]) {
-		match = md.render(match);
-		return `\n\n<div class="center">${match}</div>\n\n`;
+		return `\n\n<span class="center">${md.renderInline(match)}</span>\n\n`;
 	}
 ));
 
@@ -211,7 +210,7 @@ export function parseMarkdown(text: string) {
 
 	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function(wholeStr, delimiter, match) {		
 		match = md.render(match);
-		return `\n\n<div class="spoiler"><details><summary>Spoiler!</summary><div>${match}</details></div>\n\n`;
+		return `\n\n<div class="spoiler"><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
 	});
 	text = text.replace(inlineRegExp, parseMedia);
     text = md.render(text); //Parse using markdown it
