@@ -339,9 +339,11 @@ class Mod extends Model implements SubscribableInterface
 
         static::created(function(Mod $mod) {
             //Auto-sub ourselves
-            $mod->subscriptions()->create([
-                'user_id' => $mod->user_id
-            ]);
+            if ($mod->user->extra->auto_subscribe_to_mod) {
+                $mod->subscriptions()->create([
+                    'user_id' => $mod->user_id
+                ]);
+            }
         });
     }
 

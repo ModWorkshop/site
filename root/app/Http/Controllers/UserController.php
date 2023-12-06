@@ -187,6 +187,8 @@ class UserController extends Controller
             'extra.home_show_threads' => 'boolean|nullable',
             'extra.game_show_mods' => 'boolean|nullable',
             'extra.game_show_threads' => 'boolean|nullable',
+            'extra.auto_subscribe_to_mod' => 'boolean|nullable',
+            'extra.auto_subscribe_to_thread' => 'boolean|nullable',
         ]);
 
         $extra = Arr::pull($val, 'extra');
