@@ -73,7 +73,7 @@ const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
 const uniqueId = useGetUniqueId();
 const err = useWatchValidation(vm, elementRef);
 
-const labelId = computed(() => props.id || uniqueId);
+const labelId = ref(props.id || uniqueId);
 const isCheckbox = computed(() => props.type == 'checkbox');
 const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}));
 
