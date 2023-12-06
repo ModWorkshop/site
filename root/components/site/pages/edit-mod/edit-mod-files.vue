@@ -1,7 +1,7 @@
 <template>
     <m-flex class="w-full mb-4">
         <span class="h2">{{ $t('downloads') }}</span>
-        <m-button class="ml-auto" click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</m-button>
+        <m-button class="ml-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</m-button>
     </m-flex>
 
     <label>{{$t('files')}}</label>
