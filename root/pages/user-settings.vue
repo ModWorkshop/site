@@ -5,6 +5,7 @@
             <m-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
                 <m-nav-link to="profile" alias="" :title="$t('profile')"/>
                 <m-nav-link to="account" :title="$t('account_tab')"/>
+                <m-nav-link to="settings" :title="$t('settings')"/>
                 <m-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
                 <m-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
                 <!-- <m-nav-link to="api" :title="$t('api_access_tab')"/> -->

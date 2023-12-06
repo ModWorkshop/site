@@ -291,6 +291,8 @@ export interface User {
         home_show_threads: boolean;
         game_show_mods: boolean;
         game_show_threads: boolean;
+        auto_subscribe_to_mod: boolean;
+        auto_subscribe_to_thread: boolean;
     };
     mods_count: number;
     supporter?: Supporter;
