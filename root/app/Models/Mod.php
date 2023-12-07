@@ -399,7 +399,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->orderByRaw('display_order ASC, created_at ASC');
     }
 
     public function files() : HasMany

@@ -10,6 +10,7 @@ use App\Services\APIService;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rules\File;
 
 /**
@@ -45,7 +46,9 @@ class ImageController extends Controller
     {
         set_time_limit(1800);
 
-        if ($mod->images()->count() >= Setting::getValue('mod_max_image_count')) {
+        $count = $mod->images()->count();
+
+        if ($count >= Setting::getValue('mod_max_image_count')) {
             abort(406, 'Reached maximum allowed images for the mod!');
         }
 
@@ -68,6 +71,7 @@ class ImageController extends Controller
             'file' => $name,
             'has_thumb' => true,
             'type' => $type,
+            'display_order' => $count,
             'size' => $size
         ]);
     }
@@ -85,9 +89,24 @@ class ImageController extends Controller
     /**
      *  @hideFromAPIDocumentation
      */
-    public function update(Request $request, Mod $mod, Image $image)
+    public function update(Request $request, Image $image)
     {
-        //TODO
+        $val = $request->validate([
+            'display_order' => 'integer|min:-1000|max:1000',
+        ]);
+
+        /**
+         * @var Collection
+         */
+        $images = $image->mod->images()->orderBy('display_order')->where('id', '!=', $image->id)->get();
+        $images->splice($val['display_order'], 0, [$image]);
+        for ($i=0; $i < $images->count(); $i++) {
+            $img = $images[$i];
+            $img->display_order = $i;
+            $img->save();
+        }
+
+        return $image;
     }
 
     /**
@@ -97,7 +116,14 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
+        $mod = $image->mod;
         $image->delete(); //Deletion of files handled in the model class.
+
+        $images = $mod->images()->orderBy('display_order')->get();
+        for ($i=0; $i < count($images); $i++) {
+            $images[$i]->display_order = $i;
+            $images[$i]->save();
+        }
     }
 
     /**
