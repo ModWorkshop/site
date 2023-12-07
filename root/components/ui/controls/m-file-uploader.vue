@@ -199,7 +199,7 @@ function register(files: FileList|null) {
                 actualFile: file
             };
 
-            vm.value.unshift(insertFile);
+            vm.value.push(insertFile);
     
            //Read the file and get blob src
             const reader = new FileReader();
@@ -242,12 +242,11 @@ async function uploadWaitingFiles() {
                 },
                 cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
             }).then(data => {
-                const reactiveFile = vm.value[0];
-                Object.assign(reactiveFile, data);
-                reactiveFile.cancel = undefined;
-                reactiveFile.progress = undefined;
+                Object.assign(uploadFile, data);
+                uploadFile.cancel = undefined;
+                uploadFile.progress = undefined;
     
-                emit('file-uploaded', reactiveFile);
+                emit('file-uploaded', uploadFile);
             }).catch(e => {
                 if (e instanceof AxiosError) {
                     input.value.value = null;
