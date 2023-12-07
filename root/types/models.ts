@@ -74,6 +74,7 @@ export interface File extends SimpleFile {
 
 export interface Image extends SimpleFile {
     has_thumb: boolean;
+    display_order: number;
 }
 
 export interface ModMember extends User {
