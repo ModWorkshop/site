@@ -48,7 +48,7 @@
             </tbody>
         </m-table>
         <div v-else-if="vm.length" class="grid file-list p-3 alt-content-bg">
-            <div v-for="file of vm" :key="file.created_at" class="file-item" @click.prevent>
+            <div v-for="file of vm" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
                 <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <m-flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
