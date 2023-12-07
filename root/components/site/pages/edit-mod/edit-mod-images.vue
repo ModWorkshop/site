@@ -27,19 +27,19 @@
         :max-files="settings?.mod_max_image_count"
         :max-file-size="settings?.image_max_file_size"
         :paused="!mod.id"
-        max-size="50"
+        :max-size="50 * 1024e3"
         use-file-as-thumb
         @file-deleted="fileDeleted"
         @update:model-value="fileUploaded"
     >
         <template #buttons="{file}">
             <m-flex>
-            <m-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
-                <i-mdi-image-outline/> {{$t('thumbnail')}}
-            </m-button>
-            <m-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
-                <i-mdi-image-outline/> {{$t('banner')}}
-            </m-button>
+                <m-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
+                    <i-mdi-image-outline/> {{$t('thumbnail')}}
+                </m-button>
+                <m-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
+                    <i-mdi-image-outline/> {{$t('banner')}}
+                </m-button>
             </m-flex>
             <m-flex>
                 <m-button class="grow" :disabled="!file.id" @click.prevent="setImageOrder(file as Image, -1)">
