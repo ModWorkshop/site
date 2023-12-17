@@ -166,7 +166,7 @@ class LoginController extends Controller
             $driver = $driver->setScopes(['read:user']);
         }
 
-        return $driver->redirect();
+        return $driver->redirect(env('SOCIALITE_REDIRECT_URL').$provider);
     }
 
     public function socialiteLogin(Request $request, string $provider)
