@@ -26,6 +26,7 @@ const newMod = ref<Mod>({
     desc: '',
     images: [],
     members: [],
+    tag_ids: [],
     short_desc: '',
     changelog: '',
     license: '',
