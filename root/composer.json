@@ -17,6 +17,7 @@
         "jcupitt/vips": "2.3.0",
         "laravel/framework": "^10.5.1",
         "laravel/octane": "^2.2.1",
+        "laravel/pulse": "^1.0@beta",
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.0.2",
         "laravel/telescope": "^4.13.0",
@@ -82,6 +83,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }
