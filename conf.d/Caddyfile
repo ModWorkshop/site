@@ -1,22 +1,13 @@
-:8080 {
-	@static {
-		file
-		path *.ico *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
-	}
-	header @static Cache-Control max-age=31556952
+{
+	# Enable FrankenPHP
+	frankenphp
+	# Configure when the directive must be executed
+	order php_server before file_server
+}
 
-	redir /api.php* /v2API?{query}
-
-	root * /var/www/html/public
-
+localhost {
+	# Enable compression (optional)
 	encode zstd gzip
-
-	php_fastcgi :9000 {
-		header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
-		header_up X-Forwarded-Host {header.X-Forwarded-Host}
-		header_up Host {header.X-Forwarded-Host}
-		header_up X-Forwarded-For {header.X-Forwarded-For}
-	}
-
-	file_server
+	# Execute PHP files in the current directory and serve assets
+	php_server
 }
