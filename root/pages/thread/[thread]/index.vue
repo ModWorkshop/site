@@ -22,9 +22,7 @@
             </m-flex>
         </m-content-block>
         <m-flex v-if="thread.answer_comment" column gap="4">
-            <span class="h3">
-                This reply was chosen as the answer for the post
-            </span>
+            <span class="h3">{{$t('thread_answer')}}</span>
             <list-comment :comment="thread.answer_comment" :commentable="thread"/>
         </m-flex>
         <the-comments
