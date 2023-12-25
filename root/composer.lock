@@ -1520,16 +1520,16 @@
         },
         {
             "name": "genealabs/laravel-model-caching",
-            "version": "0.13.4",
+            "version": "0.13.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/GeneaLabs/laravel-model-caching.git",
-                "reference": "631bb7f1d84c5863d82cff90e48152f65616597e"
+                "url": "https://github.com/mikebronner/laravel-model-caching.git",
+                "reference": "19bcdf2aa9b635e1c6ae034599c393366d5c8618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeneaLabs/laravel-model-caching/zipball/631bb7f1d84c5863d82cff90e48152f65616597e",
-                "reference": "631bb7f1d84c5863d82cff90e48152f65616597e",
+                "url": "https://api.github.com/repos/mikebronner/laravel-model-caching/zipball/19bcdf2aa9b635e1c6ae034599c393366d5c8618",
+                "reference": "19bcdf2aa9b635e1c6ae034599c393366d5c8618",
                 "shasum": ""
             },
             "require": {
@@ -1541,18 +1541,17 @@
                 "illuminate/database": "^10.0",
                 "illuminate/http": "^10.0",
                 "illuminate/support": "^10.0",
-                "php": "^8.1"
+                "php": ">=8.1"
             },
             "require-dev": {
                 "doctrine/dbal": "^3.3",
                 "fakerphp/faker": "^1.11",
                 "laravel/legacy-factories": "^1.3",
-                "laravel/nova": "^3.9",
+                "laravel/nova": "^4.0",
                 "orchestra/testbench": "^8.0",
                 "orchestra/testbench-browser-kit": "^8.0",
                 "php-coveralls/php-coveralls": "^2.2",
-                "phpmd/phpmd": "^2.11",
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^10.0",
                 "slevomat/coding-standard": "^7.0",
                 "squizlabs/php_codesniffer": "^3.6",
                 "symfony/thanks": "^1.2"
@@ -1582,10 +1581,10 @@
             ],
             "description": "Automatic caching for Eloquent models.",
             "support": {
-                "issues": "https://github.com/GeneaLabs/laravel-model-caching/issues",
-                "source": "https://github.com/GeneaLabs/laravel-model-caching/tree/0.13.4"
+                "issues": "https://github.com/mikebronner/laravel-model-caching/issues",
+                "source": "https://github.com/mikebronner/laravel-model-caching/tree/0.13.8"
             },
-            "time": "2023-03-27T13:53:10+00:00"
+            "time": "2023-12-23T18:53:05+00:00"
         },
         {
             "name": "genealabs/laravel-pivot-events",
@@ -2497,16 +2496,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.38.0",
+            "version": "v10.38.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "531732a17e4d0fa4fc4fb987a72abbdb93537d3a"
+                "reference": "43da808391da3540d44a8dfeb4e46da4ad8f5723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/531732a17e4d0fa4fc4fb987a72abbdb93537d3a",
-                "reference": "531732a17e4d0fa4fc4fb987a72abbdb93537d3a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/43da808391da3540d44a8dfeb4e46da4ad8f5723",
+                "reference": "43da808391da3540d44a8dfeb4e46da4ad8f5723",
                 "shasum": ""
             },
             "require": {
@@ -2552,6 +2551,8 @@
                 "voku/portable-ascii": "^2.0"
             },
             "conflict": {
+                "carbonphp/carbon-doctrine-types": ">=3.0",
+                "doctrine/dbal": ">=4.0",
                 "tightenco/collect": "<5.5.33"
             },
             "provide": {
@@ -2663,6 +2664,7 @@
                 "files": [
                     "src/Illuminate/Collections/helpers.php",
                     "src/Illuminate/Events/functions.php",
+                    "src/Illuminate/Filesystem/functions.php",
                     "src/Illuminate/Foundation/helpers.php",
                     "src/Illuminate/Support/helpers.php"
                 ],
@@ -2695,7 +2697,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-12-19T14:59:00+00:00"
+            "time": "2023-12-22T14:39:10+00:00"
         },
         {
             "name": "laravel/octane",
@@ -11795,7 +11797,9 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel/pulse": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
