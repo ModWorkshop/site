@@ -2497,16 +2497,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.38.0",
+            "version": "v10.38.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "531732a17e4d0fa4fc4fb987a72abbdb93537d3a"
+                "reference": "43da808391da3540d44a8dfeb4e46da4ad8f5723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/531732a17e4d0fa4fc4fb987a72abbdb93537d3a",
-                "reference": "531732a17e4d0fa4fc4fb987a72abbdb93537d3a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/43da808391da3540d44a8dfeb4e46da4ad8f5723",
+                "reference": "43da808391da3540d44a8dfeb4e46da4ad8f5723",
                 "shasum": ""
             },
             "require": {
@@ -2552,6 +2552,8 @@
                 "voku/portable-ascii": "^2.0"
             },
             "conflict": {
+                "carbonphp/carbon-doctrine-types": ">=3.0",
+                "doctrine/dbal": ">=4.0",
                 "tightenco/collect": "<5.5.33"
             },
             "provide": {
@@ -2663,6 +2665,7 @@
                 "files": [
                     "src/Illuminate/Collections/helpers.php",
                     "src/Illuminate/Events/functions.php",
+                    "src/Illuminate/Filesystem/functions.php",
                     "src/Illuminate/Foundation/helpers.php",
                     "src/Illuminate/Support/helpers.php"
                 ],
@@ -2695,7 +2698,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-12-19T14:59:00+00:00"
+            "time": "2023-12-22T14:39:10+00:00"
         },
         {
             "name": "laravel/octane",
@@ -9276,16 +9279,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.26.0",
+            "version": "4.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "b4606404e8931fb882dd001163168e6314c0d356"
+                "reference": "ab123ea94408c84ee53aaa584926323a3161c238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/b4606404e8931fb882dd001163168e6314c0d356",
-                "reference": "b4606404e8931fb882dd001163168e6314c0d356",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/ab123ea94408c84ee53aaa584926323a3161c238",
+                "reference": "ab123ea94408c84ee53aaa584926323a3161c238",
                 "shasum": ""
             },
             "require": {
@@ -9300,14 +9303,14 @@
                 "league/flysystem": "^1.1.4|^2.1.1|^3.0",
                 "mpociot/reflection-docblock": "^1.0.1",
                 "nikic/php-parser": "^4.10",
-                "nunomaduro/collision": "^5.10|^6.0|^7.0",
+                "nunomaduro/collision": "^5.10|^6.0|^7.0|^8.0",
                 "php": ">=8.0",
                 "ramsey/uuid": "^4.2.2",
                 "shalvah/clara": "^3.1.0",
                 "shalvah/upgrader": "^0.3.0",
                 "spatie/data-transfer-object": "^2.6|^3.0",
-                "symfony/var-exporter": "^5.4|^6.0",
-                "symfony/yaml": "^5.4|^6.0"
+                "symfony/var-exporter": "^5.4|^6.0|^7.0",
+                "symfony/yaml": "^5.4|^6.0|^7.0"
             },
             "replace": {
                 "mpociot/laravel-apidoc-generator": "*"
@@ -9359,7 +9362,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.26.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.27.0"
             },
             "funding": [
                 {
@@ -9367,7 +9370,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-11-21T10:33:59+00:00"
+            "time": "2023-12-21T17:45:45+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11795,7 +11798,9 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel/pulse": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
