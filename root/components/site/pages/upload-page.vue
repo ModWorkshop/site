@@ -1,5 +1,5 @@
 <template>
-    <mod-page :mod="newMod" :page-block="!game">
+    <mod-page :mod="newMod" :use-page-block="!game">
         <m-flex column gap="3">
             <edit-mod-page v-model:mod="newMod"/>
         </m-flex>

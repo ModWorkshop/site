@@ -1,7 +1,6 @@
 <template>
     <mod-page :mod="mod!">
         <m-flex column gap="3">
-            <mod-page-index v-if="$route.name == 'mod-mod'" :mod="mod"/>
             <NuxtPage v-model:mod="mod"/>
         </m-flex>
     </mod-page>

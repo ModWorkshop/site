@@ -1,7 +1,7 @@
 <template>
     <Title v-if="mod.game">{{mod.name}} - {{ mod.game.name }} Mods</Title>
     <Title v-else>{{ mod.name }}</Title>
-    <page-block v-if="pageBlock" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
+    <page-block v-if="usePageBlock" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
         <mod-alerts v-if="mod.id" :mod="mod"/>
         <mod-top-buttons v-if="mod.id" :mod="mod"/>
         <slot/>
@@ -18,9 +18,9 @@ import type { Breadcrumb, Mod } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 
-const { mod, pageBlock = true } = defineProps<{
+const { mod, usePageBlock = true } = defineProps<{
     mod: Mod,
-    pageBlock?: boolean
+    usePageBlock?: boolean
 }>();
 
 const { t } = useI18n();
