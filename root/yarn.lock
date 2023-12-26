@@ -2468,9 +2468,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/language-core@npm:1.8.26":
-  version: 1.8.26
-  resolution: "@vue/language-core@npm:1.8.26"
+"@vue/language-core@npm:1.8.27":
+  version: 1.8.27
+  resolution: "@vue/language-core@npm:1.8.27"
   dependencies:
     "@volar/language-core": ~1.11.1
     "@volar/source-map": ~1.11.1
@@ -2486,7 +2486,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 70b4a0d16d4c405e6d064e66768e29bb60ea707c76b4bf15eaf30814398ae3ab6628c626605adde1106c4f034a2678611bc3448b6e950e6629e6f01575d40155
+  checksum: 8660c05319be8dc5daacc2cd929171434215d29f3ad5bfbe0038d1967db05b8bf640286b25f338845cc1e3890b4aaa239ac9e8cb832cc8a50a5bbdff31b2edd1
   languageName: node
   linkType: hard
 
@@ -6540,7 +6540,7 @@ __metadata:
     unplugin-icons: ^0.17.4
     unplugin-vue-components: ^0.25.1
     vue-easy-lightbox: ^1.13.0
-    vue-tsc: ^1.8.24
+    vue-tsc: ^1.8.27
   languageName: unknown
   linkType: soft
 
@@ -9967,18 +9967,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:^1.8.24":
-  version: 1.8.26
-  resolution: "vue-tsc@npm:1.8.26"
+"vue-tsc@npm:^1.8.27":
+  version: 1.8.27
+  resolution: "vue-tsc@npm:1.8.27"
   dependencies:
     "@volar/typescript": ~1.11.1
-    "@vue/language-core": 1.8.26
+    "@vue/language-core": 1.8.27
     semver: ^7.5.4
   peerDependencies:
     typescript: "*"
   bin:
     vue-tsc: bin/vue-tsc.js
-  checksum: 9f3f4973e206acaedaab5bfd997c1c8d92baa7652d03b05f69ce6db056c78ddabbb3a8056a28d7a433c1decab6adc7a03b47d39694c207270948c23e7679ad8c
+  checksum: 98c2986df01000a3245b5f08b9db35d0ead4f46fb12f4fe771257b4aa61aa4c26dda359aaa0e6c484a6240563d5188aaa6ed312dd37cc2315922d5e079260001
   languageName: node
   linkType: hard
 
