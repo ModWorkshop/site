@@ -39,6 +39,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antfu/install-pkg@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "@antfu/install-pkg@npm:0.3.1"
+  dependencies:
+    execa: ^8.0.1
+  checksum: c79d04599eae7c549cef94b4907b3a695bb953dca22816615fd36968eaa6d62394e71a1c7553d3bb46fd72c04f539819d95b10656049c809c67a09fa378dc1dd
+  languageName: node
+  linkType: hard
+
 "@antfu/utils@npm:^0.7.4, @antfu/utils@npm:^0.7.5, @antfu/utils@npm:^0.7.6, @antfu/utils@npm:^0.7.7":
   version: 0.7.7
   resolution: "@antfu/utils@npm:0.7.7"
@@ -803,9 +812,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/utils@npm:^2.1.11":
-  version: 2.1.13
-  resolution: "@iconify/utils@npm:2.1.13"
+"@iconify/utils@npm:^2.1.12":
+  version: 2.1.15
+  resolution: "@iconify/utils@npm:2.1.15"
   dependencies:
     "@antfu/install-pkg": ^0.1.1
     "@antfu/utils": ^0.7.5
@@ -813,7 +822,7 @@ __metadata:
     debug: ^4.3.4
     kolorist: ^1.8.0
     local-pkg: ^0.4.3
-  checksum: 32390929ad6c3c2ac2f172fad67dc8eb91b7a18c7003131613cd5271ef52eb07a15032d413e78ff1fe9b16961541f2854929f90f2e05d372fe910fb1d522a4ff
+  checksum: e13c6c2200c2ccd73c64391b474d4a143ea75464a7cd8c280fc2b3ec03eaef40996f9e9a606d379bcdbccbf2a4a00dbd41818fb95d7d084b5d2bfec3a6839d16
   languageName: node
   linkType: hard
 
@@ -6537,7 +6546,7 @@ __metadata:
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
-    unplugin-icons: ^0.17.4
+    unplugin-icons: ^0.18.2
     unplugin-vue-components: ^0.25.1
     vue-easy-lightbox: ^1.13.0
     vue-tsc: ^1.8.24
@@ -9367,17 +9376,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-icons@npm:^0.17.4":
-  version: 0.17.4
-  resolution: "unplugin-icons@npm:0.17.4"
+"unplugin-icons@npm:^0.18.2":
+  version: 0.18.2
+  resolution: "unplugin-icons@npm:0.18.2"
   dependencies:
-    "@antfu/install-pkg": ^0.1.1
+    "@antfu/install-pkg": ^0.3.0
     "@antfu/utils": ^0.7.6
-    "@iconify/utils": ^2.1.11
+    "@iconify/utils": ^2.1.12
     debug: ^4.3.4
     kolorist: ^1.8.0
     local-pkg: ^0.5.0
-    unplugin: ^1.5.0
+    unplugin: ^1.5.1
   peerDependencies:
     "@svgr/core": ">=7.0.0"
     "@svgx/core": ^1.0.1
@@ -9395,7 +9404,7 @@ __metadata:
       optional: true
     vue-template-es2015-compiler:
       optional: true
-  checksum: bd1615ee2a8b85c46c45a57c6e39cd1b2c489d6161391768d8716369f50bc9b0a76e3a66277c2094b7c5a8080c4a9e367fe034981bd70fabf3d77e8d5b199dcc
+  checksum: 2674710ed80384eb86cec4892618cef86757145c0f098d694233aac3002a7c627e7445ed90b684fd86a1b7f014af3a5676b576d60db38f558865e995fdf2fd7e
   languageName: node
   linkType: hard
 
