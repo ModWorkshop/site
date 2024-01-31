@@ -85,7 +85,7 @@ watch(open, () => {
     color: var(--text-color);
     border-radius: var(--border-radius);
     border: 1px solid var(--input-border-color);
-    max-width: 300px;
+    max-width: 400px;
     max-height: 450px;
     color: var(--text-color);
     z-index: 9999;
