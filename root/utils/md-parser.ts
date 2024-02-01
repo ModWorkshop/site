@@ -1,7 +1,6 @@
 import MarkdownIt  from 'markdown-it';
 
 import DOMPurify from 'isomorphic-dompurify';
-import { escapeHtml } from 'markdown-it/lib/common/utils.js';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
 import { html5Media } from 'markdown-it-html5-media';
@@ -202,7 +201,7 @@ export function parseMarkdown(text: string) {
 	}
 
     //TODO: consider disabling BBCode for new/updated mods
-	text = escapeHtml(text); //First escape the ugly shit
+	text = md.utils.escapeHtml(text); //First escape the ugly shit
     text = parseBBCode(text); //Handle BBCode
 
 	text = text.replace(/&gt;/g, '>');
