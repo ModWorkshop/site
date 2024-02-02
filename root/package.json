@@ -58,7 +58,7 @@
     "filesize": "^10.1.0",
     "highlight.js": "^11.9.0",
     "humanize-duration": "^3.31.0",
-    "isomorphic-dompurify": "^1.9.0",
+    "isomorphic-dompurify": "^2.3.0",
     "lodash": "^4.17.21",
     "luxon": "^3.4.4",
     "markdown-it": "^14.0.0",
