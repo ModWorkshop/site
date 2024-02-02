@@ -19,7 +19,7 @@
                 </m-flex>
                 <md-content class="w-full comment-content" :text="content"/>
             </m-flex>
-            <div v-if="url" class="absolute" style="right: -0.5rem; top: -0.5rem;">
+            <div v-if="url" class="absolute" style="right: 0; top: -0.5rem;">
                 <m-flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
                     <m-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
                         <i-mdi-reply/>
