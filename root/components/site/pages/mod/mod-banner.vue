@@ -1,5 +1,5 @@
 <template>
-    <m-banner class="mod-banner" :src="mod.legacy_banner_url || (mod.banner && mod.banner.file)" height="170" url-prefix="mods/images"/>
+    <m-banner class="mod-banner" :src="mod.legacy_banner_url || (mod.banner && mod.banner.file)" height="228" url-prefix="mods/images"/>
 </template>
 
 <script setup lang="ts">
