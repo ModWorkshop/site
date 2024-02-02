@@ -1,5 +1,5 @@
 export default async function<T = unknown>(url: string, options?) {
-    const token = useSiteCookie('XSRF-TOKEN', { readonly: true });
+    const token = useCookie('XSRF-TOKEN', { readonly: true });
     const headers = useRequestHeaders();
     const { public: config, innerApiUrl } = useRuntimeConfig();
 

@@ -51,7 +51,7 @@ const props = defineProps<{
     type?: 'link'|'file';
 }>();
 
-const chosenModManager = useSiteCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
+const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
 
 const managers = computed(() => props.mod.mod_managers ?? []);
 
