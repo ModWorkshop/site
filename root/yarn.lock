@@ -39,21 +39,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antfu/install-pkg@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "@antfu/install-pkg@npm:0.3.1"
+  dependencies:
+    execa: ^8.0.1
+  checksum: c79d04599eae7c549cef94b4907b3a695bb953dca22816615fd36968eaa6d62394e71a1c7553d3bb46fd72c04f539819d95b10656049c809c67a09fa378dc1dd
+  languageName: node
+  linkType: hard
+
 "@antfu/utils@npm:^0.7.4, @antfu/utils@npm:^0.7.5, @antfu/utils@npm:^0.7.6, @antfu/utils@npm:^0.7.7":
   version: 0.7.7
   resolution: "@antfu/utils@npm:0.7.7"
   checksum: 58b7c52e7531b0bed421b52d414331909c1db9fa97532a70ac0e35d7216153d9e25c654594326cad68a529c75379e4d52e3ea377273d28302302ab0f97189284
-  languageName: node
-  linkType: hard
-
-"@asamuzakjp/dom-selector@npm:^2.0.1":
-  version: 2.0.2
-  resolution: "@asamuzakjp/dom-selector@npm:2.0.2"
-  dependencies:
-    bidi-js: ^1.0.3
-    css-tree: ^2.3.1
-    is-potential-custom-element-name: ^1.0.1
-  checksum: a454537fcba4f241d3c1303f6068944462fc0ba9cd2c5e3ad639c0acb58ffb7809e5d4cbdac805c8c2525b2450d53a992ff98f07a323c5246044e8e3de3561fe
   languageName: node
   linkType: hard
 
@@ -973,7 +971,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/utils@npm:^2.1.11":
+"@iconify/utils@npm:^2.1.20":
   version: 2.1.20
   resolution: "@iconify/utils@npm:2.1.20"
   dependencies:
@@ -2229,7 +2227,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dompurify@npm:^3.0.3":
+"@types/dompurify@npm:^3.0.5":
   version: 3.0.5
   resolution: "@types/dompurify@npm:3.0.5"
   dependencies:
@@ -3157,15 +3155,6 @@ __metadata:
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 9706c088a283058a8a99e0bf91b0a2f75497f185980d9ffa8b304de1d9e58ebda7c72c07ebf01dadedaac5b2907b2c6f566f660d62bd336c3468e960403b9d65
-  languageName: node
-  linkType: hard
-
-"bidi-js@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "bidi-js@npm:1.0.3"
-  dependencies:
-    require-from-string: ^2.0.2
-  checksum: 877c5dcfd69a35fd30fee9e49a03faf205a7a4cd04a38af7648974a659cab7b1cd51fa881d7957c07bd1fc5adf22b90a56da3617bb0885ee69d58ff41117658c
   languageName: node
   linkType: hard
 
@@ -4159,7 +4148,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.6":
+"dompurify@npm:^3.0.8":
   version: 3.0.8
   resolution: "dompurify@npm:3.0.8"
   checksum: cac660ccae15a9603f06a85344da868a4c3732d8b57f7998de0f421eb4b9e67d916be52e9bb2a57b2f95b49e994cc50bcd06bb87f2cb2849cf058bdf15266237
@@ -5862,14 +5851,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-dompurify@npm:^1.9.0":
-  version: 1.13.0
-  resolution: "isomorphic-dompurify@npm:1.13.0"
+"isomorphic-dompurify@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "isomorphic-dompurify@npm:2.3.0"
   dependencies:
-    "@types/dompurify": ^3.0.3
-    dompurify: ^3.0.6
-    jsdom: ^23.0.0
-  checksum: 97b7efa0bd976a22f01428d6b31329f71b2be07c50de0a2561d2583f0afea7c5c15a97a0e389f0628d6a78a6c5fc772211cec33488320b4ed1920633337adf69
+    "@types/dompurify": ^3.0.5
+    dompurify: ^3.0.8
+    jsdom: ^24.0.0
+  checksum: b63acd054657b656ce499143bb68601b091ce2ac139a9f19828ebd8537920c828d19820a83fee9da12caae4941fa2ff6473139bfaa89dd4cb8cf9c15521e0a0b
   languageName: node
   linkType: hard
 
@@ -5920,11 +5909,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^23.0.0":
-  version: 23.2.0
-  resolution: "jsdom@npm:23.2.0"
+"jsdom@npm:^24.0.0":
+  version: 24.0.0
+  resolution: "jsdom@npm:24.0.0"
   dependencies:
-    "@asamuzakjp/dom-selector": ^2.0.1
     cssstyle: ^4.0.1
     data-urls: ^5.0.0
     decimal.js: ^10.4.3
@@ -5933,6 +5921,7 @@ __metadata:
     http-proxy-agent: ^7.0.0
     https-proxy-agent: ^7.0.2
     is-potential-custom-element-name: ^1.0.1
+    nwsapi: ^2.2.7
     parse5: ^7.1.2
     rrweb-cssom: ^0.6.0
     saxes: ^6.0.0
@@ -5950,7 +5939,7 @@ __metadata:
   peerDependenciesMeta:
     canvas:
       optional: true
-  checksum: 3ba97e6ac56c38d92d0ce2d0fac5de4042f7dec40d127872e1aa88dd379980f8ea2108a008319ceac54dc07a784078ed4b4401bf9109a76276ca2cace229c8df
+  checksum: 180cf672c1f5e4375fd831b6990c453b4c22b540619abe7a0a3ed0d18eca1171dea9f25739bc06dfea26d1c0d71c7ac26e62fc9a2d9b1657003fc8fd1bf6f9f4
   languageName: node
   linkType: hard
 
@@ -6811,7 +6800,7 @@ __metadata:
     filesize: ^10.1.0
     highlight.js: ^11.9.0
     humanize-duration: ^3.31.0
-    isomorphic-dompurify: ^1.9.0
+    isomorphic-dompurify: ^2.3.0
     lodash: ^4.17.21
     luxon: ^3.4.4
     markdown-it: ^14.0.0
@@ -6828,7 +6817,7 @@ __metadata:
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
-    unplugin-icons: ^0.17.4
+    unplugin-icons: ^0.18.3
     unplugin-vue-components: ^0.25.1
     vue-easy-lightbox: ^1.13.0
     vue-tsc: ^1.8.24
@@ -7311,6 +7300,13 @@ __metadata:
     nuxi: bin/nuxt.mjs
     nuxt: bin/nuxt.mjs
   checksum: 820ef0c9e1392ea8dd25ba2f575ad7e992862c8dbe994d7b2a421f4f3262768ea8d20164268fe2b45df868d710d635d0ba36e361afe18b250e32ee10b922d0ad
+  languageName: node
+  linkType: hard
+
+"nwsapi@npm:^2.2.7":
+  version: 2.2.7
+  resolution: "nwsapi@npm:2.2.7"
+  checksum: cab25f7983acec7e23490fec3ef7be608041b460504229770e3bfcf9977c41d6fe58f518994d3bd9aa3a101f501089a3d4a63536f4ff8ae4b8c4ca23bdbfda4e
   languageName: node
   linkType: hard
 
@@ -8444,13 +8440,6 @@ __metadata:
   version: 2.1.1
   resolution: "require-directory@npm:2.1.1"
   checksum: fb47e70bf0001fdeabdc0429d431863e9475e7e43ea5f94ad86503d918423c1543361cc5166d713eaa7029dd7a3d34775af04764bebff99ef413111a5af18c80
-  languageName: node
-  linkType: hard
-
-"require-from-string@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "require-from-string@npm:2.0.2"
-  checksum: a03ef6895445f33a4015300c426699bc66b2b044ba7b670aa238610381b56d3f07c686251740d575e22f4c87531ba662d06937508f0f3c0f1ddc04db3130560b
   languageName: node
   linkType: hard
 
@@ -9683,17 +9672,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-icons@npm:^0.17.4":
-  version: 0.17.4
-  resolution: "unplugin-icons@npm:0.17.4"
+"unplugin-icons@npm:^0.18.3":
+  version: 0.18.3
+  resolution: "unplugin-icons@npm:0.18.3"
   dependencies:
-    "@antfu/install-pkg": ^0.1.1
+    "@antfu/install-pkg": ^0.3.0
     "@antfu/utils": ^0.7.6
-    "@iconify/utils": ^2.1.11
+    "@iconify/utils": ^2.1.20
     debug: ^4.3.4
     kolorist: ^1.8.0
     local-pkg: ^0.5.0
-    unplugin: ^1.5.0
+    unplugin: ^1.5.1
   peerDependencies:
     "@svgr/core": ">=7.0.0"
     "@svgx/core": ^1.0.1
@@ -9711,7 +9700,7 @@ __metadata:
       optional: true
     vue-template-es2015-compiler:
       optional: true
-  checksum: bd1615ee2a8b85c46c45a57c6e39cd1b2c489d6161391768d8716369f50bc9b0a76e3a66277c2094b7c5a8080c4a9e367fe034981bd70fabf3d77e8d5b199dcc
+  checksum: 04bdbae9b956e640ae7a37709e289bcdbbcdb15bbf4d691e98e647a740f631d877fffbb9b519ac7f14857cedcbe8690d4bb3ff0a9e619dae6860f80b8a46d85e
   languageName: node
   linkType: hard
 
