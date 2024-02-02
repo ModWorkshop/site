@@ -31,6 +31,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			uploadUrl: '',
 			storageUrl: '',
+			cookieUrl: '',
 			debug_legacy_images: false,
 			version: '3.4',
 			commitHash: ''

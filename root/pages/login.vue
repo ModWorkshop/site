@@ -35,7 +35,7 @@ definePageMeta({
 });
 
 const showErrorToast = useQuickErrorToast();
-const allowCookies = useCookie('allow-cookies');
+const allowCookies = useSiteCookie('allow-cookies');
 
 const { t } = useI18n();
 

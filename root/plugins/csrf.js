@@ -1,7 +1,7 @@
 import { reloadToken } from '../utils/helpers';
 async function check(force=false) {
     console.log('Checking for CSRF token...');
-    if (force || !useCookie('XSRF-TOKEN', { readonly: true }).value) {
+    if (force || !useSiteCookie('XSRF-TOKEN', { readonly: true }).value) {
         console.log("Fetching CSRF token. " );
         reloadToken();
     }

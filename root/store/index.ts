@@ -32,8 +32,8 @@ export const useStore = defineStore('main', {
         notificationCount: null,
         reportCount: null,
         waitingCount: null,
-        savedTheme: useCookie('theme'),
-        colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
+        savedTheme: useSiteCookie('theme'),
+        colorScheme: useSiteCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
         activity: null,
         announcements: [],
         currentGame: null,
@@ -60,7 +60,7 @@ export const useStore = defineStore('main', {
     actions: {
         toggleTheme() {
             this.savedTheme = this.theme === 'light' ? null : 'light';
-            useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
+            useSiteCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
         setGame(game?: Game|null) {
             // if (game) {

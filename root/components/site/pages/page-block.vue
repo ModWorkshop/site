@@ -109,7 +109,7 @@ if (props.game && props.defineMeta) {
     });
 }
 
-const storedHiddenAns = useCookie('hidden-announcements');
+const storedHiddenAns = useSiteCookie('hidden-announcements');
 const hiddenAnnouncements = computed(() => {    
     if (storedHiddenAns.value) {
         return storedHiddenAns.value.toString().split(',').map(id => parseInt(id));

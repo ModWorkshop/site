@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { clearAllCookies, longExpiration } from '~~/utils/helpers';
 
-const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
+const allowCookies = useSiteCookie<boolean>('allow-cookies', { expires: longExpiration() });
 
 function disallowCookies() {
     clearAllCookies();

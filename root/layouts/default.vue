@@ -58,7 +58,7 @@ import { storeToRefs } from 'pinia';
 
 const toasts = useState<Toast[]>('toasts', () => []);
 
-const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
+const allowCookies = useSiteCookie<boolean>('allow-cookies', { expires: longExpiration() });
 
 const store = useStore();
 const { user } = storeToRefs(store);
