@@ -70,7 +70,7 @@ const props = defineProps<{
 const emit = defineEmits(['update:elementRef', 'update:modelValue']);
 const vm = defineModel<any>('modelValue');
 const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
-const uniqueId = useGetUniqueId();
+const uniqueId = useId();
 const err = useWatchValidation(vm, elementRef);
 
 const labelId = ref(props.id || uniqueId);

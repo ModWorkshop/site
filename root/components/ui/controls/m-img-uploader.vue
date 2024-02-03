@@ -29,7 +29,7 @@ const input = ref<HTMLInputElement>();
 const blob = ref();
 const currentSrc = computed(() => blob.value || props.src);
 
-const uniqueId = useGetUniqueId();
+const uniqueId = useId();
 const labelId = computed(() => props.id || uniqueId);
 
 const maxFileSizeBytes = computed(() => parseInt(props.maxFileSize as string));
