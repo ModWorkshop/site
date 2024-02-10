@@ -110,9 +110,9 @@ export default defineNuxtConfig({
 		]
 	},
 
-	delayHydration: {
-		mode: 'mount'
-	},
+	// delayHydration: {
+	// 	mode: 'mount'
+	// },
 
 	// nitro: {
 	// 	compressPublicAssets: true,
@@ -180,10 +180,6 @@ export default defineNuxtConfig({
 			// { code: 'owo', file: 'owo.ts', name: 'OwO' },
 		],
 
-		experimental: {
-			jsTsFormatResource: true
-		},
-		
 		lazy: true,
 		langDir: 'locales',
 		defaultLocale: 'en',
