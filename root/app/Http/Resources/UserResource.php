@@ -36,6 +36,7 @@ class UserResource extends BaseResource
             'permissions' => $this->when($isMe, $this->permissionList),
             'tag' => $this->tag,
             'email' => $this->when($isMe, $this->email),
+            'nitro_token' => $this->when($isMe, $this->nitroToken),
             'pending_email' => $this->when($isMe, $this->pending_email),
             'email_verified_at' => $this->when($isMe, $this->email_verified_at),
             'activated' => $this->when($isMe, $this->activated),

@@ -170,6 +170,8 @@ class User extends Authenticatable implements MustVerifyEmail
     // DO NOT use for permission checking it's safer to load games again
     public int $eagerLoadedGameId = 0;
 
+    public string $nitroToken = '';
+
     /**
      * The attributes that are mass assignable.
      */

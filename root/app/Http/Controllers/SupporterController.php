@@ -8,6 +8,7 @@ use App\Services\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\Subscription;
 use Illuminate\Http\Response;
 
 /**
@@ -36,7 +37,8 @@ class SupporterController extends Controller
             $q->orderByRaw('expire_date DESC NULLS LAST, expired ASC');
         }
         if (isset($val['active_only']) && $val['active_only']) {
-            $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now());
+            $q->where('expired', false);
+            $q->where(fn($q) => $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now()));
         }
 
         return BaseResource::collectionResponse($q->get()->unique('user_id')->flatten()->paginate(1000));
@@ -98,5 +100,41 @@ class SupporterController extends Controller
     public function destroy(Supporter $supporter)
     {
         $supporter->delete();
+    }
+
+    /**
+     * Checks nitro to update the subscription data
+     * 
+     * @authenticated
+     */
+    public function nitroCheck() {
+        $user = $this->user();
+        $signer = new \NitroPaySponsor\Signer(env('NITRO_TOKEN'));
+
+        $user->nitroToken = $signer->sign([
+            'siteId' => '92', // required
+            'userId' => $user->id, // required
+        ]);
+
+        $subInfo = $signer->getUserSubscription($user?->id);
+        $registeredSub = Supporter::where('provider', 'nitro')->where('user_id', $user->id)->first();
+
+        if (!isset($registeredSub)) {
+            if ($subInfo->status == 'active') {
+                $registeredSub = Supporter::create([
+                    'provider' => 'nitro',
+                    'user_id' => $user->id
+                ]);
+            } else {
+                return;
+            }
+        }
+
+        \Log::info($subInfo->status);
+        $registeredSub->expire_date = Carbon::create($subInfo->subscribedUntil);
+        $registeredSub->expired = $subInfo->status != 'active';
+        $registeredSub->save();
+
+        return $registeredSub;
     }
 }

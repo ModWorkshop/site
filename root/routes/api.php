@@ -194,6 +194,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::resource('supporters', SupporterController::class);
+Route::middleware('auth:sanctum')->get('supporters/nitro-check', [SupporterController::class, 'nitroCheck']);
 
 Route::middleware('can:report,user')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
