@@ -47,7 +47,7 @@ class GameController extends Controller
             'short_name' => 'string|nullable|max:30',
             'webhook_url' => 'string|nullable|max:1000',
             'mod_manager_ids' => 'array|nullable',
-            'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id',
+            'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id|nullable',
             'default_mod_manager_id' => 'exists:mod_managers,id|nullable'
         ]);
 
@@ -55,15 +55,18 @@ class GameController extends Controller
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
         $bannerFile = Arr::pull($val, 'banner_file');
-        $ModManagerIds = Arr::pull($val, 'mod_manager_ids');
+        $modManagerIds = Arr::pull($val, 'mod_manager_ids');
 
-        $modManagers = ModManager::whereIdIn($ModManagerIds);
+        $modManagers = ModManager::whereIdIn($modManagerIds);
+        $modManagerIds = [];
         foreach ($modManagers as $manager) {
             if (!empty($manager->game_id)) {
                 abort(406, 'You cannot add mod managers that the game owns.');
             }
+
+            $modManagerIds[] = $manager->id;
         }
-        $game->modManagers()->sync($ModManagerIds);
+        $game->modManagers()->sync($modManagerIds);
 
         $wasCreated = false;
         if (!isset($game)) {
