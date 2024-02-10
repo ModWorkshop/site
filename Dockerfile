@@ -60,7 +60,7 @@ RUN apk add --no-cache dcron libcap \
     && chmod +x /scripts/entrypoint.sh
 
 # Install composer packages & cache this layer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress \
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress --ignore-platform-reqs \
     && php artisan route:cache \
     && php artisan optimize \
     && php artisan storage:link
