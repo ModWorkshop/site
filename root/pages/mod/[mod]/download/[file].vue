@@ -22,10 +22,12 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~/store';
 import type { File, Mod } from '~~/types/models';
 import { friendlySize } from '~~/utils/helpers';
 import { registerDownload } from '~~/utils/mod-helpers';
 
+const { user } = useStore();
 const { t } = useI18n();
 
 const { mod } = defineProps<{
@@ -53,6 +55,10 @@ watch(download, () => {
 
 onMounted(() => {
     if (process.client) {
+        if (user?.active_supporter) {
+            return;
+        }
+
         // if (dataLayer) {
         //     console.log('Load video');
         //     dataLayer.push({event: "loadVideo"});

@@ -83,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from '~/store';
 import type { Mod } from '~~/types/models';
 const props = defineProps<{
     mod: Mod,
@@ -94,6 +95,8 @@ const showMembers = {
     'maintainer': true,
     'contributor': true
 };
+
+const { user } = useStore();
 const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
@@ -107,6 +110,10 @@ const ownerDonation = computed(() => props.mod.user?.donation_url || props.mod.d
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 
 onMounted(() => {
+    if (user?.active_supporter) {
+        return;
+    }
+
     if (process.client) {
         window['nitroAds'].createAd('mws-ads-mod-pane', {
             "refreshLimit": 0,

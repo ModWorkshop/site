@@ -48,6 +48,7 @@ const clss = computed(() => ({
     'button-no-bg': props.noBg,
     'button-sm': props.size == 'sm',
     'button-xs': props.size == 'xs',
+    'button-lg': props.size == 'lg',
     'cursor-pointer': props.unstyled
 }));
 
@@ -73,6 +74,10 @@ const isDisabled = computed(() => props.disabled || props.loading);
 
 .button:not([disabled]):active {
     transform: scale(.98);
+}
+
+.button-lg {
+    padding: 1rem;
 }
 
 .button-sm {

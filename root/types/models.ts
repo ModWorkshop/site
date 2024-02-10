@@ -297,6 +297,7 @@ export interface User {
     };
     mods_count: number;
     supporter?: Supporter;
+    nitro_token: string;
 }
 
 export interface UserForm extends User {

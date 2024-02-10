@@ -14,9 +14,9 @@
             
             <m-flex id="toaster" column gap="2">
                 <ClientOnly>
-				<TransitionGroup name="toasts">
-					<m-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
-				</TransitionGroup>
+                    <TransitionGroup name="toasts">
+                        <m-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
+                    </TransitionGroup>
                 </ClientOnly>
 			</m-flex>
 
@@ -89,6 +89,11 @@ const adClasses = computed(() => ({
 }));
 
 onMounted(async () => {
+    if (user.value?.active_supporter) {
+        console.log("Detected supporter, enjoy no ads!");
+        return;
+    }
+
     let def = 0;
     document.addEventListener("scroll", () => {
         if (leftAd.value) {
