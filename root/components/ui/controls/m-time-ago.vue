@@ -1,5 +1,11 @@
 <template>
-    <span :title="fullDateStr">{{timeAgoStr}}</span>
+    <ClientOnly>
+        <template #fallback>
+            <span>{{timeAgoStr}}</span>
+        </template>
+
+        <span :title="fullDateStr">{{timeAgoStr}}</span>
+    </ClientOnly>
 </template>
 
 <script setup lang="ts">

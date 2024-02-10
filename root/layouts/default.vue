@@ -13,9 +13,11 @@
             </m-toast>
             
             <m-flex id="toaster" column gap="2">
+                <ClientOnly>
 				<TransitionGroup name="toasts">
 					<m-toast v-for="toast of toasts" :key="toast.key" :title="toast.title" :desc="toast.desc" :color="toast.color"/>
 				</TransitionGroup>
+                </ClientOnly>
 			</m-flex>
 
             <div id="mws-ads-top" class="ad mx-auto mt-2"/>

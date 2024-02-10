@@ -87,7 +87,7 @@
                     <m-loading v-if="loading" class="my-auto"/>
                     <template v-else>
                         <mod-list-skeleton
-                            :display-mode="displayMode"
+                            :display-mode="(displayMode as number)"
                             :sort-by="sortBy"
                             :no-game="!!game"
                             :error="error"
@@ -120,7 +120,7 @@ const props = withDefaults(defineProps<{
     triggerRefresh?: EventHook<void>,
     sideFilters?: boolean,
     limit?: number,
-    query: boolean,
+    query?: boolean,
     url?: string,
     params?: object,
     initialMods?: Paginator<Mod>

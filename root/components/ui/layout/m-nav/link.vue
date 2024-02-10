@@ -17,7 +17,7 @@ const props = defineProps<{
 const route = useRoute();
 
 const side = inject<boolean>('side', false);
-const menuOpen = inject<Ref<boolean>>('menuOpen');
+const menuOpen = inject<Ref<boolean>>('menuOpen', ref(false));
 const root = inject<string>('root', '');
 
 const compAlias = computed(() => {
