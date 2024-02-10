@@ -5,34 +5,32 @@
                 <i-mdi-menu/>
             </m-link>
         </m-flex>
-        <m-flex :class="{'menu-open': menuOpen}" :column="!side" :gap="2">
+        <m-flex :class="{'menu-open': menuOpen}" :column="!side" :gap="2" :padding="padding">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
-                <m-flex v-show="!side || menuOpen" class="nav-menu p-6" :column="side">
+                <m-flex v-show="!side || menuOpen" :class="{'nav-menu': true, 'p-6': side}" :column="side">
                     <slot/>
                 </m-flex>
             </Transition>
-            <m-content-block class="nav-menu-content" column grow gap="3" padding="6">
+            <m-flex column grow gap="3" :padding="6" :class="{'content-block': background}">
                 <slot name="content"/>
-            </m-content-block>
+            </m-flex>
         </m-flex>
     </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    side: Boolean,
-    root: String,
-    padding: {
-        default: 2,
-        type: [String, Number]
-    }
-});
+const { padding = 2, side = false, background = true, root } = defineProps<{
+    side?: boolean;
+    root?: string;
+    padding?: string|number,
+    background?: boolean;
+}>();
 
 const menuOpen = ref(false);
 
-provide('root', props.root);
-provide('side', props.side);
+provide('root', root);
+provide('side', side);
 provide('menuOpen', menuOpen.value);
 </script>
 
