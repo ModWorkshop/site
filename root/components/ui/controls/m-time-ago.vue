@@ -1,10 +1,10 @@
 <template>
     <ClientOnly>
         <template #fallback>
-            <span>{{timeAgoStr}}</span>
+            <span v-bind="$attrs">{{timeAgoStr}}</span>
         </template>
 
-        <span :title="fullDateStr">{{timeAgoStr}}</span>
+        <span v-bind="$attrs" :title="fullDateStr">{{timeAgoStr}}</span>
     </ClientOnly>
 </template>
 
