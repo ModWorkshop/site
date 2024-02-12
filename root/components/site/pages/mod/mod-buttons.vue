@@ -3,17 +3,17 @@
         <template v-if="!mod.download">
             <m-button v-if="mod.files_count || mod.links_count || (mod.files && mod.files.data.length) || (mod.links && mod.links.data.length)" class="large-button flex-1" @click="switchToFiles">{{$t('downloads')}}</m-button>
             <m-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</m-button>
-            <m-button 
-                v-if="canLike"
-                :color="mod.liked && 'danger' || 'secondary'"
-                class="large-button"
-                :title="$t('like_mod')"
-                :to="!user ? '/login' : undefined"
-                @click="toggleLiked"
-            >
-                <i-mdi-heart/> {{ likes }}
-            </m-button>
         </template>
+        <m-button 
+            v-if="canLike"
+            :color="mod.liked && 'danger' || 'secondary'"
+            class="large-button"
+            :title="$t('like_mod')"
+            :to="!user ? '/login' : undefined"
+            @click="toggleLiked"
+        >
+            <i-mdi-heart/> {{ likes }}
+        </m-button>
     </mod-download-buttons>
 </template>
 
