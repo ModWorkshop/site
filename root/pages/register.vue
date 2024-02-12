@@ -43,7 +43,7 @@
                     <m-button type="submit" :loading="loading" :disabled="!canRegister">{{$t('register')}}</m-button>
                 </div>
 
-                <NuxtLink class="mt-2" to="register">{{$t('already_have_account')}}</NuxtLink>
+                <NuxtLink class="mt-2" to="login">{{$t('already_have_account')}}</NuxtLink>
                 <m-flex column>
                     {{$t('login_using_services')}}
                     <the-social-logins/>
