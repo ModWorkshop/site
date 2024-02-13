@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.2",
         "biiiiiigmonster/hasin": "^3.0",
         "chelout/laravel-relationship-events": "^2.0",
         "coderflex/laravel-turnstile": "^1.0",
