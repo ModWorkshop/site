@@ -221,7 +221,7 @@ class UserController extends Controller
 
         $email = Arr::pull($val, 'email');
         if (isset($email)) {
-            $user->setEmail($email);
+            $user->email = $email;
         }
 
         $user->update($val);
