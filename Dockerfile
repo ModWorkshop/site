@@ -21,7 +21,7 @@ RUN install-php-extensions \
     pcntl \
     posix \
     vips \
-    apfd
+    https://codeload.github.com/m6w6/ext-apfd/tar.gz/refs/heads/master
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
