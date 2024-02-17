@@ -80,9 +80,9 @@ class APIService {
      * @param callable|null $onSuccess Callback to run after successful upload
      * @return array
      */
-    public static function storeImage(?UploadedFile $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
+    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
     {
-        if (!isset($file)) {
+        if (empty($file) || !isset($file)) {
             return null;
         }
 
