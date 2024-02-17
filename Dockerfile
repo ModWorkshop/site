@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.0.3-php8.2-alpine as build
+FROM dunglas/frankenphp:1.1.0-php8.3-alpine as build
 
 RUN apk add --no-cache \
   supervisor
