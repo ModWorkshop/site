@@ -119,7 +119,7 @@ class ThreadController extends Controller
         $changeAnnounce = Arr::pull($val, 'announce');
         $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $thread->forum->game);
-        if (!$canManageThreads && ($changePin || key_exists('answer_comment_id', $val) || $changeAnnounce)) {
+        if (!$canManageThreads && ($changePin || $changeAnnounce)) {
             abort(401);
         }
 
