@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "alireaza/laravel-form-data": "^1.3",
         "biiiiiigmonster/hasin": "^3.0",
         "chelout/laravel-relationship-events": "^2.0",
         "coderflex/laravel-turnstile": "^1.0",

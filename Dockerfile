@@ -20,8 +20,7 @@ RUN install-php-extensions \
     xmlwriter \
     pcntl \
     posix \
-    vips \
-    https://codeload.github.com/m6w6/ext-apfd/tar.gz/refs/heads/master
+    vips
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
