@@ -23,6 +23,8 @@ RUN install-php-extensions \
     vips \
     apfd
 
+RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+
 RUN <<EOF cat >> $PHP_INI_DIR/php.ini
 
 ffi.enable=true
