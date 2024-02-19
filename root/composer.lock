@@ -687,16 +687,16 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.9",
+            "version": "2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "2930cd5ef353871c821d5c43ed030d39ac8cfe65"
+                "reference": "5817d0659c5b50c9b950feb9af7b9668e2c436bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/2930cd5ef353871c821d5c43ed030d39ac8cfe65",
-                "reference": "2930cd5ef353871c821d5c43ed030d39ac8cfe65",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/5817d0659c5b50c9b950feb9af7b9668e2c436bc",
+                "reference": "5817d0659c5b50c9b950feb9af7b9668e2c436bc",
                 "shasum": ""
             },
             "require": {
@@ -758,7 +758,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.9"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.10"
             },
             "funding": [
                 {
@@ -774,7 +774,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-15T18:05:13+00:00"
+            "time": "2024-02-18T20:23:39+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2186,16 +2186,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.43.0",
+            "version": "v10.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4f7802dfc9993cb57cf69615491ce1a7eb2e9529"
+                "reference": "1199dbe361787bbe9648131a79f53921b4148cf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4f7802dfc9993cb57cf69615491ce1a7eb2e9529",
-                "reference": "4f7802dfc9993cb57cf69615491ce1a7eb2e9529",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/1199dbe361787bbe9648131a79f53921b4148cf6",
+                "reference": "1199dbe361787bbe9648131a79f53921b4148cf6",
                 "shasum": ""
             },
             "require": {
@@ -2243,6 +2243,7 @@
             "conflict": {
                 "carbonphp/carbon-doctrine-types": ">=3.0",
                 "doctrine/dbal": ">=4.0",
+                "phpunit/phpunit": ">=11.0.0",
                 "tightenco/collect": "<5.5.33"
             },
             "provide": {
@@ -2387,7 +2388,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-01-30T16:25:02+00:00"
+            "time": "2024-02-13T16:01:16+00:00"
         },
         {
             "name": "laravel/octane",
@@ -4334,25 +4335,27 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.18.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999"
+                "reference": "4a21235f7e56e713259a6f76bf4b5ea08502b9dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/1bcbb2179f97633e98bbbc87044ee2611c7d7999",
-                "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4a21235f7e56e713259a6f76bf4b5ea08502b9dc",
+                "reference": "4a21235f7e56e713259a6f76bf4b5ea08502b9dc",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
                 "ext-tokenizer": "*",
-                "php": ">=7.0"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -4360,7 +4363,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.9-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -4384,9 +4387,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.18.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.0"
             },
-            "time": "2023-12-10T21:03:43+00:00"
+            "time": "2024-01-07T17:17:35+00:00"
         },
         {
             "name": "nunomaduro/termwind",
@@ -10191,16 +10194,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.29.0",
+            "version": "4.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "695c2a99a70f8c6c1b0dd3bf34d0d70af5ca44fc"
+                "reference": "0900c0d44965b0a13c480a8ea6dbc27e4698bcd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/695c2a99a70f8c6c1b0dd3bf34d0d70af5ca44fc",
-                "reference": "695c2a99a70f8c6c1b0dd3bf34d0d70af5ca44fc",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/0900c0d44965b0a13c480a8ea6dbc27e4698bcd9",
+                "reference": "0900c0d44965b0a13c480a8ea6dbc27e4698bcd9",
                 "shasum": ""
             },
             "require": {
@@ -10214,12 +10217,12 @@
                 "illuminate/support": "^8.0|^9.0|^10.0",
                 "league/flysystem": "^1.1.4|^2.1.1|^3.0",
                 "mpociot/reflection-docblock": "^1.0.1",
-                "nikic/php-parser": "^4.10",
+                "nikic/php-parser": "^4.10|^5.0",
                 "nunomaduro/collision": "^5.10|^6.0|^7.0|^8.0",
                 "php": ">=8.0",
                 "ramsey/uuid": "^4.2.2",
                 "shalvah/clara": "^3.1.0",
-                "shalvah/upgrader": "^0.3.0",
+                "shalvah/upgrader": "^0.4.0",
                 "spatie/data-transfer-object": "^2.6|^3.0",
                 "symfony/var-exporter": "^5.4|^6.0|^7.0",
                 "symfony/yaml": "^5.4|^6.0|^7.0"
@@ -10274,7 +10277,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.29.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.30.1"
             },
             "funding": [
                 {
@@ -10282,7 +10285,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-12-29T14:26:08+00:00"
+            "time": "2024-02-18T14:19:49+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -12279,21 +12282,21 @@
         },
         {
             "name": "shalvah/upgrader",
-            "version": "0.3.1",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shalvah/upgrader.git",
-                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390"
+                "reference": "b9c5dcccf226ff29b5e6f9a53dfe3b96a30acf7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
-                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
+                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/b9c5dcccf226ff29b5e6f9a53dfe3b96a30acf7a",
+                "reference": "b9c5dcccf226ff29b5e6f9a53dfe3b96a30acf7a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^8.0|^9.0|^10.0",
-                "nikic/php-parser": "^4.13",
+                "illuminate/support": ">=8.0",
+                "nikic/php-parser": "^4.13|^5.0",
                 "php": ">=8.0"
             },
             "require-dev": {
@@ -12325,7 +12328,7 @@
             ],
             "support": {
                 "issues": "https://github.com/shalvah/upgrader/issues",
-                "source": "https://github.com/shalvah/upgrader/tree/0.3.1"
+                "source": "https://github.com/shalvah/upgrader/tree/0.4.0"
             },
             "funding": [
                 {
@@ -12333,7 +12336,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-06T01:20:37+00:00"
+            "time": "2024-02-14T23:57:54+00:00"
         },
         {
             "name": "spatie/backtrace",
