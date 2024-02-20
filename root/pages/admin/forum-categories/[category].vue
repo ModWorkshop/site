@@ -1,17 +1,17 @@
 <template>
     <simple-resource-form v-model="category" url="forum-categories" :game="game" :redirect-to="redirectUrl">
-        <a-input v-model="category.name" required :label="$t('name')"/>
-        <a-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
-        <a-input v-model="category.display_order" :label="$t('order')" type="number"/>
+        <m-input v-model="category.name" required :label="$t('name')"/>
+        <m-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
+        <m-input v-model="category.display_order" :label="$t('order')" type="number"/>
 
         <md-editor v-model="category.desc" :label="$t('description')"/>
-        <flex column>
+        <m-flex column>
             <label>{{$t('role_policies')}}</label>
-            <flex>
-                <a-select v-model="addRole" :options="roles?.data"/>
-                <a-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</a-button>
-            </flex>
-            <a-table alt-background>
+            <m-flex>
+                <m-select v-model="addRole" :options="roles?.data"/>
+                <m-button :disabled="!addRole" @click="addRolePolicy">{{$t('add')}}</m-button>
+            </m-flex>
+            <m-table alt-background>
                 <template #head>
                     <th>{{$t('role')}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
@@ -21,20 +21,20 @@
                 <template #body>
                     <tr v-for="addedRole in addedRoles" :key="addedRole.id">
                         <td>{{addedRole.role.name}}</td>
-                        <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
-                        <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
-                        <td><a-button color="danger" @click="removeRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</a-button></td>
+                        <td><m-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
+                        <td><m-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
+                        <td><m-button color="danger" @click="removeRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</m-button></td>
                     </tr>
                 </template>
-            </a-table>
-        </flex>
-        <flex v-if="game" column class="p-1">
+            </m-table>
+        </m-flex>
+        <m-flex v-if="game" column class="p-1">
             <label>{{$t('game_role_policies')}}</label>
-            <flex>
-                <a-select v-model="addGameRole" :options="validGameRoles"/>
-                <a-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</a-button>
-            </flex>
-            <a-table alt-background>
+            <m-flex>
+                <m-select v-model="addGameRole" :options="validGameRoles"/>
+                <m-button :disabled="!addGameRole" @click="addGameRolePolicy">{{$t('add')}}</m-button>
+            </m-flex>
+            <m-table alt-background>
                 <template #head>
                     <th>{{$t("role")}}</th>
                     <th>{{$t('forum_category_can_view')}}</th>
@@ -44,22 +44,21 @@
                 <template #body>
                     <tr v-for="addedRole in addedGameRoles" :key="addedRole.id">
                         <td>{{addedRole.role.name}}</td>
-                        <td><a-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
-                        <td><a-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
-                        <td><a-button color="danger" @click="removeGameRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</a-button></td>
+                        <td><m-input v-model="addedRole.policy.can_view" type="checkbox"/></td>
+                        <td><m-input v-model="addedRole.policy.can_post" type="checkbox"/></td>
+                        <td><m-button color="danger" @click="removeGameRolePolicy(addedRole.id)"><i-mdi-delete/> {{$t('delete')}}</m-button></td>
                     </tr>
                 </template>
-            </a-table>
-        </flex>
-        <a-input v-model="category.is_private" type="checkbox" :label="$t('private_category')"/>
-        <a-input v-model="category.banned_can_post" type="checkbox" :label="$t('banned_can_post')"/>
-        <a-input v-model="category.private_threads" type="checkbox" :label="$t('private_threads')"/>
+            </m-table>
+        </m-flex>
+        <m-input v-model="category.is_private" type="checkbox" :label="$t('private_category')"/>
+        <m-input v-model="category.banned_can_post" type="checkbox" :label="$t('banned_can_post')"/>
+        <m-input v-model="category.private_threads" type="checkbox" :label="$t('private_threads')"/>
     </simple-resource-form>
 </template>
 
 <script setup lang="ts">
-import { ForumCategory, Game, Role, RolePolicy } from "~~/types/models";
-import { getGameResourceUrl } from "~~/utils/helpers";
+import type { ForumCategory, Game, Role, RolePolicy } from "~~/types/models";
 
 const props = defineProps<{
     game?: Game

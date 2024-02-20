@@ -1,28 +1,28 @@
 <template>
-    <flex column gap="3">
-        <a-form @submit="warn">
+    <m-flex column gap="3">
+        <m-form @submit="warn">
             <h2>{{$t('warn_user')}}</h2>
-            <flex column>
-                <a-user-select v-model="warnUser" required :label="$t('user')"/>
-                <a-duration v-model="warnDuration" required :label="$t('duration')"/>
-                <a-input v-model="reason" required type="textarea" :label="$t('reason')"/>
-                <a-button type="submit" class="mr-auto">{{$t('warn')}}</a-button>
-            </flex>
-        </a-form>
+            <m-flex column>
+                <user-select v-model="warnUser" required :label="$t('user')"/>
+                <m-duration v-model="warnDuration" required :label="$t('duration')"/>
+                <m-input v-model="reason" required type="textarea" :label="$t('reason')"/>
+                <m-button type="submit" class="mr-auto">{{$t('warn')}}</m-button>
+            </m-flex>
+        </m-form>
 
         <h2>{{$t('cases')}}</h2>
-        <a-user-select v-model="user" required :label="$t('user')" clearable/>
-        <a-items v-model:page="page" :items="cases" :loading="loading">
+        <user-select v-model="user" required :label="$t('user')" clearable/>
+        <m-list v-model:page="page" query :items="cases" :loading="loading">
             <template #item="{ item }">
                 <admin-case :user-case="item" :cases-url="caseItemsUrl" @delete="deleteCase"/>
             </template>
-        </a-items>
-    </flex>
+        </m-list>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
-import { Game, UserCase } from '~~/types/models';
+import type { Game, UserCase } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
@@ -36,7 +36,7 @@ const caseItemsUrl = computed(() => getGameResourceUrl('cases', props.game));
 
 const warnUser = useRouteQuery('user', null, 'number');
 const user = useRouteQuery('filter-user', warnUser.value, 'number');
-const page = useRouteQuery('page', 1, 'number');
+const page = ref(1);
 
 const showErrorToast = useQuickErrorToast();
 

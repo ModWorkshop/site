@@ -1,13 +1,13 @@
 <template>
     <page-block size="2xs">
         <Title>{{$t('reset_password')}}</Title>
-        <a-form @submit="reset">
+        <m-form @submit="reset">
             <h1>{{$t('reset_password')}}</h1>
-            <content-block column gap="3">
-                <flex column>
-                    <a-input v-if="!user" v-model="email" :disabled="sent" :label="$t('email')" type="email"/>
-                    <flex>
-                        <a-input 
+            <m-content-block column gap="3">
+                <m-flex column>
+                    <m-input v-if="!user" v-model="email" :disabled="sent" :label="$t('email')" type="email"/>
+                    <m-flex>
+                        <m-input 
                             v-model="password"
                             required
                             autocomplete="off"
@@ -17,7 +17,7 @@
                             :label="$t('password')" 
                             type="password"
                         />
-                        <a-input 
+                        <m-input 
                             v-model="passwordConfirm"
                             required
                             autocomplete="off"
@@ -27,14 +27,14 @@
                             :label="$t('confirm_password')" 
                             type="password"
                         />
-                    </flex>
+                    </m-flex>
                     <small>{{$t('password_guide')}}</small>
-                </flex>
+                </m-flex>
                 <div>
-                    <a-button type="submit" :disabled="sending || (!email && !user) || (!!password && passwordConfirm !== password)">{{$t('submit')}}</a-button>
+                    <m-button type="submit" :disabled="sending || (!email && !user) || (!!password && passwordConfirm !== password)">{{$t('submit')}}</m-button>
                 </div>
-            </content-block>
-        </a-form>    
+            </m-content-block>
+        </m-form>    
     </page-block>
 </template>
 

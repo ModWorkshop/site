@@ -1,16 +1,16 @@
 <template>
     <page-block size="2xs">
         <Title>{{$t('forgot_password')}}</Title>
-        <a-form @submit="reset">
+        <m-form @submit="reset">
             <h1>{{$t('forgot_password')}}</h1>
-            <content-block column gap="3">
-                <a-input v-model="email" :disabled="sent" :label="$t('email')" type="email"/>
+            <m-content-block column gap="3">
+                <m-input v-model="email" :disabled="sent" :label="$t('email')" type="email"/>
                 <div>
-                    <a-button type="submit" :disabled="!email || sending">{{$t('send_link')}}</a-button>
+                    <m-button type="submit" :disabled="!email || sending">{{$t('send_link')}}</m-button>
                 </div>
                 <div v-if="sent">{{$t('password_reset_sent')}}</div>
-            </content-block>
-        </a-form>    
+            </m-content-block>
+        </m-form>    
     </page-block>
 </template>
 

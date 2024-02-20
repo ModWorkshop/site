@@ -4,7 +4,7 @@
 			<NuxtPage/>
 			<NuxtLoadingIndicator color="var(--primary-color)"/>
 		</NuxtLayout>
-		<a-modal-form 
+		<m-form-modal 
 			v-if="firstModal"
 			v-model="firstModal.modelValue"
 			:title="firstModal.title || 'Are you sure?'"
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { YesNoModal } from './composables/useYesNoModal';
+import type { YesNoModal } from './composables/useYesNoModal';
 import { useStore } from './store';
 
 const store = useStore();

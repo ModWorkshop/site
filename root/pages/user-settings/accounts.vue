@@ -1,29 +1,29 @@
 <template>
-    <flex column gap="2">
-        <a-alert :desc="$t('accounts_desc')" color="info"/>
-        <flex column>
-            <flex v-for="[name, provider] of Object.entries(providers)" :key="name" class="list-button items-center">
-                <flex column>
-                    <flex class="items-center">
-                        <a-icon :icon="provider.icon" class="text-3xl"/>
+    <m-flex column gap="2">
+        <m-alert :desc="$t('accounts_desc')" color="info"/>
+        <m-flex column>
+            <m-flex v-for="[name, provider] of Object.entries(providers)" :key="name" class="list-button items-center">
+                <m-flex column>
+                    <m-flex class="items-center">
+                        <m-icon :icon="provider.icon" class="text-3xl"/>
                         {{provider.name}}
-                    </flex>
+                    </m-flex>
                     <span v-if="provider.account">
                         <i18n-t v-if="provider.account" keypath="linked_time_ago" tag="span" scope="global">
                             <template #time_ago>
-                                <time-ago :time="provider.account.created_at"/>
+                                <m-time-ago :time="provider.account.created_at"/>
                             </template>
                         </i18n-t>
                     </span>
-                </flex>
+                </m-flex>
                 
-                <VTooltip v-if="provider.account" :disabled="canUnlink" content="" class="my-auto ml-auto">
+                <m-dropdown v-if="provider.account" type="tooltip" :disabled="canUnlink" class="my-auto ml-auto">
                     <div>
-                        <a-button :disabled="!canUnlink" @click="unlink(name)">{{$t('unlink')}}</a-button>
+                        <m-button :disabled="!canUnlink" @click="unlink(name)">{{$t('unlink')}}</m-button>
                     </div>
-                    <template #popper>{{$t('cannot_unlink_reason')}}</template>
-                </VTooltip>
-                <a-button 
+                    <template #content>{{$t('cannot_unlink_reason')}}</template>
+                </m-dropdown>
+                <m-button 
                     v-else
                     :to="`${config.apiUrl}/social-logins/${name}/link-redirect`"
                     target="_blank"
@@ -31,15 +31,15 @@
                     @click="onLinkOpen"
                 >
                     {{$t('link')}}
-                </a-button>
-            </flex>
-        </flex>
-    </flex>
+                </m-button>
+            </m-flex>
+        </m-flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { SocialLogin, UserForm } from '~~/types/models';
+import type { SocialLogin, UserForm } from '~~/types/models';
 import CibGitHub from '~icons/cib/github';
 import CibGitLab from '~icons/cib/gitlab';
 import CibDiscord from '~icons/cib/discord';

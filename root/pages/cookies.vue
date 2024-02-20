@@ -1,10 +1,10 @@
 <template>
     <page-block class="items-center">
         <h1>{{$t('cookies')}}</h1>
-        <content-block>
+        <m-content-block>
             {{$t('cookies_desc')}}
             <h2>{{$t('first_party_cookies')}}</h2>
-            <a-table class="cookies-table" alt-background>
+            <m-table class="cookies-table" alt-background>
                 <template #head>
                     <th>{{$t('name')}}</th>
                     <th>{{$t('cookie_explanation')}}</th>
@@ -39,19 +39,19 @@
                         <td>{{$t('login_cookies_desc')}}</td>
                     </tr>
                 </template>
-            </a-table>
-            <a-alert v-if="allowCookies == true" color="success">{{$t('cookies_allowed_desc')}}</a-alert>
-            <a-alert v-else-if="allowCookies == false" color="danger">{{$t('cookies_denied_desc')}}</a-alert>
+            </m-table>
+            <m-alert v-if="allowCookies == true" color="success">{{$t('cookies_allowed_desc')}}</m-alert>
+            <m-alert v-else-if="allowCookies == false" color="danger">{{$t('cookies_denied_desc')}}</m-alert>
             <span v-else>{{$t('cookies_no_choice_desc')}}</span>
-            <flex>
-                <a-button v-if="allowCookies != true" @click="allowCookies = true">{{$t('allow_cookies')}}</a-button>
-                <a-button v-if="allowCookies != false" color="danger" @click="disallowCookies">{{$t('disallow_cookies')}}</a-button>
-            </flex>
+            <m-flex>
+                <m-button v-if="allowCookies != true" @click="allowCookies = true">{{$t('allow_cookies')}}</m-button>
+                <m-button v-if="allowCookies != false" color="danger" @click="disallowCookies">{{$t('disallow_cookies')}}</m-button>
+            </m-flex>
             <h2>{{$t('third_party_cookies')}}</h2>
             {{$t('third_party_cookies_desc')}}
             <!-- <NuxtLink to="https://www.enthusiastgaming.com/privacy-policy/">EnthusiastGaming Policy</NuxtLink> -->
             <NuxtLink to="https://nitropay.com/privacy/">NitroPay Policy</NuxtLink>
-        </content-block>
+        </m-content-block>
     </page-block>
 </template>
 

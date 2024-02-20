@@ -1,8 +1,8 @@
-import { Comment, Game, Notification } from './../types/models';
+import type { Game, Notification } from '~~/types/models';
 import { partial } from "filesize";
 import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
-import { LocationQueryValueRaw } from "vue-router";
+import type { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
 
 /**

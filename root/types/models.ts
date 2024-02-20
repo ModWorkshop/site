@@ -25,6 +25,7 @@ export interface Category {
     updated_at?: string;
     game?: Category | null;
     parent?: Category | null;
+    disable_mod_managers: boolean;
     readonly path?: any;
 }
 
@@ -36,15 +37,15 @@ export interface Comment {
     content: string;
     pinned: boolean;
     mentions: User[],
-    reply_to: number | null;
+    reply_to: number;
     created_at?: string;
     updated_at?: string;
-    user?: User | null;
+    user?: User;
     commentable?: Mod|Thread;
     last_replies?: Comment[];
     replies_count?: number;
     replies?: Comment[];
-    replying_comment?: Comment | null;
+    replying_comment?: Comment;
     subscribed?: boolean;
 }
 
@@ -73,6 +74,7 @@ export interface File extends SimpleFile {
 
 export interface Image extends SimpleFile {
     has_thumb: boolean;
+    display_order: number;
 }
 
 export interface ModMember extends User {
@@ -113,7 +115,7 @@ export interface Mod {
     created_at?: string;
     updated_at?: string;
     download_id?: number|null;
-    download_type?: string|null;
+    download_type?: 'link'|'file'|null;
     user?: User;
     last_user?: User;
     category?: Category;
@@ -141,6 +143,8 @@ export interface Mod {
     instructs_template_id?: number;
     instructs_template?: InstructsTemplate;
     links_count?: number;
+    mod_managers?: ModManager[];
+    disable_mod_managers: boolean;
 }
 
 export interface Breadcrumb {
@@ -195,6 +199,9 @@ export interface Game {
     announcements?: Thread[];
     report_count?: number;
     waiting_count?: number;
+    mod_managers?: ModManager[];
+    mod_manager_ids?: number[];
+    default_mod_manager_id: number;
 }
 
 export interface SocialLogin {
@@ -285,9 +292,12 @@ export interface User {
         home_show_threads: boolean;
         game_show_mods: boolean;
         game_show_threads: boolean;
+        auto_subscribe_to_mod: boolean;
+        auto_subscribe_to_thread: boolean;
     };
     mods_count: number;
     supporter?: Supporter;
+    nitro_token: string;
 }
 
 export interface UserForm extends User {
@@ -351,6 +361,8 @@ export interface Thread {
     views: number;
     locked: boolean;
     locked_by_mod: boolean;
+    answer_comment_id: number|null;
+    answer_comment?: Comment;
     announce: boolean;
     announce_until?: string;
     bumped_at?: string;
@@ -514,4 +526,14 @@ export interface Report {
     user?: User | null;
     reportable?: any | null;
     reported_user?: User
+}
+
+export interface ModManager {
+    id: number;
+    name: string;
+    image?: string;
+    download_url: string;
+    site_url: string;
+    updated_at?: string;
+    created_at?: string;
 }

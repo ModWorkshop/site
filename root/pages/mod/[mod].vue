@@ -1,13 +1,13 @@
 <template>
-    <mod-page v-if="mod" :mod="mod">
-        <flex column gap="3">
+    <mod-page :mod="mod!">
+        <m-flex column gap="3">
             <NuxtPage v-model:mod="mod"/>
-        </flex>
+        </m-flex>
     </mod-page>
 </template>
 
 <script setup lang="ts">
-import { Mod } from '~~/types/models';
+import type { Mod } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 

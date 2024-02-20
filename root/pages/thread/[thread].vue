@@ -2,20 +2,20 @@
     <page-block :game="threadGame" :breadcrumb="breadcrumb">
         <Title>{{thread.name}}</Title>
         <the-tag-notices v-if="thread.tags" :tags="thread.tags"/>
-        <a-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
-        <flex>
+        <m-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
+        <m-flex>
             <NuxtLink v-if="$route.name == 'thread-thread-edit'" :to="`/thread/${thread.id}`">
-                <a-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</a-button>
+                <m-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</m-button>
             </NuxtLink> 
-            <a-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-button>
-            <a-button v-if="canModerate" @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</a-button>
-            <a-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
+            <m-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-button>
+            <m-button v-if="canModerate" @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-button>
+            <m-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
                 <i-mdi-lock-open v-if="thread.locked"/>
                 <i-mdi-lock v-else/>
                 {{thread.locked ? $t('unlock') : $t('lock')}}
-            </a-button>
-            <a-report resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
-        </flex>
+            </m-button>
+            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
+        </m-flex>
         <NuxtPage :thread="thread"/>
     </page-block>
 </template>
@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Breadcrumb, Thread } from '~~/types/models';
+import type { Breadcrumb, Thread } from '~~/types/models';
 
 const { t } = useI18n();
 

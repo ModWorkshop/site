@@ -43,6 +43,7 @@
 
 .center {
 	text-align: center;
+	display: block;
 }
 
 .left {

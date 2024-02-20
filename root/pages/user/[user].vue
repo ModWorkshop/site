@@ -1,68 +1,68 @@
 <template>
     <page-block v-if="user">
         <Title>{{user.name}}</Title>
-        <flex v-if="me">
-            <a-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</a-button>
-            <a-report v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
-            <VDropdown v-if="canModerate" arrow placement="bottom-start">
-                <a-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</a-button>
-                <template #popper>
-                    <a-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</a-dropdown-item>
-                    <a-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</a-dropdown-item>
+        <m-flex v-if="me">
+            <m-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</m-button>
+            <report-button v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
+            <m-dropdown v-if="canModerate">
+                <m-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</m-button>
+                <template #content>
+                    <m-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-dropdown-item>
+                    <m-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</m-dropdown-item>
+                    <m-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</m-dropdown-item>
+                    <m-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</m-dropdown-item>
+                    <m-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</m-dropdown-item>
+                    <m-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</m-dropdown-item>
                 </template>
-            </VDropdown>
-            <a-button v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
+            </m-dropdown>
+            <m-button v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
                 <i-mdi-minus-thick/> {{$t('unfollow')}}
-            </a-button>
-            <VDropdown v-else placement="bottom-start">
-                <a-button>{{$t('follow')}} <i-mdi-caret-down/></a-button>
-                <template #popper>
-                    <a-dropdown-item @click="setFollowUser(user, true)"><i-mdi-bell/> {{$t('follow_with_notifs')}}</a-dropdown-item>
-                    <a-dropdown-item @click="setFollowUser(user, false)"><i-mdi-plus-thick/> {{$t('follow')}}</a-dropdown-item>
+            </m-button>
+            <m-dropdown v-else>
+                <m-button>{{$t('follow')}} <i-mdi-caret-down/></m-button>
+                <template #content>
+                    <m-dropdown-item @click="setFollowUser(user, true)"><i-mdi-bell/> {{$t('follow_with_notifs')}}</m-dropdown-item>
+                    <m-dropdown-item @click="setFollowUser(user, false)"><i-mdi-plus-thick/> {{$t('follow')}}</m-dropdown-item>
                 </template>
-            </VDropdown>
+            </m-dropdown>
 
-            <VDropdown placement="bottom-start">
-                <a-button>{{ $t('more') }} <i-mdi-caret-down/></a-button>
-                <template #popper>
+            <m-dropdown>
+                <m-button>{{ $t('more') }} <i-mdi-caret-down/></m-button>
+                <template #content>
                     <template v-if="isMe || canManageDiscussions">
-                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}`">
+                        <m-dropdown-item :to="`/user/${user.unique_name || user.id}`">
                             <i-mdi-account/> {{$t('profile')}}
-                        </a-dropdown-item>
-                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}/comments`">
+                        </m-dropdown-item>
+                        <m-dropdown-item :to="`/user/${user.unique_name || user.id}/comments`">
                             <i-mdi-comment/> {{$t('comments')}}
-                        </a-dropdown-item>
-                        <a-dropdown-item :to="`/user/${user.unique_name || user.id}/threads`">
+                        </m-dropdown-item>
+                        <m-dropdown-item :to="`/user/${user.unique_name || user.id}/threads`">
                             <i-mdi-forum/> {{$t('threads')}}
-                        </a-dropdown-item>
+                        </m-dropdown-item>
                     </template>
                     <template v-if="!isMe">
-                        <a-dropdown-item v-if="isBlocked" @click="isBlocked && blockUser()">
+                        <m-dropdown-item v-if="isBlocked" @click="isBlocked && blockUser()">
                             <i-mdi-account-off/> {{$t('unblock')}}
-                        </a-dropdown-item>
+                        </m-dropdown-item>
                         <template v-else>
-                            <a-dropdown-item @click="blockUser">
+                            <m-dropdown-item @click="blockUser">
                                 <i-mdi-account-off/> {{$t(isBlocked ? 'unblock' : 'block')}}
-                            </a-dropdown-item>
-                            <a-dropdown-item @click="hideUserMods">
+                            </m-dropdown-item>
+                            <m-dropdown-item @click="hideUserMods">
                                 <i-mdi-eye-off/> {{$t(isHidingMods ? 'unhide_mods' : 'hide_mods')}}
-                            </a-dropdown-item>
+                            </m-dropdown-item>
                         </template>
                     </template>
                 </template>
-            </VDropdown>
-        </flex>
+            </m-dropdown>
+        </m-flex>
         <NuxtPage :user="user" :trigger-refresh="triggerRefresh"/>
     </page-block>
 </template>
 <script setup lang="ts">
 import { setFollowUser } from '~~/utils/follow-helpers';
 import { useI18n } from 'vue-i18n';
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 import { useStore } from '~~/store';
 
 const yesNoModal = useYesNoModal();

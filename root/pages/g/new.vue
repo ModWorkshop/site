@@ -1,13 +1,13 @@
 <template>
     <page-block :game="game" size="xs">
-        <content-block>
+        <m-content-block>
             <admin-edit-game :game="game"/>
-        </content-block>
+        </m-content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import type { Game } from '~~/types/models';
 definePageMeta({ alias: '/game/new' });
 
 const game = ref<Game>({

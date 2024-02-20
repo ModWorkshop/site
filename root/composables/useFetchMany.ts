@@ -1,5 +1,5 @@
 import { DifferentFetchOptions } from './useFetchData';
-import { Paginator } from './../types/paginator';
+import { Paginator } from '~~/types/paginator';
 
 /**
     Fetches stuff from the API that are many, essentially wrapping it in a paginator.

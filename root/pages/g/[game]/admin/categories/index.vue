@@ -1,18 +1,18 @@
 <template>
-    <flex column>
+    <m-flex column>
         <category-tree :categories="categories?.data">
             <template #buttons>
-                <a-button class="ml-auto" to="categories/new">{{$t('new')}}</a-button>
+                <m-button class="ml-auto" to="categories/new">{{$t('new')}}</m-button>
             </template>
             <template #button="{category}">
-                <a-button class="ml-auto" :to="`${gameUrl}/${category.id}`"><i-mdi-cog/> {{$t('edit')}}</a-button>
+                <m-button class="ml-auto" :to="`${gameUrl}/${category.id}`"><i-mdi-cog/> {{$t('edit')}}</m-button>
             </template>
         </category-tree>
-    </flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
-import { Category, Game } from '~~/types/models';
+import type { Category, Game } from '~~/types/models';
 
 const props = defineProps<{
     game: Game

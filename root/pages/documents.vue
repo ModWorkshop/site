@@ -1,16 +1,16 @@
 <template>
     <page-block :game="game" :breadcrumb="game ? breadcrumb : undefined" size="sm">
         <h2>{{$t('documents')}}</h2>
-        <content-block>
-            <a-list :url="apiUrl" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>
-        </content-block>
+        <m-content-block>
+            <m-list :url="apiUrl" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>
+        </m-content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Game } from '~~/types/models';
+import type { Game } from '~~/types/models';
 
 const { t } = useI18n();
 const store = useStore();

@@ -1,9 +1,9 @@
 <template>
     <page-block>
-        <flex column class="mx-auto">
+        <m-flex column class="mx-auto">
             <h2 class="mx-auto">{{$t(verifying ? 'verifying_email' : 'verified_email')}}</h2>
-            <a-button :loading="verifying" class="mx-auto" to="/">{{$t('back_to_home')}}</a-button>
-        </flex>
+            <m-button :loading="verifying" class="mx-auto" to="/">{{$t('back_to_home')}}</m-button>
+        </m-flex>
     </page-block>
 </template>
 <script setup lang="ts">

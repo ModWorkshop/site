@@ -1,29 +1,29 @@
 <template>
-    <flex column gap="3" style="flex: 1;">
-        <a-form reset-on-submit @submit="ban">
+    <m-flex column gap="3" style="flex: 1;">
+        <m-form reset-on-submit @submit="ban">
             <h2>{{$t('ban_user')}}</h2>
-            <flex column>
-                <a-user-select v-model="banUser" required :label="$t('user')"/>
-                <a-duration v-model="banDuration" :label="$t('duration')"/>
-                <a-input v-model="reason" type="textarea" required :label="$t('reason')"/>
-                <a-button class="mr-auto" type="submit">{{$t('ban')}}</a-button>
-            </flex>
-        </a-form>
+            <m-flex column>
+                <user-select v-model="banUser" required :label="$t('user')"/>
+                <m-duration v-model="banDuration" :label="$t('duration')"/>
+                <m-input v-model="reason" type="textarea" required :label="$t('reason')"/>
+                <m-button class="mr-auto" type="submit">{{$t('ban')}}</m-button>
+            </m-flex>
+        </m-form>
 
         <h2>{{$t('bans')}}</h2>
-        <a-user-select v-model="user" required :label="$t('user')" clearable/>
-        <a-items v-model:page="page" :items="bans" :loading="loading">
+        <user-select v-model="user" required :label="$t('user')" clearable/>
+        <m-list v-model:page="page" query :items="bans" :loading="loading">
             <template #item="{ item }">
                 <admin-ban :ban="item" :game="game" @delete="unban"/>
             </template>
-        </a-items>
-    </flex>
+        </m-list>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Ban, Game } from '~~/types/models';
+import type { Ban, Game } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
@@ -40,7 +40,7 @@ const url = computed(() => getGameResourceUrl('bans', props.game));
 
 const banUser = useRouteQuery('user', null, 'number');
 const user = useRouteQuery('filter-user', null, 'number');
-const page = useRouteQuery('page', 1, 'number');
+const page = ref(1);
 
 const banDuration = ref(null);
 const reason = ref('');

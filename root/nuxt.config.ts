@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 			uploadUrl: '',
 			storageUrl: '',
 			debug_legacy_images: false,
-			version: '3.3.4',
+			version: '3.4',
 			commitHash: ''
 		},
 		innerApiUrl: ''
@@ -49,6 +49,7 @@ export default defineNuxtConfig({
 					path: "/user/:user/edit",
 					file: '~/pages/user-settings.vue',
 					children: [
+						{ path: "", file: '~/pages/user-settings/index.vue' },
 						{ path: "account", file: '~/pages/user-settings/account.vue' },
 						{ path: "content", file: '~/pages/user-settings/content.vue' },
 						{ path: "profile", file: '~/pages/user-settings/index.vue' },
@@ -90,6 +91,8 @@ export default defineNuxtConfig({
 						{ path: 'mods', file: '~/pages/admin/mods.vue' },
 						{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
 						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
+						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
+						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
 					]);
 				}
 			}
@@ -107,28 +110,31 @@ export default defineNuxtConfig({
 		]
 	},
 
-	delayHydration: {
-		mode: 'mount'
-	},
+	// delayHydration: {
+	// 	mode: 'mount'
+	// },
 
 	// nitro: {
 	// 	compressPublicAssets: true,
 	// },
 	
 	vue: {
-		defineModel: true,
 		propsDestructure: true
 	},
 
 	components: [
-		"~/components", "~/components/common", "~/components/form",  "~/components/site", "~/components/layout", "~/components/pages"
+		"~/components/ui/controls",
+		"~/components/ui/layout",
+		"~/components/site",
+		"~/components/site/pages",
+		"~/components/site/mod",
+		"~/components/site/notifications",
 	],
 
 	css: [
 		"@/assets/css/normalize.css",
 		"@/assets/css/base.css",
 		"@/assets/css/markdown.css",
-		"@/assets/css/module-changes.css",
 		"@/assets/css/github-dark.css",
 	],
 
@@ -174,10 +180,6 @@ export default defineNuxtConfig({
 			// { code: 'owo', file: 'owo.ts', name: 'OwO' },
 		],
 
-		experimental: {
-			jsTsFormatResource: true
-		},
-		
 		lazy: true,
 		langDir: 'locales',
 		defaultLocale: 'en',

@@ -1,0 +1,169 @@
+<template>
+    <m-input>
+        <m-flex v-if="splitMode" column :class="classes" style="overflow:hidden;">
+            <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
+            <m-flex class="p-2 overflow-hidden h-full">
+                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
+                <md-content ref="mdText" class="h-full preview" :style="{'height': previewHeight}" :text="vm"/>
+            </m-flex>
+        </m-flex>
+        <m-tabs v-else :class="classes" style="flex:1;" padding="1">
+            <m-tab name="write" :title="$t('write_tab')" style="flex:1;">
+                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs"/>
+            </m-tab>
+            <m-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
+                <md-content class="h-100" :text="vm"/>
+            </m-tab>
+            <template #buttons>
+                <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
+            </template>
+        </m-tabs>
+        <span v-if="err" class="text-danger">{{err}}</span>
+    </m-input>
+</template>
+
+<script setup lang="ts">
+const props = defineProps({
+    labelId: String,
+    modelValue: String,
+    rows: { type: [String, Number], default: 12 }
+});
+
+const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
+const vm = useVModel(props, 'modelValue', emit);
+
+const fullscreen = ref(false);
+const splitMode = ref(false);
+
+const classes = computed(() => ({
+    'md-editor': true,
+    'p-2': true,
+    'md-editor-fullscreen': fullscreen.value
+}));
+
+
+const textAreaComp = ref();
+const mdText = ref();
+const textArea = computed(() => textAreaComp.value?.element);
+
+const previewHeight = ref('0');
+
+const err = useWatchValidation(vm, textArea);
+provide('err', err);
+
+onMounted(() => {
+    const textarea = textArea.value;
+    if (textarea) {
+        new ResizeObserver(() => {
+            const textarea = textArea.value;
+            if (textarea && textarea.parentElement!.style.display != 'none') {
+                previewHeight.value = textarea.clientHeight + 3 + 'px';
+            }
+        }).observe(textarea);
+    }
+});
+
+function clickTool(tool: Tool) {
+    const textarea = textArea.value;
+    
+    if (textarea) {
+        textarea.focus(); //Force focus
+        const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
+        const selectedText: string = textarea.value?.substring(start, end) ?? '';
+        const insert = tool.insert;
+        let focus = start + insert.indexOf('$');
+        let inserted;
+        
+        if (tool.multiline) {
+            const lines = selectedText.split('\n');
+            inserted = '';
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (i != 0) {
+                    inserted += '\n';
+                }
+                inserted += insert.replace('$line', (i + 1).toString()).replace('$', line);
+            }
+        } else{
+            inserted = insert.replace('$', selectedText);
+        }
+
+        // textarea.setRangeText(inserted, start, end, 'select');
+        document.execCommand("insertText", false, inserted); //If it's deprecated, then what the fuck am I supposed to use?
+        emit('update:modelValue', textarea.value);
+        textarea.focus();
+        textarea.setSelectionRange(focus, focus);
+    }
+}
+
+watch(fullscreen, status => {
+    if (status) {
+        document.body.classList.add('md-editor-open');
+    } else {
+        document.body.classList.remove('md-editor-open');
+    }
+    const textarea = textArea.value;
+    if (textarea) {
+        previewHeight.value = textarea.scrollHeight + 3 + 'px';
+    }
+});
+</script>
+
+<style>
+.tab-panel, .tab-panels {
+    height: 100%;
+}
+</style>
+
+<style scoped>
+.preview {
+    display: flex;
+    flex-direction: column;
+    background: var(--content-bg-color);
+    overflow-y: scroll;
+    resize : vertical;
+    flex: 1;
+}
+
+.md-editor-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    z-index: 9999;
+}
+
+.textarea {
+    background-color: var(--input-bg-color);
+    border-radius: var(--border-radius);
+    resize : vertical;
+    width: 100%;
+}
+
+.md-editor-fullscreen .textarea {
+    height: 100% !important;
+    resize: none;
+}
+
+.md-editor-fullscreen .preview {
+    resize: none;
+    height: 100% !important;
+}
+
+.md-editor {
+    background-color: var(--alt-content-bg-color);
+    border-radius: var(--border-radius);
+    resize: vertical;
+    max-width: 100%;
+}
+
+textarea {
+    height: 100%;
+}
+
+textarea:focus-visible {
+    outline-color: #107ef4;
+    outline-style: groove;
+}
+</style>

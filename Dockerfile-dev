@@ -1,5 +1,5 @@
 #### DEV ####
-FROM node:18-bookworm-slim as dev
+FROM node:20-bookworm-slim as dev
 
 WORKDIR /var/www/html
 EXPOSE 3000

@@ -1,24 +1,24 @@
 <template>
     <page-block size="md">
         <Title>{{$t('notifications')}}</Title>
-        <content-block>
-            <flex class="ml-auto">
-                <a-button color="danger" @click="deleteAll"><i-mdi-delete/> {{$t('delete_all_notifications')}}</a-button>
-                <a-button color="danger" @click="deleteReadNotifications"><i-mdi-clock/> {{$t('delete_seen_notifications')}}</a-button>
-                <a-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</a-button>
-            </flex>
-            <a-items v-model:page="page" :items="notifications" :loading="loading">
+        <m-content-block>
+            <m-flex class="ml-auto">
+                <m-button color="danger" @click="deleteAll"><i-mdi-delete/> {{$t('delete_all_notifications')}}</m-button>
+                <m-button color="danger" @click="deleteReadNotifications"><i-mdi-clock/> {{$t('delete_seen_notifications')}}</m-button>
+                <m-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</m-button>
+            </m-flex>
+            <m-list v-model:page="page" query :items="notifications" :loading="loading">
                 <template #item="{ item }">
-                    <a-notification :notification="item" :notifications="notifications!"/>
+                    <list-notification :notification="item" :notifications="notifications!"/>
                 </template>
-            </a-items>
-        </content-block>
+            </m-list>
+        </m-content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Notification } from '~~/types/models';
+import type { Notification } from '~~/types/models';
 import { useStore } from '../store/index';
 import { storeToRefs } from 'pinia';
 
@@ -28,7 +28,7 @@ definePageMeta({
 
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
-const page = useRouteQuery('page', 1);
+const page = ref(1);
 const { notificationCount } = storeToRefs(useStore());
 
 const { data: notifications, loading } = await useWatchedFetchMany<Notification>('notifications', { page, limit: 20 });

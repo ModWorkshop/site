@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Game } from "~/types/models";
+import type { Game } from "~/types/models";
 
 const { game } = defineProps<{
     game: Game

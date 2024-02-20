@@ -1,6 +1,4 @@
-import { Game } from './../types/models';
-import { Mod } from '~~/types/models';
-import { User } from '../types/models';
+import type { Game, Mod, User } from '~~/types/models';
 export async function setFollowUser(user: User, notify?: boolean, status?: boolean) {
     try {
         status ??= !user.followed;

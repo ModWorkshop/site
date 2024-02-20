@@ -1,29 +1,29 @@
 <template>
     <page-block :game="game" :breadcrumb="breadcrumb">
-        <content-block padding="6">
+        <m-content-block padding="6">
             <h1>{{document.name}}</h1>
-            <flex class="items-center">
+            <m-flex class="items-center">
                 <span :title="$t('last_updated')">
                     <i-mdi-clock/>
                 </span>
                 <i18n-t keypath="by_user_time_ago" scope="global">
                     <template #time>
-                        <time-ago :time="document.updated_at"/>
+                        <m-time-ago :time="document.updated_at"/>
                     </template>
                     <template #user>
                         <a-user :user="document.last_user" avatar-size="xs"/>
                     </template>
                 </i18n-t>
-            </flex>
-            <a-markdown :text="document.desc"/>
-        </content-block>
+            </m-flex>
+            <md-content :text="document.desc"/>
+        </m-content-block>
     </page-block>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import { Breadcrumb, Document, Game } from '~~/types/models';
+import type { Breadcrumb, Document, Game } from '~~/types/models';
 
 const { t } = useI18n();
 const store = useStore();

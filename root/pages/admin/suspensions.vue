@@ -1,11 +1,11 @@
 <template>
-    <a-items :items="data" :loading="loading">
+    <m-list :items="data" :loading="loading">
         <template #buttons>
-            <a-input v-model="query" :label="$t('search')"/>
-            <a-user-select v-model="userId" :label="$t('user')" clearable/>
+            <m-input v-model="query" :label="$t('search')"/>
+            <user-select v-model="userId" :label="$t('user')" clearable/>
         </template>
         <template #items>
-            <a-table alt-background>
+            <m-table alt-background>
                 <template #head>
                     <th>{{$t('thumbnail')}}</th>
                     <th>{{$t('name')}}</th>
@@ -18,25 +18,25 @@
                 <template #body>
                     <mod-row v-for="suspension in data?.data" :key="suspension.id" :mod="suspension.mod" lite :class="{'alt-content-bg': suspension.status}">
                         <template #definitions>
-                            <td><time-ago :time="suspension.created_at"/></td>
+                            <td><m-time-ago :time="suspension.created_at"/></td>
                             <td>{{suspension.status ? '✔' : '❌'}}</td>
                             <td style="min-width: 300px;" class="whitespace-break-spaces">{{suspension.reason}}</td>
                             <td>
                                 <mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
-                                <a-button v-else @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</a-button>
+                                <m-button v-else @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
                             </td>
                         </template>
                     </mod-row>
                 </template>
-            </a-table>
+            </m-table>
         </template>
-    </a-items>
+    </m-list>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Game, Suspension } from '~~/types/models';
+import type { Game, Suspension } from '~~/types/models';
 import { getGameResourceUrl } from '~~/utils/helpers';
 
 const props = defineProps<{
