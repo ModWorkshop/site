@@ -219,8 +219,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('social-logins/{provider}/link-callback', [SocialLoginController::class, 'linkAccountCallback']);
 });
 Route::get('social-logins/{provider}/link-redirect', [SocialLoginController::class, 'linkAccountRedirect']);
-Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'SocialiteRedirect']);
-Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'SocialiteLogin']);
+Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'socialiteRedirect']);
+Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'socialiteLogin']);
 
 Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
