@@ -1,20 +1,20 @@
 <template>
     <simple-resource-form v-model="tag" url="tags" :game="game" :redirect-to="redirectTo">
         <div>
-            <a-tag :color="tag.color">{{tag.name}}</a-tag>
+            <m-tag :color="tag.color">{{tag.name}}</m-tag>
         </div>
-        <a-input v-model="tag.name" :label="$t('name')"/>
-        <a-input v-model="tag.color" :label="$t('color')" type="color"/>
-        <a-select v-model="tag.type" :options="types" :label="$t('type')"/>
+        <m-input v-model="tag.name" :label="$t('name')"/>
+        <m-input v-model="tag.color" :label="$t('color')" type="color"/>
+        <m-select v-model="tag.type" :options="types" :label="$t('type')"/>
         <md-editor v-model="tag.notice" :label="$t('tag_notice')" :desc="$t('tag_notice_desc')"/>
-        <a-select v-model="tag.notice_type" :options="noticeTypes" :label="$t('tag_notice_type')"/>
-        <a-input v-if="!props.game" v-model="tag.notice_localized" :label="$t('tag_notice_localized')" type="checkbox"/>
+        <m-select v-model="tag.notice_type" :options="noticeTypes" :label="$t('tag_notice_type')"/>
+        <m-input v-if="!props.game" v-model="tag.notice_localized" :label="$t('tag_notice_localized')" type="checkbox"/>
     </simple-resource-form>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { Game, Tag } from "~~/types/models";
+import type { Game, Tag } from "~~/types/models";
 
 const props = defineProps<{
     game: Game

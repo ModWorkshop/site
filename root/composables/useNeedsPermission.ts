@@ -1,5 +1,5 @@
-import { Game } from './../types/models';
-import { useStore } from './../store/index';
+import type { Game } from '~~/types/models';
+import { useStore } from '~~/store/index';
 import { useI18n } from 'vue-i18n';
 
 export default function(perm: string, game?: Game) {

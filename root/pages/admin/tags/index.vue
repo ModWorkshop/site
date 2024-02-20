@@ -1,13 +1,13 @@
 <template>
-    <a-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: game?.id, global: !game}">
+    <m-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{game_id: game?.id, global: !game}">
         <template #item-name="{ item }">
-            <a-tag :color="item.color">{{item.name}}</a-tag> 
+            <m-tag :color="item.color">{{item.name}}</m-tag> 
         </template>
-    </a-list>
+    </m-list>
 </template>
 
 <script setup lang="ts">
-import { Game } from '~~/types/models';
+import type { Game } from '~~/types/models';
 
 const props = defineProps<{
     game: Game

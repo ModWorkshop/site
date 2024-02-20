@@ -1,6 +1,6 @@
 <template>
     <NuxtLink v-if="link" :to="link">
-        <a-img :src="image" class="donation-button" is-asset/>
+        <m-img :src="image" class="donation-button" is-asset/>
     </NuxtLink>
 </template>
 

@@ -1,0 +1,18 @@
+<template>
+    <a-thumbnail 
+        class="mod-thumbnail"
+        :src="thumbnail?.file"
+        :has-thumb="thumbnail?.has_thumb"
+        url-prefix="mods/images"
+        :prefer-hq="preferHq"
+    />
+</template>
+
+<script setup lang="ts">
+import type { Image } from '~~/types/models';
+
+defineProps<{
+    thumbnail?: Image,
+    preferHq?: boolean
+}>();
+</script>

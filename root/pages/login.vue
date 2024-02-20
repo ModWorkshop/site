@@ -1,28 +1,28 @@
 <template>
     <page-block size="2xs">
         <Title>{{$t('login')}}</Title>
-        <a-form @submit="login">
+        <m-form @submit="login">
             <h1>{{$t('login')}}</h1>
-            <content-block column gap="3">
-                <a-input v-model="user.email" :label="$t('email')" type="email"/>
-                <a-input v-model="user.password" :label="$t('password')" type="password"/>
-                <flex>
-                    <a-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
+            <m-content-block column gap="3">
+                <m-input v-model="user.email" :label="$t('email')" type="email"/>
+                <m-input v-model="user.password" :label="$t('password')" type="password"/>
+                <m-flex>
+                    <m-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
                     <NuxtLink to="forgot-password" class="ml-auto">{{$t('forgot_password_button')}}</NuxtLink>
-                </flex>
+                </m-flex>
                 <div>
-                    <a-button type="submit" :disabled="!canLogin">{{$t('login')}}</a-button>
+                    <m-button type="submit" :disabled="!canLogin">{{$t('login')}}</m-button>
                 </div>
-                <flex column>
+                <m-flex column>
                     <NuxtLink class="mt-2" to="register">{{$t('dont_have_account')}}</NuxtLink>
-                    <flex column>
+                    <m-flex column>
                         {{$t('login_using_services')}}
                         <the-social-logins/>
-                    </flex>
-                </flex>
+                    </m-flex>
+                </m-flex>
                 <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
-            </content-block>
-        </a-form>    
+            </m-content-block>
+        </m-form>    
     </page-block>
 </template>
 

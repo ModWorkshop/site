@@ -1,5 +1,5 @@
 import { remove } from "@antfu/utils";
-import { Toast } from "~~/types/toast";
+import type { Toast } from "~~/types/toast";
 
 export default function() {
     const toasts = useState<Toast[]>('toasts', () => []);

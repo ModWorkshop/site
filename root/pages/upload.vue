@@ -1,11 +1,3 @@
 <template>
-    <page-block>
-        <upload-page/>
-    </page-block>
+    <upload-page/>
 </template>
-
-<script lang="ts" setup>
-definePageMeta({
-    middleware: 'unbanned-users-only'
-});
-</script>

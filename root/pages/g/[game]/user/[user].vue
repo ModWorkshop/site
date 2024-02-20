@@ -1,8 +1,8 @@
 <template>
-    <content-block class="page-block-2xs">
+    <m-content-block class="page-block-2xs">
         <a-user :user="user"/>
-        <flex gap="3" class="p-4 input-bg" column>
-            <a-tag-selector
+        <m-flex gap="3" class="p-4 input-bg" column>
+            <m-select
                 v-model="user.role_ids"
                 multiple
                 :label="$t('role')"
@@ -10,9 +10,12 @@
                 :disabled="user.id !== me!.id && !hasPermission('manage-roles')"
                 :enabled-by="role => role.assignable"
                 :color-by="item => item.color"
+                :classic="false" 
+                :clearable="false"
+                list-tags
                 @update:model-value="prepareSaveRoles"
             />
-            <a-tag-selector 
+            <m-select
                 v-model="user.game_role_ids"
                 :label="$t('game_roles')"
                 multiple
@@ -20,14 +23,17 @@
                 :options="gameRoles?.data" 
                 :enabled-by="role => role.assignable"
                 :color-by="item => item.color"
+                :classic="false" 
+                :clearable="false"
+                list-tags
                 @update:model-value="prepareSaveGameRoles"
             />
-        </flex>
-    </content-block>
+        </m-flex>
+    </m-content-block>
 </template>
 
 <script setup lang="ts">
-import { Game, Role, User } from '~/types/models';
+import type { Game, Role, User } from '~/types/models';
 import { useStore } from '~~/store';
 
 definePageMeta({ alias: '/game/:game/user/:user' });

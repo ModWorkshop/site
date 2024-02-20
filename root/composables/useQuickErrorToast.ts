@@ -36,6 +36,8 @@ export default function() {
 
     return function(e: unknown|FetchError|AxiosError, errorStrings: Record<number|string, string> = {}, title?: string) {
         if (!(e instanceof FetchError || e instanceof AxiosError)) {
+            console.log(e);
+            
             return;
         }
 

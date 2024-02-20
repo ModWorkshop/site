@@ -1,5 +1,5 @@
 <template>
-    <flex column gap="3">
+    <m-flex column gap="3">
         <span class="ml-auto">
             {{$t('mod_game_count', { n: game.mods_count, game: game.name })}} <i-mdi-information/>
         </span>
@@ -24,12 +24,12 @@
             :query="false"
             :filters="false"
         />
-    </flex>
+    </m-flex>
 </template>
 <script setup lang="ts">
 import { Paginator } from '~/types/paginator';
 import { useStore } from '~~/store';
-import { Game, Mod } from '~~/types/models';
+import type { Game, Mod } from '~~/types/models';
 const store = useStore();
 const { user } = store;
 

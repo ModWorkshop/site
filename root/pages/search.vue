@@ -1,12 +1,12 @@
 <template>
     <page-block>
-        <a-nav root="/search">
-            <a-nav-link to="mods" :title="$t('mods')"/>
-            <a-nav-link to="threads" :title="$t('threads')"/>
-            <a-nav-link to="users" :title="$t('users')"/>
+        <m-nav root="/search" :background="false">
+            <m-nav-link to="mods" :title="$t('mods')"/>
+            <m-nav-link to="threads" :title="$t('threads')"/>
+            <m-nav-link to="users" :title="$t('users')"/>
             <template #content>
                 <NuxtPage keepalive/>
             </template>
-        </a-nav>
+        </m-nav>
     </page-block>
 </template>

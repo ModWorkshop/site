@@ -1,5 +1,5 @@
 #### Stage 1 ####
-FROM node:18-bookworm-slim as builder
+FROM node:20-bookworm-slim as builder
 
 # Copy and set directory
 COPY ./root /var/www/html
@@ -12,7 +12,7 @@ RUN yarn build
 ########
 
 #### Stage 2 ####
-FROM node:18-bookworm-slim as prod
+FROM node:20-bookworm-slim as prod
 
 WORKDIR /var/www/html
 

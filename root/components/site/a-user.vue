@@ -1,21 +1,20 @@
 <template>
-    <VMenu 
-        v-model:shown="renderProfile"
-        :delay="{ show: 500, hide: 100 }"
-        placement="bottom-start"
+    <m-dropdown
+        v-model:open="renderProfile"
+        :tool-tip-delay="500"
         class="user"
-        :auto-hide="false"
+        type="tooltip"
         :disabled="!miniProfile || static"
     >
-        <flex inline :column="column" class="items-center" :gap="neededGap">
+        <m-flex inline :column="column" class="items-center" :gap="neededGap">
             <NuxtLink v-if="avatar" class="inline-flex" :to="link">
-                <a-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
+                <m-avatar :size="avatarSize" :src="user?.avatar" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
             </NuxtLink>
 
-            <flex gap="1" class="break-words" column>
+            <m-flex gap="1" class="break-words" column>
                 <NuxtLink class="flex gap-1 items-center flex-wrap" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all">{{user?.name ?? $t('invalid_user')}}</component>
-                    <a-tag v-if="tag && userTag" small>{{userTag}}</a-tag>
+                    <m-tag v-if="tag && userTag" small>{{userTag}}</m-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
                     <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
 
@@ -25,18 +24,18 @@
                 <slot name="details" :user="user">
                     <span v-if="details">{{details}}</span>
                 </slot>
-            </flex>
+            </m-flex>
             <slot name="attach"/>
-        </flex>
-        <template #popper>
-            <a-mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
+        </m-flex>
+        <template #content>
+            <mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
         </template>
-    </VMenu>
+    </m-dropdown>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { User } from '~~/types/models';
+import type { User } from '~~/types/models';
 import { vOnClickOutside } from '@vueuse/components';
 import { DateTime } from 'luxon';
 import { useStore } from '~/store';

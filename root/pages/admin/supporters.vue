@@ -1,43 +1,43 @@
 <template>
-    <flex column gap="3">
+    <m-flex column gap="3">
         <h2>{{$t('upgrade_user')}}</h2>
-        <a-user-select v-model="user" :label="$t('user')"/>
-        <a-duration v-model="duration" :label="$t('duration')"/>
-        <a-button class="mr-auto" :disabled="!user" @click="upgrade">{{$t('upgrade')}}</a-button>
+        <user-select v-model="user" :label="$t('user')"/>
+        <m-duration v-model="duration" :label="$t('duration')"/>
+        <m-button class="mr-auto" :disabled="!user" @click="upgrade">{{$t('upgrade')}}</m-button>
 
         <h2>{{$t('supporters')}}</h2>
-        <a-items v-model:page="page" :items="supporters" :loading="loading">
+        <m-list v-model:page="page" query :items="supporters" :loading="loading">
             <template #item="{ item }">
-                <flex class="list-button" :style="{ opacity: item.expired ? 0.5 : 1 }">
-                    <flex column>
+                <m-flex class="list-button" :style="{ opacity: item.expired ? 0.5 : 1 }">
+                    <m-flex column>
                         <a-user :user="item.user"/>
                         <div>
-                            {{ $t('date') }}: <time-ago :time="item.created_at"/>
+                            {{ $t('date') }}: <m-time-ago :time="item.created_at"/>
                         </div>
                         <div v-if="!item.expired">
-                            {{ $t('expires') }}: <time-ago :time="item.expire_date"/>
+                            {{ $t('expires') }}: <m-time-ago :time="item.expire_date"/>
                         </div>
                         <div v-else>
                             {{ $t('expired') }}
                         </div>
-                    </flex>
-                    <a-button class="ml-auto self-center" @click="removeSupporter(item)"><i-mdi-trash/> {{$t('stop')}}</a-button>
-                </flex>
+                    </m-flex>
+                    <m-button class="ml-auto self-center" @click="removeSupporter(item)"><i-mdi-trash/> {{$t('stop')}}</m-button>
+                </m-flex>
             </template>
-        </a-items>
-    </flex>
+        </m-list>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import { Supporter } from '~~/types/models';
+import type { Supporter } from '~~/types/models';
 
 useNeedsPermission('manage-users');
 
 const user = ref(null);
 const duration = ref(null);
-const page = useRouteQuery('page', 1);
+const page = ref(1);
 
 const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();

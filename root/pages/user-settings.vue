@@ -1,20 +1,19 @@
 <template>
     <page-block size="sm">
         <Title>{{$t('user_settings')}}</Title>
-        <content-block class="p-8">
-            <a-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
-                <a-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
-                    <a-nav-link to="profile" alias="" :title="$t('profile')"/>
-                    <a-nav-link to="account" :title="$t('account_tab')"/>
-                    <a-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
-                    <a-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
-                    <!-- <a-nav-link to="api" :title="$t('api_access_tab')"/> -->
-                    <template #content>
-                        <NuxtPage :user="user"/>
-                    </template>
-                </a-nav>
-            </a-form>
-        </content-block>
+        <m-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
+            <m-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">
+                <m-nav-link to="profile" alias="" :title="$t('profile')"/>
+                <m-nav-link to="account" :title="$t('account_tab')"/>
+                <m-nav-link to="settings" :title="$t('settings')"/>
+                <m-nav-link v-if="isMe" to="content" :title="$t('content_tab')"/>
+                <m-nav-link v-if="isMe" to="accounts" :title="$t('connected_accounts_tab')"/>
+                <!-- <m-nav-link to="api" :title="$t('api_access_tab')"/> -->
+                <template #content>
+                    <NuxtPage :user="user"/>
+                </template>
+            </m-nav>
+        </m-form>
     </page-block>
 </template>
 
@@ -22,7 +21,7 @@
 import clone from 'rfdc/default';
 import { serializeObject } from '~~/utils/helpers';
 import { useStore } from '../store';
-import { User, UserForm } from '../types/models';
+import type { User, UserForm } from '../types/models';
 
 const showToast = useQuickErrorToast();
 
