@@ -35,7 +35,7 @@ if (process.client) {
     }
     
     try {
-        await postRequest(`/social-logins/${route.params.provider}/link-callback`, newQuery);
+        await postRequest(`/social-logins/${route.params.provider}/link-callback`, serializeObject(newQuery));
         done.value = true;
         user!.activated = true;
     } catch (e) {

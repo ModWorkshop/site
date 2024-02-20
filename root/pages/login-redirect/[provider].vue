@@ -31,7 +31,7 @@ if (process.client) {
     }
     
     try {
-        await postRequest(`/social-logins/${route.params.provider}/login-callback`, newQuery);
+        await postRequest(`/social-logins/${route.params.provider}/login-callback`, serializeObject(newQuery));
         await reloadToken();
         store.attemptLoginUser('/');
     } catch (e) {
