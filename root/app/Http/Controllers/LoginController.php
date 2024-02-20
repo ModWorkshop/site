@@ -182,6 +182,7 @@ class LoginController extends Controller
         try {
             $providerUser = $driver->user();
         } catch (Throwable $e) {
+            \Log::error($e);
             abort(400);
         }
 
