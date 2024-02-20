@@ -152,15 +152,18 @@ class Thread extends Model implements SubscribableInterface
         ]);
     }
 
+    public function answerComment()
+    {
+        return $this->belongsTo(Comment::class);
+    }
     protected static function booted() {
         static::created(function(Thread $thread) {
             $thread->game_id = $thread->forum->game_id;
             $thread->save();
 
-            $id = Auth::user()?->id;
-            if (isset($id)) {
+            if ($thread->user->extra->auto_subscribe_to_thread) {
                 $thread->subscriptions()->create([
-                    'user_id' => $id
+                    'user_id' => $thread->user_id
                 ]);
             }
         });

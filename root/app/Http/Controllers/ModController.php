@@ -110,6 +110,7 @@ class ModController extends Controller
      */
     public function show(Game $game=null, Mod $mod)
     {
+        $mod->append('mod_managers');
         return new ModResource($mod);
     }
 
@@ -225,7 +226,7 @@ class ModController extends Controller
             }
 
             $val['user_id'] = $request->user()->id;
-            $val['game_id'] = $game->id;
+            $val['game_id'] = $gameId;
 
             $mod = Mod::create($val);
         }

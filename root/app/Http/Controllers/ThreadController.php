@@ -89,9 +89,7 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        $thread->load('forum.game');
-        $thread->load('tags');
-        $thread->load('subscribed');
+        $thread->load(['forum.game', 'tags', 'subscribed', 'answerComment']);
         return new ThreadResource($thread);
     }
 
@@ -104,8 +102,9 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
-            'content' => 'string|required_without_all:pinned,locked|min:2|max:30000',
+            'content' => 'string|min:2|max:30000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
+            'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'tag_ids' => 'array',
@@ -130,7 +129,6 @@ class ThreadController extends Controller
             } else if ($changePin === false) {
                 $thread->pinned_at = null;
             }
-            $thread->timestamps = false;
         }
 
         if (isset($changeAnnounce)) {

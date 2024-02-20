@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('self_assignable')->default(false);
+        Schema::table('images', function (Blueprint $table) {
+            $table->smallInteger('display_order')->default(0);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->dropColumn('self_assignable');
+        Schema::table('images', function (Blueprint $table) {
+            $table->dropColumn('display_order');
         });
     }
 };

@@ -32,16 +32,15 @@ class GameResource extends BaseResource
 
         $isCurrent = APIService::currentGame()?->id === $this->id;
 
-        return [
-            ...parent::toArray($request),
-            $this->whenLoaded('followed', fn() => isset($this->followed)),
+        return array_merge(parent::toArray($request), [
             'followed' => $this->whenLoaded('followed'),
             'webhook_url' => $this->when($user?->hasPermission('manage-game', $this->resource), $this->webhook_url),
             'report_count' => $this->when($isCurrent && $moderateUsers, fn() => $this->reportCount),
             'waiting_count' => $this->when($isCurrent && $manageMods, fn() => $this->waitingCount),
             'user_data' => $this->when($isCurrent, fn() => $this->userData),
             'announcements' => $this->when($isCurrent, fn() => $this->announcements),
-            'mods_count' => $this->whenCounted('viewableMods')
-        ];
+            'mods_count' => $this->whenCounted('viewableMods'),
+            'mod_manager_ids' => $this->whenLoaded('modManagers', fn () => Arr::pluck($this->modManagers, 'id')),
+        ]);
     }
 }

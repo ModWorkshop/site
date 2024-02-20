@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('documents', function (Blueprint $table) {
-            $table->boolean('is_unlisted')->default(false);
+        Schema::table('categories', function (Blueprint $table) {
+            $table->boolean('disable_mod_managers')->default(false);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('documents', function (Blueprint $table) {
-            $table->dropColumn('is_unlisted');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('disable_mod_managers');
         });
     }
 };

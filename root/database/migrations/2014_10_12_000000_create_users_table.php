@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
@@ -20,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->char('custom_color', 6)->default('');
+            $table->char('custom_color', 7)->default('');
             $table->rememberToken();
 
             $table->text('avatar')->default('');
@@ -49,6 +50,7 @@ class CreateUsersTable extends Migration
             $table->ipAddress('last_ip_address')->nullable();
 
             $table->index('unique_name');
+            $table->index('name');
 
             $table->boolean('activated')->default(false);
 
@@ -56,6 +58,11 @@ class CreateUsersTable extends Migration
             $table->timestamp('pending_email_set_at')->nullable();
 
             $table->timestamps();
+        });
+
+        Schema::table('users', function(Blueprint $table) {
+            DB::statement('CREATE INDEX CONCURRENTLY users_name_trigram ON users USING GIST (name gist_trgm_ops(siglen=64));');
+            DB::statement('CREATE INDEX CONCURRENTLY users_unique_name_trigram ON users USING GIST (unique_name gist_trgm_ops(siglen=64));');
         });
     }
 

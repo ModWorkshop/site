@@ -26,6 +26,10 @@ return new class extends Migration
             $table->morphs('reportable'); //Was type
             $table->timestamps();
 
+            $table->bigInteger('reported_user_id')->unsigned()->nullable();
+            $table->foreign('reported_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->index('reported_user_id');
             $table->index('user_id');
             $table->index('game_id');
         });

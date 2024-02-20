@@ -25,7 +25,7 @@ class CommentService {
      *
      * @return Response
      */
-    public static function index(FormRequest $request, Model $commentable, array $options=[], $replies=null)
+    public static function index(FilteredRequest $request, Model $commentable, array $options=[], $replies=null)
     {
         /**
          * @var Builder

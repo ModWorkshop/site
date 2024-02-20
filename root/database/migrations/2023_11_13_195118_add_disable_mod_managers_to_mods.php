@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->char('custom_color', 7)->default('')->change();
+        Schema::table('mods', function (Blueprint $table) {
+            $table->boolean('disable_mod_managers')->default(false);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            //
+        Schema::table('mods', function (Blueprint $table) {
+            $table->dropColumn('disable_mod_managers');
         });
     }
 };

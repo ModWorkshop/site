@@ -22,6 +22,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
+use App\Http\Controllers\ModManagerController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
@@ -88,6 +89,7 @@ Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods', [ModController::class, 'index']);
 Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAndLatest']);
+Route::get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
 Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
 
 /**
@@ -108,6 +110,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
+APIService::gameResource('mod-managers', ModManagerController::class, ['parentOptional' => true]);
+
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);
@@ -190,6 +194,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::resource('supporters', SupporterController::class);
+Route::middleware('auth:sanctum')->get('supporters/nitro-check', [SupporterController::class, 'nitroCheck']);
 
 Route::middleware('can:report,user')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
@@ -251,6 +256,8 @@ Route::get('site-data', function(Request $request) {
 
     return $data;
 });
+
+Route::get('admin-data', fn() => APIService::adminData());
 
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');

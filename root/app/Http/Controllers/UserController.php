@@ -187,6 +187,8 @@ class UserController extends Controller
             'extra.home_show_threads' => 'boolean|nullable',
             'extra.game_show_mods' => 'boolean|nullable',
             'extra.game_show_threads' => 'boolean|nullable',
+            'extra.auto_subscribe_to_mod' => 'boolean|nullable',
+            'extra.auto_subscribe_to_thread' => 'boolean|nullable',
         ]);
 
         $extra = Arr::pull($val, 'extra');
@@ -219,7 +221,7 @@ class UserController extends Controller
 
         $email = Arr::pull($val, 'email');
         if (isset($email)) {
-            $user->setEmail($email);
+            $user->email = $email;
         }
 
         $user->update($val);
@@ -352,7 +354,7 @@ class UserController extends Controller
         }
     }
 
-    public function getComments(FormRequest $request, User $user) {
+    public function getComments(FilteredRequest $request, User $user) {
         return CommentService::index($request, $user, [
             'commentable_is_user' => true,
             'include_replies' => true,

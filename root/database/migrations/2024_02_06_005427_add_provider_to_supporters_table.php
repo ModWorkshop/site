@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('track_sessions', function (Blueprint $table) {
-            $table->index('updated_at');
+        Schema::table('supporters', function (Blueprint $table) {
+            $table->tinyText('provider')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('track_sessions', function (Blueprint $table) {
-            //
+        Schema::table('supporters', function (Blueprint $table) {
+            $table->dropColumn('provider');
         });
     }
 };

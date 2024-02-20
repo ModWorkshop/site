@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->tinyText('name');
             $table->tinyText('desc')->default(''); // Was description
-            $table->tinyInteger('disporder')->unsigned()->default(0);
+            $table->tinyInteger('display_order')->unsigned()->default(0);
             $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->foreign('parent_id')->references('id')->on('categories')->nullOnDelete();
             $table->bigInteger('game_id')->unsigned()->nullable();
@@ -27,6 +27,9 @@ class CreateCategoriesTable extends Migration
             $table->tinyText('webhook_url')->default('');
             $table->boolean('approval_only')->default(false);
             $table->dateTime('last_date')->nullable();
+
+            $table->json('computed_breadcrumb')->nullable();
+            $table->json('computed_children')->nullable();
 
             $table->index('parent_id');
             $table->index('game_id');

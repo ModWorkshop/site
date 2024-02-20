@@ -1,22 +1,41 @@
-:8080 {
-	@static {
-		file
-		path *.ico *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+# https://github.com/laravel/octane/blob/2.x/src/Commands/stubs/Caddyfile
+
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	admin localhost:{$CADDY_SERVER_ADMIN_PORT}
+
+	frankenphp {
+		worker {$APP_PUBLIC_PATH}/frankenphp-worker.php {$CADDY_SERVER_WORKER_COUNT}
 	}
-	header @static Cache-Control max-age=31556952
+}
 
-	redir /api.php* /v2API?{query}
+{$CADDY_SERVER_SERVER_NAME} {
+	log {
+		level {$CADDY_SERVER_LOG_LEVEL}
 
-	root * /var/www/html/public
-
-	encode zstd gzip
-
-	php_fastcgi :9000 {
-		header_up X-Forwarded-Proto {header.X-Forwarded-Proto}
-		header_up X-Forwarded-Host {header.X-Forwarded-Host}
-		header_up Host {header.X-Forwarded-Host}
-		header_up X-Forwarded-For {header.X-Forwarded-For}
+		# Redact the authorization query parameter that can be set by Mercure...
+		format filter {
+			wrap {$CADDY_SERVER_LOGGER}
+			fields {
+				uri query {
+					replace authorization REDACTED
+				}
+			}
+		}
 	}
 
-	file_server
+	route {
+		root * {$APP_PUBLIC_PATH}
+		encode zstd gzip
+
+		# Mercure configuration is injected here...
+		{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+		php_server {
+			index frankenphp-worker.php
+			# Required for the public/storage/ directory...
+			resolve_root_symlink
+		}
+	}
 }

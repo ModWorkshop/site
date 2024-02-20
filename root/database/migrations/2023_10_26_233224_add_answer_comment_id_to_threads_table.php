@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->renameColumn('disporder', 'display_order');
+        Schema::table('threads', function (Blueprint $table) {
+            $table->bigInteger('answer_comment_id')->unsigned()->nullable();
+            $table->foreign('answer_comment_id')->references('id')->on('comments')->nullOnDelete();
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->renameColumn('display_order', 'disporder');
+        Schema::table('threads', function (Blueprint $table) {
+            $table->dropColumn('answer_comment_id');
         });
     }
 };

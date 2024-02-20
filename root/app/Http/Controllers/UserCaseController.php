@@ -34,9 +34,9 @@ class UserCaseController extends Controller
      *
      * Returns user cases (warnings) that the user has
      */
-    public function index(Request $request, Game $game=null)
+    public function index(FilteredRequest $request, Game $game=null)
     {
-        $val = $request->validate([
+        $val = $request->val([
             'user_id' => 'int|min:0|nullable|exists:users,id',
             'all' => 'boolean|nullable'
         ]);

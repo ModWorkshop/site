@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 
 /**
  * @group Mods
- * 
+ *
  * @subgroup Comments
  */
 class ModCommentsController extends Controller
@@ -28,12 +28,8 @@ class ModCommentsController extends Controller
      *
      * @return Response
      */
-    public function index(FormRequest $request, Mod $mod)
+    public function index(FilteredRequest $request, Mod $mod)
     {
-        $request->validate([
-            'limit' => 'integer|min:1|max:50'
-        ]);
-
         return CommentService::index($request, $mod);
     }
 

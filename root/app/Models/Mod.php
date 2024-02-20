@@ -257,6 +257,8 @@ class Mod extends Model implements SubscribableInterface
 
     // Gets loaded in mod page
     public const SHOW_MOD_WITH = [
+        'game',
+        'user',
         'tags',
         'images',
         'banner',
@@ -337,9 +339,11 @@ class Mod extends Model implements SubscribableInterface
 
         static::created(function(Mod $mod) {
             //Auto-sub ourselves
-            $mod->subscriptions()->create([
-                'user_id' => $mod->user_id
-            ]);
+            if ($mod->user->extra->auto_subscribe_to_mod) {
+                $mod->subscriptions()->create([
+                    'user_id' => $mod->user_id
+                ]);
+            }
         });
     }
 
@@ -395,17 +399,17 @@ class Mod extends Model implements SubscribableInterface
 
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->orderByRaw('display_order ASC, created_at ASC');
     }
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class)->orderByDesc('updated_at')->limit(5);
+        return $this->hasMany(File::class)->limit(5);
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->orderByDesc('updated_at')->limit(5);
+        return $this->hasMany(Link::class)->limit(5);
     }
 
     public function selfMember()
@@ -514,6 +518,13 @@ class Mod extends Model implements SubscribableInterface
 
     function linksCount(): Attribute {
         return Attribute::make(fn() => $this->links()->count())->shouldCache();
+    }
+
+    function modManagers(): Attribute {
+        return Attribute::make(function() {
+            $gameId = $this->game_id;
+            return ModManager::where('game_id', $gameId)->orWhereHasIn('games', fn($q) => $q->where('game_id', $gameId))->get();
+        });
     }
 
     /**

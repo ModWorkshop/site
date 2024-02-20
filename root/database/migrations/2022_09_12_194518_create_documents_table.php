@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->timestamps();
 
+            $table->boolean('is_unlisted')->default(false);
+
             $table->index('game_id');
             $table->index('last_user_id');
         });

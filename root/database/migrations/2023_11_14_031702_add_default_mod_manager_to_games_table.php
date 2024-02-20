@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('track_sessions', function (Blueprint $table) {
-            $table->index('ip_address');
-            $table->index('user_id');
+        Schema::table('games', function (Blueprint $table) {
+            $table->bigInteger('default_mod_manager_id')->unsigned()->nullable();
+            $table->foreign('default_mod_manager_id')->references('id')->on('mod_managers')->nullOnDelete();
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tracking_sessions', function (Blueprint $table) {
-            //
+        Schema::table('games', function (Blueprint $table) {
+            $table->dropColumn('default_mod_manager_id');
         });
     }
 };

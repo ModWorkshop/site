@@ -98,6 +98,7 @@ class CategoryController extends Controller
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
             'approval_only' => 'boolean',
             'webhook_url' => 'string|nullable|max:1000',
+            'disable_mod_managers' => 'boolean|nullable',
         ]);
 
         $val['game_id'] ??= $game?->id;

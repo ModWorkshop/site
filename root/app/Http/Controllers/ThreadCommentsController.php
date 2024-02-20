@@ -15,7 +15,7 @@ use Illuminate\Http\Response;
 
 /**
  * @group Threads
- * 
+ *
  * @subgroup Comments
  */
 class ThreadCommentsController extends Controller
@@ -29,14 +29,14 @@ class ThreadCommentsController extends Controller
      *
      * @return Response
      */
-    public function index(FormRequest $request, Thread $thread)
+    public function index(FilteredRequest $request, Thread $thread)
     {
         return CommentService::index($request, $thread, ['orderBy' => 'pinned DESC, created_at ASC']);
     }
 
     /**
      * Create Thread Comment
-     * 
+     *
      * @authenticated
      */
     public function store(Request $request, Thread $thread)

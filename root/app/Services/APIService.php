@@ -3,10 +3,14 @@
 namespace App\Services;
 
 use App\Http\Resources\AnnouncementResource;
+use App\Models\Ban;
 use App\Models\Game;
 use App\Models\Notification;
+use App\Models\Report;
 use App\Models\Setting;
+use App\Models\Suspension;
 use App\Models\Thread;
+use App\Models\UserCase;
 use Arr;
 use Auth;
 use Carbon\Carbon;
@@ -76,9 +80,9 @@ class APIService {
      * @param callable|null $onSuccess Callback to run after successful upload
      * @return array
      */
-    public static function storeImage(?UploadedFile $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
+    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
     {
-        if (!isset($file)) {
+        if (empty($file) || !isset($file)) {
             return null;
         }
 
@@ -228,5 +232,53 @@ class APIService {
     public static function hashByQuery()
     {
         return md5(serialize(request()->getQueryString()));
+    }
+
+    public static function adminData(Game $game = null)
+    {
+        $arr = [];
+
+        $moderateUsers = Auth::user()->hasPermission('moderate-users', $game);
+        $manageMods = Auth::user()->hasPermission('manage-mods', $game);
+
+        if (!$moderateUsers && !$manageMods) {
+            abort(403);
+        }
+
+        $gameQuery = fn($q) => $q->whereGameId($game->id);
+        $globalQuery = fn($q) => $q->whereNull('game_id');
+
+        if ($moderateUsers) {
+            $arr['user_cases'] = UserCase::with('modUser')
+                ->orderByRaw('active DESC, created_at DESC')
+                ->when(isset($game), $gameQuery, $globalQuery)
+                ->limit(3)
+                ->get();
+
+            $arr['reports'] = Report::orderByDesc('created_at')
+                ->when(isset($game), $gameQuery)
+                ->limit(3)
+                ->get();
+
+            $arr['bans'] = Ban::with(['modUser', 'user'])
+                ->orderByDesc('created_at')
+                ->whereActive(true)
+                ->when(isset($game), $gameQuery, $globalQuery)
+                ->limit(3)
+                ->get();
+        }
+
+        if ($manageMods) {
+            $arr['suspensions'] = Suspension::with('mod')
+                ->orderByDesc('created_at')
+                ->when(isset($game), function($q) use($game) {
+                    $q->whereRelation('mod', fn($q) => $q->whereGameId($game->id));
+                })
+                ->whereStatus(true)
+                ->limit(3)
+                ->get();
+        }
+
+        return $arr;
     }
 }
