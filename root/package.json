@@ -28,7 +28,7 @@
     "@nuxt/devtools": "^1.0.8",
     "@nuxtjs/i18n": "^8.1.1",
     "@nuxtjs/robots": "^3.0.0",
-    "@nuxtjs/tailwindcss": "6.10.1",
+    "@nuxtjs/tailwindcss": "6.11.4",
     "@pinia/nuxt": "^0.5.1",
     "@types/luxon": "^3.3.7",
     "@types/node": "^20.10.3",
