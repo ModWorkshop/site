@@ -229,11 +229,11 @@ class CommentService {
      */
     public static function page(Request $request, Comment $comment)
     {
-        $limit = $request->query->getInt('limit', 20);
+        $limit = $request->input('limit', 20);
 
-        $order = 'ASC';
+        $order = 'DESC';
         if (!isset($comment->reply_to) && !$comment->commentable_type == 'mod') {
-            $order = 'DESC';
+            $order = 'ASC';
         }
 
         $comments = DB::table('comments')
