@@ -1,5 +1,5 @@
 <template>
-    <tr :class="{'cursor-pointer': true, 'thread': true}" @click.self="clickThread(thread)">
+    <tr :class="{'cursor-pointer': true, 'thread': true}" @click="clickThread(thread)">
         <td @click.self="clickThread(thread)">
             <m-flex>
                 <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
@@ -9,7 +9,7 @@
         </td>
         <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
         <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>
-        <td v-if="!noCategory" @click.self="clickThread(thread)">
+        <td v-if="!noCategory" @click.stop>
             <NuxtLink v-if="thread.category" :to="to">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
             <span v-else>-</span>
         </td>
