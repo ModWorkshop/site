@@ -120,7 +120,7 @@ class SupporterController extends Controller
         $registeredSub = Supporter::where('provider', 'nitro')->where('user_id', $user->id)->first();
 
         if (!isset($registeredSub)) {
-            if ($subInfo->status == 'active') {
+            if ($subInfo && $subInfo->status == 'active') {
                 $registeredSub = Supporter::create([
                     'provider' => 'nitro',
                     'user_id' => $user->id
