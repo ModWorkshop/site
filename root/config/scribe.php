@@ -420,7 +420,7 @@ INTRO
          */
         'order' => [
             'Games' => [
-                'Mod Cateogries',
+                'Mod Categories',
                 'GET /games/{id}',
                 'PUT /games/{id}',
             ],
