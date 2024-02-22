@@ -131,7 +131,7 @@ const posting = ref(false);
 const showError = useQuickErrorToast();
 
 if (focusComment.value) {
-    const { data: foundPage } = await useFetchData<number>(`comments/${focusComment.value}/page`);
+    const { data: foundPage } = await useFetchData<number>(`comments/${focusComment.value}/page`, { params: { limit: 20 } });
     
     page.value = foundPage.value;
 }
