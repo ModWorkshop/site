@@ -44,6 +44,7 @@ import { useStore } from '~~/store';
 
 const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 
 const { user } = useStore();
 
@@ -76,6 +77,7 @@ async function reset() {
             password: password.value,
             token: route.params.token
         });
+        router.push('/login');
     } catch (error) {
         showError(error);
         sending.value = false;
