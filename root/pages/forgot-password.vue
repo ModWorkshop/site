@@ -23,11 +23,18 @@ const email = ref('');
 const sent = ref(false);
 const sending = ref(false);
 
+const showError = useQuickErrorToast();
+
 async function reset() {
     sending.value = true;
-    await postRequest('forgot-password', {
-        email: email.value
-    });
-    sent.value = true;
+    try {
+        await postRequest('forgot-password', {
+            email: email.value
+        });
+        sent.value = true;
+    } catch (error) {
+        showError(error);
+        sending.value = false;
+    }
 }
 </script>

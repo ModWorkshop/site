@@ -52,6 +52,7 @@ const email = ref('');
 const passwordConfirm = ref('');
 const sent = ref(false);
 const sending = ref(false);
+const showError = useQuickErrorToast();
 
 const passValidity = computed(() => {
     const validity = passwordValidity(password.value);
@@ -69,11 +70,15 @@ const confirmPassValidity = computed(() => {
 
 async function reset() {
     sending.value = true;
-    await postRequest('reset-password', {
-        email: user ? user.email : email.value,
-        password: password.value,
-        token: route.params.token
-    });
-    sent.value = true;
+    try {
+        await postRequest('reset-password', {
+            email: user ? user.email : email.value,
+            password: password.value,
+            token: route.params.token
+        });
+    } catch (error) {
+        showError(error);
+        sending.value = false;
+    }
 }
 </script>
