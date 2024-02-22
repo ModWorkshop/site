@@ -142,8 +142,6 @@ APIService::resource('comments', ThreadCommentsController::class, 'threads');
 Route::resource('comments', CommentController::class)->only(['destroy', 'update', 'show']);
 
 Route::middleware('can:report,thread')->post('threads/{thread}/reports', [ThreadController::class, 'report']);
-Route::get('threads/{thread}/comments/{comment}/page', [ThreadCommentsController::class, 'page']);
-Route::get('threads/{thread}/comments/{comment}/replies', [ThreadCommentsController::class, 'replies']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:view,thread')->post('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'subscribe']);
     Route::delete('threads/{thread}/comments/subscription', [ThreadCommentsController::class, 'unsubscribe']);

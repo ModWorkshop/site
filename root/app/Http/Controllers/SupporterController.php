@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use App\Models\Subscription;
+use App\Services\APIService;
 use Illuminate\Http\Response;
 
 /**
@@ -108,33 +109,6 @@ class SupporterController extends Controller
      * @authenticated
      */
     public function nitroCheck() {
-        $user = $this->user();
-        $signer = new \NitroPaySponsor\Signer(env('NITRO_TOKEN'));
-
-        $user->nitroToken = $signer->sign([
-            'siteId' => '92', // required
-            'userId' => $user->id, // required
-        ]);
-
-        $subInfo = $signer->getUserSubscription($user?->id);
-        $registeredSub = Supporter::where('provider', 'nitro')->where('user_id', $user->id)->first();
-
-        if (!isset($registeredSub)) {
-            if ($subInfo->status == 'active') {
-                $registeredSub = Supporter::create([
-                    'provider' => 'nitro',
-                    'user_id' => $user->id
-                ]);
-            } else {
-                return;
-            }
-        }
-
-        \Log::info($subInfo->status);
-        $registeredSub->expire_date = Carbon::create($subInfo->subscribedUntil);
-        $registeredSub->expired = $subInfo->status != 'active';
-        $registeredSub->save();
-
-        return $registeredSub;
+        return APIService::nitroCheck($this->user());
     }
 }
