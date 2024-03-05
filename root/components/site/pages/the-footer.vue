@@ -52,17 +52,19 @@ const i18n = useI18n();
 const store = useStore();
 
 const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
-const savedLocale = useConsentedCookie('locale', { expires: longExpiration() });
+const savedLocale = useConsentedCookie<string>('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
 const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
 const commitHash = computed(() => (runtimeConfig.commitHash || 'N/A').substring(0, 7));
 
 watch(locale, val => {
-    i18n.setLocale(val);
+    i18n.locale.value = val;
     savedLocale.value = val;
     Settings.defaultLocale = val;
 });
+
+Settings.defaultLocale = savedLocale.value ?? 'en';
 
 watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
