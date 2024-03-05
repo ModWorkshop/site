@@ -33,7 +33,7 @@
     "@types/luxon": "^3.3.7",
     "@types/node": "^20.10.3",
     "@types/qs": "^6.9.7",
-    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.0.2",
     "@vueuse/components": "^10.6.1",
     "@vueuse/core": "^10.6.1",
