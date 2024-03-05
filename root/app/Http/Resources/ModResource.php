@@ -22,7 +22,7 @@ class ModResource extends BaseResource
         //Basically nothing, no "key": null just nothing!
         $missingValue = new MissingValue;
 
-        return array_merge(parent::toArray($request), [
+        return [
             'id' => $this->id,
             'category_id' => $this->category_id,
             'game_id' => $this->game_id,
@@ -94,6 +94,6 @@ class ModResource extends BaseResource
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'liked' => $this->whenLoaded('liked'),
             'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),
-        ]);
+        ];
     }
 }
