@@ -53,6 +53,8 @@ class GameRole extends Model
 
     protected $with = [];
 
+    protected $hidden = ['game'];
+
     protected $guarded = [];
 
     public function cacheKey()
