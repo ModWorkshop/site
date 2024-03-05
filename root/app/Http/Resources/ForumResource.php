@@ -18,7 +18,7 @@ class ForumResource extends BaseResource
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
-            'game' => new GameResource($this->game),
+            'game' => $this->whenLoaded('game', fn() => new GameResource($this->game)),
         ]);
     }
 }
