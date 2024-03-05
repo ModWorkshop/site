@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="`/thread/${thread.id}`" class="no-hover announcement">
+    <div class="hover:cursor-pointer announcement" @click="$router.push(`/thread/${thread.id}`)">
         <m-content-block :column="false" padding="4" gap="0">
             <div>
                 <span class="h2">📢 {{thread.name}}</span>
@@ -7,7 +7,7 @@
             </div>
             <i-mdi-close class="ml-auto mb-auto" @click.prevent="$emit('hide', thread)"/>
         </m-content-block>
-    </NuxtLink>
+    </div>
 </template>
 
 <script setup lang="ts">
