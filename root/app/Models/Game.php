@@ -109,13 +109,13 @@ class Game extends Model
 
     public function forum() : HasOne
     {
-        return $this->hasOne(Forum::class);
+        return $this->hasOne(Forum::class)->without('game');
     }
 
     // Mods that the current user is able to see
     public function viewableMods(): HasMany
     {
-        $mods = $this->hasMany(Mod::class);
+        $mods = $this->hasMany(Mod::class)->without('game');;
         ModService::viewFilters($mods);
         return $mods;
     }
@@ -127,31 +127,31 @@ class Game extends Model
 
     public function tags(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(Tag::class)->without('game');
     }
 
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class)->without('game');
     }
 
     public function roles(): HasMany
     {
-        return $this->hasMany(GameRole::class);
+        return $this->hasMany(GameRole::class)->without('game');
     }
 
     public function reports()
     {
-        return $this->hasMany(Report::class);
+        return $this->hasMany(Report::class)->without('game');
     }
 
     public function ownModManagers()
     {
-        return $this->hasMany(ModManager::class);
+        return $this->hasMany(ModManager::class)->without('game');
     }
 
     function modManagers() {
-        return $this->belongsToMany(ModManager::class);
+        return $this->belongsToMany(ModManager::class)->without('game');
     }
 
     /**
@@ -159,7 +159,7 @@ class Game extends Model
      */
     public function followed() : HasOne
     {
-        return $this->hasOne(FollowedGame::class)->where('user_id', Auth::user()?->id);
+        return $this->hasOne(FollowedGame::class)->where('user_id', Auth::user()?->id)->without('game');
     }
 
     public function userData(): Attribute
