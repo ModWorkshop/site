@@ -79,6 +79,11 @@ class Game extends Model
         'last_date' => 'datetime',
     ];
 
+    public function toArray()
+    {
+        return array_merge($this->attributesToArray(), $this->relationsToArray());
+    }
+
     public function getMorphClass(): string {
         return 'game';
     }

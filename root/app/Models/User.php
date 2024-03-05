@@ -218,6 +218,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_online' => 'datetime',
     ];
 
+    public function toArray()
+    {
+        return array_merge($this->attributesToArray(), $this->relationsToArray());
+    }
+
     #region Relations
 
     public function blockedByMe(): HasOne
