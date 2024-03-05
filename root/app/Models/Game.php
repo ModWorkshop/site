@@ -104,7 +104,7 @@ class Game extends Model
             // key so that the relation attribute is snake cased in this returned
             // array to the developers, making this consistent with attributes.
             if (static::$snakeAttributes) {
-                $key = Str::snake($key);
+                $key = \Str::snake($key);
             }
 
             // If the relation value has been set, we will set it on this attributes
