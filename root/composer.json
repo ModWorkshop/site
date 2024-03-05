@@ -10,7 +10,7 @@
         "chelout/laravel-relationship-events": "^2.0",
         "coderflex/laravel-turnstile": "^1.0",
         "fileeye/mimemap": "^2.0",
-        "genealabs/laravel-model-caching": "^0.13.4",
+        "genealabs/laravel-model-caching": "^11.0.0",
         "ggsoftwarellc/nitropay-sponsor-php": "^2.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "hammerstone/fast-paginate": "^1.0.1",
