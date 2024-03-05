@@ -282,11 +282,6 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
-    public function toArray()
-    {
-        return array_merge($this->attributesToArray(), $this->relationsToArray());
-    }
-
     public function resolveRouteBinding($value, $field = null)
     {
         $mod = QueryBuilder::for(app(Mod::class))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
