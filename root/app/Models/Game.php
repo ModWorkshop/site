@@ -89,9 +89,14 @@ class Game extends Model
             // toArray method on the instances which will convert both models and
             // collections to their proper array form and we'll set the values.
             if ($value instanceof Arrayable) {
-                \Log::channel('single')->info('Key: ' . $key);
-            
-                $relation = $value->toArray();
+                if ($key == 'forum')
+                    $relation = $value->toArray();
+                elseif ($key == 'roles')
+                    $relation = $value->toArray();
+                elseif ($key == 'modManagers')
+                    $relation = $value->toArray();
+                else
+                    $relation = $value->toArray();
             }
 
             // If the value is null, we'll still go ahead and set it in this list of
@@ -119,11 +124,6 @@ class Game extends Model
         }
 
         return $attributes;
-    }
-
-    public function toArray()
-    {
-        return array_merge($this->attributesToArray(), $this->relationsToArray());
     }
 
     public function getMorphClass(): string {
