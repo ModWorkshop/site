@@ -10,7 +10,7 @@
                     <span v-else>{{$t('no_reason')}}</span>
                 </template>
                 <template #rules>
-                    <NuxtLink to="/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
+                    <NuxtLink to="/document/rules">{{$t('rules').toLowerCase()}}</NuxtLink>
                 </template>
                 <template #forum>
                     <NuxtLink :to="`/g/${mod.game?.short_name}/forum?category=appeals`">{{$t('forum').toLowerCase()}}</NuxtLink>
