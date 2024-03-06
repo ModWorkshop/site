@@ -364,7 +364,7 @@ class UserController extends Controller
     }
 
     public function getThreads(GetThreadRequest $request, User $user) {
-        return ThreadResource::collectionResponse(ThreadService::threads($request->val(), $user->threads()->getQuery()));
+        return ThreadResource::collectionResponse(ThreadService::threads($request->val(), null, $user->threads()->getQuery()));
     }
 
     /**
