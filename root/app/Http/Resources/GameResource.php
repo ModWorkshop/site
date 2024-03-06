@@ -54,7 +54,7 @@ class GameResource extends BaseResource
             'roles' => $this->whenLoaded('roles'),
             'reports' => $this->whenLoaded('reports'),
             'reports' => $this->whenLoaded('reports'),
-            'mod_managers' => $this->whenLoaded('mod_managers'),
+            'mod_managers' => $this->whenLoaded('modManagers'),
 
             'webhook_url' => $this->when($user?->hasPermission('manage-game', $this->resource), $this->webhook_url),
             'report_count' => $this->when($isCurrent && $moderateUsers, fn() => $this->reportCount),
