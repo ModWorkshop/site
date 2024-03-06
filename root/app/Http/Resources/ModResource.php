@@ -73,6 +73,7 @@ class ModResource extends BaseResource
             'links_count' => $this->when($this->fullLoad, fn() => $this->linksCount),
             'images' => $this->whenLoaded('images'),
             'followed' => $this->whenLoaded('followed'),
+            'last_suspension' => $this->whenLoaded('lastSuspension'),
             'members' => $this->whenLoaded('members', function() use ($missingValue, $request) {
                 $members = [];
                 foreach ($this->members as $member) {
