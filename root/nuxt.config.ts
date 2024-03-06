@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 			uploadUrl: '',
 			storageUrl: '',
 			debug_legacy_images: false,
-			version: '3.4.2',
+			version: '3.4.3',
 			commitHash: ''
 		},
 		innerApiUrl: ''

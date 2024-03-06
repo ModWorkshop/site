@@ -12,7 +12,6 @@
                     :side-offset="2"
                     :trap-focus="trapFocus"
                     update-position-strategy="optimized"
-                    @click="open = false"
                 >
                     <slot name="content"/>
                     <PopoverArrow class="m-dropdown-arrow"/>

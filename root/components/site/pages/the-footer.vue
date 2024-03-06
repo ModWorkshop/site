@@ -59,7 +59,7 @@ const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.v
 const commitHash = computed(() => (runtimeConfig.commitHash || 'N/A').substring(0, 7));
 
 watch(locale, val => {
-    i18n.locale.value = val;
+    i18n.setLocale(val);
     savedLocale.value = val;
     Settings.defaultLocale = val;
 });
