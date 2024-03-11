@@ -64,7 +64,7 @@
     "markdown-it": "^14.0.0",
     "markdown-it-html5-media": "^0.7.1",
     "markdown-it-task-lists": "^2.1.1",
-    "nuxt-gtag": "^2.0.4",
+    "nuxt-gtag": "^2.0.5",
     "object-hash": "^3.0.0",
     "object-to-formdata": "^4.4.2",
     "postcss-custom-properties": "^13.2.0",
