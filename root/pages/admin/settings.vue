@@ -38,7 +38,7 @@ const { data: settings } = await useFetchData<Settings>('settings');
 async function submit() {
     try {
         await patchRequest('settings', settings.value!);
-        flushChanges.trigger(settings);
+        flushChanges.trigger(settings.value);
     } catch (error) {
         showError(error);
     }
