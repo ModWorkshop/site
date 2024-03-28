@@ -97,7 +97,7 @@ watch(open, () => {
     max-height: 450px;
     color: var(--text-color);
     z-index: 9999;
-    animation-duration: 800ms;
+    animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
     overflow: auto;
