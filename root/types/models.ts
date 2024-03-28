@@ -430,6 +430,7 @@ export interface Suspension {
 export interface Settings {
     max_file_size: number,
     mod_storage_size: number;
+    supporter_mod_storage_size: number;
     image_max_file_size: number;
     mod_max_image_count: number;
     discord_webhook: string;
