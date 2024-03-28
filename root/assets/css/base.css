@@ -576,3 +576,9 @@ kbd {
     padding: 2px 4px;
     white-space: nowrap;
 }
+
+.vel-fade-enter-active,
+.vel-fade-leave-active {
+    -webkit-transition: all .1s ease !important;
+    transition: all .1s ease !important;
+}
