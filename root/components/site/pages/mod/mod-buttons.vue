@@ -5,7 +5,7 @@
             <m-button v-else class="large-button flex-1" disabled><i-mdi-download/> {{$t('no_downloads')}}</m-button>
         </template>
         <m-button 
-            v-if="canLike"
+            :disabled="!canLike"
             :color="mod.liked && 'danger' || 'secondary'"
             class="large-button"
             :title="$t('like_mod')"
