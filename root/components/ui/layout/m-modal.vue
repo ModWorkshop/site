@@ -36,7 +36,7 @@ watch(vm, val => {
         emit('closed');
         setTimeout(() => {
             delayedVm.value = false;
-        }, 400);
+        }, 200);
     }
 });
 
@@ -100,7 +100,7 @@ const classes = computed(() => ({
     position: fixed;
     top: 0;
     left: 0;
-    animation-duration: 0.5s;
+    animation-duration: 0.25s;
     will-change: transform, opacity;
 }
 
@@ -116,7 +116,7 @@ const classes = computed(() => ({
     position: fixed;
     width: 100%;
     height: 100%;
-    animation-duration: 0.5s;
+    animation-duration: 0.25s;
     will-change: transform, opacity;
 }
 

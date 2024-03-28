@@ -8,6 +8,10 @@
             <h3>{{$t('supporter_you_get')}}</h3>
             <ul>
                 <li><b>{{$t('supporter_no_ads')}}</b></li>
+                <li><b>{{$t('supporter_extra_storage', { 
+                    from: friendlySize(settings?.mod_storage_size ?? 0),
+                    to: friendlySize(settings?.supporter_mod_storage_size ?? 0)
+                })}}</b></li>
                 <li><b>{{$t('supporter_custom_name_color')}}</b></li>
                 <li><b>{{$t('supporter_supporter_tag')}}</b></li>
             </ul>
@@ -62,7 +66,7 @@ import { useStore } from '~~/store';
 import type { Supporter } from '~~/types/models';
 
 const { public: config } = useRuntimeConfig();
-const { user } = useStore();
+const { user, settings } = useStore();
 const store = useStore();
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const supportUrl = `${config.siteUrl}/support`;

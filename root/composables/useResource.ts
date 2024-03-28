@@ -1,5 +1,4 @@
-import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import { SearchParameters } from 'ofetch';
+import type { SearchParameters } from 'ofetch';
 import { useI18n } from "vue-i18n";
 
 /**
@@ -15,8 +14,8 @@ import { useI18n } from "vue-i18n";
 interface _AsyncData<DataT, ErrorT> {
     data: Ref<DataT>;
     pending: Ref<boolean>;
-    refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>;
-    execute: (opts?: AsyncDataExecuteOptions) => Promise<void>;
+    refresh: (opts?: any) => Promise<void>;
+    execute: (opts?: any) => Promise<void>;
     error: Ref<ErrorT | null>;
 }
 

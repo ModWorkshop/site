@@ -13,7 +13,7 @@
 
             <m-flex gap="1" class="break-words" column>
                 <NuxtLink class="flex gap-1 items-center flex-wrap" :to="link">
-                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all">{{user?.name ?? $t('invalid_user')}}</component>
+                    <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all text-body">{{user?.name ?? $t('invalid_user')}}</component>
                     <m-tag v-if="tag && userTag" small>{{userTag}}</m-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
                     <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>

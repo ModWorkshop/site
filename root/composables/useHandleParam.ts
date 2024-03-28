@@ -1,4 +1,4 @@
-import { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
+import type { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
 
 /**
  * Handy composable that handles parameter changes

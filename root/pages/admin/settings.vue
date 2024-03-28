@@ -4,6 +4,7 @@
             <m-input v-model="settings.max_file_size" type="number" label="Max file size"/>
             <m-input v-model="settings.image_max_file_size" type="number" label="Image max file size"/>
             <m-input v-model="settings.mod_storage_size" type="number" label="Storage size per mod"/>
+            <m-input v-model="settings.supporter_mod_storage_size" type="number" label="Supporter Storage size per mod"/>
             <m-input v-model="settings.mod_max_image_count" type="number" label="Max images per mod"/>
             <m-input v-model="settings.discord_webhook" label="Discord Webhook for mods"/>
             <m-input v-model="settings.discord_suspension_webhook" label="Discord Webhook for suspensions"/>
@@ -37,7 +38,7 @@ const { data: settings } = await useFetchData<Settings>('settings');
 async function submit() {
     try {
         await patchRequest('settings', settings.value!);
-        flushChanges.trigger(settings);
+        flushChanges.trigger(settings.value);
     } catch (error) {
         showError(error);
     }

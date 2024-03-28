@@ -339,7 +339,7 @@ a {
     color: var(--text-color);
     border-radius: var(--content-border-radius);
     background-color: var(--alt-content-bg-color);
-    padding: 1.25rem;
+    padding: 1rem;
 }
 
 * {
@@ -575,4 +575,10 @@ kbd {
     line-height: 1;
     padding: 2px 4px;
     white-space: nowrap;
+}
+
+.vel-fade-enter-active,
+.vel-fade-leave-active {
+    -webkit-transition: all .1s ease !important;
+    transition: all .1s ease !important;
 }

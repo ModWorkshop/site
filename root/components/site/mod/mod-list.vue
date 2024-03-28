@@ -41,14 +41,17 @@
                         </template>
                     </m-dropdown>
                     <m-flex v-if="!sideFilters">
-                        <m-dropdown>
+                        <m-dropdown :close-on-click="false">
                             <m-button><i-mdi-filter/></m-button>
                             <template #content>
-                                <Suspense>
-                                    <m-flex class="p-4" gap="3" column style="width: 300px;">
+                                <m-flex class="p-4" gap="3" column style="width: 300px;">
+                                    <Suspense>
+                                        <template #fallback>
+                                            <m-loading/>
+                                        </template>
                                         <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
-                                    </m-flex>
-                                </Suspense>
+                                    </Suspense>
+                                </m-flex>
                             </template>
                         </m-dropdown>
                     </m-flex>

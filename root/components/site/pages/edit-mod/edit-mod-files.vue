@@ -6,7 +6,7 @@
 
     <label>{{$t('files')}}</label>
     <m-flex column>
-        <small>{{$t('allowed_size_per_mod', [friendlySize(maxSize)])}}</small>
+        <small>{{$t('allowed_size_per_mod', [friendlySize(maxStorage)])}}</small>
         <m-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
         <m-file-uploader
             v-model="files"
@@ -15,7 +15,7 @@
             :upload-url="uploadLink"
             max-files="25"
             :paused="!mod.id"
-            :max-size="(settings?.max_file_size || 0)"
+            :max-size="maxSize"
             url="files"
             @file-uploaded="updateHasDownload"
             @file-deleted="fileDeleted"
@@ -144,12 +144,27 @@ const changeFile = ref<HTMLInputElement>();
 const canModerate = computed(() => hasPermission('manage-mods', mod.value.game));
 
 const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
-const maxSize = computed(() => allowedStorage.value || settings?.mod_storage_size || 0);
+
+const maxStorage = computed(() => {
+    if (mod.value.user?.active_supporter) {
+        return Math.max(allowedStorage.value || 0, settings?.supporter_mod_storage_size || 0);
+    } else {
+        return allowedStorage.value || settings?.mod_storage_size || 0;
+    }
+});
+
+const maxSize = computed(() => {
+    if (mod.value.user?.active_supporter) {
+        return settings?.supporter_mod_storage_size || 0;
+    } else {
+        return settings?.max_file_size || 0;
+    }
+});
 
 const usedFileSize = computed(() => files.value.reduce((prev, curr) => prev + curr.size, 0) ?? 0);
-const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxSize.value));
+const usedSizePercent = computed(() => 100 * (usedFileSize.value / maxStorage.value));
 const usedSizeText = computed(() => {
-    const current = friendlySize(usedFileSize.value), total = friendlySize(maxSize.value);
+    const current = friendlySize(usedFileSize.value), total = friendlySize(maxStorage.value);
     const percent = usedSizePercent.value.toFixed(1);
     return `${current}/${total} (${percent}%)`;
 });
