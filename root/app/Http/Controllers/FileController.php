@@ -53,9 +53,13 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
-        ini_set('memory_limit', '2G');
-        set_time_limit(1800);
+        ini_set('memory_limit', '4G');
+        set_time_limit(3600);
         $maxSize = Setting::getValue('max_file_size');
+
+        if (isset($mod->user->activeSupporter)) {
+            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
+        }
 
         $val = $request->validate([
             'file' => "required|file|max:{$maxSize}"
@@ -96,8 +100,14 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        ini_set('memory_limit', '2G');
+        ini_set('memory_limit', '4G');
+        set_time_limit(3600);
+
         $maxSize = Setting::getValue('max_file_size');
+
+        if (isset($file->mod->user->activeSupporter)) {
+            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
+        }
 
         $val = $request->validate([
             'name' => 'string|min:3|max:100',

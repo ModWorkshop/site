@@ -98,7 +98,7 @@ class ModController extends Controller
 
         $mods = ModService::mods($request->val(), function($q, $val) {
             $q->whereNull('approved');
-        });
+        }, $game?->mods());
 
         return ModResource::collectionResponse($mods);
     }

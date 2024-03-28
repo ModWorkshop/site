@@ -35,6 +35,7 @@ class SettingsController extends Controller
         $val = $request->validate([
             'max_file_size' => 'integer',
             'mod_storage_size' => 'integer',
+            'supporter_mod_storage_size' => 'integer',
             'image_max_file_size' => 'integer',
             'mod_max_image_count' => 'integer',
             'news_forum_category' => 'integer',
@@ -53,5 +54,7 @@ class SettingsController extends Controller
         foreach ($val as $key => $value) {
             Setting::where('name', $key)->where('value', '!=', $value)->update(['value' => $value]);
         }
+
+        return APIService::getSettings();
     }
 }

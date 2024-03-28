@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.1.0-php8.3-alpine as build
+FROM dunglas/frankenphp:1.1.2-php8.3-alpine as build
 
 RUN apk add --no-cache \
   supervisor
@@ -27,8 +27,8 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 RUN <<EOF cat >> $PHP_INI_DIR/php.ini
 
 ffi.enable=true
-post_max_size=1G
-upload_max_filesize=1G
+post_max_size=5G
+upload_max_filesize=5G
 memory_limit=2G
 max_execution_time=150
 disable_functions=phpinfo
