@@ -1,4 +1,4 @@
-import { DifferentFetchOptions } from './useFetchData';
+import type { DifferentFetchOptions } from './useFetchData';
 import { Paginator } from '~~/types/paginator';
 
 /**
