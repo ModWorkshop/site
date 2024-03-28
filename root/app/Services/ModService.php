@@ -183,7 +183,12 @@ class ModService {
      */
     public static function attemptUpload(Mod $mod, UploadedFile $file)
     {
+        
         $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
+
+        if (isset($mod->user->activeSupporter)) {
+            $storageSize = max($storageSize,  Setting::getValue('supporter_mod_storage_size'));
+        }
 
         $fileSize = $file->getSize();
 
