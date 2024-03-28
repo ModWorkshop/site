@@ -12,7 +12,7 @@
                     :side-offset="2"
                     :trap-focus="trapFocus"
                     update-position-strategy="optimized"
-                    @click="open = false"
+                    @click="onClickContent"
                 >
                     <slot name="content"/>
                     <PopoverArrow class="m-dropdown-arrow"/>
@@ -46,7 +46,8 @@ const {
     trapFocus = true,
     disabled = false,
     type = 'dropdown',
-    toolTipDelay
+    toolTipDelay,
+    closeOnClick = true,
 } = defineProps<{
     side?: "right" | "left" | "bottom" | "top";
     align?: "start" | "center" | "end";
@@ -55,9 +56,10 @@ const {
     trapFocus?: boolean;
     disabled?: boolean;
     toolTipDelay?: number;
+    closeOnClick?: boolean;
 }>();
 
-const open = defineModel<boolean>('open', { local: true, default: false });
+const open = defineModel<boolean>('open', { default: false });
 
 const computedClass = computed(() => {
     if (Array.isArray(dropdownClass)) {
@@ -70,6 +72,12 @@ const computedClass = computed(() => {
         return 'm-dropdown';
     }
 });
+
+function onClickContent() {
+    if (closeOnClick) {
+        open.value = false;
+    }
+}
 
 // A little hack to add disabling
 watch(open, () => {
