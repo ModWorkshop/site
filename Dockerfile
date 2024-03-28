@@ -31,6 +31,7 @@ post_max_size=1G
 upload_max_filesize=1G
 memory_limit=2G
 max_execution_time=150
+upload_max_filesize=5G
 disable_functions=phpinfo
 opcache.enable_cli=1
 opcache.jit_buffer_size=250M
