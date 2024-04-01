@@ -2679,7 +2679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:10.9.0, @vueuse/core@npm:^10.6.1, @vueuse/core@npm:^10.9.0":
+"@vueuse/core@npm:10.9.0, @vueuse/core@npm:^10.5.0, @vueuse/core@npm:^10.6.1, @vueuse/core@npm:^10.9.0":
   version: 10.9.0
   resolution: "@vueuse/core@npm:10.9.0"
   dependencies:
@@ -2774,7 +2774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:10.9.0":
+"@vueuse/shared@npm:10.9.0, @vueuse/shared@npm:^10.5.0":
   version: 10.9.0
   resolution: "@vueuse/shared@npm:10.9.0"
   dependencies:
@@ -3013,6 +3013,15 @@ __metadata:
   version: 2.0.1
   resolution: "argparse@npm:2.0.1"
   checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
+  languageName: node
+  linkType: hard
+
+"aria-hidden@npm:^1.2.3":
+  version: 1.2.4
+  resolution: "aria-hidden@npm:1.2.4"
+  dependencies:
+    tslib: ^2.0.0
+  checksum: 2ac90b70d29c6349d86d90e022cf01f4885f9be193932d943a14127cf28560dd0baf068a6625f084163437a4be0578f513cf7892f4cc63bfe91aa41dce27c6b2
   languageName: node
   linkType: hard
 
@@ -6853,7 +6862,7 @@ __metadata:
     object-to-formdata: ^4.4.2
     postcss-custom-properties: ^13.2.0
     qs: ^6.11.0
-    radix-vue: ^1.4.9
+    radix-vue: ^1.6.1
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
@@ -8351,16 +8360,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"radix-vue@npm:^1.4.9":
-  version: 1.5.3
-  resolution: "radix-vue@npm:1.5.3"
+"radix-vue@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "radix-vue@npm:1.6.1"
   dependencies:
     "@floating-ui/dom": ^1.5.4
     "@floating-ui/vue": ^1.0.4
     "@internationalized/date": ^3.5.2
+    "@vueuse/core": ^10.5.0
+    "@vueuse/shared": ^10.5.0
+    aria-hidden: ^1.2.3
+    defu: ^6.1.4
     fast-deep-equal: ^3.1.3
     nanoid: ^5.0.6
-  checksum: 692a98d9a6696cec0698e897c5d09beeb8f1a017e7a4f5dc68da68eb41b304d10be4fe31b24efa780cff38478509972787e0c39a8f609df18dc3088799145000
+  peerDependencies:
+    vue: ">= 3.2.0"
+  checksum: 54b6ef2b7c944c4a21ca159d66aab8488467cc1fbbb97dc34b1cd841e534cd00f366e20e1bf5d76df53efa6eaa70148157527348557135fdb21d3a049cc34658
   languageName: node
   linkType: hard
 
@@ -9562,7 +9577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0":
+"tslib@npm:^2.0.0, tslib@npm:^2.4.0":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
