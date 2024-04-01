@@ -31,7 +31,7 @@
     "@nuxtjs/tailwindcss": "6.11.4",
     "@pinia/nuxt": "^0.5.1",
     "@types/luxon": "^3.3.7",
-    "@types/node": "^20.10.3",
+    "@types/node": "^20.12.2",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.0.2",
