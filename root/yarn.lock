@@ -1535,14 +1535,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/turnstile@npm:^0.6.3":
-  version: 0.6.3
-  resolution: "@nuxtjs/turnstile@npm:0.6.3"
+"@nuxtjs/turnstile@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@nuxtjs/turnstile@npm:0.7.1"
   dependencies:
     "@nuxt/kit": ^3.7.0
     defu: ^6.1.2
     pathe: ^1.1.1
-  checksum: 4ac465a8782035f8563b78c3b8bf29f2cdbfb13109bc668f5f7bdaf5ce607a8b2fdad5d39057f99df4ba1aa2b2b9d6757e8cb211052ec7e86c8a4b6828586e18
+  checksum: 844e1b9ca42f4101f96131f6f99a99459881363ad25e57a8f7f97deb8884e702e4baabbf03f99ec34a69c1bb2d365254c3c264e12be1777ff4735a8db8f08e5b
   languageName: node
   linkType: hard
 
@@ -6822,7 +6822,7 @@ __metadata:
     "@nuxtjs/i18n": ^8.1.1
     "@nuxtjs/robots": ^3.0.0
     "@nuxtjs/tailwindcss": 6.11.4
-    "@nuxtjs/turnstile": ^0.6.3
+    "@nuxtjs/turnstile": ^0.7.1
     "@pinia/nuxt": ^0.5.1
     "@types/luxon": ^3.3.7
     "@types/node": ^20.10.3
