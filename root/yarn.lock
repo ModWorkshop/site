@@ -804,12 +804,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify-json/material-symbols@npm:^1.1.64":
-  version: 1.1.76
-  resolution: "@iconify-json/material-symbols@npm:1.1.76"
+"@iconify-json/material-symbols@npm:^1.1.77":
+  version: 1.1.77
+  resolution: "@iconify-json/material-symbols@npm:1.1.77"
   dependencies:
     "@iconify/types": "*"
-  checksum: 6b943a18fe6d8dfaba5951e20067e85b88bb12d11c09592e130962c7b1e4b8f4c25536847daa91cb2b0e93d5aa69d229ec4cbc6cc29881c015b864f96e0853c2
+  checksum: c0073e76cbd2b8b28f0749df321c35870344ddac9245b50adc3f9e1b278146cfc8a3544776d85dbdb7464e8e748b472f7b654eaabf0995c63fe8caf60f2f8a53
   languageName: node
   linkType: hard
 
@@ -6814,7 +6814,7 @@ __metadata:
     "@antfu/utils": ^0.7.4
     "@gerhobbelt/markdown-it-regexp": ^0.6.0-15
     "@iconify-json/cib": ^1.1.6
-    "@iconify-json/material-symbols": ^1.1.64
+    "@iconify-json/material-symbols": ^1.1.77
     "@iconify-json/mdi": ^1.1.54
     "@iconify-json/svg-spinners": ^1.1.2
     "@koddsson/textarea-caret": ^4.0.1

@@ -22,7 +22,7 @@
   "devDependencies": {
     "@antfu/utils": "^0.7.4",
     "@iconify-json/cib": "^1.1.6",
-    "@iconify-json/material-symbols": "^1.1.64",
+    "@iconify-json/material-symbols": "^1.1.77",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@nuxt/devtools": "^1.0.8",
