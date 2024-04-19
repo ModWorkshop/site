@@ -12,7 +12,6 @@ use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
 use Carbon\Carbon;
-use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 use DB;
 use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
@@ -59,7 +58,7 @@ class LoginController extends Controller
 
         if (app()->isProduction()) {
             $request->validate([
-                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+                'h-captcha-response' => ['hcaptcha'],
             ]);
         }
 
@@ -109,7 +108,7 @@ class LoginController extends Controller
 
         if (app()->isProduction()) {
             $request->validate([
-                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+                'h-captcha-response' => ['hcaptcha'],
             ]);
         }
 

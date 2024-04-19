@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Str;
-use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 
 /**
  * @group Users
@@ -261,7 +260,7 @@ class UserController extends Controller
         $val = $request->validate([
             'unique_name' => 'alpha_dash|required|min:3|max:50',
             'are_you_sure' => 'required|boolean',
-            'cf-turnstile-response' => ['required', new TurnstileCheck()],
+            'h-captcha-response' => ['hcaptcha'],
         ]);
 
         if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
