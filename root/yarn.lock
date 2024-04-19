@@ -5620,10 +5620,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"humanize-duration@npm:^3.31.0":
-  version: 3.31.0
-  resolution: "humanize-duration@npm:3.31.0"
-  checksum: a21b1c80d43580c28fef07213846f74703c467270d41b774faeb4df6041b1da65effc554346fe6f0a70c4096b011d75f2ba6c2fd254b5a3c93231d85910533fe
+"humanize-duration@npm:^3.32.0":
+  version: 3.32.0
+  resolution: "humanize-duration@npm:3.32.0"
+  checksum: fd12af03045278c24542d2222d46831f74d21a2132bba053d4847ff8c8f6799840db6ff8a14ce24cc920f69633970fbde4f83d7cbcfed26806ed21804e72a03a
   languageName: node
   linkType: hard
 
@@ -6974,7 +6974,7 @@ __metadata:
     fast-equals: ^5.0.1
     filesize: ^10.1.0
     highlight.js: ^11.9.0
-    humanize-duration: ^3.31.0
+    humanize-duration: ^3.32.0
     isomorphic-dompurify: ^2.4.0
     lodash: ^4.17.21
     luxon: ^3.4.4
