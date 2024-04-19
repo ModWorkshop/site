@@ -33,6 +33,7 @@ export default defineNuxtConfig({
 			storageUrl: '',
 			debug_legacy_images: false,
 			version: '3.4.4',
+			hcaptchaSiteKey: '',
 			commitHash: ''
 		},
 		innerApiUrl: ''
@@ -191,7 +192,6 @@ export default defineNuxtConfig({
 
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
-		'@nuxtjs/turnstile',
 		// 'nuxt-delay-hydration',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',

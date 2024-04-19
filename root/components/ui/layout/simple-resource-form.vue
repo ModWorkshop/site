@@ -15,7 +15,9 @@
                     <m-button color="danger" @click="doDelete"><i-mdi-delete/> {{$t('delete')}}</m-button>
                 </m-flex>
             </m-alert>
-            <NuxtTurnstile v-if="captcha" ref="turnstile" v-model="turnstileToken"/>
+            <VueHcaptcha ref="asyncExecuteHCaptcha" :sitekey="config.hcaptchaSiteKey" @verify="onVerifyCaptcha"/>
+
+            <a-captcha v-if="captcha" v-model="captchaToken"/>
         </m-flex>
     </m-form>
 </template>
@@ -30,8 +32,7 @@ const router = useRouter();
 const yesNoModal = useYesNoModal();
 const showError = useQuickErrorToast();
 
-const turnstile = ref();
-const turnstileToken = ref<string>();
+const captchaToken = ref<string>();
 
 const { t } = useI18n();
 
@@ -54,21 +55,18 @@ const fc = computed(() => props.flushChanges ?? createEventHook());
 const createUrl = computed(() => props.createUrl ?? getGameResourceUrl(props.url, props.game));
 
 async function submit() {
-    const token = turnstileToken.value;
-    turnstileToken.value = '';
-
     try {
         let params;
         if (props.mergeParams) {
             params = serializeObject({
                 ...vm.value,
                 ...props.mergeParams,
-                'cf-turnstile-response': token
+                'h-captcha-response': captchaToken.value
             });
         } else {
             params = vm.value;
             params ??= {};
-            params['cf-turnstile-response'] = token;
+            params['h-captcha-response'] = captchaToken.value;
         }
 
         if (!vm.value.id) {
@@ -83,6 +81,7 @@ async function submit() {
         emit('submit');
     } catch (error) {
         showError(error);
+        captchaToken.value = '';
         return;
     }
 }
@@ -101,7 +100,3 @@ async function doDelete() {
     });
 }
 </script>
-
-<style scoped>
-
-</style>

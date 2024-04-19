@@ -59,7 +59,7 @@
             </m-alert>
             <m-input v-model="deleteUserUniqueName" :label="$t('unique_name')"/>
             <m-input v-model="deleteUserCheckBox" :label="$t('delete_user_checkbox')" type="checkbox"/>
-            <NuxtTurnstile v-model="turnstileToken"/>
+            <a-captcha v-model="captchaToken"/>
         </m-form-modal>
     </m-flex>
 </template>
@@ -89,9 +89,9 @@ const showDeletUser = ref(false);
 
 const deleteUserUniqueName = ref('');
 const deleteUserCheckBox = ref(false);
-const turnstileToken = ref('');
+const captchaToken = ref('');
 const canDeleteUser = computed(() => 
-    deleteUserCheckBox.value && turnstileToken.value && deleteUserUniqueName.value === me?.unique_name ? true : false
+    deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === me?.unique_name ? true : false
 );
 
 function downloadData() {
@@ -117,7 +117,7 @@ const isMe = inject<boolean>('isMe');
 
 function showDeleteUser() {
     showDeletUser.value = true;
-    turnstileToken.value = '';
+    captchaToken.value = '';
     deleteUserUniqueName.value = '';
     deleteUserCheckBox.value = false;
 }
@@ -125,7 +125,7 @@ function showDeleteUser() {
 async function doDelete() {
     try {
         await deleteRequest(`users/${props.user.id}`, {
-            'cf-turnstile-response': turnstileToken.value,
+            'h-captcha-response': captchaToken.value,
             'are_you_sure': deleteUserCheckBox.value,
             'unique_name': deleteUserUniqueName.value
         });
@@ -134,6 +134,7 @@ async function doDelete() {
         }
     } catch (error) {
         showError(error);
+        captchaToken.value = '';
     }
 }
 

@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "@gerhobbelt/markdown-it-regexp": "^0.6.0-15",
+    "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@koddsson/textarea-caret": "^4.0.1",
-    "@nuxtjs/turnstile": "^0.6.3",
     "axios": "^1.6.0",
     "fast-equals": "^5.0.1",
     "filesize": "^10.1.0",
