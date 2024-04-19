@@ -101,10 +101,14 @@ class LoginController extends Controller
         $val = $request->validate([
             'name' => ['required'],
             'unique_name' => 'alpha_dash|nullable|min:3|max:50',
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', new \nickurt\StopForumSpam\Rules\IsSpamEmail(3)],
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
+
+        if (\StopForumSpam::setIp($request->ip)->isSpamIp()) {
+            abort(400);
+        }
 
         if (app()->isProduction()) {
             $request->validate([
