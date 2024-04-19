@@ -15,8 +15,6 @@
                     <m-button color="danger" @click="doDelete"><i-mdi-delete/> {{$t('delete')}}</m-button>
                 </m-flex>
             </m-alert>
-            <VueHcaptcha ref="asyncExecuteHCaptcha" :sitekey="config.hcaptchaSiteKey" @verify="onVerifyCaptcha"/>
-
             <a-captcha v-if="captcha" v-model="captchaToken"/>
         </m-flex>
     </m-form>
