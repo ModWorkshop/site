@@ -6958,6 +6958,7 @@ __metadata:
     typescript: ^5.0.4
     unplugin-icons: ^0.18.3
     unplugin-vue-components: ^0.26.0
+    vue: ^3.4.14
     vue-easy-lightbox: ^1.13.0
     vue-tsc: ^2.0.7
   languageName: unknown
@@ -10527,7 +10528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.19":
+"vue@npm:^3.2.19, vue@npm:^3.4.14":
   version: 3.4.23
   resolution: "vue@npm:3.4.23"
   dependencies:
