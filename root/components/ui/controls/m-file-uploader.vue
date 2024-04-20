@@ -233,9 +233,8 @@ async function uploadWaitingFiles() {
                 baseURL: runtimeConfig.uploadUrl,
                 headers: {'Content-Type': 'multipart/form-data'},
                 onUploadProgress: function(progressEvent) {
-                    const reactiveFile = vm.value[0];
                     if (progressEvent.progress) {
-                        reactiveFile.progress = Math.round(100 * progressEvent.progress);
+                        uploadFile.progress = Math.round(100 * progressEvent.progress);
                     }
                 },
                 cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
