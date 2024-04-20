@@ -178,6 +178,7 @@ class Mod extends Model implements SubscribableInterface
     public static $allowedIncludes = [
         'category',
         'thumbnail',
+        'background',
         'user',
         'tags',
         'images',
@@ -226,6 +227,8 @@ class Mod extends Model implements SubscribableInterface
         'has_download',
         'approved',
         'thumbnail_id',
+        'background_id',
+        'background_opacity',
         'banner_id',
         'allowed_storage',
         'updated_at',
@@ -271,6 +274,7 @@ class Mod extends Model implements SubscribableInterface
         'members',
         'category',
         'thumbnail',
+        'background'
     ];
 
     protected $with = self::DEFAULT_MOD_WITH;
@@ -378,6 +382,11 @@ class Mod extends Model implements SubscribableInterface
     }
 
     public function thumbnail()
+    {
+        return $this->belongsTo(Image::class);
+    }
+
+    public function background()
     {
         return $this->belongsTo(Image::class);
     }

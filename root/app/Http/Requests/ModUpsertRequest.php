@@ -35,6 +35,8 @@ class ModUpsertRequest extends FormRequest
             'visibility' => 'nullable|in:public,private,unlisted',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
+            'background_id' => 'integer|min:1|nullable|exists:images,id',
+            'background_opacity' => 'numeric|min:0|max:1|nullable',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'banner_id' => 'integer|min:1|nullable|exists:images,id',
             'instructs_template_id' => 'integer|min:1|nullable|exists:instructs_templates,id',

@@ -19,7 +19,6 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
-use Coderflex\LaravelTurnstile\Rules\TurnstileCheck;
 
 /**
  * @group Threads
@@ -55,7 +54,7 @@ class ThreadController extends Controller
 
         if (app()->isProduction()) {
             $request->validate([
-                'cf-turnstile-response' => ['required', new TurnstileCheck()]
+                'h-captcha-response' => ['hcaptcha'],
             ]);
         }
 
