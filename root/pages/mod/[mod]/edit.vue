@@ -1,5 +1,5 @@
 <template>
-    <edit-mod-page :mod="mod"/>
+    <edit-mod-page v-model:mod="mod"/>
 </template>
 
 <script setup lang="ts">

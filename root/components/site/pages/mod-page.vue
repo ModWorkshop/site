@@ -1,7 +1,7 @@
 <template>
     <Title v-if="mod.game">{{mod.name}} - {{ mod.game.name }} Mods</Title>
     <Title v-else>{{ mod.name }}</Title>
-    <page-block v-if="usePageBlock" :game="mod.game" :breadcrumb="breadcrumb" :define-meta="false">
+    <page-block v-if="usePageBlock" show-background :game="mod.game" :background="modBackground" :background-opacity="modBackgroundOpacity" :breadcrumb="breadcrumb" :define-meta="false">
         <mod-alerts v-if="mod.id" :mod="mod"/>
         <mod-top-buttons v-if="mod.id" :mod="mod"/>
         <slot/>
@@ -82,6 +82,18 @@ const breadcrumb = computed(() => {
         return breadcrumb;
     } else {
         return [];
+    }
+});
+
+const modBackground = computed(() => {
+    if (mod.value.user?.active_supporter && mod.value.background) {
+        return useSrc('mods/images', mod.value.background.file);
+    }
+});
+
+const modBackgroundOpacity = computed(() => {
+    if (mod.value.user?.active_supporter && mod.value.background) {
+        return mod.value.background_opacity;
     }
 });
 </script>

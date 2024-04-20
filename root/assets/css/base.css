@@ -130,6 +130,7 @@ body {
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
+    --content-bg-color-glass: #2b3036ce;
     --alt-content-bg-color: #22262b;
 
     --table-even-color: var(--content-bg-color);
@@ -165,6 +166,8 @@ html.dark {
 html.light {
     --bg-color: #cfd0d3;
     --content-bg-color: #d6d8db;
+    --content-bg-color-glass: #d6d8dbbd;
+
     --alt-content-bg-color: #e4e5e7;
     --dropdown-bg: #c9cbcf;
     --dropdown-hover-bg: #aeb1b7;
@@ -330,6 +333,10 @@ a {
     max-width: 100%;
     background-color: var(--content-bg-color);
     border-radius: var(--content-border-radius);
+}
+
+.content-block-glass {
+    background-color: var(--content-bg-color-glass);
 }
 
 .content-bg {

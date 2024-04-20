@@ -1,5 +1,5 @@
 <template>
-    <page-block v-if="user">
+    <page-block v-if="user" :show-background="!!userBackground" :background="userBackground" :background-opacity="userBackgroundOpacity">
         <Title>{{user.name}}</Title>
         <m-flex v-if="me">
             <m-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</m-button>
@@ -104,6 +104,19 @@ const canModerate = computed(() =>
 const isMe = computed(() => me?.id === user.value.id);
 
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
+
+const userBackground = computed(() => {
+    if (user.value.active_supporter && user.value.extra?.background) {
+        return useSrc('users/images', user.value.extra.background);
+    }
+});
+
+const userBackgroundOpacity = computed(() => {
+    if (user.value.active_supporter && user.value.extra?.background) {
+        return user.value.extra.background_opacity;
+    }
+});
+
 const tempBlockOverride = ref(false);
 
 async function purgeSpammer() {

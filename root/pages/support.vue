@@ -13,6 +13,7 @@
                     to: friendlySize(settings?.supporter_mod_storage_size ?? 0)
                 })}}</b></li>
                 <li><b>{{$t('supporter_custom_name_color')}}</b></li>
+                <li><b>{{$t('supporter_profile_mod_background')}}</b></li>
                 <li><b>{{$t('supporter_supporter_tag')}}</b></li>
             </ul>
             <m-dropdown type="tooltip" dropdown-class="p-2" :tool-tip-delay="0.1" :disabled="!!user">
