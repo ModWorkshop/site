@@ -5,7 +5,7 @@
                 <m-img class="round" loading="lazy" :src="currentSrc" :url-prefix="urlPrefix" :width="width" :height="height"/>
             </slot>
         </label>
-        <input :id="labelId" ref="input" class="mt-1" type="file" @change="onChange">
+        <input :id="labelId" :disabled="disabled" ref="input" class="mt-1" type="file" @change="onChange">
     </m-input>
 </template>
 
@@ -16,6 +16,7 @@ const props = defineProps<{
     urlPrefix?: string,
     width?: string|number,
     height?: string|number,
+    disabled?: boolean;
     maxFileSize?: number|string,
 }>();
 

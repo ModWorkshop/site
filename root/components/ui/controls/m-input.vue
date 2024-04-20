@@ -5,13 +5,14 @@
                 {{label}}
             </slot>
         </label>
-        <m-flex v-if="!$slots.default">
+        <m-flex v-if="!$slots.default" class="items-center" gap="3">
             <input 
                 v-if="type == 'color'"
                 ref="input"
                 v-bind="$attrs"
                 v-model="vm"
                 :class="classes"
+                :disabled="disabled"
                 style="flex-grow: 1;"
                 @input="$emit('update:modelValue', vm);"
             >
@@ -22,6 +23,7 @@
                 class="mw-input"
                 :rows="rows"
                 v-bind="$attrs"
+                :disabled="disabled"
                 @update="$emit('update:modelValue', vm)"
             />
             <input 
@@ -32,6 +34,7 @@
                 v-model="vm"
                 :class="classes"
                 type="checkbox"
+                :disabled="disabled"
                 @change="$emit('update:modelValue', vm);"
             >
             <input 
@@ -42,7 +45,10 @@
                 v-model="vm"
                 :class="classes"
                 :type="type"
+                :disabled="disabled"
+                :style="{padding: type == 'range' ? 0 : undefined}"
             >
+            <span v-if="type == 'range'" class="text-xl">{{ vm }}</span>
         </m-flex>
         <slot v-else/>
         <label v-if="isCheckbox && label" :for="labelId" class="flex-grow">
@@ -62,6 +68,7 @@ const props = defineProps<{
     desc?: string,
     label?: string|boolean,
     validity?: string,
+    disabled?: boolean;
     rows?: number|string,
     type?: string,
     value?: string,
