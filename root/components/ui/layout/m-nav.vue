@@ -12,7 +12,7 @@
                     <slot/>
                 </m-flex>
             </Transition>
-            <m-flex column grow gap="3" :padding="6" :class="{'content-block': background}">
+            <m-flex column grow gap="3" :padding="6" :class="{'content-block': background, 'overflow-x-auto': true}">
                 <slot name="content"/>
             </m-flex>
         </m-flex>

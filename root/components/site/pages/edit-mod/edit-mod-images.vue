@@ -8,16 +8,34 @@
     </m-alert>
     
     <m-alert :desc="$t('images_help')"/>
-
+    
     <m-flex class="items-center">
-        <label>{{$t('images')}}</label>
-        <m-button class="ml-auto" @click="setBanner()">
-            <i-mdi-close/> {{ $t('reset_banner') }}
-        </m-button>
-        <m-button @click="setThumbnail()">
-            <i-mdi-close/> {{ $t('reset_thumbnail') }}
-        </m-button>
+        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
+            <template #any-option="{ option }">
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+            </template>
+        </m-select>
+        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="100px">
+            <template #any-option="{ option }">
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+            </template>
+        </m-select>
+        <m-select v-model="mod.background_id" :disabled="!mod.user?.active_supporter" :options="images" :label="$t('supporter_background')" :filterable="false" clearable null-clear height="100px">
+            <template #any-option="{ option }">
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+            </template>
+        </m-select>
     </m-flex>
+    <m-input 
+        v-if="mod.user?.active_supporter"
+        v-model="mod.background_opacity"
+        :label="$t('supporter_background_opacity')"
+        type="range"
+        step="0.01"
+        min="0"
+        max="1"
+    />
+
     <m-file-uploader 
         v-model="images"
         name="images"
@@ -77,12 +95,12 @@ const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images`: '')
 const images = ref<Image[]>(clone(mod.value.images) ?? []);
 
 function setBanner(banner?: Image) {
-    mod.value.banner_id = banner && banner.id || undefined;
+    mod.value.banner_id = banner && banner.id || null;
     mod.value.banner = banner;
 }
 
 function setThumbnail(thumb?: Image) {
-    mod.value.thumbnail_id = thumb && thumb.id || undefined;
+    mod.value.thumbnail_id = thumb && thumb.id || null;
     mod.value.thumbnail = thumb;
 }
 

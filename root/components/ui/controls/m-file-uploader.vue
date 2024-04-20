@@ -98,8 +98,6 @@ const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const { public: runtimeConfig } = useRuntimeConfig();
-const store = useStore();
-const noPreviewSrc = computed(() => `/assets/${store.theme === 'light' ? 'no-preview-light' : 'no-preview-dark'}.png`);
 
 const vm = defineModel<UploadFile[]>({ default: [] }) ;
 
@@ -192,7 +190,7 @@ function register(files: FileList|null) {
                 id: 0,
                 name: file.name,
                 size: file.size,
-                thumbnail: noPreviewSrc.value,
+                thumbnail: '/assets/no-preview.webp',
                 file: '',
                 type: '',
                 waiting: true,
@@ -235,9 +233,8 @@ async function uploadWaitingFiles() {
                 baseURL: runtimeConfig.uploadUrl,
                 headers: {'Content-Type': 'multipart/form-data'},
                 onUploadProgress: function(progressEvent) {
-                    const reactiveFile = vm.value[0];
                     if (progressEvent.progress) {
-                        reactiveFile.progress = Math.round(100 * progressEvent.progress);
+                        uploadFile.progress = Math.round(100 * progressEvent.progress);
                     }
                 },
                 cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)

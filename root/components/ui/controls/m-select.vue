@@ -1,7 +1,7 @@
 <template>
     <m-select-holder v-model:shown="dropdownOpen" :has-value="!!modelValue" :classic="classic" :disabled="disabled">
         <m-flex :gap="classic ? 2 : 0" :class="{'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
-            <m-flex wrap class="overflow-hidden">
+            <m-flex wrap class="overflow-hidden items-center" :style="{height}">
                 <template v-if="multiple && shownOptions.length">
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <slot name="any-option" :option="option">
@@ -83,6 +83,7 @@ const props = withDefaults(defineProps<{
     listTags?: boolean,
     postFetchFilter?: boolean,
     nullClear?: boolean,
+    height?: number|string,
 }>(), {
     valueBy: 'id',
     textBy: 'name',
@@ -215,7 +216,10 @@ const selectedOption = computed(() => {
 	}
 });
 
-const compClearable = computed(() => {    
+const compClearable = computed(() => {
+    if (props.disabled) {
+        return false;
+    }
     return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 

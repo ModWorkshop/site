@@ -1,7 +1,13 @@
 <template>
-    <m-input class="relative" :required="required">
+    <m-input class="relative" :required="required" :disabled="disabled">
         <input class="kinda-hidden" :value="hasValue ? 1 : undefined" :required="required">
-        <m-dropdown v-if="classic" v-model:open="shown" class="max-w-full" dropdown-class="!overflow-hidden">
+        <m-dropdown 
+            v-if="classic"
+            v-model:open="shown"
+            :disabled="disabled"
+            :class="{'max-w-full': true, 'dropdown-disabled': disabled}"
+            dropdown-class="!overflow-hidden"
+        >
             <slot/>
             <template #content>
                 <slot name="content"/>
@@ -9,7 +15,13 @@
         </m-dropdown>
         <m-flex v-else class="items-center">
             <slot/>
-            <m-dropdown v-if="!disabled" v-model:open="shown" dropdown-class="!overflow-hidden">
+            <m-dropdown 
+                v-if="!disabled"
+                v-model:open="shown"
+                :disabled="disabled"
+                dropdown-class="!overflow-hidden"
+                :class="{'max-w-full': true, 'dropdown-disabled': disabled}"
+            >
                 <m-button>
                     <i-mdi-plus-thick class="text-sm"/>
                 </m-button>
@@ -43,5 +55,9 @@ const shown = defineModel<boolean>('shown', { local: true, default: false });
     z-index: -999;
     transform: translateY(42px);
     position: absolute;
+}
+
+.dropdown-disabled {
+    opacity: 0.4;
 }
 </style>

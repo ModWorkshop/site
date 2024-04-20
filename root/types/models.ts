@@ -85,8 +85,8 @@ export interface ModMember extends User {
 export interface Mod {
     id: number;
     breadcrumb?: Array<Breadcrumb>;
-    thumbnail_id?: number;
-    banner_id?: number;
+    thumbnail_id?: number|null;
+    banner_id?: number|null;
     category_id?: number;
     game_id: number;
     user_id: number;
@@ -145,6 +145,8 @@ export interface Mod {
     links_count?: number;
     mod_managers?: ModManager[];
     disable_mod_managers: boolean;
+    background_id?: number;
+    background_opacity?: number;
 }
 
 export interface Breadcrumb {
@@ -294,6 +296,8 @@ export interface User {
         game_show_threads: boolean;
         auto_subscribe_to_mod: boolean;
         auto_subscribe_to_thread: boolean;
+        background?: string;
+        background_opacity?: number;
     };
     mods_count: number;
     supporter?: Supporter;
@@ -306,6 +310,7 @@ export interface UserForm extends User {
     current_password: string;
     avatar_file?: Blob|null;
     banner_file?: Blob|null;
+    background_file?: Blob|null;
 
 }
 export interface Link {

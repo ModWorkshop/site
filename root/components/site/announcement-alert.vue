@@ -1,6 +1,6 @@
 <template>
     <div class="hover:cursor-pointer announcement" @click="$router.push(`/thread/${thread.id}`)">
-        <m-content-block :column="false" padding="4" gap="0">
+        <m-content-block class="content-block-glass" :column="false" padding="4" gap="0">
             <div>
                 <span class="h2">📢 {{thread.name}}</span>
                 <md-content class="ml-2" :text="thread.content"/>

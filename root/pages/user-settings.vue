@@ -44,6 +44,7 @@ const user = ref<UserForm>({
     confirm_password: '',
     avatar_file: null,
     banner_file: null,
+    background_file: null,
 });
 
 async function save() {

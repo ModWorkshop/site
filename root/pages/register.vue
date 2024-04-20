@@ -48,7 +48,7 @@
                     {{$t('login_using_services')}}
                     <the-social-logins/>
                 </m-flex>
-                <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
+                <a-captcha v-model="captchaToken"/>
             </m-content-block>
         </m-form>    
     </page-block>
@@ -91,10 +91,9 @@ const confirmPassValidity = computed(() => {
 });
 
 const loading = ref(false);
-const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && turnstileToken.value);
+const captchaToken = ref<string>();
+const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && captchaToken.value);
 
-const turnstile = ref();
-const turnstileToken = ref<string>();
 
 const store = useStore();
 
@@ -103,15 +102,12 @@ async function register() {
         return;
     }
 
-    const token = turnstileToken.value;
-    turnstileToken.value = '';
-
     try {
         loading.value = true;
         await postRequest('/register', serializeObject({
             ...user,
             avatar_file: avatarBlob.value,
-            'cf-turnstile-response': token
+            'h-captcha-response': captchaToken.value
         }));  
         store.attemptLoginUser();
         reloadToken();
@@ -121,8 +117,7 @@ async function register() {
         });
 
         loading.value = false;
-
-        turnstile.value?.reset();
+        captchaToken.value = '';
     }
 }
 </script>

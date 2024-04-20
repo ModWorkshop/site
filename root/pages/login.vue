@@ -20,7 +20,7 @@
                         <the-social-logins/>
                     </m-flex>
                 </m-flex>
-                <NuxtTurnstile ref="turnstile" v-model="turnstileToken"/>
+                <a-captcha v-model="captchaToken"/>
             </m-content-block>
         </m-form>    
     </page-block>
@@ -48,15 +48,11 @@ const user = reactive({
 const canLogin = computed(() => user.email && user.password);
 const store = useStore();
 
-const turnstile = ref();
-const turnstileToken = ref<string>();
+const captchaToken = ref<string>();
 
 async function login() {
-    const token = turnstileToken.value;
-    turnstileToken.value = '';
-
     try {
-        await postRequest('/login', {...user, 'cf-turnstile-response': token});
+        await postRequest('/login', {...user, 'h-captcha-response': captchaToken.value});
         store.attemptLoginUser();
         reloadToken();
     } catch (e) {
@@ -65,7 +61,7 @@ async function login() {
             422: t('login_error_422')
         });
 
-        turnstile.value?.reset();
+        captchaToken.value = '';
     }
 }
 </script>

@@ -33,8 +33,6 @@ const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
 const flushChanges = createEventHook();
 const store = useStore();
-const router = useRouter();
-const route = useRoute();
 
 const initialMod = defineModel<Mod>('mod', { required: true });
 
@@ -77,7 +75,8 @@ async function save() {
                 flushChanges.trigger(mod.value);
             }
         }
-        initialMod.value = mod.value;
+
+        Object.assign(initialMod.value, fetchedMod);
     } catch (error) {
         showErrorToast(error);
         return;

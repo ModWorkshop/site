@@ -1,10 +1,12 @@
 <template>
     <m-flex column :class="classes" :gap="gap">
+        <img v-if="showBackground" :class="{'background': true}" :style="{
+            maskImage: `linear-gradient(rgba(255, 255, 255, ${backgroundOpacity}), transparent)`
+        }" :alt="$t('banner')" :src="backgroundUrl">
         <m-flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
-            <m-breadcrumb v-if="breadcrumb" :items="breadcrumb"/>
+            <m-breadcrumb v-if="breadcrumb" :class="breadCrumbClasses" :style="{width: props.backgroundOpacity > 0.2 ? 'initial': null}" :items="breadcrumb"/>
             <m-flex v-if="game?.id" gap="0" column>
-                <img v-if="gameBanner" :class="{'game-banner': true}" :alt="$t('banner')" :src="bannerUrl">
-                <m-content-block :column="false" wrap class="items-center" gap="4">
+                <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4">
                     <h2 class="my-auto mb-1">
                         <m-link :to="`/g/${game.short_name}`">{{game.name}}</m-link>
                     </h2>
@@ -75,15 +77,17 @@ const props = withDefaults(defineProps<{
     gap?: number;
     size?: string;
     game?: Game;
-    gameBanner?: boolean;
+    showBackground?: boolean;
+    background?: string;
+    backgroundOpacity?: number;
     breadcrumb?: Breadcrumb[];
     defineMeta?: boolean;
-}>(), { gap: 3, size: 'nm', defineMeta: true });
+}>(), { gap: 3, size: 'nm', backgroundOpacity: 0.1, defineMeta: true });
 
 const store = useStore();
 const { user } = storeToRefs(store);
 
-const bannerUrl = computed(() => useSrc('games/images', props.game?.banner));
+const backgroundUrl = computed(() => props.background ?? useSrc('games/images', props.game?.banner));
 
 watch(() => props.game, () => {
     store.setGame(props.game || null);
@@ -91,12 +95,18 @@ watch(() => props.game, () => {
 
 const { public: config } = useRuntimeConfig();
 
+const breadCrumbClasses = computed(() => {
+    if (props.backgroundOpacity > 0.2) {
+        return ['content-block', 'content-block-glass', 'self-start' ];
+    }
+});
+
 const thumbnail = computed(() => {
     const thumb = props.game?.thumbnail;
     if (thumb) {
         return `${config.storageUrl}/games/images/${thumb}`;
     } else {
-        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+        return `${config.siteUrl}/assets/no-preview.webp`;
     }
 });
 
@@ -242,10 +252,8 @@ const innerClasses = computed(() => ({
     }
 }
 
-.game-banner {
+.background {
     height: auto;
-    -webkit-mask-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
-    mask-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
     top: 56px;
     left: 50%;
     right: 50%;

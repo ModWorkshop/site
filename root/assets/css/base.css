@@ -130,6 +130,7 @@ body {
 html.dark {
     --bg-color: #212529;
     --content-bg-color: #2b3036;
+    --content-bg-color-glass: #2b3036ce;
     --alt-content-bg-color: #22262b;
 
     --table-even-color: var(--content-bg-color);
@@ -156,12 +157,17 @@ html.dark {
     --info-bg-color: #1e293f;
     --warning-bg-color: #383925;
     --success-bg-color: #1e3b28;
+    --kbd-bg: #474747;
+    --breadcrumb-secondary: #9c9c9c;
+
     color-scheme: dark;
 }
 
 html.light {
-    --bg-color: rgb(240, 240, 240);
+    --bg-color: #cfd0d3;
     --content-bg-color: #d6d8db;
+    --content-bg-color-glass: #d6d8dbbd;
+
     --alt-content-bg-color: #e4e5e7;
     --dropdown-bg: #c9cbcf;
     --dropdown-hover-bg: #aeb1b7;
@@ -175,15 +181,24 @@ html.light {
     --input-bg-color: #c9c9c9;
     --input-border-color: #adadad;
     --input-border-hover-color: #505762;
-    --header-footer-color: #bbbec3;
+    --header-footer-color: #e9e9e9;
     --button-text-color: #fff;
     --tab-selected-color: rgb(0 0 0 / 5%);
     --danger-bg-color: #ffa7a7;
     --info-bg-color: #aac2f3;
-    --warning-bg-color: #c1b72d;
+    --warning-bg-color: #eee679;
+    --warning-color: #ceab41;
     --success-bg-color: #4fc541;
     --success-color: #009d0d;
     --float-bg-color: #99999980;
+    --kbd-bg: #a8a8a8;
+    --breadcrumb-secondary: #8f8f8f;
+
+    --table-even-color: var(--content-bg-color);
+    --table-odd-color: #e1e3e5;
+    --alt-table-even-color: var(--alt-content-bg-color);
+    --alt-table-odd-color: #dcdde0;
+
     color-scheme: light;
 }
 
@@ -318,6 +333,10 @@ a {
     max-width: 100%;
     background-color: var(--content-bg-color);
     border-radius: var(--content-border-radius);
+}
+
+.content-block-glass {
+    background-color: var(--content-bg-color-glass);
 }
 
 .content-bg {
@@ -567,7 +586,8 @@ svg:not(:root).icon, svg:not(:host).icon {
 }
 
 kbd {
-    background-color: var(--secondary-color);
+    background-color: var(--kbd-bg);
+    color: var(--text-color);
     border-radius: 3px;
     display: inline-block;
     font-size: 0.85em;
@@ -581,4 +601,16 @@ kbd {
 .vel-fade-leave-active {
     -webkit-transition: all .1s ease !important;
     transition: all .1s ease !important;
+}
+
+.vel-btns-wrapper .btn__next {
+    right: 0 !important;
+}
+
+.vel-btns-wrapper .btn__prev {
+    left: 0 !important;
+}
+
+.vel-btns-wrapper .btn__next, .vel-btns-wrapper .btn__prev {
+    padding: 2rem !important;
 }
