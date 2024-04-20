@@ -602,3 +602,15 @@ kbd {
     -webkit-transition: all .1s ease !important;
     transition: all .1s ease !important;
 }
+
+.vel-btns-wrapper .btn__next {
+    right: 0 !important;
+}
+
+.vel-btns-wrapper .btn__prev {
+    left: 0 !important;
+}
+
+.vel-btns-wrapper .btn__next, .vel-btns-wrapper .btn__prev {
+    padding: 2rem !important;
+}
