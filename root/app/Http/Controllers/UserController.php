@@ -124,12 +124,12 @@ class UserController extends Controller
         $foundUser = null;
 
         if (ctype_digit($user) && $user < PHP_INT_MAX) {
-            $foundUser = User::where('id', $user)->firstOrFail();
+            $foundUser = User::where('id', $user)->with('extra')->firstOrFail();
         } else {
-            $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->firstOrFail();
+            $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->with('extra')->firstOrFail();
         }
 
-        $foundUser->loadCOunt('viewableMods');
+        $foundUser->loadCount('viewableMods');
         $foundUser->loadMissing('blockedUsers');
         if (Auth::hasUser()) {
             $foundUser->loadMissing('followed');
@@ -165,6 +165,7 @@ class UserController extends Controller
             'private_profile' => 'boolean',
             'invisible' => 'boolean',
             'banner_file' => ['nullable', File::image()->max($fileSize)],
+            'background_file' => ['nullable', File::image()->max($fileSize)],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
             'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],
@@ -188,6 +189,7 @@ class UserController extends Controller
             'extra.game_show_threads' => 'boolean|nullable',
             'extra.auto_subscribe_to_mod' => 'boolean|nullable',
             'extra.auto_subscribe_to_thread' => 'boolean|nullable',
+            'extra.background_opacity' => 'numeric|min:0|max:1|nullable',
         ]);
 
         $extra = Arr::pull($val, 'extra');
@@ -203,7 +205,10 @@ class UserController extends Controller
         APIService::storeImage($avatarFile, 'users/images', $user->avatar, 64, fn($path) => $user->avatar = $path);
 
         $bannerFile = Arr::pull($val, 'banner_file');
-        APIService::storeImage($bannerFile, 'users/images', $user->avatar, 64, fn($path) => $user->banner = $path);
+        APIService::storeImage($bannerFile, 'users/images', $user->avatar, null, fn($path) => $user->banner = $path);
+
+        $backgroundFile = Arr::pull($val, 'background_file');
+        APIService::storeImage($backgroundFile, 'users/images', $user->background, null, fn($path) => $user->extra->background = $path);
 
         //Change password code
         $password = Arr::pull($val, 'password');
