@@ -1,10 +1,10 @@
 <template>
     <m-flex column :class="classes" :gap="gap">
+        <img v-if="showBackground" :class="{'background': true}" :style="{
+            maskImage: `linear-gradient(rgba(255, 255, 255, ${backgroundOpacity}), transparent)`
+        }" :alt="$t('banner')" :src="backgroundUrl">
         <m-flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
             <m-breadcrumb v-if="breadcrumb" :class="breadCrumbClasses" :style="{width: props.backgroundOpacity > 0.2 ? 'initial': null}" :items="breadcrumb"/>
-            <img v-if="showBackground" :class="{'game-banner': true}" :style="{
-                maskImage: `linear-gradient(rgba(255, 255, 255, ${backgroundOpacity}), transparent)`
-            }" :alt="$t('banner')" :src="backgroundUrl">
             <m-flex v-if="game?.id" gap="0" column>
                 <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4">
                     <h2 class="my-auto mb-1">
@@ -252,7 +252,7 @@ const innerClasses = computed(() => ({
     }
 }
 
-.game-banner {
+.background {
     height: auto;
     top: 56px;
     left: 50%;
