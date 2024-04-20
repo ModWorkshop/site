@@ -5,13 +5,12 @@
         :src="avatarUrl"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
-        :fallback="`${assetsUrl}/default-avatar.webp`"
+        :fallback="fallback"
         :width="sizeNumber"
         :height="sizeNumber"
     />
 </template>
 <script setup lang="ts">
-import { useStore } from '~~/store';
 const { public: config } = useRuntimeConfig();
 
 const props = defineProps({
@@ -26,10 +25,10 @@ const props = defineProps({
     }
 });
 
-const store = useStore();
 const assetsUrl = `${config.siteUrl}/assets`;
 
-const avatarUrl = computed(() => props.src ?? assetsUrl + '/' + (store.theme == 'light' ? 'default-avatar-black.webp' : 'default-avatar.webp'));
+const fallback = computed(() => assetsUrl + '/default-avatar.webp');
+const avatarUrl = computed(() => props.src ?? fallback.value);
 
 const sizes = {
     xs: 28,

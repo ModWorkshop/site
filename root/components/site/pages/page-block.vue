@@ -96,7 +96,7 @@ const thumbnail = computed(() => {
     if (thumb) {
         return `${config.storageUrl}/games/images/${thumb}`;
     } else {
-        return  `${config.siteUrl}/assets/no-preview-dark.png`;
+        return `${config.siteUrl}/assets/no-preview.webp`;
     }
 });
 

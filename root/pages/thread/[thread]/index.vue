@@ -69,7 +69,7 @@ const thumbnail = computed(() => {
     if (avatar) {
         return `${config.storageUrl}/users/images/${avatar}`;
     } else {
-        return `${config.siteUrl}/assets/no-preview-dark.png`;
+        return `${config.siteUrl}/assets/default-avatar.webp`;
     }
 });
 

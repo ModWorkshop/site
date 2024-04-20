@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
     height: 300
 });
 
-const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? `/assets/${store.theme == 'dark' ? 'default_banner' : 'dark_default_banner'}.webp`);
+const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? '/assets/default-banner.webp');
 </script>
 
 <style scope>
