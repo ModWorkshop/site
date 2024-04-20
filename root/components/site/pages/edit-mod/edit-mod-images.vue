@@ -10,17 +10,17 @@
     <m-alert :desc="$t('images_help')"/>
     
     <m-flex class="items-center">
-        <m-select v-model="mod.thumbnail_id" :options="images" class="h-100" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
             <template #any-option="{ option }">
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear  height="100px">
+        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="100px">
             <template #any-option="{ option }">
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.background_id" :options="images" class="h-full" :label="$t('supporter_background')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.background_id" :disabled="!mod.user?.active_supporter" :options="images" :label="$t('supporter_background')" :filterable="false" clearable null-clear height="100px">
             <template #any-option="{ option }">
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
             </template>
