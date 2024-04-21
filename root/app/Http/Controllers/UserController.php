@@ -232,9 +232,10 @@ class UserController extends Controller
         if (isset($extra)) {
             $user->extra->update($extra);
         }
+
+        $user->refresh();
         $user->load('extra');
         $user->append('signable');
-        $user->refresh();
 
         return new UserResource($user);
     }
