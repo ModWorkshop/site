@@ -78,6 +78,11 @@ class UserPolicy
         return $user->id === $model->id || $user->hasPermission('manage-discussions');
     }
 
+    public function purge(User $user, User $model)
+    {
+        return $user->hasPermission('manage-users') && $this->update($user, $model);
+    }
+
     public function manageMods(User $user, User $model)
     {
         return $user->id === $model->id || $user->hasPermission('manage-mods');

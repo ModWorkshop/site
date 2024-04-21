@@ -329,6 +329,35 @@ class UserController extends Controller
     {
         APIService::report($request, $user);
     }
+    
+    public function purgeUser(User $user) {
+        $me = $this->user();
+
+        if ($me->hasPermission('manage-mods')) {
+            foreach ($user->mods as $mod) {
+                $mod->delete();
+            }
+        } 
+        
+        if ($me->hasPermission('manage-discussions')) {
+            foreach ($user->threads as $thread) {
+                $thread->delete();
+            }
+    
+            foreach ($user->comments as $comment) {
+                $comment->delete();
+            }
+        }
+
+        APIService::deleteImage('users/images', $user->avatar);
+        APIService::deleteImage('users/images', $user->banner);
+        $user->update([
+            'avatar' => '',
+            'banner' => '',
+            'bio' => '',
+            'custom_title' => '',
+        ]);
+    }
 
     /**
      * Delete User Mods
@@ -337,8 +366,8 @@ class UserController extends Controller
      */
     public function deleteMods(User $user)
     {
-        foreach ($user->mods as $user) {
-            $user->delete();
+        foreach ($user->mods as $mod) {
+            $mod->delete();
         }
     }
 

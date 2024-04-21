@@ -182,6 +182,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
     Route::middleware('can:manageMods,user')->delete('users/{user}/mods', [UserController::class, 'deleteMods']);
     Route::middleware('can:manageDiscussions,user')->delete('users/{user}/discussions', [UserController::class, 'deleteDiscussions']);
+    Route::middleware('can:purge,user')->post('users/{user}/purge', [UserController::class, 'purgeUser']);
     Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
     Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');
     Route::resource('followed-mods', FollowedModController::class)->except('show');

@@ -123,6 +123,17 @@ class APIService {
             'type' => 'webp'
         ];
     }
+    
+    /**
+     * Deletes an image from the storage
+     */
+    public static function deleteImage(string $fileDir, ?string $file=null) {
+        if (isset($file) && !str_contains($file, 'http')) {
+            $file = preg_replace('/\?t=\d+/', '', $file);
+            Storage::delete($fileDir.'/'.$file);
+            Storage::delete($fileDir.'/thumbnail_'.$file);
+        }
+    }
 
     public static function report(Request $request, Model $model)
     {
