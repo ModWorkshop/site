@@ -120,7 +120,7 @@ class FileController extends Controller
 
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
-        if (isset($val['version']) && $val['version'] !== $file->version) {
+        if ((isset($val['version']) && $val['version'] !== $file->version)) {
             $file->mod->bump();
         }
 
@@ -133,6 +133,8 @@ class FileController extends Controller
             $val['file'] = $name;
             $val['type'] = $uploadFile->getType();
             $val['size'] = $uploadFile->getSize();
+            
+            $file->mod->bump();
         }
 
         $file->update($val);
