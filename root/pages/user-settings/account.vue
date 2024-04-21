@@ -89,7 +89,7 @@ const showDeletUser = ref(false);
 
 const deleteUserUniqueName = ref('');
 const deleteUserCheckBox = ref(false);
-const captchaToken = ref('');
+const captchaToken = ref('-');
 const canDeleteUser = computed(() => 
     deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === me?.unique_name ? true : false
 );
@@ -134,7 +134,7 @@ async function doDelete() {
         }
     } catch (error) {
         showError(error);
-        captchaToken.value = '';
+        captchaToken.value = '-';
     }
 }
 
