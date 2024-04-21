@@ -1,5 +1,5 @@
 <template>
-    <component :is="to ? NuxtLink : 'div'" :to="to" :class="classes" @click.prevent="onClick">
+    <div :class="classes" @click.prevent="onClick">
         <m-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar"/>
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
@@ -38,7 +38,7 @@
                 <i-mdi-delete/>
             </m-button>
         </m-flex>
-    </component>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -49,8 +49,6 @@ import {type  Notification } from '~~/types/models';
 import { Paginator } from '~~/types/paginator.js';
 import { getObjectLink } from '~~/utils/helpers';
 
-const NuxtLink = resolveComponent('NuxtLink');
-
 const props = defineProps<{
     notification: Notification,
     notifications: Paginator<Notification>,
@@ -59,6 +57,7 @@ const props = defineProps<{
 
 const notif = toRef(props, 'notification');
 const store = useStore();
+const router = useRouter();
 const { notificationCount } = storeToRefs(store);
 const notifiable = computed(() => notif.value.notifiable);
 const context = computed(() => notif.value.context);
@@ -171,6 +170,8 @@ async function deleteNotification(onlyVisually=false) {
 
 async function onClick() {
     await markAsSeen();
+
+    router.push(to.value);
 
     const click = defintion.value.onClick;
     
