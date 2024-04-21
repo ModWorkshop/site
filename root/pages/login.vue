@@ -48,7 +48,7 @@ const user = reactive({
 const canLogin = computed(() => user.email && user.password);
 const store = useStore();
 
-const captchaToken = ref<string>();
+const captchaToken = ref<string>('-');
 
 async function login() {
     try {
@@ -61,7 +61,7 @@ async function login() {
             422: t('login_error_422')
         });
 
-        captchaToken.value = '';
+        captchaToken.value = '-';
     }
 }
 </script>

@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 			storageUrl: '',
 			debug_legacy_images: false,
 			hcaptchaSiteKey: '',
-			version: '3.4.5',
+			version: '3.4.6',
 			commitHash: ''
 		},
 		innerApiUrl: ''

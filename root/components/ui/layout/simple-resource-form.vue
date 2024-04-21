@@ -30,7 +30,7 @@ const router = useRouter();
 const yesNoModal = useYesNoModal();
 const showError = useQuickErrorToast();
 
-const captchaToken = ref<string>();
+const captchaToken = ref<string>('-');
 
 const { t } = useI18n();
 
@@ -79,7 +79,7 @@ async function submit() {
         emit('submit');
     } catch (error) {
         showError(error);
-        captchaToken.value = '';
+        captchaToken.value = '-';
         return;
     }
 }

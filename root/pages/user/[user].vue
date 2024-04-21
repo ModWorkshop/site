@@ -124,8 +124,7 @@ async function purgeSpammer() {
         title: t('are_you_sure'),
         desc: 'This action should only be done against spammers! It deletes all mods and discussions made by the user and bans them permanently!',
         async yes() {
-            await deleteRequest(`users/${user.value.id}/discussions`);
-            await deleteRequest(`users/${user.value.id}/mods`);
+            await postRequest(`users/${user.value.id}/purge`);
             await postRequest('bans', {
                 user_id: user.value.id,
                 reason: 'Purged Spammer'
