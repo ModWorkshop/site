@@ -37,7 +37,7 @@
             </span>
         </m-flex>
 
-        <m-pagination v-if="pagination && !loading" v-model="page" :total="items?.meta.total" :per-page="limit">
+        <m-pagination v-if="pagination && !loading" v-model="page" :total="total" :per-page="limit">
             <slot name="pagination" :items="items"/>
         </m-pagination>
     </m-flex>
