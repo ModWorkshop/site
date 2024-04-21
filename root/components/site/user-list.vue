@@ -9,7 +9,7 @@
             <m-content-block grow style="flex: 4;" gap="1">
                 <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <NuxtLink :key="item.id" :to="userLink(item)" class="list-button">
+                        <NuxtLink :key="item.id" :to="getUserLink(item)" class="list-button">
                             <a-user :user="item" static/>
                         </NuxtLink>
                     </template>
@@ -30,18 +30,22 @@ const searchBus = useEventBus<string>('search');
 
 searchBus.on(search => query.value = search);
 
-const props = withDefaults(defineProps<{
+const { url = 'users', column = false, userLink } = defineProps<{
     userLink?: (user: User) => string,
     column?: boolean,
     url?: string,
     game?: Game
-}>(), {
-    userLink: (user: User) => `/user/${user.id}`,
-    url: 'users',
-    column: false
-});
+}>();
 
-const { data: users, loading } = await useWatchedFetchMany<User>(() => props.url, { 
+function getUserLink(user) {
+    if (typeof userLink == 'function') {
+        return userLink(user);
+    } else {
+        return `/user/${user.id})`;
+    }
+}
+
+const { data: users, loading } = await useWatchedFetchMany<User>(() => url, { 
     page,
     query,
     role_ids: roleIds,
