@@ -9,7 +9,7 @@
     
     <m-alert :desc="$t('images_help')"/>
     
-    <m-flex class="items-center">
+    <m-flex v-if="mod.id" class="items-center">
         <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
             <template #any-option="{ option }">
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
