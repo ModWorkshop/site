@@ -41,7 +41,7 @@ function getUserLink(user) {
     if (typeof userLink == 'function') {
         return userLink(user);
     } else {
-        return `/user/${user.id})`;
+        return `/user/${user.id}`;
     }
 }
 
