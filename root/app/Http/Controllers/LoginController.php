@@ -58,7 +58,7 @@ class LoginController extends Controller
 
         if (app()->isProduction()) {
             $request->validate([
-                'h-captcha-response' => ['hcaptcha'],
+                'h-captcha-response' => ['required', 'hcaptcha'],
             ]);
         }
 
@@ -112,7 +112,7 @@ class LoginController extends Controller
 
         if (app()->isProduction()) {
             $request->validate([
-                'h-captcha-response' => ['hcaptcha'],
+                'h-captcha-response' => ['required', 'hcaptcha'],
             ]);
         }
 

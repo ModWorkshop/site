@@ -232,9 +232,10 @@ class UserController extends Controller
         if (isset($extra)) {
             $user->extra->update($extra);
         }
+
+        $user->refresh();
         $user->load('extra');
         $user->append('signable');
-        $user->refresh();
 
         return new UserResource($user);
     }
@@ -265,7 +266,7 @@ class UserController extends Controller
         $val = $request->validate([
             'unique_name' => 'alpha_dash|required|min:3|max:50',
             'are_you_sure' => 'required|boolean',
-            'h-captcha-response' => ['hcaptcha'],
+            'h-captcha-response' => ['required', 'hcaptcha'],
         ]);
 
         if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
@@ -329,6 +330,35 @@ class UserController extends Controller
     {
         APIService::report($request, $user);
     }
+    
+    public function purgeUser(User $user) {
+        $me = $this->user();
+
+        if ($me->hasPermission('manage-mods')) {
+            foreach ($user->mods as $mod) {
+                $mod->delete();
+            }
+        } 
+        
+        if ($me->hasPermission('manage-discussions')) {
+            foreach ($user->threads as $thread) {
+                $thread->delete();
+            }
+    
+            foreach ($user->comments as $comment) {
+                $comment->delete();
+            }
+        }
+
+        APIService::deleteImage('users/images', $user->avatar);
+        APIService::deleteImage('users/images', $user->banner);
+        $user->update([
+            'avatar' => '',
+            'banner' => '',
+            'bio' => '',
+            'custom_title' => '',
+        ]);
+    }
 
     /**
      * Delete User Mods
@@ -337,8 +367,8 @@ class UserController extends Controller
      */
     public function deleteMods(User $user)
     {
-        foreach ($user->mods as $user) {
-            $user->delete();
+        foreach ($user->mods as $mod) {
+            $mod->delete();
         }
     }
 
