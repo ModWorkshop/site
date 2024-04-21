@@ -132,6 +132,7 @@ class LoginController extends Controller
             'unique_name' => $val['unique_name'],
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
+            'last_online' => Carbon::now(),
             'avatar' => $avatar['name'] ?? '',
             'email_verified_at' => $shouldVerify ? Carbon::now() : null,
             'activated' => $shouldVerify,
@@ -249,6 +250,7 @@ class LoginController extends Controller
                 'name' => $name,
                 'unique_name' => $uniqueName,
                 'avatar' => $avatarFileName,
+                'last_online' => Carbon::now(),
                 'activated' => true
             ]);
 
