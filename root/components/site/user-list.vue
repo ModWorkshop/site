@@ -9,9 +9,9 @@
             <m-content-block grow style="flex: 4;" gap="1">
                 <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <NuxtLink :key="item.id" :to="getUserLink(item)" class="list-button">
-                            <a-user :user="item" static/>
-                        </NuxtLink>
+                        <div :key="item.id" class="list-button cursor-pointer" @click="() => $router.push(getUserLink(item))">
+                            <a-user :user="item"/>
+                        </div>
                     </template>
                 </m-list>
             </m-content-block>
@@ -41,7 +41,7 @@ function getUserLink(user) {
     if (typeof userLink == 'function') {
         return userLink(user);
     } else {
-        return `/user/${user.id})`;
+        return `/user/${user.id}`;
     }
 }
 
