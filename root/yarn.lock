@@ -1368,7 +1368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.11.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.10.2, @nuxt/kit@npm:^3.10.3, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.8.1, @nuxt/kit@npm:^3.9.3":
+"@nuxt/kit@npm:3.11.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.10.2, @nuxt/kit@npm:^3.10.3, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.5.0, @nuxt/kit@npm:^3.8.1":
   version: 3.11.2
   resolution: "@nuxt/kit@npm:3.11.2"
   dependencies:
@@ -1531,26 +1531,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/tailwindcss@npm:6.11.4":
-  version: 6.11.4
-  resolution: "@nuxtjs/tailwindcss@npm:6.11.4"
+"@nuxtjs/tailwindcss@npm:6.12.0":
+  version: 6.12.0
+  resolution: "@nuxtjs/tailwindcss@npm:6.12.0"
   dependencies:
-    "@nuxt/kit": ^3.9.3
-    autoprefixer: ^10.4.17
-    chokidar: ^3.5.3
-    clear-module: ^4.1.2
+    "@nuxt/kit": ^3.11.2
+    autoprefixer: ^10.4.19
     consola: ^3.2.3
     defu: ^6.1.4
-    h3: ^1.10.0
-    micromatch: ^4.0.5
+    h3: ^1.11.1
     pathe: ^1.1.2
-    postcss: ^8.4.33
-    postcss-custom-properties: ^13.3.4
-    postcss-nesting: ^12.0.2
-    tailwind-config-viewer: ^1.7.3
-    tailwindcss: ~3.4.1
-    ufo: ^1.3.2
-  checksum: 2f22581ded3a6ec917899d02e517daaee17841061cbd90e3839b5727840c8e9861e0ea987af4577b665cf91f8945d6ba01ac93c4ef1db058024181d4f38ca259
+    postcss: ^8.4.38
+    postcss-nesting: ^12.1.1
+    tailwind-config-viewer: ^2.0.1
+    tailwindcss: ~3.4.3
+    ufo: ^1.5.3
+    unctx: ^2.3.1
+  checksum: 9668a4eda1b8588555ff1708ba80cd511ff91e2fcd398d5bfc6ae97fae391490af0f5a8dad94b81f51ff4e725e41d1b402a34ea79f3e4273ac95b8fc1b514402
   languageName: node
   linkType: hard
 
@@ -3140,7 +3137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.17, autoprefixer@npm:^10.4.19":
+"autoprefixer@npm:^10.4.19":
   version: 10.4.19
   resolution: "autoprefixer@npm:10.4.19"
   dependencies:
@@ -3388,7 +3385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"callsites@npm:^3.0.0, callsites@npm:^3.1.0":
+"callsites@npm:^3.0.0":
   version: 3.1.0
   resolution: "callsites@npm:3.1.0"
   checksum: 072d17b6abb459c2ba96598918b55868af677154bec7e73d222ef95a8fdb9bbf7dae96a8421085cdad8cd190d86653b5b6dc55a4484f2e5b2e27d5e0c3fc15b3
@@ -3502,16 +3499,6 @@ __metadata:
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
   checksum: 2ac8cd2b2f5ec986a3c743935ec85b07bc174d5421a5efc8017e1f146a1cf5f781ae962618f416352103b32c9cd7e203276e8c28241bbe946160cab16149fb68
-  languageName: node
-  linkType: hard
-
-"clear-module@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "clear-module@npm:4.1.2"
-  dependencies:
-    parent-module: ^2.0.0
-    resolve-from: ^5.0.0
-  checksum: 4931f0c461f5d7b9b79f62c2d1bc31c37f7f1d33b4e95eef7080a83955c0374f4c180f5a96cc4d63bbefc64a9aa5d12b155641109e8e489dfa50fd5820e5101f
   languageName: node
   linkType: hard
 
@@ -5269,7 +5256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3@npm:^1.0.1, h3@npm:^1.10.0, h3@npm:^1.10.2, h3@npm:^1.11.1":
+"h3@npm:^1.0.1, h3@npm:^1.10.2, h3@npm:^1.11.1":
   version: 1.11.1
   resolution: "h3@npm:1.11.1"
   dependencies:
@@ -6854,7 +6841,7 @@ __metadata:
     "@nuxt/devtools": ^1.0.8
     "@nuxtjs/i18n": ^8.1.1
     "@nuxtjs/robots": ^3.0.0
-    "@nuxtjs/tailwindcss": 6.11.4
+    "@nuxtjs/tailwindcss": 6.12.0
     "@pinia/nuxt": ^0.5.1
     "@types/luxon": ^3.3.7
     "@types/node": ^20.12.7
@@ -7627,15 +7614,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parent-module@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "parent-module@npm:2.0.0"
-  dependencies:
-    callsites: ^3.1.0
-  checksum: f131f13d687a938556a01033561fb1b274b39921eb4425c7a691f0d91dcfbe9b19759c2b8d425a3ee7c8a46874e57fa418a690643880c3c7c56827aba12f78dd
-  languageName: node
-  linkType: hard
-
 "parse-git-config@npm:^3.0.0":
   version: 3.0.0
   resolution: "parse-git-config@npm:3.0.0"
@@ -7874,7 +7852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-custom-properties@npm:^13.2.0, postcss-custom-properties@npm:^13.3.4":
+"postcss-custom-properties@npm:^13.2.0":
   version: 13.3.7
   resolution: "postcss-custom-properties@npm:13.3.7"
   dependencies:
@@ -8052,16 +8030,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-nesting@npm:^12.0.2":
-  version: 12.1.1
-  resolution: "postcss-nesting@npm:12.1.1"
+"postcss-nesting@npm:^12.1.1":
+  version: 12.1.2
+  resolution: "postcss-nesting@npm:12.1.2"
   dependencies:
     "@csstools/selector-resolve-nested": ^1.1.0
     "@csstools/selector-specificity": ^3.0.3
     postcss-selector-parser: ^6.0.13
   peerDependencies:
     postcss: ^8.4
-  checksum: b6c956cf4bf26a9be26904795a29fcf407ff3ca9d8408e566fe656714e2607eab31280f7461df4762da9faea6e538f1a8184b765dddb083845ad5d805bc35739
+  checksum: 098bbf8ae8902b9b82c6ccea8f1ff06b799697598f83ed5808d7c6126b12fc2801dbf956dbc4eb3fe367639b524359919d7d046d57209eb60e8d23a2e0fc3058
   languageName: node
   linkType: hard
 
@@ -8238,7 +8216,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.33, postcss@npm:^8.4.38":
+"postcss@npm:^8.4.23, postcss@npm:^8.4.38":
   version: 8.4.38
   resolution: "postcss@npm:8.4.38"
   dependencies:
@@ -9386,9 +9364,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-config-viewer@npm:^1.7.3":
-  version: 1.7.3
-  resolution: "tailwind-config-viewer@npm:1.7.3"
+"tailwind-config-viewer@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "tailwind-config-viewer@npm:2.0.1"
   dependencies:
     "@koa/router": ^12.0.1
     commander: ^6.0.0
@@ -9403,11 +9381,11 @@ __metadata:
   bin:
     tailwind-config-viewer: cli/index.js
     tailwindcss-config-viewer: cli/index.js
-  checksum: a6a5c5ab341d9d57066f9024d67f564e55a83b60de983a55ada4e1746f6f3b3257fae8b1301d9c81e0bd9e3a6f9b200617c1fbcfe81c6716c2ece1af87a48d4f
+  checksum: bd81472b33249e75830ffaee05e320b28fe82b1641b76fa884f2c2102221222c58c24ea506f8e153bb1124cc65f284462262569cf8508a8a775ba44803058f68
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:~3.4.1":
+"tailwindcss@npm:~3.4.3":
   version: 3.4.3
   resolution: "tailwindcss@npm:3.4.3"
   dependencies:
