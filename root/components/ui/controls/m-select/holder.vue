@@ -1,6 +1,9 @@
 <template>
     <m-input class="relative" :required="required" :disabled="disabled">
         <input class="kinda-hidden" :value="hasValue ? 1 : undefined" :required="required">
+        <template #label>
+            <slot name="label"/>
+        </template>
         <m-dropdown 
             v-if="classic"
             v-model:open="shown"

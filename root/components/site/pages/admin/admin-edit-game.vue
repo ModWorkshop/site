@@ -9,12 +9,12 @@
         @submit="submit"
         >
         <m-img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="vmGame.thumbnail">
-            <template #label="{ src }">
+            <template #image="{ src }">
                 <game-thumbnail :src="src" style="width: 250px;"/>
             </template>
         </m-img-uploader>
         <m-img-uploader id="banner" v-model="bannerBlob" :label="$t('banner')" :src="vmGame.banner">
-            <template #label="{ src }">
+            <template #image="{ src }">
                 <m-banner :src="src" url-prefix="games/images"/>
             </template>
         </m-img-uploader>

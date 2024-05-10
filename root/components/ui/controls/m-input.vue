@@ -5,7 +5,7 @@
                 {{label}}
             </slot>
         </label>
-        <m-flex v-if="!$slots.default" class="items-center" gap="3">
+        <m-flex v-if="!$slots.default" class="items-center" gap="1">
             <input 
                 v-if="type == 'color'"
                 ref="input"
@@ -13,7 +13,7 @@
                 v-model="vm"
                 :class="classes"
                 :disabled="disabled"
-                style="flex-grow: 1;"
+                style="width: 100px;"
                 @input="$emit('update:modelValue', vm);"
             >
             <textarea 
@@ -139,6 +139,7 @@ watch(() => props.validity, val => {
 
 .mw-input[type='color'] {
     flex: 6;
+    height: 35px;
 }
 
 .mw-input[type='checkbox'] {
