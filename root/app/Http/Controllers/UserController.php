@@ -235,6 +235,7 @@ class UserController extends Controller
 
         $user->refresh();
         $user->load('extra');
+        $user->load('roles.permissions');
         $user->append('signable');
 
         return new UserResource($user);

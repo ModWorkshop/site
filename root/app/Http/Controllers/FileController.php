@@ -57,7 +57,7 @@ class FileController extends Controller
         set_time_limit(3600);
         $maxSize = Setting::getValue('max_file_size');
 
-        if (isset($mod->user->activeSupporter)) {
+        if (isset($mod->user->hasSupporterPerks)) {
             $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
         }
 
@@ -105,7 +105,7 @@ class FileController extends Controller
 
         $maxSize = Setting::getValue('max_file_size');
 
-        if (isset($file->mod->user->activeSupporter)) {
+        if (isset($file->mod->user->hasSupporterPerks)) {
             $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
         }
 
