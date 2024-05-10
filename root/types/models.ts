@@ -276,15 +276,16 @@ export interface User {
     custom_title: string;
     last_online?: string;
     donation_url: string;
-    ban: Ban;
-    game_ban: Ban;
+    ban?: Ban;
+    game_ban?: Ban;
     blocked_by_me?: { silent: boolean };
-    blocked_me: boolean;
+    blocked_me?: boolean;
     highest_role_order?: number;
     game_highest_role_order?: number;
     followed?: { notify: boolean };
     show_tag: 'role'|'supporter_or_role'|'none';
     active_supporter?: Supporter;
+    has_supporter_perks?: boolean;
     signable?: boolean;
     extra?: {
         default_mods_view: string;
@@ -299,9 +300,9 @@ export interface User {
         background?: string;
         background_opacity?: number;
     };
-    mods_count: number;
+    mods_count?: number;
     supporter?: Supporter;
-    nitro_token: string;
+    nitro_token?: string;
 }
 
 export interface UserForm extends User {
@@ -514,7 +515,7 @@ export interface Supporter {
     expired: boolean;
     created_at?: string;
     updated_at?: string;
-    user: User;
+    user?: User;
 }
 
 export interface Report {
