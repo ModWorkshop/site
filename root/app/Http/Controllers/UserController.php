@@ -305,9 +305,9 @@ class UserController extends Controller
         $user = $this->user();
         $userData = [
             'user' => new UserResource($user),
-            'mods' => ModResource::collectionResponse($user->mods()->without(Mod::DEFAULT_MOD_WITH)->with('files')->get()),
-            'threads' => ThreadResource::collectionResponse($user->threads()->setEagerLoads([])->get()),
-            'comments' => CommentResource::collectionResponse($user->comments()->setEagerLoads([])->get()),
+            'mods' => ModResource::collection($user->mods()->without(Mod::DEFAULT_MOD_WITH)->with('files')->get()),
+            'threads' => ThreadResource::collection($user->threads()->setEagerLoads([])->get()),
+            'comments' => CommentResource::collection($user->comments()->setEagerLoads([])->get()),
             'blocked_users' => $user->allBlockedUsers,
             'blocked_tags' => $user->allBlockedTags,
             'followed_mods' => $user->allFollowedMods,
