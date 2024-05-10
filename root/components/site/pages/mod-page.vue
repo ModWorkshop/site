@@ -86,13 +86,13 @@ const breadcrumb = computed(() => {
 });
 
 const modBackground = computed(() => {
-    if (mod.value.user?.active_supporter && mod.value.background) {
+    if (mod.value.user?.has_supporter_perks && mod.value.background) {
         return useSrc('mods/images', mod.value.background.file);
     }
 });
 
 const modBackgroundOpacity = computed(() => {
-    if (mod.value.user?.active_supporter && mod.value.background) {
+    if (mod.value.user?.has_supporter_perks && mod.value.background) {
         return mod.value.background_opacity;
     }
 });

@@ -110,7 +110,7 @@ const ownerDonation = computed(() => props.mod.user?.donation_url || props.mod.d
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 
 onMounted(() => {
-    if (user?.active_supporter) {
+    if (user?.has_supporter_perks) {
         return;
     }
 

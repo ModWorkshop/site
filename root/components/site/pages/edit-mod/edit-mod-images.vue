@@ -20,21 +20,28 @@
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.background_id" :disabled="!mod.user?.active_supporter" :options="images" :label="$t('supporter_background')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.background_id" :disabled="!mod.user?.has_supporter_perks" :options="images" :label="true" :filterable="false" clearable null-clear height="100px">
             <template #any-option="{ option }">
                 <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+            </template>
+            <template #label>
+                {{ $t('supporter_background') }} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
             </template>
         </m-select>
     </m-flex>
     <m-input 
-        v-if="mod.user?.active_supporter"
+        v-if="mod.user?.has_supporter_perks"
         v-model="mod.background_opacity"
-        :label="$t('supporter_background_opacity')"
+        :label="true"
         type="range"
         step="0.01"
         min="0"
         max="1"
-    />
+    >
+        <template #label>
+            {{ $t('supporter_background_opacity') }} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
+        </template>
+    </m-input>
 
     <m-file-uploader 
         v-model="images"

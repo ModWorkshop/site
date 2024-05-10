@@ -41,7 +41,7 @@
             :label="$t('supporter_background')"
             :src="user.extra!.background"
             :max-file-size="settings?.image_max_file_size"
-            :disabled="!user.active_supporter"
+            :disabled="!user.has_supporter_perks"
         >
             <template #label="{ src }">
                 <m-banner :src="src" url-prefix="users/images"/>
@@ -49,8 +49,8 @@
         </m-img-uploader>
         <m-input 
             v-model="user.extra!.background_opacity"
-            :disabled="!user.active_supporter"
             :label="$t('supporter_background_opacity')"
+            :disabled="!user.has_supporter_perks"
             type="range"
             step="0.01"
             min="0"

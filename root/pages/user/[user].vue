@@ -106,13 +106,13 @@ const isMe = computed(() => me?.id === user.value.id);
 const isHidingMods = computed(() => user.value.blocked_by_me?.silent === true);
 
 const userBackground = computed(() => {
-    if (user.value.active_supporter && user.value.extra?.background) {
+    if (user.value.has_supporter_perks && user.value.extra?.background) {
         return useSrc('users/images', user.value.extra.background);
     }
 });
 
 const userBackgroundOpacity = computed(() => {
-    if (user.value.active_supporter && user.value.extra?.background) {
+    if (user.value.has_supporter_perks && user.value.extra?.background) {
         return user.value.extra.background_opacity;
     }
 });
