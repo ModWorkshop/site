@@ -1,6 +1,6 @@
 <template>
     <m-flex column :class="classes" :gap="gap">
-        <img v-if="showBackground" :class="{'background': true}" :style="{
+        <img v-if="showBackground && hasBackground" :class="{'background': true}" :style="{
             maskImage: `linear-gradient(rgba(255, 255, 255, ${backgroundOpacity}), transparent)`
         }" :alt="$t('banner')" :src="backgroundUrl">
         <m-flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
@@ -88,6 +88,7 @@ const store = useStore();
 const { user } = storeToRefs(store);
 
 const backgroundUrl = computed(() => props.background ?? useSrc('games/images', props.game?.banner));
+const hasBackground = computed(() => !!props.background || !!props.game?.banner);
 
 watch(() => props.game, () => {
     store.setGame(props.game || null);
