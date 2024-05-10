@@ -14,7 +14,7 @@
                 :class="classes"
                 :disabled="disabled"
                 style="width: 100px;"
-                @input="$emit('update:modelValue', vm);"
+                @input="forceUpdateColor"
             >
             <textarea 
                 v-if="type == 'textarea'"
@@ -94,6 +94,12 @@ watch(() => props.validity, val => {
         }
     }
 });
+
+ // force refresh for firefox
+function forceUpdateColor(element) {
+    vm.value = element.target.value;
+    elementRef.value.value = vm.value;
+}
 </script>
 
 <style scoped>
