@@ -164,8 +164,6 @@ function fileDeleted(image: Image) {
 }
 
 function fileUploaded() {
-    console.log(images.value);
-    
     for (let i = 0; i < images.value.length; i++) {
         images.value[i].display_order = i;            
     }
