@@ -10,31 +10,38 @@
     <m-alert :desc="$t('images_help')"/>
     
     <m-flex v-if="mod.id" class="items-center">
-        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="64px;">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="64px">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.background_id" :disabled="!mod.user?.active_supporter" :options="images" :label="$t('supporter_background')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.background_id" :disabled="!mod.user?.has_supporter_perks" :options="images" :label="true" :filterable="false" clearable null-clear height="64px">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
+            </template>
+            <template #label>
+                {{ $t('supporter_background') }} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
             </template>
         </m-select>
     </m-flex>
     <m-input 
-        v-if="mod.user?.active_supporter"
+        v-if="mod.user?.has_supporter_perks"
         v-model="mod.background_opacity"
-        :label="$t('supporter_background_opacity')"
+        :label="true"
         type="range"
         step="0.01"
         min="0"
         max="1"
-    />
+    >
+        <template #label>
+            {{ $t('supporter_background_opacity') }} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
+        </template>
+    </m-input>
 
     <m-file-uploader 
         v-model="images"
@@ -51,14 +58,23 @@
         @update:model-value="fileUploaded"
     >
         <template #buttons="{file}">
-            <m-flex>
-                <m-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
-                    <i-mdi-image-outline/> {{$t('thumbnail')}}
-                </m-button>
-                <m-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
-                    <i-mdi-image-outline/> {{$t('banner')}}
-                </m-button>
-            </m-flex>
+            <m-dropdown :disabled="!file.id" :close-on-click="false">
+                <m-button class="w-full">{{$t('options')}}</m-button>
+                <template #content>
+                    <m-dropdown-item :disabled="file.id == mod.thumbnail_id" @click="setThumbnail(file as Image)">
+                        <i-mdi-file-image-box/> {{$t('set_as_thumbnail')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item :disabled="file.id == mod.banner_id" @click="setBanner(file as Image)">
+                        <i-mdi-image-area/> {{$t('set_as_banner')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item :disabled="!mod.user?.has_supporter_perks || file.id == mod.background_id" @click="setBackground(file as Image)">
+                        <i-mdi-image-size-select-actual/> {{$t('set_as_background')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item>
+                        <m-input v-model="(file as Image).visible" class="w-full h-full" :label="$t('image_is_visible')" type="checkbox" @update:model-value="setImageVisible(file as Image)"/>
+                    </m-dropdown-item>
+                </template>
+            </m-dropdown>
             <m-flex>
                 <m-button class="grow" :disabled="!file.id" @click.prevent="setImageOrder(file as Image, -1)">
                     <i-mdi-arrow-left-drop-circle/>
@@ -104,6 +120,11 @@ function setThumbnail(thumb?: Image) {
     mod.value.thumbnail = thumb;
 }
 
+function setBackground(thumb?: Image) {
+    mod.value.background_id = thumb && thumb.id || null;
+    mod.value.background = thumb;
+}
+
 async function setImageOrder(img: Image, order: number) {
     try {
         await patchRequest(`images/${img.id}`, { display_order: img.display_order + order });
@@ -115,6 +136,14 @@ async function setImageOrder(img: Image, order: number) {
         for (let i = 0; i < images.value.length; i++) {
             images.value[i].display_order = i;            
         }
+    } catch (error) {
+        showError(error);
+    }
+}
+
+async function setImageVisible(img: Image) {
+    try {
+        await patchRequest(`images/${img.id}`, { visible: img.visible });
     } catch (error) {
         showError(error);
     }
@@ -135,8 +164,6 @@ function fileDeleted(image: Image) {
 }
 
 function fileUploaded() {
-    console.log(images.value);
-    
     for (let i = 0; i < images.value.length; i++) {
         images.value[i].display_order = i;            
     }

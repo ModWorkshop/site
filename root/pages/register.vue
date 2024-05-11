@@ -5,7 +5,7 @@
             <h1>{{$t('register')}}</h1>
             <m-content-block column gap="3" class="p-4">
                 <m-img-uploader v-model="avatarBlob" :label="$t('avatar')" :max-file-size="settings?.image_max_file_size">
-                    <template #label="{ src }">
+                    <template #image="{ src }">
                         <m-avatar size="xl" :src="src"/>
                         <m-avatar size="lg" :src="src"/>
                         <m-avatar size="md" :src="src"/>

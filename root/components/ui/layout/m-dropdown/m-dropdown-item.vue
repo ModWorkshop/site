@@ -1,11 +1,11 @@
 <template>
-    <NuxtLink :class="{'dropdown-item': true, disabled}" :to="to" @click="click">
+    <NuxtLink :class="{'dropdown-item': true, disabled}" :to="!disabled ? to : undefined" @click="onClick">
         <m-icon v-if="icon" :icon="icon" :size="iconSize"/> <slot/>
     </NuxtLink>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const { disabled } = defineProps<{
     iconSize?: string,
     command?: string|number|object,
     to?: string,
@@ -15,10 +15,10 @@ defineProps<{
     icon?: Component
 }>();
 
-const emit = defineEmits(['click']);
-
-function click() {
-    emit('click');
+function onClick(e) {
+    if (disabled) {
+        e.preventDefault();
+    }
 }
 </script>
 
@@ -42,7 +42,6 @@ function click() {
 }
 
 .dropdown-item:hover {
-    color: var(--primary-hover-color);
     transition: color 0.15s ease-in-out;
 }
 
@@ -52,5 +51,10 @@ function click() {
 
 .dropdown-item:hover:not(.disabled) {
     background: var(--dropdown-hover-bg);
+    color: var(--primary-hover-color);
+}
+
+.dropdown-item.disabled {
+    opacity: 0.4;
 }
 </style>

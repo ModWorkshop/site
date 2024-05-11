@@ -1,5 +1,8 @@
 <template>
     <m-select-holder v-model:shown="dropdownOpen" :has-value="!!modelValue" :classic="classic" :disabled="disabled">
+        <template #label>
+            <slot name="label"/>
+        </template>
         <m-flex :gap="classic ? 2 : 0" :class="{'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
             <m-flex wrap class="overflow-hidden items-center" :style="{height}">
                 <template v-if="multiple && shownOptions.length">
@@ -220,7 +223,7 @@ const compClearable = computed(() => {
     if (props.disabled) {
         return false;
     }
-    return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+    return selectedOptions.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 watch(dropdownOpen, val => {

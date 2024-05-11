@@ -1,7 +1,10 @@
 <template>
     <m-input :id="labelId">
+        <template #label>
+            <slot name="label"/>
+        </template>
         <label class="flex items-end gap-2" :for="labelId">
-            <slot name="label" :src="currentSrc">
+            <slot name="image" :src="currentSrc">
                 <m-img class="round" loading="lazy" :src="currentSrc" :url-prefix="urlPrefix" :width="width" :height="height"/>
             </slot>
         </label>

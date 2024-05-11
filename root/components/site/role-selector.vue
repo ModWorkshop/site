@@ -76,7 +76,6 @@ async function saveRoles() {
 }
 
 function askAreYouSure(value: Role, clbk) {
-    console.log(value);
     if (!value.is_vanity) {
         yesNoModal({
             desc: t('are_you_sure_role'),

@@ -5,7 +5,7 @@
                 {{label}}
             </slot>
         </label>
-        <m-flex v-if="!$slots.default" class="items-center" gap="3">
+        <m-flex v-if="!$slots.default" class="items-center" gap="1">
             <input 
                 v-if="type == 'color'"
                 ref="input"
@@ -13,8 +13,8 @@
                 v-model="vm"
                 :class="classes"
                 :disabled="disabled"
-                style="flex-grow: 1;"
-                @input="$emit('update:modelValue', vm);"
+                style="width: 100px;"
+                @input="forceUpdateColor"
             >
             <textarea 
                 v-if="type == 'textarea'"
@@ -24,18 +24,17 @@
                 :rows="rows"
                 v-bind="$attrs"
                 :disabled="disabled"
-                @update="$emit('update:modelValue', vm)"
             />
             <input 
                 v-else-if="isCheckbox" 
                 :id="labelId"
                 v-bind="$attrs"
                 ref="elementRef"
-                v-model="vm"
                 :class="classes"
                 type="checkbox"
                 :disabled="disabled"
-                @change="$emit('update:modelValue', vm);"
+                :value="vm ? 'on' : 'off'"
+                @click="el => vm = (el.target! as HTMLInputElement).value! == 'on'"
             >
             <input 
                 v-else
@@ -74,9 +73,9 @@ const props = defineProps<{
     value?: string,
     required?: boolean,
 }>();
-const emit = defineEmits(['update:elementRef', 'update:modelValue']);
+const emit = defineEmits(['update:elementRef']);
 const vm = defineModel<any>('modelValue');
-const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
+const elementRef = defineModel<HTMLInputElement>('elementRef');
 const uniqueId = useId();
 const err = useWatchValidation(vm, elementRef);
 
@@ -94,6 +93,12 @@ watch(() => props.validity, val => {
         }
     }
 });
+
+ // force refresh for firefox
+function forceUpdateColor(element) {
+    vm.value = element.target.value;
+    elementRef.value!.value = vm.value;
+}
 </script>
 
 <style scoped>
@@ -139,6 +144,7 @@ watch(() => props.validity, val => {
 
 .mw-input[type='color'] {
     flex: 6;
+    height: 35px;
 }
 
 .mw-input[type='checkbox'] {

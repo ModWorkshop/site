@@ -1,5 +1,5 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb" game-banner>
+    <page-block :game="game" :breadcrumb="breadcrumb" show-background>
         <Title>{{ game.name }} Mods</Title>
         <NuxtPage :game="game" :mods="mods"/>
     </page-block>

@@ -7,14 +7,14 @@
                 <m-nav-link v-if="hasPermission('admin')" to="settings" :title="$t('settings')"/>
                 <m-nav-link v-if="hasPermission('manage-roles')" to="roles" :title="$t('roles')"/>
                 <m-nav-link v-if="hasPermission('manage-users')" to="supporters" :title="$t('supporters')"/>
-                <h3 class="mt-2">{{$t('moderation')}}</h3>
+                <h3 v-if="moderateUsers || manageMods" class="mt-2">{{$t('moderation')}}</h3>
                 <m-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
                 <m-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
                 <m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
                 <m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
                 <m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
-                <h3 class="mt-2">{{$t('content')}}</h3>
-                <m-nav-link to="games" :title="$t('games')"/>
+                <h3 v-if="canManageContent" class="mt-2">{{$t('content')}}</h3>
+                <m-nav-link v-if="hasPermission('manage-games')" to="games" :title="$t('games')"/>
                 <m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
                 <m-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>
                 <m-nav-link v-if="hasPermission('manage-docs')" to="documents" :title="$t('documents')"/>
@@ -41,4 +41,8 @@ if (!user || !adminPagePerms.some(perm => hasPermission(perm))) {
 
 const moderateUsers = computed(() => hasPermission('moderate-users'));
 const manageMods = computed(() => hasPermission('manage-mods'));
+const canManageContent = computed(() => 
+    hasPermission('manage-games') || hasPermission('manage-docs') || hasPermission('manage-users') || 
+    hasPermission('manage-forum-categories') || hasPermission('manage-tags') || manageMods.value
+);
 </script>

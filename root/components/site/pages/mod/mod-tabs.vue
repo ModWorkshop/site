@@ -6,8 +6,8 @@
             </m-tab>
             <m-tab v-if="mod.images && mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
                 <m-img 
-                    v-for="(image, i) of mod.images"
-                    :key="image.id" 
+                    v-for="(image, i) of visibleImages"
+                    :key="image.id"
                     loading="lazy"
                     class="mod-image cursor-pointer"
                     url-prefix="mods/images"
@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from '~/store';
 import type { Mod } from '~~/types/models';
 
 const props = defineProps<{
@@ -74,6 +75,7 @@ const props = defineProps<{
 }>();
 
 const { public: config } = useRuntimeConfig();
+const { hasPermission } = useStore();
 
 const dependencies = computed(() => {
     const deps = props.mod.dependencies ?? [];
@@ -94,13 +96,13 @@ function showImage(nextIndex) {
     galleryVisible.value = true;
 }
 
+const visibleImages = computed(() => props.mod.images?.filter(img => img.visible || hasPermission('manage-mods', props.mod.game)) || []);
+
 const images = computed(() => {
     const images: string[] = [];
 
-    if (props.mod.images) {
-        for (const image of props.mod.images) {
-            images.push(`${config.storageUrl}/mods/images/${image.file}`);
-        }
+    for (const image of visibleImages.value) {
+        images.push(`${config.storageUrl}/mods/images/${image.file}`);
     }
 
     return images;

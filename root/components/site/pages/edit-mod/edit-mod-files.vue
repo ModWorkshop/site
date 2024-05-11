@@ -146,7 +146,7 @@ const canModerate = computed(() => hasPermission('manage-mods', mod.value.game))
 const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
 
 const maxStorage = computed(() => {
-    if (mod.value.user?.active_supporter) {
+    if (mod.value.user?.has_supporter_perks) {
         return Math.max(allowedStorage.value || 0, settings?.supporter_mod_storage_size || 0);
     } else {
         return allowedStorage.value || settings?.mod_storage_size || 0;
@@ -154,7 +154,7 @@ const maxStorage = computed(() => {
 });
 
 const maxSize = computed(() => {
-    if (mod.value.user?.active_supporter) {
+    if (mod.value.user?.has_supporter_perks) {
         return settings?.supporter_mod_storage_size || 0;
     } else {
         return settings?.max_file_size || 0;

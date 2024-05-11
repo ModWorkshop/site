@@ -165,8 +165,8 @@ html.dark {
 
 html.light {
     --bg-color: #cfd0d3;
-    --content-bg-color: #d6d8db;
-    --content-bg-color-glass: #d6d8dbbd;
+    --content-bg-color: #e9e9e9;
+    --content-bg-color-glass: #ecedeebd;
 
     --alt-content-bg-color: #e4e5e7;
     --dropdown-bg: #c9cbcf;

@@ -1,5 +1,5 @@
 <template>
-    <page-block size="sm">
+    <page-block size="md">
         <Title>{{$t('user_settings')}}</Title>
         <m-form v-model="user" v-model:flush-changes="flushChanges" float-save-gui autocomplete="off" @submit="save">
             <m-nav side :root="isMe ? `/user-settings` : `/user/${user.id}/edit`">

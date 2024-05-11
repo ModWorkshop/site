@@ -50,7 +50,7 @@
             <h2>{{$t('third_party_cookies')}}</h2>
             {{$t('third_party_cookies_desc')}}
             <!-- <NuxtLink to="https://www.enthusiastgaming.com/privacy-policy/">EnthusiastGaming Policy</NuxtLink> -->
-            <NuxtLink to="https://nitropay.com/privacy/">NitroPay Policy</NuxtLink>
+            <NuxtLink to="https://nitropay.com/privacy/">Nitro Policy</NuxtLink>
         </m-content-block>
     </page-block>
 </template>

@@ -89,7 +89,7 @@ const adClasses = computed(() => ({
 }));
 
 onMounted(async () => {
-    if (user.value?.active_supporter) {
+    if (user.value?.has_supporter_perks) {
         console.log("Detected supporter, enjoy no ads!");
         return;
     }
