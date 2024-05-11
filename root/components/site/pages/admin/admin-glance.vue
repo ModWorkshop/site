@@ -1,5 +1,5 @@
 <template>
-    <span class="h2">{{$t('admin_at_a_glance')}}</span>
+    <span v-if="adminData" class="h2">{{$t('admin_at_a_glance')}}</span>
     <m-flex v-if="adminData" class="max-md:flex-wrap">
         <m-flex class="flex-1" column>
             <NuxtLink :to="reportsUrl" class="glance-block">
