@@ -10,19 +10,19 @@
     <m-alert :desc="$t('images_help')"/>
     
     <m-flex v-if="mod.id" class="items-center">
-        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.thumbnail_id" :options="images" :label="$t('Thumbnail')" :filterable="false" clearable null-clear height="64px;">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.banner_id" :options="images" :label="$t('Banner')" :filterable="false" clearable null-clear height="64px">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
             </template>
         </m-select>
-        <m-select v-model="mod.background_id" :disabled="!mod.user?.has_supporter_perks" :options="images" :label="true" :filterable="false" clearable null-clear height="100px">
+        <m-select v-model="mod.background_id" :disabled="!mod.user?.has_supporter_perks" :options="images" :label="true" :filterable="false" clearable null-clear height="64px">
             <template #any-option="{ option }">
-                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 100px;"/>
+                <a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
             </template>
             <template #label>
                 {{ $t('supporter_background') }} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
