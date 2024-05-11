@@ -76,7 +76,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(['update:elementRef', 'update:modelValue']);
 const vm = defineModel<any>('modelValue');
-const elementRef = defineModel<HTMLInputElement>('elementRef', { local: true });
+const elementRef = defineModel<HTMLInputElement>('elementRef');
 const uniqueId = useId();
 const err = useWatchValidation(vm, elementRef);
 
@@ -98,7 +98,7 @@ watch(() => props.validity, val => {
  // force refresh for firefox
 function forceUpdateColor(element) {
     vm.value = element.target.value;
-    elementRef.value.value = vm.value;
+    elementRef.value!.value = vm.value;
 }
 </script>
 
