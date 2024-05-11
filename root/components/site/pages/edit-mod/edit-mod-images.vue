@@ -59,7 +59,7 @@
     >
         <template #buttons="{file}">
             <m-dropdown :disabled="!file.id" :close-on-click="false">
-                <m-button class="w-full">{{$t('settings')}}</m-button>
+                <m-button class="w-full">{{$t('options')}}</m-button>
                 <template #content>
                     <m-dropdown-item :disabled="file.id == mod.thumbnail_id" @click="setThumbnail(file as Image)">
                         <i-mdi-file-image-box/> {{$t('set_as_thumbnail')}}
