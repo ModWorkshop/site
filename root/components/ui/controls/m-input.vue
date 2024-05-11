@@ -33,8 +33,8 @@
                 :class="classes"
                 type="checkbox"
                 :disabled="disabled"
-                :value="vm ? 'on' : 'off'"
-                @click="el => vm = (el.target! as HTMLInputElement).value! == 'on'"
+                :checked="vm ? true : undefined"
+                @click="clickCheckbox"
             >
             <input 
                 v-else
@@ -98,6 +98,10 @@ watch(() => props.validity, val => {
 function forceUpdateColor(element) {
     vm.value = element.target.value;
     elementRef.value!.value = vm.value;
+}
+
+function clickCheckbox() {
+    vm.value = !vm.value;
 }
 </script>
 

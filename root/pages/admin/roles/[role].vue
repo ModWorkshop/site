@@ -23,7 +23,7 @@
                         :label="perm.name"
                         type="checkbox"
                         :disabled="!hasPermission(perm.name)"
-                        @update:model-value="togglePermission(perm.name)"
+                        @click="togglePermission(perm.name)"
                     />
                     <span v-if="!hasPermission(perm.name, game)">🔒</span>
                 </m-flex>
@@ -87,10 +87,8 @@ const validPerms = computed(() => {
 
 function togglePermission(perm: string) {
     if (role.value.permissions) {
-        if (role.value.permissions[perm]) {
+        if (!role.value.permissions[perm]) {
             delete role.value.permissions[perm];
-        } else {
-            role.value.permissions[perm] = true;
         }
     }
 }
