@@ -223,7 +223,7 @@ const compClearable = computed(() => {
     if (props.disabled) {
         return false;
     }
-    return selected.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+    return selectedOptions.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 watch(dropdownOpen, val => {
