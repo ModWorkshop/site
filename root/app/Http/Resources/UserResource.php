@@ -57,6 +57,7 @@ class UserResource extends BaseResource
             'donation_url' => $this->donation_url,
             'show_tag' => $this->when('show_tag', $this->show_tag),
             'active_supporter' => $this->activeSupporter,
+            'has_supporter_perks' => $this->hasSupporterPerks,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
             'mods_count' => $this->when(

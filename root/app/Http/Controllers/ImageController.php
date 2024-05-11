@@ -31,10 +31,15 @@ class ImageController extends Controller
     public function index(Request $request, Mod $mod)
     {
         $val = $request->validate([
-            'limit' => 'integer|min:1|max:50'
+            'limit' => 'integer|min:1|max:50',
+            'only_visible' => 'boolean|nullable'
         ]);
 
-        return BaseResource::collectionResponse($mod->images()->queryGet($val));
+        return BaseResource::collectionResponse($mod->images()->queryGet($val, function($q, $val) {
+            if ($val['only_visible']) {
+                $q->where('visible', true);
+            }
+        }));
     }
 
     /**
@@ -92,18 +97,27 @@ class ImageController extends Controller
     public function update(Request $request, Image $image)
     {
         $val = $request->validate([
-            'display_order' => 'integer|min:-1000|max:1000',
+            'display_order' => 'integer|min:-1000|max:1000|nullable',
+            'visible' => 'boolean|nullable'
         ]);
 
-        /**
-         * @var Collection
-         */
-        $images = $image->mod->images()->orderBy('display_order')->where('id', '!=', $image->id)->get();
-        $images->splice($val['display_order'], 0, [$image]);
-        for ($i=0; $i < $images->count(); $i++) {
-            $img = $images[$i];
-            $img->display_order = $i;
-            $img->save();
+        if (isset($val['display_order'])) {
+            /**
+             * @var Collection
+             */
+            $images = $image->mod->images()->orderBy('display_order')->where('id', '!=', $image->id)->get();
+            $images->splice($val['display_order'], 0, [$image]);
+            for ($i=0; $i < $images->count(); $i++) {
+                $img = $images[$i];
+                $img->display_order = $i;
+                $img->save();
+            }
+        }
+
+        if (isset($val['visible'])) {
+            $image->update([
+                'visible' => $val['visible']
+            ]);
         }
 
         return $image;

@@ -57,6 +57,15 @@ class GameController extends Controller
         $bannerFile = Arr::pull($val, 'banner_file');
         $modManagerIds = Arr::pull($val, 'mod_manager_ids');
 
+        $wasCreated = false;
+        if (!isset($game)) {
+            $val['last_date'] = Date::now();
+            /** @var Game */
+            $game = Game::create($val);
+            $val = [];//Empty so we don't update it again.
+            $wasCreated = true;
+        }
+
         $modManagers = ModManager::whereIdIn($modManagerIds);
         $modManagerIds = [];
         foreach ($modManagers as $manager) {
@@ -67,15 +76,6 @@ class GameController extends Controller
             $modManagerIds[] = $manager->id;
         }
         $game->modManagers()->sync($modManagerIds);
-
-        $wasCreated = false;
-        if (!isset($game)) {
-            $val['last_date'] = Date::now();
-            /** @var Game */
-            $game = Game::create($val);
-            $val = [];//Empty so we don't update it again.
-            $wasCreated = true;
-        }
 
         APIService::storeImage($thumbnailFile, 'games/images', $game->thumbnail, 200, fn($path) => $game->thumbnail = $path);
         APIService::storeImage($bannerFile, 'games/images', $game->banner, 200, fn($path) => $game->banner = $path);

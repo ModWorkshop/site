@@ -186,7 +186,7 @@ class ModService {
         
         $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
 
-        if (isset($mod->user->activeSupporter)) {
+        if (isset($mod->user->hasSupporterPerks)) {
             $storageSize = max($storageSize,  Setting::getValue('supporter_mod_storage_size'));
         }
 

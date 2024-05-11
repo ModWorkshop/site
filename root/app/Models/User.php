@@ -159,7 +159,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles', 'ban', 'supporter'];
+    protected $with = ['roles.permissions', 'ban', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -486,7 +486,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function color(): Attribute
     {
         return Attribute::make(function($value, $attributes) {
-            if (isset($attributes['custom_color']) && $this->activeSupporter) {
+            if (isset($attributes['custom_color']) && $this->hasSupporterPerks) {
                 return $attributes['custom_color'];
             }
 
@@ -575,6 +575,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 return $this->permissions;
             }
 
+            \Log::info("collect perms");
             $this->permissions = Utils::collectPermissions($this->roleList);
 
             if ($this->id === 1) {
@@ -643,6 +644,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return null;
     }
 
+    public function getHasSupporterPerksAttribute() {
+        \Log::info($this->permissionList);
+        return $this->activeSupporter || $this->hasPermission('has-supporter-perks');
+    }
 
     #endregion
 
