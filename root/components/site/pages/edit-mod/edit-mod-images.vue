@@ -58,14 +58,23 @@
         @update:model-value="fileUploaded"
     >
         <template #buttons="{file}">
-            <m-flex>
-                <m-button :disabled="!file.id || file.id == mod.thumbnail_id" @click.prevent="setThumbnail(file as Image)">
-                    <i-mdi-image-outline/> {{$t('thumbnail')}}
-                </m-button>
-                <m-button :disabled="!file.id || file.id == mod.banner_id" @click.prevent="setBanner(file as Image)">
-                    <i-mdi-image-outline/> {{$t('banner')}}
-                </m-button>
-            </m-flex>
+            <m-dropdown :disabled="!file.id" :close-on-click="false">
+                <m-button class="w-full">{{$t('settings')}}</m-button>
+                <template #content>
+                    <m-dropdown-item :disabled="file.id == mod.thumbnail_id" @click="setThumbnail(file as Image)">
+                        <i-mdi-file-image-box/> {{$t('set_as_thumbnail')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item :disabled="file.id == mod.banner_id" @click="setBanner(file as Image)">
+                        <i-mdi-image-area/> {{$t('set_as_banner')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item :disabled="!mod.user?.has_supporter_perks || file.id == mod.background_id" @click="setBackground(file as Image)">
+                        <i-mdi-image-size-select-actual/> {{$t('set_as_background')}}
+                    </m-dropdown-item>
+                    <m-dropdown-item>
+                        <m-input v-model="(file as Image).visible" class="w-full h-full" :label="$t('image_is_visible')" type="checkbox" @update:model-value="setImageVisible(file as Image)"/>
+                    </m-dropdown-item>
+                </template>
+            </m-dropdown>
             <m-flex>
                 <m-button class="grow" :disabled="!file.id" @click.prevent="setImageOrder(file as Image, -1)">
                     <i-mdi-arrow-left-drop-circle/>
@@ -111,6 +120,11 @@ function setThumbnail(thumb?: Image) {
     mod.value.thumbnail = thumb;
 }
 
+function setBackground(thumb?: Image) {
+    mod.value.background_id = thumb && thumb.id || null;
+    mod.value.background = thumb;
+}
+
 async function setImageOrder(img: Image, order: number) {
     try {
         await patchRequest(`images/${img.id}`, { display_order: img.display_order + order });
@@ -122,6 +136,15 @@ async function setImageOrder(img: Image, order: number) {
         for (let i = 0; i < images.value.length; i++) {
             images.value[i].display_order = i;            
         }
+    } catch (error) {
+        showError(error);
+    }
+}
+
+async function setImageVisible(img: Image) {
+    try {
+        img.visible = !img.visible;
+        await patchRequest(`images/${img.id}`, { visible: img.visible });
     } catch (error) {
         showError(error);
     }

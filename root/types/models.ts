@@ -74,6 +74,7 @@ export interface File extends SimpleFile {
 
 export interface Image extends SimpleFile {
     has_thumb: boolean;
+    visible: boolean;
     display_order: number;
 }
 
@@ -122,6 +123,7 @@ export interface Mod {
     game?: Game;
     thumbnail?: Image;
     banner?: Image;
+    background?: Image;
     tags?: Array<Tag>;
     images?: Array<Image>;
     files?: Paginator<File>;
@@ -145,7 +147,7 @@ export interface Mod {
     links_count?: number;
     mod_managers?: ModManager[];
     disable_mod_managers: boolean;
-    background_id?: number;
+    background_id?: number|null;
     background_opacity?: number;
 }
 
