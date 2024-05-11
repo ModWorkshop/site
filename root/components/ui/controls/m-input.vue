@@ -30,10 +30,11 @@
                 :id="labelId"
                 v-bind="$attrs"
                 ref="elementRef"
-                v-model="vm"
                 :class="classes"
                 type="checkbox"
                 :disabled="disabled"
+                :value="vm ? 'on' : 'off'"
+                @click="el => vm = (el.target! as HTMLInputElement).value! == 'on'"
             >
             <input 
                 v-else
