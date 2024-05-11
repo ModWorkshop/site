@@ -24,7 +24,6 @@
                 :rows="rows"
                 v-bind="$attrs"
                 :disabled="disabled"
-                @update="$emit('update:modelValue', vm)"
             />
             <input 
                 v-else-if="isCheckbox" 
@@ -35,7 +34,6 @@
                 :class="classes"
                 type="checkbox"
                 :disabled="disabled"
-                @change="$emit('update:modelValue', vm);"
             >
             <input 
                 v-else
@@ -74,7 +72,7 @@ const props = defineProps<{
     value?: string,
     required?: boolean,
 }>();
-const emit = defineEmits(['update:elementRef', 'update:modelValue']);
+const emit = defineEmits(['update:elementRef']);
 const vm = defineModel<any>('modelValue');
 const elementRef = defineModel<HTMLInputElement>('elementRef');
 const uniqueId = useId();

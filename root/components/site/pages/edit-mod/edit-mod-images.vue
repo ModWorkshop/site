@@ -143,7 +143,6 @@ async function setImageOrder(img: Image, order: number) {
 
 async function setImageVisible(img: Image) {
     try {
-        img.visible = !img.visible;
         await patchRequest(`images/${img.id}`, { visible: img.visible });
     } catch (error) {
         showError(error);
