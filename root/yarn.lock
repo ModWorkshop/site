@@ -4274,10 +4274,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "dompurify@npm:3.1.0"
-  checksum: 06fc76607cd076e394b2ea5479ab6f0407b8fedb6877ae95e94207b878365e5e1cd914055dacce152a5f419818afb8d4cd284b780246cf35363f0747c179a0ba
+"dompurify@npm:^3.1.2":
+  version: 3.1.3
+  resolution: "dompurify@npm:3.1.3"
+  checksum: ad8bbf8f73e44bb2b0fa1f676a248515332ac9fadc57e5f7ffc8e1f597c7cb7ecd9ecb80075f0934fa4362bef33779107ed165e3d5fa84e80eb603defdf7aed2
   languageName: node
   linkType: hard
 
@@ -5933,14 +5933,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-dompurify@npm:^2.4.0":
-  version: 2.7.0
-  resolution: "isomorphic-dompurify@npm:2.7.0"
+"isomorphic-dompurify@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "isomorphic-dompurify@npm:2.9.0"
   dependencies:
     "@types/dompurify": ^3.0.5
-    dompurify: ^3.1.0
+    dompurify: ^3.1.2
     jsdom: ^24.0.0
-  checksum: 95a16e89e9bac48445d025003506591cea7033b5a8668091699a528beeb021c2fc4397092b59f6dfeeada1ffc7b00ce51c19682e77ee00714a3d7cd14f195294
+  checksum: 6b03b0877e9447a6e7b7072b396af589b1d558e86e64a204dee095e521d9cf28e3ac9dcf5b4d601b714592b3134ef076eb170ae50d678cfbc8905072e03b4c89
   languageName: node
   linkType: hard
 
@@ -6905,7 +6905,7 @@ __metadata:
     filesize: ^10.1.0
     highlight.js: ^11.9.0
     humanize-duration: ^3.32.0
-    isomorphic-dompurify: ^2.4.0
+    isomorphic-dompurify: ^2.9.0
     lodash: ^4.17.21
     luxon: ^3.4.4
     markdown-it: ^14.0.0
