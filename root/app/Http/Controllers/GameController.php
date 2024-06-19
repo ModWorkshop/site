@@ -66,7 +66,7 @@ class GameController extends Controller
             $wasCreated = true;
         }
 
-        $modManagers = ModManager::whereIdIn($modManagerIds);
+        $modManagers = ModManager::whereIn('id', $modManagerIds)->get();
         $modManagerIds = [];
         foreach ($modManagers as $manager) {
             if (!empty($manager->game_id)) {
