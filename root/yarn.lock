@@ -735,13 +735,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:^1.5.4, @floating-ui/dom@npm:^1.6.1":
+"@floating-ui/dom@npm:^1.6.1":
   version: 1.6.3
   resolution: "@floating-ui/dom@npm:1.6.3"
   dependencies:
     "@floating-ui/core": ^1.0.0
     "@floating-ui/utils": ^0.2.0
   checksum: 81cbb18ece3afc37992f436e469e7fabab2e433248e46fff4302d12493a175b0c64310f8a971e6e1eda7218df28ace6b70237b0f3c22fe12a21bba05b5579555
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "@floating-ui/dom@npm:1.6.5"
+  dependencies:
+    "@floating-ui/core": ^1.0.0
+    "@floating-ui/utils": ^0.2.0
+  checksum: 767295173cfc9024b2187b65d3c1a0c8d8596a1f827d57c86288e52edf91b41508b3679643e24e0ef9f522d86aab59ef97354b456b39be4f6f5159d819cc807d
   languageName: node
   linkType: hard
 
@@ -752,7 +762,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/vue@npm:^1.0.4":
+"@floating-ui/vue@npm:^1.0.6":
   version: 1.0.6
   resolution: "@floating-ui/vue@npm:1.0.6"
   dependencies:
@@ -864,12 +874,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@internationalized/date@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "@internationalized/date@npm:3.5.2"
+"@internationalized/date@npm:^3.5.4":
+  version: 3.5.4
+  resolution: "@internationalized/date@npm:3.5.4"
   dependencies:
     "@swc/helpers": ^0.5.0
-  checksum: 7cd31aebe1bfa7307cb31d24366a9cc18c598e38a7eb6cd68a86b3c2d9e7c4f03376fe8a3ac6c6556fb80e58fa7697238af2ee9d753058e063f9a136143dafc2
+  checksum: df73fb4f11e5db918f5a76f94edcaadd34b67bd4160e8ee4e2a5f518e01cdfa7196fbcabd26bfa9d8376e4822a4a1c73d68fb08249cadfaaeba5bb1d41cff032
+  languageName: node
+  linkType: hard
+
+"@internationalized/number@npm:^3.5.3":
+  version: 3.5.3
+  resolution: "@internationalized/number@npm:3.5.3"
+  dependencies:
+    "@swc/helpers": ^0.5.0
+  checksum: f905cb5302d5a84660fbe0264930fadf286c7a5860373c289863bc2b9d003690552743da2b3155d65e3e9fd0e49b83673caf49c306b9bab39d6e871b6777c588
   languageName: node
   linkType: hard
 
@@ -2059,21 +2078,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/virtual-core@npm:3.4.0":
-  version: 3.4.0
-  resolution: "@tanstack/virtual-core@npm:3.4.0"
-  checksum: dee878179e504bb2d62ffb36a97e1c37e777af1802cadb03566b732099b13d7d053590997e3c17ce098bcb2adf527f53f69795d38cb607e308cde21dc809702e
+"@tanstack/virtual-core@npm:3.5.0":
+  version: 3.5.0
+  resolution: "@tanstack/virtual-core@npm:3.5.0"
+  checksum: e2eec72a6d7334625e9201f24a3e045c9c39f1fffda667d8a8a8b3906cdf22a2ab2605698dcffe6cf4438c6cc5934f43a04fae089221d3dd91a0d9fd925a8551
   languageName: node
   linkType: hard
 
-"@tanstack/vue-virtual@npm:^3.1.3":
-  version: 3.4.0
-  resolution: "@tanstack/vue-virtual@npm:3.4.0"
+"@tanstack/vue-virtual@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "@tanstack/vue-virtual@npm:3.5.0"
   dependencies:
-    "@tanstack/virtual-core": 3.4.0
+    "@tanstack/virtual-core": 3.5.0
   peerDependencies:
     vue: ^2.7.0 || ^3.0.0
-  checksum: 2357a3a636087300449cfb18b782f2e88200ae4a51ffd61df9cfab6412c42b1362775296f38551bbff482ffda7bb6070518094febb114f0ef7b17dc4a3e27206
+  checksum: 5df347b57076a38ce8fa7ccc23faa82086c5b1f1fd1ad6c90066da5fd827958e2f00d1d3edf65bd61fd76a76297dd27400b6e64b7cce6e41a99fe6530f8837ea
   languageName: node
   linkType: hard
 
@@ -6927,7 +6946,7 @@ __metadata:
     object-to-formdata: ^4.4.2
     postcss-custom-properties: ^13.2.0
     qs: ^6.11.0
-    radix-vue: ^1.7.0
+    radix-vue: ^1.8.3
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
@@ -8416,14 +8435,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"radix-vue@npm:^1.7.0":
-  version: 1.7.1
-  resolution: "radix-vue@npm:1.7.1"
+"radix-vue@npm:^1.8.3":
+  version: 1.8.3
+  resolution: "radix-vue@npm:1.8.3"
   dependencies:
-    "@floating-ui/dom": ^1.5.4
-    "@floating-ui/vue": ^1.0.4
-    "@internationalized/date": ^3.5.2
-    "@tanstack/vue-virtual": ^3.1.3
+    "@floating-ui/dom": ^1.6.5
+    "@floating-ui/vue": ^1.0.6
+    "@internationalized/date": ^3.5.4
+    "@internationalized/number": ^3.5.3
+    "@tanstack/vue-virtual": ^3.5.0
     "@vueuse/core": ^10.5.0
     "@vueuse/shared": ^10.5.0
     aria-hidden: ^1.2.3
@@ -8432,7 +8452,7 @@ __metadata:
     nanoid: ^5.0.6
   peerDependencies:
     vue: ">= 3.2.0"
-  checksum: 19bea1b245b28a2bbee18b165ebdeb4c65eeb55040471685103044aa69f6788ab1f11c70a68d2996dd5e549138d93dfb65f24ad595458829f8c4a208a6cf0cc3
+  checksum: b9c9bceee21c2534496f0001c65ae0984030d99852766a723e4e26f88f783c32b172961606cd01287157878043225009e9d65aaf6b16ad8b812693bc05ca89c9
   languageName: node
   linkType: hard
 
