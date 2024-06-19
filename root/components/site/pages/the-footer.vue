@@ -9,6 +9,7 @@
                 <m-link to="/document/impressum">{{$t('impressum')}}</m-link>
                 <m-link to="/document/policy">{{$t('privacy')}}</m-link>
                 <m-link to="/cookies">{{$t('cookie_policy')}}</m-link>
+                <m-link to="https://status.modworkshop.net">{{$t('status')}}</m-link>
             </m-flex>
             <m-flex column>
                 ModWorkshop {{ runtimeConfig.version }} ({{ commitHash }})

@@ -66,12 +66,9 @@ const primaryModManager = computed(() => {
     const chosen = chosenModManager.value;
     const defaultManager = props.mod.game?.default_mod_manager_id;
 
-    let manager: ModManager|undefined = managers.value[0];
-    if (chosen) {
-        manager = managers.value?.find(manager => manager.id == defaultManager || manager.id == chosen) ?? manager;
-    }
-
-    return manager;
+    return managers.value?.find(manager => manager.id == chosen) 
+        ?? managers.value?.find(manager => manager.id == defaultManager) 
+        ?? managers.value[0];
 });
 
 function setModManager(manager: ModManager) {
@@ -84,6 +81,7 @@ function getManagerDownloadUrl(manager: ModManager, file: File) {
         ':file_id': file.id,
         ':manager_name': manager.name,
         ':game_id': props.mod.game?.id,
+        ':game_short_name': props.mod.game?.short_name,
     };
     return manager.download_url.replaceAll(/:\w+_?\w*/g, (str) => replace[str]);
 }

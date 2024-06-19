@@ -71,17 +71,18 @@
 
 .markdown .codeblock, blockquote, code, .spoiler {
 	margin: 0px;
-	padding: 0.5rem;
+	padding: 0.4rem;
 	font-family: revert;
 	border-radius: var(--border-radius);
 	background-color: var(--alt-content-bg-color);
 }
 
-.markdown .codeblock, blockquote, .spoiler {
+.markdown .codeblock, .hljs, blockquote, .spoiler {
 	margin-bottom: 1rem;
 }
 
 .markdown code {
+	font-size: 85%;
 	display: inline-block;
 	word-break: break-word;
     overflow-x: auto;

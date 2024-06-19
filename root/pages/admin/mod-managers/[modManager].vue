@@ -9,8 +9,8 @@
     >
         <!-- <m-img-uploader id="image" v-model="imageBlob" :label="$t('thumbnail')" :src="manager.image" url-prefix="mod-managers" width="200"/> -->
         <m-input v-model="manager.name" :label="$t('name')"/>
-        <m-input v-model="manager.site_url" :label="$t('site_url')"/>
-        <m-input v-model="manager.download_url" :label="$t('download_url')"/>
+        <m-input v-model="manager.site_url" :label="$t('manager_site_url')" :desc="$t('manager_site_url_desc')"/>
+        <m-input v-model="manager.download_url" :label="$t('manager_download_url')" :desc="$t('manager_download_url_desc')"/>
     </simple-resource-form>
 </template>
 
