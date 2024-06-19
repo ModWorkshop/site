@@ -63,7 +63,7 @@ class ModResource extends BaseResource
             'disable_mod_managers' => $this->disable_mod_managers,
             'breadcrumb' => $this->whenAppended('breadcrumb'),
             'download' => $this->whenAppended('download'),
-            'mod_managers' => $this->whenAppended('modManagers'),
+            'mod_managers' => $this->whenAppended('mod_managers'),
             'banner' => $this->whenLoaded('banner'),
             'thumbnail' => $this->whenLoaded('thumbnail'),
             'background' => $this->whenLoaded('background'),
