@@ -77,6 +77,7 @@ class ImageController extends Controller
             'has_thumb' => true,
             'type' => $type,
             'display_order' => $count,
+            'visible' => true,
             'size' => $size
         ]);
     }
