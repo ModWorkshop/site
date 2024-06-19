@@ -575,7 +575,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 return $this->permissions;
             }
 
-            \Log::info("collect perms");
+            // \Log::info("collect perms");
             $this->permissions = Utils::collectPermissions($this->roleList);
 
             if ($this->id === 1) {
@@ -645,7 +645,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getHasSupporterPerksAttribute() {
-        \Log::info($this->permissionList);
+        // \Log::info($this->permissionList);
         return $this->activeSupporter || $this->hasPermission('has-supporter-perks');
     }
 

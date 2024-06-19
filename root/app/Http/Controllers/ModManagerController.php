@@ -28,7 +28,8 @@ class ModManagerController extends Controller
         $managers = ModManager::queryGet($val, function($query, array $val) use($game) {
             if (isset($game)) {
                 $query->where('game_id', $game->id);
-            } elseif (isset($val['global']) && $val['global']) {
+            } 
+            if (isset($val['global']) && $val['global']) {
                 $query->orWhereNull('game_id');
             }
         });

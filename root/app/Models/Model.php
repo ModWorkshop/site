@@ -15,14 +15,18 @@ class Model extends \Illuminate\Database\Eloquent\Model
         // In the 'retrieved' event. If you have a better solution, feel free to change this.
         if (self::$preventGameEagerLoad) {
             if (method_exists($this, 'game')) {
-                $this->with = array_filter($this->with, fn ($a) => $a != 'game');
-            }
-            static::retrieved(function($model) {
-                $game = app('siteState')->currentGame;
-                if (isset($game) && $model->game_id == $game?->id) {
-                    $model->setRelation('game', $game);
+                $needsGame = array_search('game', $this->with);
+                if ($needsGame) {
+                    $this->with = array_filter($this->with, fn ($a) => $a != 'game');
                 }
-            });
+
+                static::retrieved(function($model) use ($needsGame) {
+                    $game = app('siteState')->currentGame;
+                    if ($needsGame && isset($game) && $model->game_id == $game?->id) {
+                        $model->setRelation('game', $game);
+                    }
+                });
+            }
         }
     }
 }

@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Laravel\Scout\Attributes\SearchUsingFullText;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
  * App\Models\Comment
@@ -61,7 +60,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
  */
 class Comment extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable, Reportable, HasEagerLimit;
+    use HasFactory, Subscribable, Reportable;
 
     protected $with = ['user', 'mentions', 'subscribed'];
     protected $guarded = [];
