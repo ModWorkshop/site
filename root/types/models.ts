@@ -539,6 +539,7 @@ export interface Report {
 
 export interface ModManager {
     id: number;
+    game_id: number;
     name: string;
     image?: string;
     download_url: string;

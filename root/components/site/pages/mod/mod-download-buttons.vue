@@ -66,10 +66,9 @@ const primaryModManager = computed(() => {
     const chosen = chosenModManager.value;
     const defaultManager = props.mod.game?.default_mod_manager_id;
 
-    let manager: ModManager|undefined = managers.value[0];
-    manager = managers.value?.find(manager => manager.id == defaultManager || manager.id == chosen) ?? manager;
-
-    return manager;
+    return managers.value?.find(manager => manager.id == chosen) 
+        ?? managers.value?.find(manager => manager.id == defaultManager) 
+        ?? managers.value[0];
 });
 
 function setModManager(manager: ModManager) {
