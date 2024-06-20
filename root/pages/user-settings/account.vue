@@ -91,7 +91,7 @@ const deleteUserUniqueName = ref('');
 const deleteUserCheckBox = ref(false);
 const captchaToken = ref('-');
 const canDeleteUser = computed(() => 
-    deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === me?.unique_name ? true : false
+    deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === props.user?.unique_name ? true : false
 );
 
 function downloadData() {
