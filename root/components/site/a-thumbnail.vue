@@ -1,6 +1,6 @@
 <template>
     <m-img 
-        loading="lazy"
+        :loading="lazy ? 'lazy' : undefined"
         class="ratio-image round"
         :src="src"
         :url-prefix="urlPrefix"
@@ -11,8 +11,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const { lazy = true } = defineProps<{
     src?: string|Blob,
+    lazy?: bool,
     preferHq?: boolean,
     hasThumb?: boolean,
     urlPrefix: string,

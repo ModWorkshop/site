@@ -1,8 +1,16 @@
 <template>
     <div v-if="currentDisplayMode == 0" class="mods mods-grid gap-3">
         <div v-if="error">{{$t('error_fetching_mods')}}</div>
-        <template v-else>
-            <grid-mod v-for="mod in mods" :key="mod.id" :mod="mod" :game="game" :no-game="noGame" :sort="sortBy"/>
+        <template v-else-if="mods">
+            <grid-mod 
+                v-for="[i, mod] in mods.entries()"
+                :key="mod.id"
+                :mod="mod"
+                :lazy-thumbnail="i > 7"
+                :game="game"
+                :no-game="noGame"
+                :sort="sortBy"
+            />
         </template>
     </div>
     <m-table v-else>
@@ -17,14 +25,22 @@
             <th class="text-center">{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
         </template>
         <template #body>
-            <mod-row v-for="mod in mods" :key="mod.id" :mod="mod" :no-game="noGame" :sort="sortBy" :display-mode="currentDisplayMode"/>
+            <mod-row
+                v-for="[i, mod] in mods?.entries()"
+                :key="mod.id"
+                :mod="mod"
+                :lazy-thumbnail="i > 5"
+                :no-game="noGame"
+                :sort="sortBy"
+                :display-mode="currentDisplayMode"
+            />
         </template>
     </m-table>
 </template>
 
 <script setup lang="ts">
 import type { Game, Mod } from '~~/types/models';
-const savedDisplayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
+const savedDisplayMode = useConsentedCookie('mods-displaymode', { default: () => 0,  expires: longExpiration()});
 
 const props = defineProps<{
     displayMode?: number,
@@ -35,5 +51,5 @@ const props = defineProps<{
     mods?: Mod[]
 }>();
 
-const currentDisplayMode = computed(() => props.displayMode ?? savedDisplayMode.value);
+const currentDisplayMode = computed(() => props.displayMode ?? parseInt(savedDisplayMode.value as string));
 </script>

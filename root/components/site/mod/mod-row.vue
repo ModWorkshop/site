@@ -2,7 +2,7 @@
     <tr class="mod items-center mt-2 content-block" :title="mod.short_desc">
         <td v-if="displayMode == 1" width="200px;">
             <NuxtLink class="block" :to="!static && `/mod/${mod.id}` || undefined">
-                <mod-thumbnail :thumbnail="mod.thumbnail"/>
+                <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
         </td>
 
@@ -46,6 +46,7 @@ const store = useStore();
 
 const props = withDefaults(defineProps<{
     displayMode?: number,
+    lazyThumbnail?: boolean,
     sort?: string,
     noCategories?: boolean,
     noGame?: boolean,

@@ -11,7 +11,7 @@
                 <m-button class="ml-auto" to="/games">{{$t('view_all_games')}}</m-button>
             </m-flex>
             <m-flex v-if="games" class="latest-games gap-2">
-                <grid-game v-for="game of games.data" :key="game.id" :game="game"/>
+                <grid-game v-for="game of games.data" :key="game.id" :game="game" :lazy-thumbnails="false"/>
             </m-flex>
         </m-flex>
 

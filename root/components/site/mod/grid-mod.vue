@@ -1,7 +1,7 @@
 <template>
     <div class="mod content-block" :title="mod.short_desc">
         <NuxtLink :to="link">
-            <mod-thumbnail :thumbnail="mod.thumbnail"/>
+            <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
         </NuxtLink>
         <div class="mod-details">
             <NuxtLink class="mod-title" :to="link" :title="mod.name">
@@ -51,6 +51,7 @@ const store = useStore();
 
 const props = defineProps<{
     sort?: string,
+    lazyThumbnail?: boolean,
     noCategories?: boolean,
     noGame?: boolean,
     mod: Mod,
