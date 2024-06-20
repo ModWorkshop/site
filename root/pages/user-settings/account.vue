@@ -131,6 +131,8 @@ async function doDelete() {
         });
         if (me!.id === props.user.id) {
             await store.logout();
+        } else {
+            await navigateTo(""); // Return home   
         }
     } catch (error) {
         showError(error);
