@@ -70,8 +70,8 @@
                                 @keyup.enter="clickSelectedSearch"
                             >
                             <m-flex v-else id="header-search" inline class="searchbox">
-                                <i-mdi-magnify/><span class="text-secondary">{{$t('search')}}</span>
-                                <span class="ml-auto">
+                                <i-mdi-magnify/><span class="text-secondary my-auto">{{$t('search')}}</span>
+                                <span class="ml-auto my-auto">
                                     <kbd>CTRL</kbd> <kbd>K</kbd>
                                 </span>
                             </m-flex>
