@@ -413,6 +413,6 @@ kbd {
     transition: border-color 0.25s;
     color: var(--text-color);
     background-color: var(--input-bg-color);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
 }
 </style>
