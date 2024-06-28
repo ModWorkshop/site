@@ -75,7 +75,7 @@ watch(() => flushChanges, () => {
     flushChanges?.on(newModel => {
         disableButtons.value = false;
         model.value = newModel;
-        modelCopy.value = clone(newModel);        
+        modelCopy.value = clone(model.value);
     });
 }, { immediate: true });
 
