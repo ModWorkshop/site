@@ -61,12 +61,14 @@ class ModManagerController extends Controller
         $val = $request->validate([
             'name' => 'string|min:3|max:100',
             'download_url' => 'string|max:1000',
-            'site_url' => 'url|max:1000',
+            'site_url' => 'url|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
-            'image_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            // 'image_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
-        $imageFile = Arr::pull($val, 'image_file');
+        $val['site_url'] ??= '';
+
+        // $imageFile = Arr::pull($val, 'image_file');
 
         if (isset($modManager)) {
             $modManager->update($val);
