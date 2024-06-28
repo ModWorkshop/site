@@ -7,9 +7,7 @@
             <m-breadcrumb v-if="breadcrumb" :class="breadCrumbClasses" :style="{width: props.backgroundOpacity > 0.2 ? 'initial': null}" :items="breadcrumb"/>
             <m-flex v-if="game?.id" gap="0" column>
                 <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4">
-                    <h2 class="my-auto mb-1">
-                        <m-link :to="`/g/${game.short_name}`">{{game.name}}</m-link>
-                    </h2>
+                    <m-link class="h2 my-auto mb-1" style="font-weight: 800;" :to="`/g/${game.short_name}`">{{game.name}}</m-link>
                     <m-flex wrap gap="4">
                         <m-link v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">
                             <i-mdi-upload/> {{$t('upload_mod')}}
