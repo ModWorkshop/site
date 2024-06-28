@@ -15,6 +15,7 @@
             :upload-url="uploadLink"
             max-files="25"
             :paused="!mod.id"
+            :paused-reason="$t('file_waiting')"
             :max-size="maxSize"
             url="files"
             @file-uploaded="updateHasDownload"

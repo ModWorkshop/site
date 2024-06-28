@@ -30,7 +30,7 @@
                         <td>{{friendlySize(file.size)}}</td>
                         <td v-if="file.progress">{{$t('uploading', [file.progress])}} </td>
                         <td v-else-if="file.created_at">{{fullDate(file.created_at)}}</td>
-                        <td v-else>{{$t('waiting')}}</td>
+                        <td v-else>{{pausedReason ?? $t('waiting')}}</td>
                         <td class="text-center p-1">
                             <m-flex inline>
                                 <slot name="buttons" :file="file"/>
@@ -53,7 +53,7 @@
                 <m-flex class="file-options">
                     <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
                     <m-flex column class="file-buttons">
-                        <span v-if="paused" class="self-center">{{$t('waiting')}}</span>
+                        <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
                         <span v-if="file.progress" class="self-center">{{$t('uploading', [file.progress])}}</span>
                         <span v-else-if="file.created_at" class="self-center">{{fullDate(file.created_at)}}</span>
                         <span class="self-center">{{friendlySize(file.size)}}</span>
@@ -71,7 +71,6 @@ import { friendlySize, fullDate } from '~~/utils/helpers';
 import type { File as MWSFile, SimpleFile } from '~~/types/models';
 import axios, { AxiosError, type Canceler } from 'axios';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '~~/store/index';
 
 const emit = defineEmits([
     'file-begin',
@@ -83,6 +82,7 @@ const props = defineProps<{
     list?: boolean,
     disabled?: boolean,
     paused?: boolean,
+    pausedReason?: string,
     url: string,
     uploadUrl: string,
     urlPrefix?: string,

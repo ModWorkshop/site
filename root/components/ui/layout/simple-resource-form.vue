@@ -79,9 +79,8 @@ async function submit() {
         emit('submit');
     } catch (error) {
         showError(error);
-        captchaToken.value = '-';
-        return;
     }
+    captchaToken.value = '';
 }
 
 async function doDelete() {

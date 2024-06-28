@@ -25,7 +25,7 @@
         <m-link class="ml-auto text-4xl md:hidden" @click="headerClosed = !headerClosed"><i-mdi-menu/></m-link>
         <Transition name="left-slide">
             <m-flex v-show="!headerClosed" class="header-content">
-                <m-flex id="header-buttons" gap="4" class="ml-3">
+                <m-flex id="header-buttons" gap="4" class="ml-4">
                     <m-link v-if="!user?.ban" :to="user ? '/upload' : '/login'">{{$t('upload_mod')}}</m-link>
                     <m-link to="/search/mods">{{$t('browse_mods')}}</m-link>
                     <m-link class="max-lg:hidden" to="/games">{{$t('games')}}</m-link>
@@ -54,22 +54,22 @@
                 <m-flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2" gap="4">
                     <m-dropdown v-model:open="showSearch" :trap-focus="false" :auto-hide="false" dropdown-class="popper-big">
                         <m-flex>
-                            <m-input
+                            <input
                                 v-if="showSearch"
                                 id="header-search"
                                 v-model="query"
-                                v-model:elementRef="searchInput"
+                                ref="searchInput"
                                 v-on-click-outside="() => showSearch = false"
                                 @click.stop
-                                class="search"
+                                class="searchbox"
                                 inline
                                 :placeholder="$t('search')"
                                 @keydown="onKeydownSearch"
                                 @keyup.up.self="setSelectedSearch(-1)"
                                 @keyup.down.self="setSelectedSearch(1)"
                                 @keyup.enter="clickSelectedSearch"
-                            />
-                            <m-flex v-else id="header-search" inline class="mw-input">
+                            >
+                            <m-flex v-else id="header-search" inline class="searchbox">
                                 <i-mdi-magnify/><span class="text-secondary">{{$t('search')}}</span>
                                 <span class="ml-auto">
                                     <kbd>CTRL</kbd> <kbd>K</kbd>
@@ -299,7 +299,8 @@ header {
     left: 0;
     z-index: 100;
     position: sticky;
-    padding: 0.75rem;
+    padding: 1rem;
+    border-radius: var(--content-border-radius);
     display: flex;
     grid-area: header;
     transition: left 0.25s;
@@ -399,5 +400,19 @@ kbd {
 .popper-big {
     max-height: 64vh;
     padding: 1rem;
+}
+
+.searchbox:focus-visible {
+    outline: none;
+    border-color: var(--primary-color)
+}
+
+.searchbox {
+    padding: 0.7rem;
+    flex: 1;
+    transition: border-color 0.25s;
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border-radius: var(--border-radius);
 }
 </style>

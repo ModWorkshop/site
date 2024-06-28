@@ -26,6 +26,7 @@ const iconStyle = computed(() => ({
 <style scoped>
 .link-button {
     transition: color 0.15s ease-in-out;
+    font-weight: 600;
     color: var(--text-color);
 }
 
