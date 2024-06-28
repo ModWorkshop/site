@@ -323,4 +323,14 @@ class APIService {
 
         return $registeredSub;
     }
+
+    public static function checkCaptcha(Request $request) {
+        if (app()->isProduction()) {
+            $request->validate([
+                'h-captcha-response' => ['required', 'hcaptcha'],
+            ], [
+                'h-captcha-response' => 'You must solve the captcha to do this action!'
+            ]);
+        }
+    }
 }
