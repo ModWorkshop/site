@@ -52,6 +52,7 @@
         :max-files="settings?.mod_max_image_count"
         :max-file-size="settings?.image_max_file_size"
         :paused="!mod.id"
+        :paused-reason="$t('file_waiting')"
         :max-size="50 * 1024e3"
         use-file-as-thumb
         @file-deleted="fileDeleted"
