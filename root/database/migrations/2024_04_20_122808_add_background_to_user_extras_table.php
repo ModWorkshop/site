@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('user_extras', function (Blueprint $table) {
             $table->string('background')->default('');
-            $table->float('background_opacity', unsigned: true)->default(0.1);
+            $table->float('background_opacity')->default(0.1);
         });
     }
 

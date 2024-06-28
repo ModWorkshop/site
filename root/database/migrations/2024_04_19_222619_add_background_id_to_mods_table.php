@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('mods', function (Blueprint $table) {
             $table->bigInteger('background_id')->unsigned()->nullable();
             $table->foreign('background_id')->references('id')->on('images')->nullOnDelete();
-            $table->float('background_opacity', unsigned: true)->default(0.1);
+            $table->float('background_opacity')->default(0.1);
         });
     }
 
