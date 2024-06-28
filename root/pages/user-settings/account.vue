@@ -136,8 +136,8 @@ async function doDelete() {
         }
     } catch (error) {
         showError(error);
-        captchaToken.value = '-';
     }
+    captchaToken.value = '';
 }
 
 async function reset() {

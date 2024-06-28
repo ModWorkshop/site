@@ -91,7 +91,7 @@ const confirmPassValidity = computed(() => {
 });
 
 const loading = ref(false);
-const captchaToken = ref<string>('-');
+const captchaToken = ref<string>('');
 const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && captchaToken.value);
 
 
@@ -117,7 +117,7 @@ async function register() {
         });
 
         loading.value = false;
-        captchaToken.value = '-';
     }
+    captchaToken.value = '';
 }
 </script>
