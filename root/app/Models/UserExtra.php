@@ -48,6 +48,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|UserExtra whereHomeShowLastGames($value)
  * @method static Builder|UserExtra whereHomeShowMods($value)
  * @method static Builder|UserExtra whereHomeShowThreads($value)
+ * @property bool $auto_subscribe_to_mod
+ * @property bool $auto_subscribe_to_thread
+ * @property string $background
+ * @property float $background_opacity
+ * @method static Builder|UserExtra whereAutoSubscribeToMod($value)
+ * @method static Builder|UserExtra whereAutoSubscribeToThread($value)
+ * @method static Builder|UserExtra whereBackground($value)
+ * @method static Builder|UserExtra whereBackgroundOpacity($value)
  * @mixin Eloquent
  */
 class UserExtra extends Model

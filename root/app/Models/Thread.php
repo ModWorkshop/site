@@ -80,6 +80,29 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
  * @method static Builder|Thread whereCommentCount($value)
  * @method static Builder|Thread whereGameId($value)
  * @property-read int|null $comments_count
+ * @property string|null $edited_at
+ * @property int|null $answer_comment_id
+ * @property-read \App\Models\Comment|null $answerComment
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread all($columns = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread avg($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread cache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread cachedValue(array $arguments, string $cacheKey)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread count($columns = '*')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread disableCache()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread disableModelCaching()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread exists()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread flushCache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread getModelCacheCooldown(\Illuminate\Database\Eloquent\Model $instance)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread inRandomOrder($seed = '')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread insert(array $values)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread isCachable()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread max($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread min($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread sum($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread truncate()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereAnswerCommentId($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereEditedAt($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread withCacheCooldownSeconds(?int $seconds = null)
  * @mixin Eloquent
  */
 class Thread extends Model implements SubscribableInterface

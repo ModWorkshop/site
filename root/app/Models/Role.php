@@ -41,6 +41,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Role whereIsVanity($value)
  * @property bool $self_assignable
  * @method static Builder|Role whereSelfAssignable($value)
+ * @property-read mixed $cached_permissions
  * @mixin Eloquent
  */
 class Role extends Model

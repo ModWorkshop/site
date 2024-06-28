@@ -28,6 +28,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Supporter whereUpdatedAt($value)
  * @method static Builder|Supporter whereUserId($value)
  * @method static Builder|Supporter whereExpired($value)
+ * @property string|null $provider
+ * @method static Builder|Supporter whereProvider($value)
  * @mixin Eloquent
  */
 class Supporter extends Model

@@ -34,6 +34,10 @@ use Storage;
  * @property int $mod_id
  * @method static Builder|Image whereModId($value)
  * @property-read Mod $mod
+ * @property int $display_order
+ * @property bool $visible
+ * @method static Builder|Image whereDisplayOrder($value)
+ * @method static Builder|Image whereVisible($value)
  * @mixin Eloquent
  */
 class Image extends Model

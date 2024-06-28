@@ -61,7 +61,7 @@ RUN apk add --no-cache dcron libcap \
     && chmod +x /scripts/entrypoint.sh
 
 # Install composer packages & cache this layer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress --ignore-platform-reqs \
+RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php \
     && php artisan route:cache \
     && php artisan optimize \
     && php artisan storage:link
@@ -71,4 +71,4 @@ ENTRYPOINT ["/scripts/entrypoint.sh"]
 FROM build as dev
 
 # Install composer packages
-CMD ["/bin/sh", "-c", "composer install --no-interaction && php artisan mws:install --auto && php artisan serve"]
+CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve"]

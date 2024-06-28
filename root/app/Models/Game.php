@@ -65,6 +65,19 @@ use Illuminate\Contracts\Support\Arrayable;
  * @method static Builder|Game whereModCount($value)
  * @property-read Collection<int, Category> $categories
  * @property-read int|null $categories_count
+ * @property int|null $default_mod_manager_id
+ * @property-read mixed $announcements
+ * @property-read Collection<int, \App\Models\ModManager> $modManagers
+ * @property-read int|null $mod_managers_count
+ * @property-read Collection<int, \App\Models\ModManager> $ownModManagers
+ * @property-read int|null $own_mod_managers_count
+ * @property-read mixed $report_count
+ * @property-read Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
+ * @property-read Collection<int, \App\Models\Mod> $viewableMods
+ * @property-read int|null $viewable_mods_count
+ * @property-read mixed $waiting_count
+ * @method static Builder|Game whereDefaultModManagerId($value)
  * @mixin Eloquent
  */
 class Game extends Model

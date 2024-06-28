@@ -267,8 +267,9 @@ class UserController extends Controller
         $val = $request->validate([
             'unique_name' => 'alpha_dash|required|min:3|max:50',
             'are_you_sure' => 'required|boolean',
-            'h-captcha-response' => ['required', 'hcaptcha'],
         ]);
+
+        APIService::checkCaptcha($request);
 
         if (!$val['are_you_sure'] || $val['unique_name'] !== $user->unique_name) {
             abort(406, 'The unique name must match and you must agree to the deletion!');

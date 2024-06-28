@@ -39,7 +39,7 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game=null)
     {
-        $val = $request->validate([
+        $validateArr = [
             'name' => 'string|max:150',
             'buttons' => 'nullable|string|max:1000',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
@@ -49,7 +49,13 @@ class GameController extends Controller
             'mod_manager_ids' => 'array|nullable',
             'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id|nullable',
             'default_mod_manager_id' => 'exists:mod_managers,id|nullable'
-        ]);
+        ];
+
+        if (!isset($game)) {
+            $validateArr['short_name'] = 'string|max:30';  
+        }
+        
+        $val = $request->validate($validateArr);
 
         APIService::nullToEmptyStr($val, 'webhook_url', 'buttons');
 

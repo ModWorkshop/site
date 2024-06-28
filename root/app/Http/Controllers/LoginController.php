@@ -56,11 +56,7 @@ class LoginController extends Controller
             'remember' => 'boolean',
         ]);
 
-        if (app()->isProduction()) {
-            $request->validate([
-                'h-captcha-response' => ['required', 'hcaptcha'],
-            ]);
-        }
+        APIService::checkCaptcha($request);
 
         if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
             $request->session()->regenerate();
@@ -110,11 +106,7 @@ class LoginController extends Controller
             abort(400);
         }
 
-        if (app()->isProduction()) {
-            $request->validate([
-                'h-captcha-response' => ['required', 'hcaptcha'],
-            ]);
-        }
+        APIService::checkCaptcha($request);
 
         if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
             abort(409);

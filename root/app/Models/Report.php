@@ -41,6 +41,9 @@ use Illuminate\Support\Carbon;
  * @property bool $locked
  * @method static Builder|Report whereLocked($value)
  * @property-read Game|null $game
+ * @property int|null $reported_user_id
+ * @property-read \App\Models\User|null $reportedUser
+ * @method static Builder|Report whereReportedUserId($value)
  * @mixin Eloquent
  */
 class Report extends Model

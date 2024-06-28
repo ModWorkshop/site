@@ -58,6 +58,16 @@ use Storage;
  * @method static Builder|Category whereUpdatedAt($value)
  * @method static Builder|Category whereWebhookUrl($value)
  * @property-read mixed $breadcrumb
+ * @property int $display_order
+ * @property array|null $computed_breadcrumb
+ * @property array|null $computed_children
+ * @property bool $disable_mod_managers
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Mod> $mods
+ * @property-read int|null $mods_count
+ * @method static Builder|Category whereComputedBreadcrumb($value)
+ * @method static Builder|Category whereComputedChildren($value)
+ * @method static Builder|Category whereDisableModManagers($value)
+ * @method static Builder|Category whereDisplayOrder($value)
  * @mixin Eloquent
  */
 class Category extends Model

@@ -59,11 +59,6 @@ class CreateUsersTable extends Migration
 
             $table->timestamps();
         });
-
-        Schema::table('users', function(Blueprint $table) {
-            DB::statement('CREATE INDEX CONCURRENTLY users_name_trigram ON users USING GIST (name gist_trgm_ops(siglen=64));');
-            DB::statement('CREATE INDEX CONCURRENTLY users_unique_name_trigram ON users USING GIST (unique_name gist_trgm_ops(siglen=64));');
-        });
     }
 
     /**

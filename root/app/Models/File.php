@@ -50,6 +50,9 @@ use Str;
  * @property string|null $unique_name
  * @property-read Image|null $image
  * @method static Builder|File whereUniqueName($value)
+ * @property-read mixed $download_url
+ * @property-read mixed $file_ext
+ * @property-read mixed $safe_file_name
  * @mixin Eloquent
  */
 class File extends Model

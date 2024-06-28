@@ -32,6 +32,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Document whereUrlName($value)
  * @property-read User $lastUser
  * @property-read Game|null $game
+ * @property bool $is_unlisted
+ * @method static Builder|Document whereIsUnlisted($value)
  * @mixin Eloquent
  */
 class Document extends Model

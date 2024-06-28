@@ -49,6 +49,24 @@ use Illuminate\Support\Carbon;
  * @property string|null $type
  * @method static Builder|Tag whereType($value)
  * @property-read int|null $mods_count
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag all($columns = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag avg($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag cache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag cachedValue(array $arguments, string $cacheKey)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag count($columns = '*')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag disableCache()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag disableModelCaching()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag exists()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag flushCache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag getModelCacheCooldown(\Illuminate\Database\Eloquent\Model $instance)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag inRandomOrder($seed = '')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag insert(array $values)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag isCachable()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag max($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag min($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag sum($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag truncate()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag withCacheCooldownSeconds(?int $seconds = null)
  * @mixin Eloquent
  */
 class Tag extends Model

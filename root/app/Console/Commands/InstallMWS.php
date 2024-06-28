@@ -17,7 +17,7 @@ class InstallMWS extends Command
      *
      * @var string
      */
-    protected $signature = 'mws:install {--auto}';
+    protected $signature = 'mws:install {--auto} {--force}';
 
     /**
      * The console command description.
@@ -35,14 +35,15 @@ class InstallMWS extends Command
     {
         $this->info("ModWorkshop Installation");
         $auto = $this->option('auto');
+        $force = $this->option('force');
 
-        if (Schema::hasTable('users') && $auto) {
+        if (Schema::hasTable('users') && $auto && !$force) {
             $this->info("Skipping...");
             return;
         }
 
         $this->info('Running migrations...');
-        $this->call('migrate');
+        $this->call('migrate', ['--force' => true]);
         $this->info('Creating necessary folders in storage...');
         Storage::disk('local')->makeDirectory('mods/files');
         Storage::disk('local')->makeDirectory('mods/images');
@@ -55,7 +56,7 @@ class InstallMWS extends Command
         $this->info('Running Necessary Seeders...Done!');
 
         $oldUser = User::find(1);
-        if (!isset($oldUser) || $this->confirm('Super-user already exists, do you wish to override it?')) {
+        if ($force || !isset($oldUser) || $this->confirm('Super-user already exists, do you wish to override it?')) {
             $this->info('In order to access the super-admin account you will need to provide an email address and password.');
             $email = $auto ? env('ADMIN_EMAIL') : $this->ask('Email Address:');
             $password = $auto ? env('ADMIN_PASSWORD') : $this->secret('Password:');

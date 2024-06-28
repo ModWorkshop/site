@@ -52,12 +52,7 @@ class ThreadController extends Controller
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
         ]);
 
-        if (app()->isProduction()) {
-            $request->validate([
-                'h-captcha-response' => ['required', 'hcaptcha'],
-            ]);
-        }
-
+        APIService::checkCaptcha($request);
         Utils::convertToUTC($val, 'announce_until');
 
         $val['user_id'] = $request->user()->id;

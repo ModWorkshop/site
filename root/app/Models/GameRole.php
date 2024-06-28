@@ -45,6 +45,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|GameRole whereUpdatedAt($value)
  * @property bool $self_assignable
  * @method static Builder|GameRole whereSelfAssignable($value)
+ * @property-read mixed $cached_permissions
  * @mixin Eloquent
  */
 class GameRole extends Model

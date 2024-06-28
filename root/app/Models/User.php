@@ -149,6 +149,16 @@ use Storage;
  * @method static Builder|User whereWaitingEmail($value)
  * @property-read int|null $comments_count
  * @property-read TrackSession|null $trackSession
+ * @property-read mixed $active_supporter
+ * @property-read mixed $color
+ * @property-read mixed $has_supporter_perks
+ * @property-read mixed $highest_role_order
+ * @property-read mixed $permission_list
+ * @property-read mixed $role_list
+ * @property-read mixed $signable
+ * @property-read mixed $tag
+ * @property-read Collection<int, \App\Models\Mod> $viewableMods
+ * @property-read int|null $viewable_mods_count
  * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail

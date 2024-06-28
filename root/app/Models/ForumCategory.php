@@ -46,6 +46,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ForumCategory whereBannedCanPost($value)
  * @method static Builder|ForumCategory whereIsPrivate($value)
  * @method static Builder|ForumCategory wherePrivateThreads($value)
+ * @property int $display_order
+ * @property-read mixed $can_post
+ * @property-read mixed $can_view
+ * @property-read mixed $game_role_policies
+ * @property-read mixed $role_policies
+ * @method static Builder|ForumCategory whereDisplayOrder($value)
  * @mixin Eloquent
  */
 class ForumCategory extends Model
