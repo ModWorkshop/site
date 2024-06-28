@@ -28,6 +28,24 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Permission whereUpdatedAt($value)
  * @property string|null $type
  * @method static Builder|Permission whereType($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission all($columns = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission avg($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission cache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission cachedValue(array $arguments, string $cacheKey)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission count($columns = '*')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission disableCache()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission disableModelCaching()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission exists()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission flushCache(array $tags = [])
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission getModelCacheCooldown(\Illuminate\Database\Eloquent\Model $instance)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission inRandomOrder($seed = '')
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission insert(array $values)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission isCachable()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission max($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission min($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission sum($column)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission truncate()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission withCacheCooldownSeconds(?int $seconds = null)
  * @mixin Eloquent
  */
 class Permission extends Model

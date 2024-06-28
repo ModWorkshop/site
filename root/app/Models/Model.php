@@ -2,6 +2,14 @@
 namespace App\Models;
 
 // Extend of the regular eloquent model with some convenient/missing functions
+/**
+ * 
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Model newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Model newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Model query()
+ * @mixin \Eloquent
+ */
 class Model extends \Illuminate\Database\Eloquent\Model
 {
     public static $preventGameEagerLoad = false;

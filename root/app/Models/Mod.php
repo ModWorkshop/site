@@ -169,6 +169,16 @@ abstract class Visibility {
  * @property int|null $download_id
  * @property-read BlockedUser|null $blockedByMe
  * @property-read int|null $comments_count
+ * @property bool $disable_mod_managers
+ * @property int|null $background_id
+ * @property float $background_opacity
+ * @property-read \App\Models\Image|null $background
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $downloadRelation
+ * @property-read mixed $mod_managers
+ * @property-read \App\Models\ModMember|null $selfMember
+ * @method static Builder|Mod whereBackgroundId($value)
+ * @method static Builder|Mod whereBackgroundOpacity($value)
+ * @method static Builder|Mod whereDisableModManagers($value)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
