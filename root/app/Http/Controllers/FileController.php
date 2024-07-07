@@ -37,9 +37,9 @@ class FileController extends Controller
     {
         return BaseResource::collectionResponse($mod->files()->queryGet($request->val(), function($query, $val) use ($mod) {
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
-                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, updated_at DESC");
+                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, display_order DESC, updated_at DESC");
             } else {
-                $query->orderByDesc("updated_at");
+                $query->orderByDesc("display_order DESC, updated_at DESC");
             }
         }));
     }
@@ -114,6 +114,7 @@ class FileController extends Controller
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255',
+            'display_order' => 'integer|min:-1000|max:1000|nullable',
             'image_id' => 'int|nullable|exists:images,id',
             'change_file' => "nullable|file|max:{$maxSize}"
         ]);
