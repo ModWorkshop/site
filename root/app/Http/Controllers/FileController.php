@@ -110,7 +110,7 @@ class FileController extends Controller
         }
 
         $val = $request->validate([
-            'name' => 'string|min:3|max:100',
+            'name' => 'string|min:2|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255',
