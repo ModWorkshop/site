@@ -2467,12 +2467,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.14.2":
+"@types/node@npm:*":
   version: 20.14.5
   resolution: "@types/node@npm:20.14.5"
   dependencies:
     undici-types: ~5.26.4
   checksum: b337784407edbdd374b25149e9dfce80368846a9b0dc5b7d88a2591572ec87a5d87c11c9ddc1906294aef26a1ad889d56be8b08de6be3ce1256b8d9a836bc7d8
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.14.10":
+  version: 20.14.10
+  resolution: "@types/node@npm:20.14.10"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: 2f397d393de8cddb126e0b7999402ea450215ac69d49666ddef4f730a73325054499ce7345f86095e7b935c55b2e02139f3b8b9afc72fb978ed29edf6bb956b0
   languageName: node
   linkType: hard
 
@@ -7282,7 +7291,7 @@ __metadata:
     "@nuxtjs/tailwindcss": 6.12.0
     "@pinia/nuxt": ^0.5.1
     "@types/luxon": ^3.3.7
-    "@types/node": ^20.14.2
+    "@types/node": ^20.14.10
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^7.1.0
     "@typescript-eslint/parser": ^7.8.0
