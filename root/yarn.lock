@@ -7310,7 +7310,7 @@ __metadata:
     object-to-formdata: ^4.4.2
     postcss-custom-properties: ^13.2.0
     qs: ^6.11.0
-    radix-vue: ^1.8.3
+    radix-vue: ^1.8.5
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
@@ -8809,9 +8809,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"radix-vue@npm:^1.8.3":
-  version: 1.8.4
-  resolution: "radix-vue@npm:1.8.4"
+"radix-vue@npm:^1.8.5":
+  version: 1.8.5
+  resolution: "radix-vue@npm:1.8.5"
   dependencies:
     "@floating-ui/dom": ^1.6.5
     "@floating-ui/vue": ^1.0.6
@@ -8826,7 +8826,7 @@ __metadata:
     nanoid: ^5.0.6
   peerDependencies:
     vue: ">= 3.2.0"
-  checksum: 411ea227a0cb341ed0dffe74b2c00dde3f4724dcb2ab3b2a2e5bbd545fcb40abd5ea6bdfdd001bcf5985036303102c8da2870b8613a2c308256f17a60bca008b
+  checksum: 8d60168d0a17964f9362a327ae105af01b22eda809b0ccfbcb04687ce851174890e900153dfe6e8cd78de6ae03230dee6be174ac6ff2e8f8a112d8ef92b9b1bf
   languageName: node
   linkType: hard
 
