@@ -41,6 +41,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antfu/utils@npm:^0.7.10":
+  version: 0.7.10
+  resolution: "@antfu/utils@npm:0.7.10"
+  checksum: b93dd9e2c7e96ae6dca8a07c1fc5e7165ea9c7a89e78ecb75959bc9a8e769d3f565aea1b5c43db7374dd1f405cc277b6d14d85f884886f9d424dd6144d9203f2
+  languageName: node
+  linkType: hard
+
 "@antfu/utils@npm:^0.7.4, @antfu/utils@npm:^0.7.7, @antfu/utils@npm:^0.7.8":
   version: 0.7.8
   resolution: "@antfu/utils@npm:0.7.8"
@@ -7085,6 +7092,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimatch@npm:^9.0.5":
+  version: 9.0.5
+  resolution: "minimatch@npm:9.0.5"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 2c035575eda1e50623c731ec6c14f65a85296268f749b9337005210bb2b34e2705f8ef1a358b188f69892286ab99dc42c8fb98a57bde55c8d81b3023c19cea28
+  languageName: node
+  linkType: hard
+
 "minimist@npm:^1.2.6":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
@@ -7315,7 +7331,7 @@ __metadata:
     textarea-caret: ^3.1.0
     typescript: ^5.0.4
     unplugin-icons: ^0.18.3
-    unplugin-vue-components: ^0.27.0
+    unplugin-vue-components: ^0.27.3
     vue: ^3.4.23
     vue-easy-lightbox: ^1.13.0
     vue-tsc: ^2.0.16
@@ -8996,7 +9012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.7, resolve@npm:^1.22.1, resolve@npm:^1.22.2, resolve@npm:^1.22.8":
+"resolve@npm:^1.1.7, resolve@npm:^1.22.1, resolve@npm:^1.22.2":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -9009,7 +9025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.8#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
@@ -10314,20 +10330,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue-components@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "unplugin-vue-components@npm:0.27.0"
+"unplugin-vue-components@npm:^0.27.3":
+  version: 0.27.3
+  resolution: "unplugin-vue-components@npm:0.27.3"
   dependencies:
-    "@antfu/utils": ^0.7.7
+    "@antfu/utils": ^0.7.10
     "@rollup/pluginutils": ^5.1.0
     chokidar: ^3.6.0
-    debug: ^4.3.4
+    debug: ^4.3.5
     fast-glob: ^3.3.2
     local-pkg: ^0.5.0
     magic-string: ^0.30.10
-    minimatch: ^9.0.4
-    resolve: ^1.22.8
-    unplugin: ^1.10.1
+    minimatch: ^9.0.5
+    mlly: ^1.7.1
+    unplugin: ^1.11.0
   peerDependencies:
     "@babel/parser": ^7.15.8
     "@nuxt/kit": ^3.2.2
@@ -10337,7 +10353,7 @@ __metadata:
       optional: true
     "@nuxt/kit":
       optional: true
-  checksum: 89baa7a5b4908d4c698fa382d36839543d50995de7f5da7bc689a65edc89950e58e8c1bfbad3e423b64f31f1643ab1298eb69b7957fcac6926daddc421d7e88c
+  checksum: 864469a9845450429d011f58910aeffb030595d7d4e3461d40668d316ce9e051006ac9dab3230aef0b1aac29e49f6efdcf76365b0619cb5a32d5ebad26b58107
   languageName: node
   linkType: hard
 
@@ -10376,6 +10392,18 @@ __metadata:
     webpack-sources: ^3.2.3
     webpack-virtual-modules: ^0.6.1
   checksum: cc9b0814a30775e8ac6555ace396562fbafca2c5dbf51cdaf6c008a3ae14080ce0434695525c3dc13ddfc468b539e936815fed15f8e818a573b0af3b0462457d
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "unplugin@npm:1.11.0"
+  dependencies:
+    acorn: ^8.11.3
+    chokidar: ^3.6.0
+    webpack-sources: ^3.2.3
+    webpack-virtual-modules: ^0.6.1
+  checksum: b99ed2d0078fa49e81f5280e9cce58ce6ab2bd36700b4b5e02cafced96ef213ca1c6ed86cf95ef47ae3eda93cb4f79903927ec4f2068da302bd815f7c579aebc
   languageName: node
   linkType: hard
 
