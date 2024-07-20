@@ -16,7 +16,7 @@
         </m-tab>
         <m-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>
-            <m-list :items="followedGames" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
+            <m-list :items="followedGames" :limit="10" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -25,7 +25,7 @@
                 </template>
             </m-list>
             <h2>{{$t('followed_users')}}</h2>
-            <m-list :items="followedUsers" :loading="loadingUsers">
+            <m-list :items="followedUsers" :limit="10" :loading="loadingUsers">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -37,7 +37,7 @@
                 </template>
             </m-list>
             <h2>{{$t('followed_mods')}}</h2>
-            <m-list :items="followedMods" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
+            <m-list :items="followedMods" :limit="10" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -51,7 +51,7 @@
             <m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
                 <m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
             </m-form-modal>
-            <m-list :items="blockedUsers" :loading="loadingBlockedUsers">
+            <m-list :items="blockedUsers" :limit="10" :loading="loadingBlockedUsers">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -66,7 +66,7 @@
                 <h2>{{$t('blocked_tags')}}</h2>
                 <m-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</m-button>
             </m-flex>
-            <m-list :items="blockedTags" :loading="loadingTags">
+            <m-list :items="blockedTags" :limit="10" :loading="loadingTags">
                 <template #item-name="{ item }">
                     <m-tag>{{ item.name }}</m-tag>
                 </template>
