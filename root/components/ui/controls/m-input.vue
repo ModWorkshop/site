@@ -37,6 +37,16 @@
                 @click="clickCheckbox"
             >
             <input 
+                v-else-if="type == 'file'"
+                :id="labelId"
+                v-bind="$attrs"
+                ref="elementRef"
+                v-model="vm"
+                :class="{'input-error': !!err, 'file-button': true, 'button-primary': true}"
+                :type="type"
+                :disabled="disabled"
+            >
+            <input 
                 v-else
                 :id="labelId"
                 v-bind="$attrs"
@@ -81,7 +91,10 @@ const err = useWatchValidation(vm, elementRef);
 
 const labelId = ref(props.id || uniqueId);
 const isCheckbox = computed(() => props.type == 'checkbox');
-const classes = computed(() => ({'mw-input': true, 'input-error': !!err.value}));
+const classes = computed(() => ({
+    'mw-input': true,
+    'input-error': !!err.value
+}));
 
 watch(elementRef, val => emit('update:elementRef', val));
 watch(() => props.validity, val => {

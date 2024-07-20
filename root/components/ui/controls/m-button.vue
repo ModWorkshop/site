@@ -58,9 +58,8 @@ const iconStyle = computed(() => ({
 
 const isDisabled = computed(() => props.disabled || props.loading);
 </script>
-
-<style scoped>
-.button {
+<style>
+.button, .file-button::file-selector-button {
     color: #fff;
     display: inline-flex;
     align-items: center;
@@ -97,7 +96,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     color: var(--primary-color) !important;
 }
 
-.button-primary {
+.button.button-primary, .file-button.button-primary::file-selector-button {
     color: var(--primary-color-text);
     background: var(--primary-color);
     border-color: var(--primary-color);
@@ -156,7 +155,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     cursor: pointer;
 }
 
-.button-primary:hover:enabled, a.button-primary:hover  {
+.file-button.button-primary::file-selector-button:hover, .button.button-primary:hover:enabled, a.button-primary:hover  {
     color: var(--primary-color-text);
     background: var(--primary-hover-color);
 }

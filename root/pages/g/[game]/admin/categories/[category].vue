@@ -1,7 +1,7 @@
 <template>
-    <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage" :merge-params="mergeParams">
-        <m-img-uploader id="thumbnail" v-model="thumbnailBlob" :label="$t('thumbnail')" :src="category.thumbnail">
-            <template #label="{ src }">
+    <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage" :can-save="canSaveOverride" @submit="onSubmit">
+        <m-img-uploader id="thumbnail" v-model="thumbnailBlob" clear-button :label="$t('thumbnail')" :src="category.thumbnail">
+            <template #image="{ src }">
                 <game-thumbnail :src="src" style="width: 250px;"/>
             </template>
         </m-img-uploader>
@@ -52,14 +52,16 @@ watch(() => showMoveMods, () => areYouSure.value = false);
 const gameId = route.params.game;
 const categoriesPage = getAdminUrl('categories', props.game);
 
-const mergeParams = reactive({
-    thumbnail_file: thumbnailBlob,
-});
+const canSaveOverride = computed(() => thumbnailBlob.value != undefined);
+
+function onSubmit() {
+    thumbnailBlob.value = undefined;
+}
 
 const { data: category } = await useEditResource<Category>('category', 'categories', {
     name: '',
     id: 0,
-    game_id: parseInt(gameId as string),
+    game_id: props.game.id,
     parent_id: null,
     short_name: "",
     desc: "",

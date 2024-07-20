@@ -2,6 +2,7 @@
     <m-flex gap="6" column>
         <m-img-uploader
             v-model="user.avatar_file"
+            clear-button
             :label="$t('avatar')"
             :desc="$t('user_avatar_desc', { size: imageSize })"
             :src="user.avatar"
@@ -25,6 +26,7 @@
 
         <m-img-uploader 
             v-model="user.banner_file"
+            clear-button
             :label="$t('banner')" :desc="$t('user_banner_desc', { size: imageSize })"
             :src="user.banner"
             :max-file-size="settings?.image_max_file_size"
@@ -36,6 +38,7 @@
 
         <m-img-uploader 
             v-model="user.background_file"
+            clear-button
             :label="true"
             :src="user.extra!.background"
             :max-file-size="settings?.image_max_file_size"
@@ -45,7 +48,8 @@
                 {{$t('supporter_background')}} <NuxtLink to="/support">{{$t('supporters_only')}}</NuxtLink>
             </template>
             <template #image="{ src }">
-                <m-banner :src="src" url-prefix="users/images"/>
+                <m-banner v-if="src" :src="src" url-prefix="users/images"/>
+                <div v-else style="height: 300px; width: 100%; background-color: var(--bg-color)"/>
             </template>
         </m-img-uploader>
         <m-input 

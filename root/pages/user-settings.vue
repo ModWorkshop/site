@@ -42,9 +42,9 @@ const user = ref<UserForm>({
     password: '',
     current_password: '',
     confirm_password: '',
-    avatar_file: null,
-    banner_file: null,
-    background_file: null,
+    avatar_file: undefined,
+    banner_file: undefined,
+    background_file: undefined,
 });
 
 async function save() {
@@ -55,13 +55,15 @@ async function save() {
             store.user = clone(nextUser);
         }
 
-        user.value = {
+        flushChanges.trigger({
             ...nextUser,
             password: '',
             current_password: '',
-            confirm_password: ''
-        };
-        flushChanges.trigger(nextUser);
+            confirm_password: '',
+            avatar_file: undefined,
+            banner_file: undefined,
+            background_file: undefined,
+        });
     } catch (error) {
         showToast(error);
     }
