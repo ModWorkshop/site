@@ -9,7 +9,7 @@
             <m-content-block grow style="flex: 4;" gap="1">
                 <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <div :key="item.id" class="list-button cursor-pointer" @click="() => $router.push(getUserLink(item))">
+                        <div :key="item.id" class="list-button cursor-pointer" @click.self="() => $router.push(getUserLink(item))">
                             <a-user :user="item"/>
                         </div>
                     </template>
