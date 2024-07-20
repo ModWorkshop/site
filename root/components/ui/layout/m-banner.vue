@@ -5,8 +5,6 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~~/store';
-const store = useStore();
-
 const props = withDefaults(defineProps<{
     src?: string|Blob,
     urlPrefix: string,

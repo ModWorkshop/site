@@ -25,6 +25,7 @@ import { useI18n } from 'vue-i18n';
 import { serializeObject } from '~~/utils/helpers';
 import type { Game } from '~~/types/models';
 import type { EventHook } from '@vueuse/core';
+import clone from 'rfdc/default';
 
 const router = useRouter();
 const yesNoModal = useYesNoModal();
@@ -57,12 +58,12 @@ async function submit() {
         let params;
         if (props.mergeParams) {
             params = serializeObject({
-                ...vm.value,
-                ...props.mergeParams,
+                ...clone(vm.value),
+                ...clone(props.mergeParams),
                 'h-captcha-response': captchaToken.value
             });
         } else {
-            params = vm.value;
+            params = clone(vm.value);
             params ??= {};
             params['h-captcha-response'] = captchaToken.value;
         }

@@ -64,7 +64,7 @@ const currentCanSave = computed(() => {
             excludeFromCompare.forEach(key => delete B![key]);
         }
     }
-
+    
     return !created || canSave || !deepEqual(A, B);
 });
 
@@ -74,8 +74,8 @@ modelCopy.value = clone(model.value);
 watch(() => flushChanges, () => {
     flushChanges?.on(newModel => {
         disableButtons.value = false;
-        model.value = newModel;
-        modelCopy.value = clone(model.value);
+        modelCopy.value = clone(newModel);
+        model.value = clone(modelCopy.value);
     });
 }, { immediate: true });
 

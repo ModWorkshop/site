@@ -40,11 +40,7 @@ const bannerBlob = ref();
 const canSaveOverride = computed(() => !!(thumbnailBlob.value || bannerBlob.value));
 const { hasPermission } = useStore();
 
-const props = defineProps<{
-    game: Game
-}>();
-
-const vmGame = useVModel(props, 'game');
+const vmGame = defineModel<Game>({ required: true });
 const canDelete = computed(() => hasPermission('manage-games'));
 const mmUrl = getGameResourceUrl('mod-managers', vmGame.value);
 
