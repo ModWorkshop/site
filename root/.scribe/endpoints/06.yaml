@@ -1,108 +1,16 @@
-name: Forums
+name: Forum
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{game_id}/forum-categories'
+    uri: 'forums/{id}'
     metadata:
-      groupName: Forums
+      groupName: Forum
       groupDescription: ''
-      subgroup: Categories
+      subgroup: ''
       subgroupDescription: ''
-      title: 'Get List of Forum Categories'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      query:
-        name: query
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: qycjoosmuzzqsifykbnzcgpjx
-        type: string
-        custom: []
-      limit:
-        name: limit
-        description: 'Must be at least 1. Must not be greater than 50.'
-        required: false
-        example: 22
-        type: integer
-        custom: []
-    cleanBodyParameters:
-      query: qycjoosmuzzqsifykbnzcgpjx
-      limit: 22
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'games/{game_id}/forum-categories'
-    metadata:
-      groupName: Forums
-      groupDescription: ''
-      subgroup: Categories
-      subgroupDescription: ''
-      title: 'Create Forum Category'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'forum-categories/{id}'
-    metadata:
-      groupName: Forums
-      groupDescription: ''
-      subgroup: Categories
-      subgroupDescription: ''
-      title: 'Get Forum Category'
+      title: 'Get Forum'
       description: ''
       authenticated: false
       custom: []
@@ -112,152 +20,15 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the forum category.'
+        description: 'The ID of the forum.'
         required: true
-        example: 85
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 85
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'forum-categories/{id}'
-    metadata:
-      groupName: Forums
-      groupDescription: ''
-      subgroup: Categories
-      subgroupDescription: ''
-      title: 'Edit Forum Category'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the forum category.'
-        required: true
-        example: 85
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 85
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
-        required: false
-        example: fdyenjgeftymcffqrg
-        type: string
-        custom: []
-      emoji:
-        name: emoji
-        description: 'Must not be greater than 6 characters.'
-        required: false
-        example: rcx
-        type: string
-        custom: []
-      desc:
-        name: desc
-        description: 'Must not be greater than 1000 characters.'
-        required: false
-        example: jqmztmewevlxdtsrjazj
-        type: string
-        custom: []
-      is_private:
-        name: is_private
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      banned_can_post:
-        name: banned_can_post
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      private_threads:
-        name: private_threads
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-      role_policies:
-        name: role_policies
-        description: ''
-        required: false
-        example: null
-        type: object
-        custom: []
-      game_role_policies:
-        name: game_role_policies
-        description: ''
-        required: false
-        example: null
-        type: object
-        custom: []
-    cleanBodyParameters:
-      name: fdyenjgeftymcffqrg
-      emoji: rcx
-      desc: jqmztmewevlxdtsrjazj
-      is_private: false
-      banned_can_post: false
-      private_threads: true
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'forum-categories/{id}'
-    metadata:
-      groupName: Forums
-      groupDescription: ''
-      subgroup: Categories
-      subgroupDescription: ''
-      title: 'Delete Forum Category'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the forum category.'
-        required: true
-        example: 85
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 85
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

@@ -1,16 +1,16 @@
-name: Documents
+name: Roles
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{game_id}/documents'
+    uri: 'roles/{id}'
     metadata:
-      groupName: Documents
+      groupName: Roles
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get List of Documents'
+      title: 'Get Role'
       description: ''
       authenticated: false
       custom: []
@@ -18,107 +18,17 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
+      id:
+        name: id
+        description: 'The ID of the role.'
         required: true
-        example: 249
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      query:
-        name: query
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: fmauovnzrponrzqqhecrkm
-        type: string
-        custom: []
-      limit:
-        name: limit
-        description: 'Must be at least 1. Must not be greater than 50.'
-        required: false
-        example: 9
-        type: integer
-        custom: []
-    cleanBodyParameters:
-      query: fmauovnzrponrzqqhecrkm
-      limit: 9
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'games/{game_id}/documents'
-    metadata:
-      groupName: Documents
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Create Document'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      game_id:
-        name: game_id
-        description: 'The ID of the game.'
-        required: true
-        example: 249
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      game_id: 249
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'documents/{document}'
-    metadata:
-      groupName: Documents
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get Document'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      document:
-        name: document
-        description: 'The document.'
-        required: true
-        example: 3
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      document: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -135,13 +45,13 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'documents/{id}'
+    uri: 'roles/{id}'
     metadata:
-      groupName: Documents
+      groupName: Roles
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Edit Document'
+      title: 'Edit Role'
       description: ''
       authenticated: true
       custom: []
@@ -151,57 +61,98 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the document.'
+        description: 'The ID of the role.'
         required: true
-        example: 3
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
       name:
         name: name
-        description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
+        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: emsdtyiohxbriyfowivsykw
+        example: urkddhpyulhyy
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      tag:
+        name: tag
+        description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+        required: false
+        example: itzazy
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
-        description: 'Must be at least 3 characters. Must not be greater than 50000 characters.'
+        description: 'Must not be greater than 1000 characters.'
         required: false
-        example: wk
+        example: xezuhiuwp
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      is_unlisted:
-        name: is_unlisted
+      color:
+        name: color
+        description: 'Must not be greater than 8 characters.'
+        required: false
+        example: rrhs
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      is_vanity:
+        name: is_vanity
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      game_id:
-        name: game_id
-        description: 'Must be at least 1.'
+      self_assignable:
+        name: self_assignable
+        description: ''
         required: false
-        example: 9
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order:
+        name: order
+        description: 'Must not be greater than 1001.'
+        required: false
+        example: 24
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      url_name:
-        name: url_name
-        description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 30 characters.'
+      permissions:
+        name: permissions
+        description: ''
         required: false
-        example: xhyzrtanzkatjjqzdkplm
-        type: string
+        example: null
+        type: object
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: emsdtyiohxbriyfowivsykw
-      desc: wk
-      is_unlisted: true
-      game_id: 9
-      url_name: xhyzrtanzkatjjqzdkplm
+      name: urkddhpyulhyy
+      tag: itzazy
+      desc: xezuhiuwp
+      color: rrhs
+      is_vanity: false
+      self_assignable: false
+      order: 24
     fileParameters: []
     responses: []
     responseFields: []
@@ -213,13 +164,13 @@ endpoints:
   -
     httpMethods:
       - DELETE
-    uri: 'documents/{id}'
+    uri: 'roles/{id}'
     metadata:
-      groupName: Documents
+      groupName: Roles
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete Document'
+      title: 'Delete Role'
       description: ''
       authenticated: true
       custom: []
@@ -229,13 +180,15 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the document.'
+        description: 'The ID of the role.'
         required: true
-        example: 3
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

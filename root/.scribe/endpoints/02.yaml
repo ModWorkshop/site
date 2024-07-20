@@ -1,20 +1,16 @@
-name: Users
-description: |-
-
-  API routes for interacting with users
+name: Endpoints
+description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{game_id}/users'
+    uri: 'games/{game_id}/mod-managers'
     metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
+      groupName: Endpoints
+      groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get List of Users'
+      title: 'Display a listing of the resource.'
       description: ''
       authenticated: false
       custom: []
@@ -26,11 +22,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -38,441 +36,23 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: zxivfikhwyffnuwcumjkb
+        example: qjofwochzsbzfinkd
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 17
+        example: 14
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: zxivfikhwyffnuwcumjkb
-      limit: 17
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'users/{id}'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Edit User'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'Must be at least 3 characters. Must not be greater than 30 characters.'
-        required: false
-        example: k
-        type: string
-        custom: []
-      unique_name:
-        name: unique_name
-        description: 'Must contain only letters, numbers, dashes and underscores. Must be at least 3 characters. Must not be greater than 50 characters.'
-        required: false
-        example: pnsfwdah
-        type: string
-        custom: []
-      avatar_file:
-        name: avatar_file
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      custom_color:
-        name: custom_color
-        description: 'Must not be greater than 7 characters.'
-        required: false
-        example: mwhjkkk
-        type: string
-        custom: []
-      bio:
-        name: bio
-        description: 'Must not be greater than 3000 characters.'
-        required: false
-        example: exgxbzceafxcxeg
-        type: string
-        custom: []
-      email:
-        name: email
-        description: 'Must be a valid email address. Must not be greater than 255 characters.'
-        required: false
-        example: rutherford.jacklyn@example.org
-        type: string
-        custom: []
-      custom_title:
-        name: custom_title
-        description: 'Must not be greater than 100 characters.'
-        required: false
-        example: pjjbrpsmyv
-        type: string
-        custom: []
-      private_profile:
-        name: private_profile
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      invisible:
-        name: invisible
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-      banner_file:
-        name: banner_file
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      donation_url:
-        name: donation_url
-        description: 'Must not be greater than 255 characters.'
-        required: false
-        example: 'https://gibson.com/perspiciatis-inventore-corrupti-dolores-nisi-laborum-eum-asperiores-magni.html'
-        type: string
-        custom: []
-      show_tag:
-        name: show_tag
-        description: 'Must be one of <code>role</code>, <code>supporter_or_role</code>, or <code>none</code>.'
-        required: false
-        example: role
-        type: string
-        custom: []
-      current_password:
-        name: current_password
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      password:
-        name: password
-        description: 'Must not be greater than 128 characters.'
-        required: false
-        example: 'HgGvO-wJai#.j'
-        type: string
-        custom: []
-      extra:
-        name: extra
-        description: ''
-        required: false
-        example: []
-        type: object
-        custom: []
-      extra.default_mods_sort:
-        name: extra.default_mods_sort
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      extra.default_mods_view:
-        name: extra.default_mods_view
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      extra.home_show_last_games:
-        name: extra.home_show_last_games
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        custom: []
-      extra.home_show_mods:
-        name: extra.home_show_mods
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-      extra.home_show_threads:
-        name: extra.home_show_threads
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-      extra.game_show_mods:
-        name: extra.game_show_mods
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-      extra.game_show_threads:
-        name: extra.game_show_threads
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        custom: []
-    cleanBodyParameters:
-      name: k
-      unique_name: pnsfwdah
-      custom_color: mwhjkkk
-      bio: exgxbzceafxcxeg
-      email: rutherford.jacklyn@example.org
-      custom_title: pjjbrpsmyv
-      private_profile: false
-      invisible: true
-      donation_url: 'https://gibson.com/perspiciatis-inventore-corrupti-dolores-nisi-laborum-eum-asperiores-magni.html'
-      show_tag: role
-      password: 'HgGvO-wJai#.j'
-      extra:
-        home_show_last_games: false
-        home_show_mods: true
-        home_show_threads: true
-        game_show_mods: true
-        game_show_threads: true
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'users/{id}'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Delete User'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'users/{user}'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get User'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      user:
-        name: user
-        description: 'The ID of the user'
-        required: true
-        example: 2
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      user: 2
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PATCH
-    uri: 'users/{user_id}/roles'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Set User Roles'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      user_id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      role_ids:
-        name: role_ids
-        description: 'Must be at least 2.'
-        required: false
-        example:
-          - 68
-        type: 'integer[]'
-        custom: []
-    cleanBodyParameters:
-      role_ids:
-        - 68
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'users/{user_id}/mods'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Delete User Mods'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      user_id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'users/{user_id}/discussions'
-    metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Delete User Discussions'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
-        required: true
-        example: 126181
-        type: integer
-        custom: []
-    cleanUrlParameters:
-      user_id: 126181
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+      query: qjofwochzsbzfinkd
+      limit: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -484,31 +64,31 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'users/{user_id}/reports'
+    uri: 'games/{game_id}/mod-managers'
     metadata:
-      groupName: Users
-      groupDescription: |-
-
-        API routes for interacting with users
+      groupName: Endpoints
+      groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Report User'
-      description: 'Reports the user for moderators to look at it.'
-      authenticated: true
+      title: 'Store a newly created resource in storage.'
+      description: ''
+      authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      user_id:
-        name: user_id
-        description: 'The ID of the user.'
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
         required: true
-        example: 126181
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      user_id: 126181
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

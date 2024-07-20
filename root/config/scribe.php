@@ -509,5 +509,6 @@ INTRO
          * You can reorder or remove strategies here.
          */
         'models_source' => ['factoryCreate', 'factoryMake', 'databaseFirst'],
-    ]
+    ],
+    'external' => ['html_attributes' => []]
 ];

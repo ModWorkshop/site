@@ -8,6 +8,48 @@ endpoints:
   -
     httpMethods:
       - GET
+    uri: 'games/{game_id}/admin-data'
+    metadata:
+      groupName: Games
+      groupDescription: |-
+
+        API routes for interacting with game sections.
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      game_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
     uri: 'games/{id}'
     metadata:
       groupName: Games
@@ -28,11 +70,13 @@ endpoints:
         name: id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 249
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -69,11 +113,13 @@ endpoints:
         name: id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 249
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -81,51 +127,84 @@ endpoints:
         name: name
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: rclolftgsxugeuqcwpyzfwbdr
+        example: mz
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       buttons:
         name: buttons
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: wayeexvpefx
+        example: jflutblwmxkin
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       thumbnail_file:
         name: thumbnail_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: zodyncfftivbqcxpqbnfhw
+        example: zfvfit
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       banner_file:
         name: banner_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: qiqwoejwh
+        example: fzuifejjiowtepizuhal
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       short_name:
         name: short_name
         description: 'Must not be greater than 30 characters.'
         required: false
-        example: nn
+        example: iegkii
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       webhook_url:
         name: webhook_url
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: 'http://gleason.info/ipsa-quod-dignissimos-ut-et-ut-voluptatum-atque'
+        example: 'http://crist.com/fugiat-ut-soluta-asperiores-odio-enim-sed-sit-eos'
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      mod_manager_ids:
+        name: mod_manager_ids
+        description: 'Must be at least 1.'
+        required: false
+        example:
+          - 79
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      default_mod_manager_id:
+        name: default_mod_manager_id
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: rclolftgsxugeuqcwpyzfwbdr
-      buttons: wayeexvpefx
-      thumbnail_file: zodyncfftivbqcxpqbnfhw
-      banner_file: qiqwoejwh
-      short_name: nn
-      webhook_url: 'http://gleason.info/ipsa-quod-dignissimos-ut-et-ut-voluptatum-atque'
+      name: mz
+      buttons: jflutblwmxkin
+      thumbnail_file: zfvfit
+      banner_file: fzuifejjiowtepizuhal
+      short_name: iegkii
+      webhook_url: 'http://crist.com/fugiat-ut-soluta-asperiores-odio-enim-sed-sit-eos'
+      mod_manager_ids:
+        - 79
     fileParameters: []
     responses: []
     responseFields: []
@@ -157,15 +236,196 @@ endpoints:
         name: id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 249
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'games/{game_id}/game-section-data'
+    metadata:
+      groupName: Games
+      groupDescription: |-
+
+        API routes for interacting with game sections.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Game Section Data'
+      description: "It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster."
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      game_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      query:
+        name: query
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: aqtpalzhobtopslrhopluewe
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Must be at least 1. Must not be greater than 50.'
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      game_id:
+        name: game_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 90
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      category_id:
+        name: category_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 8
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      tags:
+        name: tags
+        description: 'Must be at least 1.'
+        required: false
+        example:
+          - 14
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      liked:
+        name: liked
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      categories:
+        name: categories
+        description: 'Must be at least 1.'
+        required: false
+        example:
+          - 18
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      block_tags:
+        name: block_tags
+        description: 'Must be at least 1.'
+        required: false
+        example:
+          - 63
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      user_id:
+        name: user_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 48
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      collab:
+        name: collab
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      ignore_blocked_users:
+        name: ignore_blocked_users
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sort:
+        name: sort
+        description: ''
+        required: false
+        example: bumped_at
+        type: string
+        enumValues:
+          - bumped_at
+          - published_at
+          - likes
+          - downloads
+          - views
+          - score
+          - weekly_score
+          - daily_score
+          - random
+          - best_match
+          - name
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      query: aqtpalzhobtopslrhopluewe
+      limit: 3
+      game_id: 90
+      category_id: 8
+      tags:
+        - 14
+      liked: true
+      categories:
+        - 18
+      block_tags:
+        - 63
+      user_id: 48
+      collab: true
+      ignore_blocked_users: true
+      sort: bumped_at
     fileParameters: []
     responses: []
     responseFields: []
@@ -197,19 +457,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user:
         name: user
         description: 'The user.'
         required: true
-        example: 126181
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      user: 126181
+      game_id: 2
+      user: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -245,19 +509,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 126181
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      user_id: 126181
+      game_id: 2
+      user_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -293,11 +561,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -333,19 +603,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 126181
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      user_id: 126181
+      game_id: 2
+      user_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -354,12 +628,14 @@ endpoints:
         description: 'Must be at least 1.'
         required: false
         example:
-          - 30
+          - 76
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       role_ids:
-        - 30
+        - 76
     fileParameters: []
     responses: []
     responseFields: []
@@ -389,11 +665,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -401,19 +679,23 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: qxedmocdllznbuhruapfghph
+        example: uukfdjqdslabbwmbdtm
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 8
+        example: 25
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: qxedmocdllznbuhruapfghph
-      limit: 8
+      query: uukfdjqdslabbwmbdtm
+      limit: 25
     fileParameters: []
     responses: []
     responseFields: []
@@ -443,11 +725,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -455,50 +739,64 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: fchgl
+        example: dotpfyttzumxxzym
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: nwojgwl
+        example: tfzcagbfgucolp
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: ocgydhu
+        example: crrdpjsxvzsyklqfwdkx
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: viomun
+        example: ggnwegh
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       self_assignable:
         name: self_assignable
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       order:
         name: order
         description: 'Must not be greater than 1001.'
         required: false
-        example: 17
+        example: 16
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       permissions:
         name: permissions
@@ -506,15 +804,17 @@ endpoints:
         required: false
         example: null
         type: object
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: fchgl
-      tag: nwojgwl
-      desc: ocgydhu
-      color: viomun
-      is_vanity: true
-      self_assignable: false
-      order: 17
+      name: dotpfyttzumxxzym
+      tag: tfzcagbfgucolp
+      desc: crrdpjsxvzsyklqfwdkx
+      color: ggnwegh
+      is_vanity: false
+      self_assignable: true
+      order: 16
     fileParameters: []
     responses: []
     responseFields: []
@@ -526,7 +826,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{game_id}/roles/{game_role}'
+    uri: 'games/{game_id}/roles/{game_role_id}'
     metadata:
       groupName: Games
       groupDescription: ''
@@ -544,19 +844,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      game_role:
-        name: game_role
-        description: ''
+      game_role_id:
+        name: game_role_id
+        description: 'The ID of the game role.'
         required: true
-        example: 14
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      game_role: 14
+      game_id: 2
+      game_role_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -573,7 +877,7 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'games/{game_id}/roles/{game_role}'
+    uri: 'games/{game_id}/roles/{game_role_id}'
     metadata:
       groupName: Games
       groupDescription: ''
@@ -591,19 +895,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      game_role:
-        name: game_role
-        description: ''
+      game_role_id:
+        name: game_role_id
+        description: 'The ID of the game role.'
         required: true
-        example: 14
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      game_role: 14
+      game_id: 2
+      game_role_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -611,43 +919,55 @@ endpoints:
         name: name
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: taqfo
+        example: vvwpgqlqxresysnam
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tag:
         name: tag
         description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
         required: false
-        example: sbmldhtjcbwtzcgiccfsaz
+        example: vwpumjnjkr
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: eytyipeyvkqfnhmjdgjlgcut
+        example: lhczxfjhqbdg
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       color:
         name: color
         description: 'Must not be greater than 8 characters.'
         required: false
-        example: hjsfi
+        example: thqt
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       is_vanity:
         name: is_vanity
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       self_assignable:
         name: self_assignable
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       order:
         name: order
@@ -655,6 +975,8 @@ endpoints:
         required: false
         example: 18
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       permissions:
         name: permissions
@@ -662,14 +984,16 @@ endpoints:
         required: false
         example: null
         type: object
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: taqfo
-      tag: sbmldhtjcbwtzcgiccfsaz
-      desc: eytyipeyvkqfnhmjdgjlgcut
-      color: hjsfi
-      is_vanity: true
-      self_assignable: true
+      name: vvwpgqlqxresysnam
+      tag: vwpumjnjkr
+      desc: lhczxfjhqbdg
+      color: thqt
+      is_vanity: false
+      self_assignable: false
       order: 18
     fileParameters: []
     responses: []
@@ -682,7 +1006,7 @@ endpoints:
   -
     httpMethods:
       - DELETE
-    uri: 'games/{game_id}/roles/{game_role}'
+    uri: 'games/{game_id}/roles/{game_role_id}'
     metadata:
       groupName: Games
       groupDescription: ''
@@ -700,19 +1024,23 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-      game_role:
-        name: game_role
-        description: ''
+      game_role_id:
+        name: game_role_id
+        description: 'The ID of the game role.'
         required: true
-        example: 14
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
-      game_role: 14
+      game_id: 2
+      game_role_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

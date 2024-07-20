@@ -1,32 +1,94 @@
-name: Forum
+name: 'Instructions Templates'
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'forums/{id}'
+    uri: 'games/{game_id}/instructs-templates'
     metadata:
-      groupName: Forum
+      groupName: 'Instructions Templates'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get Forum'
+      title: 'Get list of Instructions Templates'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
-        name: id
-        description: 'The ID of the forum.'
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
         required: true
-        example: 1
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 1
+      game_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      query:
+        name: query
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: ecempxcvooafblqrjlpcy
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Must be at least 1. Must not be greater than 50.'
+        required: false
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      query: ecempxcvooafblqrjlpcy
+      limit: 20
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'games/{game_id}/instructs-templates'
+    metadata:
+      groupName: 'Instructions Templates'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create Instructions Template'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

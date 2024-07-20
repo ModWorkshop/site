@@ -24,11 +24,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -36,19 +38,23 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: pua
+        example: alkepnkynpvrz
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 4
+        example: 5
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: pua
-      limit: 4
+      query: alkepnkynpvrz
+      limit: 5
     fileParameters: []
     responses: []
     responseFields: []
@@ -78,11 +84,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -92,6 +100,8 @@ endpoints:
         required: false
         example: null
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters: []
     fileParameters: []
@@ -123,11 +133,13 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 31771
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 31771
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -162,48 +174,69 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 31771
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 31771
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
       name:
         name: name
-        description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
+        description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: false
-        example: gspwwltuhyvudhgv
+        example: oaqmiacl
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       label:
         name: label
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: ockjopdbyxwjtjowfhrwpxkp
+        example: wyaq
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: aooa
+        example: vdmeeigqeo
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       version:
         name: version
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: vtkpdxdgicowwuumd
+        example: rduuotlwdjhwdflycxfoqgwur
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      display_order:
+        name: display_order
+        description: 'Must be at least -1000. Must not be greater than 1000.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       image_id:
         name: image_id
         description: ''
         required: false
-        example: 8
+        example: 14
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       change_file:
         name: change_file
@@ -211,13 +244,16 @@ endpoints:
         required: false
         example: null
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: gspwwltuhyvudhgv
-      label: ockjopdbyxwjtjowfhrwpxkp
-      desc: aooa
-      version: vtkpdxdgicowwuumd
-      image_id: 8
+      name: oaqmiacl
+      label: wyaq
+      desc: vdmeeigqeo
+      version: rduuotlwdjhwdflycxfoqgwur
+      display_order: 2
+      image_id: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -247,11 +283,13 @@ endpoints:
         name: id
         description: 'The ID of the file.'
         required: true
-        example: 31771
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 31771
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -285,11 +323,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -297,11 +337,23 @@ endpoints:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 4
+        example: 18
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      only_visible:
+        name: only_visible
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 4
+      limit: 18
+      only_visible: true
     fileParameters: []
     responses: []
     responseFields: []
@@ -331,11 +383,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -345,6 +399,8 @@ endpoints:
         required: true
         example: null
         type: file
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters: []
     fileParameters:
@@ -377,11 +433,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 15977
+        example: 18
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 15977
+      id: 18
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -415,11 +473,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 15977
+        example: 11
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 15977
+      id: 11
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -453,11 +513,13 @@ endpoints:
         name: file_id
         description: 'The ID of the file.'
         required: true
-        example: 31771
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      file_id: 31771
+      file_id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -491,11 +553,13 @@ endpoints:
         name: file_id
         description: 'The ID of the file.'
         required: true
-        example: 31771
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      file_id: 31771
+      file_id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -529,11 +593,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -567,11 +633,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -579,19 +647,23 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: ymu
+        example: duvplnuziefslqex
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 7
+        example: 12
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: ymu
-      limit: 7
+      query: duvplnuziefslqex
+      limit: 12
     fileParameters: []
     responses: []
     responseFields: []
@@ -621,11 +693,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -659,11 +733,13 @@ endpoints:
         name: id
         description: 'The ID of the link.'
         required: true
-        example: 1
+        example: 12
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 12
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -698,11 +774,13 @@ endpoints:
         name: id
         description: 'The ID of the link.'
         required: true
-        example: 1
+        example: 11
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 11
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -710,51 +788,63 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
         required: true
-        example: tcxw
+        example: btsocjdpdngrjveweq
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       url:
         name: url
         description: 'Must be a valid URL. Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: true
-        example: 'http://mccullough.com/ut-voluptatem-sit-corrupti'
+        example: 'http://www.witting.org/laboriosam-assumenda-voluptatem-voluptatem-rerum-sed-cupiditate-ratione'
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: cgduhhcc
+        example: so
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       label:
         name: label
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: oz
+        example: hwpfkjwzjypffbbdkrgieny
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       version:
         name: version
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: qtrbsfaroqnemioefrn
+        example: bxplimflwhwdr
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       image_id:
         name: image_id
         description: ''
         required: false
-        example: 18
+        example: 3
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: tcxw
-      url: 'http://mccullough.com/ut-voluptatem-sit-corrupti'
-      desc: cgduhhcc
-      label: oz
-      version: qtrbsfaroqnemioefrn
-      image_id: 18
+      name: btsocjdpdngrjveweq
+      url: 'http://www.witting.org/laboriosam-assumenda-voluptatem-voluptatem-rerum-sed-cupiditate-ratione'
+      desc: so
+      label: hwpfkjwzjypffbbdkrgieny
+      version: bxplimflwhwdr
+      image_id: 3
     fileParameters: []
     responses: []
     responseFields: []
@@ -784,11 +874,13 @@ endpoints:
         name: id
         description: 'The ID of the link.'
         required: true
-        example: 1
+        example: 3
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 3
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -822,11 +914,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -834,8 +928,10 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: hoxevdyxowdelvbqrhgo
+        example: idocdpotgdbebxl
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
@@ -843,65 +939,83 @@ endpoints:
         required: false
         example: 23
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 48
+        example: 49
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 20
+        example: 43
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tags:
         name: tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 64
+          - 55
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       liked:
         name: liked
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       categories:
         name: categories
         description: 'Must be at least 1.'
         required: false
         example:
-          - 2
+          - 27
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       block_tags:
         name: block_tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 10
+          - 82
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 16
+        example: 77
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       collab:
         name: collab
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       ignore_blocked_users:
         name: ignore_blocked_users
@@ -909,30 +1023,45 @@ endpoints:
         required: false
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       sort:
         name: sort
-        description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, <code>best_match</code>, or <code>name</code>.'
+        description: ''
         required: false
-        example: name
+        example: score
         type: string
+        enumValues:
+          - bumped_at
+          - published_at
+          - likes
+          - downloads
+          - views
+          - score
+          - weekly_score
+          - daily_score
+          - random
+          - best_match
+          - name
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: hoxevdyxowdelvbqrhgo
+      query: idocdpotgdbebxl
       limit: 23
-      game_id: 48
-      category_id: 20
+      game_id: 49
+      category_id: 43
       tags:
-        - 64
-      liked: true
+        - 55
+      liked: false
       categories:
-        - 2
+        - 27
       block_tags:
-        - 10
-      user_id: 16
-      collab: true
+        - 82
+      user_id: 77
+      collab: false
       ignore_blocked_users: true
-      sort: name
+      sort: score
     fileParameters: []
     responses: []
     responseFields: []
@@ -962,11 +1091,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -974,128 +1105,187 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: kockieccfnflzqmfxjol
+        example: jtritucjgfmzqdrjikzzl
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must be at least 3 characters. Must not be greater than 30000 characters.'
         required: false
-        example: htwkhdpzjwfoaffq
+        example: pusxescbirmpdwogegrcc
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       license:
         name: license
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: fjowjmmhpilira
+        example: flyerjaf
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       changelog:
         name: changelog
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: sijnulxdjflkfbalchxtfhrvv
+        example: kenywrlu
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       instructions:
         name: instructions
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: zmjwtqiudkngrxanthrdckwvb
+        example: lufrro
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       short_desc:
         name: short_desc
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: bcapggwwagcoktpppga
+        example: mfcjpq
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       donation:
         name: donation
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: qatikex
+        example: sxwjwmwtvxyzldsnmsyky
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       version:
         name: version
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: yywlczfaexdrkjaup
+        example: fhktv
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       visibility:
         name: visibility
-        description: 'Must be one of <code>public</code>, <code>private</code>, or <code>unlisted</code>.'
+        description: ''
         required: false
-        example: unlisted
+        example: private
         type: string
+        enumValues:
+          - public
+          - private
+          - unlisted
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 85
+        example: 57
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       thumbnail_id:
         name: thumbnail_id
         description: 'Must be at least 1.'
         required: false
-        example: 81
+        example: 42
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      background_id:
+        name: background_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 53
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      background_opacity:
+        name: background_opacity
+        description: 'Must be at least 0. Must not be greater than 1.'
+        required: false
+        example: 1
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 58
+        example: 39
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       banner_id:
         name: banner_id
         description: 'Must be at least 1.'
         required: false
-        example: 86
+        example: 39
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       instructs_template_id:
         name: instructs_template_id
         description: 'Must be at least 1.'
         required: false
-        example: 12
+        example: 58
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tag_ids:
         name: tag_ids
         description: 'Must be at least 1.'
         required: false
         example:
-          - 87
+          - 45
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       download_id:
         name: download_id
         description: 'Must be at least 1.'
         required: false
-        example: 14
+        example: 18
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       allowed_storage:
         name: allowed_storage
         description: 'Must be at least 1. Must not be greater than 1000.'
         required: false
-        example: 6
+        example: 15
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       download_type:
         name: download_type
-        description: 'Must be one of <code>file</code> or <code>link</code>.'
+        description: ''
         required: false
-        example: link
+        example: file
         type: string
+        enumValues:
+          - file
+          - link
+        exampleWasSpecified: false
         custom: []
       comments_disabled:
         name: comments_disabled
@@ -1103,6 +1293,8 @@ endpoints:
         required: false
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       send_for_approval:
         name: send_for_approval
@@ -1110,37 +1302,53 @@ endpoints:
         required: false
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       publish:
         name: publish
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      disable_mod_managers:
+        name: disable_mod_managers
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: kockieccfnflzqmfxjol
-      desc: htwkhdpzjwfoaffq
-      license: fjowjmmhpilira
-      changelog: sijnulxdjflkfbalchxtfhrvv
-      instructions: zmjwtqiudkngrxanthrdckwvb
-      short_desc: bcapggwwagcoktpppga
-      donation: qatikex
-      version: yywlczfaexdrkjaup
-      visibility: unlisted
-      category_id: 85
-      thumbnail_id: 81
-      game_id: 58
-      banner_id: 86
-      instructs_template_id: 12
+      name: jtritucjgfmzqdrjikzzl
+      desc: pusxescbirmpdwogegrcc
+      license: flyerjaf
+      changelog: kenywrlu
+      instructions: lufrro
+      short_desc: mfcjpq
+      donation: sxwjwmwtvxyzldsnmsyky
+      version: fhktv
+      visibility: private
+      category_id: 57
+      thumbnail_id: 42
+      background_id: 53
+      background_opacity: 1
+      game_id: 39
+      banner_id: 39
+      instructs_template_id: 58
       tag_ids:
-        - 87
-      download_id: 14
-      allowed_storage: 6
-      download_type: link
+        - 45
+      download_id: 18
+      allowed_storage: 15
+      download_type: file
       comments_disabled: true
       send_for_approval: true
-      publish: true
+      publish: false
+      disable_mod_managers: false
     fileParameters: []
     responses: []
     responseFields: []
@@ -1170,11 +1378,13 @@ endpoints:
         name: id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 38808
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1209,11 +1419,13 @@ endpoints:
         name: id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 38808
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1221,78 +1433,121 @@ endpoints:
         name: name
         description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
         required: false
-        example: dpfuwtqhsattlfgnmwtryg
+        example: zwdjyxkmobijmvgqdjzvfpm
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must be at least 3 characters. Must not be greater than 30000 characters.'
         required: false
-        example: amdiytttotfgwbndogyy
+        example: jjjleykxrwf
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       license:
         name: license
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: lrsinfw
+        example: qdkwoypdm
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       changelog:
         name: changelog
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: xksgztslyev
+        example: kjixvqiwudrvsggjfjzfkjfl
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       instructions:
         name: instructions
         description: 'Must not be greater than 30000 characters.'
         required: false
-        example: wygotgcvogwqjuj
+        example: hywxxxgnojszznz
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       short_desc:
         name: short_desc
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: mpcr
+        example: i
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       donation:
         name: donation
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: kd
+        example: jwbxnrsvqyiqgiiv
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       version:
         name: version
         description: 'Must not be greater than 100 characters.'
         required: false
-        example: cyvtpzdvqrsxbz
+        example: veedscrrlsvgtirjqmcmppnh
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       visibility:
         name: visibility
-        description: 'Must be one of <code>public</code>, <code>private</code>, or <code>unlisted</code>.'
+        description: ''
         required: false
-        example: public
+        example: private
         type: string
+        enumValues:
+          - public
+          - private
+          - unlisted
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 59
+        example: 43
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       thumbnail_id:
         name: thumbnail_id
         description: 'Must be at least 1.'
         required: false
-        example: 64
+        example: 52
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      background_id:
+        name: background_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 40
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      background_opacity:
+        name: background_opacity
+        description: 'Must be at least 0. Must not be greater than 1.'
+        required: false
+        example: 1
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
@@ -1300,94 +1555,128 @@ endpoints:
         required: false
         example: 15
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       banner_id:
         name: banner_id
         description: 'Must be at least 1.'
         required: false
-        example: 19
+        example: 82
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       instructs_template_id:
         name: instructs_template_id
         description: 'Must be at least 1.'
         required: false
-        example: 46
+        example: 4
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tag_ids:
         name: tag_ids
         description: 'Must be at least 1.'
         required: false
         example:
-          - 2
+          - 84
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       download_id:
         name: download_id
         description: 'Must be at least 1.'
         required: false
-        example: 48
+        example: 25
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       allowed_storage:
         name: allowed_storage
         description: 'Must be at least 1. Must not be greater than 1000.'
         required: false
-        example: 13
+        example: 25
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       download_type:
         name: download_type
-        description: 'Must be one of <code>file</code> or <code>link</code>.'
+        description: ''
         required: false
-        example: file
+        example: link
         type: string
+        enumValues:
+          - file
+          - link
+        exampleWasSpecified: false
         custom: []
       comments_disabled:
         name: comments_disabled
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       send_for_approval:
         name: send_for_approval
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       publish:
         name: publish
         description: ''
         required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      disable_mod_managers:
+        name: disable_mod_managers
+        description: ''
+        required: false
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: dpfuwtqhsattlfgnmwtryg
-      desc: amdiytttotfgwbndogyy
-      license: lrsinfw
-      changelog: xksgztslyev
-      instructions: wygotgcvogwqjuj
-      short_desc: mpcr
-      donation: kd
-      version: cyvtpzdvqrsxbz
-      visibility: public
-      category_id: 59
-      thumbnail_id: 64
+      name: zwdjyxkmobijmvgqdjzvfpm
+      desc: jjjleykxrwf
+      license: qdkwoypdm
+      changelog: kjixvqiwudrvsggjfjzfkjfl
+      instructions: hywxxxgnojszznz
+      short_desc: i
+      donation: jwbxnrsvqyiqgiiv
+      version: veedscrrlsvgtirjqmcmppnh
+      visibility: private
+      category_id: 43
+      thumbnail_id: 52
+      background_id: 40
+      background_opacity: 1
       game_id: 15
-      banner_id: 19
-      instructs_template_id: 46
+      banner_id: 82
+      instructs_template_id: 4
       tag_ids:
-        - 2
-      download_id: 48
-      allowed_storage: 13
-      download_type: file
-      comments_disabled: false
-      send_for_approval: false
-      publish: false
+        - 84
+      download_id: 25
+      allowed_storage: 25
+      download_type: link
+      comments_disabled: true
+      send_for_approval: true
+      publish: true
+      disable_mod_managers: false
     fileParameters: []
     responses: []
     responseFields: []
@@ -1417,11 +1706,13 @@ endpoints:
         name: id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 38808
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1455,11 +1746,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1493,11 +1786,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1531,11 +1826,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1543,19 +1840,27 @@ endpoints:
         name: owner_id
         description: 'Must be at least 1.'
         required: true
-        example: 27
+        example: 65
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       keep_owner_level:
         name: keep_owner_level
-        description: "Which level to keep the owner as. If null, won't keep the owner as a member. Must be one of <code>collaborator</code>, <code>maintainer</code>, <code>viewer</code>, or <code>contributor</code>."
+        description: "Which level to keep the owner as. If null, won't keep the owner as a member."
         required: false
-        example: maintainer
+        example: viewer
         type: string
+        enumValues:
+          - collaborator
+          - maintainer
+          - viewer
+          - contributor
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      owner_id: 27
-      keep_owner_level: maintainer
+      owner_id: 65
+      keep_owner_level: viewer
     fileParameters: []
     responses: []
     responseFields: []
@@ -1585,11 +1890,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1623,11 +1930,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1637,6 +1946,8 @@ endpoints:
         required: true
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       accept: false
@@ -1669,11 +1980,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1681,19 +1994,27 @@ endpoints:
         name: user_id
         description: 'Must be at least 1.'
         required: true
-        example: 44
+        example: 42
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       level:
         name: level
-        description: 'Must be one of <code>maintainer</code>, <code>collaborator</code>, <code>viewer</code>, or <code>contributor</code>.'
+        description: ''
         required: true
-        example: viewer
+        example: collaborator
         type: string
+        enumValues:
+          - maintainer
+          - collaborator
+          - viewer
+          - contributor
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: 44
-      level: viewer
+      user_id: 42
+      level: collaborator
     fileParameters: []
     responses: []
     responseFields: []
@@ -1724,31 +2045,41 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       id:
         name: id
         description: 'The ID of the member.'
         required: true
-        example: 126181
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
-      id: 126181
+      mod_id: 1
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
       level:
         name: level
-        description: 'Must be one of <code>collaborator</code>, <code>maintainer</code>, <code>viewer</code>, or <code>contributor</code>.'
+        description: ''
         required: true
-        example: maintainer
+        example: collaborator
         type: string
+        enumValues:
+          - collaborator
+          - maintainer
+          - viewer
+          - contributor
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      level: maintainer
+      level: collaborator
     fileParameters: []
     responses: []
     responseFields: []
@@ -1778,19 +2109,23 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       id:
         name: id
         description: 'The ID of the member.'
         required: true
-        example: 126181
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
-      id: 126181
+      mod_id: 1
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1824,11 +2159,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1863,19 +2200,23 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       id:
         name: id
         description: 'The ID of the dependency.'
         required: true
-        example: 1
+        example: 8
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
-      id: 1
+      mod_id: 1
+      id: 8
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1909,19 +2250,23 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       id:
         name: id
         description: 'The ID of the dependency.'
         required: true
-        example: 1
+        example: 13
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
-      id: 1
+      mod_id: 1
+      id: 13
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1955,11 +2300,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1969,6 +2316,8 @@ endpoints:
         required: true
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       accept: false
@@ -2003,11 +2352,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2043,11 +2394,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2085,15 +2438,19 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: nvteiuiciglbhkfwavhe
+        example: fkropzybalgctg
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 25
+        example: 21
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
@@ -2101,21 +2458,27 @@ endpoints:
         required: false
         example: 58
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 72
+        example: 3
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tags:
         name: tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 42
+          - 24
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       liked:
         name: liked
@@ -2123,67 +2486,92 @@ endpoints:
         required: false
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       categories:
         name: categories
         description: 'Must be at least 1.'
         required: false
         example:
-          - 22
+          - 87
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       block_tags:
         name: block_tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 43
+          - 60
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 31
+        example: 38
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       collab:
         name: collab
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       ignore_blocked_users:
         name: ignore_blocked_users
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       sort:
         name: sort
-        description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, <code>best_match</code>, or <code>name</code>.'
+        description: ''
         required: false
-        example: likes
+        example: views
         type: string
+        enumValues:
+          - bumped_at
+          - published_at
+          - likes
+          - downloads
+          - views
+          - score
+          - weekly_score
+          - daily_score
+          - random
+          - best_match
+          - name
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: nvteiuiciglbhkfwavhe
-      limit: 25
+      query: fkropzybalgctg
+      limit: 21
       game_id: 58
-      category_id: 72
+      category_id: 3
       tags:
-        - 42
+        - 24
       liked: false
       categories:
-        - 22
+        - 87
       block_tags:
-        - 43
-      user_id: 31
-      collab: false
-      ignore_blocked_users: false
-      sort: likes
+        - 60
+      user_id: 38
+      collab: true
+      ignore_blocked_users: true
+      sort: views
     fileParameters: []
     responses: []
     responseFields: []
@@ -2213,11 +2601,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2225,37 +2615,47 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: duznpd
+        example: dzadzcu
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 7
+        example: 16
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 44
+        example: 21
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 15
+        example: 39
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tags:
         name: tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 50
+          - 5
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       liked:
         name: liked
@@ -2263,36 +2663,46 @@ endpoints:
         required: false
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       categories:
         name: categories
         description: 'Must be at least 1.'
         required: false
         example:
-          - 30
+          - 21
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       block_tags:
         name: block_tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 35
+          - 41
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 76
+        example: 39
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       collab:
         name: collab
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       ignore_blocked_users:
         name: ignore_blocked_users
@@ -2300,30 +2710,85 @@ endpoints:
         required: false
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       sort:
         name: sort
-        description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, <code>best_match</code>, or <code>name</code>.'
+        description: ''
         required: false
-        example: random
+        example: bumped_at
         type: string
+        enumValues:
+          - bumped_at
+          - published_at
+          - likes
+          - downloads
+          - views
+          - score
+          - weekly_score
+          - daily_score
+          - random
+          - best_match
+          - name
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: duznpd
-      limit: 7
-      game_id: 44
-      category_id: 15
+      query: dzadzcu
+      limit: 16
+      game_id: 21
+      category_id: 39
       tags:
-        - 50
+        - 5
       liked: false
       categories:
-        - 30
+        - 21
       block_tags:
-        - 35
-      user_id: 76
-      collab: true
+        - 41
+      user_id: 39
+      collab: false
       ignore_blocked_users: true
-      sort: random
+      sort: bumped_at
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'games/{game_id}/popular-and-latest'
+    metadata:
+      groupName: Mods
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get List of Popular Mods'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      game_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses: []
     responseFields: []
@@ -2353,15 +2818,61 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: mods/versions
+    metadata:
+      groupName: Mods
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get Mod Versions'
+      description: |-
+        Returns a list of versions (Up to 100 mods)
+        Convenient way of getting many versions at once and avoid sending too many requests
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      mod_ids:
+        name: mod_ids
+        description: 'Must be at least 1. Must not be greater than 100.'
+        required: false
+        example:
+          - 22
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      mod_ids:
+        - 22
     fileParameters: []
     responses: []
     responseFields: []
@@ -2391,11 +2902,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2405,6 +2918,8 @@ endpoints:
         required: true
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       notify:
         name: notify
@@ -2412,18 +2927,22 @@ endpoints:
         required: false
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       reason:
         name: reason
         description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
         required: false
-        example: rlsvkexcttuinbiexkh
+        example: ceturxnfyhrjbmnnzv
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       status: false
       notify: false
-      reason: rlsvkexcttuinbiexkh
+      reason: ceturxnfyhrjbmnnzv
     fileParameters: []
     responses: []
     responseFields: []
@@ -2453,11 +2972,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2467,6 +2988,8 @@ endpoints:
         required: true
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       notify:
         name: notify
@@ -2474,18 +2997,22 @@ endpoints:
         required: false
         example: true
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       reason:
         name: reason
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: a
+        example: ymcjyra
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       status: true
       notify: true
-      reason: a
+      reason: ymcjyra
     fileParameters: []
     responses: []
     responseFields: []
@@ -2515,11 +3042,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2553,23 +3082,37 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
+      query:
+        name: query
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: vtdqucna
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 7
+        example: 23
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 7
+      query: vtdqucna
+      limit: 23
     fileParameters: []
     responses: []
     responseFields: []
@@ -2599,11 +3142,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2637,11 +3182,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2679,105 +3226,140 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: xykrpcv
+        example: ltyyaue
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 6
+        example: 15
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 52
+        example: 5
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       category_id:
         name: category_id
         description: 'Must be at least 1.'
         required: false
-        example: 2
+        example: 24
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       tags:
         name: tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 70
+          - 64
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       liked:
         name: liked
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       categories:
         name: categories
         description: 'Must be at least 1.'
         required: false
         example:
-          - 53
+          - 84
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       block_tags:
         name: block_tags
         description: 'Must be at least 1.'
         required: false
         example:
-          - 85
+          - 76
         type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       user_id:
         name: user_id
         description: 'Must be at least 1.'
         required: false
-        example: 66
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       collab:
         name: collab
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       ignore_blocked_users:
         name: ignore_blocked_users
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       sort:
         name: sort
-        description: 'Must be one of <code>bumped_at</code>, <code>published_at</code>, <code>likes</code>, <code>downloads</code>, <code>views</code>, <code>score</code>, <code>weekly_score</code>, <code>daily_score</code>, <code>random</code>, <code>best_match</code>, or <code>name</code>.'
+        description: ''
         required: false
-        example: downloads
+        example: name
         type: string
+        enumValues:
+          - bumped_at
+          - published_at
+          - likes
+          - downloads
+          - views
+          - score
+          - weekly_score
+          - daily_score
+          - random
+          - best_match
+          - name
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: xykrpcv
-      limit: 6
-      game_id: 52
-      category_id: 2
+      query: ltyyaue
+      limit: 15
+      game_id: 5
+      category_id: 24
       tags:
-        - 70
-      liked: true
+        - 64
+      liked: false
       categories:
-        - 53
+        - 84
       block_tags:
-        - 85
-      user_id: 66
-      collab: true
-      ignore_blocked_users: true
-      sort: downloads
+        - 76
+      user_id: 1
+      collab: false
+      ignore_blocked_users: false
+      sort: name
     fileParameters: []
     responses: []
     responseFields: []
@@ -2807,11 +3389,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2845,11 +3429,13 @@ endpoints:
         name: mod_id
         description: 'The ID of the mod.'
         required: true
-        example: 38808
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      mod_id: 38808
+      mod_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2883,11 +3469,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2895,19 +3483,23 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: txzfusiicvidxjwwgk
+        example: vulslpnm
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       limit:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 5
+        example: 8
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: txzfusiicvidxjwwgk
-      limit: 5
+      query: vulslpnm
+      limit: 8
     fileParameters: []
     responses: []
     responseFields: []
@@ -2937,11 +3529,13 @@ endpoints:
         name: game_id
         description: 'The ID of the game.'
         required: true
-        example: 249
+        example: 2
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      game_id: 249
+      game_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2975,11 +3569,13 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: 3
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3014,11 +3610,13 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: 3
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -3026,36 +3624,55 @@ endpoints:
         name: name
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: scgbilegiyeomfnzmnwqzbt
+        example: bpslysinoqlccxmaezh
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       desc:
         name: desc
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: lmtfofpph
+        example: jl
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       game_id:
         name: game_id
         description: 'Must be at least 1.'
         required: false
-        example: 3
+        example: 80
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       parent_id:
         name: parent_id
         description: 'Must be at least 1.'
         required: false
-        example: 11
+        example: 35
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      display_order:
+        name: display_order
+        description: 'Must be at least -1000. Must not be greater than 1000.'
+        required: false
+        example: 23
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       thumbnail_file:
         name: thumbnail_file
         description: 'Must not be greater than 512000 characters.'
         required: false
-        example: mcyejveeqqajfwnw
+        example: axbsgcrbrfvqn
         type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       approval_only:
         name: approval_only
@@ -3063,22 +3680,37 @@ endpoints:
         required: false
         example: false
         type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
       webhook_url:
         name: webhook_url
         description: 'Must not be greater than 1000 characters.'
         required: false
-        example: 'http://macejkovic.org/iure-sunt-quas-explicabo-ut'
+        example: 'http://kunze.com/debitis-itaque-dicta-eaque-amet.html'
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      disable_mod_managers:
+        name: disable_mod_managers
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: scgbilegiyeomfnzmnwqzbt
-      desc: lmtfofpph
-      game_id: 3
-      parent_id: 11
-      thumbnail_file: mcyejveeqqajfwnw
+      name: bpslysinoqlccxmaezh
+      desc: jl
+      game_id: 80
+      parent_id: 35
+      display_order: 23
+      thumbnail_file: axbsgcrbrfvqn
       approval_only: false
-      webhook_url: 'http://macejkovic.org/iure-sunt-quas-explicabo-ut'
+      webhook_url: 'http://kunze.com/debitis-itaque-dicta-eaque-amet.html'
+      disable_mod_managers: true
     fileParameters: []
     responses: []
     responseFields: []
@@ -3096,7 +3728,7 @@ endpoints:
       groupDescription: ''
       subgroup: Categories
       subgroupDescription: ''
-      title: 'Deletes Category.'
+      title: "Deletes Category. Only if it's empty"
       description: ''
       authenticated: true
       custom: []
@@ -3108,15 +3740,77 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: 3
+        example: 1
         type: integer
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 3
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'categories/{category_id}/mods'
+    metadata:
+      groupName: Mods
+      groupDescription: ''
+      subgroup: Categories
+      subgroupDescription: ''
+      title: 'Mass updates mods of a category, only used to move mods.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      category_id:
+        name: category_id
+        description: 'The ID of the category.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      category_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      category_id:
+        name: category_id
+        description: 'Must be at least 1.'
+        required: false
+        example: 34
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      are_you_sure:
+        name: are_you_sure
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      category_id: 34
+      are_you_sure: false
     fileParameters: []
     responses: []
     responseFields: []
