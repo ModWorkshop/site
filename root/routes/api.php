@@ -97,6 +97,11 @@ Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
  * @group Mods
  */
 Route::middleware('can:view,mod')->get('mods/{mod}/version', fn(Mod $mod) => $mod->version);
+/**
+ * @group Mods
+ */
+Route::get('mods/versions', [ModController::class, 'getVersions']);
+
 Route::middleware('can:manage,mod')->group(function() {
     Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
     Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
@@ -111,7 +116,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
 APIService::gameResource('mod-managers', ModManagerController::class, ['parentOptional' => true]);
-
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);

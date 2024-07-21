@@ -23,6 +23,7 @@ use App\Services\ModService;
 use App\Services\Utils;
 use Arr;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Str;
@@ -628,5 +629,26 @@ class ModController extends Controller
     function downloadFirstFile(Mod $mod) {
         $file = $mod->files()->firstOrFail();
         return redirect($file->downloadUrl);
+    }
+
+    /**
+     * Get Mod Versions
+     * 
+     * Returns a list of versions (Up to 100 mods)
+     * Convenient way of getting many versions at once and avoid sending too many requests
+     */
+    public function getVersions(Request $request) {
+        $val = $request->validate([
+            'mod_ids' => 'array|required',
+            'mod_ids.*' => 'integer|min:1',
+        ]);
+
+        $mods = ModService::mods(val: $val, query: Mod::whereIn('id', $val['mod_ids']));
+        $onlyVersions = [];
+        foreach($mods as $mod) {
+            $onlyVersions[$mod->id] = $mod->version;
+        }
+
+        return $onlyVersions;
     }
 }

@@ -186,4 +186,27 @@ class FileController extends Controller
 
         $mod->calculateFileStatus();
     }
+
+    /**
+     * Get File Versions
+     * 
+     * Returns a list of versions (Up to 100 mods)
+     * Convenient way of getting many versions at once and avoid sending too many requests
+     * Warning: this bypasses any mod visibility/suspension, however the only information it returns are verisons, nothing else.
+     * You cannot use this to download these files or figure out what mod they belongs to.
+     */
+    public function getVersions(Request $request) {
+        $val = $request->validate([
+            'file_ids' => 'array|required',
+            'file_ids.*' => 'integer|min:1',
+        ]);
+
+        $files = File::whereIn('id', $val['file_ids']);
+        $onlyVersions = [];
+        foreach($files as $file) {
+            $onlyVersions[$file->id] = $file->version;
+        }
+
+        return $onlyVersions;
+    }
 }
