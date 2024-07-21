@@ -31,9 +31,9 @@ class LinkController extends Controller
     {
         return BaseResource::collectionResponse($mod->links()->queryGet($request->val(), function($query, $val) use ($mod) {
             if ($mod->download_type == 'link' && isset($mod->download_id)) {
-                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, updated_at DESC");
+                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, display_order DESC, updated_at DESC");
             } else {
-                $query->orderByDesc("updated_at");
+                $query->orderByRaw("display_order DESC, updated_at DESC");
             }
         }));
     }
@@ -72,6 +72,7 @@ class LinkController extends Controller
             'desc' => 'string|nullable|max:1000',
             'label' => 'string|nullable|max:100',
             'version' => 'string|nullable|max:255',
+            'display_order' => 'integer|min:-1000|max:1000|nullable',
             'image_id' => 'int|nullable|exists:images,id'
         ]);
 
