@@ -16,7 +16,7 @@
         </m-tab>
         <m-tab name="follow" :title="$t('following')">
             <h2>{{$t('followed_games')}}</h2>
-            <m-list :items="followedGames" :limit="10" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
+            <m-list v-model:page="followedGamesPage" :items="followedGames" :limit="10" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -25,7 +25,7 @@
                 </template>
             </m-list>
             <h2>{{$t('followed_users')}}</h2>
-            <m-list :items="followedUsers" :limit="10" :loading="loadingUsers">
+            <m-list v-model:page="followedUsersPage" :items="followedUsers" :limit="10" :loading="loadingUsers">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -37,7 +37,7 @@
                 </template>
             </m-list>
             <h2>{{$t('followed_mods')}}</h2>
-            <m-list :items="followedMods" :limit="10" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
+            <m-list v-model:page="followedModsPage" :items="followedMods" :limit="10" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -51,7 +51,7 @@
             <m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
                 <m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
             </m-form-modal>
-            <m-list :items="blockedUsers" :limit="10" :loading="loadingBlockedUsers">
+            <m-list v-model:page="blockedUsersPage" :items="blockedUsers" :limit="10" :loading="loadingBlockedUsers">
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -66,7 +66,7 @@
                 <h2>{{$t('blocked_tags')}}</h2>
                 <m-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</m-button>
             </m-flex>
-            <m-list :items="blockedTags" :limit="10" :loading="loadingTags">
+            <m-list v-model:page="blockedTagsPage" :items="blockedTags" :limit="10" :loading="loadingTags">
                 <template #item-name="{ item }">
                     <m-tag>{{ item.name }}</m-tag>
                 </template>
@@ -99,12 +99,17 @@ const { t } = useI18n();
 const blockTag = ref<Tag>();
 const showBlockTag = ref(false);
 const showError = useQuickErrorToast();
+const followedGamesPage = ref(1);
+const followedUsersPage = ref(1);
+const followedModsPage = ref(1);
+const blockedTagsPage = ref(1);
+const blockedUsersPage = ref(1);
 
-const { data: followedGames, loading: loadingGames } = await useWatchedFetchMany('followed-games', { limit: 10 });
-const { data: followedUsers, loading: loadingUsers } = await useWatchedFetchMany('followed-users', { limit: 10 });
-const { data: followedMods, loading: loadingMods } = await useWatchedFetchMany('followed-mods', { limit: 10 });
-const { data: blockedTags, loading: loadingTags } = await useWatchedFetchMany('blocked-tags', { limit: 10 });
-const { data: blockedUsers, loading: loadingBlockedUsers } = await useWatchedFetchMany('blocked-users', { limit: 10 });
+const { data: followedGames, loading: loadingGames } = await useWatchedFetchMany('followed-games', { limit: 10, page: followedGamesPage });
+const { data: followedUsers, loading: loadingUsers } = await useWatchedFetchMany('followed-users', { limit: 10, page: followedUsersPage });
+const { data: followedMods, loading: loadingMods } = await useWatchedFetchMany('followed-mods', { limit: 10, page: followedModsPage });
+const { data: blockedTags, loading: loadingTags } = await useWatchedFetchMany('blocked-tags', { limit: 10, page: blockedTagsPage });
+const { data: blockedUsers, loading: loadingBlockedUsers } = await useWatchedFetchMany('blocked-users', { limit: 10, page: blockedUsersPage });
 
 const viewOptions = [
     { id: 'games', name: t('followed_games') },
