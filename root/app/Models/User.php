@@ -8,11 +8,9 @@ use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\Reportable;
 use Auth;
-use Cache;
 use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Eloquent;
-use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -21,7 +19,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\DatabaseNotification;
@@ -30,8 +27,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
-use Log;
-use Notification;
 use Storage;
 
 /**
