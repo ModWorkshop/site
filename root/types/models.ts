@@ -60,6 +60,7 @@ export interface SimpleFile {
     created_at?: string;
     updated_at?: string;
     size: number;
+    display_order: number;
 }
 
 export interface File extends SimpleFile {
@@ -75,7 +76,6 @@ export interface File extends SimpleFile {
 export interface Image extends SimpleFile {
     has_thumb: boolean;
     visible: boolean;
-    display_order: number;
 }
 
 export interface ModMember extends User {
@@ -325,6 +325,7 @@ export interface Link {
     label: string;
     url: string;
     version: string;
+    display_order: number;
     image_id?: number;
     created_at?: string;
     updated_at?: string;
