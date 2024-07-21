@@ -1,12 +1,13 @@
 <template>
-    <m-flex column gap="6">
-        <m-list v-if="loadingFiles || files?.meta.total" v-model:page="filesPage" :limit="10" :title="$t('files')" :items="files" :loading="loadingFiles">
+    <m-loading v-if="loadingFiles || loadingLinks"/>
+    <m-flex v-else column gap="6">
+        <m-list v-if="files?.meta.total" v-model:page="filesPage" :limit="10" :title="$t('files')" :items="files">
             <template #item="{ item }">
                 <mod-download :file="item" :mod="mod" type="file"/>
             </template>
         </m-list>
 
-        <m-list v-if="loadingLinks || links?.meta.total" v-model:page="linksPage" :limit="10" :title="$t('links')" :items="links" :loading="loadingLinks">
+        <m-list v-if="links?.meta.total" v-model:page="linksPage" :limit="10" :title="$t('links')" :items="links">
             <template #item="{ item }">
                 <mod-download :file="item" :mod="mod" type="link"/>
             </template>
