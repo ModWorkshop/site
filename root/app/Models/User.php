@@ -308,14 +308,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return true;
     }
 
-    public function __construct() {
+    public function __construct(array $attributes = []) {
         $this->currentGameChanged();
         if (Auth::hasUser()) {
             $this->with[] = 'blockedByMe';
             $this->with[] = 'blockedMe';
         }
 
-        parent::__construct();
+        parent::__construct($attributes);
     }
 
     protected static function booted()
