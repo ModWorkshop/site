@@ -199,16 +199,24 @@ class UserController extends Controller
         }
 
         //TODO: Should moderators be able to change email for users? Sorta.
-        APIService::nullToEmptyStr($val, 'custom_color', 'bio', 'custom_title', 'donation_url');
+        APIService::nullToEmptyStr($val, 
+            'custom_color',
+            'bio',
+            'custom_title',
+            'donation_url',
+            'avatar_file',
+            'banner_file',
+            'background_file'
+        );
 
         $avatarFile = Arr::pull($val, 'avatar_file');
-        APIService::storeImage($avatarFile, 'users/images', $user->avatar, 64, fn($path) => $user->avatar = $path);
+        APIService::storeImage($avatarFile, 'users/images', $user->avatar, 64, fn($path) => $user->avatar = $path, true);
 
         $bannerFile = Arr::pull($val, 'banner_file');
-        APIService::storeImage($bannerFile, 'users/images', $user->avatar, null, fn($path) => $user->banner = $path);
+        APIService::storeImage($bannerFile, 'users/images', $user->avatar, null, fn($path) => $user->banner = $path, true);
 
         $backgroundFile = Arr::pull($val, 'background_file');
-        APIService::storeImage($backgroundFile, 'users/images', $user->background, null, fn($path) => $user->extra->background = $path);
+        APIService::storeImage($backgroundFile, 'users/images', $user->background, null, fn($path) => $user->extra->background = $path, true);
 
         //Change password code
         $password = Arr::pull($val, 'password');

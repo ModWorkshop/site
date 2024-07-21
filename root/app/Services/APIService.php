@@ -80,18 +80,28 @@ class APIService {
      * @param string|null $oldFile Automatically delete old files including thumbnail
      * @param integer|null $thumbnailSize Make a thumbnail for the image
      * @param callable|null $onSuccess Callback to run after successful upload
+     * @param boolean Whether to allow the file to be simply deleted if given an empty string
      * @return array
      */
-    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null)
+    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null, bool $allowDeletion=false)
     {
-        if (empty($file) || !isset($file)) {
+        if (!isset($file)) {
             return null;
         }
 
-        if (isset($oldFile) && !str_contains($oldFile, 'http')) {
+        $isEmptyFile = strlen($file) == 0;
+        if ((!$isEmptyFile || ($isEmptyFile && $allowDeletion)) && isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
             Storage::delete($fileDir.'/'.$oldFile);
             Storage::delete($fileDir.'/thumbnail_'.$oldFile);
+        }
+
+        // Empty file means delete the file and that's it
+        if ($isEmptyFile) {
+            if ($allowDeletion) {
+                $onSuccess('');
+            }
+            return null;
         }
 
         $fileType = $file->extension();

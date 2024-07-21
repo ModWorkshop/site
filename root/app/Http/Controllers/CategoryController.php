@@ -102,10 +102,7 @@ class CategoryController extends Controller
         ]);
 
         $val['game_id'] ??= $game?->id;
-        $val['desc'] ??= '';
-        $val['webhook_url'] ??= '';
-
-        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
+        APIService::nullToEmptyStr($val, 'desc', 'webhook_url', 'thumbnail_file');
 
         $wasCreated = false;
         if (!isset($category)) {
@@ -118,7 +115,8 @@ class CategoryController extends Controller
             $wasCreated = true;
         }
 
-        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, null, fn($path) => $category->thumbnail = $path);
+        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
+        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, null, fn($path) => $category->thumbnail = $path, true);
 
         if (!$wasCreated || isset($thumbnailFile)) {
             $category->update($val);
