@@ -1,9 +1,7 @@
 <template>
-    <m-flex wrap class="flex-col md:flex-row list-button items-center" gap="3">
-        <div>
-            <m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="100" height="100"/>
-            <m-img v-else src="file-download.webp" is-asset width="100" height="100"/>
-        </div>
+    <m-flex wrap class="flex-col md:flex-row list-button items-center !px-6" gap="3">
+        <m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="100" height="100"/>
+        <m-img v-else src="file-download.webp" is-asset width="100" height="100"/>
         <m-flex grow column style="flex: 1;" gap="2">
             <m-flex class="items-center">
                 <m-tag v-if="file.label">{{file.label}}</m-tag>
