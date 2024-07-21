@@ -5,7 +5,7 @@ import type { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncDat
  */
 
 export default function(
-    refresh: (opts?: AsyncDataExecuteOptions | undefined) => Promise<void>, 
+    refresh: () => Promise<void>, 
     watchSource: any,
     onChange: ((val: any, oldVal: any) => void)|null = null
 ) {

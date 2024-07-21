@@ -27,7 +27,11 @@ export default async function<T=any>(url: string|(() => string), params: SearchP
         ...options
     }, key);
 
-    loading = useHandleParam(ret.refresh, params, options?.onChange);
+    loading = useHandleParam(async () => {
+        if (typeof url == 'function' ? url() : url) {
+            await ret.refresh();
+        }
+    }, params, options?.onChange);
 
     return { ...ret, loading: loading };
 }
