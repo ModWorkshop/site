@@ -55,6 +55,9 @@ class ModController extends Controller
         return ModResource::collectionResponse($mods);
     }
 
+    /**
+     * Get List of Popular Mods
+     */
     public function popularAndLatest(Request $request, Game $game=null)
     {
         if (isset($game)) {
