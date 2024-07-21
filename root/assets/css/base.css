@@ -359,6 +359,7 @@ a {
     border-radius: var(--content-border-radius);
     background-color: var(--alt-content-bg-color);
     padding: 1rem;
+    flex: 1;
 }
 
 * {
