@@ -39,7 +39,7 @@ class FileController extends Controller
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
                 $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, display_order DESC, updated_at DESC");
             } else {
-                $query->orderByDesc("display_order DESC, updated_at DESC");
+                $query->orderByRaw("display_order DESC, updated_at DESC");
             }
         }));
     }
