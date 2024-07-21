@@ -157,8 +157,7 @@ class ThreadController extends Controller
 
         $thread->timestamps = true;
 
-        $thread->loadMissing('tags');
-        $thread->load('category');
+        $thread->load(['category', 'tags']);
 
         return new ThreadResource($thread);
     }
