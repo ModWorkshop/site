@@ -18,7 +18,7 @@
         </m-pagination>
 
         <m-flex column :gap="gap">
-            <m-loading v-if="loading"/>
+            <m-loading v-if="isLoading"/>
             <slot v-else-if="compItems && compItems?.data.length" name="items" :items="compItems">
                 <slot v-for="item of compItems.data" :key="item.id" name="item" :item="item" :items="compItems">
                     <m-list-item :item="item" :text-by="textBy" :to="itemLink">
@@ -37,7 +37,7 @@
             </span>
         </m-flex>
 
-        <m-pagination v-if="pagination && !loading" v-model="page" :total="total" :per-page="limit">
+        <m-pagination v-if="pagination && !isLoading" v-model="page" :total="total" :per-page="limit">
             <slot name="pagination" :items="items"/>
         </m-pagination>
     </m-flex>
@@ -59,6 +59,7 @@ const props = withDefaults(defineProps<{
     params?: object,
     itemLink?: (item?) => string,
     pagination: boolean,
+    loading?: boolean,
     items?: Paginator<any>|null,
 }>(), {
     search: false,
@@ -70,11 +71,11 @@ const props = withDefaults(defineProps<{
 });
 
 const page = props.query ? useRouteQuery('page', 1) : ref(1);
-const vmPage = defineModel<number>('page', { local: true });
+const vmPage = defineModel<number>('page');
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 
-const { data: items, loading, error } = await useWatchedFetchMany(props.url ?? '', Object.assign(props.params || {}, {
+const { data: items, loading: innerLoading, error } = await useWatchedFetchMany(props.url ?? '', Object.assign(props.params || {}, {
     page: page,
     query: queryRef,
     limit: props.limit
@@ -84,6 +85,7 @@ useHandleError(error);
 
 const compItems = computed<Paginator<any>|null>(() => props.items ?? items.value);
 const total = computed(() => compItems.value?.meta?.total ?? 0);
+const isLoading = computed(() => innerLoading.value || props.loading);
 
 watch(page, (value) => {
     vmPage.value = value;
