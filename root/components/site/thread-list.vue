@@ -29,6 +29,7 @@
                         <th v-if="!userId">{{$t('poster')}}</th>
                         <th v-if="!currentForumId">{{$t('forum')}}</th>
                         <th v-if="!categoryId">{{$t('category')}}</th>
+                        <th>{{$t('tags')}}</th>
                         <th>{{$t('replies')}}</th>
                         <th>{{$t('last_activity')}}</th>
                         <th>{{$t('last_reply_by')}}</th>

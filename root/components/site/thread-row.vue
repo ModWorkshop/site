@@ -10,7 +10,15 @@
         <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" @click.stop/></td>
         <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>
         <td v-if="!noCategory" @click.stop>
-            <NuxtLink v-if="thread.category" :to="to">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
+            <NuxtLink v-if="thread.category" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
+            <span v-else>-</span>
+        </td>
+        <td>
+            <m-flex v-if="thread.tags?.length" wrap @click.stop>
+                <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
+                    <m-tag :color="tag.color" >{{tag.name}}</m-tag>
+                </NuxtLink>
+            </m-flex>
             <span v-else>-</span>
         </td>
         <td @click.self="clickThread(thread)">{{ thread.comment_count }}</td>
@@ -33,14 +41,7 @@ const { thread, categoryLink } = defineProps<{
 }>();
 
 const router = useRouter();
-
-const to = computed(() => {
-    if (!categoryLink) {
-        return undefined;
-    }
-
-    return (thread.game ? `/g/${thread.game.short_name}/forum?category=` : '/forum?category=') + thread.category_id; 
-});
+const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '/forum');
 
 function clickThread(thread: Thread) {
     router.push(`/thread/${thread.id}`);
