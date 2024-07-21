@@ -109,7 +109,7 @@ class Thread extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable, Cachable;
 
-    protected $with = ['user', 'lastUser', 'category', 'game'];
+    protected $with = ['user', 'lastUser', 'category', 'game', 'tags'];
     protected $saveToReport = ['content'];
 
     public $commentsOrder = 'ASC';
