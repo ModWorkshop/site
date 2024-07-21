@@ -1,9 +1,9 @@
 <template>
-    <m-flex wrap class="flex-col md:flex-row list-button items-center !px-6" gap="3">
+    <m-flex wrap class="flex-col xl:flex-row list-button items-center !p-6" gap="3">
         <m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="100" height="100"/>
-        <m-img v-else src="file-download.webp" is-asset width="100" height="100"/>
+        <m-img v-else src="file-download.webp" is-asset width="128" height="128"/>
         <m-flex grow column style="flex: 1;" gap="2">
-            <m-flex class="items-center">
+            <m-flex class="items-center" style="font-size: 1.15rem;">
                 <m-tag v-if="file.label">{{file.label}}</m-tag>
                 <strong v-if="file.name" class="items-center">{{file.name}}</strong>
                 <strong v-else class="items-center">{{$t(`file_type_${type}`)}}</strong>
@@ -11,8 +11,8 @@
             <span v-if="file.version" :title="$t('version')">
                 <i-mdi-tag/> {{file.version}}
             </span>
-            <md-content v-if="file.desc" :text="file.desc"/>
-            <m-flex class="items-center">
+            <md-content v-if="file.desc" :text="file.desc" :padding="0"/>
+            <m-flex class="items-center" wrap>
                 <span :title="$t('upload_date')">
                     <i-mdi-clock/>
                 </span>
@@ -26,7 +26,7 @@
                 </i18n-t>
             </m-flex>
         </m-flex>
-        <m-flex column class="my-auto mx-auto" gap="1">
+        <m-flex column class="my-auto xl:mx-auto max-xl:w-full" gap="1">
             <mod-download-buttons :mod="mod" :download="file" :type="type"/>
         </m-flex>
     </m-flex>
