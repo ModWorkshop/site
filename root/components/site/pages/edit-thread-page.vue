@@ -13,7 +13,7 @@
             <m-input v-model="thread.name" :label="$t('title')" minlength="2" maxlength="150"/>
             <md-editor v-model="thread.content" minlength="2" maxlength="5000" :label="$t('content')"/>
             <m-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories" clearable/>
-            <m-select v-model="thread.tag_ids" :options="tags?.data" multiple :label="$t('tags')"/>
+            <m-select v-model="thread.tag_ids" :options="tags?.data" multiple list-tags color-by="color" :label="$t('tags')"/>
             <template v-if="canManage">
                 <m-input v-model="thread.announce" type="checkbox" :label="$t('announce')"/>
                 <m-duration v-if="thread.announce" v-model="thread.announce_until" :label="$t('announcement_duration')"/>
