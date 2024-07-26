@@ -593,7 +593,7 @@ class ModController extends Controller
         if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
             $moderator = Auth::user()->name;
-            $userLink = env('FRONTEND_URL').'/user/'.($mod->unique_name ?? $mod->id);
+            $userLink = env('FRONTEND_URL').'/user/'.($mod->user_id);
             $status = $suspend ? 'suspended' : 'unsuspended';
             $case = Str::random(20);
             $message = Str::repeat('-', 100);
