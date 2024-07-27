@@ -30,8 +30,8 @@ class DocumentController extends Controller
 
         $user = $this->user();
 
-        $manageDocs = $user->hasPermission('manage-documents');
-        $manageDocsGame = $user->hasPermission('manage-documents', $game);
+        $manageDocs = $user?->hasPermission('manage-documents') ?? false;
+        $manageDocsGame = $user?->hasPermission('manage-documents', $game) ?? false;
 
         return BaseResource::collectionResponse(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
             $getUnlisted = Arr::get($val, 'get_unlisted');
