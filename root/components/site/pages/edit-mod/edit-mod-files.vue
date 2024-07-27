@@ -204,7 +204,7 @@ async function saveEditFile(error) {
             }
             
             for (const [key, value] of Object.entries(file)) {
-                formData.append(key, value ? value : '');
+                formData.append(key, value !== null ? value : '');
             }
 
             await patchRequest(`files/${file.id}`, formData, {
