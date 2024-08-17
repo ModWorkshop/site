@@ -70,8 +70,8 @@ const props = withDefaults(defineProps<{
     column: true
 });
 
-const page = props.query ? useRouteQuery('page', 1) : ref(1);
 const vmPage = defineModel<number>('page');
+const page = props.query ? useRouteQuery('page', 1) : ref(vmPage.value);
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 
