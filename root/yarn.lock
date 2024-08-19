@@ -1511,7 +1511,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/devtools-kit@npm:1.3.9":
+"@nuxt/devtools-kit@npm:1.3.9, @nuxt/devtools-kit@npm:^1.3.9":
   version: 1.3.9
   resolution: "@nuxt/devtools-kit@npm:1.3.9"
   dependencies:
@@ -1593,7 +1593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.12.4, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.12.4, @nuxt/kit@npm:^3.9.0":
+"@nuxt/kit@npm:3.12.4, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.12.4, @nuxt/kit@npm:^3.9.0":
   version: 3.12.4
   resolution: "@nuxt/kit@npm:3.12.4"
   dependencies:
@@ -1741,13 +1741,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/robots@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@nuxtjs/robots@npm:3.0.0"
+"@nuxtjs/robots@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@nuxtjs/robots@npm:4.1.0"
   dependencies:
-    "@nuxt/kit": ^3.0.0
-    h3: ^1.0.1
-  checksum: eb6b81b786059136030c2e06f3ed5494f60bbcfe7930774d4a2304bd3f343a7dd2c37d3f4d6edbd276f74ea3bed8b4df2303ecf6abcf3991aed619b7aaf5b189
+    "@nuxt/devtools-kit": ^1.3.9
+    "@nuxt/kit": ^3.12.4
+    consola: ^3.2.3
+    defu: ^6.1.4
+    nuxt-site-config: ^2.2.15
+    nuxt-site-config-kit: ^2.2.15
+    pathe: ^1.1.2
+    pkg-types: ^1.1.3
+    sirv: ^2.0.4
+    std-env: ^3.7.0
+    ufo: ^1.5.4
+  checksum: 846df263d022fcc9aab91087bdf0c62e0249979b1f08b7f2e4032c594d26b72e769005ff25a6f43a9890584ad5b7fa68c462980162a5da78e825669630a74957
   languageName: node
   linkType: hard
 
@@ -5512,7 +5521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3@npm:^1.0.1, h3@npm:^1.10.2, h3@npm:^1.11.1, h3@npm:^1.12.0":
+"h3@npm:^1.10.2, h3@npm:^1.11.1, h3@npm:^1.12.0":
   version: 1.12.0
   resolution: "h3@npm:1.12.0"
   dependencies:
@@ -7032,7 +7041,7 @@ __metadata:
     "@koddsson/textarea-caret": ^4.0.1
     "@nuxt/devtools": ^1.3.9
     "@nuxtjs/i18n": ^8.1.1
-    "@nuxtjs/robots": ^3.0.0
+    "@nuxtjs/robots": ^4.1.0
     "@nuxtjs/tailwindcss": 6.12.1
     "@pinia/nuxt": ^0.5.1
     "@types/luxon": ^3.3.7
@@ -7396,6 +7405,37 @@ __metadata:
     pathe: ^1.1.2
     ufo: ^1.5.3
   checksum: ec185e1aa29e62caf1c442a34159a97bb6f3548eb5c5b555c618d336601dbce42acd39eb1986b9368038c879180e782de8e939f73a6c54c0182b207093adf1b1
+  languageName: node
+  linkType: hard
+
+"nuxt-site-config-kit@npm:2.2.15, nuxt-site-config-kit@npm:^2.2.15":
+  version: 2.2.15
+  resolution: "nuxt-site-config-kit@npm:2.2.15"
+  dependencies:
+    "@nuxt/kit": ^3.12.3
+    "@nuxt/schema": ^3.12.3
+    pkg-types: ^1.1.3
+    site-config-stack: 2.2.15
+    std-env: ^3.7.0
+    ufo: ^1.5.3
+  checksum: 4bb3336c2b1780cfbe7611f3b78893be37f291625c10350637fdb54631fa9addac314d01131615c61c4a1ef8e18e6bdfb9d4958c5f40326dea4e6df87bca1ad4
+  languageName: node
+  linkType: hard
+
+"nuxt-site-config@npm:^2.2.15":
+  version: 2.2.15
+  resolution: "nuxt-site-config@npm:2.2.15"
+  dependencies:
+    "@nuxt/devtools-kit": ^1.3.9
+    "@nuxt/kit": ^3.12.3
+    "@nuxt/schema": ^3.12.3
+    nuxt-site-config-kit: 2.2.15
+    pathe: ^1.1.2
+    pkg-types: ^1.1.3
+    sirv: ^2.0.4
+    site-config-stack: 2.2.15
+    ufo: ^1.5.3
+  checksum: e08f82ab93cc48fab10d5e9a0af07b2863e21bfb94f0e63b7065764ff1c78c60e216454672f41c30ee1a9ade1e9e3a29acbb33c626bc8e4c4a5e3ec97b37ab59
   languageName: node
   linkType: hard
 
@@ -9011,6 +9051,17 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"site-config-stack@npm:2.2.15":
+  version: 2.2.15
+  resolution: "site-config-stack@npm:2.2.15"
+  dependencies:
+    ufo: ^1.5.3
+  peerDependencies:
+    vue: ^3
+  checksum: fb38a73d0a66f401fe4aae3882b53d4c2ce6114f5c6a8b9be9b60cbaca7f9865566b44f6141ff488f2139349ea74ab4b45cd37927ae5c802742e0a2e3f9ea89f
   languageName: node
   linkType: hard
 
