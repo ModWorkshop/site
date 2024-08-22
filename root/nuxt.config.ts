@@ -25,6 +25,12 @@ export default defineNuxtConfig({
 		}
 	},
 
+	appConfig: {
+		umami: {
+			version: 2,
+		},
+	},
+
 	runtimeConfig: {
 		public: { 
 			apiUrl: '',
