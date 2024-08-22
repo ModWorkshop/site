@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 			storageUrl: '',
 			debug_legacy_images: false,
 			hcaptchaSiteKey: '',
-			version: '3.4.11',
+			version: '3.4.12',
 			commitHash: ''
 		},
 		innerApiUrl: ''
@@ -182,9 +182,7 @@ export default defineNuxtConfig({
 		defaultLocale: 'en',
 	},
 
-	gtag: {
-		id: 'G-EGYBGTBHRV'
-	},
+	extends: ['nuxt-umami'],
 
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
@@ -194,6 +192,5 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'unplugin-icons/nuxt',
 		'@nuxtjs/i18n',
-		'nuxt-gtag'
 	],
 });
