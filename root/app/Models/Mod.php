@@ -423,12 +423,12 @@ class Mod extends Model implements SubscribableInterface
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class)->limit(5);
+        return $this->hasMany(File::class)->orderByRaw("display_order DESC, updated_at DESC")->limit(5);
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->limit(5);
+        return $this->hasMany(Link::class)->orderByRaw("display_order DESC, updated_at DESC")->limit(5);
     }
 
     public function selfMember()
