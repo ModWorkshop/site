@@ -6,6 +6,7 @@ use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\Category;
+use App\Models\File;
 use App\Models\Game;
 use App\Models\Mod;
 use App\Models\ModDownload;
@@ -629,14 +630,21 @@ class ModController extends Controller
      *
      * @subgroup Files
      */
-    function downloadFirstFile(Mod $mod) {
-        $file = $mod->files()->firstOrFail();
-        return redirect($file->downloadUrl);
+    function downloadPrimaryFile(Mod $mod) {
+        $file = $mod->downloadRelation;
+        if (!$file instanceof File) {
+            $file = $mod->files()->firstOrFail();
+        }
+        if (isset($file)) {
+            return redirect($file->downloadUrl);
+        } else {
+            return abort(404, 'Mod has no files!');
+        }
     }
 
     /**
      * Get Mod Versions
-     * 
+     *
      * Returns a list of versions (Up to 100 mods)
      * Convenient way of getting many versions at once and avoid sending too many requests
      */
