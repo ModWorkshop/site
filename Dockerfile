@@ -49,7 +49,7 @@ COPY entrypoint.sh /scripts/entrypoint.sh
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 
-RUN apt-get install cron \
+RUN apt-get update && apt-get install cron \
     && chown nobody:nobody /usr/sbin/cron \
     && setcap cap_setgid=ep /usr/sbin/cron \
     && echo '* * * * * php /app/artisan schedule:run >> /app/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
