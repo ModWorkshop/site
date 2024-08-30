@@ -50,7 +50,7 @@ COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 
 RUN apt-get update && apt-get install cron -y \
-    && chown nobody:nobody /usr/sbin/cron \
+    && chown nobody:nogroup /usr/sbin/cron \
     && setcap cap_setgid=ep /usr/sbin/cron \
     && echo '* * * * * php /app/artisan schedule:run >> /app/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
     && crontab -u nobody /etc/crontabs/nobody \
