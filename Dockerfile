@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.2.5-php8.3 as build
+FROM dunglas/frankenphp:1.2.5-php8.3 AS build
 
 RUN apk add --no-cache \
   supervisor
@@ -41,7 +41,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-FROM build as prod
+FROM build AS prod
 # FROM build as prod
 COPY --chown=nobody ./root /app
 
@@ -68,7 +68,7 @@ RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progre
 
 ENTRYPOINT ["/scripts/entrypoint.sh"]
 
-FROM build as dev
+FROM build AS dev
 
 # Install composer packages
 CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve"]
