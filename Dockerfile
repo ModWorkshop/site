@@ -1,8 +1,7 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.2.5-php8.3 AS build
+FROM dunglas/frankenphp:1.2.5-php8.3-bookworm AS build
 
-RUN apk add --no-cache \
-  supervisor
+RUN apt-get update && apt-get install supervisor -y
 
 # # Using heredoc from dockerfile:1.4 (ref: https://www.docker.com/blog/introduction-to-heredocs-in-dockerfiles/)
 # # PHP ini configuration
@@ -50,9 +49,9 @@ COPY entrypoint.sh /scripts/entrypoint.sh
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 
-RUN apk add --no-cache dcron libcap \
-    && chown nobody:nobody /usr/sbin/crond \
-    && setcap cap_setgid=ep /usr/sbin/crond \
+RUN apt-get install cron \
+    && chown nobody:nobody /usr/sbin/cron \
+    && setcap cap_setgid=ep /usr/sbin/cron \
     && echo '* * * * * php /app/artisan schedule:run >> /app/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
     && crontab -u nobody /etc/crontabs/nobody \
     && chown -R nobody /var/spool/cron/crontabs/nobody \
