@@ -19,6 +19,7 @@ RUN install-php-extensions \
     xmlwriter \
     pcntl \
     posix \
+    zip \
     vips
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
