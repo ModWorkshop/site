@@ -52,6 +52,7 @@ COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 RUN apt-get update && apt-get install cron -y \
     && chown nobody:nogroup /usr/sbin/cron \
     && setcap cap_setgid=ep /usr/sbin/cron \
+    && mkdir /etc/crontabs \
     && echo '* * * * * php /app/artisan schedule:run >> /app/storage/logs/laravel.log 2>&1' >> /etc/crontabs/nobody \
     && crontab -u nobody /etc/crontabs/nobody \
     && chown -R nobody /var/spool/cron/crontabs/nobody \
