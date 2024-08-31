@@ -5,6 +5,5 @@
 echo "Clear and cache config"
 php artisan config:clear && php artisan config:cache
 
-echo "Run cron + visord"
-/usr/sbin/cron
+echo "Run supervisord"
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
