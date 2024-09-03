@@ -20,7 +20,8 @@ RUN install-php-extensions \
     pcntl \
     posix \
     zip \
-    vips
+    vips \
+    opcache 
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
@@ -32,8 +33,15 @@ upload_max_filesize=5G
 memory_limit=2G
 max_execution_time=150
 disable_functions=phpinfo
+opcache.enable=1
 opcache.enable_cli=1
 opcache.jit_buffer_size=250M
+opcache.memory_consumption=256
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=0
+opcache.interned_strings_buffer=8
+realpath_cache_size=4096K
+realpath_cache_ttl=600
 EOF
 
 # Install composer from the official image
