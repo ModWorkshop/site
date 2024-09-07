@@ -24,11 +24,9 @@ export default defineNuxtConfig({
 			]
 		}
 	},
-
-	appConfig: {
-		umami: {
-			version: 2,
-		},
+ 
+	umami: {
+		ignoreLocalhost: true
 	},
 
 	runtimeConfig: {
@@ -39,7 +37,7 @@ export default defineNuxtConfig({
 			storageUrl: '',
 			debug_legacy_images: false,
 			hcaptchaSiteKey: '',
-			version: '3.4.12',
+			version: '3.5',
 			commitHash: ''
 		},
 		innerApiUrl: ''
@@ -188,8 +186,6 @@ export default defineNuxtConfig({
 		defaultLocale: 'en',
 	},
 
-	extends: ['nuxt-umami'],
-
 	modules: [
 		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
 		// 'nuxt-delay-hydration',
@@ -198,5 +194,6 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'unplugin-icons/nuxt',
 		'@nuxtjs/i18n',
+		'nuxt-umami'
 	],
 });
