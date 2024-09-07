@@ -17,11 +17,13 @@
         >
         <m-table v-if="list" alt-background>
             <thead>
-                <th>{{$t('name')}}</th>
-                <th>{{$t('file_size')}}</th>
-                <th>{{$t('upload_date')}}</th>
-                <th class="text-center">{{$t('actions')}}</th>
-                <slot name="headers"/>
+                <tr>
+                    <th>{{$t('name')}}</th>
+                    <th>{{$t('file_size')}}</th>
+                    <th>{{$t('upload_date')}}</th>
+                    <th class="text-center">{{$t('actions')}}</th>
+                    <slot name="headers"/>
+                </tr>
             </thead>
             <tbody>
                 <template v-if="vm.length">
