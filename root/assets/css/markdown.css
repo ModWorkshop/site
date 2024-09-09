@@ -59,14 +59,23 @@
 	margin-right: auto;
 }
 
+.spoiler {
+	padding: 1rem !important;
+	background-color: var(--alt-content-bg-color);
+}
+
 .spoiler summary:hover {
 	cursor: pointer;
 }
 
 .spoiler summary {
 	user-select: none;
-	background-color: var(--alt-content-bg-color);
-	padding: 0.5rem;
+}
+
+.spoiler-body {
+	padding-top: 0.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .markdown .codeblock, blockquote, code, .spoiler {
@@ -74,7 +83,6 @@
 	padding: 0.4rem;
 	font-family: revert;
 	border-radius: var(--border-radius);
-	background-color: var(--alt-content-bg-color);
 }
 
 .markdown .codeblock, .hljs, blockquote, .spoiler {

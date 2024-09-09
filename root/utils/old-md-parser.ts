@@ -1,6 +1,10 @@
 import MarkdownIt  from 'markdown-it';
 
+import DOMPurify from 'isomorphic-dompurify';
+import parseBBCode from './bbcode-parser';
+import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
 import taskLists from 'markdown-it-task-lists';
+
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import lua from 'highlight.js/lib/languages/lua';
@@ -19,11 +23,8 @@ import ini from 'highlight.js/lib/languages/ini';
 import gradle from 'highlight.js/lib/languages/gradle';
 import autohotkey from 'highlight.js/lib/languages/autohotkey';
 import haxe from 'highlight.js/lib/languages/haxe';
-import { html5Media } from './markdown/media';
 import mention from './markdown/mention';
-import { fence } from './markdown/fence';
-import DOMPurify from 'dompurify';
-import markdownItColorInline from 'markdown-it-color-inline';
+import { html5Media } from './markdown/media';
 
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('lua', lua);
@@ -45,8 +46,10 @@ hljs.registerLanguage('autohotkey', autohotkey);
 hljs.registerLanguage('haxe', haxe);
 
 const md = MarkdownIt({
+	html: true,
 	breaks: true,
 	linkify: true,
+	mentions: true,
 	highlight(str: string, lang: string) {
 		try {
 			let hl;
@@ -65,29 +68,6 @@ const md = MarkdownIt({
 	}
 });
 
-fence(md, {
-	name: 'center',
-	marker: ':',
-	render: (tokens, idx) => `<div class="center">${md.render(tokens[idx].content)}</div>`
-});
-
-fence(md, {
-	name: 'spoiler',
-	marker: '!',
-	minMarkers: 3,
-	render: function(tokens, idx) {
-		const token = tokens[idx];
-		return `
-			<details class="spoiler">
-				<summary>${token.info || 'Spoiler!'}</summary>
-				<div class="spoiler-body">
-					${md.render(tokens[idx].content)}
-				</div>
-			</details>
-		`;
-	}
-});
-
 /**
  * Makes __Text__ into underline instead of bold
  * Why? There's already a way to write bold text and it is the most popular - **Bold!**
@@ -102,25 +82,34 @@ md.renderer.rules.strong_close = md.renderer.rules.strong_open = function(tokens
 };
 
 md.use(html5Media);
-md.use(mention);
-md.use(markdownItColorInline);
-md.use(taskLists, {enabled: true});
-
-md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
-	const token = tokens[idx];
-	if (token.info) {
-		const root = document.querySelector(':root');
-		const checkColorBg = getComputedStyle(root!).getPropertyValue('--content-bg-color');
-		if (getContrast(token.info, checkColorBg) < 3.2) { // Prevents bad colors from being used
-			token.attrs = [];
-		}
+md.use(taskLists, { enabled: true });
+md.use(markdownItRegex(
+	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
+	function([, , match]) {
+		return `\n\n<span class="center">${md.renderInline(match)}</span>\n\n`;
 	}
-	return slf.renderToken(tokens, idx, opts);
-};
+));
+
+md.inline.ruler.after('emphasis', 'mention', mention);
 
 export function parseMarkdown(text: string) {
-	return text ? DOMPurify.sanitize(md.render(text), {
+	if (!text) {
+		return '';
+	}
+
+	text = md.utils.escapeHtml(text); //First escape the ugly shit
+    text = parseBBCode(text); //Handle BBCode
+	text = text.replace(/&gt;/g, '>');
+	text = text.replace(/&quot;/g, '"');
+
+	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function(wholeStr, delimiter, match) {		
+		match = md.render(match);
+		return `\n\n<div class="spoiler"><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
+	});
+
+    text = md.render(text); //Parse using markdown it
+    return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
         ADD_TAGS: ['iframe'],
         ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
-    }) : '';
+    });
 }

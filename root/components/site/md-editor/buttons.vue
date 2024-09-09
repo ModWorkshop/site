@@ -32,6 +32,9 @@ import IMdiFullScreenExit from '~icons/mdi/fullscreen-exit';
 import IMdiFullScreen from '~icons/mdi/fullscreen';
 import MdiViewSplitVertical from '~icons/mdi/view-split-vertical';
 import MdiRectangle from '~icons/mdi/rectangle';
+import MdiFormatColorFill from '~icons/mdi/format-color-fill';
+
+import type { Tool } from '~/types/tools';
 
 // The $ sign tells it where to put the cursor and text if selected.
 
@@ -59,7 +62,7 @@ interface ToolGroup {
 
 const toolGroups: ToolGroup[] = [ 
     {
-        name: 'main',
+        name: 'inline',
         tools: [
             {icon: IMdiFormatBold,  insert: '**$**'},
             {icon: IMdiFormatItalic, insert: '*$*'},
@@ -67,16 +70,17 @@ const toolGroups: ToolGroup[] = [
             {icon: IMdiFormatUnderline, insert: '__$__'},
             {icon: IMdiFormatHeaderPound, insert: '# $'},
             {icon: IMdiFormatAlignCenter, insert: ':::$:::'},
+            {icon: MdiFormatColorFill, insert: '{#007bff}($)'},
         ]
     },
     {
-        name: 'fuck',
+        name: 'block',
         tools: [
             {icon: IMdiFormatQuoteOpen, insert: '> $'},
             {icon: IMdiFormatCodeBraces, insert: '```\n$\n```'},
             {icon: IMdiFormatListBulleted, insert: '* $', multiline: true},
             {icon: IMdiFormatListNumbered, insert: '$line. $', multiline: true},
-            {icon: IMdiFormatEyeOff, insert: '||$||'}, //Spoiler
+            {icon: IMdiFormatEyeOff, insert: '!!!\n$\n!!!!'}, //Spoiler
         ]
     },
     {

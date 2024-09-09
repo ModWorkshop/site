@@ -72,7 +72,7 @@ const tags = {
                     colorCode = "#" + colorCode;
             }
 
-            if (getContrast(colorCode, checkColorBg) > 3.5)
+            if (getContrast(colorCode, checkColorBg) > 3.2)
                 return `<span style="color:${colorCode}">${content}</span>`;
             else
                 return content;
