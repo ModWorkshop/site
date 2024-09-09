@@ -99,7 +99,7 @@ export const useStore = defineStore('main', {
 
            const siteData = await useGet<SiteData>('site-data');
 
-           if (process.client) {
+           if (import.meta.client) {
                reloadToken(); // Don't block navigation
            }
 
@@ -168,7 +168,7 @@ export const useStore = defineStore('main', {
                 clearTimeout(lastTimeout);
             }
 
-            if (process.client) { //!!Avoid loooping on server side!!
+            if (import.meta.client) { //!!Avoid loooping on server side!!
                 lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
             }
         },

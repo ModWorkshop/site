@@ -98,7 +98,7 @@ function onLinkOpen() {
 }
 
 onMounted(() => {
-    if (process.client) {
+    if (import.meta.client) {
         document.addEventListener("visibilitychange", function() {
             if (!document.hidden && listenToTabs.value) {
                 refresh();

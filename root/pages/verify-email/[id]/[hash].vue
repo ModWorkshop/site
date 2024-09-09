@@ -23,7 +23,7 @@ if (route.query.error) {
     showError({ statusCode: 500, statusMessage: route.query.error_description as string });
 }
 
-if (process.client && user) {
+if (import.meta.client && user) {
     try {
         await useGet(`/email/verify/${route.params.id}/${route.params.hash}`, { params: route.query});
         verifying.value = false;

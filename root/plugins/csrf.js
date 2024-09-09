@@ -8,7 +8,7 @@ async function check(force=false) {
 }
 
 export default defineNuxtPlugin(() => {
-    if (process.client) {
+    if (import.meta.client) {
         // Set XSRF token for SSR
         setInterval(check, 300000); // Check every 5 minutes
         check(true);

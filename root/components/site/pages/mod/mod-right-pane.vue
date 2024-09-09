@@ -114,7 +114,7 @@ onMounted(() => {
         return;
     }
 
-    if (process.client) {
+    if (import.meta.client) {
         window['nitroAds'].createAd('mws-ads-mod-pane', {
             "refreshLimit": 0,
             "refreshTime": 30,

@@ -15,7 +15,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             ad.onNavigate();
         }
         // console.log('Page finished loading. Attempting to launch or reinstate ads.');
-        // if (process.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
+        // if (import.meta.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
         //     if (launched.value) { // Ads were not launched yet
         //         console.log(`Reinstate ads [URL: ${window.location.href}]`);
         //         window.egAps.reinstate();

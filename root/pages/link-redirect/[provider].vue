@@ -26,7 +26,7 @@ if (route.query.error) {
     showError({ statusCode: 500, statusMessage: route.query.error_description as string });
 }
 
-if (process.client) {
+if (import.meta.client) {
     const newQuery = {};
 
     //For some reason we receive it as openid. but Laravel socialite expects it as openid_

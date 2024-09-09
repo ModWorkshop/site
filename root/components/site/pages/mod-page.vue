@@ -54,7 +54,7 @@ if (mod.value.game) {
     setGame(mod.value.game);
 }
 
-if (mod.value.id && process.client) {
+if (mod.value.id && import.meta.client) {
     postRequest(`mods/${mod.value.id}/register-view`, null, {
         onResponse(response: any) {
             if (response.status == 201) {

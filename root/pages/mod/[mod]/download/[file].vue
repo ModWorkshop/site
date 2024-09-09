@@ -54,7 +54,7 @@ watch(download, () => {
 });
 
 onMounted(() => {
-    if (process.client) {
+    if (import.meta.client) {
         if (user?.active_supporter) {
             return;
         }
