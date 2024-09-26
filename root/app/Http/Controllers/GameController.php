@@ -52,9 +52,9 @@ class GameController extends Controller
         ];
 
         if (!isset($game)) {
-            $validateArr['short_name'] = 'string|max:30';  
+            $validateArr['short_name'] = 'string|max:30';
         }
-        
+
         $val = $request->validate($validateArr);
 
         APIService::nullToEmptyStr($val, 'webhook_url', 'buttons');
@@ -68,20 +68,25 @@ class GameController extends Controller
             $val['last_date'] = Date::now();
             /** @var Game */
             $game = Game::create($val);
+            $forum = $game->forum;
+
+
             $val = [];//Empty so we don't update it again.
             $wasCreated = true;
         }
 
-        $modManagers = ModManager::whereIn('id', $modManagerIds)->get();
-        $modManagerIds = [];
-        foreach ($modManagers as $manager) {
-            if (!empty($manager->game_id)) {
-                abort(406, 'You cannot add mod managers that the game owns.');
-            }
+        if (isset($modManagerIds)) {
+            $modManagers = ModManager::whereIn('id', $modManagerIds)->get();
+            $modManagerIds = [];
+            foreach ($modManagers as $manager) {
+                if (!empty($manager->game_id)) {
+                    abort(406, 'You cannot add mod managers that a game owns.');
+                }
 
-            $modManagerIds[] = $manager->id;
+                $modManagerIds[] = $manager->id;
+            }
+            $game->modManagers()->sync($modManagerIds);
         }
-        $game->modManagers()->sync($modManagerIds);
 
         APIService::storeImage($thumbnailFile, 'games/images', $game->thumbnail, 200, fn($path) => $game->thumbnail = $path);
         APIService::storeImage($bannerFile, 'games/images', $game->banner, 200, fn($path) => $game->banner = $path);
