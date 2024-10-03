@@ -58,10 +58,10 @@ export default function() {
         if (code === 422) {
             desc = getErrorString(e);
         } else if (code) {
-            desc = firstNonEmpty(errorStrings[e.message ?? laravelMessage], errorStrings[code]);
+            desc = firstNonEmpty(errorStrings[laravelMessage] ?? laravelMessage ?? errorStrings[e.message], errorStrings[code]);
         }
 
-        desc = firstNonEmpty(desc, laravelMessage, t('something_went_wrong'));
+        desc = firstNonEmpty(desc, t('something_went_wrong'));
         desc += ` (${code})`;
 
         return showToast({
