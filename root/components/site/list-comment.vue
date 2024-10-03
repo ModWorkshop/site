@@ -104,7 +104,7 @@ const props = withDefaults(defineProps<{
     canComment?: boolean,
     canEditAll?: boolean,
     canDeleteAll?: boolean,
-    commentable?: Thread|Mod,
+    commentable?: { id: number, subscribed?: boolean, game?: Game },
     canPin?: boolean,
     isReply?: boolean,
     showPins?: boolean,
