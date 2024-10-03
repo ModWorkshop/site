@@ -177,7 +177,7 @@ class ModController extends Controller
         $category = null;
 
         if (isset($val['category_id'])) {
-            $category = Category::find($categoryId);
+            $category = Category::where($gameId)->find($categoryId);
         }
 
         if ($sendForApproval) {
