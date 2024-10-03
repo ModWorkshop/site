@@ -107,7 +107,7 @@ onMounted(async () => {
     
     console.log("mount ads");
 
-    if (process.client) {
+    if (import.meta.client) {
         const adConfig = {
             "refreshLimit": 0,
             "refreshTime": 30,
