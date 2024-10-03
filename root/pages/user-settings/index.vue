@@ -72,10 +72,10 @@
             <m-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
             <m-input v-model="user.custom_title" :label="$t('custom_title')"/>
         </m-flex>
-        <flex>
+        <m-flex>
             <m-input v-model="user.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
             <m-input v-model="user.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
-        </flex>
+        </m-flex>
     </m-flex>
 </template>
 
