@@ -245,6 +245,19 @@ export function getContrast(color1: string|number[], color2: string|number[]) {
     return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
 }
 
+// https://stackoverflow.com/a/8046813
+export function convertRGBDecimalToHex(rgb) {
+    const regex = /rgb *\( *([0-9]{1,3}) *, *([0-9]{1,3}) *, *([0-9]{1,3}) *\)/;
+    const values = regex.exec(rgb);
+    if(!values || values.length != 4) {
+        return rgb; // fall back to what was given.              
+    }
+    return "#" 
+        + (Math.round(parseFloat(values[1])) + 0x10000).toString(16).substring(3).toUpperCase() 
+        + (Math.round(parseFloat(values[2])) + 0x10000).toString(16).substring(3).toUpperCase()
+        + (Math.round(parseFloat(values[3])) + 0x10000).toString(16).substring(3).toUpperCase();
+}
+
 // Marks all notifications as read, if needed updates a given array of notifications
 export async function markAllNotificationsAsRead(notifications?: Notification[], count?: Ref<number|null>) {
     await postRequest('notifications/read-all');

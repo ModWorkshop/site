@@ -90,7 +90,7 @@ md.use(markdownItRegex(
 	}
 ));
 
-md.inline.ruler.after('emphasis', 'mention', mention);
+md.use(mention);
 
 export function parseMarkdown(text: string) {
 	if (!text) {
