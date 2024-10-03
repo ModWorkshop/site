@@ -22,7 +22,7 @@ import haxe from 'highlight.js/lib/languages/haxe';
 import { html5Media } from './markdown/media';
 import mention from './markdown/mention';
 import { fence } from './markdown/fence';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import markdownItColorInline from 'markdown-it-color-inline';
 
 hljs.registerLanguage('javascript', javascript);
