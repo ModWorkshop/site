@@ -24,6 +24,7 @@ body {
 
 :root {
     --border-radius: 4px;
+    --tag-border-radius: 8px;
     --content-border-radius: 8px;
 
     --mws-blue: #006ce0;
