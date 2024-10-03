@@ -6,7 +6,7 @@
                 <m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
             </NuxtLink>
             <m-flex column wrap class="overflow-hidden w-full">
-                <m-flex wrap>
+                <m-flex wrap class="items-center">
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
                     <NuxtLink class="ml-1 text-secondary" :to="commentPage">

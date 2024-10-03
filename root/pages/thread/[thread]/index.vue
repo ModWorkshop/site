@@ -7,7 +7,7 @@
                     <m-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
                 </NuxtLink>
                 <m-flex column wrap class="overflow-hidden w-full">
-                    <m-flex>
+                    <m-flex class="items-center">
                         <a-user :avatar="false" :user="thread.user"/>
                         <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
                             <m-time-ago :time="thread.created_at"/>
