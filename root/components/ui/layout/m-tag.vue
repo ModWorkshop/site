@@ -1,5 +1,5 @@
 <template>
-    <span :class="{tag: true, 'tag-small': small, round: !capsule, capsule}" 
+    <span :class="{tag: true, 'tag-small': small, capsule}" 
         :style="{
             backgroundColor: color,
             color: textColor
@@ -8,15 +8,14 @@
         <slot/>
     </span>
 </template>
-<script setup>
-const props = defineProps({
-    small: Boolean,
-    color: String,
-    capsule: Boolean
-});
+<script setup lang="ts">
+const { small, color, capsule = false } = defineProps<{
+    small?: boolean,
+    color?: string,
+    capsule?: boolean
+}>();
 
 const textColor = computed(() => {
-    const color = props.color;
     if (color) {
         try {
             const contrast = getContrast('#000', color.replaceAll(' ', ''));
@@ -42,15 +41,16 @@ const textColor = computed(() => {
     gap: 4px;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 75%;
+    font-weight: 400;
     background: var(--primary-color);
+    border-radius: var(--tag-border-radius);
 }
 
 .tag-small {
-    padding: 0.15rem 0.4rem;
+    padding: 0.4rem;
     margin-top: 2px;
-    line-height: 1.25;
+    line-height: 1;
 }
 
 .capsule {
