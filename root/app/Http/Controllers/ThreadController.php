@@ -51,7 +51,7 @@ class ThreadController extends Controller
             'announce' => 'boolean',
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
-            'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
+            'category_id' => 'integer|min:1|required|exists:forum_categories,id',
         ]);
 
         APIService::checkCaptcha($request);
@@ -62,9 +62,10 @@ class ThreadController extends Controller
         $val['bumped_at'] = Carbon::now();
         $val['forum_id'] = $forum->id;
 
-        $category = null;
-        if (isset($val['category_id'])) {
-            $category = ForumCategory::find($val['category_id']);
+        $category = ForumCategory::where('forum_id', $forum->id)->find($val['category_id']);
+
+        if (!isset($category)) {
+            abort(406, "Category doesn't exist or is invalid");
         }
 
         $user = $this->user();
@@ -106,6 +107,7 @@ class ThreadController extends Controller
             'name' => 'string|min:3|max:150',
             'content' => 'string|min:2|max:30000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
+            'forum_id' => 'integer|min:1|nullable|exists:forums,id',
             'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
@@ -119,12 +121,39 @@ class ThreadController extends Controller
 
         $changePin = Arr::pull($val, 'pinned');
         $changeAnnounce = Arr::pull($val, 'announce');
+        $changeForum = Arr::pull($val, 'forum_id');
+        $changeCategry = Arr::pull($val, 'category_id');
+
         $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $thread->forum->game);
         if (!$canManageThreads && ($changePin || $changeAnnounce)) {
             abort(401);
         }
 
+        $changedForum = true;
+        if (isset($changeForum) && $changeForum !== $thread->forum_id) {
+            if (!$canManageThreads) {
+                abort(401, "Cannot move thread to a different forum, please ask a moderator!");
+            } else {
+                $forum = Forum::where('id', $changeForum)->first();
+                $thread->forum_id = $forum->id;
+                if (empty($changeCategry)) {
+                    abort(406, 'You must provide a category to change when moving forums!');
+                }
+                $changedForum = true;
+            }
+        }
+
+        if ($changedForum || (isset($changeCategry) && $changeCategry !== $thread->category_id)) {
+            // Ensure the category belongs to the forum
+            $cat = ForumCategory::where('forum_id', $thread->forum_id)->where('id', $changeCategry)->first();
+            if (isset($cat)) {
+                $thread->forum_id = $forum->id;
+            } else {
+                abort(406, "Category doesn't exist or is invalid");
+            }
+        }
+        
         if (isset($changePin)) {
             if ($changePin === true) {
                 $thread->pinned_at = Carbon::now();
