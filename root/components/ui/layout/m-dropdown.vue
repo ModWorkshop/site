@@ -92,10 +92,11 @@ watch(open, () => {
     background: var(--dropdown-bg);
     color: var(--text-color);
     border-radius: var(--border-radius);
-    border: 1px solid var(--input-border-color);
+    box-shadow: 2px 2px 8px #00000059;
     max-width: 400px;
     max-height: 450px;
     color: var(--text-color);
+    padding: 0.5rem;
     z-index: 9999;
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);

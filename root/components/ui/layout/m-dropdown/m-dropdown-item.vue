@@ -35,7 +35,8 @@ function onClick(e) {
 .dropdown-item {
     color: var(--text-color);
     text-align: left;
-    padding: 0.65rem 1.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--border-radius);
     display: flex;
     gap: 4px;
     user-select: none;
@@ -51,7 +52,7 @@ function onClick(e) {
 
 .dropdown-item:hover:not(.disabled) {
     background: var(--dropdown-hover-bg);
-    color: var(--primary-hover-color);
+    color: var(--text-color);
 }
 
 .dropdown-item.disabled {

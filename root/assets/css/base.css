@@ -139,7 +139,7 @@ html.dark {
     --alt-table-odd-color: hsl(213, 12%, 17%);
 
     --dropdown-bg: #292d32;
-    --dropdown-hover-bg: #32383e;
+    --dropdown-hover-bg: #202327;
     --dropdown-text-color: #ccc;
     --text-color: #fff;
     --secondary-text-color: #d8d8d8;
@@ -148,7 +148,7 @@ html.dark {
     --secondary-hover-color: #737373;
     --disabled-color: #3c3c3c;
     --input-bg-color: #17191c;
-    --input-border-color: #393e46;
+    --input-border-color: #363d44;
     --input-border-hover-color: #505762;
     --header-footer-color: #32373e;
     --button-text-color: #fff;
