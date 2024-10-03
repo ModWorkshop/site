@@ -21,9 +21,11 @@
                     <label>{{$t('category')}}</label>
                     <m-toggle-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
                         <m-toggle-group-item :name="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
-                        <m-toggle-group-item v-for="category of categories.data" :key="category.id" :name="category.id">
-                            {{category.emoji}} {{category.name}}
-                        </m-toggle-group-item>
+                        <template v-for="category of categories.data" :key="category.id">
+                            <m-toggle-group-item v-if="!category.hidden" :name="category.id">
+                                {{category.emoji}} {{category.name}}
+                            </m-toggle-group-item>
+                        </template>
                     </m-toggle-group>
                 </m-flex>
             </m-content-block>
@@ -37,8 +39,6 @@
                         <th>{{$t('title')}}</th>
                         <th v-if="!userId">{{$t('poster')}}</th>
                         <th v-if="!currentForumId">{{$t('forum')}}</th>
-                        <th v-if="!categoryId">{{$t('category')}}</th>
-                        <th>{{$t('tags')}}</th>
                         <th>{{$t('replies')}}</th>
                         <th>{{$t('last_activity')}}</th>
                         <th>{{$t('last_reply_by')}}</th>
