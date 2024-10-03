@@ -1,11 +1,12 @@
 <template>
 	<NuxtLayout>
 		<m-flex column class="items-center mt-1">
-			<h1 class="mx-auto">{{$t('error')}}</h1>
-			<h3>{{error.statusCode}}</h3>
+			<h1 class="mx-auto">{{$t('error')}} {{error.statusCode}}</h1>
 			<h3>{{error.statusMessage}}</h3>
+			<h4>({{error.message}})</h4>
+			<!-- eslint-disable-next-line vue/no-v-html-->
+			<div v-if="dev" v-html="error.stack"/>
 			<m-button @click="clearError({ redirect: '/' })">{{$t('back_to_home')}}</m-button>
-			<div v-if="dev && error.description" class="mt-4" v-html="error.description"/>
 		</m-flex>
 	</NuxtLayout>
 </template>
@@ -14,15 +15,10 @@
 import { useStore } from './store';
 
 defineProps<{
-	error: {
-		statusCode: number,
-		statusMessage: string
-		description?: string,
-	}
+	error: Error
 }>();
 
 const store = useStore();
-
 const dev = process.env.NODE_ENV === 'development';
 
 useHeadSafe({
