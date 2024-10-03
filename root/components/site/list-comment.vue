@@ -3,7 +3,7 @@
         <m-flex class="comment-body">
             <div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
             <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
-                <m-avatar class="align-middle" :src="comment.user?.avatar" size="md"/>
+                <m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
             </NuxtLink>
             <m-flex column wrap class="overflow-hidden w-full">
                 <m-flex wrap>

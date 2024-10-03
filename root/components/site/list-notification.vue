@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" @click.prevent="onClick">
-        <m-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar"/>
+        <m-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar" :use-thumb="fromUser?.avatar_has_thumb"/>
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
         </template>

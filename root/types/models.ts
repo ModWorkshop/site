@@ -305,6 +305,7 @@ export interface User {
     mods_count?: number;
     supporter?: Supporter;
     nitro_token?: string;
+    avatar_has_thumb?: boolean;
 }
 
 export interface UserForm extends User {

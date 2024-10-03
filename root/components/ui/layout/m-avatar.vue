@@ -3,6 +3,7 @@
         :alt="$t('avatar')"
         loading="lazy"
         :src="avatarUrl"
+        :use-thumb="useThumb"
         :url-prefix="src ? urlPrefix : undefined"
         :class="{'avatar': true, [`avatar-${size}`]: !!size}"
         :fallback="fallback"
@@ -13,22 +14,17 @@
 <script setup lang="ts">
 const { public: config } = useRuntimeConfig();
 
-const props = defineProps({
-    src: [String, Blob],
-    urlPrefix: {
-        type: String,
-        default: 'users/images'
-    },
-    size: {
-        default: null,
-        type:  String
-    }
-});
+const { src, size, urlPrefix = 'users/images' } = defineProps<{
+    src?: string|Blob,
+    urlPrefix?: string,
+    size?: string,
+    useThumb?: boolean
+}>();
 
 const assetsUrl = `${config.siteUrl}/assets`;
 
 const fallback = computed(() => assetsUrl + '/default-avatar.webp');
-const avatarUrl = computed(() => props.src ?? fallback.value);
+const avatarUrl = computed(() => src ?? fallback.value);
 
 const sizes = {
     xs: 28,
@@ -38,7 +34,7 @@ const sizes = {
     xl: 150,
     '2xl': 200
 };
-const sizeNumber = computed(() => sizes[props.size] ?? 36);
+const sizeNumber = computed(() => size ? sizes[size] : 36);
 </script>
 <style scoped>
 .avatar {
