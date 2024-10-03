@@ -58,6 +58,7 @@ class UserResource extends BaseResource
             'show_tag' => $this->when('show_tag', $this->show_tag),
             'active_supporter' => $this->activeSupporter,
             'has_supporter_perks' => $this->hasSupporterPerks,
+            'avatar_has_thumb' => $this->avatar_has_thumb,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
             'mods_count' => $this->when(

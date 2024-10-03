@@ -116,7 +116,11 @@ class CategoryController extends Controller
         }
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
-        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, null, fn($path) => $category->thumbnail = $path, true);
+
+        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, [
+            'onSuccess' => fn($path) => $category->thumbnail = $path,
+            'allowDeletion' => true
+        ]);
 
         if (!$wasCreated || isset($thumbnailFile)) {
             $category->update($val);

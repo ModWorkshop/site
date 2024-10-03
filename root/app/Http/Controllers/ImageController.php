@@ -68,7 +68,7 @@ class ImageController extends Controller
             'name' => $name,
             'type' => $type,
             'size' => $size
-        ] = APIService::storeImage($file, 'mods/images', null, 300);
+        ] = APIService::storeImage($file, 'mods/images', null, [ 'thumbnailSize' => 256 ]);
 
         return Image::create([
             'user_id' => $this->userId(),

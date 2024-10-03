@@ -83,14 +83,16 @@ class APIService {
      * @param boolean Whether to allow the file to be simply deleted if given an empty string
      * @return array
      */
-    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, int $thumbnailSize=null, ?callable $onSuccess=null, bool $allowDeletion=false)
+    public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, array $config = [])
     {
+        $config['allowDeletion'] ??= false;
+
         if (!isset($file)) {
             return null;
         }
 
         $isEmptyFile = strlen($file) == 0;
-        if ((!$isEmptyFile || ($isEmptyFile && $allowDeletion)) && isset($oldFile) && !str_contains($oldFile, 'http')) {
+        if ((!$isEmptyFile || ($isEmptyFile && $config['allowDeletion'])) && isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
             Storage::delete($fileDir.'/'.$oldFile);
             Storage::delete($fileDir.'/thumbnail_'.$oldFile);
@@ -98,8 +100,8 @@ class APIService {
 
         // Empty file means delete the file and that's it
         if ($isEmptyFile) {
-            if ($allowDeletion) {
-                $onSuccess('');
+            if ($config['allowDeletion'] && isset($config['onSuccess'])) {
+                $config['onSuccess']('');
             }
             return null;
         }
@@ -109,19 +111,24 @@ class APIService {
         $fileName = preg_replace('/\.[^.]+$/', '.webp', $file->hashName());
 
         $img = Vips\Image::newFromFile($file->path().$opts);
+
+        if (isset($config['size'])) {
+            $img = $img->thumbnail_image($config['size']);
+        }
+
         $buffer = $img->writeToBuffer('.webp', ["Q" => 80]);
         Storage::put($fileDir.'/'.$fileName, $buffer);
 
         $thumb = null;
         $thumbBuffer = null;
-        if (isset($thumbnailSize)) {
-            $thumb = $img->thumbnail_image($thumbnailSize);
+        if (isset($config['thumbnailSize'])) {
+            $thumb = $img->thumbnail_image($config['thumbnailSize']);
             $thumbBuffer = $thumb->writeToBuffer('.webp');
             Storage::put($fileDir.'/thumbnail_'.$fileName, $thumbBuffer);
         }
 
-        if (isset($onSuccess)) {
-            $onSuccess($fileName);
+        if (isset($config['onSuccess'])) {
+            $config['onSuccess']($fileName);
         }
 
         return [
@@ -133,7 +140,7 @@ class APIService {
             'type' => 'webp'
         ];
     }
-    
+
     /**
      * Deletes an image from the storage
      */

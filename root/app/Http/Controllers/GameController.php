@@ -88,8 +88,15 @@ class GameController extends Controller
             $game->modManagers()->sync($modManagerIds);
         }
 
-        APIService::storeImage($thumbnailFile, 'games/images', $game->thumbnail, 200, fn($path) => $game->thumbnail = $path);
-        APIService::storeImage($bannerFile, 'games/images', $game->banner, 200, fn($path) => $game->banner = $path);
+        APIService::storeImage($thumbnailFile, 'games/images', $game->thumbnail, [
+            'thumbnailSize' => 200,
+            'onSuccess' => fn($path) => $game->thumbnail = $path,
+        ]);
+
+        APIService::storeImage($bannerFile, 'games/images', $game->banner, [
+            'thumbnailSize' => 200,
+            'onSuccess' => fn($path) => $game->banner = $path,
+        ]);
 
         if (!$wasCreated || isset($thumbnailFile) || isset($bannerFile)) {
             $game->update($val);

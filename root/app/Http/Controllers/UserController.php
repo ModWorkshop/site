@@ -210,13 +210,27 @@ class UserController extends Controller
         );
 
         $avatarFile = Arr::pull($val, 'avatar_file');
-        APIService::storeImage($avatarFile, 'users/images', $user->avatar, 64, fn($path) => $user->avatar = $path, true);
+        APIService::storeImage($avatarFile, 'users/images', $user->avatar, [
+            'size' => 256,
+            'thumbnailSize' => 64,
+            'allowDeletion' => true,
+            'onSuccess' => function($path) use ($user) {
+                $user->avatar = $path;
+                $user->avatar_has_thumb = true;
+            },
+        ]);
 
         $bannerFile = Arr::pull($val, 'banner_file');
-        APIService::storeImage($bannerFile, 'users/images', $user->avatar, null, fn($path) => $user->banner = $path, true);
-
+        APIService::storeImage($bannerFile, 'users/images', $user->banner, [
+            'allowDeletion' => true,
+            'onSuccess' => fn($path) => $user->banner = $path
+        ]);
+    
         $backgroundFile = Arr::pull($val, 'background_file');
-        APIService::storeImage($backgroundFile, 'users/images', $user->background, null, fn($path) => $user->extra->background = $path, true);
+        APIService::storeImage($backgroundFile, 'users/images', $user->background, [
+            'allowDeletion' => true,
+            'onSuccess' => fn($path) => $user->extra->background = $path
+        ]);
 
         //Change password code
         $password = Arr::pull($val, 'password');
