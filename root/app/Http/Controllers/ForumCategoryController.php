@@ -82,6 +82,7 @@ class ForumCategoryController extends Controller
             'emoji' => 'string|nullable|max:6',
             'desc' => 'string|nullable|max:1000|',
             'is_private' => 'boolean',
+            'hidden' => 'boolean',
             'banned_can_post' => 'boolean',
             'private_threads' => 'boolean',
             'role_policies' => 'array',
