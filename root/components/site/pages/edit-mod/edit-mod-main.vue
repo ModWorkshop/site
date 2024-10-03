@@ -1,5 +1,5 @@
 <template>
-    <m-flex v-if="!mod.id" class="max-sm:flex-col">
+    <m-flex v-if="!mod.id" class="max-sm:flex-col" gap="2">
         <m-alert :title="$t('edit_mod_tips_title')">
             <ul style="padding-inline-start: 1rem;">
                 <li>{{ $t('edit_mod_tip_1') }}</li>
