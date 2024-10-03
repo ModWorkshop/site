@@ -6,9 +6,10 @@
         <m-flex>
             <NuxtLink v-if="$route.name == 'thread-thread-edit'" :to="`/thread/${thread.id}`">
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</m-button>
-            </NuxtLink> 
+            </NuxtLink>
             <m-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-button>
             <m-button v-if="canModerate" @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-button>
+            <m-button v-if="canModerate" @click="showMoveThread = true"><i-mdi-cursor-move/> {{$t('move')}}</m-button>
             <m-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
                 <i-mdi-lock-open v-if="thread.locked"/>
                 <i-mdi-lock v-else/>
@@ -16,6 +17,12 @@
             </m-button>
             <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
         </m-flex>
+
+        <m-form-modal v-model="showMoveThread" :title="$t('move')" @submit="moveThread">
+            <m-select v-model="forumId" :label="$t('forum')" clearable :options="forums" @select-option="changeForum"/>
+            <m-select v-model="categoryId" :label="$t('category')" :options="allowedCategories" clearable/>
+        </m-form-modal>
+
         <NuxtPage :thread="thread"/>
     </page-block>
 </template>
@@ -23,17 +30,25 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import type { Breadcrumb, Thread } from '~~/types/models';
+import type { Breadcrumb, ForumCategory, Game, Thread } from '~~/types/models';
 
 const { t } = useI18n();
 
 const { user, hasPermission } = useStore();
+const { isBanned, ban, gameBan } = storeToRefs(useStore());
 const { public: config } = useRuntimeConfig();
 
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 
-const threadGame = computed(() => thread.value.forum?.game);
+const showMoveThread = ref(false);
+const forumId = ref(thread.value.forum_id);
+const categoryId = ref(thread.value.category_id);
 
+const { data: categories } = await useWatchedFetchMany<ForumCategory>('forum-categories', {
+    forum_id: forumId
+});
+
+const threadGame = computed(() => thread.value.forum?.game);
 const thumbnail = computed(() => {
     const avatar = thread.value.user?.avatar;
     if (avatar) {
@@ -78,11 +93,52 @@ const breadcrumb = computed(() => {
     return crumbs;
 });
 
-async function pinThread() {
-    thread.value = await patchRequest(`threads/${thread.value.id}`, { pinned: !thread.value.pinned_at });
+const { data: games } = await useFetchMany<Game>('games');
+const forums = computed(() => {
+    const forums = [{ id: 1, name: t('global_forum') }];
+
+    if (games.value) {
+        for (const game of games.value.data) {
+            forums.push({ name: game.name, id: game.forum_id });
+        }
+    }
+
+    return forums;
+});
+
+const allowedCategories = computed(() => {
+    const canAppeal = ban.value?.can_appeal ?? true;
+    const canAppealGame = gameBan.value?.can_appeal ?? true;
+
+    return categories.value?.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame))) ?? [];
+});
+
+function changeForum() {
+    categoryId.value = allowedCategories.value[0]?.id;
 }
 
-async function lockThread() {
-    thread.value = await patchRequest(`threads/${thread.value.id}`, { locked: !thread.value.locked });
+async function pinThread(onError) {
+    try {
+        thread.value = await patchRequest(`threads/${thread.value.id}`, { pinned: !thread.value.pinned_at });
+    } catch (error) {
+        onError(error);
+    }
+}
+
+async function lockThread(onError) {
+    try {
+        thread.value = await patchRequest(`threads/${thread.value.id}`, { locked: !thread.value.locked });
+    } catch (error) {
+        onError(error);
+    }
+}
+
+async function moveThread(onError) {
+    try {
+        thread.value = await patchRequest(`threads/${thread.value.id}`, { forum_id: forumId.value, category_id: categoryId.value });
+        showMoveThread.value = false;
+    } catch (error) {
+        onError(error);
+    }
 }
 </script>
