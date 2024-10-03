@@ -1,7 +1,7 @@
 <template>
     <m-flex column gap="3">
         <div class="text-3xl break-words overflow-hidden">{{thread.name}}</div>
-        <m-content-block :padding="4">
+        <m-content-block :padding="6">
             <m-flex>
                 <NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
                     <m-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
