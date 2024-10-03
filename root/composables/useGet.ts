@@ -1,9 +1,10 @@
 export default async function<T = unknown>(url: string, options?) {
     const token = useCookie('XSRF-TOKEN', { readonly: true });
     const headers = useRequestHeaders();
-    const { public: config, innerApiUrl } = useRuntimeConfig();
+    const { public: config } = useRuntimeConfig();
+    const allConfig = useRuntimeConfig();
 
-    const headersToSend: any = {
+    const headersToSend: Record<string, string> = {
         accept: 'application/json', //Avoids redirects and makes sure we get JSON response.
     };
 
@@ -34,7 +35,7 @@ export default async function<T = unknown>(url: string, options?) {
     }
 
     const res = await $fetch<T>(url, {
-        baseURL: process.client ? config.apiUrl : innerApiUrl,
+        baseURL: import.meta.client ? config.apiUrl : allConfig.innerApiUrl,
         ...options,
         headers: headersToSend,
         credentials: "include", //Required as it doesn't send cookies and stuff otherwise
