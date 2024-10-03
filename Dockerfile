@@ -79,5 +79,9 @@ ENTRYPOINT ["/scripts/entrypoint.sh"]
 
 FROM build AS dev
 
+RUN <<EOF cat >> $PHP_INI_DIR/php.ini
+opcache.validate_timestamps=1
+EOF
+
 # Install composer packages
 CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve"]
