@@ -424,6 +424,7 @@ export interface ForumCategory {
     is_private: boolean;
     private_threads: boolean;
     can_post?: boolean;
+    hidden?: boolean;
 }
 
 export interface Suspension {
