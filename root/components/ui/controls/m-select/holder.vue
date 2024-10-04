@@ -25,7 +25,7 @@
                 dropdown-class="!overflow-hidden"
                 :class="{'max-w-full': true, 'dropdown-disabled': disabled}"
             >
-                <m-button>
+                <m-button size="sm">
                     <i-mdi-plus-thick class="text-sm"/>
                 </m-button>
                 <template #content>
