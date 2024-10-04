@@ -16,7 +16,7 @@
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all text-body">{{user?.name ?? $t('invalid_user')}}</component>
                     <m-tag v-if="tag && userTag" small>{{userTag}}</m-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
-                    <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle mt-1" :style="{backgroundColor: statusColor}"/>
+                    <div v-if="showOnlineState && !userInvisible && isPublic" :title="statusString" class="circle" :style="{backgroundColor: statusColor}"/>
 
                     <slot name="after-name" :user="user"/>
                 </NuxtLink>
@@ -120,6 +120,12 @@ const link = computed(() => {
     }
 });
 </script>
+
+<style scoped>
+.user {
+    display: inline-flex;
+}
+</style>
 
 <style>
 .user-at {

@@ -49,7 +49,6 @@ const textColor = computed(() => {
 
 .tag-small {
     padding: 0.4rem;
-    margin-top: 2px;
     line-height: 1;
 }
 

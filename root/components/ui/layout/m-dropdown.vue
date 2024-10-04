@@ -21,7 +21,7 @@
         </PopoverRoot>
         <TooltipProvider v-else-if="type == 'tooltip'" :delay-duration="toolTipDelay">
             <TooltipRoot v-model:open="open">
-                <TooltipTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
+                <TooltipTrigger aria-label="Update dimensions" class="inline-flex" as="span" v-bind="$attrs">
                     <slot/>
                 </TooltipTrigger>
                 <TooltipPortal v-if="!disabled">
