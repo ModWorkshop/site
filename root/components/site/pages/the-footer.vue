@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <m-flex class="page-block-nm">
+        <m-flex class="page-block-nm max-lg:flex-col p-4" gap="3">
             <m-flex column gap="5">
                 <m-flex wrap gap="3">
                     <m-link @click="scrollToTop">{{$t('return_to_top')}}</m-link>
@@ -93,9 +93,9 @@ function scrollToTop() {
 <style>
 footer {
     max-width: 100vw;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     gap: 24px;
     display: flex;
     flex-direction: column;
