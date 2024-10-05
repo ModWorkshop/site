@@ -1,32 +1,62 @@
 <template>
-    <tr :class="{'cursor-pointer': true, 'thread': true}" @click="clickThread(thread)">
-        <td @click.self="clickThread(thread)">
-            <m-flex column gap="3" class="py-2">
-                <m-flex>
-                    <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(-45deg);" class="mr-2"/>
-                    <i-material-symbols-check-circle v-if="!!thread.answer_comment_id" class="mr-2 text-success"/>
-                    <NuxtLink :class="{'opacity-60': !!thread.answer_comment_id}" :to="`/thread/${thread.id}`">{{thread.name}}</NuxtLink>
+    <m-flex
+        :class="['cursor-pointer', 'thread', 'content-block', 'max-md:gap-2', !!thread.answer_comment_id ? 'thread-inactive' : undefined]"
+        gap="1"
+        column
+        @click="clickThread(thread)"
+    >
+        <m-flex class="items-center" gap="2" wrap>
+            <NuxtLink class="max-md:text-lg md:text-xl" :to="`/thread/${thread.id}`">
+                <i-material-symbols-check-circle v-if="!!thread.answer_comment_id" class="text-success"/>
+                {{thread.name}}
+            </NuxtLink>
+            <m-flex class="flex-1">
+                <m-flex v-if="thread.tags?.length">
+                    <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
+                        <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
+                    </NuxtLink>
                 </m-flex>
-                <m-flex class="items-center" gap="3">
-                    <div v-if="thread.category">
-                        <i-mdi-square-medium/>
-                        <NuxtLink :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">{{thread.category.emoji}} {{thread.category.name}}</NuxtLink>
-                    </div>
-                    <m-flex v-if="thread.tags?.length" wrap @click.stop>
-                        <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
-                            <m-tag :color="tag.color">{{tag.name}}</m-tag>
-                        </NuxtLink>
-                    </m-flex>
+                <m-flex class="ml-auto items-center" gap="2">
+                    <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
+                    <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(45deg);"/>
+                    <i-mdi-lock v-if="thread.locked"/>
                 </m-flex>
             </m-flex>
-        </td>
-        <td v-if="!userId" @click.self="clickThread(thread)"><a-user :user="thread.user" avatar-size="xs" @click.stop/></td>
-        <td v-if="!forumId">{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}</td>
-        <td @click.self="clickThread(thread)">{{ thread.comment_count }}</td>
-        <td @click.self="clickThread(thread)"><m-time-ago :time="thread.bumped_at"/></td>
-        <td v-if="thread.last_user" @click.self="clickThread(thread)"><a-user :user="thread.last_user" avatar-size="xs" @click.stop/></td>
-        <td v-else @click.self="clickThread(thread)">{{$t('none')}}</td>
-    </tr>
+        </m-flex>
+        <m-flex class="md:items-center max-md:flex-col max-md:gap-4">
+            <m-flex wrap class="items-center">
+                <i18n-t :keypath="noCategory ? 'user_posted' : 'user_posted_in_forum_category'" scope="global">
+                    <template #user>
+                        <a-user :user="thread.user" :avatar="false"/>
+                    </template>
+                    <template #timeAgo>
+                        <m-time-ago :time="thread.created_at"/>
+                    </template>
+                    <template #place>
+                        <m-flex class="items-center text-inherit">
+                            <NuxtLink v-if="!forumId" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
+                                {{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
+                            </NuxtLink>
+                            <i-mdi-menu-right v-if="!forumId"/>
+                            <NuxtLink :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined" class="text-inherit">
+                                {{thread.category?.emoji}} {{thread.category?.name ?? $t('not_available')}}
+                            </NuxtLink>
+                        </m-flex>
+                    </template>
+                </i18n-t>
+            </m-flex>
+            <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" gap="1" wrap>
+                <i18n-t keypath="user_replied_time_ago" scope="global">
+                    <template #user>
+                        <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="xs"/>
+                    </template>
+                    <template #timeAgo>
+                        <m-time-ago :time="thread.bumped_at"/>
+                    </template>
+                </i18n-t>
+            </m-flex>
+        </m-flex>
+    </m-flex>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +81,12 @@ function clickThread(thread: Thread) {
 
 <style scoped>
 .thread {
-    padding: 2rem;
+    font-size: 13px;
+    padding: 1rem;
+    color: var(--secondary-text-color);
+}
+
+.thread-inactive {
+    background-color: var(--alt-content-bg-color);
 }
 </style>

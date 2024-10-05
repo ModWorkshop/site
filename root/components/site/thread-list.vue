@@ -34,16 +34,8 @@
                     {{ currentCategory.desc}}
                 </m-alert>
                 <m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
-                <m-table v-if="threads?.data.length && !loading" class="threads">
-                    <template #head>
-                        <th>{{$t('title')}}</th>
-                        <th v-if="!userId">{{$t('poster')}}</th>
-                        <th v-if="!currentForumId">{{$t('forum')}}</th>
-                        <th>{{$t('replies')}}</th>
-                        <th>{{$t('last_activity')}}</th>
-                        <th>{{$t('last_reply_by')}}</th>
-                    </template>
-                    <template v-if="threads.data.length" #body>
+                <m-flex v-if="threads?.data.length && !loading" gap="2" class="threads" column>
+                    <template v-if="threads.data.length">
                         <thread-row 
                             v-for="thread in threads.data"
                             :key="thread.created_at"
@@ -55,7 +47,7 @@
                             :user-id="userId"
                         />
                     </template>
-                </m-table>
+                </m-flex>
                 <m-loading v-else-if="loading || !loaded" class="m-auto"/>
                 <h2 v-else class="m-auto">
                     {{$t('no_threads_found')}}
