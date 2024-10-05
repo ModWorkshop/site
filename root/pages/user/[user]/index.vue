@@ -6,7 +6,7 @@
         <m-flex gap="3" column class="details md:flex-row">
             <m-content-block class="p-4 place-self-start max-sm:w-full">
                 <m-flex gap="3" column style="min-width: 300px;">
-                    <a-user class="text-2xl" :user="user" :avatar="false" static show-online-state>
+                    <a-user class="text-xl" :user="user" :avatar="false" static show-online-state>
                         <template #details>
                             <span v-if="user.unique_name" class="user-at text-base">@{{user.unique_name}} / ID {{user.id}}</span>
                             <span v-if="!userInvisible" class="text-base">{{user.custom_title}}</span>
