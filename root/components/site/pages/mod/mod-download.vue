@@ -1,8 +1,8 @@
 <template>
-    <m-flex wrap class="flex-col xl:flex-row list-button items-center !p-6" gap="3">
+    <m-flex wrap class="flex-col xl:flex-row list-button items-center !p-4" gap="3">
         <m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="100" height="100"/>
-        <m-img v-else src="file-download.webp" is-asset width="128" height="128"/>
-        <m-flex grow column style="flex: 1;" gap="2">
+        <m-img v-else src="file-download.webp" is-asset width="100" height="100"/>
+        <m-flex grow column style="flex: 1; overflow-wrap: anywhere" gap="2">
             <m-flex class="items-center" style="font-size: 1.15rem;">
                 <m-tag v-if="file.label">{{file.label}}</m-tag>
                 <strong v-if="file.name" class="items-center">{{file.name}}</strong>

@@ -2,7 +2,7 @@
     <m-flex column class="self-start mod-info-holder" gap="3">
         <mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
 
-        <m-flex class="content-block p-4" gap="2" column>
+        <m-flex class="content-block p-4" column>
             <mod-buttons :mod="mod" :static="static"/>
         </m-flex>
 

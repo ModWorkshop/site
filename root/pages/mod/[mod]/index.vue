@@ -71,7 +71,7 @@ function commentSpecialTag(comment: Comment) {
 
 <style>
 .large-button {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     padding: 1rem !important;
     text-align: center;
 }
