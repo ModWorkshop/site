@@ -8,28 +8,27 @@
                 <mod-status :mod="mod"/> {{mod.name}}
             </NuxtLink>
 
-            <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/>
+            <m-flex class="items-center gap-1" wrap>
+                <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/> 
+            </m-flex>
 
-            <template v-if="!noCategories">
-                <div v-if="((mod.game && showGame) || mod.category)" style="">
-                    <i-mdi-map-marker class="mr-1"/> 
+            <m-flex class="items-center mt-auto" wrap>
+                <div v-if="!noCategories && ((mod.game && showGame) || mod.category)" class="mr-1" wrap gap="0">
                     <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game">
                         {{mod.game.name}}
                     </NuxtLink>
                     <template v-if="mod.category">
-                        <template v-if="showGame"> / </template>
+                        <i-mdi-menu-right v-if="showGame"/>
                         <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                     </template>
                 </div>
-            </template>
-
-            <m-flex>
-                <span v-if="date" class="inline-block">
-                    <i-mdi-clock/> <m-time-ago :time="date"/>
-                </span>
             </m-flex>
 
             <m-flex>
+                <m-time-ago :time="date"/>
+            </m-flex>
+
+            <m-flex gap="2">
                 <span :title="fullLikes">
                     <i-mdi-heart/> {{likes}}
                 </span>
@@ -40,6 +39,12 @@
                     <i-mdi-eye/> {{views}}
                 </span>
             </m-flex>
+
+            <m-flex v-if="tags.length">
+                <NuxtLink v-for="tag in tags" :key="tag.id" :to="`${gameUrl}/mods}?selected-tags=${tag.id}`">
+                    <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
+                </NuxtLink>
+            </m-flex>
         </div>
     </div>
 </template>
@@ -49,7 +54,7 @@ import type { Game, Mod } from "~~/types/models";
 
 const store = useStore();
 
-const props = defineProps<{
+const { mod, game, static: isStatic, noGame, sort } = defineProps<{
     sort?: string,
     lazyThumbnail?: boolean,
     noCategories?: boolean,
@@ -61,18 +66,25 @@ const props = defineProps<{
 
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
-const showGame = computed(() => !props.noGame && props.mod.game);
-const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
-const likes = computed(() => shortStat(props.mod.likes));
-const downloads = computed(() => shortStat(props.mod.downloads));
-const views = computed(() => shortStat(props.mod.views));
+const showGame = computed(() => !noGame && mod.game);
+const date = computed(() => sort == 'published_at' ? mod.published_at : mod.bumped_at);
+const likes = computed(() => shortStat(mod.likes));
+const downloads = computed(() => shortStat(mod.downloads));
+const views = computed(() => shortStat(mod.views));
 
-const fullLikes = computed(() => friendlyNumber(locale.value, props.mod.likes));
-const fullDownloads = computed(() => friendlyNumber(locale.value, props.mod.downloads));
-const fullViews = computed(() => friendlyNumber(locale.value, props.mod.views));
+const tags = computed(() => {
+    if (!mod.tags) {
+        return [];
+    }
+    return mod.tags.slice(0, 3);
+});
 
-const link = computed(() => !props.static ? `/mod/${props.mod.id}` : undefined);
-const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame?.short_name || props.mod.game?.short_name || props.mod.game?.id}`);
+const fullLikes = computed(() => friendlyNumber(locale.value, mod.likes));
+const fullDownloads = computed(() => friendlyNumber(locale.value, mod.downloads));
+const fullViews = computed(() => friendlyNumber(locale.value, mod.views));
+
+const link = computed(() => !isStatic ? `/mod/${mod.id}` : undefined);
+const gameUrl = computed(() => `/g/${game?.short_name || store.currentGame?.short_name || mod.game?.short_name || mod.game?.id}`);
 </script>
 
 <style scoped>
@@ -92,17 +104,15 @@ const gameUrl = computed(() => `/g/${props.game?.short_name || store.currentGame
     width: 100%;
     min-height: 220px;
     display: flex;
-    gap: 0;
     flex-direction: column;
     justify-content: flex-start;
 }
 
 .mod-details {
-    padding: 0.5rem 0.75rem;
+    padding: 1rem;
     color: var(--secondary-text-color);
-    place-content: space-around;
+    gap: 8px;
     display: flex;
-    gap: 4px;
     flex: 1;
     flex-direction: column;
     word-break: break-word;

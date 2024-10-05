@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentDisplayMode == 0" class="mods mods-grid gap-3">
+    <div v-if="currentDisplayMode == 0" class="mods mods-grid gap-2">
         <div v-if="error">{{$t('error_fetching_mods')}}</div>
         <template v-else-if="mods">
             <grid-mod 
