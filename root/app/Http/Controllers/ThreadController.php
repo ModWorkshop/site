@@ -130,7 +130,7 @@ class ThreadController extends Controller
             abort(401);
         }
 
-        $changedForum = true;
+        $changedForum = false;
         if (isset($changeForum) && $changeForum !== $thread->forum_id) {
             if (!$canManageThreads) {
                 abort(401, "Cannot move thread to a different forum, please ask a moderator!");
