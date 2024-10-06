@@ -264,6 +264,7 @@ class Mod extends Model implements SubscribableInterface
     public const LIST_MOD_WITH = [
         'category',
         'thumbnail',
+        'tags',
     ];
 
     public $fullLoad = false;
