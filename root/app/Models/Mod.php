@@ -298,7 +298,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $mod = QueryBuilder::for(app(Mod::class))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        $mod = QueryBuilder::for(Mod::class)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
         return $mod->findOrFail($value);
     }
 

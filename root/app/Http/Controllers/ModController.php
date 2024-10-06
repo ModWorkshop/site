@@ -177,7 +177,10 @@ class ModController extends Controller
         $category = null;
 
         if (isset($val['category_id'])) {
-            $category = Category::where($gameId)->find($categoryId);
+            $category = Category::where('game_id', $gameId)->find($categoryId);
+            if (!isset($category)) {
+                abort(409, 'Invalid category. It must belong to the game.');
+            }
         }
 
         if ($sendForApproval) {
@@ -193,10 +196,6 @@ class ModController extends Controller
         $sendDiscordApproval = false;
         if (array_key_exists('approved', $val) && $val['approved'] === null) {
             $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
-        }
-
-        if (isset($category) && $category->game_id !== $gameId) {
-            abort(409, 'Invalid category. It must belong to the game.');
         }
 
         if (isset($mod)) {
