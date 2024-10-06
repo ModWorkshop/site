@@ -66,10 +66,12 @@ APIService::resource('images', ImageController::class, 'mods');
 
 Route::middleware('can:view,file')->get('files/{file}/download', [FileController::class, 'downloadFile']);
 Route::middleware('can:view,file')->get('files/{file}/version', [FileController::class, 'fileVersion']);
+Route::post('files/{file}/register-download', [FileController::class, 'registerDownload']);
 Route::middleware('can:view,mod')->get('mods/{mod}/download', [ModController::class, 'downloadPrimaryFile']);
 
 //General mods
 APIService::resource('links', LinkController::class, 'mods');
+Route::post('links/{link}/register-download', [LinkController::class, 'registerDownload']);
 APIService::gameResource('mods', ModController::class);
 Route::middleware('can:update,mod')->group(function() {
     Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
@@ -84,7 +86,6 @@ Route::resource('mods.members', ModMemberController::class)->only(['store', 'des
 Route::resource('mods.dependencies', ModDependencyController::class);
 Route::patch('mods/{mod}/owner/accept', [ModController::class, 'acceptTransferRequest']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
-Route::post('mods/{mod}/register-download', [ModController::class, 'registerDownload']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods', [ModController::class, 'index']);

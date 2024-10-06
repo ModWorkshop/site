@@ -8,29 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('mod_downloads', function (Blueprint $table) {
+        // A download (statistic) of a downloadable (file or link)
+        Schema::create('downloadable_downloads', function (Blueprint $table) {
             $table->id();
-            $table->integer('mod_id')->unsigned();
+            $table->morphs('downloadable');
             $table->integer('user_id')->unsigned()->nullable();
             $table->ipAddress()->nullable();
             $table->index('user_id');
-            $table->index('mod_id');
             $table->index('ip_address');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('mod_downloads');
+        Schema::dropIfExists('downloadable_downloads');
     }
 };

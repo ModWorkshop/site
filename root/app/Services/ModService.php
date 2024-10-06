@@ -2,8 +2,13 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Models\DownloadableDownload;
+use App\Models\File;
 use App\Models\Game;
+use App\Models\Link;
 use App\Models\Mod;
+use App\Models\ModDownload;
+use App\Models\PopularityLog;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Visibility;
@@ -16,6 +21,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Log;
+use Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
@@ -209,5 +215,57 @@ class ModService {
         $file->storePubliclyAs('mods/files', $fileName);
 
         return [$file, $fileName];
+    }
+
+    /**
+     * Register Download
+     *
+     * Registers a download for a mod, doesn't let you 'download' it twice
+     * Works with guests
+     */
+    public static function registerDownload(File|Link $downloadable)
+    {
+        $user = Auth::user();
+        $ip = Request::ip();
+
+        $mod = $downloadable->mod;
+        PopularityLog::log($mod, 'down');
+
+        /**
+         * @var Builder
+         */
+        $downloads = $downloadable->downloadsRelation();
+        if (isset($user) && $downloads->where('user_id', $user->id)->exists()) {
+            return;
+        } else if ($downloads->where('ip_address', $ip)->exists()) {
+            return;
+        }
+
+        // Create download for file or link
+        $downloadable->increment('downloads');
+        if (isset($user)) {
+            $downloadable->downloadsRelation()->create(['user_id' => $user->id, 'ip_address' => $ip]);
+        } else {
+            $downloadable->downloadsRelation()->create(['ip_address' => $ip]);
+        }
+
+        // Create download for mod
+        if (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) {
+            return response()->noContent(201);
+        } else if (ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists()) {
+            return response()->noContent(201);
+        }
+
+        $download = new ModDownload();
+        $download->mod_id = $mod->id;
+        $download->ip_address = $ip;
+        if (isset($user)) {
+            $download->user_id = $user->id;
+        }
+
+        $download->save();
+        $mod->increment('downloads');
+
+        return response()->noContent(201);
     }
 }

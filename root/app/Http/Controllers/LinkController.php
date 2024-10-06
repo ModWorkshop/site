@@ -9,6 +9,7 @@ use App\Services\APIService;
 use File;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Services\ModService;
 use Illuminate\Http\Response;
 
 /**
@@ -97,6 +98,18 @@ class LinkController extends Controller
         return $link;
     }
 
+    /**
+     * Register Download
+     *
+     * Registers a download for the link, doesn't let you 'download' it twice
+     * It applies the download to the mod that the link belongs to.
+     * Works with guests
+     */
+    public function registerDownload(Request $request, Link $link)
+    {
+        ModService::registerDownload($link);
+    }
+    
     /**
      * Delete Link
      *

@@ -209,4 +209,16 @@ class FileController extends Controller
 
         return $onlyVersions;
     }
+
+    /**
+     * Register Download
+     *
+     * Registers a download for the file, doesn't let you 'download' it twice
+     * It applies the download to the mod that the file belongs to.
+     * Works with guests
+     */
+    public function registerDownload(Request $request, File $file)
+    {
+        ModService::registerDownload($file);
+    }
 }

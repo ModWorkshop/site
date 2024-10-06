@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Storage;
 use Str;
@@ -84,6 +85,11 @@ class File extends Model
         return $this->belongsTo(Image::class);
     }
 
+    public function downloadsRelation() : MorphMany
+    {
+        return $this->morphMany(DownloadableDownload::class, 'downloadable');
+    }
+
     public function fileExt(): Attribute
     {
         return new Attribute(function() {
@@ -112,6 +118,7 @@ class File extends Model
         return Attribute::make(fn() => Storage::disk('r2')->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}");
     }
 
+    
     protected static function booted() {
         static::deleting(function(File $file) {
             Storage::delete('mods/files/'.$file->file);

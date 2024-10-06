@@ -323,40 +323,6 @@ class ModController extends Controller
     }
 
     /**
-     * Register Download
-     *
-     * Registers a download for a mod, doesn't let you 'download' it twice
-     * Works with guests
-     */
-    public function registerDownload(Request $request, Mod $mod)
-    {
-        $user = $request->user();
-        $ip = $request->ip();
-
-        PopularityLog::log($mod, 'down');
-
-        if (
-            (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists())
-        || ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists()
-        ) {
-            return;
-        }
-
-        $download = new ModDownload();
-        $download->mod_id = $mod->id;
-        if (isset($user)) {
-            $download->user_id = $user->id;
-        }
-
-        $download->ip_address = $ip;
-
-        $download->save();
-        $mod->increment('downloads');
-
-        return response()->noContent(201);
-    }
-
-    /**
      * Toggle Like
      *
      * Toggles the state of the like of the mod
