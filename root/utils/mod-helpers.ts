@@ -1,5 +1,5 @@
 import { useStore } from "~~/store";
-import type { Mod } from "~~/types/models";
+import type { File, Link, Mod } from "~~/types/models";
 
 export function canEditMod(mod: Mod) {
     const { user, hasPermission } = useStore();
@@ -34,14 +34,8 @@ export function canSuperUpdate(mod: Mod) {
     return (mod.user_id === user.id && hasPermission('create-mods', mod.game)) || hasPermission('manage-mods', mod.game);
 }
 
-export function registerDownload(mod) {
-    postRequest(`mods/${mod.id}/register-download`, null, {
-        onResponse(response: any) {
-            if (response.status == 201) {
-                mod.downloads++;
-            }
-        }
-    });
+export function registerDownload(downlaod_type: 'file'|'link', download: File|Link) {
+    postRequest(`${downlaod_type}s/${download.id}/register-download`, null);
 }
 
 // Bare minimum fields required for a list mod to function for optimization purposes.

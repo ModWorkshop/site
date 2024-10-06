@@ -12,6 +12,9 @@
                 <i-mdi-tag/> {{file.version}}
             </span>
             <md-content v-if="file.desc" :text="file.desc" :padding="0"/>
+            <m-flex :title="$t('downloads')" class="items-center">
+                <i-mdi-download/> <span :title="file.downloads.toString()">{{ friendlyNumber(locale, file.downloads) }}</span>
+            </m-flex>
             <m-flex class="items-center" wrap>
                 <span :title="$t('upload_date')">
                     <i-mdi-clock/>
@@ -41,5 +44,7 @@ const props = defineProps<{
     mod: Mod
 }>();
 
+const i18n = useI18n();
+const locale = computed(() => i18n.locale.value);
 const image = computed(() => props.mod.images?.find(image => image.id == props.file.image_id));
 </script>

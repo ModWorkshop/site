@@ -51,6 +51,7 @@ export interface Comment {
 
 export interface SimpleFile {
     id: number;
+    downloads: number;
     user_id?: number;
     mod_id?: number;
     mod?: Mod | null;

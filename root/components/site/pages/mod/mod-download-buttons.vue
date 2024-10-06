@@ -5,7 +5,7 @@
             <span style="text-transform:uppercase;">{{(download as any).type}}</span> ({{friendlySize((download as any).size)}})
         </m-button>
         <m-dropdown v-else-if="download && type == 'link'" class="flex-1 flex">
-            <m-button class="large-button flex-1" @click="!static && registerDownload(mod)">
+            <m-button class="large-button flex-1" @click="!static && registerDownload('link', download);">
                 <i-mdi-download/> {{$t('show_download_link')}}
             </m-button>
             <template #content>

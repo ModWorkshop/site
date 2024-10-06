@@ -49,7 +49,7 @@ if (!file.value) {
 watch(download, () => {
     if (download.value) {
         download.value.click();
-        registerDownload(mod);
+        registerDownload('file', file.value);
     }
 });
 
