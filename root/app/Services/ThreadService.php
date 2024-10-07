@@ -13,6 +13,10 @@ class ThreadService {
                 $querySetup($query, $val);
             }
 
+            if (isset($val['closed'])) {
+                $query->where('closed', $val['closed']);
+            }
+
             self::filters($query, $val);
         });
     }

@@ -85,6 +85,7 @@ class ForumCategoryController extends Controller
             'hidden' => 'boolean',
             'banned_can_post' => 'boolean',
             'private_threads' => 'boolean',
+            'can_close_threads' => 'boolean',
             'role_policies' => 'array',
             'game_role_policies' => 'array',
             'display_order' => 'integer|min:-1000|max:1000|nullable',

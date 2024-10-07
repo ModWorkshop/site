@@ -114,7 +114,8 @@ class ThreadController extends Controller
             'tag_ids' => 'array',
             'tag_ids.*' => 'integer|min:1',
             'pinned' => 'boolean|nullable',
-            'locked' => 'boolean|nullable'
+            'locked' => 'boolean|nullable',
+            'closed' => 'boolean|nullable'
         ]);
 
         Utils::convertToUTC($val, 'announce_until');
@@ -166,25 +167,40 @@ class ThreadController extends Controller
             $thread->announce = $changeAnnounce;
         }
 
-        $changeArchive = Arr::pull($val, 'locked');
-        if (isset($changeArchive)) {
+        $changeLock = Arr::pull($val, 'locked');
+        if (isset($changeLock)) {
             //Cannot unarchive a thread locked by a moderator!
             if ($thread->locked_by_mod && !$canManageThreads) {
                 abort(401);
             }
 
-            $thread->locked = $changeArchive;
-            $thread->timestamps = false;
-
-            //If a moderator archives this, make it so the poster cannot unarchive it.
+            $thread->locked = $changeLock;
+            //If a moderator locks this, make it so the poster cannot unlock it.
             if ($canManageThreads && $thread->user->id !== $user->id) {
-                $thread->locked_by_mod = $changeArchive;
+                $thread->locked_by_mod = $changeLock;
+            }
+        }
+
+        $changeClosed = Arr::pull($val, 'closed');
+        if (isset($changeClosed)) {
+            //Cannot open a thread closed by a moderator!
+            if ($thread->closed_by_mod && !$canManageThreads) {
+                abort(401);
+            }
+
+            $thread->closed = $changeClosed;
+            //If a moderator locks this, make it so the poster cannot unlock it.
+            if ($canManageThreads && $thread->user->id !== $user->id) {
+                $thread->closed_by_mod = $changeClosed;
             }
         }
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 
-        $val['edited_at'] = Carbon::now();
+        if ((isset($val['content']) && $val['content'] != $thread->content) || (isset($val['name']) && $val['name'] != $thread->name)) {
+            $val['edited_at'] = Carbon::now();
+        }
+
         $thread->update($val);
         $thread->load('forum.game');
 
