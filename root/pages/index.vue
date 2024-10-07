@@ -30,11 +30,11 @@
             <template #buttons>
                 <m-toggle-group v-if="user" v-model:selected="selectedView" button-style="nav" :wrap="false" class="overflow-auto">
                     <m-flex class="flex-shrink-0">
-                        <m-toggle-group-item name="all"><i-mdi-layers/> {{$t('all')}}</m-toggle-group-item>
-                        <m-toggle-group-item name="games"><i-mdi-gamepad/> {{$t('followed_games')}}</m-toggle-group-item>
-                        <m-toggle-group-item name="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</m-toggle-group-item>
-                        <m-toggle-group-item name="users"><i-mdi-users/> {{$t('followed_users')}}</m-toggle-group-item>
-                        <m-toggle-group-item name="liked"><i-mdi-heart/> {{$t('liked')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="all"><i-mdi-layers/> {{$t('all')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="games"><i-mdi-gamepad/> {{$t('followed_games')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="users"><i-mdi-users/> {{$t('followed_users')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="liked"><i-mdi-heart/> {{$t('liked')}}</m-toggle-group-item>
                     </m-flex>
                 </m-toggle-group>
             </template>

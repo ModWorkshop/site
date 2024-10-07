@@ -48,8 +48,8 @@
         <template v-if="isPublic">
             <template v-if="tempBlockOverride || !isHidingMods">
                 <m-toggle-group v-model:selected="displayMods" gap="1" button-style="nav">
-                    <m-toggle-group-item name="personal">{{$t('personal_mods')}}</m-toggle-group-item>
-                    <m-toggle-group-item name="collab">{{$t('collab_mods')}}</m-toggle-group-item>
+                    <m-toggle-group-item value="personal">{{$t('personal_mods')}}</m-toggle-group-item>
+                    <m-toggle-group-item value="collab">{{$t('collab_mods')}}</m-toggle-group-item>
                 </m-toggle-group>
                 <mod-list 
                     v-if="isPublic || isOwnOrModerator"

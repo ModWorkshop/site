@@ -3,9 +3,9 @@
         <m-flex>
             <m-button class="mr-auto" :to="link"><i-mdi-puzzle/> {{$t('browse_mods')}}</m-button>
             <m-toggle-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                <m-toggle-group-item :name="0"><i-mdi-view-grid/></m-toggle-group-item>
-                <m-toggle-group-item :name="1"><i-mdi-view-list/></m-toggle-group-item>
-                <m-toggle-group-item :name="2"><i-mdi-view-headline/></m-toggle-group-item>
+                <m-toggle-group-item :value="0"><i-mdi-view-grid/></m-toggle-group-item>
+                <m-toggle-group-item :value="1"><i-mdi-view-list/></m-toggle-group-item>
+                <m-toggle-group-item :value="2"><i-mdi-view-headline/></m-toggle-group-item>
             </m-toggle-group>
         </m-flex>
         <m-flex class="p-2">

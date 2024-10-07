@@ -17,9 +17,9 @@
                         <m-button><i-mdi-star/> {{$t('popularity')}}</m-button>
                         <template #content>
                             <m-toggle-group v-model:selected="sortBy" column>
-                                <m-toggle-group-item name="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</m-toggle-group-item>
-                                <m-toggle-group-item name="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</m-toggle-group-item>
-                                <m-toggle-group-item name="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</m-toggle-group-item>
+                                <m-toggle-group-item value="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</m-toggle-group-item>
+                                <m-toggle-group-item value="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</m-toggle-group-item>
+                                <m-toggle-group-item value="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</m-toggle-group-item>
                             </m-toggle-group>
                         </template>
                     </m-dropdown>
@@ -30,12 +30,12 @@
                         <template #content>
                             <m-flex column>
                                 <m-toggle-group v-model:selected="sortBy" column>
-                                    <m-toggle-group-item name="best_match"><i-mdi-magnify/> {{$t('best_match')}} </m-toggle-group-item>
-                                    <m-toggle-group-item name="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</m-toggle-group-item>
-                                    <m-toggle-group-item name="likes"><i-mdi-heart/> {{$t('likes')}}</m-toggle-group-item>
-                                    <m-toggle-group-item name="downloads"><i-mdi-download/> {{$t('downloads')}}</m-toggle-group-item>
-                                    <m-toggle-group-item name="views"><i-mdi-eye/>{{$t('views')}}</m-toggle-group-item>
-                                    <m-toggle-group-item name="name"><i-mdi-pencil/> {{$t('name')}}</m-toggle-group-item>
+                                    <m-toggle-group-item value="best_match"><i-mdi-magnify/> {{$t('best_match')}} </m-toggle-group-item>
+                                    <m-toggle-group-item value="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</m-toggle-group-item>
+                                    <m-toggle-group-item value="likes"><i-mdi-heart/> {{$t('likes')}}</m-toggle-group-item>
+                                    <m-toggle-group-item value="downloads"><i-mdi-download/> {{$t('downloads')}}</m-toggle-group-item>
+                                    <m-toggle-group-item value="views"><i-mdi-eye/>{{$t('views')}}</m-toggle-group-item>
+                                    <m-toggle-group-item value="name"><i-mdi-pencil/> {{$t('name')}}</m-toggle-group-item>
                                 </m-toggle-group>
                             </m-flex>
                         </template>
@@ -66,9 +66,9 @@
                         <m-flex column class="p-2" gap="2">
                             <m-input :label="$t('display_mode')">
                                 <m-toggle-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
-                                    <m-toggle-group-item :name="0"><i-mdi-view-grid/></m-toggle-group-item>
-                                    <m-toggle-group-item :name="1"><i-mdi-view-list/></m-toggle-group-item>
-                                    <m-toggle-group-item :name="2"><i-mdi-view-headline/></m-toggle-group-item>
+                                    <m-toggle-group-item :value="0"><i-mdi-view-grid/></m-toggle-group-item>
+                                    <m-toggle-group-item :value="1"><i-mdi-view-list/></m-toggle-group-item>
+                                    <m-toggle-group-item :value="2"><i-mdi-view-headline/></m-toggle-group-item>
                                 </m-toggle-group>
                             </m-input>
                             <m-button v-if="user" to="/user-settings/content">{{ $t('content_settings') }}</m-button>

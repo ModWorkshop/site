@@ -20,9 +20,9 @@
                 <m-flex v-if="currentForumId && categories?.data.length" column>
                     <label>{{$t('category')}}</label>
                     <m-toggle-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
-                        <m-toggle-group-item :name="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
+                        <m-toggle-group-item :value="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
                         <template v-for="category of categories.data" :key="category.id">
-                            <m-toggle-group-item v-if="!category.hidden" :name="category.id">
+                            <m-toggle-group-item v-if="!category.hidden" :value="category.id">
                                 {{category.emoji}} {{category.name}}
                             </m-toggle-group-item>
                         </template>
