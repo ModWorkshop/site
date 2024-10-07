@@ -54,6 +54,7 @@
         <m-input v-model="category.is_private" type="checkbox" :label="$t('private_category')"/>
         <m-input v-model="category.banned_can_post" type="checkbox" :label="$t('banned_can_post')"/>
         <m-input v-model="category.private_threads" type="checkbox" :label="$t('private_threads')"/>
+        <m-input v-model="category.can_close_threads" type="checkbox" :label="$t('can_close_threads')"/>
         <m-input v-model="category.hidden" type="checkbox" :label="$t('hidden')"/>
     </simple-resource-form>
 </template>

@@ -372,6 +372,8 @@ export interface Thread {
     views: number;
     locked: boolean;
     locked_by_mod: boolean;
+    closed: boolean;
+    closed_by_mod: boolean;
     answer_comment_id: number|null;
     answer_comment?: Comment;
     announce: boolean;
@@ -426,6 +428,7 @@ export interface ForumCategory {
     private_threads: boolean;
     can_post?: boolean;
     hidden?: boolean;
+    can_close_threads?: boolean;
 }
 
 export interface Suspension {

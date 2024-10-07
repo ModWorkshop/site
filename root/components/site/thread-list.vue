@@ -34,6 +34,12 @@
                     {{ currentCategory.desc}}
                 </m-alert>
                 <m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
+                
+                <m-toggle-group v-if="currentCategory?.can_close_threads" v-model:selected="displayClosed" gap="1" button-style="nav">
+                    <m-toggle-group-item :value="false">{{$t('open_threads')}}</m-toggle-group-item>
+                    <m-toggle-group-item :value="true">{{$t('closed_threads')}}</m-toggle-group-item>
+                </m-toggle-group>
+
                 <m-flex v-if="threads?.data.length && !loading" gap="2" class="threads" column>
                     <template v-if="threads.data.length">
                         <thread-row 
@@ -90,6 +96,7 @@ if (query) {
     searchBus.on(search => query.value = search);
 }
 
+const displayClosed = props.query ? useRouteQuery('closed', false, 'boolean') : ref(false);
 const page = props.query ? useRouteQuery('page', 1, 'number') : ref(1);
 const categoryId = props.query ? useRouteQuery('category', null, 'number') : ref();
 const selectedForum = props.query ? useRouteQuery('forum', null, 'number') : ref();
@@ -123,6 +130,7 @@ const params = reactive({
     tags: selectedTags,
     category_id: categoryId,
     query: query,
+    closed: currentCategory.value?.can_close_threads ? displayClosed : undefined,
     no_pins: props.noPins ? 1 : 0,
     limit: props.limit,
     page

@@ -3,6 +3,7 @@
         <Title>{{thread.name}}</Title>
         <the-tag-notices v-if="thread.tags" :tags="thread.tags"/>
         <m-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
+        <m-alert v-if="canCloseInCategory && thread.closed" color="info" :desc="$t('thread_closed')"/>
         <m-flex>
             <NuxtLink v-if="$route.name == 'thread-thread-edit'" :to="`/thread/${thread.id}`">
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</m-button>
@@ -14,6 +15,11 @@
                 <i-mdi-lock-open v-if="thread.locked"/>
                 <i-mdi-lock v-else/>
                 {{thread.locked ? $t('unlock') : $t('lock')}}
+            </m-button>
+            <m-button v-if="canCloseInCategory && canEdit" :disabled="(thread.closed_by_mod && !canModerate)" @click="closeThread">
+                <i-mdi-undo v-if="thread.closed"/>
+                <i-mdi-check-circle-outline v-else/>
+                {{thread.closed ? $t('open') : $t('close')}}
             </m-button>
             <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
         </m-flex>
@@ -48,6 +54,7 @@ const { data: categories } = await useWatchedFetchMany<ForumCategory>('forum-cat
     forum_id: forumId
 });
 
+const canCloseInCategory = computed(() => thread.value.category?.can_close_threads);
 const threadGame = computed(() => thread.value.forum?.game);
 const thumbnail = computed(() => {
     const avatar = thread.value.user?.avatar;
@@ -128,6 +135,14 @@ async function pinThread(onError) {
 async function lockThread(onError) {
     try {
         thread.value = await patchRequest(`threads/${thread.value.id}`, { locked: !thread.value.locked });
+    } catch (error) {
+        onError(error);
+    }
+}
+
+async function closeThread(onError) {
+    try {
+        thread.value = await patchRequest(`threads/${thread.value.id}`, { closed: !thread.value.closed });
     } catch (error) {
         onError(error);
     }
