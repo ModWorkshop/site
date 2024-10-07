@@ -59,7 +59,7 @@ async function submit() {
         if (props.mergeParams) {
             params = serializeObject({
                 ...clone(vm.value),
-                ...clone(props.mergeParams),
+                ...props.mergeParams,
                 'h-captcha-response': captchaToken.value
             });
         } else {
