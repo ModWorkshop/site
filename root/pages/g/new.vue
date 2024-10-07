@@ -1,7 +1,7 @@
 <template>
     <page-block :game="game" size="xs">
         <m-content-block>
-            <admin-edit-game :game="game"/>
+            <admin-edit-game v-model="game"/>
         </m-content-block>
     </page-block>
 </template>
