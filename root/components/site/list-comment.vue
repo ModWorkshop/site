@@ -167,13 +167,17 @@ if (props.comment.mentions) {
 const canEdit = computed(() => user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll);
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
-const classes = computed(() => ({
-    comment: true,
-    reply: props.isReply,
-    relative: true,
-    focus: focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id),
-    answer: isAnswer.value
-}));
+const classes = computed(() => {
+    const focus = focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id);
+    return {
+        comment: true,
+        reply: props.isReply,
+        relative: true,
+        focus: focus,
+        answer: isAnswer.value,
+        pinned: !focus && props.comment.pinned
+    };
+});
 
 const commentPage = computed(() => {
     if (props.comment.reply_to) {
@@ -239,6 +243,12 @@ function openDeleteModal() {
     border-left: solid 3px #09ff00;
     border-radius: var(--border-radius);
 }
+
+
+.pinned {
+    background-color: var(--secondary-content-bg-color);
+}
+
 </style>
 
 <style>
