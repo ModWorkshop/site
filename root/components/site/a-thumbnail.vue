@@ -13,7 +13,7 @@
 <script setup lang="ts">
 const { lazy = true } = defineProps<{
     src?: string|Blob,
-    lazy?: bool,
+    lazy?: boolean,
     preferHq?: boolean,
     hasThumb?: boolean,
     urlPrefix: string,

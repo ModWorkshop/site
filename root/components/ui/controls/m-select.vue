@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
     textBy?: false|string|((option) => string),
     colorBy?: false|string|((option) => string),
     enabledBy?: string|((option) => boolean),
-    beforeSelect?: ((value, clbk) => boolean),
+    beforeSelect?: ((value, clbk) => void),
     disabled?: boolean,
     filterSelected?: boolean,
     multiple?: boolean,

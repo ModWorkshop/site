@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
     mod: Mod,
     suspension?: Suspension,
     showModal?: boolean,
-    button: boolean
+    button?: boolean
 }>(), {
     showModal: false,
     button: true

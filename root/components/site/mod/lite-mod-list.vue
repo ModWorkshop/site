@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import type { Game, Mod } from '~/types/models';
-const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration()});
+const displayMode = useConsentedCookie<number>('mods-displaymode', { default: () => 0, expires: longExpiration()});
 
 const props = defineProps<{
     game?: Game,

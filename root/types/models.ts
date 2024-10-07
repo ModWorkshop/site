@@ -206,7 +206,7 @@ export interface Game {
     waiting_count?: number;
     mod_managers?: ModManager[];
     mod_manager_ids?: number[];
-    default_mod_manager_id: number;
+    default_mod_manager_id?: number;
 }
 
 export interface SocialLogin {
@@ -537,13 +537,13 @@ export interface Report {
     created_at?: string;
     updated_at?: string;
     user?: User | null;
-    reportable?: any | null;
+    reportable?: { id: number; user_id?: number } | null;
     reported_user?: User
 }
 
 export interface ModManager {
     id: number;
-    game_id: number;
+    game_id?: number;
     name: string;
     image?: string;
     download_url: string;

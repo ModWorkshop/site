@@ -3,5 +3,7 @@
 </template>
 
 <script setup lang="ts">
-const thread = defineModel('thread', { required: true });
+import type { Thread } from '~/types/models';
+
+const thread = defineModel<Thread>('thread', { required: true });
 </script>

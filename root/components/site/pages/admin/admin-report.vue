@@ -11,9 +11,9 @@
         </m-flex>
         <m-flex column class="ml-auto my-auto" gap="2">
             <m-flex class="ml-auto">
-                <m-button v-if="report.reportable" :to="`/admin/${casesUrl}?user=${report.reportable.user_id}`">{{$t('warn_owner')}}</m-button>
-                <mod-suspend v-if="report.reportable_type == 'mod' && report.reportable" :mod="report.reportable"/>
-                <m-button v-if="report.reportable" :to="reportLink">{{$t('go_to_content')}}</m-button>
+                <m-button v-if="report.reportable?.user_id" :to="`/admin/${casesUrl}?user=${report.reportable.user_id}`">{{$t('warn_owner')}}</m-button>
+                <mod-suspend v-if="report.reportable_type == 'mod' && report.reportable" :mod="report.reportable as Mod"/>
+                <m-button v-if="reportLink" :to="reportLink">{{$t('go_to_content')}}</m-button>
             </m-flex>
             <m-flex class="ml-auto">
                 <m-button v-if="report.archived" color="danger" @click="deleteReport"><i-mdi-delete/> {{$t('delete')}}</m-button>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import type { Game, Report } from '~~/types/models';
+import type { Comment, Game, Mod, Report, User } from '~~/types/models';
 import { useStore } from '~~/store/index';
 
 const { game, report, reports } = defineProps<{
@@ -52,9 +52,9 @@ const currentContent = computed(() => {
         return;
     }
     if (report.reportable_type == 'mod' || report.reportable_type == 'user') {
-        return report.reportable.name;
+        return (report.reportable as Mod|User).name;
     } else {
-        return report.reportable.content;
+        return (report.reportable as Comment).content;
     } 
 });
 
@@ -72,13 +72,13 @@ const reportedUser = computed(() => {
     }
 
     if (report.reportable_type == 'user') {
-        return report.reportable;
+        return report.reportable as User;
     } else {
-        return report.reportable.user;
+        return (report.reportable as { id: number, user: User }).user;
     }
 });
 
-const reportLink = computed(() => getObjectLink(report.reportable_type, report.reportable));
+const reportLink = computed(() => report.reportable ? getObjectLink(report.reportable_type, report.reportable) : null);
 
 async function toggleArchiveReport() {
     const archived = !report.archived;

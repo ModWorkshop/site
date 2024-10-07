@@ -25,7 +25,7 @@ const emit = defineEmits<{
     (e: 'closed'): void
 }>();
 
-const vm = defineModel({ default: false, local: true });
+const vm = defineModel<boolean>({ default: false });
 const delayedVm = ref(vm.value);
 
 watch(vm, val => {

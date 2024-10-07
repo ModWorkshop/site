@@ -93,7 +93,7 @@
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
-import type { Comment, Game, Mod, User, Thread } from '~~/types/models';
+import type { Comment, Game, User, Thread } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
 const props = withDefaults(defineProps<{

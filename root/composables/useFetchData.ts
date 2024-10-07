@@ -14,7 +14,7 @@ export default function<T>(url: string|(() => string), options: DifferentFetchOp
         params: options.params
     }));
 
-    return useAsyncData(key ?? '', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
+    return useAsyncData<T>(key ?? '', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
         lazy: options.lazy,
         immediate: options.immediate
     });

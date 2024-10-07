@@ -58,7 +58,7 @@ const props = withDefaults(defineProps<{
     query?: boolean,
     params?: object,
     itemLink?: (item?) => string,
-    pagination: boolean,
+    pagination?: boolean,
     loading?: boolean,
     items?: Paginator<any>|null,
 }>(), {

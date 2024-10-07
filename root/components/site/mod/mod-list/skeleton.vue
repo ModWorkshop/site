@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import type { Game, Mod } from '~~/types/models';
-const savedDisplayMode = useConsentedCookie('mods-displaymode', { default: () => 0,  expires: longExpiration()});
+const savedDisplayMode = useConsentedCookie<number>('mods-displaymode', { default: () => 0,  expires: longExpiration() });
 
 const props = defineProps<{
     displayMode?: number,
@@ -51,5 +51,5 @@ const props = defineProps<{
     mods?: Mod[]
 }>();
 
-const currentDisplayMode = computed(() => props.displayMode ?? parseInt(savedDisplayMode.value as string));
+const currentDisplayMode = computed(() => props.displayMode ?? savedDisplayMode.value);
 </script>

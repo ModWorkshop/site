@@ -48,7 +48,7 @@ withDefaults(defineProps<{
     placement: 'bottom-start'
 });
 
-const shown = defineModel<boolean>('shown', { local: true, default: false });
+const shown = defineModel<boolean>('shown', { default: false });
 </script>
 
 <style scoped>

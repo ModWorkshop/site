@@ -12,10 +12,11 @@
 </template>
 
 <script setup lang="ts">
+import type { NuxtError } from '#app';
 import { useStore } from './store';
 
 defineProps<{
-	error: Error
+	error: NuxtError
 }>();
 
 const store = useStore();

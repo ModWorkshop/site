@@ -10,10 +10,10 @@
     </m-select>
 </template>
 
-<script setup lang="ts">
-withDefaults(defineProps<{
-    url: string
-}>(), { url: 'mods' });
+<script setup lang="ts" generic="T">
+const { url = 'mods' } = defineProps<{
+    url?: string
+}>();
 
-const vm = defineModel();
+const vm = defineModel<T>();
 </script>

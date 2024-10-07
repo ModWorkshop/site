@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 interface AxiosRequestConfigPlus extends AxiosRequestConfig {
@@ -18,7 +19,7 @@ export function buildQueryParams(params) {
     });
 }
 
-export async function postRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus = {}) {
+export async function postRequest<T>(url: string, body?: object|null, config: AxiosRequestConfigPlus = {}) {
     const { public: runtimeConfig } = useRuntimeConfig();
     const token = useCookie('XSRF-TOKEN', { readonly: true });
 

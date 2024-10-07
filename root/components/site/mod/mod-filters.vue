@@ -13,15 +13,15 @@
 </template>
 
 <script setup lang="ts">
-import type { AsyncDataExecuteOptions } from 'nuxt/dist/app/composables/asyncData';
-import type { Category, Game, Mod, Tag } from '~~/types/models';
+import type { AsyncDataExecuteOptions } from '~/types/core';
+import type { Category, Game, Tag } from '~~/types/models';
 import { Paginator } from '~~/types/paginator';
 
 const props = defineProps<{
-    refresh: (opts?: AsyncDataExecuteOptions) => Promise<Paginator<Mod> | null>,
+    refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>,
     game?: Game;
     categories?: Paginator<Category>|null;
-    refreshCategories: (opts?: AsyncDataExecuteOptions) => Promise<Paginator<Category> | null>;
+    refreshCategories: (opts?: AsyncDataExecuteOptions) => Promise<void>;
     filters: {
         query: string;
         game_id: number;

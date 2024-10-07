@@ -1,5 +1,5 @@
-import { SearchParameters } from 'ofetch';
-import { DifferentFetchOptions } from './useFetchData';
+import type { SearchParameters } from 'ofetch';
+import type { DifferentFetchOptions } from './useFetchData';
 
 export interface WatchedFetchManyOptions extends DifferentFetchOptions {
     onChange?: ((val: any, oldVal: any) => boolean)|null;

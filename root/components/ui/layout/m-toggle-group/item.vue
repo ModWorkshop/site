@@ -1,20 +1,20 @@
 <template>
-    <component :is="computedComponent" :selected="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected?.(name)">
+    <component :is="computedComponent" :selected="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected?.(value)">
         <slot/>
     </component>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    name: [String, Number],
-    icon: String,
-});
+const props = defineProps<{
+    value: any,
+    icon?: string,
+}>();
 
 const buttonStyle = inject<string|undefined>('buttonStyle', 'button');
 const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 
-const isSelected = computed(() => props.name == selected?.value);
+const isSelected = computed(() => props.value == selected?.value);
 
 const computedComponent = computed(() => {
     if (!buttonStyle || buttonStyle == 'nav') {

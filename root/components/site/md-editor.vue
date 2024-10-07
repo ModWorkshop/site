@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Tool } from '~/types/tools';
+
 const props = defineProps({
     labelId: String,
     modelValue: String,

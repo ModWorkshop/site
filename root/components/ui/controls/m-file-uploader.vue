@@ -192,6 +192,8 @@ function register(files: FileList|null) {
                 id: 0,
                 name: file.name,
                 size: file.size,
+                downloads: 0,
+                display_order: 0,
                 thumbnail: '/assets/no-preview.webp',
                 file: '',
                 type: '',
