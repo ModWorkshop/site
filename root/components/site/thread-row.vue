@@ -87,6 +87,6 @@ function clickThread(thread: Thread) {
 }
 
 .thread-inactive {
-    background-color: var(--alt-content-bg-color);
+    background-color: var(--secondary-content-bg-color);
 }
 </style>
