@@ -1,7 +1,7 @@
 <template>
-    <page-block :game="game" :breadcrumb="breadcrumb" show-background>
+    <page-block v-if="game" :game="game" :breadcrumb="breadcrumb" show-background>
         <Title>{{ game.name }} Mods</Title>
-        <NuxtPage v-model:game="game" :mods="mods"/>
+        <NuxtPage :game="game" :mods="mods"/>
     </page-block>
 </template>
 <script setup lang="ts">
@@ -15,7 +15,7 @@ const { t } = useI18n();
 
 definePageMeta({ alias: '/game/:game' });
 
-let game: Game;
+let game = ref<Game>();
 let mods: Paginator<Mod>;
 
 if (route.name == 'g-game') {
@@ -29,30 +29,30 @@ if (route.name == 'g-game') {
         sort: useRouteQuery('sort', 'bumped_at').value,
         limit: 20
     });
-    game = data.value.game;
+    game.value = data.value.game;
     mods = data.value.mods;
 } else {
     const { data } = await useResource<Game>('game', 'games');
-    game = data.value;
+    game.value = data.value;
 }
 
-const desc = `Browse ${shortStat(game.mods_count!)} ${game.name} mods. Find a big variety of mods to customize ${game.name} on ModWorkshop!`;
+const desc = `Browse ${shortStat(game.value.mods_count!)} ${game.value.name} mods. Find a big variety of mods to customize ${game.value.name} on ModWorkshop!`;
 
 useServerSeoMeta({
-    ogSiteName: `ModWorkshop - ${game.name}`,
-	ogTitle: `${game.name}`,
+    ogSiteName: `ModWorkshop - ${game.value.name}`,
+	ogTitle: `${game.value.name}`,
 	description: desc,
 	ogDescription:desc,
-	ogImage: `games/images/${game.thumbnail}`,
-    keywords: `${game.name}, ${game.name} mod, ${game.name} mods, mod, mods, modding, modworkshop, modworkshopnet`,
+	ogImage: `games/images/${game.value.thumbnail}`,
+    keywords: `${game.value.name}, ${game.value.name} mod, ${game.value.name} mods, mod, mods, modding, modworkshop, modworkshopnet`,
 	twitterCard: 'summary',
 });
 
 const breadcrumb = computed(() => {
     const breadcrumb: Breadcrumb[] = [];
-    if (game) {
+    if (game.value) {
         breadcrumb.push({ name: t('games'), to: 'games' });
-        breadcrumb.push({ name: game.name, to: `g/${game.short_name || game.id}` });
+        breadcrumb.push({ name: game.value.name, to: `g/${game.value.short_name || game.value.id}` });
     }
 
     if (route.name == 'game-game-upload') {
@@ -74,5 +74,5 @@ const breadcrumb = computed(() => {
     return breadcrumb;
 });
 
-watch(() => game, () =>  store.currentGame = game, { immediate: true });
+watch(() => game, () => store.currentGame = game.value!, { immediate: true });
 </script>
