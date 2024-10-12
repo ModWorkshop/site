@@ -80,7 +80,7 @@ class FileController extends Controller
         $mod->bump(false);
         $mod->calculateFileStatus(); //Here it saves
 
-        return $file;
+        return response($file, 201);
     }
 
     /**
