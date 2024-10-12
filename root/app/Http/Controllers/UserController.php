@@ -105,6 +105,8 @@ class UserController extends Controller
                     ");
                 }
             }
+
+            $q->orderBy('id');
         });
 
         return UserResource::collectionResponse($users);
