@@ -67,6 +67,10 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class);
     }
+    
+    public function permit(string $permission) {
+        $this->permissions()->attach(Permission::whereName($permission)->first()->id);
+    }
 
     public function color(): Attribute
     {

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-class TestResource extends TestCase
+abstract class TestResource extends TestCase
 {
     protected Model $parent;
 

@@ -63,6 +63,10 @@ class GameRole extends Model
         return sprintf("%s/%s-%s", $this->getTable(), $this->getKey(), $this->updated_at?->timestamp ?? $this->id);
     }
 
+    public function permit(string $permission) {
+        $this->permissions()->attach(Permission::whereName($permission)->first()->id);
+    }
+
     public function getMorphClass(): string {
         return 'game_role';
     }
