@@ -143,7 +143,7 @@ class ModPolicy
             return false;
         }
 
-        return $mod->getMemberLevel($user->id) === 0; //Maintainer
+        return $mod->getMemberLevel($user->id) === 'maintainer';
     }
 
     /**
