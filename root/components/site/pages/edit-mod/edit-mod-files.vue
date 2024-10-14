@@ -18,6 +18,7 @@
             :paused-reason="$t('file_waiting')"
             :max-size="maxSize"
             url="files"
+            ask-before-remove
             @file-uploaded="updateHasDownload"
             @file-deleted="fileDeleted"
         >
@@ -30,7 +31,8 @@
                         :checked="(file.id === mod.download_id && mod.download_type == 'file') ? true : undefined"
                         type="radio"
                         :disabled="file.waiting || !!file.progress"
-                        @change="setPrimaryDownload('file', file as File)">
+                        @change="setPrimaryDownload('file', file as File)"
+                    >
                 </td>
             </template>
             <template #buttons="{file}">

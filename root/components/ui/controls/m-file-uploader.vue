@@ -36,7 +36,7 @@
                         <td class="text-center p-1">
                             <m-flex inline>
                                 <slot name="buttons" :file="file"/>
-                                <m-button @click.prevent="handleRemove(file)"><i-mdi-trash/></m-button>
+                                <m-button @click.prevent="removeFileDialog(file)"><i-mdi-trash/></m-button>
                             </m-flex>
                         </td>
                         <slot name="rows" :file="file"/>
@@ -60,7 +60,7 @@
                         <span v-else-if="file.created_at" class="self-center">{{fullDate(file.created_at)}}</span>
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
-                        <m-button @click="handleRemove(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
+                        <m-button @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
                     </m-flex>
                 </m-flex>
             </div>
@@ -93,13 +93,15 @@ const props = defineProps<{
     extensions?: string[],
     maxFileSize?: number|string,
     maxSize: number|string,
-    maxFiles?: number|string
+    maxFiles?: number|string,
+    askBeforeRemove?: boolean,
 }>();
 
 const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const { public: runtimeConfig } = useRuntimeConfig();
+const yesNoModal = useYesNoModal();
 
 const vm = defineModel<UploadFile[]>({ default: [] }) ;
 
@@ -262,6 +264,18 @@ async function uploadWaitingFiles() {
 /**
  * Handles removing files
  */
+async function removeFileDialog(file: UploadFile) {
+    if (props.askBeforeRemove) {
+        yesNoModal({
+            title: t('are_you_sure'),
+            desc: t('delete_file_desc'),
+            yes: async () => await handleRemove(file)
+        });
+    } else {
+        await handleRemove(file);
+    }
+}
+
 async function handleRemove(file: UploadFile) {
     if (file.cancel) {
         file.cancel('cancelled');
