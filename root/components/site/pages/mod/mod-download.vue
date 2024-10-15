@@ -24,7 +24,7 @@
                         <m-time-ago :time="file.updated_at"/>
                     </template>
                     <template #user>
-                        <a-user :user="file.user" avatar-size="xs"/>
+                        <a-user :user="file.user" :avatar="false"/>
                     </template>
                 </i18n-t>
             </m-flex>
