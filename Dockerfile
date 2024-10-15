@@ -21,7 +21,7 @@ RUN install-php-extensions \
     posix \
     zip \
     vips \
-    opcache 
+    opcache
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
@@ -51,7 +51,7 @@ WORKDIR /app
 
 FROM build AS prod
 # FROM build as prod
-COPY --chown=nobody ./root /app
+COPY --chown=nobody . /app
 
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
 COPY entrypoint.sh /scripts/entrypoint.sh

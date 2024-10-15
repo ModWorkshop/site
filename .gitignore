@@ -3,7 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
-/root/vendor
+/vendor
 .env
 .env.backup
 .phpunit.result.cache
@@ -16,7 +16,7 @@ yarn-error.log
 /.vscode
 .history
 .env.testing
-root/15
+15
 dump.rdb
 public/vendor/telescope
 public/*.xml
@@ -25,3 +25,7 @@ rr
 /caddy
 frankenphp
 frankenphp-worker.php
+15
+dump.rdb
+public/vendor/telescope
+public/*.xml
