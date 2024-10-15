@@ -22,3 +22,7 @@ rr
 /caddy
 frankenphp
 frankenphp-worker.php
+15
+dump.rdb
+public/vendor/telescope
+public/*.xml

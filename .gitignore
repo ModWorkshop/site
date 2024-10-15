@@ -17,6 +17,11 @@ yarn-error.log
 .history
 .env.testing
 root/15
-root/dump.rdb
-root/public/vendor/telescope
-root/public/*.xml
+dump.rdb
+public/vendor/telescope
+public/*.xml
+rr
+.rr.yaml
+/caddy
+frankenphp
+frankenphp-worker.php
