@@ -18,7 +18,7 @@ Run this command:
 
 ```bash
 docker build . -f Dockerfile-dev -t mws-frontend-dev # Build Development Image
-docker run -d mws-frontend-dev --name mws-frontend-dev -p 3000:3000 --env-file root/.env # Run Image as Container (name: mws-frontend-dev)
+docker run -d mws-frontend-dev --name mws-frontend-dev -p 3000:3000 --env-file .env # Run Image as Container (name: mws-frontend-dev)
 ```
 
 ### Production Environment
@@ -27,7 +27,7 @@ Run this command:
 
 ```bash
 docker build . -f Dockerfile-prod -t mws-frontend-prod # Build Production Image
-docker run -d mws-frontend-prod --name mws-frontend-prod -p 3000:3000 --env-file root/.env # Run Image as Container (name: mws-frontend-prod)
+docker run -d mws-frontend-prod --name mws-frontend-prod -p 3000:3000 --env-file .env # Run Image as Container (name: mws-frontend-prod)
 ```
 
 ## Docker-less installation
