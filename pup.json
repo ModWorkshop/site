@@ -1,0 +1,16 @@
+{
+    "name": "mws",
+    "processes": [
+        {
+            "id": "frontend",
+            "cmd": "deno run --unstable --allow-net --allow-read --allow-env .output/server/index.ts",
+            "autostart": true,
+            "cluster": {
+                "instances": 4,
+                "commonPort": 3000,
+                "startPort": 8000,
+                "strategy": "round-robin"
+            }
+        }
+    ]
+}

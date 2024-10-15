@@ -1,6 +1,6 @@
 import MarkdownIt  from 'markdown-it';
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import parseBBCode from './bbcode-parser';
 import markdownItRegex from '@gerhobbelt/markdown-it-regexp';
 import taskLists from 'markdown-it-task-lists';
@@ -92,7 +92,7 @@ md.use(markdownItRegex(
 
 md.use(mention);
 
-export function parseMarkdown(text: string) {
+export function oldParseMarkdown(text: string) {
 	if (!text) {
 		return '';
 	}
@@ -107,9 +107,8 @@ export function parseMarkdown(text: string) {
 		return `\n\n<div class="spoiler"><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
 	});
 
-    text = md.render(text); //Parse using markdown it
-    return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
-        ADD_TAGS: ['iframe'],
-        ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
+    return sanitizeHtml(md.render(text), {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['iframe']),
+		allowedAttributes: sanitizeHtml.defaults.allowedAttributes.concat(['frameborder', 'allow', 'allowfullscreen'])
     });
 }
