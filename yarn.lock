@@ -2848,15 +2848,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/router@npm:^10.6.1":
-  version: 10.11.1
-  resolution: "@vueuse/router@npm:10.11.1"
+"@vueuse/router@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "@vueuse/router@npm:11.1.0"
   dependencies:
-    "@vueuse/shared": 10.11.1
-    vue-demi: ">=0.14.8"
+    "@vueuse/shared": 11.1.0
+    vue-demi: ">=0.14.10"
   peerDependencies:
     vue-router: ">=4.0.0-rc.1"
-  checksum: af6e7b216e6eb54626a816a445325694c98f4d7815b9730545b7155380499df7ab96973bc4a0b46cbe2672b19ab9b637a27677077b26b6bbc0b31c32b0d2b4b0
+  checksum: a0b33eaf050e71c6cb6b66febfa9d7320ef60239567199a7af486b2a58ffebf4d09db959807aeb4b8b23b2e2b227ea1b1ec827269d32b9046bb1c27097bdeb2a
   languageName: node
   linkType: hard
 
@@ -2866,6 +2866,15 @@ __metadata:
   dependencies:
     vue-demi: ">=0.14.8"
   checksum: c8553126ba2a260fee6bc1798c67f6d90295021bb25c72218c87e169f7d7374bac0777a9f64670f4126f5c7e9c2ec603286ed1810cb8c7961f4b44e4cd4d6f4f
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:11.1.0":
+  version: 11.1.0
+  resolution: "@vueuse/shared@npm:11.1.0"
+  dependencies:
+    vue-demi: ">=0.14.10"
+  checksum: 332a5d9935016d1a5975e7a4aab7eb5fabc247ae48a1fc783919f480601652b6267d20aa07c88f389e972c318890bb921d66adfdb8754db5b4da5201f2c07bc3
   languageName: node
   linkType: hard
 
@@ -6955,7 +6964,7 @@ __metadata:
     "@vueuse/components": ^10.6.1
     "@vueuse/core": ^10.6.1
     "@vueuse/nuxt": ^10.6.1
-    "@vueuse/router": ^10.6.1
+    "@vueuse/router": ^11.1.0
     axios: ^1.7.4
     eslint: ^8.57.0
     eslint-plugin-vue: ^9.26.0
@@ -10212,7 +10221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.8, vue-demi@npm:^0.14.10":
+"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.10, vue-demi@npm:>=0.14.8, vue-demi@npm:^0.14.10":
   version: 0.14.10
   resolution: "vue-demi@npm:0.14.10"
   peerDependencies:
