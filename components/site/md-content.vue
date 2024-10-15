@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { parseMarkdown } from "~~/utils/md-parser";
-import { parseMarkdown as oldParseMarkdown } from "~~/utils/old-md-parser";
+import { oldParseMarkdown } from "~~/utils/old-md-parser";
 
 const { text, padding = 2, oldParser } = defineProps<{
     text?: string,

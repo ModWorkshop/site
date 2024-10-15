@@ -22,7 +22,7 @@ import haxe from 'highlight.js/lib/languages/haxe';
 import { html5Media } from './markdown/media';
 import mention from './markdown/mention';
 import { fence } from './markdown/fence';
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import markdownItColorInline from 'markdown-it-color-inline';
 
 hljs.registerLanguage('javascript', javascript);
@@ -119,8 +119,8 @@ md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 };
 
 export function parseMarkdown(text: string) {
-	return text ? DOMPurify.sanitize(md.render(text), {
-        ADD_TAGS: ['iframe'],
-        ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
+	return text ? sanitizeHtml(md.render(text), {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['iframe']),
+		allowedAttributes: sanitizeHtml.defaults.allowedAttributes.concat(['frameborder', 'allow', 'allowfullscreen'])
     }) : '';
 }
