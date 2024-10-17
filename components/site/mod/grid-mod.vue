@@ -12,7 +12,7 @@
                 <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/> 
             </m-flex>
 
-            <m-flex class="items-center mt-auto" wrap>
+            <m-flex class="items-center" wrap>
                 <div v-if="!noCategories && ((mod.game && showGame) || mod.category)" class="mr-1" wrap gap="0">
                     <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game">
                         {{mod.game.name}}
@@ -28,7 +28,7 @@
                 <m-time-ago :time="date"/>
             </m-flex>
 
-            <m-flex gap="2">
+            <m-flex gap="2" class="mt-auto">
                 <span :title="fullLikes">
                     <i-mdi-heart/> {{likes}}
                 </span>
