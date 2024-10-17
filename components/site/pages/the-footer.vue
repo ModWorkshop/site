@@ -12,6 +12,12 @@
                     <m-link to="/cookies">{{$t('cookie_policy')}}</m-link>
                     <m-link to="https://status.modworkshop.net">{{$t('status')}}</m-link>
                 </m-flex>
+                <m-flex class="text-2xl" gap="3">
+                    <m-link to="https://x.com/ModWorkshop"><i-ri-twitter-x-fill/></m-link>
+                    <m-link to="https://discord.gg/Eear4JW"><i-ri-discord-fill/></m-link>
+                    <m-link to="https://www.youtube.com/@modworkshop-yt"><i-ri-youtube-fill/></m-link>
+                    <m-link to="https://github.com/ModWorkshop"><i-ri-github-fill/></m-link>
+                </m-flex>
                 <m-flex column>
                     ModWorkshop {{ runtimeConfig.version }} ({{ commitHash }})
                     <span>
