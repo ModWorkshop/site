@@ -40,10 +40,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { SocialLogin, UserForm } from '~~/types/models';
-import CibGitHub from '~icons/cib/github';
-import CibGitLab from '~icons/cib/gitlab';
-import CibDiscord from '~icons/cib/discord';
-import CibSteam from '~icons/cib/steam';
+import iconGitHub from '~icons/ri/github-fill';
+import iconGitLab from '~icons/ri/gitlab-fill';
+import iconDiscord from '~icons/ri/discord-fill';
+import iconSteam from '~icons/ri/steam-fill';
 
 const props = defineProps<{
     user: UserForm
@@ -65,10 +65,10 @@ const canUnlink = computed(() =>  accounts.value && accounts.value.length > 1 ||
 
 const providers = computed(() => {
     const providers: Record<string, { name: string, account?: SocialLogin, icon: Component }> = {
-        github: { name: 'GitHub', icon: CibGitHub },
-        gitlab: { name: 'GitLab', icon: CibGitLab },
-        steam: {  name: 'Steam', icon: CibSteam },
-        discord: {  name: 'Discord', icon: CibDiscord }
+        github: { name: 'GitHub', icon: iconGitHub },
+        gitlab: { name: 'GitLab', icon: iconGitLab },
+        steam: {  name: 'Steam', icon: iconSteam },
+        discord: {  name: 'Discord', icon: iconDiscord }
     };
 
     if (accounts.value) {

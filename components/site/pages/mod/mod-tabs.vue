@@ -15,9 +15,7 @@
                     height="200"
                     @click="showImage(i)"
                 />
-                <ClientOnly>
-                    <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
-                </ClientOnly>
+                <vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
             </m-tab>
             <m-tab v-if="mod.has_download" name="downloads" :title="$t('downloads')">
                 <mod-downloads-tab :mod="mod"/>

@@ -24,13 +24,13 @@ export default defineNuxtConfig({
 			]
 		}
 	},
- 
+
 	umami: {
 		ignoreLocalhost: true
 	},
 
 	runtimeConfig: {
-		public: { 
+		public: {
 			apiUrl: '',
 			siteUrl: '',
 			uploadUrl: '',
@@ -70,7 +70,7 @@ export default defineNuxtConfig({
 			//Kinda disgusting, but other way is making components for each one of them and then pages...
 			const mod = routes.find(page => page.path == '/mod/:mod()');
 			mod?.children?.push({ path: "/mod/:mod/post/:comment", file: '~~/pages/mod/[mod]/index.vue' });
-			
+
 			const thread = routes.find(page => page.path == '/thread/:thread()');
 			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' });
 
@@ -118,7 +118,7 @@ export default defineNuxtConfig({
 	// nitro: {
 	// 	compressPublicAssets: true,
 	// },
-	
+
 	vue: {
 		propsDestructure: true
 	},
@@ -162,7 +162,7 @@ export default defineNuxtConfig({
 			useCookie: true,
 			cookieKey: 'locale',
 		},
-	
+
 		locales: [
 			{ code: 'en', file: 'en.json', name: 'English' },
 			{ code: 'cs', file: 'cs.json', name: 'Čeština' },
@@ -187,13 +187,5 @@ export default defineNuxtConfig({
 	},
 
 	modules: [
-		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
-		// 'nuxt-delay-hydration',
-		'@pinia/nuxt',
-		'@nuxtjs/tailwindcss',
-		'@vueuse/nuxt',
-		'unplugin-icons/nuxt',
-		'@nuxtjs/i18n',
-		'nuxt-umami'
-	],
+		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }], '@pinia/nuxt', '@nuxtjs/tailwindcss', '@vueuse/nuxt', 'unplugin-icons/nuxt', '@nuxtjs/i18n', 'nuxt-umami', '@nuxtjs/fontaine', 'nuxt-easy-lightbox'],
 });

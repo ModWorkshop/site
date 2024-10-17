@@ -7,7 +7,7 @@
     >
         <m-flex class="items-center" gap="2" wrap>
             <NuxtLink class="max-md:text-lg md:text-xl" :to="`/thread/${thread.id}`">
-                <i-material-symbols-check-circle v-if="!!thread.answer_comment_id" class="text-success"/>
+                <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                 {{thread.name}}
             </NuxtLink>
             <m-flex class="flex-1">
