@@ -16,4 +16,6 @@ export default defineEventHandler(async event => {
             //Do nothing
         }
     }
+
+    return setResponseStatus(event, 404);
 });

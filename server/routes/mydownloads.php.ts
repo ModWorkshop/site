@@ -28,5 +28,5 @@ export default defineEventHandler(async event => {
         }
     }
 
-    return sendRedirect(event, '');
+    return setResponseStatus(event, 404);
 });
