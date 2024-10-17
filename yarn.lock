@@ -1076,12 +1076,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify-json/svg-spinners@npm:^1.1.2":
-  version: 1.2.0
-  resolution: "@iconify-json/svg-spinners@npm:1.2.0"
+"@iconify-json/svg-spinners@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@iconify-json/svg-spinners@npm:1.2.1"
   dependencies:
     "@iconify/types": "*"
-  checksum: 65fed6cf04caeff9cbf95de2cd2ace2b492d6ad9910dd97ce83077456b9d49516420eb20ca3103d8e477af1fda3085b1def55546934bd23c4f404d7820c8ed5d
+  checksum: a7a4724d9494efc8134dbbd26a5eb72ca3466f17ae1c86dda7c66843e524756461686379f4ea8d01b221d59f30bc7fe9a26feb85da3ee7b6a21283b17aca319b
   languageName: node
   linkType: hard
 
@@ -6986,7 +6986,7 @@ __metadata:
     "@hcaptcha/vue3-hcaptcha": ^1.3.0
     "@iconify-json/mdi": ^1.1.54
     "@iconify-json/ri": ^1.2.1
-    "@iconify-json/svg-spinners": ^1.1.2
+    "@iconify-json/svg-spinners": ^1.2.1
     "@nuxt/devtools": ^1.3.9
     "@nuxtjs/fontaine": latest
     "@nuxtjs/i18n": ^8.1.1
