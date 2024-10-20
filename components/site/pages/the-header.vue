@@ -217,6 +217,7 @@ const { data: mods } = await useWatchedFetchMany<Mod>(() => currentGame.value ? 
     limit: 5,
     sort: 'views',
     query: query,
+    cacheData: true,
 }, { onChange: () => query.value.length > 0, immediate: false });
 
 watch(showNotifications, async () => {

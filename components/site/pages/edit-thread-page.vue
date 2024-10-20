@@ -91,7 +91,8 @@ const { data: tags } = await useFetchMany<Tag>('tags', {
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
     params: {
         forum_id: thread.value.forum_id
-    }
+    },
+    cacheData: true
 });
 
 const allowedCategories = computed(() => {
