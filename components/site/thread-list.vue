@@ -157,7 +157,7 @@ async function onVisChange(entries: IntersectionObserverEntry[]) {
     }
 }
 
-const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId}/tags` : 'tags', {
+const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId.value}/tags` : 'tags', {
     immediate: props.filters,
     params: reactive({ 
         type: 'forum',
