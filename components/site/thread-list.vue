@@ -40,8 +40,20 @@
                     <m-toggle-group-item :value="true">{{$t('closed_threads')}}</m-toggle-group-item>
                 </m-toggle-group>
 
-                <m-flex v-if="threads?.data.length && !loading" gap="2" class="threads" column>
-                    <template v-if="threads.data.length">
+                <template v-if="!loading && threads?.data.length">
+                    <m-flex v-if="currentCategory?.grid_mode" gap="2" class="threads-grid" column>
+                        <grid-thread 
+                            v-for="thread in threads.data"
+                            :key="thread.created_at"
+                            :thread="thread"
+                            category-link
+                            :no-category="!!categoryId"
+                            :no-pins="noPins"
+                            :forum-id="currentForumId"
+                            :user-id="userId"
+                        />
+                    </m-flex>
+                    <m-flex v-else gap="2" class="threads" column>
                         <thread-row 
                             v-for="thread in threads.data"
                             :key="thread.created_at"
@@ -52,8 +64,8 @@
                             :forum-id="currentForumId"
                             :user-id="userId"
                         />
-                    </template>
-                </m-flex>
+                    </m-flex>
+                </template>
                 <m-loading v-else-if="loading || !loaded" class="m-auto"/>
                 <h2 v-else class="m-auto">
                     {{$t('no_threads_found')}}

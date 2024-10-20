@@ -1,5 +1,5 @@
 <template>
-    <m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="3" :class="classes">
+    <m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="4" :class="classes">
         <m-flex class="comment-body">
             <div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
             <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">

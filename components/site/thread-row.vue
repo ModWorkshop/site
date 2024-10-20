@@ -1,9 +1,8 @@
 <template>
     <m-flex
-        :class="['cursor-pointer', 'thread', 'content-block', 'max-md:gap-2', !!thread.answer_comment_id ? 'thread-inactive' : undefined]"
+        :class="['thread', 'content-block', 'max-md:gap-2', !!thread.answer_comment_id ? 'thread-inactive' : undefined]"
         gap="1"
         column
-        @click="clickThread(thread)"
     >
         <m-flex class="items-center" gap="2" wrap>
             <NuxtLink class="max-md:text-lg md:text-xl" :to="`/thread/${thread.id}`">
@@ -71,12 +70,7 @@ const { thread, categoryLink } = defineProps<{
     noCategory?: boolean
 }>();
 
-const router = useRouter();
 const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '/forum');
-
-function clickThread(thread: Thread) {
-    router.push(`/thread/${thread.id}`);
-}
 </script>
 
 <style scoped>

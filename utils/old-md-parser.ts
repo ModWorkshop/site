@@ -92,7 +92,7 @@ md.use(markdownItRegex(
 
 md.use(mention);
 
-export function parseMarkdown(text: string) {
+export function oldParseMarkdown(text: string) {
 	if (!text) {
 		return '';
 	}

@@ -118,9 +118,16 @@ md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 	return slf.renderToken(tokens, idx, opts);
 };
 
-export function parseMarkdown(text: string) {
-	return text ? DOMPurify.sanitize(md.render(text), {
-        ADD_TAGS: ['iframe'],
-        ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
-    }) : '';
+export function parseMarkdown(text: string, removeTags = false) {
+	if (removeTags) {
+		return text ? DOMPurify.sanitize(md.render(text), { ALLOWED_TAGS: [
+			'p',
+			'br'
+		] }) : '';
+	} else {
+		return text ? DOMPurify.sanitize(md.render(text), {
+			ADD_TAGS: ['iframe'],
+			ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
+		}) : '';
+	}
 }

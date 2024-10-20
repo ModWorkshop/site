@@ -6,10 +6,25 @@
             redirect-to="/thread"
             :create-url="`forums/${forumId}/threads`"
             :delete-redirect-to="deleteRedirectTo"
+            :can-save="thumbnailFile != undefined"
+            :merge-params="mergeParams"
             assign-object
             :captcha="!thread.id"
-            @submit="initialThread = thread"
+            @submit="submit()"
         >
+            <m-img-uploader
+                v-if="currentCategory?.grid_mode"
+                v-model="thumbnailFile"
+                :label="$t('thumbnail')"
+                clear-button
+                :src="thread.thumbnail"
+                :max-file-size="settings?.image_max_file_size"
+            >
+                <template #image="{ src }">
+                    <a-thumbnail :src="src" style="width: 250px;" url-prefix="threads/images"/>
+                </template>
+            </m-img-uploader>
+
             <m-input v-model="thread.name" :label="$t('title')" minlength="2" maxlength="150"/>
             <md-editor v-model="thread.content" minlength="2" maxlength="5000" :label="$t('content')"/>
             <m-select v-model="thread.category_id" :label="$t('category')" :options="allowedCategories" clearable/>
@@ -32,7 +47,10 @@ const { game } = defineProps<{
     game?: Game;
 }>();
 
+const thumbnailFile = ref();
 const store = useStore();
+const { settings } = useStore();
+
 const { isBanned, ban, gameBan, user } = storeToRefs(store);
 const categoryId = useRouteQuery('category');
 
@@ -83,6 +101,12 @@ const allowedCategories = computed(() => {
     return categories.value?.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame))) ?? [];
 });
 
+const currentCategory = computed(() => allowedCategories.value.find(c => c.id == thread.value.category_id));
+
+const mergeParams = reactive({
+    thumbnail_file: thumbnailFile,
+});
+
 if (!thread.value.id && isBanned.value && !allowedCategories.value.length) {
     useNoPermsPage();
 }
@@ -90,4 +114,8 @@ if (!thread.value.id && isBanned.value && !allowedCategories.value.length) {
 const threadGame = computed(() => game ?? (thread.value.forum ? thread.value.forum.game : null));
 
 const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.value.short_name}/forum` : `/forum`);
+
+function submit() {
+    thumbnailFile.value = undefined;
+}
 </script>

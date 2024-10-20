@@ -4,7 +4,7 @@
             <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
         </NuxtLink>
         <div class="mod-details">
-            <NuxtLink class="mod-title" :to="link" :title="mod.name">
+            <NuxtLink class="card-title" :to="link" :title="mod.name">
                 <mod-status :mod="mod"/> {{mod.name}}
             </NuxtLink>
 
@@ -88,18 +88,6 @@ const gameUrl = computed(() => `/g/${game?.short_name || store.currentGame?.shor
 </script>
 
 <style scoped>
-.mod-title {
-    font-size: 1.15rem;
-    overflow: hidden;
-    word-break: break-word;
-    max-height: 60%;
-    width: 100%;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
 .mod {
     width: 100%;
     min-height: 220px;

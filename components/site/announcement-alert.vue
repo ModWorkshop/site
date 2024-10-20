@@ -3,7 +3,7 @@
         <m-content-block class="content-block-glass h-full" :column="false" padding="4" gap="0">
             <div>
                 <span class="h2">📢 {{thread.name}}</span>
-                <md-content class="ml-2" :text="thread.content"/>
+                <md-content class="ellipsis-overflow announcement-preview" :padding="0" style="-webkit-line-clamp: 2;" :text="thread.content" remove-tags/>
             </div>
             <i-mdi-close class="ml-auto mb-auto" @click.prevent="$emit('hide', thread)"/>
         </m-content-block>
@@ -24,8 +24,12 @@ defineEmits<{
 
 <style scoped>
 .announcement {
-    height: 85px;
     overflow: hidden;
     flex-grow: 1;
+}
+
+.announcement-preview {
+    margin: 1.5rem 1rem 0 1rem;
+    line-height: 1;
 }
 </style>

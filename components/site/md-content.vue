@@ -5,12 +5,18 @@
 
 <script setup lang="ts">
 import { parseMarkdown } from "~~/utils/md-parser";
-import { parseMarkdown as oldParseMarkdown } from "~~/utils/old-md-parser";
+import { oldParseMarkdown } from "~~/utils/old-md-parser";
 
-const { text, padding = 2, oldParser } = defineProps<{
+// You may wonder why the hell would you want this in a markdown content element?
+// Simple, you may want to parse the markdown, but actually show no tags
+// This is useful in places like announcements where you have to cut the content, making it very odd to display formatted.
+// It does keep line breaks and paragraphs, though.
+
+const { text, padding = 2, oldParser, removeTags } = defineProps<{
     text?: string,
     padding?: number,
-    oldParser?: boolean
+    oldParser?: boolean,
+    removeTags?: boolean
 }>();
 
 const element = ref();
@@ -26,7 +32,7 @@ const mdText = computed(() => {
     if (oldParser) {
         return oldParseMarkdown(text);
     } else {
-        return parseMarkdown(text);
+        return parseMarkdown(text, removeTags);
     }
 });
 </script>

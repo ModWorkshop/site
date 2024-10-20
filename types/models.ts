@@ -398,6 +398,7 @@ export interface Thread {
     game_id?: number;
     game?: Game;
     edited_at?: string;
+    thumbnail?: string;
 }
 
 export interface Forum {
@@ -430,6 +431,7 @@ export interface ForumCategory {
     can_post?: boolean;
     hidden?: boolean;
     can_close_threads?: boolean;
+    grid_mode?: boolean;
 }
 
 export interface Suspension {
