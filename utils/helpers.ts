@@ -4,6 +4,7 @@ import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
 import type { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
+import clone from 'rfdc/default';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -126,7 +127,14 @@ export function setQuery(key: string, value: LocationQueryValueRaw | LocationQue
  * Converts JS objects to FormData. Necessary if you want to uplaod files basically
  */
 export function serializeObject(data: Record<string, unknown>) {
-    return serialize(data, { booleansAsIntegers: true, allowEmptyArrays: true, indices: true });
+    const copy = {...data};
+    for (const [key, value] of Object.entries(copy)) {
+        if (value instanceof Array && value.length == 0) {
+            copy[key] = null; // Thanks web standards for not supporting something as simple as a FUCKING EMPTY ARRAY
+        }
+    }
+
+    return serialize(copy, { booleansAsIntegers: true, allowEmptyArrays: true, indices: true });
 }
 
 /**
