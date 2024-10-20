@@ -178,7 +178,7 @@ class ThreadController extends Controller
             // Ensure the category belongs to the forum
             $cat = ForumCategory::where('forum_id', $thread->forum_id)->where('id', $changeCategry)->first();
             if (isset($cat)) {
-                $thread->forum_id = $forum->id;
+                $thread->category_id = $cat->id;
             } else {
                 abort(406, "Category doesn't exist or is invalid");
             }
