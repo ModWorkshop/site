@@ -192,6 +192,7 @@ class UserController extends Controller
             'extra.auto_subscribe_to_mod' => 'boolean|nullable',
             'extra.auto_subscribe_to_thread' => 'boolean|nullable',
             'extra.background_opacity' => 'numeric|min:0|max:1|nullable',
+            'extra.developer_mode' => 'boolean|nullable',
         ]);
 
         $extra = Arr::pull($val, 'extra');

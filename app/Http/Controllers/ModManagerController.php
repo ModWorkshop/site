@@ -22,15 +22,21 @@ class ModManagerController extends Controller
     public function index(FilteredRequest $request, Game $game=null)
     {
         $val = $request->val([
-            'global' => 'boolean|nullable'
+            'global' => 'boolean|nullable',
+            'show_hidden' => 'boolean|nullable'
         ]);
 
         $managers = ModManager::queryGet($val, function($query, array $val) use($game) {
+            $user = Auth::user();
             if (isset($game)) {
                 $query->where('game_id', $game->id);
             } 
             if (isset($val['global']) && $val['global']) {
                 $query->orWhereNull('game_id');
+            }
+
+            if (!$user?->extra->developer_mode && !($val['show_hidden'] ?? false)) {
+                $query->where('hidden', false);
             }
         });
 
@@ -63,6 +69,7 @@ class ModManagerController extends Controller
             'download_url' => 'string|max:1000',
             'site_url' => 'url|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
+            'hidden' => 'boolean|nullable',
             // 'image_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 

@@ -543,7 +543,13 @@ class Mod extends Model implements SubscribableInterface
     function modManagers(): Attribute {
         return Attribute::make(function() {
             $gameId = $this->game_id;
-            return ModManager::where('game_id', $gameId)->orWhereHasIn('games', fn($q) => $q->where('game_id', $gameId))->get();
+            return ModManager::where(function($q) {
+                    $user = Auth::user();
+                    if (!$user?->extra->developer_mode) {
+                        $q->where('hidden', false);
+                    }
+                })->where(fn($q) => $q->where('game_id', $gameId)->orWhereHasIn('games', fn($q) => $q->where('game_id', $gameId)))
+            ->get();
         });
     }
 
