@@ -4,7 +4,7 @@
         :tool-tip-delay="500"
         class="user"
         type="tooltip"
-        :disabled="!miniProfile || static"
+        :disabled="!showMiniProfile || static"
     >
         <m-flex inline :column="column" class="items-center" :gap="neededGap">
             <NuxtLink v-if="avatar" class="inline-flex" :to="link">
@@ -44,7 +44,7 @@ const props = withDefaults(defineProps<{
     details?: string,
     noColor?: boolean,
     user?: User|null,
-    miniProfile?: boolean,
+    showMiniProfile?: boolean,
     avatar?: boolean,
     tag?: boolean,
     avatarSize?: string,
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<{
     avatar: true,
     tag: true,
     noColor: false,
-    miniProfile: true,
+    showMiniProfile: true,
     showOnlineState: false
 });
 
