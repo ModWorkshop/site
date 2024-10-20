@@ -9,19 +9,24 @@
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</m-button>
             </NuxtLink>
             <m-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-button>
-            <m-button v-if="canModerate" @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-button>
-            <m-button v-if="canModerate" @click="showMoveThread = true"><i-mdi-cursor-move/> {{$t('move')}}</m-button>
             <m-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
                 <i-mdi-lock-open v-if="thread.locked"/>
                 <i-mdi-lock v-else/>
                 {{thread.locked ? $t('unlock') : $t('lock')}}
             </m-button>
+            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
             <m-button v-if="canCloseInCategory && canEdit" :disabled="(thread.closed_by_mod && !canModerate)" @click="closeThread">
                 <i-mdi-undo v-if="thread.closed"/>
                 <i-mdi-check-circle-outline v-else/>
                 {{thread.closed ? $t('open') : $t('close')}}
             </m-button>
-            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
+            <m-dropdown v-if="canModerate">
+                <m-button><i-mdi-gavel/> {{$t('moderation')}}</m-button>
+                <template #content>
+                    <m-dropdown-item @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-dropdown-item>
+                    <m-dropdown-item @click="showMoveThread = true"><i-mdi-cursor-move/> {{$t('move')}}</m-dropdown-item>
+                </template>
+            </m-dropdown>
         </m-flex>
 
         <m-form-modal v-model="showMoveThread" :title="$t('move')" @submit="moveThread">
