@@ -5,7 +5,6 @@
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_mod')}}</m-button>
             </NuxtLink> 
             <m-button v-else-if="canEdit" :to="`/mod/${mod.id}/edit`"><i-mdi-cog/> {{$t('edit_mod')}}</m-button>
-            <report-button resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
             <m-dropdown :disabled="!!mod.followed">
                 <m-button @click="mod.followed && setFollowMod(mod, false)">
                     <i-mdi-minus-thick v-if="mod.followed"/>
@@ -17,6 +16,7 @@
                     <m-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</m-dropdown-item>
                 </template>
             </m-dropdown>
+            <report-button resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
             <mod-suspend v-model:show-modal="showSuspension" :button="false" :mod="mod"/>
             <m-dropdown v-if="canManage">
                 <m-button><i-mdi-gavel/> {{$t('moderation')}}</m-button>
