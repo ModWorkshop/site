@@ -301,7 +301,6 @@ header {
     z-index: 100;
     position: sticky;
     padding: 1rem;
-    border-radius: var(--content-border-radius);
     display: flex;
     grid-area: header;
     transition: left 0.25s;
