@@ -71,6 +71,22 @@ class APIService {
             }
         }
     }
+    
+    /**
+     * Converts nulls to empty array. This is useful for dealing with empty arrays in formdata
+     *
+     * @param array $arr
+     * @param string ...$keys
+     * @return void
+     */
+    public static function nullToEmptyArr(array &$arr, string ...$keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $arr)) {
+                $arr[$key] ??= [];
+            }
+        }
+    }
 
     /**
      * Stores an UploadedFile $file into r2 storage

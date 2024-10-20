@@ -18,7 +18,10 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\Setting;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rules\File;
+use Log;
 
 /**
  * @group Threads
@@ -38,6 +41,28 @@ class ThreadController extends Controller
     }
 
     /**
+     * Uploads a thumbnail to a thread.
+     */
+    public function uploadThumbnail(Request $request, Thread $thread) {
+        $fileSize = Setting::getValue('image_max_file_size') / 1024;
+
+        $val = $request->validate([
+            'thumbnail_file' => ['nullable', File::image()->max($fileSize)]
+        ]);
+
+        $thumb = Arr::pull($val, 'thumbnail_file');
+
+        APIService::storeImage($thumb, 'threads/images', $thread->thumbnail, [
+            'allowDeletion' => true,
+            'size' => 256,
+            'onSuccess' => function($path) use ($thread) {
+                $thread->thumbnail = $path;
+                $thread->save();
+            }
+        ]);
+    }
+
+    /**
      * Create Thread
      *
      * @authenticated
@@ -49,7 +74,7 @@ class ThreadController extends Controller
             'content' => 'string|required|min:2|max:30000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
-            'tag_ids' => 'array',
+            'tag_ids' => 'array|nullable',
             'tag_ids.*' => 'integer|min:1',
             'category_id' => 'integer|min:1|required|exists:forum_categories,id',
         ]);
@@ -84,6 +109,9 @@ class ThreadController extends Controller
         }
 
         $thread->load('tags');
+
+        $this->uploadThumbnail($request, $thread);
+
         return new ThreadResource($thread);
     }
 
@@ -110,8 +138,8 @@ class ThreadController extends Controller
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
             'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',
             'announce_until' => 'date|nullable',
-            'announce' => 'boolean',
-            'tag_ids' => 'array',
+            'announce' => 'boolean|nullable',
+            'tag_ids' => 'array|nullable',
             'tag_ids.*' => 'integer|min:1',
             'pinned' => 'boolean|nullable',
             'locked' => 'boolean|nullable',
@@ -119,6 +147,7 @@ class ThreadController extends Controller
         ]);
 
         Utils::convertToUTC($val, 'announce_until');
+        APIService::nullToEmptyArr($val, 'tag_ids');
 
         $changePin = Arr::pull($val, 'pinned');
         $changeAnnounce = Arr::pull($val, 'announce');
@@ -211,6 +240,8 @@ class ThreadController extends Controller
         $thread->timestamps = true;
 
         $thread->load(['category', 'tags']);
+
+        $this->uploadThumbnail($request, $thread);
 
         return new ThreadResource($thread);
     }
