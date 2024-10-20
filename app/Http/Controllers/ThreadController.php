@@ -193,7 +193,7 @@ class ThreadController extends Controller
         }
 
         if (isset($changeAnnounce)) {
-            $thread->announce = $changeAnnounce;
+            $thread->announce = (boolean)$changeAnnounce;
         }
 
         $changeLock = Arr::pull($val, 'locked');
