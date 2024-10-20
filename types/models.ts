@@ -302,6 +302,7 @@ export interface User {
         auto_subscribe_to_thread: boolean;
         background?: string;
         background_opacity?: number;
+        developer_mode?: boolean;
     };
     mods_count?: number;
     supporter?: Supporter;
@@ -553,4 +554,5 @@ export interface ModManager {
     site_url: string;
     updated_at?: string;
     created_at?: string;
+    hidden: boolean;
 }

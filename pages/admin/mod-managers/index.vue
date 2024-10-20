@@ -1,5 +1,11 @@
 <template>
-    <m-list :url="apiLink" query :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`" :params="{ global: !game }"/>
+    <m-list 
+        :url="apiLink"
+        query
+        :item-link="item => `${pageLink}/${item.id}`"
+        :new-button="`${pageLink}/new`"
+        :params="{ global: !game, show_hidden: true }"
+    />
 </template>
 
 <script setup lang="ts">

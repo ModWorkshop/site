@@ -11,6 +11,7 @@
         <m-input v-model="manager.name" :label="$t('name')"/>
         <m-input v-model="manager.site_url" :label="$t('manager_site_url')" :desc="$t('manager_site_url_desc')"/>
         <m-input v-model="manager.download_url" :label="$t('manager_download_url')" :desc="$t('manager_download_url_desc')"/>
+        <m-input v-model="manager.hidden" type="checkbox" :label="$t('hidden')"/>
     </simple-resource-form>
 </template>
 
@@ -33,6 +34,7 @@ const { data: manager } = await useEditResource<ModManager>('modManager', 'mod-m
     name: '',
     site_url: '',
     download_url: '',
+    hidden: false
 });
 
 //Unused atm
