@@ -198,7 +198,19 @@ class ModController extends Controller
             $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
         }
 
+        
+        $val['parser_version'] = 2;
+
         if (isset($mod)) {
+            // If any text gets changed, force the mod to parser V2.
+            if ((isset($val['desc']) && $val['desc'] != $mod->desc)
+                || (isset($val['license']) && $val['license'] != $mod->license)
+                || (isset($val['changelog']) && $val['changelog'] != $mod->changelog)
+                || (isset($val['instructions']) && $val['instructions'] != $mod->instructions)
+            ) {
+                $mod->parser_version = 2;
+            }
+
             if (!$request->boolean('silent')) {
                 //We changed the version, update mod.
                 if (isset($val['version']) && $val['version'] !== $mod->version) {
@@ -231,6 +243,7 @@ class ModController extends Controller
 
             $val['user_id'] = $request->user()->id;
             $val['game_id'] = $gameId;
+            $val['parser_version'] = 2;
 
             $mod = Mod::create($val);
         }

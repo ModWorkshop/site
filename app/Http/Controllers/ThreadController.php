@@ -86,6 +86,7 @@ class ThreadController extends Controller
         $val['last_user_id'] = $val['user_id'];
         $val['bumped_at'] = Carbon::now();
         $val['forum_id'] = $forum->id;
+        $val['parser_version'] = 2;
 
         $category = ForumCategory::where('forum_id', $forum->id)->find($val['category_id']);
 
@@ -229,6 +230,8 @@ class ThreadController extends Controller
         if ((isset($val['content']) && $val['content'] != $thread->content) || (isset($val['name']) && $val['name'] != $thread->name)) {
             $val['edited_at'] = Carbon::now();
         }
+
+        $val['parser_version'] = 2;
 
         $thread->update($val);
         $thread->load('forum.game');

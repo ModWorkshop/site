@@ -190,6 +190,8 @@ class CommentService {
             $comment->mentions()->sync($mentionedIds);
         }
 
+        $val['parser_version'] = 2;
+
         $comment->update($val);
 
         return new CommentResource($comment);
