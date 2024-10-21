@@ -29,3 +29,6 @@ frankenphp-worker.php
 dump.rdb
 public/vendor/telescope
 public/*.xml
+/.scribe
+/resources/views/scribe
+/public/docs
