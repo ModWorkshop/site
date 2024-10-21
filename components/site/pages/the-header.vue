@@ -332,7 +332,7 @@ kbd {
     }
 }
 
-@media (max-width:768px) {
+@media (max-width:767px) {
     .header-content {
         flex-direction: column-reverse;
         justify-content: flex-end;
