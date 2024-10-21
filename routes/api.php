@@ -58,9 +58,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/**
- * @group Mods
- */
 APIService::resource('files', FileController::class, 'mods');
 APIService::resource('images', ImageController::class, 'mods');
 
@@ -93,14 +90,7 @@ Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAnd
 Route::get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
 Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
 
-/**
- * Get Mod Version
- * @group Mods
- */
-Route::middleware('can:view,mod')->get('mods/{mod}/version', fn(Mod $mod) => $mod->version);
-/**
- * @group Mods
- */
+Route::middleware('can:view,mod')->get('mods/{mod}/version', [ModController::class, 'getVersion']); // @group Mods
 Route::get('mods/versions', [ModController::class, 'getVersions']);
 
 Route::middleware('can:manage,mod')->group(function() {

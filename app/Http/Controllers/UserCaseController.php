@@ -19,7 +19,7 @@ use App\Http\Resources\BaseResource;
 /**
  * @group User Cases
  * @authenticated
- *
+ * 
  * @hideFromApiDocumentation
  */
 class UserCaseController extends Controller
@@ -30,7 +30,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * User Cases
+     * List user cases
      *
      * Returns user cases (warnings) that the user has
      */
@@ -59,7 +59,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Create User Case
+     * Create a user case
      */
     public function store(Request $request, Game $game=null)
     {
@@ -95,7 +95,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Get User Case
+     * Get a user case
      */
     public function show(UserCase $userCase)
     {
@@ -103,7 +103,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Edit User Case
+     * Update a user case
      */
     public function update(Request $request, UserCase $userCase)
     {
@@ -121,7 +121,7 @@ class UserCaseController extends Controller
     }
 
     /**
-     * Delete User Case
+     * Delete a user case
      */
     public function destroy(UserCase $userCase)
     {

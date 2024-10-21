@@ -1,0 +1,3858 @@
+openapi: 3.0.3
+info:
+  title: 'ModWorkshop API Documentation'
+  description: "The ModWorkshop API is available for everyone to use. \r\n\r\nDo note that by using the API you must follow the following guidelines:\r\n\r\n1. Do not spam the API.\r\n\r\n2. Do not replicate the site or remove the need to visit the site to download mods. \r\nExceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).\r\n\r\n3. Respect user's privacy and do not store their information without their consent.\r\n\r\nAt the moment, the API <b>only supports GET requests</b>. More support will come in the future, but will require the use of API keys."
+  version: 1.0.0
+servers:
+  -
+    url: 'https://api.modworkshop.net'
+paths:
+  '/games/{game_id}/categories':
+    get:
+      summary: 'List categories'
+      operationId: listCategories
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Categories
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: wmaebuxrzcaaofkyhnzmir
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 20
+      security: []
+    post:
+      summary: 'Create a category'
+      operationId: createACategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Categories
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/categories/{id}':
+    get:
+      summary: 'Get a category'
+      operationId: getACategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Categories
+      security: []
+    put:
+      summary: 'Update a category'
+      operationId: updateACategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Categories
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: awdvsvaygqylcfukrzqsmw
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: kmd
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 14
+                parent_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 25
+                display_order:
+                  type: integer
+                  description: 'Must be at least -1000. Must not be greater than 1000.'
+                  example: 21
+                thumbnail_file:
+                  type: string
+                  description: 'Must not be greater than 512000 characters.'
+                  example: jcnxjvosydmfhr
+                approval_only:
+                  type: boolean
+                  description: ''
+                  example: false
+                webhook_url:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: 'http://runte.com/'
+                disable_mod_managers:
+                  type: boolean
+                  description: ''
+                  example: true
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: 7
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/comments':
+    get:
+      summary: 'List mod comments'
+      operationId: listModComments
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: ylu
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 4
+      security: []
+    post:
+      summary: 'Create a mod comment'
+      operationId: createAModComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{id}':
+    get:
+      summary: 'Get a comment'
+      operationId: getAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      security: []
+    put:
+      summary: 'Update a comment'
+      operationId: updateAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    delete:
+      summary: 'Delete a comment'
+      operationId: deleteAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/comments/subscription':
+    post:
+      summary: 'Subscribe to a mod comment'
+      operationId: subscribeToAModComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    delete:
+      summary: 'Unsubscribe from a comment'
+      operationId: unsubscribeFromAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/threads/{thread_id}/comments':
+    get:
+      summary: 'List thread comments'
+      operationId: listThreadComments
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: xxcixxpcaimot
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 5
+      security: []
+    post:
+      summary: 'Create a thread comment'
+      operationId: createAThreadComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: thread_id
+        description: 'The ID of the thread.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/threads/{thread_id}/comments/subscription':
+    post:
+      summary: 'Subscribe to a thread comment'
+      operationId: subscribeToAThreadComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    delete:
+      summary: 'Unsubscribe to a thread comment'
+      operationId: unsubscribeToAThreadComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: thread_id
+        description: 'The ID of the thread.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{comment_id}/subscription':
+    delete:
+      summary: 'Unsubscribe from a comment'
+      operationId: unsubscribeFromAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    post:
+      summary: 'Subscribe to a comment'
+      operationId: subscribeToAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: comment_id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{comment_id}/page':
+    get:
+      summary: 'Get oage of a comment'
+      operationId: getOageOfAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      security: []
+    parameters:
+      -
+        in: path
+        name: comment_id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{comment_id}/replies':
+    get:
+      summary: 'List comment replies'
+      operationId: listCommentReplies
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: ylwu
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 1
+      security: []
+    parameters:
+      -
+        in: path
+        name: comment_id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{comment_id}/pinned':
+    patch:
+      summary: 'Pin comment'
+      operationId: pinComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+    parameters:
+      -
+        in: path
+        name: comment_id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/users/{user_id}/comments':
+    get:
+      summary: 'Get user comments'
+      operationId: getUserComments
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Comments
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: alpxmeburznvwppwhl
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 3
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/dependencies':
+    post:
+      summary: 'Create a mod dependency'
+      operationId: createAModDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/dependencies/{id}':
+    put:
+      summary: 'Update a mod dependency'
+      operationId: updateAModDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+    delete:
+      summary: 'Delete a mod dependency'
+      operationId: deleteAModDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: id
+        description: 'The ID of the dependency.'
+        example: 10
+        required: true
+        schema:
+          type: integer
+  '/instructs-templates/{instructs_template_id}/dependencies':
+    post:
+      summary: 'Create an instructions template dependency'
+      operationId: createAnInstructionsTemplateDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+      security: []
+    parameters:
+      -
+        in: path
+        name: instructs_template_id
+        description: 'The ID of the instructs template.'
+        example: 11
+        required: true
+        schema:
+          type: integer
+  '/instructs-templates/{instructs_template_id}/dependencies/{id}':
+    put:
+      summary: 'Update an instructions template dependency'
+      operationId: updateAnInstructionsTemplateDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+    delete:
+      summary: 'Delete an instructions template dependency'
+      operationId: deleteAnInstructionsTemplateDependency
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Dependencies
+    parameters:
+      -
+        in: path
+        name: instructs_template_id
+        description: 'The ID of the instructs template.'
+        example: 13
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: id
+        description: 'The ID of the dependency.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/documents':
+    get:
+      summary: 'List documents'
+      operationId: listDocuments
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Documents
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: ph
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 15
+      security: []
+    post:
+      summary: 'Create a document'
+      operationId: createADocument
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Documents
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/documents/{document}':
+    get:
+      summary: 'Get a document'
+      operationId: getADocument
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Documents
+      security: []
+    parameters:
+      -
+        in: path
+        name: document
+        description: 'The document.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/documents/{id}':
+    put:
+      summary: 'Update a document'
+      operationId: updateADocument
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Documents
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
+                  example: ngdpxqctqumqaex
+                desc:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 50000 characters.'
+                  example: adflqbl
+                is_unlisted:
+                  type: boolean
+                  description: ''
+                  example: true
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 30
+                url_name:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 30 characters.'
+                  example: mtqgmsvsoipym
+    delete:
+      summary: 'Delete a document'
+      operationId: deleteADocument
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Documents
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the document.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/files':
+    get:
+      summary: 'List mod files'
+      operationId: listModFiles
+      description: 'Returns a list of files of a mod.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: soqstfpwfuwhssg
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 22
+      security: []
+    post:
+      summary: 'Upload a mod file'
+      operationId: uploadAModFile
+      description: 'Upload a new file to a mod.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ''
+                  example: null
+    delete:
+      summary: 'Delete all mod files'
+      operationId: deleteAllModFiles
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/files/{id}':
+    get:
+      summary: 'Get a file'
+      operationId: getAFile
+      description: 'Returns a file. If the mod it belongs to is accessible.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      security: []
+    put:
+      summary: 'Update a file'
+      operationId: updateAFile
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
+                  example: jfzuevtesihhjmnq
+                label:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: rbcznhjzhsegafjo
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: crqzfmkjhezdopesl
+                version:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: fgrjhrryndsaxnwb
+                display_order:
+                  type: integer
+                  description: 'Must be at least -1000. Must not be greater than 1000.'
+                  example: 16
+                image_id:
+                  type: integer
+                  description: ''
+                  example: 4
+                change_file:
+                  type: string
+                  description: ''
+                  example: null
+    delete:
+      summary: 'Delete a file'
+      operationId: deleteAFile
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the file.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/files/{file_id}/download':
+    get:
+      summary: 'Download a file'
+      operationId: downloadAFile
+      description: 'Begins a download of a file'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      security: []
+    parameters:
+      -
+        in: path
+        name: file_id
+        description: 'The ID of the file.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/files/{file_id}/version':
+    get:
+      summary: 'Get file version'
+      operationId: getFileVersion
+      description: 'Returns the version set for the file'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      security: []
+    parameters:
+      -
+        in: path
+        name: file_id
+        description: 'The ID of the file.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/files/{file_id}/register-download':
+    post:
+      summary: 'Register download'
+      operationId: registerDownload
+      description: "Registers a download for the file, doesn't let you 'download' it twice\nIt applies the download to the mod that the file belongs to.\nWorks with guests"
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      security: []
+    parameters:
+      -
+        in: path
+        name: file_id
+        description: 'The ID of the file.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/download':
+    get:
+      summary: 'Download mod first file'
+      operationId: downloadModFirstFile
+      description: 'Downloads the first available file'
+      parameters: []
+      responses: {  }
+      tags:
+        - Files
+      security: []
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/forums/{id}':
+    get:
+      summary: 'Get a forum'
+      operationId: getAForum
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the forum.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/forum-categories':
+    get:
+      summary: 'List forum categories'
+      operationId: listForumCategories
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: gohrbfxay
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 13
+      security: []
+    post:
+      summary: 'Create a forum category'
+      operationId: createAForumCategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/forum-categories/{id}':
+    get:
+      summary: 'Get a forum category'
+      operationId: getAForumCategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+      security: []
+    put:
+      summary: 'Update forum category'
+      operationId: updateForumCategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
+                  example: idepztsasf
+                emoji:
+                  type: string
+                  description: 'Must not be greater than 6 characters.'
+                  example: is
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: fnjefqnlxivkayabgzwx
+                is_private:
+                  type: boolean
+                  description: ''
+                  example: true
+                hidden:
+                  type: boolean
+                  description: ''
+                  example: true
+                banned_can_post:
+                  type: boolean
+                  description: ''
+                  example: false
+                private_threads:
+                  type: boolean
+                  description: ''
+                  example: false
+                can_close_threads:
+                  type: boolean
+                  description: ''
+                  example: true
+                grid_mode:
+                  type: boolean
+                  description: ''
+                  example: false
+                role_policies:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+                game_role_policies:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+                display_order:
+                  type: integer
+                  description: 'Must be at least -1000. Must not be greater than 1000.'
+                  example: 17
+    delete:
+      summary: 'Delete a forum category'
+      operationId: deleteAForumCategory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Forums
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the forum category.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/roles':
+    get:
+      summary: 'List games roles'
+      operationId: listGamesRoles
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Game Roles'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: psrryd
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 15
+      security: []
+    post:
+      summary: 'Create game role'
+      operationId: createGameRole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Game Roles'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: dclwhqkxrw
+                tag:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: w
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: axkafkxoiavkwemysyoyah
+                color:
+                  type: string
+                  description: 'Must not be greater than 8 characters.'
+                  example: isz
+                is_vanity:
+                  type: boolean
+                  description: ''
+                  example: false
+                self_assignable:
+                  type: boolean
+                  description: ''
+                  example: true
+                order:
+                  type: integer
+                  description: 'Must not be greater than 1001.'
+                  example: 2
+                permissions:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/roles/{game_role_id}':
+    get:
+      summary: 'Get a game role'
+      operationId: getAGameRole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Game Roles'
+      security: []
+    put:
+      summary: 'Update a game role'
+      operationId: updateAGameRole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Game Roles'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: fytrkmdyc
+                tag:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: ecqoauwxfawswonuqnlbv
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: tcxvdvsdsbm
+                color:
+                  type: string
+                  description: 'Must not be greater than 8 characters.'
+                  example: tyco
+                is_vanity:
+                  type: boolean
+                  description: ''
+                  example: false
+                self_assignable:
+                  type: boolean
+                  description: ''
+                  example: false
+                order:
+                  type: integer
+                  description: 'Must not be greater than 1001.'
+                  example: 4
+                permissions:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+    delete:
+      summary: 'Delete a game role'
+      operationId: deleteAGameRole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Game Roles'
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: game_role_id
+        description: 'The ID of the game role.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{id}':
+    get:
+      summary: 'Get a game'
+      operationId: getAGame
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      security: []
+    put:
+      summary: 'Update a game'
+      operationId: updateAGame
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: pivibzgruocnlxnpw
+                buttons:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: ldlkmvxlvcwvl
+                thumbnail_file:
+                  type: string
+                  description: 'Must not be greater than 512000 characters.'
+                  example: c
+                banner_file:
+                  type: string
+                  description: 'Must not be greater than 512000 characters.'
+                  example: yyvwplrhgjrfzpiqkdcg
+                short_name:
+                  type: string
+                  description: 'Must not be greater than 30 characters.'
+                  example: ssuehhopjptodcdhbesjnawz
+                webhook_url:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: 'http://www.bartoletti.com/'
+                mod_manager_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 84
+                  items:
+                    type: integer
+                default_mod_manager_id:
+                  type: string
+                  description: ''
+                  example: null
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/game-section-data':
+    get:
+      summary: 'Get game section data'
+      operationId: getGameSectionData
+      description: "It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster."
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: tt
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 15
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 5
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 41
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 49
+                  items:
+                    type: integer
+                liked:
+                  type: boolean
+                  description: ''
+                  example: false
+                categories:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 44
+                  items:
+                    type: integer
+                block_tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 4
+                  items:
+                    type: integer
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 84
+                collab:
+                  type: boolean
+                  description: ''
+                  example: false
+                ignore_blocked_users:
+                  type: boolean
+                  description: ''
+                  example: false
+                sort:
+                  type: string
+                  description: ''
+                  example: best_match
+                  enum:
+                    - bumped_at
+                    - published_at
+                    - likes
+                    - downloads
+                    - views
+                    - score
+                    - weekly_score
+                    - daily_score
+                    - random
+                    - best_match
+                    - name
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/users/{user}':
+    get:
+      summary: 'Get a game user'
+      operationId: getAGameUser
+      description: 'Returns the user as they are supposed to be when inside of a game. Handles roles and colors.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user
+        description: 'The user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/users/{user_id}/data':
+    get:
+      summary: 'Get game user data'
+      operationId: getGameUserData
+      description: 'Returns game data for a user. Currently used for roles.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/data':
+    get:
+      summary: 'Get game data'
+      operationId: getGameData
+      description: 'Returns basic game data like announcements. For moderators, it returns report and waiting mods count.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/users/{user_id}/roles':
+    patch:
+      summary: 'Set user roles'
+      operationId: setUserRoles
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Games
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 57
+                  items:
+                    type: integer
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/images':
+    get:
+      summary: 'List mod images'
+      operationId: listModImages
+      description: 'Returns images of the mod'
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 9
+                only_visible:
+                  type: boolean
+                  description: ''
+                  example: false
+      security: []
+    post:
+      summary: 'Upload an image'
+      operationId: uploadAnImage
+      description: 'Upload a new image to the mod\'
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file.'
+              required:
+                - file
+    delete:
+      summary: 'Delete all mod images'
+      operationId: deleteAllModImages
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/images/{id}':
+    get:
+      summary: 'Get an image'
+      operationId: getAnImage
+      description: 'Returns data about a single image'
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+      security: []
+    put:
+      summary: 'Update an image'
+      operationId: updateAnImage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_order:
+                  type: integer
+                  description: 'Must be at least -1000. Must not be greater than 1000.'
+                  example: 9
+                visible:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete an image'
+      operationId: deleteAnImage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Images
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the image.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/instructs-templates':
+    get:
+      summary: 'List instructions templates'
+      operationId: listInstructionsTemplates
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Instructions Templates'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: abxcwtufhejkth
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 4
+    post:
+      summary: 'Create an instructions template'
+      operationId: createAnInstructionsTemplate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Instructions Templates'
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/instructs-templates/{id}':
+    get:
+      summary: 'Get an instructions template'
+      operationId: getAnInstructionsTemplate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Instructions Templates'
+      security: []
+    put:
+      summary: 'Update an instructions template'
+      operationId: updateAnInstructionsTemplate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Instructions Templates'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: x
+                instructions:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: dhbhdgmottfoivhnn
+                localized:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete an instructions template'
+      operationId: deleteAnInstructionsTemplate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Instructions Templates'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the instructs template.'
+        example: 14
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/links':
+    get:
+      summary: 'List mod links'
+      operationId: listModLinks
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: gltwgq
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 12
+      security: []
+    post:
+      summary: 'Create a link'
+      operationId: createALink
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/links/{id}':
+    get:
+      summary: 'Get a Link'
+      operationId: getALink
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+      security: []
+    put:
+      summary: 'Update a link'
+      operationId: updateALink
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 255 characters.'
+                  example: onpcqzjcnwyzgkrkykftveedw
+                url:
+                  type: string
+                  description: 'Must be a valid URL. Must be at least 3 characters. Must not be greater than 1000 characters.'
+                  example: 'https://prosacco.com/cum-atque-omnis-temporibus-aut-magnam-pariatur.html'
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: pdyp
+                label:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: xjydzqqcrhqgkgxbmwu
+                version:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: yufayxjduoyyclcgk
+                display_order:
+                  type: integer
+                  description: 'Must be at least -1000. Must not be greater than 1000.'
+                  example: 10
+                image_id:
+                  type: integer
+                  description: ''
+                  example: 3
+              required:
+                - name
+                - url
+    delete:
+      summary: 'Delete a link'
+      operationId: deleteALink
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the link.'
+        example: 6
+        required: true
+        schema:
+          type: integer
+  '/links/{link_id}/register-download':
+    post:
+      summary: 'Register a download'
+      operationId: registerADownload
+      description: "Registers a download for the link, doesn't let you 'download' it twice\nIt applies the download to the mod that the link belongs to.\nWorks with guests"
+      parameters: []
+      responses: {  }
+      tags:
+        - Links
+      security: []
+    parameters:
+      -
+        in: path
+        name: link_id
+        description: 'The ID of the link.'
+        example: 17
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/mod-managers':
+    get:
+      summary: 'List mod managers'
+      operationId: listModManagers
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Mod Managers'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: pvhbtvoykdbl
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 22
+      security: []
+    post:
+      summary: 'Create mod manager'
+      operationId: createModManager
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Mod Managers'
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/mod-managers/{id}':
+    get:
+      summary: 'Get a mod manager'
+      operationId: getAModManager
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Mod Managers'
+      security: []
+    put:
+      summary: 'Update a mod manager'
+      operationId: updateAModManager
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Mod Managers'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
+                  example: sh
+                download_url:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: 'http://quitzon.net/'
+                site_url:
+                  type: string
+                  description: 'Must be a valid URL. Must not be greater than 1000 characters.'
+                  example: 'http://lockman.com/debitis-sit-distinctio-explicabo-omnis-voluptatem-commodi-dolorum'
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 84
+                hidden:
+                  type: boolean
+                  description: ''
+                  example: true
+      security: []
+    delete:
+      summary: 'Delete a mod manager'
+      operationId: deleteAModManager
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Mod Managers'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the mod manager.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/mods':
+    get:
+      summary: 'List mods'
+      operationId: listMods
+      description: 'Returns many mods, has a few options for searching the right mods'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: yhreoxt
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 15
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 14
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 66
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 13
+                  items:
+                    type: integer
+                liked:
+                  type: boolean
+                  description: ''
+                  example: false
+                categories:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 77
+                  items:
+                    type: integer
+                block_tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 4
+                  items:
+                    type: integer
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 68
+                collab:
+                  type: boolean
+                  description: ''
+                  example: true
+                ignore_blocked_users:
+                  type: boolean
+                  description: ''
+                  example: false
+                sort:
+                  type: string
+                  description: ''
+                  example: published_at
+                  enum:
+                    - bumped_at
+                    - published_at
+                    - likes
+                    - downloads
+                    - views
+                    - score
+                    - weekly_score
+                    - daily_score
+                    - random
+                    - best_match
+                    - name
+      security: []
+    post:
+      summary: 'Create Mod'
+      operationId: createMod
+      description: 'Creates a new mod'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
+                  example: jtnzftfuncgpswthvnibazttm
+                desc:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 30000 characters.'
+                  example: jgijxesukchplytcorh
+                license:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: 'y'
+                changelog:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: ihqji
+                instructions:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: gmtznafhqifyzcpacrkqn
+                short_desc:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: jbxfvolp
+                donation:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: dqoswkpj
+                version:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: xoynikuibbohibmizzpzok
+                visibility:
+                  type: string
+                  description: ''
+                  example: public
+                  enum:
+                    - public
+                    - private
+                    - unlisted
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 9
+                thumbnail_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 67
+                background_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 23
+                background_opacity:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 1.'
+                  example: 1
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 8
+                banner_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 64
+                instructs_template_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 34
+                tag_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 71
+                  items:
+                    type: integer
+                download_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 69
+                allowed_storage:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 1000.'
+                  example: 12
+                download_type:
+                  type: string
+                  description: ''
+                  example: link
+                  enum:
+                    - file
+                    - link
+                comments_disabled:
+                  type: boolean
+                  description: ''
+                  example: true
+                send_for_approval:
+                  type: boolean
+                  description: ''
+                  example: false
+                publish:
+                  type: boolean
+                  description: ''
+                  example: true
+                disable_mod_managers:
+                  type: boolean
+                  description: ''
+                  example: false
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/mods/{id}':
+    get:
+      summary: 'Get a mod'
+      operationId: getAMod
+      description: 'Returns a single mod'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      security: []
+    put:
+      summary: 'Edit Mod'
+      operationId: editMod
+      description: 'Updates data of a mod'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
+                  example: xhupkmytiyaykfvrgabav
+                desc:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 30000 characters.'
+                  example: xtg
+                license:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: znzqfmdzb
+                changelog:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: vikzmzalbtgbezsz
+                instructions:
+                  type: string
+                  description: 'Must not be greater than 30000 characters.'
+                  example: mz
+                short_desc:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: tbgkrarxbompvbe
+                donation:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: sckewhmhdamqciem
+                version:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: ubtigspeiuuf
+                visibility:
+                  type: string
+                  description: ''
+                  example: public
+                  enum:
+                    - public
+                    - private
+                    - unlisted
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 79
+                thumbnail_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 87
+                background_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 77
+                background_opacity:
+                  type: number
+                  description: 'Must be at least 0. Must not be greater than 1.'
+                  example: 1
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 70
+                banner_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 88
+                instructs_template_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 23
+                tag_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 56
+                  items:
+                    type: integer
+                download_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 22
+                allowed_storage:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 1000.'
+                  example: 25
+                download_type:
+                  type: string
+                  description: ''
+                  example: file
+                  enum:
+                    - file
+                    - link
+                comments_disabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                send_for_approval:
+                  type: boolean
+                  description: ''
+                  example: true
+                publish:
+                  type: boolean
+                  description: ''
+                  example: false
+                disable_mod_managers:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete Mod'
+      operationId: deleteMod
+      description: 'Deletes a mod and all of its contents.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/owner':
+    patch:
+      summary: 'Transfer ownership of a mod'
+      operationId: transferOwnershipOfAMod
+      description: 'Creates a transfer request, only once a user accepts can the mod be fully transfered.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 39
+                keep_owner_level:
+                  type: string
+                  description: "Which level to keep the owner as. If null, won't keep the owner as a member."
+                  example: collaborator
+                  enum:
+                    - collaborator
+                    - maintainer
+                    - viewer
+                    - contributor
+              required:
+                - owner_id
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/owner/cancel':
+    patch:
+      summary: 'Cancel transfer ownership request'
+      operationId: cancelTransferOwnershipRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/members/accept':
+    patch:
+      summary: 'Accept a mod member request'
+      operationId: acceptAModMemberRequest
+      description: 'Accepts incoming member request and make it active or delete it if rejected.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accept:
+                  type: boolean
+                  description: ''
+                  example: true
+              required:
+                - accept
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/members':
+    post:
+      summary: 'Create a mod member'
+      operationId: createAModMember
+      description: 'Add someone to be a mod member, it sends them a notification so they can accept the request'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 5
+                level:
+                  type: string
+                  description: ''
+                  example: collaborator
+                  enum:
+                    - maintainer
+                    - collaborator
+                    - viewer
+                    - contributor
+              required:
+                - user_id
+                - level
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/members/{id}':
+    put:
+      summary: 'Update a mod member'
+      operationId: updateAModMember
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                level:
+                  type: string
+                  description: ''
+                  example: collaborator
+                  enum:
+                    - collaborator
+                    - maintainer
+                    - viewer
+                    - contributor
+              required:
+                - level
+    delete:
+      summary: 'Delete a mod member'
+      operationId: deleteAModMember
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: id
+        description: 'The ID of the member.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/owner/accept':
+    patch:
+      summary: 'Accept transfer ownership request'
+      operationId: acceptTransferOwnershipRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accept:
+                  type: boolean
+                  description: ''
+                  example: false
+              required:
+                - accept
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/register-view':
+    post:
+      summary: 'Register a view'
+      operationId: registerAView
+      description: "Registers a view for a mod, doesn't let you 'view' it twice\nWorks with guests"
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      security: []
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /mods/waiting:
+    get:
+      summary: 'List waiting for approval mods'
+      operationId: listWaitingForApprovalMods
+      description: 'Returns mods waiting for approval (approval == null)'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: jkdedh
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 14
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 81
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 42
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 84
+                  items:
+                    type: integer
+                liked:
+                  type: boolean
+                  description: ''
+                  example: false
+                categories:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 65
+                  items:
+                    type: integer
+                block_tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 44
+                  items:
+                    type: integer
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 72
+                collab:
+                  type: boolean
+                  description: ''
+                  example: true
+                ignore_blocked_users:
+                  type: boolean
+                  description: ''
+                  example: true
+                sort:
+                  type: string
+                  description: ''
+                  example: best_match
+                  enum:
+                    - bumped_at
+                    - published_at
+                    - likes
+                    - downloads
+                    - views
+                    - score
+                    - weekly_score
+                    - daily_score
+                    - random
+                    - best_match
+                    - name
+  '/games/{game_id}/mods/waiting':
+    get:
+      summary: 'List waiting for approval mods'
+      operationId: listWaitingForApprovalMods
+      description: 'Returns mods waiting for approval (approval == null)'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: xzcgsrarltsdoescbqlu
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 3
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 21
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 86
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 57
+                  items:
+                    type: integer
+                liked:
+                  type: boolean
+                  description: ''
+                  example: true
+                categories:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 6
+                  items:
+                    type: integer
+                block_tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 36
+                  items:
+                    type: integer
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 87
+                collab:
+                  type: boolean
+                  description: ''
+                  example: false
+                ignore_blocked_users:
+                  type: boolean
+                  description: ''
+                  example: true
+                sort:
+                  type: string
+                  description: ''
+                  example: score
+                  enum:
+                    - bumped_at
+                    - published_at
+                    - likes
+                    - downloads
+                    - views
+                    - score
+                    - weekly_score
+                    - daily_score
+                    - random
+                    - best_match
+                    - name
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/popular-and-latest':
+    get:
+      summary: 'List popular mods'
+      operationId: listPopularMods
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/version':
+    get:
+      summary: 'Get mod version'
+      operationId: getModVersion
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      security: []
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /mods/versions:
+    get:
+      summary: 'List versions of mods'
+      operationId: listVersionsOfMods
+      description: "Returns a list of versions (Up to 100 mods)\nConvenient way of getting many versions at once and avoid sending too many requests"
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mod_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 66
+                  items:
+                    type: integer
+      security: []
+  '/mods/{mod_id}/suspended':
+    patch:
+      summary: 'Suspend a mod'
+      operationId: suspendAMod
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: boolean
+                  description: ''
+                  example: true
+                notify:
+                  type: boolean
+                  description: ''
+                  example: true
+                reason:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
+                  example: vwl
+              required:
+                - status
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/approved':
+    patch:
+      summary: 'Approve a mod'
+      operationId: approveAMod
+      description: 'Approves a waiting for approval mod.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: boolean
+                  description: ''
+                  example: false
+                notify:
+                  type: boolean
+                  description: ''
+                  example: true
+                reason:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: gfhzodimrsvgyjgphsequig
+              required:
+                - status
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/mods/{mod_id}/toggle-liked':
+    post:
+      summary: 'Toggle like'
+      operationId: toggleLike
+      description: 'Toggles the state of the like of the mod'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /mods/liked:
+    get:
+      summary: 'List liked mods'
+      operationId: listLikedMods
+      description: 'Returns mods the user liked'
+      parameters: []
+      responses: {  }
+      tags:
+        - Mods
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: jerpulrr
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 5
+                game_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 8
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 55
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 63
+                  items:
+                    type: integer
+                liked:
+                  type: boolean
+                  description: ''
+                  example: false
+                categories:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 12
+                  items:
+                    type: integer
+                block_tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 16
+                  items:
+                    type: integer
+                user_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 90
+                collab:
+                  type: boolean
+                  description: ''
+                  example: true
+                ignore_blocked_users:
+                  type: boolean
+                  description: ''
+                  example: true
+                sort:
+                  type: string
+                  description: ''
+                  example: bumped_at
+                  enum:
+                    - bumped_at
+                    - published_at
+                    - likes
+                    - downloads
+                    - views
+                    - score
+                    - weekly_score
+                    - daily_score
+                    - random
+                    - best_match
+                    - name
+  '/mods/{mod_id}/reports':
+    post:
+      summary: 'Report a mod'
+      operationId: reportAMod
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Reports
+    parameters:
+      -
+        in: path
+        name: mod_id
+        description: 'The ID of the mod.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/threads/{thread_id}/reports':
+    post:
+      summary: 'Report a thread'
+      operationId: reportAThread
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Reports
+    parameters:
+      -
+        in: path
+        name: thread_id
+        description: 'The ID of the thread.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/comments/{comment_id}/reports':
+    post:
+      summary: 'Report a comment'
+      operationId: reportAComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Reports
+    parameters:
+      -
+        in: path
+        name: comment_id
+        description: 'The ID of the comment.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/users/{user_id}/reports':
+    post:
+      summary: 'Report a user'
+      operationId: reportAUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Reports
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/reports':
+    get:
+      summary: 'List reports'
+      operationId: listReports
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Reports
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: oredwmi
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 2
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/roles/{id}':
+    get:
+      summary: 'Get a role'
+      operationId: getARole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Roles
+      security: []
+    put:
+      summary: 'Update a role'
+      operationId: updateARole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Roles
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: djxk
+                tag:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30 characters.'
+                  example: krkqfhfma
+                desc:
+                  type: string
+                  description: 'Must not be greater than 1000 characters.'
+                  example: z
+                color:
+                  type: string
+                  description: 'Must not be greater than 8 characters.'
+                  example: ag
+                is_vanity:
+                  type: boolean
+                  description: ''
+                  example: false
+                self_assignable:
+                  type: boolean
+                  description: ''
+                  example: true
+                order:
+                  type: integer
+                  description: 'Must not be greater than 1001.'
+                  example: 25
+                permissions:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: {  }
+    delete:
+      summary: 'Delete a role'
+      operationId: deleteARole
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Roles
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the role.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/supporters/{id}':
+    get:
+      summary: 'Get a supporter'
+      operationId: getASupporter
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Supporters
+      security: []
+    put:
+      summary: 'Update a supporter'
+      operationId: updateASupporter
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Supporters
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expire_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-10-21T05:12:33'
+                expired:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete a supporter'
+      operationId: deleteASupporter
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Supporters
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the supporter.'
+        example: 15
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/suspensions':
+    get:
+      summary: 'List suspensions'
+      operationId: listSuspensions
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Suspenions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: hnpvhhpnkutrntoqrtw
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 16
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/tags':
+    get:
+      summary: 'List tags'
+      operationId: listTags
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Tags
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: syaqszbso
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 17
+      security: []
+    post:
+      summary: 'Create a tag'
+      operationId: createATag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Tags
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/tags/{id}':
+    get:
+      summary: 'Get a tag'
+      operationId: getATag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Tags
+      security: []
+    put:
+      summary: 'Update a tag'
+      operationId: updateATag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
+                  example: rorjjtfycu
+                color:
+                  type: string
+                  description: 'Must not be greater than 8 characters.'
+                  example: xt
+                notice:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
+                  example: ewrbagjno
+                notice_type:
+                  type: string
+                  description: ''
+                  example: info
+                  enum:
+                    - info
+                    - warning
+                    - danger
+                type:
+                  type: string
+                  description: ''
+                  example: mod
+                  enum:
+                    - all
+                    - forum
+                    - mod
+                notice_localized:
+                  type: boolean
+                  description: ''
+                  example: true
+              required:
+                - name
+                - color
+    delete:
+      summary: 'Delete a tag'
+      operationId: deleteATag
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Tags
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the tag.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/forums/{forum_id}/threads':
+    get:
+      summary: 'List threads'
+      operationId: listThreads
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: a
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 5
+                category_name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: duwqikikzkkjoj
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 79
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 71
+                  items:
+                    type: integer
+                no_pins:
+                  type: boolean
+                  description: ''
+                  example: false
+                closed:
+                  type: boolean
+                  description: ''
+                  example: true
+                forum_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 41
+      security: []
+    post:
+      summary: 'Create a thread'
+      operationId: createAThread
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
+                  example: sobgwyinbxwjkp
+                content:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30000 characters.'
+                  example: ysuxvlkwwk
+                announce_until:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-10-21T05:12:32'
+                announce:
+                  type: boolean
+                  description: ''
+                  example: false
+                tag_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 7
+                  items:
+                    type: integer
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 10
+              required:
+                - content
+                - category_id
+    parameters:
+      -
+        in: path
+        name: forum_id
+        description: 'The ID of the forum.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/threads/{id}':
+    get:
+      summary: 'Get a thread'
+      operationId: getAThread
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+      security: []
+    put:
+      summary: 'Update a thread'
+      operationId: updateAThread
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 150 characters.'
+                  example: izzcccsjpbonkecighk
+                content:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 30000 characters.'
+                  example: qzmovxinttzparzntqcmn
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 47
+                forum_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 88
+                answer_comment_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 79
+                announce_until:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-10-21T05:12:32'
+                announce:
+                  type: boolean
+                  description: ''
+                  example: false
+                tag_ids:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 45
+                  items:
+                    type: integer
+                pinned:
+                  type: boolean
+                  description: ''
+                  example: true
+                locked:
+                  type: boolean
+                  description: ''
+                  example: false
+                closed:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete a thread'
+      operationId: deleteAThread
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the thread.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/users/{user_id}/threads':
+    get:
+      summary: 'Get user threads'
+      operationId: getUserThreads
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Threads
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: dkpit
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 10
+                category_name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: ieyfnkxujotrhwmsplquonm
+                category_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 61
+                tags:
+                  type: array
+                  description: 'Must be at least 1.'
+                  example:
+                    - 89
+                  items:
+                    type: integer
+                no_pins:
+                  type: boolean
+                  description: ''
+                  example: true
+                closed:
+                  type: boolean
+                  description: ''
+                  example: true
+                forum_id:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 58
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/games/{game_id}/users':
+    get:
+      summary: 'Get List of Users'
+      operationId: getListOfUsers
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: xnwnrikkjtmwemep
+                limit:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 50.'
+                  example: 11
+      security: []
+    parameters:
+      -
+        in: path
+        name: game_id
+        description: 'The ID of the game.'
+        example: 2
+        required: true
+        schema:
+          type: integer
+  '/users/{id}':
+    put:
+      summary: 'Edit User'
+      operationId: editUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 30 characters.'
+                  example: ivselshpqi
+                unique_name:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must be at least 3 characters. Must not be greater than 50 characters.'
+                  example: prlbaqo
+                avatar_file:
+                  type: string
+                  description: ''
+                  example: null
+                custom_color:
+                  type: string
+                  description: 'Must not be greater than 7 characters.'
+                  example: cosmqjv
+                bio:
+                  type: string
+                  description: 'Must not be greater than 3000 characters.'
+                  example: tfyhkhczyay
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: ireichert@example.net
+                custom_title:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: fii
+                private_profile:
+                  type: boolean
+                  description: ''
+                  example: true
+                invisible:
+                  type: boolean
+                  description: ''
+                  example: true
+                banner_file:
+                  type: string
+                  description: ''
+                  example: null
+                background_file:
+                  type: string
+                  description: ''
+                  example: null
+                donation_url:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'http://jenkins.info/animi-dolorem-architecto-velit-sunt'
+                show_tag:
+                  type: string
+                  description: ''
+                  example: role
+                  enum:
+                    - role
+                    - supporter_or_role
+                    - none
+                current_password:
+                  type: string
+                  description: ''
+                  example: null
+                password:
+                  type: string
+                  description: 'Must not be greater than 128 characters.'
+                  example: 'MJnZac>nSv:[&n$'
+                extra:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    default_mods_sort:
+                      type: string
+                      description: ''
+                      example: null
+                    default_mods_view:
+                      type: string
+                      description: ''
+                      example: null
+                    home_show_last_games:
+                      type: boolean
+                      description: ''
+                      example: true
+                    home_show_mods:
+                      type: boolean
+                      description: ''
+                      example: false
+                    home_show_threads:
+                      type: boolean
+                      description: ''
+                      example: true
+                    game_show_mods:
+                      type: boolean
+                      description: ''
+                      example: true
+                    game_show_threads:
+                      type: boolean
+                      description: ''
+                      example: false
+                    auto_subscribe_to_mod:
+                      type: boolean
+                      description: ''
+                      example: false
+                    auto_subscribe_to_thread:
+                      type: boolean
+                      description: ''
+                      example: true
+                    background_opacity:
+                      type: number
+                      description: 'Must be at least 0. Must not be greater than 1.'
+                      example: 1
+                    developer_mode:
+                      type: boolean
+                      description: ''
+                      example: false
+    delete:
+      summary: 'Delete a user'
+      operationId: deleteAUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                unique_name:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must be at least 3 characters. Must not be greater than 50 characters.'
+                  example: iagqnybxescqlykrbmlgdnq
+                are_you_sure:
+                  type: boolean
+                  description: ''
+                  example: false
+              required:
+                - unique_name
+                - are_you_sure
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/users/{user}':
+    get:
+      summary: 'Get User'
+      operationId: getUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      security: []
+    parameters:
+      -
+        in: path
+        name: user
+        description: 'The ID of the user'
+        example: 15
+        required: true
+        schema:
+          type: integer
+  '/users/{user_id}/roles':
+    patch:
+      summary: 'Set User Roles'
+      operationId: setUserRoles
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_ids:
+                  type: array
+                  description: 'Must be at least 2.'
+                  example:
+                    - 25
+                  items:
+                    type: integer
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Categories
+    description: ''
+  -
+    name: Comments
+    description: ''
+  -
+    name: Dependencies
+    description: ''
+  -
+    name: Documents
+    description: ''
+  -
+    name: Files
+    description: ''
+  -
+    name: Forums
+    description: ''
+  -
+    name: 'Game Roles'
+    description: ''
+  -
+    name: Games
+    description: "\nAPI routes for interacting with game sections."
+  -
+    name: Images
+    description: ''
+  -
+    name: 'Instructions Templates'
+    description: ''
+  -
+    name: Links
+    description: ''
+  -
+    name: 'Mod Managers'
+    description: ''
+  -
+    name: Mods
+    description: ''
+  -
+    name: Reports
+    description: ''
+  -
+    name: Roles
+    description: ''
+  -
+    name: Supporters
+    description: ''
+  -
+    name: Suspenions
+    description: ''
+  -
+    name: Tags
+    description: ''
+  -
+    name: Threads
+    description: ''
+  -
+    name: Users
+    description: "\nAPI routes for interacting with users"

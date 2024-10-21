@@ -14,8 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @group Mods
- * @subgroup Categories
+ * @group Categories
  */
 class CategoryController extends Controller
 {
@@ -24,7 +23,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Get List of Categories
+     * List categories
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -63,7 +62,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Create Category
+     * Create a category
      *
      * @authenticated
      */
@@ -73,7 +72,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Get Category
+     * Get a category
      */
     public function show(Category $category)
     {
@@ -83,7 +82,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Edit Category
+     * Update a category
      *
      * @authenticated
      */
@@ -130,7 +129,12 @@ class CategoryController extends Controller
     }
 
     /**
+     * Mass update mods
+     * 
      * Mass updates mods of a category, only used to move mods.
+     * 
+     * @authenticated
+     * @hideFromApiDocumentation
      */
     public function updateMods(Request $request, Category $category)
     {
@@ -149,9 +153,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes Category. Only if it's empty
+     * Delete a category
+     * 
+     * Works only if it's empty.
      *
      * @authenticated
+     * @hideFromApiDocumentation
      */
     public function destroy(Category $category)
     {

@@ -12,8 +12,7 @@ use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
- * @group Users
- * @subgroup Notifications
+ * @group Notifications
  * @authenticated
  */
 class NotificationController extends Controller
@@ -23,7 +22,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Get List of Notifications
+     * List notifications
      */
     public function index(FilteredRequest $request)
     {
@@ -45,7 +44,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Get Notification
+     * Get a notification
      */
     public function show(Notification $notification)
     {
@@ -53,7 +52,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Edit Notification
+     * Update notification
      */
     public function update(Request $request, Notification $notification)
     {
@@ -65,7 +64,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Get Unseen Notifications Count
+     * Get unseen notifications count
      */
     public function unseenCount()
     {
@@ -73,7 +72,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Delete Notification
+     * Delete a notification
      */
     public function destroy(Notification $notification)
     {
@@ -81,7 +80,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Delete All Notifications
+     * Delete all notifications
      */
     public function deleteAllNotifications(Request $request)
     {
@@ -89,7 +88,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Delete All Read Notifications
+     * Delete all read notifications
      */
     public function deleteReadNotifications(Request $request)
     {
@@ -97,7 +96,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Read All notifications
+     * Read all notifications
      */
     public function readAllNotifications(Request $request)
     {

@@ -28,7 +28,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Get List of Forum Categories
+     * List forum categories
      */
     public function index(FilteredRequest $request)
     {
@@ -53,7 +53,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Create Forum Category
+     * Create a forum category
      *
      * @authenticated
      */
@@ -63,7 +63,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Get Forum Category
+     * Get a forum category
      */
     public function show(ForumCategory $forumCategory)
     {
@@ -71,7 +71,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Edit Forum Category
+     * Update forum category
      *
      * @authenticated
      */
@@ -161,7 +161,7 @@ class ForumCategoryController extends Controller
     }
 
     /**
-     * Delete Forum Category
+     * Delete a forum category
      *
      * @authenticated
      */

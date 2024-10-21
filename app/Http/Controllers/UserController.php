@@ -283,7 +283,7 @@ class UserController extends Controller
     }
 
     /**
-     * Delete User
+     * Delete a user
      *
      * @authenticated
      */
@@ -304,7 +304,7 @@ class UserController extends Controller
     }
 
     /**
-     * Current User
+     * Get Current User
      *
      * Returns the currently authenticated user
      *
@@ -347,10 +347,9 @@ class UserController extends Controller
     }
 
     /**
-     * Report User
+     * Report a user
      *
-     * Reports the user for moderators to look at it.
-     *
+     * @group Reports
      * @authenticated
      */
     public function report(Request $request, User $user)
@@ -358,6 +357,9 @@ class UserController extends Controller
         APIService::report($request, $user);
     }
     
+    /**
+     * @hideFromApiDocumentation
+     */
     public function purgeUser(User $user) {
         $me = $this->user();
 
@@ -388,9 +390,10 @@ class UserController extends Controller
     }
 
     /**
-     * Delete User Mods
+     * Delete all user mods
      *
      * @authenticated
+     * @hideFromApiDocumentation
      */
     public function deleteMods(User $user)
     {
@@ -400,9 +403,10 @@ class UserController extends Controller
     }
 
     /**
-     * Delete User Discussions
+     * Delete all user discussions
      *
      * @authenticated
+     * @hideFromApiDocumentation
      */
     public function deleteDiscussions(User $user)
     {
@@ -415,6 +419,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Get user comments
+     * 
+     * @group Comments
+     * @authenticated
+     */
     public function getComments(FilteredRequest $request, User $user) {
         return CommentService::index($request, $user, [
             'commentable_is_user' => true,
@@ -424,6 +434,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Get user threads
+     * 
+     * @group Threads
+     * @authenticated
+     */
     public function getThreads(GetThreadRequest $request, User $user) {
         return ThreadResource::collectionResponse(ThreadService::threads($request->val(), null, $user->threads()->getQuery()));
     }

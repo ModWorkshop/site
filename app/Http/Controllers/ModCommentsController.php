@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @group Mods
- *
- * @subgroup Comments
+ * @group Comments
  */
 class ModCommentsController extends Controller
 {
@@ -24,9 +22,7 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Get List of Comments
-     *
-     * @return Response
+     * List mod comments
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
@@ -34,8 +30,8 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Create Comment
-     *
+     * Create a mod comment
+     * 
      * @authenticated
      */
     public function store(Request $request, Mod $mod)
@@ -46,7 +42,7 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Get Comment
+     * Get a mod comment
      */
     public function show(Comment $comment)
     {
@@ -54,7 +50,7 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Subscribe to Comment
+     * Subscribe to a mod comment
      *
      * @authenticated
      */
@@ -64,7 +60,7 @@ class ModCommentsController extends Controller
     }
 
     /**
-     * Unsubscribe from Comment
+     * Unsubscribe from a comment
      *
      * @authenticated
      */

@@ -16,7 +16,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Get List of Permissions
+     * List permissions
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Get Permission
+     * Get a permission
      */
     public function show(Permission $perm)
     {

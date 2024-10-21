@@ -10,7 +10,7 @@ use App\Http\Resources\BaseResource;
 use Illuminate\Http\Response;
 
 /**
- * @group Forum
+ * @group Forums
  */
 class ForumController extends Controller
 {
@@ -19,7 +19,7 @@ class ForumController extends Controller
     }
 
     /**
-     * Get List of Forums
+     * List forums
      */
     public function index(FilteredRequest $request)
     {
@@ -29,7 +29,7 @@ class ForumController extends Controller
     }
 
     /**
-     * Get Forum
+     * Get a forum
      */
     public function show(Forum $forum)
     {

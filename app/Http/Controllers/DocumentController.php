@@ -20,7 +20,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Get List of Documents
+     * List documents
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -50,7 +50,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Create Document
+     * Create a document
      *
      * @authenticated
      */
@@ -60,7 +60,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Get Document
+     * Get a document
      */
     public function getDocument(Request $request, $document)
     {
@@ -74,7 +74,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Edit Document
+     * Update a document
      *
      * @authenticated
      */
@@ -118,7 +118,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Delete Document
+     * Delete a document
      *
      * @authenticated
      */

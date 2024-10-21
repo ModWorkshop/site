@@ -1,18 +1,18 @@
-name: Reports
+name: Tags
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'games/{game_id}/reports'
+    uri: 'games/{game_id}/tags'
     metadata:
-      groupName: Reports
+      groupName: Tags
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get List of Reports'
+      title: 'List tags'
       description: ''
-      authenticated: true
+      authenticated: false
       custom: []
     headers:
       Content-Type: application/json
@@ -36,7 +36,7 @@ endpoints:
         name: query
         description: 'Must not be greater than 150 characters.'
         required: false
-        example: gwmndpm
+        example: syaqszbso
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -45,14 +45,241 @@ endpoints:
         name: limit
         description: 'Must be at least 1. Must not be greater than 50.'
         required: false
-        example: 22
+        example: 17
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      query: gwmndpm
-      limit: 22
+      query: syaqszbso
+      limit: 17
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'games/{game_id}/tags'
+    metadata:
+      groupName: Tags
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a tag'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      game_id:
+        name: game_id
+        description: 'The ID of the game.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      game_id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'tags/{id}'
+    metadata:
+      groupName: Tags
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a tag'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the tag.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'tags/{id}'
+    metadata:
+      groupName: Tags
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a tag'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the tag.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
+        required: true
+        example: rorjjtfycu
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      color:
+        name: color
+        description: 'Must not be greater than 8 characters.'
+        required: true
+        example: xt
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      notice:
+        name: notice
+        description: 'Must be at least 3 characters. Must not be greater than 1000 characters.'
+        required: false
+        example: ewrbagjno
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      notice_type:
+        name: notice_type
+        description: ''
+        required: false
+        example: info
+        type: string
+        enumValues:
+          - info
+          - warning
+          - danger
+        exampleWasSpecified: false
+        custom: []
+      type:
+        name: type
+        description: ''
+        required: false
+        example: mod
+        type: string
+        enumValues:
+          - all
+          - forum
+          - mod
+        exampleWasSpecified: false
+        custom: []
+      notice_localized:
+        name: notice_localized
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      name: rorjjtfycu
+      color: xt
+      notice: ewrbagjno
+      notice_type: info
+      type: mod
+      notice_localized: true
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'tags/{id}'
+    metadata:
+      groupName: Tags
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a tag'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the tag.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses: []
     responseFields: []

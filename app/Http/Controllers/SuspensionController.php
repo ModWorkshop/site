@@ -14,7 +14,6 @@ use Illuminate\Http\Response;
  * @group Suspenions
  *
  * @authenciated
- * @hideFromApiDocumentation
  */
 class SuspensionController extends Controller
 {
@@ -23,7 +22,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Get List of Suspensions
+     * List suspensions
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -67,7 +66,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Get Suspension
+     * Get a suspension
      */
     public function show(Suspension $suspension)
     {
@@ -75,7 +74,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Edit Suspension
+     * Update a suspension
      */
     public function update(Request $request, Suspension $suspension)
     {
@@ -87,7 +86,7 @@ class SuspensionController extends Controller
     }
 
     /**
-     * Delete Suspension
+     * Delete a suspension
      */
     public function destroy(Suspension $suspension)
     {

@@ -9,6 +9,9 @@ use App\Services\CommentService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Comments
+ */
 class CommentController extends Controller
 {
     public function __construct() {
@@ -16,10 +19,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * Get a comment
      */
     public function show(Comment $comment)
     {
@@ -27,11 +27,9 @@ class CommentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a comment
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @authenticated
      */
     public function update(Request $request, Comment $comment)
     {
@@ -39,34 +37,45 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a comment
+     *
+     * @authenticated
      */
     public function destroy(Comment $comment)
     {
         CommentService::destroy($comment);
     }
 
+    /**
+     * Get page of a comment
+     */
     public function page(Request $request, Comment $comment)
     {
         return CommentService::page($request, $comment);
     }
 
+    /**
+     * Subscribe to a comment
+     *
+     * @authenticated
+     */
     public function subscribe(Comment $comment)
     {
         CommentService::subscribe($comment);
     }
 
+    /**
+     * Unsubscribe from a comment
+     *
+     * @authenticated
+     */
     public function unsubscribe(Comment $comment)
     {
         CommentService::unsubscribe($comment);
     }
 
     /**
-     * Returns replies of a comment
-     *
-     * @param FilteredRequest $request
-     * @param Mod $mod
-     * @param Comment $comment
+     * List comment replies
      */
     public function replies(FilteredRequest $request, Comment $comment)
     {
@@ -74,9 +83,8 @@ class CommentController extends Controller
     }
 
     /**
-     * Report Comment
-     *
-     * Reports the comment for moderators to look at it.
+     * @group Reports
+     * Report a comment
      *
      * @authenticated
      */
@@ -86,7 +94,9 @@ class CommentController extends Controller
     }
 
     /**
-     * Set the pinned state of a comment
+     * Pin comment
+     *
+     * @authenticated
      */
     function setPinned(Request $request, Comment $comment) {
         CommentService::setPinned($request, $comment);

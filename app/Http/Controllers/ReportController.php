@@ -7,7 +7,6 @@ use App\Http\Resources\BaseResource;
 use App\Models\Game;
 use App\Models\Report;
 use Illuminate\Http\Request;
-use Log;
 
 /**
  * @group Reports
@@ -21,7 +20,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Get List of Reports
+     * List reports
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -42,7 +41,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Edit Report
+     * Update a report
      */
     public function update(Request $request, Report $report)
     {
@@ -56,7 +55,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Delete Report
+     * Delete a report
      */
     public function destroy(Report $report)
     {

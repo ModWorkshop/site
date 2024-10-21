@@ -11,6 +11,9 @@ use Socialite;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
+/**
+ * @group Social Logins
+ */
 class SocialLoginController extends Controller
 {
     public function __construct() {
@@ -18,9 +21,7 @@ class SocialLoginController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * List social logins
      */
     public function index()
     {

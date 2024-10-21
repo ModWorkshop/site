@@ -8,6 +8,9 @@ use App\Services\DependencyService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Dependencies
+ */
 class InstructsTemplateDependencyController extends Controller
 {
     public function __construct() {
@@ -15,10 +18,7 @@ class InstructsTemplateDependencyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * Create an instructions template dependency
      */
     public function store(Request $request, InstructsTemplate $instructsTemplate)
     {
@@ -26,11 +26,9 @@ class InstructsTemplateDependencyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * Update an instructions template dependency
+     * 
+     * @authenticated
      */
     public function update(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {
@@ -38,10 +36,9 @@ class InstructsTemplateDependencyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * Delete an instructions template dependency
+     * 
+     * @authenticated
      */
     public function destroy(Request $request, InstructsTemplate $instructsTemplate, Dependency $dependency)
     {

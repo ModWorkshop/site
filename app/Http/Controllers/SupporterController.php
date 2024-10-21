@@ -21,7 +21,7 @@ class SupporterController extends Controller
         $this->authorizeResource(Supporter::class, 'supporter');
     }
     /**
-     * Get List of Supporters
+     * List supporters
      */
     public function index(FilteredRequest $request)
     {
@@ -46,7 +46,7 @@ class SupporterController extends Controller
     }
 
     /**
-     * Create Supporter
+     * Create a supporter
      *
      * @authenticated
      */
@@ -67,7 +67,7 @@ class SupporterController extends Controller
     }
 
     /**
-     * Show Supporter
+     * Get a supporter
      */
     public function show(Supporter $supporter)
     {
@@ -75,7 +75,7 @@ class SupporterController extends Controller
     }
 
     /**
-     * Edit Supporter
+     * Update a supporter
      *
      * @authenticated
      */
@@ -94,7 +94,7 @@ class SupporterController extends Controller
     }
 
     /**
-     * Delete Supporter
+     * Delete a supporter
      *
      * @authenticated
      */
@@ -107,6 +107,8 @@ class SupporterController extends Controller
      * Checks nitro to update the subscription data
      * 
      * @authenticated
+     * 
+     * @hideFromApiDocumentation
      */
     public function nitroCheck() {
         return APIService::nitroCheck($this->user());

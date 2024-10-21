@@ -22,7 +22,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Get List of Blocked Users
+     * List blocked users
      */
     public function index(FilteredRequest $request)
     {
@@ -30,7 +30,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Create Blocked User
+     * Create a blocked user
      */
     public function store(Request $request)
     {
@@ -54,7 +54,7 @@ class BlockedUserController extends Controller
     }
 
     /**
-     * Delete Blocked User
+     * Delete a blocked user
      */
     public function destroy(Request $request, $id)
     {

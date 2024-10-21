@@ -14,9 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Rules\File;
 
 /**
- * @group Mods
- *
- * @subgroup Images
+ * @group Images
  */
 class ImageController extends Controller
 {
@@ -24,7 +22,7 @@ class ImageController extends Controller
         $this->authorizeWithParentResource(Image::class, Mod::class);
     }
     /**
-     * Get List of Mod Images
+     * List mod images
      *
      * Returns images of the mod
      */
@@ -43,9 +41,11 @@ class ImageController extends Controller
     }
 
     /**
-     * Upload Image
+     * Upload an image
      *
      * Upload a new image to the mod
+     *
+     * @authenticated
      */
     public function store(Request $request, Mod $mod)
     {
@@ -83,7 +83,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Get Image
+     * Get an image
      *
      * Returns data about a single image
      */
@@ -93,7 +93,9 @@ class ImageController extends Controller
     }
 
     /**
-     *  @hideFromAPIDocumentation
+     *  Update an image
+     *
+     * @authenticated
      */
     public function update(Request $request, Image $image)
     {
@@ -125,7 +127,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Delete an Image
+     * Delete an image
      *
      * @authenticated
      */
@@ -142,7 +144,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Delete all Mod Images
+     * Delete all mod images
      *
      * @authenticated
      */

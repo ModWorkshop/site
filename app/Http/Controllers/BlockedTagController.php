@@ -20,7 +20,7 @@ class BlockedTagController extends Controller
         $this->middleware('auth');
     }
     /**
-     * Get List of Blocked Tags
+     * List blocked tags
      */
     public function index(FilteredRequest $request)
     {
@@ -28,7 +28,7 @@ class BlockedTagController extends Controller
     }
 
     /**
-     * Create Blocked Tag
+     * Create a blocked tag
      */
     public function store(Request $request)
     {
@@ -47,7 +47,7 @@ class BlockedTagController extends Controller
     }
 
     /**
-     * Delete Blocked Tag
+     * Delete a blocked tag
      */
     public function destroy($id)
     {

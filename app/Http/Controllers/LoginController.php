@@ -41,12 +41,9 @@ class LoginController extends Controller
 
     }
     /**
-     * Login
+     * Login user
      *
      * Attempts to login a user with the provided username and password
-     *
-     * @param Request $request
-     * @return Response
      */
     public function login(Request $request)
     {
@@ -69,14 +66,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Logout
+     * Logout user
      *
      * Logs out the currently authenticated user.
      *
      * @authenticated
-     *
-     * @param Request $request
-     * @return Response
      */
     public function logout(Request $request) {
         Auth::logout();
@@ -85,12 +79,9 @@ class LoginController extends Controller
     }
 
     /**
-     * Register
+     * Register user
      *
      * Attempts to register users
-     *
-     * @param Request $request
-     * @return Response
      */
     public function register(Request $request)
     {

@@ -18,9 +18,7 @@ use Log;
 use Storage;
 
 /**
- * @group Mods
- *
- * @subgroup Files
+ * @group Files
  */
 class FileController extends Controller
 {
@@ -29,7 +27,7 @@ class FileController extends Controller
     }
 
     /**
-     * List of Mod Files
+     * List mod files
      *
      * Returns a list of files of a mod.
      */
@@ -45,7 +43,7 @@ class FileController extends Controller
     }
 
     /**
-     * Upload Mod File
+     * Upload a mod file
      *
      * Upload a new file to a mod.
      *
@@ -84,7 +82,7 @@ class FileController extends Controller
     }
 
     /**
-     * Get File
+     * Get a file
      *
      * Returns a file. If the mod it belongs to is accessible.
      */
@@ -94,7 +92,7 @@ class FileController extends Controller
     }
 
     /**
-     * Update File
+     * Update a file
      *
      * @authenticated
      */
@@ -134,7 +132,7 @@ class FileController extends Controller
             $val['file'] = $name;
             $val['type'] = $uploadFile->getType();
             $val['size'] = $uploadFile->getSize();
-            
+
             $file->mod->bump();
         }
 
@@ -144,7 +142,7 @@ class FileController extends Controller
     }
 
     /**
-     * Delete File
+     * Delete a file
      *
      * @authenticated
      */
@@ -154,7 +152,7 @@ class FileController extends Controller
     }
 
     /**
-     * Download File
+     * Download a file
      *
      * Begins a download of a file
      */
@@ -164,7 +162,7 @@ class FileController extends Controller
     }
 
     /**
-     * Get File Version
+     * Get file version
      *
      * Returns the version set for the file
      */
@@ -174,7 +172,7 @@ class FileController extends Controller
     }
 
     /**
-     * Delete All Mod FIles
+     * Delete all mod files
      *
      * @authenticated
      */
@@ -188,8 +186,8 @@ class FileController extends Controller
     }
 
     /**
-     * Get File Versions
-     * 
+     * List file versions
+     *
      * Returns a list of versions (Up to 100 mods)
      * Convenient way of getting many versions at once and avoid sending too many requests
      * Warning: this bypasses any mod visibility/suspension, however the only information it returns are verisons, nothing else.
@@ -211,7 +209,7 @@ class FileController extends Controller
     }
 
     /**
-     * Register Download
+     * Register download
      *
      * Registers a download for the file, doesn't let you 'download' it twice
      * It applies the download to the mod that the file belongs to.

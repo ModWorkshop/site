@@ -39,7 +39,7 @@ class ModController extends Controller
     }
 
     /**
-     * Get List of Mods
+     * List mods
      *
      * Returns many mods, has a few options for searching the right mods
      */
@@ -57,7 +57,7 @@ class ModController extends Controller
     }
 
     /**
-     * Get List of Popular Mods
+     * List popular mods
      */
     public function popularAndLatest(Request $request, Game $game=null)
     {
@@ -75,7 +75,7 @@ class ModController extends Controller
     }
 
     /**
-     * Get List of Liked Mods
+     * List liked mods
      *
      * Returns mods the user liked
      *
@@ -91,7 +91,7 @@ class ModController extends Controller
     }
 
     /**
-     * List of Waiting for Approval Mods
+     * List waiting for approval mods
      *
      * Returns mods waiting for approval (approval == null)
      *
@@ -109,7 +109,7 @@ class ModController extends Controller
     }
 
     /**
-     * Get Mod
+     * Get a mod
      *
      * Returns a single mod
      */
@@ -301,7 +301,7 @@ class ModController extends Controller
     }
 
     /**
-     * POST Register a View
+     * Register a view
      *
      * Registers a view for a mod, doesn't let you 'view' it twice
      * Works with guests
@@ -335,7 +335,7 @@ class ModController extends Controller
     }
 
     /**
-     * Toggle Like
+     * Toggle like
      *
      * Toggles the state of the like of the mod
      *
@@ -373,7 +373,7 @@ class ModController extends Controller
     }
 
     /**
-     * Transfer Ownership of a Mod
+     * Transfer ownership of a mod
      *
      * Creates a transfer request, only once a user accepts can the mod be fully transfered.
      *
@@ -417,7 +417,7 @@ class ModController extends Controller
     }
 
     /**
-     * Accept Transfer Ownership Request
+     * Accept transfer ownership request
      *
      * @authenticated
      */
@@ -447,7 +447,7 @@ class ModController extends Controller
     }
 
     /**
-     * Cancel Transfer Ownership Request
+     * Cancel transfer ownership request
      *
      * @authenticated
      */
@@ -463,7 +463,7 @@ class ModController extends Controller
     }
 
     /**
-     * Approve Mod
+     * Approve a mod
      *
      * Approves a waiting for approval mod.
      *
@@ -517,7 +517,7 @@ class ModController extends Controller
     }
 
     /**
-     * Suspend Mod
+     * Suspend a mod
      *
      * @authenticated
      */
@@ -590,10 +590,9 @@ class ModController extends Controller
     }
 
     /**
-     * Report Mod
+     * Report a mod
      *
-     * Reports the mod for moderators to look at it.
-     *
+     * @group Reports
      * @authenticated
      */
     public function report(Request $request, Mod $mod)
@@ -602,11 +601,11 @@ class ModController extends Controller
     }
 
     /**
-     * Download First File
+     * Download mod first file
      *
      * Downloads the first available file
      *
-     * @subgroup Files
+     * @group Files
      */
     function downloadPrimaryFile(Mod $mod) {
         $file = $mod->downloadRelation;
@@ -621,7 +620,7 @@ class ModController extends Controller
     }
 
     /**
-     * Get Mod Versions
+     * List versions of mods
      *
      * Returns a list of versions (Up to 100 mods)
      * Convenient way of getting many versions at once and avoid sending too many requests
@@ -639,5 +638,12 @@ class ModController extends Controller
         }
 
         return $onlyVersions;
+    }
+
+    /**
+     * Get mod version
+     */
+    public function getVersion(Mod $mod) {
+        return $mod->version;
     }
 }

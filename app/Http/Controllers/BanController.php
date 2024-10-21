@@ -27,7 +27,7 @@ class BanController extends Controller
     }
 
     /**
-     * Get List of Bans
+     * List bans
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -53,7 +53,7 @@ class BanController extends Controller
     }
 
     /**
-     * Create Ban
+     * Create a ban
      */
     public function store(Request $request, Game $game=null)
     {
@@ -97,7 +97,7 @@ class BanController extends Controller
     }
 
     /**
-     * Edit Ban
+     * Update a ban
      */
     public function update(Request $request, Ban $ban)
     {
@@ -119,7 +119,7 @@ class BanController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a ban
      *
      * @param  int  $id
      * @return Response
@@ -130,7 +130,7 @@ class BanController extends Controller
     }
 
     /**
-     * Delete Ban
+     * Delete a ban
      */
     public function destroy(Ban $ban)
     {

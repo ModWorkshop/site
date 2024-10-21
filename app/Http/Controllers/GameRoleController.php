@@ -17,9 +17,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Games
- *
- * @subgroup Roles
+ * @group Game Roles
  */
 class GameRoleController extends Controller
 {
@@ -28,7 +26,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Get List of Games Roles
+     * List games roles
      */
     public function index(FilteredRequest $request, Game $game)
     {
@@ -52,7 +50,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Create Game Role
+     * Create game role
      *
      * @authenticated
      */
@@ -62,7 +60,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Get Game Role
+     * Get a game role
      */
     public function show(Game $game, GameRole $gameRole)
     {
@@ -71,7 +69,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Edit Game Role
+     * Update a game role
      *
      * @authenticated
      */
@@ -130,7 +128,7 @@ class GameRoleController extends Controller
     }
 
     /**
-     * Delete Game Role
+     * Delete a game role
      *
      * @authenticated
      */

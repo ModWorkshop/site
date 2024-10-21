@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @group Mods
- * 
- * @subgroup Dependencies
+ * @group Dependencies
  */
 class ModDependencyController extends Controller
 {
@@ -20,7 +18,7 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Create Dependency
+     * Create a mod dependency
      *
      * @authenticated
      */
@@ -30,7 +28,7 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Edit Dependency
+     * Update a mod dependency
      *
      * @authenticated
      */
@@ -40,7 +38,7 @@ class ModDependencyController extends Controller
     }
 
     /**
-     * Delete Dependency
+     * Delete a mod dependency
      *
      * @authenticated
      */

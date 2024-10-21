@@ -28,7 +28,7 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Create Mod Member
+     * Create a mod member
      * 
      * Add someone to be a mod member, it sends them a notification so they can accept the request
      *
@@ -81,9 +81,9 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Edit Member
+     * Update a mod member
      * 
-     * @@authenticated
+     * @authenticated
      */
     public function update(Request $request, Mod $mod, User $member)
     {
@@ -106,7 +106,7 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Remove Member
+     * Delete a mod member
      *
      * @authenticated
      */
@@ -133,7 +133,7 @@ class ModMemberController extends Controller
     }
 
     /**
-     * Accept Member Request
+     * Accept a mod member request
      * 
      * Accepts incoming member request and make it active or delete it if rejected.
      *

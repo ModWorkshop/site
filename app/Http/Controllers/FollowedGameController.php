@@ -29,7 +29,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Get List of Followed Games
+     * List followed games
      */
     public function index(Request $request)
     {
@@ -41,7 +41,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Get List of Followed Games Mods
+     * List followed games mods
      */
     public function mods(GetModsRequest $request, Authenticatable $user)
     {
@@ -58,7 +58,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Add Followed Game
+     * Create a followed game
      */
     public function store(Request $request, Authenticatable $user)
     {
@@ -75,7 +75,7 @@ class FollowedGameController extends Controller
     }
 
     /**
-     * Delete Followed Game
+     * Delete a followed game
      */
     public function destroy(int $id)
     {

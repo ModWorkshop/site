@@ -8,13 +8,16 @@ use Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Settings
+ */
 class SettingsController extends Controller
 {
     public function __construct() {
     }
 
     /**
-     * Display a listing of the resource.
+     * List settings
      *
      * @return Response
      */
@@ -24,7 +27,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a setting
      *
      * @param Request $request
      * @param  int  $id

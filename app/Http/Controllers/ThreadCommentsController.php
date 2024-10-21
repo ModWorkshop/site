@@ -14,9 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @group Threads
- *
- * @subgroup Comments
+ * @group Comments
  */
 class ThreadCommentsController extends Controller
 {
@@ -25,9 +23,7 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Get List of Thread Comments
-     *
-     * @return Response
+     * List thread comments
      */
     public function index(FilteredRequest $request, Thread $thread)
     {
@@ -35,7 +31,7 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Create Thread Comment
+     * Create a thread comment
      *
      * @authenticated
      */
@@ -54,7 +50,7 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Subscribe to Thread Comment
+     * Subscribe to a thread comment
      *
      * @authenticated
      */
@@ -64,7 +60,7 @@ class ThreadCommentsController extends Controller
     }
 
     /**
-     * Unsubscribe to Thread Comment
+     * Unsubscribe to a thread comment
      *
      * @authenticated
      */

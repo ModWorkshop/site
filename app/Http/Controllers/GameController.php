@@ -33,7 +33,7 @@ class GameController extends Controller
     }
 
     /**
-     * Edit Game
+     * Update a game
      *
      * @authenticated
      */
@@ -106,7 +106,7 @@ class GameController extends Controller
     }
 
     /**
-     * Game Section Data
+     * Get game section data
      *
      * It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster.
      */
@@ -122,7 +122,7 @@ class GameController extends Controller
     }
 
     /**
-     * Create Game
+     * Create a game
      *
      * @authenticated
      */
@@ -132,7 +132,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get List of Games
+     * List games
      */
     public function index(FilteredRequest $request)
     {
@@ -156,7 +156,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get Game
+     * Get a game
      */
     public function show(Game $game)
     {
@@ -173,11 +173,12 @@ class GameController extends Controller
     }
 
     /**
-     * Delete Game
+     * Delete a game
      *
      * Deletes a game, if it has no mods.
      *
      * @autehnticated
+     * @hideFromApiDocumentation
      */
     public function destroy(Game $game)
     {
@@ -187,7 +188,7 @@ class GameController extends Controller
     }
 
     /**
-     * Set User Roles
+     * Set user roles
      *
      * @authenticated
      */
@@ -204,7 +205,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get Game Data
+     * Get game data
      *
      * Returns basic game data like announcements. For moderators, it returns report and waiting mods count.
      */
@@ -226,7 +227,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get Game User Data
+     * Get game user data
      *
      * Returns game data for a user. Currently used for roles.
      */
@@ -242,7 +243,7 @@ class GameController extends Controller
 
 
     /**
-     * Get Game User
+     * Get a game user
      *
      * Returns the user as they are supposed to be when inside of a game. Handles roles and colors.
      */
@@ -250,6 +251,9 @@ class GameController extends Controller
         return $con->getUser($user, $game);
     }
 
+    /**
+     * @hideFromApiDocumentation
+     */
     public function getAdminData(Game $game)
     {
         return APIService::adminData($game);

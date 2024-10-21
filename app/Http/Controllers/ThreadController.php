@@ -33,7 +33,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Get List of Threads
+     * List threads
      */
     public function index(GetThreadRequest $request)
     {
@@ -42,6 +42,7 @@ class ThreadController extends Controller
 
     /**
      * Uploads a thumbnail to a thread.
+     * NOT API ROUTE!
      */
     public function uploadThumbnail(Request $request, Thread $thread) {
         $fileSize = Setting::getValue('image_max_file_size') / 1024;
@@ -63,7 +64,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Create Thread
+     * Create a thread
      *
      * @authenticated
      */
@@ -117,7 +118,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Get Thread
+     * Get a thread
      */
     public function show(Thread $thread)
     {
@@ -126,7 +127,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Edit Thread
+     * Update a thread
      *
      * @authenticated
      */
@@ -184,7 +185,7 @@ class ThreadController extends Controller
                 abort(406, "Category doesn't exist or is invalid");
             }
         }
-        
+                
         if (isset($changePin)) {
             if ($changePin === true) {
                 $thread->pinned_at = Carbon::now();
@@ -250,7 +251,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Delete Thread
+     * Delete a thread
      *
      * @authenticated
      */
@@ -260,10 +261,9 @@ class ThreadController extends Controller
     }
 
     /**
-     * Report Thread
-     *
-     * Reports the thread for moderators to look at it.
-     *
+     * @group Reports
+     * 
+     * Report a thread
      * @authenticated
      */
     public function report(Request $request, Thread $thread)

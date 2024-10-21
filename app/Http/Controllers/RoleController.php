@@ -26,7 +26,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Get List of Roles
+     * List of roles
      */
     public function index(FilteredRequest $request)
     {
@@ -49,7 +49,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Create Role
+     * Create a role
      *
      * @authenticated
      */
@@ -59,7 +59,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Get Role
+     * Get a role
      */
     public function show(Role $role)
     {
@@ -68,7 +68,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Edit Role
+     * Update a role
      *
      * @authenticated
      */
@@ -123,7 +123,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Delete Role
+     * Delete a role
      *
      * @authenticated
      */

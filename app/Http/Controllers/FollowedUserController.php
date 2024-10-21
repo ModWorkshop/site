@@ -30,7 +30,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Get List of Follwoed Users
+     * List follwoed users
      */
     public function index(FilteredRequest $request)
     {
@@ -38,7 +38,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Get List of Followed Users' Mods
+     * List followed users mods
      *
      * @param GetModsRequest $request
      * @param Authenticatable $user
@@ -59,7 +59,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Add Followed User
+     * Create a followed user
      */
     public function store(Request $request, Authenticatable $user)
     {
@@ -87,7 +87,7 @@ class FollowedUserController extends Controller
     }
 
     /**
-     * Delete Followed User
+     * Delete a followed user
      */
     public function destroy(int $id, Authenticatable $user)
     {

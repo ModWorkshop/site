@@ -20,9 +20,7 @@ class TagController extends Controller
     }
 
     /**
-     * Tags
-     *
-     * Returns a list of tags
+     * List tags
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -51,7 +49,7 @@ class TagController extends Controller
     }
 
     /**
-     * Create Tag
+     * Create a tag
      *
      * @authenticated
      */
@@ -61,7 +59,7 @@ class TagController extends Controller
     }
 
     /**
-     * Get Tag
+     * Get a tag
      */
     public function show(Tag $tag)
     {
@@ -69,7 +67,7 @@ class TagController extends Controller
     }
 
     /**
-     * Edit Tag
+     * Update a tag
      *
      * @authenticated
      */
@@ -99,7 +97,7 @@ class TagController extends Controller
     }
 
     /**
-     * Delete Tag
+     * Delete a tag
      *
      * @authenticated
      */

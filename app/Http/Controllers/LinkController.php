@@ -13,9 +13,7 @@ use App\Services\ModService;
 use Illuminate\Http\Response;
 
 /**
- * @group Mods
- *
- * @subgroup Links
+ * @group Links
  */
 class LinkController extends Controller
 {
@@ -24,9 +22,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Get List of Mod Links
-     *
-     * @return Response
+     * List mod links
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
@@ -40,7 +36,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Create Link
+     * Create a link
      *
      * @authenticated
      */
@@ -50,10 +46,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Get Link
-     *
-     * @param  int  $id
-     * @return Response
+     * Get a Link
      */
     public function show(Link $link)
     {
@@ -61,7 +54,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Edit Link
+     * Update a link
      *
      * @authenticated
      */
@@ -99,7 +92,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Register Download
+     * Register a download
      *
      * Registers a download for the link, doesn't let you 'download' it twice
      * It applies the download to the mod that the link belongs to.
@@ -111,7 +104,7 @@ class LinkController extends Controller
     }
     
     /**
-     * Delete Link
+     * Delete a link
      *
      * @authenticated
      */

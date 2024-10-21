@@ -11,8 +11,6 @@ use Illuminate\Http\Response;
 
 /**
  * @group Instructions Templates
- *
- * @authenticated
  */
 class InstructsTemplateController extends Controller
 {
@@ -20,7 +18,9 @@ class InstructsTemplateController extends Controller
         $this->authorizeGameResource(InstructsTemplate::class);
     }
     /**
-     * Get list of Instructions Templates
+     * List instructions templates
+     * 
+     * @authenticated
      */
     public function index(Game $game, FilteredRequest $request)
     {
@@ -30,7 +30,7 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Create Instructions Template
+     * Create an instructions template
      *
      * @authenticated
      */
@@ -40,7 +40,7 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Get Instructions Template
+     * Get an instructions template
      */
     public function show(Game $game, InstructsTemplate $instructsTemplate)
     {
@@ -48,7 +48,7 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Edit Instructions Template
+     * Update an instructions template
      *
      * @authenticated
      */
@@ -71,7 +71,7 @@ class InstructsTemplateController extends Controller
     }
 
     /**
-     * Delete Instructions Template
+     * Delete an instructions template
      *
      * @authenticated
      */

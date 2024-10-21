@@ -10,6 +10,9 @@ use App\Services\APIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
+/**
+ * @group Mod Managers
+ */
 class ModManagerController extends Controller
 {
     public function __construct() {
@@ -17,7 +20,7 @@ class ModManagerController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * List mod managers
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
@@ -44,7 +47,7 @@ class ModManagerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create mod manager
      */
     public function store(Request $request, Game $game=null)
     {
@@ -52,7 +55,7 @@ class ModManagerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a mod manager
      */
     public function show(ModManager $modManager)
     {
@@ -60,7 +63,7 @@ class ModManagerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a mod manager
      */
     public function update(Request $request, ModManager $modManager = null, Game $game=null)
     {
@@ -95,7 +98,7 @@ class ModManagerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a mod manager
      */
     public function destroy(ModManager $modManager)
     {

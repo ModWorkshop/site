@@ -4,7 +4,7 @@ use Knuckles\Scribe\Extracting\Strategies;
 
 return [
 
-    'theme' => 'elements',
+    'theme' => 'scalar',
 
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
@@ -14,7 +14,20 @@ return [
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
-    'description' => '',
+    'description' => <<<INTRO
+The ModWorkshop API is available for everyone to use. 
+
+Do note that by using the API you must follow the following guidelines:
+
+1. Do not spam the API.
+
+2. Do not replicate the site or remove the need to visit the site to download mods. 
+Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
+
+3. Respect user's privacy and do not store their information without their consent.
+
+At the moment, the API <b>only supports GET requests</b>. More support will come in the future, but will require the use of API keys.
+INTRO,
 
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
@@ -49,10 +62,12 @@ return [
                     'users/*',
                     'roles/*',
                     'game-roles/*',
-                    'instruction-templates/*',
+                    'instructs-templates/*',
                     'tags/*',
-                    'commnents/*',
+                    'comments/*',
                     'documents/*',
+                    'mod-managers/*',
+                    'supporters/*',
                 ],
 
                 /*
@@ -104,7 +119,9 @@ return [
                      * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
                      * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
                      */
-                    'methods' => [],
+                    'methods' => [
+                        
+                    ],
 
                     /*
                      * Laravel config variables which should be set for the API call.
@@ -155,7 +172,7 @@ return [
      * - "static" will generate a static HTMl page in the /public/docs folder,
      * - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
      */
-    'type' => 'laravel',
+    'type' => 'external_static',
 
     /*
      * Settings for `static` type output.
@@ -267,20 +284,7 @@ return [
     /*
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
-    'intro_text' => <<<INTRO
-The ModWorkshop API is available for everyone to use. 
-
-Do note that by using the API you must follow the following guidelines:
-
-1. Do not spam the API.
-
-2. Do not replicate the site or remove the need to visit the site to download mods. 
-Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
-
-3. Respect user's privacy and do not store their information without their permission.
-
-Officially, at the moment the API only supports GET requests. More support will come in the future, but will require the use of API keys.
-INTRO
+    'intro_text' => ''
     ,
 
     /*
@@ -337,7 +341,7 @@ INTRO
      * - 'logo' => 'img/logo.png' // for `laravel` type
      *
      */
-    'logo' => false,
+    'logo' => 'https://modworkshop.net/assets/mws_logo_white.svg',
 
     /**
      * The strategies Scribe will use to extract information about your routes at each stage.
@@ -418,73 +422,7 @@ INTRO
          * If an endpoint/subgroup is listed under a group it doesn't belong in, it will be ignored.
          * Note: you must include the initial '/' when writing an endpoint.
          */
-        'order' => [
-            'Games' => [
-                'Mod Categories',
-                'GET /games/{id}',
-                'PUT /games/{id}',
-            ],
-            'Permissions' => [
-                'Display a listing of the resource.',
-                'Display the specified resource.',
-            ],
-            'Mods' => [
-                'Create Mod',
-                'Mods',
-                'Upload mod image',
-                'Delete Image',
-                'Upload File',
-                'Delete File',
-                'Mod',
-                'Update Mod',
-                'Remove the specified resource from storage.',
-            ],
-            'Users' => [
-                'Current User',
-                'Display a listing of the resource.',
-                'User',
-                'POST users/{user}',
-                'Remove the specified resource from storage.',
-            ],
-            'Roles' => [
-                'Display a listing of the resource.',
-                'Store a newly created resource in storage.',
-                'Display the specified resource.',
-                'Update the specified resource in storage.',
-                'Remove the specified resource from storage.',
-            ],
-            'Files' => [
-                'Display a listing of the resource.',
-                'Store a newly created resource in storage.',
-                'Display the specified resource.',
-                'Update the specified resource in storage.',
-                'Remove the specified resource from storage.',
-                'Download File',
-            ],
-            'Endpoints' => [
-                'Return an empty response simply to trigger the storage of the CSRF cookie in the browser.',
-                'Display a listing of the resource.',
-                'GET /_ignition/health-check',
-                'Store a newly created resource in storage.',
-                'POST /_ignition/execute-solution',
-                'Display the specified resource.',
-                'POST /_ignition/update-config',
-                'Update the specified resource in storage.',
-                'Remove the specified resource from storage.',
-            ],
-            'Tags' => [
-                'Display a listing of the resource.',
-                'Display a listing of the resource.',
-                'Store a newly created resource in storage.',
-                'Store a newly created resource in storage.',
-                'Display the specified resource.',
-                'Update the specified resource in storage.',
-                'Remove the specified resource from storage.',
-                'Display the specified resource.',
-                'Update the specified resource in storage.',
-                'Remove the specified resource from storage.',
-            ],
-        ],
+        'order' => [],
     ],
     /**
      * Customize the "Last updated" value displayed in the docs by specifying tokens and formats.
@@ -508,7 +446,8 @@ INTRO
          * By default, Scribe will try the model's factory, and if that fails, try fetching the first from the database.
          * You can reorder or remove strategies here.
          */
-        'models_source' => ['factoryCreate', 'factoryMake', 'databaseFirst'],
+        'models_source' => [],
     ],
-    'external' => ['html_attributes' => []]
+    'external' => ['html_attributes' => [
+    ]]
 ];
