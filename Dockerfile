@@ -70,6 +70,7 @@ RUN apt-get update && apt-get install cron -y \
 
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php \
+    && php artisan scribe:generate \
     && php artisan route:cache \
     && php artisan optimize \
     && php artisan storage:link

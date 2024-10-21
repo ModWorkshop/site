@@ -38,12 +38,12 @@
         "spatie/laravel-query-builder": "^6.2.0",
         "spatie/laravel-validation-rules": "^3.4",
         "teampanfu/laravel-hcaptcha": "^1.1",
-        "ultrono/laravel-sitemap": "^9.3"
+        "ultrono/laravel-sitemap": "^9.3",
+        "knuckleswtf/scribe": "^4.37.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.21.0",
-        "knuckleswtf/scribe": "^4.37.2",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^8.1",
         "phpunit/phpunit": "^11.4",
