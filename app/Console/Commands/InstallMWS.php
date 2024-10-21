@@ -34,6 +34,8 @@ class InstallMWS extends Command
     public function handle()
     {
         $this->info("ModWorkshop Installation");
+        $this->call('scribe:generate');
+
         $auto = $this->option('auto');
         $force = $this->option('force');
 
