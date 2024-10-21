@@ -54,7 +54,6 @@ FROM build AS prod
 COPY --chown=nobody . /app
 
 #cron https://github.com/TrafeX/docker-php-nginx/issues/110#issuecomment-1466265928
-COPY entrypoint.sh /scripts/entrypoint.sh
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 
@@ -66,8 +65,8 @@ RUN apt-get update && apt-get install cron -y \
     && crontab -u nobody /etc/crontabs/nobody \
     # && chown -R nobody /var/spool/cron/crontabs/nobody \
     # && chmod 0644 /var/spool/cron/crontabs/nobody \
-    && chown -R nobody /scripts/entrypoint.sh \
-    && chmod +x /scripts/entrypoint.sh
+    && chown -R nobody /app/entrypoint.sh \
+    && chmod +x /app/entrypoint.sh
 
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php \
@@ -75,7 +74,7 @@ RUN composer install --no-interaction --no-dev --optimize-autoloader --no-progre
     && php artisan optimize \
     && php artisan storage:link
 
-ENTRYPOINT ["/scripts/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 FROM build AS dev
 
