@@ -25,8 +25,6 @@ return new class extends Migration
             $table->index('mod_user_id');
             $table->index('mod_id');
 
-            $table->dropForeign('suspensions_mod_user_id_foreign');
-
             $table->timestamps();
         });
     }
