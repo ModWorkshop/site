@@ -13,9 +13,12 @@ use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use Auth;
+use Aws\Exception\AwsException;
 use Illuminate\Http\UploadedFile;
 use Log;
 use Storage;
+use Str;
 
 /**
  * @group Files
@@ -40,6 +43,92 @@ class FileController extends Controller
                 $query->orderByRaw("display_order DESC, updated_at DESC");
             }
         }));
+    }
+
+    public function getFileUploadUrl(Request $request, Mod $mod) {
+        $disk = Storage::disk('s3');
+        if (!isset($disk)) {
+            abort(403);
+        }
+
+        $maxSize = Setting::getValue('max_file_size');
+
+        if (isset($mod->user->hasSupporterPerks)) {
+            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
+        }
+
+        $val = $request->validate([
+            'name' => 'string|min:2|max:100',
+            'type' => 'string|min:2|max:50|alpha_dash',
+            'length' => "required|int|max:{$maxSize}"
+        ]);
+
+        $tempFile = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$val['type'];
+        $tempUrl = $disk->temporaryUploadUrl(
+            'temp/'.$tempFile, now()->addHours(6),
+            [ 'ACL' => 'private' ]
+        );
+
+        $file = $mod->files()->create([
+            'name' => $val['name'], //This should be safe to just store in the DB, not the actual stored file name.
+            'desc' => '',
+            'user_id' => $this->user()->id,
+            'file' => '',
+            'type' => '',
+            'size' => $val['length'],
+            'temp_file' => $tempFile,
+            'temp_waiting' => true
+        ]);
+
+        return [
+            'id' => $file->id,
+            'url' => $tempUrl['url'],
+            'headers' => $tempUrl['headers']
+        ];
+    }
+
+    public function completeUploadViaUploadUrl(File $file) {
+        $disk = Storage::disk('s3');
+
+        if (!isset($disk) || !$file->temp_waiting || empty($file->temp_file)) {
+            abort(403);
+        }
+
+        $file->update([
+            'temp_waiting' => false
+        ]);
+
+        $mod = $file->mod;
+
+        Log::info('temp/'.$file->temp_file);
+        Log::info('mods/files/'.$file->temp_file);
+
+        try {
+            // For whatever reason this doesn't work with the normal Storage::move
+            $disk->getClient()->copyObject([ 
+                'Bucket' => config('filesystems.disks.s3.bucket'),
+                'CopySource' => config('filesystems.disks.s3.bucket').'/temp/'.$file->temp_file,
+                'Key' => 'mods/files/'.$file->temp_file,
+                'ACL' => 'public-read',
+            ]);
+
+            $disk->delete('/temp/'.$file->temp_file);
+
+            $file->update([
+                'file' => $file->temp_file
+            ]);
+
+            $mod->refresh();
+            $mod->bump(false);
+            $file->refresh();
+
+            return $file;
+        } catch (AwsException $e) {
+            // Output error message if something goes wrong
+            abort(500, "Error copying object: " . $e->getMessage());
+        }
+
+        $mod->calculateFileStatus();
     }
 
     /**
