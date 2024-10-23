@@ -42,6 +42,13 @@ export async function postRequest<T>(url: string, body?: object|null, config: Ax
     return response.data;
 }
 
+export async function getRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
+    return postRequest<T>(url + buildQueryParams(body), body, {
+        method: 'GET',
+        ...config
+    });
+}
+
 export async function patchRequest<T>(url: string, body?: object|null, config?: AxiosRequestConfigPlus) {
     return postRequest<T>(url, body, {
         method: 'PATCH',

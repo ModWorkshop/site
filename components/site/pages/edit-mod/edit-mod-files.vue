@@ -19,6 +19,7 @@
             :max-size="maxSize"
             url="files"
             ask-before-remove
+            three-stage-upload
             @file-uploaded="updateHasDownload"
             @file-deleted="fileDeleted"
         >
@@ -110,7 +111,7 @@
         <m-input v-model="currentFile.label" :label="$t('label')"/>
         <m-input v-model="currentFile.version" :label="$t('version')"/>
         <m-input v-model="currentFile.display_order" :label="$t('order')"/>
-        <m-input v-model:elementRef="changeFile" type="file" :label="$t('upload_file')"/>
+        <m-input v-model:element-ref="changeFile" type="file" :label="$t('upload_file')"/>
         <m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
                 <m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />

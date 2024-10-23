@@ -95,6 +95,14 @@ const props = defineProps<{
     maxSize: number|string,
     maxFiles?: number|string,
     askBeforeRemove?: boolean,
+     // Uploads a file in 3 stages: get url -> upload -> confirm completion
+     // For this to work, you need to have something like this: files/get-upload-url
+     /**
+      * Uploads a file in 3 stages: get url -> upload -> confirm completion
+      * For this to work, you need to have something like this: files/get-upload-url
+      * That should return { id: number, url }
+      */
+    threeStageUpload?: boolean
 }>();
 
 const { showToast } = useToaster();
@@ -230,36 +238,94 @@ async function uploadWaitingFiles() {
     for (const uploadFile of vm.value) {
         if (uploadFile.waiting) {
             uploadFile.waiting = false;
-            const formData = new FormData();
-            if (uploadFile.actualFile) {
-                formData.append('file', uploadFile.actualFile);
-            }
 
-            postRequest<MWSFile>(props.uploadUrl, formData, {
-                baseURL: runtimeConfig.uploadUrl,
-                headers: {'Content-Type': 'multipart/form-data'},
-                onUploadProgress: function(progressEvent) {
-                    if (progressEvent.progress) {
-                        uploadFile.progress = Math.round(100 * progressEvent.progress);
-                    }
-                },
-                cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
-            }).then(data => {
-                Object.assign(uploadFile, data);
-                uploadFile.cancel = undefined;
-                uploadFile.progress = undefined;
-    
-                emit('file-uploaded', uploadFile);
-            }).catch(e => {
-                if (e instanceof AxiosError) {
-                    input.value.value = null;
-                    removeFile(uploadFile);
-                    showErrorToast(e, {}, t('failed_upload'));
-                }
-            });
+            if (props.threeStageUpload) {
+                startThreeStageUpload(uploadFile);
+            } else {
+                startUpload(uploadFile);
+            }
         }
     }
 }
+
+async function startUpload(uploadFile: UploadFile) {
+    if (!uploadFile.actualFile) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', uploadFile.actualFile);
+
+    try {
+        const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
+            baseURL: runtimeConfig.uploadUrl,
+            headers: {'Content-Type': 'multipart/form-data'},
+            onUploadProgress: function(progressEvent) {
+                if (progressEvent.progress) {
+                    uploadFile.progress = Math.round(100 * progressEvent.progress);
+                }
+            },
+            cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
+        });
+        
+        Object.assign(uploadFile, data);
+        uploadFile.cancel = undefined;
+        uploadFile.progress = undefined;
+
+        emit('file-uploaded', uploadFile);
+    } catch (e) {
+        if (e instanceof AxiosError) {
+            input.value.value = null;
+            removeFile(uploadFile);
+            showErrorToast(e, {}, t('failed_upload'));
+        }
+    }
+}
+
+async function startThreeStageUpload(uploadFile: UploadFile) {
+    if (!uploadFile.actualFile) {
+        return;
+    }
+
+    const split = uploadFile.actualFile.name.split('.');
+
+    try {
+        const data = await getRequest<{
+            id: number;
+            url: string;
+            headers: Record<string, string>;
+        }>(`${props.uploadUrl}/upload-url`, {
+            name: split[0],
+            length: uploadFile.actualFile.size,
+            type: split.slice(1).join('.')
+        });
+
+        await axios.put<MWSFile>(data.url, uploadFile.actualFile, {
+            headers: data.headers,
+            onUploadProgress: function(progressEvent) {
+                if (progressEvent.progress) {
+                    uploadFile.progress = Math.round(100 * progressEvent.progress);
+                }
+            },
+            cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
+        });
+
+        const fileData = await postRequest(`${props.url}/${data.id}/complete-upload`);
+
+        Object.assign(uploadFile, fileData);
+        uploadFile.cancel = undefined;
+        uploadFile.progress = undefined;
+
+        emit('file-uploaded', uploadFile);
+    } catch (e) {
+        if (e instanceof AxiosError) {
+            input.value.value = null;
+            removeFile(uploadFile);
+            showErrorToast(e, {}, t('failed_upload'));
+        }
+    }
+}
+
 
 /**
  * Handles removing files
