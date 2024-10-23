@@ -115,7 +115,7 @@ class File extends Model
 
     public function downloadUrl(): Attribute
     {
-        return Attribute::make(fn() => Storage::disk('r2')->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}");
+        return Attribute::make(fn() => Storage::disk('s3')->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}");
     }
 
     
