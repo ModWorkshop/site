@@ -9,7 +9,7 @@
                 <m-alert v-if="descType" :color="descType" :desc="desc"/>
                 <span v-else-if="desc">{{desc}}</span>
                 <slot/>
-                <m-flex gap="1">
+                <m-flex class="ml-auto" gap="1">
                     <m-button :disabled="!canSubmit" type="submit">{{saveText ?? $t('submit')}}</m-button>
                     <m-button color="danger" @click="onCancel">{{cancelText ?? $t('cancel')}}</m-button>
                 </m-flex>
