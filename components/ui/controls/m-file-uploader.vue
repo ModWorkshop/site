@@ -71,7 +71,7 @@
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
 import type { File as MWSFile, SimpleFile } from '~~/types/models';
-import axios, { AxiosError, type Canceler } from 'axios';
+import axios, { AxiosError, CanceledError, type Canceler } from 'axios';
 import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits([
@@ -274,7 +274,7 @@ async function startUpload(uploadFile: UploadFile) {
 
         emit('file-uploaded', uploadFile);
     } catch (e) {
-        if (e instanceof AxiosError) {
+        if (e instanceof AxiosError && !(e instanceof CanceledError)) {
             input.value.value = null;
             removeFile(uploadFile);
             showErrorToast(e, {}, t('failed_upload'));
@@ -318,7 +318,7 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
 
         emit('file-uploaded', uploadFile);
     } catch (e) {
-        if (e instanceof AxiosError) {
+        if (e instanceof AxiosError && !(e instanceof CanceledError)) {
             input.value.value = null;
             removeFile(uploadFile);
             showErrorToast(e, {}, t('failed_upload'));
