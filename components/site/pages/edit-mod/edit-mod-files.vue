@@ -17,7 +17,7 @@
             :max-size="maxSize"
             url="files"
             ask-before-remove
-            :three-stage-upload="config.threeStageUpload"
+            :presigned-upload="config.presignedUpload"
             @file-uploaded="fileUploaded"
             @file-deleted="fileDeleted"
         >
@@ -246,7 +246,7 @@ async function saveEditFile(error) {
             canSubmitFile.value = false;
             const formData = new FormData();
 
-            if (!config.threeStageUpload && changeFile.value) {
+            if (!config.presignedUpload && changeFile.value) {
                 formData.append('change_file', changeFile.value);
             }
 
@@ -258,7 +258,7 @@ async function saveEditFile(error) {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            if (config.threeStageUpload && changeFile.value) {
+            if (config.presignedUpload && changeFile.value) {
                 const data = await postRequest<PendingFileResponse>(`files/${file.id}/begin-pending`, {
                     name: changeFile.value.name,
                     size: changeFile.value.size,

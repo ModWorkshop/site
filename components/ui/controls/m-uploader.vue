@@ -120,7 +120,7 @@ const props = defineProps<{
       * For this to work, you need to have something like this: files/get-upload-url
       * That should return { id: number, url }
       */
-    threeStageUpload?: boolean
+    presignedUpload?: boolean
 }>();
 
 const { showToast } = useToaster();
@@ -245,7 +245,7 @@ async function uploadWaitingFiles() {
     }
 
     for (const uploadFile of uploadingFiles.value) {
-        if (props.threeStageUpload) {
+        if (props.presignedUpload) {
             startThreeStageUpload(uploadFile);
         } else {
             startUpload(uploadFile);
