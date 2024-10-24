@@ -152,9 +152,9 @@ class ModController extends Controller
                 $type = Arr::pull($val, 'download_type');
                 $download = null;
                 if ($type == 'file') {
-                    $download = $mod->files->find($downloadId);
+                    $download = $mod->files()->find($downloadId);
                 } else if($type == 'link') {
-                    $download = $mod->links->find($downloadId);
+                    $download = $mod->links()->find($downloadId);
                 }
 
                 if (isset($download)) {
