@@ -145,7 +145,7 @@ defineProps<{
 
 const mod = defineModel<Mod>({ required: true });
 const canModerate = computed(() => hasPermission('manage-mods', mod.value.game));
-const currentStorage = computed(() => mod.value.current_storage ?? 0);
+const currentStorage = computed(() => mod.value.used_storage ?? 0);
 const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
 
 
@@ -302,8 +302,8 @@ async function cancelEditFile() {
 }
 
 function fileUploaded(file: MWSFile) {
-    if (mod.value.current_storage) {
-        mod.value.current_storage += file.size;
+    if (mod.value.used_storage) {
+        mod.value.used_storage += file.size;
     }
     updateHasDownload();
 }
@@ -314,8 +314,8 @@ function fileDeleted(file: MWSFile) {
     }
 
     updateHasDownload();
-    if (mod.value.current_storage) {
-        mod.value.current_storage -= file.size;
+    if (mod.value.used_storage) {
+        mod.value.used_storage -= file.size;
     }
 }
 

@@ -150,7 +150,7 @@ export interface Mod {
     disable_mod_managers: boolean;
     background_id?: number|null;
     background_opacity?: number;
-    current_storage?: number;
+    used_storage?: number;
 }
 
 export interface Breadcrumb {
