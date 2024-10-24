@@ -68,7 +68,7 @@ class File extends Model
 
     protected $guarded = [];
     protected $hidden = ['mod'];
-    protected $with = ['user'];
+    protected $with = [];
 
     protected $appends = ['download_url'];
 

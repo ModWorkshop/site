@@ -37,6 +37,7 @@ class FileController extends Controller
     public function index(FilteredRequest $request, Mod $mod)
     {
         return BaseResource::collectionResponse($mod->files()->queryGet($request->val(), function($query, $val) use ($mod) {
+            $query->with('user');
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
                 $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, display_order DESC, updated_at DESC");
             } else {

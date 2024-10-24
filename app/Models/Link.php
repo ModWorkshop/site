@@ -54,7 +54,7 @@ class Link extends Model
     protected $guarded = [];
 
     protected $hidden = ['mod'];
-    protected $with = ['user'];
+    protected $with = [];
 
     public function getMorphClass(): string {
         return 'link';
