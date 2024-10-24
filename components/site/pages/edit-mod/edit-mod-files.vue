@@ -314,7 +314,7 @@ function fileDeleted(file: MWSFile) {
     }
 
     updateHasDownload();
-    if (mod.value.used_storage) {
+    if (mod.value.used_storage && file.id) {
         mod.value.used_storage -= file.size;
     }
 }
