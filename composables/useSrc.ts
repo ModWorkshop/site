@@ -8,9 +8,7 @@ export default function(prefix: string, src?: string|object|Blob, isAsset = fals
     const { public: config } = useRuntimeConfig();
 
     if (src) {
-        if (!isAsset && config.debug_legacy_images && !isSrcExternal(src)) {
-            return `https://modworkshop.net/mydownloads/${oldPrefixToDebug[prefix]}/${useThumb ? 'thumbnail_' : ''}${src}`;
-        } else if (typeof src === 'object') {
+        if (typeof src === 'object') {
             return src.toString();
         } else if (isSrcExternal(src)) {
             return src.toString();
