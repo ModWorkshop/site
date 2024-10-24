@@ -97,6 +97,7 @@ async function save() {
     'members',
     'has_download',
     'links_count',
-    'files_count'
+    'files_count',
+    'current_storage'
 ];
 </script>

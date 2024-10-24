@@ -1,16 +1,17 @@
 <template>
-    <m-flex class="alt-content-bg round progress relative">
-        <span v-if="text" class="progress-text">{{textToShow}}</span>
+    <m-flex class="alt-content-bg round progress relative" :style="{height: `${height}px`}">
+        <span v-if="textToShow" class="progress-text">{{textToShow}}</span>
         <div :class="progressClasses" :style="{width: `${percentToShow}%`}"/>
     </m-flex>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     color: { type: String, default: 'primary' },
     current: [String, Number],
     total: [String, Number],
     percent: Number,
+    height: { type: Number, default: 28 },
     showText: { type: Boolean, default: true },
     text: String,
     textAsPercent: Boolean,
@@ -18,6 +19,10 @@ const props = defineProps({
 
 const percentToShow = computed(() => props.percent ?? (100 * (props.current/props.total)));
 const textToShow = computed(() => {
+    if (!props.showText) {
+        return null;
+    }
+
     if (props.text) {
         return props.text;
     }
@@ -40,7 +45,6 @@ const progressClasses = computed(() => {
 
 <style scoped>
 .progress-bar {
-    height: 2rem;
     transition: width 0.25s ease-in-out;
 }
 

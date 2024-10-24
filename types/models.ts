@@ -150,6 +150,7 @@ export interface Mod {
     disable_mod_managers: boolean;
     background_id?: number|null;
     background_opacity?: number;
+    current_storage?: number;
 }
 
 export interface Breadcrumb {
@@ -557,4 +558,10 @@ export interface ModManager {
     updated_at?: string;
     created_at?: string;
     hidden: boolean;
+}
+
+export interface PendingFileResponse {
+    id: number;
+    url: string;
+    headers: Record<string, string>;
 }

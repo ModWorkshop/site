@@ -15,40 +15,56 @@
             multiple
             @change="e => register((e.target as HTMLInputElement).files)"
         >
-        <m-table v-if="list" alt-background>
-            <thead>
-                <tr>
-                    <th>{{$t('name')}}</th>
-                    <th>{{$t('file_size')}}</th>
-                    <th>{{$t('upload_date')}}</th>
-                    <th class="text-center">{{$t('actions')}}</th>
-                    <slot name="headers"/>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-if="vm.length">
-                    <tr v-for="file of vm" :key="file.created_at">
-                        <td>{{file.name}}</td>
-                        <td>{{friendlySize(file.size)}}</td>
-                        <td v-if="file.progress">{{$t('uploading', [file.progress])}} </td>
-                        <td v-else-if="file.created_at">{{fullDate(file.created_at)}}</td>
-                        <td v-else>{{pausedReason ?? $t('waiting')}}</td>
-                        <td class="text-center p-1">
-                            <m-flex inline>
-                                <slot name="buttons" :file="file"/>
-                                <m-button @click.prevent="removeFileDialog(file)"><i-mdi-trash/></m-button>
-                            </m-flex>
-                        </td>
-                        <slot name="rows" :file="file"/>
-                    </tr>
+        <m-flex v-if="list" column>
+            <m-uploader-list-file
+                v-for="file of uploadingFiles"
+                :key="file.created_at"
+                :file="file"
+                :paused="paused"
+                :paused-reason="pausedReason"
+                @remove="removeFileDialog"
+            >
+                <template #before-info>
+                    <slot name="before-info" :file="file"/>
                 </template>
-                <tr v-else>
-                    <td colspan="100" class="text-center">
-                        {{$t('nothing_found')}}
-                    </td>
-                </tr>
-            </tbody>
-        </m-table>
+                <template #after-info>
+                    <slot name="after-info" :file="file"/>
+                </template>
+                <template #before-buttons>
+                    <slot name="before-buttons" :file="file"/>
+                </template>
+                <template #after-buttons>
+                    <slot name="after-buttons" :file="file"/>
+                </template>
+            </m-uploader-list-file>
+
+            <template v-if="vm.length">
+                <m-uploader-list-file 
+                    v-for="file of vm"
+                    :key="file.created_at"
+                    :file="file"
+                    :paused="paused"
+                    :paused-reason="pausedReason"
+                    @remove="removeFileDialog"
+                >
+                    <template #before-info>
+                        <slot name="before-info" :file="file"/>
+                    </template>
+                    <template #after-info>
+                        <slot name="after-info" :file="file"/>
+                    </template>
+                    <template #before-buttons>
+                        <slot name="before-buttons" :file="file"/>
+                    </template>
+                    <template #after-buttons>
+                        <slot name="after-buttons" :file="file"/>
+                    </template>
+                </m-uploader-list-file>
+            </template>
+            <span v-else colspan="100" class="text-center">
+                {{$t('nothing_found')}}
+            </span>
+        </m-flex>
         <div v-else-if="vm.length" class="grid file-list p-3 alt-content-bg">
             <div v-for="file of vm" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
                 <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
@@ -70,9 +86,11 @@
 
 <script setup lang="ts">
 import { friendlySize, fullDate } from '~~/utils/helpers';
-import type { File as MWSFile, SimpleFile } from '~~/types/models';
-import axios, { AxiosError, CanceledError, type Canceler } from 'axios';
+import type { File as MWSFile, PendingFileResponse } from '~~/types/models';
+import axios, { AxiosError, CanceledError } from 'axios';
 import { useI18n } from 'vue-i18n';
+import { remove } from '@antfu/utils';
+import type { UploadFile } from '~/types/core';
 
 const emit = defineEmits([
     'file-begin',
@@ -112,6 +130,7 @@ const { public: runtimeConfig } = useRuntimeConfig();
 const yesNoModal = useYesNoModal();
 
 const vm = defineModel<UploadFile[]>({ default: [] }) ;
+const uploadingFiles = ref<UploadFile[]>([]);
 
 function getFileThumb(file: UploadFile) {
     if (file.thumbnail) {
@@ -136,16 +155,6 @@ const classes = computed(() => {
         'upload-area-disabled': reachedMaxFiles.value || props.disabled
     };
 });
-
-type UploadFile = SimpleFile & {
-    name?: string,
-    cancel?: Canceler,
-    progress?: number,
-    thumbnail?: string,
-    has_thumb?: boolean,
-    waiting?: boolean,
-    actualFile?: File
-}
 
 const input = ref();
 const reachedMaxFiles = computed<boolean>(() => {
@@ -211,7 +220,7 @@ function register(files: FileList|null) {
                 actualFile: file
             };
 
-            vm.value.push(insertFile);
+            uploadingFiles.value.push(insertFile);
     
            //Read the file and get blob src
             const reader = new FileReader();
@@ -235,15 +244,11 @@ async function uploadWaitingFiles() {
         return;
     }
 
-    for (const uploadFile of vm.value) {
-        if (uploadFile.waiting) {
-            uploadFile.waiting = false;
-
-            if (props.threeStageUpload) {
-                startThreeStageUpload(uploadFile);
-            } else {
-                startUpload(uploadFile);
-            }
+    for (const uploadFile of uploadingFiles.value) {
+        if (props.threeStageUpload) {
+            startThreeStageUpload(uploadFile);
+        } else {
+            startUpload(uploadFile);
         }
     }
 }
@@ -271,6 +276,10 @@ async function startUpload(uploadFile: UploadFile) {
         Object.assign(uploadFile, data);
         uploadFile.cancel = undefined;
         uploadFile.progress = undefined;
+        uploadFile.waiting = false;
+
+        remove(uploadingFiles.value, uploadFile);
+        vm.value.unshift(uploadFile);
 
         emit('file-uploaded', uploadFile);
     } catch (e) {
@@ -287,20 +296,15 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
         return;
     }
 
-    const split = uploadFile.actualFile.name.split('.');
-
     try {
-        const data = await getRequest<{
-            id: number;
-            url: string;
-            headers: Record<string, string>;
-        }>(`${props.uploadUrl}/upload-url`, {
-            name: split[0],
-            length: uploadFile.actualFile.size,
-            type: split.slice(1).join('.')
+        const file = uploadFile.actualFile;
+        const data = await postRequest<PendingFileResponse>(`${props.uploadUrl}/begin-pending`, {
+            name: file.name,
+            size: file.size,
+            type: file.name.split('.').slice(1).join('.')
         });
 
-        await axios.put<MWSFile>(data.url, uploadFile.actualFile, {
+        await axios.put(data.url, file, {
             headers: data.headers,
             onUploadProgress: function(progressEvent) {
                 if (progressEvent.progress) {
@@ -310,11 +314,15 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
             cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
         });
 
-        const fileData = await postRequest(`${props.url}/${data.id}/complete-upload`);
+        const fileData = await postRequest(`pending-files/${data.id}/complete`);
 
         Object.assign(uploadFile, fileData);
         uploadFile.cancel = undefined;
         uploadFile.progress = undefined;
+        uploadFile.waiting = false;
+
+        remove(uploadingFiles.value, uploadFile);
+        vm.value.unshift(uploadFile);
 
         emit('file-uploaded', uploadFile);
     } catch (e) {

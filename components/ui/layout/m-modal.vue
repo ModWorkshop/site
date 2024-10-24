@@ -1,6 +1,6 @@
 <template>
     <dialog :open="delayedVm" :class="{'modal-dialog': true, 'modal-closed': !vm}">
-        <m-flex v-if="delayedVm" class="modal" @click.self="vm = false">
+        <m-flex v-if="delayedVm" class="modal" @click.self="onClickOutside">
             <m-flex column :class="classes" v-bind="$attrs">
                 <m-flex>
                     <slot name="title">
@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+const { size = 'md', closeOnClickOutside = true, title } = defineProps<{
     size?: 'lg' | 'md' | 'sm',
     title?: string,
-}>(), { size: 'md' });
+    closeOnClickOutside?: boolean,
+}>();
 
 const emit = defineEmits<{
     (e: 'opened'): void,
@@ -42,10 +43,16 @@ watch(vm, val => {
 
 const classes = computed(() => ({
     'modal-body': true,
-    'modal-lg': props.size == 'lg',
-    'modal-md': props.size == 'md',
-    'modal-sm': props.size == 'sm',
+    'modal-lg': size == 'lg',
+    'modal-md': size == 'md',
+    'modal-sm': size == 'sm',
 }));
+
+function onClickOutside() {
+    if (closeOnClickOutside) {
+        vm.value = false;
+    }
+}
 </script>
 
 <style scoped>
