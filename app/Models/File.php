@@ -100,8 +100,7 @@ class File extends Model
     {
         return new Attribute(function() {
             if (str_contains($this->file, '.')) {
-                $realNameSplt = explode('.', $this->file);
-                return $realNameSplt[count($realNameSplt) - 1];
+                return implode('.', array_slice(explode('.', $this->file), 1));
             }
 
             return 'unknown';
@@ -115,13 +114,21 @@ class File extends Model
             if (!isset($name) || empty($name)) {
                 $name = $this->mod_id;
             }
-            return "{$name}.{$this->file_ext}";
+            $ext = $this->file_ext;
+            if (empty($ext)) {
+                return $name;
+            } else {
+                return "{$name}.{$this->file_ext}";
+            }
         });
     }
 
     public function downloadUrl(): Attribute
     {
-        return Attribute::make(fn() => Storage::disk('s3')->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}");
+        return Attribute::make(function() {
+            return Storage::disk('s3')
+                ->url('mods/files/'.$this->file)."?response-content-disposition=attachment;filename={$this->safeFileName}";
+        });
     }
 
     

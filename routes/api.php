@@ -70,10 +70,12 @@ Route::middleware('can:view,mod')->get('mods/{mod}/download', [ModController::cl
 APIService::resource('links', LinkController::class, 'mods');
 Route::post('links/{link}/register-download', [LinkController::class, 'registerDownload']);
 APIService::gameResource('mods', ModController::class);
-Route::middleware('can:update,file')->post('files/{file}/complete-upload', [FileController::class, 'completeUploadViaUploadUrl']);
+
+Route::middleware('can:update,file')->post('files/{file}/begin-pending', [FileController::class, 'fileBeginUpload']);
+Route::middleware('can:create,App\Models\File,mod')->post('mods/{mod}/files/begin-pending', [FileController::class, 'beginUpload']);
+Route::middleware('can:complete,pendingFile')->post('pending-files/{pendingFile}/complete', [FileController::class, 'completePendingFileUpload']);
 
 Route::middleware('can:update,mod')->group(function() {
-    Route::get('mods/{mod}/files/upload-url', [FileController::class, 'getFileUploadUrl']);
     Route::delete('mods/{mod}/files', [FileController::class, 'deleteAllFiles']);
     Route::delete('mods/{mod}/images', [ImageController::class, 'deleteAllImages']);
 });

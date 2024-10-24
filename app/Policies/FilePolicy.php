@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\File;
 use App\Models\Mod;
+use App\Models\PendingFile;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -45,10 +46,6 @@ class FilePolicy
      */
     public function create(User $user, Mod $mod)
     {
-        if ($mod->files()->count() >= 25) {
-            return false;
-        }
-
         return $this->authorize('update', $mod);
     }
 

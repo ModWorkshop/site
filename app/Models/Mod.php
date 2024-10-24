@@ -427,12 +427,12 @@ class Mod extends Model implements SubscribableInterface
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class)->orderByRaw("display_order DESC, updated_at DESC")->limit(5);
+        return $this->hasMany(File::class)->orderByRaw("display_order DESC, updated_at DESC");
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->orderByRaw("display_order DESC, updated_at DESC")->limit(5);
+        return $this->hasMany(Link::class)->orderByRaw("display_order DESC, updated_at DESC");
     }
 
     public function selfMember()
@@ -541,6 +541,19 @@ class Mod extends Model implements SubscribableInterface
 
     function linksCount(): Attribute {
         return Attribute::make(fn() => $this->links()->count())->shouldCache();
+    }
+
+    function currentStorage(): Attribute {
+        return Attribute::make(function() {
+            $size = $this->allowed_storage ?? Setting::getValue('mod_storage_size');
+    
+            if (isset($this->user->hasSupporterPerks)) {
+                $size = max($size, Setting::getValue('supporter_mod_storage_size'));
+            }
+    
+            $size -= $this->files()->sum('size');
+            return $size;
+        });
     }
 
     function modManagers(): Attribute {

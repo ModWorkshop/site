@@ -46,10 +46,6 @@ class LinkPolicy
      */
     public function create(User $user, Mod $mod)
     {
-        if ($mod->links()->count() >= 25) {
-            return false;
-        }
-
         return $this->authorize('create', [Mod::class, $mod->game]);
     }
 

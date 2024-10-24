@@ -13,8 +13,11 @@ use Arr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\PendingFile;
+use App\Services\Utils;
 use Auth;
 use Aws\Exception\AwsException;
+use Aws\S3\S3Client;
 use Illuminate\Http\UploadedFile;
 use Log;
 use Storage;
@@ -46,90 +49,122 @@ class FileController extends Controller
         }));
     }
 
-    public function getFileUploadUrl(Request $request, Mod $mod) {
-        $disk = Storage::disk('s3');
-        if (!isset($disk)) {
-            abort(403);
-        }
-
-        $maxSize = Setting::getValue('max_file_size');
-
-        if (isset($mod->user->hasSupporterPerks)) {
-            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
-        }
+    public function beginUpload(Request $request, Mod $mod) {
+        $remainingStorage = $mod->currentStorage;
 
         $val = $request->validate([
-            'name' => 'string|min:2|max:100',
-            'type' => 'string|min:2|max:50|alpha_dash',
-            'length' => "required|int|max:{$maxSize}"
+            'name' => 'string|min:1|max:100',
+            'size' => "required|int|max:{$remainingStorage}"
         ]);
 
-        $tempFile = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$val['type'];
-        $tempUrl = $disk->temporaryUploadUrl(
-            'temp/'.$tempFile, now()->addHours(6),
+        return $this->createPendingFile($mod, $val['name'], $val['size']);
+    }
+
+
+    public function fileBeginUpload(Request $request, File $file) {
+        $remainingStorage = $file->mod->currentStorage - $file->size;
+
+        $val = $request->validate([
+            'name' => 'string|min:1|max:100',
+            'size' => "required|int|max:{$remainingStorage}"
+        ]);
+
+        return $this->createPendingFile($file->mod, $val['name'], $val['size'], $file);
+    }
+
+    public function createPendingFile(Mod $mod, string $name, int $size, File $file = null) {
+        $fileType = Utils::safeFileType($name);
+
+        $pendingFile = PendingFile::create([
+            'name' => explode('.', $name)[0],
+            'file_name' => $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$fileType,
+            'file_type' => $fileType,
+            'user_id' => $this->user()->id,
+            'size' => $size,
+            "file_id" => $file?->id,
+            "mod_id" => $mod->id
+        ]);
+
+        $tempUrl = Storage::disk('s3')->temporaryUploadUrl(
+            'temp/'.$pendingFile->file_name, now()->addHours(6),
             [ 'ACL' => 'private' ]
         );
 
-        $file = $mod->files()->create([
-            'name' => $val['name'], //This should be safe to just store in the DB, not the actual stored file name.
-            'desc' => '',
-            'user_id' => $this->user()->id,
-            'file' => '',
-            'type' => '',
-            'size' => $val['length'],
-            'temp_file' => $tempFile,
-            'temp_waiting' => true
-        ]);
-
         return [
-            'id' => $file->id,
+            'id' => $pendingFile->id,
             'url' => $tempUrl['url'],
             'headers' => $tempUrl['headers']
         ];
     }
 
-    public function completeUploadViaUploadUrl(File $file) {
+    public function completePendingFileUpload(PendingFile $pendingFile) {
         $disk = Storage::disk('s3');
+        $tempFilePath = 'temp/'.$pendingFile->file_name;
 
-        if (!isset($disk) || !$file->temp_waiting || empty($file->temp_file)) {
+        if (!Storage::exists($tempFilePath)) {
+            abort(404);
+        }
+
+        if (!isset($disk) || $pendingFile->complete) {
             abort(403);
         }
 
-        $file->update([
-            'temp_waiting' => false
+        $pendingFile->update([
+            'completed' => false
         ]);
 
-        $mod = $file->mod;
-
-        Log::info('temp/'.$file->temp_file);
-        Log::info('mods/files/'.$file->temp_file);
+        $mod = $pendingFile->mod;
+        $remainingStorage = $mod->currentStorage;
 
         try {
+            $size = Storage::size($tempFilePath);
+            if ($size !== $pendingFile->size || $size > $remainingStorage) {
+                Storage::delete($tempFilePath);
+                abort(403, 'File size is invalid or exceeds allowed storage!');
+            }
+
             // For whatever reason this doesn't work with the normal Storage::move
-            $disk->getClient()->copyObject([ 
+            /** @var S3Client */
+            $client = $disk->getClient();
+            $client->copyObject([ 
                 'Bucket' => config('filesystems.disks.s3.bucket'),
-                'CopySource' => config('filesystems.disks.s3.bucket').'/temp/'.$file->temp_file,
-                'Key' => 'mods/files/'.$file->temp_file,
+                'CopySource' => config('filesystems.disks.s3.bucket').'/'.$tempFilePath,
+                'Key' => 'mods/files/'.$pendingFile->file_name,
                 'ACL' => 'public-read',
             ]);
 
-            $disk->delete('/temp/'.$file->temp_file);
+            $disk->delete($tempFilePath);
 
-            $file->update([
-                'file' => $file->temp_file
-            ]);
+            $file = null;
+            if (isset($pendingFile->file_id)) {
+                $pendingFile->file->update([
+                    'file' => $pendingFile->file_name,
+                    'type' => $pendingFile->file_type,
+                    'size' => $size
+                ]);
+
+                $file = $pendingFile->file;
+                $file->refresh();
+            } else {
+                $file = $mod->files()->create([
+                    'name' => $pendingFile->name,
+                    'desc' => '',
+                    'user_id' => $pendingFile->user_id,
+                    'file' => $pendingFile->file_name,
+                    'type' => $pendingFile->file_type,
+                    'size' => $pendingFile->size
+                ]);
+            }
 
             $mod->refresh();
             $mod->bump(false);
-            $file->refresh();
+            $mod->calculateFileStatus();
 
             return $file;
         } catch (AwsException $e) {
             // Output error message if something goes wrong
             abort(500, "Error copying object: " . $e->getMessage());
         }
-
-        $mod->calculateFileStatus();
     }
 
     /**
@@ -141,26 +176,22 @@ class FileController extends Controller
      */
     public function store(Request $request, Mod $mod)
     {
-        ini_set('memory_limit', '4G');
         set_time_limit(3600);
-        $maxSize = Setting::getValue('max_file_size');
 
-        if (isset($mod->user->hasSupporterPerks)) {
-            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
-        }
-
+        $remainingStorage = $mod->currentStorage;
         $val = $request->validate([
-            'file' => "required|file|max:{$maxSize}"
+            'file' => "required|file|max:{$remainingStorage}"
         ]);
 
-        [$uploadedFile, $name] = ModService::attemptUpload($mod, $val['file']);
+        [$uploadedFile, $name, $type] = ModService::attemptUpload($mod, $val['file']);
 
         $file = $mod->files()->create([
-            'name' => $uploadedFile->getClientOriginalName(), //This should be safe to just store in the DB, not the actual stored file name.
+            // This is not the actual name of the file stored in our storage
+            'name' => explode('.', $uploadedFile->getClientOriginalName())[0],
             'desc' => '',
             'user_id' => $this->user()->id,
-            'file' => $name,
-            'type' => $uploadedFile->getClientOriginalExtension(),
+            'file' => $name, // This is though
+            'type' => $type,
             'size' => $uploadedFile->getSize()
         ]);
 
@@ -188,23 +219,18 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        ini_set('memory_limit', '4G');
         set_time_limit(3600);
-
-        $maxSize = Setting::getValue('max_file_size');
-
-        if (isset($file->mod->user->hasSupporterPerks)) {
-            $maxSize = max($maxSize,  Setting::getValue('supporter_mod_storage_size'));
-        }
+        // Since we are changing a file
+        $remainingStorage = $file->mod->currentStorage - $file->size;
 
         $val = $request->validate([
-            'name' => 'string|min:2|max:100',
+            'name' => 'string|min:1|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255',
             'display_order' => 'integer|min:-1000|max:1000|nullable',
             'image_id' => 'int|nullable|exists:images,id',
-            'change_file' => "nullable|file|max:{$maxSize}"
+            'change_file' => "nullable|file|max:{$remainingStorage}"
         ]);
 
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
@@ -214,13 +240,13 @@ class FileController extends Controller
         }
 
         if (isset($val['change_file'])) {
-            [$uploadFile, $name] = ModService::attemptUpload($file->mod, Arr::pull($val, 'change_file'));
+            [$uploadFile, $name, $type] = ModService::attemptUpload($file->mod, Arr::pull($val, 'change_file'));
 
             //Delete old file
             Storage::delete('mods/files/'.$file->file);
 
             $val['file'] = $name;
-            $val['type'] = $uploadFile->getType();
+            $val['type'] = $type;
             $val['size'] = $uploadFile->getSize();
 
             $file->mod->bump();
