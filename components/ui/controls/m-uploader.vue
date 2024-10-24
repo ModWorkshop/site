@@ -171,11 +171,8 @@ const maxSizeBytes = computed(() => parseInt(props.maxSize as string));
 watch(() => props.paused, uploadWaitingFiles);
 
 function removeFile(file: UploadFile) {
-    for (const [k, f] of Object.entries(vm.value)) {
-        if (toRaw(f) == toRaw(file)) {
-            vm.value.splice(parseInt(k), 1);
-        }
-    }
+    remove(vm.value, file);
+    remove(uploadingFiles.value, file);
 }
 
 /**
