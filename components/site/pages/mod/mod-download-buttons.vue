@@ -51,7 +51,8 @@ const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', {
 const managers = computed(() => props.mod.mod_managers ?? []);
 
 
-const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.download!.id}`);
+// const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.download!.id}`);
+const downloadUrl = computed(() => (props.download as File).download_url);
 
 const primaryModManager = computed(() => {
     if (props.mod.disable_mod_managers || props.mod.category?.disable_mod_managers) {
