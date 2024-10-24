@@ -43,7 +43,7 @@
         </template>
     </m-input>
 
-    <m-file-uploader 
+    <m-uploader 
         v-model="images"
         name="images"
         :upload-url="uploadLink"
@@ -85,7 +85,7 @@
                 </m-button>
             </m-flex>
         </template>
-    </m-file-uploader>
+    </m-uploader>
     <label>{{$t('thumbnail_preview')}}</label>
     <div class="alt-content-bg p-4">
         <div style="max-width: 300px;">

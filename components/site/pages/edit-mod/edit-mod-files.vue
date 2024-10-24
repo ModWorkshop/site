@@ -8,7 +8,7 @@
     <m-flex column>
         <small>{{$t('allowed_size_per_mod', [friendlySize(maxStorage)])}}</small>
         <m-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
-        <m-file-uploader
+        <m-uploader
             v-model="files"
             list
             name="files"
@@ -41,7 +41,7 @@
                     <i-mdi-cog/>
                 </m-button>
             </template>
-        </m-file-uploader>
+        </m-uploader>
     </m-flex>
 
     <m-flex column>
