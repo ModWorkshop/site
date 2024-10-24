@@ -1,12 +1,12 @@
 <template>
     <m-flex column gap="6">
-        <m-list v-if="files?.meta.total" v-model:page="filesPage" :limit="10" :title="$t('files')" :items="files" :loading="loadingFiles">
+        <m-list v-if="files?.meta.total" v-model:page="filesPage" :limit="5" :title="$t('files')" :items="files" :loading="loadingFiles">
             <template #item="{ item }">
                 <mod-download :file="item" :mod="mod" type="file"/>
             </template>
         </m-list>
 
-        <m-list v-if="links?.meta.total" v-model:page="linksPage" :limit="10" :title="$t('links')" :items="links" :loading="loadingLinks">
+        <m-list v-if="links?.meta.total" v-model:page="linksPage" :limit="5" :title="$t('links')" :items="links" :loading="loadingLinks">
             <template #item="{ item }">
                 <mod-download :file="item" :mod="mod" type="link"/>
             </template>
@@ -24,6 +24,6 @@ const props = defineProps<{
 const filesPage = ref(1);
 const linksPage = ref(1);
 
-const { data: files, loading: loadingFiles } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { page: filesPage, limit: 10 }, { lazy: true });
-const { data: links, loading: loadingLinks } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { page: linksPage, limit: 10 }, { lazy: true });
+const { data: files, loading: loadingFiles } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { page: filesPage, limit: 5 }, { lazy: true });
+const { data: links, loading: loadingLinks } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { page: linksPage, limit: 5 }, { lazy: true });
 </script>
