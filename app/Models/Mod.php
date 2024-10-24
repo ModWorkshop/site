@@ -182,6 +182,7 @@ abstract class Visibility {
  * @property int $parser_version
  * @method static Builder|Mod whereParserVersion($value)
  * @property-read mixed $current_storage
+ * @property-read mixed $used_storage
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
@@ -543,6 +544,10 @@ class Mod extends Model implements SubscribableInterface
         return Attribute::make(fn() => $this->links()->count())->shouldCache();
     }
 
+    function usedStorage(): Attribute {
+        return Attribute::make(fn() => $this->files()->sum('size'));
+    }
+
     function currentStorage(): Attribute {
         return Attribute::make(function() {
             $size = $this->allowed_storage ?? Setting::getValue('mod_storage_size');
@@ -551,7 +556,7 @@ class Mod extends Model implements SubscribableInterface
                 $size = max($size, Setting::getValue('supporter_mod_storage_size'));
             }
     
-            $size -= $this->files()->sum('size');
+            $size -= $this->usedStorage;
             return $size;
         });
     }
