@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|ModManager whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ModManager whereSiteUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ModManager whereUpdatedAt($value)
+ * @property bool $hidden
+ * @method static \Illuminate\Database\Eloquent\Builder|ModManager whereHidden($value)
  * @mixin \Eloquent
  */
 class ModManager extends Model

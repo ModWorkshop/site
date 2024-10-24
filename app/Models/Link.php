@@ -39,6 +39,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Link whereUrl($value)
  * @method static Builder|Link whereUserId($value)
  * @method static Builder|Link whereVersion($value)
+ * @property int $display_order
+ * @property int $downloads
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DownloadableDownload> $downloadsRelation
+ * @property-read int|null $downloads_relation_count
+ * @method static Builder|Link whereDisplayOrder($value)
+ * @method static Builder|Link whereDownloads($value)
  * @mixin Eloquent
  */
 class Link extends Model

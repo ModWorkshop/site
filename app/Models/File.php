@@ -54,6 +54,12 @@ use Str;
  * @property-read mixed $download_url
  * @property-read mixed $file_ext
  * @property-read mixed $safe_file_name
+ * @property int $display_order
+ * @property int $downloads
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DownloadableDownload> $downloadsRelation
+ * @property-read int|null $downloads_relation_count
+ * @method static Builder|File whereDisplayOrder($value)
+ * @method static Builder|File whereDownloads($value)
  * @mixin Eloquent
  */
 class File extends Model

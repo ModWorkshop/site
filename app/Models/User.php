@@ -154,6 +154,8 @@ use Storage;
  * @property-read mixed $tag
  * @property-read Collection<int, \App\Models\Mod> $viewableMods
  * @property-read int|null $viewable_mods_count
+ * @property bool $avatar_has_thumb
+ * @method static Builder|User whereAvatarHasThumb($value)
  * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail

@@ -78,6 +78,8 @@ use Illuminate\Contracts\Support\Arrayable;
  * @property-read int|null $viewable_mods_count
  * @property-read mixed $waiting_count
  * @method static Builder|Game whereDefaultModManagerId($value)
+ * @property-read Collection<int, \App\Models\FollowedGame> $followers
+ * @property-read int|null $followers_count
  * @mixin Eloquent
  */
 class Game extends Model

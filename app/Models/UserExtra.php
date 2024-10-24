@@ -56,6 +56,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|UserExtra whereAutoSubscribeToThread($value)
  * @method static Builder|UserExtra whereBackground($value)
  * @method static Builder|UserExtra whereBackgroundOpacity($value)
+ * @property bool $developer_mode
+ * @method static Builder|UserExtra whereDeveloperMode($value)
  * @mixin Eloquent
  */
 class UserExtra extends Model

@@ -56,6 +56,8 @@ use Laravel\Scout\Attributes\SearchUsingFullText;
  * @property-read Subscription|null $subscribed
  * @property-read Collection|Report[] $reports
  * @property-read int|null $reports_count
+ * @property int $parser_version
+ * @method static Builder|Comment whereParserVersion($value)
  * @mixin Eloquent
  */
 class Comment extends Model implements SubscribableInterface

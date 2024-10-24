@@ -103,6 +103,14 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereAnswerCommentId($value)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereEditedAt($value)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread withCacheCooldownSeconds(?int $seconds = null)
+ * @property bool $closed
+ * @property bool $closed_by_mod
+ * @property string $thumbnail
+ * @property int $parser_version
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereClosed($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereClosedByMod($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereParserVersion($value)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereThumbnail($value)
  * @mixin Eloquent
  */
 class Thread extends Model implements SubscribableInterface

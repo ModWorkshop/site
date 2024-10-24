@@ -179,6 +179,9 @@ abstract class Visibility {
  * @method static Builder|Mod whereBackgroundId($value)
  * @method static Builder|Mod whereBackgroundOpacity($value)
  * @method static Builder|Mod whereDisableModManagers($value)
+ * @property int $parser_version
+ * @method static Builder|Mod whereParserVersion($value)
+ * @property-read mixed $current_storage
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface

@@ -52,6 +52,12 @@ use Illuminate\Support\Carbon;
  * @property-read mixed $game_role_policies
  * @property-read mixed $role_policies
  * @method static Builder|ForumCategory whereDisplayOrder($value)
+ * @property bool $hidden
+ * @property bool $can_close_threads
+ * @property bool $grid_mode
+ * @method static Builder|ForumCategory whereCanCloseThreads($value)
+ * @method static Builder|ForumCategory whereGridMode($value)
+ * @method static Builder|ForumCategory whereHidden($value)
  * @mixin Eloquent
  */
 class ForumCategory extends Model
