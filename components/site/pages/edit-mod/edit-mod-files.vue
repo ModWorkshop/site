@@ -5,7 +5,7 @@
     </m-flex>
 
     <label>{{$t('files')}}</label>
-    <m-flex column gap="2">
+    <m-flex column>
         <m-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
         <m-uploader
             v-model="files"
