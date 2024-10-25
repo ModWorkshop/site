@@ -61,7 +61,7 @@
                     </template>
                 </m-uploader-list-file>
             </template>
-            <span v-else colspan="100" class="text-center">
+            <span v-else colspan="100" class="text-center p-4">
                 {{$t('nothing_found')}}
             </span>
         </m-flex>

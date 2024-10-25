@@ -57,7 +57,7 @@
                         <span v-else>{{$t('waiting_for_mod')}}</span>
                     </m-flex>
                     <m-flex class="ml-auto">
-                        <span class="text-center p-1">
+                        <span class="text-center p-4">
                             <m-flex inline>
                                 <m-button @click.prevent="deleteLink(link)"><i-mdi-delete/></m-button>
                                 <m-button @click.prevent="editLink(link)"><i-mdi-cog/></m-button>
