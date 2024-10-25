@@ -220,15 +220,17 @@ function register(files: FileList|null) {
             uploadingFiles.value.push(insertFile);
     
            //Read the file and get blob src
-            const reader = new FileReader();
-            reader.addEventListener('load', () => {
-                const refFile = vm.value.find(file => toRaw(file) == insertFile);
-                if (refFile) {
-                    refFile.thumbnail = reader.result as string;
-                }
-                emit('file-begin', insertFile);
-            });
-            reader.readAsDataURL(file);
+           if (props.useFileAsThumb) {
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    const refFile = vm.value.find(file => toRaw(file) == insertFile);
+                    if (refFile) {
+                        refFile.thumbnail = reader.result as string;
+                    }
+                });
+                reader.readAsDataURL(file);
+            }
+            emit('file-begin', insertFile);
         }
     }
     input.value.value = null;
