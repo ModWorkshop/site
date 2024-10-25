@@ -4,8 +4,9 @@
         <m-flex column class="break-words overflow-hidden">
             <span>{{file.name}} ({{friendlySize(file.size)}})</span>
             <span v-if="paused">{{pausedReason ?? $t('waiting')}}</span>
-            <span v-if="file.progress">{{$t('uploading', [file.progress])}}</span>
             <span v-else-if="file.created_at">{{fullDate(file.created_at)}}</span>
+            <m-progress v-else-if="file.progress" :current="file.progress" :total="100" :height="16" style="width: 200px;" text-as-percent/>
+            <span v-else>{{$t('waiting')}}</span>
         </m-flex>
         <slot name="after-info" :file="file"/>
         <m-flex class="ml-auto">

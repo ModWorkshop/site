@@ -313,11 +313,11 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
             cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
         });
 
+        uploadFile.progress = undefined;
         const fileData = await postRequest(`pending-files/${data.id}/complete`);
 
         Object.assign(uploadFile, fileData);
         uploadFile.cancel = undefined;
-        uploadFile.progress = undefined;
         uploadFile.waiting = false;
 
         remove(uploadingFiles.value, uploadFile);
