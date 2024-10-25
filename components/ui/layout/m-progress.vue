@@ -1,43 +1,56 @@
 <template>
     <m-flex class="alt-content-bg round progress relative" :style="{height: `${height}px`}">
-        <span v-if="textToShow" class="progress-text">{{textToShow}}</span>
+        <span  class="progress-text ml-auto">{{textToShow}}</span>
         <div :class="progressClasses" :style="{width: `${percentToShow}%`}"/>
     </m-flex>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    color: { type: String, default: 'primary' },
-    current: [String, Number],
-    total: [String, Number],
-    percent: Number,
-    height: { type: Number, default: 28 },
-    showText: { type: Boolean, default: true },
-    text: String,
-    textAsPercent: Boolean,
-});
+const { 
+    color = 'primary',
+    height = 28,
+    showText = true,
+    text,
+    textAsPercent,
+    percent,
+    current = 0,
+    total = 1
+} = defineProps<{
+    color?: string,
+    current?: number,
+    total?: number,
+    percent?: number,
+    height?: number,
+    showText?: boolean,
+    text?: string,
+    textAsPercent?: boolean,
+}>();
 
-const percentToShow = computed(() => props.percent ?? (100 * (props.current/props.total)));
+const percentToShow = computed(() => Math.round(percent ?? (100 * (current/total))));
 const textToShow = computed(() => {
-    if (!props.showText) {
+    if (!showText) {
         return null;
     }
 
-    if (props.text) {
-        return props.text;
+    if (text) {
+        return text;
     }
 
-    const current = props.textAsPercent ? percentToShow : (props.current ?? percentToShow.value);
-    const total = props.textAsPercent ? 100 : (props.total ?? 100);
+    if (textAsPercent) {
+        return percentToShow.value + '%';
+    }
 
-    return `${current}/${total}`;
+    const c = textAsPercent ? percentToShow : (current ?? percentToShow.value);
+    const t = textAsPercent ? 100 : (total ?? 100);
+
+    return `${c}/${t}`;
 });
 
 const progressClasses = computed(() => {
     return {
         'progress-bar': true,
         round: true,
-        [`bg-${props.color}`]: true
+        [`bg-${color}`]: true
     };
 });
 
