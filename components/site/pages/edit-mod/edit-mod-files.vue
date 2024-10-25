@@ -118,7 +118,7 @@
         </m-flex>
         <m-input v-model="currentFile.version" :label="$t('version')"/>
         <m-input v-model="currentFile.display_order" :label="$t('order')"/>
-        <m-file-uploader v-model="changeFile" :progress="changeFileProgress" type="file" :label="$t('upload_file')"/>
+        <m-file-uploader v-model="changeFile" v-model:progress="changeFileProgress" :cancel="cancelFileUpload" type="file" :label="$t('upload_file')"/>
         <m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
                 <m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
@@ -138,6 +138,7 @@ import { remove } from '@antfu/utils';
 
 const { settings, hasPermission, user } = useStore();
 const { public: config } = useRuntimeConfig();
+const showError = useQuickErrorToast();
 
 defineProps<{
     light?: boolean
@@ -211,6 +212,37 @@ watch(() => mod.value.id, async () => {
     }
 });
 
+watch(changeFile, async file => {
+    if (currentFile.value && file && config.presignedUpload) {
+        try {
+            const data = await postRequest<PendingFileResponse>(`files/${currentFile.value.id}/begin-pending`, {
+                name: file.name,
+                size: file.size,
+                type: file.name.split('.').slice(1).join('.')
+            });
+
+            await axios.put(data.url, file, {
+                headers: data.headers,
+                onUploadProgress: function(progressEvent) {
+                    if (progressEvent.progress) {
+                        changeFileProgress.value = progressEvent.progress;
+                    }
+                },
+                cancelToken: new axios.CancelToken(c => cancelFileUpload.value = c)
+            });
+
+            const fileData = await postRequest(`pending-files/${data.id}/complete`);
+            changeFileProgress.value = 0;
+            changeFile.value = undefined;
+            Object.assign(currentFile.value, fileData);
+        } catch (e) {
+            if (!(e instanceof CanceledError)) {
+                showError(e);
+            }
+        }
+    }
+});
+
 function updateHasDownload() {
     mod.value.has_download = (files.value && files.value.length > 0) || (links.value && links.value.length > 0) || false;
     mod.value.files_count = files.value.length ?? 0;
@@ -257,27 +289,6 @@ async function saveEditFile(error) {
             await patchRequest(`files/${file.id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-
-            if (config.presignedUpload && changeFile.value) {
-                const data = await postRequest<PendingFileResponse>(`files/${file.id}/begin-pending`, {
-                    name: changeFile.value.name,
-                    size: changeFile.value.size,
-                    type: changeFile.value.name.split('.').slice(1).join('.')
-                });
-
-                await axios.put(data.url, changeFile.value, {
-                    headers: data.headers,
-                    onUploadProgress: function(progressEvent) {
-                        if (progressEvent.progress) {
-                            changeFileProgress.value = progressEvent.progress;
-                        }
-                    },
-                    cancelToken: new axios.CancelToken(c => cancelFileUpload.value = c)
-                });
-
-                const fileData = await postRequest(`pending-files/${data.id}/complete`);
-                Object.assign(file, fileData);
-            }
 
             for (const f of files.value) {
                 if (f.id === file.id) {

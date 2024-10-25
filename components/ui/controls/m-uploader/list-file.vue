@@ -20,7 +20,6 @@
 import type { UploadFile } from '~/types/core';
 
 defineProps<{
-    status?: string,
     file: UploadFile,
     paused?: boolean,
     pausedReason?: string
