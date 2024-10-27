@@ -140,8 +140,8 @@ html.dark {
     --alt-table-even-color: var(--alt-content-bg-color);
     --alt-table-odd-color: hsl(213, 12%, 17%);
 
-    --dropdown-bg: #292d32;
-    --dropdown-hover-bg: #202327;
+    --dropdown-bg: #1f2429;
+    --dropdown-hover-bg: #2e3338;
     --dropdown-text-color: #ccc;
     --text-color: #fff;
     --secondary-text-color: #d8d8d8;

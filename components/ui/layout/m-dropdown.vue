@@ -95,13 +95,14 @@ watch(open, () => {
     box-shadow: 2px 2px 8px #00000059;
     max-width: 400px;
     max-height: 450px;
+    min-width: 200px;
     color: var(--text-color);
     padding: 0.5rem;
     z-index: 9999;
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 .m-dropdown[data-side='top'] {
@@ -118,7 +119,7 @@ watch(open, () => {
 }
 
 .m-dropdown-arrow {
-    fill: var(--input-border-color);
+    fill: var(--dropdown-bg);
 }
 
 @keyframes slideUpAndFade {
