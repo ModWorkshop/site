@@ -1,6 +1,6 @@
 <template>
     <m-flex class="mod p-4 content-block items-center" :title="mod.short_desc" wrap>
-        <m-flex gap="2">
+        <m-flex gap="2" class="items-center">
             <NuxtLink v-if="displayMode == 1" class="mod-thumbnail" :to="!static && `/mod/${mod.id}` || undefined">
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
@@ -104,12 +104,6 @@ const fullViews = computed(() => friendlyNumber(locale.value, mod.views));
 }
 
 .mod-thumbnail {
-    width: 170px;
-}
-
-@media (max-width:768px) {
-    .mod-thumbnail {
-        width: 150px;
-    }
+    width: 150px;
 }
 </style>
