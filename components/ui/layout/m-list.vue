@@ -1,6 +1,6 @@
 <template>
     <m-flex column gap="2" style="flex: 1;">
-        <m-flex class="items-center">
+        <m-flex v-if="title || $slots.title" class="items-center">
             <slot name="title">
                 <h2 v-if="title">{{title}}</h2>
             </slot>

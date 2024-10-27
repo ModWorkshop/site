@@ -6,15 +6,15 @@
                 <m-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
                 <m-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
             </m-content-block>
-            <m-content-block grow style="flex: 4;" gap="1">
+            <m-flex grow style="flex: 4;" gap="1">
                 <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <div :key="item.id" class="list-button cursor-pointer" @click.self="() => $router.push(getUserLink(item))">
+                        <m-content-block :key="item.id" class="cursor-pointer p-4" @click="() => $router.push(getUserLink(item))">
                             <a-user :user="item"/>
-                        </div>
+                        </m-content-block>
                     </template>
                 </m-list>
-            </m-content-block>
+            </m-flex>
         </m-flex>
     </m-flex>
 </template>
