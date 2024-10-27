@@ -142,6 +142,7 @@ html.dark {
 
     --dropdown-bg: #1f2429;
     --dropdown-hover-bg: #2e3338;
+    --dropdown-selected-bg: #252b31;
     --dropdown-text-color: #ccc;
     --text-color: #fff;
     --secondary-text-color: #d8d8d8;
@@ -173,6 +174,7 @@ html.light {
     --alt-content-bg-color: #dedede;
     --dropdown-bg: #c9cbcf;
     --dropdown-hover-bg: #aeb1b7;
+    --dropdown-selected-bg: #bbbec3;
     --dropdown-text-color: #ccc;
     --text-color: #313131;
     --secondary-text-color: #4d4d4d;

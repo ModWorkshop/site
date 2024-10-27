@@ -16,7 +16,7 @@
                     <m-dropdown>
                         <m-button><i-mdi-star/> {{$t('popularity')}}</m-button>
                         <template #content>
-                            <m-toggle-group v-model:selected="sortBy" column>
+                            <m-toggle-group v-model:selected="sortBy" column button-style="dropdown">
                                 <m-toggle-group-item value="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</m-toggle-group-item>
                                 <m-toggle-group-item value="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</m-toggle-group-item>
                                 <m-toggle-group-item value="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</m-toggle-group-item>
@@ -29,7 +29,7 @@
                         </m-button>
                         <template #content>
                             <m-flex column>
-                                <m-toggle-group v-model:selected="sortBy" column>
+                                <m-toggle-group v-model:selected="sortBy" column button-style="dropdown">
                                     <m-toggle-group-item value="best_match"><i-mdi-magnify/> {{$t('best_match')}} </m-toggle-group-item>
                                     <m-toggle-group-item value="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{$t('random')}}</m-toggle-group-item>
                                     <m-toggle-group-item value="likes"><i-mdi-heart/> {{$t('likes')}}</m-toggle-group-item>

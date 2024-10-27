@@ -42,6 +42,10 @@ function onClick(e) {
     user-select: none;
 }
 
+.dropdown-item[selected=true] {
+    background: var(--dropdown-selected-bg);
+}
+
 .dropdown-item:hover {
     transition: color 0.15s ease-in-out;
 }
