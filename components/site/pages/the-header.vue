@@ -110,7 +110,7 @@
                                 {{$t('expires')}}: <m-time-ago :time="user.ban.expire_date"/>
                             </span>
                         </m-flex>
-                        <m-flex class="text-lg max-sm:ml-auto" gap="3">
+                        <m-flex class="text-lg max-sm:ml-auto" gap="2">
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports">
                                 <i-mdi-alert-box/> {{reportCount}}
                             </NuxtLink>
@@ -119,7 +119,7 @@
                             </NuxtLink>
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </m-flex>
-                        <m-dropdown class="-order-1 md:order-1">
+                        <m-dropdown class="-order-1 md:order-1" align="end">
                             <m-avatar class="cursor-pointer" :src="user.avatar" use-thumb/>
                             <template #content>
                                 <a-user class="m-1" :user="user" :tag="false" no-color static/>
