@@ -95,7 +95,6 @@ watch(open, () => {
     box-shadow: 2px 2px 8px #00000059;
     max-width: 400px;
     max-height: 450px;
-    min-width: 200px;
     color: var(--text-color);
     padding: 0.5rem;
     z-index: 9999;

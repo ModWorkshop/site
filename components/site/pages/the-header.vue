@@ -119,7 +119,7 @@
                             </NuxtLink>
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </m-flex>
-                        <m-dropdown class="-order-1 md:order-1" align="end">
+                        <m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
                             <m-avatar class="cursor-pointer" :src="user.avatar" use-thumb/>
                             <template #content>
                                 <a-user class="m-1" :user="user" :tag="false" no-color static/>
@@ -405,5 +405,16 @@ kbd {
     color: var(--text-color);
     background-color: var(--input-bg-color);
     border-radius: var(--border-radius);
+}
+
+.user-dropdown {
+    min-width: 200px;
+}
+
+@media (max-width:767px) {
+    .user-dropdown {
+        min-width: 250px;
+        margin-left: 1rem;
+    }
 }
 </style>
