@@ -1,14 +1,12 @@
 <template>
     <NuxtLink class="list-button" :to="typeof to == 'function' ? to(item) : to">
-        <slot>
-            <slot name="before-item" :item="item"/>
-            <slot :item="item">
-                <span class="my-auto">{{item[textBy]}}</span>
-            </slot>
-            <m-flex class="ml-auto my-auto">
-                <slot name="item-buttons" :item="item"/>
-            </m-flex>
+        <slot name="before-item" :item="item"/>
+        <slot :item="item">
+            <span class="my-auto">{{item[textBy]}}</span>
         </slot>
+        <m-flex class="ml-auto my-auto">
+            <slot name="item-buttons" :item="item"/>
+        </m-flex>
     </NuxtLink>
 </template>
 

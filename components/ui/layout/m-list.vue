@@ -1,12 +1,14 @@
 <template>
     <m-flex column gap="2" style="flex: 1;">
-        <slot name="title">
-            <h2 v-if="title">{{title}}</h2>
-        </slot>
+        <m-flex class="items-center">
+            <slot name="title">
+                <h2 v-if="title">{{title}}</h2>
+            </slot>
+            <slot name="buttons" :items="compItems"/>
+        </m-flex>
 
-        <slot name="buttons" :items="compItems"/>
 
-        <m-flex column gap="3">
+        <m-flex v-if="search || typeof newButton == 'string'" column gap="3">
             <m-flex>
                 <m-input v-if="search" v-model="queryRef" :label="$t('search')"/>
                 <m-button v-if="typeof newButton == 'string'" class="mt-auto" :to="newButton">{{$t('new')}}</m-button>
@@ -32,9 +34,9 @@
                     </m-list-item>
                 </slot>
             </slot>
-            <span v-else class="p-4">
+            <h4 v-else class="p-4 text-center">
                 {{$t('nothing_found')}}
-            </span>
+            </h4>
         </m-flex>
 
         <m-pagination v-if="pagination && !isLoading" v-model="page" :total="total" :per-page="limit">

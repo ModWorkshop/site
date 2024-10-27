@@ -15,8 +15,14 @@
             <m-input v-model="user.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
         </m-tab>
         <m-tab name="follow" :title="$t('following')">
-            <h2>{{$t('followed_games')}}</h2>
-            <m-list v-model:page="followedGamesPage" :items="followedGames" :limit="10" :loading="loadingGames" :item-link="item => `/g/${item.short_name}`">
+            <m-list 
+                v-model:page="followedGamesPage"
+                :items="followedGames"
+                :limit="10"
+                :loading="loadingGames"
+                :title="$t('followed_games')"
+                :item-link="item => `/g/${item.short_name}`"
+            >
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -24,8 +30,14 @@
                     <m-button @click.prevent="unfollowGame(item)"><i-mdi-remove/> {{$t('unfollow')}}</m-button>
                 </template>
             </m-list>
-            <h2>{{$t('followed_users')}}</h2>
-            <m-list v-model:page="followedUsersPage" :items="followedUsers" :limit="10" :loading="loadingUsers">
+
+            <m-list 
+                v-model:page="followedUsersPage"
+                :items="followedUsers"
+                :limit="10"
+                :loading="loadingUsers"
+                :title="$t('followed_users')"
+            >
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -36,8 +48,14 @@
                     </a-user>
                 </template>
             </m-list>
-            <h2>{{$t('followed_mods')}}</h2>
-            <m-list v-model:page="followedModsPage" :items="followedMods" :limit="10" :loading="loadingMods" :item-link="item => `/mod/${item.id}`">
+            <m-list 
+                v-model:page="followedModsPage"
+                :title="$t('followed_mods')"
+                :items="followedMods"
+                :limit="10"
+                :loading="loadingMods"
+                :item-link="item => `/mod/${item.id}`"
+            >
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
@@ -46,12 +64,18 @@
                 </template>
             </m-list>
         </m-tab>
+
         <m-tab name="block" :title="$t('blocking')">
-            <h2>{{$t('blocked_users')}}</h2>
             <m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
                 <m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
             </m-form-modal>
-            <m-list v-model:page="blockedUsersPage" :items="blockedUsers" :limit="10" :loading="loadingBlockedUsers">
+            <m-list 
+                v-model:page="blockedUsersPage"
+                :title="$t('blocked_users')"
+                :items="blockedUsers"
+                :limit="10"
+                :loading="loadingBlockedUsers"
+            >
                 <template #item="{ item }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
@@ -62,13 +86,18 @@
                     </a-user>
                 </template>
             </m-list>
-            <m-flex>
-                <h2>{{$t('blocked_tags')}}</h2>
-                <m-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</m-button>
-            </m-flex>
-            <m-list v-model:page="blockedTagsPage" :items="blockedTags" :limit="10" :loading="loadingTags">
+            <m-list 
+                v-model:page="blockedTagsPage"
+                :title="$t('blocked_tags')"
+                :items="blockedTags"
+                :limit="10"
+                :loading="loadingTags"
+            >
                 <template #item-name="{ item }">
                     <m-tag>{{ item.name }}</m-tag>
+                </template>
+                <template #buttons>
+                    <m-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</m-button>
                 </template>
                 <template #item-buttons="{ item }">
                     <m-button @click.prevent="unblockTag(item)"><i-mdi-remove/> {{$t('unblock')}}</m-button>
