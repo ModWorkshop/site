@@ -5,7 +5,7 @@
         </template>
         <m-flex>
             <m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" @click="clear"><i-mdi-remove/></m-button>
-            <m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @change="onChange"/>
+            <m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @update:model-value="onChange"/>
         </m-flex>
         <m-progress v-if="progress" :current="progress" :height="16" style="width: 50%;" text-as-percent/>
     </m-input>

@@ -10,7 +10,7 @@
         </label>
         <m-flex>
             <m-button v-if="(localClearButton && blob) || (clearButton && currentSrc)" @click="clearImage"><i-mdi-remove/></m-button>
-            <m-input :id="labelId" v-model:elementRef="input" :disabled="disabled" type="file" @change="onChange"/>
+            <m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @update:model-value="onChange"/>
         </m-flex>
     </m-input>
 </template>
