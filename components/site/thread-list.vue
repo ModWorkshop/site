@@ -54,7 +54,7 @@
                         />
                     </m-flex>
                     <m-flex v-else gap="2" class="threads" column>
-                        <thread-row 
+                        <list-thread
                             v-for="thread in threads.data"
                             :key="thread.created_at"
                             :thread="thread"
