@@ -15,14 +15,10 @@
             </m-flex>
         </m-flex>
 
-        <lite-mod-list
-            v-if="!user"
-            :link="`/mods`"
-        />
         <mod-list 
-            v-else-if="user.extra?.home_show_mods ?? true"
+            if="user?.extra?.home_show_mods ?? true"
             :title="$t('mods')" 
-            title-link="/search/mods"
+            title-link="/mods"
             :limit="20"
             :url="user ? currentFollowUrl : undefined"
             side-filters
@@ -31,10 +27,7 @@
                 <m-toggle-group v-if="user" v-model:selected="selectedView" button-style="nav" :wrap="false" class="overflow-auto">
                     <m-flex class="flex-shrink-0">
                         <m-toggle-group-item value="all"><i-mdi-layers/> {{$t('all')}}</m-toggle-group-item>
-                        <m-toggle-group-item value="games"><i-mdi-gamepad/> {{$t('followed_games')}}</m-toggle-group-item>
-                        <m-toggle-group-item value="mods"><i-mdi-puzzle/> {{$t('followed_mods')}}</m-toggle-group-item>
-                        <m-toggle-group-item value="users"><i-mdi-users/> {{$t('followed_users')}}</m-toggle-group-item>
-                        <m-toggle-group-item value="liked"><i-mdi-heart/> {{$t('liked')}}</m-toggle-group-item>
+                        <m-toggle-group-item value="followed"><i-mdi-plus-thick/> {{$t('followed')}}</m-toggle-group-item>
                     </m-flex>
                 </m-toggle-group>
             </template>
@@ -64,13 +57,17 @@ const { data: games } = await useFetchMany<Game>('games', { params: { limit: 7 }
 const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
 
 const links = {
-    mods: 'followed-mods',
-    games: 'followed-games/mods',
-    users: 'followed-users/mods',
-    liked: 'mods/liked',
+    followed: 'mods/followed',
     all: 'mods',
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
+watch(selectedView, async () => {
+    await patchRequest('user', { 
+        extra: {
+            default_mods_view: selectedView.value
+        } 
+    });
+});
 </script>
 
 <style>

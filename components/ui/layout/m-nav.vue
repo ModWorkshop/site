@@ -5,14 +5,14 @@
                 <i-mdi-menu/>
             </m-link>
         </m-flex>
-        <m-flex :class="{'menu-open': menuOpen}" :column="!side" :gap="2" :padding="padding">
+        <m-flex :class="{'menu-open': menuOpen}" :column="!side" :gap="3">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
                 <m-flex v-show="!side || menuOpen" :class="{'nav-menu': true, 'p-6': side}" :column="side">
                     <slot/>
                 </m-flex>
             </Transition>
-            <m-flex column grow gap="3" :padding="6" :class="{'content-block': background, 'overflow-x-auto': true}">
+            <m-flex column grow gap="3" :class="{'content-block': background, 'p-6': side, 'overflow-x-auto': true}">
                 <slot name="content"/>
             </m-flex>
         </m-flex>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-const { padding = 2, side = false, background = true, root } = defineProps<{
+const { side = false, background = true, root } = defineProps<{
     side?: boolean;
     root?: string;
     padding?: string|number,

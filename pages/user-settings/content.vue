@@ -141,10 +141,7 @@ const { data: blockedTags, loading: loadingTags } = await useWatchedFetchMany('b
 const { data: blockedUsers, loading: loadingBlockedUsers } = await useWatchedFetchMany('blocked-users', { limit: 10, page: blockedUsersPage });
 
 const viewOptions = [
-    { id: 'games', name: t('followed_games') },
-    { id: 'mods', name: t('followed_mods') },
-    { id: 'users', name: t('followed_users') },
-    { id: 'liked', name: t('liked') },
+    { id: 'followed', name: t('followed') },
     { id: 'all', name: t('all') },
 ];
 
