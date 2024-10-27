@@ -12,7 +12,7 @@
                 </NuxtLink>
 
                 <m-flex wrap class="items-center text-sm">
-                    <i18n-t :keypath="(noCategory && (thread.category || thread.game)) ? 'user_posted' : 'user_posted_in_category'">
+                    <i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
                         <template #user>
                             <a-user :user="thread.user" :avatar="false"/>
                         </template>
