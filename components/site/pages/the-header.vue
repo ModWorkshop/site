@@ -57,13 +57,13 @@
                             <input
                                 v-if="showSearch"
                                 id="header-search"
-                                v-model="query"
                                 ref="searchInput"
+                                v-model="query"
                                 v-on-click-outside="() => showSearch = false"
-                                @click.stop
                                 class="searchbox"
                                 inline
                                 :placeholder="$t('search')"
+                                @click.stop
                                 @keydown="onKeydownSearch"
                                 @keyup.up.self="setSelectedSearch(-1)"
                                 @keyup.down.self="setSelectedSearch(1)"
@@ -101,7 +101,7 @@
                             </ClientOnly>
                         </template>
                     </m-dropdown>
-                    <m-flex v-if="user" class="items-center" gap="3">
+                    <m-flex v-if="user" class="items-center" gap="4">
                         <m-flex v-if="user.ban" column>
                             <span class="text-danger">
                                 <i-mdi-alert/> {{$t('banned')}}
@@ -110,7 +110,7 @@
                                 {{$t('expires')}}: <m-time-ago :time="user.ban.expire_date"/>
                             </span>
                         </m-flex>
-                        <m-flex class="text-lg" gap="4">
+                        <m-flex class="text-lg max-sm:ml-auto" gap="3">
                             <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" to="/admin/reports">
                                 <i-mdi-alert-box/> {{reportCount}}
                             </NuxtLink>
@@ -120,8 +120,10 @@
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </m-flex>
                         <m-dropdown class="-order-1 md:order-1">
-                            <a-user class="cursor-pointer" :user="user" :tag="false" no-color static/>
+                            <m-avatar class="cursor-pointer" :src="user.avatar" use-thumb/>
                             <template #content>
+                                <a-user class="m-1" :user="user" :tag="false" no-color static/>
+                                <div class="dropdown-splitter"/>
                                 <m-dropdown-item :to="userLink"><i-mdi-user/> {{$t('profile')}}</m-dropdown-item>
                                 <m-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{$t('user_settings')}}</m-dropdown-item>
                                 <m-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{$t('content_settings')}}</m-dropdown-item>
@@ -292,7 +294,7 @@ async function markAsRead() {
 }
 
 .search-button {
-    min-width: 300px;
+    min-width: 250px;
 }
 
 header {
@@ -363,22 +365,11 @@ kbd {
 <style>
 #header-search {
     line-height: revert;
-    width: 300px;
+    width: 280px;
     height: 36px;
 }
 
-
 @media (max-width:1024px) {
-    #header-search {
-        width: 120px;
-    }
-
-    #header-search kbd {
-        display: none;
-    }
-}
-
-@media (min-width:1024px) and (max-width:1240px) {
     #header-search {
         width: 200px;
     }
