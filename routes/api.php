@@ -108,6 +108,7 @@ APIService::resource('comments', ModCommentsController::class, 'mods');
 Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:like,mod')->post('mods/{mod}/toggle-liked', [ModController::class, 'toggleLike']);
     Route::get('mods/liked', [ModController::class, 'liked']);
+    Route::get('mods/followed', [ModController::class, 'followed']);
     Route::middleware('can:view,mod')->post('mods/{mod}/comments/subscription', [ModCommentsController::class, 'subscribe']);
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
@@ -178,6 +179,7 @@ Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [User
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'currentUser']);
+    Route::patch('/user', [UserController::class, 'updateCurrent']);
     Route::middleware('throttle:1,1')->get('/user-data', [UserController::class, 'userData']);
     Route::patch('users/{user}/roles', [UserController::class, 'setUserRoles']);
     Route::middleware('can:manageMods,user')->delete('users/{user}/mods', [UserController::class, 'deleteMods']);

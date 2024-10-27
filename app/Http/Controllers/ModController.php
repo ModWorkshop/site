@@ -25,6 +25,7 @@ use App\Services\Utils;
 use Arr;
 use Auth;
 use DB;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Str;
@@ -54,6 +55,28 @@ class ModController extends Controller
         }
 
         return ModResource::collectionResponse($mods);
+    }
+
+    public function followed(GetModsRequest $request, Authenticatable $user)
+    {
+        $val = $request->val();
+
+        return ModResource::collectionResponse(ModService::mods($val, function($q) use ($user) {
+            $q->whereExists(function($query) use ($user) {
+                $query->from('followed_mods')->select(DB::raw(1))->where('user_id', $user->id);
+                $query->whereColumn('followed_mods.mod_id', 'mods.id');
+            });
+
+            $q->orWhereExists(function($query) use ($user) {
+                $query->from('followed_users')->select(DB::raw(1))->where('user_id', $user->id);
+                $query->whereColumn('followed_users.follow_user_id', 'mods.user_id');
+            });
+
+            $q->orWhereExists(function($query) use ($user) {
+                $query->from('followed_games')->select(DB::raw(1))->where('user_id', $user->id);
+                $query->whereColumn('followed_games.game_id', 'mods.game_id');
+            });
+        }));
     }
 
     /**
@@ -198,7 +221,7 @@ class ModController extends Controller
             $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
         }
 
-        
+
         $val['parser_version'] = 2;
 
         if (isset($mod)) {

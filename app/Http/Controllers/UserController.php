@@ -18,6 +18,7 @@ use App\Services\CommentService;
 use App\Services\ThreadService;
 use Auth;
 use DB;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -144,6 +145,10 @@ class UserController extends Controller
         return new UserResource($foundUser);
     }
 
+    public function updateCurrent(Request $request, Authenticatable $user) {
+        return $this->update($request, $user);
+    }
+
     /**
      * Edit User
      *
@@ -183,7 +188,7 @@ class UserController extends Controller
                 'daily_score',
                 'random'
             ])],
-            'extra.default_mods_view' => ['nullable', Rule::in(['all', 'liked', 'games', 'mods', 'users'])],
+            'extra.default_mods_view' => ['nullable', Rule::in(['all', 'followed'])],
             'extra.home_show_last_games' => 'boolean|nullable',
             'extra.home_show_mods' => 'boolean|nullable',
             'extra.home_show_threads' => 'boolean|nullable',
@@ -202,7 +207,7 @@ class UserController extends Controller
         }
 
         //TODO: Should moderators be able to change email for users? Sorta.
-        APIService::nullToEmptyStr($val, 
+        APIService::nullToEmptyStr($val,
             'custom_color',
             'bio',
             'custom_title',
@@ -228,7 +233,7 @@ class UserController extends Controller
             'allowDeletion' => true,
             'onSuccess' => fn($path) => $user->banner = $path
         ]);
-    
+
         $backgroundFile = Arr::pull($val, 'background_file');
         APIService::storeImage($backgroundFile, 'users/images', $user->background, [
             'allowDeletion' => true,
@@ -356,7 +361,7 @@ class UserController extends Controller
     {
         APIService::report($request, $user);
     }
-    
+
     /**
      * @hideFromApiDocumentation
      */
@@ -367,13 +372,13 @@ class UserController extends Controller
             foreach ($user->mods as $mod) {
                 $mod->delete();
             }
-        } 
-        
+        }
+
         if ($me->hasPermission('manage-discussions')) {
             foreach ($user->threads as $thread) {
                 $thread->delete();
             }
-    
+
             foreach ($user->comments as $comment) {
                 $comment->delete();
             }
@@ -421,7 +426,7 @@ class UserController extends Controller
 
     /**
      * Get user comments
-     * 
+     *
      * @group Comments
      * @authenticated
      */
@@ -436,7 +441,7 @@ class UserController extends Controller
 
     /**
      * Get user threads
-     * 
+     *
      * @group Threads
      * @authenticated
      */
