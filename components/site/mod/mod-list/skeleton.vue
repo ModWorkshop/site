@@ -14,7 +14,7 @@
         </template>
     </div>
     <m-flex v-else column>
-        <search-list-mod
+        <list-mod
             v-for="[i, mod] in mods?.entries()"
             :key="mod.id"
             :mod="mod"
