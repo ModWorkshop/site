@@ -33,7 +33,7 @@ class BlockedTagController extends Controller
     public function store(Request $request)
     {
         $val = $request->validate([
-           'tag_id' => 'int|min:0|exists:tags,id'
+           'tag_id' => 'int|min:1|exists:tags,id'
         ]);
 
         $blockedTags = $this->user()->blockedTags();
