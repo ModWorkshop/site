@@ -71,7 +71,7 @@ use Illuminate\Support\Carbon;
  */
 class Tag extends Model
 {
-    use HasFactory, Cachable;
+    use HasFactory;
 
     protected $hidden = ['pivot'];
 
