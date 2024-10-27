@@ -63,13 +63,13 @@ class ModController extends Controller
     {
         if (isset($game)) {
             return [
-                'latest' => ModService::mods(['limit' => 10], query: $game->mods(), cacheForGuests: 'index')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], query: $game->mods(), cacheForGuests: 'index')->items(),
+                'latest' => ModService::mods(['limit' => 20], query: $game->mods(), cacheForGuests: 'pal-latest')->items(),
+                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], query: $game->mods(), cacheForGuests: 'pal-popular')->items(),
             ];
         } else {
             return [
-                'latest' => ModService::mods(['limit' => 10], cacheForGuests: 'index')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], cacheForGuests: 'index')->items(),
+                'latest' => ModService::mods(['limit' => 20], cacheForGuests: 'pal-latest')->items(),
+                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], cacheForGuests: 'pal-popular')->items(),
             ];
         }
     }
