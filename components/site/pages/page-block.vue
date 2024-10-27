@@ -16,7 +16,7 @@
                         <m-link :to="`/g/${game.short_name}/forum`"><i-mdi-forum/> {{$t('forum')}}</m-link>
                         <m-link v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</m-link>
                     </m-flex>
-                    <m-flex class="ml-auto items-center" gap="2" wrap>
+                    <m-flex class="md:ml-auto items-center" gap="2" wrap>
                         <m-flex class="mr-4" gap="2">
                             <m-flex v-if="store.gameBan" v-once gap="0" column>
                                 <span class="text-danger">
