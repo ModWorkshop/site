@@ -231,10 +231,20 @@ watch(changeFile, async file => {
                 cancelToken: new axios.CancelToken(c => cancelFileUpload.value = c)
             });
 
-            const fileData = await postRequest(`pending-files/${data.id}/complete`);
+            const fileData = await postRequest<MWSFile>(`pending-files/${data.id}/complete`);
             changeFileProgress.value = 0;
             changeFile.value = undefined;
+
+            if (mod.value.used_storage) {
+                mod.value.used_storage -= currentFile.value.size + fileData.size;
+            }
+
             Object.assign(currentFile.value, fileData);
+            for (const f of files.value) {
+                if (f.id === currentFile.value.id) {
+                    Object.assign(f, file);
+                }
+            }
         } catch (e) {
             if (!(e instanceof CanceledError)) {
                 showError(e);
