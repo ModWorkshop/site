@@ -1,6 +1,6 @@
 <template>
     <m-flex class="mod p-4 content-block items-center" :title="mod.short_desc" wrap>
-        <m-flex>
+        <m-flex gap="2">
             <NuxtLink v-if="displayMode == 1" class="mod-thumbnail" :to="!static && `/mod/${mod.id}` || undefined">
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
