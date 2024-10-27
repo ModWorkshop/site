@@ -13,29 +13,17 @@
             />
         </template>
     </div>
-    <m-table v-else>
-        <template #head>
-            <th v-if="currentDisplayMode == 1">{{$t('thumbnail')}}</th>
-            <th>{{$t('name')}}</th>
-            <th>{{$t('owner')}}</th>
-            <th>{{!!noGame ? $t('category') : $t('game_category')}}</th>
-            <th class="text-center">{{$t('likes')}}</th>
-            <th class="text-center">{{$t('downloads')}}</th>
-            <th class="text-center">{{$t('views')}}</th>
-            <th class="text-center">{{sortBy == 'published_at' ? $t('published_at') : $t('last_updated')}}</th>
-        </template>
-        <template #body>
-            <mod-row
-                v-for="[i, mod] in mods?.entries()"
-                :key="mod.id"
-                :mod="mod"
-                :lazy-thumbnail="i > 5"
-                :no-game="noGame"
-                :sort="sortBy"
-                :display-mode="currentDisplayMode"
-            />
-        </template>
-    </m-table>
+    <m-flex v-else column>
+        <search-list-mod
+            v-for="[i, mod] in mods?.entries()"
+            :key="mod.id"
+            :mod="mod"
+            :lazy-thumbnail="i > 5"
+            :no-game="noGame"
+            :sort="sortBy"
+            :display-mode="currentDisplayMode"
+        />
+    </m-flex>
 </template>
 
 <script setup lang="ts">

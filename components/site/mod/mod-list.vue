@@ -60,12 +60,12 @@
             
             <m-flex class="md:ml-auto" gap="2">
                 <m-pagination v-if="fetchedMods" v-model="page" v-model:pages="pages" :total="fetchedMods.meta.total" :per-page="fetchedMods.meta.per_page" no-hiding/>
-                <m-dropdown class="max-sm:hidden">
+                <m-dropdown>
                     <m-button :title="$t('settings')"><i-mdi-cog/></m-button>
                     <template #content>
                         <m-flex column class="p-2" gap="2">
                             <m-input :label="$t('display_mode')">
-                                <m-toggle-group v-model:selected="displayMode" class="ml-auto mr-1 hidden md:flex" gap="1" button-style="button">
+                                <m-toggle-group v-model:selected="displayMode" class="ml-auto mr-1" gap="1" button-style="button">
                                     <m-toggle-group-item :value="0"><i-mdi-view-grid/></m-toggle-group-item>
                                     <m-toggle-group-item :value="1"><i-mdi-view-list/></m-toggle-group-item>
                                     <m-toggle-group-item :value="2"><i-mdi-view-headline/></m-toggle-group-item>

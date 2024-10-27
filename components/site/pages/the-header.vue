@@ -94,7 +94,7 @@
                                     <h3>{{$t('mods')}}</h3>
                                     <m-flex column gap="1">
                                         <template v-if="mods">
-                                            <list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
+                                            <search-list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
                                         </template>
                                     </m-flex>
                                 </template>
