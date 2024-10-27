@@ -4,7 +4,7 @@
             <NuxtLink v-if="displayMode == 1" class="mod-thumbnail" :to="!static && `/mod/${mod.id}` || undefined">
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
-            <m-flex column gap="2">
+            <m-flex column>
                 <NuxtLink class="text-lg" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
                     <mod-status :mod="mod"/>
                     {{mod.name}}
@@ -104,7 +104,7 @@ const fullViews = computed(() => friendlyNumber(locale.value, mod.views));
 }
 
 .mod-thumbnail {
-    width: 200px;
+    width: 170px;
 }
 
 @media (max-width:768px) {
