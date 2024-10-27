@@ -12,7 +12,7 @@
                         <m-link v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">
                             <i-mdi-upload/> {{$t('upload_mod')}}
                         </m-link>
-                        <m-link :to="`/g/${game.short_name}/mods`"><i-mdi-puzzle/> {{$t('browse_mods')}}</m-link>
+                        <m-link :to="`/g/${game.short_name}/mods`"><i-mdi-puzzle/> {{$t('mods')}}</m-link>
                         <m-link :to="`/g/${game.short_name}/forum`"><i-mdi-forum/> {{$t('forum')}}</m-link>
                         <m-link v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</m-link>
                     </m-flex>
