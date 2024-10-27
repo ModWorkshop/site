@@ -10,7 +10,7 @@
                     {{$t('no_alerts_found')}}
                 </span>
             </m-flex>
-            <m-flex class="mt-4">
+            <m-flex class="mt-4" wrap>
                 <m-button to="/notifications" @click="showNotifications = false"><i-mdi-eye/> {{$t('browse_all_notifications')}}</m-button>
                 <m-button @click="markAsRead"><i-mdi-clock/> {{$t('mark_all_notifications')}}</m-button>
             </m-flex>
