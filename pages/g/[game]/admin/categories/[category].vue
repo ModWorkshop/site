@@ -1,5 +1,14 @@
 <template>
-    <simple-resource-form v-if="category" v-model="category" url="categories" :game="game" :redirect-to="categoriesPage" :can-save="canSaveOverride" @submit="onSubmit">
+    <simple-resource-form 
+        v-if="category"
+        v-model="category"
+        url="categories"
+        :game="game"
+        :redirect-to="categoriesPage"
+        :can-save="canSaveOverride"
+        :merge-params="mergeParams"
+        @submit="onSubmit"
+    >
         <m-img-uploader id="thumbnail" v-model="thumbnailBlob" clear-button :label="$t('thumbnail')" :src="category.thumbnail">
             <template #image="{ src }">
                 <game-thumbnail :src="src" style="width: 250px;"/>
@@ -46,6 +55,9 @@ const moveModsCategoryId = ref();
 const areYouSure = ref(false);
 const showMoveMods = ref(false);
 const thumbnailBlob = ref();
+const mergeParams = reactive({
+    thumbnail_file: thumbnailBlob,
+});
 
 watch(() => showMoveMods, () => areYouSure.value = false);
 
