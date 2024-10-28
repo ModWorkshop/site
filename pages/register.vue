@@ -14,7 +14,7 @@
                 <m-input v-model="user.name" required autocomplete="off" :label="$t('display_name')"/>
                 <m-input v-model="user.unique_name" maxlength="30" required autocomplete="off" :label="$t('unique_name')"/>
                 <m-input v-model="user.email" required autocomplete="off" maxlength="255" :label="$t('email')" type="email"/>
-                <m-input v-model="user.my_extra_name" label="My Extra Name" />
+                <m-input v-model="user.my_extra_name" label="My Extra Name" class="hidden"/>
                 <m-flex column>
                     <m-flex>
                         <m-input 
