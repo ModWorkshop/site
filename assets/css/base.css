@@ -231,13 +231,6 @@ img, svg, video, canvas, audio, iframe, embed, object {
     display: block;
 }
 
-.svg-inline--fa {
-    display: inline-block;
-    height: 1em;
-    overflow: visible;
-    vertical-align: -0.125em;
-}
-
 a {
     color: var(--primary-color);
     text-decoration: none;
