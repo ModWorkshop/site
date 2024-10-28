@@ -116,7 +116,7 @@ class CategoryController extends Controller
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
 
-        APIService::storeImage($thumbnailFile, 'categories/thumbnails', $category->thumbnail, [
+        APIService::storeImage($thumbnailFile, 'games/images', $category->thumbnail, [
             'onSuccess' => fn($path) => $category->thumbnail = $path,
             'allowDeletion' => true
         ]);
@@ -130,9 +130,9 @@ class CategoryController extends Controller
 
     /**
      * Mass update mods
-     * 
+     *
      * Mass updates mods of a category, only used to move mods.
-     * 
+     *
      * @authenticated
      * @hideFromApiDocumentation
      */
@@ -154,7 +154,7 @@ class CategoryController extends Controller
 
     /**
      * Delete a category
-     * 
+     *
      * Works only if it's empty.
      *
      * @authenticated
