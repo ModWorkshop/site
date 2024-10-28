@@ -26,6 +26,7 @@ use Storage;
 use Jcupitt\Vips;
 use Log;
 use Route;
+use Str;
 
 const animated = [
     'gif' => true,
@@ -101,13 +102,23 @@ class APIService {
      */
     public static function storeImage(UploadedFile|string|null $file, string $fileDir, ?string $oldFile=null, array $config = [])
     {
-        $config['allowDeletion'] ??= false;
-
         if (!isset($file)) {
             return null;
         }
 
-        $isEmptyFile = strlen($file) == 0;
+        $img = '';
+        if (strlen($file) > 0) {
+            $opts = isset(animated[$file->extension()]) ? '[n=-1]' : '';
+            $img = Vips\Image::newFromFile($file->path().$opts);
+        }
+
+        return self::storeImageByObject($img, $fileDir, $oldFile, $config);
+    }
+
+    public static function storeImageByObject(Vips\Image|string|null $img, string $fileDir, ?string $oldFile=null, array $config = []) {
+        $config['allowDeletion'] ??= false;
+
+        $isEmptyFile = strlen($img) == 0;
         if ((!$isEmptyFile || ($isEmptyFile && $config['allowDeletion'])) && isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
             Storage::delete($fileDir.'/'.$oldFile);
@@ -122,11 +133,7 @@ class APIService {
             return null;
         }
 
-        $fileType = $file->extension();
-        $opts = isset(animated[$fileType]) ? '[n=-1]' : '';
-        $fileName = preg_replace('/\.[^.]+$/', '.webp', $file->hashName());
-
-        $img = Vips\Image::newFromFile($file->path().$opts);
+        $fileName = Str::random(40).'.webp';
 
         if (isset($config['size'])) {
             $img = $img->thumbnail_image($config['size']);

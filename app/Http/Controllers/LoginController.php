@@ -28,9 +28,13 @@ use FileEye\MimeMap\Type;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\UploadedFile;
 use Log;
 use Password;
 use Throwable;
+use Jcupitt\Vips;
+
+use const App\Services\animated;
 
 /**
  * @group Authentication
@@ -105,7 +109,10 @@ class LoginController extends Controller
 
         $avatarFile = Arr::pull($val, 'avatar_file');
 
-        $avatar = APIService::storeImage($avatarFile, 'users/images');
+        $avatar = APIService::storeImage($avatarFile, 'users/images', null, [
+            'size' => 256,
+            'thumbnailSize' => 64
+        ]);
 
         // Skip verification on dev
         $shouldVerify = app()->isLocal() && empty(env('MAIL_HOST'));
@@ -117,6 +124,7 @@ class LoginController extends Controller
             'password' => Hash::make($val['password']),
             'last_online' => Carbon::now(),
             'avatar' => $avatar['name'] ?? '',
+            'avatar_has_thumb' => isset($avatar['name']),
             'email_verified_at' => $shouldVerify ? Carbon::now() : null,
             'activated' => $shouldVerify,
         ]);
@@ -181,7 +189,7 @@ class LoginController extends Controller
             $user = $socialLogin->user;
         } else {
             $name = $providerUser->nickname ?? $providerUser->name;
-            $uniqueName = $providerUser->name;
+            $uniqueName = $providerUser->name ?? $name;
             $avatar = $providerUser->avatar;
 
             if ($provider === 'steam') {
@@ -194,7 +202,6 @@ class LoginController extends Controller
             //Download the avatar and store it in the site rather than "leeching" off the provider.
             $avatarFileName = null;
             if (isset($avatar)) {
-                //TODO: enable exif extension in site
                 $ext = null;
                 if ($provider === 'github') {
                     //A little pain since the type is not in the given URL
@@ -202,12 +209,17 @@ class LoginController extends Controller
                 } else {
                     $ext = pathinfo($avatar, PATHINFO_EXTENSION);
                 }
-                //Same as hashName https://github.com/laravel/framework/blob/9.x/src/Illuminate/Http/FileHelpers.php#L48
-                $avatarFileName = Str::random(40).'.'.$ext;
-                Storage::put('users/images/'.$avatarFileName, file_get_contents($avatar));
+
+                $buffer = file_get_contents($avatar);
+                if (!empty($buffer)) {
+                    $opts = isset(animated[$ext]) ? '[n=-1]' : '';
+                    [ 'name' => $avatarFileName ] = APIService::storeImageByObject(Vips\Image::newFromBuffer($buffer, $opts), 'users/images', null, [
+                        'size' => 256,
+                        'thumbnailSize' => 64
+                    ]);
+                }
             }
 
-            $uniqueName ??= $name;
             $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
             $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
             $uniqueName ??= 'unknown';
