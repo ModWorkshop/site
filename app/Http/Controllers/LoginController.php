@@ -180,16 +180,13 @@ class LoginController extends Controller
         if (isset($socialLogin)) {
             $user = $socialLogin->user;
         } else {
-            $name = $providerUser->name;
-            $uniqueName = null;
+            $name = $providerUser->nickname ?? $providerUser->name;
+            $uniqueName = $providerUser->name;
             $avatar = $providerUser->avatar;
 
             if ($provider === 'steam') {
-                $name = $providerUser->nickname;
                 //Default is too small (64x64)
                 $avatar = $providerUser->user['avatarfull'];
-            } else if ($provider === 'github' || $provider === 'gitlab') {
-                $uniqueName = $providerUser->nickname;
             }
 
             $name ??= 'Missing Name';
@@ -213,6 +210,7 @@ class LoginController extends Controller
             $uniqueName ??= $name;
             $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
             $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
+            $uniqueName ??= 'unknown';
 
             //Try to make a unique name for the user
             $num = '';
