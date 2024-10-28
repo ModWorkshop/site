@@ -42,25 +42,26 @@ class ThreadController extends Controller
 
     /**
      * Uploads a thumbnail to a thread.
+     * Currently not used
      * NOT API ROUTE!
      */
     public function uploadThumbnail(Request $request, Thread $thread) {
-        $fileSize = Setting::getValue('image_max_file_size') / 1024;
+        // $fileSize = Setting::getValue('image_max_file_size') / 1024;
 
-        $val = $request->validate([
-            'thumbnail_file' => ['nullable', File::image()->max($fileSize)]
-        ]);
+        // $val = $request->validate([
+        //     'thumbnail_file' => ['nullable', File::image()->max($fileSize)]
+        // ]);
 
-        $thumb = Arr::pull($val, 'thumbnail_file');
+        // $thumb = Arr::pull($val, 'thumbnail_file');
 
-        APIService::storeImage($thumb, 'threads/images', $thread->thumbnail, [
-            'allowDeletion' => true,
-            'size' => 256,
-            'onSuccess' => function($path) use ($thread) {
-                $thread->thumbnail = $path;
-                $thread->save();
-            }
-        ]);
+        // APIService::storeImage($thumb, 'threads/images', $thread->thumbnail, [
+        //     'allowDeletion' => true,
+        //     'size' => 256,
+        //     'onSuccess' => function($path) use ($thread) {
+        //         $thread->thumbnail = $path;
+        //         $thread->save();
+        //     }
+        // ]);
     }
 
     /**
@@ -185,7 +186,7 @@ class ThreadController extends Controller
                 abort(406, "Category doesn't exist or is invalid");
             }
         }
-                
+
         if (isset($changePin)) {
             if ($changePin === true) {
                 $thread->pinned_at = Carbon::now();
@@ -262,7 +263,7 @@ class ThreadController extends Controller
 
     /**
      * @group Reports
-     * 
+     *
      * Report a thread
      * @authenticated
      */
