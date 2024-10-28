@@ -34,7 +34,7 @@
     
                 <m-flex class="items-center" gap="2">
                     <m-flex v-if="tags.length">
-                        <NuxtLink v-for="tag in tags" :key="tag.id" :to="`${gameUrl}/mods}?selected-tags=${tag.id}`">
+                        <NuxtLink v-for="tag in tags" :key="tag.id" :to="`${gameUrl}/mods?selected-tags=${tag.id}`">
                             <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
                         </NuxtLink>
                     </m-flex>
