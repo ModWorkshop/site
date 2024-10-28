@@ -1530,7 +1530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.13.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.13.1, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.9.0":
+"@nuxt/kit@npm:3.13.2, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.13.1, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.9.0":
   version: 3.13.2
   resolution: "@nuxt/kit@npm:3.13.2"
   dependencies:
@@ -7062,6 +7062,7 @@ __metadata:
     nuxt: ^3.13.2
     nuxt-easy-lightbox: latest
     nuxt-umami: module
+    nuxt-vitalizer: latest
     object-hash: ^3.0.0
     object-to-formdata: ^4.4.2
     qs: ^6.11.0
@@ -7393,6 +7394,17 @@ __metadata:
     "@nuxt/kit": ^3.13.1
     request-ip: ^3.3.0
   checksum: 2d085648e4496a531180d0e32d54486f61467a3dcbc723f1fa3980a509f3e4f4db3695b35494ebe82a7dd2109bc8ce0d6b38388092db67d12ab5364fd5f2c546
+  languageName: node
+  linkType: hard
+
+"nuxt-vitalizer@npm:latest":
+  version: 0.10.0
+  resolution: "nuxt-vitalizer@npm:0.10.0"
+  dependencies:
+    "@nuxt/kit": ^3.12.2
+    defu: ^6.1.4
+    knitwork: ^1.1.0
+  checksum: 74f9285f6fdd741f922b7d39121495f87af881a9aa7628c3f679a1b07dcc17b12cef796a1ee50be0e1e9ec7c9f923dac07a17da51fb0561ebed41fa475a9c7ab
   languageName: node
   linkType: hard
 

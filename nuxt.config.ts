@@ -132,12 +132,9 @@ export default defineNuxtConfig({
 		"~/components/site/notifications",
 	],
 
-	css: [
-		"@/assets/css/normalize.css",
-		"@/assets/css/base.css",
-		"@/assets/css/markdown.css",
-		"@/assets/css/github-dark.css",
-	],
+	vitalizer: {
+		disableStylesheets: 'entry'
+	},
 
 	vite: {
 		build: {
@@ -187,5 +184,15 @@ export default defineNuxtConfig({
 	},
 
 	modules: [
-		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }], '@pinia/nuxt', '@nuxtjs/tailwindcss', '@vueuse/nuxt', 'unplugin-icons/nuxt', '@nuxtjs/i18n', 'nuxt-umami', '@nuxtjs/fontaine', 'nuxt-easy-lightbox'],
+		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
+		'@pinia/nuxt',
+		'@nuxtjs/tailwindcss',
+		'@vueuse/nuxt',
+		'unplugin-icons/nuxt',
+		'@nuxtjs/i18n',
+		'nuxt-umami',
+		'@nuxtjs/fontaine',
+		'nuxt-easy-lightbox',
+		'nuxt-vitalizer'
+	],
 });

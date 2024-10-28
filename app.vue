@@ -20,6 +20,10 @@
 </template>
 
 <script setup lang="ts">
+import "~/assets/css/normalize.css";
+import "~/assets/css/base.css";
+import "~/assets/css/markdown.css";
+import "~/assets/css/github-dark.css";
 import { useI18n } from 'vue-i18n';
 import type { YesNoModal } from './composables/useYesNoModal';
 import { useStore } from './store';
