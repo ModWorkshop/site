@@ -254,9 +254,9 @@ watch(changeFile, async file => {
 });
 
 function updateHasDownload() {
-    mod.value.has_download = (files.value && files.value.length > 0) || (links.value && links.value.length > 0) || false;
     mod.value.files_count = files.value.length ?? 0;
     mod.value.links_count = links.value.length ?? 0;
+    mod.value.has_download = (mod.value.files_count > 0) || (mod.value.links_count > 0) || false;
 
     if (Math.abs(mod.value.files_count - mod.value.links_count) === 1) {
         mod.value.download = files.value[0] ?? links.value[0];
