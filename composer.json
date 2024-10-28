@@ -15,7 +15,7 @@
         "hammerstone/fast-paginate": "^1.0.1",
         "http-interop/http-factory-guzzle": "^1.2",
         "illuminatech/multipart-middleware": "^1.1",
-        "jcupitt/vips": "2.3.0",
+        "jcupitt/vips": "2.4.0",
         "laravel/framework": "^11.11.0",
         "laravel/octane": "^2.4.0",
         "laravel/pulse": "^1.0@beta",

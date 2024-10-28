@@ -42,6 +42,7 @@ opcache.validate_timestamps=0
 opcache.interned_strings_buffer=8
 realpath_cache_size=4096K
 realpath_cache_ttl=600
+zend.max_allowed_stack_size=-1
 EOF
 
 # Install composer from the official image
