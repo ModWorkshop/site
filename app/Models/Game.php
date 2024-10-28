@@ -126,7 +126,7 @@ class Game extends Model
     // Mods that the current user is able to see
     public function viewableMods(): HasMany
     {
-        $mods = $this->hasMany(Mod::class)->without('game');;
+        $mods = $this->hasMany(Mod::class)->without('game');
         ModService::viewFilters($mods);
         return $mods;
     }
