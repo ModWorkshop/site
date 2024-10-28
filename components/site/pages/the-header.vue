@@ -120,7 +120,7 @@
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </m-flex>
                         <m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
-                            <m-avatar class="cursor-pointer" :src="user.avatar" use-thumb/>
+                            <m-avatar class="cursor-pointer" :src="user.avatar" :use-thumb="user.avatar_has_thumb"/>
                             <template #content>
                                 <a-user class="m-1" :user="user" :tag="false" no-color static/>
                                 <div class="dropdown-splitter"/>
