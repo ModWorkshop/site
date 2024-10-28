@@ -1,7 +1,7 @@
 <template>
     <md-editor v-model="mod.license" :label="$t('license')" rows="8">
         <template #desc>
-            <a href="https://choosealicense.com/" target="_blank">{{$t('cant_choose_license')}}?</a>
+            <NuxtLink href="https://choosealicense.com/">{{$t('cant_choose_license')}}</NuxtLink>
         </template>
     </md-editor>
 

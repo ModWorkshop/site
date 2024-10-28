@@ -19,6 +19,9 @@
             </template>
         </m-tabs>
         <span v-if="err" class="text-danger">{{err}}</span>
+        <template #desc>
+            <slot name="desc"/>
+        </template>
     </m-input>
 </template>
 

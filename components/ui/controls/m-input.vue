@@ -66,8 +66,10 @@
             </slot>
         </label>
         <span v-if="err" class="text-danger">{{err}}</span>
-        <hr v-if="isCheckbox && desc">
-        <small v-if="desc">{{desc}}</small>
+        <slot name="desc">
+            <hr v-if="isCheckbox && desc">
+            <small v-if="desc">{{desc}}</small>
+        </slot>
     </m-flex>
 </template>
 
