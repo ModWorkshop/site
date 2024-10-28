@@ -8,67 +8,49 @@
                 <span class="h2">{{$t('supporter_desc')}}</span>
             </m-flex>
 
-            <m-flex column gap="2">
+            <m-flex column gap="4">
                 <span class="h2 text-center">{{$t('supporter_you_get')}}</span>
-                <m-flex wrap>
-                    <m-card>
-                        <template #image>
-                            <i-mdi-advertisements-off class="text-5xl"/>
-                        </template>
-                        <template #title>
-                            {{$t('supporter_no_ads')}}
-                        </template>
-                    </m-card>
-                    <m-card class="items-center">
-                        <template #image>
-                            <i-mdi-harddisk class="text-5xl"/>
-                        </template>
-                        <template #title>
+                <m-flex wrap class="perks">
+                    <m-content-block>
+                        <i-mdi-advertisements-off class="text-5xl"/>
+                        <strong>{{$t('supporter_no_ads')}}</strong>
+                    </m-content-block>
+                    <m-content-block>
+                        <i-mdi-harddisk class="text-5xl"/>
+                        <strong>
                             {{$t('supporter_extra_storage', { 
                                 from: friendlySize(settings?.mod_storage_size ?? 0),
                                 to: friendlySize(settings?.supporter_mod_storage_size ?? 0)
                             })}}
-                        </template>
-                    </m-card>
-                    <m-card>
-                        <template #image>
-                            <i-mdi-image-size-select-actual class="text-5xl"/>
-                        </template>
-                        <template #title>
-                            {{$t('supporter_profile_mod_background')}}
-                        </template>
-                    </m-card>
-                    <m-card>
-                        <template #image>
-                            <i-mdi-format-color-fill class="text-5xl"/>
-                        </template>
-                        <template #title>
-                            {{$t('supporter_custom_name_color')}}
-                        </template>
-                    </m-card>
-                    <m-card>
-                        <template #image>
-                            <a-user static :user="{
-                                id: 0,
-                                unique_name: '',
-                                avatar: '',
-                                custom_color: '#ff00f5',
-                                color: '#ff00f5',
-                                banner: '',
-                                bio: '',
-                                private_profile: false,
-                                invisible: false,
-                                custom_title: '',
-                                donation_url: '',
-                                email: '',
-                                name: 'User',
-                                active_supporter: { id: 0, user_id: 0, expired: false }, show_tag: 'supporter_or_role'
-                            }"/>
-                        </template>
-                        <template #title>
-                            {{$t('supporter_supporter_tag')}}
-                        </template>
-                    </m-card>
+                        </strong>
+                    </m-content-block>
+                    <m-content-block>
+                        <i-mdi-image-size-select-actual class="text-5xl"/>
+                        <strong>{{$t('supporter_profile_mod_background')}}</strong>
+                    </m-content-block>
+                    <m-content-block>
+                        <i-mdi-format-color-fill class="text-5xl"/>
+                        <strong>{{$t('supporter_custom_name_color')}}</strong>
+                    </m-content-block>
+                    <m-content-block>
+                        <a-user static :user="{
+                            id: 0,
+                            unique_name: '',
+                            avatar: '',
+                            custom_color: '#ff00f5',
+                            color: '#ff00f5',
+                            banner: '',
+                            bio: '',
+                            private_profile: false,
+                            invisible: false,
+                            custom_title: '',
+                            donation_url: '',
+                            email: '',
+                            name: 'User',
+                            active_supporter: { id: 0, user_id: 0, expired: false }, show_tag: 'supporter_or_role'
+                        }"/>
+                        <strong>{{$t('supporter_supporter_tag')}}</strong>
+                    </m-content-block>
                 </m-flex>
             </m-flex>
 
@@ -145,5 +127,13 @@ if (user) {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.perks > div {
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 </style>

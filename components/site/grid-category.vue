@@ -1,10 +1,11 @@
 <template>
-    <NuxtLink class="category content-block" :to="`/g/${game.short_name}?category=${category.id}`">
-        <a-thumbnail v-if="category.thumbnail" url-prefix="games/images" :src="category.thumbnail" :title="category.name"/>
-        <m-flex wrap column class="p-2 items-center">
+    <NuxtLink class="category" :to="`/g/${game.short_name}?category=${category.id}`">
+        <m-card center :padding="2">
+            <template #thumbnail>
+                <a-thumbnail v-if="category.thumbnail" url-prefix="games/images" :src="category.thumbnail" :title="category.name"/>
+            </template>
             {{category.name}}
-            <slot/>
-        </m-flex>
+        </m-card>
     </NuxtLink>
 </template>
 

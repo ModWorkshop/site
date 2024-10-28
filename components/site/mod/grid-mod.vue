@@ -1,7 +1,7 @@
 <template>
     <div class="mod content-block" :title="mod.short_desc">
         <NuxtLink :to="link">
-            <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
+            <mod-thumbnail class="card-thumbnail" :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
         </NuxtLink>
         <div class="mod-details">
             <NuxtLink class="card-title" :to="link" :title="mod.name">

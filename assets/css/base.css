@@ -427,7 +427,7 @@ a {
 }
 
 .threads-grid {
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 
@@ -623,16 +623,6 @@ kbd {
 
 .vel-btns-wrapper .btn__next, .vel-btns-wrapper .btn__prev {
     padding: 2rem !important;
-}
-
-.card-title {
-    font-size: 1.15rem;
-    overflow: hidden;
-    word-break: break-word;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 }
 
 .ellipsis-overflow {

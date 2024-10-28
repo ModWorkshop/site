@@ -12,7 +12,7 @@
             :captcha="!thread.id"
             @submit="submit()"
         >
-            <m-img-uploader
+            <!-- <m-img-uploader
                 v-if="currentCategory?.grid_mode"
                 v-model="thumbnailFile"
                 :label="$t('thumbnail')"
@@ -23,7 +23,7 @@
                 <template #image="{ src }">
                     <a-thumbnail :src="src" style="width: 250px;" url-prefix="threads/images"/>
                 </template>
-            </m-img-uploader>
+            </m-img-uploader> -->
 
             <m-input v-model="thread.name" :label="$t('title')" minlength="2" maxlength="150"/>
             <md-editor v-model="thread.content" minlength="2" maxlength="5000" :label="$t('content')"/>
@@ -49,7 +49,7 @@ const { game } = defineProps<{
 
 const thumbnailFile = ref();
 const store = useStore();
-const { settings } = useStore();
+// const { settings } = useStore();
 
 const { isBanned, ban, gameBan, user } = storeToRefs(store);
 const categoryId = useRouteQuery('category');
@@ -102,7 +102,7 @@ const allowedCategories = computed(() => {
     return categories.value?.data.filter(cat => cat.can_post && (!isBanned.value || (canAppeal && canAppealGame))) ?? [];
 });
 
-const currentCategory = computed(() => allowedCategories.value.find(c => c.id == thread.value.category_id));
+// const currentCategory = computed(() => allowedCategories.value.find(c => c.id == thread.value.category_id));
 
 const mergeParams = reactive({
     thumbnail_file: thumbnailFile,
