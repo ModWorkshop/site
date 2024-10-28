@@ -2,6 +2,7 @@
     <m-card
         :class="['thread', 'content-block', !!thread.answer_comment_id ? 'thread-inactive' : undefined]"
         :padding="5"
+        :gap="4"
     >
     <template #title>
         <m-flex wrap>

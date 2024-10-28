@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-const { padding = 4, gap = 3 } = defineProps<{
+const { padding = 4, gap = 2 } = defineProps<{
     title?: string,
     center?: boolean,
     padding?: number,
