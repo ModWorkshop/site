@@ -155,7 +155,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     cursor: pointer;
 }
 
-.file-button.button-primary::file-selector-button:hover, .button.button-primary:hover:enabled, a.button-primary:hover  {
+.file-button.button-primary::file-selector-button:hover, .button.button-primary:hover:enabled, a.button.button-primary:hover  {
     color: var(--primary-color-text);
     background: var(--primary-hover-color);
 }
