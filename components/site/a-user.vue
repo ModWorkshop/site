@@ -28,7 +28,7 @@
             <slot name="attach"/>
         </m-flex>
         <template #content>
-            <mini-profile v-if="user" v-on-click-outside="() => renderProfile = false" :user="user"/>
+            <mini-profile v-if="user" :user="user"/>
         </template>
     </m-dropdown>
 </template>
@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { User } from '~~/types/models';
-import { vOnClickOutside } from '@vueuse/components';
 import { DateTime } from 'luxon';
 import { useStore } from '~/store';
 
