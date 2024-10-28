@@ -9,7 +9,7 @@
         </m-flex>
         <m-tabs v-else :class="classes" style="flex:1;" padding="1">
             <m-tab name="write" :title="$t('write_tab')" style="flex:1;">
-                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs"/>
+                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
             </m-tab>
             <m-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
                 <md-content class="h-100" :text="vm"/>
@@ -76,18 +76,31 @@ function clickTool(tool: Tool) {
         const [start, end] = [textarea.selectionStart, textarea.selectionEnd];
         const selectedText: string = textarea.value?.substring(start, end) ?? '';
         const insert = tool.insert;
-        let focus = start + insert.indexOf('$');
+        
+        let pushOffset = insert.indexOf('$');
+        let focusStart = start + pushOffset;
+        let focusEnd = end + pushOffset;
+
         let inserted;
         
         if (tool.multiline) {
             const lines = selectedText.split('\n');
+            let pushOffset = insert.replace('$line', '1').indexOf('$');
+
+            focusStart = start + pushOffset;
+            focusEnd = end + pushOffset;
+
             inserted = '';
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
                 if (i != 0) {
                     inserted += '\n';
                 }
-                inserted += insert.replace('$line', (i + 1).toString()).replace('$', line);
+
+                const strWithLineNum = insert.replace('$line', (i + 1).toString());
+                inserted += strWithLineNum.replace('$', line);
+
+                focusEnd += strWithLineNum.indexOf('$');
             }
         } else{
             inserted = insert.replace('$', selectedText);
@@ -97,7 +110,17 @@ function clickTool(tool: Tool) {
         document.execCommand("insertText", false, inserted); //If it's deprecated, then what the fuck am I supposed to use?
         emit('update:modelValue', textarea.value);
         textarea.focus();
-        textarea.setSelectionRange(focus, focus);
+        textarea.setSelectionRange(focusStart, focusEnd);
+    }
+}
+
+function onKeyDown(e: KeyboardEvent) {
+    if (e.key == 'Tab') {
+        e.preventDefault();
+        clickTool({
+            insert: '\t$',
+            multiline: true
+        });
     }
 }
 

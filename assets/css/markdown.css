@@ -91,6 +91,7 @@
 
 .markdown code {
 	font-size: 85%;
+	tab-size: 4;
 	display: inline-block;
 	word-break: break-word;
     overflow-x: auto;

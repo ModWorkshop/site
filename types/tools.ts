@@ -1,5 +1,5 @@
 export interface Tool {
-    icon: Component;
+    icon?: Component;
     insert: string;
     multiline?: boolean;
 }
