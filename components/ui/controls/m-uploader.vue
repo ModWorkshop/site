@@ -126,7 +126,6 @@ const props = defineProps<{
 const { showToast } = useToaster();
 const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
-const { public: runtimeConfig } = useRuntimeConfig();
 const yesNoModal = useYesNoModal();
 
 const vm = defineModel<UploadFile[]>({ default: [] }) ;
@@ -262,7 +261,6 @@ async function startUpload(uploadFile: UploadFile) {
 
     try {
         const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
-            baseURL: runtimeConfig.uploadUrl,
             headers: {'Content-Type': 'multipart/form-data'},
             onUploadProgress: function(progressEvent) {
                 if (progressEvent.progress) {

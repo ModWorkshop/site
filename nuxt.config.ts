@@ -33,7 +33,6 @@ export default defineNuxtConfig({
 		public: {
 			apiUrl: '',
 			siteUrl: '',
-			uploadUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
 			version: '3.5',
