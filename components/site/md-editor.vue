@@ -9,7 +9,7 @@
             </m-tab>
             <m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
                 <m-flex class="overflow-hidden h-full">
-                    <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
+                    <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;" @keydown="onKeyDown"/>
                     <md-content ref="mdText" class="preview" :text="vm"/>
                 </m-flex>
             </m-tab>
