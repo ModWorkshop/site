@@ -1,6 +1,12 @@
 <template>
     <m-flex>
-        <m-button v-if="download && type == 'file'" class="large-button flex-1" :to="!static ? downloadUrl : undefined">
+        <m-button 
+            v-if="download && type == 'file'"
+            class="large-button flex-1"
+            :to="!static ? downloadUrl : undefined"
+            download
+            @click="!static && registerDownload('file', download);"
+        >
             <i-mdi-download/> {{$t('download')}}
             <span style="text-transform:uppercase;">{{(download as any).type}}</span> ({{friendlySize((download as any).size)}})
         </m-button>
