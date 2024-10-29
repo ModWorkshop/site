@@ -1,8 +1,8 @@
 <template>
-    <m-flex class="overflow-auto">
-        <m-flex class="my-auto items-center text-xl flex-shrink-0">
+    <m-flex class="overflow-x-auto overflow-y-hidden items-center">
+        <m-flex class="items-center text-xl flex-1 flex-shrink-0 p-1">
             <template v-for="[i, group] of toolGroups.entries()">
-                <m-button v-for="tool of group.tools" :key="tool.icon.name" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
+                <m-button v-for="tool of group.tools" :key="tool.insert" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
                 <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
             </template>
             <span class="tools-splitter"/>
@@ -100,7 +100,6 @@ const toolGroups: ToolGroup[] = [
     width: 2px;
     height: 16px;
     opacity: 0.5;
-    vertical-align: middle;
     background: var(--secondary-text-color);
 }
 </style>

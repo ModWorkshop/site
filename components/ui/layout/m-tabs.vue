@@ -6,7 +6,7 @@
             </m-link>
             <span v-if="currentTab" class="text-2xl">{{currentTab.title}}</span>
         </m-flex>
-        <m-flex :class="[menuOpen && 'menu-open', 'flex-grow']" :column="!side" :gap="gap">
+        <m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap">
             <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
             <Transition name="left-slide">
                 <m-flex 
@@ -71,10 +71,17 @@ function getCurrentTabs() {
 }
 
 const tabs = ref(getCurrentTabs());
-const currentTab = computed(() => tabs.value.find(tab => tab.name === tabState.current));
+const currentTab = computed(() => tabs.value.find(tab => tab.name === tabState.current) || tabs.value[0]);
 
 function refreshTabs() {
     tabs.value = getCurrentTabs();
+
+    // Check if our current tab exists, otherwise fallback to the first.
+    if (tabs.value.length > 0) {
+        if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current, true)) {
+            tabState.current = tabs.value[0].name;
+        }
+    }
 }
 
 onUpdated(refreshTabs);
@@ -97,17 +104,10 @@ const tabState: { focus: number, current?: string } = reactive({
     focus: 0
 });
 
-
-// Check if our current tab exists, otherwise fallback to the first.
-if (tabs.value.length > 0) {
-    if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current, true)) {
-        tabState.current = tabs.value[0].name;
-    }
-}
-
 provide('tabState', tabState);
 provide('side', side);
 provide('lazy', lazy);
+refreshTabs();
 
 function arrowKeysMove(left: boolean) {
     let focus = tabState.focus;

@@ -1,19 +1,19 @@
 <template>
     <m-input>
-        <m-flex v-if="splitMode" column :class="classes" style="overflow:hidden;">
-            <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
-            <m-flex class="p-2 overflow-hidden h-full">
-                <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
-                <md-content ref="mdText" class="h-full preview" :style="{'height': previewHeight}" :text="vm"/>
-            </m-flex>
-        </m-flex>
-        <m-tabs v-else :class="classes" style="flex:1;" padding="1">
-            <m-tab name="write" :title="$t('write_tab')" style="flex:1;">
+        <m-tabs :class="classes">
+            <m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
                 <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
             </m-tab>
-            <m-tab name="preview" :title="$t('preview_tab')" class="preview p-2" :style="{'height': previewHeight}">
-                <md-content class="h-100" :text="vm"/>
+            <m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview p-2" >
+                <md-content :text="vm"/>
             </m-tab>
+            <m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
+                <m-flex class="overflow-hidden h-full">
+                    <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;"/>
+                    <md-content ref="mdText" class="preview" :text="vm"/>
+                </m-flex>
+            </m-tab>
+
             <template #buttons>
                 <md-editor-buttons v-model:fullscreen="fullscreen" v-model:split-mode="splitMode" @click-tool="clickTool"/>
             </template>
@@ -43,30 +43,15 @@ const splitMode = ref(false);
 const classes = computed(() => ({
     'md-editor': true,
     'p-2': true,
-    'md-editor-fullscreen': fullscreen.value
+    'fullscreen': fullscreen.value,
+    'split': splitMode.value,
 }));
-
 
 const textAreaComp = ref();
 const mdText = ref();
-const textArea = computed(() => textAreaComp.value?.element);
-
-const previewHeight = ref('0');
-
+const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
 provide('err', err);
-
-onMounted(() => {
-    const textarea = textArea.value;
-    if (textarea) {
-        new ResizeObserver(() => {
-            const textarea = textArea.value;
-            if (textarea && textarea.parentElement!.style.display != 'none') {
-                previewHeight.value = textarea.clientHeight + 3 + 'px';
-            }
-        }).observe(textarea);
-    }
-});
 
 function clickTool(tool: Tool) {
     const textarea = textArea.value;
@@ -130,10 +115,6 @@ watch(fullscreen, status => {
     } else {
         document.body.classList.remove('md-editor-open');
     }
-    const textarea = textArea.value;
-    if (textarea) {
-        previewHeight.value = textarea.scrollHeight + 3 + 'px';
-    }
 });
 </script>
 
@@ -149,11 +130,10 @@ watch(fullscreen, status => {
     flex-direction: column;
     background: var(--content-bg-color);
     overflow-y: scroll;
-    resize : vertical;
     flex: 1;
 }
 
-.md-editor-fullscreen {
+.md-editor.fullscreen {
     position: fixed;
     top: 0;
     left: 0;
@@ -165,33 +145,22 @@ watch(fullscreen, status => {
 .textarea {
     background-color: var(--input-bg-color);
     border-radius: var(--border-radius);
-    resize : vertical;
+    resize : none;
+    height: 100%;
     width: 100%;
 }
 
-.md-editor-fullscreen .textarea {
+.md-editor.fullscreen {
     height: 100% !important;
     resize: none;
-}
-
-.md-editor-fullscreen .preview {
-    resize: none;
-    height: 100% !important;
 }
 
 .md-editor {
     background-color: var(--alt-content-bg-color);
     border-radius: var(--border-radius);
     resize: vertical;
+    overflow-y: hidden;
+    min-height: 130px;
     max-width: 100%;
-}
-
-textarea {
-    height: 100%;
-}
-
-textarea:focus-visible {
-    outline-color: #107ef4;
-    outline-style: groove;
 }
 </style>
