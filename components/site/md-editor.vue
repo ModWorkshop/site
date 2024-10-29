@@ -88,6 +88,8 @@ function clickTool(tool: Tool) {
 
                 focusEnd += strWithLineNum.indexOf('$');
             }
+
+            focusEnd--;
         } else{
             inserted = insert.replace('$', selectedText);
         }
