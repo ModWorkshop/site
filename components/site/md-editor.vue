@@ -1,6 +1,6 @@
 <template>
     <m-input>
-        <m-tabs :class="classes">
+        <m-tabs :class="classes" :style="{ height }">
             <m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
                 <md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
             </m-tab>
@@ -51,6 +51,7 @@ const textAreaComp = ref();
 const mdText = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
+const height = ref<string>((parseInt(props.rows as string) * 22) + 'px');
 provide('err', err);
 
 function clickTool(tool: Tool) {
