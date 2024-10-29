@@ -25,7 +25,7 @@ import IMdiFormatEyeOff from '~icons/mdi/eye-off';
 import IMdiFormatListNumbered from '~icons/mdi/format-list-numbered';
 import IMdiFormatListBulleted from '~icons/mdi/format-list-bulleted';
 import IMdiLinkVariant from '~icons/mdi/link-variant';
-import IMdiMultimedia from '~icons/mdi/format-list-bulleted';
+import IMdiMultimedia from '~icons/mdi/multimedia';
 import HorizontalRule from '~icons/mdi/minus';
 import IMdiTable from '~icons/mdi/table';
 import IMdiFullScreenExit from '~icons/mdi/fullscreen-exit';
