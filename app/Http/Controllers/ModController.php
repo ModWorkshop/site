@@ -169,10 +169,11 @@ class ModController extends Controller
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
 
-        if (isset($mod) && array_key_exists('download_id', $val)) {
+        if (isset($mod) && (array_key_exists('download_id', $val) && array_key_exists('download_type', $val))) {
             $downloadId = Arr::pull($val, 'download_id');
-            if (isset($downloadId)) {
-                $type = Arr::pull($val, 'download_type');
+            $type = Arr::pull($val, 'download_type');
+
+            if (isset($downloadId) && ($downloadId != $mod->download_id || $type != $mod->download_type)) {
                 $download = null;
                 if ($type == 'file') {
                     $download = $mod->files()->find($downloadId);
