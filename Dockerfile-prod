@@ -6,7 +6,7 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
-ENV NODE_ENV=prod
+ENV NODE_ENV=production
 ENV NITRO_PRESET=node_cluster
 
 # Install deps and cache image layer
