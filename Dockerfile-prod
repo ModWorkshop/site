@@ -6,12 +6,13 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
-ENV NODE_ENV=production
 ENV NITRO_PRESET=node_cluster
 
 # Install deps and cache image layer
 RUN yarn
 # Build project and cache image layer
+
+ENV NODE_ENV=production
 RUN yarn build
 ########
 
@@ -28,6 +29,7 @@ EXPOSE 3000
 
 ARG GIT_VERSION_HASH
 ENV NUXT_PUBLIC_COMMIT_HASH=${GIT_VERSION_HASH}
+ENV NODE_ENV=production
 
 HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
 
