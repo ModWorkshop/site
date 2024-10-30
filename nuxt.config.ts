@@ -25,10 +25,6 @@ export default defineNuxtConfig({
 		}
 	},
 
-	umami: {
-		ignoreLocalhost: true
-	},
-
 	runtimeConfig: {
 		public: {
 			apiUrl: '',
