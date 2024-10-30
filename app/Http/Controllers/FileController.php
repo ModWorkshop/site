@@ -105,12 +105,12 @@ class FileController extends Controller
             abort(404);
         }
 
-        if (!isset($disk) || $pendingFile->complete) {
+        if (!isset($disk) || $pendingFile->completed) {
             abort(403);
         }
 
         $pendingFile->update([
-            'completed' => false
+            'completed' => true
         ]);
 
         $mod = $pendingFile->mod;
@@ -155,6 +155,10 @@ class FileController extends Controller
                     'size' => $pendingFile->size
                 ]);
             }
+
+            // Done copying and moving the file + updating the related file
+            // In case anything above fails, we'd handle it in DeleteLoosePendingFiles job
+            $pendingFile->delete(); 
 
             $mod->refresh();
             $mod->bump(false);

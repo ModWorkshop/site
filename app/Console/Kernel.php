@@ -7,6 +7,7 @@ use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
 use App\Jobs\CheckUsersSubscriptionStatus;
+use App\Jobs\DeleteLoosePendingFiles;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\RemoveExpiredRequests;
 use App\Jobs\TryActivatingUsers;
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->job(new CheckUsersSubscriptionStatus)->everyThirtyMinutes();
+        $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
 
         if (!file_exists(public_path().'/sitemap_index.xml')) { // Not the best way, but can't find a good place for it..
             $schedule->command('sitemap:generate')->everyMinute();
