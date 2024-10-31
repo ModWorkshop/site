@@ -27,7 +27,7 @@ export default defineNuxtConfig({
 
 	umami: {
 		ignoreLocalhost: true,
-		id: 'use-env-variable',
+		id: 'b82f8507-ddf5-444a-bc9c-8519225774d7',
 		host: 'https://umami.modworkshop.net/'
 	},
 
