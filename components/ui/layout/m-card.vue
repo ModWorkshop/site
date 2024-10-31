@@ -26,6 +26,7 @@ const { padding = 4, gap = 2 } = defineProps<{
 <style>
 .card-title {
     font-size: 1.15rem;
+    line-height: 1.5rem;
     overflow: hidden;
     word-break: break-word;
     text-overflow: ellipsis;
