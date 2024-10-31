@@ -33,7 +33,7 @@
         </NuxtLink>
     </m-flex>
 
-    <md-content :text="thread.content" class="thread-content" remove-tags :padding="0"/>
+    <md-content :text="thread.content" class="thread-content" remove-tags :parser-version="thread.parser_version" :padding="0"/>
 
     <m-flex class="flex-1">
         <m-flex v-if="thread.tags?.length">

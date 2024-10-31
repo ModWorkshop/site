@@ -47,6 +47,7 @@ export interface Comment {
     replies?: Comment[];
     replying_comment?: Comment;
     subscribed?: boolean;
+    parser_version?: number;
 }
 
 export interface SimpleFile {
@@ -151,6 +152,7 @@ export interface Mod {
     background_id?: number|null;
     background_opacity?: number;
     used_storage?: number;
+    parser_version?: number;
 }
 
 export interface Breadcrumb {
@@ -400,6 +402,7 @@ export interface Thread {
     game?: Game;
     edited_at?: string;
     thumbnail?: string;
+    parser_version?: number;
 }
 
 export interface Forum {

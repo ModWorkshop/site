@@ -2,7 +2,7 @@
     <m-flex grow class="overflow-hidden self-start w-full" style="min-height: 365px;">
         <m-tabs class="content-block p-2 flex-grow" query lazy scroll-on-overflow>
             <m-tab name="description" :title="$t('description')">
-                <md-content :text="mod.desc"/>
+                <md-content :text="mod.desc" :parser-version="mod.parser_version"/>
             </m-tab>
             <m-tab v-if="mod.images && mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
                 <m-img 
@@ -21,10 +21,10 @@
                 <mod-downloads-tab :mod="mod"/>
             </m-tab>
             <m-tab v-if="mod.changelog" name="changelog" :title="$t('changelog')">
-                <md-content :text="mod.changelog"/>
+                <md-content :text="mod.changelog" :parser-version="mod.parser_version"/>
             </m-tab>
             <m-tab v-if="mod.license" name="license" :title="$t('license')">
-                <md-content :text="mod.license"/>
+                <md-content :text="mod.license" :parser-version="mod.parser_version"/>
             </m-tab>
             <m-tab v-if="dependencies.length || instructions" name="instructions" :title="$t('instructions_tab')" gap="0">
                 <div v-if="dependencies.length">
@@ -57,7 +57,7 @@
                 </div>
                 <div v-if="instructions">
                     <h2>{{$t('instructions')}}</h2>
-                    <md-content class="mb-3" :text="instructions"/>
+                    <md-content class="mb-3" :text="instructions" :parser-version="mod.parser_version"/>
                 </div>
             </m-tab>
         </m-tabs>

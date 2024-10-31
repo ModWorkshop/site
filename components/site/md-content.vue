@@ -12,10 +12,10 @@ import { oldParseMarkdown } from "~~/utils/old-md-parser";
 // This is useful in places like announcements where you have to cut the content, making it very odd to display formatted.
 // It does keep line breaks and paragraphs, though.
 
-const { text, padding = 2, oldParser, removeTags } = defineProps<{
+const { text, padding = 2, parserVersion, removeTags } = defineProps<{
     text?: string,
     padding?: number,
-    oldParser?: boolean,
+    parserVersion?: number,
     removeTags?: boolean
 }>();
 
@@ -29,7 +29,7 @@ const mdText = computed(() => {
         return '';
     }
 
-    if (oldParser) {
+    if (parserVersion == 1) {
         return oldParseMarkdown(text);
     } else {
         return parseMarkdown(text, removeTags);
