@@ -51,7 +51,7 @@ const textAreaComp = ref();
 const mdText = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
-const height = ref<string>((parseInt(props.rows as string) * 22) + 'px');
+const height = ref<string>((parseInt(props.rows as string) * 26) + 'px');
 provide('err', err);
 
 function clickTool(tool: Tool) {
@@ -153,8 +153,13 @@ watch(fullscreen, status => {
     width: 100%;
 }
 
+.md-editor .textarea:focus-visible {
+    outline: none;
+}
+
 .md-editor.fullscreen {
     height: 100% !important;
+    max-height: initial;
     resize: none;
 }
 
@@ -163,7 +168,8 @@ watch(fullscreen, status => {
     border-radius: var(--border-radius);
     resize: vertical;
     overflow-y: hidden;
-    min-height: 130px;
+    min-height: 180px;
+    max-height: 90vh;
     max-width: 100%;
 }
 </style>
