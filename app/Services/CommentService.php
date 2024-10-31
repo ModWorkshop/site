@@ -108,6 +108,8 @@ class CommentService {
             $val = [...$val, ...$extraSet];
         }
 
+        $val['parser_version'] = 2;
+
         /**
          * @var Comment
          */

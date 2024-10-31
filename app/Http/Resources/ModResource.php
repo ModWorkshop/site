@@ -61,6 +61,7 @@ class ModResource extends BaseResource
             'background_opacity' => $this->background_opacity,
             'instructs_template_id' => $this->instructs_template_id,
             'disable_mod_managers' => $this->disable_mod_managers,
+            'parser_version' => $this->parser_version,
             'breadcrumb' => $this->whenAppended('breadcrumb'),
             'download' => $this->whenAppended('download'),
             'mod_managers' => $this->whenAppended('mod_managers'),
