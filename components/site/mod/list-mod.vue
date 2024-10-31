@@ -1,10 +1,10 @@
 <template>
     <m-flex class="mod p-4 content-block items-center" :title="mod.short_desc" wrap>
-        <m-flex gap="2" class="items-center">
+        <m-flex gap="2" class="items-center md:flex-1">
             <NuxtLink v-if="displayMode == 1" class="mod-thumbnail" :to="!static && `/mod/${mod.id}` || undefined">
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
-            <m-flex column>
+            <m-flex column class="md:flex-1">
                 <NuxtLink class="text-lg" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
                     <mod-status :mod="mod"/>
                     {{mod.name}}
