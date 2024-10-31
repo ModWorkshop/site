@@ -393,10 +393,9 @@ function beginEditingComment(comment: Comment) {
     max-height: 100%;
     z-index: 1000;
     position: fixed;
-    bottom: 0;
+    bottom: 16px;
     left: 0;
     right: 0;
-    padding: 1rem;
 }
 
 .floating-editor > div {

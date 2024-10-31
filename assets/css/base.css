@@ -162,6 +162,7 @@ html.dark {
     --success-bg-color: #1e3b28;
     --kbd-bg: #474747;
     --breadcrumb-secondary: #9c9c9c;
+    --float-bg-color: #252b31;
 
     color-scheme: dark;
 }
@@ -194,7 +195,7 @@ html.light {
     --warning-color: #ceab41;
     --success-bg-color: #4fc541;
     --success-color: #009d0d;
-    --float-bg-color: #99999980;
+    --float-bg-color: #d2d3d5;
     --kbd-bg: #a8a8a8;
     --breadcrumb-secondary: #8f8f8f;
 
@@ -540,7 +541,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 }
 
 .float-bg {
-    background: var(--alt-content-bg-color);
+    background: var(--float-bg-color);
 }
 
 .icon {

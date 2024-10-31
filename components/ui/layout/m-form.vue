@@ -10,9 +10,11 @@
 <template>
     <form @submit.prevent="submit">
         <Transition v-if="floatSaveGui">
-            <m-flex v-if="currentCanSave" gap="2" class="fixed float-bg round float-save items-center">
-                {{$t('unsaved_changes')}}
-                <m-button v-if="created" :disabled="disableButtons" color="danger" class="ml-2" @click="discard">{{$t('discard')}}</m-button>
+            <m-flex v-if="currentCanSave" class="fixed float-bg round float-save items-center">
+                <span class="mr-2">
+                    {{$t('unsaved_changes')}}
+                </span>
+                <m-button v-if="created" :disabled="disableButtons" color="danger" @click="discard">{{$t('discard')}}</m-button>
                 <m-button :disabled="disableButtons" type="submit">{{currentSaveButtonText}}</m-button>
             </m-flex>
         </Transition>
