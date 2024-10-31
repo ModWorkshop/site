@@ -25,6 +25,12 @@ export default defineNuxtConfig({
 		}
 	},
 
+	umami: {
+		ignoreLocalhost: true,
+		id: 'use-env-variable',
+		host: 'https://umami.modworkshop.net/'
+	},
+
 	runtimeConfig: {
 		public: {
 			apiUrl: '',
