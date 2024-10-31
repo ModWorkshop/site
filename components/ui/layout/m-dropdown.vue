@@ -101,6 +101,7 @@ watch(open, () => {
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
+    overflow-y: auto;
     /* overflow: auto; */
 }
 
