@@ -16,7 +16,7 @@
         </m-flex>
 
         <mod-list 
-            if="user?.extra?.home_show_mods ?? true"
+            v-if="user?.extra?.home_show_mods ?? true"
             :title="$t('mods')" 
             title-link="/mods"
             :limit="20"

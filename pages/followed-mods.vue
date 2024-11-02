@@ -1,7 +1,6 @@
 <template>
     <page-block>
         <mod-list 
-            if="user?.extra?.home_show_mods ?? true"
             :limit="20"
             :url="selectedView"
             side-filters
