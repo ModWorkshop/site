@@ -91,8 +91,8 @@ const adClasses = computed(() => ({
     'ad-scroll': adScroll
 }));
 
-onMounted(async () => {
-    if (import.meta.client) {
+onMounted(() => {
+    if (!import.meta.client) {
         return;
     }
 
@@ -129,52 +129,52 @@ onMounted(async () => {
         },
     };
 
-    nitroAds.createAd('mws-ads-left', {
+    ads.push(nitroAds.createAd('mws-ads-left', {
         ...adConfig,
         sizes: [[ "160", "600" ]],
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-left', {
+    ads.push(nitroAds.createAd('mws-ads-left', {
         ...adConfig,
         sizes: [[ "160", "600" ]],
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-right', {
+    ads.push(nitroAds.createAd('mws-ads-right', {
         ...adConfig,
         sizes: [[ "160", "600" ]],
         report: {
             ...adConfig.report,
             position: 'bottom-right'
         }
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-top', {
+    ads.push(nitroAds.createAd('mws-ads-top', {
         ...adConfig,
         sizes: [[ "970", "90" ], [ "728", "90" ]],
         mediaQuery: "(min-width: 1025px)"
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-top-mobile', {
+    ads.push(nitroAds.createAd('mws-ads-top-mobile', {
         ...adConfig,
         sizes: [
             [ "320", "100" ], [ "320","50" ]
         ],
         mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-footer', {
+    ads.push(nitroAds.createAd('mws-ads-footer', {
         ...adConfig,
         sizes: [[ "728", "90" ]],
         mediaQuery: "(min-width: 1025px)"
-    }).then(ad => ads.push(ad));
+    }));
 
-    nitroAds.createAd('mws-ads-footer-mobile', {
+    ads.push(nitroAds.createAd('mws-ads-footer-mobile', {
         ...adConfig,
         sizes: [
             [ "336", "280" ]
         ],
         mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
-    }).then(ad => ads.push(ad));
+    }));
 });
 
 //EG Ads
