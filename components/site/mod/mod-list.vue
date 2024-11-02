@@ -138,9 +138,11 @@ const props = withDefaults(defineProps<{
 
 const { user } = useStore();
 
-useInsertAd('mws-ads-filters', {
-    "sizes": [[ "300", "250" ]],
-});
+if (props.sideFilters) {
+    useInsertAd('mws-ads-filters', {
+        "sizes": [[ "300", "250" ]],
+    });
+}
 
 const query = props.query ? useRouteQuery('query', '') : ref('');
 

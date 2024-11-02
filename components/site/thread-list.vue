@@ -3,8 +3,8 @@
         <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
-        <m-flex v-if="filters" style="flex: 1;" class="flex-col md:flex-row" gap="3">
-            <m-flex class="max-md:!w-full items-center" style="width: 300px;" column gap="3">
+        <m-flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
+            <m-flex v-if="filters" class="max-md:!w-full items-center" style="width: 300px;" column gap="3">
                 <m-content-block column class="w-full">
                     <m-input v-model="query" :label="$t('search')"/>
                     <m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
@@ -107,9 +107,11 @@ const props = withDefaults(defineProps<{
 
 const query = props.query ? useRouteQuery('query', '') : ref('');
 
-useInsertAd('mws-ads-filters', {
-    "sizes": [[ "300", "250" ]],
-});
+if (props.filters) {
+    useInsertAd('mws-ads-filters', {
+        "sizes": [[ "300", "250" ]],
+    });
+}
 
 if (query) {
     searchBus.on(search => query.value = search);
