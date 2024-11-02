@@ -1,17 +1,17 @@
 <template>
-    <m-flex gap="2" inline class="items-center align-middle cursor-pointer" @click="$router.push(modUrl)">
-        <NuxtLink :to="modUrl" @click.stop>
+    <m-flex gap="2" inline class="items-center align-middle cursor-pointer" @click="modUrl ? $router.push(modUrl) : undefined">
+        <NuxtLink :to="modUrl">
             <mod-thumbnail :thumbnail="mod?.thumbnail" style="height: 64px;"/>
         </NuxtLink>
         <m-flex column>
             <template v-if="mod">
-                <NuxtLink :to="`/mod/${mod?.id}`" @click.stop>
+                <NuxtLink :to="modUrl">
                     {{mod.name}}
                 </NuxtLink>
-                <a-user avatar-size="sm" :user="mod.user" @click.stop/>
+                <a-user :user="mod.user" :static="static" avatar-size="sm" :show-mini-profile="false" @click="onClickUser"/>
             </template>
             <template v-else>
-                <NuxtLink :to="url" @click.stop>
+                <NuxtLink :to="url">
                     {{name}}
                 </NuxtLink>
             </template>
@@ -26,8 +26,18 @@ const props = defineProps<{
     mod?: Mod,
     url?: string,
     name?: string,
+    static?: boolean,
 }>();
 
-const modUrl = computed(() => props.url ?? `/mod/${props.mod?.id}`);
+const modUrl = computed(() => {
+    if (!props.static) {
+        return props.url ?? `/mod/${props.mod?.id}`;
+    }
+});
 
+function onClickUser(e) {
+    if (!props.static) {
+        e.stopPropagation();
+    }
+}
 </script>

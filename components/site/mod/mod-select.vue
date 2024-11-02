@@ -1,11 +1,7 @@
 <template>
     <m-select v-model="vm" :url="url">
         <template #any-option="{ option }">
-            <m-list-item :item="option">
-                <template #before-item>
-                    <mod-thumbnail :thumbnail="option.thumbnail" style="width: 100px;"/>
-                </template>
-            </m-list-item>
+            <search-list-mod :key="option.id" :mod="option" static/>
         </template>
     </m-select>
 </template>
