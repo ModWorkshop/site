@@ -125,18 +125,17 @@ onMounted(() => {
             "enabled": true,
             "icon": true,
             "wording": "Report Ad",
-            "position": "bottom-right"
+            "position": "bottom-right-side"
         },
     };
 
     ads.push(nitroAds.createAd('mws-ads-left', {
         ...adConfig,
         sizes: [[ "160", "600" ]],
-    }));
-
-    ads.push(nitroAds.createAd('mws-ads-left', {
-        ...adConfig,
-        sizes: [[ "160", "600" ]],
+        report: {
+            ...adConfig.report,
+            position: 'bottom-left'
+        }
     }));
 
     ads.push(nitroAds.createAd('mws-ads-right', {
