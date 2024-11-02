@@ -31,15 +31,16 @@
             </div>
 
             <slot/>
+            
+            <div id="mws-ads-footer" class="ad mx-auto"/>
+            <div id="mws-ads-footer-mobile" class="ad mx-auto"/>
+
             <div class="page-block-nm">
                 <m-flex v-if="activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
                     <span :title="$t('users')"><i-mdi-account/> {{ activity.users }}</span>
                     <span :title="$t('guests')"><i-mdi-hand-wave/> {{ activity.guests }}</span>
                 </m-flex>
             </div>
-
-            <div id="mws-ads-footer" class="ad mx-auto"/>
-            <div id="mws-ads-footer-mobile" class="ad mx-auto"/>
         </main>
         <m-flex v-if="allowCookies === undefined" class="cookie-banner">
             <m-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">
@@ -219,5 +220,13 @@ main {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+}
+
+#mws-ads-top[data-request-id], #mws-ads-top-mobile[data-request-id] {
+    margin: 1rem 0;
+}
+
+#mws-ads-footer[data-request-id], #mws-ads-footer-mobile[data-request-id] {
+    margin: 3rem 0;
 }
 </style>
