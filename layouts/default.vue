@@ -20,8 +20,8 @@
                 </ClientOnly>
 			</m-flex>
 
-            <div id="mws-ads-top" class="ad mx-auto mt-2"/>
-            <div id="mws-ads-top-mobile" class="ad mx-auto mt-2"/>
+            <div id="mws-ads-top" class="ad mx-auto"/>
+            <div id="mws-ads-top-mobile" class="ad mx-auto"/>
             
             <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
                 <div id="mws-ads-left"/>
@@ -32,11 +32,14 @@
 
             <slot/>
             <div class="page-block-nm">
-                <m-flex v-if="store.activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
-                    <span :title="$t('users')"><i-mdi-account/> {{ store.activity.users }}</span>
-                    <span :title="$t('guests')"><i-mdi-hand-wave/> {{ store.activity.guests }}</span>
+                <m-flex v-if="activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
+                    <span :title="$t('users')"><i-mdi-account/> {{ activity.users }}</span>
+                    <span :title="$t('guests')"><i-mdi-hand-wave/> {{ activity.guests }}</span>
                 </m-flex>
             </div>
+
+            <div id="mws-ads-footer" class="ad mx-auto"/>
+            <div id="mws-ads-footer-mobile" class="ad mx-auto"/>
         </main>
         <m-flex v-if="allowCookies === undefined" class="cookie-banner">
             <m-alert color="warning" :icon="false" class="mt-auto mx-auto" style="z-index: 999" :title="$t('cookies_banner')">
@@ -62,8 +65,8 @@ const toasts = useState<Toast[]>('toasts', () => []);
 
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
 
-const store = useStore();
-const { user } = storeToRefs(store);
+const { ads, activity, reloadUser } = useStore();
+const { user } = storeToRefs(useStore());
 
 const resending = ref(false);
 
@@ -76,7 +79,7 @@ async function resendVerification() {
 async function cancelPending() {
     resending.value = true;
     await postRequest('email/cancel-pending');
-    await store.reloadUser();
+    await reloadUser();
     resending.value = false;
 }
 
@@ -89,6 +92,10 @@ const adClasses = computed(() => ({
 }));
 
 onMounted(async () => {
+    if (import.meta.client) {
+        return;
+    }
+
     if (user.value?.has_supporter_perks) {
         console.log("Detected supporter, enjoy no ads!");
         return;
@@ -105,83 +112,69 @@ onMounted(async () => {
         }
     });
     
-    console.log("mount ads");
+    console.log("Mount ads");
 
-    if (import.meta.client) {
-        const adConfig = {
-            "refreshLimit": 0,
-            "refreshTime": 30,
-            "renderVisibleOnly": false,
-            "refreshVisibleOnly": true,
-            "sizes": [
-                [
-                "160",
-                "600"
-                ]
-            ],
-            "report": {
-                "enabled": true,
-                "icon": true,
-                "wording": "Report Ad",
-                "position": "bottom-right"
-            },
-        };
+    const nitroAds = window['nitroAds'];
 
-        const leftAd = await window['nitroAds'].createAd('mws-ads-left', adConfig);
-        const rightAd = await window['nitroAds'].createAd('mws-ads-right', adConfig);
-        const topAd = await window['nitroAds'].createAd('mws-ads-top', {
-            "refreshLimit": 0,
-            "refreshTime": 30,
-            "renderVisibleOnly": false,
-            "refreshVisibleOnly": true,
-            "sizes": [
-                [
-                "970",
-                "90"
-                ],
-                [
-                "728",
-                "90"
-                ]
-            ],
-            "report": {
-                "enabled": true,
-                "icon": true,
-                "wording": "Report Ad",
-                "position": "bottom-right"
-            },
-            "mediaQuery": "(min-width: 1025px)"
-        });
-        const topAdMobile = await window['nitroAds'].createAd('mws-ads-top-mobile', {
-            "refreshLimit": 0,
-            "refreshTime": 30,
-            "renderVisibleOnly": false,
-            "refreshVisibleOnly": true,
-            "sizes": [
-                [
-                "320",
-                "100"
-                ],
-                [
-                "320",
-                "50"
-                ]
-            ],
-            "report": {
-                "enabled": true,
-                "icon": true,
-                "wording": "Report Ad",
-                "position": "bottom-right"
-            },
-            "mediaQuery": "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
-        });
+    const adConfig = {
+        "refreshLimit": 0,
+        "refreshTime": 30,
+        "renderVisibleOnly": false,
+        "refreshVisibleOnly": true,
+        "report": {
+            "enabled": true,
+            "icon": true,
+            "wording": "Report Ad",
+            "position": "bottom-right"
+        },
+    };
 
-        store.ads.push(leftAd);
-        store.ads.push(rightAd);
-        store.ads.push(topAd);
-        store.ads.push(topAdMobile);
-    }
+    nitroAds.createAd('mws-ads-left', {
+        ...adConfig,
+        sizes: [[ "160", "600" ]],
+    }).then(ad => ads.push(ad));
 
+    nitroAds.createAd('mws-ads-left', {
+        ...adConfig,
+        sizes: [[ "160", "600" ]],
+    }).then(ad => ads.push(ad));
+
+    nitroAds.createAd('mws-ads-right', {
+        ...adConfig,
+        sizes: [[ "160", "600" ]],
+        report: {
+            ...adConfig.report,
+            position: 'bottom-right'
+        }
+    }).then(ad => ads.push(ad));
+
+    nitroAds.createAd('mws-ads-top', {
+        ...adConfig,
+        sizes: [[ "970", "90" ], [ "728", "90" ]],
+        mediaQuery: "(min-width: 1025px)"
+    }).then(ad => ads.push(ad));
+
+    nitroAds.createAd('mws-ads-top-mobile', {
+        ...adConfig,
+        sizes: [
+            [ "320", "100" ], [ "320","50" ]
+        ],
+        mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
+    }).then(ad => ads.push(ad));
+
+    nitroAds.createAd('mws-ads-footer', {
+        ...adConfig,
+        sizes: [[ "728", "90" ]],
+        mediaQuery: "(min-width: 1025px)"
+    }).then(ad => ads.push(ad));
+
+    nitroAds.createAd('mws-ads-footer-mobile', {
+        ...adConfig,
+        sizes: [
+            [ "336", "280" ]
+        ],
+        mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
+    }).then(ad => ads.push(ad));
 });
 
 //EG Ads
