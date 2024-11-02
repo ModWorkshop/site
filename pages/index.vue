@@ -50,11 +50,11 @@
 import type { Game } from '~/types/models';
 import { useStore } from '~~/store';
 
-const { user } = useStore();
+const { user } = storeToRefs(useStore());
 
 const { data: games } = await useFetchMany<Game>('games', { params: { limit: 7 } });
 
-const selectedView = ref(user?.extra?.default_mods_view ?? 'all');
+const selectedView = ref(user.value?.extra?.default_mods_view ?? 'all');
 
 const links = {
     followed: 'mods/followed',

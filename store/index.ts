@@ -122,15 +122,18 @@ export const useStore = defineStore('main', {
         },
 
         async logout(redirect: string|boolean='/') {
+            const router = useRouter();
+
             await postRequest('/logout');
             reloadToken();
 
             if (typeof(redirect) == 'string') {
-                const router = useRouter();
                 router.push(redirect);
             }
 
             this.user = null;
+
+            router.push({ force: true });
         },
 
         async getNotifications(page = 1, limit = 40) {

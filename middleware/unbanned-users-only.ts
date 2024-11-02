@@ -3,13 +3,13 @@ import { useStore } from '../store';
 
 export default defineNuxtRouteMiddleware(() => {
     const { $pinia, $i18n } = useNuxtApp();
-    const { user } = useStore($pinia);
+    const { user } = storeToRefs(useStore($pinia));
 
-    if (!user) {
+    if (!user.value) {
         showError({ statusCode: 401, statusMessage: $i18n.t('page_error_401'), fatal: true});
-    } else if (user.ban) {
+    } else if (user.value.ban) {
         showError({ statusCode: 403, statusMessage: $i18n.t('page_error_403_banned'), fatal: true});
-    } else if (!user.activated) {
+    } else if (!user.value.activated) {
         showError({ statusCode: 403, statusMessage: $i18n.t('page_error_403_unactivated'), fatal: true});
     }
 });

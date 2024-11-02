@@ -3,8 +3,8 @@ import { useStore } from '../store';
 
 export default defineNuxtRouteMiddleware(() => {
     const { $pinia } = useNuxtApp();
-    const { user } = useStore($pinia);
-    if (user) {
+    const { user } = storeToRefs(useStore($pinia));
+    if (user.value) {
         return '/';
     }
 });
