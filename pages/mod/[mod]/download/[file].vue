@@ -16,7 +16,6 @@
                 <i-mdi-help/> {{$t('downloading_file_help')}}
             </m-button>
         </m-flex>
-        <div id="mws-ads-video-ad"/>
     </m-flex>
 </template>
 
@@ -50,31 +49,6 @@ watch(download, () => {
     if (download.value) {
         download.value.click();
         registerDownload('file', file.value);
-    }
-});
-
-onMounted(() => {
-    if (import.meta.client) {
-        if (user?.active_supporter) {
-            return;
-        }
-
-        // if (dataLayer) {
-        //     console.log('Load video');
-        //     dataLayer.push({event: "loadVideo"});
-        // }
-        window['nitroAds'].createAd('mws-ads-video-ad', {
-            "format": "video-nc",
-            "report": {
-                "enabled": true,
-                "icon": true,
-                "wording": "Report Ad",
-                "position": "bottom-right"
-            },
-            "video": {
-                "float": "never"
-            }
-        });
     }
 });
 </script>

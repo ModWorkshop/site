@@ -83,7 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~/store';
 import type { Mod } from '~~/types/models';
 const props = defineProps<{
     mod: Mod,
@@ -96,7 +95,10 @@ const showMembers = {
     'contributor': true
 };
 
-const { user } = useStore();
+useInsertAd('mws-ads-mod-pane', {
+    "sizes": [[ "336", "280" ]],
+});
+
 const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
@@ -108,33 +110,6 @@ const views = computed(() => friendlyNumber(locale.value, props.mod.views));
 const ownerDonation = computed(() => props.mod.user?.donation_url || props.mod.donation);
 
 const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
-
-onMounted(() => {
-    if (user?.has_supporter_perks) {
-        return;
-    }
-
-    if (import.meta.client) {
-        window['nitroAds'].createAd('mws-ads-mod-pane', {
-            "refreshLimit": 0,
-            "refreshTime": 30,
-            "renderVisibleOnly": false,
-            "refreshVisibleOnly": true,
-            "sizes": [
-                [
-                "336",
-                "280"
-                ]
-            ],
-            "report": {
-                "enabled": true,
-                "icon": true,
-                "wording": "Report Ad",
-                "position": "bottom-right"
-            },
-        });
-    }
-});
 </script>
 
 <style>

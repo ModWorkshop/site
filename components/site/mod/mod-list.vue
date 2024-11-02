@@ -79,9 +79,12 @@
         </m-flex>
 
         <m-flex gap="3" class="md:flex-row flex-col">
-            <m-content-block v-if="sideFilters" class="mod-filters max-md:!w-full" style="width: 300px;">
-                <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
-            </m-content-block>
+            <m-flex class="max-md:!w-full items-center" column gap="3" style="width: 300px;">
+                <m-content-block v-if="sideFilters" class="mod-filters w-full">
+                    <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
+                </m-content-block>
+                <div id="mws-ads-filters"/>
+            </m-flex>
             <m-flex column class="flex-1">
                 <div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
                     <grid-category v-for="cat of currentDisplayCats" :key="cat.id" :game="game" :category="cat"/>
@@ -134,6 +137,10 @@ const props = withDefaults(defineProps<{
 });
 
 const { user } = useStore();
+
+useInsertAd('mws-ads-filters', {
+    "sizes": [[ "300", "250" ]],
+});
 
 const query = props.query ? useRouteQuery('query', '') : ref('');
 
@@ -275,12 +282,5 @@ function loadMore() {
 .categories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-
-@media(min-width: 768px) {
-    .mod-filters {
-        width: 280px;
-        align-self: self-start;
-    } 
 }
 </style>

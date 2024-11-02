@@ -3,32 +3,35 @@
         <span v-if="title" class="h2">
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
-        <m-flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
-            <m-content-block v-if="filters" column class="md:self-start" style="flex: 1;">
-                <m-input v-model="query" :label="$t('search')"/>
-                <m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
-                <m-select 
-                    v-if="tags"
-                    v-model="selectedTags"
-                    color-by="color"
-                    list-tags
-                    :label="$t('tags')"
-                    multiple clearable
-                    :options="tags.data"
-                    max-selections="10"
-                />
-                <m-flex v-if="currentForumId && categories?.data.length" column>
-                    <label>{{$t('category')}}</label>
-                    <m-toggle-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
-                        <m-toggle-group-item :value="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
-                        <template v-for="category of categories.data" :key="category.id">
-                            <m-toggle-group-item v-if="!category.hidden" :value="category.id">
-                                {{category.emoji}} {{category.name}}
-                            </m-toggle-group-item>
-                        </template>
-                    </m-toggle-group>
-                </m-flex>
-            </m-content-block>
+        <m-flex v-if="filters" style="flex: 1;" class="flex-col md:flex-row" gap="3">
+            <m-flex class="max-md:!w-full items-center" style="width: 300px;" column gap="3">
+                <m-content-block column class="w-full">
+                    <m-input v-model="query" :label="$t('search')"/>
+                    <m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
+                    <m-select 
+                        v-if="tags"
+                        v-model="selectedTags"
+                        color-by="color"
+                        list-tags
+                        :label="$t('tags')"
+                        multiple clearable
+                        :options="tags.data"
+                        max-selections="10"
+                    />
+                    <m-flex v-if="currentForumId && categories?.data.length" column>
+                        <label>{{$t('category')}}</label>
+                        <m-toggle-group v-model:selected="categoryId" class="mt-2" column button-style="nav">
+                            <m-toggle-group-item :value="undefined"><i-mdi-comment/> {{$t('all')}}</m-toggle-group-item>
+                            <template v-for="category of categories.data" :key="category.id">
+                                <m-toggle-group-item v-if="!category.hidden" :value="category.id">
+                                    {{category.emoji}} {{category.name}}
+                                </m-toggle-group-item>
+                            </template>
+                        </m-toggle-group>
+                    </m-flex>
+                </m-content-block>
+                <div id="mws-ads-filters"/>
+            </m-flex>
             <m-flex column gap="3" style="flex: 4;">
                 <m-alert v-if="currentCategory && currentCategory.desc" color="info">
                     {{ currentCategory.desc}}
@@ -103,6 +106,10 @@ const props = withDefaults(defineProps<{
 });
 
 const query = props.query ? useRouteQuery('query', '') : ref('');
+
+useInsertAd('mws-ads-filters', {
+    "sizes": [[ "300", "250" ]],
+});
 
 if (query) {
     searchBus.on(search => query.value = search);
