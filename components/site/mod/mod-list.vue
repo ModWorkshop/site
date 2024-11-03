@@ -89,7 +89,7 @@
                 <div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
                     <grid-category v-for="cat of currentDisplayCats" :key="cat.id" :game="game" :category="cat"/>
                 </div>
-                <m-flex column grow gap="4" class="mods place-content-between" style="flex:1; min-height: 150px;">
+                <m-flex column grow gap="4" class="mods" style="flex:1; min-height: 150px;">
                     <m-loading v-if="loading" class="my-auto"/>
                     <template v-else>
                         <mod-list-skeleton
@@ -100,8 +100,8 @@
                             :game="game"
                             :mods="currentMods"
                         />
-                        <m-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore"><i-mdi-chevron-down/> {{$t('load_more')}}</m-button>
-                        <h1 v-else-if="currentMods.length == 0" class="m-auto">{{$t('no_mods_found')}}</h1>
+                        <m-button v-if="hasMore" :loading="loadingButton" color="subtle" @click="loadMore">{{$t('load_more')}} <i-mdi-chevron-down/></m-button>
+                        <h3 v-else-if="currentMods.length == 0" class="mx-auto">{{$t('no_mods_found')}}</h3>
                     </template>
                 </m-flex>
             </m-flex>

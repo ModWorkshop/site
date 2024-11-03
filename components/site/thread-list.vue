@@ -70,9 +70,9 @@
                     </m-flex>
                 </template>
                 <m-loading v-else-if="loading || !loaded" class="m-auto"/>
-                <h2 v-else class="m-auto">
+                <h3 v-else class="mx-auto">
                     {{$t('no_threads_found')}}
-                </h2>
+                </h3>
                 <m-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
             </m-flex>
         </m-flex>

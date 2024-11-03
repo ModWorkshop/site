@@ -34,9 +34,9 @@
                     </m-list-item>
                 </slot>
             </slot>
-            <h4 v-else class="p-4 text-center">
+            <h3 v-else class="mx-auto">
                 {{$t('nothing_found')}}
-            </h4>
+            </h3>
         </m-flex>
 
         <m-pagination v-if="pagination && !isLoading" v-model="page" :total="total" :per-page="limit">
