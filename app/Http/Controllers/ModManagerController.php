@@ -7,6 +7,7 @@ use App\Http\Resources\BaseResource;
 use App\Models\Game;
 use App\Models\ModManager;
 use App\Services\APIService;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
