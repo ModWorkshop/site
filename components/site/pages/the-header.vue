@@ -35,7 +35,7 @@
                     <m-link class="max-xl:hidden" to="/support">{{$t('support_us')}}</m-link>
                     <m-link class="max-lg:hidden" to="/document/rules">{{$t('rules')}}</m-link>
                     <m-dropdown class="max-md:hidden">
-                        <m-link><i-mdi-chevron-down/> {{$t('more')}}</m-link>
+                        <m-link>{{$t('more')}} <i-mdi-chevron-down/></m-link>
                         <template #content>
                             <m-dropdown-item to="https://wiki.modworkshop.net/">{{$t('wiki')}}</m-dropdown-item>
                             <m-dropdown-item to="https://translate.modworkshop.net/">{{$t('translation_site')}}</m-dropdown-item>
@@ -120,7 +120,10 @@
                             <span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{notificationCount}}</span>
                         </m-flex>
                         <m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
+                            <m-flex class="items-center">
                             <m-avatar class="cursor-pointer" :src="user.avatar" :use-thumb="user.avatar_has_thumb"/>
+                                <i-mdi-chevron-down/> 
+                            </m-flex>
                             <template #content>
                                 <a-user class="m-1" :user="user" :tag="false" no-color static/>
                                 <div class="dropdown-splitter"/>
