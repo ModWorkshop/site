@@ -1,7 +1,7 @@
 <template>
     <m-flex column>
-        <m-flex :gap="column ? 0 : 3" :class="{'flex-col': true, 'md:flex-row': !column}">
-            <m-content-block grow :class="{'self-auto': true, 'md:self-start': !column}" style="flex: 1;">
+        <m-flex :gap="3" :class="{'flex-col': true, 'md:flex-row': !column}">
+            <m-content-block grow :class="{'self-auto': true, 'md:self-start': !column}" style="flex: 1;" :padding="column ? 0 : 4">
                 <m-input v-model="query" :label="$t('search')"/>
                 <m-select v-model="roleIds" multiple url="roles" :label="$t('roles')"/>
                 <m-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
@@ -9,7 +9,7 @@
             <m-flex grow style="flex: 4;" gap="1">
                 <m-list v-model:page="page" query :items="users" :loading="loading">
                     <template #item="{ item }">
-                        <m-content-block :key="item.id" class="cursor-pointer p-4" @click="() => $router.push(getUserLink(item))">
+                        <m-content-block :key="item.id" class="cursor-pointer" :alt-background="altBackground" @click="() => $router.push(getUserLink(item))">
                             <a-user :user="item"/>
                         </m-content-block>
                     </template>
@@ -30,9 +30,10 @@ const searchBus = useEventBus<string>('search');
 
 searchBus.on(search => query.value = search);
 
-const { url = 'users', column = false, userLink } = defineProps<{
+const { url = 'users', column = false, userLink, altBackground = false } = defineProps<{
     userLink?: (user: User) => string,
     column?: boolean,
+    altBackground?: boolean,
     url?: string,
     game?: Game
 }>();
