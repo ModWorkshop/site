@@ -34,7 +34,7 @@ export default function(name: string, cfg: NitroAdConfig) {
                     "enabled": true,
                     "icon": true,
                     "wording": "Report Ad",
-                    "position": "bottom-right",
+                    "position": "bottom-right-side",
                     ...(cfg.report ?? {})
                 },
             });
