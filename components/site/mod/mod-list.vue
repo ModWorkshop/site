@@ -79,8 +79,8 @@
         </m-flex>
 
         <m-flex gap="3" class="md:flex-row flex-col">
-            <m-flex class="max-md:!w-full items-center" column gap="3" style="width: 300px;">
-                <m-content-block v-if="sideFilters" class="mod-filters w-full">
+            <m-flex v-if="sideFilters" class="max-md:!w-full items-center" column gap="3" style="width: 300px;">
+                <m-content-block class="mod-filters w-full">
                     <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                 </m-content-block>
                 <div id="mws-ads-filters"/>
