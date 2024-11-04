@@ -23,10 +23,11 @@
             <div id="mws-ads-top" class="ad mx-auto"/>
             <div id="mws-ads-top-mobile" class="ad mx-auto"/>
             
-            <div ref="leftAd" :class="adClasses" style="left:0.5rem;">
+            <div ref="adSidesFooterCheck" class="ad-sides"/>
+            <div :class="adClasses" style="left:4px;">
                 <div id="mws-ads-left"/>
             </div>
-            <div :class="adClasses" style="right:0.5rem;">
+            <div :class="adClasses" style="right:4px;">
                 <div id="mws-ads-right"/>
             </div>
 
@@ -52,7 +53,7 @@
                 </m-flex>
             </m-alert>
         </m-flex>
-        <the-footer/>
+        <the-footer ref="footerElement"/>
     </div>
 </template>
 
@@ -84,12 +85,13 @@ async function cancelPending() {
     resending.value = false;
 }
 
-const adScroll = ref(false);
-const leftAd = ref<HTMLDivElement>();
+const adScrollBottom = ref(false);
+const adSidesFooterCheck = ref<HTMLDivElement>();
+const footerElement = ref();
 const adClasses = computed(() => ({
     'ad': true,
     'ad-sides': true,
-    'ad-scroll': adScroll
+    'ad-sides-bottom': adScrollBottom.value
 }));
 
 onMounted(() => {
@@ -102,14 +104,17 @@ onMounted(() => {
         return;
     }
 
-    let def = 0;
     document.addEventListener("scroll", () => {
-        if (leftAd.value) {
-            if (!adScroll.value) {
-                def = Math.max(def, leftAd.value.offsetTop);
-            }
-
-            adScroll.value = (window.scrollY - def) > -64;
+        if (adSidesFooterCheck.value) {
+            const fixedRect = adSidesFooterCheck.value.getBoundingClientRect();
+            const footerRect = footerElement.value.$refs.footerElement.getBoundingClientRect();
+            
+            adScrollBottom.value = (
+                fixedRect.bottom > footerRect.top &&
+                fixedRect.top < footerRect.bottom &&
+                fixedRect.right > footerRect.left &&
+                fixedRect.left < footerRect.right
+            );
         }
     });
     
@@ -150,7 +155,7 @@ onMounted(() => {
 
     ads.push(nitroAds.createAd('mws-ads-top', {
         ...adConfig,
-        sizes: [[ "970", "90" ], [ "728", "90" ]],
+        sizes: [[ "728", "90" ]],
         mediaQuery: "(min-width: 1025px)"
     }));
 
@@ -176,22 +181,6 @@ onMounted(() => {
         mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
     }));
 });
-
-//EG Ads
-// useHead({
-//     script: [
-//         { 
-//             innerHTML: `
-//                 !function(e){var s=new XMLHttpRequest;s.open("GET","https://api.enthusiastgaming.net/scripts/cdn.enthusiast.gg/script/eg-aps/production/eg-aps-bootstrap.bundle.js?site=modworkshop.net",!0),s.onreadystatechange=function(){var t;4==s.readyState&&(200<=s.status&&s.status<300||304==s.status)&&((t=e.createElement("script")).type="text/javascript",t.text=s.responseText,e.head.appendChild(t))},s.send(null)}((window,document));
-//                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-//                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-//                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-//                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-//                 })(window,document,'script','dataLayer','GTM-M3R4JTX');
-//             `
-//         }
-//     ]
-// });
 </script>
 
 <style>
@@ -228,5 +217,40 @@ main {
 
 #mws-ads-footer[data-request-id], #mws-ads-footer-mobile[data-request-id] {
     margin: 3rem 0;
+}
+
+.ad-sides {
+    top: 50%;
+    display: none;
+    transform: translateY(calc(-50% + 32px));
+    position: fixed !important;
+}
+
+.ad-sides>div {
+    width: 160px;
+    height: 610px;
+}
+
+@media (min-width:1279px) {
+    .ad-sides {
+        display: block !important;
+        width: 160px;
+        height: 610px;
+    }
+}
+
+@media (max-height:700px) {
+    .ad-sides {
+        position: absolute !important;
+        top: 40vh;
+        transform: none;
+    }
+}
+
+.ad-sides-bottom {
+    position: absolute !important;
+    transform: inherit;
+    bottom: 270px;
+    top: inherit;
 }
 </style>

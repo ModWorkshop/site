@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer ref="footerElement">
         <m-flex column class="p-4 footer-content" gap="8">
             <div class="footer-links">
                 <m-flex class="items-center mb-auto footer-customize">
@@ -62,6 +62,7 @@ const { public: runtimeConfig } = useRuntimeConfig();
 const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
 const store = useStore();
+const footerElement = ref();
 
 const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
 const savedLocale = useConsentedCookie<string>('locale', { expires: longExpiration() });

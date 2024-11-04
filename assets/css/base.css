@@ -560,31 +560,6 @@ svg:not(:root).icon, svg:not(:host).icon {
     border-radius: var(--border-radius);
 }
 
-.ad-scroll {
-    top: 50%;
-    transform: translateY(-50%);
-    position: fixed !important;
-}
-
-.ad-sides {
-    display: none;
-    position: absolute;
-    transition: top 0.25s;
-}
-
-.ad-sides>div {
-    width: 160px;
-    height: 610px;
-}
-
-@media (min-width:1279px) {
-    .ad-sides {
-        display: block !important;
-        width: 160px;
-        height: 610px;
-    }
-}
-
 .icon {
     display: inline-block;
 }

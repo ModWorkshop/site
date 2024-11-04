@@ -197,7 +197,7 @@ const innerClasses = computed(() => ({
 }
 
 .page-block-nm {
-    width: 82%;
+    width: 81%;
 }
 
 .page-block-full {
@@ -219,33 +219,50 @@ const innerClasses = computed(() => ({
 .page-block-2xs {
     width: 50%;
 }
-
-
+/* 
 @media (min-width: 1024px) and (max-width: 1200px) {
     .page-block-nm {
         width: 68%
     }
+} */
+
+@media (min-width: 1200px) and (max-width: 1249px) {
+    .page-block-nm {
+        width: 70%
+    }
 }
 
-@media (min-width: 1200px) and (max-width: 1400px) {
+@media (min-width: 1250px) and (max-width: 1349px) {
+    .page-block-nm {
+        width: 72%
+    }
+}
+
+@media (min-width: 1350px) and (max-width: 1449px) {
     .page-block-nm {
         width: 74%
     }
 }
 
-@media (min-width: 1400px) and (max-width: 1600px) {
+@media (min-width: 1450px) and (max-width: 1549px) {
     .page-block-nm {
-        width: 77%
+        width: 76%
     }
 }
 
-@media (min-width: 1600px) and (max-width: 1700px) {
+@media (min-width: 1550px) and (max-width: 1699px) {
     .page-block-nm {
-        width: 80%
+        width: 78%
     }
 }
 
-@media (max-width:1279px) {
+@media (min-width: 1700px) and (max-width: 1800px) {
+    .page-block-nm {
+        width: 81%;
+    }
+}
+
+@media (max-width:1199px) {
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
         width: 100% !important;
     }
