@@ -40,7 +40,7 @@
     "@vueuse/nuxt": "^10.6.1",
     "eslint": "^9.14.0",
     "eslint-plugin-vue": "^9.26.0",
-    "nuxt": "latest",
+    "nuxt": "npm:nuxt-nightly@3x",
     "nuxt-easy-lightbox": "latest",
     "nuxt-umami": "latest",
     "nuxt-vitalizer": "latest",
