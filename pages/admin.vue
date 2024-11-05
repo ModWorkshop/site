@@ -9,7 +9,7 @@
                 <m-nav-link v-if="hasPermission('manage-users')" to="supporters" :title="$t('supporters')"/>
                 <h3 v-if="moderateUsers || manageMods" class="mt-2">{{$t('moderation')}}</h3>
                 <m-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
-                <m-nav-link v-if="moderateUsers" to="approvals" :title="$t('approvals')"/>
+                <m-nav-link v-if="manageMods" to="approvals" :title="$t('approvals')"/>
                 <m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
                 <m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
                 <m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
