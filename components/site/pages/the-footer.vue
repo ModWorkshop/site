@@ -52,14 +52,12 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import { colorSchemes, longExpiration } from '~~/utils/helpers';
 import { Settings } from 'luxon';
 
 const { public: runtimeConfig } = useRuntimeConfig();
 
-const unlockedOwO = useState('unlockedOwO');
 const i18n = useI18n();
 const store = useStore();
 const footerElement = ref();
@@ -68,7 +66,8 @@ const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpir
 const savedLocale = useConsentedCookie<string>('locale', { expires: longExpiration() });
 const locale = ref(i18n.locale.value);
 
-const locales = computed(() => i18n.locales.value.filter(option => i18n.locale.value == 'owo' || (typeof option == 'object' && option.code) != 'owo' || unlockedOwO.value));
+const locales = computed(() => i18n.locales.value);
+
 const commitHash = computed(() => (runtimeConfig.commitHash || 'N/A').substring(0, 7));
 
 watch(locale, val => {
