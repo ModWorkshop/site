@@ -1387,35 +1387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:@nuxt/kit-nightly@3.14.1-28846079.180f0794":
-  version: 3.14.1-28846079.180f0794
-  resolution: "@nuxt/kit-nightly@npm:3.14.1-28846079.180f0794"
-  dependencies:
-    "@nuxt/schema": "npm:@nuxt/schema-nightly@3.14.1-28846079.180f0794"
-    c12: ^2.0.1
-    consola: ^3.2.3
-    defu: ^6.1.4
-    destr: ^2.0.3
-    globby: ^14.0.2
-    hash-sum: ^2.0.0
-    ignore: ^6.0.2
-    jiti: ^2.4.0
-    klona: ^2.0.6
-    knitwork: ^1.1.0
-    mlly: ^1.7.2
-    pathe: ^1.1.2
-    pkg-types: ^1.2.1
-    scule: ^1.3.0
-    semver: ^7.6.3
-    ufo: ^1.5.4
-    unctx: ^2.3.1
-    unimport: ^3.13.1
-    untyped: ^1.5.1
-  checksum: 4c2c612e19497f19a2c60865742b61e2a2c3ef39a31201acc7e4feb4893774ae1b1de4aecbece6ee00d33036852aa9496a1acd7cb3bcabb6056672914315027c
-  languageName: node
-  linkType: hard
-
-"@nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.13.1, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.9.0":
+"@nuxt/kit@npm:3.14.0, @nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.12.3, @nuxt/kit@npm:^3.13.1, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.9.0":
   version: 3.14.0
   resolution: "@nuxt/kit@npm:3.14.0"
   dependencies:
@@ -1464,27 +1436,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/schema@npm:@nuxt/schema-nightly@3.14.1-28846079.180f0794":
-  version: 3.14.1-28846079.180f0794
-  resolution: "@nuxt/schema-nightly@npm:3.14.1-28846079.180f0794"
-  dependencies:
-    c12: ^2.0.1
-    compatx: ^0.1.8
-    consola: ^3.2.3
-    defu: ^6.1.4
-    hookable: ^5.5.3
-    pathe: ^1.1.2
-    pkg-types: ^1.2.1
-    scule: ^1.3.0
-    std-env: ^3.7.0
-    ufo: ^1.5.4
-    uncrypto: ^0.1.3
-    unimport: ^3.13.1
-    untyped: ^1.5.1
-  checksum: e67d78b1ef3122ed4ae813887f86dede53297bf3f5330cfd3fa8e7a50cca4922aaa9276d7e1e8b90379aceb6a11f8b85b4581a3a3789d9a46231be78ec9fc0a4
-  languageName: node
-  linkType: hard
-
 "@nuxt/telemetry@npm:^2.6.0":
   version: 2.6.0
   resolution: "@nuxt/telemetry@npm:2.6.0"
@@ -1513,11 +1464,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/vite-builder@npm:@nuxt/vite-builder-nightly@3.14.1-28846079.180f0794":
-  version: 3.14.1-28846079.180f0794
-  resolution: "@nuxt/vite-builder-nightly@npm:3.14.1-28846079.180f0794"
+"@nuxt/vite-builder@npm:3.14.0":
+  version: 3.14.0
+  resolution: "@nuxt/vite-builder@npm:3.14.0"
   dependencies:
-    "@nuxt/kit": "npm:@nuxt/kit-nightly@3.14.1-28846079.180f0794"
+    "@nuxt/kit": 3.14.0
     "@rollup/plugin-replace": ^6.0.1
     "@vitejs/plugin-vue": ^5.1.4
     "@vitejs/plugin-vue-jsx": ^4.0.1
@@ -1531,7 +1482,7 @@ __metadata:
     estree-walker: ^3.0.3
     externality: ^1.0.2
     get-port-please: ^3.1.2
-    h3: "npm:h3-nightly@latest"
+    h3: ^1.13.0
     jiti: ^2.4.0
     knitwork: ^1.1.0
     magic-string: ^0.30.12
@@ -1553,7 +1504,7 @@ __metadata:
     vue-bundle-renderer: ^2.1.1
   peerDependencies:
     vue: ^3.3.4
-  checksum: 26567a9031f80913cef139408d80321443da2b521eaed91794e42a2f6f6c7d4a3475cf574354a81ebdada8755dff2fc1719f04647b66ac60796b62ea667e550a
+  checksum: ccff7f83a5010b61c5adbbb9ef80e96950f1a86dd394edb6f92d5eecba0bc16a8a2ad36d3c4f5594aecddf48220451cb0fcea87a17cd98fddb01e62ceb3c6b28
   languageName: node
   linkType: hard
 
@@ -4318,9 +4269,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.41":
-  version: 1.5.51
-  resolution: "electron-to-chromium@npm:1.5.51"
-  checksum: 51ec624a59f1eda30e2a32c295c8066acdb840c686ed51d3ae0181845fce91b009e2fc3e658578426b65a0eb6a0cd61b071b3c1c974bff684781ae7790b1ed8d
+  version: 1.5.50
+  resolution: "electron-to-chromium@npm:1.5.50"
+  checksum: 971f49d0c3f8484225a2ee86f86074c2ef1a3c46c2bad9b2151202c03f5de2f6f0fc41029d0bc634e6d01d067673cbf4916a7f9753f5ec1d5b177cbaca9b2e5a
   languageName: node
   linkType: hard
 
@@ -5437,24 +5388,6 @@ __metadata:
     uncrypto: ^0.1.3
     unenv: ^1.10.0
   checksum: c71bd0aae3f855684e5f4edfb6bb91353fcd3b5a7636116eb9c61bb3a22eed6636bb024895183ee31f12a8c8370e9ad83a8f17cc8538193bb39e2a33303f61e1
-  languageName: node
-  linkType: hard
-
-"h3@npm:h3-nightly@latest":
-  version: 1.13.1-20241013-011028-3bf8af0
-  resolution: "h3-nightly@npm:1.13.1-20241013-011028-3bf8af0"
-  dependencies:
-    cookie-es: ^1.2.2
-    crossws: ">=0.2.0 <0.4.0"
-    defu: ^6.1.4
-    destr: ^2.0.3
-    iron-webcrypto: ^1.2.1
-    ohash: ^1.1.4
-    radix3: ^1.1.2
-    ufo: ^1.5.4
-    uncrypto: ^0.1.3
-    unenv: ^1.10.0
-  checksum: 30f1a899117ec47de0b6625ab8a91fab37d22be9f8f22d03a823e078902bf0a7ccda6961880612ae7aa0977945873fdb64b1bc5b683b0356617579f7cec8c282
   languageName: node
   linkType: hard
 
@@ -6970,7 +6903,7 @@ __metadata:
     markdown-it: ^14.0.0
     markdown-it-color-inline: ^1.9.5
     markdown-it-task-lists: ^2.1.1
-    nuxt: "npm:nuxt-nightly@3x"
+    nuxt: latest
     nuxt-easy-lightbox: latest
     nuxt-umami: latest
     nuxt-vitalizer: latest
@@ -7051,9 +6984,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nitropack@npm:nitropack-nightly@latest":
-  version: 2.10.2-20241103-103652.f6e1efc9
-  resolution: "nitropack-nightly@npm:2.10.2-20241103-103652.f6e1efc9"
+"nitropack@npm:^2.10.2":
+  version: 2.10.2
+  resolution: "nitropack@npm:2.10.2"
   dependencies:
     "@cloudflare/kv-asset-handler": ^0.3.4
     "@netlify/functions": ^2.8.2
@@ -7087,7 +7020,7 @@ __metadata:
     fs-extra: ^11.2.0
     globby: ^14.0.2
     gzip-size: ^7.0.0
-    h3: "npm:h3-nightly@latest"
+    h3: ^1.13.0
     hookable: ^5.5.3
     httpxy: ^0.1.5
     ioredis: ^5.4.1
@@ -7131,7 +7064,7 @@ __metadata:
   bin:
     nitro: dist/cli/index.mjs
     nitropack: dist/cli/index.mjs
-  checksum: becad86c40d12577b025f64031b95c19c161618bbd4498da3465dcbd62668b44638d924fdfdc925e8c377f81b9ad30913dcd4d46b61ca1323581ebd8ca28c3a2
+  checksum: 1f4e5f79b425a5c0a21b91fa1cabf4a65d7ac00f21f62e06104255f1fd8dd2f42191b381e0abe290483ebcdc0d3739695685d3d6957fb31bc250a2d3657ac480
   languageName: node
   linkType: hard
 
@@ -7285,15 +7218,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxi@npm:nuxi-nightly@latest":
-  version: 3.15.1-20241104-170600-45801c0
-  resolution: "nuxi-nightly@npm:3.15.1-20241104-170600-45801c0"
+"nuxi@npm:^3.15.0":
+  version: 3.15.0
+  resolution: "nuxi@npm:3.15.0"
   bin:
     nuxi: bin/nuxi.mjs
     nuxi-ng: bin/nuxi.mjs
     nuxt: bin/nuxi.mjs
     nuxt-cli: bin/nuxi.mjs
-  checksum: 7ed573b2515b6854acfae4cee5be2e4c54516a98b4f83a08f32f4c3ea3592c991afa3cfa27e1ce08485e31710be38e74a8a7d399de99410c21b3e90e86f2ccb5
+  checksum: 907f0446ebbbb7acad00f6b40a36dbaa4856fc45f3f0b4870feb023da30197254a8a4fe3b23da0873cbd001ca8ed15dde67e4e17e6da1270f557ecbc68c2dffd
   languageName: node
   linkType: hard
 
@@ -7328,16 +7261,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt@npm:nuxt-nightly@3x":
-  version: 3.14.1-28846079.180f0794
-  resolution: "nuxt-nightly@npm:3.14.1-28846079.180f0794"
+"nuxt@npm:latest":
+  version: 3.14.0
+  resolution: "nuxt@npm:3.14.0"
   dependencies:
     "@nuxt/devalue": ^2.0.2
     "@nuxt/devtools": ^1.6.0
-    "@nuxt/kit": "npm:@nuxt/kit-nightly@3.14.1-28846079.180f0794"
-    "@nuxt/schema": "npm:@nuxt/schema-nightly@3.14.1-28846079.180f0794"
+    "@nuxt/kit": 3.14.0
+    "@nuxt/schema": 3.14.0
     "@nuxt/telemetry": ^2.6.0
-    "@nuxt/vite-builder": "npm:@nuxt/vite-builder-nightly@3.14.1-28846079.180f0794"
+    "@nuxt/vite-builder": 3.14.0
     "@unhead/dom": ^1.11.11
     "@unhead/shared": ^1.11.11
     "@unhead/ssr": ^1.11.11
@@ -7357,7 +7290,7 @@ __metadata:
     escape-string-regexp: ^5.0.0
     estree-walker: ^3.0.3
     globby: ^14.0.2
-    h3: "npm:h3-nightly@latest"
+    h3: ^1.13.0
     hookable: ^5.5.3
     ignore: ^6.0.2
     impound: ^0.2.0
@@ -7367,8 +7300,8 @@ __metadata:
     magic-string: ^0.30.12
     mlly: ^1.7.2
     nanotar: ^0.1.1
-    nitropack: "npm:nitropack-nightly@latest"
-    nuxi: "npm:nuxi-nightly@latest"
+    nitropack: ^2.10.2
+    nuxi: ^3.15.0
     nypm: ^0.3.12
     ofetch: ^1.4.1
     ohash: ^1.1.4
@@ -7407,7 +7340,7 @@ __metadata:
   bin:
     nuxi: bin/nuxt.mjs
     nuxt: bin/nuxt.mjs
-  checksum: 06e3d7e7ef10acdf4a9533219d4ec1dc4e8e9479e1c5a10f82731de119d1787dfdce441432a7a0404cb992ea07c5f990b3eb020365176e55a4c4ac8d57f36b49
+  checksum: 3cd256e45000b44bb799ed4142a54990e506ec70c40bebe7945f607ba3a49032a747f2effeaf4e9d36b1027fb05b6646e3a39a6296ac13c04aad86a5e7ec0ab5
   languageName: node
   linkType: hard
 
