@@ -4,14 +4,14 @@
         <m-flex column class="break-words overflow-hidden">
             <span>{{file.name}} ({{friendlySize(file.size)}})</span>
             <span v-if="paused">{{pausedReason ?? $t('waiting')}}</span>
-            <m-progress v-else-if="file.progress" :current="file.progress" :total="100" :height="16" style="width: 200px;" text-as-percent/>
             <m-time v-else-if="file.created_at" :datetime="file.created_at"/>
+            <m-uploader-progress v-else-if="file.progress" :progress="file.progress"/>
             <span v-else>{{$t('waiting')}}</span>
         </m-flex>
         <slot name="after-info" :file="file"/>
-        <m-flex class="ml-auto">
+        <m-flex class="ml-auto items-center">
             <slot name="before-buttons" :file="file"/>
-            <m-button @click="$emit('remove', file)"><i-mdi-close/></m-button>
+            <m-button @click="$emit('remove', file)" :disabled="!file.progress && !file.id"><i-mdi-close/></m-button>
             <slot name="after-buttons" :file="file"/>
         </m-flex>
     </m-content-block>
@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import type { UploadFile } from '~/types/core';
 
-defineProps<{
+const { file } = defineProps<{
     file: UploadFile,
     paused?: boolean,
     pausedReason?: string

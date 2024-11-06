@@ -4,15 +4,15 @@
             <slot name="label"/>
         </template>
         <m-flex>
-            <m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" @click="clear"><i-mdi-remove/></m-button>
+            <m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" @click="clear" :disabled="disabled"><i-mdi-remove/></m-button>
             <m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @update:model-value="onChange"/>
         </m-flex>
-        <m-progress v-if="progress" :current="progress" :height="16" style="width: 50%;" text-as-percent/>
+        <m-uploader-progress v-if="progress?.progress" :progress="progress"/>
     </m-input>
 </template>
 
 <script setup lang="ts">
-import type { Canceler } from 'axios';
+import type { AxiosProgressEvent, Canceler } from 'axios';
 
 const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
     id?: string,
@@ -25,7 +25,7 @@ const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
 }>();
 
 const modelValue = defineModel<File|undefined>();
-const progress = defineModel<number>('progress');
+const progress = defineModel<AxiosProgressEvent>('progress');
 const { showToast } = useToaster();
 const { t } = useI18n();
 
@@ -40,7 +40,7 @@ const maxFileSizeBytes = computed(() => parseInt(maxFileSize as string));
 watch(modelValue, (value, oldValue) => {
     if (input.value && oldValue && !value) {
         input.value.value = '';
-        progress.value = 0;        
+        progress.value = undefined;        
     }
 });
 

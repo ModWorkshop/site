@@ -47,7 +47,7 @@
         </m-flex>
         <m-flex column>
             <template v-if="links.length">
-                <m-content-block v-for="link of links" :key="link.id" alt-background :column="false" wrap>
+                <m-content-block v-for="link of links" :key="link.id" alt-background :column="false" wrap class="items-center">
                     <input :checked="(link.id === mod.download_id && mod.download_type == 'link') ? true : undefined" type="radio" @change="setPrimaryDownload('link', link)">
                     <m-flex column class="break-words overflow-hidden">
                         <span>
@@ -57,7 +57,7 @@
                         <span v-else>{{$t('waiting_for_mod')}}</span>
                     </m-flex>
                     <m-flex class="ml-auto">
-                        <span class="text-center p-4">
+                        <span class="text-center">
                             <m-flex inline>
                                 <m-button @click.prevent="deleteLink(link)"><i-mdi-delete/></m-button>
                                 <m-button @click.prevent="editLink(link)"><i-mdi-cog/></m-button>
@@ -118,7 +118,14 @@
         </m-flex>
         <m-input v-model="currentFile.version" :label="$t('version')"/>
         <m-input v-model="currentFile.display_order" :label="$t('order')"/>
-        <m-file-uploader v-model="changeFile" v-model:progress="changeFileProgress" :cancel="cancelFileUpload" type="file" :label="$t('upload_file')"/>
+        <m-file-uploader 
+            v-model="changeFile"
+            v-model:progress="changeFileProgress"
+            :cancel="cancelFileUpload"
+            :label="$t('upload_file')"
+            :disabled="disableChangeFile"
+            type="file"
+        />
         <m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
             <template #any-option="{ option }">
                 <m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
@@ -132,8 +139,8 @@
 import type { File as MWSFile, Link, Mod, PendingFileResponse } from '~~/types/models';
 import clone from 'rfdc/default';
 import { useStore } from '~~/store';
-import { friendlySize, fullDate } from '~~/utils/helpers';
-import axios, { CanceledError, type Canceler } from 'axios';
+import { friendlySize } from '~~/utils/helpers';
+import axios, { CanceledError, type AxiosProgressEvent, type Canceler } from 'axios';
 import { remove } from '@antfu/utils';
 
 const { settings, hasPermission, user } = useStore();
@@ -154,9 +161,10 @@ const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.all
 const showEditFile = ref(false);
 const currentFile = ref<MWSFile>();
 const changeFile = ref<File>();
-const changeFileProgress = ref(0);
+const changeFileProgress = ref<AxiosProgressEvent>();
 const canSubmitFile = ref(false);
 const cancelFileUpload = ref<Canceler>();
+const disableChangeFile = ref(false);
 
 // Edit link modal stuff
 const showEditLink = ref(false);
@@ -165,11 +173,11 @@ const currentLink = ref<Link>();
 const filesPage = ref(1);
 const linksPage = ref(1);
 
-const { data: asyncFiles } = await useWatchedFetchMany(`mods/${mod.value.id}/files`, { 
+const { data: asyncFiles, refresh: refreshFiles } = await useWatchedFetchMany(`mods/${mod.value.id}/files`, { 
     limit: 10,
     page: filesPage
 }, { immediate: !!mod.value.id });
-const { data: asyncLinks } = await useWatchedFetchMany(`mods/${mod.value.id}/links`, {
+const { data: asyncLinks, refresh: refreshLinks } = await useWatchedFetchMany(`mods/${mod.value.id}/links`, {
     limit: 10,
     page: linksPage
 }, { immediate: !!mod.value.id });
@@ -225,15 +233,19 @@ watch(changeFile, async file => {
                 headers: data.headers,
                 onUploadProgress: function(progressEvent) {
                     if (progressEvent.progress) {
-                        changeFileProgress.value = progressEvent.progress;
+                        changeFileProgress.value = progressEvent;
                     }
                 },
                 cancelToken: new axios.CancelToken(c => cancelFileUpload.value = c)
             });
 
+            disableChangeFile.value = true;
+
             const fileData = await postRequest<MWSFile>(`pending-files/${data.id}/complete`);
-            changeFileProgress.value = 0;
+            changeFileProgress.value = undefined;
             changeFile.value = undefined;
+
+            disableChangeFile.value = false;
 
             if (mod.value.used_storage) {
                 mod.value.used_storage -= currentFile.value.size + fileData.size;
@@ -272,8 +284,9 @@ function setPrimaryDownload(type?: 'file'|'link', download?: MWSFile|Link) {
 function editFile(file: MWSFile) {
     showEditFile.value = true;
     currentFile.value = clone(file);
-    changeFileProgress.value = 0;
+    changeFileProgress.value = undefined;
     cancelFileUpload.value = undefined;
+    disableChangeFile.value = false;
 
     canSubmitFile.value = true;
     if (changeFile.value) {
@@ -338,6 +351,11 @@ function fileDeleted(file: MWSFile) {
     if (mod.value.used_storage && file.id) {
         mod.value.used_storage -= file.size;
     }
+
+    if (files.value.length == 0) {
+        filesPage.value = 1;
+        refreshFiles();
+    }
 }
 
 function editLink(link: Link) {
@@ -352,6 +370,11 @@ async function deleteLink(link: Link) {
 
     remove(links.value, link);
     updateHasDownload();
+    
+    if (links.value.length == 0) {
+        linksPage.value = 1;
+        refreshLinks();
+    }
 }
 
 function createNewLink() {

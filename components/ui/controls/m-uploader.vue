@@ -69,10 +69,10 @@
             <div v-for="file of vm" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
                 <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
                 <m-flex class="file-options">
-                    <div v-if="file.progress" class="file-progress" :style="{width: file.progress + '%'}"/>
+                    <div v-if="file.progress?.progress" class="file-progress" :style="{width: (file.progress?.progress * 100) + '%'}"/>
                     <m-flex column class="file-buttons">
                         <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
-                        <span v-if="file.progress" class="self-center">{{$t('uploading', [file.progress])}}</span>
+                        <span v-if="file.progress?.progress" class="self-center">{{$t('uploading', [file.progress?.progress * 100])}}</span>
                         <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { friendlySize, fullDate } from '~~/utils/helpers';
+import { friendlySize } from '~~/utils/helpers';
 import type { File as MWSFile, PendingFileResponse } from '~~/types/models';
 import axios, { AxiosError, CanceledError } from 'axios';
 import { useI18n } from 'vue-i18n';
@@ -268,7 +268,7 @@ async function startUpload(uploadFile: UploadFile) {
             headers: {'Content-Type': 'multipart/form-data'},
             onUploadProgress: function(progressEvent) {
                 if (progressEvent.progress) {
-                    uploadFile.progress = Math.round(100 * progressEvent.progress);
+                    uploadFile.progress = progressEvent;
                 }
             },
             cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
@@ -308,7 +308,7 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
             headers: data.headers,
             onUploadProgress: function(progressEvent) {
                 if (progressEvent.progress) {
-                    uploadFile.progress = Math.round(100 * progressEvent.progress);
+                    uploadFile.progress = progressEvent;
                 }
             },
             cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
