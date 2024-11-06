@@ -16,31 +16,9 @@
             @change="e => register((e.target as HTMLInputElement).files)"
         >
         <m-flex v-if="list" column>
-            <m-uploader-list-file
-                v-for="file of uploadingFiles"
-                :key="file.created_at"
-                :file="file"
-                :paused="paused"
-                :paused-reason="pausedReason"
-                @remove="removeFileDialog"
-            >
-                <template #before-info>
-                    <slot name="before-info" :file="file"/>
-                </template>
-                <template #after-info>
-                    <slot name="after-info" :file="file"/>
-                </template>
-                <template #before-buttons>
-                    <slot name="before-buttons" :file="file"/>
-                </template>
-                <template #after-buttons>
-                    <slot name="after-buttons" :file="file"/>
-                </template>
-            </m-uploader-list-file>
-
             <template v-if="vm.length">
                 <m-uploader-list-file 
-                    v-for="file of vm"
+                    v-for="file of combinedFiles"
                     :key="file.created_at"
                     :file="file"
                     :paused="paused"
@@ -65,21 +43,26 @@
                 {{$t('nothing_found')}}
             </span>
         </m-flex>
-        <div v-else-if="vm.length" class="grid file-list p-3 alt-content-bg">
-            <div v-for="file of vm" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
-                <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
-                <m-flex class="file-options">
-                    <div v-if="file.progress?.progress" class="file-progress" :style="{width: (file.progress?.progress * 100) + '%'}"/>
-                    <m-flex column class="file-buttons">
-                        <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
-                        <span v-if="file.progress?.progress" class="self-center">{{$t('uploading', [file.progress?.progress * 100])}}</span>
-                        <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
-                        <span class="self-center">{{friendlySize(file.size)}}</span>
-                        <slot name="buttons" :file="file"/>
-                        <m-button @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
+        <div v-else class="grid file-list p-3 alt-content-bg">
+            <template v-if="combinedFiles.length">
+                <div v-for="file of combinedFiles" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
+                    <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
+                    <m-flex class="file-options">
+                        <div v-if="file.progress?.progress" class="file-progress" :style="{width: (file.progress?.progress * 100) + '%'}"/>
+                        <m-flex column class="file-buttons">
+                            <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
+                            <span v-if="file.progress?.progress" class="self-center">{{$t('uploading', [file.progress?.progress * 100])}}</span>
+                            <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
+                            <span class="self-center">{{friendlySize(file.size)}}</span>
+                            <slot name="buttons" :file="file"/>
+                            <m-button @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
+                        </m-flex>
                     </m-flex>
-                </m-flex>
-            </div>
+                </div>
+            </template>
+            <span v-else class="text-center p-4" style="grid-column: 1 / span max;">
+                {{$t('nothing_found')}}
+            </span>
         </div>
     </m-flex>
 </template>
@@ -130,6 +113,8 @@ const yesNoModal = useYesNoModal();
 
 const vm = defineModel<UploadFile[]>({ default: [] }) ;
 const uploadingFiles = ref<UploadFile[]>([]);
+
+const combinedFiles = computed(() => ([ ...uploadingFiles.value, ...vm.value ]))
 
 function getFileThumb(file: UploadFile) {
     if (file.thumbnail) {
@@ -209,7 +194,7 @@ function register(files: FileList|null) {
                 size: file.size,
                 downloads: 0,
                 display_order: 0,
-                thumbnail: '/assets/no-preview.webp',
+                thumbnail: (props.useFileAsThumb ? window.URL.createObjectURL(file) : undefined) ?? '/assets/no-preview.webp',
                 file: '',
                 type: '',
                 waiting: true,
@@ -217,23 +202,10 @@ function register(files: FileList|null) {
             };
 
             uploadingFiles.value.push(insertFile);
-    
-           //Read the file and get blob src
-           if (props.useFileAsThumb) {
-                const reader = new FileReader();
-                reader.addEventListener('load', () => {
-                    const refFile = vm.value.find(file => toRaw(file) == insertFile);
-                    if (refFile) {
-                        refFile.thumbnail = reader.result as string;
-                    }
-                });
-                reader.readAsDataURL(file);
-            }
             emit('file-begin', insertFile);
         }
     }
     input.value.value = null;
-    
     uploadWaitingFiles();
 }
 
@@ -275,6 +247,7 @@ async function startUpload(uploadFile: UploadFile) {
         });
         
         Object.assign(uploadFile, data);
+        uploadFile.thumbnail = undefined;
         uploadFile.cancel = undefined;
         uploadFile.progress = undefined;
 

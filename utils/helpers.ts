@@ -123,7 +123,7 @@ export function strReplacRange(str: string, start: number, end: number, replacem
  */
 export function isSrcExternal(src?: string|object|Blob) {
     if (typeof src == 'string') {
-        return src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:"));
+        return src && (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:") || src.startsWith('blob:'));
     } else {
         return true;
     }
