@@ -19,11 +19,11 @@
 
             <m-flex v-if="mod.published_at">
                 <span class="text-secondary"> <i-mdi-calendar-import/> {{ $t('published_at') }}</span>
-                <m-time-ago :time="mod.published_at" class="ml-auto"/>
+                <m-time :datetime="mod.published_at" class="ml-auto" relative/>
             </m-flex>
             <m-flex v-else-if="mod.created_at">
                 <span class="text-secondary"> <i-mdi-calendar-plus/> {{ $t('upload_date') }}</span>
-                <m-time-ago :time="mod.created_at" class="ml-auto"/>
+                <m-time :datetime="mod.created_at" class="ml-auto" relative/>
             </m-flex>
 
             <m-flex class="items-center" gap="0">
@@ -38,7 +38,7 @@
                                 <a-user avatar-size="xs" :user="mod.last_user" :tag="false" :avatar="false"/>
                             </template>
                             <template #time>
-                                <m-time-ago :time="mod.bumped_at"/>
+                                <m-time :datetime="mod.bumped_at" relative/>
                             </template>
                         </i18n-t>
                     </span>

@@ -16,7 +16,7 @@
                 <template #body>
                     <mod-row v-for="mod in items!.data" :key="mod.id" :mod="mod" lite>
                         <template #definitions>
-                            <td><m-time-ago :time="mod.updated_at"/></td>
+                            <td><m-time :datetime="mod.updated_at" relative/></td>
                                 <td>
                                 <mod-approve :mod="mod" :mods="mods!.data" @approved="modApproved"/>
                             </td>

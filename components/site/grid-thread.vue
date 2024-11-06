@@ -20,7 +20,7 @@
 
     <a-user :user="thread.user" avatar-size="xs"/>
     <m-flex class="items-center">
-        <m-time-ago :time="thread.created_at"/>
+        <m-time :datetime="thread.created_at" relative/>
     </m-flex>
 
     <m-flex v-if="!noCategory" class="items-center text-inherit">

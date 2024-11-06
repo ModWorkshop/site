@@ -54,7 +54,6 @@
 <script setup lang="ts">
 import { useStore } from '~~/store';
 import { colorSchemes, longExpiration } from '~~/utils/helpers';
-import { Settings } from 'luxon';
 
 const { public: runtimeConfig } = useRuntimeConfig();
 
@@ -73,10 +72,7 @@ const commitHash = computed(() => (runtimeConfig.commitHash || 'N/A').substring(
 watch(locale, val => {
     i18n.setLocale(val);
     savedLocale.value = val;
-    Settings.defaultLocale = val;
 });
-
-Settings.defaultLocale = savedLocale.value ?? 'en';
 
 watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;

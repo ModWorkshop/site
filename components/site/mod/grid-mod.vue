@@ -25,7 +25,7 @@
             </m-flex>
 
             <m-flex>
-                <m-time-ago :time="date"/>
+                <m-time :datetime="date" relative/>
             </m-flex>
 
             <m-flex gap="2" class="mt-auto">

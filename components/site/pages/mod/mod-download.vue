@@ -21,7 +21,7 @@
                 </span>
                 <i18n-t keypath="by_user_time_ago" scope="global">
                     <template #time>
-                        <m-time-ago :time="file.updated_at"/>
+                        <m-time :datetime="file.updated_at" relative/>
                     </template>
                     <template #user>
                         <a-user :user="file.user" :avatar="false"/>

@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { DateTime } from 'luxon';
 import type { UserCase } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
+import { parseISO } from 'date-fns';
 
 const props = defineProps<{
     userCase: UserCase,
@@ -40,12 +40,12 @@ const emit = defineEmits<{
     (e: 'delete', userCase: UserCase): void
 }>();
 
-const now = DateTime.now();
+const now = new Date();
 const { t } = useI18n();
 
 const yesNoModal = useYesNoModal();
 
-const isExpired = computed(() => !props.userCase.active || now >= DateTime.fromISO(props.userCase.expire_date));
+const isExpired = computed(() => !props.userCase.active || now >= parseISO(props.userCase.expire_date));
 const duration = computed(() => getDuration(t, props.userCase.created_at, props.userCase.expire_date));
 
 async function deleteCase() {

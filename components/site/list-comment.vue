@@ -10,7 +10,7 @@
                     <a-user :avatar="false" :user="comment.user"/>
                     <span v-if="specialTag" class="text-success">({{specialTag}})</span>
                     <NuxtLink class="ml-1 text-secondary" :to="commentPage">
-                        <m-time-ago :time="comment.created_at"/>
+                        <m-time :datetime="comment.created_at" relative/>
                     </NuxtLink>
                     <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
                     <span v-if="showPins && comment.pinned" :title="$t('pinned')">

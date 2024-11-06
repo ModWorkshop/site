@@ -18,7 +18,7 @@
                 <template #body>
                     <mod-row v-for="suspension in data?.data" :key="suspension.id" :mod="suspension.mod" lite :class="{'alt-content-bg': suspension.status}">
                         <template #definitions>
-                            <td><m-time-ago :time="suspension.created_at"/></td>
+                            <td><m-time :datetime="suspension.created_at" relative/></td>
                             <td>{{suspension.status ? '✔' : '❌'}}</td>
                             <td style="min-width: 300px;" class="whitespace-break-spaces">{{suspension.reason}}</td>
                             <td>

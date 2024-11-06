@@ -2,7 +2,7 @@
     <m-flex class="list-button">
         <m-flex column :class="{archived: report.archived}">
             <m-tag class="capitalize mr-auto">{{report.reportable_type}}</m-tag>
-            <m-flex class="items-center">{{$t('reported_by')}}: <a-user :user="report.user" avatar-size="xs"/> <m-time-ago :time="report.created_at"/></m-flex>
+            <m-flex class="items-center">{{$t('reported_by')}}: <a-user :user="report.user" avatar-size="xs"/> <m-time :datetime="report.created_at" relative/></m-flex>
             <m-flex class="items-center">{{$t('reported_user')}}: <a-user :user="report.reported_user ?? reportedUser" avatar-size="xs"/></m-flex>
             <span>{{ $t('reason') }}:</span>
             <blockquote>{{report.reason}}</blockquote>

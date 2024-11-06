@@ -12,10 +12,10 @@
                     <m-flex column>
                         <a-user :user="item.user"/>
                         <div>
-                            {{ $t('date') }}: <m-time-ago :time="item.created_at"/>
+                            {{ $t('date') }}: <m-time :datetime="item.created_at" relative/>
                         </div>
                         <div v-if="!item.expired">
-                            {{ $t('expires') }}: <m-time-ago :time="item.expire_date"/>
+                            {{ $t('expires') }}: <m-time :datetime="item.expire_date" relative/>
                         </div>
                         <div v-else>
                             {{ $t('expired') }}

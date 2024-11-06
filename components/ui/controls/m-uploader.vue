@@ -73,7 +73,7 @@
                     <m-flex column class="file-buttons">
                         <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
                         <span v-if="file.progress" class="self-center">{{$t('uploading', [file.progress])}}</span>
-                        <span v-else-if="file.created_at" class="self-center">{{fullDate(file.created_at)}}</span>
+                        <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
                         <span class="self-center">{{friendlySize(file.size)}}</span>
                         <slot name="buttons" :file="file"/>
                         <m-button @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>

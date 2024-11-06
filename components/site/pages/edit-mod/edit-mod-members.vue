@@ -33,7 +33,7 @@
                         <td><a-user :user="m"/></td>
                         <td>{{$t(`member_level_${m.level}`)}}</td>
                         <td>{{m.accepted ? '✔' : '❌'}}</td>
-                        <td>{{mod.id ? fullDate(m.created_at) : $t('waiting_for_mod')}}</td>
+                        <td><m-time :datetime="m.created_at"/></td>
                         <td class="text-center p-1">
                             <m-flex inline>
                                 <m-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></m-button>
@@ -66,7 +66,6 @@
 <script setup lang="ts">
 import type { Mod, ModMember, TransferRequest, User } from '~~/types/models';
 import clone from 'rfdc/default';
-import { fullDate } from '~~/utils/helpers';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store/index';
 const yesNoModal = useYesNoModal();

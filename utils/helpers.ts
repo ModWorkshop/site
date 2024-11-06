@@ -1,10 +1,9 @@
 import type { Game, Notification } from '~~/types/models';
 import { partial } from "filesize";
-import { DateTime, Interval } from 'luxon';
 import { serialize } from "object-to-formdata";
 import type { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
-import clone from 'rfdc/default';
+import { addDays } from 'date-fns';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -49,32 +48,6 @@ export const colorSchemes = [
     'orange',
     'cyan',
 ];
-
-/**
- * Converts ISO8601 date to relative 'time ago' format.
- */
-export function getTimeAgo($t: (str: string) => string, t?: string): string {
-    let timeAgo: string|null = '';
-    if (t) {
-        const dt = DateTime.fromISO(t);
-        const diff = DateTime.now().diff(dt, ['seconds']).seconds;
-        timeAgo = (diff > 0 && diff < 2) ? $t('moments_ago') : dt.toRelative();
-    }
-    
-    return timeAgo || 'undefined time ago';
-}
-
-/**
- * Converts ISO8601 date to full date format.
- */
-export function fullDate(t?: string): string {
-    let timeAgo = '';
-    if (t) {
-        timeAgo = DateTime.fromISO(t).toLocaleString(DateTime.DATETIME_SHORT) || '';
-    }
-    
-    return timeAgo || 'Undefined date';
-}
 
 export function getDuration($t: (str: string) => string, fromDate, toDate) {
     return toDate ? humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(fromDate), DateTime.fromISO(toDate))
@@ -194,7 +167,7 @@ export function passwordValidity(password: string) {
 }
 
 export function longExpiration() {
-    return DateTime.now().plus({ years: 99 }).toJSDate();
+    return addDays(Date.now(), 999999);
 }
 
 //https://stackoverflow.com/a/18211298
@@ -289,4 +262,18 @@ export function firstNonEmpty(...strs) {
     }
     
     return null;
+}
+
+let count = 1;
+const idMap = new WeakMap();
+export function getObjectId(object) {
+  const objectId = idMap.get(object);
+  if (objectId === undefined) {
+    count += 1;
+    idMap.set(object, count);
+
+    return count;
+  }
+
+  return objectId;
 }

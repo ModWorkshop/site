@@ -1,6 +1,6 @@
 import type { FetchOptions } from "ofetch";
 import hash from 'object-hash';
-import { DateTime } from "luxon";
+import { addSeconds, parseISO } from "date-fns";
 
 export interface DifferentFetchOptions extends FetchOptions {
     //Let's you not automatically execute the API call. Returns an empty ref instead
@@ -25,7 +25,7 @@ export default function<T>(url: string|(() => string), options: DifferentFetchOp
         lazy: options.lazy,
         immediate: options.immediate,
         transform(input) {
-            expirations[key] = DateTime.now().plus({ seconds: 30 }).toISOTime();
+            expirations[key] = addSeconds(new Date(), 30).toISOString();
             return input;
         },
         getCachedData(key) {
@@ -37,7 +37,7 @@ export default function<T>(url: string|(() => string), options: DifferentFetchOp
 
             const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
 
-            if (DateTime.fromISO(expirations[key]) > DateTime.now()) {
+            if (parseISO(expirations[key]) > new Date()) {
                 return data;
             }
 

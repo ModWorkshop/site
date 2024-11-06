@@ -11,7 +11,7 @@
                     <span v-if="provider.account">
                         <i18n-t v-if="provider.account" keypath="linked_time_ago" tag="span" scope="global">
                             <template #time_ago>
-                                <m-time-ago :time="provider.account.created_at"/>
+                                <m-time :datetime="provider.account.created_at" relative/>
                             </template>
                         </i18n-t>
                     </span>

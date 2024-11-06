@@ -33,7 +33,7 @@
         <td v-if="!lite" class="text-center">{{downloads}}</td>
         <td v-if="!lite" class="text-center">{{views}}</td>
         <td v-if="!lite" class="text-center">
-            <m-time-ago :time="date"/>
+            <m-time :datetime="date" relative/>
         </td>
         <slot name="definitions"/>
     </tr>

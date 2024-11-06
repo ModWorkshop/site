@@ -26,16 +26,16 @@
 </template>
 
 <script setup lang="ts">
-import { DateTime } from 'luxon';
 import type { Ban, Game } from '~~/types/models';
 import { useI18n } from 'vue-i18n';
+import { parseISO } from 'date-fns';
 
 const props = defineProps<{
     ban: Ban,
     game?: Game,
 }>();
 
-const now = DateTime.now();
+const now = new Date();
 
 const { t } = useI18n();
 
@@ -43,7 +43,7 @@ const emit = defineEmits<{
     (e: 'delete', userCase: Ban): void
 }>();
 
-const isExpired = computed(() => !props.ban.active || now >= DateTime.fromISO(props.ban.expire_date));
+const isExpired = computed(() => !props.ban.active || now >= parseISO(props.ban.expire_date));
 const duration = computed(() => getDuration(t, props.ban.created_at, props.ban.expire_date));
 const bansUrl = computed(() => getGameResourceUrl('bans', props.game));
 

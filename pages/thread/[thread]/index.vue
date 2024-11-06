@@ -10,7 +10,7 @@
                     <m-flex class="items-center">
                         <a-user :avatar="false" :user="thread.user"/>
                         <NuxtLink class="text-body" :to="`/thread/${thread.id}`">
-                            <m-time-ago :time="thread.created_at"/>
+                            <m-time :datetime="thread.created_at" relative/>
                         </NuxtLink>
                         <span v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{$t('edited')}}</span>
                     </m-flex>

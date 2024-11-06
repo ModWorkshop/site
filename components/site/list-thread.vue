@@ -17,7 +17,7 @@
                             <a-user :user="thread.user" :avatar="false"/>
                         </template>
                         <template #timeAgo>
-                            <m-time-ago :time="thread.created_at"/>
+                            <m-time :datetime="thread.created_at" relative/>
                         </template>
                         <template #place>
                             <m-flex class="items-center text-inherit">
@@ -54,7 +54,7 @@
                 <m-flex class="md:items-center max-md:flex-col max-md:gap-4">
                     <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" gap="1" wrap>
                         <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="xs"/>
-                        <m-time-ago :time="thread.bumped_at"/>
+                        <m-time :datetime="thread.bumped_at" relative/>
                     </m-flex>
                 </m-flex>
             </m-flex>

@@ -193,6 +193,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/fontaine',
 		'nuxt-easy-lightbox',
 		'nuxt-vitalizer',
-		'nuxt-seo-utils'
+		'nuxt-seo-utils',
+		'nuxt-time'
 	],
 });

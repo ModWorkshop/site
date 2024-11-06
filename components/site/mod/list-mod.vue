@@ -16,7 +16,7 @@
                             <a-user :static="static" class="text-secondary" avatar-size="xs" :user="mod.user"/>
                         </template>
                         <template #timeAgo>
-                            <m-time-ago :time="date"/>
+                            <m-time :datetime="date" relative/>
                         </template>
                         <template #place>
                             <m-flex wrap gap="0">

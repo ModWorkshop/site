@@ -107,7 +107,7 @@
                                 <i-mdi-alert/> {{$t('banned')}}
                             </span>
                             <span>
-                                {{$t('expires')}}: <m-time-ago :time="user.ban.expire_date"/>
+                                {{$t('expires')}}: <m-time :datetime="user.ban.expire_date" relative/>
                             </span>
                         </m-flex>
                         <m-flex class="text-lg max-sm:ml-auto" gap="2">

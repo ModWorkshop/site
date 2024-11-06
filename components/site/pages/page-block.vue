@@ -25,7 +25,7 @@
                                 <span>
                                     <i18n-t keypath="expires_t" scope="global">
                                         <template #time>
-                                            <m-time-ago :time="store.gameBan.expire_date"/>
+                                            <m-time :datetime="store.gameBan.expire_date" relative/>
                                         </template>
                                     </i18n-t>
                                 </span>

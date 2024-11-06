@@ -2195,13 +2195,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^3.3.7":
-  version: 3.4.2
-  resolution: "@types/luxon@npm:3.4.2"
-  checksum: 6f92d5bd02e89f310395753506bcd9cef3a56f5940f7a50db2a2b9822bce753553ac767d143cb5b4f9ed5ddd4a84e64f89ff538082ceb4d18739af7781b56925
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:*":
   version: 22.9.0
   resolution: "@types/node@npm:22.9.0"
@@ -4007,6 +4000,13 @@ __metadata:
     whatwg-mimetype: ^4.0.0
     whatwg-url: ^14.0.0
   checksum: 5c40568c31b02641a70204ff233bc4e42d33717485d074244a98661e5f2a1e80e38fe05a5755dfaf2ee549f2ab509d6a3af2a85f4b2ad2c984e5d176695eaf46
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
   languageName: node
   linkType: hard
 
@@ -6538,13 +6538,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "luxon@npm:3.5.0"
-  checksum: f290fe5788c8e51e748744f05092160d4be12150dca70f9fadc0d233e53d60ce86acd82e7d909a114730a136a77e56f0d3ebac6141bbb82fd310969a4704825b
-  languageName: node
-  linkType: hard
-
 "magic-regexp@npm:^0.8.0":
   version: 0.8.0
   resolution: "magic-regexp@npm:0.8.0"
@@ -6965,7 +6958,6 @@ __metadata:
     "@nuxtjs/robots": ^3.0.0
     "@nuxtjs/tailwindcss": 6.12.1
     "@pinia/nuxt": ^0.5.1
-    "@types/luxon": ^3.3.7
     "@types/node": ^20.14.10
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^7.1.0
@@ -6974,6 +6966,7 @@ __metadata:
     "@vueuse/core": ^10.6.1
     "@vueuse/nuxt": ^10.6.1
     axios: ^1.7.4
+    date-fns: ^4.1.0
     eslint: ^9.14.0
     eslint-plugin-vue: ^9.26.0
     fast-equals: ^5.0.1
@@ -6981,13 +6974,13 @@ __metadata:
     highlight.js: ^11.9.0
     humanize-duration: ^3.32.0
     isomorphic-dompurify: ^2.16.0
-    luxon: ^3.5.0
     markdown-it: ^14.0.0
     markdown-it-color-inline: ^1.9.5
     markdown-it-task-lists: ^2.1.1
     nuxt: latest
     nuxt-easy-lightbox: latest
     nuxt-seo-utils: ^5.0.2
+    nuxt-time: ^1.0.2
     nuxt-umami: latest
     nuxt-vitalizer: latest
     object-hash: ^3.0.0
@@ -7370,6 +7363,19 @@ __metadata:
     site-config-stack: 2.2.21
     ufo: ^1.5.4
   checksum: 7f44610ebc70448b2af3ed3b18cb8195086a17f2f274f839f273b38a625d1cd98db618e1207171599c78f923f43389328cd636806c6e0d279d24fc98da835e0e
+  languageName: node
+  linkType: hard
+
+"nuxt-time@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "nuxt-time@npm:1.0.2"
+  dependencies:
+    "@nuxt/kit": ^3.13.2
+    defu: ^6.1.4
+    pathe: ^1.1.2
+  peerDependencies:
+    nuxt: ">=3.12.0"
+  checksum: 993eec58bf7c939700211db9eaab3076f7d9e5e7538d2485b687f26b34704aa633093546cec00e40d022037bf5f79e1cf524a32a02d9350a90d8c7271b55aae7
   languageName: node
   linkType: hard
 

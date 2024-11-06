@@ -11,7 +11,7 @@
                         </span>
                         <i18n-t keypath="by_user_time_ago" scope="global">
                             <template #time>
-                                <m-time-ago :time="document.updated_at"/>
+                                <m-time :datetime="document.updated_at" relative/>
                             </template>
                             <template #user>
                                 <a-user :user="document.last_user" avatar-size="xs"/>

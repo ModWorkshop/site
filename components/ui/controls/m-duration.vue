@@ -1,6 +1,6 @@
 <template>
     <m-flex wrap>
-        <m-input 
+        <m-input
             v-model="controlVm"
             type="date"
             :label="label"
@@ -32,40 +32,42 @@
                     </m-flex>
                 </template>
             </m-dropdown>
-            <m-button @click="$emit('update:modelValue')">{{$t('forever')}}</m-button>
+            <m-button @click="vm = null">{{$t('forever')}}</m-button>
         </m-flex>
     </m-flex>
 </template>
 
 <script setup lang="ts">
-import { DateTime } from 'luxon';
+import { add, formatISO, parseISO, set } from 'date-fns';
 
-const props = defineProps<{
-    modelValue?: string|null,
+defineProps<{
     label?: string,
     disabled?: boolean
 }>();
 
-const emit = defineEmits(['update:modelValue']);
-
-const vm = useVModel(props, 'modelValue', emit);
+const vm = defineModel<string|null>();
 
 const controlVm = computed({
     get() {
-        if (props.modelValue) {
-            return DateTime.fromISO(props.modelValue).toISODate(); //Why the fuck can't you just accept the regular ISO8601 date???
+        if (vm.value) {
+            return formatISO(parseISO(vm.value), { representation: 'date' });
         } else {
             return null;
         }
     },
-    set(val) {
-        const now = DateTime.now();
-        vm.value = val ? DateTime.fromISO(val).set({ hour: now.hour, minute: now.minute }).toISO() : null;
+    set(val: Date|string) {
+        if (typeof val == "string") {
+            vm.value = val;
+            return;
+        }
+
+        const now = new Date();
+        vm.value = val ? set(val, { hours: now.getHours(), minutes: now.getMinutes() }).toISOString() : null;
     }
 });
 
 
 function bumpDate(time, count) {
-    controlVm.value = DateTime.now().plus({ [time]: count }).toISO();
+    controlVm.value = add(new Date(), { [time]: count });
 }
 </script>

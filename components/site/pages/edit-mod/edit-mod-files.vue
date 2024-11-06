@@ -53,7 +53,7 @@
                         <span>
                             {{link.name}} ({{link.url}})
                         </span>
-                        <span v-if="link.id">{{fullDate(link.updated_at)}}</span>
+                        <m-time v-if="link.id && link.updated_at" :datetime="link.updated_at"/>
                         <span v-else>{{$t('waiting_for_mod')}}</span>
                     </m-flex>
                     <m-flex class="ml-auto">

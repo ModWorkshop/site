@@ -36,8 +36,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { User } from '~~/types/models';
-import { DateTime } from 'luxon';
 import { useStore } from '~/store';
+import { differenceInMinutes, parseISO } from 'date-fns';
 
 const props = withDefaults(defineProps<{
     details?: string,
@@ -68,9 +68,7 @@ const isOnline = computed(() => {
     if (!props.user?.last_online) {
         return false;
     }
-    const last = DateTime.fromISO(props.user.last_online);
-    const now = DateTime.now();
-    return (now.diff(last, 'minutes').toObject()?.minutes ?? 0) < 5;
+    return differenceInMinutes(new Date(), parseISO(props.user.last_online)) < 10;
 });
 const userInvisible = computed(() => props.user?.invisible);
 const isPublic = computed(() => !props.user?.private_profile || isOwnOrModerator.value);
