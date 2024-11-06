@@ -23,7 +23,7 @@
             <div id="mws-ads-top" class="ad mx-auto"/>
             <div id="mws-ads-top-mobile" class="ad mx-auto"/>
             
-            <div ref="adSidesFooterCheck" class="ad-sides"/>
+            <div ref="adSidesFooterCheck" class="ad-sides" style="z-index: -9999; left:0;"/>
             <div :class="adClasses" style="left:4px;">
                 <div id="mws-ads-left"/>
             </div>
