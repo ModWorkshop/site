@@ -2816,7 +2816,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:10.11.1, @vueuse/core@npm:^10.11.0, @vueuse/core@npm:^10.6.1":
+"@vueuse/core@npm:10.11.1, @vueuse/core@npm:^10.11.0":
   version: 10.11.1
   resolution: "@vueuse/core@npm:10.11.1"
   dependencies:
@@ -2828,10 +2828,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/core@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "@vueuse/core@npm:11.2.0"
+  dependencies:
+    "@types/web-bluetooth": ^0.0.20
+    "@vueuse/metadata": 11.2.0
+    "@vueuse/shared": 11.2.0
+    vue-demi: ">=0.14.10"
+  checksum: d3ad695d7376505fa38afb6c82e7f36fb7261f8216bd2c6f321d352d818fd97f903c5662e4136dac1e980faccfda6ecd5240599b4db23aad718a752ba9a9643f
+  languageName: node
+  linkType: hard
+
 "@vueuse/metadata@npm:10.11.1":
   version: 10.11.1
   resolution: "@vueuse/metadata@npm:10.11.1"
   checksum: bca5dd08c6ce80233bfde586270229bba44b0e80b22e512df1fc3d98bbd36f0ada6fbb5e6a86db300c69e4ea2cada30d59c2f77cd642f7dd721aef1d7d867954
+  languageName: node
+  linkType: hard
+
+"@vueuse/metadata@npm:11.2.0":
+  version: 11.2.0
+  resolution: "@vueuse/metadata@npm:11.2.0"
+  checksum: 8475081d29ed204133f9ed3e5ff684aa2d5ef7e65355f4fb538786a97f9811f1a7904b668883f5f976dd1e953ba0bdb220e08a892d09972394e30d454cab2d15
   languageName: node
   linkType: hard
 
@@ -2856,6 +2875,15 @@ __metadata:
   dependencies:
     vue-demi: ">=0.14.8"
   checksum: c8553126ba2a260fee6bc1798c67f6d90295021bb25c72218c87e169f7d7374bac0777a9f64670f4126f5c7e9c2ec603286ed1810cb8c7961f4b44e4cd4d6f4f
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:11.2.0":
+  version: 11.2.0
+  resolution: "@vueuse/shared@npm:11.2.0"
+  dependencies:
+    vue-demi: ">=0.14.10"
+  checksum: 20b8120d4bce923bb5a6a0a9d3779883c051351555f1864c2cf05531317268a33c5ab91f7df97582e075fba2b243b3d11f3623357d166a790fbd49d7a1ec7803
   languageName: node
   linkType: hard
 
@@ -6963,7 +6991,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^7.1.0
     "@typescript-eslint/parser": ^8.9.0
     "@vueuse/components": ^10.6.1
-    "@vueuse/core": ^10.6.1
+    "@vueuse/core": ^11.2.0
     "@vueuse/nuxt": ^10.6.1
     axios: ^1.7.4
     date-fns: ^4.1.0
@@ -10393,7 +10421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.8, vue-demi@npm:^0.14.10":
+"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.10, vue-demi@npm:>=0.14.8, vue-demi@npm:^0.14.10":
   version: 0.14.10
   resolution: "vue-demi@npm:0.14.10"
   peerDependencies:
