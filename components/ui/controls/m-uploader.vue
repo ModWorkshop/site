@@ -243,10 +243,14 @@ async function uploadWaitingFiles() {
     }
 
     for (const uploadFile of uploadingFiles.value) {
-        if (props.presignedUpload) {
-            startThreeStageUpload(uploadFile);
-        } else {
-            startUpload(uploadFile);
+        if (uploadFile.waiting) {
+            uploadFile.waiting = false;
+
+            if (props.presignedUpload) {
+                startThreeStageUpload(uploadFile);
+            } else {
+                startUpload(uploadFile);
+            }
         }
     }
 }
@@ -273,7 +277,6 @@ async function startUpload(uploadFile: UploadFile) {
         Object.assign(uploadFile, data);
         uploadFile.cancel = undefined;
         uploadFile.progress = undefined;
-        uploadFile.waiting = false;
 
         remove(uploadingFiles.value, uploadFile);
         vm.value.unshift(uploadFile);
@@ -316,7 +319,6 @@ async function startThreeStageUpload(uploadFile: UploadFile) {
 
         Object.assign(uploadFile, fileData);
         uploadFile.cancel = undefined;
-        uploadFile.waiting = false;
 
         remove(uploadingFiles.value, uploadFile);
         vm.value.unshift(uploadFile);
