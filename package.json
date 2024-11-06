@@ -62,6 +62,7 @@
     "markdown-it": "^14.0.0",
     "markdown-it-color-inline": "^1.9.5",
     "markdown-it-task-lists": "^2.1.1",
+    "nuxt-seo-utils": "^5.0.2",
     "object-hash": "^3.0.0",
     "object-to-formdata": "^4.4.2",
     "qs": "^6.11.0",

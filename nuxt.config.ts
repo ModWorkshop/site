@@ -192,6 +192,7 @@ export default defineNuxtConfig({
 		'nuxt-umami',
 		'@nuxtjs/fontaine',
 		'nuxt-easy-lightbox',
-		'nuxt-vitalizer'
+		'nuxt-vitalizer',
+		'nuxt-seo-utils'
 	],
 });
