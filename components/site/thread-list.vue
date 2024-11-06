@@ -110,7 +110,10 @@ const query = props.query ? useRouteQuery('query', '') : ref('');
 if (props.filters) {
     useInsertAd('mws-ads-filters', {
         sizes: [[ "300", "250" ]],
-        renderVisibleOnly: true
+        renderVisibleOnly: true,
+        report: {
+            position: "bottom-left"
+        }
     });
 }
 

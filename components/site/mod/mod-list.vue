@@ -141,7 +141,10 @@ const { user } = useStore();
 if (props.sideFilters) {
     useInsertAd('mws-ads-filters', {
         sizes: [[ "300", "250" ]],
-        renderVisibleOnly: true
+        renderVisibleOnly: true,
+        report: {
+            position: "bottom-left"
+        }
     });
 }
 
