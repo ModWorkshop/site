@@ -8,6 +8,7 @@
             <m-flex column class="md:flex-1">
                 <NuxtLink class="max-md:text-lg md:text-lg" :to="`/thread/${thread.id}`">
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
+                    <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
                     {{thread.name}}
                 </NuxtLink>
 
