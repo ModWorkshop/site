@@ -129,8 +129,6 @@ watch(fullscreen, status => {
 
 <style scoped>
 .preview {
-    display: flex;
-    flex-direction: column;
     background: var(--content-bg-color);
     overflow-y: scroll;
     flex: 1;
