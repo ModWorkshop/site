@@ -76,7 +76,7 @@ const tags = computed(() => {
     if (!mod.tags) {
         return [];
     }
-    return mod.tags.slice(0, 3);
+    return mod.tags.slice(0, 4);
 });
 
 const fullLikes = computed(() => friendlyNumber(locale.value, mod.likes));
