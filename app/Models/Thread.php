@@ -150,7 +150,7 @@ class Thread extends Model implements SubscribableInterface
 
     public function game() : BelongsTo
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Game::class, 'forum_id', 'forum_id');
     }
 
     public function category()
