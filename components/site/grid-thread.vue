@@ -37,7 +37,7 @@
     <md-content :text="thread.content" class="thread-content" remove-tags :parser-version="thread.parser_version" :padding="0"/>
 
     <m-flex class="flex-1">
-        <m-flex v-if="thread.tags?.length">
+        <m-flex v-if="thread.tags?.length" wrap>
             <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
                 <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
             </NuxtLink>

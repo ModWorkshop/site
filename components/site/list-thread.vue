@@ -35,7 +35,7 @@
                 </m-flex>
 
                 <m-flex gap="2">
-                    <m-flex v-if="thread.tags?.length">
+                    <m-flex v-if="thread.tags?.length" wrap> 
                         <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
                             <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
                         </NuxtLink>
