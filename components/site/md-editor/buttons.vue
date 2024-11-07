@@ -80,7 +80,7 @@ const toolGroups: ToolGroup[] = [
             {icon: IMdiFormatCodeBraces, insert: '```\n$\n```'},
             {icon: IMdiFormatListBulleted, insert: '* $', multiline: true},
             {icon: IMdiFormatListNumbered, insert: '$line. $', multiline: true},
-            {icon: IMdiFormatEyeOff, insert: '!!!\n$\n!!!!'}, //Spoiler
+            {icon: IMdiFormatEyeOff, insert: '!!!\n$\n!!!'}, //Spoiler
         ]
     },
     {
