@@ -35,9 +35,9 @@ const { t, locale } = useI18n();
 const { public: config } = useRuntimeConfig();
 
 useHeadSafe({
-	titleTemplate: (titleChunk) => {
-		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
-    },
+	// titleTemplate: (titleChunk) => {
+	// 	return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
+    // },
 	htmlAttrs: {
 		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`),
 		lang: locale.value ?? 'en'
