@@ -1,6 +1,9 @@
 <template>
+    <span v-if="overrideText || !dateTimeHack">
+        {{overrideText ?? $t('never')}}
+    </span>
     <NuxtTime 
-        v-if="dateTimeHack"
+        v-else
         :datetime="dateTimeHack"
         :date-style="dateStyle || undefined"
         :time-style="timeStyle || undefined"
@@ -8,28 +11,40 @@
         :title="titleHover"
         :locale="locale"
     />
-    <span v-else>
-        {{$t('never')}}
-    </span>
 </template>
 
 <script setup lang="ts">
-import { parseISO } from 'date-fns';
+import { differenceInSeconds, parseISO } from 'date-fns';
 
 const { datetime, timeStyle = 'short', dateStyle = 'short' } = defineProps<{
-    datetime?: string | number | Date;
+    datetime?: string | Date;
     dateStyle?: false | 'full' | 'long' | 'medium' | 'short';
     timeStyle?: false | 'full' | 'long' | 'medium' | 'short';
+    
 }>();
 
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const titleHover = ref();
+const now = useNow();
 
 const dateTimeHack = computed(() => {
     locale.value; //Just a hack to make it reload on language change
     return datetime;
 })
+
+const overrideText = computed(() => {
+    if (!datetime) {
+        return;
+    }
+
+    const date = typeof datetime == 'string' ? parseISO(datetime) : datetime;
+    const secs = differenceInSeconds(now.value, date);
+
+    if (secs < 60) {
+        return t('just_now');
+    }
+});
 
 function mouseEntered() {
     if (datetime) {
