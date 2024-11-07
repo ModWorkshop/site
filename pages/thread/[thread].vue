@@ -14,12 +14,12 @@
                 <i-mdi-lock v-else/>
                 {{thread.locked ? $t('unlock') : $t('lock')}}
             </m-button>
-            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
             <m-button v-if="canCloseInCategory && canEdit" :disabled="(thread.closed_by_mod && !canModerate)" @click="closeThread">
                 <i-mdi-undo v-if="thread.closed"/>
                 <i-mdi-check-circle-outline v-else/>
                 {{thread.closed ? $t('open') : $t('close')}}
             </m-button>
+            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
             <m-dropdown v-if="canModerate">
                 <m-button><i-mdi-gavel/> {{$t('moderation')}}</m-button>
                 <template #content>
