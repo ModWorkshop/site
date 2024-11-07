@@ -22,7 +22,7 @@ const props = defineProps<{
     game: Game
 }>();
 
-useNeedsPermission('manage-tags', props.game);
+useNeedsPermission('manage-mods', props.game);
 
 const redirectTo = computed(() => getAdminUrl('mod-managers', props.game));
 
