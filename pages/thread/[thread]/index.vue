@@ -1,4 +1,5 @@
 <template>
+    <Title>{{thread.name}} by {{thread.user?.name ?? t('not_available')}}</Title>
     <m-flex column gap="3">
         <div class="text-3xl break-words overflow-hidden">{{thread.name}}</div>
         <m-content-block :padding="6">
@@ -75,7 +76,6 @@ const thumbnail = computed(() => {
 
 useServerSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
-	ogTitle: `${thread.name} by ${thread.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',
 });

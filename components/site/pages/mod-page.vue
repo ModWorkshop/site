@@ -1,5 +1,5 @@
 <template>
-    <Title v-if="mod.game">{{mod.name}} - {{ mod.game.name }} Mods</Title>
+    <Title v-if="mod.game">{{mod.name}} by {{mod.user?.name}} - {{ mod.game.name }} Mods</Title>
     <Title v-else>{{ mod.name }}</Title>
     <page-block v-if="usePageBlock" show-background :game="mod.game" :background="modBackground" :background-opacity="modBackgroundOpacity" :breadcrumb="breadcrumb" :define-meta="false">
         <mod-alerts v-if="mod.id" :mod="mod"/>
