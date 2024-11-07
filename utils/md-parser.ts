@@ -21,7 +21,7 @@ import autohotkey from 'highlight.js/lib/languages/autohotkey';
 import haxe from 'highlight.js/lib/languages/haxe';
 import { html5Media } from './markdown/media';
 import mention from './markdown/mention';
-import { fence } from './markdown/fence';
+import container from './markdown/container';
 import DOMPurify from 'isomorphic-dompurify';
 import markdownItColorInline from 'markdown-it-color-inline';
 
@@ -65,26 +65,32 @@ const md = MarkdownIt({
 	}
 });
 
-fence(md, {
-	name: 'center',
+container(md, 'center', {
 	marker: ':',
-	render: (tokens, idx) => `<div class="center">${md.render(tokens[idx].content)}</div>`
+	render: (tokens, idx) => {
+		const token = tokens[idx];
+		if (token.nesting === 1) {
+			return `<div class="center">${md.render(token.content)}`;
+		} else {
+			return '</div></details>';
+		}
+	}
 });
 
-fence(md, {
-	name: 'spoiler',
+container(md, 'spoiler', {
 	marker: '!',
-	minMarkers: 3,
 	render: function(tokens, idx) {
 		const token = tokens[idx];
-		return `
-			<details class="spoiler">
-				<summary>${token.info || 'Spoiler!'}</summary>
-				<div class="spoiler-body">
-					${md.render(tokens[idx].content)}
-				</div>
-			</details>
-		`;
+		if (token.nesting === 1) {
+			let title = token.info;
+			const content = md.render(token.content);
+			if (!title || title.length == 0) {
+				title = 'Spoiler!';
+			}
+			return `<details class="spoiler"><summary>${title}</summary><div class="spoiler-body">${content}`;
+		} else {
+			return '</div></details>';
+		}
 	}
 });
 
