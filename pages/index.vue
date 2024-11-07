@@ -7,7 +7,7 @@
 
         <m-flex v-if="user?.extra?.home_show_last_games ?? true" column :gap="2">
             <m-flex>
-                <span class="h2">{{$t('games')}}</span>
+                <NuxtLink class="h2 text-body" to="/games">{{$t('games')}}</NuxtLink>
                 <m-button class="ml-auto" to="/games">{{$t('view_all_games')}}</m-button>
             </m-flex>
             <m-flex v-if="games" class="latest-games gap-2">

@@ -1,8 +1,6 @@
 <template>
     <m-flex column gap="3">
-        <span v-if="title" class="h2">
-            <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
-        </span>
+        <NuxtLink v-if="title" class="h2 text-body" :to="titleLink">{{title}}</NuxtLink>
         <slot name="buttons"/>
         <m-flex class="max-md:flex-col">
             <m-flex class="overflow-auto">
