@@ -15,7 +15,7 @@
                     <template v-if="isPublic">
                         <m-flex v-if="user.created_at" column>
                             {{$t('registration_date')}} 
-                            <span class="text-secondary">{{date(user.created_at)}}</span>
+                            <m-time class="text-secondary" :datetime="user.created_at" :time-style="false"/>
                         </m-flex>
                         <m-flex v-if="!isOnline" column>
                             {{$t('last_visit')}} 
@@ -79,7 +79,6 @@
 <script setup lang="ts">
 import type { User } from '~~/types/models';
 import { useStore } from '~~/store';
-import { date } from '~~/utils/helpers';
 import type { EventHook } from '@vueuse/core';
 import { differenceInMinutes, parseISO } from 'date-fns';
 

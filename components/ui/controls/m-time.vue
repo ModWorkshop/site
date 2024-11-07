@@ -2,8 +2,8 @@
     <NuxtTime 
         v-if="dateTimeHack"
         :datetime="dateTimeHack"
-        :date-style="dateStyle"
-        :time-style="timeStyle"
+        :date-style="dateStyle || undefined"
+        :time-style="timeStyle || undefined"
         @mouseenter="mouseEntered"
         :title="titleHover"
         :locale="locale"
@@ -18,8 +18,8 @@ import { parseISO } from 'date-fns';
 
 const { datetime, timeStyle = 'short', dateStyle = 'short' } = defineProps<{
     datetime?: string | number | Date;
-    dateStyle?: 'full' | 'long' | 'medium' | 'short';
-    timeStyle?: 'full' | 'long' | 'medium' | 'short';
+    dateStyle?: false | 'full' | 'long' | 'medium' | 'short';
+    timeStyle?: false | 'full' | 'long' | 'medium' | 'short';
 }>();
 
 const { locale } = useI18n();

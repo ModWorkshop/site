@@ -76,15 +76,6 @@ export function friendlyNumber(locale: string, n: number): string {
     return new Intl.NumberFormat(locale).format(n);
 }
 
-/**
- * Converts ISO8601 date to date format.
- * @param {String} t 
- * @returns String
- */
-export function date(t: string) {
-    return DateTime.fromISO(t).toLocaleString(DateTime.DATE_FULL);
-}
-
 export async function reloadToken() {
     useGet('/sanctum/csrf-cookie');
 }
