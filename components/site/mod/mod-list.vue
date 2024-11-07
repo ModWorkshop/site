@@ -81,7 +81,7 @@
                 <m-content-block class="mod-filters w-full">
                     <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                 </m-content-block>
-                <div id="mws-ads-filters"/>
+                <div id="mws-ads-filters" class="mb-8"/>
             </m-flex>
             <m-flex column class="flex-1">
                 <div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
