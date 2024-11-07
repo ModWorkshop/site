@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 		host: '0.0.0.0',
 	},
 
+	site: {
+		name: 'ModWorkshop',
+	},
+
 	app: {
 		head: {
 			script: [
