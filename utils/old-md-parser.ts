@@ -82,7 +82,7 @@ md.renderer.rules.strong_close = md.renderer.rules.strong_open = function(tokens
 };
 
 md.use(html5Media);
-md.use(taskLists, { enabled: true });
+md.use(taskLists);
 md.use(markdownItRegex(
 	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
 	function([, , match]) {

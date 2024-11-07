@@ -110,7 +110,7 @@ md.renderer.rules.strong_close = md.renderer.rules.strong_open = function(tokens
 md.use(html5Media);
 md.use(mention);
 md.use(markdownItColorInline);
-md.use(taskLists, {enabled: true});
+md.use(taskLists);
 
 md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
