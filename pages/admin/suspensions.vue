@@ -23,7 +23,7 @@
                             <td style="min-width: 300px;" class="whitespace-break-spaces">{{suspension.reason}}</td>
                             <td>
                                 <mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
-                                <m-button v-else @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
+                                <m-button v-else color="danger" @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
                             </td>
                         </template>
                     </mod-row>

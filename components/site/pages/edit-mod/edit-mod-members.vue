@@ -37,7 +37,7 @@
                         <td class="text-center p-1">
                             <m-flex inline>
                                 <m-button :disabled="!canEditMember(m)" @click.prevent="editMember(m)"><i-mdi-cog/></m-button>
-                                <m-button :disabled="!canEditMember(m)" @click.prevent="deleteMember(m)"><i-mdi-delete/></m-button>
+                                <m-button :disabled="!canEditMember(m)" color="danger" @click.prevent="deleteMember(m)"><i-mdi-delete/></m-button>
                             </m-flex>
                         </td>
                     </tr>

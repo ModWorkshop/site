@@ -11,7 +11,7 @@
         <slot name="after-info" :file="file"/>
         <m-flex class="ml-auto items-center">
             <slot name="before-buttons" :file="file"/>
-            <m-button @click="$emit('remove', file)" :disabled="!file.progress && !file.id"><i-mdi-close/></m-button>
+            <m-button color="danger" @click="$emit('remove', file)" :disabled="!file.progress && !file.id"><i-mdi-delete/></m-button>
             <slot name="after-buttons" :file="file"/>
         </m-flex>
     </m-content-block>

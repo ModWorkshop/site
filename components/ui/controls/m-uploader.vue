@@ -55,7 +55,7 @@
                             <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
                             <span class="self-center">{{friendlySize(file.size)}}</span>
                             <slot name="buttons" :file="file"/>
-                            <m-button @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
+                            <m-button color="danger" @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
                         </m-flex>
                     </m-flex>
                 </div>
