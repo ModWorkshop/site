@@ -1,10 +1,10 @@
 <template>
-    <div :class="classes" @click.prevent="onClick">
+    <div :class="classes" @click.prevent.self="onClick">
         <m-avatar v-if="fromUser && !defintion.thumbnail" :src="fromUser?.avatar" :use-thumb="fromUser?.avatar_has_thumb"/>
         <template v-else-if="defintion.thumbnail && defintion.thumbnail.type == 'mod'">
             <mod-thumbnail style="width: 84px;" :thumbnail="defintion.thumbnail.src"/>
         </template>
-        <m-flex class="my-auto overflow-hidden" grow wrap>
+        <m-flex class="my-auto overflow-hidden" grow wrap column @click.prevent.self="onClick">
             <component 
                 :is="defintion.component"
                 v-if="defintion.component && notifiable"
@@ -13,7 +13,7 @@
                 :notifiable="notifiable"
                 :data="data"
             />
-            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" class="w-full" style="word-wrap: anywhere;" scope="global">
+            <i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" style="word-wrap: anywhere;" class="self-start" scope="global">
                 <template #user>
                     <base-notification type="user" :object="fromUser"/>
                 </template>
@@ -31,10 +31,10 @@
             <m-time :datetime="notification.created_at" relative/>
         </m-flex>
         <m-flex class="ml-auto my-auto">
-            <m-button v-if="!notification.seen" :title="$t('mark_as_read')" @click.prevent="markAsSeen">
+            <m-button v-if="!notification.seen" :title="$t('mark_as_read')" @click="markAsSeen">
                 <i-mdi-eye/>
             </m-button>
-            <m-button color="danger" :title="$t('delete')" @click.prevent="deleteNotification()">
+            <m-button color="danger" :title="$t('delete')" @click="deleteNotification()">
                 <i-mdi-delete/>
             </m-button>
         </m-flex>
