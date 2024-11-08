@@ -57,7 +57,7 @@ const categoryId = useRouteQuery('category');
 const forumId = game ? game.forum_id : 1;
 
 const initialThread = defineModel<Thread>();
-const thread = ref(clone(initialThread.value) ?? {
+const thread = ref<Thread>(clone(initialThread.value) ?? {
     id: 0,
     views: 0,
     locked: false,
@@ -68,7 +68,9 @@ const thread = ref(clone(initialThread.value) ?? {
     tag_ids: [],
     user_id: user.value!.id,
     forum_id: forumId,
-    category_id: categoryId.value ? parseInt(categoryId.value) : undefined
+    category_id: categoryId.value ? parseInt(categoryId.value) : undefined,
+    closed: false,
+    closed_by_mod: false
 });
 
 const g = game ?? thread.value?.forum?.game;
@@ -118,5 +120,8 @@ const deleteRedirectTo = computed(() => threadGame.value ? `/g/${threadGame.valu
 
 function submit() {
     thumbnailFile.value = undefined;
+    if (initialThread.value) {
+        Object.assign(initialThread.value, thread.value);
+    }
 }
 </script>

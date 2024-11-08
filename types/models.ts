@@ -378,7 +378,7 @@ export interface Thread {
     locked_by_mod: boolean;
     closed: boolean;
     closed_by_mod: boolean;
-    answer_comment_id: number|null;
+    answer_comment_id?: number|null;
     answer_comment?: Comment;
     announce: boolean;
     announce_until?: string;
