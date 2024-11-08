@@ -67,6 +67,10 @@ watch(selectedView, async () => {
             default_mods_view: selectedView.value
         } 
     });
+
+    if (user.value && user.value.extra) {
+        user.value.extra.default_mods_view = selectedView.value;
+    }
 });
 </script>
 
