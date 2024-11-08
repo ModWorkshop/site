@@ -39,7 +39,7 @@ const overrideText = computed(() => {
     }
 
     const date = typeof datetime == 'string' ? parseISO(datetime) : datetime;
-    const secs = differenceInSeconds(now.value, date);
+    const secs = Math.abs(differenceInSeconds(now.value, date));
 
     if (secs < 60) {
         return t('just_now');

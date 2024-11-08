@@ -3,7 +3,7 @@ import { partial } from "filesize";
 import { serialize } from "object-to-formdata";
 import type { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
-import { addDays } from 'date-fns';
+import { addDays, formatDuration, interval, intervalToDuration, parseISO } from 'date-fns';
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -49,9 +49,15 @@ export const colorSchemes = [
     'cyan',
 ];
 
-export function getDuration($t: (str: string) => string, fromDate, toDate) {
-    return toDate ? humanizeDuration(Interval.fromDateTimes(DateTime.fromISO(fromDate), DateTime.fromISO(toDate))
-        .toDuration(), { units: ['mo', 'd', 'h'], round: true }) : $t('forever');
+export function getDuration(fromDate?: string, toDate?: string) {
+    if (!fromDate || !toDate) {
+        return null;
+    }
+
+    return formatDuration(intervalToDuration({
+        start: parseISO(fromDate),
+        end: parseISO(toDate)
+    }));
 }
 
 const million = Math.pow(10, 6);

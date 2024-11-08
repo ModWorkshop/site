@@ -44,7 +44,7 @@ const emit = defineEmits<{
 }>();
 
 const isExpired = computed(() => !props.ban.active || now >= parseISO(props.ban.expire_date));
-const duration = computed(() => getDuration(t, props.ban.created_at, props.ban.expire_date));
+const duration = computed(() => getDuration(props.ban.created_at, props.ban.expire_date) ?? t('never'));
 const bansUrl = computed(() => getGameResourceUrl('bans', props.game));
 
 async function unban() {
