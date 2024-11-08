@@ -6,7 +6,7 @@
         <m-flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
             <m-breadcrumb v-if="breadcrumb" :class="breadCrumbClasses" :style="{width: props.backgroundOpacity > 0.2 ? 'initial': null}" :items="breadcrumb"/>
             <m-flex v-if="game?.id" gap="0" column>
-                <m-link class="h2 my-6 mx-2" style="font-weight: 800;" :to="`/g/${game.short_name}`">{{game.name}}</m-link>
+                <m-link class="h2 mb-6 mx-2" style="font-weight: 800;" :to="`/g/${game.short_name}`">{{game.name}}</m-link>
                 <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4">
                     <m-flex wrap gap="4">
                         <m-link v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">

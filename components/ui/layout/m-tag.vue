@@ -19,7 +19,7 @@ const textColor = computed(() => {
     if (color) {
         try {
             const contrast = getContrast('#000', color.replaceAll(' ', ''));
-            if (contrast < 4.5) {
+            if (contrast < 5.5) {
                 return '#fff';
             } else {
                 return '#000';

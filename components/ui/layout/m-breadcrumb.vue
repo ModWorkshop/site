@@ -19,7 +19,7 @@ defineProps<{
 .breadcrumb {
     color: var(--breadcrumb-secondary);
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem;
     font-weight: bold;
     overflow-x: auto;
 }
