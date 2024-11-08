@@ -121,8 +121,7 @@
                         </m-flex>
                         <m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
                             <m-flex class="items-center">
-                            <m-avatar class="cursor-pointer" :src="user.avatar" :use-thumb="user.avatar_has_thumb"/>
-                                <i-mdi-chevron-down/> 
+                                <m-avatar class="cursor-pointer" :src="user.avatar" :use-thumb="user.avatar_has_thumb"/>
                             </m-flex>
                             <template #content>
                                 <a-user class="m-1" :user="user" :tag="false" no-color static/>
