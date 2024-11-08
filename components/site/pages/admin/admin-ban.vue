@@ -6,17 +6,17 @@
                 {{$t('issued')}}:
                 <i18n-t v-if="ban.mod_user" keypath="by_user_time_ago" scope="global">
                     <template #time>
-                        <m-time-ago null-is-never :time="ban.created_at"/>
+                        <m-time :datetime="ban.created_at" relative/>
                     </template>
                     <template #user>
                         <a-user :user="ban.mod_user" avatar-size="xs"/>
                     </template>
                 </i18n-t>
-                <m-time-ago v-else null-is-never :time="ban.created_at"/>
+                <m-time v-else :datetime="ban.created_at" relative/>
             </m-flex>
             <div>{{$t('reason')}}: "{{ban.reason}}"</div>
             <div>{{$t('duration')}}: {{duration}}</div>
-            <div v-if="!isExpired">{{$t('expires')}}: <m-time-ago null-is-never :time="ban.expire_date"/></div>
+            <div v-if="!isExpired">{{$t('expires')}}: <m-time :datetime="ban.expire_date" relative/></div>
         </m-flex>
         <m-flex class="ml-auto my-auto">
             <m-button :to="`/admin/${bansUrl}/${ban.id}`">{{$t('edit')}}</m-button>

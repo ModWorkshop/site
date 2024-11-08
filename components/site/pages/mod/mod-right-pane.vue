@@ -31,7 +31,7 @@
                     <i-mdi-clock/> {{ $t('last_updated') }}
                 </span>
                 <span v-if="mod.bumped_at" class="ml-auto">
-                    <m-time-ago v-if="!mod.last_user" :time="mod.bumped_at"/>
+                    <m-time v-if="!mod.last_user" :datetime="mod.bumped_at" relative/>
                     <span v-else class="items-center inline-flex gap-1">
                         <i18n-t keypath="by_user_time_ago" scope="global">
                             <template #user>

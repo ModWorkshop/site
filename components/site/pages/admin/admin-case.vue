@@ -7,16 +7,16 @@
                 {{$t('issued')}}:
                 <i18n-t v-if="userCase.mod_user" keypath="by_user_time_ago" scope="global">
                     <template #time>
-                        <m-time-ago null-is-never :time="userCase.created_at"/>
+                        <m-time :datetime="userCase.created_at" relative/>
                     </template>
                     <template #user>
                         <a-user :user="userCase.mod_user" avatar-size="xs"/>
                     </template>
                 </i18n-t>
-                <m-time-ago v-else null-is-never :time="userCase.created_at"/>
+                <m-time v-else :datetime="userCase.created_at" relative/>
             </m-flex>
             <div v-if="userCase.expire_date">{{$t('duration')}}: {{duration}}</div>
-            <div v-if="!isExpired">{{$t('expires')}}: <m-time-ago null-is-never :time="userCase.expire_date"/></div>
+            <div v-if="!isExpired">{{$t('expires')}}: <m-time :datetime="userCase.expire_date" relative/></div>
             <div v-else>{{$t('expired')}}</div>
         </m-flex>
         <m-flex class="ml-auto my-auto">

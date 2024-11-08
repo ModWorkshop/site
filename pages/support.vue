@@ -70,7 +70,7 @@
                 <m-alert v-if="user?.active_supporter" color="success" :icon="false">
                     <i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center" scope="global">
                         <template #time>
-                            <m-time-ago null-is-never :time="user.active_supporter.expire_date"/>
+                            <m-time :datetime="user.active_supporter.expire_date" relative/>
                         </template>
                     </i18n-t>
                 </m-alert>
