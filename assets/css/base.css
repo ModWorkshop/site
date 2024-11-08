@@ -157,7 +157,7 @@ html.dark {
     --button-text-color: #fff;
     --tab-selected-color: rgb(255 255 255 / 5%);
     --danger-bg-color: #382125;
-    --info-bg-color: #1e293f;
+    --info-bg-color: #2d3743;
     --warning-bg-color: #383925;
     --success-bg-color: #1e3b28;
     --kbd-bg: #474747;
@@ -190,7 +190,7 @@ html.light {
     --button-text-color: #fff;
     --tab-selected-color: rgb(0 0 0 / 5%);
     --danger-bg-color: #ffa7a7;
-    --info-bg-color: #aac2f3;
+    --info-bg-color: #d4e0f7;
     --warning-bg-color: #eee679;
     --warning-color: #ceab41;
     --success-bg-color: #4fc541;
@@ -555,8 +555,8 @@ svg:not(:root).icon, svg:not(:host).icon {
 }
 
 .focus {
-    background-color: #ffd4001a !important;
-    border-left: solid 3px #ffd400;
+    background-color: var(--warning-bg-color) !important;
+    border-left: solid 3px var(--warning-color);
     border-radius: var(--border-radius);
 }
 

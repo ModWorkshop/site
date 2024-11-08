@@ -246,14 +246,14 @@ function openDeleteModal() {
 
 
 .pinned {
-    background-color: var(--secondary-content-bg-color);
+    background-color: var(--info-bg-color) !important;
 }
 
 </style>
 
 <style>
 .comment {
-    transition: border, background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    transition: background-color 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 }
 
 .comment-content {
