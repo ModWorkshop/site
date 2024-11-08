@@ -163,8 +163,13 @@ export const useStore = defineStore('main', {
                 }
             }
 
-            if (this.user && this.notifications) {
-                await this.getNotifications();
+            if (!run && this.user) {
+                if (this.notifications) {
+                    await this.getNotifications();
+                }
+                if (this.notificationCount) {
+                    await this.getNotificationCount();
+                }
             }
 
             if (lastTimeout) {
