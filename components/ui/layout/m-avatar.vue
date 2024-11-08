@@ -23,7 +23,13 @@ const { src, size, urlPrefix = 'users/images' } = defineProps<{
 
 const assetsUrl = `${config.siteUrl}/assets`;
 
-const fallback = computed(() => assetsUrl + '/default-avatar.webp');
+const fallback = computed(() => {
+    if (!src && sizeNumber.value <= 48) {
+        return assetsUrl + '/default-avatar-md.webp';
+    }
+
+    return assetsUrl + '/default-avatar.webp'
+});
 const avatarUrl = computed(() => src ?? fallback.value);
 
 const sizes = {
