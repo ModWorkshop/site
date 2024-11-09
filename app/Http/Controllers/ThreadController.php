@@ -206,7 +206,7 @@ class ThreadController extends Controller
                 abort(401);
             }
 
-            $thread->locked = $changeLock;
+            $thread->locked = boolval($changeLock);
             //If a moderator locks this, make it so the poster cannot unlock it.
             if ($canManageThreads && $thread->user->id !== $user->id) {
                 $thread->locked_by_mod = $changeLock;
