@@ -28,17 +28,15 @@ class CheckAvatarThumbs extends Command
      */
     public function handle()
     {
-        User::chunk(1000, function(Collection $users) {
+        $i = 0;
+        User::whereNot('avatar', '')->where('avatar_has_thumb', false)->whereNot('avatar', 'LIKE', '%https://%')->chunk(1000, function(Collection $users) use ($i) {
+            $i++;
+            $this->info('Chunk #'.$i);
             foreach ($users as $user) {
-                if (!str_contains($user->avatar, 'https://')) {
-                    if (!$user->avatar_has_thumb) {
-                        $user->update([
-                            'avatar_has_thumb' => Storage::has("users/images/thumbnail_{$user->avatar}")
-                        ]);
-                    }
-                } else {
+                $hasThumb = Storage::exists("users/images/thumbnail_{$user->avatar}");
+                if ($hasThumb) {
                     $user->update([
-                        'avatar_has_thumb' => false
+                        'avatar_has_thumb' => $hasThumb
                     ]);
                 }
             }
