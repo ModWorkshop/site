@@ -31,9 +31,11 @@ class CheckAvatarThumbs extends Command
         User::chunk(1000, function(Collection $users) {
             foreach ($users as $user) {
                 if (!str_contains($user->avatar, 'https://')) {
-                    $user->update([
-                        'avatar_has_thumb' => Storage::has("users/images/thumbnail_{$user->avatar}")
-                    ]);
+                    if (!$user->avatar_has_thumb) {
+                        $user->update([
+                            'avatar_has_thumb' => Storage::has("users/images/thumbnail_{$user->avatar}")
+                        ]);
+                    }
                 } else {
                     $user->update([
                         'avatar_has_thumb' => false
