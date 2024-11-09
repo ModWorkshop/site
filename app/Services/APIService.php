@@ -154,14 +154,19 @@ class APIService {
             $config['onSuccess']($fileName);
         }
 
-        return [
+        $ret = [
             'image' => $img,
             'thumbnail' => $thumb,
             'name' => $fileName,
             'size' => strlen($buffer),
-            'thumbnail_size' => strlen($thumbBuffer),
             'type' => 'webp'
         ];
+
+        if (isset($thumbBuffer)) {
+            $ret['thumbnail_size'] = strlen($thumbBuffer);
+        }
+
+        return $ret;
     }
 
     /**
