@@ -45,10 +45,6 @@ return [
             'auth_mode' => null,
         ],
 
-        'mailersend' => [
-            'transport' => 'mailersend',
-        ],
-
         'ses' => [
             'transport' => 'ses',
         ],
