@@ -224,7 +224,7 @@ class UserController extends Controller
             'allowDeletion' => true,
             'onSuccess' => function($path) use ($user) {
                 $user->avatar = $path;
-                $user->avatar_has_thumb = true;
+                $user->avatar_has_thumb = strlen($path) > 0;
             },
         ]);
 
