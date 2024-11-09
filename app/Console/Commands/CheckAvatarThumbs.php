@@ -28,10 +28,9 @@ class CheckAvatarThumbs extends Command
      */
     public function handle()
     {
-        $i = 0;
-        User::whereNot('avatar', '')->where('avatar_has_thumb', false)->whereNot('avatar', 'LIKE', '%https://%')->chunk(1000, function(Collection $users) use ($i) {
-            $i++;
-            $this->info('Chunk #'.$i);
+        $this->info('Checking...');
+        User::whereNot('avatar', '')->where('avatar_has_thumb', false)->whereNot('avatar', 'LIKE', '%https://%')->chunk(1000, function(Collection $users) use (&$i) {
+            $this->info('Checking 1000 users...');
             foreach ($users as $user) {
                 $hasThumb = Storage::exists("users/images/thumbnail_{$user->avatar}");
                 if ($hasThumb) {
@@ -41,5 +40,6 @@ class CheckAvatarThumbs extends Command
                 }
             }
         });
+        $this->info('Done...');
     }
 }
