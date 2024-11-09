@@ -20,7 +20,7 @@
                     <m-link to="https://translate.modworkshop.net/">{{$t('translation_site')}}</m-link>
                     <m-link to="https://status.modworkshop.net">{{$t('status')}}</m-link>
                     <m-link to="https://wiki.modworkshop.net/">{{$t('wiki')}}</m-link>
-                    <m-link :to="runtimeConfig.apiUrl">{{$t('api')}}</m-link>
+                    <m-link to="https://api.modworkshop.net">{{$t('api')}}</m-link>
                 </m-flex>
                 <m-flex column gap="4" style="grid-area: legal;">
                     <m-link to="/document/terms">{{$t('terms')}}</m-link>
