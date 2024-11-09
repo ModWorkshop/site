@@ -189,9 +189,6 @@ class Thread extends Model implements SubscribableInterface
     }
     protected static function booted() {
         static::created(function(Thread $thread) {
-            $thread->game_id = $thread->forum->game_id;
-            $thread->save();
-
             if ($thread->user->extra->auto_subscribe_to_thread) {
                 $thread->subscriptions()->create([
                     'user_id' => $thread->user_id
