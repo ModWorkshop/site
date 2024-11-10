@@ -90,6 +90,8 @@ class FileController extends Controller
             [ 'ACL' => 'private' ]
         );
 
+        unset($tempUrl['headers']['Host']);
+
         return [
             'id' => $pendingFile->id,
             'url' => $tempUrl['url'],
