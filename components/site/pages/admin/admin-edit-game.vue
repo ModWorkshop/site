@@ -46,7 +46,8 @@ const mmUrl = getGameResourceUrl('mod-managers', vmGame.value);
 
 const { data: modManagers } = await useFetchMany<ModManager>(mmUrl, {
     params: {
-        global: true
+        global: true,
+        show_hidden: true
     }
 });
 
