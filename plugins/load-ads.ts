@@ -12,7 +12,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
         console.log("Ad on navigate. Refreshing", ads?.length || 0, " ads");
         for (const ad of ads) {
-            ad.onNavigate();
+            if (ad.onNavigate) {
+                ad.onNavigate();
+            }
         }
         // console.log('Page finished loading. Attempting to launch or reinstate ads.');
         // if (import.meta.client && (window.egAps && typeof(window.egAps.reinstate) === "function")) {
