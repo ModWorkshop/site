@@ -115,9 +115,7 @@ md.use(taskLists);
 md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
 	if (token.info) {
-		const root = document.querySelector(':root');
-		const checkColorBg = getComputedStyle(root!).getPropertyValue('--content-bg-color');
-		if (getContrast(token.info, checkColorBg) < 3.2) { // Prevents bad colors from being used
+		if (getContrast(token.info, '#2b3036') < 3.2) { // Prevents bad colors from being used
 			token.attrs = [];
 		}
 	}
