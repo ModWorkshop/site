@@ -6990,7 +6990,7 @@ __metadata:
     rfdc: ^1.3.0
     textarea-caret: ^3.1.0
     typescript: ^5.6.3
-    unplugin-icons: ^0.19.0
+    unplugin-icons: ^0.20.1
     unplugin-vue-components: ^0.27.3
     vue-tsc: ^2.0.16
   languageName: unknown
@@ -9903,9 +9903,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-icons@npm:^0.19.0":
-  version: 0.19.3
-  resolution: "unplugin-icons@npm:0.19.3"
+"unplugin-icons@npm:^0.20.1":
+  version: 0.20.1
+  resolution: "unplugin-icons@npm:0.20.1"
   dependencies:
     "@antfu/install-pkg": ^0.4.1
     "@antfu/utils": ^0.7.10
@@ -9918,6 +9918,7 @@ __metadata:
     "@svgr/core": ">=7.0.0"
     "@svgx/core": ^1.0.1
     "@vue/compiler-sfc": ^3.0.2 || ^2.7.0
+    svelte: ^3.0.0 || ^4.0.0 || ^5.0.0
     vue-template-compiler: ^2.6.12
     vue-template-es2015-compiler: ^1.9.0
   peerDependenciesMeta:
@@ -9927,11 +9928,13 @@ __metadata:
       optional: true
     "@vue/compiler-sfc":
       optional: true
+    svelte:
+      optional: true
     vue-template-compiler:
       optional: true
     vue-template-es2015-compiler:
       optional: true
-  checksum: 6d8f187051b2b777ebb51a579a36493ad3bf68af24c98d9adc7b3d25392bcd5a342b0a69f700e306a437cd2a8d2e001e3e0bc7e620145e75e6fa38d4ea910055
+  checksum: 771627956ad8de346d16d1b3af6d13fd26df3b62dc7f247f6846cac0418a7d02c980acb3f13d273474306d845f6e927280246afcccd7ee5ed208a7cd03b9a8ce
   languageName: node
   linkType: hard
 
