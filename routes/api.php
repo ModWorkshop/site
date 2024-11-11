@@ -39,11 +39,13 @@ use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Resources\UserResource;
+use App\Models\Game;
 use App\Models\Mod;
 use App\Models\Report;
 use App\Models\TrackSession;
 use App\Services\APIService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -231,10 +233,13 @@ Route::get('site-data', function(Request $request) {
     $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $MinAgo)->count();
     $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $MinAgo)->count();
 
+    $games = Game::OrderByRaw('last_date DESC nulls last')->withCount('viewableMods')->get(10);
+
     $data = [
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
+        'games' => $games,
         'activity' => [
             'users' => $users,
             'guests' => $guests
