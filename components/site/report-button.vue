@@ -28,11 +28,19 @@ const vm = useVModel(props, 'showModal', emit, { passive: true });
 
 const reason = ref('');
 
+const { t } = useI18n();
+const { showToast } = useToaster();
+
 async function report(onError) {
     try {
         await postRequest(props.url, { reason: reason.value });
         reason.value = '';
         vm.value = false;
+        
+        showToast({
+            desc: t('report_sent'),
+            color: 'success'
+        });
     } catch (error) {
         onError(error);
     }
