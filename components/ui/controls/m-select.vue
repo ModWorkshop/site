@@ -65,6 +65,7 @@ import { remove } from '@antfu/utils';
 const props = withDefaults(defineProps<{
 	url?: string,
     fetchParams?: Record<string, any>,
+    immediateFetch?: boolean,
     modelValue: any,
     default?: any,
 	options?: any[],
@@ -95,7 +96,8 @@ const props = withDefaults(defineProps<{
     postFetchFilter: false,
     classic: true,
     listTags: false,
-    nullClear: false
+    nullClear: false,
+    immediateFetch: false
 });
 
 const search = ref('');
@@ -111,7 +113,7 @@ const emit = defineEmits<{
 }>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', { 
-	immediate: !!props.url,
+	immediate: props.immediateFetch && !!props.url,
 	params: reactive({
 		query: searchDebounced,
         ...props.fetchParams
@@ -122,7 +124,7 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
 const { data: fetchedVModel } = await useFetchData(() => `${props.url}/${props.modelValue}`, {
-    immediate: !!(props.url && typeof(props.modelValue) == 'string'),
+    immediate: !!(props.url && props.modelValue) && (typeof(props.modelValue) == 'number' || props.modelValue?.length > 0),
     cacheData: true
 });
 
@@ -230,6 +232,10 @@ const compClearable = computed(() => {
 
 watch(dropdownOpen, val => {
     if (val) {
+        if (!props.immediateFetch && !asyncOptions.value) {
+            refresh();
+        }
+
         setTimeout(() => {
             if (searchElement.value) {
                 searchElement.value.focus();

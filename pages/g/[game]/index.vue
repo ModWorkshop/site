@@ -3,12 +3,13 @@
         <span class="ml-auto">
             {{$t('mod_game_count', { n: game.mods_count, game: game.name })}} <i-mdi-information/>
         </span>
-        <mod-list 
+        <mod-list
             v-if="user?.extra?.game_show_mods ?? true"
             :title="$t('mods')"
             :title-link="`/g/${game.short_name}/mods`"
             side-filters
             :initial-mods="mods"
+            :categories="game.categories"
             query
             :game="game"
         />
