@@ -11,7 +11,7 @@
                 <m-button class="ml-auto" to="/games">{{$t('view_all_games')}}</m-button>
             </m-flex>
             <m-flex v-if="games" class="latest-games gap-2">
-                <grid-game v-for="game of games.data" :key="game.id" :game="game" :lazy-thumbnails="false"/>
+                <grid-game v-for="game of sliceOfGames" :key="game.id" :game="game" :lazy-thumbnails="false"/>
             </m-flex>
         </m-flex>
 
@@ -47,12 +47,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Game } from '~/types/models';
 import { useStore } from '~~/store';
 
-const { user } = storeToRefs(useStore());
+const { user, games } = storeToRefs(useStore());
 
-const { data: games } = await useFetchMany<Game>('games', { params: { limit: 7 } });
+const sliceOfGames = computed(() => games.value?.slice(0, 7));
 
 const selectedView = ref(user.value?.extra?.default_mods_view ?? 'all');
 
