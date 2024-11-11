@@ -1781,13 +1781,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/nuxt@npm:^0.5.1":
-  version: 0.5.5
-  resolution: "@pinia/nuxt@npm:0.5.5"
+"@pinia/nuxt@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@pinia/nuxt@npm:0.7.0"
   dependencies:
     "@nuxt/kit": ^3.9.0
-    pinia: ^2.2.3
-  checksum: 653ed853c860a7b2115f7fe3f4686dcd0d1ce2bddd79affff6f9df8208a1914cdd623445777b6c6252bd46c05a5102990b8c4f2a1074d4b88084a0cae1a750ff
+    pinia: ^2.2.6
+  checksum: b86d9c50ab6885e92db1aff31b7c1d8e9f27ee4eff2812ed2602c7f127123f7ed27870690b5377e6206209c14acb323645e007e13f96a8e5d6aa5330769f7f75
   languageName: node
   linkType: hard
 
@@ -6957,7 +6957,7 @@ __metadata:
     "@nuxtjs/i18n": ^9.0.0
     "@nuxtjs/robots": ^3.0.0
     "@nuxtjs/tailwindcss": 6.12.1
-    "@pinia/nuxt": ^0.5.1
+    "@pinia/nuxt": ^0.7.0
     "@types/node": ^20.14.10
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^7.1.0
@@ -7878,7 +7878,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinia@npm:^2.2.3":
+"pinia@npm:^2.2.6":
   version: 2.2.6
   resolution: "pinia@npm:2.2.6"
   dependencies:
