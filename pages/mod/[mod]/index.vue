@@ -1,7 +1,7 @@
 <template>
     <m-flex gap="3" column>
         <m-flex column gap="3">
-            <m-flex>
+            <m-flex class="items-center">
                 <span class="mod-title">{{mod.name}}</span>
                 <mod-status class="ml-auto text-xl" :mod="mod"/>
             </m-flex>

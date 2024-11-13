@@ -1,74 +1,40 @@
 <template>
-    <span v-if="statusIcon">
-        <m-icon :icon="statusIcon" :class="statusColor" :title="statusText"/>
-    </span>
+    <m-icon v-if="status" :icon="status[0]" :class="status[2] ?? 'text-secondary'" :title="$t(status[1])"/>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import type { Mod } from '~~/types/models';
 import MdiCancel from '~icons/mdi/cancel';
 import MdiCloseThick from '~icons/mdi/close-thick';
 import MdiClock from '~icons/mdi/clock';
-import MdiAlertCircle from '~icons/mdi/alert-circle';
 import MdiEyeOff from '~icons/mdi/eye-off';
 import MdiNewspaperRemove from '~icons/mdi/newspaper-remove';
-
-
+import MdiDownloadOff from '~icons/mdi/download-off';
+import MdiLock from '~icons/mdi/lock';
 
 const props = defineProps<{
     mod: Mod
 }>();
 
-const { t } = useI18n();
-
-const statusText = computed(() => {
+const status = computed<[Component, string, string?]|null>(() => {
     const mod = props.mod;
-    let str: string|undefined;
 
     if (mod.suspended) {
-        str = 'suspended';
+        return [MdiCancel, 'suspended', 'text-danger'];
     } else if (mod.approved === null) {
-        str = 'mod_waiting';
+        return [MdiClock, 'mod_waiting', 'text-warning'];
     } else if (mod.approved === false) {
-        str = 'mod_rejected';
+        return [MdiCloseThick, 'mod_rejected', 'text-danger'];
     } else if (!mod.has_download) {
-        str = 'no_downloads';
+        return [MdiDownloadOff, 'no_downloads', 'text-warning'];
     }  else if (mod.visibility == 'public' && !mod.published_at) {
-        str = 'not_published';
-    } else if (mod.visibility != 'public') {
-        str = mod.visibility;
+        return [MdiNewspaperRemove, 'not_published', 'text-warning'];
+    } else if (mod.visibility == 'unlisted') {
+        return [MdiEyeOff, 'unlisted'];
+    } else if (mod.visibility == 'private') {
+        return [MdiLock, 'private'];
     }
 
-    return str ? t(str) : null;
-});
-
-const statusIcon = computed(() => {
-    const mod = props.mod;
-    if (mod.suspended) {
-        return MdiCancel;
-    } else if (mod.approved === false) {
-        return MdiCloseThick;
-    } else if (mod.approved === null) {
-        return MdiClock;
-    } else if (!mod.has_download) {
-        return MdiAlertCircle;
-    } else if (mod.visibility != 'public') {
-        return MdiEyeOff;
-    } else if (!mod.published_at) {
-        return MdiNewspaperRemove;
-    }
-});
-
-const statusColor = computed(() => {
-    const mod = props.mod;
-
-    if (mod.suspended || mod.approved === false) {
-        return 'text-danger';
-    } else if (!mod.has_download || !mod.published_at) {
-        return 'text-warning';
-    } else {
-        return 'text-secondary';
-    }
+    return null;
 });
 </script>
