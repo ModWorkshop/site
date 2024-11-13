@@ -126,6 +126,7 @@ const props = withDefaults(defineProps<{
     limit?: number,
     query?: boolean,
     url?: string,
+    defaultSortBy?: string,
     params?: object,
     categories?: Category[],
     initialMods?: Paginator<Mod>
@@ -163,7 +164,7 @@ const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', user?.extra?.default_mods_sort ?? 'bumped_at');
+const sortBy = useRouteQuery('sort', props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at');
 const pages = ref(0);
 
 const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);

@@ -219,7 +219,7 @@ const searchButtons = computed(() => {
 // Simple mod searcher
 const { data: mods } = await useWatchedFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
     limit: 5,
-    sort: 'views',
+    sort: 'best_match',
     query: query,
     cacheData: true,
 }, { onChange: () => query.value.length > 0, immediate: false });
