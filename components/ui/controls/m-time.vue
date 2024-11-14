@@ -14,13 +14,14 @@
 </template>
 
 <script setup lang="ts">
-import { differenceInMonths, differenceInSeconds, getMonth, intlFormatDistance, parseISO } from 'date-fns';
+import { differenceInMonths, differenceInSeconds, intlFormatDistance, parseISO } from 'date-fns';
 
-const { datetime, timeStyle = 'short', dateStyle = 'short', relative } = defineProps<{
+const { datetime, timeStyle = 'short', dateStyle = 'short', relative, relativeTimeStyle = 'long' } = defineProps<{
     datetime?: string | Date;
     dateStyle?: false | 'full' | 'long' | 'medium' | 'short';
     timeStyle?: false | 'full' | 'long' | 'medium' | 'short';
-    relative: boolean;
+    relativeTimeStyle?: Intl.RelativeTimeFormatStyle;
+    relative?: boolean;
 }>();
 
 const { locale, t } = useI18n();
@@ -50,7 +51,7 @@ const overrideText = computed(() => {
                 locale: locale.value,
                 numeric: 'always',
                 unit: diff >= 1 && diff <= 12 ? 'month' : undefined, // Who uses quarters to count time?????
-                style: 'long'
+                style: relativeTimeStyle
             });
         }
     }
