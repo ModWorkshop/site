@@ -35,7 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^8.9.0",
     "@vueuse/components": "^10.6.1",
-    "@vueuse/core": "^10.6.1",
+    "@vueuse/core": "^11.2.0",
     "@vueuse/nuxt": "^10.6.1",
     "eslint": "^9.14.0",
     "eslint-plugin-vue": "^9.26.0",
