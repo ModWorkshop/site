@@ -51,8 +51,8 @@
                     <m-link class="max-sm:block hidden" to="https://wiki.modworkshop.net/">{{$t('wiki')}}</m-link>
                     <m-link class="max-sm:block hidden" to="https://translate.modworkshop.net/">{{$t('translation_site')}}</m-link>
                 </m-flex>
-                <m-flex id="user-items" class="sm:ml-auto mb-4 md:mb-0 md:mr-2 items-center" gap="4">
-                    <m-dropdown v-model:open="showSearch" :trap-focus="false" :auto-hide="false" dropdown-class="popper-big">
+                <m-flex id="user-items" class="md:ml-auto mb-4 md:mb-0 md:mr-2 items-center" gap="4">
+                    <m-dropdown v-model:open="showSearch" :trap-focus="false" :auto-hide="false" align="end" dropdown-class="search-dropdown">
                         <m-flex>
                             <input
                                 v-if="showSearch"
@@ -71,7 +71,7 @@
                             >
                             <m-flex v-else id="header-search" inline class="searchbox">
                                 <i-mdi-magnify/><span class="text-secondary my-auto">{{$t('search')}}</span>
-                                <span class="ml-auto my-auto">
+                                <span class="ml-auto my-auto max-md:hidden">
                                     <kbd>CTRL</kbd> <kbd>K</kbd>
                                 </span>
                             </m-flex>
@@ -342,9 +342,9 @@ kbd {
         justify-content: flex-end;
         position: absolute !important;
         padding: 1.5rem !important;
-        left: 4px;
+        left: 0px;
         top: 64px;
-        min-width: 270px;
+        min-width: 290px;
         height: 100vh;
         background-color: var(--header-footer-color);
     }
@@ -390,7 +390,7 @@ kbd {
   transform: translateX(-100%);
 }
 
-.popper-big {
+.search-dropdown {
     max-height: 64vh;
     padding: 1rem;
 }
