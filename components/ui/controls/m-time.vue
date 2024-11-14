@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { differenceInSeconds, intlFormatDistance, parseISO } from 'date-fns';
+import { differenceInMonths, differenceInSeconds, getMonth, intlFormatDistance, parseISO } from 'date-fns';
 
 const { datetime, timeStyle = 'short', dateStyle = 'short', relative } = defineProps<{
     datetime?: string | Date;
@@ -45,10 +45,12 @@ const overrideText = computed(() => {
         if (secs < 60) {
             return t('just_now');
         } else {
+            const diff = differenceInMonths(now.value, datetime);
             return intlFormatDistance(datetime, now.value, {
                 locale: locale.value,
                 numeric: 'always',
-                style: 'narrow'
+                unit: diff >= 1 && diff <= 12 ? 'month' : undefined, // Who uses quarters to count time?????
+                style: 'long'
             });
         }
     }
