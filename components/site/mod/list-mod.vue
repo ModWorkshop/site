@@ -5,7 +5,7 @@
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
             <m-flex column class="md:flex-1">
-                <NuxtLink class="text-lg" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
+                <NuxtLink class="card-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
                     <mod-status :mod="mod"/>
                     {{mod.name}}
                 </NuxtLink>

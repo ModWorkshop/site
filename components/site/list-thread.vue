@@ -4,15 +4,16 @@
         gap="1"
         column
     >
-        <m-flex class="items-center" gap="2" wrap>
-            <m-flex column class="md:flex-1">
-                <NuxtLink class="max-md:text-lg md:text-lg" :to="`/thread/${thread.id}`">
+        <m-flex class="items-center" gap="3" wrap>
+            <m-avatar :src="thread.user?.avatar" size="md"/>
+            <m-flex column class="md:flex-1" gap="2">
+                <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                     <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
                     {{thread.name}}
                 </NuxtLink>
 
-                <m-flex wrap class="items-center text-sm">
+                <m-flex wrap class="items-center">
                     <i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
                         <template #user>
                             <a-user :user="thread.user" :avatar="false"/>
@@ -34,12 +35,10 @@
                     </i18n-t>
                 </m-flex>
 
-                <m-flex gap="2">
-                    <m-flex v-if="thread.tags?.length" wrap> 
-                        <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
-                            <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
-                        </NuxtLink>
-                    </m-flex>
+                <m-flex v-if="thread.tags?.length" wrap> 
+                    <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
+                        <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
+                    </NuxtLink>
                 </m-flex>
             </m-flex>
 
@@ -80,7 +79,7 @@ const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '
 
 <style scoped>
 .thread {
-    font-size: 13px;
+    font-size: 12px;
     padding: 1rem;
     color: var(--secondary-text-color);
 }

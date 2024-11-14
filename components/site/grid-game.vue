@@ -4,7 +4,9 @@
             <template #thumbnail>
                 <a-thumbnail url-prefix="games/images" :lazy="lazyThumbnails" :src="game.thumbnail" :title="game.name"/>
             </template>
-            {{game.name}}
+            <span class="card-title">
+                {{game.name}}
+            </span>
             <span v-if="game.mods_count || game.mods_count === 0" class="text-secondary">{{$t('mod_count', { n: game.mods_count })}}</span>
         </m-card>
     </NuxtLink>

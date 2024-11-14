@@ -24,8 +24,12 @@ const { padding = 4, gap = 2 } = defineProps<{
 </script>
 
 <style>
+.card {
+    font-size: 13px;
+}
 .card-title {
     font-size: 1.15rem;
+    font-weight: 600;
     line-height: 1.5rem;
     overflow: hidden;
     word-break: break-word;
