@@ -140,10 +140,10 @@ const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
 // This also handles selected value that may not be in options
 const opts = computed(() => {
     if (props.options) {
-        return props.options;
+        return props.options ?? [];
     } else {
-        const opts = asyncOptions.value ? [...asyncOptions.value.data] : [];
-        if (fetchedSelected.value) {
+        const opts = asyncOptions.value != null ? [...asyncOptions.value.data] : [];
+        if (fetchedSelected.value != null) {
             for (const opt of fetchedSelected.value?.data) {
                 const val = opt ? optionValue(opt) : null;
                 if (!opts.find(option => optionValue(option) === val)) {
@@ -151,6 +151,8 @@ const opts = computed(() => {
                 }
             }
         }
+
+        console.log('select options', opts);
 
         return opts;
     }
@@ -190,35 +192,21 @@ const filtered = computed(() => {
         }
     }
 
-    options.sort((a, b) => {
-        const aSelected = optionSelected(a);
-        const bSelected = optionSelected(b);
-        if (aSelected && bSelected) {
-            return 0;
-        } else {
-            return aSelected ? 1 : -1;
-        }
-    });
-
     return options;
 });
 
 const selectedOptions = computed(() => {
-	if (opts.value) {
-		return opts.value.filter(option => {
-			if (selected.value && selected.value.includes) {
-				return selected.value.includes(optionValue(option));
-			} else {
-				return false;
-			}
-		});
-	} else {
-		return [];
-	}
+	return opts.value.filter(option => {
+        if (selected.value && selected.value.includes) {
+            return selected.value.includes(optionValue(option));
+        } else {
+            return false;
+        }
+    })
 });
 
 const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
-    return !props.maxShown || (i + 1) <= (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
+    return !props.maxShown || i < (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
 }));
 
 const selectedOption = computed(() => {
