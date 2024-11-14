@@ -2805,14 +2805,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/components@npm:^10.6.1":
-  version: 10.11.1
-  resolution: "@vueuse/components@npm:10.11.1"
+"@vueuse/components@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "@vueuse/components@npm:11.2.0"
   dependencies:
-    "@vueuse/core": 10.11.1
-    "@vueuse/shared": 10.11.1
-    vue-demi: ">=0.14.8"
-  checksum: 178da30916928035d7ecc5c5ea5f77d8e753758241ff294590ad118057a9a69ca8d78925a5cbb4a28c6d3a1006fce3a6b4796111b3e4d73c6f0e3ea2e556b140
+    "@vueuse/core": 11.2.0
+    "@vueuse/shared": 11.2.0
+    vue-demi: ">=0.14.10"
+  checksum: aa21e42f695f5708eb29f3880cb2ecb460c0cfdc675b6ae47cf7e823eb19831b22d203d74f63a1e03e0b46874497bcea8fc394bd57142d28cca55baf128a24d0
   languageName: node
   linkType: hard
 
@@ -2828,7 +2828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^11.2.0":
+"@vueuse/core@npm:11.2.0, @vueuse/core@npm:^11.2.0":
   version: 11.2.0
   resolution: "@vueuse/core@npm:11.2.0"
   dependencies:
@@ -6990,7 +6990,7 @@ __metadata:
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^7.1.0
     "@typescript-eslint/parser": ^8.9.0
-    "@vueuse/components": ^10.6.1
+    "@vueuse/components": ^11.2.0
     "@vueuse/core": ^11.2.0
     "@vueuse/nuxt": ^10.6.1
     axios: ^1.7.4
