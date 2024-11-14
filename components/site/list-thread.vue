@@ -22,12 +22,12 @@
                             <m-time :datetime="thread.created_at" relative/>
                         </template>
                         <template #place>
-                            <m-flex class="items-center text-inherit">
-                                <NuxtLink v-if="!forumId" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
+                            <m-flex class="items-center">
+                                <NuxtLink v-if="!forumId" class="text-inherit" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
                                     {{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
                                 </NuxtLink>
                                 <i-mdi-menu-right v-if="!forumId"/>
-                                <NuxtLink :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
+                                <NuxtLink class="text-inherit" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
                                     {{thread.category?.emoji}} {{thread.category?.name ?? $t('not_available')}}
                                 </NuxtLink>
                             </m-flex>
