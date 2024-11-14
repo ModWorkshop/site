@@ -124,6 +124,7 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 const selectedValue = computed(() => props.modelValue ?? props.default);
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
 const first = computed<any[]>(() => selected.value[0]);
+const { ctrl } = useMagicKeys();
 
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
@@ -335,6 +336,10 @@ function selectOption(option) {
     const value = optionValue(option);
     emit('selectOption', option);
 
+    if (!ctrl.value) {
+        dropdownOpen.value = false;
+    }
+
     if (props.multiple && typeof selectedValue.value == 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
@@ -374,6 +379,10 @@ function selectOption(option) {
 
 function deselectOption(item) {
     const value = optionValue(item);
+
+    if (!ctrl.value) {
+        dropdownOpen.value = false;
+    }
 
     if (props.multiple && typeof selectedValue == 'object') {
         remove(selectedValue.value, value);

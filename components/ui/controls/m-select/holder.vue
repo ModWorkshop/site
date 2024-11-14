@@ -7,6 +7,7 @@
         <m-dropdown 
             v-if="classic"
             v-model:open="shown"
+            :close-on-click="false"
             :disabled="disabled"
             :class="{'max-w-full': true, 'dropdown-disabled': disabled}"
             dropdown-class="!overflow-hidden"
@@ -21,6 +22,7 @@
             <m-dropdown 
                 v-if="!disabled"
                 v-model:open="shown"
+                :close-on-click="false"
                 :disabled="disabled"
                 dropdown-class="!overflow-hidden"
                 :class="{'max-w-full': true, 'dropdown-disabled': disabled}"
