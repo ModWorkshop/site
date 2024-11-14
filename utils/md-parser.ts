@@ -115,7 +115,7 @@ md.use(taskLists);
 md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
 	if (token.info) {
-		if (getContrast(token.info, '#2b3036') < 3.2) { // Prevents bad colors from being used
+		if (getContrast(token.info, '#2b3036') < 2.9) { // Prevents bad colors from being used
 			token.attrs = [];
 		}
 	}
