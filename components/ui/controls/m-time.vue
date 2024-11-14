@@ -1,5 +1,5 @@
 <template>
-    <span v-if="overrideText || !dateTimeHack">
+    <span v-if="overrideText || !dateTimeHack" :title="titleHover" @mouseenter="mouseEntered">
         {{overrideText ?? $t('never')}}
     </span>
     <NuxtTime 
@@ -14,13 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { differenceInSeconds, parseISO } from 'date-fns';
+import { differenceInSeconds, intlFormatDistance, parseISO } from 'date-fns';
 
-const { datetime, timeStyle = 'short', dateStyle = 'short' } = defineProps<{
+const { datetime, timeStyle = 'short', dateStyle = 'short', relative } = defineProps<{
     datetime?: string | Date;
     dateStyle?: false | 'full' | 'long' | 'medium' | 'short';
     timeStyle?: false | 'full' | 'long' | 'medium' | 'short';
-    
+    relative: boolean;
 }>();
 
 const { locale, t } = useI18n();
@@ -41,8 +41,16 @@ const overrideText = computed(() => {
     const date = typeof datetime == 'string' ? parseISO(datetime) : datetime;
     const secs = Math.abs(differenceInSeconds(now.value, date));
 
-    if (secs < 60) {
-        return t('just_now');
+    if (relative) {
+        if (secs < 60) {
+            return t('just_now');
+        } else {
+            return intlFormatDistance(datetime, now.value, {
+                locale: locale.value,
+                numeric: 'always',
+                style: 'narrow'
+            });
+        }
     }
 });
 
