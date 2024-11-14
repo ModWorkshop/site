@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Arr;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +46,11 @@ class PaginationService extends ServiceProvider
                 } else {
                     $this->whereRaw("name ILIKE '%' || ? || '%'", $query);
                 }
+            }
+
+            $ids = Arr::pull($val, 'ids');
+            if (isset($ids) && is_array($ids) && !empty($ids)) {
+                $this->whereIn('id', $ids);
             }
 
             if (isset($callback)) {

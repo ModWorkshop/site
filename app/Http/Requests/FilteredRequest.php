@@ -29,7 +29,9 @@ class FilteredRequest extends FormRequest
     {
         return [
             'query' => 'string|nullable|max:150',
-            'limit' => 'integer|min:1|max:50'
+            'limit' => 'integer|min:1|max:50',
+            'ids' => 'array|nullable|max:50',
+            'ids.*' => 'integer|min:1|nullable'
         ];
     }
 
