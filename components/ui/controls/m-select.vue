@@ -121,10 +121,17 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
     cacheData: true
 });
 
+const selectedValue = computed(() => props.modelValue ?? props.default);
+const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
+const first = computed<any[]>(() => selected.value[0]);
+
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
-const { data: fetchedVModel } = await useFetchData(() => `${props.url}/${props.modelValue}`, {
-    immediate: !!(props.url && props.modelValue) && (typeof(props.modelValue) == 'number' || props.modelValue?.length > 0),
+const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
+    immediate: !!(props.url && first.value) && (typeof(first.value) == 'number' || first.value?.length > 0),
+    params: {
+        ids: selected.value
+    },
     cacheData: true
 });
 
@@ -133,22 +140,20 @@ const { data: fetchedVModel } = await useFetchData(() => `${props.url}/${props.m
 const opts = computed(() => {
     if (props.options) {
         return props.options;
-    } else if (typeof(asyncOptions.value?.data) == 'object') {
-        const fethcedOptionValue = fetchedVModel.value ? optionValue(fetchedVModel.value) : null;
-        // Check if it exists at all or was already added
-        if (!fethcedOptionValue || asyncOptions.value.data.find(option => optionValue(option) === fethcedOptionValue)) {
-            return asyncOptions.value.data;
-        } else {
-            return [fetchedVModel.value, ...asyncOptions.value.data];
-        }
-    } else if (fetchedVModel.value) {
-        return [fetchedVModel.value];
     } else {
-        return [];
+        const opts = asyncOptions.value ? [...asyncOptions.value.data] : [];
+        if (fetchedSelected.value) {
+            for (const opt of fetchedSelected.value?.data) {
+                const val = opt ? optionValue(opt) : null;
+                if (!opts.find(option => optionValue(option) === val)) {
+                    opts.unshift(opt);
+                }
+            }
+        }
+
+        return opts;
     }
 });
-const selectedValue = computed(() => props.modelValue ?? props.default);
-const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
 const selectedMax = computed(() => {
     if (!props.max) {
         return false;
