@@ -52,7 +52,7 @@ function clickLink() {
     font-size: 1.125rem;
     border-radius: 4px;
     padding: 0.75rem 2rem;
-    color: var(--secondary-text-color);
+    color: var(--text-color);
     transition: ease-in-out 0.15s;
     transition-property: color, background-color;
 }
