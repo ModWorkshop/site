@@ -70,7 +70,7 @@ class File extends Model
     protected $hidden = ['mod'];
     protected $with = [];
 
-    protected $appends = ['download_url'];
+    protected $appends = ['download_url', 'type'];
 
     public function getMorphClass(): string {
         return 'file';
@@ -94,6 +94,10 @@ class File extends Model
     public function downloadsRelation() : MorphMany
     {
         return $this->morphMany(DownloadableDownload::class, 'downloadable');
+    }
+
+    public function type(): Attribute {
+        return new Attribute(fn() => implode('.', array_slice(explode('.', $this->file_ext), -2, 2)));
     }
 
     public function fileExt(): Attribute
