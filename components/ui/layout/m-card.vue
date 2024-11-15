@@ -38,14 +38,13 @@ const { padding = 4, gap = 2 } = defineProps<{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-</style>
-
-<style scoped>
-.card-thumbnail > * {
+.card-thumbnail, .card-thumbnail > * {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
+</style>
 
+<style scoped>
 .card-content {
     height: 100%;
 }
