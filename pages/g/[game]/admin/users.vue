@@ -1,5 +1,11 @@
 <template>
-    <user-list :url="`games/${game.short_name}/users`" :user-link="item => `/g/${game.short_name}/user/${item.id}`" column :game="game"/>
+    <user-list
+        :url="`games/${game.short_name}/users`"
+        :user-link="item => `/g/${game.short_name}/user/${item.id}`"
+        column
+        alt-background
+        :game="game"
+    />
 </template>
 
 <script setup lang="ts">
