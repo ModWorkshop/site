@@ -6,8 +6,9 @@
     >
         <m-flex class="items-center" gap="3" wrap>
             <m-avatar :src="thread.user?.avatar" size="md" class="mb-auto"/>
-            <m-flex column class="md:flex-1" gap="2">
+            <m-flex column class="md:flex-2" gap="2">
                 <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
+                    <i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                     <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
                     {{thread.name}}
@@ -45,14 +46,13 @@
 
             <m-flex column class="ml-auto">
                 <m-flex class="flex-1">
-                    <m-flex class="ml-auto items-center" gap="2">
-                        <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
-                        <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(45deg);"/>
+                    <m-flex class="ml-auto items-center">
                         <i-mdi-lock v-if="thread.locked"/>
+                        <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
                     </m-flex>
                 </m-flex>
                 <m-flex class="md:items-center max-md:flex-col max-md:gap-4">
-                    <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" gap="1" wrap>
+                    <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" wrap>
                         <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="xs"/>
                         <m-time :datetime="thread.bumped_at" relative/>
                     </m-flex>

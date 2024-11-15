@@ -7,8 +7,7 @@
         <template #title>
             <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
                 <m-flex inline class="items-center">
-                    <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(45deg);" class="text-secondary"/>
-                    <i-mdi-lock v-if="thread.locked" class="text-secondary"/>
+                    <i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                     <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
                     {{thread.name}}
@@ -38,6 +37,7 @@
 
         <m-flex class="items-center mt-auto">
             <m-time :datetime="thread.created_at" relative class="mr-auto"/>
+            <i-mdi-lock v-if="thread.locked"/>
             <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
         </m-flex>
     </m-card>
