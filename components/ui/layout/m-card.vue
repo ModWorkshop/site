@@ -1,9 +1,9 @@
 <template>
     <m-content-block class="card" :padding="0" :gap="0">
-        <div class="card-thumbnail">
+        <div v-if="$slots.thumbnail" class="card-thumbnail">
             <slot name="thumbnail"/>
         </div>
-        <m-flex :class="{'items-center': center}" :padding="padding" column :gap="gap">
+        <m-flex :class="{'items-center': center, 'card-content': true}" :padding="padding" column :gap="gap">
             <slot name="title">
                 <strong v-if="title" class="card-title">
                     {{title}}
@@ -44,5 +44,9 @@ const { padding = 4, gap = 2 } = defineProps<{
 .card-thumbnail > * {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.card-content {
+    height: 100%;
 }
 </style>

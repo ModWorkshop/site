@@ -124,10 +124,12 @@ md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 
 export function parseMarkdown(text: string, removeTags = false) {
 	if (removeTags) {
-		return text ? DOMPurify.sanitize(md.render(text), { ALLOWED_TAGS: [
-			'p',
-			'br'
-		] }) : '';
+		return text ? DOMPurify.sanitize(md.render(text), { 
+				ALLOWED_TAGS: [
+					'p',
+					'br'
+				],
+		}) : '';
 	} else {
 		return text ? DOMPurify.sanitize(md.render(text), {
 			ADD_TAGS: ['iframe'],

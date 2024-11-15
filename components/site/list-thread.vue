@@ -5,7 +5,7 @@
         column
     >
         <m-flex class="items-center" gap="3" wrap>
-            <m-avatar :src="thread.user?.avatar" size="md"/>
+            <m-avatar :src="thread.user?.avatar" size="md" class="mb-auto"/>
             <m-flex column class="md:flex-1" gap="2">
                 <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
