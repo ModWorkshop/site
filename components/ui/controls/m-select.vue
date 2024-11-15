@@ -131,7 +131,8 @@ const { ctrl } = useMagicKeys();
 const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
     immediate: !!(props.url && first.value) && (typeof(first.value) == 'number' || first.value?.length > 0),
     params: {
-        ids: selected.value
+        ids: selected.value,
+        ...props.fetchParams
     },
     cacheData: true
 });
