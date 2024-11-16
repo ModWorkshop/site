@@ -5,24 +5,20 @@ import { useStore } from '../store';
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const { $pinia, $i18n } = useNuxtApp();
     const store = useStore($pinia);
-    const attemptedOnce = useState(() => false);
-    const doAsync = useState('reloadSiteDataAsync', () => true);
+    const loadedData = useState('loadedData', () => false);
+    const startedAutoReloadData = useState('startedAutoLoadedData', () => false);
 
-    let firstTimeOnClient = true;
-
-    if (!attemptedOnce.value || to.path !== from.path || to.fullPath === from.fullPath) {
-        attemptedOnce.value = true;
+    if (!loadedData.value || to.path !== from.path || to.fullPath === from.fullPath) {
         
         //Don't keep the game since we could go to the home page where there's no specificed game.
         store.currentGame = null;
-        //https://github.com/nuxt/framework/issues/6475
+
         try {
-            if (doAsync.value) {
+            if (!loadedData.value) {
                 await store.reloadSiteData(true);
-                doAsync.value = false;
-            } else {
-                store.reloadSiteData(!firstTimeOnClient);
-                firstTimeOnClient = false;
+            } else if (!startedAutoReloadData.value) {
+                store.prepareToReloadSiteData();
+                startedAutoReloadData.value = true;
             }
         } catch (error) {
             if (error instanceof FetchError) {
@@ -33,5 +29,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 }
             }
         }
+
+        loadedData.value = true;
     }
 });

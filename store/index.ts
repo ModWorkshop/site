@@ -155,30 +155,34 @@ export const useStore = defineStore('main', {
         },
 
         // Essentially reloads the site data so people don't have to refresh the page
-        async reloadSiteData(run = false) {
-            if (run) {
-                await this.loadSiteData();
-
-                // Refresh game data too if exists.
-                if (this.currentGame) {
-                    await this.getGameData();
-                }
-            }
-
-            if (!run && this.user) {
+        async reloadSiteData(initial = false) {
+            if (!initial && this.user) {
+                const promises: Promise<any>[] = [];
                 if (this.notifications) {
-                    await this.getNotifications();
+                    promises.push(this.getNotifications());
                 }
-                if (this.notificationCount) {
-                    await this.getNotificationCount();
+                if (this.notificationCount != null) {
+                    promises.push(this.getNotificationCount());
                 }
+                if (this.currentGame) {
+                    promises.push(this.getGameData());
+                }
+
+                await Promise.all(promises)
             }
 
-            if (lastTimeout) {
-                clearTimeout(lastTimeout);
+            if (initial) {
+                await this.loadSiteData();
+            } else {
+                this.prepareToReloadSiteData();
             }
+        },
 
+        prepareToReloadSiteData() {
             if (import.meta.client) { //!!Avoid loooping on server side!!
+                if (lastTimeout) {
+                    clearTimeout(lastTimeout);
+                }
                 lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
             }
         },
