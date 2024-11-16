@@ -231,7 +231,7 @@ main {
     height: 610px;
 }
 
-@media (min-width:1279px) {
+@media (min-width:1200px) {
     .ad-sides {
         display: block !important;
         width: 160px;
