@@ -12,32 +12,14 @@
                 <a-user avatar-size="xs" :static="static" class="text-secondary" :user="mod.user"/> 
             </m-flex>
 
-            <m-flex class="items-center" wrap>
-                <div v-if="!noCategories && ((mod.game && showGame) || mod.category)" class="mr-1" wrap gap="0">
-                    <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game">
-                        {{mod.game.name}}
-                    </NuxtLink>
-                    <template v-if="mod.category">
-                        <i-mdi-menu-right v-if="showGame"/>
-                        <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
-                    </template>
-                </div>
-            </m-flex>
-
-            <m-flex>
-                <m-time :datetime="date" relative/>
-            </m-flex>
-
-            <m-flex gap="2" class="mt-auto">
-                <span :title="fullLikes">
-                    <i-mdi-heart/> {{likes}}
-                </span>
-                <span :title="fullDownloads">
-                    <i-mdi-download/> {{downloads}}
-                </span>
-                <span :title="fullViews">
-                    <i-mdi-eye/> {{views}}
-                </span>
+            <m-flex class="items-center" wrap v-if="!noCategories && ((mod.game && showGame) || mod.category)" gap="0">
+                <NuxtLink v-if="showGame && mod.game" class="text-secondary inline" :to="!static && gameUrl || undefined" :title="mod.game.name">
+                    {{mod.game.name}}
+                </NuxtLink>
+                <template v-if="mod.category">
+                    <i-mdi-menu-right v-if="showGame"/>
+                    <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                </template>
             </m-flex>
 
             <m-flex v-if="tags.length" wrap>
@@ -45,6 +27,25 @@
                     <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
                 </NuxtLink>
             </m-flex>
+
+            <m-flex class="items-center mt-auto" wrap>
+                <m-time class="mr-auto" :datetime="date" relative/>
+
+                <m-flex gap="1">
+                    <span :title="fullLikes">
+                        <i-mdi-heart style="margin-right: 2px;"/>{{likes}}
+                    </span>
+                    <span :title="fullDownloads">
+                        <i-mdi-download style="margin-right: 2px;"/>{{downloads}}
+                    </span>
+                    <span :title="fullViews">
+                        <i-mdi-eye style="margin-right: 2px;"/>{{views}}
+                    </span>
+                </m-flex>
+            </m-flex>
+
+            
+
         </div>
     </div>
 </template>
@@ -89,6 +90,7 @@ const gameUrl = computed(() => `/g/${game?.short_name || store.currentGame?.shor
 
 <style scoped>
 .mod {
+    font-size: 13px;
     width: 100%;
     min-height: 220px;
     display: flex;

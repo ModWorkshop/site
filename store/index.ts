@@ -19,7 +19,7 @@ interface MainStore {
     savedTheme: CookieRef<string>|null,
     announcements: Thread[],
     colorScheme: string,
-    games: Paginator<Game>|null,
+    games: Game[]|null,
     tags: Paginator<Tag>|null,
     settings: Settings|null,
 }
@@ -95,6 +95,7 @@ export const useStore = defineStore('main', {
                 waiting_count?: number,
                 user?: User,
                 activity: { users: number, guests: number },
+                games: Game[]
             };
 
            const siteData = await useGet<SiteData>('site-data');
@@ -109,6 +110,7 @@ export const useStore = defineStore('main', {
                 this.user = null;
             }
             
+            this.games = siteData.games;
             this.settings = siteData.settings;
             this.announcements = siteData.announcements;
             this.notificationCount = siteData.unseen_notifications;
@@ -179,19 +181,6 @@ export const useStore = defineStore('main', {
             if (import.meta.client) { //!!Avoid loooping on server side!!
                 lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
             }
-        },
-
-        /**
-         * Fetches all games of the site
-         */
-        async fetchGames() {
-            if (!this.games) {
-                const { data } = await useFetchMany<Game>('/games');
-                this.games = data.value;
-
-                return data.value;
-            }
-            return this.games;
         },
 
         setUserAvatar(avatar: string) {

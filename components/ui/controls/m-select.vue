@@ -8,7 +8,7 @@
                 <template v-if="multiple && shownOptions.length">
                     <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
                         <slot name="any-option" :option="option">
-                            <m-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem;' : undefined}">
+                            <m-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem' : undefined}">
                                 <i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click="deselectOption(option)"/> {{optionName(option)}}
                             </m-tag>
                         </slot>
@@ -65,6 +65,7 @@ import { remove } from '@antfu/utils';
 const props = withDefaults(defineProps<{
 	url?: string,
     fetchParams?: Record<string, any>,
+    immediateFetch?: boolean,
     modelValue: any,
     default?: any,
 	options?: any[],
@@ -95,7 +96,8 @@ const props = withDefaults(defineProps<{
     postFetchFilter: false,
     classic: true,
     listTags: false,
-    nullClear: false
+    nullClear: false,
+    immediateFetch: false
 });
 
 const search = ref('');
@@ -111,7 +113,7 @@ const emit = defineEmits<{
 }>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', { 
-	immediate: !!props.url,
+	immediate: props.immediateFetch && !!props.url,
 	params: reactive({
 		query: searchDebounced,
         ...props.fetchParams
@@ -119,10 +121,19 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
     cacheData: true
 });
 
+const selectedValue = computed(() => props.modelValue ?? props.default);
+const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
+const first = computed<any[]>(() => selected.value[0]);
+const { ctrl } = useMagicKeys();
+
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
-const { data: fetchedVModel } = await useFetchData(() => `${props.url}/${props.modelValue}`, {
-    immediate: !!(props.url && typeof(props.modelValue) == 'string'),
+const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
+    immediate: !!(props.url && first.value) && (typeof(first.value) == 'number' || first.value?.length > 0),
+    params: {
+        ids: selected.value,
+        ...props.fetchParams
+    },
     cacheData: true
 });
 
@@ -130,23 +141,23 @@ const { data: fetchedVModel } = await useFetchData(() => `${props.url}/${props.m
 // This also handles selected value that may not be in options
 const opts = computed(() => {
     if (props.options) {
-        return props.options;
-    } else if (typeof(asyncOptions.value?.data) == 'object') {
-        const fethcedOptionValue = fetchedVModel.value ? optionValue(fetchedVModel.value) : null;
-        // Check if it exists at all or was already added
-        if (!fethcedOptionValue || asyncOptions.value.data.find(option => optionValue(option) === fethcedOptionValue)) {
-            return asyncOptions.value.data;
-        } else {
-            return [fetchedVModel.value, ...asyncOptions.value.data];
-        }
-    } else if (fetchedVModel.value) {
-        return [fetchedVModel.value];
+        return props.options ?? [];
     } else {
-        return [];
+        const opts = asyncOptions.value != null ? [...asyncOptions.value.data] : [];
+        if (fetchedSelected.value != null) {
+            for (const opt of fetchedSelected.value?.data) {
+                const val = opt ? optionValue(opt) : null;
+                if (!opts.find(option => optionValue(option) === val)) {
+                    opts.unshift(opt);
+                }
+            }
+        }
+
+        console.log('select options', opts, fetchedSelected.value);
+
+        return opts;
     }
 });
-const selectedValue = computed(() => props.modelValue ?? props.default);
-const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
 const selectedMax = computed(() => {
     if (!props.max) {
         return false;
@@ -182,35 +193,21 @@ const filtered = computed(() => {
         }
     }
 
-    options.sort((a, b) => {
-        const aSelected = optionSelected(a);
-        const bSelected = optionSelected(b);
-        if (aSelected && bSelected) {
-            return 0;
-        } else {
-            return aSelected ? 1 : -1;
-        }
-    });
-
     return options;
 });
 
 const selectedOptions = computed(() => {
-	if (opts.value) {
-		return opts.value.filter(option => {
-			if (selected.value && selected.value.includes) {
-				return selected.value.includes(optionValue(option));
-			} else {
-				return false;
-			}
-		});
-	} else {
-		return [];
-	}
+	return opts.value.filter(option => {
+        if (selected.value && selected.value.includes) {
+            return selected.value.includes(optionValue(option));
+        } else {
+            return false;
+        }
+    })
 });
 
 const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
-    return !props.maxShown || (i + 1) <= (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
+    return !props.maxShown || i < (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
 }));
 
 const selectedOption = computed(() => {
@@ -230,6 +227,10 @@ const compClearable = computed(() => {
 
 watch(dropdownOpen, val => {
     if (val) {
+        if (!props.immediateFetch && !asyncOptions.value) {
+            refresh();
+        }
+
         setTimeout(() => {
             if (searchElement.value) {
                 searchElement.value.focus();
@@ -324,6 +325,10 @@ function selectOption(option) {
     const value = optionValue(option);
     emit('selectOption', option);
 
+    if (!ctrl.value) {
+        dropdownOpen.value = false;
+    }
+
     if (props.multiple && typeof selectedValue.value == 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
@@ -363,6 +368,10 @@ function selectOption(option) {
 
 function deselectOption(item) {
     const value = optionValue(item);
+
+    if (!ctrl.value) {
+        dropdownOpen.value = false;
+    }
 
     if (props.multiple && typeof selectedValue == 'object') {
         remove(selectedValue.value, value);

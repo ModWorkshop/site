@@ -16,7 +16,7 @@
             @change="e => register((e.target as HTMLInputElement).files)"
         >
         <m-flex v-if="list" column>
-            <template v-if="vm.length">
+            <template v-if="combinedFiles.length">
                 <m-uploader-list-file 
                     v-for="file of combinedFiles"
                     :key="file.created_at"

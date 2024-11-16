@@ -4,15 +4,17 @@
         gap="1"
         column
     >
-        <m-flex class="items-center" gap="2" wrap>
-            <m-flex column class="md:flex-1">
-                <NuxtLink class="max-md:text-lg md:text-lg" :to="`/thread/${thread.id}`">
+        <m-flex class="items-center" gap="3" wrap>
+            <m-avatar :src="thread.user?.avatar" size="md" class="mb-auto"/>
+            <m-flex column class="md:flex-2" gap="2">
+                <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
+                    <i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                     <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
                     {{thread.name}}
                 </NuxtLink>
 
-                <m-flex wrap class="items-center text-sm">
+                <m-flex wrap class="items-center">
                     <i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
                         <template #user>
                             <a-user :user="thread.user" :avatar="false"/>
@@ -21,12 +23,12 @@
                             <m-time :datetime="thread.created_at" relative/>
                         </template>
                         <template #place>
-                            <m-flex class="items-center text-inherit">
-                                <NuxtLink v-if="!forumId" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
+                            <m-flex class="items-center">
+                                <NuxtLink v-if="!forumId" class="text-inherit" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
                                     {{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
                                 </NuxtLink>
                                 <i-mdi-menu-right v-if="!forumId"/>
-                                <NuxtLink :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
+                                <NuxtLink class="text-inherit" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
                                     {{thread.category?.emoji}} {{thread.category?.name ?? $t('not_available')}}
                                 </NuxtLink>
                             </m-flex>
@@ -34,26 +36,23 @@
                     </i18n-t>
                 </m-flex>
 
-                <m-flex gap="2">
-                    <m-flex v-if="thread.tags?.length" wrap> 
-                        <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
-                            <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
-                        </NuxtLink>
-                    </m-flex>
+                <m-flex v-if="thread.tags?.length" wrap> 
+                    <NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
+                        <m-tag :color="tag.color" small>{{tag.name}}</m-tag>
+                    </NuxtLink>
                 </m-flex>
             </m-flex>
 
 
             <m-flex column class="ml-auto">
                 <m-flex class="flex-1">
-                    <m-flex class="ml-auto items-center" gap="2">
-                        <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
-                        <i-mdi-pin v-if="!noPins && thread.pinned_at" style="transform: rotate(45deg);"/>
+                    <m-flex class="ml-auto items-center">
                         <i-mdi-lock v-if="thread.locked"/>
+                        <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
                     </m-flex>
                 </m-flex>
                 <m-flex class="md:items-center max-md:flex-col max-md:gap-4">
-                    <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" gap="1" wrap>
+                    <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" wrap>
                         <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="xs"/>
                         <m-time :datetime="thread.bumped_at" relative/>
                     </m-flex>
@@ -80,7 +79,7 @@ const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '
 
 <style scoped>
 .thread {
-    font-size: 13px;
+    font-size: 12px;
     padding: 1rem;
     color: var(--secondary-text-color);
 }

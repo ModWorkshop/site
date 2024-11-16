@@ -5,15 +5,15 @@
                 <mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
             </NuxtLink>
             <m-flex column class="md:flex-1">
-                <NuxtLink class="text-lg" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
+                <NuxtLink class="card-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
                     <mod-status :mod="mod"/>
                     {{mod.name}}
                 </NuxtLink>
                 
-                <m-flex class="items-center" wrap>
+                <m-flex class="items-center text-secondary" wrap>
                     <i18n-t :keypath="!noCategories && ((mod.game && showGame) || mod.category) ? 'user_posted_in_category' : 'user_posted'">
                         <template #user>
-                            <a-user :static="static" class="text-secondary" avatar-size="xs" :user="mod.user"/>
+                            <a-user :static="static" avatar-size="xs" :user="mod.user"/>
                         </template>
                         <template #timeAgo>
                             <m-time :datetime="date" relative/>
@@ -25,7 +25,7 @@
                                 </NuxtLink>
                                 <template v-if="mod.category">
                                     <i-mdi-menu-right v-if="showGame"/>
-                                    <NuxtLink class="inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
+                                    <NuxtLink class="inline text-inherit" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                                 </template>
                             </m-flex>
                         </template>

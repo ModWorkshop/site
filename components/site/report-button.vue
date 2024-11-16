@@ -1,5 +1,5 @@
 <template>
-    <div v-if="button" @click="vm = true">
+    <div v-if="button" @click="showReportModal">
         <slot>
             <m-button color="danger"><i-mdi-flag/> {{$t('report')}}</m-button>
         </slot>
@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from '~/store';
+
 const props = withDefaults(defineProps<{
     url: string,
     resourceName: string,
@@ -28,11 +30,28 @@ const vm = useVModel(props, 'showModal', emit, { passive: true });
 
 const reason = ref('');
 
+const { t } = useI18n();
+const { showToast } = useToaster();
+const { user } = useStore();
+const router = useRouter();
+
+function showReportModal() {
+    if (!user) {
+        router.push('/login');
+        return;
+    }
+    vm.value = true;
+}
 async function report(onError) {
     try {
         await postRequest(props.url, { reason: reason.value });
         reason.value = '';
         vm.value = false;
+        
+        showToast({
+            desc: t('report_sent'),
+            color: 'success'
+        });
     } catch (error) {
         onError(error);
     }

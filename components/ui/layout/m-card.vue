@@ -1,9 +1,9 @@
 <template>
     <m-content-block class="card" :padding="0" :gap="0">
-        <div class="card-thumbnail">
+        <div v-if="$slots.thumbnail" class="card-thumbnail">
             <slot name="thumbnail"/>
         </div>
-        <m-flex :class="{'items-center': center}" :padding="padding" column :gap="gap">
+        <m-flex :class="{'items-center': center, 'card-content': true}" :padding="padding" column :gap="gap">
             <slot name="title">
                 <strong v-if="title" class="card-title">
                     {{title}}
@@ -24,8 +24,12 @@ const { padding = 4, gap = 2 } = defineProps<{
 </script>
 
 <style>
+.card {
+    font-size: 13px;
+}
 .card-title {
     font-size: 1.15rem;
+    font-weight: 600;
     line-height: 1.5rem;
     overflow: hidden;
     word-break: break-word;
@@ -34,11 +38,14 @@ const { padding = 4, gap = 2 } = defineProps<{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
+.card-thumbnail, .card-thumbnail > * {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
 </style>
 
 <style scoped>
-.card-thumbnail > * {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+.card-content {
+    height: 100%;
 }
 </style>

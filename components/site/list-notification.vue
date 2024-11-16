@@ -28,7 +28,7 @@
                     <span v-else>{{'not_available'}}</span>
                 </template>
             </i18n-t>
-            <m-time :datetime="notification.created_at" relative/>
+            <m-time :datetime="notification.created_at" relative class="self-start"/>
         </m-flex>
         <m-flex class="ml-auto my-auto">
             <m-button v-if="!notification.seen" :title="$t('mark_as_read')" @click="markAsSeen">

@@ -45,8 +45,8 @@ const { t } = useI18n();
 
 const yesNoModal = useYesNoModal();
 
-const isExpired = computed(() => !props.userCase.active || now >= parseISO(props.userCase.expire_date));
-const duration = computed(() => getDuration(props.userCase.created_at, props.userCase.expire_date) ?? t('never'));
+const isExpired = computed(() => !props.userCase.active || props.userCase.expire_date && now >= parseISO(props.userCase.expire_date));
+const duration = computed(() => getDuration(props.userCase.created_at, props.userCase.expire_date) ?? t('forever'));
 
 async function deleteCase() {
     yesNoModal({

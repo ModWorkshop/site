@@ -1,6 +1,6 @@
 <template>
     <m-flex column gap="3">
-        <NuxtLink v-if="title" class="h2 text-body" :to="titleLink">{{title}}</NuxtLink>
+        <NuxtLink v-if="title" class="h2 text-body self-start" :to="titleLink">{{title}}</NuxtLink>
         <slot name="buttons"/>
         <m-flex class="max-md:flex-col">
             <m-flex class="overflow-auto">
@@ -47,7 +47,7 @@
                                         <template #fallback>
                                             <m-loading/>
                                         </template>
-                                        <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
+                                        <mod-filters :categories="currCategories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                                     </Suspense>
                                 </m-flex>
                             </template>
@@ -79,7 +79,7 @@
         <m-flex gap="3" class="md:flex-row flex-col">
             <m-flex v-if="sideFilters" class="max-md:!w-full items-center" column gap="3" style="width: 300px;">
                 <m-content-block class="mod-filters w-full">
-                    <mod-filters :categories="categories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
+                    <mod-filters :categories="currCategories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                 </m-content-block>
                 <div id="mws-ads-filters" class="mb-8"/>
             </m-flex>
@@ -126,7 +126,9 @@ const props = withDefaults(defineProps<{
     limit?: number,
     query?: boolean,
     url?: string,
+    defaultSortBy?: string,
     params?: object,
+    categories?: Category[],
     initialMods?: Paginator<Mod>
 }>(), {
     limit: 20,
@@ -162,7 +164,7 @@ const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', user?.extra?.default_mods_sort ?? 'bumped_at');
+const sortBy = useRouteQuery('sort', props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at');
 const pages = ref(0);
 
 const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);
@@ -186,8 +188,8 @@ const searchParams = reactive({
 
 const gameId = computed(() => props.game?.id ?? searchParams.game_id);
 
-const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { 
-    immediate: !!searchParams.game_id,
+const { data: fetchCategories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { 
+    immediate: !!searchParams.game_id && !props.categories,
     lazy: true
 });
 
@@ -196,14 +198,16 @@ let { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.
     immediate: !props.initialMods
 });
 
+const currCategories = computed(() => fetchCategories.value?.data ?? props.categories);
+
 const currentDisplayCats = computed(() => {
-    if (!categories.value) {
+    if (!currCategories.value) {
         return [];
     }
 
     const cats: Category[] = [];
 
-    for (const cat of categories.value.data) {
+    for (const cat of currCategories.value) {
         if (cat.parent_id == selectedCategory.value) {
             cats.push(cat);
         }

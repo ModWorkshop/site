@@ -205,6 +205,7 @@ export interface Game {
     roles?: Role[];
     user_data?: GameUserData;
     announcements?: Thread[];
+    categories?: Category[];
     report_count?: number;
     waiting_count?: number;
     mod_managers?: ModManager[];

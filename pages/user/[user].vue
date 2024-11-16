@@ -3,7 +3,6 @@
         <Title>{{user.name}}</Title>
         <m-flex v-if="me">
             <m-button v-if="false && !user.blocked_me"> {{$t('send_pm')}}</m-button>
-            <report-button v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
             <m-button v-if="user.followed" @click="user.followed && setFollowUser(user, false)">
                 <i-mdi-minus-thick/> {{$t('unfollow')}}
             </m-button>
@@ -45,6 +44,8 @@
                 </template>
             </m-dropdown>
 
+            <report-button v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
+            
             <m-dropdown v-if="canModerate">
                 <m-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</m-button>
                 <template #content>
