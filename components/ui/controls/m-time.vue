@@ -50,7 +50,7 @@ const overrideText = computed(() => {
             return intlFormatDistance(datetime, now.value, {
                 locale: locale.value,
                 numeric: 'always',
-                unit: diff >= 1 && diff <= 12 ? 'month' : undefined, // Who uses quarters to count time?????
+                unit: diff >= 1 && diff < 12 ? 'month' : undefined, // Who uses quarters to count time?????
                 style: relativeTimeStyle
             });
         }
