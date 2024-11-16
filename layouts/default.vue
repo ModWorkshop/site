@@ -23,7 +23,7 @@
             <div id="mws-ads-top" class="ad mx-auto"/>
             <div id="mws-ads-top-mobile" class="ad mx-auto"/>
             
-            <div ref="adSidesFooterCheck" class="ad-sides" style="z-index: -9999; left:0;"/>
+            <div ref="adSidesFooterCheck" class="ad-sides" style="z-index: -99999; width: 1px; left:50%;"/>
             <div :class="adClasses" style="left:4px;">
                 <div id="mws-ads-left"/>
             </div>
@@ -170,7 +170,8 @@ onMounted(() => {
     ads.push(nitroAds.createAd('mws-ads-footer', {
         ...adConfig,
         sizes: [[ "728", "90" ]],
-        mediaQuery: "(min-width: 1025px)"
+        mediaQuery: "(min-width: 1025px)",
+        renderVisibleOnly: true
     }));
 
     ads.push(nitroAds.createAd('mws-ads-footer-mobile', {
@@ -178,7 +179,8 @@ onMounted(() => {
         sizes: [
             [ "336", "280" ]
         ],
-        mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)"
+        mediaQuery: "(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)",
+        renderVisibleOnly: true
     }));
 });
 </script>
