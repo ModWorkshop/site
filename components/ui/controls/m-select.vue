@@ -153,8 +153,6 @@ const opts = computed(() => {
             }
         }
 
-        console.log('select options', opts, fetchedSelected.value);
-
         return opts;
     }
 });
