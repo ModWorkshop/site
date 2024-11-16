@@ -77,8 +77,8 @@ class FileController extends Controller
 
         $pendingFile = PendingFile::create([
             'name' => explode('.', $name)[0],
-            'file_name' => $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$fileType,
             'file_type' => $fileType,
+            'file_name' => $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).(!empty($fileType) ? '.'.$fileType : ''),
             'user_id' => $this->user()->id,
             'size' => $size,
             "file_id" => $file?->id,
