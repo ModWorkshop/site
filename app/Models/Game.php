@@ -88,7 +88,7 @@ class Game extends Model
 
     protected $guarded = [];
     protected $hidden = ['webhook_url', 'viewable_mods_count'];
-    protected $appends = [];
+    protected $appends = ['mods_count'];
     protected $with = ['followed'];
 
     protected $casts = [
@@ -189,7 +189,6 @@ class Game extends Model
     public function waitingCount(): Attribute
     {
         return Attribute::make(fn() => $this->mods()->whereApproved(null)->count());
-
     }
 
     public function reportCount(): Attribute
@@ -197,6 +196,10 @@ class Game extends Model
         return Attribute::make(fn() => $this->reports()->whereArchived(false)->count());
     }
 
+    public function modsCount(): Attribute
+    {
+        return Attribute::make(fn() => $this->viewable_mods_count);
+    }
 
     public function announcements(): Attribute
     {

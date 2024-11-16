@@ -52,6 +52,7 @@ class GameResource extends BaseResource
             'mods' => $this->whenLoaded('mods'),
             'tags' => $this->whenLoaded('tags'),
             'roles' => $this->whenLoaded('roles'),
+            'categories' => $this->whenLoaded('categories'),
             'reports' => $this->whenLoaded('reports'),
             'reports' => $this->whenLoaded('reports'),
             'mod_managers' => $this->whenLoaded('modManagers'),

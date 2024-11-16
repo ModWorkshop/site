@@ -201,37 +201,33 @@ class Utils {
      * Removes unwanted characters from a file name. This also removes repeating period characters.
      *
      * @param string $name The name
-     * @param int $limit The amount of allowed dot splits. For example with a limit of 3, x.y.z is a valid file name.
      * @return string
      */
-    public static function safeFileName(string $name, int $limit = 3) {
+    public static function safeFileName(string $name) {
         if (empty($name)) {
             return '';
         }
-
-        $initialPeriod = $name[0] === '.';
-        $split = array_filter(explode('.', $name));
-        $split = array_map(fn($str) => preg_replace('/[^A-Za-z0-9\s\-_]/', '', $str), $split);
-        $split = array_filter($split);
-
-        $split = array_slice($split, -$limit, $limit);
-
-        $name = implode('.', $split);
-        if ($initialPeriod) {
-            $name = '.'.$name;
-        }
-
-        return $name;
+        return preg_replace('/[^A-Za-z0-9\s\-_]/', '', explode('.', $name)[0]);
     }
 
     /**
-     * Returns a safe file type. For example if you have x.y.z you'll receive y.z
+     * Returns a safe file type. For example if you have x.y.z.w you'll receive y.z.w
      *
      * @param string $name
      * @param integer $limit
      * @return string
      */
     public static function safeFileType(string $name, int $limit = 2) {
-        return self::safeFileName(implode('.', array_slice(explode('.', $name), 1)), $limit);
+        if (empty($name)) {
+            return '';
+        }
+
+        $split = explode('.', $name); // Spllit by dot
+        $split = array_slice($split, 1); // Cut file name
+        $split = array_map(fn($str) => preg_replace('/[^A-Za-z0-9\-_]/', '', $str), $split); // Remove invalid characters
+        $split = array_filter($split); // Remove empties
+        $split = array_slice($split, -$limit, $limit); // Take the last part using limit
+
+        return implode('.', $split); // Return string joined by dot
     }
 }

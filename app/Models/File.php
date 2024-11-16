@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Utils;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -70,7 +71,7 @@ class File extends Model
     protected $hidden = ['mod'];
     protected $with = [];
 
-    protected $appends = ['download_url'];
+    protected $appends = ['download_url', 'type'];
 
     public function getMorphClass(): string {
         return 'file';
@@ -96,30 +97,24 @@ class File extends Model
         return $this->morphMany(DownloadableDownload::class, 'downloadable');
     }
 
+    public function type(): Attribute {
+        return new Attribute(fn() => implode('.', array_slice(explode('.', $this->file_ext), -1, 1)));
+    }
+
     public function fileExt(): Attribute
     {
-        return new Attribute(function() {
-            if (str_contains($this->file, '.')) {
-                return implode('.', array_slice(explode('.', $this->file), 1));
-            }
-
-            return 'unknown';
-        });
+        return new Attribute(fn() => Utils::safeFileType($this->file));
     }
 
     public function safeFileName(): Attribute
     {
         return Attribute::make(function() {
-            $name = preg_replace('/[^A-Za-z0-9\s\-_]/', '', explode('.', $this->name)[0]);
-            if (!isset($name) || empty($name)) {
-                $name = $this->mod_id;
-            }
+            $name = Utils::safeFileName($this->name);
             $ext = $this->file_ext;
-            if (empty($ext)) {
-                return $name;
-            } else {
-                return "{$name}.{$this->file_ext}";
+            if (!empty($ext)) {
+                $name = "{$name}.{$this->file_ext}";
             }
+            return $name;
         });
     }
 

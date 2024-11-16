@@ -212,7 +212,7 @@ class ModService {
 
         // Takes the file name, removes the part before the dot and keeps the rest. Allowing for file names like tar.gz
         $fileType = Utils::safeFileType($file->getClientOriginalName());
-        $fileName = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).'.'.$fileType;
+        $fileName = $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).(!empty($fileType) ? '.'.$fileType : '');
         $file->storePubliclyAs('mods/files', $fileName);
 
         return [$file, $fileName, $fileType];

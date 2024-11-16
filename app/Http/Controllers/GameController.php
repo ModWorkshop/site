@@ -113,6 +113,7 @@ class GameController extends Controller
     function gameSectionData(GetModsRequest $request, Game $game) {
         /** @var \Illuminate\Pagination\LengthAwarePaginator $mods */
         $mods = ModService::mods(val: $request->val(), query: $game->mods()->without('game'), cacheForGuests: $game->short_name.'-index');
+        $game->load('categories');
         $game = $this->show($game);
 
         return [
