@@ -1553,15 +1553,15 @@ __metadata:
   linkType: hard
 
 "@nuxtjs/fontaine@npm:latest":
-  version: 0.4.3
-  resolution: "@nuxtjs/fontaine@npm:0.4.3"
+  version: 0.4.4
+  resolution: "@nuxtjs/fontaine@npm:0.4.4"
   dependencies:
     "@nuxt/kit": ^3.12.1
     fontaine: ^0.5.0
     magic-string: ^0.30.10
     pathe: ^1.1.2
     ufo: ^1.5.3
-  checksum: 8df583b39408e3314f811b831113a9ae90c63d9f73a3a1308a323e4d49014f8726d37b398b875a931ee23db4030f687a08a5a84fe638be241187cee14456173d
+  checksum: 6e853811000d19aa52343039a9515b77a281c197dc0302cd67c505dd42394d2ffcd3ca6041e4ebd2d46cf91510e73a70841e323c8f02ebfd47af2c78b0ced315
   languageName: node
   linkType: hard
 
