@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\Link;
 use App\Models\Mod;
 use App\Models\ModDownload;
+use App\Models\Model;
 use App\Models\PopularityLog;
 use App\Models\Setting;
 use App\Models\User;
@@ -243,7 +244,8 @@ class ModService {
         }
 
         // Create download for file or link
-        $downloadable->increment('downloads');
+        Model::withoutTimestamps(fn () => $downloadable->increment('downloads'));
+
         if (isset($user)) {
             $downloadable->downloadsRelation()->create(['user_id' => $user->id, 'ip_address' => $ip]);
         } else {
