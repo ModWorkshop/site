@@ -1014,13 +1014,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@intlify/core@npm:^10.0.3":
-  version: 10.0.4
-  resolution: "@intlify/core@npm:10.0.4"
+"@intlify/core-base@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/core-base@npm:10.0.5"
   dependencies:
-    "@intlify/core-base": 10.0.4
-    "@intlify/shared": 10.0.4
-  checksum: a61d14c909b6cdc820f1306307faf50ffd839e6fee44800f7deb23fb2556fe398edfd64e009f81c033df94ab695a1ff6b6059a17d922ec10c6a88089dfa98a01
+    "@intlify/message-compiler": 10.0.5
+    "@intlify/shared": 10.0.5
+  checksum: 01c08b12554d942b3b112b7fc02c61b0c8a93a3ba24e8863dba954796827a6593ddc7d4ece9ea9bf21d349e12368473aad673a8f546758bc6ed178be659a0237
+  languageName: node
+  linkType: hard
+
+"@intlify/core@npm:^10.0.3":
+  version: 10.0.5
+  resolution: "@intlify/core@npm:10.0.5"
+  dependencies:
+    "@intlify/core-base": 10.0.5
+    "@intlify/shared": 10.0.5
+  checksum: a091a8dfedfea8311b48de8a4c9047f6b350113ec4eb8ec01ef1421f7e01a955dc813f31c4be349afd66059831a73554f13b56b27c2d2bd9f74813a002e38fb5
   languageName: node
   linkType: hard
 
@@ -1041,6 +1051,16 @@ __metadata:
     "@intlify/shared": 10.0.4
     source-map-js: ^1.0.2
   checksum: 75cffe3ef4add4d442b255dce049fe1467a5410c3a4a631bb386ffc29b8a7b51d79420b76107706765ab6077042254b36742b17ec9c51a131baaa8fc172c7ebd
+  languageName: node
+  linkType: hard
+
+"@intlify/message-compiler@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/message-compiler@npm:10.0.5"
+  dependencies:
+    "@intlify/shared": 10.0.5
+    source-map-js: ^1.0.2
+  checksum: ce832bf9743bbeef8502e8bacd146e0085dd9add659b183a2ab5e882a74eab6d40fee15c18cebc5e18248d2f34ffde81be06937234cbfbe47d9a4b9f75068200
   languageName: node
   linkType: hard
 
@@ -1065,6 +1085,13 @@ __metadata:
   version: 10.0.4
   resolution: "@intlify/shared@npm:10.0.4"
   checksum: 93bbbff0f4d57367be34088ebdf69496e38a4a0b96e816ba2a3ce2df7b8bf014d8acc27f015b51c1ecd4623f2ed836a49d0b560200c693a14b684ee22d9cacbd
+  languageName: node
+  linkType: hard
+
+"@intlify/shared@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/shared@npm:10.0.5"
+  checksum: 3c007c0c43bccfd827dce57a74d8333d0003dc02d6fc5ebae79a6363f9c6bb655f8d6525166e9394b38e06016eac0676362c135a80f54d70f0b661cbec2bad0c
   languageName: node
   linkType: hard
 
