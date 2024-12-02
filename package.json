@@ -30,7 +30,7 @@
     "@nuxtjs/robots": "^3.0.0",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@pinia/nuxt": "^0.7.0",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.10.1",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^8.9.0",
