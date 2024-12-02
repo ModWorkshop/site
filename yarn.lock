@@ -1014,6 +1014,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@intlify/core-base@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/core-base@npm:10.0.5"
+  dependencies:
+    "@intlify/message-compiler": 10.0.5
+    "@intlify/shared": 10.0.5
+  checksum: 01c08b12554d942b3b112b7fc02c61b0c8a93a3ba24e8863dba954796827a6593ddc7d4ece9ea9bf21d349e12368473aad673a8f546758bc6ed178be659a0237
+  languageName: node
+  linkType: hard
+
 "@intlify/core@npm:^10.0.3":
   version: 10.0.4
   resolution: "@intlify/core@npm:10.0.4"
@@ -1044,6 +1054,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@intlify/message-compiler@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/message-compiler@npm:10.0.5"
+  dependencies:
+    "@intlify/shared": 10.0.5
+    source-map-js: ^1.0.2
+  checksum: ce832bf9743bbeef8502e8bacd146e0085dd9add659b183a2ab5e882a74eab6d40fee15c18cebc5e18248d2f34ffde81be06937234cbfbe47d9a4b9f75068200
+  languageName: node
+  linkType: hard
+
 "@intlify/message-compiler@npm:next":
   version: 10.0.0
   resolution: "@intlify/message-compiler@npm:10.0.0"
@@ -1065,6 +1085,13 @@ __metadata:
   version: 10.0.4
   resolution: "@intlify/shared@npm:10.0.4"
   checksum: 93bbbff0f4d57367be34088ebdf69496e38a4a0b96e816ba2a3ce2df7b8bf014d8acc27f015b51c1ecd4623f2ed836a49d0b560200c693a14b684ee22d9cacbd
+  languageName: node
+  linkType: hard
+
+"@intlify/shared@npm:10.0.5":
+  version: 10.0.5
+  resolution: "@intlify/shared@npm:10.0.5"
+  checksum: 3c007c0c43bccfd827dce57a74d8333d0003dc02d6fc5ebae79a6363f9c6bb655f8d6525166e9394b38e06016eac0676362c135a80f54d70f0b661cbec2bad0c
   languageName: node
   linkType: hard
 
@@ -10474,15 +10501,15 @@ __metadata:
   linkType: hard
 
 "vue-i18n@npm:^10.0.0, vue-i18n@npm:^10.0.3":
-  version: 10.0.4
-  resolution: "vue-i18n@npm:10.0.4"
+  version: 10.0.5
+  resolution: "vue-i18n@npm:10.0.5"
   dependencies:
-    "@intlify/core-base": 10.0.4
-    "@intlify/shared": 10.0.4
+    "@intlify/core-base": 10.0.5
+    "@intlify/shared": 10.0.5
     "@vue/devtools-api": ^6.5.0
   peerDependencies:
     vue: ^3.0.0
-  checksum: 88786ec0b7d12228e0a1e773360d9f4e7b9df910eb691d98ee34f965b7644aaedeab50b70ce5ca3aea2d62e10ac1f48b5ee1da97690851c4329a2287e3359e10
+  checksum: 23a23a623e7b56c0a108bbb36c4ea1dd1ff506f0665a10178847d3a8b7696b8c26f9cb3f356a8926dfd8cbb9e116ff6853ac32f2751e8abea8604bd8121757c6
   languageName: node
   linkType: hard
 
