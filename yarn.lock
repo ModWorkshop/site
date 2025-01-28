@@ -2074,14 +2074,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/nuxt@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "@pinia/nuxt@npm:0.9.0"
+"@pinia/nuxt@npm:0.7.0":
+  version: 0.7.0
+  resolution: "@pinia/nuxt@npm:0.7.0"
   dependencies:
     "@nuxt/kit": ^3.9.0
-  peerDependencies:
-    pinia: ^2.3.0
-  checksum: 4f60fe01a01281e884a1dcb194c1b3bab3ccabcad82b5a70558b481ff29ccf2380834cb063d44e8f1e6a5f38b1b6da49ea9492f823b08e634e76c46911cbe5e7
+    pinia: ^2.2.6
+  checksum: b86d9c50ab6885e92db1aff31b7c1d8e9f27ee4eff2812ed2602c7f127123f7ed27870690b5377e6206209c14acb323645e007e13f96a8e5d6aa5330769f7f75
   languageName: node
   linkType: hard
 
@@ -2900,7 +2899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/devtools-api@npm:^6.5.0, @vue/devtools-api@npm:^6.6.4":
+"@vue/devtools-api@npm:^6.5.0, @vue/devtools-api@npm:^6.6.3, @vue/devtools-api@npm:^6.6.4":
   version: 6.6.4
   resolution: "@vue/devtools-api@npm:6.6.4"
   checksum: beccd79c7c7794ea511e35581fbbe5411d3c5d63b2418bc3771efc66959966df4cbfc391ff5954028e2728eb0f0e37b41722e1c39fde61295f2814a143d2ef0e
@@ -7153,7 +7152,7 @@ __metadata:
     "@nuxtjs/i18n": ^9.1.3
     "@nuxtjs/robots": ^5.2.2
     "@nuxtjs/tailwindcss": 6.13.1
-    "@pinia/nuxt": ^0.9.0
+    "@pinia/nuxt": 0.7.0
     "@types/node": ^22.12.0
     "@types/qs": ^6.9.18
     "@typescript-eslint/eslint-plugin": ^8.22.0
@@ -8057,6 +8056,22 @@ __metadata:
   version: 2.3.0
   resolution: "pify@npm:2.3.0"
   checksum: 9503aaeaf4577acc58642ad1d25c45c6d90288596238fb68f82811c08104c800e5a7870398e9f015d82b44ecbcbef3dc3d4251a1cbb582f6e5959fe09884b2ba
+  languageName: node
+  linkType: hard
+
+"pinia@npm:^2.2.6":
+  version: 2.3.1
+  resolution: "pinia@npm:2.3.1"
+  dependencies:
+    "@vue/devtools-api": ^6.6.3
+    vue-demi: ^0.14.10
+  peerDependencies:
+    typescript: ">=4.4.4"
+    vue: ^2.7.0 || ^3.5.11
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 848fff9c868a351c54fe169e9a088760fa732bb5b5e9a2b4f651fcf7240927997140774c1c9dc6bc940762d217f54214cd550955dc9d45e26190ce16faa24a77
   languageName: node
   linkType: hard
 
@@ -10704,7 +10719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.8":
+"vue-demi@npm:>=0.13.0, vue-demi@npm:>=0.14.8, vue-demi@npm:^0.14.10":
   version: 0.14.10
   resolution: "vue-demi@npm:0.14.10"
   peerDependencies:

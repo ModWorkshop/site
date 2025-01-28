@@ -186,8 +186,27 @@ export default defineNuxtConfig({
 		defaultLocale: 'en',
 	},
 
+	robots: {
+		disallow: [
+			'/admin/*',
+			'/g/*/admin/*',
+			'/game/*/admin/*',
+			'/verify-email',
+			'/login-redirect',
+			'/link-redirect',
+			'/user-settings',
+			'/user/*/edit/*',
+			'/mod/*/edit/*',
+			'/thread/*/edit/*',
+			'/me/*',
+			'/notifications'
+		],
+
+		sitemap: '/sitemap.xml'
+	},
+	
 	modules: [
-		['@nuxtjs/robots', { configPath: '~/robots.config.ts' }],
+		'@nuxtjs/robots',
 		'@pinia/nuxt',
 		'@nuxtjs/tailwindcss',
 		'@vueuse/nuxt',
