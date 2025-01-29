@@ -154,8 +154,8 @@ class ThreadController extends Controller
 
         $changePin = Arr::pull($val, 'pinned');
         $changeAnnounce = Arr::pull($val, 'announce');
-        $changeForum = Arr::pull($val, 'forum_id');
-        $changeCategry = Arr::pull($val, 'category_id');
+        $changeForum = intval(Arr::pull($val, 'forum_id'));
+        $changeCategry = intval(Arr::pull($val, 'category_id'));
 
         $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $thread->forum->game);
