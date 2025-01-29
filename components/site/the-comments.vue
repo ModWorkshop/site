@@ -232,7 +232,7 @@ function onTextareaInput(event: InputEvent) {
         } else if (showMentions.value) {
             mentionRange.value = [mentionRange.value[0], textArea.selectionEnd];
         }
-    } else if (event.inputType == 'deleteContentBackward' && commentContent.value.charAt(textArea.selectionEnd) == '@') {
+    } else if (event.inputType == 'deleteContentBackward' && commentContent.value.charAt(mentionRange.value[0] - 1) != '@') {
         showMentions.value = false;
     }
 }
