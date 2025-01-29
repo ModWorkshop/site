@@ -154,8 +154,8 @@ class ThreadController extends Controller
 
         $changePin = Arr::pull($val, 'pinned');
         $changeAnnounce = Arr::pull($val, 'announce');
-        $changeForum = intval(Arr::pull($val, 'forum_id'));
-        $changeCategry = intval(Arr::pull($val, 'category_id'));
+        $changeForum = Arr::pull($val, 'forum_id');
+        $changeCategry = Arr::pull($val, 'category_id');
 
         $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $thread->forum->game);
@@ -164,7 +164,7 @@ class ThreadController extends Controller
         }
 
         $changedForum = false;
-        if (isset($changeForum) && $changeForum !== $thread->forum_id) {
+        if (isset($changeForum) && intval($changeForum) !== $thread->forum_id) {
             if (!$canManageThreads) {
                 abort(401, "Cannot move thread to a different forum, please ask a moderator!");
             } else {
@@ -177,7 +177,7 @@ class ThreadController extends Controller
             }
         }
 
-        if ($changedForum || (isset($changeCategry) && $changeCategry !== $thread->category_id)) {
+        if ($changedForum || (isset($changeCategry) && intval($changeCategry) !== $thread->category_id)) {
             // Ensure the category belongs to the forum
             $cat = ForumCategory::where('forum_id', $thread->forum_id)->where('id', $changeCategry)->first();
             if (isset($cat)) {
