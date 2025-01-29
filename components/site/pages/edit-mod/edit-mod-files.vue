@@ -182,8 +182,11 @@ const { data: asyncLinks, refresh: refreshLinks } = await useWatchedFetchMany(`m
     page: linksPage
 }, { immediate: !!mod.value.id });
 
-const files = computed<MWSFile[]>(() => asyncFiles.value?.data ?? []);
-const links = computed<Link[]>(() => asyncLinks.value?.data ?? []);
+const filesRef = ref<MWSFile[]>([]);
+const linksRef = ref<Link[]>([]);
+
+const files = computed<MWSFile[]>(() => asyncFiles.value?.data ?? filesRef.value);
+const links = computed<Link[]>(() => asyncLinks.value?.data ?? linksRef.value);
 
 const maxStorage = computed(() => {
     if (mod.value.user?.has_supporter_perks) {
