@@ -4,7 +4,7 @@
             <m-tab name="description" :title="$t('description')">
                 <md-content :text="mod.desc" :parser-version="mod.parser_version"/>
             </m-tab>
-            <m-tab v-if="mod.images && mod.images.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
+            <m-tab v-if="mod.images && visibleImages.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
                 <m-img 
                     v-for="(image, i) of visibleImages"
                     :key="image.id"
