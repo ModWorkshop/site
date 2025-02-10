@@ -1618,7 +1618,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.14.159, @nuxt/kit@npm:^3.15.0, @nuxt/kit@npm:^3.15.1, @nuxt/kit@npm:^3.15.2, @nuxt/kit@npm:^3.9.0":
+"@nuxt/kit@npm:^3.0.0, @nuxt/kit@npm:^3.11.2, @nuxt/kit@npm:^3.12.1, @nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.13.2, @nuxt/kit@npm:^3.14.159, @nuxt/kit@npm:^3.15.0, @nuxt/kit@npm:^3.15.1, @nuxt/kit@npm:^3.9.0":
   version: 3.15.3
   resolution: "@nuxt/kit@npm:3.15.3"
   dependencies:
@@ -1644,6 +1644,34 @@ __metadata:
     unimport: ^4.0.0
     untyped: ^1.5.2
   checksum: dc93777e97a76fbf3ba26000ee5062606dbb0bf6227713a92feca4a5b29d6a430192fee15e2aa02e4dcf8c3f77d59cd838ada3dceff3181d0ce5e42049359b27
+  languageName: node
+  linkType: hard
+
+"@nuxt/kit@npm:^3.15.4":
+  version: 3.15.4
+  resolution: "@nuxt/kit@npm:3.15.4"
+  dependencies:
+    c12: ^2.0.1
+    consola: ^3.4.0
+    defu: ^6.1.4
+    destr: ^2.0.3
+    globby: ^14.0.2
+    ignore: ^7.0.3
+    jiti: ^2.4.2
+    klona: ^2.0.6
+    knitwork: ^1.2.0
+    mlly: ^1.7.4
+    ohash: ^1.1.4
+    pathe: ^2.0.2
+    pkg-types: ^1.3.1
+    scule: ^1.3.0
+    semver: ^7.6.3
+    std-env: ^3.8.0
+    ufo: ^1.5.4
+    unctx: ^2.4.1
+    unimport: ^4.0.0
+    untyped: ^1.5.2
+  checksum: 0e50d3672622581ff96045c06b03e62c70883794134df885812357f5e18b7bffabda7b825cc0f4a7c813dd037e587184b8a7965f61b8de2411ddc36d89f85c72
   languageName: node
   linkType: hard
 
@@ -1768,16 +1796,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/i18n@npm:^9.0.0":
-  version: 9.1.3
-  resolution: "@nuxtjs/i18n@npm:9.1.3"
+"@nuxtjs/i18n@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "@nuxtjs/i18n@npm:9.2.0"
   dependencies:
     "@intlify/h3": ^0.6.1
     "@intlify/shared": ^10.0.5
     "@intlify/unplugin-vue-i18n": ^6.0.3
     "@intlify/utils": ^0.13.0
     "@miyaneee/rollup-plugin-json5": ^1.2.0
-    "@nuxt/kit": ^3.15.2
+    "@nuxt/kit": ^3.15.4
     "@rollup/plugin-yaml": ^4.1.2
     "@vue/compiler-sfc": ^3.5.13
     debug: ^4.3.5
@@ -1795,7 +1823,7 @@ __metadata:
     unplugin-vue-router: ^0.10.8
     vue-i18n: ^10.0.5
     vue-router: ^4.5.0
-  checksum: 3b825bb27f628118fc4ed62a8635141cbfbbec54fe92b2708d1dd4e6568a207d13024ca3a6ad173b5d6dd39ec962be66d7a25a64cf0a82d30f18fda58a3c2b79
+  checksum: fccb971522564d7f6d06f451bc367a34d12072864368f61c03f6092360dd3aa13d66e4e8ce24aa77a8d5b8add4edf0249f067b51523deb8ade8ea6a63d78b6d5
   languageName: node
   linkType: hard
 
@@ -7126,7 +7154,7 @@ __metadata:
     "@iconify-json/svg-spinners": ^1.2.1
     "@nuxt/devtools": ^1.3.9
     "@nuxtjs/fontaine": latest
-    "@nuxtjs/i18n": ^9.0.0
+    "@nuxtjs/i18n": ^9.2.0
     "@nuxtjs/robots": ^3.0.0
     "@nuxtjs/tailwindcss": 6.13.1
     "@pinia/nuxt": ^0.7.0
