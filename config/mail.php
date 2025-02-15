@@ -70,6 +70,10 @@ return [
         'array' => [
             'transport' => 'array',
         ],
+
+        'mailersend' => [
+            'transport' => 'mailersend',
+        ],
     ],
 
     /*

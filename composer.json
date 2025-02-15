@@ -16,6 +16,7 @@
         "http-interop/http-factory-guzzle": "^1.2",
         "illuminatech/multipart-middleware": "^1.1",
         "jcupitt/vips": "2.4.0",
+        "knuckleswtf/scribe": "^4.37.2",
         "laravel/framework": "^11.11.0",
         "laravel/octane": "^2.4.0",
         "laravel/pulse": "^1.0@beta",
@@ -26,6 +27,7 @@
         "laravel/tinker": "^2.7.3",
         "lcobucci/jwt": "4.3.0",
         "league/flysystem-aws-s3-v3": "^3.10",
+        "mailersend/laravel-driver": "^2.7",
         "nickurt/laravel-stopforumspam": "^1.9",
         "sentry/sentry-laravel": "^4.1",
         "socialiteproviders/discord": "^4.1",
@@ -37,8 +39,7 @@
         "spatie/laravel-query-builder": "^6.2.0",
         "spatie/laravel-validation-rules": "^3.4",
         "teampanfu/laravel-hcaptcha": "^1.1",
-        "ultrono/laravel-sitemap": "^9.3",
-        "knuckleswtf/scribe": "^4.37.2"
+        "ultrono/laravel-sitemap": "^9.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
