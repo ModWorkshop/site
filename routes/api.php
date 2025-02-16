@@ -266,8 +266,8 @@ Route::get('site-data', function(Request $request) {
 Route::get('admin-data', fn() => APIService::adminData());
 
 Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
-Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:6,1']);
+Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:1,1'])->name('verification.send');
+Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:1,1']);
 Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
 Route::get('/check-reset-token', [LoginController::class, 'checkResetToken']);
 // Route::get('/login', fn() => redirect(env('FRONTEND_URL').'/login'))->name('login');
