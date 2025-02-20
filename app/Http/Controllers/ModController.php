@@ -427,7 +427,7 @@ class ModController extends Controller
             abort(409, 'Transfer request in progress.');
         }
 
-        $transferRequest = new TransferRequest(['keep_owner_level' => $val['keep_owner_level']]);
+        $transferRequest = new TransferRequest(['keep_owner_level' => $val['keep_owner_level'] ?? null]);
         $transferRequest->mod()->associate($mod);
         $transferRequest->user()->associate($user);
 
