@@ -97,8 +97,12 @@ class LoginController extends Controller
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
 
-        if (\StopForumSpam::setIp($request->ip)->isSpamIp()) {
+        try {
+            if (StopForumSpam::setIp($request->ip)->isSpamIp()) {
             abort(400);
+        }
+        } catch (\Exception $e) {
+
         }
 
         APIService::checkCaptcha($request);
