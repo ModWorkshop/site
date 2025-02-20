@@ -1,21 +1,26 @@
 <template>
     <component :is="to ? NuxtLink : 'div'" :class="classes" :to="to">
-        <span v-if="currIcon" class="text-3xl self-start">
-            <m-icon :icon="currIcon"/>
-        </span>
-        <m-flex column gap="2">
-            <strong v-if="title" class="text-xl">{{title}}</strong>
-            <slot>{{desc}}</slot>
+        <m-flex gap="2" class="w-full">
+            <span v-if="currIcon" class="text-3xl self-start">
+                <m-icon :icon="currIcon"/>
+            </span>
+
+            <m-flex column>
+                <strong v-if="title" class="flex gap-1 text-lg">
+                    {{title}}
+                </strong>
+                <slot>{{desc}}</slot>
+            </m-flex>
+            <slot name="attach"/>
         </m-flex>
-        <slot name="attach"/>
     </component>
 </template>
 
 <script setup lang="ts">
-import MdiCheckCircle from '~icons/mdi/check-circle';
+import RiCheckboxCircleFill from '~icons/ri/checkbox-circle-fill';
 import MdiAlert from '~icons/mdi/alert';
 import MdiInformation from '~icons/mdi/information';
-import MdiAlertBox from '~icons/mdi/alert-box';
+import RiWarningFill from '~icons/ri/error-warning-fill';
 
 
 const NuxtLink = resolveComponent('NuxtLink');
@@ -32,10 +37,10 @@ const props = defineProps({
 });
 
 const icons = {
-    success: MdiCheckCircle,
+    success: RiCheckboxCircleFill,
     danger: MdiAlert,
     info: MdiInformation,
-    warning: MdiAlertBox,
+    warning: RiWarningFill,
 };
 
 const currIcon = computed(() =>  {
