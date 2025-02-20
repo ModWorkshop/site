@@ -70,6 +70,8 @@ class ModController extends Controller
             $q->orWhereExists(function($query) use ($user) {
                 $query->from('followed_users')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_users.follow_user_id', 'mods.user_id');
+                $query->join('users', 'users.id', '=', 'followed_users.follow_user_id');
+                $query->where('users.private_profile', false);
             });
 
             $q->orWhereExists(function($query) use ($user) {

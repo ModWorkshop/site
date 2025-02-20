@@ -44,7 +44,7 @@ class ModService {
             ->allowedIncludes(Mod::$allowedIncludes)
             ->queryGet($val, function($q) use($val, $querySetup) {
                 if (isset($querySetup)) {
-                    $querySetup($q, $val);
+                    $q->where(fn($q) => $querySetup($q, $val));
                 }
                 ModService::filters($q, $val);
             });
@@ -190,7 +190,7 @@ class ModService {
      */
     public static function attemptUpload(Mod $mod, UploadedFile $file)
     {
-        
+
         $storageSize = $mod->allowed_storage || Setting::getValue('mod_storage_size');
 
         if (isset($mod->user->hasSupporterPerks)) {
