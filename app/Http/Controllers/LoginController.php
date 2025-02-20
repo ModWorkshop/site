@@ -105,6 +105,10 @@ class LoginController extends Controller
 
         }
 
+        if (APIService::containsSpammyWords($val['name']) || APIService::containsSpammyWords($val['unique_name'])) {
+            abort(400);
+        };
+
         APIService::checkCaptcha($request);
 
         if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {

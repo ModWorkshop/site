@@ -77,6 +77,14 @@ class CommentService {
 
         $user = Auth::user();
 
+        // Check if the message is spammy, do not run on trusted users
+        $trustLevel = $user->getTrustLevel();
+        if ($trustLevel < 12) {
+            if (APIService::checkSpamContent($val['content'])) {
+                abort(422, 'Comment contains spam content!');
+            }
+        }
+
         //Make sure to limit this to 20 users and not include ourselves!
         $mentions = Arr::pull($val, 'mentions');
         $uniqueNames = [];

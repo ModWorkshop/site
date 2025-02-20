@@ -82,6 +82,16 @@ class ThreadController extends Controller
         ]);
 
         APIService::checkCaptcha($request);
+        $user = $this->user();
+
+        // Check if the message is spammy, do not run on trusted users
+        $trustLevel = $user->getTrustLevel();
+        if ($trustLevel < 12) {
+            if (APIService::checkSpamContent($val['content'])) {
+                abort(422, 'Thread message contains spam content!');
+            }
+        }
+
         Utils::convertToUTC($val, 'announce_until');
 
         $val['user_id'] = $request->user()->id;
@@ -96,7 +106,6 @@ class ThreadController extends Controller
             abort(406, "Category doesn't exist or is invalid");
         }
 
-        $user = $this->user();
         $canManageThreads = $user->hasPermission('manage-discussions', $forum->game);
         if (!$canManageThreads && isset($val['announce']) && $val['announce']) {
             abort(401);

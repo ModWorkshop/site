@@ -1030,5 +1030,24 @@ class User extends Authenticatable implements MustVerifyEmail
         $gameRolesRelation->attach($attach);
     }
 
+
+    /**
+     * Returns the trust level of the user
+     *
+     * Trust is a system primarily used to combat bots, bots are usually new users and have no mods
+     * Low trust prevents you from doing certain things such as posting too many links in a post.
+     *
+     * Trust level of 0 is essentially untrusted and prevents you from setting bio and such
+     *
+     * @return float|int|null
+     */
+    public function getTrustLevel() {
+        if (!$this->activated) {
+            return 0;
+        }
+
+        return 1 + $this->mod_count + $this->threads_count + $this->created_at->diffInMonths(Carbon::now());
+    }
+
     #endregion
 }

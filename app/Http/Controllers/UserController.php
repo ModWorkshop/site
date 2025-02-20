@@ -200,13 +200,6 @@ class UserController extends Controller
             'extra.developer_mode' => 'boolean|nullable',
         ]);
 
-        $extra = Arr::pull($val, 'extra');
-
-        if (isset($val['unique_name'])) {
-            $val['unique_name'] = Str::lower($val['unique_name']);
-        }
-
-        //TODO: Should moderators be able to change email for users? Sorta.
         APIService::nullToEmptyStr($val,
             'custom_color',
             'bio',
@@ -216,6 +209,23 @@ class UserController extends Controller
             'banner_file',
             'background_file'
         );
+
+        $extra = Arr::pull($val, 'extra');
+
+        if (isset($val['unique_name'])) {
+            $val['unique_name'] = Str::lower($val['unique_name']);
+        }
+
+        $trustLevel = $user->getTrustLevel();
+        if ($trustLevel == 0) {
+            if (!empty($val['bio'] ?? '') || !empty($val['banner_file'] ?? '')  || !empty($val['background_file'] ?? '') || !empty($val['custom_title'] ?? '')) {
+                abort(422, 'You must be verified to set these fields!');
+            }
+        } elseif ($trustLevel < 12) { // This is roughly 12 months of the user existing or few mods/threads
+            if (isset($val['bio']) && APIService::checkSpamContent($val['bio'])) {
+                abort(422, 'Bio contains spam content!');
+            }
+        }
 
         $avatarFile = Arr::pull($val, 'avatar_file');
         APIService::storeImage($avatarFile, 'users/images', $user->avatar, [
