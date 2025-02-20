@@ -92,7 +92,7 @@ class LoginController extends Controller
         $val = $request->validate([
             'name' => ['required'],
             'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
-            'email' => ['required', 'email', new \nickurt\StopForumSpam\Rules\IsSpamEmail(3)],
+            'email' => ['required', 'email', new \nickurt\StopForumSpam\Rules\IsSpamEmail(2)],
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],
             'avatar_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
         ]);
