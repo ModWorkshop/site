@@ -137,8 +137,8 @@ class LoginController extends Controller
             Utils::partlyRestoreUser($record, $user->id);
         }
 
-        if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], true)) {
-            $request->session()->regenerate();
+        // 3.5.3 Disabled auto login to make it harder for spam bots
+        if (Auth::validate(['email' => $val['email'], 'password' => $val['password']])) {
             return new UserResource($user->refresh());
         }
 
