@@ -65,6 +65,8 @@ const md = MarkdownIt({
 	}
 });
 
+md.linkify.set({fuzzyLink: false});
+
 container(md, 'center', {
 	marker: ':',
 	render: (tokens, idx) => {
