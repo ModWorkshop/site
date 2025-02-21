@@ -34,7 +34,7 @@
                     </m-list-item>
                 </slot>
             </slot>
-            <h3 v-else class="mx-auto">
+            <h3 v-else class="mx-auto p-4">
                 {{$t('nothing_found')}}
             </h3>
         </m-flex>
