@@ -44,7 +44,7 @@
     "nuxt-umami": "latest",
     "nuxt-vitalizer": "latest",
     "typescript": "^5.6.3",
-    "unplugin-icons": "^0.20.1",
+    "unplugin-icons": "^22.0.0",
     "unplugin-vue-components": "^0.27.3",
     "vue-tsc": "^2.0.16"
   },
