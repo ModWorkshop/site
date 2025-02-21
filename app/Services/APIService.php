@@ -139,7 +139,7 @@ class APIService {
             $img = $img->thumbnail_image($config['size']);
         }
 
-        $buffer = $img->writeToBuffer('.webp', ["Q" => 80]);
+        $buffer = $img->writeToBuffer('.webp', ['Q' => 80]);
         Storage::put($fileDir.'/'.$fileName, $buffer);
 
         $thumb = null;
@@ -439,7 +439,11 @@ class APIService {
 
             // Russian Gambling & Scams
             'букмекер', 'ставки на спорт', 'казино', 'бесплатный бонус', 'онлайн казино', 'игровые автоматы',
-            'деньги онлайн', 'финансовая свобода', 'быстрый заработок',
+            'деньги онлайн', 'финансовая свобода', 'быстрый заработок', 'бонус файндер', 'бездепозитные бонусы',
+            'актуальные бонусы', 'лучшие казино бонусы', 'онлайн казино Украина', 'играть без вложений',
+            'получить бонус', 'активировать бонус', 'казино промокод', 'лучшие бездепозитные бонусы',
+            'выиграй без вложений', 'казино с моментальным выводом', 'игровые автоматы бесплатно', 'слоты на гривны',
+            'играть на деньги без вложений', 'проверенные казино', 'онлайн слоты Украина',
 
             // Thai Gambling & Betting
             'การพนัน', 'คาสิโนออนไลน์', 'เดิมพัน', 'หวยออนไลน์', 'เครดิตฟรี', 'แทงบอล', 'สมัครสมาชิกฟรี',
@@ -453,12 +457,12 @@ class APIService {
             'jeux d’argent', 'argent rapide',
 
             // Turkish
-            "bahis", "canlı bahis", "iddaa", "casino bonusu", "slot oyunu", "rulet", "poker turnuvası",
-            "jackpot kazancı", "blackjack", "bedava bahis", "yüksek oranlar", "tutan bahis", "kesin maç",
-            "canlı bahis ipuçları", "risk içermeyen bahis", "tahmin garantili", "bedava döndürme",
-            "yatırımsız bonus", "anında ödeme", "sınırsız kazanç", "kazanç garantili", "şans oyunu",
-            "yüksek limitli bahis", "bonus kampanyası", "ücretsiz kupon", "kupon kodu", "gizli bahis",
-            "yatırımla kazanç", "banko maçlar", "vip tahminler", "düşük riskli bahis",
+            'bahis', 'canlı bahis', 'iddaa', 'casino bonusu', 'slot oyunu', 'rulet', 'poker turnuvası',
+            'jackpot kazancı', 'blackjack', 'bedava bahis', 'yüksek oranlar', 'tutan bahis', 'kesin maç',
+            'canlı bahis ipuçları', 'risk içermeyen bahis', 'tahmin garantili', 'bedava döndürme',
+            'yatırımsız bonus', 'anında ödeme', 'sınırsız kazanç', 'kazanç garantili', 'şans oyunu',
+            'yüksek limitli bahis', 'bonus kampanyası', 'ücretsiz kupon', 'kupon kodu', 'gizli bahis',
+            'yatırımla kazanç', 'banko maçlar', 'vip tahminler', 'düşük riskli bahis',
 
             // English Gambling & Betting Terms
             'free bets', 'bet now', 'sports betting', 'live odds', 'casino bonus', 'roulette', 'slot machine',
