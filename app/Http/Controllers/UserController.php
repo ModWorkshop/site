@@ -217,11 +217,19 @@ class UserController extends Controller
         }
 
         $trustLevel = $user->getTrustLevel();
-        if ($trustLevel == 0) {
-            if (!empty($val['bio'] ?? '') || !empty($val['banner_file'] ?? '')  || !empty($val['background_file'] ?? '') || !empty($val['custom_title'] ?? '')) {
-                abort(422, 'You must be verified to set these fields!');
+        $banned = $user->isBanned();
+        if ($trustLevel == 0 || $banned) {
+            $values = ['bio', 'banner_file', 'background_file', 'custom_title', 'donation_url'];
+            foreach ($values as $value) {
+                if (!empty($val[$value])) {
+                    if ($banned) {
+                        abort(422, 'Banned users cannot set these fields!');
+                    } else {
+                        abort(422, 'You must be verified to set these fields!');
+                    }
+                }
             }
-        } elseif ($trustLevel < 12) { // This is roughly 12 months of the user existing or few mods/threads
+        } elseif ($trustLevel < 10002) { // This is roughly 12 months of the user existing or few mods/threads
             if (isset($val['bio']) && APIService::checkSpamContent($val['bio'])) {
                 abort(422, 'Bio contains spam content!');
             }
