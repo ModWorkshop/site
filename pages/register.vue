@@ -4,7 +4,7 @@
         <m-form autocomplete="off" @submit="register">
             <h1>{{$t('register')}}</h1>
             <m-content-block column gap="3" class="p-4">
-                <m-img-uploader v-model="avatarBlob" :label="$t('avatar')" :max-file-size="settings?.image_max_file_size">
+                <m-img-uploader v-model="avatarBlob" :label="$t('avatar')" :max-file-size="store.settings?.image_max_file_size">
                     <template #image="{ src }">
                         <m-avatar size="xl" :src="src"/>
                         <m-avatar size="lg" :src="src"/>
@@ -65,8 +65,10 @@ definePageMeta({
 });
 
 const { t } = useI18n();
-const { settings } = useStore();
+const store = useStore();
 const showErrorToast = useQuickErrorToast();
+const toaster = useToaster();
+const router = useRouter();
 
 const user = reactive({
     name: '',
@@ -96,9 +98,6 @@ const loading = ref(false);
 const captchaToken = ref<string>('');
 const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && captchaToken.value);
 
-
-const store = useStore();
-
 async function register() {
     if (user.password_confirm !== user.password) {
         return;
@@ -110,9 +109,18 @@ async function register() {
             ...user,
             avatar_file: avatarBlob.value,
             'h-captcha-response': captchaToken.value
-        }));  
-        store.attemptLoginUser();
-        reloadToken();
+        }));
+
+        router.push('/');
+        toaster.showToast({
+            title: t('new_user_title'),
+            desc: t('new_user_desc'),
+            duration: 15000,
+            color: 'success'
+        })
+  
+        // store.attemptLoginUser();
+        // reloadToken();
     } catch (e) {
         showErrorToast(e, {
             409: t('register_error_409'),

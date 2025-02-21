@@ -69,8 +69,9 @@ dl, ol, ul {
 
 #toaster {
     position: fixed;
-    width: 300px;
+    width: 320px;
 	z-index: 9999;
+	margin-top: 8px;
     right: 8px;
 }
 

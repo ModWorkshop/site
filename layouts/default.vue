@@ -2,12 +2,15 @@
     <div class="layout">
         <the-header/>
         <main>
-            <m-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :closable="false">
-                <span class="whitespace-pre">
-                    {{ $t(user.pending_email ? 'pending_email' : 'inactive_account', [user.pending_email]) }}
+            <m-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :title="$t('verify_email_title')" :closable="false">
+                <span v-if="user.pending_email" class="whitespace-pre">
+                    {{ $t('pending_email', user.pending_email) }}
                 </span>
-                <m-flex class="mr-auto">
-                    <m-button :loading="resending" @click="resendVerification">{{$t('resend')}}</m-button>
+                <span v-else-if="!user?.activated" class="whitespace-pre">
+                    {{ $t('verify_email_desc') }}
+                </span>
+                <m-flex class="mr-auto mt-2">
+                    <m-button :loading="resending" @click="resendVerification">{{$t('send_verification')}}</m-button>
                     <m-button v-if="user.pending_email" color="danger" :loading="resending" @click="cancelPending">{{$t('cancel')}}</m-button>
                 </m-flex>
             </m-toast>

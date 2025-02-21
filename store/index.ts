@@ -126,12 +126,12 @@ export const useStore = defineStore('main', {
         async logout(redirect: string|boolean='/') {
             const router = useRouter();
 
-            await postRequest('/logout');
-            reloadToken();
-
             if (typeof(redirect) == 'string') {
                 router.push(redirect);
             }
+
+            await postRequest('/logout');
+            reloadToken();
 
             this.user = null;
 

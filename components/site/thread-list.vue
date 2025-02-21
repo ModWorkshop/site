@@ -155,11 +155,19 @@ const params = reactive({
     tags: selectedTags,
     category_id: categoryId,
     query: query,
-    closed: currentCategory.value?.can_close_threads ? displayClosed : undefined,
+    closed: displayClosed,
     no_pins: props.noPins ? 1 : 0,
     limit: props.limit,
     page
 });
+
+watch(() => currentCategory.value?.can_close_threads, canClose => {
+    if (canClose) {
+        displayClosed.value = false;
+    } else {
+        displayClosed.value = undefined;
+    }
+})
 
 const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, params });
 

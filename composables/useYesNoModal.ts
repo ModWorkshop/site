@@ -7,13 +7,8 @@ interface YesNoModalOptions {
     no?: (error?: (e) => void) => Promise<void>
 }
 
-export interface YesNoModal {
-    title?: string,
-    desc?: string,
-    descType?: string,
+export interface YesNoModal extends YesNoModalOptions {
     modelValue: Ref<boolean> & boolean,
-    yes?: (error?: (e) => void) => Promise<void>,
-    no?: (error?: (e) => void) => Promise<void>
     closed: () => void
 }
 

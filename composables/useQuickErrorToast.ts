@@ -66,7 +66,7 @@ export default function() {
 
         return showToast({
             color: 'danger',
-            title,
+            title: title ?? t('error'),
             desc
         });
     };

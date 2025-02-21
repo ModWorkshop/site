@@ -130,9 +130,9 @@ async function doDelete() {
             'unique_name': deleteUserUniqueName.value
         });
         if (me!.id === props.user.id) {
-            await store.logout();
+            await store.logout('/');
         } else {
-            await navigateTo(""); // Return home   
+            await navigateTo('/'); // Return home   
         }
     } catch (error) {
         showError(error);

@@ -1,7 +1,7 @@
 <template>
     <m-alert v-if="show" :title="title" :desc="desc" :color="color">
         <template #attach>
-            <i-mdi-close v-if="closable" class="cursor-pointer ml-auto" @click="show = false"/>
+            <i-mdi-close v-if="closable" class="cursor-pointer ml-auto pl-4" @click="show = false"/>
         </template>
         <slot/>
     </m-alert>
