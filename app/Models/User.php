@@ -1046,6 +1046,8 @@ class User extends Authenticatable implements MustVerifyEmail
             return 0;
         }
 
+        $this->loadCount(['mods', 'threads', 'comments']);
+
         return 1
             + $this->mod_count * 2
             + $this->threads_count
