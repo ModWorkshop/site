@@ -452,6 +452,14 @@ class APIService {
             'paris sportifs', 'casino en ligne', 'offre exclusive', 'crypto-monnaie', 'revenus passifs',
             'jeux d’argent', 'argent rapide',
 
+            // Turkish
+            "bahis", "canlı bahis", "iddaa", "casino bonusu", "slot oyunu", "rulet", "poker turnuvası",
+            "jackpot kazancı", "blackjack", "bedava bahis", "yüksek oranlar", "tutan bahis", "kesin maç",
+            "canlı bahis ipuçları", "risk içermeyen bahis", "tahmin garantili", "bedava döndürme",
+            "yatırımsız bonus", "anında ödeme", "sınırsız kazanç", "kazanç garantili", "şans oyunu",
+            "yüksek limitli bahis", "bonus kampanyası", "ücretsiz kupon", "kupon kodu", "gizli bahis",
+            "yatırımla kazanç", "banko maçlar", "vip tahminler", "düşük riskli bahis",
+
             // English Gambling & Betting Terms
             'free bets', 'bet now', 'sports betting', 'live odds', 'casino bonus', 'roulette', 'slot machine',
             'poker tournament', 'jackpot', 'blackjack', 'wager', 'money back', 'betting odds',
