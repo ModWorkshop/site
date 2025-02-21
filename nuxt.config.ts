@@ -198,6 +198,9 @@ export default defineNuxtConfig({
 			'/user/*/edit/*',
 			'/mod/*/edit/*',
 			'/thread/*/edit/*',
+			'/login',
+			'/register',
+			'forgot-password',
 			'/me/*',
 			'/notifications'
 		],
