@@ -1428,7 +1428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.15.4":
+"@nuxt/kit@npm:3.15.4, @nuxt/kit@npm:^3.15.4":
   version: 3.15.4
   resolution: "@nuxt/kit@npm:3.15.4"
   dependencies:
@@ -1482,34 +1482,6 @@ __metadata:
     unimport: ^4.0.0
     untyped: ^1.5.2
   checksum: dc93777e97a76fbf3ba26000ee5062606dbb0bf6227713a92feca4a5b29d6a430192fee15e2aa02e4dcf8c3f77d59cd838ada3dceff3181d0ce5e42049359b27
-  languageName: node
-  linkType: hard
-
-"@nuxt/kit@npm:^3.15.4":
-  version: 3.15.4
-  resolution: "@nuxt/kit@npm:3.15.4"
-  dependencies:
-    c12: ^2.0.1
-    consola: ^3.4.0
-    defu: ^6.1.4
-    destr: ^2.0.3
-    globby: ^14.0.2
-    ignore: ^7.0.3
-    jiti: ^2.4.2
-    klona: ^2.0.6
-    knitwork: ^1.2.0
-    mlly: ^1.7.4
-    ohash: ^1.1.4
-    pathe: ^2.0.2
-    pkg-types: ^1.3.1
-    scule: ^1.3.0
-    semver: ^7.6.3
-    std-env: ^3.8.0
-    ufo: ^1.5.4
-    unctx: ^2.4.1
-    unimport: ^4.0.0
-    untyped: ^1.5.2
-  checksum: 0e50d3672622581ff96045c06b03e62c70883794134df885812357f5e18b7bffabda7b825cc0f4a7c813dd037e587184b8a7965f61b8de2411ddc36d89f85c72
   languageName: node
   linkType: hard
 
@@ -4328,14 +4300,14 @@ __metadata:
   linkType: hard
 
 "dompurify@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "dompurify@npm:3.2.3"
+  version: 3.2.4
+  resolution: "dompurify@npm:3.2.4"
   dependencies:
     "@types/trusted-types": ^2.0.7
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: cd66ae8b22e1cfe5bc207b95fc119ce62f9a56eb313a9a1af6262d789d84e7bd27e29f26ed80110d108670dacb9527cb96ddf48a1da89126a37ec8b48702279a
+  checksum: 7a299cbbfe3b3d189e5fc77ab94ad312807e37fda1e24a927548b76a58a9c98137e612ce8d94a2f6cd3d3db59844f14fca477676b5eae6103568a82142771df6
   languageName: node
   linkType: hard
 
