@@ -470,6 +470,7 @@ class APIService {
             'high stakes', 'fixed matches', 'betting tips', 'risk-free bet', 'spread betting', 'pari-mutuel',
             'no deposit bonus', 'rollover requirement', 'online bookmaker', 'sportsbook', 'gambling site',
             'exclusive offer', 'free spins', 'big winnings', 'hot odds', 'bet slip', 'parlay bet', 'prop bet', 'cashout',
+            'zipcode', 'online casino', 'casino bonus', 'casino betting', 'casino roulette', 'casino slot',
 
             // Medical & Pharmaceutical Spam
             'viagra', 'cialis', 'levitra', 'pharmacy online', 'generic drugs', 'painkillers', 'weight loss pills',
