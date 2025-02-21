@@ -1046,7 +1046,11 @@ class User extends Authenticatable implements MustVerifyEmail
             return 0;
         }
 
-        return 1 + $this->mod_count + $this->threads_count + $this->created_at->diffInMonths(Carbon::now());
+        return 1
+            + $this->mod_count * 2
+            + $this->threads_count
+            + $this->comments_count
+            + $this->created_at->diffInMonths(Carbon::now());
     }
 
     #endregion
