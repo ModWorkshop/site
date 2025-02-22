@@ -30,9 +30,6 @@ class DeleteUnverifiedUsers implements ShouldQueue
      */
     public function handle(): void
     {
-        use Carbon\Carbon;
-        use Illuminate\Support\Collection;
-
         $aDayAgo = Carbon::now()->subHours(24);
         $aMonthAgo = Carbon::now()->subMonth(1);
 
