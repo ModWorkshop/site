@@ -527,6 +527,6 @@ class APIService {
      * @return int
      */
     public static function countLinks(string $str) {
-        return preg_match_all('/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/', $str);
+        return preg_match_all('/(http|https|ftp|ftps):\/\/[^\s\/]+(?:\.[^\s\/]+)+(\/\S*)?/', $str);
     }
 }
