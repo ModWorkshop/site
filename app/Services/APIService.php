@@ -432,6 +432,20 @@ class APIService {
             'trải nghiệm', 'giải trí', 'chơi ngay', 'nhận thưởng', 'hoàn trả', 'đá gà', 'bắn cá', 'lô đề', 'miễn phí',
             'tặng ngay', 'bảo mật tuyệt đối', 'thắng lớn', 'đăng nhập', 'khuyến mãi hot', 'tặng code', 'ưu đãi độc quyền',
             'soi cầu', 'chốt số', 'phân tích xổ số', 'lô kép', 'cặp số vàng', 'kết quả xổ số', 'lô tô',
+            'nha cai', 'ca cuoc the thao', 'no hu', 'xo so', 'casino truc tuyen',
+            'trai nghiem giai tri', 'an toan va minh bach', 'chinh sach than thien',
+            'san choi van minh', 'dang trai nghiem nhat', 'nha cai uy tin',
+            'he thong ca cuoc hien dai', 'cam ket mang lai', 'tinh nang ho tro',
+            'dia chi', 'ho chi minh', 'viet nam', 'SDT', 'so dien thoai', 'lien he',
+            'don vi ca cuoc', 'truc tuyen dinh cao', 'tua game doi thuong',
+            'ca cuoc truc tuyen', 'san choi ca cuoc', 'nha cai uy tin', 'game ca cuoc',
+            'trai nghiem ca cuoc', 'tro choi doi thuong', 'game bai', 'doi thuong hap dan',
+            'ca cuoc the thao', 'casino truc tuyen', 'gop phan', 'nha cai dinh cao',
+
+            // Gambling Platform Names
+            'NN88', '23WIN', '789bet', '123b', 'Kubet', 'Go88', 'Fi88', 'AE888', 'Hi88',
+            'Rikvip', 'M88', 'W88', 'FB88', 'K8', 'May88', 'b52 club', 'i9bet', 'letou', 'j88',
+            'dabet', 'f8bet', 's666', 'cmd368', 'vwin', 'new88', 'shbet', 'jbovietnam', 'thabet', 'sunwin',
 
             // Chinese Gambling & Scams
             '博彩', '下注', '真人娱乐', '彩金', '存款', '提款', '返水', '优惠', '高赔率', '独家优惠', '免费送彩金',
@@ -470,8 +484,8 @@ class APIService {
             'high stakes', 'fixed matches', 'betting tips', 'risk-free bet', 'spread betting', 'pari-mutuel',
             'no deposit bonus', 'rollover requirement', 'online bookmaker', 'sportsbook', 'gambling site',
             'exclusive offer', 'free spins', 'big winnings', 'hot odds', 'bet slip', 'parlay bet', 'prop bet', 'cashout',
-            'zipcode', 'online casino', 'casino bonus', 'casino betting', 'casino roulette', 'casino slot', 'discounted',
-            'deals',
+            'zipcode', 'online casino', 'casino bonus', 'casino betting', 'casino roulette', 'casino slot', 'discount',
+            'deals', 'crypto', 'lottery',
 
             // Medical & Pharmaceutical Spam
             'viagra', 'cialis', 'levitra', 'pharmacy online', 'generic drugs', 'painkillers', 'weight loss pills',
@@ -484,8 +498,17 @@ class APIService {
             'hair regrowth formula', 'herbal remedies', 'detox supplements', 'miracle cure', 'FDA approved',
             'medical marijuana', 'CBD oil', 'anxiety medication', 'muscle relaxers',
 
-            // Other
-            'SUNWIN'
+            'nicotine pouches', 'tobacco-free', 'smoke-free', 'shop nicotine', 'buy nicotine pouches',
+            'Zyn pouches', 'VELO pouches', 'Nordic Spirit', 'nicotine alternatives', 'strong nicotine',
+            'best nicotine pouches', 'quit smoking aid', 'snus', 'nicotine sachets', 'chewing tobacco',
+            'nicotine gum', 'vape pods', 'vape juice', 'e-cigarettes', 'nicotine boosters',
+            'mint nicotine', 'nicotine flavors', 'nicotine strengths', 'nicotine delivery', 'nicotine addiction',
+
+            'working as a', 'product manager in', 'for the last [0-9]+ years', 'company based in',
+            'caters to the needs of its clients', 'valued for its exquisite products', 'intricate craftsmanship',
+            'leading provider of', 'trusted brand in', 'our commitment to quality', 'satisfaction guaranteed',
+            'shop now', 'check out our collection', 'order today', 'contact us for inquiries',
+            'high-quality materials', 'expert craftsmanship', 'luxury at an affordable price',
         ];
 
         foreach ($blockedWords as $word) {
