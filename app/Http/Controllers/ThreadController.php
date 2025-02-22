@@ -87,7 +87,10 @@ class ThreadController extends Controller
         // Check if the message is spammy, do not run on trusted users
         $trustLevel = $user->getTrustLevel();
         if ($trustLevel < 12) {
-            if (APIService::checkSpamContent($val['content'])) {
+            if ($user->getAccountAgeInHours() < 1 && APIService::countLinks($val['content']) > 0) {
+                abort(422, 'New accounts cannot post links in threads!');
+            }
+            elseif (APIService::checkSpamContent($val['content'])) {
                 abort(422, 'Thread message contains spam content!');
             }
         }

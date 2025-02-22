@@ -229,9 +229,13 @@ class UserController extends Controller
                     }
                 }
             }
-        } elseif ($trustLevel < 10002) { // This is roughly 12 months of the user existing or few mods/threads
-            if (isset($val['bio']) && APIService::checkSpamContent($val['bio'])) {
-                abort(422, 'Bio contains spam content!');
+        } elseif ($trustLevel < 12) { // This is roughly 12 months of the user existing or few mods/threads
+            if (!empty($val['bio'])) {
+                if ($user->getAccountAgeInHours() < 1 && APIService::countLinks($val['bio']) > 0) {
+                    abort(422, 'New accounts cannot have links in bio!');
+                } elseif (APIService::checkSpamContent($val['bio'])) {
+                    abort(422, 'Bio contains spam content!');
+                }
             }
         }
 

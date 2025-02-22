@@ -1055,5 +1055,14 @@ class User extends Authenticatable implements MustVerifyEmail
             + $this->created_at->diffInMonths(Carbon::now());
     }
 
+    /**
+     * Returns how long the account existed in hours.
+     * Useful to prevent very recent accounts from doing certain things
+     * @return float
+     */
+    public function getAccountAgeInHours() {
+        return $this->created_at->diffInHours(Carbon::now());
+    }
+
     #endregion
 }
