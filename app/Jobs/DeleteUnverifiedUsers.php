@@ -30,13 +30,14 @@ class DeleteUnverifiedUsers implements ShouldQueue
      */
     public function handle(): void
     {
-        $now = Carbon::now();
-        $aDayAgo = $now->subHours(24);
-        $aMonthAgo = $now->subMonth(1);
+        use Carbon\Carbon;
+        use Illuminate\Support\Collection;
 
-        User::where(
-                fn($q) => $q->where(fn($q) => $q->whereNotNull('email')->whereNull('email_verified_at'))->orWhere('activated', false)
-            )
+        $aDayAgo = Carbon::now()->subHours(24);
+        $aMonthAgo = Carbon::now()->subMonth(1);
+
+        User::whereNotNull('email')
+            ->where('activated', false)
             ->where('created_at', '<=', $aDayAgo->toDateTimeString())
             ->where('created_at', '>=', $aMonthAgo->toDateTimeString()) //Just in case ignore older accounts
             ->orderBy('id')
