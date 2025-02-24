@@ -676,7 +676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/config-array@npm:^0.19.0":
+"@eslint/config-array@npm:^0.19.2":
   version: 0.19.2
   resolution: "@eslint/config-array@npm:0.19.2"
   dependencies:
@@ -684,15 +684,6 @@ __metadata:
     debug: ^4.3.1
     minimatch: ^3.1.2
   checksum: 1c707e04fc2951079b32d2cb1c939ce25e863cd1329c1bd363a285b2a5caaaf88b97ddbf354cc46d1334097dc749f79b0fae33151dc2dfb9a60ba14288c65b39
-  languageName: node
-  linkType: hard
-
-"@eslint/core@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "@eslint/core@npm:0.11.0"
-  dependencies:
-    "@types/json-schema": ^7.0.15
-  checksum: 9038b006bdb6a1a5b942e45d217598aaaec86cc97f8e891964e5220bc5514015981152cc999ea4196ee66d1f6ca5b3f8e8de404d5d8890d50142aee9e15495d1
   languageName: node
   linkType: hard
 
@@ -705,9 +696,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "@eslint/eslintrc@npm:3.2.0"
+"@eslint/eslintrc@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@eslint/eslintrc@npm:3.3.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -718,14 +709,14 @@ __metadata:
     js-yaml: ^4.1.0
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
-  checksum: c898e4d12f4c9a79a61ee3c91e38eea5627a04e021cb749191e8537445858bfe32f810eca0cb2dc9902b8ad8b65ca07ef7221dc4bad52afe60cbbf50ec56c236
+  checksum: 1d8a4205c2db0c46dee8251800725f6c7dfd0b1594813ddcc41f2091a53223cd78334a6664efe348118cc0963c1176d4fa873b1673c853fc76031aaa1fc49b98
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.20.0":
-  version: 9.20.0
-  resolution: "@eslint/js@npm:9.20.0"
-  checksum: e49dcbcea1a7892222988ba410b3f1e2b756177558f3f11fa3627682c3aca7585f8124c128711035e176daf56f82b4af47dc5655ca7a825057451607e42e5d13
+"@eslint/js@npm:9.21.0":
+  version: 9.21.0
+  resolution: "@eslint/js@npm:9.21.0"
+  checksum: 238cf810270a13ada3db5fcc05b8031bef8a56186f795f45f1c5b89f5ae1e86240622cd5c39ae4444f34670b4896ebc8ab8e868050d174755bb4caba59c4b8d5
   languageName: node
   linkType: hard
 
@@ -736,7 +727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/plugin-kit@npm:^0.2.5":
+"@eslint/plugin-kit@npm:^0.2.7":
   version: 0.2.7
   resolution: "@eslint/plugin-kit@npm:0.2.7"
   dependencies:
@@ -832,7 +823,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/retry@npm:^0.4.1":
+"@humanwhocodes/retry@npm:^0.4.2":
   version: 0.4.2
   resolution: "@humanwhocodes/retry@npm:0.4.2"
   checksum: 764127449a9f97d807b9c47f898fce8d7e0e8e8438366116b9ddcaacded99b2c285b8eed2cfdd5fdcb68be47728218db949f9618a58c0d3898d9fd14a6d6671e
@@ -4681,20 +4672,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^9.14.0":
-  version: 9.20.1
-  resolution: "eslint@npm:9.20.1"
+"eslint@npm:^9.21.0":
+  version: 9.21.0
+  resolution: "eslint@npm:9.21.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.12.1
-    "@eslint/config-array": ^0.19.0
-    "@eslint/core": ^0.11.0
-    "@eslint/eslintrc": ^3.2.0
-    "@eslint/js": 9.20.0
-    "@eslint/plugin-kit": ^0.2.5
+    "@eslint/config-array": ^0.19.2
+    "@eslint/core": ^0.12.0
+    "@eslint/eslintrc": ^3.3.0
+    "@eslint/js": 9.21.0
+    "@eslint/plugin-kit": ^0.2.7
     "@humanfs/node": ^0.16.6
     "@humanwhocodes/module-importer": ^1.0.1
-    "@humanwhocodes/retry": ^0.4.1
+    "@humanwhocodes/retry": ^0.4.2
     "@types/estree": ^1.0.6
     "@types/json-schema": ^7.0.15
     ajv: ^6.12.4
@@ -4726,7 +4717,7 @@ __metadata:
       optional: true
   bin:
     eslint: bin/eslint.js
-  checksum: 561d24faa8438ef8a9bfbbde3de60f1d1b91171cd1c910b4581b8c8fb6e2e97fc42685fba66fefb3577b95237f05ae4e752afa24943a114d488448fed47eaa03
+  checksum: 83a493877fe1cda3a0c3028de6ebfbc16abc2b26decd304a4e424961fa1ba7fc4e950ed1d7c37f85f5c7053c7e1d990fd92c46c0cdd9dedbbb002076745b4ce5
   languageName: node
   linkType: hard
 
@@ -6924,7 +6915,7 @@ __metadata:
     "@vueuse/nuxt": ^10.6.1
     axios: ^1.7.9
     date-fns: ^4.1.0
-    eslint: ^9.14.0
+    eslint: ^9.21.0
     eslint-plugin-vue: ^9.26.0
     fast-equals: ^5.2.2
     filesize: ^10.1.6
