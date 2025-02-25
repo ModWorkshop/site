@@ -66,6 +66,7 @@ const md = MarkdownIt({
 });
 
 md.linkify.set({fuzzyLink: false});
+md.linkify.add("//", null); // No clue why this is supported
 
 container(md, 'center', {
 	marker: ':',
