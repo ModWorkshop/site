@@ -230,10 +230,13 @@ class UserController extends Controller
                 }
             }
         } elseif ($trustLevel < 12) { // This is roughly 12 months of the user existing or few mods/threads
-            if (!empty($val['bio'])) {
-                if ($user->getAccountAgeInHours() < 1 && APIService::countLinks($val['bio']) > 0) {
-                    abort(422, 'New accounts cannot have links in bio!');
-                } elseif (APIService::checkSpamContent($val['bio'])) {
+            $values = ['bio', 'custom_title'];
+            $accountAgeInHours = $user->getAccountAgeInHours();
+            foreach ($values as $value) {
+                if (!empty($val[$value])) {
+                    if ($accountAgeInHours < 12 && APIService::countLinks($val[$value]) > 0) {
+                        abort(422, 'New accounts cannot post links.');
+                    } elseif (APIService::checkSpamContent($val[$value])) {
                     abort(422, 'Bio contains spam content!');
                 }
             }
