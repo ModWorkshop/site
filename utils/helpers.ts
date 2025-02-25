@@ -274,3 +274,31 @@ export function getObjectId(object) {
 
   return objectId;
 }
+
+export const donationSites = {
+    bmc: /(?:https:\/\/)?(?:www\.)?buymeacoffee\.com\/(\w+)/,
+    kofi: /(?:https:\/\/)?(?:www\.)?ko-fi\.com\/(\w+)/,
+    paypalme: /(?:https:\/\/)?(?:www\.)?paypal\.me\/(\w+)/,
+    paypalBtn: /(?:https:\/\/)?(?:www\.)?paypal(?:\.me|\.com)\/donate\/\?hosted_button_id=(\w+)/,
+    paypal: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    github: /(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/
+}
+
+export function linkToDonationType(l?: string) {
+    if (l) {
+        if (donationSites.kofi.test(l)) {
+            return 'kofi';
+        } else if (donationSites.bmc.test(l)) {
+            return 'bmc';
+        } else if (donationSites.paypalme.test(l)) {
+            return 'paypalme';
+        } else if (donationSites.paypal.test(l)) {
+            return 'paypal';
+        } else if (donationSites.paypalBtn.test(l)) {
+            return 'paypalBtn';
+        } else if (donationSites.github.test(l)) {
+            return 'github';
+        }
+    }
+    return null;
+}

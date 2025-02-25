@@ -25,7 +25,7 @@
                             {{$t('mods')}}
                             <span class="text-secondary">{{user.mods_count}}</span>
                         </m-flex>
-                        <m-flex v-if="user.donation_url" column>
+                        <m-flex v-if="user.donation_url && linkToDonationType(user.donation_url)" column>
                             {{$t('support_user')}}
                             <donation-button :link="user.donation_url"/>
                         </m-flex>

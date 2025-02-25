@@ -69,7 +69,7 @@
 
         <m-select v-model="user.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
         <m-flex>
-            <m-input v-model="user.donation_url" :label="$t('donation')" :desc="$t('donation_desc')"/>
+            <m-input v-model="user.donation_url" :validity="donationValid" :label="$t('donation')" :desc="$t('donation_desc')"/>
             <m-input v-model="user.custom_title" :label="$t('custom_title')"/>
         </m-flex>
         <m-flex>
@@ -84,13 +84,15 @@ import { useI18n } from 'vue-i18n';
 import type { UserForm } from '~~/types/models';
 import { useStore } from '~~/store/index';
 
-defineProps<{
+const { user } = defineProps<{
     user: UserForm
 }>();
 
 const { t } = useI18n();
 const { settings } = useStore();
 const imageSize = computed(() => friendlySize(settings?.image_max_file_size ?? 0));
+
+const donationValid = computed(() => !linkToDonationType(user.donation_url) ? t('donation_invalid') : undefined);
 
 const showTagOptions = [
     { id: 'role', name: t('show_tag_role') },
