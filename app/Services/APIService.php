@@ -37,6 +37,15 @@ const animated = [
     // 'apng' => true
 ];
 
+
+const donationSites = [
+    'bmc' => '/(?:https:\/\/)?(?:www\.)?buymeacoffee\.com\/(\w+)/',
+    'kofi' => '/(?:https:\/\/)?(?:www\.)?ko-fi\.com\/(\w+)/',
+    'paypalme' => '/(?:https:\/\/)?(?:www\.)?paypal\.me\/(\w+)/',
+    'paypalBtn' => '/(?:https:\/\/)?(?:www\.)?paypal(?:\.me|\.com)\/donate\/\?hosted_button_id=(\w+)/',
+    'github' => '/(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/'
+];
+
 class APIService {
     /**
      * Allows for appending into paginator items
@@ -528,5 +537,24 @@ class APIService {
      */
     public static function countLinks(string $str) {
         return preg_match_all('/(http|https|ftp|ftps):\/\/[^\s\/]+(?:\.[^\s\/]+)+(\/\S*)?/', $str);
+    }
+
+    public static function checkDonationLink(string $link) {
+        if (!empty($link)) {
+            if (preg_match(donationSites['kofi'], $link)) {
+                return 'kofi';
+            } elseif (preg_match(donationSites['bmc'], $link)) {
+                return 'bmc';
+            } elseif (preg_match(donationSites['paypalme'], $link)) {
+                return 'paypalme';
+            } elseif (filter_var($link, FILTER_VALIDATE_EMAIL)) {
+                return 'paypal';
+            } elseif (preg_match(donationSites['paypalBtn'], $link)) {
+                return 'paypalBtn';
+            } elseif (preg_match(donationSites['github'], $link)) {
+                return 'github';
+            }
+        }
+        return null;
     }
 }

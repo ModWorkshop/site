@@ -237,9 +237,15 @@ class UserController extends Controller
                     if ($accountAgeInHours < 12 && APIService::countLinks($val[$value]) > 0) {
                         abort(422, 'New accounts cannot post links.');
                     } elseif (APIService::checkSpamContent($val[$value])) {
-                    abort(422, 'Bio contains spam content!');
+                        abort(422, 'Bio contains spam content!');
+                    }
                 }
             }
+        }
+
+        // Verify donation links
+        if (!empty($val['donation_url']) && APIService::checkDonationLink($val['donation_url']) == null) {
+            abort(422, 'Invalid donation link!');
         }
 
         $avatarFile = Arr::pull($val, 'avatar_file');
