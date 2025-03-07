@@ -33,6 +33,6 @@ ENV NODE_ENV=production
 
 HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
 
-RUN bun install -g pm2
+RUN bun install -g pm2-beta
 
 CMD ["pm2-runtime", "ecosystem.config.cjs"]
