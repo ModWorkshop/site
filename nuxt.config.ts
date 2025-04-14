@@ -139,6 +139,9 @@ export default defineNuxtConfig({
 
 	vitalizer: {
 		disableStylesheets: 'entry'
+
+	features: {
+		inlineStyles: false
 	},
 
 	vite: {
