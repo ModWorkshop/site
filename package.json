@@ -29,7 +29,7 @@
     "@nuxtjs/i18n": "^9.4.0",
     "@nuxtjs/robots": "^5.2.4",
     "@nuxtjs/tailwindcss": "6.13.1",
-    "@pinia/nuxt": "0.7.0",
+    "@pinia/nuxt": "0.11.0",
     "@types/node": "^22.12.0",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
