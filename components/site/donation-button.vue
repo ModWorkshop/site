@@ -8,9 +8,10 @@
             width="114"
             style="border: 0; border-radius: 6px;"
         />
-        <NuxtLink v-else-if="link" :to="link">
+        <NuxtLink v-else-if="link && image" :to="link">
             <m-img :src="image" class="donation-button" is-asset/>
         </NuxtLink>
+        <m-button v-else-if="type" :to="link">{{$t('donate_to_user')}}</m-button>
     </div>
 </template>
 
@@ -43,6 +44,8 @@ const link = computed(() => {
             return `https://www.paypal.com/donate/?hosted_button_id=${l.match(donationSites.paypalBtn)![1]}`;
         case 'github':
             return `https://github.com/sponsors/${l.match(donationSites.github)![1]}`;
+        case 'boosty':
+            return `https://boosty.to/${l.match(donationSites.boosty)![1]}`;
     }
 });
 
