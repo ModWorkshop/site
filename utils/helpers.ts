@@ -281,23 +281,16 @@ export const donationSites = {
     paypalme: /(?:https:\/\/)?(?:www\.)?paypal\.me\/(\w+)/,
     paypalBtn: /(?:https:\/\/)?(?:www\.)?paypal(?:\.me|\.com)\/donate\/\?hosted_button_id=(\w+)/,
     paypal: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-    github: /(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/
+    github: /(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/,
+    boosty: /(?:https:\/\/)?(?:www\.)?boosty\.to\/(\w+)/
 }
 
 export function linkToDonationType(l?: string) {
     if (l) {
-        if (donationSites.kofi.test(l)) {
-            return 'kofi';
-        } else if (donationSites.bmc.test(l)) {
-            return 'bmc';
-        } else if (donationSites.paypalme.test(l)) {
-            return 'paypalme';
-        } else if (donationSites.paypal.test(l)) {
-            return 'paypal';
-        } else if (donationSites.paypalBtn.test(l)) {
-            return 'paypalBtn';
-        } else if (donationSites.github.test(l)) {
-            return 'github';
+        for (const [k,v] of Object.entries(donationSites)) {
+            if (v.test(l)) {
+                return k;
+            }
         }
     }
     return null;
