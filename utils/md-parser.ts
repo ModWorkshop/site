@@ -73,7 +73,7 @@ container(md, 'center', {
 	render: (tokens, idx) => {
 		const token = tokens[idx];
 		if (token.nesting === 1) {
-			return `<div class="center">${md.render(token.content)}`;
+			return `<div class="center">`;
 		} else {
 			return '</div></details>';
 		}
@@ -86,11 +86,10 @@ container(md, 'spoiler', {
 		const token = tokens[idx];
 		if (token.nesting === 1) {
 			let title = token.info;
-			const content = md.render(token.content);
 			if (!title || title.length == 0) {
 				title = 'Spoiler!';
 			}
-			return `<details class="spoiler"><summary>${title}</summary><div class="spoiler-body">${content}`;
+			return `<details class="spoiler"><summary>${title}</summary><div class="spoiler-body">`;
 		} else {
 			return '</div></details>';
 		}
