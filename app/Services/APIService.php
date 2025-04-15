@@ -43,7 +43,8 @@ const donationSites = [
     'kofi' => '/(?:https:\/\/)?(?:www\.)?ko-fi\.com\/(\w+)/',
     'paypalme' => '/(?:https:\/\/)?(?:www\.)?paypal\.me\/(\w+)/',
     'paypalBtn' => '/(?:https:\/\/)?(?:www\.)?paypal(?:\.me|\.com)\/donate\/\?hosted_button_id=(\w+)/',
-    'github' => '/(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/'
+    'github' => '/(?:https:\/\/)?(?:www\.)?github\.com\/sponsors\/(\w+)/',
+    'boosty' =>  '/(?:https:\/\/)?(?:www\.)?boosty\.to\/(\w+)/',
 ];
 
 class APIService {
@@ -614,6 +615,8 @@ class APIService {
                 return 'paypalBtn';
             } elseif (preg_match(donationSites['github'], $link)) {
                 return 'github';
+            } elseif (preg_match(donationSites['boosty'], $link)) {
+                return 'boosty';
             }
         }
         return null;
