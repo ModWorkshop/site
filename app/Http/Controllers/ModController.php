@@ -169,13 +169,15 @@ class ModController extends Controller
             'version',
         );
 
-        $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod pagew
+        $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod page
 
         if (isset($mod) && (array_key_exists('download_id', $val) && array_key_exists('download_type', $val))) {
             $downloadId = Arr::pull($val, 'download_id');
             $type = Arr::pull($val, 'download_type');
 
-            if (isset($downloadId) && ($downloadId != $mod->download_id || $type != $mod->download_type)) {
+            if ($downloadId == null || $type == null) {
+                $mod->downloadRelation()->dissociate();
+            } else if ($downloadId != $mod->download_id || $type != $mod->download_type) {
                 $download = null;
                 if ($type == 'file') {
                     $download = $mod->files()->find($downloadId);
@@ -188,8 +190,6 @@ class ModController extends Controller
                 } else {
                     throw ValidationException::withMessages(['download_id' => "The download doesn't exist in the mod"]);
                 }
-            } else {
-                $mod->downloadRelation()->dissociate();
             }
         }
 
