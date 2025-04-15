@@ -137,12 +137,8 @@ export default defineNuxtConfig({
 		"~/components/site/notifications",
 	],
 
-	// vitalizer: {
-	// 	disableStylesheets: 'entry'
-	// },
-
-	features: {
-		inlineStyles: false
+	vitalizer: {
+		disableStylesheets: 'entry'
 	},
 
 	vite: {
