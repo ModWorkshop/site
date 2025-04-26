@@ -73,7 +73,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
-            'content' => 'string|required|min:2|max:30000',
+            'content' => 'string|spam_check|required|min:2|max:30000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'tag_ids' => 'array|nullable',
@@ -83,17 +83,6 @@ class ThreadController extends Controller
 
         APIService::checkCaptcha($request);
         $user = $this->user();
-
-        // Check if the message is spammy, do not run on trusted users
-        $trustLevel = $user->getTrustLevel();
-        if ($trustLevel < 12) {
-            if ($user->getAccountAgeInHours() < 1 && APIService::countLinks($val['content']) > 0) {
-                abort(422, 'New accounts cannot post links in threads!');
-            }
-            elseif (APIService::checkSpamContent($val['content'])) {
-                abort(422, 'Thread message contains spam content!');
-            }
-        }
 
         Utils::convertToUTC($val, 'announce_until');
 
@@ -148,7 +137,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min:3|max:150',
-            'content' => 'string|min:2|max:30000',
+            'content' => 'string|spam_check|min:2|max:30000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
             'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',

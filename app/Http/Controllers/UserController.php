@@ -166,9 +166,9 @@ class UserController extends Controller
             'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
             'avatar_file' => ['nullable', File::image()->max($fileSize)],
             'custom_color' => 'string|max:7|nullable',
-            'bio' => 'string|nullable|max:3000',
+            'bio' => 'string|spam_check|nullable|max:3000',
             'email' => 'email|nullable|max:255',
-            'custom_title' => 'string|nullable|max:100',
+            'custom_title' => 'string|spam_check|nullable|max:100',
             'private_profile' => 'boolean',
             'invisible' => 'boolean',
             'banner_file' => ['nullable', File::image()->max($fileSize)],
@@ -229,20 +229,7 @@ class UserController extends Controller
                     }
                 }
             }
-        } elseif ($trustLevel < 12) { // This is roughly 12 months of the user existing or few mods/threads
-            $values = ['bio', 'custom_title'];
-            $accountAgeInHours = $user->getAccountAgeInHours();
-            foreach ($values as $value) {
-                if (!empty($val[$value])) {
-                    if ($accountAgeInHours < 12 && APIService::countLinks($val[$value]) > 0) {
-                        abort(422, 'New accounts cannot post links.');
-                    } elseif (APIService::checkSpamContent($val[$value])) {
-                        abort(422, 'Bio contains spam content!');
-                    }
-                }
-            }
         }
-
         // Verify donation links
         if (!empty($val['donation_url']) && APIService::checkDonationLink($val['donation_url']) == null) {
             abort(422, 'Invalid donation link!');
