@@ -9,6 +9,7 @@
             <m-input v-model="settings.discord_webhook" label="Discord Webhook for mods"/>
             <m-input v-model="settings.discord_suspension_webhook" label="Discord Webhook for suspensions"/>
             <m-input v-model="settings.discord_approval_webhook" label="Discord Webhook for approvals"/>
+            <m-input v-model="settings.edit_comment_threshold" type="number" label="Comment editing threshold"/>
             
             <m-select 
                 v-model="settings.news_forum_category"

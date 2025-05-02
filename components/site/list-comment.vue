@@ -49,7 +49,7 @@
                             >
                                 {{(commentable as Thread).answer_comment_id == comment.id ? $t('unmark_as_answer') : $t('mark_as_answer')}}
                             </m-dropdown-item>
-                            <m-dropdown-item v-if="canEdit || canDeleteAll" @click="openDeleteModal">{{$t('delete')}}</m-dropdown-item>
+                            <m-dropdown-item v-if="canDelete" @click="openDeleteModal">{{$t('delete')}}</m-dropdown-item>
                             <m-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</m-dropdown-item>
                         </template>
                     </m-dropdown>
@@ -91,6 +91,7 @@
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
+import { differenceInMinutes, parseISO } from 'date-fns';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~~/store';
 import type { Comment, Game, User, Thread } from '~~/types/models';
@@ -104,6 +105,7 @@ const props = withDefaults(defineProps<{
     canComment?: boolean,
     canEditAll?: boolean,
     canDeleteAll?: boolean,
+    canEditResource?: boolean,
     commentable?: { id: number, subscribed?: boolean, game?: Game },
     canPin?: boolean,
     isReply?: boolean,
@@ -164,7 +166,25 @@ if (props.comment.mentions) {
     });
 }
 
-const canEdit = computed(() => user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll);
+const now = useNow();
+const creationDate = computed(() => parseISO(props.comment.created_at ?? now.value.toISOString()))
+const canEdit = computed(() => {
+    const minutesPassed = differenceInMinutes(now.value, creationDate.value);
+
+    if (minutesPassed >= 1) {
+        if (user?.id === props.comment.user_id && props.canEditResource) {
+            return true;
+        }
+        return store.hasPermission('manage-discussions', props.game) || props.canEditAll;
+    } else {
+        return user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll;
+    }
+});
+
+const canDelete = computed(() => {
+    return user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll;
+});
+
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
 const classes = computed(() => {

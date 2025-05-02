@@ -30,8 +30,9 @@
             :url="`threads/${thread.id}/comments`" 
             :page-url="`/thread/${thread.id}`"
             resource-name="replies"
+            :can-edit-resource="canEditThread"
             :commentable="thread" 
-            :can-pin="canPin"
+            :can-pin="canEditThread"
             :get-special-tag="commentSpecialTag"
             :can-comment="canComment"
             :cannot-comment-reason="cannotCommentReason"
@@ -63,7 +64,8 @@ const commentSpecialTag = function(comment: Comment) {
 };
 
 const threadGame = computed(() => thread.forum?.game);
-const canPin = computed(() => user ? user.id === thread.user_id : false);
+const canModerate = computed(() => hasPermission('manage-discussions', threadGame.value));
+const canEditThread = computed(() => canModerate.value || (user ? user.id === thread.user_id : false));
 
 const thumbnail = computed(() => {
     const avatar = thread.user?.avatar;
@@ -80,7 +82,6 @@ useServerSeoMeta({
 	twitterCard: 'summary',
 });
 
-const canModerate = computed(() => hasPermission('manage-discussions', threadGame.value));
 const bannedCommenting = computed(() => {
     const canAppeal = ban?.can_appeal ?? true;
     const canAppealGame = gameBan?.can_appeal ?? true;

@@ -19,6 +19,7 @@
             :url="`mods/${mod.id}/comments`"
             :page-url="`/mod/${mod.id}`"
             :commentable="mod"
+            :can-edit-resource="canEdit"
             :can-delete-all="canDeleteComments"
             :can-pin="canEdit"
             :get-special-tag="commentSpecialTag"

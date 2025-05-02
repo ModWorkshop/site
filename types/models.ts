@@ -460,6 +460,7 @@ export interface Settings {
     discord_suspension_webhook: string;
     discord_approval_webhook: string;
     news_forum_category: number;
+    edit_comment_threshold: number;
     game_requests_forum_category: number;
 }
 

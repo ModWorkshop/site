@@ -31,6 +31,7 @@
                     :can-edit-all="compCanEditAll"
                     :can-pin="compCanEditAll || canPin"
                     :can-delete-all="canDeleteAll"
+                    :can-edit-resource="canEditResource"
                     :current-focus="replyingComment || editingComment"
                     :get-special-tag="getSpecialTag"
                     :show-pins="showPins"
@@ -92,6 +93,7 @@ const props = withDefaults(defineProps<{
     url: string,
     pageUrl?: string,
     resourceName?: string,
+    canEditResource?: boolean,
     commentable?: { id: number, subscribed?: boolean, game?: Game },
     canComment?: boolean,
     showButtons?: boolean,
@@ -101,7 +103,13 @@ const props = withDefaults(defineProps<{
     cannotCommentReason?: string,
     canDeleteAll?: boolean,
     showPins?: boolean,
-}>(), { resourceName: 'comments', lazy: false, showButtons: true, showPins: true });
+}>(), {
+    resourceName: 'comments',
+    lazy: false,
+    showButtons: true,
+    showPins: true,
+    canEditResource: false
+});
 
 defineEmits<{
     markAsAnswer: [comment: Comment]
