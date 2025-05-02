@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Comment;
 use App\Models\Mod;
+use App\Models\Setting;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -58,9 +59,19 @@ class CommentPolicy
     public function update(User $user, Comment $comment)
     {
         $commentable = $comment->commentable;
+
         if ($user->hasPermission('manage-discussions', $commentable->game) || ($user->hasPermission('create-discussions', $commentable->game) && $comment->user->id === $user->id)) {
-            return $this->authorize('view', $commentable);
+            /**
+             * If you are able to edit the thread or mod, don't limit editing
+             */
+            $threshHold = Setting::getValue('edit_comment_threshold');
+            if ($comment->created_at->diff()->minutes >= $threshHold) {
+                return $this->authorize('update', $commentable);
+            } else {
+                return $this->authorize('view', $commentable);
+            }
         }
+
 
         return false;
     }
