@@ -207,7 +207,7 @@ export default defineNuxtConfig({
 
 		sitemap: '/sitemap.xml'
 	},
-	
+
 	modules: [
 		'@nuxtjs/robots',
 		'@pinia/nuxt',
@@ -219,7 +219,10 @@ export default defineNuxtConfig({
 		'@nuxtjs/fontaine',
 		'nuxt-easy-lightbox',
 		'nuxt-vitalizer',
-		'nuxt-seo-utils',
-		'nuxt-time'
+		'nuxt-seo-utils'
 	],
+
+	experimental: {
+		granularCachedData: true
+	}
 });

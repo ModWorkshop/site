@@ -9,10 +9,9 @@ export interface DifferentFetchOptions extends FetchOptions {
     cacheData?: boolean;
 }
 
-const expirations = {};
-
 export default function<T>(url: string|(() => string), options: DifferentFetchOptions = {}, key?: string) {
     const nuxtApp = useNuxtApp();
+    const expirations = useState('fetch-expirations', () => { return {} })
 
     key ??='';
     key += hash(JSON.stringify({
@@ -21,27 +20,31 @@ export default function<T>(url: string|(() => string), options: DifferentFetchOp
     }));
 
 
-    return useAsyncData<T>(key ?? '', () =>  useGet<T>(typeof url == 'function' ? url() : url, options), { 
+    return useAsyncData(key, () => useGet<T>(url, options), { 
         lazy: options.lazy,
         immediate: options.immediate,
         transform(input) {
-            expirations[key] = addSeconds(new Date(), 30).toISOString();
+            expirations.value[key] = addSeconds(new Date(), 5).toISOString();
             return input;
         },
-        getCachedData(key) {
-            const expiration = options.cacheData && Object.hasOwn(expirations, key);
+        getCachedData(key, nuxtApp, ctx) {
             
+            if (ctx.cause === 'refresh:manual') {
+                // Skip cache on manual refresh
+                return
+            }
+
+            const expiration = options.cacheData && Object.hasOwn(expirations.value, key);
+
             if (!expiration) {
                 return nuxtApp.isHydrating ? nuxtApp.payload.data[key] : nuxtApp.static.data[key];
             }
 
-            const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-
-            if (parseISO(expirations[key]) > new Date()) {
-                return data;
+            if (parseISO(expirations.value[key]) > new Date()) {
+                return nuxtApp.payload.data[key] ?? nuxtApp.static.data[key];
             }
-
-            return nuxtApp.static.data[key];
+            
+            return undefined;
         }
     });
     //For example we can't use it for mods, they constantly change and unless we have time option it'll cause a lot of issues.

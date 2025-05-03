@@ -1,4 +1,4 @@
-export default async function<T = unknown>(url: string, options?) {
+export default async function<T = unknown>(url: string|(() => string), options?) {
     const token = useCookie('XSRF-TOKEN', { readonly: true });
     const headers = useRequestHeaders();
     const { public: config } = useRuntimeConfig();
@@ -25,6 +25,8 @@ export default async function<T = unknown>(url: string, options?) {
         headersToSend['x-forwarded-for'] = headers['x-forwarded-for'];
         headersToSend['x-forwarded-ip'] = headers['x-forwarded-for'];
     }
+
+    url = typeof url == 'function' ? url() : url
 
     //No point running this for non GET
     if (options && options.params && (!options.method || options.method == 'GET')) {
