@@ -70,6 +70,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/code-frame@npm:^7.27.1":
+  version: 7.27.1
+  resolution: "@babel/code-frame@npm:7.27.1"
+  dependencies:
+    "@babel/helper-validator-identifier": ^7.27.1
+    js-tokens: ^4.0.0
+    picocolors: ^1.1.1
+  checksum: 5874edc5d37406c4a0bb14cf79c8e51ad412fb0423d176775ac14fc0259831be1bf95bdda9c2aa651126990505e09a9f0ed85deaa99893bc316d2682c5115bdc
+  languageName: node
+  linkType: hard
+
 "@babel/compat-data@npm:^7.26.8":
   version: 7.26.8
   resolution: "@babel/compat-data@npm:7.26.8"
@@ -235,6 +246,13 @@ __metadata:
   version: 7.25.9
   resolution: "@babel/helper-validator-identifier@npm:7.25.9"
   checksum: 5b85918cb1a92a7f3f508ea02699e8d2422fe17ea8e82acd445006c0ef7520fbf48e3dbcdaf7b0a1d571fc3a2715a29719e5226636cb6042e15fe6ed2a590944
+  languageName: node
+  linkType: hard
+
+"@babel/helper-validator-identifier@npm:^7.27.1":
+  version: 7.27.1
+  resolution: "@babel/helper-validator-identifier@npm:7.27.1"
+  checksum: 3c7e8391e59d6c85baeefe9afb86432f2ab821c6232b00ea9082a51d3e7e95a2f3fb083d74dc1f49ac82cf238e1d2295dafcb001f7b0fab479f3f56af5eaaa47
   languageName: node
   linkType: hard
 
@@ -1703,9 +1721,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@nuxt/kit@npm:3.17.0"
+"@nuxt/kit@npm:3.17.2":
+  version: 3.17.2
+  resolution: "@nuxt/kit@npm:3.17.2"
   dependencies:
     c12: ^3.0.3
     consola: ^3.4.2
@@ -1727,9 +1745,9 @@ __metadata:
     tinyglobby: ^0.2.13
     ufo: ^1.6.1
     unctx: ^2.4.1
-    unimport: ^5.0.0
+    unimport: ^5.0.1
     untyped: ^2.0.0
-  checksum: f840d6721bd1b756762e3916df05e33343e86ff705aa419252da3e0618956b933c7aa33abb9ad8961cfb10ef4890037d854dc957e742d8c10a7699f1b304d7a4
+  checksum: 59ca12815758df2ed8c72cd9e8e3b0b902d10a1ecb0169977f25b244bb9a9c93355804682c6ab715165bcfe63acb2a272910aec67edcfb2b40fcab5214417079
   languageName: node
   linkType: hard
 
@@ -1763,15 +1781,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/schema@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@nuxt/schema@npm:3.17.0"
+"@nuxt/schema@npm:3.17.2":
+  version: 3.17.2
+  resolution: "@nuxt/schema@npm:3.17.2"
   dependencies:
+    "@vue/shared": ^3.5.13
     consola: ^3.4.2
     defu: ^6.1.4
     pathe: ^2.0.3
     std-env: ^3.9.0
-  checksum: bfc74951b880fb5381ce97bd59cc01ff3ca595e7e9844475e37e7fa990bb1adf493242e08d5eb452899b83ec3325af92a8d53b84c6072f30ca5e77fd1646e486
+  checksum: 004dbf47e0a91d7f4ecd4e722491cc2ca8136487ecaa4388f8e03bf490a0205cfab592eb1710e282fe6fc47c70a0547814e754d7ce1486b3fb9d4bbedea27ec9
   languageName: node
   linkType: hard
 
@@ -1810,11 +1829,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/vite-builder@npm:3.17.0":
-  version: 3.17.0
-  resolution: "@nuxt/vite-builder@npm:3.17.0"
+"@nuxt/vite-builder@npm:3.17.2":
+  version: 3.17.2
+  resolution: "@nuxt/vite-builder@npm:3.17.2"
   dependencies:
-    "@nuxt/kit": 3.17.0
+    "@nuxt/kit": 3.17.2
     "@rollup/plugin-replace": ^6.0.2
     "@vitejs/plugin-vue": ^5.2.3
     "@vitejs/plugin-vue-jsx": ^4.1.2
@@ -1827,7 +1846,7 @@ __metadata:
     exsolve: ^1.0.5
     externality: ^1.0.2
     get-port-please: ^3.1.2
-    h3: ^1.15.2
+    h3: ^1.15.3
     jiti: ^2.4.2
     knitwork: ^1.2.0
     magic-string: ^0.30.17
@@ -1843,13 +1862,13 @@ __metadata:
     ufo: ^1.6.1
     unenv: ^2.0.0-rc.15
     unplugin: ^2.3.2
-    vite: ^6.3.3
+    vite: ^6.3.4
     vite-node: ^3.1.2
-    vite-plugin-checker: ^0.9.1
+    vite-plugin-checker: ^0.9.2
     vue-bundle-renderer: ^2.1.1
   peerDependencies:
     vue: ^3.3.4
-  checksum: 9b1afa663dcfaeae64149240e20f1862c2c4c395a1dbad2d09b04d107fe4e4701d3171e6a50d655cb3ebdad3a866fd08262b4601c2cf8a1bf85714db357f0dba
+  checksum: 30dc2d47c594383b99240c702ccdd85ef1ac1ff6b38bed4fea3a66ec56fef1c0c064dc08c906d57fcbf573bba9de26d8e30d3ec004d3c7c9a93d9fcd18dd3b54
   languageName: node
   linkType: hard
 
@@ -1945,9 +1964,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-darwin-arm64@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-darwin-arm64@npm:0.67.0"
+"@oxc-parser/binding-darwin-arm64@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-darwin-arm64@npm:0.68.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -1959,9 +1978,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-darwin-x64@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-darwin-x64@npm:0.67.0"
+"@oxc-parser/binding-darwin-x64@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-darwin-x64@npm:0.68.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -1973,9 +1992,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-linux-arm-gnueabihf@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-linux-arm-gnueabihf@npm:0.67.0"
+"@oxc-parser/binding-linux-arm-gnueabihf@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-linux-arm-gnueabihf@npm:0.68.1"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
@@ -1987,9 +2006,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-linux-arm64-gnu@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-linux-arm64-gnu@npm:0.67.0"
+"@oxc-parser/binding-linux-arm64-gnu@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-linux-arm64-gnu@npm:0.68.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -2001,9 +2020,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-linux-arm64-musl@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-linux-arm64-musl@npm:0.67.0"
+"@oxc-parser/binding-linux-arm64-musl@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-linux-arm64-musl@npm:0.68.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -2015,9 +2034,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-linux-x64-gnu@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-linux-x64-gnu@npm:0.67.0"
+"@oxc-parser/binding-linux-x64-gnu@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-linux-x64-gnu@npm:0.68.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -2029,9 +2048,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-linux-x64-musl@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-linux-x64-musl@npm:0.67.0"
+"@oxc-parser/binding-linux-x64-musl@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-linux-x64-musl@npm:0.68.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
@@ -2045,9 +2064,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-wasm32-wasi@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-wasm32-wasi@npm:0.67.0"
+"@oxc-parser/binding-wasm32-wasi@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-wasm32-wasi@npm:0.68.1"
   dependencies:
     "@napi-rs/wasm-runtime": ^0.2.9
   conditions: cpu=wasm32
@@ -2061,9 +2080,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-win32-arm64-msvc@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-win32-arm64-msvc@npm:0.67.0"
+"@oxc-parser/binding-win32-arm64-msvc@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-win32-arm64-msvc@npm:0.68.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
@@ -2075,9 +2094,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-parser/binding-win32-x64-msvc@npm:0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-parser/binding-win32-x64-msvc@npm:0.67.0"
+"@oxc-parser/binding-win32-x64-msvc@npm:0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-parser/binding-win32-x64-msvc@npm:0.68.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2105,10 +2124,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-project/types@npm:^0.67.0":
-  version: 0.67.0
-  resolution: "@oxc-project/types@npm:0.67.0"
-  checksum: 83d3a457984fdcf561f5e1b1ab6ef0a0c309f18b8d5770fa876253abea020f8d8063d1a2320cde26b4ede9c4ef6bb374ac3ecc6541c6fab6bf6185ec5ce6c24c
+"@oxc-project/types@npm:^0.68.1":
+  version: 0.68.1
+  resolution: "@oxc-project/types@npm:0.68.1"
+  checksum: 64310a820b4d9a8a118fab82e2381e809929e1bc2defd3e7389ef9bd6bd14d8db681065cb9e50842b8ab92aaa82842674c6c830ace18462ec5f45c0dca31bc2b
   languageName: node
   linkType: hard
 
@@ -8052,7 +8071,7 @@ __metadata:
     markdown-it: ^14.1.0
     markdown-it-color-inline: ^1.9.5
     markdown-it-task-lists: ^2.1.1
-    nuxt: 3.17.0
+    nuxt: 3.17.2
     nuxt-easy-lightbox: latest
     nuxt-seo-utils: ^7.0.10
     nuxt-umami: latest
@@ -8156,7 +8175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nitropack@npm:^2.11.10":
+"nitropack@npm:^2.11.11":
   version: 2.11.11
   resolution: "nitropack@npm:2.11.11"
   dependencies:
@@ -8527,17 +8546,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt@npm:3.17.0":
-  version: 3.17.0
-  resolution: "nuxt@npm:3.17.0"
+"nuxt@npm:3.17.2":
+  version: 3.17.2
+  resolution: "nuxt@npm:3.17.2"
   dependencies:
     "@nuxt/cli": ^3.25.0
     "@nuxt/devalue": ^2.0.2
     "@nuxt/devtools": ^2.4.0
-    "@nuxt/kit": 3.17.0
-    "@nuxt/schema": 3.17.0
+    "@nuxt/kit": 3.17.2
+    "@nuxt/schema": 3.17.2
     "@nuxt/telemetry": ^2.6.6
-    "@nuxt/vite-builder": 3.17.0
+    "@nuxt/vite-builder": 3.17.2
     "@unhead/vue": ^2.0.8
     "@vue/shared": ^3.5.13
     c12: ^3.0.3
@@ -8554,7 +8573,7 @@ __metadata:
     estree-walker: ^3.0.3
     exsolve: ^1.0.5
     globby: ^14.1.0
-    h3: ^1.15.2
+    h3: ^1.15.3
     hookable: ^5.5.3
     ignore: ^7.0.4
     impound: ^1.0.0
@@ -8565,12 +8584,12 @@ __metadata:
     mlly: ^1.7.4
     mocked-exports: ^0.1.1
     nanotar: ^0.2.0
-    nitropack: ^2.11.10
+    nitropack: ^2.11.11
     nypm: ^0.6.0
     ofetch: ^1.4.1
     ohash: ^2.0.11
     on-change: ^5.0.1
-    oxc-parser: ^0.67.0
+    oxc-parser: ^0.68.1
     pathe: ^2.0.3
     perfect-debounce: ^1.0.0
     pkg-types: ^2.1.0
@@ -8584,7 +8603,7 @@ __metadata:
     ultrahtml: ^1.6.0
     uncrypto: ^0.1.3
     unctx: ^2.4.1
-    unimport: ^5.0.0
+    unimport: ^5.0.1
     unplugin: ^2.3.2
     unplugin-vue-router: ^0.12.0
     unstorage: ^1.16.0
@@ -8604,7 +8623,7 @@ __metadata:
   bin:
     nuxi: bin/nuxt.mjs
     nuxt: bin/nuxt.mjs
-  checksum: 8377be325a9489f3afaf6a3828614c02de3edf92e5497e3b5c30bb294bcebded997499c13aebd23ca65ea0a66674f44a546372d04e6ae09f8b51ebdde2c363b7
+  checksum: fe3ed47376a9f1d9417846a39fb2567c1fe1398d015196b673f98e61d53e6cd55b2a32d0c9c24e227f7609d770b0cd89683dd79020b532800fe7581090c9dfdc
   languageName: node
   linkType: hard
 
@@ -8829,21 +8848,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oxc-parser@npm:^0.67.0":
-  version: 0.67.0
-  resolution: "oxc-parser@npm:0.67.0"
+"oxc-parser@npm:^0.68.1":
+  version: 0.68.1
+  resolution: "oxc-parser@npm:0.68.1"
   dependencies:
-    "@oxc-parser/binding-darwin-arm64": 0.67.0
-    "@oxc-parser/binding-darwin-x64": 0.67.0
-    "@oxc-parser/binding-linux-arm-gnueabihf": 0.67.0
-    "@oxc-parser/binding-linux-arm64-gnu": 0.67.0
-    "@oxc-parser/binding-linux-arm64-musl": 0.67.0
-    "@oxc-parser/binding-linux-x64-gnu": 0.67.0
-    "@oxc-parser/binding-linux-x64-musl": 0.67.0
-    "@oxc-parser/binding-wasm32-wasi": 0.67.0
-    "@oxc-parser/binding-win32-arm64-msvc": 0.67.0
-    "@oxc-parser/binding-win32-x64-msvc": 0.67.0
-    "@oxc-project/types": ^0.67.0
+    "@oxc-parser/binding-darwin-arm64": 0.68.1
+    "@oxc-parser/binding-darwin-x64": 0.68.1
+    "@oxc-parser/binding-linux-arm-gnueabihf": 0.68.1
+    "@oxc-parser/binding-linux-arm64-gnu": 0.68.1
+    "@oxc-parser/binding-linux-arm64-musl": 0.68.1
+    "@oxc-parser/binding-linux-x64-gnu": 0.68.1
+    "@oxc-parser/binding-linux-x64-musl": 0.68.1
+    "@oxc-parser/binding-wasm32-wasi": 0.68.1
+    "@oxc-parser/binding-win32-arm64-msvc": 0.68.1
+    "@oxc-parser/binding-win32-x64-msvc": 0.68.1
+    "@oxc-project/types": ^0.68.1
   dependenciesMeta:
     "@oxc-parser/binding-darwin-arm64":
       optional: true
@@ -8865,7 +8884,7 @@ __metadata:
       optional: true
     "@oxc-parser/binding-win32-x64-msvc":
       optional: true
-  checksum: e0f06afb28941aff732708a662151e7d8d908e12370ad551f07fc12a40c99b4945b2fc1368b83c3bb2e876740173c04969d085f17620f8e6113cb60f8214be30
+  checksum: 337b6bbf696b566236edb10d158cb6e5951afe3b1703038b97fc7262f9ce9d69836961ef14d205bd5d239cb06925ec3e2c51c757ee221ee3e19cb42d10c451a0
   languageName: node
   linkType: hard
 
@@ -11406,6 +11425,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unimport@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "unimport@npm:5.0.1"
+  dependencies:
+    acorn: ^8.14.1
+    escape-string-regexp: ^5.0.0
+    estree-walker: ^3.0.3
+    local-pkg: ^1.1.1
+    magic-string: ^0.30.17
+    mlly: ^1.7.4
+    pathe: ^2.0.3
+    picomatch: ^4.0.2
+    pkg-types: ^2.1.0
+    scule: ^1.3.0
+    strip-literal: ^3.0.0
+    tinyglobby: ^0.2.13
+    unplugin: ^2.3.2
+    unplugin-utils: ^0.2.4
+  checksum: c7a9b32fcf83384eba29c5f89c2146a9e0a0fbeb4cd0443e028450fc4c138170906dac9f5cfb7ad84119319da4adebbeec2138307bdd68c11f4bc9206a86ef1f
+  languageName: node
+  linkType: hard
+
 "unique-filename@npm:^4.0.0":
   version: 4.0.0
   resolution: "unique-filename@npm:4.0.0"
@@ -11796,18 +11837,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-checker@npm:^0.9.1":
-  version: 0.9.1
-  resolution: "vite-plugin-checker@npm:0.9.1"
+"vite-plugin-checker@npm:^0.9.2":
+  version: 0.9.2
+  resolution: "vite-plugin-checker@npm:0.9.2"
   dependencies:
-    "@babel/code-frame": ^7.26.2
+    "@babel/code-frame": ^7.27.1
     chokidar: ^4.0.3
     npm-run-path: ^6.0.0
     picocolors: ^1.1.1
     picomatch: ^4.0.2
     strip-ansi: ^7.1.0
     tiny-invariant: ^1.3.3
-    tinyglobby: ^0.2.12
+    tinyglobby: ^0.2.13
     vscode-uri: ^3.1.0
   peerDependencies:
     "@biomejs/biome": ">=1.7"
@@ -11816,10 +11857,10 @@ __metadata:
     optionator: ^0.9.4
     stylelint: ">=16"
     typescript: "*"
-    vite: ">=2.0.0"
+    vite: ">=6.1.5"
     vls: "*"
     vti: "*"
-    vue-tsc: ~2.2.2
+    vue-tsc: ~2.2.10
   peerDependenciesMeta:
     "@biomejs/biome":
       optional: true
@@ -11839,7 +11880,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: df18987cb46be2652b9c5d156d0d2f7415a3b1e1aaa71ad42d397a17ff03e92d34baf5156cb79777757de4b6b289f2611ab3ecfb16824bcc2a8f5bd2cf1a7d31
+  checksum: d9da8fb6a6f9ba3d286db3920291d0ae8550cd43c6f31be94497dfe368ed8ab8faba0c8b0551b1249c29813fab94f17549fa3b493392596901a752516cba9077
   languageName: node
   linkType: hard
 
@@ -11881,7 +11922,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0 || ^6.0.0, vite@npm:^6.3.3":
+"vite@npm:^5.0.0 || ^6.0.0":
   version: 6.3.4
   resolution: "vite@npm:6.3.4"
   dependencies:
@@ -11933,6 +11974,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 6b86f267319342393d2aeea3436d64716dd6d769acd96b13f9be416f751f4f3380119594baebb2ead71f738c6bd20956017320fad4cd79ba00168f4b9a747393
+  languageName: node
+  linkType: hard
+
+"vite@npm:^6.3.4":
+  version: 6.3.5
+  resolution: "vite@npm:6.3.5"
+  dependencies:
+    esbuild: ^0.25.0
+    fdir: ^6.4.4
+    fsevents: ~2.3.3
+    picomatch: ^4.0.2
+    postcss: ^8.5.3
+    rollup: ^4.34.9
+    tinyglobby: ^0.2.13
+  peerDependencies:
+    "@types/node": ^18.0.0 || ^20.0.0 || >=22.0.0
+    jiti: ">=1.21.0"
+    less: "*"
+    lightningcss: ^1.21.0
+    sass: "*"
+    sass-embedded: "*"
+    stylus: "*"
+    sugarss: "*"
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: b7f1ebaae483090441f17ca09ea2c9b803688d2a2ed9860fbd8b72271918776ea3ceca643e807a5ee00628d65b79656d32529a4b8dd388aa33e41bc3f38732d0
   languageName: node
   linkType: hard
 
