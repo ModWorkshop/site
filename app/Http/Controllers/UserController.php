@@ -156,23 +156,21 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $fileSize = Setting::getValue('image_max_file_size') / 1024;
-
         $passwordRule = APIService::getPasswordRule();
         $canManageUsers = Auth::user()->hasPermission('manage-users');
 
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:30',
             'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
-            'avatar_file' => ['nullable', File::image()->max($fileSize)],
+            'avatar_file' => ['nullable', 'is_image'],
             'custom_color' => 'string|max:7|nullable',
             'bio' => 'string|spam_check|nullable|max:3000',
             'email' => 'email|nullable|max:255',
             'custom_title' => 'string|spam_check|nullable|max:100',
             'private_profile' => 'boolean',
             'invisible' => 'boolean',
-            'banner_file' => ['nullable', File::image()->max($fileSize)],
-            'background_file' => ['nullable', File::image()->max($fileSize)],
+            'banner_file' => ['nullable', 'is_image'],
+            'background_file' => ['nullable', 'is_image'],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
             'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],

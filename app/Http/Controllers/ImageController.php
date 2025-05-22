@@ -58,7 +58,7 @@ class ImageController extends Controller
         }
 
         $val = $request->validate([
-            'file' => ['file', 'required', File::image()->max(Setting::getValue('image_max_file_size') / 1024)]
+            'file' => ['file', 'required', 'is_image']
         ]);
 
         /** @var UploadedFile $file */

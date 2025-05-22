@@ -42,8 +42,8 @@ class GameController extends Controller
         $validateArr = [
             'name' => 'string|max:150',
             'buttons' => 'nullable|string|max:1000',
-            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
-            'banner_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',
+            'banner_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',
             'short_name' => 'string|nullable|max:30',
             'webhook_url' => 'string|nullable|max:1000',
             'mod_manager_ids' => 'array|nullable',

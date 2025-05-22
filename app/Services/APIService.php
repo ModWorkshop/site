@@ -122,10 +122,10 @@ class APIService {
             $img = Vips\Image::newFromFile($file->path().$opts);
         }
 
-        return self::storeImageByObject($img, $fileDir, $oldFile, $config);
+        return self::storeImageByObject($img, $fileDir, $oldFile, $config, $file->extension());
     }
 
-    public static function storeImageByObject(Vips\Image|string|null $img, string $fileDir, ?string $oldFile=null, array $config = []) {
+    public static function storeImageByObject(Vips\Image|string|null $img, string $fileDir, ?string $oldFile=null, array $config = [], $fileType=null) {
         $config['allowDeletion'] ??= false;
 
         $isEmptyFile = strlen($img) == 0;
@@ -143,20 +143,27 @@ class APIService {
             return null;
         }
 
-        $fileName = Str::random(40).'.webp';
+        $ext = '.webp';
+        if (isset($fileType)) {
+            if ($fileType === 'avif') { // Allow avif images, but prefer webp for the rest
+                $ext = '.avif';
+            }
+        }
+
+        $fileName = Str::random(40).$ext;
 
         if (isset($config['size'])) {
             $img = $img->thumbnail_image($config['size']);
         }
 
-        $buffer = $img->writeToBuffer('.webp', ['Q' => 80]);
+        $buffer = $img->writeToBuffer($ext, ['Q' => 80]);
         Storage::put($fileDir.'/'.$fileName, $buffer);
 
         $thumb = null;
         $thumbBuffer = null;
         if (isset($config['thumbnailSize'])) {
             $thumb = $img->thumbnail_image($config['thumbnailSize']);
-            $thumbBuffer = $thumb->writeToBuffer('.webp');
+            $thumbBuffer = $thumb->writeToBuffer($ext);
             Storage::put($fileDir.'/thumbnail_'.$fileName, $thumbBuffer);
         }
 

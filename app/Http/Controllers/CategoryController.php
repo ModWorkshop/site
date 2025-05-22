@@ -94,7 +94,7 @@ class CategoryController extends Controller
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'parent_id' => 'integer|min:1|nullable|exists:categories,id',
             'display_order' => 'integer|min:-1000|max:1000|nullable',
-            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',
             'approval_only' => 'boolean',
             'webhook_url' => 'string|nullable|max:1000',
             'disable_mod_managers' => 'boolean|nullable',

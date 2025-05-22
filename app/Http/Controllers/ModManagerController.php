@@ -74,7 +74,7 @@ class ModManagerController extends Controller
             'site_url' => 'url|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'hidden' => 'boolean|nullable',
-            // 'image_file' => 'nullable|max:512000|mimes:png,webp,gif,jpg',
+            // 'image_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',
         ]);
 
         $val['site_url'] ??= '';
