@@ -75,7 +75,7 @@ class TagController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|required|min:2|max:100',
-            'color' => 'string|required|max:8',
+            'color' => 'string|required|hex_color|max:8',
             'notice' => 'string|nullable|min:3|max:1000',
             'notice_type' => 'string|nullable|in:info,warning,danger',
             'type' => 'string|nullable|in:all,forum,mod',
