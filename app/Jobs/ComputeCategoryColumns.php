@@ -38,7 +38,7 @@ class ComputeCategoryColumns implements ShouldQueue
         }
     }
 
-    public function getChildren(Category $cat, array &$children = [])
+    private function getChildren(Category $cat, array &$children = [])
     {
         foreach ($this->categories as $loopCat) {
             if ($loopCat->parent_id == $cat->id) {
