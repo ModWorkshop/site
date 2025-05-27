@@ -30,9 +30,9 @@ use Spatie\Sitemap\Tags\Url;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class Visibility {
-    const public = 'public';
-    const private = 'private';
-    const unlisted = 'unlisted';
+    public const public = 'public';
+    public const private = 'private';
+    public const unlisted = 'unlisted';
 }
 
 /**
@@ -536,19 +536,19 @@ class Mod extends Model implements SubscribableInterface
         ];
     }
 
-    function filesCount(): Attribute {
+    public function filesCount(): Attribute {
         return Attribute::make(fn() => $this->files()->count())->shouldCache();
     }
 
-    function linksCount(): Attribute {
+    public function linksCount(): Attribute {
         return Attribute::make(fn() => $this->links()->count())->shouldCache();
     }
 
-    function usedStorage(): Attribute {
+    public function usedStorage(): Attribute {
         return Attribute::make(fn() => intval($this->files()->sum('size')));
     }
 
-    function currentStorage(): Attribute {
+    public function currentStorage(): Attribute {
         return Attribute::make(function() {
             $size = $this->allowed_storage ?? Setting::getValue('mod_storage_size');
 
@@ -561,7 +561,7 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
-    function modManagers(): Attribute {
+    public function modManagers(): Attribute {
         return Attribute::make(function() {
             $gameId = $this->game_id;
             return ModManager::where(function($q) {
@@ -579,7 +579,7 @@ class Mod extends Model implements SubscribableInterface
      * In case it's not loaded, tries to calculate it using download_id and download_type
      * If download_id is not set, it will return either first link or first file.
      */
-    function download(): Attribute {
+    public function download(): Attribute {
         return Attribute::make(function() {
             $linksLoaded = $this->relationLoaded('links');
             $filesLoaded = $this->relationLoaded('files');

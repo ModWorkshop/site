@@ -38,7 +38,7 @@ class ComputeCategoryColumns implements ShouldQueue
         }
     }
 
-    function getChildren(Category $cat, array &$children = [])
+    public function getChildren(Category $cat, array &$children = [])
     {
         foreach ($this->categories as $loopCat) {
             if ($loopCat->parent_id == $cat->id) {
@@ -49,7 +49,7 @@ class ComputeCategoryColumns implements ShouldQueue
         return $children;
     }
 
-    function makeBreadcrumb(Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
+    public function makeBreadcrumb(Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {
                 $loopCheck[$category->id] = true;

@@ -292,7 +292,7 @@ class UserController extends Controller
      *
      * @authenticated
      */
-    function setUserRoles(Request $request, User $user) {
+    public function setUserRoles(Request $request, User $user) {
         $this->authorize('manageRoles', $user);
 
         $val = $request->validate([

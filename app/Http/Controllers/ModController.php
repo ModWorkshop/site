@@ -633,7 +633,7 @@ class ModController extends Controller
      *
      * @group Files
      */
-    function downloadPrimaryFile(Mod $mod) {
+    public function downloadPrimaryFile(Mod $mod) {
         $file = $mod->downloadRelation;
         if (!$file instanceof File) {
             $file = $mod->files()->firstOrFail();

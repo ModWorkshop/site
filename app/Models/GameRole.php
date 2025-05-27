@@ -88,7 +88,7 @@ class GameRole extends Model
         return $this->belongsToMany(Permission::class);
     }
 
-    function cachedPermissions(): Attribute {
+    public function cachedPermissions(): Attribute {
         return Attribute::make(
             fn() => Cache::remember($this->cacheKey().':permission', 60, fn() => $this->permissions)
         );

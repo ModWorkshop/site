@@ -25,7 +25,7 @@ class RestoreUser extends Command
 
     private int $userId;
 
-    function restoreTable(string $tableName, callable $clbk=null, string $key = 'user_id', string $value=null) {
+    public function restoreTable(string $tableName, callable $clbk=null, string $key = 'user_id', string $value=null) {
         $value ??= $this->userId;
 
         $this->info("Restoring table {$tableName} with key {$key} and value {$value}");

@@ -98,7 +98,7 @@ class CommentController extends Controller
      *
      * @authenticated
      */
-    function setPinned(Request $request, Comment $comment) {
+    public function setPinned(Request $request, Comment $comment) {
         CommentService::setPinned($request, $comment);
     }
 }

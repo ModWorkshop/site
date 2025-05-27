@@ -41,12 +41,12 @@ class ModManager extends Model
 
     use HasFactory;
 
-    function game(): BelongsTo
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }
 
-    function games() {
+    public function games() {
         return $this->belongsToMany(Game::class);
     }
 }
