@@ -49,7 +49,7 @@ class ComputeCategoryColumns implements ShouldQueue
         return $children;
     }
 
-    public function makeBreadcrumb(Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
+    private function makeBreadcrumb(Category $category=null, array $arr=[], array &$loopCheck=[]) : array {
         if (isset($category)) {
             if (!isset($loopCheck[$category->id])) {
                 $loopCheck[$category->id] = true;
