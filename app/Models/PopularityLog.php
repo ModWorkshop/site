@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PopularityLog extends Model
 {
     use HasFactory;
-    const CREATED_AT = null;
+    public const CREATED_AT = null;
 
     protected $guarded = [];
 

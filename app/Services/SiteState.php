@@ -26,30 +26,30 @@ class SiteState {
     public ?string $showResourceRoute = null;
 
     // For optimization purposes, if a mod is needed (For example for files) we can avoid loading it again.
-    function getMod(int $id): ?Mod {
+    public function getMod(int $id): ?Mod {
         return $this->mods[$id];
     }
 
-    function addMod(Mod $mod) {
+    public function addMod(Mod $mod) {
         $this->mods[$mod->id] = $mod;
     }
 
-    function addUser(User $user) {
+    public function addUser(User $user) {
         $this->users[$user->id] = $user;
     }
 
-    function setCurrentGame(Game $game){
+    public function setCurrentGame(Game $game){
         $this->currentGame = $game;
         if (isset($game)) {
             $game->append('announcements');
         }
     }
 
-    function getCurrentGame(): ?Game {
+    public function getCurrentGame(): ?Game {
         return $this->currentGame;
     }
 
-    function getMembersRole(): ?Role
+    public function getMembersRole(): ?Role
     {
         $this->membersRole ??= Cache::remember('membersRole', 60, function() {
             return Role::with('permissions')->find(1);

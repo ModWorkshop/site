@@ -25,7 +25,7 @@ use Illuminate\Support\Carbon;
  */
 class TrackSession extends Model
 {
-    const CREATED_AT = null;
+    public const CREATED_AT = null;
 
     protected $guarded = [];
 

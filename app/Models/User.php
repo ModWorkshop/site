@@ -284,7 +284,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return 'user';
     }
 
-    function isVisibleForProfile($name) {
+    public function isVisibleForProfile($name) {
         if (!$this->private_profile) {
             return true;
         }
@@ -660,7 +660,7 @@ class User extends Authenticatable implements MustVerifyEmail
     #endregion
 
     #region Methods
-    function isBanned(int $gameId=null) {
+    public function isBanned(int $gameId=null) {
         return isset($this->last_ban) || (isset($gameId) && $this->getLastGameban($gameId) !== NULL);
     }
 
@@ -703,7 +703,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Sets an email smartly. If the user has already a verified email. The email will be pending.
      */
-    function setEmail(string $email) {
+    public function setEmail(string $email) {
         if ($this->email == $email) {
             return;
         }
@@ -768,7 +768,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Safely check if a user is banned in game
      */
-    function getLastGameban(int $gameId) {
+    public function getLastGameban(int $gameId) {
         $ban = $this->gameBans()->where('game_id', $gameId)->first();
         if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
             return $ban;
@@ -822,7 +822,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * Guests are permission-less meaning that if we want to let them see something, that thing must have no needed permissions.
      * A banned user always returns false and makes the user act like a guest, sort of. The frontend should make it clearer.
      */
-    function hasPermission(string $toWhat, Game $game=null, bool $byPassBanCheck=false): bool {
+    public function hasPermission(string $toWhat, Game $game=null, bool $byPassBanCheck=false): bool {
         $perms = $this->permissionList;
 
         //Admin bypasses all

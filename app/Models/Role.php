@@ -77,7 +77,7 @@ class Role extends Model
         return Attribute::make(fn($value) =>  preg_replace('/\s+/', '', $value));
     }
 
-    function cachedPermissions(): Attribute {
+    public function cachedPermissions(): Attribute {
         return Attribute::make(
             fn() => Cache::remember($this->cacheKey().':permission', 60, fn() => $this->permissions)
         );

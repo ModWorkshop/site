@@ -161,7 +161,7 @@ class Game extends Model
         return $this->hasMany(ModManager::class)->without('game');
     }
 
-    function modManagers() {
+    public function modManagers() {
         return $this->belongsToMany(ModManager::class)->without('game');
     }
 
