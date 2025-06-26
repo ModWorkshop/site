@@ -12,7 +12,7 @@
             </NuxtLink>
 
             <m-flex gap="1" class="break-words" column>
-                <NuxtLink class="flex gap-1 items-center flex-wrap" :to="link">
+                <NuxtLink v-if="name" class="flex gap-1 items-center flex-wrap" :to="link">
                     <component :is="isBanned ? 's' : 'span'" :style="{color: userColor}" class="break-all text-body">{{user?.name ?? $t('invalid_user')}}</component>
                     <m-tag v-if="tag && userTag" small>{{userTag}}</m-tag>
                     <span v-if="showAt && user?.unique_name" class="user-at">@{{user?.unique_name}}</span>
@@ -43,6 +43,7 @@ const props = withDefaults(defineProps<{
     details?: string,
     noColor?: boolean,
     user?: User|null,
+    name?: boolean,
     showMiniProfile?: boolean,
     avatar?: boolean,
     tag?: boolean,
@@ -55,6 +56,7 @@ const props = withDefaults(defineProps<{
 }>(), { 
     avatar: true,
     tag: true,
+    name: true,
     noColor: false,
     showMiniProfile: true,
     showOnlineState: false

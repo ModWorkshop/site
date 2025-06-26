@@ -145,7 +145,7 @@ html.dark {
     --dropdown-selected-bg: #252b31;
     --dropdown-text-color: #ccc;
     --text-color: #fff;
-    --secondary-text-color: #bfbfbf;
+    --secondary-text-color: #9ca3af;
     --text-inactive: #6d6d6d;
     --secondary-color: #5f5f5f;
     --secondary-hover-color: #737373;
@@ -545,7 +545,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
 }
 
 .icon {
-    vertical-align: -0.25em !important;
+    vertical-align: -0.25rem;
     overflow: visible !important;
 }
 

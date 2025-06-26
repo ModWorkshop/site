@@ -5,7 +5,7 @@
         </NuxtLink>
         <div class="mod-details">
             <NuxtLink class="card-title" :to="link" :title="mod.name">
-                <mod-status :mod="mod"/> {{mod.name}}
+                <mod-status :mod="mod" class="text-lg"/> {{mod.name}}
             </NuxtLink>
 
             <m-flex class="items-center gap-1" wrap>
@@ -17,7 +17,7 @@
                     {{mod.game.name}}
                 </NuxtLink>
                 <template v-if="mod.category">
-                    <i-mdi-menu-right v-if="showGame"/>
+                    <i-mdi-menu-right v-if="showGame" style="margin-bottom: -0.05rem;" />
                     <NuxtLink class="text-secondary inline" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{mod.category.name}}</NuxtLink>
                 </template>
             </m-flex>
@@ -43,9 +43,6 @@
                     </span>
                 </m-flex>
             </m-flex>
-
-            
-
         </div>
     </div>
 </template>
@@ -99,9 +96,9 @@ const gameUrl = computed(() => `/g/${game?.short_name || store.currentGame?.shor
 }
 
 .mod-details {
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--secondary-text-color);
-    gap: 8px;
+    gap: 12px;
     display: flex;
     flex: 1;
     flex-direction: column;

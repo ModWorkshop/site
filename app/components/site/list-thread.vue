@@ -5,9 +5,9 @@
         column
     >
         <m-flex class="items-center" gap="3" wrap>
-            <m-avatar :src="thread.user?.avatar" size="md" class="mb-auto"/>
-            <m-flex column class="md:flex-2" gap="2">
-                <NuxtLink class="card-title" :to="`/thread/${thread.id}`">
+            <a-user :user="thread.user" avatar-size="md" :name="false"/>
+            <m-flex column class="md:flex-2 flex-1" gap="2">
+                <NuxtLink class="card-title !text-xl w-full" :to="`/thread/${thread.id}`">
                     <i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
                     <i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
                     <i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
@@ -44,19 +44,16 @@
             </m-flex>
 
 
-            <m-flex column class="ml-auto">
-                <m-flex class="flex-1">
-                    <m-flex class="ml-auto items-center">
+            <m-flex class="ml-auto items-center" gap="4">
+                <m-flex gap="2">
                     <i-mdi-lock v-if="thread.locked"/>
                     <div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
-                    </m-flex>
                 </m-flex>
-                <m-flex class="md:items-center max-md:flex-col max-md:gap-4">
-                    <m-flex v-if="thread.comment_count" class="md:ml-auto items-center" wrap>
-                        <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="xs"/>
+
+                <template v-if="thread.comment_count" class="md:ml-auto items-center" wrap>
                     <m-time :datetime="thread.bumped_at" relative/>
-                    </m-flex>
-                </m-flex>
+                    <a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="sm" :name="false"/>
+                </template>
             </m-flex>
         </m-flex>
     </m-flex>
@@ -79,8 +76,7 @@ const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '
 
 <style scoped>
 .thread {
-    font-size: 12px;
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--secondary-text-color);
 }
 
