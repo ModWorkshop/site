@@ -4,6 +4,9 @@ import { serialize } from "object-to-formdata";
 import type { LocationQueryValueRaw } from "vue-router";
 import humanizeDuration from 'humanize-duration';
 import { addDays, formatDuration, interval, intervalToDuration, parseISO } from 'date-fns';
+import { ColorSpace, HSL } from 'colorjs.io/fn';
+
+ColorSpace.register(HSL);
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -228,7 +231,7 @@ export function convertRGBDecimalToHex(rgb) {
     const regex = /rgb *\( *([0-9]{1,3}) *, *([0-9]{1,3}) *, *([0-9]{1,3}) *\)/;
     const values = regex.exec(rgb);
     if(!values || values.length != 4) {
-        return rgb; // fall back to what was given.              
+        return '#fff'; // fall back to white          
     }
     return "#" 
         + (Math.round(parseFloat(values[1])) + 0x10000).toString(16).substring(3).toUpperCase() 

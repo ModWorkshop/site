@@ -1,28 +1,52 @@
 <template>
     <span :class="{tag: true, 'tag-small': small, capsule}" 
         :style="{
-            backgroundColor: color,
-            color: textColor
+            backgroundColor: bgColor,
+            color: textColor,
         }"
     >
         <slot/>
     </span>
 </template>
 <script setup lang="ts">
+import Color from 'colorjs.io';
+import { useStore } from '~/store';
+
 const { small, color, capsule = false } = defineProps<{
     small?: boolean,
     color?: string,
     capsule?: boolean
 }>();
 
+const store = useStore();
+
+const bgColor = computed(() => {
+    if (color) {
+        const col = new Color(color);
+        col.alpha = 0.25;
+
+        return col
+    } else {
+        return '#fff';
+    }
+});
+
 const textColor = computed(() => {
     if (color) {
         try {
             const contrast = getContrast('#000', color.replaceAll(' ', ''));
-            if (contrast < 5.5) {
-                return '#fff';
+            const col = new Color(color);
+
+            if (store.theme == 'dark') {
+                col.hsl.l = 75;
             } else {
-                return '#000';
+                col.hsl.l = 40;
+            }
+
+            if (contrast < 5.5) {
+                return col;
+            } else {
+                return col;
             }
         } catch (error) {
             return 'var(--primary-color-text)';
@@ -42,13 +66,13 @@ const textColor = computed(() => {
     align-items: center;
     justify-content: center;
     font-size: 75%;
-    font-weight: 400;
+    font-weight: bold;
     background: var(--primary-color);
-    border-radius: var(--tag-border-radius);
+    border-radius: 16px;
 }
 
 .tag-small {
-    padding: 0.4rem;
+    padding: 0.45rem;
     line-height: 1;
 }
 
