@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 		host: '0.0.0.0',
 	},
 
+	future: {
+		compatibilityVersion: 4
+	},
+
 	site: {
 		name: 'ModWorkshop',
 	},
@@ -41,7 +45,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
-			version: '3.5.4',
+			version: '3.6.0',
 			presignedUpload: false,
 			commitHash: ''
 		},
@@ -74,10 +78,10 @@ export default defineNuxtConfig({
 
 			//Kinda disgusting, but other way is making components for each one of them and then pages...
 			const mod = routes.find(page => page.path == '/mod/:mod()');
-			mod?.children?.push({ path: "/mod/:mod/post/:comment", file: '~~/pages/mod/[mod]/index.vue' });
+			mod?.children?.push({ path: "/mod/:mod/post/:comment", file: '~/pages/mod/[mod]/index.vue' });
 
 			const thread = routes.find(page => page.path == '/thread/:thread()');
-			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~~/pages/thread/[thread]/index.vue' });
+			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~/pages/thread/[thread]/index.vue' });
 
 			const game = routes.find(page => page.path == '/g/:game()');
 
@@ -158,6 +162,7 @@ export default defineNuxtConfig({
 	// ssr: false,
 
 	i18n: {
+		restructureDir: 'app/i18n',
 		strategy: 'no_prefix',
 
 		detectBrowserLanguage: {

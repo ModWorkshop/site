@@ -1,4 +1,4 @@
-import type { Category } from "~~/types/models";
+import type { Category } from "~/types/models";
 
 export default defineEventHandler(async event => {
     const { public: config } = useRuntimeConfig();
