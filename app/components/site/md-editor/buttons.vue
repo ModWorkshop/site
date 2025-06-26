@@ -1,6 +1,6 @@
 <template>
     <m-flex class="overflow-x-auto overflow-y-hidden items-center">
-        <m-flex class="items-center text-xl flex-1 flex-shrink-0 p-1">
+        <m-flex class="items-center text-lg flex-1 flex-shrink-0 p-1" gap="1">
             <template v-for="[i, group] of toolGroups.entries()">
                 <m-button v-for="tool of group.tools" :key="tool.insert" :icon="tool.icon" color="none" @click="$emit('clickTool', tool)"/>
                 <span v-if="i != toolGroups.length - 1" :key="group.name" class="tools-splitter"/>
