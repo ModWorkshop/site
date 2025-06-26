@@ -123,7 +123,7 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 
 const selectedValue = computed(() => props.modelValue ?? props.default);
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
-const first = computed<any[]>(() => selected.value[0]);
+const first = computed<any[]>(() => selected.value?.[0]);
 const { ctrl } = useMagicKeys();
 
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
