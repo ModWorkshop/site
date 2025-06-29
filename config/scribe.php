@@ -5,10 +5,6 @@ use Knuckles\Scribe\Config\Defaults;
 use Knuckles\Scribe\Config\AuthIn;
 use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
 
-Strategies\Responses\ResponseCalls::withSettings(
-    only: [], except: ['*'],
-);
-
 return [
 
     'theme' => 'scalar',
@@ -403,7 +399,7 @@ INTRO,
      * Tell Scribe which connections should be transacted here.
      * If you only use one db connection, you can leave this as is.
      */
-    'database_connections_to_transact' => [config('database.default')],
+    'database_connections_to_transact' => [],
     'groups' => [
         /*
          * Endpoints which don't have a @group will be placed in this default group.
