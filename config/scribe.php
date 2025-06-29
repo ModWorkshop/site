@@ -1,6 +1,9 @@
 <?php
 
 use Knuckles\Scribe\Extracting\Strategies;
+use Knuckles\Scribe\Config\Defaults;
+use Knuckles\Scribe\Config\AuthIn;
+use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
 
 return [
 
@@ -15,13 +18,13 @@ return [
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
     'description' => <<<INTRO
-The ModWorkshop API is available for everyone to use. 
+The ModWorkshop API is available for everyone to use.
 
 Do note that by using the API you must follow the following guidelines:
 
 1. Do not spam the API.
 
-2. Do not replicate the site or remove the need to visit the site to download mods. 
+2. Do not replicate the site or remove the need to visit the site to download mods.
 Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
 
 3. Respect user's privacy and do not store their information without their consent.
@@ -74,11 +77,6 @@ INTRO,
                  * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
                 'domains' => ['*'],
-
-                /*
-                 * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
-                 */
-                'versions' => ['v1'],
             ],
 
             /*
@@ -120,7 +118,7 @@ INTRO,
                      * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
                      */
                     'methods' => [
-                        
+
                     ],
 
                     /*
@@ -349,44 +347,37 @@ INTRO,
      */
     'strategies' => [
         'metadata' => [
-            Strategies\Metadata\GetFromDocBlocks::class,
-            Strategies\Metadata\GetFromMetadataAttributes::class,
-        ],
-        'urlParameters' => [
-            Strategies\UrlParameters\GetFromLaravelAPI::class,
-            Strategies\UrlParameters\GetFromLumenAPI::class,
-            Strategies\UrlParameters\GetFromUrlParamAttribute::class,
-            Strategies\UrlParameters\GetFromUrlParamTag::class,
-        ],
-        'queryParameters' => [
-            Strategies\QueryParameters\GetFromFormRequest::class,
-            Strategies\QueryParameters\GetFromInlineValidator::class,
-            Strategies\QueryParameters\GetFromQueryParamAttribute::class,
-            Strategies\QueryParameters\GetFromQueryParamTag::class,
+            ...Defaults::METADATA_STRATEGIES,
         ],
         'headers' => [
-            Strategies\Headers\GetFromRouteRules::class,
-            Strategies\Headers\GetFromHeaderAttribute::class,
-            Strategies\Headers\GetFromHeaderTag::class,
+            ...Defaults::HEADERS_STRATEGIES,
+            Strategies\StaticData::withSettings(data: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ]),
+        ],
+        'urlParameters' => [
+            ...Defaults::URL_PARAMETERS_STRATEGIES,
+        ],
+        'queryParameters' => [
+            ...Defaults::QUERY_PARAMETERS_STRATEGIES,
         ],
         'bodyParameters' => [
-            Strategies\BodyParameters\GetFromFormRequest::class,
-            Strategies\BodyParameters\GetFromInlineValidator::class,
-            Strategies\BodyParameters\GetFromBodyParamAttribute::class,
-            Strategies\BodyParameters\GetFromBodyParamTag::class,
+            ...Defaults::BODY_PARAMETERS_STRATEGIES,
         ],
-        'responses' => [
-            Strategies\Responses\UseResponseAttributes::class,
-            Strategies\Responses\UseTransformerTags::class,
-            Strategies\Responses\UseResponseTag::class,
-            Strategies\Responses\UseResponseFileTag::class,
-            Strategies\Responses\UseApiResourceTags::class,
-            Strategies\Responses\ResponseCalls::class,
-        ],
+        'responses' => configureStrategy(
+            Defaults::RESPONSES_STRATEGIES,
+            Strategies\Responses\ResponseCalls::withSettings(
+                only: ['GET *'],
+                // Recommended: disable debug mode in response calls to avoid error stack traces in responses
+                config: [
+                    'app.debug' => false,
+                ]
+            )
+        ),
         'responseFields' => [
-            Strategies\ResponseFields\GetFromResponseFieldAttribute::class,
-            Strategies\ResponseFields\GetFromResponseFieldTag::class,
-        ],
+            ...Defaults::RESPONSE_FIELDS_STRATEGIES,
+        ]
     ],
 
     'fractal' => [
