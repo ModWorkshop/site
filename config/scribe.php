@@ -5,6 +5,10 @@ use Knuckles\Scribe\Config\Defaults;
 use Knuckles\Scribe\Config\AuthIn;
 use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
 
+Strategies\Responses\ResponseCalls::withSettings(
+    only: [], except: ['*'],
+);
+
 return [
 
     'theme' => 'scalar',
