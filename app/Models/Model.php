@@ -1,6 +1,9 @@
 <?php
 namespace App\Models;
 
+use Exception;
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 // Extend of the regular eloquent model with some convenient/missing functions
 /**
  * 
@@ -37,4 +40,50 @@ class Model extends \Illuminate\Database\Eloquent\Model
             }
         }
     }
+
+    protected function getRelationshipFromMethod($method)
+    {
+        return $this->withSecureConstraints(function() use ($method) {
+            return parent::getRelationshipFromMethod($method);
+        });
+    }
+
+    /**
+     * Override the getAttribute method to force constraints for relationship access
+     */
+    public function getAttribute($key)
+    {
+        // Check if this is a relationship and constraints are disabled
+        if ($this->isRelation($key)) {
+            return $this->withSecureConstraints(function() use ($key) {
+                return parent::getAttribute($key);
+            });
+        }
+
+        return parent::getAttribute($key);
+    }
+
+    /**
+     * Execute a callback with constraints temporarily enabled if they're currently disabled
+     * 
+     * Hopefully fixes this issue https://github.com/laravel/framework/issues/51825
+     * Thanks Laravel for focusing on useless crappy sugar and not fixing security issues!!!!
+     */
+    public function withSecureConstraints(callable $callback)
+    {
+        if (!Relation::_constraints()) {
+            // Temporarily enable constraints
+            Relation::_setConstraints(true);
+
+            try {
+                return $callback();
+            } finally {
+                // Restore the disabled constraints state
+                Relation::_setConstraints(false);
+            }
+        }
+
+        return $callback();
+    }
+
 }

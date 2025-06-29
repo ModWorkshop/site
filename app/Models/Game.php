@@ -188,12 +188,12 @@ class Game extends Model
 
     public function waitingCount(): Attribute
     {
-        return Attribute::make(fn() => $this->mods()->whereApproved(null)->count());
+        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->mods()->whereApproved(null)->count()));
     }
 
     public function reportCount(): Attribute
     {
-        return Attribute::make(fn() => $this->reports()->whereArchived(false)->count());
+        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->reports()->whereArchived(false)->count()));
     }
 
     public function modsCount(): Attribute
@@ -210,9 +210,9 @@ class Game extends Model
     {
         // Checking just in case because this does fail sometimes (like in migrations)
         if (!isset($this->forum_id) && $this->id && Game::where('id', $this->id)->exists()) {
-            $forum = $this->forum()->create([
+            $forum = $this->withSecureConstraints(fn() => $this->forum()->create([
                 'game_id' => $this->id
-            ]);
+            ]));
             $this->forum_id = $forum->id;
             $this->save();
         }

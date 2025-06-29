@@ -537,15 +537,15 @@ class Mod extends Model implements SubscribableInterface
     }
 
     public function filesCount(): Attribute {
-        return Attribute::make(fn() => $this->files()->count())->shouldCache();
+        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->files()->count()))->shouldCache();
     }
 
     public function linksCount(): Attribute {
-        return Attribute::make(fn() => $this->links()->count())->shouldCache();
+        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->links()->count()))->shouldCache();
     }
 
     public function usedStorage(): Attribute {
-        return Attribute::make(fn() => intval($this->files()->sum('size')));
+        return Attribute::make(fn() => intval($this->withSecureConstraints(fn() => $this->files()->sum('size'))));
     }
 
     public function currentStorage(): Attribute {
@@ -609,13 +609,13 @@ class Mod extends Model implements SubscribableInterface
                     if ($linksLoaded && ($link = $this->links->find($id))) {
                         return $link;
                     } else {
-                        return $this->links()->find($id);
+                        return $this->withSecureConstraints(fn() => $this->links()->find($id));
                     }
                 } else {
                     if ($filesLoaded && ($link = $this->files->find($id))) {
                         return $link;
                     } else {
-                        return $this->files()->find($id);
+                        return $this->withSecureConstraints(fn() => $this->files()->find($id));
                     }
                 }
             }
@@ -627,7 +627,7 @@ class Mod extends Model implements SubscribableInterface
                 } else if ($filesLoaded) {
                     return $this->files[0];
                 }else {
-                    return $this->links()->first() ?? $this->files()->first();
+                    return $this->withSecureConstraints(fn() => $this->links()->first() ?? $this->files()->first());
                 }
             }
         });
@@ -664,7 +664,7 @@ class Mod extends Model implements SubscribableInterface
      */
     public function calculateFileStatus(bool $save=true)
     {
-        $this->has_download = $this->files()->count() > 0 || $this->links()->count() > 0;
+        $this->has_download = $this->withSecureConstraints(fn() => $this->files()->count()) > 0 || $this->withSecureConstraints(fn() => $this->links()->count()) > 0;
 
         if ($save) {
             $this->save();
