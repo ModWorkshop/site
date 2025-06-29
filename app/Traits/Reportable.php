@@ -32,7 +32,7 @@ trait Reportable {
             'data' => $data
         ]);
 
-        $this->reports()->save($report);
+        $this->withSecureConstraints(fn() => $this->reports()->save($report));
         $report->save();
     }
 }

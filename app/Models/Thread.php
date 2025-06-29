@@ -176,7 +176,7 @@ class Thread extends Model implements SubscribableInterface
     // Runs the moment a comment is deleted to handle removal of last user ID properly
     public function onCommentDeleted(Comment $comment)
     {
-        $firstComment = $this->comments()->latest('id')->first();
+        $firstComment = $this->withSecureConstraints(fn() => $this->comments()->latest('id')->first());
         $this->update([
             'last_user_id' => $firstComment->user_id ?? $this->user_id,
             'bumped_at' => $firstComment->created_at ?? $this->created_at

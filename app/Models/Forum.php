@@ -71,40 +71,40 @@ class Forum extends Model
 
         $cats = $this->categories();
 
-        $this->categories()->firstOrCreate([
+        $this->withSecureConstraints(fn() => $this->categories()->firstOrCreate([
             'name' => 'General',
         ], [
             'display_order' => 100,
             'emoji' => '💬',
             'desc' => 'A forum to discuss general things about the game.'
-        ]);
+        ]));
 
         if (!$cats->where('name', 'News')->exists()) {
-            $news = $this->categories()->create([
+            $news = $this->withSecureConstraints(fn() => $this->categories()->create([
                 'name' => 'News',
                 'display_order' => 90,
                 'grid_mode' => true,
                 'emoji' => '📰',
-            ]);
+            ]));
             $news->roles()->attach(Role::find(1), ['can_post' => false, 'can_view' => true]);
         }
 
-        $this->categories()->firstOrCreate([
+        $this->withSecureConstraints(fn() => $this->categories()->firstOrCreate([
             'name' => 'Modding Help',
         ], [
             'display_order' => 80,
             'emoji' => '🙏',
             'desc' => 'A forum to get help in modding the game.',
             'can_close_threads' => true
-        ]);
+        ]));
 
-        $this->categories()->firstOrCreate([
+        $this->withSecureConstraints(fn() => $this->categories()->firstOrCreate([
             'name' => 'Modding Requests',
         ],[
             'display_order' => 70,
             'emoji' => '❔',
             'desc' => 'A forum to create requests for new mods.',
             'can_close_threads' => true
-        ]);
+        ]));
     }
 }

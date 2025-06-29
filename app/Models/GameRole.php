@@ -64,7 +64,7 @@ class GameRole extends Model
     }
 
     public function permit(string $permission) {
-        $this->permissions()->attach(Permission::whereName($permission)->first()->id);
+        $this->withSecureConstraints(fn() => $this->permissions()->attach(Permission::whereName($permission)->first()->id));
     }
 
     public function getMorphClass(): string {
@@ -137,6 +137,6 @@ class GameRole extends Model
             }
         }
 
-        $this->permissions()->sync(Permission::whereIn('name', $perms)->get());
+        $this->withSecureConstraints(fn() => $this->permissions()->sync(Permission::whereIn('name', $perms)->get()));
     }
 }

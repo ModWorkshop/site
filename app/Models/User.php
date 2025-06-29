@@ -11,7 +11,12 @@ use Auth;
 use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Eloquent;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,7 +24,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -158,9 +164,14 @@ use Storage;
  * @method static Builder|User whereAvatarHasThumb($value)
  * @mixin Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Model implements 
+    MustVerifyEmailContract,
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use HasFactory, HasApiTokens, Notifiable, Reportable;
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmailTrait;
 
     protected $saveToReport = ['bio', 'custom_title'];
 
@@ -755,7 +766,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->gameRolesCache[$gameId];
         }
 
-        $gameRoles = $this->allGameRoles()->where('game_id', $gameId)->get();
+        $gameRoles = $this->withSecureConstraints(fn() => $this->allGameRoles()->where('game_id', $gameId)->get());
 
         if ($withPerms) {
             $gameRoles->load('permissions');
@@ -769,7 +780,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * Safely check if a user is banned in game
      */
     function getLastGameban(int $gameId) {
-        $ban = $this->gameBans()->where('game_id', $gameId)->first();
+        $ban = $this->withSecureConstraints(fn() => $this->gameBans()->where('game_id', $gameId)->first());
         if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
             return $ban;
         }
