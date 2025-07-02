@@ -79,9 +79,12 @@ class SuspensionController extends Controller
     public function update(Request $request, Suspension $suspension)
     {
         $val = $request->validate([
-            'reason' => 'string|min:3|max:1000'
+            'reason' => 'string|min:3|max:1000',
+            'status' => 'boolean|nullable',
         ]);
 
+        $val['status'] ??= $suspension->status;
+        
         $suspension->update($val);
     }
 

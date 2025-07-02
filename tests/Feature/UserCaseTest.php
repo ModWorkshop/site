@@ -23,20 +23,32 @@ class UserCaseTest extends AdminResourceTest
             'mod_user_id' => $user->id,
             'game_id' => $parent?->id,
             'reason' => 'Test user case reason',
-            'expire_date' => now()->addDays(30)->toDateString(),
+            'expire_date' => now()->addDays(30),
             'active' => true
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         $targetUser = $this->user(); // Create a user for the case
         
-        return [
-            'user_id' => $targetUser->id,
-            'reason' => 'Updated test user case reason for API testing',
-            'expire_date' => now()->addDays(14)->toDateString(),
-        ];
+        if ($method === 'POST') {
+            // For case creation, user_id is required
+            return [
+                'user_id' => $targetUser->id,
+                'reason' => 'Test user case reason for API testing',
+                'expire_date' => now()->addDays(30),
+                'active' => true,
+            ];
+        } else {
+            // For case updates, user_id is not required
+            // Use the existing user_id from the dummy case
+            return [
+                'reason' => 'Updated test user case reason for API testing',
+                'expire_date' => now()->addDays(14),
+                'active' => true,
+            ];
+        }
     }
 
     /**

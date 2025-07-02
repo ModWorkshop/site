@@ -40,10 +40,18 @@ class ThreadCommentTest extends UserResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
-        return [
-            'content' => 'This is a test!',
-        ];
+        if ($method === 'POST') {
+            // For comment creation, content is required
+            return [
+                'content' => 'This is a test comment!',
+            ];
+        } else {
+            // For updates, content is optional (required_without:pinned)
+            return [
+                'content' => 'This is an updated test comment!',
+            ];
+        }
     }
 }

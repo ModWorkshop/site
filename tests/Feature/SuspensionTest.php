@@ -44,23 +44,27 @@ class SuspensionTest extends AdminResourceTest
         }
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
-        // Create a mod to suspend
-        $targetUser = $this->user();
-        $mod = Mod::create([
-            'name' => 'Another Test Mod for Suspension',
-            'desc' => 'Another test mod for suspension testing',
-            'user_id' => $targetUser->id,
-            'game_id' => $parent?->id,
-            'visibility' => 'public',
-        ]);
-        
-        return [
-            'reason' => 'Updated suspension reason for API testing',
-            'mod_id' => $mod->id,
-            'status' => true
-        ];
+        if ($method === 'POST') {
+            $mod = Mod::create([
+                'name' => 'Another Test Mod for Suspension',
+                'desc' => 'Another test mod for suspension testing',
+                'user_id' => $this->user()->id,
+                'game_id' => $parent?->id,
+                'visibility' => 'public',
+            ]);
+            return [
+                'mod_id' => $mod->id,
+                'reason' => 'This mod appears to be spam content',
+                'status' => true
+            ];
+        } else {
+            return [
+                'reason' => 'Updated suspension reason for API testing',
+                'status' => false
+            ];
+        }
     }
 
     /**

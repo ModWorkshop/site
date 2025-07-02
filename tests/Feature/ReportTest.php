@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\User;
 use App\Models\Mod;
 use App\Models\Model;
+use Illuminate\Testing\TestResponse;
 use Tests\UserResourceTest;
 
 class ReportTest extends UserResourceTest
@@ -17,26 +18,36 @@ class ReportTest extends UserResourceTest
 
     public function makeParent(): void
     {
-        
+        // Create a mod to report (since reports need a reportable item)
+        $this->parent = Mod::factory()->create([
+            'user_id' => $this->user()->id,
+            'game_id' => $this->game->id,
+        ]);
     }
 
     public function createDummy(?User $user = null, ?Model $parent = null): ?Report
     {
         $user ??= $this->user();
         
-        // Create a mod to report (since reports need a reportable item)
-        $mod = Mod::factory()->create([
-            'user_id' => $this->user()->id,
-            'game_id' => $this->game->id,
-        ]);
-        
         return Report::create([
             'user_id' => $user->id,
             'reportable_type' => 'mod',
-            'reportable_id' => $mod->id,
+            'reportable_id' => $this->parent->id,
             'reason' => 'This is a test report for API testing',
             'data' => []
         ]);
+    }
+
+    protected function assertPostOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        if (in_array($assertStatus, [200, 201])) {
+            $modelClass = $this->getModelClass();
+            if ($modelClass) {
+                $createdResource = Report::whereReportableType('mod')->whereReportableId($requestData['reportable_id'])->first();
+                // $rs->assertNoContent(); // This should be the case maybe, but we don't actually return 204 when it's empty...
+                $this->assertNotNull($createdResource, 'Resource should exist after POST operation');
+            }
+        }
     }
 
     public function getUrl($httpMethod, ?Model $parent = null, ?Model $object = null, $data=null): string {
@@ -47,22 +58,19 @@ class ReportTest extends UserResourceTest
         }
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
-        // Create a mod to report
-        $mod = Mod::factory()->create([
-            'user_id' => $this->user()->id,
-            'game_id' => $this->game->id,
-            'has_download' => true,
-            'published_at' => now()
-        ]);
-
-        return [
-            'reportable_type' => 'mod',
-            'reportable_id' => $mod->id,
-            'reason' => 'This mod appears to be spam content',
-            'archived' => false
-        ];
+        if ($method === 'POST') {
+            return [
+                'reportable_type' => 'mod',
+                'reportable_id' => $this->parent->id,
+                'reason' => 'This mod appears to be spam content'
+            ];
+        } else {
+            return [
+                'archived' => true,
+            ];
+        }
     }
 
     public static function createScenariosProvider(): array

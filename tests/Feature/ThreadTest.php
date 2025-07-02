@@ -60,16 +60,24 @@ class ThreadTest extends UserResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         // Use the appropriate category based on the forum
         $categoryId = isset($parent) ? $this->forumCategoryId : $this->globalForumCategoryId;
         
-        return [
-            'name' => 'Test Thread Name',
-            'content' => 'Test thread content for API testing',
-            'category_id' => $categoryId,
-        ];
+        if ($method === 'POST') {
+            // For thread creation, content is required
+            return [
+                'name' => 'Test Thread Name',
+                'content' => 'Test thread content for API testing',
+                'category_id' => $categoryId,
+            ];
+        } else {
+            // For updates, content is optional and we can update just the name
+            return [
+                'name' => 'Updated Test Thread Name',
+            ];
+        }
     }
 
     public static function createScenariosProvider(): array

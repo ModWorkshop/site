@@ -41,7 +41,7 @@ class LinkTest extends UserResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         return [
             'name' => 'Updated Test Link',

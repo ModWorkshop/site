@@ -13,6 +13,7 @@ class GameTest extends AdminResourceTest
     protected string $url = 'games';
     protected bool $isGlobal = true;
     protected bool $hasParent = false;
+    protected array $inconsistentData = ['webhook_url' => true];
 
     public function makeParent(): void
     {
@@ -32,13 +33,23 @@ class GameTest extends AdminResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
-        return [
-            'name' => 'Test Game Name',
-            'short_name' => 'testgame',
-            'buttons' => 'Test buttons',
-            'webhook_url' => 'https://example.com/webhook',
-        ];
+        if ($method === 'POST') {
+            // For game creation, short_name is required
+            return [
+                'name' => 'Test Game Name',
+                'short_name' => 'testgame',
+                'buttons' => 'Test buttons',
+                'webhook_url' => 'https://example.com/webhook',
+            ];
+        } else {
+            // For updates, short_name is nullable (can be omitted)
+            return [
+                'name' => 'Updated Test Game Name',
+                'buttons' => 'Updated test buttons',
+                'webhook_url' => 'https://updated.example.com/webhook',
+            ];
+        }
     }
 }

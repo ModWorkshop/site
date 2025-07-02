@@ -5,14 +5,15 @@ namespace Tests\Feature;
 use App\Models\FollowedUser;
 use App\Models\Model;
 use App\Models\User;
-use Tests\PersonalResourceTest;
+use Tests\FollowBlockResourceTest;
 
-class FollowedUserTest extends PersonalResourceTest
+class FollowedUserTest extends FollowBlockResourceTest
 {
     protected string $parentUrl = '';
     protected string $url = 'followed-users';
     protected bool $isGlobal = true;
     protected bool $hasParent = false;
+    protected string $idKey = 'follow_user_id';
 
     public function makeParent(): void
     {
@@ -28,55 +29,12 @@ class FollowedUserTest extends PersonalResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         $followedUser = $this->user(); // Create another user to follow
         
         return [
             'follow_user_id' => $followedUser->id,
-        ];
-    }
-
-    /**
-     * Override scenarios - followed games are personal and private
-     */
-    public static function viewScenariosProvider(): array
-    {
-        return [
-            'unverified' => ['unverified', 'unverified', 405],
-            'verified' => ['verified', 'verified', 405],
-            'banned' => ['banned', 'banned', 405],
-            'game_banned' => ['game_banned', 'game_banned', 405],
-            'admin' => ['admin', 'admin', 405],
-        ];
-    }
-
-    /**
-     * Users can manage their own followed games
-     */
-    public static function createScenariosProvider(): array
-    {
-        return [
-            'guest' => ['guest', null, 401],
-            'unverified' => ['unverified', 'unverified', 200],
-            'verified' => ['verified', 'verified', 200],
-            'banned' => ['banned', 'banned', 200],
-            'game_banned' => ['game_banned', 'game_banned', 200],
-            'admin' => ['admin', 'admin', 200],
-        ];
-    }
-
-    /**
-     * Data provider for update scenarios
-     */
-    public static function updateScenariosProvider(): array
-    {
-        return [
-            'unverified' => ['unverified', 'unverified', 405],
-            'verified' => ['verified', 'verified', 405],
-            'banned' => ['banned', 'banned', 405],
-            'game_banned' => ['game_banned', 'game_banned', 405],
-            'admin' => ['admin', 'admin', 405],
         ];
     }
 }

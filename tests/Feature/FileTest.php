@@ -46,15 +46,22 @@ class FileTest extends UserResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
-        return [
-            'name' => 'updated-test-file.zip',
-            'desc' => 'Updated test file description',
-            'file' => UploadedFile::fake()->create('updated-test-file.zip', 2048, 'application/zip'),
-            'version' => '1.1.0',
-            'label' => 'Updated Main File',
-        ];
+        if ($method === 'POST') {
+            // For file creation, only the file upload is typically required
+            return [
+                'file' => UploadedFile::fake()->create('test-file.zip', 1024, 'application/zip'),
+            ];
+        } else {
+            // For updates (PATCH), include various fields that can be updated
+            return [
+                'name' => "updated-test-file.zip",
+                'desc' => "Updated test file description",
+                'version' => '1.0.0',
+                'label' => "Updated Main File",
+            ];
+        }
     }
 
     /**

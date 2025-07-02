@@ -2,18 +2,9 @@
 
 namespace Tests;
 
-use App\Models\Ban;
-use App\Models\Forum;
-use App\Models\Game;
 use App\Models\Model;
-use App\Models\Thread;
 use App\Models\User;
-use Carbon\Carbon;
-use DB;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Testing\TestResponse as LaravelTestResponse;
+use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 abstract class TestResource extends TestCase
@@ -25,6 +16,9 @@ abstract class TestResource extends TestCase
     protected bool $isGlobal = false;
     protected bool $hasParent = false;
     protected bool $isShallow = true;
+    protected bool $postReturnsNoContent = false;
+    protected array $inconsistentData = []; // Fields that may have inconsistent data across requests, for example role orders
+    protected string $idKey = 'id';
 
     public function setUp(): void
     {
@@ -54,7 +48,7 @@ abstract class TestResource extends TestCase
         return null;
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         return [];
     }
@@ -84,34 +78,41 @@ abstract class TestResource extends TestCase
 
         $this->actingAs($user);
 
-        $data = $httpMethod != 'GET' ? $this->upsertData($parent) : [];
+        $requestData = $httpMethod != 'GET' ? $this->upsertData($parent, $httpMethod) : [];
+        $resource = null;
 
         if ($httpMethod == 'POST') {
-            $url = $this->getUrl($httpMethod, $parent, null, $data);
+            $url = $this->getUrl($httpMethod, $parent, null, $requestData);
         } else {
             $resource = $this->createDummy($owner, $parent);
             if (!$resource) {
                 $this->fail("Failed to create dummy resource for update test");
             }
-            $url = $this->getUrl($httpMethod, $parent, $resource, $data);
+            $url = $this->getUrl($httpMethod, $parent, $resource, $requestData);
         }
 
         echo $httpMethod . ' ' . $url . "\n";
-        $req = $this->json($httpMethod, $url, $data);
+        $req = $this->json($httpMethod, $url, $requestData);
 
         $this->debugResult($data['operation'] ?? 'Some Operation', $req, $assertStatus, $data['userType'] ?? 'user');
 
-        return $req->assertStatus($assertStatus);
+        $response = $req->assertStatus($assertStatus);
+
+        // Add assertions based on operation and status
+        $this->assertOperationResult($httpMethod, $response, $assertStatus, $requestData, $resource, $parent);
+
+        return $response;
     }
 
     public function getUrl($httpMethod, ?Model $parent = null, ?Model $object = null, $data=null): string{
         if ($httpMethod == 'POST') {
             return isset($parent) ? "{$this->parentUrl}/{$parent->id}/{$this->url}" : $this->globalUrl ?? $this->url;
         } else {
+            $idKey = $this->idKey;
             if ($this->isShallow) {
-                return "{$this->url}/{$object->id}";
+                return "{$this->url}/{$object->$idKey}";
             } else {
-                return isset($parent) ? "{$this->parentUrl}/{$parent->id}/{$this->url}/{$object->id}" : "{$this->url}/{$object->id}";
+                return isset($parent) ? "{$this->parentUrl}/{$parent->id}/{$this->url}/{$object->$idKey}" : "{$this->url}/{$object->id}";
             }
         }
     }
@@ -154,7 +155,7 @@ abstract class TestResource extends TestCase
         }
     }
 
-    public function debugResult($operation, LaravelTestResponse $res, $expectedStatus, $userType): void{
+    public function debugResult($operation, TestResponse $res, $expectedStatus, $userType): void{
         $actualStatus = $res->getStatusCode();
         if ($expectedStatus !== $actualStatus) {
             echo "\n=== GAME TEST FAILURE DEBUG INFO ===\n";
@@ -168,6 +169,118 @@ abstract class TestResource extends TestCase
             echo "Response Content: {$res->getContent()}\n";
             echo "==============================\n";
         }
+    }
+
+    /**
+     * Assert that the operation result matches expectations
+     */
+    protected function assertOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        match($httpMethod) {
+            'POST' => $this->assertPostOperationResult($httpMethod, $rs, $assertStatus, $requestData, $resource, $parent),
+            'PATCH' => $this->assertPatchOperationResult($httpMethod, $rs, $assertStatus, $requestData, $resource, $parent),
+            'DELETE' => $this->assertDeleteOperationResult($httpMethod, $rs, $assertStatus, $requestData, $resource, $parent),
+            'GET' => $this->assertGetOperationResult($httpMethod, $rs, $assertStatus, $requestData, $resource, $parent),
+            default => throw new \InvalidArgumentException("Unsupported HTTP method: {$httpMethod}"),
+        };
+    }
+
+    protected function assertPostOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        if (in_array($assertStatus, [200, 201])) {
+            $modelClass = $this->getModelClass();
+            if ($modelClass) {
+                // Try to find the most recently created resource that matches our data
+                $createdResource = $modelClass::latest('id')->first();
+                $json = $rs->json();
+                $this->assertNotNull($createdResource, 'Created resource should exist in database');
+                
+                // Verify the created resource has the expected data
+                foreach ($requestData as $key => $value) {
+                    if (!($this->inconsistentData[$key] ?? false) && (is_string($value) || is_numeric($value) || is_bool($value))) {
+                        if ($createdResource->hasAttribute($key)) {
+                            $this->assertEquals($value, $json[$key], "Created resource field '{$key}' should match request data");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected function assertPatchOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        if ($assertStatus === 200 && $resource) {
+            // Refresh the resource from database and verify changes
+            $resource->refresh();
+            foreach ($requestData as $key => $value) {
+                // Skip file uploads and complex data types
+                if (!($this->inconsistentData[$key] ?? false) && (is_string($value) || is_numeric($value) || is_bool($value))) {
+                    if ($resource->hasAttribute($key)) {
+                        $this->assertEquals($value, $resource->$key, "Updated resource field '{$key}' should match request data");
+                    }
+                }
+            }
+        }
+    }
+
+    protected function assertDeleteOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        $idKey = $this->idKey;
+        if ($assertStatus === 200 && $resource) {
+            // Check that resource was deleted by refetching from database
+            $modelClass = get_class($resource);
+            $resourceId = $resource->$idKey;
+            
+            // Try to refetch the resource - it should be gone (hard delete)
+            $refetchedResource = $modelClass::find($resourceId);
+            $this->assertNull($refetchedResource, 'Resource should be hard deleted from database');
+        } else {
+            // Operation should have failed - verify resource still exists unchanged
+            if ($resource) {
+                $modelClass = get_class($resource);
+                $resourceId = $resource->$idKey;
+                $refetchedResource = $modelClass::find($resourceId);
+                $this->assertNotNull($refetchedResource, 'Resource should still exist when delete operation fails');
+            }
+        }
+    }
+
+    protected function assertGetOperationResult(string $httpMethod, TestResponse $rs, int $assertStatus, array $requestData, ?Model $resource, ?Model $parent): void
+    {
+        if ($assertStatus === 200) {
+            // For GET requests, just verify we got some meaningful response
+            $json = $rs->json();
+            if ($resource) {
+                // Single resource view - verify the resource exists in database
+                $resource->refresh();
+                $this->assertNotNull($resource, 'Requested resource should exist in database');
+                
+                // Check response has meaningful data
+                $this->assertTrue(
+                    isset($json['data']) || isset($json['id']) || (is_array($json) && !empty($json)),
+                    'GET response should contain meaningful data'
+                );
+            } else {
+                // List view - check for data array or pagination structure  
+                $this->assertTrue(
+                    isset($json['data']) || isset($json['results']) || is_array($json),
+                    'GET list response should contain data array or be an array itself'
+                );
+            }
+        }
+    }
+
+    /**
+     * Get the model class for this test resource
+     */
+    protected function getModelClass(): ?string
+    {
+        // Try to infer model class from the test class name
+        $testClass = get_class($this);
+        $modelName = str_replace(['Tests\\Feature\\', 'Test'], '', $testClass);
+        $modelClass = "App\\Models\\{$modelName}";
+        
+        return class_exists($modelClass) ? $modelClass : null;
     }
 
     /**

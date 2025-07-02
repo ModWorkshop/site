@@ -14,6 +14,7 @@ class GameRoleTest extends AdminResourceTest
     protected bool $isGlobal = false;
     protected bool $hasParent = true;
     protected bool $isShallow = false;
+    protected array $inconsistentData = ['order' => true];
 
     public function createDummy(?User $user = null, ?Model $parent = null): ?GameRole
     {
@@ -21,7 +22,6 @@ class GameRoleTest extends AdminResourceTest
         
         return GameRole::create([
             'name' => 'Test Game Role',
-            'desc' => 'Test game role description',
             'color' => '#FF0000',
             'game_id' => $parent->id,
             'order' => 1000,
@@ -29,11 +29,10 @@ class GameRoleTest extends AdminResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         return [
             'name' => 'test-game-role',
-            'desc' => 'Test game role description for API testing',
             'color' => '#00FF00',
             'order' => 500,
             'is_vanity' => false,

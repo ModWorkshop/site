@@ -6,14 +6,15 @@ use App\Models\BlockedTag;
 use App\Models\Model;
 use App\Models\Tag;
 use App\Models\User;
-use Tests\PersonalResourceTest;
+use Tests\FollowBlockResourceTest;
 
-class BlockedTagTest extends PersonalResourceTest
+class BlockedTagTest extends FollowBlockResourceTest
 {
     protected string $parentUrl = '';
     protected string $url = 'blocked-tags';
     protected bool $isGlobal = true;
     protected bool $hasParent = false;
+    protected string $idKey = 'tag_id';
 
     public function makeParent(): void
     {
@@ -36,7 +37,7 @@ class BlockedTagTest extends PersonalResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         // Create a tag to block
         $tag = Tag::create([
@@ -48,35 +49,6 @@ class BlockedTagTest extends PersonalResourceTest
         
         return [
             'tag_id' => $tag->id,
-        ];
-    }
-
-    /**
-     * Users can manage their own blocked tags
-     */
-    public static function createScenariosProvider(): array
-    {
-        return [
-            'guest' => ['guest', null, 401], // Must be authenticated
-            'unverified' => ['unverified', 'unverified', 200], // Can block tags
-            'verified' => ['verified', 'verified', 200],
-            'banned' => ['banned', 'banned', 200], // Even banned users can block tags
-            'game_banned' => ['game_banned', 'game_banned', 200],
-            'admin' => ['admin', 'admin', 200],
-        ];
-    }
-
-    public static function viewScenariosProvider(): array
-    {
-        return [
-            'verified' => ['verified', 'verified', 405],
-        ];
-    }
-
-    public static function updateScenariosProvider(): array
-    {
-        return [
-            'verified' => ['verified', 'verified', 405],
         ];
     }
 }

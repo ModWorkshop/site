@@ -573,6 +573,7 @@ class ModController extends Controller
 
         if ($val['status'] === true) {
             $suspension = Suspension::create([
+                'status' => true,
                 'reason' => $val['reason'],
                 'mod_id' => $mod->id,
                 'mod_user_id' => $request->user()->id //The moderator that suspended it

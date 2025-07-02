@@ -6,15 +6,16 @@ use App\Models\FollowedMod;
 use App\Models\User;
 use App\Models\Mod;
 use App\Models\Model;
-use Tests\PersonalResourceTest;
+use Tests\FollowBlockResourceTest;
 use Tests\UserResourceTest;
 
-class FollowedModTest extends PersonalResourceTest
+class FollowedModTest extends FollowBlockResourceTest
 {
     protected string $parentUrl = '';
     protected string $url = 'followed-mods';
     protected bool $isGlobal = true;
     protected bool $hasParent = false;
+    protected string $idKey = 'mod_id';
 
     public function makeParent(): void
     {
@@ -35,7 +36,7 @@ class FollowedModTest extends PersonalResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         // Create a mod to follow - ownership doesn't matter
         $mod = Mod::factory()->create([
@@ -44,49 +45,6 @@ class FollowedModTest extends PersonalResourceTest
 
         return [
             'mod_id' => $mod->id,
-        ];
-    }
-
-    /**
-     * Override scenarios - followed games are personal and private
-     */
-    public static function viewScenariosProvider(): array
-    {
-        return [
-            'unverified' => ['unverified', 'unverified', 405],
-            'verified' => ['verified', 'verified', 405],
-            'banned' => ['banned', 'banned', 405],
-            'game_banned' => ['game_banned', 'game_banned', 405],
-            'admin' => ['admin', 'admin', 405],
-        ];
-    }
-
-    /**
-     * Users can manage their own followed games
-     */
-    public static function createScenariosProvider(): array
-    {
-        return [
-            'guest' => ['guest', null, 401],
-            'unverified' => ['unverified', 'unverified', 200],
-            'verified' => ['verified', 'verified', 200],
-            'banned' => ['banned', 'banned', 200],
-            'game_banned' => ['game_banned', 'game_banned', 200],
-            'admin' => ['admin', 'admin', 200],
-        ];
-    }
-
-    /**
-     * Data provider for update scenarios
-     */
-    public static function updateScenariosProvider(): array
-    {
-        return [
-            'unverified' => ['unverified', 'unverified', 405],
-            'verified' => ['verified', 'verified', 405],
-            'banned' => ['banned', 'banned', 405],
-            'game_banned' => ['game_banned', 'game_banned', 405],
-            'admin' => ['admin', 'admin', 405],
         ];
     }
 }

@@ -27,7 +27,7 @@ class ForumTest extends AdminResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         return [
             'name' => 'Test Forum Name',

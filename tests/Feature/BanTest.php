@@ -29,16 +29,24 @@ class BanTest extends AdminResourceTest
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         $targetUser = $this->user(); // Create a user to ban
-        
-        return [
-            'user_id' => $targetUser->id,
-            'reason' => 'Test ban reason for API testing',
-            'expire_date' => now()->addDays(7)->toDateString(),
-            'can_appeal' => true,
-        ];
+        if ($method === 'POST') {
+            // For ban creation, user_id is required
+            return [
+                'user_id' => $targetUser->id,
+                'reason' => 'Test ban reason for API testing',
+                'expire_date' => now()->addDays(30),
+                'can_appeal' => true,
+            ];
+        } else {
+            return [
+                'reason' => 'Test ban reason for API testing',
+                'expire_date' => now()->addDays(7),
+                'can_appeal' => true,
+            ];
+        }
     }
 
     /**

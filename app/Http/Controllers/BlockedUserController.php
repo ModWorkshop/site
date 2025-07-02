@@ -37,17 +37,19 @@ class BlockedUserController extends Controller
         $user = $this->user();
 
         $val = $request->validate([
-            'user_id' => "int|min:0|exists:users,id|not_in:{$user->id}",
+            'block_user_id' => "int|min:1|exists:users,id|not_in:{$user->id}|required",
             'silent' => 'boolean'
         ]);
 
-        $blocked = $user->blockedUsers()->wherePivot('block_user_id', $val['user_id'])->exists();
+        $blockUserId = $val['block_user_id'];
+
+        $blocked = $user->blockedUsers()->wherePivot('block_user_id', $blockUserId)->exists();
         if ($blocked) {
-            $user->blockedUsers()->updateExistingPivot($val['user_id'], [
+            $user->blockedUsers()->updateExistingPivot($blockUserId, [
                 'silent' => $val['silent']
             ]);
         } else {
-            $user->blockedUsers()->attach($val['user_id'], [
+            $user->blockedUsers()->attach($blockUserId, [
                 'silent' => $val['silent']
             ]);
         }

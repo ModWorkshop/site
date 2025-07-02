@@ -13,6 +13,7 @@ class RoleTest extends AdminResourceTest
     protected string $url = 'roles';
     protected bool $isGlobal = true;
     protected bool $hasParent = false;
+    protected array $inconsistentData = ['order' => true];
 
     public function makeParent(): void
     {
@@ -25,17 +26,15 @@ class RoleTest extends AdminResourceTest
             'name' => 'Test Role',
             'display_name' => 'Test Role Display',
             'order' => -1000,
-            'description' => 'Test role for API testing',
             'color' => '#FF0000',
         ]);
     }
 
-    public function upsertData(?Model $parent): array
+    public function upsertData(?Model $parent, string $method): array
     {
         return [
             'name' => 'test-role',
             'display_name' => 'Test Role Display Name',
-            'description' => 'Test role description for API testing',
             'order' => -500,
             'color' => '#00FF00',
         ];

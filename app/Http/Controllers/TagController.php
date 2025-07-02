@@ -63,7 +63,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return $tag;
+        return new TagResource($tag);
     }
 
     /**
@@ -93,7 +93,7 @@ class TagController extends Controller
             $tag = Tag::create($val);
         }
 
-        return $tag;
+        return new TagResource($tag);
     }
 
     /**
