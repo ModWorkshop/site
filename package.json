@@ -51,7 +51,7 @@
   "dependencies": {
     "@gerhobbelt/markdown-it-regexp": "^0.6.0-15",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.3",
     "date-fns": "^4.1.0",
     "fast-equals": "^5.2.2",
     "filesize": "^10.1.6",
@@ -61,7 +61,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-color-inline": "^1.9.5",
     "markdown-it-task-lists": "^2.1.1",
-    "nuxt-seo-utils": "^6.0.8",
+    "nuxt-seo-utils": "^7.0.6",
     "nuxt-time": "^1.0.3",
     "object-hash": "^3.0.0",
     "object-to-formdata": "^4.5.1",
