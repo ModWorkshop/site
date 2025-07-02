@@ -3,7 +3,7 @@ export async function setFollowUser(user: User, notify?: boolean, status?: boole
     try {
         status ??= !user.followed;
         if (status) {
-            await postRequest('followed-users', { user_id: user.id, notify });
+            await postRequest('followed-users', { follow_user_id: user.id, notify });
             user.followed = { notify: false };
         } else {
             await deleteRequest(`followed-users/${user.id}`);

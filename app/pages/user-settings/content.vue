@@ -110,7 +110,8 @@
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
-import type { Game, Mod, Tag, User, UserForm } from '~/types/models';
+import type { Game, Mod, Tag, User, UserForm } from '~~/types/models';
+import { setFollowGame, setFollowMod, setFollowUser } from '~~/utils/follow-helpers';
 
 defineProps<{
     user: UserForm
@@ -174,7 +175,7 @@ async function unfollowGame(game: Game) {
 
 async function unblockTag(tag: Tag) {
     try {
-        await deleteRequest(`blocked-tags/${tag.id}`);
+        await deleteRequest(`blocked-tags/${tag.tag_id}`);
         remove(blockedTags.value!.data, tag);
     } catch (error) {
         showError(error);
@@ -183,7 +184,7 @@ async function unblockTag(tag: Tag) {
 
 async function unblockUser(user: User) {
     try {
-        await deleteRequest(`blocked-users/${user.id}`);
+        await deleteRequest(`blocked-users/${user.user_id}`);
         remove(blockedUsers.value!.data, user);
     } catch (error) {
         showError(error);

@@ -62,9 +62,10 @@
     </page-block>
 </template>
 <script setup lang="ts">
+import { setFollowUser } from '~~/utils/follow-helpers';
 import { useI18n } from 'vue-i18n';
-import type { User } from '~/types/models';
-import { useStore } from '~/store';
+import type { User } from '~~/types/models';
+import { useStore } from '~~/store';
 
 const yesNoModal = useYesNoModal();
 const triggerRefresh = createEventHook<void>();
@@ -144,7 +145,7 @@ async function blockUser() {
             title: t('are_you_sure'),
             desc: t('block_user_desc'),
             async yes() {
-                await postRequest('blocked-users', { user_id: user.value.id, silent: false });
+                await postRequest('blocked-users', { block_user_id: user.value.id, silent: false });
                 
                 tempBlockOverride.value = false;
                 user.value.blocked_by_me = { silent: false };
@@ -166,7 +167,7 @@ function hideUserMods() {
         async yes() {
 
             if (block) {
-                await postRequest('blocked-users', { user_id: user.value.id, silent: true });
+                await postRequest('blocked-users', { block_user_id: user.value.id, silent: true });
             } else {
                 await deleteRequest(`blocked-users/${user.value.id}`);
             }
