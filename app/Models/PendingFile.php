@@ -40,6 +40,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \App\Models\File|null $file
  * @property-read \App\Models\Mod $mod
  * @property-read \App\Models\User $user
+ * @property string $file_type
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendingFile whereFileType($value)
  * @mixin \Eloquent
  */
 class PendingFile extends Model

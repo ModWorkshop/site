@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $user_id
  * @property int|null $mod_user_id
- * @property bool $warning
  * @property string $reason
  * @property string|null $expire_date
  * @property Carbon|null $created_at
@@ -30,18 +29,16 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserCase whereReason($value)
  * @method static Builder|UserCase whereUpdatedAt($value)
  * @method static Builder|UserCase whereUserId($value)
- * @method static Builder|UserCase whereWarning($value)
  * @property string|null $pardon_reason
- * @property bool $pardoned
  * @property-read Ban|null $ban
  * @property-read User $user
  * @method static Builder|UserCase wherePardonReason($value)
- * @method static Builder|UserCase wherePardoned($value)
  * @property int|null $game_id
  * @property-read User|null $modUser
  * @method static Builder|UserCase whereGameId($value)
  * @property bool $active
  * @method static Builder|UserCase whereActive($value)
+ * @property-read \App\Models\Game|null $game
  * @mixin Eloquent
  */
 class UserCase extends Model

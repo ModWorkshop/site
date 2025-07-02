@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Database\Factories\TagFactory;
 use Eloquent;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,7 +60,6 @@ use Illuminate\Support\Carbon;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag getModelCacheCooldown(\Illuminate\Database\Eloquent\Model $instance)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag inRandomOrder($seed = '')
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag insert(array $values)
- * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag isCachable()
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag max($column)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag min($column)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag sum($column)

@@ -13,8 +13,9 @@ use Illuminate\Support\Carbon;
 use Storage;
 use Str;
 
+
 /**
- * App\Models\File
+ * 
  *
  * @property int $id
  * @property int $user_id
@@ -25,42 +26,40 @@ use Str;
  * @property string $type
  * @property int|null $image_id
  * @property int $size
- * @property bool $approved
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @method static Builder|File newModelQuery()
- * @method static Builder|File newQuery()
- * @method static Builder|File query()
- * @method static Builder|File whereApproved($value)
- * @method static Builder|File whereCreatedAt($value)
- * @method static Builder|File whereDesc($value)
- * @method static Builder|File whereFile($value)
- * @method static Builder|File whereId($value)
- * @method static Builder|File whereImageId($value)
- * @method static Builder|File whereModId($value)
- * @method static Builder|File whereName($value)
- * @method static Builder|File whereSize($value)
- * @method static Builder|File whereType($value)
- * @method static Builder|File whereUpdatedAt($value)
- * @method static Builder|File whereUserId($value)
- * @property-read Mod $mod
  * @property string $label
  * @property string $version
- * @property-read User $user
- * @method static Builder|File whereLabel($value)
- * @method static Builder|File whereVersion($value)
- * @property string|null $unique_name
- * @property-read Image|null $image
- * @method static Builder|File whereUniqueName($value)
- * @property-read mixed $download_url
- * @property-read mixed $file_ext
- * @property-read mixed $safe_file_name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $display_order
  * @property int $downloads
+ * @property string|null $semver_version
+ * @property-read mixed $download_url
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DownloadableDownload> $downloadsRelation
  * @property-read int|null $downloads_relation_count
- * @method static Builder|File whereDisplayOrder($value)
- * @method static Builder|File whereDownloads($value)
+ * @property-read mixed $file_ext
+ * @property-read \App\Models\Image|null $image
+ * @property-read \App\Models\Mod $mod
+ * @property-read mixed $safe_file_name
+ * @property-read \App\Models\User $user
+ * @method static Builder<static>|File newModelQuery()
+ * @method static Builder<static>|File newQuery()
+ * @method static Builder<static>|File query()
+ * @method static Builder<static>|File whereCreatedAt($value)
+ * @method static Builder<static>|File whereDesc($value)
+ * @method static Builder<static>|File whereDisplayOrder($value)
+ * @method static Builder<static>|File whereDownloads($value)
+ * @method static Builder<static>|File whereFile($value)
+ * @method static Builder<static>|File whereId($value)
+ * @method static Builder<static>|File whereImageId($value)
+ * @method static Builder<static>|File whereLabel($value)
+ * @method static Builder<static>|File whereModId($value)
+ * @method static Builder<static>|File whereName($value)
+ * @method static Builder<static>|File whereSemverVersion($value)
+ * @method static Builder<static>|File whereSize($value)
+ * @method static Builder<static>|File whereType($value)
+ * @method static Builder<static>|File whereUpdatedAt($value)
+ * @method static Builder<static>|File whereUserId($value)
+ * @method static Builder<static>|File whereVersion($value)
  * @mixin Eloquent
  */
 class File extends Model
