@@ -192,7 +192,6 @@ export const useStore = defineStore('main', {
         },
 
         hasPermission(perm: string, game?: Game) {
-            console.log(game?.user_data);
             const permissions = this.user?.permissions;
             if (!this.user) {
                 return false;
