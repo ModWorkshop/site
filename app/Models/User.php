@@ -781,7 +781,7 @@ class User extends Model implements
      */
     public function getLastGameban(int $gameId) {
         $ban = $this->withSecureConstraints(fn() => $this->gameBans()->where('game_id', $gameId)->first());
-        if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
+        if (isset($ban) && (($ban->active && !isset($ban->expire_date)) || Carbon::now()->lessThan($ban->expire_date))) {
             return $ban;
         }
         return null;

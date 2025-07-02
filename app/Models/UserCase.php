@@ -67,6 +67,11 @@ class UserCase extends Model
     {
         return $this->belongsTo(User::class)->without('ban');
     }
+    
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
 
     protected static function booted()
     {

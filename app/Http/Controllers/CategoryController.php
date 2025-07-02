@@ -144,7 +144,7 @@ class CategoryController extends Controller
         ]);
 
         if (!$val['are_you_sure']) {
-            abort(406, 'You must tick the are you sure to do thsi action!');
+            abort(406, 'You must tick the are you sure to do this action!');
         }
 
         $category->mods()->update([

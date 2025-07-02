@@ -10,30 +10,33 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\TestResource;
+use Tests\UserResourceTest;
 
-class ModCommentTest extends TestResource
+class ModCommentTest extends UserResourceTest
 {
     protected string $parentUrl = 'mods';
     protected string $url = 'comments';
     protected bool $isGlobal = false;
-    protected bool $isGame = true;
+    protected bool $hasParent = true;
 
-    public function makeParent()
+    public function makeParent(): void
     {
-        $this->parent = $this->mod($this->user());
+        /** @var Model $mod */
+        $mod = $this->mod($this->user());
+        $this->parent = $mod;
     }
 
-    public function createDummy(User $user, int $parentId): ?Comment
+    public function createDummy(?User $user = null, ?Model $parent = null): ?Comment
     {
         return Comment::forceCreate([
             'content' => 'hello this is a test',
-            'commentable_id' => $parentId,
+            'commentable_id' => $parent->id,
             'commentable_type' => 'mod',
             'user_id' => $user->id
         ]);
     }
 
-    public function upsertData()
+    public function upsertData(?Model $parent): array
     {
         return [
             'content' => 'This is a test!',

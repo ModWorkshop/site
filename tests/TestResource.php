@@ -5,23 +5,26 @@ namespace Tests;
 use App\Models\Ban;
 use App\Models\Forum;
 use App\Models\Game;
+use App\Models\Model;
 use App\Models\Thread;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Testing\TestResponse as LaravelTestResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 abstract class TestResource extends TestCase
 {
-    protected Model $parent;
-
+    protected ?Model $parent = null;
     protected string $parentUrl = 'games';
     protected string $url = '';
+    protected ?string $globalUrl = null;
     protected bool $isGlobal = false;
-    protected bool $isGame = false;
+    protected bool $hasParent = false;
+    protected bool $isShallow = true;
 
     public function setUp(): void
     {
@@ -29,188 +32,238 @@ abstract class TestResource extends TestCase
         $this->makeParent();
     }
 
-    public function createDummy(User $user, int $parentId): ?Model
+    /**
+     * Get user based on scenario type
+     */
+    protected function getUserForScenario(string $userType): ?User
     {
-        return Model::create();
+        return match($userType) {
+            'unverified' => $this->unverifiedUser(),
+            'verified' => $this->user(),
+            'banned' => $this->bannedUser(),
+            'game_banned' => $this->gameBannedUser(),
+            'other_game_banned' => $this->gameBannedUser($this->game2->id),
+            'admin' => $this->admin(),
+            default => null,
+        };
     }
 
-    public function upsertData()
+    public function createDummy(?User $user = null, ?Model $parent = null): ?Model
+    {
+        // This should be implemented by child classes
+        return null;
+    }
+
+    public function upsertData(?Model $parent): array
     {
         return [];
     }
 
-    public function makeParent()
+    public function makeParent(): void
     {
-        $this->parent = $this->game;
+        /** @var Model $game */
+        $game = $this->game;
+        $this->parent = $game;
     }
 
     /**
-     * Makes a simple thread.
+     * In case you need to override the parent
+     * For example, files have mods as parents, which are owned by the test user.
      */
-    public function tryCreate($assertStatus=200, $user=null, int $parentId=null)
-    {
-        if (isset($user)) {
-            $this->actingAs($user);
+    public function getParent(?User $user) {
+        return $this->parent;
+    }
+
+    public function tryRequest(string $httpMethod, $data) {
+        $url = '';
+
+        $user = $data['user'] ?? null;
+        $assertStatus = $data['assertStatus'] ?? 200;
+        $parent = $data['parent'] ?? null;
+        $owner = $data['owner'] ?? $user;
+
+        $this->actingAs($user);
+
+        $data = $httpMethod != 'GET' ? $this->upsertData($parent) : [];
+
+        if ($httpMethod == 'POST') {
+            $url = $this->getUrl($httpMethod, $parent, null, $data);
+        } else {
+            $resource = $this->createDummy($owner, $parent);
+            if (!$resource) {
+                $this->fail("Failed to create dummy resource for update test");
+            }
+            $url = $this->getUrl($httpMethod, $parent, $resource, $data);
         }
 
-        if ($this->isGlobal && !isset($parentId)) {
-            $parentId = 1;
-        }
- 
-        if (!isset($parentId)) {
-            return true;
-        }
+        echo $httpMethod . ' ' . $url . "\n";
+        $req = $this->json($httpMethod, $url, $data);
 
-        $req = $this->post("{$this->parentUrl}/{$parentId}/{$this->url}", $this->upsertData());
-
-        $code = $req->getStatusCode();
-        if ($code !== $assertStatus) {
-            debug_print_backtrace();
-            var_dump("CREATE EXPECTED {$assertStatus} GOT {$code} {$this->parentUrl}/{$parentId}/{$this->url} ");
-        }
+        $this->debugResult($data['operation'] ?? 'Some Operation', $req, $assertStatus, $data['userType'] ?? 'user');
 
         return $req->assertStatus($assertStatus);
     }
 
-    /**
-     * Edit thread
-     */
-    public function tryUpdate($assertStatus=200, $user=null, $actingAs=null, int $parentId = null)
-    {
-        $actingAs ??= $user;
-        if (isset($actingAs)) {
-            $this->actingAs($actingAs);
+    public function getUrl($httpMethod, ?Model $parent = null, ?Model $object = null, $data=null): string{
+        if ($httpMethod == 'POST') {
+            return isset($parent) ? "{$this->parentUrl}/{$parent->id}/{$this->url}" : $this->globalUrl ?? $this->url;
+        } else {
+            if ($this->isShallow) {
+                return "{$this->url}/{$object->id}";
+            } else {
+                return isset($parent) ? "{$this->parentUrl}/{$parent->id}/{$this->url}/{$object->id}" : "{$this->url}/{$object->id}";
+            }
         }
-
-        if ($this->isGlobal && !isset($parentId)) {
-            $parentId = 1;
-        }
-
-        if (!isset($parentId)) {
-            return true;
-        }
-
-        $resource = $this->createDummy($user, $parentId);
-
-        $req = $this->patch("{$this->url}/{$resource->id}", $this->upsertData());
-
-        $code = $req->getStatusCode();
-        if ($code !== $assertStatus) {
-            debug_print_backtrace();
-            var_dump("UPDATE EXPECTED {$assertStatus} GOT {$code} {$this->url}/{$resource->id}");
-        }
-
-        return $req->assertStatus($assertStatus);
-    }
-
-    public function tryDelete($assertStatus=200, $user=null, $actingAs=null, int $parentId = null)
-    {
-        $actingAs ??= $user;
-
-        if (isset($actingAs)) {
-            $this->actingAs($actingAs);
-        }
-
-        if ($this->isGlobal && !isset($parentId)) {
-            $parentId = 1;
-        }
-
-        if (!isset($parentId)) {
-            return true;
-        }
-
-        $resource = $this->createDummy($user, $parentId);
-
-        $req = $this->delete("{$this->url}/{$resource->id}");
-
-
-        $code = $req->getStatusCode();
-        if ($code !== $assertStatus) {
-            debug_print_backtrace();
-            var_dump("DELETE EXPECTED {$assertStatus} GOT {$code} {$this->url}/{$resource->id}");
-        }
-
-        return $req->assertStatus($assertStatus);
-    }
-
-    public function tryParentCreate($assertStatus=200, $user=null)
-    {
-        if (!$this->isGame) {
-            return true;
-        }
-
-        return $this->tryCreate($assertStatus, $user, $this->parent->id);
-    }
-
-    public function tryParentUpdate($assertStatus=200, $user=null, $actingAs=null)
-    {
-        if (!$this->isGame) {
-            return true;
-        }
-
-        return $this->tryUpdate($assertStatus, $user, $actingAs, $this->parent->id);
-    }
-
-    public function tryParentDelete($assertStatus=200, $user=null, $actingAs=null)
-    {
-        if (!$this->isGame) {
-            return true;
-        }
-
-        return $this->tryDelete($assertStatus, $user, $actingAs, $this->parent->id);
-    }
-
-    public function test_create()
-    {
-        $unverifiedUser = $this->unverifiedUser();
-        $verifiedUser = $this->user();
-        $bannedUser = $this->bannedUser();
-
-        return $this->tryCreate(403, $unverifiedUser) && $this->tryParentCreate(403, $unverifiedUser)
-            && $this->tryParentCreate(403) && $this->tryCreate(403)
-            && $this->tryParentCreate(201, $verifiedUser) && $this->tryCreate(201, $verifiedUser)
-            && $this->tryParentCreate(403, $bannedUser) && $this->tryCreate(403, $bannedUser)
-            && $this->tryParentCreate(403, $this->gameBannedUser());
     }
 
     /**
-     * Edit
+     * Generic helper method to test scenarios for both global and game contexts
      */
-    public function test_edit()
-    {
-        $user = $this->user();
-        $bannedUser = $this->bannedUser();
-        $gameBannedUser = $this->gameBannedUser();
-        $otherUser = $this->user();
+    protected function testScenario(string $operation, $data) {
+        $data['operation'] = $operation;
 
-        return $this->tryUpdate(403, $bannedUser)
-            && $this->tryParentUpdate(403, $bannedUser)
-            && $this->tryUpdate(200, $gameBannedUser)
-            && $this->tryParentUpdate(403, $gameBannedUser)
-            && $this->tryUpdate(200, $user)
-            && $this->tryParentUpdate(200, $user)
-            && $this->tryUpdate(403, $otherUser, $user)
-            && $this->tryParentUpdate(403, $otherUser, $user);
+        return match($operation) {
+            'create' => $this->tryRequest('POST', $data),
+            'update' => $this->tryRequest('PATCH', $data),
+            'delete' => $this->tryRequest('DELETE', $data),
+            'view' => $this->tryRequest('GET', $data),  
+            default => throw new \InvalidArgumentException("Unsupported operation: {$operation}")
+        };
     }
 
+    protected function testScenarios(string $operation, ?string $userType, int $expectedStatus, ?int $expectedParentedStatus = null): void {
+        $user = $userType ? $this->getUserForScenario($userType) : null;
+
+        // Test global context if applicable
+        if ($this->isGlobal) {
+            $this->testScenario($operation, [ 
+                'assertStatus' => $expectedStatus,
+                'user' => $user,
+                'userType' => $userType,
+            ]);
+        }
+
+        // Test game context if applicable
+        if ($this->hasParent) {
+            $this->testScenario($operation, [ 
+                'assertStatus' => $expectedParentedStatus ?? $expectedStatus,
+                'user' => $user,
+                'userType' => $userType,
+                'parent' => $this->getParent($user),
+            ]);
+        }
+    }
+
+    public function debugResult($operation, LaravelTestResponse $res, $expectedStatus, $userType): void{
+        $actualStatus = $res->getStatusCode();
+        if ($expectedStatus !== $actualStatus) {
+            echo "\n=== GAME TEST FAILURE DEBUG INFO ===\n";
+            echo "Operation: {$operation}\n";
+            // echo "URL: {$re}\n";
+            echo "User: {$userType}\n";
+            // echo "Parent ID: {$parentId}\n";
+            echo "Expected Status: {$expectedStatus}\n";
+            echo "Actual Status: {$actualStatus}\n";
+            // echo "Request Data: " . json_encode($data, JSON_PRETTY_PRINT) . "\n";
+            echo "Response Content: {$res->getContent()}\n";
+            echo "==============================\n";
+        }
+    }
 
     /**
-     * Delete
+     * Data provider for create scenarios
      */
-    public function test_delete()
+    public static function createScenariosProvider(): array
     {
-        $user = $this->user();
-        $bannedUser = $this->bannedUser();
-        $gameBannedUser = $this->gameBannedUser();
-        $otherUser = $this->user();
+        return [
+            'guest' => ['guest', null, 403],
+            'unverified' => ['unverified', 'unverified', 403],
+            'verified' => ['verified', 'verified', 201],
+            'banned' => ['banned', 'banned', 403],
+            'game_banned' => ['game_banned', 'game_banned', 403],
+            'other_game_banned' => ['other_game_banned', 'other_game_banned', 201],
+            'admin' => ['admin', 'admin', 201],
+        ];
+    }
 
-        return $this->tryDelete(200, $user)
-            && $this->tryParentDelete(200, $user)
-            && $this->tryDelete(200, $bannedUser)
-            && $this->tryParentDelete(200, $bannedUser)
-            && $this->tryDelete(200, $gameBannedUser)
-            && $this->tryParentDelete(200, $gameBannedUser)
-            && $this->tryDelete(403, $otherUser, $user)
-            && $this->tryParentDelete(403, $otherUser, $user);
+    /**
+     * Data provider for update scenarios
+     */
+    public static function updateScenariosProvider(): array
+    {
+        return [
+            'unverified' => ['unverified', 'unverified', 403],
+            'verified' => ['verified', 'verified', 200],
+            'banned' => ['banned', 'banned', 403],
+            'game_banned' => ['game_banned', 'game_banned', 403],
+            'other_game_banned' => ['other_game_banned', 'other_game_banned', 200],
+            'admin' => ['admin', 'admin', 200],
+        ];
+    }
+
+    /**
+     * Data provider for delete scenarios
+     */
+    public static function deleteScenariosProvider(): array
+    {
+        return [
+            'unverified' => ['unverified', 'unverified', 200],
+            'verified' => ['verified', 'verified', 200],
+            'banned' => ['banned', 'banned', 200],
+            'game_banned' => ['game_banned', 'game_banned', 200],
+            'other_game_banned' => ['other_game_banned', 'other_game_banned', 200],
+            'admin' => ['admin', 'admin', 200],
+        ];
+    }
+
+    /**
+     * Data provider for view scenarios
+     */
+    public static function viewScenariosProvider(): array
+    {
+        return [
+            'unverified' => ['unverified', 'unverified', 200],
+            'verified' => ['verified', 'verified', 200],
+            'banned' => ['banned', 'banned', 200],
+            'game_banned' => ['game_banned', 'game_banned', 200],
+            'other_game_banned' => ['other_game_banned', 'other_game_banned', 200],
+            'admin' => ['admin', 'admin', 200],
+        ];
+    }
+
+    /**
+     * Test create scenarios using data provider
+     */
+    #[DataProvider('createScenariosProvider')]
+    public function test_create_scenarios(string $scenarioName, ?string $userType, int $expectedStatus, ?int $expectedGameStatus=null): void
+    {
+        $this->testScenarios('create', $userType, $expectedStatus, $expectedGameStatus);
+    }
+
+    /**
+     * Test update scenarios using data provider
+     */
+    #[DataProvider('updateScenariosProvider')]
+    public function test_update_scenarios(string $scenarioName, ?string $userType, int $expectedStatus, ?int $expectedGameStatus=null): void
+    {
+        $this->testScenarios('update', $userType, $expectedStatus, $expectedGameStatus);
+    }
+
+    /**
+     * Test delete scenarios using data provider
+     */
+    #[DataProvider('deleteScenariosProvider')]
+    public function test_delete_scenarios(string $scenarioName, ?string $userType, int $expectedStatus, ?int $expectedGameStatus=null): void
+    {
+        $this->testScenarios('delete', $userType, $expectedStatus, $expectedGameStatus);
+    }
+
+    /**
+     * Test view scenarios using data provider
+     */
+    #[DataProvider('viewScenariosProvider')]
+    public function test_view_scenarios(string $scenarioName, ?string $userType, int $expectedStatus, ?int $expectedGameStatus=null): void
+    {
+        $this->testScenarios('view', $userType, $expectedStatus, $expectedGameStatus);
     }
 }

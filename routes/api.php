@@ -101,7 +101,7 @@ Route::middleware('can:view,mod')->get('mods/{mod}/version', [ModController::cla
 Route::get('mods/versions', [ModController::class, 'getVersions']);
 
 Route::middleware('can:manage,mod')->group(function() {
-    Route::patch('mods/{mod}/suspended', [ModController::class, 'suspend']);
+    Route::post('mods/{mod}/suspensions', [ModController::class, 'suspend']);
     Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
 });
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
@@ -138,7 +138,7 @@ APIService::gameResource('roles', GameRoleController::class, ['shallow' => false
  * @group Forums
  */
 
-Route::resource('forums', ForumController::class)->only(['index', 'show', 'update']);
+Route::resource('forums', ForumController::class)->only(['index', 'show']);
 APIService::gameResource('forum-categories', ForumCategoryController::class, ['parentOptional' => true]);
 APIService::resource('threads', ThreadController::class, 'forums');
 APIService::resource('comments', ThreadCommentsController::class, 'threads');
@@ -189,10 +189,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('can:purge,user')->post('users/{user}/purge', [UserController::class, 'purgeUser']);
     Route::resource('blocked-users', BlockedUserController::class)->except('show', 'update');
     Route::resource('blocked-tags', BlockedTagController::class)->except('show', 'update');
-    Route::resource('followed-mods', FollowedModController::class)->except('show');
-    Route::resource('followed-users', FollowedUserController::class)->except('show');
+    Route::resource('followed-mods', FollowedModController::class)->except('show', 'update');
+    Route::resource('followed-users', FollowedUserController::class)->except('show', 'update');
     Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
-    Route::resource('followed-games', FollowedGameController::class)->except('show');
+    Route::resource('followed-games', FollowedGameController::class)->except('show', 'update');
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });
 
@@ -201,7 +201,7 @@ Route::middleware('auth:sanctum')->get('supporters/nitro-check', [SupporterContr
 
 Route::middleware('can:report,user')->post('users/{user}/reports', [UserController::class, 'report']);
 Route::resource('roles', RoleController::class);
-APIService::gameResource('suspensions', SuspensionController::class, ['parentOptional' => true]);
+APIService::gameResource('suspensions', SuspensionController::class, ['parentOptional' => true, 'gameOnly' => ['index']]);
 APIService::gameResource('documents', DocumentController::class, ['parentOptional' => true]);
 Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
 APIService::gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);

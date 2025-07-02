@@ -28,7 +28,12 @@ class Controller extends BaseController
             if ($model->id == $id) {
                 if (!$called) {
                     if (isset($model->game_id)) {
-                        APIService::setCurrentGame($model->game);
+                        if ($model->game) {
+                            APIService::setCurrentGame($model->game);
+                        } else {
+                            throw new Error("Game was defined on resource {$resource} but not found in database. 
+                            This is likely a bug in the code that created the resource.");
+                        }
                     }
                     $called = true; // TODO: maybe we need to run this more than once? find a better way.
 

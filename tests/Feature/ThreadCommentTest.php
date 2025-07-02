@@ -5,41 +5,42 @@ namespace Tests\Feature;
 use App\Models\Comment;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Tests\TestResource;
+use Illuminate\Database\Eloquent\Model;
+use Tests\UserResourceTest;
 
-class ThreadCommentTest extends TestResource
+class ThreadCommentTest extends UserResourceTest
 {
     protected string $parentUrl = 'threads';
     protected string $url = 'comments';
     protected bool $isGlobal = false;
-    protected bool $isGame = true;
+    protected bool $hasParent = true;
 
-    public function makeParent()
+    public function makeParent(): void
     {
-        $user = $this->user();
-        $this->parent = Thread::create([
-            'forum_id' => $this->game->forum_id,
+        // Use owner if set, otherwise fall back to current user
+        $user = $this->owner ?? $this->user();
+        /** @var Model $thread */
+        $thread = Thread::create([
+            'forum_id' => $this->game->forum_id ?? 1,
             'user_id' => $user->id,
             'last_user_id' => $user->id,
             'name' => 'This is a test!',
             'content' => 'This is a test!',
         ]);
+        $this->parent = $thread;
     }
 
-    public function createDummy(User $user, int $parentId): ?Comment
-    {
+    public function createDummy(?User $user = null, ?Model $parent = null): ?Comment
+    {        
         return Comment::forceCreate([
             'content' => 'hello this is a test',
-            'commentable_id' => $parentId,
+            'commentable_id' => $parent->id,
             'commentable_type' => 'thread',
             'user_id' => $user->id
         ]);
     }
 
-    public function upsertData()
+    public function upsertData(?Model $parent): array
     {
         return [
             'content' => 'This is a test!',

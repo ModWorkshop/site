@@ -93,9 +93,15 @@ class ThreadController extends Controller
         $val['parser_version'] = 2;
 
         $category = ForumCategory::where('forum_id', $forum->id)->find($val['category_id']);
+        $this->authorize('store', [Thread::class, $forum, $category]);
+
+        if (isset($game)) {
+            echo $user->getLastGameban($game->id)?->toJson();
+        }
 
         if (!isset($category)) {
-            abort(406, "Category doesn't exist or is invalid");
+            $cat = ForumCategory::find($val['category_id']);
+            abort(406, "Category doesn't exist or is invalid. This category belongs to the forum: {$cat->forum_id}");
         }
 
         $canManageThreads = $user->hasPermission('manage-discussions', $forum->game);
@@ -103,7 +109,6 @@ class ThreadController extends Controller
             abort(401);
         }
 
-        $this->authorize('store', [Thread::class, $forum, $category]);
 
         $tags = Arr::pull($val, 'tag_ids'); // Since 'tags' isn't really inside the model, we need to pull it out.
 

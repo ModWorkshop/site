@@ -55,19 +55,13 @@ class FollowedModController extends Controller
         $userId = $user->id;
         $followedMod= FollowedMod::where('user_id', $userId)->where('mod_id', $val['mod_id'])->first();
 
+        $val['notify'] ??= false;
+
         if (isset($followedMod)) {
             $followedMod->update(['mod_id' => $val['mod_id'], 'notify' => $val['notify']]);
         } else {
             FollowedMod::create(['mod_id' => $val['mod_id'], 'user_id' => $userId, 'notify' => $val['notify']]);
         }
-    }
-
-    /**
-     * @hideFromApiDocumentation
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

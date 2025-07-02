@@ -266,7 +266,7 @@ class APIService {
     public static function resource(string $resource, string $class, string $parent, array $config=[]) {
         $reg = Route::resource("{$parent}.{$resource}", $class);
         if (isset($config['parentOptional']) && $config['parentOptional'] == true) {
-            Route::resource($resource, $class)->only(['index', 'store']);
+            Route::resource($resource, $class)->only($config['gameOnly'] ?? ['index', 'store']);
         } else {
             Route::resource($resource, $class)->only($config['selfOnly'] ?? ['index']);
         }

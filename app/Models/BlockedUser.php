@@ -31,6 +31,8 @@ class BlockedUser extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function getMorphClass(): string {
         return 'blocked_user';
     }

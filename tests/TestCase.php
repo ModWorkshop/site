@@ -22,6 +22,7 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
 
     protected Game $game;
+    protected Game $game2;
 
     protected ?User $currentUser;
 
@@ -39,9 +40,14 @@ abstract class TestCase extends BaseTestCase
             'email_verified_at' => Carbon::now(),
         ], 'id');
 
-        $this->game = Game::forceCreate([
+        $this->game = Game::create([
             'name' => 'Test: The Game',
             'short_name' => 'test'
+        ], 'short_name');
+
+        $this->game2 = Game::create([
+            'name' => 'Test: The Game 2',
+            'short_name' => 'test2'
         ], 'short_name');
 
         Forum::create(['name' => 'global']);
@@ -166,16 +172,16 @@ abstract class TestCase extends BaseTestCase
     /**
      * Returns a game banned user.
      */
-    public function gameBannedUser(): User
+    public function gameBannedUser(?int $gameId=null): User
     {
         $user = User::factory()->create();
         Ban::create([
             'user_id' => $user->id,
             'expire_date' => Carbon::now()->addDay(1),
             'reason' => 'test!',
-            'game_id' => $this->game->id
+            'game_id' => $gameId ?? $this->game->id
         ]);
-        
+
         return $user;
     }
 }

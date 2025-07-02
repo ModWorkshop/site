@@ -29,6 +29,8 @@ class BlockedTag extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function getMorphClass(): string {
         return 'blocked_tag';
     }

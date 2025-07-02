@@ -64,26 +64,21 @@ class FollowedUserController extends Controller
     public function store(Request $request, Authenticatable $user)
     {
         $val = $request->validate([
-            'user_id' => 'int|min:0|exists:users,id',
+            'follow_user_id' => 'int|min:1|exists:users,id|required',
             'notify' => 'boolean'
         ]);
 
         $userId = $user->id;
-        $followedMod= FollowedUser::where('user_id', $userId)->where('follow_user_id', $val['user_id'])->first();
+        $notify = $val['notify'] ?? false;
+        $followedUserId = $val['follow_user_id'];
 
-        if (isset($followedMod)) {
-            $followedMod->update(['follow_user_id' => $val['user_id'], 'notify' => $val['notify']]);
+        $followedUser = FollowedUser::where('user_id', $userId)->where('follow_user_id', $followedUserId)->first();
+
+        if (isset($followedUser)) {
+            $followedUser->update(['follow_user_id' => $followedUserId, 'notify' => $notify]);
         } else {
-            FollowedUser::create(['follow_user_id' => $val['user_id'], 'user_id' => $userId, 'notify' => $val['notify']]);
+            FollowedUser::create(['follow_user_id' => $followedUserId, 'user_id' => $userId, 'notify' => $notify]);
         }
-    }
-
-    /**
-     * @hideFromApiDocumentation
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
