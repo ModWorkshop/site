@@ -3189,14 +3189,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.7.9":
-  version: 1.7.9
-  resolution: "axios@npm:1.7.9"
+"axios@npm:^1.8.2":
+  version: 1.10.0
+  resolution: "axios@npm:1.10.0"
   dependencies:
     follow-redirects: ^1.15.6
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: cb8ce291818effda09240cb60f114d5625909b345e10f389a945320e06acf0bc949d0f8422d25720f5dd421362abee302c99f5e97edec4c156c8939814b23d19
+  checksum: b5fd840d499469bf968e44b8ac96f4b363c6aa4c791a50834c086a7cffbc2d77fe24f27af1aba46c3e1f4840aaf991461fc27537990596b93dea0f4df3245a86
   languageName: node
   linkType: hard
 
@@ -6922,7 +6922,7 @@ __metadata:
     "@vueuse/components": ^12.7.0
     "@vueuse/core": ^11.2.0
     "@vueuse/nuxt": ^10.6.1
-    axios: ^1.7.9
+    axios: ^1.8.2
     date-fns: ^4.1.0
     eslint: ^9.14.0
     eslint-plugin-vue: ^9.26.0
