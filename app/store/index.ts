@@ -44,7 +44,13 @@ export const useStore = defineStore('main', {
     }),
     getters: {
         theme(state) {
-            return state.savedTheme === 'light' ? 'light' : 'dark';
+            if (state.savedTheme == 'light') {
+                return 'light';
+            } else if (state.savedTheme == 'system') {
+               return 'system';
+            } else {
+                return 'dark';
+            }
         },
         isBanned() {
             return !!this.ban || !!this.gameBan;
@@ -57,8 +63,12 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
-        toggleTheme() {
-            this.savedTheme = this.theme === 'light' ? null : 'light';
+        setTheme(theme: 'light'|'dark'|'system') {
+            if (theme == 'dark') {
+                this.savedTheme = null;
+            } else {
+                this.savedTheme = theme === 'system' ? 'system' : 'light';
+            }
             useCookie('theme', { expires: longExpiration() }).value = this.savedTheme ?? null;
         },
         setGame(game?: Game|null) {

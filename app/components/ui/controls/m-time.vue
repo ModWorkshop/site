@@ -34,6 +34,8 @@ const dateTimeHack = computed(() => {
     return datetime;
 })
 
+const useRelativeTime = useConsentedCookie('use-relative-time', { default: () => true, expires: longExpiration()});
+
 const overrideText = computed(() => {
     if (!datetime) {
         return;
@@ -42,7 +44,7 @@ const overrideText = computed(() => {
     const date = typeof datetime == 'string' ? parseISO(datetime) : datetime;
     const secs = Math.abs(differenceInSeconds(now.value, date));
 
-    if (relative) {
+    if (relative && useRelativeTime.value) {
         if (secs < 60) {
             return t('just_now');
         } else {

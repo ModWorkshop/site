@@ -136,21 +136,14 @@
                                 <div class="dropdown-splitter"/>
                                 <m-dropdown-item @click="store.logout"><i-mdi-logout/> {{$t('logout')}}</m-dropdown-item>
                                 <div class="dropdown-splitter"/>
-                                <m-dropdown-item @click="store.toggleTheme">
-                                    <i-mdi-white-balance-sunny v-if="store.theme == 'light'"/>
-                                    <i-mdi-weather-night v-else/>
-                                    {{$t(store.theme === 'light' ? 'light_theme' : 'dark_theme')}}
-                                </m-dropdown-item>
+                                <m-dropdown-item to="/customize"><i-mdi-cog/> {{$t('customize')}}</m-dropdown-item>
                             </template>
                         </m-dropdown>
                     </m-flex>
                     <m-flex v-else class="my-auto" gap="4">
                         <m-link to="/login">{{$t('login')}}</m-link>
                         <m-link to="/register">{{$t('register')}}</m-link>
-                        <m-link @click="store.toggleTheme">
-                            <i-mdi-white-balance-sunny v-if="store.theme === 'light'"/>
-                            <i-mdi-weather-night v-else/>
-                        </m-link>
+                        <m-link to="/customize"><i-mdi-cog/></m-link>
                     </m-flex>
                 </m-flex>
             </m-flex>

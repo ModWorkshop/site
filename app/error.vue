@@ -27,7 +27,7 @@ useHeadSafe({
 		return titleChunk ? `${titleChunk} - ModWorkshop` : 'ModWorkshop';
     },
 	htmlAttrs: {
-		class: computed(() => `${store.theme === 'light' ? 'light' : 'dark'} ${store.colorScheme}-scheme`)
+		class: computed(() => `${store.theme} ${store.colorScheme}-scheme`)
 	},
 	title: undefined,
 });
