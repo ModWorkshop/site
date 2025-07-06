@@ -35,6 +35,7 @@ class ModResource extends BaseResource
             'instructions' => $this->instructions,
             'visibility' => $this->visibility,
             'legacy_banner_url' => $this->legacy_banner_url,
+            'repo_url' => $this->repo_url,
             'downloads' => $this->downloads,
             'likes' => $this->likes,
             'views' => $this->views,
