@@ -26,19 +26,42 @@ const compAlias = computed(() => {
     }
 });
 
-const normalizedRoot = computed(() => root + '/');
-const normalizedPath = computed(() => route.path + '/');
-
 const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
 
 const classes = computed(() => ({
     'nav-link': true,
     'nav-link-side': side,
-    selected: 
-        props.selected 
-        || (compTo.value == root ? normalizedPath.value == normalizedRoot.value : normalizedPath.value.startsWith(compTo.value + '/'))
-        || (compAlias.value == root ? route.path == root : (compAlias.value && route.path.startsWith(compAlias.value)))
+    selected: props.selected || isSelected.value
 }));
+
+const isSelected = computed(() => {
+    const currentPath = route.path;
+    const linkPath = compTo.value;
+    const aliasPath = compAlias.value;
+    
+    // Check if current path matches the link path exactly
+    if (currentPath === linkPath) {
+        return true;
+    }
+    
+    // Check if current path starts with the link path (for nested routes)
+    // But avoid matching when link is root to prevent all links being selected
+    if (linkPath !== root && currentPath.startsWith(linkPath + '/')) {
+        return true;
+    }
+    
+    // Check alias path if it exists
+    if (aliasPath) {
+        if (currentPath === aliasPath) {
+            return true;
+        }
+        if (aliasPath !== root && currentPath.startsWith(aliasPath + '/')) {
+            return true;
+        }
+    }
+    
+    return false;
+});
 
 function clickLink() {
     if (menuOpen) {
