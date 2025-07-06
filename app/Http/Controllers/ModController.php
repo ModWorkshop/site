@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetLikedModsRequest;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
@@ -106,10 +107,20 @@ class ModController extends Controller
      *
      * @authenticated
      */
-    public function liked(GetModsRequest $request)
+    public function liked(GetLikedModsRequest $request)
     {
-        $mods = ModService::mods($request->val(), function($q, $val) {
-            $q->whereHasIn('liked');
+        $mods = ModService::mods($request->val(), fn($q) => $q->whereHasIn('liked'), sortByFunc: function($q, $val) {
+            if (isset($val['sort']) && $val['sort'] === 'liked_at') {
+                $q->orderBy(function($query) {
+                    $query->select('created_at')
+                          ->from('mod_likes')
+                          ->whereColumn('mod_likes.mod_id', 'mods.id')
+                          ->where('mod_likes.user_id', Auth::id())
+                          ->limit(1);
+                }, 'desc');
+                return true;
+            }
+            return false;
         });
 
         return ModResource::collectionResponse($mods);

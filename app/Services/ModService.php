@@ -16,6 +16,7 @@ use App\Models\Visibility;
 use Arr;
 use Auth;
 use Cache;
+use Closure;
 use DB;
 use Hash;
 use Illuminate\Database\Query\Builder;
@@ -27,51 +28,57 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
-    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null): LengthAwarePaginator
+    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null, ?Closure $sortByFunc = null): LengthAwarePaginator
     {
         $user = Auth::user();
         if (!isset($user) && isset($cacheForGuests)) {
-            return Cache::remember('mods-'.$cacheForGuests.'-'.APIService::hashByQuery(), 30, fn() => self::_mods($val, $querySetup, $query, $cacheForGuests));
+            return Cache::remember(
+                'mods-'.$cacheForGuests.'-'.APIService::hashByQuery(),
+                30,
+                fn() => self::_mods($val, $querySetup, $query, $sortByFunc)
+            );
         } else {
-            return self::_mods($val, $querySetup, $query, $cacheForGuests);
+            return self::_mods($val, $querySetup, $query, $sortByFunc);
         }
     }
 
-    private static function _mods(array $val, callable $querySetup=null, $query=null) {
+    private static function _mods(array $val, callable $querySetup=null, $query=null, ?Closure $sortByFunc = null) {
         return QueryBuilder::for($query ?? Mod::class)
             ->with(Mod::LIST_MOD_WITH)
             ->allowedFields(Mod::$allowedFields)
             ->allowedIncludes(Mod::$allowedIncludes)
-            ->queryGet($val, function($q) use($val, $querySetup) {
+            ->queryGet($val, function($q) use($val, $querySetup, $sortByFunc) {
                 if (isset($querySetup)) {
                     $q->where(fn($q) => $querySetup($q, $val));
                 }
-                ModService::filters($q, $val);
+                ModService::filters($q, $val, $sortByFunc);
             });
     }
 
-    public static function filters($query, array $val) {
+    public static function filters($query, array $val, ?Closure $sortByFunc = null) {
         /** @var User */
         $user = Auth::user();
 
-        $sortBy = $val['sort'] ?? 'bumped_at';
-        $name = $val['query'] ?? null;
-
-        if (!isset($name) && $sortBy == 'best_match') {
-            $sortBy = 'name';
-        }
-
-        if ($sortBy === 'random') {
-            $query->orderByRaw('RANDOM()');
-        } else if ($sortBy === 'name') {
-            $query->orderBy('name');
-        } else if ($sortBy === 'best_match') {
-            $query->orderByRaw("lower(name) = lower(?) DESC, name ILIKE '%' || ? || '%' DESC, name % ? DESC", [$name, $name, $name]);
-        } else {
-            if ($sortBy === 'published_at') {
-                $query->orderByRaw('published_at DESC NULLS LAST');
+        if (!isset($sortByFunc) || !$sortByFunc($query, $val)) {
+            $sortBy = $val['sort'] ?? 'bumped_at';
+            $name = $val['query'] ?? null;
+    
+            if (!isset($name) && $sortBy == 'best_match') {
+                $sortBy = 'name';
+            }
+    
+            if ($sortBy === 'random') {
+                $query->orderByRaw('RANDOM()');
+            } else if ($sortBy === 'name') {
+                $query->orderBy('name');
+            } else if ($sortBy === 'best_match') {
+                $query->orderByRaw("lower(name) = lower(?) DESC, name ILIKE '%' || ? || '%' DESC, name % ? DESC", [$name, $name, $name]);
             } else {
-                $query->orderByDesc($sortBy);
+                if ($sortBy === 'published_at') {
+                    $query->orderByRaw('published_at DESC NULLS LAST');
+                } else {
+                    $query->orderByDesc($sortBy);
+                }
             }
         }
 

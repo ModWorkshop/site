@@ -18,6 +18,22 @@ class GetModsRequest extends FilteredRequest
         return true;
     }
 
+    public function sortOptions() {
+        return [
+            'bumped_at',
+            'published_at',
+            'likes',
+            'downloads',
+            'views',
+            'score',
+            'weekly_score',
+            'daily_score',
+            'random',
+            'best_match',
+            'name'
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -39,20 +55,8 @@ class GetModsRequest extends FilteredRequest
             'block_tags.*' => 'integer|min:1|nullable',
             'user_id' => 'integer|nullable|min:1',
             'collab' => 'boolean|nullable',
-            'ignore_blocked_users' => 'boolean|nullable',
-            'sort' => Rule::in([
-                'bumped_at',
-                'published_at',
-                'likes',
-                'downloads',
-                'views',
-                'score',
-                'weekly_score',
-                'daily_score',
-                'random',
-                'best_match',
-                'name'
-            ])
+            'including_ignored' => 'boolean|nullable',
+            'sort' => Rule::in($this->sortOptions())
         ];
     }
 }
