@@ -49,6 +49,9 @@ class GameResource extends BaseResource
             'forum_id' => $this->forum_id,
             'default_mod_manager_id' => $this->default_mod_manager_id,
 
+            'followed' => $this->whenLoaded('followed'),
+            'ignored' => $this->whenLoaded('ignored'),
+
             'mods' => $this->whenLoaded('mods'),
             'tags' => $this->whenLoaded('tags'),
             'roles' => $this->whenLoaded('roles'),

@@ -643,6 +643,11 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasOne(BlockedUser::class, 'block_user_id', 'user_id')->where('user_id', Auth::id());
     }
 
+    public function gameIgnoredByMe()
+    {
+        return $this->hasOne(IgnoredGame::class, 'game_id', 'game_id')->where('user_id', Auth::id());
+    }
+
     /**
      * Returns the follow model (if exists) of the mod for the authenticated user
      */

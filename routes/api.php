@@ -14,6 +14,7 @@ use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameRoleController;
+use App\Http\Controllers\IgnoredGameController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\InstructsTemplateController;
 use App\Http\Controllers\InstructsTemplateDependencyController;
@@ -40,6 +41,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
+use App\Models\IgnoredGame;
 use App\Models\Mod;
 use App\Models\Report;
 use App\Models\TrackSession;
@@ -193,6 +195,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::resource('followed-users', FollowedUserController::class)->except('show', 'update');
     Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
     Route::resource('followed-games', FollowedGameController::class)->except('show', 'update');
+    Route::resource('ignored-games', IgnoredGameController::class)->except('show', 'update');
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });
 
@@ -233,7 +236,10 @@ Route::get('site-data', function(Request $request) {
     $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $MinAgo)->count();
     $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $MinAgo)->count();
 
-    $games = Game::OrderByRaw('last_date DESC nulls last')->withCount('viewableMods')->get(10);
+    $games = Game::OrderByRaw('last_date DESC nulls last')
+        ->withCount('viewableMods')
+        ->whereNotIn('id', fn($q) => $q->select('game_id')->from('ignored_games')->where('user_id', Auth::id()))
+        ->get(10);
 
     $data = [
         'unseen_notifications' => $unseen,

@@ -140,14 +140,21 @@ class GameController extends Controller
         $val = $request->val([
             //Returns only the names of the categories
             'only_names' => 'boolean',
-            'include_paths' => 'boolean'
+            'include_paths' => 'boolean',
+            'including_ignored' => 'boolean',
         ]);
 
 
         $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
             $query->withCount('viewableMods');
-            if (($val['only_names'] ?? false)) {
+            if ($val['only_names'] ?? false) {
                 $query->select(['id', 'name']);
+            }
+
+            if ($val['including_ignored'] ?? true) {
+                $query->whereNotIn('id', function($q) {
+                    $q->select('game_id')->from('ignored_games')->where('user_id', Auth::id());
+                });
             }
 
             $query->OrderByRaw('last_date DESC nulls last');
@@ -168,6 +175,7 @@ class GameController extends Controller
 
         if (Auth::hasUser()) {
             $game->loadMissing('followed');
+            $game->loadMissing('ignored');
             $game->loadMissing('roles');
         }
         return new GameResource($game);

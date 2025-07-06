@@ -89,7 +89,7 @@ class Game extends Model
     protected $guarded = [];
     protected $hidden = ['webhook_url', 'viewable_mods_count'];
     protected $appends = ['mods_count'];
-    protected $with = ['followed'];
+    protected $with = ['followed', 'ignored'];
 
     protected $casts = [
         'last_date' => 'datetime',
@@ -171,6 +171,14 @@ class Game extends Model
     public function followed() : HasOne
     {
         return $this->hasOne(FollowedGame::class)->where('user_id', Auth::user()?->id)->without('game');
+    }
+
+    /**
+     * Returns whether the game is followed by the authenticated user
+     */
+    public function ignored() : HasOne
+    {
+        return $this->hasOne(IgnoredGame::class)->where('user_id', Auth::user()?->id)->without('game');
     }
 
     public function userData(): Attribute
