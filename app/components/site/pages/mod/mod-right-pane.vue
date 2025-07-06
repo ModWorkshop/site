@@ -6,7 +6,7 @@
             <mod-buttons :mod="mod" :static="static"/>
         </m-flex>
 
-        <m-flex column gap="3" class="mod-info content-block p-4">
+        <m-flex column gap="4" class="mod-info content-block p-4">
             <m-flex>
                 <span class="text-secondary"> <i-mdi-download/> {{ $t('downloads') }}</span>
                 <span class="ml-auto">{{downloads}}</span>
@@ -50,11 +50,16 @@
                 <span class="ml-auto">{{mod.version}}</span>
             </m-flex>
 
+            <m-flex v-if="mod.repo_url" :title="$t('repo_url')">
+                <span class="text-secondary"><i-mdi-git/> {{$t('repo_url')}} </span>
+                <NuxtLink class="ml-auto text-body" :to="mod.repo_url">{{ mod.repo_url }}</NuxtLink>
+            </m-flex>
+
             <m-flex gap="2" column>
                 <span class="text-secondary">
                     <i-mdi-account-group/> {{ $t('members_tab') }}
                 </span>
-                <m-flex class="colllaborators-block" column>
+                <m-flex class="colllaborators-block" column padding="2">
                     <m-flex wrap>
                         <a-user :user="mod.user" :details="$t('owner')"/>
                         <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>

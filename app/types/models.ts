@@ -153,6 +153,7 @@ export interface Mod {
     background_opacity?: number;
     used_storage?: number;
     parser_version?: number;
+    repo_url?: string;
 }
 
 export interface Breadcrumb {

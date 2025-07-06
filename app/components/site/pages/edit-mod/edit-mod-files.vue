@@ -76,6 +76,7 @@
     <span class="h2 my-4">{{ $t('updates') }}</span>
 
     <m-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
+    <m-input v-if="!light" v-model="mod.repo_url" :label="$t('repo_url')" type="url"/>
     <md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
     <m-input v-if="!light" v-model="mod.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
     <m-input v-if="canModerate && !light" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
