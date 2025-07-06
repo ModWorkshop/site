@@ -62,10 +62,10 @@
     </page-block>
 </template>
 <script setup lang="ts">
-import { setFollowUser } from '~~/utils/follow-helpers';
+import { setFollowUser } from '~/utils/follow-helpers';
 import { useI18n } from 'vue-i18n';
-import type { User } from '~~/types/models';
-import { useStore } from '~~/store';
+import type { User } from '~/types/models';
+import { useStore } from '~/store';
 
 const yesNoModal = useYesNoModal();
 const triggerRefresh = createEventHook<void>();
