@@ -21,6 +21,7 @@
                             </m-toggle-group>
                         </template>
                     </m-dropdown>
+                    <slot name="sort-buttons" :sort-by="sortBy" :setSortBy="setSortBy"/>
                     <m-dropdown>
                         <m-button :title="$t('sort_by')">
                             <i-mdi-dots-vertical/>
