@@ -157,6 +157,15 @@ export default defineNuxtConfig({
 				defaultClass: 'icon'
 			}),
 		],
+		resolve: {
+			alias: {
+				// Fix form-data resolving to browser version instead of Node.js version
+				'form-data': 'form-data/lib/form_data'
+			}
+		},
+		ssr: {
+			noExternal: ['isomorphic-dompurify']
+		},
 	},
 
 	// ssr: false,
