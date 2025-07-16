@@ -1028,13 +1028,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@intlify/core@npm:^10.0.3":
-  version: 10.0.7
-  resolution: "@intlify/core@npm:10.0.7"
+"@intlify/core-base@npm:10.0.8":
+  version: 10.0.8
+  resolution: "@intlify/core-base@npm:10.0.8"
   dependencies:
-    "@intlify/core-base": 10.0.7
-    "@intlify/shared": 10.0.7
-  checksum: 138ca6bec902ec508a1ffb15fb3efeeea68182632c8dc3547fc6dc7c450eb560a6fdda8297ec57c6433f8a65c47c543d49a13d3f21d29ce8e5499108e9fe3eff
+    "@intlify/message-compiler": 10.0.8
+    "@intlify/shared": 10.0.8
+  checksum: 80a842b5ed73977f7938a04fda0fc2a29d12af0c847bc4ca3b09fcab967da44c105291e15777e96bbb5b5bd74fec143c2ee6da523e8df48d6667ed9e44669b55
+  languageName: node
+  linkType: hard
+
+"@intlify/core@npm:^10.0.3":
+  version: 10.0.8
+  resolution: "@intlify/core@npm:10.0.8"
+  dependencies:
+    "@intlify/core-base": 10.0.8
+    "@intlify/shared": 10.0.8
+  checksum: a810d7443aa468435ba31352858896aa46e7a4ad114ef9a441a4b21ee0df8f4a60b80c3980353d9ca30bc1e5200945f2e77c5dede589862b0aa81be596e773bd
   languageName: node
   linkType: hard
 
@@ -1058,6 +1068,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@intlify/message-compiler@npm:10.0.8":
+  version: 10.0.8
+  resolution: "@intlify/message-compiler@npm:10.0.8"
+  dependencies:
+    "@intlify/shared": 10.0.8
+    source-map-js: ^1.0.2
+  checksum: 0a09ac0c0d9396407ecc961ff7561f9860a2429b56e99048f32f189830ae1bc3dc4c649883bbc8fe3dd3bb5b7169ec6b8985a2c09409da1f310a5311dc7eb6cf
+  languageName: node
+  linkType: hard
+
 "@intlify/message-compiler@npm:^11.1.2":
   version: 11.1.9
   resolution: "@intlify/message-compiler@npm:11.1.9"
@@ -1072,6 +1092,13 @@ __metadata:
   version: 10.0.7
   resolution: "@intlify/shared@npm:10.0.7"
   checksum: 550848f4cea309f7a80760ec8b65d01e018e72ee6280c62005653e316482807caed4c5bf782d51a87870d85abb37360422fb5cc6a01f3b037be5674ec3be0318
+  languageName: node
+  linkType: hard
+
+"@intlify/shared@npm:10.0.8":
+  version: 10.0.8
+  resolution: "@intlify/shared@npm:10.0.8"
+  checksum: 301c7e3fa69b6befa533ba767fd405c4fc5eeed4357b7c1bdb32cdc74baf4b0b1dd72d161ef6c58331fe16a4932660f5d0501fba5edeada0147af58a6e9127d0
   languageName: node
   linkType: hard
 
