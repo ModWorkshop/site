@@ -84,11 +84,11 @@ class CalculatePopularity implements ShouldQueue
 
                 
                 if(abs($score - $mod->score) > 0.00001 || abs($dailyScore - $mod->daily_score) > 0.00001 || abs($weeklyScore - $mod->weekly_score) > 0.00001) {
-                    $mod->update([
-                        'daily_score' => $dailyScore,
-                        'weekly_score' => $weeklyScore,
-                        'score' => $score
-                    ], ['timestamps' => false]);
+                    $mod->timestamps = false;
+                    $mod->daily_score = $dailyScore;
+                    $mod->weekly_score = $weeklyScore;
+                    $mod->score = $score;
+                    $mod->save();
                 }
 
                 unset($scoresDaily[$mod->id]);
