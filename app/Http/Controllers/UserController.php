@@ -175,7 +175,7 @@ class UserController extends Controller
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
             'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],
             'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule, 'max:128'],
-            'extra.default_mods_sort' => ['nullable', Rule::in([
+            'extra.home_default_mods_sort' => ['nullable', Rule::in([
                 'bumped_at',
                 'published_at',
                 'likes',
@@ -184,7 +184,20 @@ class UserController extends Controller
                 'score',
                 'weekly_score',
                 'daily_score',
-                'random'
+                'random',
+                'name'
+            ])],
+            'extra.game_default_mods_sort' => ['nullable', Rule::in([
+                'bumped_at',
+                'published_at',
+                'likes',
+                'downloads',
+                'views',
+                'score',
+                'weekly_score',
+                'daily_score',
+                'random',
+                'name'
             ])],
             'extra.default_mods_view' => ['nullable', Rule::in(['all', 'followed'])],
             'extra.home_show_last_games' => 'boolean|nullable',
