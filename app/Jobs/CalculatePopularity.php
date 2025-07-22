@@ -41,23 +41,28 @@ class CalculatePopularity implements ShouldQueue
 
         $getScores = function(Carbon $date) {
             $scores = [];
-            PopularityLog::select('mod_id', DB::raw("
-                1000 * LOG(1 + SUM(
-                CASE
-                    WHEN popularity_logs.type = 'view' THEN 1
-                    WHEN popularity_logs.type = 'down' THEN 4
-                    WHEN popularity_logs.type = 'like' THEN 6
-                END)) / EXP(0.005 * DATE_PART('day', now() - mods.bumped_at)) AS score
-            "))
-            ->whereDate('mods.updated_at', '>', $date)
-            ->groupBy('mod_id', 'mods.bumped_at')
-            ->orderBy('mod_id')
-            ->join('mods', 'popularity_logs.mod_id', '=', 'mods.id')
-            ->chunk(10000, function($logs)  use (&$scores) {
-                foreach ($logs as $log) {
-                    $scores[$log->mod_id] = $log->score;
-                }
-            });
+
+            $results = DB::select("
+                SELECT
+                    pl.mod_id,
+                    1000 * LOG(1 + SUM(
+                        CASE
+                            WHEN pl.type = 'view' THEN 1
+                            WHEN pl.type = 'down' THEN 4
+                            WHEN pl.type = 'like' THEN 6
+                            ELSE 0
+                        END
+                    )) / EXP(0.01 * DATE_PART('day', now() - m.bumped_at)) AS score
+                FROM popularity_logs pl
+                INNER JOIN mods m ON pl.mod_id = m.id
+                WHERE m.updated_at > ?
+                GROUP BY pl.mod_id, m.bumped_at
+                ORDER BY pl.mod_id
+            ", [$date->toDateTimeString()]);
+
+            foreach ($results as $row) {
+                $scores[$row->mod_id] = (float)$row->score;
+            }
 
             return $scores;
         };
@@ -70,7 +75,6 @@ class CalculatePopularity implements ShouldQueue
         $scoresDaily = $getScores(Carbon::now()->subDay());
 
         Log::info('Calculating scores of all mods...');
-        $bulkUpdates = [];
         
         Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly, &$bulkUpdates) {
             foreach ($mods as $mod) {
@@ -80,27 +84,16 @@ class CalculatePopularity implements ShouldQueue
 
                 
                 if(abs($score - $mod->score) > 0.00001 || abs($dailyScore - $mod->daily_score) > 0.00001 || abs($weeklyScore - $mod->weekly_score) > 0.00001) {
-                    $bulkUpdates[] = [
-                        'id' => $mod->id,
+                    $mod->update([
                         'daily_score' => $dailyScore,
                         'weekly_score' => $weeklyScore,
                         'score' => $score
-                    ];
+                    ], ['timestamps' => false]);
                 }
 
                 unset($scoresDaily[$mod->id]);
                 unset($scoresWeekly[$mod->id]);
                 unset($scoresMonthly[$mod->id]);
-            }
-            
-            // Perform bulk update for this chunk
-            if (!empty($bulkUpdates)) {
-                DB::table('mods')->update(
-                    $bulkUpdates,
-                    ['id'],
-                    ['daily_score', 'weekly_score', 'score']
-                );
-                $bulkUpdates = []; // Clear for next chunk
             }
         }, 'id');
 
