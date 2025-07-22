@@ -5,12 +5,13 @@
         </template>
         <m-tab v-if="user.extra" name="customize" :title="$t('customize')">
             <m-select v-model="user.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
-            <m-select v-model="user.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')"/>
             <h2>{{$t('home_page')}}</h2>
+            <m-select v-model="user.extra.home_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="daily_score"/>
             <m-input v-model="user.extra.home_show_last_games" :label="$t('show_last_updated')" type="checkbox"/>
             <m-input v-model="user.extra.home_show_mods" :label="$t('show_mods')" type="checkbox"/>
             <m-input v-model="user.extra.home_show_threads" :label="$t('show_threads')" type="checkbox"/>
             <h2>{{$t('game_sections')}}</h2>
+            <m-select v-model="user.extra.game_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at"/>
             <m-input v-model="user.extra.game_show_mods" :label="$t('show_mods')" type="checkbox"/>
             <m-input v-model="user.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
         </m-tab>

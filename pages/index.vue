@@ -19,6 +19,7 @@
             v-if="user?.extra?.home_show_mods ?? true"
             :title="$t('mods')" 
             title-link="/mods"
+            :default-sort-by="user?.extra?.home_default_mods_sort ?? 'daily_score'"
             :limit="20"
             :url="user ? currentFollowUrl : undefined"
             side-filters

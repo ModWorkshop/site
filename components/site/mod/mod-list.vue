@@ -5,24 +5,24 @@
         <m-flex class="max-md:flex-col">
             <m-flex class="overflow-auto">
                 <m-flex class="flex-shrink-0">
-                    <m-button :disabled="sortBy == 'bumped_at'" @click="setSortBy('bumped_at')">
+                    <m-button @click="setSortBy('bumped_at')" :color="sortBy == 'bumped_at' ? 'primary' : 'secondary'">
                         <i-mdi-clock/> {{$t('last_updated')}}
                     </m-button>
-                    <m-button :disabled="sortBy == 'published_at'" @click="setSortBy('published_at')">
+                    <m-button @click="setSortBy('published_at')" :color="sortBy == 'published_at' ? 'primary' : 'secondary'">
                         <i-mdi-upload/> {{$t('published_at')}}
                     </m-button>
                     <m-dropdown>
-                        <m-button><i-mdi-star/> {{$t('popularity')}}</m-button>
+                        <m-button :color="sortByPopularity ? 'primary' : 'secondary'"><i-mdi-star/> {{$t('popularity')}} <i-mdi-chevron-down/></m-button>
                         <template #content>
                             <m-toggle-group v-model:selected="sortBy" column button-style="dropdown">
-                                <m-toggle-group-item value="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</m-toggle-group-item>
-                                <m-toggle-group-item value="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</m-toggle-group-item>
                                 <m-toggle-group-item value="daily_score"><i-mdi-calendar/> {{$t('popular_today')}}</m-toggle-group-item>
+                                <m-toggle-group-item value="weekly_score"><i-mdi-calendar-week/> {{$t('popular_weekly')}}</m-toggle-group-item>
+                                <m-toggle-group-item value="score"><i-mdi-calendar-month/> {{$t('popular_monthly')}}</m-toggle-group-item>
                             </m-toggle-group>
                         </template>
                     </m-dropdown>
                     <m-dropdown>
-                        <m-button :title="$t('sort_by')">
+                        <m-button :title="$t('sort_by')" :color="sortByOther ? 'primary' : 'secondary'">
                             <i-mdi-dots-vertical/>
                         </m-button>
                         <template #content>
@@ -164,7 +164,11 @@ const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at');
+const sortBy = useRouteQuery('sort', props.defaultSortBy ?? 'bumped_at');
+const sortByPopularity = computed(() => sortBy.value == 'daily_score' || sortBy.value == 'weekly_score' || sortBy.value == 'score');
+
+const sortByOtherOptions = {best_match: true, random: true, likes: true, downloads: true, views: true, name: true};
+const sortByOther = computed(() => sortByOtherOptions[sortBy.value] === true);
 const pages = ref(0);
 
 const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);

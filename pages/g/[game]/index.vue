@@ -6,6 +6,7 @@
         <mod-list
             v-if="user?.extra?.game_show_mods ?? true"
             :title="$t('mods')"
+            :default-sort-by="user?.extra?.game_default_mods_sort"
             :title-link="`/g/${game.short_name}/mods`"
             side-filters
             :initial-mods="mods"
