@@ -164,7 +164,8 @@ const loadingButton = ref(false);
 const selectedGame = useRouteQuery('game', props.game?.id, 'number');
 const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
-const sortBy = useRouteQuery('sort', props.defaultSortBy ?? 'bumped_at');
+const sortByQuery = useRouteQuery('sort');
+const sortBy = computed(() => sortByQuery.value ?? props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at')
 const sortByPopularity = computed(() => sortBy.value == 'daily_score' || sortBy.value == 'weekly_score' || sortBy.value == 'score');
 
 const sortByOtherOptions = {best_match: true, random: true, likes: true, downloads: true, views: true, name: true};
