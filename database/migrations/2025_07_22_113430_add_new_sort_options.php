@@ -15,6 +15,7 @@ return new class extends Migration
             $table->dropColumn('default_mods_sort');
             $table->tinyText('home_default_mods_sort')->nullable();
             $table->tinyText('game_default_mods_sort')->nullable();
+            $table->tinyText('default_mods_sort')->nullable();
         });
     }
 
@@ -23,6 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('user_extras', function (Blueprint $table) {
+            $table->dropColumn('home_default_mods_sort');
+            $table->dropColumn('game_default_mods_sort');
+        });
     }
 };

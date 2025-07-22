@@ -159,6 +159,19 @@ class UserController extends Controller
         $passwordRule = APIService::getPasswordRule();
         $canManageUsers = Auth::user()->hasPermission('manage-users');
 
+        $sorting = [
+            'bumped_at',
+            'published_at',
+            'likes',
+            'downloads',
+            'views',
+            'score',
+            'weekly_score',
+            'daily_score',
+            'random',
+            'name'
+        ];
+
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:30',
             'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
@@ -175,30 +188,9 @@ class UserController extends Controller
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
             'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],
             'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule, 'max:128'],
-            'extra.home_default_mods_sort' => ['nullable', Rule::in([
-                'bumped_at',
-                'published_at',
-                'likes',
-                'downloads',
-                'views',
-                'score',
-                'weekly_score',
-                'daily_score',
-                'random',
-                'name'
-            ])],
-            'extra.game_default_mods_sort' => ['nullable', Rule::in([
-                'bumped_at',
-                'published_at',
-                'likes',
-                'downloads',
-                'views',
-                'score',
-                'weekly_score',
-                'daily_score',
-                'random',
-                'name'
-            ])],
+            'extra.default_mods_sort' => ['nullable', Rule::in($sorting)],
+            'extra.home_default_mods_sort' => ['nullable', Rule::in($sorting)],
+            'extra.game_default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.default_mods_view' => ['nullable', Rule::in(['all', 'followed'])],
             'extra.home_show_last_games' => 'boolean|nullable',
             'extra.home_show_mods' => 'boolean|nullable',
