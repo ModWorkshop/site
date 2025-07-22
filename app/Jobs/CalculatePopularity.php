@@ -41,15 +41,18 @@ class CalculatePopularity implements ShouldQueue
 
         $getScores = function(Carbon $date) {
             $scores = [];
-            PopularityLog::select('mod_id', DB::raw("SUM(
+            PopularityLog::select('mod_id', DB::raw("
+                1000 * LOG(1 + SUM(
                 CASE
-                    WHEN type = 'view' THEN 1
-                    WHEN type = 'down' THEN 4
-                    WHEN type = 'like' THEN 6
-                END) AS score"))
-            ->whereDate('updated_at', '>', $date)
-            ->groupBy('mod_id')
+                    WHEN popularity_logs.type = 'view' THEN 1
+                    WHEN popularity_logs.type = 'down' THEN 4
+                    WHEN popularity_logs.type = 'like' THEN 6
+                END)) / EXP(0.005 * DATE_PART('day', now() - mods.bumped_at)) AS score
+            "))
+            ->whereDate('mods.updated_at', '>', $date)
+            ->groupBy('mod_id', 'mods.bumped_at')
             ->orderBy('mod_id')
+            ->join('mods', 'popularity_logs.mod_id', '=', 'mods.id')
             ->chunk(10000, function($logs)  use (&$scores) {
                 foreach ($logs as $log) {
                     $scores[$log->mod_id] = $log->score;
@@ -67,48 +70,37 @@ class CalculatePopularity implements ShouldQueue
         $scoresDaily = $getScores(Carbon::now()->subDay());
 
         Log::info('Calculating scores of all mods...');
-        Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly) {
+        $bulkUpdates = [];
+        
+        Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly, &$bulkUpdates) {
             foreach ($mods as $mod) {
-                $weeks = Carbon::now()->diffInWeeks($mod->bumped_at);
+                $score = $scoresMonthly[$mod->id] ?? 0;
+                $dailyScore = $scoresDaily[$mod->id] ?? 0;
+                $weeklyScore = $scoresWeekly[$mod->id] ?? 0;
 
-                $score = 0;
-                $dailyScore = 0;
-                $weeklyScore = 0;
-
-                if (isset($scoresDaily[$mod->id])) {
-                    $dailyScore = log(max(1, $scoresDaily[$mod->id]));
-                    if($weeks > 1) {
-                        $dailyScore *= exp(-0.03*$weeks*$weeks);
-                    }
-                }
-
-                if (isset($scoresWeekly[$mod->id])) {
-                    $weeklyScore = log(max(1, $scoresWeekly[$mod->id]));
-                    if($weeks > 1) {
-                        $weeklyScore *= exp(-0.03*$weeks*$weeks);
-                    }
-                }
-
-                if (isset($scoresMonthly[$mod->id])) {
-                    $score = log(max(1, $scoresMonthly[$mod->id]));
-                    if($weeks > 1) {
-                        $score *= exp(-0.03*$weeks*$weeks);
-                    }
-                }
-
-                if(abs($score - $mod->score) > 0.001 || abs($dailyScore - $mod->daily_score) > 0.001 || abs($weeklyScore - $mod->weekly_score) > 0.001) {
-                    $mod->update([
+                
+                if(abs($score - $mod->score) > 0.00001 || abs($dailyScore - $mod->daily_score) > 0.00001 || abs($weeklyScore - $mod->weekly_score) > 0.00001) {
+                    $bulkUpdates[] = [
+                        'id' => $mod->id,
                         'daily_score' => $dailyScore,
                         'weekly_score' => $weeklyScore,
-                        'score' => $score,
-                    ]);
+                        'score' => $score
+                    ];
                 }
 
                 unset($scoresDaily[$mod->id]);
                 unset($scoresWeekly[$mod->id]);
                 unset($scoresMonthly[$mod->id]);
-                unset($weeks);
-                unset($mod);
+            }
+            
+            // Perform bulk update for this chunk
+            if (!empty($bulkUpdates)) {
+                DB::table('mods')->update(
+                    $bulkUpdates,
+                    ['id'],
+                    ['daily_score', 'weekly_score', 'score']
+                );
+                $bulkUpdates = []; // Clear for next chunk
             }
         }, 'id');
 
