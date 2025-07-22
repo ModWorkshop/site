@@ -54,10 +54,10 @@ class CalculatePopularity implements ShouldQueue
                         END
                     )) / EXP(0.01 * DATE_PART('day', now() - m.bumped_at)) AS score
                 FROM popularity_logs pl
-                INNER JOIN mods m ON pl.mod_id = m.id
-                WHERE m.updated_at > ?
+                JOIN mods m ON pl.mod_id = m.id
+                WHERE pl.updated_at > ?
                 GROUP BY pl.mod_id, m.bumped_at
-                ORDER BY pl.mod_id
+                ORDER BY score DESC
             ", [$date->toDateTimeString()]);
 
             foreach ($results as $row) {
