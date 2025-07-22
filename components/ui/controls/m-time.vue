@@ -46,13 +46,28 @@ const overrideText = computed(() => {
         if (secs < 60) {
             return t('just_now');
         } else {
-            const diff = differenceInMonths(now.value, datetime);
-            return intlFormatDistance(datetime, now.value, {
-                locale: locale.value,
-                numeric: 'always',
-                unit: diff >= 1 && diff < 12 ? 'month' : undefined, // Who uses quarters to count time?????
-                style: relativeTimeStyle
+            const diffInHours = Math.floor(secs / 3600);
+            const diffInDays = Math.floor(secs / 86400);
+            const diffInMonths = differenceInMonths(now.value, date);
+            
+            const rtf = new Intl.RelativeTimeFormat(locale.value, { 
+                numeric: 'always', 
+                style: relativeTimeStyle 
             });
+            
+            if (diffInMonths >= 12) {
+                const years = Math.floor(diffInMonths / 12);
+                return rtf.format(-years, 'year');
+            } else if (diffInMonths >= 1) {
+                return rtf.format(-diffInMonths, 'month');
+            } else if (diffInDays >= 1) {
+                return rtf.format(-diffInDays, 'day');
+            } else if (diffInHours >= 1) {
+                return rtf.format(-diffInHours, 'hour');
+            } else {
+                const diffInMinutes = Math.floor(secs / 60);
+                return rtf.format(-diffInMinutes, 'minute');
+            }
         }
     }
 });
