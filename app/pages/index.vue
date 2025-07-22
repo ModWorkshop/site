@@ -19,7 +19,7 @@
             v-if="user?.extra?.home_show_mods ?? true"
             :title="$t('mods')" 
             title-link="/mods"
-            :default-sort-by="user?.extra?.home_default_mods_sort ?? 'daily_score'"
+            :default-sort-by="sortBy"
             :limit="20"
             :url="user ? currentFollowUrl : undefined"
             side-filters
@@ -61,6 +61,9 @@ const links = {
     all: 'mods',
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
+
+const sortBy = computed(() => selectedView.value == 'all' ? (user?.extra?.home_default_mods_sort ?? 'daily_score') : undefined);
+
 watch(selectedView, async () => {
     await patchRequest('user', { 
         extra: {

@@ -142,10 +142,10 @@ body {
     --dark-dropdown-selected-bg: #252b31;
     --dark-dropdown-text-color: #ccc;
     --dark-text-color: #fff;
-    --dark-secondary-text-color: #5f5f5f;
+    --dark-secondary-text-color: #bfbfbf;
     --dark-text-inactive: #6d6d6d;
-    --dark-secondary-color: #5f5f5f;
-    --dark-secondary-hover-color: #737373;
+    --dark-secondary-color: #404040;
+    --dark-secondary-hover-color: #4d4d4d;
     --dark-disabled-color: #3c3c3c;
     --dark-input-bg-color: #17191c;
     --dark-input-border-color: #363d44;
@@ -175,8 +175,8 @@ body {
     --light-text-color: #404040;
     --light-secondary-text-color: #696969;
     --light-text-inactive: #6d6d6d;
-    --light-secondary-color: #5f5f5f;
-    --light-secondary-hover-color: #595959;
+    --light-secondary-color: #808080;
+    --light-secondary-hover-color: #8c8c8c;
     --light-disabled-color: #3c3c3c;
     --light-input-bg-color: #c9c9c9;
     --light-input-border-color: #adadad;
