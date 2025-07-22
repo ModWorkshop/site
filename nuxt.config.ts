@@ -234,9 +234,5 @@ export default defineNuxtConfig({
 		'nuxt-easy-lightbox',
 		'nuxt-vitalizer',
 		'nuxt-seo-utils'
-	],
-
-	experimental: {
-		granularCachedData: true
-	}
+	]
 });
