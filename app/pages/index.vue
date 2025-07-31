@@ -14,7 +14,6 @@
                 <grid-game v-for="game of sliceOfGames" :key="game.id" :game="game" :lazy-thumbnails="false"/>
             </m-flex>
         </m-flex>
-
         <mod-list 
             v-if="user?.extra?.home_show_mods ?? true"
             :title="$t('mods')" 
@@ -62,7 +61,7 @@ const links = {
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
 
-const sortBy = computed(() => selectedView.value == 'all' ? (user?.extra?.home_default_mods_sort ?? 'daily_score') : undefined);
+const sortBy = computed(() => selectedView.value == 'all' ? (user.value?.extra?.home_default_mods_sort ?? 'daily_score') : undefined);
 
 watch(selectedView, async () => {
     await patchRequest('user', { 

@@ -298,6 +298,8 @@ export interface User {
     extra?: {
         default_mods_view: string;
         default_mods_sort: string;
+        home_default_mods_sort: string;
+        game_default_mods_sort: string;
         home_show_last_games: boolean;
         home_show_mods: boolean;
         home_show_threads: boolean;
