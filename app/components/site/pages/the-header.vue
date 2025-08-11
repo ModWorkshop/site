@@ -124,7 +124,7 @@
                                 <m-avatar class="cursor-pointer" :src="user.avatar" :use-thumb="user.avatar_has_thumb"/>
                             </m-flex>
                             <template #content>
-                                <a-user class="m-1" :user="user" :tag="false" no-color static/>
+                                <a-user class="m-1" :user="user" :tag="false" static/>
                                 <div class="dropdown-splitter"/>
                                 <m-dropdown-item :to="userLink"><i-mdi-user/> {{$t('profile')}}</m-dropdown-item>
                                 <m-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{$t('user_settings')}}</m-dropdown-item>
