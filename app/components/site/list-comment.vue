@@ -1,92 +1,94 @@
 <template>
-    <m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="4" :class="classes">
-        <m-flex class="comment-body">
-            <div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
-            <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
-                <m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
-            </NuxtLink>
-            <m-flex column wrap class="overflow-hidden w-full">
-                <m-flex wrap class="items-center">
-                    <a-user :avatar="false" :user="comment.user"/>
-                    <span v-if="specialTag" class="text-success">({{specialTag}})</span>
-                    <NuxtLink class="ml-1 text-secondary" :to="commentPage">
-                        <m-time :datetime="comment.created_at" relative/>
-                    </NuxtLink>
-                    <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
-                    <span v-if="showPins && comment.pinned" :title="$t('pinned')">
-                        <i-mdi-pin class="transform rotate-45"/>
-                    </span>
+    <list-comment-container :comment="comment" :is-reply="isReply">
+        <m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="4" :class="classes">
+            <m-flex class="comment-body">
+                <div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
+                <NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
+                    <m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
+                </NuxtLink>
+                <m-flex column wrap class="overflow-hidden w-full">
+                    <m-flex wrap class="items-center">
+                        <a-user :avatar="false" :user="comment.user"/>
+                        <span v-if="specialTag" class="text-success">({{specialTag}})</span>
+                        <NuxtLink class="ml-1 text-secondary" :to="commentPage">
+                            <m-time :datetime="comment.created_at" relative/>
+                        </NuxtLink>
+                        <span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{$t('edited')}}</span>
+                        <span v-if="showPins && comment.pinned" :title="$t('pinned')">
+                            <i-mdi-pin class="transform rotate-45"/>
+                        </span>
+                    </m-flex>
+                    <md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version"/>
                 </m-flex>
-                <md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version"/>
-            </m-flex>
-            <div v-if="url" class="absolute" style="right: 0; top: -0.5rem;">
-                <m-flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
-                    <m-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
-                        <i-mdi-reply/>
-                    </m-button>
-                    <m-button
-                        v-if="!isReply"
-                        class="cursor-pointer"
-                        size="sm"
-                        :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
-                        :to="!user ? '/login' : undefined"
-                        @click="subscribe"
-                    >
-                        <i-mdi-bell-off v-if="comment.subscribed"/>
-                        <i-mdi-bell v-else/>
-                    </m-button>
-                    <report-button v-if="user" v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
-                    <m-dropdown v-model:open="areActionsVisible" style="margin: 0; border: 0;">
-                        <m-button class="cursor-pointer" size="sm">
-                            <i-mdi-dots-vertical/>
+                <div v-if="url" class="absolute" style="right: 0; top: -0.5rem;">
+                    <m-flex class="comment-actions text-body flex-col md:flex-row" :style="{visibility: areActionsVisible ? 'visible' : null}">
+                        <m-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
+                            <i-mdi-reply/>
                         </m-button>
-                        <template #content>
-                            <m-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</m-dropdown-item>
-                            <m-dropdown-item v-if="canPin && !comment.reply_to" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</m-dropdown-item>
-                            <m-dropdown-item
-                                v-if="canPin && comment.commentable_type == 'thread'"
-                                @click="$emit('markAsAnswer', comment)"
-                            >
-                                {{(commentable as Thread).answer_comment_id == comment.id ? $t('unmark_as_answer') : $t('mark_as_answer')}}
-                            </m-dropdown-item>
-                            <m-dropdown-item v-if="canDelete" @click="openDeleteModal">{{$t('delete')}}</m-dropdown-item>
-                            <m-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</m-dropdown-item>
-                        </template>
-                    </m-dropdown>
-                </m-flex>
-            </div>
-        </m-flex>
-        <div v-if="replies?.data?.length" class="mx-3">
-            <m-flex column>
-                <list-comment v-for="reply of replies.data" 
-                    :key="reply.id"
-                    :url="url"
-                    :page-url="pageUrl"
-                    :comment="reply"
-                    :can-comment="canReply"
-                    :can-edit-all="canEditAll"
-                    :can-delete-all="canDeleteAll"
-                    :current-focus="currentFocus"
-                    :get-special-tag="getSpecialTag"
-                    is-reply
-                    @edit="() => $emit('edit', reply)"
-                    @reply="$emit('reply', comment, reply.user)"
-                    @delete="deleteComment"
-                />
+                        <m-button
+                            v-if="!isReply"
+                            class="cursor-pointer"
+                            size="sm"
+                            :title="comment.subscribed ? $t('unsubscribe') : $t('subscribe')"
+                            :to="!user ? '/login' : undefined"
+                            @click="subscribe"
+                        >
+                            <i-mdi-bell-off v-if="comment.subscribed"/>
+                            <i-mdi-bell v-else/>
+                        </m-button>
+                        <report-button v-if="user" v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
+                        <m-dropdown v-model:open="areActionsVisible" style="margin: 0; border: 0;">
+                            <m-button class="cursor-pointer" size="sm">
+                                <i-mdi-dots-vertical/>
+                            </m-button>
+                            <template #content>
+                                <m-dropdown-item v-if="canEdit" @click="$emit('edit', comment)">{{$t('edit')}}</m-dropdown-item>
+                                <m-dropdown-item v-if="canPin && !comment.reply_to" @click="togglePinnedState">{{comment.pinned ? $t('unpin') : $t('pin')}}</m-dropdown-item>
+                                <m-dropdown-item
+                                    v-if="canPin && comment.commentable_type == 'thread'"
+                                    @click="$emit('markAsAnswer', comment)"
+                                >
+                                    {{(commentable as Thread).answer_comment_id == comment.id ? $t('unmark_as_answer') : $t('mark_as_answer')}}
+                                </m-dropdown-item>
+                                <m-dropdown-item v-if="canDelete" @click="openDeleteModal">{{$t('delete')}}</m-dropdown-item>
+                                <m-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true">{{$t('report')}}</m-dropdown-item>
+                            </template>
+                        </m-dropdown>
+                    </m-flex>
+                </div>
             </m-flex>
-            <m-pagination 
-                v-if="fetchReplies && replies.meta" 
-                v-model="page" 
-                class="my-2"
-                :total="replies.meta.total" 
-                :per-page="replies.meta.per_page" 
-                @update="loadReplies"
-            />
-            <NuxtLink v-else-if="!fetchReplies && comment.replies_count && comment.replies_count > 3" class="my-2" :to="commentPage">
-                {{$t('read_all_replies')}} ({{$t('replies_n', comment.replies_count)}})
-            </NuxtLink>
-        </div>
-    </m-content-block>
+            <div v-if="replies?.data?.length" class="mx-3">
+                <m-flex column>
+                    <list-comment v-for="reply of replies.data" 
+                        :key="reply.id"
+                        :url="url"
+                        :page-url="pageUrl"
+                        :comment="reply"
+                        :can-comment="canReply"
+                        :can-edit-all="canEditAll"
+                        :can-delete-all="canDeleteAll"
+                        :current-focus="currentFocus"
+                        :get-special-tag="getSpecialTag"
+                        is-reply
+                        @edit="() => $emit('edit', reply)"
+                        @reply="$emit('reply', comment, reply.user)"
+                        @delete="deleteComment"
+                    />
+                </m-flex>
+                <m-pagination 
+                    v-if="fetchReplies && replies.meta" 
+                    v-model="page" 
+                    class="my-2"
+                    :total="replies.meta.total" 
+                    :per-page="replies.meta.per_page" 
+                    @update="loadReplies"
+                />
+                <NuxtLink v-else-if="!fetchReplies && comment.replies_count && comment.replies_count > 3" class="my-2" :to="commentPage">
+                    {{$t('read_all_replies')}} ({{$t('replies_n', comment.replies_count)}})
+                </NuxtLink>
+            </div>
+        </m-content-block>
+    </list-comment-container>
 </template>
 
 <script setup lang="ts">
