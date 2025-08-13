@@ -23530,6 +23530,87 @@ namespace App\Http\Requests {
      * 
      *
      */
+    class GetLikedModsRequest {
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \App\Http\Requests\GetLikedModsRequest::validate($rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static 
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \App\Http\Requests\GetLikedModsRequest::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \App\Http\Requests\GetLikedModsRequest::hasValidSignature($absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static 
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \App\Http\Requests\GetLikedModsRequest::hasValidRelativeSignature();
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static 
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \App\Http\Requests\GetLikedModsRequest::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * 
+         *
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static 
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \App\Http\Requests\GetLikedModsRequest::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
     class GetModsRequest {
         /**
          * 
