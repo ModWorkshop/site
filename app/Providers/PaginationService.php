@@ -39,10 +39,16 @@ class PaginationService extends ServiceProvider
             */
 
             if (isset($val['query']) && !empty($val['query'])) {
-                $query = $val['query'];
-                //As far as I know searching with less than 3 characters using trigrams is VERY slow
+                $query = trim($val['query']);
+                
                 if ($useTrigrams && mb_strlen($query) > 2) {
-                    $this->where(fn($q) => $q->whereRaw('name % ?', $val['query'])->orWhereRaw("name ILIKE '%' || ? || '%'", $query));
+                    $this->where(function($q) use ($query) {
+                        $tsquery = str_replace(' ', ' & ', $query);
+                        $q->whereRaw("name @@ to_tsquery(?)", [$tsquery])
+                            ->orWhereRaw("levenshtein(name, ?) <= 4", [$query])
+                            ->orWhereRaw("similarity(name, ?) > 0.3", [$query])
+                            ->orWhereRaw("name ILIKE ?", ['%' . $query . '%']);
+                    });
                 } else {
                     $this->whereRaw("name ILIKE '%' || ? || '%'", $query);
                 }

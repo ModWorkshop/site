@@ -52,7 +52,7 @@ class ModService {
                     $q->where(fn($q) => $querySetup($q, $val));
                 }
                 ModService::filters($q, $val, $sortByFunc);
-            });
+            }, true);
     }
 
     public static function filters($query, array $val, ?Closure $sortByFunc = null) {
