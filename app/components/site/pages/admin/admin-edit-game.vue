@@ -4,7 +4,7 @@
         :can-save="canSaveOverride"
         :merge-params="mergeParams"
         url="games"
-        redirect-to="/g"
+        redirect-to="/games"
         :delete-button="canDelete"
         @submit="submit"
         >
