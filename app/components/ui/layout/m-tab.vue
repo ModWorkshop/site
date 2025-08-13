@@ -10,6 +10,11 @@
         :gap="gap"
 	>
         <slot v-if="renderedOnce || !lazy || show"/>
+        <template v-else>
+            <m-flex class="items-center justify-center h-full">
+                <m-loading/>
+            </m-flex>
+        </template>
     </m-flex>
 </template>
 
