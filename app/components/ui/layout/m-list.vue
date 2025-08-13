@@ -20,8 +20,7 @@
         </m-pagination>
 
         <m-flex column :gap="gap">
-            <m-loading v-if="isLoading"/>
-            <slot v-else-if="items.data.length" name="items" :items="items">
+            <slot v-if="items.data.length" name="items" :items="items">
                 <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
                     <m-list-item :item="item" :text-by="textBy" :to="itemLink" class="gap-3">
                         <slot name="item-name" :item="item"/>
@@ -34,6 +33,7 @@
                     </m-list-item>
                 </slot>
             </slot>
+            <m-loading v-else-if="isLoading"/>
             <h3 v-else class="mx-auto p-4">
                 {{$t('nothing_found')}}
             </h3>
