@@ -1,59 +1,30 @@
 <template>
-    <span :class="{tag: true, 'tag-small': small, capsule}" 
-        :style="{
-            backgroundColor: bgColor,
-            color: textColor,
-        }"
-    >
+    <span :class="{tag: true, 'tag-small': small, capsule}">
         <slot/>
     </span>
 </template>
 <script setup lang="ts">
 import Color from 'colorjs.io';
-import { useStore } from '~/store';
-
 const { small, color, capsule = false } = defineProps<{
     small?: boolean,
     color?: string,
     capsule?: boolean
 }>();
 
-const store = useStore();
-
-const bgColor = computed(() => {
-    if (color) {
-        const col = new Color(color);
-        col.alpha = 0.25;
-
-        return col
-    } else {
-        return '#fff';
-    }
-});
-
-const textColor = computed(() => {
+const col = computed(() => {
     if (color) {
         try {
-            const contrast = getContrast('#000', color.replaceAll(' ', ''));
-            const col = new Color(color);
-
-            if (store.theme == 'dark') {
-                col.hsl.l = 75;
-            } else {
-                col.hsl.l = 40;
-            }
-
-            if (contrast < 5.5) {
-                return col;
-            } else {
-                return col;
-            }
+            return new Color(color);
         } catch (error) {
-            return 'var(--primary-color-text)';
+            return new Color('#006ce0');
         }
     }
-    return 'var(--primary-color-text)';
+    return new Color('#006ce0');
 });
+
+const h = computed(() => col.value.hsl.h || '0');
+const s = computed(() => col.value.hsl.s);
+const l = computed(() => col.value.hsl.l);
 
 </script>
 <style scoped>
@@ -67,12 +38,32 @@ const textColor = computed(() => {
     justify-content: center;
     font-size: 75%;
     font-weight: bold;
-    background: var(--primary-color);
+    background: hsla(var(--color-h), calc(var(--color-s) * 1%), calc(var(--color-l) * 1%), 0.2);
+    color: hsl(var(--color-h), calc(var(--color-s) * 1%), var(--tag-lightness));
     border-radius: 16px;
+    border: hsla(var(--color-h), calc(var(--color-s) * 1%), var(--tag-lightness), 0.2) 1px solid;
+
+    --color-h: v-bind(h);
+    --color-s: v-bind(s);
+    --color-l: v-bind(l);
+}
+
+.tag {
+    --tag-lightness: 75%;
+}
+
+html.light .tag{
+    --tag-lightness: 40%;
+}
+
+@media (prefers-color-scheme: light) {
+    .tag {
+        --tag-lightness: 40%;
+    }
 }
 
 .tag-small {
-    padding: 0.45rem;
+    padding: 0.35rem;
     line-height: 1;
 }
 
