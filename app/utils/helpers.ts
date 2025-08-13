@@ -298,3 +298,10 @@ export function linkToDonationType(l?: string) {
     }
     return null;
 }
+
+export function pretty(str: string) {
+    if (!str) {
+        return '';
+    }
+    return str.split("_").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");;
+}

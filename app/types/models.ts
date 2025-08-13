@@ -5,6 +5,12 @@ import { Paginator } from './paginator';
  * Changes to this file will be lost when the command is run again
  */
 
+export interface Model {
+    id: number;
+    created_at?: string;
+    updated_at?: string;
+}
+
 export interface Category {
     id: number;
     name: string;
@@ -202,6 +208,7 @@ export interface Game {
     forum?: Forum,
     path?: string;
     followed?: boolean;
+    ignored?: boolean;
     mods_count?: number;
     roles?: Role[];
     user_data?: GameUserData;
@@ -572,4 +579,22 @@ export interface PendingFileResponse {
     id: number;
     url: string;
     headers: Record<string, string>;
+}
+
+export interface AuditLog extends Model {
+    user_id: number;
+    type: string;
+    name?: string;
+    data: Record<string, any>;
+    user?: User;
+    game?: Game;
+    game_id?: number;
+    auditable_type?: string;
+    auditable_id?: string;
+    auditable_name?: string;
+    auditable?: Model;
+    context_type?: string;
+    context_id?: number;
+    context_name?: string;
+    context?: Model
 }

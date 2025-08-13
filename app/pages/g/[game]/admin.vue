@@ -14,6 +14,7 @@
             <m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
             <m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
             <m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+            <m-nav-link v-if="canSeeAuditLog" to="audit-log" :title="$t('audit_log')"/>
             <h3 class="mt-2">{{$t('content')}}</h3>
             <m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
             <m-nav-link v-if="hasPermission('manage-tags', game)" to="tags" :title="$t('tags')"/>
@@ -52,5 +53,7 @@ if (!user || !adminGamePagePerms.some(perm => hasPermission(perm, game))) {
 
 const moderateUsers = computed(() => hasPermission('moderate-users', game));
 const manageMods = computed(() => hasPermission('manage-mods', game));
-const root = computed(() => route.fullPath.match(/\/[a-z-0-9]+\/[a-z-0-9]+\/admin/)?.[0] ?? '');
+const canSeeModLogs = computed(() => hasPermission('can-see-audit-log'));
+
+const root = computed(() => route.fullPath.match(/\/(g|game)\/([a-z-0-9_]+)\/admin/)?.[0] ?? `/g/${game.id}/admin`);
 </script>

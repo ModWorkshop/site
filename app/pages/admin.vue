@@ -13,6 +13,7 @@
                 <m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
                 <m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
                 <m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+                <m-nav-link v-if="canSeeAduitLog" to="audit-log" :title="$t('audit_log')"/>
                 <h3 v-if="canManageContent" class="mt-2">{{$t('content')}}</h3>
                 <m-nav-link v-if="hasPermission('manage-games')" to="games" :title="$t('games')"/>
                 <m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
@@ -39,6 +40,7 @@ if (!user || !adminPagePerms.some(perm => hasPermission(perm))) {
 }
 
 const moderateUsers = computed(() => hasPermission('moderate-users'));
+const canSeeAduitLog = computed(() => hasPermission('can-see-audit-log'));
 const manageMods = computed(() => hasPermission('manage-mods'));
 const canManageContent = computed(() => 
     hasPermission('manage-games') || hasPermission('manage-docs') || hasPermission('manage-users') || 
