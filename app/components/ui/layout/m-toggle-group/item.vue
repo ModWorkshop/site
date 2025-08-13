@@ -1,5 +1,12 @@
 <template>
-    <component :is="computedComponent" :selected="isSelected" v-bind="$attrs" :icon="icon" @click="setSelected?.(value)">
+    <component 
+        :is="computedComponent"
+        :selected="isSelected"
+        v-bind="$attrs"
+        :icon="icon"
+        @click="setSelected?.(value)"
+        :color="buttonColor"
+    >
         <slot/>
     </component>
 </template>
@@ -15,6 +22,12 @@ const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 
 const isSelected = computed(() => props.value == selected?.value);
+
+const buttonColor = computed(() => {
+    if (buttonStyle == 'button') {
+        return isSelected.value ? 'primary' : 'secondary';
+    }
+});
 
 const computedComponent = computed(() => {
     if (!buttonStyle || buttonStyle == 'nav') {

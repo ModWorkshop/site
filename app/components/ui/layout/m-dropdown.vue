@@ -1,38 +1,36 @@
 <template>
-    <div>
-        <PopoverRoot v-if="type == 'dropdown'" v-model:open="open">
-            <PopoverTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
+    <PopoverRoot v-if="type == 'dropdown'" v-model:open="open">
+        <PopoverTrigger aria-label="Update dimensions" as="span" v-bind="$attrs">
+            <slot/>
+        </PopoverTrigger>
+        <PopoverPortal>
+            <PopoverContent 
+                :side="side"
+                :align="align"
+                :class="computedClass"
+                :side-offset="2"
+                :trap-focus="trapFocus"
+                update-position-strategy="optimized"
+                @click="onClickContent"
+            >
+                <slot name="content"/>
+                <PopoverArrow class="m-dropdown-arrow"/>
+            </PopoverContent>
+        </PopoverPortal>
+    </PopoverRoot>
+    <TooltipProvider v-else-if="type == 'tooltip'" :delay-duration="toolTipDelay">
+        <TooltipRoot v-model:open="open">
+            <TooltipTrigger aria-label="Update dimensions" class="inline-flex" as="span" v-bind="$attrs">
                 <slot/>
-            </PopoverTrigger>
-            <PopoverPortal>
-                <PopoverContent 
-                    :side="side"
-                    :align="align"
-                    :class="computedClass"
-                    :side-offset="2"
-                    :trap-focus="trapFocus"
-                    update-position-strategy="optimized"
-                    @click="onClickContent"
-                >
+            </TooltipTrigger>
+            <TooltipPortal v-if="!disabled">
+                <TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
                     <slot name="content"/>
-                    <PopoverArrow class="m-dropdown-arrow"/>
-                </PopoverContent>
-            </PopoverPortal>
-        </PopoverRoot>
-        <TooltipProvider v-else-if="type == 'tooltip'" :delay-duration="toolTipDelay">
-            <TooltipRoot v-model:open="open">
-                <TooltipTrigger aria-label="Update dimensions" class="inline-flex" as="span" v-bind="$attrs">
-                    <slot/>
-                </TooltipTrigger>
-                <TooltipPortal v-if="!disabled">
-                    <TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
-                        <slot name="content"/>
-                        <TooltipArrow class="m-dropdown-arrow"/>
-                    </TooltipContent>
-                </TooltipPortal>
-            </TooltipRoot>
-        </TooltipProvider>
-    </div>
+                    <TooltipArrow class="m-dropdown-arrow"/>
+                </TooltipContent>
+            </TooltipPortal>
+        </TooltipRoot>
+    </TooltipProvider>
 </template>
   
 <script setup lang="ts">
@@ -48,6 +46,7 @@ const {
     type = 'dropdown',
     toolTipDelay,
     closeOnClick = true,
+    padding = 3
 } = defineProps<{
     side?: "right" | "left" | "bottom" | "top";
     align?: "start" | "center" | "end";
@@ -57,21 +56,28 @@ const {
     disabled?: boolean;
     toolTipDelay?: number;
     closeOnClick?: boolean;
+    padding?: number|string;
 }>();
 
 const open = defineModel<boolean>('open', { default: false });
 
+const defaultClasses = computed(() => ['m-dropdown', `p-${padding}`]);
+
 const computedClass = computed(() => {
     if (Array.isArray(dropdownClass)) {
-        dropdownClass.push('m-dropdown');
+        dropdownClass.push(defaultClasses);
     } else if (typeof dropdownClass === 'object') {
-        dropdownClass['m-dropdown'] = true;
+        for (const c of defaultClasses.value) {
+            dropdownClass[c] = true;
+        }
     } else if (typeof dropdownClass === 'string') {
-        return ['m-dropdown', dropdownClass];
+        return [...defaultClasses.value, dropdownClass];
     } else {
-        return 'm-dropdown';
+        return defaultClasses.value;
     }
 });
+
+const p = computed(() => padding + 'rem');
 
 function onClickContent() {
     if (closeOnClick) {
@@ -92,11 +98,10 @@ watch(open, () => {
     background: var(--dropdown-bg);
     color: var(--text-color);
     border-radius: var(--border-radius);
-    box-shadow: 2px 2px 8px #00000059;
+    box-shadow: var(--content-box-shadow);
     max-width: 400px;
     max-height: 450px;
     color: var(--text-color);
-    padding: 0.5rem;
     z-index: 9999;
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);

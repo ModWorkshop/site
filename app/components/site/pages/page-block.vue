@@ -5,9 +5,9 @@
         }" :alt="$t('banner')" :src="backgroundUrl">
         <m-flex v-if="breadcrumb || game?.id || gameAnnouncements.length || announcements?.length" class="page-block-nm mx-auto" column gap="3">
             <m-breadcrumb v-if="breadcrumb" :class="breadCrumbClasses" :style="{width: props.backgroundOpacity > 0.2 ? 'initial': null}" :items="breadcrumb"/>
-            <m-flex v-if="game?.id" gap="0" column>
-                <m-link class="h2 mb-6 mx-2" style="font-weight: 800;" :to="`/g/${game.short_name}`">{{game.name}}</m-link>
-                <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4">
+            <m-flex v-if="game?.id" gap="6" class="mt-2" column>
+                <m-link class="h2" style="font-weight: 800;" :to="`/g/${game.short_name}`">{{game.name}}</m-link>
+                <m-content-block :column="false" wrap class="items-center content-block-glass" gap="4" padding="6">
                     <m-flex wrap gap="4">
                         <m-link v-if="!store.isBanned" v-once :to="user ? `/g/${game.short_name}/upload` : '/login'">
                             <i-mdi-upload/> {{$t('upload_mod')}}
@@ -16,40 +16,50 @@
                         <m-link :to="`/g/${game.short_name}/forum`"><i-mdi-forum/> {{$t('forum')}}</m-link>
                         <m-link v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]">{{button[0]}}</m-link>
                     </m-flex>
-                    <m-flex class="md:ml-auto items-center" gap="2" wrap>
-                        <m-flex class="mr-4" gap="2">
-                            <m-flex v-if="store.gameBan" v-once gap="0" column>
-                                <span class="text-danger">
-                                    <i-mdi-alert/> {{$t('banned')}}
-                                </span>
-                                <span>
-                                    <i18n-t keypath="expires_t" scope="global">
-                                        <template #time>
-                                            <m-time :datetime="store.gameBan.expire_date" relative/>
-                                        </template>
-                                    </i18n-t>
-                                </span>
-                            </m-flex>
-
-                            
-                            <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
-                                <i-mdi-alert-box/> {{reportCount}}
-                            </NuxtLink>
-                            <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.short_name}/admin/approvals`">
-                                <i-mdi-clock/> {{waitingCount}}
-                            </NuxtLink>
-                            <m-link v-if="canSeeAdminGamePage" :to="`/g/${game.short_name}/admin`"><i-mdi-cogs/> {{$t('admin_page')}}</m-link>
+                    <m-flex class="md:ml-auto items-center" gap="4" wrap>
+                        <m-flex v-if="store.gameBan" v-once gap="0" column>
+                            <span class="text-danger">
+                                <i-mdi-alert/> {{$t('banned')}}
+                            </span>
+                            <span>
+                                <i18n-t keypath="expires_t" scope="global">
+                                    <template #time>
+                                        <m-time :datetime="store.gameBan?.expire_date" relative/>
+                                    </template>
+                                </i18n-t>
+                            </span>
                         </m-flex>
+                        <NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{'text-warning': hasReports, 'text-body': !hasReports}" :to="`/g/${game.short_name}/admin/reports`">
+                            <i-mdi-alert-box/> {{reportCount}}
+                        </NuxtLink>
+                        <NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{'text-warning': hasWaiting, 'text-body': !hasWaiting}" :to="`/g/${game.short_name}/admin/approvals`">
+                            <i-mdi-clock/> {{waitingCount}}
+                        </NuxtLink>
+                        
+                        <m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
+                            <i-mdi-menu class="text-xl hover:cursor-pointer"/>
+                            <template #content>
+                                <a-user class="m-1" :user="game.user_data.user" :tag="false" static/>
 
-                        <m-link v-if="store.user" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">
-                            <i-mdi-account-settings-variant/> {{$t('game_preferences')}}
-                        </m-link>
-                        <m-link v-if="store.user" @click="setFollowGame(game!)">
-                            <i-mdi-minus-thick v-if="game.followed"/>
-                            <i-mdi-plus-thick v-else/>
-                            {{$t(game.followed ? 'unfollow' : 'follow')}}
-                        </m-link>
-                        <m-link v-else to="/login"><i-mdi-plus-thick/> {{$t('follow')}}</m-link>
+                                <div class="dropdown-splitter"/>
+                                <m-dropdown-item v-if="store.user" :to="`/g/${game.short_name ?? game.id}/user/${store.user.id}`">
+                                    <i-mdi-account-settings-variant/> {{$t('game_preferences')}}
+                                </m-dropdown-item>
+                                <m-dropdown-item v-if="canSeeAdminGamePage" :to="`/g/${game.short_name}/admin`"><i-mdi-cogs/> {{$t('admin_page')}}</m-dropdown-item>
+                                <div class="dropdown-splitter"/>
+                                <m-dropdown-item v-if="store.user" @click="setIgnoreGame(game!)">
+                                    <i-mdi-eye v-if="game.ignored"/>
+                                    <i-mdi-eye-off v-else/>
+                                    {{$t(game.ignored ? 'unignore' : 'ignore')}}
+                                </m-dropdown-item>
+                                <m-dropdown-item v-if="store.user" @click="setFollowGame(game!)">
+                                    <i-mdi-minus-thick v-if="game.followed"/>
+                                    <i-mdi-plus-thick v-else/>
+                                    {{$t(game.followed ? 'unfollow' : 'follow')}}
+                                </m-dropdown-item>
+                                <m-dropdown-item v-else to="/login"><i-mdi-plus-thick/> {{$t('follow')}}</m-dropdown-item>
+                            </template>
+                        </m-dropdown>
                     </m-flex>
                 </m-content-block>
             </m-flex>

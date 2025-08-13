@@ -1,5 +1,5 @@
 <template>
-    <m-tabs>
+    <m-tabs gap="3" lazy>
         <template #pre-panels>
             <m-alert class="my-1" type="info">{{$t('content_page_info')}}</m-alert>
         </template>
@@ -17,92 +17,68 @@
             <m-input v-model="user.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
         </m-tab>
         <m-tab name="follow" :title="$t('following')">
-            <m-list 
-                v-model:page="followedGamesPage"
-                :items="followedGames"
-                :limit="10"
-                :loading="loadingGames"
-                :title="$t('followed_games')"
-                :item-link="item => `/g/${item.short_name}`"
-            >
+            <m-list :limit="10" :title="$t('followed_games')" url="followed-games" :item-link="item => `/g/${item.short_name}`">
                 <template #before-item="{ item }">
                     <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
-                <template #item-buttons="{ item }">
-                    <m-button @click.prevent="unfollowGame(item)"><i-mdi-remove/> {{$t('unfollow')}}</m-button>
+                <template #item-buttons="{ item, items }">
+                    <m-button @click.prevent="unfollowGame(item, items.data)"><i-mdi-remove/> {{$t('unfollow')}}</m-button>
                 </template>
             </m-list>
 
-            <m-list 
-                v-model:page="followedUsersPage"
-                :items="followedUsers"
-                :limit="10"
-                :loading="loadingUsers"
-                :title="$t('followed_users')"
-            >
-                <template #item="{ item }">
+            <m-list :limit="10" url="followed-users" :title="$t('followed_users')">
+                <template #item="{ item, items }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <m-button class="ml-auto my-auto" @click.prevent="unfollowUser(item)">
+                            <m-button class="ml-auto my-auto" @click.prevent="unfollowUser(item, items.data)">
                                 <i-mdi-remove/> {{$t('unfollow')}}
                             </m-button>
                         </template>
                     </a-user>
                 </template>
             </m-list>
-            <m-list 
-                v-model:page="followedModsPage"
-                :title="$t('followed_mods')"
-                :items="followedMods"
-                :limit="10"
-                :loading="loadingMods"
-                :item-link="item => `/mod/${item.id}`"
-            >
+            <m-list :title="$t('followed_mods')" :limit="10" url="followed-mods" :item-link="item => `/mod/${item.id}`">
                 <template #before-item="{ item }">
                     <mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
                 </template>
-                <template #item-buttons="{ item }">
-                    <m-button @click.prevent="unfollowMod(item)"><i-mdi-remove/> {{$t('unfollow')}}</m-button>
+                <template #item-buttons="{ item, items }">
+                    <m-button @click.prevent="unfollowMod(item, items.data)"><i-mdi-remove/> {{$t('unfollow')}}</m-button>
                 </template>
             </m-list>
         </m-tab>
 
         <m-tab name="block" :title="$t('blocking')">
-            <m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="submitBlockTag">
-                <m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
-            </m-form-modal>
-            <m-list 
-                v-model:page="blockedUsersPage"
-                :title="$t('blocked_users')"
-                :items="blockedUsers"
-                :limit="10"
-                :loading="loadingBlockedUsers"
-            >
-                <template #item="{ item }">
+            <m-list :title="$t('blocked_users')" url="blocked-users" :limit="10">
+                <template #item="{ item, items }">
                     <a-user class="list-button" :user="item">
                         <template #attach>
-                            <m-button class="ml-auto my-auto" @click.prevent="unblockUser(item)">
+                            <m-button class="ml-auto my-auto" @click.prevent="unblockUser(item, items.data)">
                                 <i-mdi-remove/> {{$t('unblock')}}
                             </m-button>
                         </template>
                     </a-user>
                 </template>
             </m-list>
-            <m-list 
-                v-model:page="blockedTagsPage"
-                :title="$t('blocked_tags')"
-                :items="blockedTags"
-                :limit="10"
-                :loading="loadingTags"
-            >
+            <m-list :title="$t('ignored_games')" url="ignored-games" :limit="10">
+                <template #before-item="{ item }">
+                    <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
+                </template>
+                <template #item-buttons="{ item, items }">
+                    <m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{$t('unignore')}}</m-button>
+                </template>
+            </m-list>
+            <m-list :title="$t('blocked_tags')" url="blocked-tags" :limit="10">
                 <template #item-name="{ item }">
                     <m-tag>{{ item.name }}</m-tag>
                 </template>
-                <template #buttons>
+                <template #buttons="{ items }">
+                   <m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="err => submitBlockTag(err, items.data)">
+                        <m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
+                    </m-form-modal>
                     <m-button class="ml-auto" @click="showBlockTag = true">{{$t('block')}}</m-button>
                 </template>
-                <template #item-buttons="{ item }">
-                    <m-button @click.prevent="unblockTag(item)"><i-mdi-remove/> {{$t('unblock')}}</m-button>
+                <template #item-buttons="{ item, items }">
+                    <m-button @click.prevent="unblockTag(item, items.data)"><i-mdi-remove/> {{$t('unblock')}}</m-button>
                 </template>
             </m-list>
         </m-tab>
@@ -130,17 +106,6 @@ const { t } = useI18n();
 const blockTag = ref<Tag>();
 const showBlockTag = ref(false);
 const showError = useQuickErrorToast();
-const followedGamesPage = ref(1);
-const followedUsersPage = ref(1);
-const followedModsPage = ref(1);
-const blockedTagsPage = ref(1);
-const blockedUsersPage = ref(1);
-
-const { data: followedGames, loading: loadingGames } = await useWatchedFetchMany('followed-games', { limit: 10, page: followedGamesPage });
-const { data: followedUsers, loading: loadingUsers } = await useWatchedFetchMany('followed-users', { limit: 10, page: followedUsersPage });
-const { data: followedMods, loading: loadingMods } = await useWatchedFetchMany('followed-mods', { limit: 10, page: followedModsPage });
-const { data: blockedTags, loading: loadingTags } = await useWatchedFetchMany('blocked-tags', { limit: 10, page: blockedTagsPage });
-const { data: blockedUsers, loading: loadingBlockedUsers } = await useWatchedFetchMany('blocked-users', { limit: 10, page: blockedUsersPage });
 
 const viewOptions = [
     { id: 'followed', name: t('followed') },
@@ -160,49 +125,52 @@ const sortOptions = [
     { id: 'likes', name: t('likes') },
 ];
 
-async function unfollowUser(user: User) {
+async function unfollowUser(user: User, followedUsers: User[]) {
     await setFollowUser(user, false, false);
-    remove(followedUsers.value!.data, user);
+    remove(followedUsers, user);
 }
 
-async function unfollowMod(mod: Mod) {
+async function unfollowMod(mod: Mod, followedMods: Mod[]) {
     await setFollowMod(mod, false, false);
-    remove(followedMods.value!.data, mod);
+    remove(followedMods, mod);
 }
 
-async function unfollowGame(game: Game) {
+async function unfollowGame(game: Game, followedGames: Game[]) {
     await setFollowGame(game, false);
-    remove(followedGames.value!.data, game);
+    remove(followedGames, game);
 }
 
-async function unblockTag(tag: Tag) {
+async function unignoreGame(game: Game, ignoredGames: Game[]) {
+    await setIgnoreGame(game, false);
+    remove(ignoredGames, game);
+}
+
+async function unblockTag(tag: Tag, blockedTags: Tag[]) {
     try {
-        await deleteRequest(`blocked-tags/${tag.tag_id}`);
-        remove(blockedTags.value!.data, tag);
+        await deleteRequest(`blocked-tags/${tag.id}`);
+        remove(blockedTags, tag);
     } catch (error) {
         showError(error);
     }
 }
 
-async function unblockUser(user: User) {
+async function unblockUser(user: User, blockedUsers: User[]) {
     try {
-        await deleteRequest(`blocked-users/${user.user_id}`);
-        remove(blockedUsers.value!.data, user);
+        await deleteRequest(`blocked-users/${user.id}`);
+        remove(blockedUsers, user);
     } catch (error) {
         showError(error);
     }
 }
 
-async function submitBlockTag(err) {
+async function submitBlockTag(err, blockedTags: Tag[]) {
     if (!blockTag.value) {
         return;
     }
 
     try {
         await postRequest('blocked-tags', { tag_id: blockTag.value.id });
-        if (blockedTags.value) {
-            blockedTags.value.data.push(blockTag.value);
-        }
+        blockedTags.push(blockTag.value);
         blockTag.value = undefined;
         showBlockTag.value = false;
     } catch (error) {

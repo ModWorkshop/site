@@ -56,7 +56,7 @@
                     :trigger-refresh="triggerRefresh"
                     :user-id="user.id"
                     :collab="displayMods == 'collab'"
-                    :params="{ ignore_blocked_users: true }"
+                    :params="{ including_ignored: true }"
                 />
             </template>
             <m-content-block v-else>

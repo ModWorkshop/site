@@ -10,7 +10,7 @@
 <template>
     <form @submit.prevent="submit">
         <Transition v-if="floatSaveGui">
-            <m-flex v-if="currentCanSave" class="fixed float-bg round float-save items-center">
+            <m-flex v-if="currentCanSave" class="fixed float-bg content-block round float-save items-center">
                 <span class="mr-2">
                     {{$t('unsaved_changes')}}
                 </span>

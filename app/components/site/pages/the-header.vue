@@ -18,7 +18,7 @@
     </m-modal>
     
 
-    <header class="navbar">
+    <header class="navbar content-block">
         <NuxtLink to="/">
             <m-img alt="logo" :src="logo" width="36" height="36" is-asset/>
         </NuxtLink>

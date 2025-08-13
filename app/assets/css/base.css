@@ -193,6 +193,10 @@ body {
     --light-float-bg-color: #d2d3d5;
     --light-kbd-bg: #a8a8a8;
     --light-breadcrumb-secondary: #8f8f8f;
+    --light-content-box-shadow: #000 0px 0px 0px 0px,
+                #000 0px 0px 0px 0px,
+                #000 0px 0px 0px 0px,
+                oklab(0.37 0.00354074 -0.0125085 / 0.4) 0px 0px 0px 1px;
 }
 
 html.dark {
@@ -230,6 +234,10 @@ html.dark {
     --kbd-bg: var(--dark-kbd-bg);
     --breadcrumb-secondary: var(--dark-breadcrumb-secondary);
     --float-bg-color: var(--dark-float-bg-color);
+    --dark-content-box-shadow: #000 0px 0px 0px 0px,
+                #000 0px 0px 0px 0px,
+                #000 0px 0px 0px 0px,
+                oklab(0.37 0.00354074 -0.0125085 / 0.4) 0px 0px 0px 1px;
 
     color-scheme: dark;
 }
@@ -270,6 +278,7 @@ html.light {
     --table-odd-color: var(--light-table-odd-color);
     --alt-table-even-color: var(--alt-content-bg-color);
     --alt-table-odd-color: var(--light-alt-table-odd-color);
+    --content-box-shadow: var(--light-content-box-shadow);
 
     color-scheme: light;
 }
@@ -310,6 +319,7 @@ html.light {
         --kbd-bg: var(--light-kbd-bg);
         --breadcrumb-secondary: var(--light-breadcrumb-secondary);
         --float-bg-color: var(--light-float-bg-color);
+        --content-box-shadow: var(--light-content-box-shadow);
 
         color-scheme: light;
     }
@@ -351,6 +361,7 @@ html.light {
         --kbd-bg: var(--dark-kbd-bg);
         --breadcrumb-secondary: var(--dark-breadcrumb-secondary);
         --float-bg-color: var(--dark-float-bg-color);
+        --content-box-shadow: var(--dark-content-box-shadow);
 
         color-scheme: dark;
     }
@@ -480,6 +491,7 @@ a {
     max-width: 100%;
     background-color: var(--content-bg-color);
     border-radius: var(--content-border-radius);
+    box-shadow: var(--content-box-shadow);
 }
 
 .content-block-glass {
@@ -507,6 +519,7 @@ a {
     background-color: var(--alt-content-bg-color);
     padding: 1rem;
     flex: 1;
+    box-shadow: var(--content-box-shadow);
 }
 
 * {

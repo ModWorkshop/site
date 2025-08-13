@@ -23,7 +23,7 @@ import { useStore } from '../store/index';
 const { settings } = useStore();
 
 const page = ref(1);
-const { data: games, refresh } = await useFetchMany<Game>('games', { params: reactive({ page }) });
+const { data: games, refresh } = await useFetchMany<Game>('games', { params: reactive({ page, including_ignored: true }) });
 
 watch(page, async () => await refresh());
 

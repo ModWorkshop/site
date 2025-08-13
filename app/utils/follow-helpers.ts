@@ -43,3 +43,18 @@ export async function setFollowGame(game: Game, status?: boolean) {
         console.log(error);
     }
 }
+
+export async function setIgnoreGame(game: Game, status?: boolean) {
+    try {
+        status ??= !game.ignored;
+        if (status) {
+            await postRequest('ignored-games', { game_id: game.id });
+            game.ignored = true;
+        } else {
+            await deleteRequest(`ignored-games/${game.id}`);
+            game.ignored = false;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
