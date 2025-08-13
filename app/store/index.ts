@@ -96,6 +96,8 @@ export const useStore = defineStore('main', {
             //https://github.com/nuxt/framework/discussions/5655
             //https://github.com/nuxt/framework/issues/6475
    
+            const { $mwsAPI } = useNuxtApp();
+
             type SiteData = {
                 settings: Settings,
                 announcements: Thread[],
@@ -107,7 +109,12 @@ export const useStore = defineStore('main', {
                 games: Game[]
             };
 
-           const siteData = await getRequest<SiteData>('site-data');
+            let siteData;
+            try {
+                siteData = await $mwsAPI<SiteData>('site-data');
+            } catch (error) {
+                console.log(error);
+            }
 
            if (import.meta.client) {
                reloadToken(); // Don't block navigation
@@ -129,7 +136,8 @@ export const useStore = defineStore('main', {
         },
 
         async reloadUser() {
-            this.user = await getRequest<User>('user');
+            const { $mwsAPI } = useNuxtApp();
+            this.user = await $mwsAPI<User>('user');
         },
 
         async logout(redirect: string|boolean='/') {
@@ -148,11 +156,14 @@ export const useStore = defineStore('main', {
         },
 
         async getNotifications(page = 1, limit = 40) {
-            this.notifications = await getRequest<Paginator<Notification>>('/notifications', { params: { page, limit } });
+            const { $mwsAPI } = useNuxtApp();
+            this.notifications = await $mwsAPI<Paginator<Notification>>('/notifications', { params: { page, limit } });
         },
 
         async getNotificationCount() {
-            this.notificationCount = await getRequest<number>('/notifications/unseen');
+            const { $mwsAPI } = useNuxtApp();
+
+            this.notificationCount = await $mwsAPI<number>('/notifications/unseen');
         },
         
         // Reloads game data like announcements.
