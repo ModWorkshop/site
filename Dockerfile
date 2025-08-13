@@ -82,9 +82,23 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 
 FROM build AS dev
 
+# For development, we'll use the host user's UID/GID
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Create a user with the same UID/GID as the host user
+RUN groupadd -g ${GROUP_ID} devuser && \
+    useradd -u ${USER_ID} -g ${GROUP_ID} -m -s /bin/bash devuser
+
 RUN <<EOF cat >> $PHP_INI_DIR/php.ini
 opcache.validate_timestamps=1
 EOF
 
+# Change ownership of the working directory
+RUN chown -R devuser:devuser /app
+
+# Switch to the created user
+USER devuser
+
 # Install composer packages
-CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve"]
+CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve --host=0.0.0.0"]
