@@ -449,12 +449,18 @@ class User extends Model implements
 
     public function ban() : HasOne
     {
-        return $this->hasOne(Ban::class)->where('active', true)->whereNull('game_id');
+        return $this->hasOne(Ban::class)
+            ->where('active', true)
+            ->where('expire_date', '>', Carbon::now())
+            ->whereNull('game_id');
     }
 
     public function gameBan(): HasOne
     {
-        return $this->hasOne(Ban::class)->where('active', true)->where('game_id', $this->eagerLoadedGameId);
+        return $this->hasOne(Ban::class)
+            ->where('active', true)
+            ->where('expire_date', '>', Carbon::now())
+            ->where('game_id', $this->eagerLoadedGameId);
     }
 
     public function gameBans(): HasMany
