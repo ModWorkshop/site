@@ -162,6 +162,8 @@ use Storage;
  * @property-read int|null $viewable_mods_count
  * @property bool $avatar_has_thumb
  * @method static Builder|User whereAvatarHasThumb($value)
+ * @property-read Collection<int, \App\Models\Game> $ignoredGames
+ * @property-read int|null $ignored_games_count
  * @mixin Eloquent
  */
 class User extends Model implements 
@@ -269,6 +271,11 @@ class User extends Model implements
     public function followedGames() : BelongsToMany
     {
         return $this->belongsToMany(Game::class, FollowedGame::class)->select('games.*');
+    }
+
+    public function ignoredGames() : BelongsToMany
+    {
+        return $this->belongsToMany(Game::class, IgnoredGame::class)->select('games.*');
     }
 
     public function allFollowedMods()
