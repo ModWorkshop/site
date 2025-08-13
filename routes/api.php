@@ -97,7 +97,7 @@ Route::get('mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods/waiting', [ModController::class, 'waiting']);
 Route::get('games/{game}/mods', [ModController::class, 'index']);
 Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAndLatest']);
-Route::get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
+Route::middleware('auth:sanctum')->get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
 Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
 
 Route::middleware('can:view,mod')->get('mods/{mod}/version', [ModController::class, 'getVersion']); // @group Mods
