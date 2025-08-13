@@ -10,31 +10,41 @@ export interface WatchedFetchManyOptions<T> extends UseFetchOptions<T> {
     This is useFetchMany but tailored for handling parameter changes for lists and so on.
  */
 export default async function<T=any>(url: string|(() => string), params: SearchParameters, options?: WatchedFetchManyOptions<Paginator<T>>) {
-    // eslint is being stupid about this because it clearly doesn't need to be a const.
-    // eslint-disable-next-line prefer-const 
-    let loading: Ref<boolean>;
     const ret = await useFetchMany<T>(url, {
         params: reactive(params),
-        async onRequest() {
-            if (loading) {
-                loading.value = true;
-            }
-        },
-        async onResponse() {
-            if (loading) {
-                loading.value = false;
-            }
-        },
+        watch: false,
         ...options
     });
 
-    loading = useHandleParam(async () => {
+    const { data, status, refresh } = ret;
+
+    const { start: startPlanLoad } = useTimeoutFn(async () => {
         if (typeof url == 'function' ? url() : url) {
-            await ret.refresh();
+            await refresh();
         }
-    }, params, options?.onChange);
+    }, 250, { immediate: false });
 
-    const { data } = ret;
+    const page = params.page;
+    if (page) {
+        watch(page, () => {
+            startPlanLoad();
+        });
+    }
 
-    return { ...ret, data: reactive(data ?? new Paginator()), loading: loading };
+    const watchStuff: any[] = [];
+
+    for (const [key, value] of Object.entries(params)) {
+        if (key != 'page' && typeof value == 'object') {
+            watchStuff.push(value);
+        }
+    }
+
+    watch(watchStuff, async (val, oldVal) => {
+        if (page) {
+            page.value = 1;
+        }
+        startPlanLoad();
+    });
+
+    return { ...ret, data: reactive(data ?? new Paginator()), loading: computed(() => status.value == 'pending') };
 }
