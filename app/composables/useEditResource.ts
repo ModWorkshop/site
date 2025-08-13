@@ -2,7 +2,7 @@ import type { SearchParameters } from "ofetch";
 import type { Reactive } from "vue";
 import { useI18n } from "vue-i18n";
 
-export default async function<T extends object>(name: string, url: string, template: T|null=null, params?: SearchParameters, key?: string) {
+export default async function<T extends object>(name: string, url: string, template: T|null=null, params?: SearchParameters) {
     const route = useRoute();
     const { t } = useI18n();
 
@@ -12,7 +12,7 @@ export default async function<T extends object>(name: string, url: string, templ
         return { data: reactive(template) };
     }
     else {
-        const res = await useFetchData<T>(`${url}/${id}`, { params }, key);
+        const res = await useFetchData<T>(`${url}/${id}`, { params });
         const { error } = res;
 
         useHandleError(error, {

@@ -6,10 +6,10 @@ interface AxiosRequestConfigPlus extends AxiosRequestConfig {
     onResponse?: (response: any) => void;
 }
 
-export function buildQueryParams(params) {
+export function buildQueryParams(params, addQueryPrefix=true) {
     return qs.stringify(params, { 
-        arrayFormat: 'brackets',
-        addQueryPrefix: true,
+        arrayFormat: 'indices',
+        addQueryPrefix,
         encoder: function (str, defaultEncoder, charset, type) {
             if (type == 'value' && typeof str == 'boolean') {
                 return str ? 1 : 0;

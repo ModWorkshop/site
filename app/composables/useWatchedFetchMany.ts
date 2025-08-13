@@ -1,15 +1,15 @@
+import type { UseFetchOptions } from '#app';
 import type { SearchParameters } from 'ofetch';
-import type { DifferentFetchOptions } from './useFetchData';
 import { Paginator } from '~/types/paginator';
 
-export interface WatchedFetchManyOptions extends DifferentFetchOptions {
+export interface WatchedFetchManyOptions<T> extends UseFetchOptions<T> {
     onChange?: ((val: any, oldVal: any) => boolean)|null;
 }
 
 /**
     This is useFetchMany but tailored for handling parameter changes for lists and so on.
  */
-export default async function<T=any>(url: string|(() => string), params: SearchParameters, options?: WatchedFetchManyOptions, key?: string) {
+export default async function<T=any>(url: string|(() => string), params: SearchParameters, options?: WatchedFetchManyOptions<Paginator<T>>) {
     // eslint is being stupid about this because it clearly doesn't need to be a const.
     // eslint-disable-next-line prefer-const 
     let loading: Ref<boolean>;
@@ -26,7 +26,7 @@ export default async function<T=any>(url: string|(() => string), params: SearchP
             }
         },
         ...options
-    }, key);
+    });
 
     loading = useHandleParam(async () => {
         if (typeof url == 'function' ? url() : url) {

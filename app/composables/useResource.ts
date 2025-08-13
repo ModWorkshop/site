@@ -25,8 +25,7 @@ export default async function<T>(
     url: string|((string) => string),
     errorMessages: Record<number|string, string> = {},
     params?: SearchParameters,
-    fallback?: T,
-    key?: string
+    fallback?: T
 ): Promise<_AsyncData<T, Error | null>> {
     const route = useRoute();
     
@@ -34,7 +33,7 @@ export default async function<T>(
 
     const id = route.params[`${name}`];
 
-    const res = await useFetchData<T>(typeof url == 'string' ? `${url}/${id}` : url(id), { params, immediate: !!id }, key) as _AsyncData<T, Error | null>;
+    const res = await useFetchData<T>(typeof url == 'string' ? `${url}/${id}` : url(id), { params, immediate: !!id }) as _AsyncData<T, Error | null>;
 
     //I sometimes really hate typescript, just fucking look at the length of this crap...
     if (!id && fallback) {

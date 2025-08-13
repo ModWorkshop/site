@@ -16,6 +16,7 @@ definePageMeta({
 
 const route = useRoute();
 const { user, reloadUser } = useStore();
+const { $mwsAPI } = useNuxtApp();
 
 const verifying = ref(true);
 
@@ -25,7 +26,7 @@ if (route.query.error) {
 
 if (import.meta.client && user) {
     try {
-        await useGet(`/email/verify/${route.params.id}/${route.params.hash}`, { params: route.query});
+        await $mwsAPI(`/email/verify/${route.params.id}/${route.params.hash}`, { params: route.query});
         verifying.value = false;
         reloadUser();
     } catch (e) {
