@@ -30,7 +30,7 @@ class UserResource extends BaseResource
             'game_ban' => $this->last_game_ban,
             'unique_name' => $this->unique_name,
             'created_at' => $this->when($this->isVisibleForProfile('created_at'), $this->created_at),
-            'color' => $this->color,
+            'color' => $this->getAttribute('color'),
             'avatar' => $this->avatar,
             'role_names' => Arr::pluck($this->roleList, 'name'),
             'permissions' => $this->when($isMe, $this->permissionList),

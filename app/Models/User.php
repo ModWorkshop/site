@@ -505,13 +505,13 @@ class User extends Model implements
     public function color(): Attribute
     {
         return Attribute::make(function($value, $attributes) {
-            if (isset($attributes['custom_color']) && $this->hasSupporterPerks) {
+            if (!Utils::isEmpty($attributes['custom_color']) && $this->hasSupporterPerks) {
                 return $attributes['custom_color'];
             }
 
             $firstVanity = function($roles) {
                 foreach ($roles as $role) {
-                    if ($role->is_vanity && $role->color) {
+                    if ($role->is_vanity && !Utils::isEmpty($role->color)) {
                         return $role->color;
                     }
                 }
@@ -519,7 +519,7 @@ class User extends Model implements
 
             $firstRegular = function($roles) {
                 foreach ($roles as $role) {
-                    if (!$role->is_vanity && $role->color) {
+                    if (!$role->is_vanity && !Utils::isEmpty($role->color)) {
                         return $role->color;
                     }
                 }
@@ -528,11 +528,14 @@ class User extends Model implements
             $firstGlobalVanity = $firstVanity($this->roles);
             $firstGlobalRegular = $firstRegular($this->roles);
 
+            $returnColor = null;
             if ($this->eagerLoadedGameId) {
-                return $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
+                $returnColor = $firstVanity($this->gameRoles) ?? $firstGlobalVanity ?? $firstRegular($this->gameRoles) ?? $firstGlobalRegular;
+            } else {
+                $returnColor = $firstGlobalVanity ?? $firstGlobalRegular;
             }
 
-            return $firstGlobalVanity ?? $firstGlobalRegular ?? (new MissingValue);
+            return $returnColor ? trim($returnColor) : (new MissingValue);
         });
     }
 

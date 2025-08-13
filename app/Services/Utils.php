@@ -230,4 +230,14 @@ class Utils {
 
         return implode('.', $split); // Return string joined by dot
     }
+
+    /**
+     * Returns whether or not a variable is empty. For strings it trims it so it considers spaces as empty
+     *
+     * @param string $str
+     * @return boolean
+     */
+    public static function isEmpty($str) {
+        return isset($str) && empty(trim($str));
+    }
 }
