@@ -163,7 +163,7 @@ watch([commentContent, mentionRange], async () => {
         
         lastTimeout = setTimeout(async () => {
             users.value = undefined;
-            users.value = await useGetMany<User>('users', { params: { query } });
+            users.value = await getRequest<Paginator<User>>('users', { params: { query } });
             for (const user of users.value.data) {
                 usersCache[user.unique_name] = user;
             }

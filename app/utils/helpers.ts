@@ -86,8 +86,7 @@ export function friendlyNumber(locale: string, n: number): string {
 }
 
 export async function reloadToken() {
-    const { $mwsAPI } = useNuxtApp();
-    $mwsAPI('/sanctum/csrf-cookie');
+    getRequest('/sanctum/csrf-cookie');
 }
 
 export function setQuery(key: string, value: LocationQueryValueRaw | LocationQueryValueRaw[]) {

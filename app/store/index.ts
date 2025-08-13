@@ -107,7 +107,7 @@ export const useStore = defineStore('main', {
                 games: Game[]
             };
 
-           const siteData = await useGet<SiteData>('site-data');
+           const siteData = await getRequest<SiteData>('site-data');
 
            if (import.meta.client) {
                reloadToken(); // Don't block navigation
@@ -129,7 +129,7 @@ export const useStore = defineStore('main', {
         },
 
         async reloadUser() {
-            this.user = await useGet<User>('user');
+            this.user = await getRequest<User>('user');
         },
 
         async logout(redirect: string|boolean='/') {
@@ -148,16 +148,16 @@ export const useStore = defineStore('main', {
         },
 
         async getNotifications(page = 1, limit = 40) {
-            this.notifications = await useGetMany<Notification>('/notifications', { params: { page, limit } });
+            this.notifications = await getRequest<Paginator<Notification>>('/notifications', { params: { page, limit } });
         },
 
         async getNotificationCount() {
-            this.notificationCount = await useGet<number>('/notifications/unseen');
+            this.notificationCount = await getRequest<number>('/notifications/unseen');
         },
         
         // Reloads game data like announcements.
         async getGameData() {
-            const gameData = await useGet<{ announcements: Thread[], waiting_count: number, report_count: number }>(`games/${this.currentGame!.id}/data`);
+            const gameData = await getRequest<{ announcements: Thread[], waiting_count: number, report_count: number }>(`games/${this.currentGame!.id}/data`);
             this.currentGame!.announcements = gameData.announcements;
             this.currentGame!.waiting_count = gameData.waiting_count;
             this.currentGame!.report_count = gameData.report_count;

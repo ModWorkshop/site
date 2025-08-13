@@ -20,7 +20,7 @@ export function buildQueryParams(params, addQueryPrefix=true) {
 }
 
 export async function postRequest<T>(url: string, body?: object|null, config: AxiosRequestConfigPlus = {}) {
-    const { public: runtimeConfig } = useRuntimeConfig();
+    const { public: runtimeConfig, innerApiUrl } = useRuntimeConfig();
     const token = useCookie('XSRF-TOKEN', { readonly: true });
 
     config.headers ??= {};
@@ -31,7 +31,7 @@ export async function postRequest<T>(url: string, body?: object|null, config: Ax
         url,
         data: body,
         withCredentials: true,
-        baseURL: runtimeConfig.apiUrl,
+        baseURL: import.meta.client ? runtimeConfig.apiUrl : innerApiUrl,
         ...config
     });
 
