@@ -183,6 +183,9 @@ abstract class Visibility {
  * @method static Builder|Mod whereParserVersion($value)
  * @property-read mixed $current_storage
  * @property-read mixed $used_storage
+ * @property string|null $repo_url
+ * @property-read \App\Models\IgnoredGame|null $gameIgnoredByMe
+ * @method static Builder<static>|Mod whereRepoUrl($value)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface

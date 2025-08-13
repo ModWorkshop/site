@@ -58,6 +58,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|UserExtra whereBackgroundOpacity($value)
  * @property bool $developer_mode
  * @method static Builder|UserExtra whereDeveloperMode($value)
+ * @property string|null $home_default_mods_sort
+ * @property string|null $game_default_mods_sort
+ * @method static Builder<static>|UserExtra whereGameDefaultModsSort($value)
+ * @method static Builder<static>|UserExtra whereHomeDefaultModsSort($value)
  * @mixin Eloquent
  */
 class UserExtra extends Model
