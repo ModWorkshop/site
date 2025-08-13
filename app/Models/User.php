@@ -937,6 +937,8 @@ class User extends Model implements
     {
         $detach = [];
         $attach = [];
+        $detachFull = [];
+        $attachFull = [];
 
         $me = Auth::user();
         $canManageRoles = $me->hasPermission('manage-roles');
@@ -957,6 +959,7 @@ class User extends Model implements
             if (!in_array($role->id, $newRoles) && $role->id !== 1) {
                 if ($role->is_vanity || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
+                    $detachFull[] = $role;
                 } else {
                     abort(403, "You don't have the right permissions to remove this role from any user.");
                 }
@@ -969,6 +972,7 @@ class User extends Model implements
                 // Make sure that the role we are adding isn't Members (which every member has duh) and is lower than ours.
                 if ($role->id !== 1 && (($canManageRoles && $myHighestOrder > $role->order) || ($role->is_vanity && $role->self_assignable))) {
                     $attach[] = $role->id;
+                    $attachFull[] = $role;
                 } else {
                     abort(403, "You don't have the right permissions to add this role to any user.");
                 }
@@ -981,6 +985,8 @@ class User extends Model implements
         $rolesRelation->attach($attach);
 
         $this->load('roles');
+
+        return [$attachFull, $detachFull];
     }
 
     /**
@@ -997,6 +1003,9 @@ class User extends Model implements
     {
         $detach = [];
         $attach = [];
+
+        $detachFull = [];
+        $attachFull = [];
 
         $me = Auth::user();
         $canManageRolesGlobally = $me->hasPermission('manage-roles');
@@ -1018,6 +1027,7 @@ class User extends Model implements
             if (!in_array($role->id, $newRoles)) {
                 if ($role->is_vanity || $canManageRolesGlobally || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $detach[] = $role->id;
+                    $detachFull[] = $role;
                 } else {
                     abort(403, "You don't have the right permissions to remove this role from any user.");
                 }
@@ -1029,6 +1039,8 @@ class User extends Model implements
             if (!$this->hasGameRole($game->id, $role->id)) {
                 if (($role->is_vanity && $role->self_assignable) || $canManageRolesGlobally || ($canManageRoles && $myHighestOrder > $role->order)) {
                     $attach[] = $role->id;
+                    $attachFull[] = $role;
+
                 } else {
                     abort(403, "You don't have the right permissions to add this role to any user.");
                 }
@@ -1039,6 +1051,8 @@ class User extends Model implements
         $gameRolesRelation = $this->allGameRoles();
         $gameRolesRelation->detach($detach);
         $gameRolesRelation->attach($attach);
+
+        return [$attachFull, $detachFull];
     }
 
 

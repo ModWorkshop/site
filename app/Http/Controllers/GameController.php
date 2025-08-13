@@ -8,6 +8,7 @@ use App\Http\Resources\GameResource;
 use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\AuditLog;
 use App\Models\ModManager;
 use App\Models\User;
 use App\Services\APIService;
@@ -73,6 +74,8 @@ class GameController extends Controller
 
             $val = [];//Empty so we don't update it again.
             $wasCreated = true;
+
+            AuditLog::logCreate($game, $val);
         }
 
         if (isset($modManagerIds)) {
@@ -97,6 +100,10 @@ class GameController extends Controller
             'thumbnailSize' => 200,
             'onSuccess' => fn($path) => $game->banner = $path,
         ]);
+
+        if (!$wasCreated) {
+            AuditLog::logUpdate($game, $val, $game);
+        }
 
         if (!$wasCreated || isset($thumbnailFile) || isset($bannerFile)) {
             $game->update($val);
@@ -193,6 +200,7 @@ class GameController extends Controller
     {
         if ($game->mods()->count() == 0) {
             $game->delete();
+            AuditLog::logDelete($game);
         }
     }
 
@@ -210,7 +218,12 @@ class GameController extends Controller
             'role_ids.*' => 'integer|min:1|exists:game_roles,id',
         ]);
 
-        $user->syncGameRoles($game, array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
+        [$attach, $detach] = $user->syncGameRoles($game, array_map('intval', array_filter($val['role_ids'], fn($val) => is_numeric($val))));
+
+        AuditLog::logUpdate($user, [
+            '$added' => ['roles' => $attach],
+            '$removed' => ['roles' => $detach],
+        ]);
     }
 
     /**

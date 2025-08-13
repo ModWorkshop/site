@@ -6,6 +6,7 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Game;
+use App\Models\AuditLog;
 use App\Services\APIService;
 use Arr;
 use Date;
@@ -103,6 +104,8 @@ class CategoryController extends Controller
         $val['game_id'] ??= $game?->id;
         APIService::nullToEmptyStr($val, 'desc', 'webhook_url', 'thumbnail_file');
 
+        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
+
         $wasCreated = false;
         if (!isset($category)) {
             $val['last_date'] = Date::now();
@@ -112,9 +115,11 @@ class CategoryController extends Controller
             $category = Category::create($val);
             $val = [];//Empty so we don't update it again.
             $wasCreated = true;
+            AuditLog::logCreate($category, $val);
+        } else {
+            AuditLog::logUpdate($category, $val);
         }
 
-        $thumbnailFile = Arr::pull($val, 'thumbnail_file');
 
         APIService::storeImage($thumbnailFile, 'games/images', $category->thumbnail, [
             'onSuccess' => fn($path) => $category->thumbnail = $path,
@@ -146,6 +151,11 @@ class CategoryController extends Controller
         if (!$val['are_you_sure']) {
             abort(406, 'You must tick the are you sure to do this action!');
         }
+
+        AuditLog::log('category_mass_move_mods', $category, [
+            'mod_ids' => $category->mods()->pluck('id')->toArray(),
+            'category_id' => $val['category_id'] ?? null
+        ]);
 
         $category->mods()->update([
             'category_id' => $val['category_id']

@@ -12,6 +12,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 use Illuminate\Http\Response;
 use Log;
 
@@ -92,6 +93,13 @@ class BanController extends Controller
         $ban = Ban::create($val);
         $ban->load('user');
 
+        AuditLog::log('ban', $banUser, [
+            'with' => [
+                'expire_date' => $val['expire_date'] ?? null,
+                'reason' => $val['reason'],
+                'can_appeal' => $val['can_appeal'] ?? false
+            ]
+        ], $game);
 
         return $ban;
     }
@@ -112,6 +120,8 @@ class BanController extends Controller
         if (!$ban->user->canBeEdited()) {
             abort(403, 'Cannot edit ban of user since you cannot ban them normally.');
         }
+
+        AuditLog::logUpdate($ban, $val);
 
         $ban->update($val);
 
@@ -134,6 +144,7 @@ class BanController extends Controller
      */
     public function destroy(Ban $ban)
     {
+        AuditLog::logDelete($ban);
         $ban->delete();
     }
 }

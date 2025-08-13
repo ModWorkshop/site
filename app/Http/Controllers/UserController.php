@@ -11,6 +11,7 @@ use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\Mod;
+use App\Models\AuditLog;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
@@ -305,7 +306,12 @@ class UserController extends Controller
             'role_ids.*' => 'integer|min:2|exists:roles,id',
         ]);
 
-        $user->syncRoles(array_map('intval', array_unique(array_filter($val['role_ids'], fn($val) => is_numeric($val)))));
+        [$attach, $detach] = $user->syncRoles(array_map('intval', array_unique(array_filter($val['role_ids'], fn($val) => is_numeric($val)))));
+        
+        AuditLog::logUpdate($user, [
+            '$added' => ['role' => $attach],
+            '$removed' => ['role' => $detach],
+        ]);
     }
 
     /**

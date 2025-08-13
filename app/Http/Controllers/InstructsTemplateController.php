@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\InstructsTemplate;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 use Illuminate\Http\Response;
 
 /**
@@ -61,10 +62,12 @@ class InstructsTemplateController extends Controller
         ]);
 
         if (isset($instructsTemplate)) {
+            AuditLog::logUpdate($instructsTemplate, $val);
             $instructsTemplate->update($val);
         } else {
             $val['game_id'] = $game->id;
             $instructsTemplate = InstructsTemplate::create($val);
+            AuditLog::logCreate($instructsTemplate, $val);
         }
 
         return $instructsTemplate;

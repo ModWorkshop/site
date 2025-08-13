@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\TagResource;
 use App\Models\Game;
+use App\Models\AuditLog;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -87,10 +88,13 @@ class TagController extends Controller
         $val['notice'] ??= '';
 
         if (isset($tag)) {
+            AuditLog::logUpdate($tag, $val);
             $tag->update($val);
         } else {
             $val['game_id'] = $game?->id;
             $tag = Tag::create($val);
+
+            AuditLog::logCreate($tag, $val);
         }
 
         return new TagResource($tag);
@@ -103,6 +107,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        AuditLog::logDelete($tag);
         $tag->delete();
     }
 }

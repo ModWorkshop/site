@@ -8,6 +8,7 @@ use App\Models\Game;
 use Arr;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 use Illuminate\Http\Response;
 
 /**
@@ -109,9 +110,11 @@ class DocumentController extends Controller
 
         if (isset($document)) {
             Arr::pull($val, 'game_id'); //Don't allow game IDs to be set on updates
+            AuditLog::logUpdate($document, $val);
             $document->update($val);
         } else {
             $document = Document::create($val);
+            AuditLog::logCreate($document, $val);
         }
 
         return $document;
@@ -125,5 +128,6 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         $document->delete();
+        AuditLog::logDelete($document);
     }
 }

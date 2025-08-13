@@ -15,6 +15,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 use Illuminate\Http\Response;
 
 /**
@@ -98,10 +99,12 @@ class ForumCategoryController extends Controller
         APIService::nullToEmptyStr($val, 'desc', 'emoji');
 
         if (isset($forumCategory)) {
+            AuditLog::logUpdate($forumCategory, $val, $forumCategory->forum->game);
             $forumCategory->update($val);
         } else {
             $val['forum_id'] = $game?->forum_id ?? 1;
             $forumCategory = ForumCategory::create($val);
+            AuditLog::logCreate($forumCategory, $val, $game);
         }
 
         $syncRoles = [];
@@ -168,5 +171,6 @@ class ForumCategoryController extends Controller
     public function destroy(ForumCategory $forumCategory)
     {
         $forumCategory->delete();
+        AuditLog::logDelete($forumCategory, $forumCategory->forum->game);
     }
 }

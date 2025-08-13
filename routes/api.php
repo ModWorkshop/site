@@ -23,6 +23,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\ModManagerController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
@@ -208,6 +209,7 @@ APIService::gameResource('suspensions', SuspensionController::class, ['parentOpt
 APIService::gameResource('documents', DocumentController::class, ['parentOptional' => true]);
 Route::get('documents/{document}', [DocumentController::class, 'getDocument']);
 APIService::gameResource('reports', ReportController::class)->only(['index', 'update', 'destroy']);
+APIService::gameResource('audit-logs', AuditLogController::class)->only(['index', 'show', 'destroy']);
 Route::resource('permissions', PermissionController::class)->only(['index', 'show']);
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('can:update,App\Models\Setting')->patch('settings', [SettingsController::class, 'update']);

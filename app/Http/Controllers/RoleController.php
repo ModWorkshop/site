@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Requests\UpsertRoleRequest;
 use App\Http\Resources\RoleResource;
+use App\Models\AuditLog;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\APIService;
@@ -129,6 +130,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        AuditLog::logDelete($role);
         $role->delete();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\Game;
+use App\Models\AuditLog;
 use App\Models\ModManager;
 use App\Services\APIService;
 use Auth;
@@ -82,6 +83,7 @@ class ModManagerController extends Controller
         // $imageFile = Arr::pull($val, 'image_file');
 
         if (isset($modManager)) {
+            AuditLog::logUpdate($modManager, $val);
             $modManager->update($val);
         } else {
             if (isset($game)) {
@@ -89,6 +91,7 @@ class ModManagerController extends Controller
             } else {
                 $modManager = ModManager::create($val);
             }
+            AuditLog::logCreate($modManager, $val);
         }
 
         // Temporary unused

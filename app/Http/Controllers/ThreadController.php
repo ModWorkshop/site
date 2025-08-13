@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 use App\Models\Setting;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rules\File;
@@ -216,6 +217,9 @@ class ThreadController extends Controller
             //If a moderator locks this, make it so the poster cannot unlock it.
             if ($canManageThreads && $thread->user->id !== $user->id) {
                 $thread->locked_by_mod = $changeLock;
+                AuditLog::logUpdate($thread, [
+                    'locked' => $changeLock
+                ]);
             }
         }
 
@@ -230,6 +234,9 @@ class ThreadController extends Controller
             //If a moderator locks this, make it so the poster cannot unlock it.
             if ($canManageThreads && $thread->user->id !== $user->id) {
                 $thread->closed_by_mod = $changeClosed;
+                AuditLog::logUpdate($thread, [
+                    'closed' => $changeClosed
+                ]);
             }
         }
 

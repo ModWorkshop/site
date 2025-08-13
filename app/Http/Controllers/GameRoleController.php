@@ -7,6 +7,7 @@ use App\Http\Requests\UpsertRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Game;
 use App\Models\GameRole;
+use App\Models\AuditLog;
 use App\Models\Permission;
 use App\Services\APIService;
 use App\Services\RoleService;
@@ -94,6 +95,7 @@ class GameRoleController extends Controller
             if ($gameRole->is_vanity) {
                 $val['self_assignable'] = $selfAssignable;
             }
+            AuditLog::logCreate($gameRole, $val);
             $gameRole->update($val);
         } else {
             if (!isset($val['order'])) {
@@ -109,6 +111,8 @@ class GameRoleController extends Controller
             }
 
             $gameRole->save();
+
+            AuditLog::logUpdate($gameRole, $val);
         }
 
         RoleService::reordrGameRoles($game);
@@ -135,5 +139,6 @@ class GameRoleController extends Controller
     public function destroy(Game $game, GameRole $gameRole)
     {
         $gameRole->delete();
+        AuditLog::logDelete($gameRole);
     }
 }

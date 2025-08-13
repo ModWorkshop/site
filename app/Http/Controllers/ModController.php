@@ -6,6 +6,7 @@ use App\Http\Requests\GetLikedModsRequest;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
+use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Game;
@@ -551,6 +552,14 @@ class ModController extends Controller
                 $mod->id
             ]);
         }
+        AuditLog::log(
+            type: 'mod_approve_status',
+            auditable: $mod,
+            data: [
+                'status' => $status,
+                'reason' => $reason
+            ]
+        );
     }
 
     /**
@@ -581,11 +590,12 @@ class ModController extends Controller
         $suspension = null;
 
         $notify = $val['notify'] ?? true;
+        $reason = $val['reason'];
 
         if ($val['status'] === true) {
             $suspension = Suspension::create([
                 'status' => true,
-                'reason' => $val['reason'],
+                'reason' => $reason,
                 'mod_id' => $mod->id,
                 'mod_user_id' => $request->user()->id //The moderator that suspended it
             ]);
@@ -623,6 +633,15 @@ class ModController extends Controller
 
             Utils::sendDiscordMessage($send, $message, [$mod->name, $mod->id]);
         }
+
+        AuditLog::log(
+            type: 'mod_suspend_status',
+            auditable: $mod,
+            data: [
+                'status' => $status,
+                'reason' => $reason
+            ]
+        );
 
         return $suspension;
     }

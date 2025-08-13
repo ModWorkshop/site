@@ -15,6 +15,7 @@ use Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\AuditLog;
 
 /**
  * @group User Cases
@@ -82,6 +83,8 @@ class UserCaseController extends Controller
         $user = User::find($val['user_id']);
         $case = UserCase::create($val);
 
+        AuditLog::logCreate($case, $val);
+
         Notification::send(
             notifiable: $case,
             user: $user,
@@ -115,6 +118,8 @@ class UserCaseController extends Controller
 
         Utils::convertToUTC($val, 'expire_date');
 
+        AuditLog::logUpdate($userCase, $val);
+
         $userCase->update($val);
 
         return $userCase;
@@ -125,6 +130,7 @@ class UserCaseController extends Controller
      */
     public function destroy(UserCase $userCase)
     {
+        AuditLog::logDelete($userCase);
         $userCase->delete();
     }
 }
