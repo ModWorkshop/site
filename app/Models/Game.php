@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\UserController;
+use App\Http\Resources\UserResource;
 use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
@@ -80,6 +82,7 @@ use Illuminate\Contracts\Support\Arrayable;
  * @method static Builder|Game whereDefaultModManagerId($value)
  * @property-read Collection<int, \App\Models\FollowedGame> $followers
  * @property-read int|null $followers_count
+ * @property-read \App\Models\IgnoredGame|null $ignored
  * @mixin Eloquent
  */
 class Game extends Model
@@ -185,12 +188,19 @@ class Game extends Model
     {
         return Attribute::make(function() {
             $user = Auth::user();
-            return isset($user) ? [
-                'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this->id), 'id'))),
-                'highest_role_order' => $user->getGameHighestOrder($this->id),
-                'permissions' => $user->getGamePerms($this->id),
-                'ban' => $user->getLastGameban($this->id)
-            ] : new MissingValue;
+            if (isset($user)) {
+                $userCon = app(UserController::class);
+                $gameUser = $userCon->getUser($user->id, $this);
+                return [
+                    'user' => $gameUser,
+                    'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this->id), 'id'))),
+                    'highest_role_order' => $user->getGameHighestOrder($this->id),
+                    'permissions' => $user->getGamePerms($this->id),
+                    'ban' => $gameUser->gameBan
+                ];
+            } else {
+                return new MissingValue();
+            }
         });
     }
 
