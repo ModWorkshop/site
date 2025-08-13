@@ -12,6 +12,7 @@
                         :role="role"
                         :game="game"
                         :hovering="hoveringDrag == role"
+                        :dragged-item="draggedItem"
 
                         @drop="onDrop()"
                         @dragenter.prevent="showDropHint(role)"
@@ -76,6 +77,10 @@ const userRoleIds = computed(() => props.game ? props.game.user_data!.role_ids :
 function showDropHint(belowRole: Role) {
     if ((props.game && hasPermission('manage-roles')) || (highestRoleOrder.value && highestRoleOrder.value > ((belowRole.order || 1001) - 2))) {
         hoveringDrag.value = belowRole;
+        document.body.style.cursor = 'move';
+    } else {
+        hoveringDrag.value = undefined;
+        document.body.style.cursor = 'not-allowed';
     }
 }
 
@@ -114,6 +119,8 @@ async function onDrop() {
 
         roles.value!.data = newRoles.sort((a,b) => b.order - a.order);
         calculateHighestOrder();
+
+        document.body.style.cursor = '';
 
         await patchRequest(`${url.value}/${draggedItem.value.id}`, { order: dragged.order });
     }
