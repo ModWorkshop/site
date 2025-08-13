@@ -88,7 +88,7 @@ class RoleController extends Controller
         }
 
         if (isset($role)) {
-            if ($role->is_vanity) {
+            if ($role->is_vanity && is_bool($selfAssignable)) {
                 $val['self_assignable'] = $selfAssignable;
             }
             $role->update($val);
