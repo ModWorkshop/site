@@ -50,5 +50,8 @@ export default async function<T>(
         ...errorMessages
     });
 
-    return res;
+    return {
+        ...res,
+        data: reactive(res.data)
+    };
 }

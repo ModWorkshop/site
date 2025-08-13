@@ -1,5 +1,6 @@
 import type { SearchParameters } from 'ofetch';
 import type { DifferentFetchOptions } from './useFetchData';
+import { Paginator } from '~/types/paginator';
 
 export interface WatchedFetchManyOptions extends DifferentFetchOptions {
     onChange?: ((val: any, oldVal: any) => boolean)|null;
@@ -33,5 +34,7 @@ export default async function<T=any>(url: string|(() => string), params: SearchP
         }
     }, params, options?.onChange);
 
-    return { ...ret, loading: loading };
+    const { data } = ret;
+
+    return { ...ret, data: reactive(data ?? new Paginator()), loading: loading };
 }

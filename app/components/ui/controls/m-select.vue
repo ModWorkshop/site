@@ -143,7 +143,7 @@ const opts = computed(() => {
     if (props.options) {
         return props.options ?? [];
     } else {
-        const opts = asyncOptions.value != null ? [...asyncOptions.value.data] : [];
+        const opts = reactive(asyncOptions.value != null ? [...asyncOptions.value.data] : []);
         if (fetchedSelected.value != null) {
             for (const opt of fetchedSelected.value?.data) {
                 const val = opt ? optionValue(opt) : null;

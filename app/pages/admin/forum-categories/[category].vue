@@ -100,8 +100,8 @@ const { data: category } = await useEditResource<ForumCategory>('category', 'for
 const addedRoles = computed(() => {
     const arr: { id: number, role: Role, policy: RolePolicy }[] = [];
 
-    if (category.value.role_policies) {
-        for (const [id, policy] of Object.entries(category.value.role_policies)) {
+    if (category.role_policies) {
+        for (const [id, policy] of Object.entries(category.role_policies)) {
             const role = roles.value?.data.find(r => r.id === parseInt(id));
             if (role) {
                 arr.push({ id: parseInt(id), role, policy });
@@ -115,8 +115,8 @@ const addedRoles = computed(() => {
 const addedGameRoles = computed(() => {
     const arr: { id: number, role: Role, policy: RolePolicy }[] = [];
 
-    if (category.value.game_role_policies) {
-        for (const [id, policy] of Object.entries(category.value.game_role_policies)) {
+    if (category.game_role_policies) {
+        for (const [id, policy] of Object.entries(category.game_role_policies)) {
             const role = props.game!.roles?.find(r => r.id === parseInt(id));
             if (role) {
                 arr.push({ id: parseInt(id), role, policy });
@@ -130,26 +130,26 @@ const addedGameRoles = computed(() => {
 const validGameRoles = computed(() => props.game!.roles?.filter(role => !role.is_vanity));
 
 function addRolePolicy() {
-    if (category.value.role_policies) {
-        category.value.role_policies[addRole.value!] = { can_view: false, can_post: false };
+    if (category.role_policies) {
+        category.role_policies[addRole.value!] = { can_view: false, can_post: false };
     }
 }
 
 function removeRolePolicy(roleId: number) {
-    if (category.value.role_policies) {
-        delete category.value.role_policies[roleId];
+    if (category.role_policies) {
+        delete category.role_policies[roleId];
     }
 }
 
 function addGameRolePolicy() {
-    if (category.value.game_role_policies) {
-        category.value.game_role_policies[addGameRole.value!] = { can_view: false, can_post: false };
+    if (category.game_role_policies) {
+        category.game_role_policies[addGameRole.value!] = { can_view: false, can_post: false };
     }
 }
 
 function removeGameRolePolicy(roleId: number) {
-    if (category.value.game_role_policies) {
-        delete category.value.game_role_policies[roleId];
+    if (category.game_role_policies) {
+        delete category.game_role_policies[roleId];
     }
 }
 </script>

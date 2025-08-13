@@ -1,10 +1,10 @@
 <template>
-    <m-flex column gap="2" style="flex: 1;">
+    <m-flex column gap="4" style="flex: 1;">
         <m-flex v-if="title || $slots.title" class="items-center">
             <slot name="title">
                 <h2 v-if="title">{{title}}</h2>
             </slot>
-            <slot name="buttons" :items="compItems"/>
+            <slot name="buttons" :items="items"/>
         </m-flex>
 
 
@@ -16,20 +16,20 @@
         </m-flex>
 
         <m-pagination v-if="pagination" v-model="page" :total="total" :per-page="limit">
-            <slot name="pagination" :items="compItems"/>
+            <slot name="pagination" :items="items"/>
         </m-pagination>
 
         <m-flex column :gap="gap">
             <m-loading v-if="isLoading"/>
-            <slot v-else-if="compItems && compItems?.data.length" name="items" :items="compItems">
-                <slot v-for="item of compItems.data" :key="item.id" name="item" :item="item" :items="compItems">
-                    <m-list-item :item="item" :text-by="textBy" :to="itemLink">
+            <slot v-else-if="items.data.length" name="items" :items="items">
+                <slot v-for="item of items.data" :key="item.id" name="item" :item="item" :items="items">
+                    <m-list-item :item="item" :text-by="textBy" :to="itemLink" class="gap-3">
                         <slot name="item-name" :item="item"/>
                         <template #before-item>
-                            <slot name="before-item" :item="item"/>
+                            <slot name="before-item" :item="item" :items="items"/>
                         </template>
                         <template #item-buttons>
-                            <slot name="item-buttons" :item="item"/>
+                            <slot name="item-buttons" :item="item" :items="items"/>
                         </template>
                     </m-list-item>
                 </slot>
@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<{
     itemLink?: (item?) => string,
     pagination?: boolean,
     loading?: boolean,
-    items?: Paginator<any>|null,
+    items?: Paginator<any>,
 }>(), {
     search: false,
     gap: 1,
@@ -77,7 +77,7 @@ const page = props.query ? useRouteQuery('page', 1) : ref(vmPage.value);
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 
-const { data: items, loading: innerLoading, error } = await useWatchedFetchMany(props.url ?? '', Object.assign(props.params || {}, {
+const { data: loadedItems, loading: innerLoading, error } = await useWatchedFetchMany(props.url ?? '', Object.assign(props.params || {}, {
     page: page,
     query: queryRef,
     limit: props.limit
@@ -85,8 +85,8 @@ const { data: items, loading: innerLoading, error } = await useWatchedFetchMany(
 
 useHandleError(error);
 
-const compItems = computed<Paginator<any>|null>(() => props.items ?? items.value);
-const total = computed(() => compItems.value?.meta?.total ?? 0);
+const items = computed<Paginator<any>>(() => props.items ?? loadedItems.value ?? new Paginator());
+const total = computed(() => items.value.meta?.total ?? 0);
 const isLoading = computed(() => innerLoading.value || props.loading);
 
 watch(page, (value) => {

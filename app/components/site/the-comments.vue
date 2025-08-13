@@ -145,16 +145,13 @@ if (focusComment.value) {
     page.value = foundPage.value;
 }
 
-const { data: comments, refresh: loadComments } = await useFetchMany<Comment>(props.url, {
-    immediate: (!props.lazy || !!focusComment?.value) && !route.params.comment,
-    params: reactive({
-        page,
-        limit: 20
-    })
-});
+const { data: comments, execute: loadComments } = await useWatchedFetchMany<Comment>(
+    props.url, 
+    { page, limit: 20 },
+    { immediate: (!props.lazy || !!focusComment?.value) && !route.params.comment }
+);
 
 watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
-watch(page, loadComments);
 
 let lastTimeout: NodeJS.Timeout;
 watch([commentContent, mentionRange], async () => {

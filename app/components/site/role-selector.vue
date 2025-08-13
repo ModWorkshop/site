@@ -1,6 +1,6 @@
 <template>
     <m-select
-        v-model="user.role_ids"
+        v-model="roleIds"
         multiple
         url="roles"
         :label="$t('roles')"
@@ -15,7 +15,7 @@
     />
     <m-select
         v-if="currentGame"
-        v-model="user.game_role_ids"
+        v-model="gameRoleIds"
         :url="`games/${currentGame?.id}/roles`"
         multiple
         :disabled="user.id !== me?.id && !hasPermission('manage-roles', currentGame)"
@@ -46,6 +46,9 @@ const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 const showError = useQuickErrorToast();
+
+const roleIds = reactive(props.user.role_ids ?? []);
+const gameRoleIds = reactive(props.user.game_role_ids ?? []);
 
 let prevGameRoles, prevRoles;
 

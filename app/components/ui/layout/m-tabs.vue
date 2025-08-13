@@ -77,7 +77,7 @@ function refreshTabs() {
     tabs.value = getCurrentTabs();
 
     // Check if our current tab exists, otherwise fallback to the first.
-    if (tabs.value.length > 0) {
+    if (tabs.value.length > 0 && tabs.value[0]) {
         if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current, true)) {
             tabState.current = tabs.value[0].name;
         }
