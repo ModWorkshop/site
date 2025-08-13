@@ -3,10 +3,10 @@
         <Title>{{$t('customize')}}</Title>
         <m-flex class="content-block p-6" column gap="2">
             <m-alert v-if="!allowCookies" color="warning">
-                You chose to not allow for cookies to be set, so your preferences will not be saved. If you want to save your preferences, please allow cookies.
+                {{ $t('customize_cookie_alert') }}
                 <m-button class="mr-auto" to="cookies">{{ $t('cookie_policy') }}</m-button>
             </m-alert>
-            <h2>Site-Wide</h2>
+            <h2>{{ $t('site_wide') }}</h2>
             <m-flex class="p-4" column gap="4">
                 <m-input :label="$t('theme')">
                     <m-toggle-group v-model:selected="theme" class="text-xl" gap="1" button-style="button">
@@ -29,7 +29,7 @@
                     </m-select>
                 </m-flex>
                 <m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code" :label="$t('color')"/>
-                <m-input v-model="useRelativeTime" type="checkbox" :label="$t('use_relative_time')" desc="Makes some time labels show as time ago, for example '1 hour ago'"/>
+                <m-input v-model="useRelativeTime" type="checkbox" :label="$t('use_relative_time')" :desc="$t('use_relative_time_desc')"/>
             </m-flex>
             <h2>Mods</h2>
             <m-flex class="p-4" column gap="4">
