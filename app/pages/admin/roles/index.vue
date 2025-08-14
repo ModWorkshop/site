@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <m-flex column gap="3">
         <m-flex>
             <m-input v-model="query" :label="$t('search')"/>
-            <m-button class="mt-auto" :to="`${adminUrl}/new`">{{ $t('new') }}</m-button>
+            <m-button class="mt-auto" style="margin-bottom: 2px;" :to="`${adminUrl}/new`">{{ $t('new') }}</m-button>
         </m-flex>
         <m-list v-model:page="page" query :loading="loading" :items="roles">
             <template #items>
@@ -24,7 +24,7 @@
                 </TransitionGroup>
             </template>
         </m-list>
-    </div>
+    </m-flex>
 </template>
 
 <script setup lang="ts">

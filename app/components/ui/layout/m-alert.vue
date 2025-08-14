@@ -73,6 +73,7 @@ const classes = computed(() => {
     background-color: var(--content-bg-color);
     border-radius: var(--border-radius);
     border-left: solid 3px transparent;
+    box-shadow: var(--content-box-shadow);
 }
 .alert-success {
     background-color: var(--success-bg-color);

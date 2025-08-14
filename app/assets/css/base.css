@@ -193,10 +193,7 @@ body {
     --light-float-bg-color: #d2d3d5;
     --light-kbd-bg: #a8a8a8;
     --light-breadcrumb-secondary: #8f8f8f;
-    --light-content-box-shadow: #000 0px 0px 0px 0px,
-                #000 0px 0px 0px 0px,
-                #000 0px 0px 0px 0px,
-                oklab(0.37 0.00354074 -0.0125085 / 0.4) 0px 0px 0px 1px;
+    --light-content-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08), 0 0.5px 1.5px 0 rgba(0,0,0,0.04);
 }
 
 html.dark {
@@ -234,10 +231,7 @@ html.dark {
     --kbd-bg: var(--dark-kbd-bg);
     --breadcrumb-secondary: var(--dark-breadcrumb-secondary);
     --float-bg-color: var(--dark-float-bg-color);
-    --dark-content-box-shadow: #000 0px 0px 0px 0px,
-                #000 0px 0px 0px 0px,
-                #000 0px 0px 0px 0px,
-                oklab(0.37 0.00354074 -0.0125085 / 0.4) 0px 0px 0px 1px;
+    --dark-content-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.1), 0 0.5px 1.5px 0 rgba(0,0,0,0.1);
 
     color-scheme: dark;
 }

@@ -84,7 +84,5 @@ watch(() => store.colorScheme, val => {
     savedColorScheme.value = val;
 });
 
-watch(theme, val => {
-    store.setTheme(val);
-});
+watch(theme, val => store.setTheme(val));
 </script>

@@ -21,7 +21,7 @@
                             {{ $t('expired') }}
                         </div>
                     </m-flex>
-                    <m-button class="ml-auto self-center" @click="removeSupporter(item)"><i-mdi-trash/> {{$t('stop')}}</m-button>
+                    <m-button class="ml-auto self-center" @click="removeSupporter(item)"><i-mdi-stop/> {{$t('stop')}}</m-button>
                 </m-flex>
             </template>
         </m-list>
