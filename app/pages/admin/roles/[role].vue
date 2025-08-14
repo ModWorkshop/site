@@ -67,7 +67,7 @@ const member = computed(() => roles.value?.data[0]);
 const { data: permissions } = await useFetchMany<Permission>('/permissions');
 
 const validPerms = computed(() => {
-    if (!gameId.value && role.id === 1) {
+    if (!gameId.value && role.value.id === 1) {
         return permissions.value?.data;
     } else {
         return permissions.value?.data.filter(perm => {
@@ -86,9 +86,9 @@ const validPerms = computed(() => {
 });
 
 function togglePermission(perm: string) {
-    if (role.permissions) {
-        if (!role.permissions[perm]) {
-            delete role.permissions[perm];
+    if (role.value.permissions) {
+        if (!role.value.permissions[perm]) {
+            delete role.value.permissions[perm];
         }
     }
 }

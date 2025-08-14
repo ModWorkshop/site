@@ -1,6 +1,6 @@
 import type { SearchParameters } from "ofetch";
-import type { Reactive } from "vue";
 import { useI18n } from "vue-i18n";
+import clone from 'rfdc/default';
 
 export default async function<T extends object>(name: string, url: string, template: T|null=null, params?: SearchParameters) {
     const route = useRoute();
@@ -9,7 +9,7 @@ export default async function<T extends object>(name: string, url: string, templ
     const id = route.params[`${name}`];
 
     if (template && (id === undefined || id == 'new')) {
-        return { data: reactive(template) };
+        return { data: ref(clone(template)) as Ref<T> };
     }
     else {
         const res = await useFetchData<T>(`${url}/${id}`, { params });
@@ -22,11 +22,9 @@ export default async function<T extends object>(name: string, url: string, templ
         return {
             refresh: res.refresh,
             error: res.error,
-            // This gets handled, in this function we DO NOT expect a null/undefined result
-            // If it does return that, then there's something wrong.
-            // This function clearly returns either a template or errors in case something goes wrong.
-            // Why? So I don't have to write if if if a million times in places I don't expect it to be null...
-            data: reactive(res.data as T) as Reactive<T>,
+            // No idea why this is necessary, but this seems to fix reactivity issues
+            // If anyone has a better way to handle this + m-form I would be happy for a pull
+            data: ref(clone(res.data.value as T)) as Ref<T>,
         };
     }
 }

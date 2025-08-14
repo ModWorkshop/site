@@ -95,7 +95,7 @@ const { data: categories } = await useFetchMany<Category>(`games/${gameId}/categ
 
 const validCategories = computed(() => categories.value?.data.filter(cat => {
     //Don't include the category itself
-    if (cat.id === category.id) {
+    if (cat.id === category.value.id) {
         return false;
     }
 
@@ -104,15 +104,15 @@ const validCategories = computed(() => categories.value?.data.filter(cat => {
     }
 
     //Don't include any child categories to avoid circular reference
-    return cat.parent_id != category.id;
+    return cat.parent_id != category.value.id;
 }) || []);
 
 
-const validMoveCategories = computed(() => categories.value?.data.filter(cat => cat.id !== category.id) || []);
+const validMoveCategories = computed(() => categories.value?.data.filter(cat => cat.id !== category.value.id) || []);
 
 async function moveMods() {
     try {
-        await patchRequest(`categories/${category.id}/mods`, {
+        await patchRequest(`categories/${category.value.id}/mods`, {
             category_id: moveModsCategoryId.value,
             are_you_sure: areYouSure.value
         });
