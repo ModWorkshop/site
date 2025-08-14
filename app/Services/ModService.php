@@ -72,7 +72,13 @@ class ModService {
             } else if ($sortBy === 'name') {
                 $query->orderBy('name');
             } else if ($sortBy === 'best_match') {
-                $query->orderByRaw("lower(name) = lower(?) DESC, name ILIKE '%' || ? || '%' DESC, name % ? DESC", [$name, $name, $name]);
+                $query->orderByRaw(
+                    "lower(name) = lower(?) DESC, 
+                    name ILIKE '%' || ? || '%' DESC, 
+                    similarity(name, ?) DESC",
+                    
+                    [$name, $name, $name]
+                );
             } else {
                 if ($sortBy === 'published_at') {
                     $query->orderByRaw('published_at DESC NULLS LAST');
