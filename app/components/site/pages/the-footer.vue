@@ -2,13 +2,26 @@
     <footer class="content-block" ref="footerElement">
         <m-flex column class="p-4 footer-content" gap="8">
             <div class="footer-links">
-                <m-flex class="items-center mb-auto footer-customize">
-                    <m-select v-model="store.colorScheme" style="width: 220px;" :options="colors">
-                        <template #any-option="{option}">
-                            <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{$t(`color_${option.id}`)}}
-                        </template>
-                    </m-select>
-                    <m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code"/>
+                <m-flex column class="mb-auto footer-customize" gap="3">
+                    <m-flex class="items-center">
+                        <m-select v-model="store.colorScheme" style="width: 220px;" :options="colors">
+                            <template #any-option="{option}">
+                                <div class="circle" :style="{backgroundColor: `var(--mws-${option.id})`, marginTop: '2px'}"/> {{$t(`color_${option.id}`)}}
+                            </template>
+                        </m-select>
+                        <m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code"/>
+                    </m-flex>
+                    <m-toggle-group v-model:selected="theme" gap="1" button-style="button" class="mr-auto">
+                        <m-toggle-group-item value="system" class="flex-1">
+                            <i-mdi-devices/>
+                        </m-toggle-group-item>
+                        <m-toggle-group-item value="dark" class="flex-1">
+                            <i-mdi-weather-night/>
+                        </m-toggle-group-item>
+                        <m-toggle-group-item value="light" class="flex-1">
+                            <i-mdi-white-balance-sunny/>
+                        </m-toggle-group-item>
+                    </m-toggle-group>
                 </m-flex>
                 <m-flex column gap="4" style="grid-area: pages;">
                     <m-link @click="scrollToTop">{{$t('return_to_top')}}</m-link>
@@ -58,6 +71,7 @@ const { public: runtimeConfig } = useRuntimeConfig();
 const i18n = useI18n();
 const store = useStore();
 const footerElement = ref();
+const theme = ref<'dark'|'light'|'system'>(store.theme ?? 'dark');
 
 const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpiration() });
 const savedLocale = useConsentedCookie<string>('locale', { expires: longExpiration() });
@@ -72,9 +86,8 @@ watch(locale, val => {
     savedLocale.value = val;
 });
 
-watch(() => store.colorScheme, val => {
-    savedColorScheme.value = val;
-});
+watch(() => store.colorScheme, val => savedColorScheme.value = val);
+watch(theme, val => store.setTheme(val));
 
 const colors: { id: string }[] = [];
 
