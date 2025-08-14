@@ -82,7 +82,11 @@ class Category extends Model
     protected $casts = [
         'last_date' => 'datetime',
         'computed_breadcrumb' => 'array',
-        'computed_children' => 'array'
+        'computed_children' => 'array',
+        'hidden' => 'boolean',
+        'grid' => 'boolean',
+        'approval_only' => 'boolean',
+        'disable_mod_managers' => 'boolean',
     ];
 
     public function getMorphClass(): string {
