@@ -543,6 +543,14 @@ class ModController extends Controller
         // Send to discord about this
         $moderator = $this->user();
         $send = [Setting::getValue('discord_approval_webhook')];
+        AuditLog::log(
+            type: 'mod_approve_status',
+            auditable: $mod,
+            data: [
+                'status' => $approve,
+                'reason' => $val['reason']
+            ]
+        );
         if (count($send)) {
             $siteUrl = env('FRONTEND_URL');
             $status = $approve ? 'approved' : 'rejected';
@@ -552,14 +560,6 @@ class ModController extends Controller
                 $mod->id
             ]);
         }
-        AuditLog::log(
-            type: 'mod_approve_status',
-            auditable: $mod,
-            data: [
-                'status' => $status,
-                'reason' => $reason
-            ]
-        );
     }
 
     /**
@@ -615,6 +615,15 @@ class ModController extends Controller
         }
 
         $mod->update(['suspended' => $suspend]);
+       AuditLog::log(
+            type: 'mod_suspend_status',
+            auditable: $mod,
+            data: [
+                'status' => $suspend,
+                'reason' => $reason
+            ]
+        );
+
         // Send to discord about this
         $send = [Setting::getValue('discord_suspension_webhook')];
         if (count($send)) {
@@ -633,15 +642,6 @@ class ModController extends Controller
 
             Utils::sendDiscordMessage($send, $message, [$mod->name, $mod->id]);
         }
-
-        AuditLog::log(
-            type: 'mod_suspend_status',
-            auditable: $mod,
-            data: [
-                'status' => $status,
-                'reason' => $reason
-            ]
-        );
 
         return $suspension;
     }

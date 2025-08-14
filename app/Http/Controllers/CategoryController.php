@@ -152,10 +152,11 @@ class CategoryController extends Controller
             abort(406, 'You must tick the are you sure to do this action!');
         }
 
+        $newCategory = Category::whereId($val['category_id'])->first();
+
         AuditLog::log('category_mass_move_mods', $category, [
             'mod_ids' => $category->mods()->pluck('id')->toArray(),
-            'category_id' => $val['category_id'] ?? null
-        ]);
+        ], context: $newCategory);
 
         $category->mods()->update([
             'category_id' => $val['category_id']
