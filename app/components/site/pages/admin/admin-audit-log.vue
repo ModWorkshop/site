@@ -32,7 +32,7 @@
                                 <span v-else>"{{ log.context_name ?? 'Unknown' }}"</span>
                             </template>
                             <template #custom>
-                                {{ renderCustom(log) }}
+                                {{ custom }}
                             </template>
                         </i18n-t>
                     </m-flex>
@@ -43,7 +43,7 @@
                 </div>
             </summary>
             
-            <div class="audit-details" v-if="log.data">
+            <div class="audit-details" v-if="hasContent">
                 <m-flex v-if="log.data.changes && Object.entries(log.data.changes).length" column gap="3">
                     <m-flex column>
                         <span v-for="(change, key) in log.data.changes" :key="key">
@@ -59,6 +59,9 @@
                             </template>
                         </span>
                     </m-flex>
+                </m-flex>
+                <m-flex v-if="customDetails">
+                    {{customDetails}}
                 </m-flex>
             </div>
         </details>
@@ -88,7 +91,7 @@ const hasContent = computed(() => {
         return false;
     }
 
-    return log.data.changes || log.data.added || log.data.removed;
+    return !!log.data.changes || customDetails.value;
 });
 
 const admin = computed(() => hasPermission('admin'));
@@ -102,15 +105,28 @@ useI18n({
             log_delete: '{user} deleted {auditable_type} {auditable} {associated_context}',
             log_update: '{user} updated {auditable_type} {auditable}',
             log_create: '{user} created {auditable_type} {auditable}',
+            log_mod_approve_status: '{user} has {custom} {auditable}',
+            log_mod_suspend_status: '{user} has {custom} {auditable}',
+            log_category_mass_move_mods: '{user} moved {auditable} mods to {context}'
         }
     }
 });
 
-function renderCustom(item) {
-    if (item.type == 'ban') {
-        return item.data.with.expire_date ? `until ${item.data.with.expire_date}` : 'permanently';
+const custom = computed(() => {
+    if (log.type == 'ban') {
+        return log.data.with.expire_date ? `until ${log.data.with.expire_date}` : 'permanently';
+    } else if (log.type == 'mod_approve_status') {
+        return log.data.status ? 'approved' : 'rejected';
+    } else if (log.type == 'mod_suspend_status') {
+        return log.data.status ? 'suspended' : 'unsuspended';
     }
-}
+})
+
+const customDetails = computed(() => {
+    if (log.type == 'mod_approve_status' || log.type == 'mod_suspend_status') {
+        return 'Reason: ' + log.data.reason;
+    }
+})
 
 async function deleteModLog(item: AuditLog, items: AuditLog[]) {
     try {
