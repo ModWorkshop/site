@@ -53,7 +53,7 @@ if (!user || !adminGamePagePerms.some(perm => hasPermission(perm, game))) {
 
 const moderateUsers = computed(() => hasPermission('moderate-users', game));
 const manageMods = computed(() => hasPermission('manage-mods', game));
-const canSeeModLogs = computed(() => hasPermission('can-see-audit-log'));
+const canSeeAuditLog = computed(() => hasPermission('can-see-audit-log'));
 
 const root = computed(() => route.fullPath.match(/\/(g|game)\/([a-z-0-9_]+)\/admin/)?.[0] ?? `/g/${game.id}/admin`);
 </script>
