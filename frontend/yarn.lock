@@ -8570,7 +8570,7 @@ __metadata:
     textarea-caret: ^3.1.0
     typescript: ^5.6.3
     unplugin-icons: ^22.0.0
-    unplugin-vue-components: ^28.5.0
+    unplugin-vue-components: ^29.0.0
     vue-tsc: ^3.0.5
   languageName: unknown
   linkType: soft
@@ -12123,9 +12123,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-vue-components@npm:^28.5.0":
-  version: 28.8.0
-  resolution: "unplugin-vue-components@npm:28.8.0"
+"unplugin-vue-components@npm:^29.0.0":
+  version: 29.0.0
+  resolution: "unplugin-vue-components@npm:29.0.0"
   dependencies:
     chokidar: ^3.6.0
     debug: ^4.4.1
@@ -12144,7 +12144,7 @@ __metadata:
       optional: true
     "@nuxt/kit":
       optional: true
-  checksum: 7816988d426930d04846dd72db0b130a53feeb95051907c84786dae7ee5b07ca0b86ba83af4cc512d5f2a7cd1d9d5d460a572fb09ef7e6c52be59b1ebea541eb
+  checksum: 2cfbc8b01d810caf282311400cfe6e935c74eb08ab7a8826daecc42d7ae8e80d08d417c910803f85039589c19fdfb78eb07fe47b6c149734617c49947128e226
   languageName: node
   linkType: hard
 
