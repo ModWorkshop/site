@@ -3804,26 +3804,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/components@npm:^12.7.0":
-  version: 12.8.2
-  resolution: "@vueuse/components@npm:12.8.2"
+"@vueuse/components@npm:^13.6.0":
+  version: 13.6.0
+  resolution: "@vueuse/components@npm:13.6.0"
   dependencies:
-    "@vueuse/core": 12.8.2
-    "@vueuse/shared": 12.8.2
-    vue: ^3.5.13
-  checksum: e30fe4a2fc52effab5294ee5b9241f32512ab6ed83c15f9b21450beef3557d5634f8b337c40a78f0a4a5beee8788808dc7aa88c09d0731d696b61c099da75149
-  languageName: node
-  linkType: hard
-
-"@vueuse/core@npm:12.8.2":
-  version: 12.8.2
-  resolution: "@vueuse/core@npm:12.8.2"
-  dependencies:
-    "@types/web-bluetooth": ^0.0.21
-    "@vueuse/metadata": 12.8.2
-    "@vueuse/shared": 12.8.2
-    vue: ^3.5.13
-  checksum: e8749b85c0c1a4e000f65b77e13037e0177cc0c43aa86fab0d90c1c7d9a1a9fb6b1d90461b9b599c51fce5acf201370f0cdf8dc3a5eda5acb2e982227cc2dc23
+    "@vueuse/core": 13.6.0
+    "@vueuse/shared": 13.6.0
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: a7c79dd8b08767b50a9b610119b9d3ed8ba32c311f46cbdcdafe2143c3e1937da480d8ee742f006c8588aba0b7c897c4c40a5b31a1d082cd037e055a0c52c7e1
   languageName: node
   linkType: hard
 
@@ -3859,13 +3848,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/metadata@npm:12.8.2":
-  version: 12.8.2
-  resolution: "@vueuse/metadata@npm:12.8.2"
-  checksum: 4fae302c2eb24970fd1946a0f25c81a99a3bbd1d12a43670ef7c2cbfe921a68ef98b1511a055cae8a37f2cf1ce625b88f726572b55dd15689e5201ad7714c667
-  languageName: node
-  linkType: hard
-
 "@vueuse/metadata@npm:13.6.0":
   version: 13.6.0
   resolution: "@vueuse/metadata@npm:13.6.0"
@@ -3894,15 +3876,6 @@ __metadata:
   dependencies:
     vue-demi: ">=0.14.8"
   checksum: c8553126ba2a260fee6bc1798c67f6d90295021bb25c72218c87e169f7d7374bac0777a9f64670f4126f5c7e9c2ec603286ed1810cb8c7961f4b44e4cd4d6f4f
-  languageName: node
-  linkType: hard
-
-"@vueuse/shared@npm:12.8.2":
-  version: 12.8.2
-  resolution: "@vueuse/shared@npm:12.8.2"
-  dependencies:
-    vue: ^3.5.13
-  checksum: 41400fe8a375782e9a64f262ee7a900fd28de40767f63dad1624eff4a109eea14e88766f6fae5fe72c9f6ef84ea7600447d94ad37bec97ee34cc62560ad90dd7
   languageName: node
   linkType: hard
 
@@ -8540,7 +8513,7 @@ __metadata:
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^8.39.1
     "@typescript-eslint/parser": ^8.39.1
-    "@vueuse/components": ^12.7.0
+    "@vueuse/components": ^13.6.0
     "@vueuse/core": ^13.0.0
     "@vueuse/nuxt": ^13.1.0
     axios: ^1.7.9
@@ -12730,7 +12703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.19, vue@npm:^3.4, vue@npm:^3.5.13, vue@npm:^3.5.18":
+"vue@npm:^3.2.19, vue@npm:^3.4, vue@npm:^3.5.18":
   version: 3.5.18
   resolution: "vue@npm:3.5.18"
   dependencies:
