@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      target: dev
+      context: './backend'
+    env_file: ./backend/.env
+    volumes: [./sites/backend:/app]
+    ports: [8000:8000]
+
+  frontend:
+    build:
+      context: './frontend'
+      dockerfile: Dockerfile-dev
+    env_file: ./frontend/.env
+    working_dir: /var/www/html
+    volumes: [./sites/frontend:/var/www/html]
+    ports: [3000:3000]
+
+  db:
+    build: ./postgres
+    shm_size: 1G
+    ports: [5432:5432]
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mws
+      PGUSER: postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./postgres/scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  adminer:
+    image: dockette/adminer
+    environment: [UPLOAD=4096M]
+    ports: [9002:80]
+
+  cache:
+    image: redis:7-alpine
+    container_name: cache
+    command: [redis-server]

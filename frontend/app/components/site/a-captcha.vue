@@ -1,5 +1,5 @@
 <template>
-    <VueHcaptcha ref="captchaRef" :sitekey="config.hcaptchaSiteKey" @verify="onVerifyCaptcha"/>
+    <VueHcaptcha v-if="config.hcaptchaSiteKey" ref="captchaRef" :sitekey="config.hcaptchaSiteKey" @verify="onVerifyCaptcha"/>
 </template>
 
 <script setup lang="ts">
