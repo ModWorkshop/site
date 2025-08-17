@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Arr;
+use Illuminate\Http\Request;
+use App\Http\Resources\BaseResource;
+
+class RoleResource extends BaseResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'tag' => $this->tag,
+            'color' => $this->color,
+            'order' => $this->order,
+            'is_vanity' => $this->is_vanity,
+            'assignable' => ($this->is_vanity && $this->self_assignable) || $this->canBeEdited(),
+            'self_assignable' => $this->self_assignable,
+            'permissions' => $this->whenLoaded('permissions', function() {
+                $permissions = [];
+
+                foreach ($this->permissions as $permission) {
+                    $permissions[$permission->name] = true;
+                }
+
+                return (object)$permissions; //Forces JSON to treat this as an object and NOT an array for some dumb reason.
+            })
+        ];
+    }
+}

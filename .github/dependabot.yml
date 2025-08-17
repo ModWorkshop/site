@@ -5,8 +5,14 @@
 
 version: 2
 updates:
+  - package-ecosystem: "composer" # See documentation for possible values
+    directory: "/backend/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "/frontend/" # Location of package manifests
     schedule:
       interval: "weekly"
     target-branch: "main"

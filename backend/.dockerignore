@@ -1,0 +1,7 @@
+_ide_helper*
+.editorconfig
+.env.example
+tests/
+.styleci.yml
+phpunit.xml
+.gitignore
