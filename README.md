@@ -16,3 +16,4 @@ On Windows you'll need WSL2.
 1. On Windows, you **should** place the folders in the distro of your choice, otherwise the performance is unbearable.
 2. Default email: admin@modworkshop.net and password: admin.
 3. The defaults are meant to be convenient for development they are not to be used in production. Make sure to setup with more care for production.
+4. Due to the complexity of getting PHP setup (libraries + config), we currently don't have a dockerless guide.

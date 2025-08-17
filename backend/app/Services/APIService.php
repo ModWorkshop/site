@@ -387,7 +387,7 @@ class APIService {
     }
 
     public static function checkCaptcha(Request $request) {
-        if (app()->isProduction()) {
+        if (app()->isProduction() && !empty(env('HCAPTCHA_SITEKEY'))) {
             $request->validate([
                 'h-captcha-response' => ['required', 'hcaptcha'],
             ], [
