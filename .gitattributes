@@ -1,2 +1,0 @@
-*.txt text eol=lf
-Dockerfile-* linguist-language=Dockerfile

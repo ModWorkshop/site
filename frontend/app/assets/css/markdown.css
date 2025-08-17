@@ -1,0 +1,123 @@
+.markdown {
+    word-break: break-word;
+}
+
+.markdown .spoiler-block, .markdown table {
+	margin-bottom: 16px;
+}
+
+.markdown iframe {
+	display: block;
+	max-width: 100%;
+}
+
+.markdown h1, .markdown h2 {
+	border-bottom: 1px solid #424242;
+	padding-bottom: 0.5em;
+}
+
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+	margin-bottom: 1rem;
+}
+
+.markdown hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 1px solid #424242;
+	background:#424242;
+}
+
+.markdown img {
+	max-height: 250px !important;
+	max-width: 100%;
+	display: block;
+}
+
+.markdown li {
+	margin-bottom: 0.5rem;
+}
+
+.task-list-item {
+	list-style-type: none;
+}
+
+.center {
+	text-align: center;
+	display: block;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center div, .center img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.spoiler {
+	padding: 1rem !important;
+	background-color: var(--alt-content-bg-color);
+}
+
+.spoiler summary:hover {
+	cursor: pointer;
+}
+
+.spoiler summary {
+	user-select: none;
+}
+
+.spoiler-body {
+	padding-top: 0.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.markdown .codeblock, blockquote, code, .spoiler {
+	margin: 0px;
+	padding: 0.4rem;
+	font-family: revert;
+	border-radius: var(--border-radius);
+}
+
+.markdown .codeblock, .hljs, blockquote, .spoiler {
+	margin-bottom: 1rem;
+}
+
+.markdown code {
+	font-size: 85%;
+	tab-size: 4;
+	display: inline-block;
+	word-break: break-word;
+    overflow-x: auto;
+	vertical-align: middle;
+}
+
+blockquote {
+	position: relative;
+}
+
+blockquote::after {
+	background: var(--primary-color);
+	border-radius: var(--border-radius);
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 3px;
+}
+
+.markdown table {
+    overflow-x: auto;
+    display: block;
+}
+
+.markdown ul, .markdown ol {
+	padding-left: 1.5rem;
+}
