@@ -1986,16 +1986,16 @@
         },
         {
             "name": "illuminatech/multipart-middleware",
-            "version": "1.1.7",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminatech/multipart-middleware.git",
-                "reference": "53616c8f6a96f388225d1cd25198a59d091e7b6b"
+                "reference": "81756fcac8f10299fa6f22f4db70ebc80535ee0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminatech/multipart-middleware/zipball/53616c8f6a96f388225d1cd25198a59d091e7b6b",
-                "reference": "53616c8f6a96f388225d1cd25198a59d091e7b6b",
+                "url": "https://api.github.com/repos/illuminatech/multipart-middleware/zipball/81756fcac8f10299fa6f22f4db70ebc80535ee0c",
+                "reference": "81756fcac8f10299fa6f22f4db70ebc80535ee0c",
                 "shasum": ""
             },
             "require": {
@@ -2050,7 +2050,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-03-06T14:39:14+00:00"
+            "time": "2025-07-14T10:30:14+00:00"
         },
         {
             "name": "jcupitt/vips",
