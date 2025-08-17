@@ -46,7 +46,7 @@
     "typescript": "^5.6.3",
     "unplugin-icons": "^22.0.0",
     "unplugin-vue-components": "^28.5.0",
-    "vue-tsc": "^2.0.16"
+    "vue-tsc": "^3.0.5"
   },
   "dependencies": {
     "@gerhobbelt/markdown-it-regexp": "^0.6.0-15",
