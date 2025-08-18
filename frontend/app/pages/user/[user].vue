@@ -14,8 +14,10 @@
                 </template>
             </m-dropdown>
 
+            <report-modal v-model:show-modal="showReportModal" resource-name="user" :url="`/users/${user.id}/reports`"/>
+
             <m-dropdown>
-                <m-button>{{ $t('more') }} <i-mdi-caret-down/></m-button>
+                <m-button><i-mdi-dots-vertical/></m-button>
                 <template #content>
                     <template v-if="isMe || canManageDiscussions">
                         <m-dropdown-item :to="`/user/${user.unique_name || user.id}`">
@@ -27,8 +29,11 @@
                         <m-dropdown-item :to="`/user/${user.unique_name || user.id}/threads`">
                             <i-mdi-forum/> {{$t('threads')}}
                         </m-dropdown-item>
+                        <div v-if="!isMe" class="dropdown-splitter"/>
                     </template>
                     <template v-if="!isMe">
+                        <m-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true"><i-mdi-flag/> {{$t('report')}}</m-dropdown-item>
+
                         <m-dropdown-item v-if="isBlocked" @click="isBlocked && blockUser()">
                             <i-mdi-account-off/> {{$t('unblock')}}
                         </m-dropdown-item>
@@ -43,18 +48,17 @@
                     </template>
                 </template>
             </m-dropdown>
-
-            <report-button v-if="!isMe" resource-name="user" :url="`users/${user.id}/reports`"/>
             
-            <m-dropdown v-if="canModerate">
+            <m-dropdown v-if="canModerate" class="ml-auto">
                 <m-button><i-mdi-caret-down/><i-mdi-gavel/> {{$t('moderation')}}</m-button>
                 <template #content>
                     <m-dropdown-item v-if="canManageUsers" :to="`/user/${user.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-dropdown-item>
                     <m-dropdown-item v-if="canModerateUsers" :to="`/admin/cases?user=${user.id}`"><i-mdi-alert-circle/> {{$t('warn')}}</m-dropdown-item>
                     <m-dropdown-item v-if="canModerateUsers" :to="`/admin/bans?user=${user.id}`"><i-mdi-alert/> {{$t('ban')}}</m-dropdown-item>
+                    <div class="dropdown-splitter"/>
                     <m-dropdown-item v-if="canManageMods" @click="showDeleteAllModsModal"><i-mdi-delete/> {{$t('delete_all_mods')}}</m-dropdown-item>
                     <m-dropdown-item v-if="canManageDiscussions" @click="showDeleteDiscussionsModal"><i-mdi-delete/> {{$t('delete_all_discussions')}}</m-dropdown-item>
-                    <m-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</m-dropdown-item>
+                    <m-dropdown-item v-if="canManageDiscussions" @click="purgeSpammer"><i-mdi-gavel/> Purge Spammer</m-dropdown-item>                    
                 </template>
             </m-dropdown>
         </m-flex>
@@ -120,6 +124,7 @@ const userBackgroundOpacity = computed(() => {
 });
 
 const tempBlockOverride = ref(false);
+const showReportModal = ref(false);
 
 async function purgeSpammer() {
     yesNoModal({

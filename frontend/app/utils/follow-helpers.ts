@@ -58,3 +58,18 @@ export async function setIgnoreGame(game: Game, status?: boolean) {
         console.log(error);
     }
 }
+
+export async function setIgnoreMod(mod: Mod, status?: boolean) {
+    try {
+        status ??= !mod.ignored;
+        if (status) {
+            await postRequest('ignored-mods', { mod_id: mod.id });
+            mod.ignored = true;
+        } else {
+            await deleteRequest(`ignored-mods/${mod.id}`);
+            mod.ignored = false;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

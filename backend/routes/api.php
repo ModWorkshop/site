@@ -24,6 +24,7 @@ use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\IgnoredModController;
 use App\Http\Controllers\ModManagerController;
 use App\Http\Controllers\ModMemberController;
 use App\Http\Controllers\NotificationController;
@@ -197,6 +198,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
     Route::resource('followed-games', FollowedGameController::class)->except('show', 'update');
     Route::resource('ignored-games', IgnoredGameController::class)->except('show', 'update');
+    Route::resource('ignored-mods', IgnoredModController::class)->except('show', 'update');
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });
 

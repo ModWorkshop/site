@@ -67,6 +67,14 @@
                     <m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{$t('unignore')}}</m-button>
                 </template>
             </m-list>
+            <m-list :title="$t('ignored_mods')" url="ignored-mods" :limit="10">
+                <template #before-item="{ item }">
+                    <game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
+                </template>
+                <template #item-buttons="{ item, items }">
+                    <m-button @click.prevent="unignoreMod(item, items.data)"><i-mdi-remove/> {{$t('unignore')}}</m-button>
+                </template>
+            </m-list>
             <m-list :title="$t('blocked_tags')" url="blocked-tags" :limit="10">
                 <template #item-name="{ item }">
                     <m-tag>{{ item.name }}</m-tag>
@@ -143,6 +151,11 @@ async function unfollowGame(game: Game, followedGames: Game[]) {
 async function unignoreGame(game: Game, ignoredGames: Game[]) {
     await setIgnoreGame(game, false);
     remove(ignoredGames, game);
+}
+
+async function unignoreMod(mod: Mod, ignoredMods: Mod[]) {
+    await setIgnoreMod(mod, false);
+    remove(ignoredMods, mod);
 }
 
 async function unblockTag(tag: Tag, blockedTags: Tag[]) {

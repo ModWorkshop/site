@@ -1,6 +1,6 @@
 <template>
-    <the-tag-notices v-if="mod.tags" :tags="mod.tags"/>
-    <m-flex v-if="hasAlerts" column gap="2">
+    <m-flex v-if="hasAlerts || mod.tags" column gap="1">
+        <the-tag-notices v-if="mod.tags" :tags="mod.tags"/>
         <m-alert v-if="mod.suspended" color="danger" :title="$t('suspended')">
             <i18n-t keypath="mod_suspended" tag="span" scope="global">
                 <template #reason>

@@ -1,9 +1,45 @@
 <template>
-    <m-flex gap="3" column>
-        <m-flex column gap="3">
-            <m-flex class="items-center">
+    <m-flex gap="3" column class="mt-2">
+        <m-flex gap="3" wrap>
+            <m-flex class="items-center" wrap>
+                <mod-status class="text-2xl mt-1" :mod="mod"/>
                 <span class="mod-title">{{mod.name}}</span>
-                <mod-status class="ml-auto text-xl" :mod="mod"/>
+            </m-flex>
+
+            <m-flex class="ml-auto mb-auto">
+                <m-dropdown :disabled="!!mod.followed" align="end">
+                    <m-button @click="mod.followed && setFollowMod(mod, false)">
+                        {{$t(mod.followed ? 'unfollow' : 'follow')}} <i-mdi-chevron-down/>
+                    </m-button>
+                    <template #content>
+                        <m-dropdown-item @click="setFollowMod(mod, true)">
+                            <i-mdi-bell/> {{$t('follow_mod_notifs')}}
+                        </m-dropdown-item>
+                        <m-dropdown-item @click="setFollowMod(mod, false)">
+                            <i-mdi-plus/> {{$t('follow')}}
+                        </m-dropdown-item>
+                    </template>
+                </m-dropdown>
+
+                <report-modal v-model:show-modal="showReportModal" resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
+
+                <m-dropdown align="end">
+                    <m-button>
+                        <i-mdi-dots-vertical/>
+                    </m-button>
+                    <template #content>
+                        <m-dropdown-item @click="copyLink">
+                            <i-mdi-link/> {{ $t('copy_link') }}
+                        </m-dropdown-item>
+                        <div class="dropdown-splitter"/>
+                        <m-dropdown-item :to="!store.user ? '/login' : undefined" @click="showReportModal = true"><i-mdi-flag/> {{$t('report')}}</m-dropdown-item>
+                        <m-dropdown-item v-if="store.user" @click="setIgnoreMod(mod)">
+                            <i-mdi-eye v-if="mod.ignored"/>
+                            <i-mdi-eye-off v-else/>
+                            {{$t(mod.ignored ? 'unignore' : 'ignore')}}
+                        </m-dropdown-item>
+                    </template>
+                </m-dropdown>
             </m-flex>
         </m-flex>
         <div class="mod-main">
@@ -35,11 +71,13 @@ import type { Mod, Comment } from '~/types/models';
 import { useI18n } from 'vue-i18n';
 const store = useStore();
 const { t } = useI18n();
+const { public: config } = useRuntimeConfig();
 
 const { mod } = defineProps<{
     mod: Mod;
 }>();
 
+const showReportModal = ref(false);
 const canEdit = computed(() => canEditMod(mod));
 const canDeleteComments = computed(() => canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game));
 const canComment = computed(() => !mod.user?.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
@@ -56,6 +94,10 @@ const cannotCommentReason = computed(() => {
         return t('cannot_comment_blocked_mod');
     }
 });
+
+function copyLink() {
+    navigator.clipboard.writeText(`${config.siteUrl}/mod/${mod.id}`);
+}
 
 function commentSpecialTag(comment: Comment) {
     if (comment.user_id === mod.user_id) {
@@ -79,7 +121,8 @@ function commentSpecialTag(comment: Comment) {
 
 <style scoped>
 .mod-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 .mod-main {

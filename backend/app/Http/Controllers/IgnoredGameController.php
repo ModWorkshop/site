@@ -51,7 +51,7 @@ class IgnoredGameController extends Controller
     }
 
     /**
-     * Delete an ignored game
+     * Delete an ignored game from ignored games
      */
     public function destroy(int $id)
     {

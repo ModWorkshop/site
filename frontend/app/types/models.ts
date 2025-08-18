@@ -160,6 +160,7 @@ export interface Mod {
     used_storage?: number;
     parser_version?: number;
     repo_url?: string;
+    ignored?: boolean;
 }
 
 export interface Breadcrumb {

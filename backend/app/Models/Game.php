@@ -177,7 +177,7 @@ class Game extends Model
     }
 
     /**
-     * Returns whether the game is followed by the authenticated user
+     * Returns whether the game is ignored by the authenticated user
      */
     public function ignored() : HasOne
     {

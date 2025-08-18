@@ -1,25 +1,13 @@
 <template>
-    <m-flex class="overflow-auto">
+    <m-flex class="overflow-auto" v-if="canEdit || canManage">
         <m-flex class="flex-shrink-0">
             <NuxtLink v-if="$route.name == 'mod-mod-edit' || $route.name == 'upload' || $route.name == 'g-game-upload'" :to="`/mod/${mod.id}`" external>
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_mod')}}</m-button>
             </NuxtLink> 
             <m-button v-else-if="canEdit" :to="`/mod/${mod.id}/edit`"><i-mdi-cog/> {{$t('edit_mod')}}</m-button>
-            <m-dropdown :disabled="!!mod.followed">
-                <m-button @click="mod.followed && setFollowMod(mod, false)">
-                    <i-mdi-minus-thick v-if="mod.followed"/>
-                    <i-mdi-plus-thick v-else/>
-                    {{$t(mod.followed ? 'unfollow' : 'follow')}}
-                </m-button>
-                <template #content>
-                    <m-dropdown-item @click="setFollowMod(mod, true)">{{$t('follow_mod_notifs')}}</m-dropdown-item>
-                    <m-dropdown-item @click="setFollowMod(mod, false)">{{$t('follow')}}</m-dropdown-item>
-                </template>
-            </m-dropdown>
-            <report-button resource-name="mod" :url="`/mods/${mod.id}/reports`"/>
             <mod-suspend v-model:show-modal="showSuspension" :button="false" :mod="mod"/>
             <m-dropdown v-if="canManage">
-                <m-button><i-mdi-gavel/> {{$t('moderation')}}</m-button>
+                <m-button><i-mdi-gavel/> {{$t('moderation')}} <i-mdi-chevron-down/></m-button>
                 <template #content>
                     <m-dropdown-item @click="showSuspension = true">{{mod.suspended ? $t('unsuspend') : $t('suspend')}}</m-dropdown-item>
                     <m-dropdown-item v-if="mod.images?.length" @click="deleteAllImages">{{$t('delete_images')}}</m-dropdown-item>

@@ -8,6 +8,7 @@
             <NuxtLink v-if="$route.name == 'thread-thread-edit'" :to="`/thread/${thread.id}`">
                 <m-button><i-mdi-arrow-left/> {{$t('return_to_thread')}}</m-button>
             </NuxtLink>
+
             <m-button v-else-if="canEdit" :to="`/thread/${thread.id}/edit`"><i-mdi-cog/> {{$t('edit')}}</m-button>
             <m-button v-if="canEdit" :disabled="(thread.locked_by_mod && !canModerate)" @click="lockThread">
                 <i-mdi-lock-open v-if="thread.locked"/>
@@ -19,12 +20,17 @@
                 <i-mdi-check-circle-outline v-else/>
                 {{thread.closed ? $t('open') : $t('close')}}
             </m-button>
-            <report-button resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
-            <m-dropdown v-if="canModerate">
-                <m-button><i-mdi-gavel/> {{$t('moderation')}}</m-button>
+
+            <report-modal v-model:show-modal="showReportModal" resource-name="thread" :url="`/threads/${thread.id}/reports`"/>
+
+            <m-dropdown>
+                <m-button><i-mdi-dots-vertical/></m-button>
                 <template #content>
-                    <m-dropdown-item @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-dropdown-item>
-                    <m-dropdown-item @click="showMoveThread = true"><i-mdi-cursor-move/> {{$t('move')}}</m-dropdown-item>
+                    <template v-if="canModerate">
+                        <m-dropdown-item @click="pinThread"><i-mdi-pin/> {{thread.pinned_at ? $t('unpin') : $t('pin')}}</m-dropdown-item>
+                        <m-dropdown-item @click="showMoveThread = true"><i-mdi-cursor-move/> {{$t('move')}}</m-dropdown-item>
+                    </template>
+                    <m-dropdown-item :to="!user ? '/login' : undefined" @click="showReportModal = true"><i-mdi-flag/> {{$t('report')}}</m-dropdown-item>
                 </template>
             </m-dropdown>
         </m-flex>
@@ -52,6 +58,8 @@ const { public: config } = useRuntimeConfig();
 const { data: thread } = await useResource<Thread>('thread', 'threads');
 
 const showMoveThread = ref(false);
+const showReportModal = ref(false);
+
 const forumId = ref(thread.value.forum_id);
 const categoryId = ref(thread.value.category_id);
 

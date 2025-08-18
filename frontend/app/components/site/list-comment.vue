@@ -36,7 +36,7 @@
                             <i-mdi-bell-off v-if="comment.subscribed"/>
                             <i-mdi-bell v-else/>
                         </m-button>
-                        <report-button v-if="user" v-model:show-modal="showReportModal" :button="false" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
+                        <report-modal v-if="user" v-model:show-modal="showReportModal" resource-name="comment" :url="`comments/${comment.id}/reports`"/>
                         <m-dropdown v-model:open="areActionsVisible" style="margin: 0; border: 0;">
                             <m-button class="cursor-pointer" size="sm">
                                 <i-mdi-dots-vertical/>

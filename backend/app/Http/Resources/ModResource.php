@@ -101,6 +101,8 @@ class ModResource extends BaseResource
             'liked' => $this->whenLoaded('liked'),
             'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),
             'used_storage' => $this->whenAppended('used_storage'),
+
+            'ignored' => $this->whenLoaded('ignored'),
         ];
     }
 }

@@ -62,21 +62,21 @@ class ModService {
         if (!isset($sortByFunc) || !$sortByFunc($query, $val)) {
             $sortBy = $val['sort'] ?? 'bumped_at';
             $name = $val['query'] ?? null;
-    
+
             if (!isset($name) && $sortBy == 'best_match') {
                 $sortBy = 'name';
             }
-    
+
             if ($sortBy === 'random') {
                 $query->orderByRaw('RANDOM()');
             } else if ($sortBy === 'name') {
                 $query->orderBy('name');
             } else if ($sortBy === 'best_match') {
                 $query->orderByRaw(
-                    "lower(name) = lower(?) DESC, 
-                    name ILIKE '%' || ? || '%' DESC, 
+                    "lower(name) = lower(?) DESC,
+                    name ILIKE '%' || ? || '%' DESC,
                     similarity(name, ?) DESC",
-                    
+
                     [$name, $name, $name]
                 );
             } else {
@@ -113,6 +113,7 @@ class ModService {
             if (isset($user) && (!isset($val['including_ignored']) || !$val['including_ignored']) && !$user->hasPermission('manage-mods', $game)) {
                 $query->whereDoesntHaveIn('blockedByMe');
                 $query->whereDoesntHaveIn('gameIgnoredByMe');
+                $query->whereDoesntHaveIn('ignored');
             }
 
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod

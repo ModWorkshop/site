@@ -6,7 +6,7 @@
             <mod-buttons :mod="mod" :static="static"/>
         </m-flex>
 
-        <m-flex column gap="4" class="mod-info content-block p-4">
+        <m-flex column gap="4" class="mod-info content-block p-6">
             <m-flex>
                 <span class="text-secondary"> <i-mdi-download/> {{ $t('downloads') }}</span>
                 <span class="ml-auto">{{downloads}}</span>
@@ -50,16 +50,27 @@
                 <span class="ml-auto">{{mod.version}}</span>
             </m-flex>
 
-            <m-flex v-if="mod.repo_url" :title="$t('repo_url')">
-                <span class="text-secondary"><i-mdi-git/> {{$t('repo_url')}} </span>
-                <NuxtLink class="ml-auto text-body" :to="mod.repo_url">{{ mod.repo_url }}</NuxtLink>
+            <m-flex v-if="mod.repo_url" :title="$t('repo_url')" gap="6">
+                <span class="text-secondary whitespace-pre"><i-mdi-git/> {{$t('repo_url')}} </span>
+                <NuxtLink class="ml-auto text-body text-right truncate" :to="mod.repo_url">{{ mod.repo_url }}</NuxtLink>
             </m-flex>
 
+            <span class="text-secondary">
+                <i-mdi-tag-multiple/> {{ $t('tags') }}
+            </span>
+            <m-flex class="items-center" wrap>
+                <m-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
+                    <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
+                </m-tag>
+            </m-flex>
+        </m-flex>
+
+        <m-flex  column gap="4" class="mod-info content-block p-6">
             <m-flex gap="2" column>
                 <span class="text-secondary">
                     <i-mdi-account-group/> {{ $t('members_tab') }}
                 </span>
-                <m-flex class="colllaborators-block" column padding="2">
+                <m-flex class="colllaborators-block pt-2" column gap="2">
                     <m-flex wrap>
                         <a-user :user="mod.user" :details="$t('owner')"/>
                         <donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
@@ -71,18 +82,8 @@
                     </m-flex>
                 </m-flex>
             </m-flex>
-            
-            <m-flex v-if="mod.tags && mod.tags.length > 0" column gap="2">
-                <span class="text-secondary">
-                    <i-mdi-tag-multiple/> {{ $t('tags') }}
-                </span>
-                <m-flex class="items-center" wrap>
-                    <m-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
-                        <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
-                    </m-tag>
-                </m-flex>
-            </m-flex>
         </m-flex>
+
         <div id="mws-ads-mod-pane" class="ad mt-1"/>
     </m-flex>
 </template>

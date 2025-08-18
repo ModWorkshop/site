@@ -322,6 +322,7 @@ class Mod extends Model implements SubscribableInterface
         $this->append('download');
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
+            $this->loadMissing('ignored');
         }
         if ($this->suspended) {
             $this->loadMissing('lastSuspension');
@@ -649,6 +650,14 @@ class Mod extends Model implements SubscribableInterface
     public function gameIgnoredByMe()
     {
         return $this->hasOne(IgnoredGame::class, 'game_id', 'game_id')->where('user_id', Auth::id());
+    }
+
+    /**
+     * Returns whether the mod is ignored by the authenticated user
+     */
+    public function ignored() : HasOne
+    {
+        return $this->hasOne(IgnoredMod::class)->where('user_id', Auth::user()?->id)->without('mod');
     }
 
     /**
