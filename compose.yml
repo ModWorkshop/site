@@ -4,7 +4,7 @@ services:
       target: dev
       context: './backend'
     env_file: ./backend/.env
-    volumes: [./sites/backend:/app]
+    volumes: [./backend:/app]
     ports: [8000:8000]
 
   frontend:
@@ -13,7 +13,7 @@ services:
       dockerfile: Dockerfile-dev
     env_file: ./frontend/.env
     working_dir: /var/www/html
-    volumes: [./sites/frontend:/var/www/html]
+    volumes: [./frontend:/var/www/html]
     ports: [3000:3000]
 
   db:
