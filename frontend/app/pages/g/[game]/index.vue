@@ -1,8 +1,5 @@
 <template>
     <m-flex column gap="3">
-        <span class="ml-auto">
-            {{$t('mod_game_count', { n: game.mods_count, game: game.name })}} <i-mdi-information/>
-        </span>
         <mod-list
             v-if="user?.extra?.game_show_mods ?? true"
             :title="$t('mods')"
@@ -13,7 +10,13 @@
             :categories="game.categories"
             query
             :game="game"
-        />
+        >
+            <template #title>
+                <span class="ml-auto">
+                    {{$t('mod_count', { n: game.mods_count })}}
+                </span>
+            </template>
+        </mod-list>
         <thread-list 
             v-if="user?.extra?.game_show_threads ?? true"
             :title="$t('threads')"

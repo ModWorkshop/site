@@ -25,7 +25,7 @@
             </TooltipTrigger>
             <TooltipPortal v-if="!disabled">
                 <TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
-                    <slot name="content"/>
+                    <slot v-if="open" name="content"/>
                     <TooltipArrow class="m-dropdown-arrow"/>
                 </TooltipContent>
             </TooltipPortal>
@@ -99,9 +99,13 @@ watch(open, () => {
     color: var(--text-color);
     border-radius: var(--border-radius);
     box-shadow: var(--content-box-shadow);
+    border: 1px solid rgba(120, 120, 120, 0.15);
     max-width: 400px;
     max-height: 450px;
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
     z-index: 9999;
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);

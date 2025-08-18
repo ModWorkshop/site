@@ -1,6 +1,9 @@
 <template>
     <m-flex column gap="3">
+        <m-flex>
         <NuxtLink v-if="title" class="h2 text-body self-start" :to="titleLink">{{title}}</NuxtLink>
+            <slot name="title"/>
+        </m-flex>
         <slot name="buttons"/>
         <m-flex class="max-md:flex-col">
             <m-flex class="overflow-auto">

@@ -137,8 +137,8 @@ body {
     --dark-alt-content-bg-color: #22262b;
     --dark-table-odd-color: hsl(213, 11%, 17%);
     --dark-alt-table-odd-color: hsl(213, 12%, 17%);
-    --dark-dropdown-bg: #1f2429;
-    --dark-dropdown-hover-bg: #2e3338;
+    --dark-dropdown-bg: #2d3339;
+    --dark-dropdown-hover-bg: hsl(210, 10%, 23%);
     --dark-dropdown-selected-bg: #252b31;
     --dark-dropdown-text-color: #ccc;
     --dark-text-color: #fff;
@@ -169,7 +169,7 @@ body {
     --light-table-odd-color: #e1e3e5;
     --light-alt-table-odd-color: #dcdde0;
     --light-dropdown-bg: #c9cbcf;
-    --light-dropdown-hover-bg: #aeb1b7;
+    --light-dropdown-hover-bg: hsl(220, 6%, 75%);
     --light-dropdown-selected-bg: #bbbec3;
     --light-dropdown-text-color: #ccc;
     --light-text-color: #404040;
@@ -191,7 +191,7 @@ body {
     --light-success-bg-color: #4fc541;
     --light-success-color: #009d0d;
     --light-float-bg-color: #d2d3d5;
-    --light-kbd-bg: #a8a8a8;
+    --light-kbd-bg: #b3b3b3;
     --light-breadcrumb-secondary: #8f8f8f;
     --light-content-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08), 0 0.5px 1.5px 0 rgba(0,0,0,0.04);
 }

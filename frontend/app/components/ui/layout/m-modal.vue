@@ -149,6 +149,7 @@ function onClickOutside() {
     color: var(--text-color);
     background-color: var(--content-bg-color);
     border-radius: var(--border-radius);
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.5rem;
 }
 </style>

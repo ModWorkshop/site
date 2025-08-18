@@ -34,20 +34,19 @@ function onClick(e) {
 <style scoped>
 .dropdown-item {
     color: var(--text-color);
+    min-width: 150px;
     text-align: left;
-    padding: 0.65rem 1.25rem;
+    padding: 0.75rem;
     border-radius: var(--border-radius);
     display: flex;
     gap: 4px;
     user-select: none;
+    transition: background-color 0.1s ease-in-out,
+        color 0.1s ease-in-out;
 }
 
 .dropdown-item[selected=true] {
     background: var(--dropdown-selected-bg);
-}
-
-.dropdown-item:hover {
-    transition: color 0.15s ease-in-out;
 }
 
 .dropdown-item:not(.disabled) {
