@@ -55,14 +55,16 @@
                 <NuxtLink class="ml-auto text-body text-right truncate" :to="mod.repo_url">{{ mod.repo_url }}</NuxtLink>
             </m-flex>
 
-            <span class="text-secondary">
-                <i-mdi-tag-multiple/> {{ $t('tags') }}
-            </span>
-            <m-flex class="items-center" wrap>
-                <m-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
-                    <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
-                </m-tag>
-            </m-flex>
+            <template v-if="mod.tags.length">
+                <span class="text-secondary">
+                    <i-mdi-tag-multiple/> {{ $t('tags') }}
+                </span>
+                <m-flex class="items-center" wrap>
+                    <m-tag v-for="tag in mod.tags" :key="tag.id" :color="tag.color">
+                        <NuxtLink class="no-hover" :to="`${tagLink}?selected-tags=${tag.id}`">{{tag.name}}</NuxtLink>
+                    </m-tag>
+                </m-flex>
+            </template>
         </m-flex>
 
         <m-flex  column gap="4" class="mod-info content-block p-6">

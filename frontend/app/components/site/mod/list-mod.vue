@@ -42,7 +42,7 @@
             </m-flex>
         </m-flex>
 
-        <m-flex class="ml-auto">
+        <m-flex class="ml-auto text-secondary">
             <m-flex gap="2" wrap>
                 <span :title="fullLikes">
                     <i-mdi-heart/> {{likes}}
