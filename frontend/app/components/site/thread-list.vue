@@ -4,7 +4,8 @@
             <NuxtLink class="text-body" :to="titleLink">{{title}}</NuxtLink>
         </span>
         <m-flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
-            <m-flex v-if="filters" class="max-md:!w-full items-center" style="width: 300px;" column gap="3">
+            <m-flex v-if="filters" class="max-md:!w-full items-center" style="width: 300px;" column :gap="adChildren > 0 ? 6 : 0">
+                <div id="mws-ads-filters" ref="filtersAd"/>
                 <m-content-block column class="w-full">
                     <m-input v-model="query" :label="$t('search')"/>
                     <m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
@@ -30,7 +31,6 @@
                         </m-toggle-group>
                     </m-flex>
                 </m-content-block>
-                <div id="mws-ads-filters"/>
             </m-flex>
             <m-flex column gap="3" style="flex: 4;">
                 <m-alert v-if="currentCategory && currentCategory.desc" color="info">
@@ -85,6 +85,9 @@ import type { ForumCategory, Game, Tag, Thread } from '~/types/models';
 import { vIntersectionObserver } from '@vueuse/components';
 
 const searchBus = useEventBus<string>('search');
+
+const filtersAd = ref();
+const adChildren = useTrackElementChildren(filtersAd);
 
 const props = withDefaults(defineProps<{
     title?: string,
@@ -172,7 +175,7 @@ watch(() => currentCategory.value?.can_close_threads, canClose => {
 const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, params });
 
 async function onVisChange(entries: IntersectionObserverEntry[]) {
-    if (entries[0].isIntersecting) {
+    if (entries[0]?.isIntersecting) {
         await refresh();
         loaded.value = true;
     }

@@ -1,7 +1,7 @@
 <template>
     <m-flex column gap="3">
         <m-flex>
-        <NuxtLink v-if="title" class="h2 text-body self-start" :to="titleLink">{{title}}</NuxtLink>
+            <NuxtLink v-if="title" class="h2 text-body self-start" :to="titleLink">{{title}}</NuxtLink>
             <slot name="title"/>
         </m-flex>
         <slot name="buttons"/>
@@ -81,11 +81,11 @@
         </m-flex>
 
         <m-flex gap="3" class="md:flex-row flex-col">
-            <m-flex v-if="sideFilters" class="max-md:!w-full items-center" column gap="3" style="width: 300px;">
+            <m-flex v-if="sideFilters" class="max-md:!w-full items-center" column :gap="adChildren > 0 ? 6 : 0" style="width: 300px;">
+                <div id="mws-ads-filters" ref="filtersAd"/>
                 <m-content-block class="mod-filters w-full">
                     <mod-filters :categories="currCategories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
                 </m-content-block>
-                <div id="mws-ads-filters" class="mb-8"/>
             </m-flex>
             <m-flex column class="flex-1">
                 <div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
@@ -156,6 +156,10 @@ const query = props.query ? useRouteQuery('query', '') : ref('');
 if (props.query) {
     searchBus.on(search => query.value = search);
 }
+
+const filtersAd = ref();
+
+const adChildren = useTrackElementChildren(filtersAd);
 
 const page = useRouteQuery('page', 1, 'number');
 const loadMorePageOverride = ref<number>();
@@ -251,7 +255,7 @@ watch(loadMorePageOverride, (newVal) => {
     if (newVal) {
         loadingButton.value = true;
         savedMods.value = currentMods.value;
-        fetchedMods.value = null;
+        fetchedMods.value = undefined;
     
         loading.value = savedMods.value.length == 0;
         planLoad();

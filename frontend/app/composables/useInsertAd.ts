@@ -32,7 +32,7 @@ export default function(name: string, cfg: NitroAdConfig) {
                 ...cfg,
                 "report": {
                     "enabled": true,
-                    "icon": true,
+                    "icon": false,
                     "wording": "Report Ad",
                     "position": "bottom-right-side",
                     ...(cfg.report ?? {})
