@@ -8,6 +8,7 @@ use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
 use App\Jobs\CheckUsersSubscriptionStatus;
 use App\Jobs\DeleteLoosePendingFiles;
+use App\Jobs\DeleteOldAuditLogs;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\RemoveExpiredRequests;
 use App\Jobs\TryActivatingUsers;
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculatePopularity)->everyFiveMinutes();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
+        $schedule->job(new DeleteOldAuditLogs)->everySixHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->job(new CheckUsersSubscriptionStatus)->everyThirtyMinutes();
