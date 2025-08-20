@@ -53,12 +53,12 @@ const l = computed(() => col.value.hsl.l);
 }
 
 html.light .tag{
-    --tag-lightness: 40%;
+    --tag-lightness: 25%;
 }
 
 @media (prefers-color-scheme: light) {
     .tag {
-        --tag-lightness: 40%;
+        --tag-lightness: 25%;
     }
 }
 
