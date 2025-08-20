@@ -321,7 +321,7 @@ class FileController extends Controller
             'file_ids.*' => 'integer|min:1',
         ]);
 
-        $files = File::whereIn('id', $val['file_ids']);
+        $files = File::whereIn('id', $val['file_ids'])->limit(100)->get();
         $onlyVersions = [];
         foreach($files as $file) {
             $onlyVersions[$file->id] = $file->version;

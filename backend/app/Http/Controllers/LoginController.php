@@ -318,17 +318,4 @@ class LoginController extends Controller
 
         return __($status);
     }
-
-    /**
-     * Returns whether or not the given token is valid
-     */
-    public function checkResetToken(Request $request): bool
-    {
-        $reset = DB::table('password_resets')->where(['email'=> $request->email])->first();
-        if (!$reset) {
-            return false;
-        }
-
-        return Hash::check($request->token, $reset->token);
-    }
 }

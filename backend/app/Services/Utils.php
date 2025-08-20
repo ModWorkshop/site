@@ -55,10 +55,19 @@ class Utils {
                 curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($handle, CURLOPT_POSTFIELDS, $data_string);
                 curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($handle, CURLOPT_TIMEOUT, 10); // shorter overall timeout
+                curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 3); // quicker connect timeout
+                curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
+                curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
+                curl_setopt($handle, CURLOPT_FAILONERROR, true);
                 curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($data_string)]);
 
-                //Execute CURL
-                curl_exec($handle);
+                // Execute and log failures
+                $result = curl_exec($handle);
+                if ($result === false) {
+                    \Log::warning('Utils::sendDiscordMessage: curl_exec failed for webhook '.($wb ?? '<unknown>').' - '.curl_error($handle));
+                }
                 curl_close($handle);
             }
         }

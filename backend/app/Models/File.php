@@ -120,7 +120,8 @@ class File extends Model
     public function downloadUrl(): Attribute
     {
         return Attribute::make(function() {
-            return Storage::disk('s3')->url('mods/files/'.$this->file)."?filename={$this->safeFileName}";
+            $encode = rawurlencode($this->safeFileName);
+            return Storage::disk('s3')->url('mods/files/'.$this->file)."?filename={$encode}&response-content-disposition=attachment";
         });
     }
 

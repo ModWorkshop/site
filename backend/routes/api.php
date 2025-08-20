@@ -216,10 +216,6 @@ Route::resource('permissions', PermissionController::class)->only(['index', 'sho
 Route::get('settings', [SettingsController::class, 'index']);
 Route::middleware('can:update,App\Models\Setting')->patch('settings', [SettingsController::class, 'update']);
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('register', [LoginController::class, 'register']);
-Route::post('logout', [LoginController::class, 'logout']);
-
 /**
  * @hideFromAPIDocumentation
  */
@@ -231,6 +227,18 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::get('social-logins/{provider}/link-redirect', [SocialLoginController::class, 'linkAccountRedirect']);
 Route::get('social-logins/{provider}/login-redirect', [LoginController::class, 'socialiteRedirect']);
 Route::post('social-logins/{provider}/login-callback', [LoginController::class, 'socialiteLogin']);
+
+# Login stuff
+Route::middleware('throttle:10,1')->group(function() {
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('register', [LoginController::class, 'register']);
+    Route::post('logout', [LoginController::class, 'logout']);
+    Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+    Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
+    Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+});
+Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:1,1'])->name('verification.send');
+Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:1,1']);
 
 Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
@@ -274,15 +282,6 @@ Route::get('site-data', function(Request $request) {
 });
 
 Route::get('admin-data', fn() => APIService::adminData());
-
-Route::get('/email/verify/{id}/{hash}', [UserController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
-Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware(['auth', 'throttle:1,1'])->name('verification.send');
-Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:1,1']);
-Route::post('/forgot-password', [LoginController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
-Route::get('/check-reset-token', [LoginController::class, 'checkResetToken']);
-// Route::get('/login', fn() => redirect(env('FRONTEND_URL').'/login'))->name('login');
-Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
-
 
 Route::get('v2API', function(Request $request) {
     $val = $request->validate([
