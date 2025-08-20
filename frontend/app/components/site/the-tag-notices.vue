@@ -1,6 +1,6 @@
 <template>
     <m-alert v-for="[noticeType, notices] of Object.entries(sortedNotices)" :key="noticeType" :color="noticeType">
-        <m-flex v-if="notices.length > 1" column class="ml-4 mt-2" gap="2">
+        <m-flex v-if="notices.length > 1" column class="m-2" gap="1">
             <li v-for="notice in notices" :key="notice.id">
                 {{ notice.localized ? $t(notice.notice) : notice.notice }}
             </li>
