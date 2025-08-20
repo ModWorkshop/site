@@ -13,6 +13,10 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4
 	},
 
+	features: {
+    	inlineStyles: true
+  	},
+
 	site: {
 		name: 'ModWorkshop',
 	},
@@ -132,7 +136,7 @@ export default defineNuxtConfig({
 	vue: {
 		propsDestructure: true
 	},
-
+	
 	components: [
 		"~/components/ui/controls",
 		"~/components/ui/layout",
