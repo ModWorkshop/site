@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:latest-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.8.0-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install supervisor -y
 
