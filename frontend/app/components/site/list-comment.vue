@@ -173,7 +173,7 @@ const creationDate = computed(() => parseISO(props.comment.created_at ?? now.val
 const canEdit = computed(() => {
     const minutesPassed = differenceInMinutes(now.value, creationDate.value);
 
-    if (minutesPassed >= 1) {
+    if (minutesPassed >= (store.settings?.edit_comment_threshold ?? 30)) {
         if (user?.id === props.comment.user_id && props.canEditResource) {
             return true;
         }
