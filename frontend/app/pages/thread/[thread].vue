@@ -1,6 +1,8 @@
 <template>
     <page-block :game="threadGame" :breadcrumb="breadcrumb">
-        <Title>{{thread.name}}</Title>
+        <Title v-if="thread.game">{{thread.name}} by {{thread.user?.name}} - {{ thread.game.name }} Forum</Title>
+        <Title v-else>{{thread.name}} by {{thread.user?.name}} - Forum</Title>
+
         <the-tag-notices v-if="thread.tags" :tags="thread.tags"/>
         <m-alert v-if="thread.locked" color="warning" :desc="lockedReason"/>
         <m-alert v-if="canCloseInCategory && thread.closed" color="info" :desc="$t('thread_closed')"/>
@@ -79,7 +81,7 @@ const thumbnail = computed(() => {
 });
 
 useSeoMeta({
-    ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
+    ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Forum` : 'ModWorkshop - Forum',
 	ogTitle: `${thread.value.name} by ${thread.value.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary',

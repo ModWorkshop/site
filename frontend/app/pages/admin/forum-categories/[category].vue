@@ -1,5 +1,8 @@
 <template>
     <simple-resource-form v-model="category" url="forum-categories" :game="game" :redirect-to="redirectUrl">
+        <Title>
+            {{ category.name }}
+        </Title>
         <m-input v-model="category.name" required :label="$t('name')"/>
         <m-input v-model="category.emoji" max="1" :label="$t('emoji')"/>
         <m-input v-model="category.display_order" :label="$t('order')" type="number"/>

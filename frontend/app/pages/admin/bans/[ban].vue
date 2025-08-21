@@ -1,5 +1,6 @@
 <template>
     <simple-resource-form v-model="ban" url="bans" :game="game">
+        <Title>Ban of {{ ban.user.name }}</Title>
         <m-duration v-model="ban.expire_date" :label="$t('duration')"/>
         <m-input v-model="ban.reason" type="textarea" :label="$t('reason')"/>
         <m-input v-model="ban.can_appeal" type="checkbox" :label="$t('can_appeal')"/>

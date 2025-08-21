@@ -7,6 +7,9 @@
         :can-save="canSaveOverride"
         :merge-params="mergeParams"
     >
+        <Title>
+            {{ manager.name }}
+        </Title>
         <!-- <m-img-uploader id="image" v-model="imageBlob" :label="$t('thumbnail')" :src="manager.image" url-prefix="mod-managers" width="200"/> -->
         <m-input v-model="manager.name" :label="$t('name')"/>
         <m-input v-model="manager.site_url" :label="$t('manager_site_url')" :desc="$t('manager_site_url_desc')"/>

@@ -1,6 +1,6 @@
 <template>
     <page-block v-if="game" :game="game" :breadcrumb="breadcrumb" show-background>
-        <Title>{{ game.name }} Mods</Title>
+        <Title>{{ game.name }}</Title>
         <NuxtPage :game="game" :mods="mods"/>
     </page-block>
 </template>

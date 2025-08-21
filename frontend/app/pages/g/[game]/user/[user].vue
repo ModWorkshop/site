@@ -1,5 +1,7 @@
 <template>
     <m-content-block class="page-block-2xs">
+        <Title>{{ game.name }} Game Settings</Title>
+
         <a-user :user="user"/>
         <m-flex gap="3" class="p-4 input-bg" column>
             <m-select

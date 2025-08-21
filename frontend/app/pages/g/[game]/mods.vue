@@ -1,4 +1,5 @@
 <template>
+    <Title>{{ game.name }} Mods</Title>
     <mod-list 
         :game="game"
         :url="`games/${game.id}/mods`"

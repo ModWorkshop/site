@@ -136,6 +136,7 @@ class BanController extends Controller
      */
     public function show(Ban $ban)
     {
+        $ban->load('user');
         return $ban;
     }
 

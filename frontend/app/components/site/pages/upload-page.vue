@@ -1,5 +1,6 @@
 <template>
     <mod-page :mod="newMod" :use-page-block="!game">
+        <Title>Upload Mod</Title>
         <m-flex column gap="3">
             <edit-mod-page v-model:mod="newMod"/>
         </m-flex>

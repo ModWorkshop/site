@@ -1,5 +1,6 @@
 <template>
     <simple-resource-form v-model="userCase" url="user-cases" :game="game">
+        <Title>Case of {{ userCase.user.name }}</Title>
         <m-input v-model="userCase.active" type="checkbox" :label="$t('active')"/>
         <m-duration v-model="userCase.expire_date" :label="$t('duration')"/>
         <m-input v-model="userCase.reason" type="textarea" :label="$t('reason')"/>
