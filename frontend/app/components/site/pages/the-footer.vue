@@ -46,7 +46,7 @@
             <m-flex gap="3" class="flex-1 items-center place-content-center" wrap>
                 <m-flex column gap="2">
                     <span>
-                        ModWorkshop {{ runtimeConfig.version }} ({{ commitHash }}) Made With ❤ By <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
+                        ModWorkshop {{ runtimeConfig.version }} (<NuxtLink :to="`https://github.com/ModWorkshop/site/commit/{commitHash}`">{{ commitHash }}</NuxtLink>) Made With ❤ By <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
                     </span>
                     <m-flex class="items-center">
                         Operated By <m-img class="inline-block" src="milk_deluxe.webp" loading="lazy" is-asset width="40" height="24" alt="CompanyLogo"/> Milk Deluxe
