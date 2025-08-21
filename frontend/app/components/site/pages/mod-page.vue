@@ -39,7 +39,7 @@ const thumbnail = computed(() => {
     }
 });
 
-useServerSeoMeta({
+useSeoMeta({
     ogSiteName: `ModWorkshop - ${mod.value.game?.name} - Mod`,
     author: mod.value.user?.name,
 	ogTitle: `${mod.value.name} by ${mod.value.user?.name}`,

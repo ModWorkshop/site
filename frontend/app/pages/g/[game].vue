@@ -38,7 +38,7 @@ if (route.name == 'g-game') {
 
 const desc = `Browse ${shortStat(game.value.mods_count!)} ${game.value.name} mods. Find a big variety of mods to customize ${game.value.name} on ModWorkshop!`;
 
-useServerSeoMeta({
+useSeoMeta({
     ogSiteName: `ModWorkshop - ${game.value.name}`,
 	ogTitle: `${game.value.name}`,
 	description: desc,

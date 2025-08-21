@@ -78,7 +78,7 @@ const thumbnail = computed(() => {
     }
 });
 
-useServerSeoMeta({
+useSeoMeta({
     ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
 	ogTitle: `${thread.value.name} by ${thread.value.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
