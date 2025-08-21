@@ -29,12 +29,15 @@
 
 <script setup lang="ts">
 import type { Settings } from '~/types/models';
+import clone from 'rfdc/default';
 useNeedsPermission('admin');
 
 const showError = useQuickErrorToast();
 const flushChanges = createEventHook();
 
-const { data: settings } = await useFetchData<Settings>('settings');
+const { data } = await useFetchData<Settings>('settings');
+
+const settings = ref(clone(data.value));
 
 async function submit() {
     try {
