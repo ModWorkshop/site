@@ -46,6 +46,7 @@ class SettingsController extends Controller
             'discord_webhook' => 'string|nullable|max:255',
             'discord_suspension_webhook' => 'string|nullable|max:255',
             'discord_approval_webhook' => 'string|nullable|max:255',
+            'edit_comment_threshold' => 'integer'
         ]);
 
         APIService::nullToEmptyStr($val,
