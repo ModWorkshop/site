@@ -116,27 +116,29 @@ class APIService {
             return null;
         }
 
-        $img = '';
-        if (strlen($file) > 0) {
-            $opts = isset(animated[$file->extension()]) ? '[n=-1]' : '';
+        $img = null;
+        $fileType = null;
+        if ($file instanceof UploadedFile) {
+            $opts = (animated[$file->extension()] ?? false) ? '[n=-1]' : '';
+            \Log::info('storeImage', ['opts' => $opts]);
             $img = Vips\Image::newFromFile($file->path().$opts);
+            $fileType = $file->extension();
         }
 
-        return self::storeImageByObject($img, $fileDir, $oldFile, $config, $file->extension());
+        return self::storeImageByObject($img, $fileDir, $oldFile, $config, $fileType);
     }
 
-    public static function storeImageByObject(Vips\Image|string|null $img, string $fileDir, ?string $oldFile=null, array $config = [], $fileType=null) {
+    public static function storeImageByObject(Vips\Image|null $img, string $fileDir, ?string $oldFile=null, array $config = [], $fileType=null) {
         $config['allowDeletion'] ??= false;
 
-        $isEmptyFile = strlen($img) == 0;
-        if ((!$isEmptyFile || ($isEmptyFile && $config['allowDeletion'])) && isset($oldFile) && !str_contains($oldFile, 'http')) {
+        $noFile = !isset($img);
+        if ((!$noFile || ($noFile && $config['allowDeletion'])) && isset($oldFile) && !str_contains($oldFile, 'http')) {
             $oldFile = preg_replace('/\?t=\d+/', '', $oldFile);
             Storage::delete($fileDir.'/'.$oldFile);
             Storage::delete($fileDir.'/thumbnail_'.$oldFile);
         }
 
-        // Empty file means delete the file and that's it
-        if ($isEmptyFile) {
+        if ($noFile) {
             if ($config['allowDeletion'] && isset($config['onSuccess'])) {
                 $config['onSuccess']('');
             }
