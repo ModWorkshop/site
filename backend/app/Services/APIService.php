@@ -31,8 +31,8 @@ use Str;
 const animated = [
     'gif' => true,
     'webp' => true,
-    'avif' => true,
-    'jxl' => true
+    'avif' => false, // Currently disabled due to https://github.com/libvips/libvips/issues/3629 (Upstream https://github.com/strukturag/libheif/issues/377)
+    'jxl' => true // Maybe one day 😭 https://caniuse.com/jpegxl
     // 'png' => true, https://github.com/libvips/libvips/issues/2537
     // 'apng' => true
 ];
