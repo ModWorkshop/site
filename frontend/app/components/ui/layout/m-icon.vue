@@ -1,12 +1,12 @@
 <template>
-    <span>
-        <component :is="icon" :size="size"/>
-    </span>
+	<span>
+		<component :is="icon" :size="size"/>
+	</span>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-    icon: Component;
-    size?: string;
+	icon: Component;
+	size?: string;
 }>();
 </script>

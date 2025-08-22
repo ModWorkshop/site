@@ -1,5 +1,5 @@
 <template>
-    <edit-thread-page v-model="thread" :game="thread.game"/>
+	<edit-thread-page v-model="thread" :game="thread.game"/>
 </template>
 
 <script setup lang="ts">

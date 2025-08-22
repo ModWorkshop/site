@@ -1,21 +1,21 @@
 <template>
-    <m-flex column>
-        <category-tree :categories="categories?.data">
-            <template #buttons>
-                <m-button class="ml-auto" to="categories/new">{{$t('new')}}</m-button>
-            </template>
-            <template #button="{category}">
-                <m-button class="ml-auto" :to="`${gameUrl}/${category.id}`"><i-mdi-cog/> {{$t('edit')}}</m-button>
-            </template>
-        </category-tree>
-    </m-flex>
+	<m-flex column>
+		<category-tree :categories="categories?.data">
+			<template #buttons>
+				<m-button class="ml-auto" to="categories/new">{{ $t('new') }}</m-button>
+			</template>
+			<template #button="{ category }">
+				<m-button class="ml-auto" :to="`${gameUrl}/${category.id}`"><i-mdi-cog/> {{ $t('edit') }}</m-button>
+			</template>
+		</category-tree>
+	</m-flex>
 </template>
 
 <script setup lang="ts">
 import type { Category, Game } from '~/types/models';
 
 const props = defineProps<{
-    game: Game
+	game: Game;
 }>();
 
 useNeedsPermission('manage-categories', props.game);

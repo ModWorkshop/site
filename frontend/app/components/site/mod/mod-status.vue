@@ -1,5 +1,5 @@
 <template>
-    <m-icon v-if="status" :icon="status[0]" :class="status[2] ?? 'text-secondary'" :title="$t(status[1])"/>
+	<m-icon v-if="status" :icon="status[0]" :class="status[2] ?? 'text-secondary'" :title="$t(status[1])"/>
 </template>
 
 <script setup lang="ts">
@@ -13,28 +13,28 @@ import MdiDownloadOff from '~icons/mdi/download-off';
 import MdiLock from '~icons/mdi/lock';
 
 const props = defineProps<{
-    mod: Mod
+	mod: Mod;
 }>();
 
-const status = computed<[Component, string, string?]|null>(() => {
-    const mod = props.mod;
+const status = computed<[Component, string, string?] | null>(() => {
+	const mod = props.mod;
 
-    if (mod.suspended) {
-        return [MdiCancel, 'suspended', 'text-danger'];
-    } else if (mod.approved === null) {
-        return [MdiClock, 'mod_waiting', 'text-warning'];
-    } else if (mod.approved === false) {
-        return [MdiCloseThick, 'mod_rejected', 'text-danger'];
-    } else if (!mod.has_download) {
-        return [MdiDownloadOff, 'no_downloads', 'text-warning'];
-    }  else if (mod.visibility == 'public' && !mod.published_at) {
-        return [MdiNewspaperRemove, 'not_published', 'text-warning'];
-    } else if (mod.visibility == 'unlisted') {
-        return [MdiEyeOff, 'unlisted'];
-    } else if (mod.visibility == 'private') {
-        return [MdiLock, 'private'];
-    }
+	if (mod.suspended) {
+		return [MdiCancel, 'suspended', 'text-danger'];
+	} else if (mod.approved === null) {
+		return [MdiClock, 'mod_waiting', 'text-warning'];
+	} else if (mod.approved === false) {
+		return [MdiCloseThick, 'mod_rejected', 'text-danger'];
+	} else if (!mod.has_download) {
+		return [MdiDownloadOff, 'no_downloads', 'text-warning'];
+	} else if (mod.visibility == 'public' && !mod.published_at) {
+		return [MdiNewspaperRemove, 'not_published', 'text-warning'];
+	} else if (mod.visibility == 'unlisted') {
+		return [MdiEyeOff, 'unlisted'];
+	} else if (mod.visibility == 'private') {
+		return [MdiLock, 'private'];
+	}
 
-    return null;
+	return null;
 });
 </script>

@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <Title>{{$t('threads')}}</Title>
-        <thread-list no-pins :user-id="user.id"/>
-    </div>
+	<div>
+		<Title>{{ $t('threads') }}</Title>
+		<thread-list no-pins :user-id="user.id"/>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -12,10 +12,10 @@ import type { User } from '~/types/models';
 const { user: me } = useStore();
 
 const { user } = defineProps<{
-    user: User
+	user: User;
 }>();
 
 if (user.id != me?.id) {
-    useNeedsPermission('manage-discussions');
+	useNeedsPermission('manage-discussions');
 }
 </script>

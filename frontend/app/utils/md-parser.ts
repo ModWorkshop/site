@@ -1,4 +1,4 @@
-import MarkdownIt  from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 
 import taskLists from 'markdown-it-task-lists';
 import hljs from 'highlight.js/lib/core';
@@ -56,8 +56,7 @@ const md = MarkdownIt({
 				hl = hljs.highlightAuto(str).value;
 			}
 			return `<pre><code class="hljs">${hl}</code></pre>`;
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 
@@ -65,8 +64,8 @@ const md = MarkdownIt({
 	}
 });
 
-md.linkify.set({fuzzyLink: false});
-md.linkify.add("//", null); // No clue why this is supported
+md.linkify.set({ fuzzyLink: false });
+md.linkify.add('//', null); // No clue why this is supported
 
 container(md, 'center', {
 	marker: ':',
@@ -82,7 +81,7 @@ container(md, 'center', {
 
 container(md, 'spoiler', {
 	marker: '!',
-	render: function(tokens, idx) {
+	render: function (tokens, idx) {
 		const token = tokens[idx];
 		if (token.nesting === 1) {
 			let title = token.info;
@@ -101,7 +100,7 @@ container(md, 'spoiler', {
  * Why? There's already a way to write bold text and it is the most popular - **Bold!**
  * In Discord which is a popular social media, people use __Underlne__ and it just makes sense.
  */
-md.renderer.rules.strong_close = md.renderer.rules.strong_open = function(tokens, idx, opts, _, slf) {
+md.renderer.rules.strong_close = md.renderer.rules.strong_open = function (tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
 	if (token.markup === '__') {
 		token.tag = 'u';
@@ -114,7 +113,7 @@ md.use(mention);
 md.use(markdownItColorInline);
 md.use(taskLists);
 
-md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
+md.renderer.rules.color_open = function (tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
 	if (token.info) {
 		if (getContrast(token.info, '#2b3036') < 2.9) { // Prevents bad colors from being used
@@ -126,16 +125,20 @@ md.renderer.rules.color_open = function(tokens, idx, opts, _, slf) {
 
 export function parseMarkdown(text: string, removeTags = false) {
 	if (removeTags) {
-		return text ? DOMPurify.sanitize(md.render(text), { 
+		return text
+			? DOMPurify.sanitize(md.render(text), {
 				ALLOWED_TAGS: [
 					'p',
 					'br'
-				],
-		}) : '';
+				]
+			})
+			: '';
 	} else {
-		return text ? DOMPurify.sanitize(md.render(text), {
-			ADD_TAGS: ['iframe'],
-			ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
-		}) : '';
+		return text
+			? DOMPurify.sanitize(md.render(text), {
+				ADD_TAGS: ['iframe'],
+				ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen']
+			})
+			: '';
 	}
 }

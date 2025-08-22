@@ -1,19 +1,19 @@
 <template>
-    <m-flex wrap>
-        <slot/>
-    </m-flex>
+	<m-flex wrap>
+		<slot/>
+	</m-flex>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-    selected: [String, Number],
-    buttonStyle: String
+	selected: [String, Number],
+	buttonStyle: String
 });
 
 const selected = toRef(props, 'selected');
 
 const emit = defineEmits([
-    'update:selected'
+	'update:selected'
 ]);
 
 provide('selected', selected);

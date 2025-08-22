@@ -1,22 +1,22 @@
-export default function(elementRef: Ref<HTMLElement>) {
-    const count = ref(0);
-    let observer: MutationObserver|undefined;
-    onMounted(() => {
-        if (elementRef.value) {
-            count.value = elementRef.value.children.length;
-    
-            observer = new MutationObserver(() => count.value = elementRef.value.children.length);
-    
-            observer.observe(elementRef.value, { childList: true });
-        }
-    });
+export default function (elementRef: Ref<HTMLElement>) {
+	const count = ref(0);
+	let observer: MutationObserver | undefined;
+	onMounted(() => {
+		if (elementRef.value) {
+			count.value = elementRef.value.children.length;
 
-    onBeforeUnmount(() => {
-        if (observer) {
-            observer.disconnect();
-            observer = undefined;
-        }
-    });
+			observer = new MutationObserver(() => count.value = elementRef.value.children.length);
 
-    return count;
+			observer.observe(elementRef.value, { childList: true });
+		}
+	});
+
+	onBeforeUnmount(() => {
+		if (observer) {
+			observer.disconnect();
+			observer = undefined;
+		}
+	});
+
+	return count;
 }

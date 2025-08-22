@@ -1,5 +1,5 @@
 <template>
-    <page-block>
-        <forum-page/>
-    </page-block>
+	<page-block>
+		<forum-page/>
+	</page-block>
 </template>

@@ -1,3 +1,3 @@
 <template>
-    <upload-page/>
+	<upload-page/>
 </template>

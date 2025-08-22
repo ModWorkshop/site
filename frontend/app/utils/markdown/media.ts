@@ -24,12 +24,12 @@ const validVideoExtensions = ['mp4', 'm4v', 'ogv', 'webm', 'mpg', 'mpeg', 'avi']
  * @typedef {Object} MessagesObj
  */
 let messages = {
-  en: {
-    'html5 video not supported': 'Your browser does not support playing HTML5 video.',
-    'html5 audio not supported': 'Your browser does not support playing HTML5 audio.',
-    'html5 media fallback link': 'You can <a href="%s" download>download the file</a> instead.',
-    'html5 media description': 'Here is a description of the content: %s'
-  }
+	en: {
+		'html5 video not supported': 'Your browser does not support playing HTML5 video.',
+		'html5 audio not supported': 'Your browser does not support playing HTML5 audio.',
+		'html5 media fallback link': 'You can <a href="%s" download>download the file</a> instead.',
+		'html5 media description': 'Here is a description of the content: %s'
+	}
 };
 
 /**
@@ -45,8 +45,7 @@ let messages = {
  * @returns
  *  the translation to use
  */
-let translate = function(language: string, messageKey: string, messageParams?: string[]) {
-
+let translate = function (language: string, messageKey: string, messageParams?: string[]) {
 	// Revert back to English default if no message object, or no translation
 	// for this language
 	if (!messages[language] || !messages[language][messageKey])
@@ -63,7 +62,6 @@ let translate = function(language: string, messageKey: string, messageParams?: s
 
 	return message;
 };
-
 
 /**
  * A fork of the built-in image tokenizer which guesses video/audio files based
@@ -138,13 +136,13 @@ function tokenizeImagesAndMedia(state: any, silent: boolean, md: MarkdownIt): bo
 			title = res.str;
 			pos = res.pos;
 
-		// [link](  <href>  "title"  )
-		//                         ^^ skipping these spaces
-		for (; pos < max; pos++) {
-			code = state.src.charCodeAt(pos);
-			if (!md.utils.isSpace(code) && code !== 0x0A)
-				break;
-		}
+			// [link](  <href>  "title"  )
+			//                         ^^ skipping these spaces
+			for (; pos < max; pos++) {
+				code = state.src.charCodeAt(pos);
+				if (!md.utils.isSpace(code) && code !== 0x0A)
+					break;
+			}
 		} else {
 			title = '';
 		}
@@ -248,12 +246,15 @@ function guessMediaType(url: string): string {
 	if (extensionMatch === null)
 		return 'image';
 	const extension = extensionMatch[1];
-	if (validAudioExtensions.indexOf(extension.toLowerCase()) != -1)
-		return 'audio';
-	else if (validVideoExtensions.indexOf(extension.toLowerCase()) != -1)
-		return 'video';
-	else
-		return 'image';
+
+	if (extension) {
+		if (validAudioExtensions.indexOf(extension.toLowerCase()) != -1)
+			return 'audio';
+		else if (validVideoExtensions.indexOf(extension.toLowerCase()) != -1)
+			return 'video';
+	}
+
+	return 'image';
 }
 
 function makeIFrame(src: string, w = 560, h = 315) {
@@ -271,7 +272,7 @@ function renderIframe(url, md: MarkdownIt) {
 	const youtubeData = shortYoutubeRegex.exec(url) || fullYoutubeRegex.exec(url);
 	if (youtubeData) {
 		const data = youtubeData.map(data => md.utils.escapeHtml(data) as string);
-		return makeIFrame(`https://www.youtube.com/embed/${data[1]}?rel=0${data[2] ? '&t='+data[2] : ''}`);
+		return makeIFrame(`https://www.youtube.com/embed/${data[1]}?rel=0${data[2] ? '&t=' + data[2] : ''}`);
 	}
 
 	const streamable = streamableRegex.exec(url);
@@ -290,14 +291,13 @@ function renderIframe(url, md: MarkdownIt) {
 	}
 }
 
-
 /**
  * Render tokens of the video/audio type to HTML5 tags
  */
 function renderMedia(tokens: Token[], idx: number, options: Options, env, md: MarkdownIt, videoAttrs?: string, audioAttrs?: string): string {
 	const token = tokens[idx];
 	const type = token.type;
-	if (type !== 'video' && type !== 'audio' && type !== 'iframe' || !token.attrs)
+	if ((type !== 'video' && type !== 'audio' && type !== 'iframe') || !token.attrs)
 		return '';
 
 	let attrs;
@@ -320,29 +320,28 @@ function renderMedia(tokens: Token[], idx: number, options: Options, env, md: Ma
 	}
 
 	// Title is set like this: ![descriptive text](video.mp4 "title")
-	const title = token.attrIndex('title') != -1 ?
-		` title="${md.utils.escapeHtml(token.attrs[token.attrIndex('title')][1])}"` :
-		'';
+	const title = token.attrIndex('title') != -1
+		? ` title="${md.utils.escapeHtml(token.attrs[token.attrIndex('title')][1])}"`
+		: '';
 
-	const fallbackText = translate(env.language, `html5 ${type} not supported`) + '\n' +
-		translate(env.language, 'html5 media fallback link', [url]);
+	const fallbackText = translate(env.language, `html5 ${type} not supported`) + '\n'
+	  + translate(env.language, 'html5 media fallback link', [url]);
 
-	const description = token.content ?
-		'\n' + translate(env.language, 'html5 media description', [md.utils.escapeHtml(token.content)]) :
-		'';
+	const description = token.content
+		? '\n' + translate(env.language, 'html5 media description', [md.utils.escapeHtml(token.content)])
+		: '';
 
-	return `<${type} src="${url}"${title}${attrs}>\n` +
-		`${fallbackText}${description}\n` +
-		`</${type}>`;
+	return `<${type} src="${url}"${title}${attrs}>\n`
+	  + `${fallbackText}${description}\n`
+	  + `</${type}>`;
 }
-
 
 type MediaOptions = {
-	videoAttrs?: string,
-	audioAttrs?: string,
-	translateFn?: (str: string) => string,
-	messages?: any
-}
+	videoAttrs?: string;
+	audioAttrs?: string;
+	translateFn?: (str: string) => string;
+	messages?: any;
+};
 
 /**
  * The main plugin function, exported as module.exports

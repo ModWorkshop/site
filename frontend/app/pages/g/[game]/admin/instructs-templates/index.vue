@@ -1,17 +1,17 @@
 <template>
-    <m-list 
-        query 
-        :new-button="`${url}/new`"
-        :url="`games/${gameId}/instructs-templates`" 
-        :item-link="item => `${url}/${item.id}`" 
-    />
+	<m-list
+		query
+		:new-button="`${url}/new`"
+		:url="`games/${gameId}/instructs-templates`"
+		:item-link="item => `${url}/${item.id}`"
+	/>
 </template>
 
 <script setup lang="ts">
 import type { Game } from '~/types/models';
 
 const props = defineProps<{
-    game: Game
+	game: Game;
 }>();
 
 useNeedsPermission('manage-instructions', props.game);

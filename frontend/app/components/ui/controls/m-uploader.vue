@@ -1,70 +1,70 @@
 <template>
-    <m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="e => register(e.dataTransfer.files)">
-        <label :class="classes" :for="`${name}-file-browser-open`">
-            <span class="text-3xl">
-                {{$t('file_uploader_drop')}}
-                <template v-if="maxFiles">({{vm.length}}/{{maxFiles}})</template>
-            </span>
-        </label>
-        <input 
-            :id="`${name}-file-browser-open`"
-            ref="input" 
-            :disabled="disabled || reachedMaxFiles"
-            type="file"
-            hidden
-            multiple
-            @change="e => register((e.target as HTMLInputElement).files)"
-        >
-        <m-flex v-if="list" column>
-            <template v-if="combinedFiles.length">
-                <m-uploader-list-file 
-                    v-for="file of combinedFiles"
-                    :key="file.created_at"
-                    :file="file"
-                    :paused="paused"
-                    :paused-reason="pausedReason"
-                    @remove="removeFileDialog"
-                >
-                    <template #before-info>
-                        <slot name="before-info" :file="file"/>
-                    </template>
-                    <template #after-info>
-                        <slot name="after-info" :file="file"/>
-                    </template>
-                    <template #before-buttons>
-                        <slot name="before-buttons" :file="file"/>
-                    </template>
-                    <template #after-buttons>
-                        <slot name="after-buttons" :file="file"/>
-                    </template>
-                </m-uploader-list-file>
-            </template>
-            <span v-else colspan="100" class="text-center p-4">
-                {{$t('nothing_found')}}
-            </span>
-        </m-flex>
-        <div v-else class="grid file-list p-3 alt-content-bg">
-            <template v-if="combinedFiles.length">
-                <div v-for="file of combinedFiles" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
-                    <m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
-                    <m-flex class="file-options">
-                        <div v-if="file.progress?.progress" class="file-progress" :style="{width: (file.progress?.progress * 100) + '%'}"/>
-                        <m-flex column class="file-buttons">
-                            <span v-if="paused" class="self-center">{{pausedReason ?? $t('waiting')}}</span>
-                            <span v-if="file.progress?.progress" class="self-center">{{$t('uploading', [file.progress?.progress * 100])}}</span>
-                            <m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
-                            <span class="self-center">{{friendlySize(file.size)}}</span>
-                            <slot name="buttons" :file="file"/>
-                            <m-button color="danger" @click="removeFileDialog(file)"><i-mdi-delete/> {{$t('delete')}}</m-button>
-                        </m-flex>
-                    </m-flex>
-                </div>
-            </template>
-            <span v-else class="text-center p-4" style="grid-column: 1 / span max;">
-                {{$t('nothing_found')}}
-            </span>
-        </div>
-    </m-flex>
+	<m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="e => register(e.dataTransfer.files)">
+		<label :class="classes" :for="`${name}-file-browser-open`">
+			<span class="text-3xl">
+				{{ $t('file_uploader_drop') }}
+				<template v-if="maxFiles">({{ vm.length }}/{{ maxFiles }})</template>
+			</span>
+		</label>
+		<input
+			:id="`${name}-file-browser-open`"
+			ref="input"
+			:disabled="disabled || reachedMaxFiles"
+			type="file"
+			hidden
+			multiple
+			@change="e => register((e.target as HTMLInputElement).files)"
+		>
+		<m-flex v-if="list" column>
+			<template v-if="combinedFiles.length">
+				<m-uploader-list-file
+					v-for="file of combinedFiles"
+					:key="file.created_at"
+					:file="file"
+					:paused="paused"
+					:paused-reason="pausedReason"
+					@remove="removeFileDialog"
+				>
+					<template #before-info>
+						<slot name="before-info" :file="file"/>
+					</template>
+					<template #after-info>
+						<slot name="after-info" :file="file"/>
+					</template>
+					<template #before-buttons>
+						<slot name="before-buttons" :file="file"/>
+					</template>
+					<template #after-buttons>
+						<slot name="after-buttons" :file="file"/>
+					</template>
+				</m-uploader-list-file>
+			</template>
+			<span v-else colspan="100" class="text-center p-4">
+				{{ $t('nothing_found') }}
+			</span>
+		</m-flex>
+		<div v-else class="grid file-list p-3 alt-content-bg">
+			<template v-if="combinedFiles.length">
+				<div v-for="file of combinedFiles" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
+					<m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
+					<m-flex class="file-options">
+						<div v-if="file.progress?.progress" class="file-progress" :style="{ width: (file.progress?.progress * 100) + '%' }"/>
+						<m-flex column class="file-buttons">
+							<span v-if="paused" class="self-center">{{ pausedReason ?? $t('waiting') }}</span>
+							<span v-if="file.progress?.progress" class="self-center">{{ $t('uploading', [file.progress?.progress * 100]) }}</span>
+							<m-time v-else-if="file.created_at" class="self-center" :datetime="file.created_at"/>
+							<span class="self-center">{{ friendlySize(file.size) }}</span>
+							<slot name="buttons" :file="file"/>
+							<m-button color="danger" @click="removeFileDialog(file)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
+						</m-flex>
+					</m-flex>
+				</div>
+			</template>
+			<span v-else class="text-center p-4" style="grid-column: 1 / span max;">
+				{{ $t('nothing_found') }}
+			</span>
+		</div>
+	</m-flex>
 </template>
 
 <script setup lang="ts">
@@ -75,34 +75,34 @@ import { remove } from '@antfu/utils';
 import type { UploadFile } from '~/types/core';
 
 const emit = defineEmits([
-    'file-begin',
-    'file-uploaded',
-    'file-deleted',
+	'file-begin',
+	'file-uploaded',
+	'file-deleted'
 ]);
 
 const props = defineProps<{
-    list?: boolean,
-    disabled?: boolean,
-    paused?: boolean,
-    pausedReason?: string,
-    url: string,
-    uploadUrl: string,
-    urlPrefix?: string,
-    useFileAsThumb?: boolean,
-    name: string,
-    extensions?: string[],
-    maxFileSize?: number|string,
-    maxSize: number|string,
-    maxFiles?: number|string,
-    askBeforeRemove?: boolean,
-     // Uploads a file in 3 stages: get url -> upload -> confirm completion
-     // For this to work, you need to have something like this: files/get-upload-url
-     /**
+	list?: boolean;
+	disabled?: boolean;
+	paused?: boolean;
+	pausedReason?: string;
+	url: string;
+	uploadUrl: string;
+	urlPrefix?: string;
+	useFileAsThumb?: boolean;
+	name: string;
+	extensions?: string[];
+	maxFileSize?: number | string;
+	maxSize: number | string;
+	maxFiles?: number | string;
+	askBeforeRemove?: boolean;
+	// Uploads a file in 3 stages: get url -> upload -> confirm completion
+	// For this to work, you need to have something like this: files/get-upload-url
+	/**
       * Uploads a file in 3 stages: get url -> upload -> confirm completion
       * For this to work, you need to have something like this: files/get-upload-url
       * That should return { id: number, url }
       */
-    presignedUpload?: boolean
+	presignedUpload?: boolean;
 }>();
 
 const { showToast } = useToaster();
@@ -110,41 +110,41 @@ const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const yesNoModal = useYesNoModal();
 
-const vm = defineModel<UploadFile[]>({ default: [] }) ;
+const vm = defineModel<UploadFile[]>({ default: [] });
 const uploadingFiles = ref<UploadFile[]>([]);
 
-const combinedFiles = computed(() => ([ ...uploadingFiles.value, ...vm.value ]))
+const combinedFiles = computed(() => ([...uploadingFiles.value, ...vm.value]));
 
 function getFileThumb(file: UploadFile) {
-    if (file.thumbnail) {
-        return file.thumbnail;
-    }
+	if (file.thumbnail) {
+		return file.thumbnail;
+	}
 
-    let thumb = props.useFileAsThumb ? file.file : null;
-    if (file.has_thumb) {
-        thumb = 'thumbnail_' + thumb;
-    }
+	let thumb = props.useFileAsThumb ? file.file : null;
+	if (file.has_thumb) {
+		thumb = 'thumbnail_' + thumb;
+	}
 
-    return thumb;
+	return thumb;
 }
 
 const classes = computed(() => {
-    return {
-        'alt-content-bg': true,
-        round: true,
-        'p-6': true,
-        'text-center': true,
-        'upload-area': true,
-        'upload-area-disabled': reachedMaxFiles.value || props.disabled
-    };
+	return {
+		'alt-content-bg': true,
+		'round': true,
+		'p-6': true,
+		'text-center': true,
+		'upload-area': true,
+		'upload-area-disabled': reachedMaxFiles.value || props.disabled
+	};
 });
 
 const input = ref();
 const reachedMaxFiles = computed<boolean>(() => {
-    if (!props.maxFiles) {
-        return false;
-    }
-    return vm.value.length >= (typeof(props.maxFiles) == "string" ? parseInt(props.maxFiles) : props.maxFiles);
+	if (!props.maxFiles) {
+		return false;
+	}
+	return vm.value.length >= (typeof (props.maxFiles) == 'string' ? parseInt(props.maxFiles) : props.maxFiles);
 });
 const usedSize = computed(() => vm.value.reduce((prev, curr) => prev + curr.size, 0));
 
@@ -154,244 +154,242 @@ const maxSizeBytes = computed(() => parseInt(props.maxSize as string));
 watch(() => props.paused, uploadWaitingFiles);
 
 function removeFile(file: UploadFile) {
-    remove(vm.value, file);
-    remove(uploadingFiles.value, file);
+	remove(vm.value, file);
+	remove(uploadingFiles.value, file);
 }
 
 /**
  * Handles the actual upload of the file(s)
  */
-function register(files: FileList|null) {
-    if (!files) {
-        return;
-    }
+function register(files: FileList | null) {
+	if (!files) {
+		return;
+	}
 
-    for (const file of files) {
-        if (maxFileSizeBytes.value && file.size > maxFileSizeBytes.value) {
-            showToast({ 
-                desc: t('file_name_too_large', { name: file.name }),
-                color: 'danger'
-            });
-            continue;
-        }
+	for (const file of files) {
+		if (maxFileSizeBytes.value && file.size > maxFileSizeBytes.value) {
+			showToast({
+				desc: t('file_name_too_large', { name: file.name }),
+				color: 'danger'
+			});
+			continue;
+		}
 
-        if (file.size + usedSize.value > maxSizeBytes.value) {
-            showToast({ 
-                desc: t('file_name_too_large_max_size', { name: file.name }),
-                color: 'danger'
-            });
-            continue;
-        }
+		if (file.size + usedSize.value > maxSizeBytes.value) {
+			showToast({
+				desc: t('file_name_too_large_max_size', { name: file.name }),
+				color: 'danger'
+			});
+			continue;
+		}
 
-        if (reachedMaxFiles.value) {
-            showToast({ desc: `You cannot upload more files`, color: 'danger' });
-        }
-        else {
-            const insertFile: UploadFile = {
-                id: 0,
-                name: file.name,
-                size: file.size,
-                downloads: 0,
-                display_order: 0,
-                thumbnail: (props.useFileAsThumb ? window.URL.createObjectURL(file) : undefined) ?? '/assets/no-preview.webp',
-                file: '',
-                type: '',
-                waiting: true,
-                actualFile: file
-            };
+		if (reachedMaxFiles.value) {
+			showToast({ desc: `You cannot upload more files`, color: 'danger' });
+		} else {
+			const insertFile: UploadFile = {
+				id: 0,
+				name: file.name,
+				size: file.size,
+				downloads: 0,
+				display_order: 0,
+				thumbnail: (props.useFileAsThumb ? window.URL.createObjectURL(file) : undefined) ?? '/assets/no-preview.webp',
+				file: '',
+				type: '',
+				waiting: true,
+				actualFile: file
+			};
 
-            uploadingFiles.value.push(insertFile);
-            emit('file-begin', insertFile);
-        }
-    }
-    input.value.value = null;
-    uploadWaitingFiles();
+			uploadingFiles.value.push(insertFile);
+			emit('file-begin', insertFile);
+		}
+	}
+	input.value.value = null;
+	uploadWaitingFiles();
 }
 
 async function uploadWaitingFiles() {
-    if (props.paused) {
-        return;
-    }
+	if (props.paused) {
+		return;
+	}
 
-    for (const uploadFile of uploadingFiles.value) {
-        if (uploadFile.waiting) {
-            uploadFile.waiting = false;
+	for (const uploadFile of uploadingFiles.value) {
+		if (uploadFile.waiting) {
+			uploadFile.waiting = false;
 
-            if (props.presignedUpload) {
-                startThreeStageUpload(uploadFile);
-            } else {
-                startUpload(uploadFile);
-            }
-        }
-    }
+			if (props.presignedUpload) {
+				startThreeStageUpload(uploadFile);
+			} else {
+				startUpload(uploadFile);
+			}
+		}
+	}
 }
 
 async function startUpload(uploadFile: UploadFile) {
-    if (!uploadFile.actualFile) {
-        return;
-    }
+	if (!uploadFile.actualFile) {
+		return;
+	}
 
-    const formData = new FormData();
-    formData.append('file', uploadFile.actualFile);
+	const formData = new FormData();
+	formData.append('file', uploadFile.actualFile);
 
-    try {
-        const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
-            headers: {'Content-Type': 'multipart/form-data'},
-            onUploadProgress: function(progressEvent) {
-                if (progressEvent.progress) {
-                    uploadFile.progress = progressEvent;
-                }
-            },
-            cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
-        });
-        
-        Object.assign(uploadFile, data);
-        uploadFile.thumbnail = undefined;
-        uploadFile.cancel = undefined;
-        uploadFile.progress = undefined;
+	try {
+		const data = await postRequest<MWSFile>(props.uploadUrl, formData, {
+			headers: { 'Content-Type': 'multipart/form-data' },
+			onUploadProgress: function (progressEvent) {
+				if (progressEvent.progress) {
+					uploadFile.progress = progressEvent;
+				}
+			},
+			cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
+		});
 
-        remove(uploadingFiles.value, uploadFile);
-        vm.value.unshift(uploadFile);
+		Object.assign(uploadFile, data);
+		uploadFile.thumbnail = undefined;
+		uploadFile.cancel = undefined;
+		uploadFile.progress = undefined;
 
-        emit('file-uploaded', uploadFile);
-    } catch (e) {
-        if (e instanceof AxiosError && !(e instanceof CanceledError)) {
-            input.value.value = null;
-            removeFile(uploadFile);
-            showErrorToast(e, {}, t('failed_upload'));
-        }
-    }
+		remove(uploadingFiles.value, uploadFile);
+		vm.value.unshift(uploadFile);
+
+		emit('file-uploaded', uploadFile);
+	} catch (e) {
+		if (e instanceof AxiosError && !(e instanceof CanceledError)) {
+			input.value.value = null;
+			removeFile(uploadFile);
+			showErrorToast(e, {}, t('failed_upload'));
+		}
+	}
 }
 
 async function startThreeStageUpload(uploadFile: UploadFile) {
-    if (!uploadFile.actualFile) {
-        return;
-    }
+	if (!uploadFile.actualFile) {
+		return;
+	}
 
-    try {
-        const file = uploadFile.actualFile;
-        const data = await postRequest<PendingFileResponse>(`${props.uploadUrl}/begin-pending`, {
-            name: file.name,
-            size: file.size,
-            type: file.name.split('.').slice(1).join('.')
-        });
+	try {
+		const file = uploadFile.actualFile;
+		const data = await postRequest<PendingFileResponse>(`${props.uploadUrl}/begin-pending`, {
+			name: file.name,
+			size: file.size,
+			type: file.name.split('.').slice(1).join('.')
+		});
 
-        await axios.put(data.url, file, {
-            headers: data.headers,
-            onUploadProgress: function(progressEvent) {
-                if (progressEvent.progress) {
-                    uploadFile.progress = progressEvent;
-                }
-            },
-            cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
-        });
+		await axios.put(data.url, file, {
+			headers: data.headers,
+			onUploadProgress: function (progressEvent) {
+				if (progressEvent.progress) {
+					uploadFile.progress = progressEvent;
+				}
+			},
+			cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
+		});
 
-        uploadFile.progress = undefined;
-        const fileData = await postRequest(`pending-files/${data.id}/complete`);
+		uploadFile.progress = undefined;
+		const fileData = await postRequest(`pending-files/${data.id}/complete`);
 
-        Object.assign(uploadFile, fileData);
-        uploadFile.cancel = undefined;
+		Object.assign(uploadFile, fileData);
+		uploadFile.cancel = undefined;
 
-        remove(uploadingFiles.value, uploadFile);
-        vm.value.unshift(uploadFile);
+		remove(uploadingFiles.value, uploadFile);
+		vm.value.unshift(uploadFile);
 
-        emit('file-uploaded', uploadFile);
-    } catch (e) {
-        if (e instanceof AxiosError && !(e instanceof CanceledError)) {
-            input.value.value = null;
-            removeFile(uploadFile);
-            showErrorToast(e, {}, t('failed_upload'));
-        }
-    }
+		emit('file-uploaded', uploadFile);
+	} catch (e) {
+		if (e instanceof AxiosError && !(e instanceof CanceledError)) {
+			input.value.value = null;
+			removeFile(uploadFile);
+			showErrorToast(e, {}, t('failed_upload'));
+		}
+	}
 }
-
 
 /**
  * Handles removing files
  */
 async function removeFileDialog(file: UploadFile) {
-    if (props.askBeforeRemove) {
-        yesNoModal({
-            title: t('are_you_sure'),
-            desc: t('delete_file_desc'),
-            yes: async () => await handleRemove(file)
-        });
-    } else {
-        await handleRemove(file);
-    }
+	if (props.askBeforeRemove) {
+		yesNoModal({
+			title: t('are_you_sure'),
+			desc: t('delete_file_desc'),
+			yes: async () => await handleRemove(file)
+		});
+	} else {
+		await handleRemove(file);
+	}
 }
 
 async function handleRemove(file: UploadFile) {
-    if (file.cancel) {
-        file.cancel('cancelled');
-    } else if (file.id) {
-        await deleteRequest(`${props.url}/${file.id}`);
-    }
+	if (file.cancel) {
+		file.cancel('cancelled');
+	} else if (file.id) {
+		await deleteRequest(`${props.url}/${file.id}`);
+	}
 
-    removeFile(file);
-    emit('file-deleted', file);
+	removeFile(file);
+	emit('file-deleted', file);
 }
 </script>
 
 <style>
 .upload-area {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .upload-area-disabled {
-    cursor: inherit;
-    opacity: 0.5;
+	cursor: inherit;
+	opacity: 0.5;
 }
 
 .file-list {
-    justify-content: center;
-    grid-template-columns: repeat(auto-fill, 200px);
-    gap: 0.25rem;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fill, 200px);
+	gap: 0.25rem;
 }
 
 .file-thumbnail {
-    width: 100%;
-    height: 200px;
+	width: 100%;
+	height: 200px;
 }
 
 .file-item {
-    display: flex;
-    position: relative;
+	display: flex;
+	position: relative;
 }
 
 .file-progress {
-    margin-top: auto;
-    height: 3px;
-    z-index: 10;
-    background-color: var(--primary-color);
+	margin-top: auto;
+	height: 3px;
+	z-index: 10;
+	background-color: var(--primary-color);
 }
 
 .file-options {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
 .file-buttons {
-    position: absolute;
-    justify-content: center;
-    align-items: stretch;
-    gap: 0.25rem;
-    width: 100%;
-    height: 100%;
-    padding: 1.25rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: opacity 0.25s ease-in-out;
-    opacity: flex;
-    opacity: 0;
-}  
+	position: absolute;
+	justify-content: center;
+	align-items: stretch;
+	gap: 0.25rem;
+	width: 100%;
+	height: 100%;
+	padding: 1.25rem;
+	background-color: rgba(0, 0, 0, 0.5);
+	transition: opacity 0.25s ease-in-out;
+	opacity: flex;
+	opacity: 0;
+}
 
 .file-item:hover .file-buttons {
-    opacity: 1;
-    transition: opacity 0.25s ease-in-out;
+	opacity: 1;
+	transition: opacity 0.25s ease-in-out;
 }
 
 .file-item img {
-    object-fit: cover;
+	object-fit: cover;
 }
 </style>

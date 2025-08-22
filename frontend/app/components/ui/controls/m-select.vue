@@ -1,103 +1,103 @@
 <template>
-    <m-select-holder v-model:shown="dropdownOpen" :has-value="!!modelValue" :classic="classic" :disabled="disabled">
-        <template #label>
-            <slot name="label"/>
-        </template>
-        <m-flex :gap="classic ? 2 : 0" :class="{'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid}">
-            <m-flex wrap class="overflow-hidden items-center" :style="{height}">
-                <template v-if="multiple && shownOptions.length">
-                    <slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
-                        <slot name="any-option" :option="option">
-                            <m-tag :color="optionColor(option)" :style="{padding: classic ? '0.3rem 0.5rem' : undefined}">
-                                <i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click="deselectOption(option)"/> {{optionName(option)}}
-                            </m-tag>
-                        </slot>
-                    </slot>
-                    <template v-if="shownOptions.length < selected.length">
-                        <m-tag>+{{selected.length - shownOptions.length}}</m-tag>
-                    </template>
-                </template>
-                <slot v-else-if="selectedOption" name="option" :option="selectedOption">
-                    <slot name="any-option" :option="selectedOption">
-                        <span class="selection">{{optionName(selectedOption)}}</span>
-                    </slot>
-                </slot>
-                <span v-else class="selection text-secondary">
-                    <slot name="placeholder">{{disabled ? $t('none') : placeholder ?? $t('select_placeholder')}}</slot>
-                </span>
-            </m-flex>
-            <m-flex class="ml-auto" gap="2">
-                <i-mdi-close v-if="compClearable" @click.stop="clearAll"/>
-                <i-mdi-menu-down v-if="classic" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
-            </m-flex>
-        </m-flex>
-        <template #content>
-            <m-flex column :class="listClass" style="min-width: 200px; max-height: inherit;">
-                <m-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
-                <m-flex column class="overflow-hidden">
-                    <m-flex column class="overflow-auto">
-                        <m-dropdown-item 
-                            v-for="option of filtered"
-                            :key="optionValue(option)"
-                            :disabled="!props.multiple && !props.clearable && optionSelected(option)"
-                            :style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
-                            @click="toggleOption(option)"
-                        >
-                            <slot name="list-option" :option="option">
-                                <slot name="any-option" :option="option">
-                                    <m-tag v-if="listTags" :color="option.color">{{ optionName(option) }}</m-tag>
-                                    <template v-else>
-                                        {{ optionName(option) }}
-                                    </template>
-                                </slot>
-                            </slot>
-                        </m-dropdown-item>
-                    </m-flex>
-                </m-flex>
-            </m-flex>
-        </template>
-    </m-select-holder>
+	<m-select-holder v-model:shown="dropdownOpen" :has-value="!!modelValue" :classic="classic" :disabled="disabled">
+		<template #label>
+			<slot name="label"/>
+		</template>
+		<m-flex :gap="classic ? 2 : 0" :class="{ 'items-center': true, 'mw-input': classic, 'max-w-full': true, 'mw-input-invalid': showInvalid }">
+			<m-flex wrap class="overflow-hidden items-center" :style="{ height }">
+				<template v-if="multiple && shownOptions.length">
+					<slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
+						<slot name="any-option" :option="option">
+							<m-tag :color="optionColor(option)" :style="{ padding: classic ? '0.3rem 0.5rem' : undefined }">
+								<i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click="deselectOption(option)"/> {{ optionName(option) }}
+							</m-tag>
+						</slot>
+					</slot>
+					<template v-if="shownOptions.length < selected.length">
+						<m-tag>+{{ selected.length - shownOptions.length }}</m-tag>
+					</template>
+				</template>
+				<slot v-else-if="selectedOption" name="option" :option="selectedOption">
+					<slot name="any-option" :option="selectedOption">
+						<span class="selection">{{ optionName(selectedOption) }}</span>
+					</slot>
+				</slot>
+				<span v-else class="selection text-secondary">
+					<slot name="placeholder">{{ disabled ? $t('none') : placeholder ?? $t('select_placeholder') }}</slot>
+				</span>
+			</m-flex>
+			<m-flex class="ml-auto" gap="2">
+				<i-mdi-close v-if="compClearable" @click.stop="clearAll"/>
+				<i-mdi-menu-down v-if="classic" class="arrow" :style="{ transform: `rotate(${dropdownOpen ? 180 : 0}deg)` }"/>
+			</m-flex>
+		</m-flex>
+		<template #content>
+			<m-flex column :class="listClass" style="min-width: 200px; max-height: inherit;">
+				<m-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
+				<m-flex column class="overflow-hidden">
+					<m-flex column class="overflow-auto">
+						<m-dropdown-item
+							v-for="option of filtered"
+							:key="optionValue(option)"
+							:disabled="!props.multiple && !props.clearable && optionSelected(option)"
+							:style="{ opacity: optionSelected(option) ? 0.5 : 1 }"
+							@click="toggleOption(option)"
+						>
+							<slot name="list-option" :option="option">
+								<slot name="any-option" :option="option">
+									<m-tag v-if="listTags" :color="option.color">{{ optionName(option) }}</m-tag>
+									<template v-else>
+										{{ optionName(option) }}
+									</template>
+								</slot>
+							</slot>
+						</m-dropdown-item>
+					</m-flex>
+				</m-flex>
+			</m-flex>
+		</template>
+	</m-select-holder>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 
 const props = withDefaults(defineProps<{
-	url?: string,
-    fetchParams?: Record<string, any>,
-    immediateFetch?: boolean,
-    modelValue: any,
-    default?: any,
-	options?: any[],
-    clearable?: boolean,
-    classic?: boolean,
-    valueBy?: false|string|((option) => string),
-    textBy?: false|string|((option) => string),
-    colorBy?: false|string|((option) => string),
-    enabledBy?: string|((option) => boolean),
-    beforeSelect?: ((value, clbk) => void),
-    disabled?: boolean,
-    filterSelected?: boolean,
-    multiple?: boolean,
-    filterable?: boolean,
-    placeholder?: string,
-	max?: string|number,
-	maxShown?: string|number,
-    listClass?: string|string[],
-    listTags?: boolean,
-    postFetchFilter?: boolean,
-    nullClear?: boolean,
-    height?: number|string,
+	url?: string;
+	fetchParams?: Record<string, any>;
+	immediateFetch?: boolean;
+	modelValue: any;
+	default?: any;
+	options?: any[];
+	clearable?: boolean;
+	classic?: boolean;
+	valueBy?: false | string | ((option) => string);
+	textBy?: false | string | ((option) => string);
+	colorBy?: false | string | ((option) => string);
+	enabledBy?: string | ((option) => boolean);
+	beforeSelect?: ((value, clbk) => void);
+	disabled?: boolean;
+	filterSelected?: boolean;
+	multiple?: boolean;
+	filterable?: boolean;
+	placeholder?: string;
+	max?: string | number;
+	maxShown?: string | number;
+	listClass?: string | string[];
+	listTags?: boolean;
+	postFetchFilter?: boolean;
+	nullClear?: boolean;
+	height?: number | string;
 }>(), {
-    valueBy: 'id',
-    textBy: 'name',
-    filterable: true,
-    filterSelected: false,
-    postFetchFilter: false,
-    classic: true,
-    listTags: false,
-    nullClear: false,
-    immediateFetch: false
+	valueBy: 'id',
+	textBy: 'name',
+	filterable: true,
+	filterSelected: false,
+	postFetchFilter: false,
+	classic: true,
+	listTags: false,
+	nullClear: false,
+	immediateFetch: false
 });
 
 const search = ref('');
@@ -107,105 +107,105 @@ const showInvalid = ref(false);
 const searchElement = ref<HTMLInputElement>();
 
 const emit = defineEmits<{
-    (e: 'update:modelValue', value: any|any[]): void,
-    (e: 'selectOption', option: any|any[]): void,
-	(e: 'fetched', options: any[]): void
+	(e: 'update:modelValue', value: any | any[]): void;
+	(e: 'selectOption', option: any | any[]): void;
+	(e: 'fetched', options: any[]): void;
 }>();
 
-const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', { 
+const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
 	immediate: props.immediateFetch && !!props.url,
 	params: reactive({
 		query: searchDebounced,
-        ...props.fetchParams
+		...props.fetchParams
 	}),
-    cacheData: true
+	cacheData: true
 });
 
 const selectedValue = computed(() => props.modelValue ?? props.default);
-const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[]: [selectedValue.value]);
+const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[] : [selectedValue.value]);
 const first = computed<any[]>(() => selected.value?.[0]);
 const { ctrl } = useMagicKeys();
 
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
 const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
-    immediate: !!(props.url && first.value) && (typeof(first.value) == 'number' || first.value?.length > 0),
-    params: {
-        ids: selected.value,
-        ...props.fetchParams
-    },
-    cacheData: true
+	immediate: !!(props.url && first.value) && (typeof (first.value) == 'number' || first.value?.length > 0),
+	params: {
+		ids: selected.value,
+		...props.fetchParams
+	},
+	cacheData: true
 });
 
 // The options of the select that are actually shown
 // This also handles selected value that may not be in options
 const opts = computed(() => {
-    if (props.options) {
-        return props.options ?? [];
-    } else {
-        const opts = reactive(asyncOptions.value != null ? [...asyncOptions.value.data] : []);
-        if (fetchedSelected.value != null) {
-            for (const opt of fetchedSelected.value?.data) {
-                const val = opt ? optionValue(opt) : null;
-                if (!opts.find(option => optionValue(option) === val)) {
-                    opts.unshift(opt);
-                }
-            }
-        }
+	if (props.options) {
+		return props.options ?? [];
+	} else {
+		const opts = reactive(asyncOptions.value != null ? [...asyncOptions.value.data] : []);
+		if (fetchedSelected.value != null && fetchedSelected.value.data) {
+			for (const opt of fetchedSelected.value.data) {
+				const val = opt ? optionValue(opt) : null;
+				if (!opts.find(option => optionValue(option) === val)) {
+					opts.unshift(opt);
+				}
+			}
+		}
 
-        return opts;
-    }
+		return opts;
+	}
 });
 const selectedMax = computed(() => {
-    if (!props.max) {
-        return false;
-    }
-    const max = typeof props.max == 'number' ? props.max : parseInt(props.max);
-    return selected.value.length >= max;
+	if (!props.max) {
+		return false;
+	}
+	const max = typeof props.max == 'number' ? props.max : parseInt(props.max);
+	return selected.value.length >= max;
 });
-const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value && opts.value.length > 10));
+const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value?.length > 10));
 const filtered = computed(() => {
-    const searchLower = searchDebounced.value.toLowerCase();
-    let options = opts.value;
+	const searchLower = searchDebounced.value.toLowerCase();
+	let options = opts.value;
 
 	if (!options) {
 		return [];
 	}
 
-    options = options.filter(option => {
-        if (!optionEnabled(option)) {
-            return false;
-        }
-        if (searchLower && !props.url && !props.postFetchFilter) {
-            return optionName(option).toLowerCase().match(searchLower);
-        } else {
-            return true;
-        }
-    });
+	options = options.filter(option => {
+		if (!optionEnabled(option)) {
+			return false;
+		}
+		if (searchLower && !props.url && !props.postFetchFilter) {
+			return optionName(option).toLowerCase().match(searchLower);
+		} else {
+			return true;
+		}
+	});
 
-    if (props.filterSelected) {
-        if (props.multiple && typeof selectedValue.value == 'object') {
-            options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
-        } else {
-            options = options.filter(option => optionEnabled(option) && selectedValue.value === optionValue(option));
-        }
-    }
+	if (props.filterSelected) {
+		if (props.multiple && typeof selectedValue.value == 'object') {
+			options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
+		} else {
+			options = options.filter(option => optionEnabled(option) && selectedValue.value === optionValue(option));
+		}
+	}
 
-    return options;
+	return options;
 });
 
 const selectedOptions = computed(() => {
 	return opts.value.filter(option => {
-        if (selected.value && selected.value.includes) {
-            return selected.value.includes(optionValue(option));
-        } else {
-            return false;
-        }
-    })
+		if (selected.value && selected.value.includes) {
+			return selected.value.includes(optionValue(option));
+		} else {
+			return false;
+		}
+	});
 });
 
 const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
-    return !props.maxShown || i < (typeof props.maxShown == "number" ? props.maxShown : parseInt(props.maxShown));
+	return !props.maxShown || i < (typeof props.maxShown == 'number' ? props.maxShown : parseInt(props.maxShown));
 }));
 
 const selectedOption = computed(() => {
@@ -217,70 +217,70 @@ const selectedOption = computed(() => {
 });
 
 const compClearable = computed(() => {
-    if (props.disabled) {
-        return false;
-    }
-    return selectedOptions.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+	if (props.disabled) {
+		return false;
+	}
+	return selectedOptions.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 watch(dropdownOpen, val => {
-    if (val) {
-        if (!props.immediateFetch && !asyncOptions.value) {
-            refresh();
-        }
+	if (val) {
+		if (!props.immediateFetch && !asyncOptions.value) {
+			refresh();
+		}
 
-        setTimeout(() => {
-            if (searchElement.value) {
-                searchElement.value.focus();
-            }
-        }, 100);
-    }
+		setTimeout(() => {
+			if (searchElement.value) {
+				searchElement.value.focus();
+			}
+		}, 100);
+	}
 });
 
 function defaultBy(option, propName) {
-    if (typeof props[propName] === 'string') {
-        if (typeof option == 'object') {
-            return option[props[propName]];
-        } else {
-            return option;
-        }
-    } else {
-        return option;
-    }
+	if (typeof props[propName] === 'string') {
+		if (typeof option == 'object') {
+			return option[props[propName]];
+		} else {
+			return option;
+		}
+	} else {
+		return option;
+	}
 }
 
 function optionEnabled(option) {
-    if (typeof props.enabledBy == 'function') {
-        return props.enabledBy(option);
-    } else if (props.enabledBy) {
-        return defaultBy(option, 'enabledBy');
-    } else {
-        return true;
-    }
+	if (typeof props.enabledBy == 'function') {
+		return props.enabledBy(option);
+	} else if (props.enabledBy) {
+		return defaultBy(option, 'enabledBy');
+	} else {
+		return true;
+	}
 }
 
 function optionName(option) {
-    if(typeof props.textBy == 'function') {
-        return props.textBy(option);
-    } else {
-        return defaultBy(option, 'textBy');
-    }
+	if (typeof props.textBy == 'function') {
+		return props.textBy(option);
+	} else {
+		return defaultBy(option, 'textBy');
+	}
 }
 
 function optionValue(option) {
-    if(typeof props.valueBy == 'function') {
-        return props.valueBy(option);
-    } else {
-        return defaultBy(option, 'valueBy');
-    }
+	if (typeof props.valueBy == 'function') {
+		return props.valueBy(option);
+	} else {
+		return defaultBy(option, 'valueBy');
+	}
 }
 
 function optionColor(option) {
-    if(typeof props.colorBy == 'function') {
-        return props.colorBy(option);
-    } else if (props.colorBy) {
-        return defaultBy(option, 'colorBy');
-    }
+	if (typeof props.colorBy == 'function') {
+		return props.colorBy(option);
+	} else if (props.colorBy) {
+		return defaultBy(option, 'colorBy');
+	}
 }
 
 watch(searchDebounced, async () => {
@@ -290,18 +290,18 @@ watch(searchDebounced, async () => {
 });
 
 function clearAll() {
-    if (props.multiple && typeof selectedValue.value == 'object' && opts.value) {
-        for (const option of opts.value) {
-            const value = optionValue(option);
-            if (optionEnabled(option)) {
-                remove(selectedValue.value, value);
-            }
-        }
+	if (props.multiple && typeof selectedValue.value == 'object' && opts.value) {
+		for (const option of opts.value) {
+			const value = optionValue(option);
+			if (optionEnabled(option)) {
+				remove(selectedValue.value, value);
+			}
+		}
 
-        emit('update:modelValue', selectedValue.value);
-    } else {
-        deselectOption(selected.value);
-    }
+		emit('update:modelValue', selectedValue.value);
+	} else {
+		deselectOption(selected.value);
+	}
 }
 
 function optionSelected(option) {
@@ -311,23 +311,23 @@ function optionSelected(option) {
 }
 
 function toggleOption(option) {
-    if (optionSelected(option)) {
-        deselectOption(option);
-    } else {
-        selectOption(option);
-    }
+	if (optionSelected(option)) {
+		deselectOption(option);
+	} else {
+		selectOption(option);
+	}
 }
 
 // Triggers when selecting an option from the liust
 function selectOption(option) {
-    const value = optionValue(option);
-    emit('selectOption', option);
+	const value = optionValue(option);
+	emit('selectOption', option);
 
-    if (!ctrl.value) {
-        dropdownOpen.value = false;
-    }
+	if (!ctrl.value) {
+		dropdownOpen.value = false;
+	}
 
-    if (props.multiple && typeof selectedValue.value == 'object') {
+	if (props.multiple && typeof selectedValue.value == 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
 			setTimeout(() => {
@@ -335,59 +335,58 @@ function selectOption(option) {
 			}, 500);
 			return;
 		}
-        
-        const set = () => {
-            if (!selected.value.includes(value)) {
-                selectedValue.value.push(value);
-            }
 
-            emit('update:modelValue', selectedValue.value);
-        };
-        
-        //Allow for the interception of options before they're selected
-        if (!props.beforeSelect) {
-            set();
-        } else {
-            props.beforeSelect(option, set);
-        }
-    } else {
-        const set = () => {
-            dropdownOpen.value = false;
-            emit('update:modelValue', value);
-        };
+		const set = () => {
+			if (!selected.value.includes(value)) {
+				selectedValue.value.push(value);
+			}
 
-        if (!props.beforeSelect) {
-            set();
-        } else {
-            props.beforeSelect(option, set);
-        }
-    }
+			emit('update:modelValue', selectedValue.value);
+		};
+
+		// Allow for the interception of options before they're selected
+		if (!props.beforeSelect) {
+			set();
+		} else {
+			props.beforeSelect(option, set);
+		}
+	} else {
+		const set = () => {
+			dropdownOpen.value = false;
+			emit('update:modelValue', value);
+		};
+
+		if (!props.beforeSelect) {
+			set();
+		} else {
+			props.beforeSelect(option, set);
+		}
+	}
 }
 
 function deselectOption(item) {
-    const value = optionValue(item);
+	const value = optionValue(item);
 
-    if (!ctrl.value) {
-        dropdownOpen.value = false;
-    }
+	if (!ctrl.value) {
+		dropdownOpen.value = false;
+	}
 
-    if (props.multiple && typeof selectedValue == 'object') {
-        remove(selectedValue.value, value);
-        emit('update:modelValue', selectedValue.value);
-    } else if (props.clearable) {
-        emit('update:modelValue', props.nullClear ? null : undefined);
-        dropdownOpen.value = false;
-    } 
+	if (props.multiple && typeof selectedValue == 'object') {
+		remove(selectedValue.value, value);
+		emit('update:modelValue', selectedValue.value);
+	} else if (props.clearable) {
+		emit('update:modelValue', props.nullClear ? null : undefined);
+		dropdownOpen.value = false;
+	}
 }
 </script>
 
 <style scoped>
-
 .arrow {
-    transition: transform 0.25s;
+	transition: transform 0.25s;
 }
 
 .selection {
-    user-select: none;
+	user-select: none;
 }
 </style>

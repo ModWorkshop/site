@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite';
 
 export default defineNuxtConfig({
 	devServer: {
-		host: '0.0.0.0',
+		host: '0.0.0.0'
 	},
 
 	future: {
@@ -14,24 +14,24 @@ export default defineNuxtConfig({
 	},
 
 	features: {
-    	inlineStyles: true
-  	},
+		inlineStyles: true
+	},
 
 	site: {
-		name: 'ModWorkshop',
+		name: 'ModWorkshop'
 	},
 
 	app: {
 		head: {
 			script: [
 				{
-					innerHTML: 'window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};',
-					'data-cfasync': false,
+					'innerHTML': 'window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};',
+					'data-cfasync': false
 				},
 				{
-					src: 'https://s.nitropay.com/ads-92.js',
+					'src': 'https://s.nitropay.com/ads-92.js',
 					'data-cfasync': false,
-					async: true
+					'async': true
 				}
 			]
 		}
@@ -57,35 +57,34 @@ export default defineNuxtConfig({
 	},
 
 	hooks: {
-		'pages:extend': (routes) => {
+		'pages:extend': routes => {
 			const userSettings = routes.find(page => page.path == '/user-settings');
 
-			userSettings?.children?.push({ path: "/user-settings/profile", file: '~/pages/user-settings/index.vue' });
+			userSettings?.children?.push({ path: '/user-settings/profile', file: '~/pages/user-settings/index.vue' });
 
 			routes.push(...[
 				{
-					path: "/user/:user/edit",
+					path: '/user/:user/edit',
 					file: '~/pages/user-settings.vue',
 					children: [
-						{ path: "", file: '~/pages/user-settings/index.vue' },
-						{ path: "account", file: '~/pages/user-settings/account.vue' },
-						{ path: "content", file: '~/pages/user-settings/content.vue' },
-						{ path: "profile", file: '~/pages/user-settings/index.vue' },
-						{ path: "accounts", file: '~/pages/user-settings/accounts.vue' },
-						{ path: "api", file: '~/pages/user-settings/api.vue' },
+						{ path: '', file: '~/pages/user-settings/index.vue' },
+						{ path: 'account', file: '~/pages/user-settings/account.vue' },
+						{ path: 'content', file: '~/pages/user-settings/content.vue' },
+						{ path: 'profile', file: '~/pages/user-settings/index.vue' },
+						{ path: 'accounts', file: '~/pages/user-settings/accounts.vue' },
+						{ path: 'api', file: '~/pages/user-settings/api.vue' }
 					]
 				},
-				{ path: "/g/:game/documents", file: '~/pages/documents.vue' },
-				{ path: "/g/:game/document/:document", file: '~/pages/document/[document].vue' },
+				{ path: '/g/:game/documents', file: '~/pages/documents.vue' },
+				{ path: '/g/:game/document/:document', file: '~/pages/document/[document].vue' }
 			]);
 
-
-			//Kinda disgusting, but other way is making components for each one of them and then pages...
+			// Kinda disgusting, but other way is making components for each one of them and then pages...
 			const mod = routes.find(page => page.path == '/mod/:mod()');
-			mod?.children?.push({ path: "/mod/:mod/post/:comment", file: '~/pages/mod/[mod]/index.vue' });
+			mod?.children?.push({ path: '/mod/:mod/post/:comment', file: '~/pages/mod/[mod]/index.vue' });
 
 			const thread = routes.find(page => page.path == '/thread/:thread()');
-			thread?.children?.push({ path: "/thread/:thread/post/:comment", file: '~/pages/thread/[thread]/index.vue' });
+			thread?.children?.push({ path: '/thread/:thread/post/:comment', file: '~/pages/thread/[thread]/index.vue' });
 
 			const game = routes.find(page => page.path == '/g/:game()');
 
@@ -111,11 +110,10 @@ export default defineNuxtConfig({
 						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
 						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
 						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
-						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' },
+						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' }
 					]);
 				}
 			}
-
 		}
 	},
 
@@ -125,7 +123,7 @@ export default defineNuxtConfig({
 			{ name: 'useFetchData', argumentLength: 3 },
 			{ name: 'useWatchedFetchMany', argumentLength: 4 },
 			{ name: 'useEditResource', argumentLength: 5 },
-			{ name: 'useResource', argumentLength: 6 },
+			{ name: 'useResource', argumentLength: 6 }
 		]
 	},
 
@@ -136,14 +134,14 @@ export default defineNuxtConfig({
 	vue: {
 		propsDestructure: true
 	},
-	
+
 	components: [
-		"~/components/ui/controls",
-		"~/components/ui/layout",
-		"~/components/site",
-		"~/components/site/pages",
-		"~/components/site/mod",
-		"~/components/site/notifications",
+		'~/components/ui/controls',
+		'~/components/ui/layout',
+		'~/components/site',
+		'~/components/site/pages',
+		'~/components/site/mod',
+		'~/components/site/notifications'
 	],
 
 	vitalizer: {
@@ -156,11 +154,11 @@ export default defineNuxtConfig({
 		},
 		plugins: [
 			Components({
-				resolvers: [IconsResolver()],
+				resolvers: [IconsResolver()]
 			}),
 			Icons({
 				defaultClass: 'icon'
-			}),
+			})
 		],
 		resolve: {
 			alias: {
@@ -170,7 +168,7 @@ export default defineNuxtConfig({
 		},
 		ssr: {
 			noExternal: ['isomorphic-dompurify']
-		},
+		}
 	},
 
 	// ssr: false,
@@ -181,7 +179,7 @@ export default defineNuxtConfig({
 
 		detectBrowserLanguage: {
 			useCookie: true,
-			cookieKey: 'locale',
+			cookieKey: 'locale'
 		},
 
 		locales: [
@@ -198,11 +196,11 @@ export default defineNuxtConfig({
 			{ code: 'zh-cn', language: 'zh-CN', file: 'zh_Hans.json', name: '中文' },
 			{ code: 'ko', language: 'ko-KR', file: 'ko.json', name: '한국어' },
 			{ code: 'ja', language: 'ja-JP', file: 'ja.json', name: '日本語' },
-			{ code: 'id', language: 'id-ID', file: 'id.json', name: 'Bahasa Indonesia' },
+			{ code: 'id', language: 'id-ID', file: 'id.json', name: 'Bahasa Indonesia' }
 		],
 
 		lazy: true,
-		defaultLocale: 'en',
+		defaultLocale: 'en'
 	},
 
 	robots: {

@@ -1,4 +1,4 @@
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
 	const token = useCookie('XSRF-TOKEN', { readonly: true });
 	const headers = useRequestHeaders();
 	const { public: config, innerApiUrl } = useRuntimeConfig();
@@ -8,31 +8,31 @@ export default defineNuxtPlugin((nuxtApp) => {
 		// Use custom query serializer for PHP-style arrays
 		query: {},
 		credentials: 'include',
-		onRequest({ request, options, error }) {
+		onRequest({ options }) {
 			// Handle custom query parameter formatting for GET requests
 			if (options && options.params && (!options.method || options.method == 'GET')) {
-				//This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
-				//tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
-				
+				// This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
+				// tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
+
 				// Merge params into query and use custom serialization
 				const customQuery = buildQueryParams(options.query, false);
 
 				const query = customQuery.split('&').map(param => param.split('='));
-				const newQuery = {}
-				for (const [k,v] of query) {
+				const newQuery = {};
+				for (const [k, v] of query) {
 					if (k) {
 						newQuery[k] = v;
 					}
 				}
-				 
-				options.query = newQuery
+
+				options.query = newQuery;
 			}
 			options.headers.set('referer', config.siteUrl);
 
-			if (headers.cookie) {				
+			if (headers.cookie) {
 				options.headers.set('cookie', headers.cookie);
 			}
-			
+
 			if (token.value) {
 				options.headers.set('X-XSRF-TOKEN', token.value);
 			}
@@ -55,11 +55,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 				}
 			}
 		}
-	})
+	});
 
 	return {
 		provide: {
 			mwsAPI
 		}
-	}
-})
+	};
+});

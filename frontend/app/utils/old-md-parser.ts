@@ -1,4 +1,4 @@
-import MarkdownIt  from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 
 import DOMPurify from 'isomorphic-dompurify';
 import parseBBCode from './bbcode-parser';
@@ -59,8 +59,7 @@ const md = MarkdownIt({
 				hl = hljs.highlightAuto(str).value;
 			}
 			return `<pre><code class="hljs">${hl}</code></pre>`;
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 
@@ -73,7 +72,7 @@ const md = MarkdownIt({
  * Why? There's already a way to write bold text and it is the most popular - **Bold!**
  * In Discord which is a popular social media, people use __Underlne__ and it just makes sense.
  */
-md.renderer.rules.strong_close = md.renderer.rules.strong_open = function(tokens, idx, opts, _, slf) {
+md.renderer.rules.strong_close = md.renderer.rules.strong_open = function (tokens, idx, opts, _, slf) {
 	const token = tokens[idx];
 	if (token.markup === '__') {
 		token.tag = 'u';
@@ -85,7 +84,7 @@ md.use(html5Media);
 md.use(taskLists);
 md.use(markdownItRegex(
 	/(?:^|\n)(?: {0,3})(:::+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/,
-	function([, , match]) {
+	function ([, , match]) {
 		return `\n\n<span class="center">${md.renderInline(match)}</span>\n\n`;
 	}
 ));
@@ -97,19 +96,19 @@ export function oldParseMarkdown(text: string) {
 		return '';
 	}
 
-	text = md.utils.escapeHtml(text); //First escape the ugly shit
-    text = parseBBCode(text); //Handle BBCode
+	text = md.utils.escapeHtml(text); // First escape the ugly shit
+	text = parseBBCode(text); // Handle BBCode
 	text = text.replace(/&gt;/g, '>');
 	text = text.replace(/&quot;/g, '"');
 
-	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function(wholeStr, delimiter, match) {		
+	text = text.replace(/(?:^|\n)(?: {0,3})(\|\|+)(?: *)([\s\S]*?)\n?(?: {0,3})\1/g, function (wholeStr, delimiter, match) {
 		match = md.render(match);
 		return `\n\n<div class="spoiler"><details><summary>Spoiler!</summary>${match}</details></div>\n\n`;
 	});
 
-    text = md.render(text); //Parse using markdown it
-    return DOMPurify.sanitize(text, { //Finally, DOMPurify it!
-        ADD_TAGS: ['iframe'],
-        ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen'],
-    });
+	text = md.render(text); // Parse using markdown it
+	return DOMPurify.sanitize(text, { // Finally, DOMPurify it!
+		ADD_TAGS: ['iframe'],
+		ADD_ATTR: ['frameborder', 'allow', 'allowfullscreen']
+	});
 }

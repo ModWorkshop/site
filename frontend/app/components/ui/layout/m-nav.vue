@@ -1,30 +1,30 @@
 <template>
-    <div class="nav">
-        <m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
-            <m-link class="collapse-button">
-                <i-mdi-menu/>
-            </m-link>
-        </m-flex>
-        <m-flex :class="{'menu-open': menuOpen}" :column="!side" :gap="3">
-            <div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
-            <Transition name="left-slide">
-                <m-flex v-show="!side || menuOpen" :class="{'nav-menu': true, 'p-6': side}" :column="side">
-                    <slot/>
-                </m-flex>
-            </Transition>
-            <m-flex column grow gap="3" :class="{'content-block': background, 'p-6': side, 'overflow-x-auto': true}">
-                <slot name="content"/>
-            </m-flex>
-        </m-flex>
-    </div>
+	<div class="nav">
+		<m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
+			<m-link class="collapse-button">
+				<i-mdi-menu/>
+			</m-link>
+		</m-flex>
+		<m-flex :class="{ 'menu-open': menuOpen }" :column="!side" :gap="3">
+			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
+			<Transition name="left-slide">
+				<m-flex v-show="!side || menuOpen" :class="{ 'nav-menu': true, 'p-6': side }" :column="side">
+					<slot/>
+				</m-flex>
+			</Transition>
+			<m-flex column grow gap="3" :class="{ 'content-block': background, 'p-6': side, 'overflow-x-auto': true }">
+				<slot name="content"/>
+			</m-flex>
+		</m-flex>
+	</div>
 </template>
 
 <script setup lang="ts">
 const { side = false, background = true, root } = defineProps<{
-    side?: boolean;
-    root?: string;
-    padding?: string|number,
-    background?: boolean;
+	side?: boolean;
+	root?: string;
+	padding?: string | number;
+	background?: boolean;
 }>();
 
 const menuOpen = ref(false);

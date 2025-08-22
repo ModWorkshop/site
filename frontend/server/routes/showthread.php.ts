@@ -1,12 +1,12 @@
-//Redirects old mydownloads.php links
+// Redirects old mydownloads.php links
 
 export default defineEventHandler(async event => {
-    const query = getQuery(event);
+	const query = getQuery(event);
 
-    if (query.tid) {
-        const tid = parseInt(query.tid as string);
-        return sendRedirect(event, `thread/${tid}`);
-    }
+	if (query.tid) {
+		const tid = parseInt(query.tid as string);
+		return sendRedirect(event, `thread/${tid}`);
+	}
 
-    return setResponseStatus(event, 404);
+	return setResponseStatus(event, 404);
 });

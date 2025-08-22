@@ -1,41 +1,41 @@
 <template>
-    <component 
-        :is="computedComponent"
-        :selected="isSelected"
-        v-bind="$attrs"
-        :icon="icon"
-        @click="setSelected?.(value)"
-        :color="buttonColor"
-    >
-        <slot/>
-    </component>
+	<component
+		:is="computedComponent"
+		:selected="isSelected"
+		v-bind="$attrs"
+		:icon="icon"
+		:color="buttonColor"
+		@click="setSelected?.(value)"
+	>
+		<slot/>
+	</component>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
-    value: any,
-    icon?: string,
+	value: any;
+	icon?: string;
 }>();
 
-const buttonStyle = inject<string|undefined>('buttonStyle', 'button');
+const buttonStyle = inject<string | undefined>('buttonStyle', 'button');
 const selected = inject<Ref<string>>('selected');
 const setSelected = inject<(name) => void>('setSelected');
 
 const isSelected = computed(() => props.value == selected?.value);
 
 const buttonColor = computed(() => {
-    if (buttonStyle == 'button') {
-        return isSelected.value ? 'primary' : 'secondary';
-    }
+	if (buttonStyle == 'button') {
+		return isSelected.value ? 'primary' : 'secondary';
+	}
 });
 
 const computedComponent = computed(() => {
-    if (!buttonStyle || buttonStyle == 'nav') {
-        return resolveComponent('MNavLink');
-    } else if (buttonStyle == 'button') {
-        return resolveComponent('MButton');
-    } else if (buttonStyle == 'dropdown') {
-        return resolveComponent('MDropdownItem');
-    }
+	if (!buttonStyle || buttonStyle == 'nav') {
+		return resolveComponent('MNavLink');
+	} else if (buttonStyle == 'button') {
+		return resolveComponent('MButton');
+	} else if (buttonStyle == 'dropdown') {
+		return resolveComponent('MDropdownItem');
+	}
 });
 </script>

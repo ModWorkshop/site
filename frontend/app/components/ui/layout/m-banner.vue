@@ -1,16 +1,15 @@
 <template>
-    <m-flex column :class="{banner: true, round: true, 'default-banner': !src}" :style="{height: `${height}px`, backgroundImage: `url('${bannerUrl}')`}">
-        <slot/>
-    </m-flex>
+	<m-flex column :class="{ banner: true, round: true, 'default-banner': !src }" :style="{ height: `${height}px`, backgroundImage: `url('${bannerUrl}')` }">
+		<slot/>
+	</m-flex>
 </template>
 <script setup lang="ts">
-import { useStore } from '~/store';
 const props = withDefaults(defineProps<{
-    src?: string|Blob,
-    urlPrefix: string,
-    height?: number|string,
+	src?: string | Blob;
+	urlPrefix: string;
+	height?: number | string;
 }>(), {
-    height: 300
+	height: 300
 });
 
 const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? '/assets/default-banner.webp');
@@ -18,11 +17,11 @@ const bannerUrl = computed(() => useSrc(props.urlPrefix, props.src) ?? '/assets/
 
 <style scope>
 .banner {
-    background-position: center;
-    background-size: cover;
+	background-position: center;
+	background-size: cover;
 }
 
 .default-banner {
-    background-size: auto;
+	background-size: auto;
 }
 </style>

@@ -5,7 +5,7 @@ const router = useRouter();
 const { user } = useStore();
 
 definePageMeta({
-    middleware: 'users-only',
+	middleware: 'users-only'
 });
 
 await router.replace(`user/${user!.unique_name}`);

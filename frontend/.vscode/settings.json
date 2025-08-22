@@ -1,14 +1,3 @@
 {
-    "nuxt.isNuxtApp": false,
-    "javascript.autoClosingTags": false,
-    "typescript.autoClosingTags": false,
-    "typescript.preferences.jsxAttributeCompletionStyle": "none",
-    "javascript.preferences.jsxAttributeCompletionStyle": "none",
-    "i18n-ally.localesPaths": "locales",
-    "i18n-ally.indent": 0,
-    "i18n-ally.extract.autoDetect": true,
-    "i18n-ally.enabledParsers": [
-        "js"
-    ],
-    "i18n-ally.keystyle": "nested",
+	"nuxt.isNuxtApp": true
 }

@@ -1,18 +1,18 @@
 <template>
-    <m-list 
-        :url="apiLink"
-        query
-        :item-link="item => `${pageLink}/${item.id}`"
-        :new-button="`${pageLink}/new`"
-        :params="{ global: !game, show_hidden: true }"
-    />
+	<m-list
+		:url="apiLink"
+		query
+		:item-link="item => `${pageLink}/${item.id}`"
+		:new-button="`${pageLink}/new`"
+		:params="{ global: !game, show_hidden: true }"
+	/>
 </template>
 
 <script setup lang="ts">
 import type { Game } from '~/types/models';
 
 const props = defineProps<{
-    game: Game
+	game: Game;
 }>();
 
 useNeedsPermission('manage-mods', props.game);

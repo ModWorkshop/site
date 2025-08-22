@@ -1,0 +1,5 @@
+# For accessability reasons I rather not force the project to be 2 tab spaces on the frontend.
+# So tabs will be the middleground
+
+[*]
+indent_style = tab

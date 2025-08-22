@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <m-list v-model:page="page" query :items="reports" :loading="loading">
-            <template #item="{ item }">
-                <admin-report :report="item" :reports="reports!.data" :game="game"/>
-            </template>
-        </m-list>
-    </div>
+	<div>
+		<m-list v-model:page="page" query :items="reports" :loading="loading">
+			<template #item="{ item }">
+				<admin-report :report="item" :reports="reports!.data" :game="game"/>
+			</template>
+		</m-list>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { Game, Report } from '~/types/models';
 
 const props = defineProps<{
-    game: Game
+	game: Game;
 }>();
 
 useNeedsPermission('moderate-users', props.game);
@@ -26,6 +26,6 @@ const { data: reports, loading } = await useWatchedFetchMany<Report>(url.value, 
 
 <style>
 .archived {
-    opacity: 0.25;
+	opacity: 0.25;
 }
 </style>

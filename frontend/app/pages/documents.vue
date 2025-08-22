@@ -1,10 +1,10 @@
 <template>
-    <page-block :game="game" :breadcrumb="game ? breadcrumb : undefined" size="sm">
-        <h2>{{$t('documents')}}</h2>
-        <m-content-block>
-            <m-list :url="apiUrl" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>
-        </m-content-block>
-    </page-block>
+	<page-block :game="game" :breadcrumb="game ? breadcrumb : undefined" size="sm">
+		<h2>{{ $t('documents') }}</h2>
+		<m-content-block>
+			<m-list :url="apiUrl" query :item-link="item => `${url}/${item.url_name}`" :params="{ game_id: game?.id }"/>
+		</m-content-block>
+	</page-block>
 </template>
 
 <script setup lang="ts">
@@ -23,9 +23,9 @@ const url = computed(() => game.value ? `/g/${game.value.short_name}/document` :
 const apiUrl = computed(() => getGameResourceUrl('documents', game.value));
 
 const breadcrumb = computed(() => {
-    return [
-        { name: game.value.name, id: game.value.short_name, type: 'game' },
-        { name: t('docs') },
-    ];
+	return [
+		{ name: game.value.name, id: game.value.short_name, type: 'game' },
+		{ name: t('docs') }
+	];
 });
 </script>

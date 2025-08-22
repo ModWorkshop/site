@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <div ref="element" :class="{'markdown': true, [`p-${padding}`]: padding > 0}" v-html="mdText"/>
+	<div ref="element" :class="{ 'markdown': true, [`p-${padding}`]: padding > 0 }" v-html="mdText"/>
 </template>
 
 <script setup lang="ts">
@@ -10,26 +10,26 @@
 // It does keep line breaks and paragraphs, though.
 
 const { text, padding = 2, parserVersion, removeTags } = defineProps<{
-    text?: string,
-    padding?: number,
-    parserVersion?: number,
-    removeTags?: boolean
+	text?: string;
+	padding?: number;
+	parserVersion?: number;
+	removeTags?: boolean;
 }>();
 
 const element = ref();
 defineExpose({
-    element
+	element
 });
 
 const mdText = computed(() => {
-    if (!text) {
-        return '';
-    }
+	if (!text) {
+		return '';
+	}
 
-    if (parserVersion == 1) {
-        return oldParseMarkdown(text);
-    } else {
-        return parseMarkdown(text, removeTags);
-    }
+	if (parserVersion == 1) {
+		return oldParseMarkdown(text);
+	} else {
+		return parseMarkdown(text, removeTags);
+	}
 });
 </script>
