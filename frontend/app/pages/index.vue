@@ -61,7 +61,7 @@ const links = {
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
 
-const sortBy = computed(() => selectedView.value == 'all' ? (user.value?.extra?.home_default_mods_sort ?? 'daily_score') : undefined);
+const sortBy = computed(() => selectedView.value == 'all' ? (user.value?.extra?.home_default_mods_sort ?? 'bumped_at') : undefined);
 
 watch(selectedView, async () => {
 	await patchRequest('user', {
