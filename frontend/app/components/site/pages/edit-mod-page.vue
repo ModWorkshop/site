@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { useStore } from '~/store';
 import type { Mod } from '~/types/models';
+import clone from 'rfdc/default';
 
 const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
@@ -39,7 +40,7 @@ if (initialMod.value.id == 0) {
 	initialMod.value.user = store.user!;
 }
 
-const mod = ref<Mod>(initialMod.value);
+const mod = ref<Mod>(clone(initialMod.value));
 
 mod.value.send_for_approval ??= false;
 

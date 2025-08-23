@@ -214,7 +214,7 @@ class ModController extends Controller
         $gameId = $game?->id ?? $val['game_id'] ?? $mod?->game_id;
         $category = null;
 
-        if (isset($val['category_id'])) {
+        if (isset($categoryId)) {
             $category = Category::where('game_id', $gameId)->find($categoryId);
             if (!isset($category)) {
                 abort(409, 'Invalid category. It must belong to the game.');
@@ -270,6 +270,8 @@ class ModController extends Controller
             if (!$this->user()->hasPermission('manage-mods')) {
                 unset($val['game_id']);
                 unset($val['allowed_storage']);
+            } else if ($val['game_id'] !== $mod->game_id) {
+                $val['category_id'] ??= null; // Ensure to empty the category in case we change the game.
             }
 
             $mod->calculateFileStatus(false);

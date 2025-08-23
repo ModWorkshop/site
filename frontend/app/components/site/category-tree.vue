@@ -116,7 +116,7 @@ function hasDescendantSelected(category: Category, current: Category[] | null = 
 
 function onClickCategory(category: Category) {
 	if (parseInt(currentCategoryId.value) == category.id) {
-		currentCategoryId.value = undefined;
+		currentCategoryId.value = null;
 		open.value = false;
 	} else {
 		currentCategoryId.value = category.id;
