@@ -45,9 +45,9 @@
 					@mark-as-answer="comment => $emit('markAsAnswer', comment)"
 				/>
 			</m-flex>
-			<m-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
 			<m-loading v-else-if="!isLoaded"/>
 			<h4 v-else class="text-center">{{ $t(`no_${resourceName}_found`) }}</h4>
+			<m-pagination v-if="comments && !viewingComment" v-model="page" :total="comments.meta.total" :per-page="comments.meta.per_page"/>
 		</m-flex>
 		<m-dropdown v-model:open="showMentions" :style="{ left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`, position: 'fixed' }">
 			<template #content>
