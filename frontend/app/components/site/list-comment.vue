@@ -1,6 +1,6 @@
 <template>
 	<list-comment-container :comment="comment" :is-reply="isReply">
-		<m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="4" :class="classes">
+		<m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="6" :class="classes">
 			<m-flex class="comment-body">
 				<div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
 				<NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
@@ -67,6 +67,7 @@
 						:can-comment="canReply"
 						:can-edit-all="canEditAll"
 						:can-delete-all="canDeleteAll"
+						:can-edit-resource="canEditResource"
 						:current-focus="currentFocus"
 						:get-special-tag="getSpecialTag"
 						is-reply

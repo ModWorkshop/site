@@ -105,7 +105,10 @@ const showMembers = {
 
 useInsertAd('mws-ads-mod-pane', {
 	sizes: [['336', '280']],
-	renderVisibleOnly: true
+	renderVisibleOnly: true,
+	report: {
+		position: 'bottom-left'
+	}
 });
 
 const members = computed(() => props.mod.members.filter(member => member.accepted && (showMembers[member.level] ?? false)));

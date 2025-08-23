@@ -42,7 +42,7 @@
 				</m-dropdown>
 			</m-flex>
 		</m-flex>
-		<div class="mod-main">
+		<div class="mod-main mb-3">
 			<m-flex class="overflow-x-hidden" column gap="3">
 				<mod-banner class="desktop-banner" :mod="mod"/>
 				<mod-tabs :mod="mod"/>
