@@ -675,5 +675,22 @@
     "send_verification": "Odeslat Ověření",
     "verify_email_desc": "Musíte ověřit svůj e-mail.\nNeaktivní účty nemohou provádět většinu akcí na webu a budou smazány pokud neprovedete žádnou akci po 24 hodinách.\nKliknutím na 'Odeslat Ověření' odešlete ověřovací odkaz.",
     "verification_warning": "E-mailová ověření se při registraci neodesílají automaticky, musíte kliknout na 'Odeslat Ověření'.",
-    "donate_to_user": "Darovat Uživateli"
+    "donate_to_user": "Darovat Uživateli",
+    "system_theme": "Systémové Téma",
+    "blocked_user": "Blokovaný Uživatel",
+    "game_settings": "Nastavení Hry",
+    "use_relative_time": "Použít Relativní Čas",
+    "site_wide": "Po Celém Webu",
+    "theme": "Téma",
+    "language": "Jazyk",
+    "customize_cookie_alert": "Rozhodli jste se nepovolit ukládání cookies, takže vaše preference nebudou uloženy. Pokud chcete své preference uložit, povolte prosím cookies.",
+    "use_relative_time_desc": "Zobrazí některé časové popisky jako před časem, například 'před 1 hodinou'",
+    "repo_url": "URL Uložiště",
+    "liked_at": "Datum Oblíbení",
+    "ignore": "Ignorovat",
+    "unignore": "Přestat Ignorovat",
+    "ignored_games": "Ignorované Hry",
+    "ignored_mods": "Ignorovaný Módy",
+    "audit_log": "Protokol Auditu",
+    "copy_link": "Zkopírovat Odkaz"
 }

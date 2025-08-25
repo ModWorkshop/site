@@ -676,5 +676,22 @@
     "send_verification": "Invia verifica",
     "new_user_title": "Creato con successo!",
     "new_user_desc": "Ora è possibile accedere al nuovo account e verificare l'email.",
-    "donate_to_user": "Dona all'Utente"
+    "donate_to_user": "Dona all'Utente",
+    "system_theme": "Tema di Sistema",
+    "blocked_user": "Utente Bloccato",
+    "game_settings": "Impostazioni di gioco",
+    "use_relative_time": "Mostra Tempo da Oggi",
+    "site_wide": "nel Database",
+    "theme": "Tema",
+    "language": "Lingua",
+    "use_relative_time_desc": "Crea dei tag in formato 'x tempo fa', ad esempio '1 ora fa'",
+    "ignore": "Ignora",
+    "unignore": "Mostra",
+    "ignored_games": "Ignora Giochi",
+    "ignored_mods": "Ignora Mods",
+    "audit_log": "Audit Log",
+    "copy_link": "Copia Link",
+    "customize_cookie_alert": "Hai deciso di non utilizzare i cookies, quindi le tue preferenze non verranno salvate. Se poter salvare le tue preferenze, accetta di utilizzare i cookies.",
+    "repo_url": "Repository URL",
+    "liked_at": "Data Mi Piace"
 }

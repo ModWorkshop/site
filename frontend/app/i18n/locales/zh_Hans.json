@@ -675,5 +675,22 @@
     "new_user_title": "Successfully Created!",
     "donation_invalid": "You've entered an invalid donation link. We only support PayPal, Ko-Fi, GitHub Sponsors and Buy Me a Coffee.",
     "new_user_desc": "You may now login into your new account and verify your email.",
-    "donate_to_user": "Donate to User"
+    "donate_to_user": "Donate to User",
+    "site_wide": "Site-Wide",
+    "system_theme": "System Theme",
+    "blocked_user": "Blocked User",
+    "game_settings": "Game Settings",
+    "use_relative_time": "Use Relative Time",
+    "theme": "Theme",
+    "language": "Language",
+    "customize_cookie_alert": "You chose to not allow for cookies to be set, so your preferences will not be saved. If you want to save your preferences, please allow cookies.",
+    "use_relative_time_desc": "Makes some time labels show as time ago, for example '1 hour ago'",
+    "repo_url": "Repository URL",
+    "liked_at": "Like Date",
+    "ignore": "Ignore",
+    "unignore": "Unignore",
+    "ignored_games": "Ignores Games",
+    "ignored_mods": "Ignored Mods",
+    "audit_log": "Audit Log",
+    "copy_link": "Copy Link"
 }
