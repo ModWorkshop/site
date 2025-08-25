@@ -19,8 +19,6 @@ class CreateUserExtrasTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyText('default_mods_view')->default('all');
             $table->tinyText('default_mods_sort');
-            $table->tinyText('home_default_mods_sort');
-            $table->tinyText('game_default_mods_sort');
             $table->boolean('home_show_last_games')->default(true);
             $table->boolean('home_show_mods')->default(true);
             $table->boolean('home_show_threads')->default(true);
