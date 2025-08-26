@@ -45,7 +45,7 @@
         "fakerphp/faker": "^1.21.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^8.4",
-        "phpunit/phpunit": "^11.4",
+        "phpunit/phpunit": "^12.3",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
