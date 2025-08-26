@@ -48,7 +48,7 @@ INTRO,
                     'threads/*',
                     'forums/*',
                     'games/*',
-                    'users/*',
+                    // 'users/*', causes issues "No application encryption key has been specified."
                     'roles/*',
                     'game-roles/*',
                     'instructs-templates/*',
@@ -73,6 +73,9 @@ INTRO,
             // Exclude these routes even if they matched the rules above.
             'exclude' => [
                 // 'GET /health', 'admin.*'
+                'GET games/{game}/users/{user}',
+                'GET games/{game}/users/{user}/*',
+                'PATCH games/{game}/users/{user}/roles',
             ],
         ],
     ],
