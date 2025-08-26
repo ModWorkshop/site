@@ -120,7 +120,7 @@ if (props.filters) {
 	});
 }
 
-if (query) {
+if (props.query) {
 	searchBus.on(search => query.value = search);
 }
 
