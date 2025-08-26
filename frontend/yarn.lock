@@ -1735,7 +1735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:4.0.3, @nuxt/kit@npm:^4.0.1":
+"@nuxt/kit@npm:4.0.3, @nuxt/kit@npm:^4.0.1, @nuxt/kit@npm:^4.0.3":
   version: 4.0.3
   resolution: "@nuxt/kit@npm:4.0.3"
   dependencies:
@@ -1915,21 +1915,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/robots@npm:^5.2.10":
-  version: 5.4.0
-  resolution: "@nuxtjs/robots@npm:5.4.0"
+"@nuxtjs/robots@npm:^5.5.1":
+  version: 5.5.1
+  resolution: "@nuxtjs/robots@npm:5.5.1"
   dependencies:
     "@fingerprintjs/botd": ^1.9.1
-    "@nuxt/kit": ^3.17.6
+    "@nuxt/kit": ^4.0.3
     consola: ^3.4.2
     defu: ^6.1.4
     nuxt-site-config: ^3.2.2
     pathe: ^2.0.3
-    pkg-types: ^2.2.0
+    pkg-types: ^2.3.0
     sirv: ^3.0.1
     std-env: ^3.9.0
     ufo: ^1.6.1
-  checksum: f7d68a68b6b1805b925261d6311703bcd72c3f7ed705341519aa93a071cc8230890395f69c5ac3cd05b1f3d6a9692d9da9475832044c6b217c909294d8dc9ed3
+  checksum: 7a240923648390a4eeb7750377d31a7dae5aea0e98e34499f3f246bdeb898db2a3f7d6ec320db82cc3899175a3fb13bcd64fc37873bc5e973bc4ff4f74713f76
   languageName: node
   linkType: hard
 
@@ -8362,7 +8362,7 @@ __metadata:
     "@nuxt/devtools": ^2.6.2
     "@nuxtjs/fontaine": latest
     "@nuxtjs/i18n": ^9.5.3
-    "@nuxtjs/robots": ^5.2.10
+    "@nuxtjs/robots": ^5.5.1
     "@nuxtjs/tailwindcss": ^6.14.0
     "@pinia/nuxt": 0.11.2
     "@stylistic/eslint-plugin": ^5.2.3
@@ -9629,6 +9629,17 @@ __metadata:
     exsolve: ^1.0.7
     pathe: ^2.0.3
   checksum: cdb3a4c88c93232bbad2e41cd7ca0f9e2e22acc4f16ad5a313736aacccb68ee157a0c1af81c2d7269744e716b9f6b01b3ad7b8abf0eb8b3e12c1f7d2c47c7597
+  languageName: node
+  linkType: hard
+
+"pkg-types@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "pkg-types@npm:2.3.0"
+  dependencies:
+    confbox: ^0.2.2
+    exsolve: ^1.0.7
+    pathe: ^2.0.3
+  checksum: 33c30b442662a0f2b62fd16f39ae2beeb4cdf3511699e574765b7451e179937847de6e696bbab50bfbd41d2c2e4a99b61ebc7078abf91ea8573a7f16cc11d26a
   languageName: node
   linkType: hard
 
