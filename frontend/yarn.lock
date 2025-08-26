@@ -3817,15 +3817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/components@npm:^13.6.0":
-  version: 13.6.0
-  resolution: "@vueuse/components@npm:13.6.0"
+"@vueuse/components@npm:^13.7.0":
+  version: 13.7.0
+  resolution: "@vueuse/components@npm:13.7.0"
   dependencies:
-    "@vueuse/core": 13.6.0
-    "@vueuse/shared": 13.6.0
+    "@vueuse/core": 13.7.0
+    "@vueuse/shared": 13.7.0
   peerDependencies:
     vue: ^3.5.0
-  checksum: a7c79dd8b08767b50a9b610119b9d3ed8ba32c311f46cbdcdafe2143c3e1937da480d8ee742f006c8588aba0b7c897c4c40a5b31a1d082cd037e055a0c52c7e1
+  checksum: 422c89e61fa0930371988e7be3ad1d21e93a9131fbce8115e51ef9934bc5cece87d3c60317958625f7589e5fa9f5547f386d8ebe5b9ca5b1f773451711753904
   languageName: node
   linkType: hard
 
@@ -3842,19 +3842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^10.11.0":
-  version: 10.11.1
-  resolution: "@vueuse/core@npm:10.11.1"
-  dependencies:
-    "@types/web-bluetooth": ^0.0.20
-    "@vueuse/metadata": 10.11.1
-    "@vueuse/shared": 10.11.1
-    vue-demi: ">=0.14.8"
-  checksum: b1029259419e6556b988570d77d5d8fdbea3a8cd90d5fdb84c2a117b47aa02f8d8d67129f223c633a9f82314581fa849164aaee34cd9d8fc644c35c2883bd877
-  languageName: node
-  linkType: hard
-
-"@vueuse/core@npm:^13.7.0":
+"@vueuse/core@npm:13.7.0, @vueuse/core@npm:^13.7.0":
   version: 13.7.0
   resolution: "@vueuse/core@npm:13.7.0"
   dependencies:
@@ -3864,6 +3852,18 @@ __metadata:
   peerDependencies:
     vue: ^3.5.0
   checksum: 9bb75c4c278cad99548ee5209add11773c7bd198f632ee8c6c310711c92c52a6dfcc6f26613f7946bcc9afb403d1a363281aa2cdaa619c81d47a327d93e169a1
+  languageName: node
+  linkType: hard
+
+"@vueuse/core@npm:^10.11.0":
+  version: 10.11.1
+  resolution: "@vueuse/core@npm:10.11.1"
+  dependencies:
+    "@types/web-bluetooth": ^0.0.20
+    "@vueuse/metadata": 10.11.1
+    "@vueuse/shared": 10.11.1
+    vue-demi: ">=0.14.8"
+  checksum: b1029259419e6556b988570d77d5d8fdbea3a8cd90d5fdb84c2a117b47aa02f8d8d67129f223c633a9f82314581fa849164aaee34cd9d8fc644c35c2883bd877
   languageName: node
   linkType: hard
 
@@ -8383,7 +8383,7 @@ __metadata:
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^8.39.1
     "@typescript-eslint/parser": ^8.40.0
-    "@vueuse/components": ^13.6.0
+    "@vueuse/components": ^13.7.0
     "@vueuse/core": ^13.7.0
     "@vueuse/nuxt": ^13.1.0
     axios: ^1.7.9
