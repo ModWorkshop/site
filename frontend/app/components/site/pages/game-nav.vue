@@ -21,7 +21,7 @@
 							<i-mdi-account-settings-variant/> {{ $t('game_settings') }}
 						</m-dropdown-item>
 						<m-dropdown-item v-if="canSeeAdminGamePage" :to="`/g/${game.short_name}/admin`"><i-mdi-cogs/> {{ $t('admin_page') }}</m-dropdown-item>
-						<m-dropdown-item v-for="button in buttons" :key="button[0]" class="nav-item" :href="button[1]"><i-mdi-link-variant/> {{ button[0] }}</m-dropdown-item>
+						<m-dropdown-item v-for="button in buttons" :key="button[0]" class="nav-item" :to="button[1]"><i-mdi-link-variant/> {{ button[0] }}</m-dropdown-item>
 					</template>
 				</m-dropdown>
 			</m-flex>
