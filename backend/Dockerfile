@@ -74,7 +74,7 @@ RUN apt-get update && apt-get install cron -y \
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --apcu-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php
 
-RUN php artisan scribe:generate
+# RUN php artisan scribe:generate # Need to find a better way to do this, I think it depends on APP_KEY and I kinda don't wanna include it in the build process...
 
 RUN php artisan route:cache \
     && php artisan optimize \
