@@ -72,9 +72,11 @@ RUN apt-get update && apt-get install cron -y \
     && chmod +x /app/entrypoint.sh
 
 # Install composer packages & cache this layer
-RUN composer install --no-interaction --no-dev --optimize-autoloader --apcu-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php \
-    && php artisan scribe:generate \
-    && php artisan route:cache \
+RUN composer install --no-interaction --no-dev --optimize-autoloader --apcu-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php
+
+RUN php artisan scribe:generate
+
+RUN php artisan route:cache \
     && php artisan optimize \
     && php artisan storage:link
 
