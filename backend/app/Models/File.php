@@ -15,7 +15,7 @@ use Str;
 
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -121,11 +121,11 @@ class File extends Model
     {
         return Attribute::make(function() {
             $encode = rawurlencode($this->safeFileName);
-            return Storage::disk('s3')->url('mods/files/'.$this->file)."?filename={$encode}&response-content-disposition=attachment";
+            return Storage::disk('s3')->url('mods/files/'.$this->file)."?response-content-disposition=attachment&filename={$encode}";
         });
     }
 
-    
+
     protected static function booted() {
         static::deleting(function(File $file) {
             Storage::delete('mods/files/'.$file->file);
