@@ -22,13 +22,13 @@
 					</m-toggle-group>
 				</m-input>
 				<m-flex>
-					<m-select v-model="store.colorScheme" :options="colors" :label="$t('language')">
+					<m-select v-model="store.colorScheme" :options="colors" :label="$t('color')">
 						<template #any-option="{ option }">
 							<div class="circle" :style="{ backgroundColor: `var(--mws-${option.id})` }"/> {{ $t(`color_${option.id}`) }}
 						</template>
 					</m-select>
 				</m-flex>
-				<m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code" :label="$t('color')"/>
+				<m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code" :label="$t('language')"/>
 				<m-input v-model="useRelativeTime" type="checkbox" :label="$t('use_relative_time')" :desc="$t('use_relative_time_desc')"/>
 			</m-flex>
 			<h2>Mods</h2>
