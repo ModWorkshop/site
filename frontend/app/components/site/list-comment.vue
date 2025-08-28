@@ -185,7 +185,7 @@ const canEdit = computed(() => {
 });
 
 const canDelete = computed(() => {
-	return user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll;
+	return user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll || props.canDeleteAll;
 });
 
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
