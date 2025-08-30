@@ -9,20 +9,13 @@ RUN apt-get update && apt-get install supervisor -y --no-install-recommends
 RUN install-php-extensions \
     apcu \
     ffi \
-    simplexml \
-    tokenizer \
-    fileinfo \
     redis \
     pdo_mysql \
-    pdo \
     exif \
     pdo_pgsql \
-    xmlwriter \
     pcntl \
-    posix \
     zip \
-    vips \
-    opcache
+    vips
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
