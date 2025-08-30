@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1
 FROM dunglas/frankenphp:1.8.0-php8.3-bookworm AS build
 
-RUN apt-get update && apt-get install supervisor -y
+RUN apt-get update && apt-get install -y --no-install-recommends supervisor
 
 # # Using heredoc from dockerfile:1.4 (ref: https://www.docker.com/blog/introduction-to-heredocs-in-dockerfiles/)
 # # PHP ini configuration
@@ -9,20 +9,13 @@ RUN apt-get update && apt-get install supervisor -y
 RUN install-php-extensions \
     apcu \
     ffi \
-    simplexml \
-    tokenizer \
-    fileinfo \
     redis \
     pdo_mysql \
-    pdo \
     exif \
     pdo_pgsql \
-    xmlwriter \
     pcntl \
-    posix \
     zip \
-    vips \
-    opcache
+    vips
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
@@ -60,7 +53,7 @@ COPY --chown=nobody . /app
 COPY conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf.d/Caddyfile /etc/caddy/Caddyfile
 
-RUN apt-get update && apt-get install cron -y \
+RUN apt-get update && apt-get install -y --no-install-recommends cron \
     # && chown nobody:nogroup /usr/sbin/cron \
     # && setcap cap_setgid=ep /usr/sbin/cron \
     && mkdir /etc/crontabs \
