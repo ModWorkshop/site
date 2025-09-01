@@ -129,13 +129,12 @@
 								<m-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{ $t('user_settings') }}</m-dropdown-item>
 								<m-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{ $t('content_settings') }}</m-dropdown-item>
 								<m-dropdown-item v-if="canSeeAdminPage" to="/admin"><i-mdi-cog/> {{ $t('admin_page') }}</m-dropdown-item>
+								<m-dropdown-item to="/customize"><i-ri-brush-2-fill/> {{ $t('customize') }}</m-dropdown-item>
 								<div class="dropdown-splitter"/>
 								<m-dropdown-item to="/followed-mods"><i-mdi-plus/> {{ $t('followed_mods') }}</m-dropdown-item>
 								<m-dropdown-item to="/liked-mods"><i-mdi-heart/> {{ $t('liked_mods') }}</m-dropdown-item>
 								<div class="dropdown-splitter"/>
 								<m-dropdown-item @click="store.logout"><i-mdi-logout/> {{ $t('logout') }}</m-dropdown-item>
-								<div class="dropdown-splitter"/>
-								<m-dropdown-item to="/customize"><i-mdi-cog/> {{ $t('customize') }}</m-dropdown-item>
 							</template>
 						</m-dropdown>
 					</m-flex>
