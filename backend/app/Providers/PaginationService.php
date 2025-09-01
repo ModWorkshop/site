@@ -40,18 +40,15 @@ class PaginationService extends ServiceProvider
 
             if (isset($val['query']) && !empty($val['query'])) {
                 $query = trim($val['query']);
-                
+
                 if ($useTrigrams && mb_strlen($query) > 2) {
                     $this->where(function(Builder $q) use ($query) {
-                        $tsquery = str_replace(' ', ' & ', $query);
-
-                        $q->whereRaw("name @@ to_tsquery(?)", [$tsquery])
+                        $q->whereRaw("name @@ websearch_to_tsquery(?)", [$query])
                         ->orWhereRaw("levenshtein(name, ?) <= 4", [$query])
-                        ->orWhereRaw("similarity(name, ?) > 0.1", [$query]) // tuned threshold
                         ->orWhereRaw("name ILIKE ?", ['%' . $query . '%']);
                     });
                 } else {
-                    $this->whereRaw("name ILIKE '%' || ? || '%'", $query);
+                    $this->whereRaw("name ILIKE '%' || ? || '%'", [$query]);
                 }
             }
 
