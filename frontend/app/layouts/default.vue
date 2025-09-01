@@ -4,7 +4,7 @@
 		<main>
 			<m-toast v-if="user && (user.pending_email || !user.activated)" class="mt-2" color="warning" :title="$t('verify_email_title')" :closable="false">
 				<span v-if="user.pending_email" class="whitespace-pre">
-					{{ $t('pending_email', user.pending_email) }}
+					{{ $t('pending_email', [user.pending_email]) }}
 				</span>
 				<span v-else-if="!user?.activated" class="whitespace-pre">
 					{{ $t('verify_email_desc') }}
@@ -66,6 +66,7 @@ import type { Toast } from '~/types/toast';
 import { storeToRefs } from 'pinia';
 
 const toasts = useState<Toast[]>('toasts', () => []);
+const showError = useQuickErrorToast();
 
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
 
@@ -76,14 +77,23 @@ const resending = ref(false);
 
 async function resendVerification() {
 	resending.value = true;
-	await postRequest('email/resend');
+	try {
+		await postRequest('email/resend');
+	} catch (e) {
+		showError(e);
+	}
 	resending.value = false;
 }
 
 async function cancelPending() {
 	resending.value = true;
-	await postRequest('email/cancel-pending');
-	await reloadUser();
+	try {
+		await postRequest('email/cancel-pending');
+		await reloadUser();
+		user.value!.pending_email = undefined;
+	} catch (e) {
+		showError(e);
+	}
 	resending.value = false;
 }
 

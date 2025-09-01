@@ -202,13 +202,11 @@ class UserController extends Controller
             'extra.developer_mode' => 'boolean|nullable',
         ];
 
-        if ($user->signable) {
-            if (!$canManageUsers) {
-                $valRules['password'] = ['required_with:current_password', $passwordRule, 'max:128'];
-                $valRules['current_password'] = ['nullable', 'required_with:password'];
-            } else {
-                $valRules['password'] = [$passwordRule, 'max:128'];
-            }
+        if ($user->signable && !$canManageUsers) {
+            $valRules['password'] = ['nullable', 'required_with:current_password', $passwordRule, 'max:128'];
+            $valRules['current_password'] = ['nullable', 'required_with:password'];
+        } else {
+            $valRules['password'] = ['nullable', $passwordRule, 'max:128'];
         }
 
         $val = $request->validate($valRules);
@@ -297,8 +295,11 @@ class UserController extends Controller
         }
 
         $email = Arr::pull($val, 'email');
-        if (isset($email)) {
-            $user->email = $email;
+        if (isset($email) && Str::lower($user->email) != Str::lower($email)) {
+            if (!isset($user->password)) {
+                abort(422, 'Password is required to be set to set email!');
+            }
+            $user->setEmail($email);
         }
 
         $user->update($val);

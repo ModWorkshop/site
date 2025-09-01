@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -34,6 +35,7 @@ use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Storage;
+use Str;
 
 /**
  * App\Models\User
@@ -166,7 +168,7 @@ use Storage;
  * @property-read int|null $ignored_games_count
  * @mixin Eloquent
  */
-class User extends Model implements 
+class User extends Model implements
     MustVerifyEmailContract,
     AuthenticatableContract,
     AuthorizableContract,
@@ -725,8 +727,8 @@ class User extends Model implements
 
     public function routeNotificationForMail(NotificationsNotification $notification = null)
     {
-        if ($notification instanceof PendingEmailVerificationNotification) {
-            return $this->pending_email;
+        if ($notification instanceof PendingEmailVerificationNotification || $notification instanceof VerifyEmail) {
+            return $this->pending_email ?? $this->email;
         } else {
             return $this->email;
         }
@@ -736,27 +738,18 @@ class User extends Model implements
      * Sets an email smartly. If the user has already a verified email. The email will be pending.
      */
     public function setEmail(string $email) {
-        if ($this->email == $email) {
+        if (Str::lower($this->email) == Str::lower($email)) {
             return;
         }
 
         if (User::where('id', '!=', $this->id)->where(fn($q) => $q->whereEmail($email)->orWhere('pending_email', $email))->exists()) {
-            abort(409);
+            abort(422);
         }
 
-        // If user has a verified email, don't change it.
-        if ($this->hasVerifiedEmail()) {
-            $this->forceFill([
-                'pending_email' => $email,
-                'pending_email_set_at' => Carbon::now()
-            ]);
-        } else {
-            $this->forceFill([
-                'email' => $email,
-                'email_verified_at' => null,
-                'activated' => false
-            ]);
-        }
+        $this->forceFill([
+            'pending_email' => $email,
+            'pending_email_set_at' => Carbon::now()
+        ]);
 
         $this->sendEmailVerification();
 
