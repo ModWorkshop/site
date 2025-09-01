@@ -15,8 +15,8 @@
 						<i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
 						{{ thread.name }}
 					</NuxtLink>
-	
-					<m-flex class="items-center">
+
+					<m-flex class="items-center" wrap>
 						<i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
 							<template #user>
 								<a-user :user="thread.user" :avatar="false"/>
@@ -37,7 +37,7 @@
 							</template>
 						</i18n-t>
 					</m-flex>
-	
+
 					<m-flex v-if="thread.tags?.length" wrap>
 						<NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
 							<m-tag :color="tag.color" small>{{ tag.name }}</m-tag>

@@ -47,10 +47,12 @@
 		</m-flex>
 		<template v-if="isPublic">
 			<template v-if="tempBlockOverride || !isHidingMods">
-				<m-toggle-group v-model:selected="displayMods" gap="1" button-style="nav">
-					<m-toggle-group-item value="personal">{{ $t('personal_mods') }}</m-toggle-group-item>
-					<m-toggle-group-item value="collab">{{ $t('collab_mods') }}</m-toggle-group-item>
-				</m-toggle-group>
+				<m-flex class="overflow-x-auto w-full">
+					<m-toggle-group v-model:selected="displayMods" gap="1" button-style="nav" :wrap="false">
+						<m-toggle-group-item value="personal" class="flex-shrink-0">{{ $t('personal_mods') }}</m-toggle-group-item>
+						<m-toggle-group-item value="collab" class="flex-shrink-0">{{ $t('collab_mods') }}</m-toggle-group-item>
+					</m-toggle-group>
+				</m-flex>
 				<mod-list
 					v-if="isPublic || isOwnOrModerator"
 					:trigger-refresh="triggerRefresh"
