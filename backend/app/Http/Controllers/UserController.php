@@ -173,7 +173,7 @@ class UserController extends Controller
             'name'
         ];
 
-        $val = $request->validate([
+        $valRules =[
             'name' => 'string|nullable|min:3|max:30',
             'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
             'avatar_file' => ['nullable', 'is_image'],
@@ -187,8 +187,6 @@ class UserController extends Controller
             'background_file' => ['nullable', 'is_image'],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
-            'current_password' => ['nullable', (!$canManageUsers && $user->signable) ? 'required_with:password' : null],
-            'password' => ['nullable', $user->signable ? 'required_with:current_password' : null, $passwordRule, 'max:128'],
             'extra.default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.home_default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.game_default_mods_sort' => ['nullable', Rule::in($sorting)],
@@ -202,11 +200,18 @@ class UserController extends Controller
             'extra.auto_subscribe_to_thread' => 'boolean|nullable',
             'extra.background_opacity' => 'numeric|min:0|max:1|nullable',
             'extra.developer_mode' => 'boolean|nullable',
-        ]);
+        ];
 
-        if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
-            abort(422, 'Unique name or email already used!');
+        if ($user->signable) {
+            if (!$canManageUsers) {
+                $valRules['password'] = ['required_with:current_password', $passwordRule, 'max:128'];
+                $valRules['current_password'] = ['nullable', 'required_with:password'];
+            } else {
+                $valRules['password'] = [$passwordRule, 'max:128'];
+            }
         }
+
+        $val = $request->validate($valRules);
 
         APIService::nullToEmptyStr($val,
             'custom_color',
@@ -222,6 +227,18 @@ class UserController extends Controller
 
         if (isset($val['unique_name'])) {
             $val['unique_name'] = Str::lower($val['unique_name']);
+
+            if ($val['unique_name'] != $user->unique_name) {
+                if (User::where(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
+                    abort(422, 'Unique name or email already used!');
+                }
+            }
+        }
+
+        if (isset($val['email']) && $val['email'] != $user->email) {
+            if (User::where(DB::raw('LOWER(email)'), Str::lower($val['email']))->exists()) {
+                abort(422, 'Unique name or email already used!');
+            }
         }
 
         $trustLevel = $user->getTrustLevel();
