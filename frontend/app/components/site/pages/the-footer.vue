@@ -30,6 +30,7 @@
 					<m-link to="/document/rules">{{ $t('rules') }}</m-link>
 				</m-flex>
 				<m-flex column gap="4" style="grid-area: sites;">
+					<m-link to="https://github.com/ModWorkshop/site">{{ $t('repository') }}</m-link>
 					<m-link to="https://translate.modworkshop.net/">{{ $t('translation_site') }}</m-link>
 					<m-link to="https://status.modworkshop.net">{{ $t('status') }}</m-link>
 					<m-link to="https://wiki.modworkshop.net/">{{ $t('wiki') }}</m-link>
@@ -54,10 +55,10 @@
 				</m-flex>
 				<m-flex class="sm:ml-auto text-2xl" gap="3">
 					<m-link to="https://discord.gg/Eear4JW"><i-ri-discord-fill/></m-link>
+					<m-link to="https://github.com/ModWorkshop"><i-ri-github-fill/></m-link>
 					<m-link to="https://x.com/ModWorkshop"><i-ri-twitter-x-fill/></m-link>
 					<m-link to="https://bsky.app/profile/modworkshop.bsky.social"><i-ri-bluesky-fill/></m-link>
 					<m-link to="https://www.youtube.com/@modworkshop-yt"><i-ri-youtube-fill/></m-link>
-					<m-link to="https://github.com/ModWorkshop"><i-ri-github-fill/></m-link>
 				</m-flex>
 			</m-flex>
 		</m-flex>

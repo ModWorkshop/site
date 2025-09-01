@@ -673,5 +673,6 @@
     "ignored_games": "Ignored Games",
     "ignored_mods": "Ignored Mods",
     "audit_log": "Audit Log",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+	"repository": "Repository"
 }
