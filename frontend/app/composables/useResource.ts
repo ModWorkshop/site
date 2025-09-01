@@ -1,5 +1,6 @@
 import type { SearchParameters } from 'ofetch';
 import { useI18n } from 'vue-i18n';
+import clone from 'rfdc/default';
 
 /**
  * Attempts to fetch a resoure based on name and URL, if the param doesn't exist, assumes the resources is optional
@@ -51,6 +52,6 @@ export default async function<T>(
 
 	return {
 		...res,
-		data: reactive(res.data)
+		data: ref(clone(res.data.value as T)) as Ref<T>
 	};
 }
