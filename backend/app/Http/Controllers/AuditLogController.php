@@ -25,7 +25,7 @@ class AuditLogController extends Controller
         return AuditLogResource::collectionResponse(AuditLog::queryGet($val, function($query) use ($game) {
             if (isset($game)) {
                 $query->where('game_id', $game->id);
-            } 
+            }
             $query->orderBy('updated_at', 'desc');
         }));
     }
@@ -43,7 +43,6 @@ class AuditLogController extends Controller
      */
     public function destroy(AuditLog $auditLog)
     {
-        \Log::info('hi');
         $auditLog->delete();
     }
 }

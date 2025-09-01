@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $type
@@ -63,7 +63,7 @@ class AuditLog extends Model
     protected $guarded = [];
 
     protected $with = ['context', 'auditable', 'user'];
-    
+
     protected $casts = [
         'data' => 'array',
     ];
@@ -72,12 +72,12 @@ class AuditLog extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }
-    
+
     public function auditable(): BelongsTo
     {
         return $this->morphTo();
@@ -146,15 +146,16 @@ class AuditLog extends Model
         return $log->save();
     }
 
-    public static function logCreate(Model $object, array $data = [], ?Game $game = null) {
+    public static function logCreate(Model $object, array $data = [], ?Game $game = null, bool $objectUserAsContext=false) {
         return self::log(
             type:'create',
             auditable: $object,
+            context: $objectUserAsContext ? $object->user : null,
             game: $game
         );
     }
 
-    public static function logUpdate(Model $object, array $data = [], ?Game $game = null) {
+    public static function logUpdate(Model $object, array $data = [], ?Game $game = null, bool $objectUserAsContext=false) {
         $added = Arr::pull($data, '$added', []);
         $removed = Arr::pull($data, '$removed', []);
 
@@ -172,7 +173,7 @@ class AuditLog extends Model
 
         foreach ($removed as $key => $arr) {
             foreach ($arr as $add) {
-                $changes[] = [ 
+                $changes[] = [
                     'type' => 'remove',
                     'key' => $key,
                     'value_type' => $add->getMorphClass(),
@@ -183,7 +184,7 @@ class AuditLog extends Model
 
         foreach ($added as $key => $arr) {
             foreach ($arr as $add) {
-                $changes[] = [ 
+                $changes[] = [
                     'type' => 'add',
                     'key' => $key,
                     'value_type' => $add->getMorphClass(),
@@ -216,16 +217,17 @@ class AuditLog extends Model
         } else {
             return self::log(
                 type: 'update',
-                auditable: $object, 
+                auditable: $object,
+                context: $objectUserAsContext ? $object->user : null,
                 data: [
                     'changes' => $changes
-                ], 
+                ],
                 game: $game
             );
         }
     }
 
-    public static function logDelete(Model $object, ?Game $game = null) {
+    public static function logDelete(Model $object, ?Game $game = null, bool $objectUserAsContext=false) {
         $log = new AuditLog([
             'type' => 'delete',
             'auditable_name' => $object->name ?? $object->title,
@@ -240,7 +242,7 @@ class AuditLog extends Model
             $log->game()->associate($game);
         }
 
-        if ($object->user) {
+        if ($objectUserAsContext && $object->user) {
             $log->context()->associate($object->user);
             $log->context_name = $object->user->name;
         }

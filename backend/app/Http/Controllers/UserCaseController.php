@@ -20,7 +20,7 @@ use App\Models\AuditLog;
 /**
  * @group User Cases
  * @authenticated
- * 
+ *
  * @hideFromApiDocumentation
  */
 class UserCaseController extends Controller
@@ -83,7 +83,7 @@ class UserCaseController extends Controller
         $user = User::find($val['user_id']);
         $case = UserCase::create($val);
 
-        AuditLog::logCreate($case, $val);
+        AuditLog::logCreate($case, $val, objectUserAsContext: true);
 
         Notification::send(
             notifiable: $case,
@@ -118,7 +118,7 @@ class UserCaseController extends Controller
 
         Utils::convertToUTC($val, 'expire_date');
 
-        AuditLog::logUpdate($userCase, $val);
+        AuditLog::logUpdate($userCase, $val, objectUserAsContext: true);
 
         $userCase->update($val);
 
@@ -130,7 +130,7 @@ class UserCaseController extends Controller
      */
     public function destroy(UserCase $userCase)
     {
-        AuditLog::logDelete($userCase);
+        AuditLog::logDelete($userCase, objectUserAsContext: true);
         $userCase->delete();
     }
 }

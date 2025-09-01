@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -47,5 +47,9 @@ class ModManager extends Model
 
     public function games() {
         return $this->belongsToMany(Game::class);
+    }
+
+    public function getMorphClass(): string {
+        return 'mod_manager';
     }
 }

@@ -18,7 +18,7 @@
 							</template>
 							<template #auditable>
 								<a-user v-if="log.auditable_type == 'user'" :user="log.auditable as User" :avatar="false"/>
-								<span v-else-if="log.auditable_name || log.auditable">"{{ log.auditable_name ?? 'Unknown' }}"</span>
+								<span v-else-if="log.auditable_name">"{{ log.auditable_name }}"</span>
 							</template>
 							<template #context_type>
 								{{ pretty(log.context_type) }}
@@ -101,8 +101,8 @@ useI18n({
 		en: {
 			log_ban: '{user} banned {auditable} {custom}',
 			log_delete: '{user} deleted {auditable_type} {auditable} {associated_context}',
-			log_update: '{user} updated {auditable_type} {auditable}',
-			log_create: '{user} created {auditable_type} {auditable}',
+			log_update: '{user} updated {auditable_type} {auditable} {associated_context}',
+			log_create: '{user} created {auditable_type} {auditable} {associated_context}',
 			log_mod_approve_status: '{user} has {custom} {auditable}',
 			log_mod_suspend_status: '{user} has {custom} {auditable}',
 			log_category_mass_move_mods: '{user} moved {auditable} mods to {context}'

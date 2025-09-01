@@ -121,7 +121,7 @@ class BanController extends Controller
             abort(403, 'Cannot edit ban of user since you cannot ban them normally.');
         }
 
-        AuditLog::logUpdate($ban, $val);
+        AuditLog::logUpdate($ban, $val, objectUserAsContext: true);
 
         $ban->update($val);
 
@@ -145,7 +145,7 @@ class BanController extends Controller
      */
     public function destroy(Ban $ban)
     {
-        AuditLog::logDelete($ban);
+        AuditLog::logDelete($ban, objectUserAsContext: true);
         $ban->delete();
     }
 }
