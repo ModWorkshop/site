@@ -204,6 +204,10 @@ class UserController extends Controller
             'extra.developer_mode' => 'boolean|nullable',
         ]);
 
+        if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
+            abort(422, 'Unique name or email already used!');
+        }
+
         APIService::nullToEmptyStr($val,
             'custom_color',
             'bio',
@@ -307,7 +311,7 @@ class UserController extends Controller
         ]);
 
         [$attach, $detach] = $user->syncRoles(array_map('intval', array_unique(array_filter($val['role_ids'], fn($val) => is_numeric($val)))));
-        
+
         AuditLog::logUpdate($user, [
             '$added' => ['role' => $attach],
             '$removed' => ['role' => $detach],
