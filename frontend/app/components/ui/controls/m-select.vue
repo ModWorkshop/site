@@ -112,13 +112,12 @@ const emit = defineEmits<{
 	(e: 'fetched', options: any[]): void;
 }>();
 
-const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? 'a', {
-	immediate: props.immediateFetch && !!props.url,
+const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
+	immediate: props.immediateFetch && props.url != undefined,
 	params: reactive({
 		query: searchDebounced,
 		...props.fetchParams
-	}),
-	cacheData: true
+	})
 });
 
 const selectedValue = computed(() => props.modelValue ?? props.default);
@@ -128,13 +127,12 @@ const { ctrl } = useMagicKeys();
 
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
-const { data: fetchedSelected } = await useFetchMany(props.url ?? 'a', {
+const { data: fetchedSelected } = await useFetchMany(props.url ?? '', {
 	immediate: !!(props.url && first.value) && (typeof (first.value) == 'number' || first.value?.length > 0),
 	params: {
 		ids: selected.value,
 		...props.fetchParams
-	},
-	cacheData: true
+	}
 });
 
 // The options of the select that are actually shown
@@ -143,8 +141,8 @@ const opts = computed(() => {
 	if (props.options) {
 		return props.options ?? [];
 	} else {
-		const opts = reactive(asyncOptions.value != null ? [...asyncOptions.value.data] : []);
-		if (fetchedSelected.value != null && fetchedSelected.value.data) {
+		const opts = reactive(asyncOptions.value != undefined ? [...asyncOptions.value.data] : []);
+		if (fetchedSelected.value != undefined && fetchedSelected.value.data) {
 			for (const opt of fetchedSelected.value.data) {
 				const val = opt ? optionValue(opt) : null;
 				if (!opts.find(option => optionValue(option) === val)) {
