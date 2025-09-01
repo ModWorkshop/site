@@ -4,55 +4,58 @@
 		gap="1"
 		column
 	>
-		<m-flex class="items-center" gap="3" wrap>
+		<m-flex class="items-center" gap="3">
 			<a-user :user="thread.user" avatar-size="md" :name="false"/>
-			<m-flex column class="md:flex-2 flex-1" gap="2">
-				<NuxtLink class="card-title !text-xl w-full" :to="`/thread/${thread.id}`">
-					<i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
-					<i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
-					<i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
-					{{ thread.name }}
-				</NuxtLink>
 
-				<m-flex wrap class="items-center">
-					<i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
-						<template #user>
-							<a-user :user="thread.user" :avatar="false"/>
-						</template>
-						<template #timeAgo>
-							<m-time :datetime="thread.created_at" relative/>
-						</template>
-						<template #place>
-							<m-flex class="items-center">
-								<NuxtLink v-if="!forumId" class="text-inherit" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
-									{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
-								</NuxtLink>
-								<i-mdi-menu-right v-if="!forumId"/>
-								<NuxtLink class="text-inherit" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
-									{{ thread.category?.emoji }} {{ thread.category?.name ?? $t('not_available') }}
-								</NuxtLink>
-							</m-flex>
-						</template>
-					</i18n-t>
-				</m-flex>
-
-				<m-flex v-if="thread.tags?.length" wrap>
-					<NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
-						<m-tag :color="tag.color" small>{{ tag.name }}</m-tag>
+			<m-flex class="w-full max-sm:flex-col" wrap gap="3">
+				<m-flex column class="md:flex-2 flex-1" gap="2">
+					<NuxtLink class="card-title !text-xl w-full" :to="`/thread/${thread.id}`">
+						<i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
+						<i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
+						<i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
+						{{ thread.name }}
 					</NuxtLink>
+	
+					<m-flex class="items-center">
+						<i18n-t :keypath="(noCategory && (thread.category || !forumId)) ? 'user_posted' : 'user_posted_in_category'">
+							<template #user>
+								<a-user :user="thread.user" :avatar="false"/>
+							</template>
+							<template #timeAgo>
+								<m-time :datetime="thread.created_at" relative/>
+							</template>
+							<template #place>
+								<m-flex class="items-center">
+									<NuxtLink v-if="!forumId" class="text-inherit" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
+										{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
+									</NuxtLink>
+									<i-mdi-menu-right v-if="!forumId"/>
+									<NuxtLink class="text-inherit" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">
+										{{ thread.category?.emoji }} {{ thread.category?.name ?? $t('not_available') }}
+									</NuxtLink>
+								</m-flex>
+							</template>
+						</i18n-t>
+					</m-flex>
+	
+					<m-flex v-if="thread.tags?.length" wrap>
+						<NuxtLink v-for="tag in thread.tags" :key="tag.id" :to="`${to}?selected-tags=${tag.id}`">
+							<m-tag :color="tag.color" small>{{ tag.name }}</m-tag>
+						</NuxtLink>
+					</m-flex>
 				</m-flex>
-			</m-flex>
 
-			<m-flex class="ml-auto items-center" gap="4">
-				<m-flex gap="2">
-					<i-mdi-lock v-if="thread.locked"/>
-					<div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
+				<m-flex class="ml-auto items-center" gap="4">
+					<m-flex gap="2">
+						<i-mdi-lock v-if="thread.locked"/>
+						<div><i-mdi-message-reply/> {{ thread.comment_count }}</div>
+					</m-flex>
+
+					<template v-if="thread.comment_count">
+						<m-time :datetime="thread.bumped_at" relative/>
+						<a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="sm" :name="false"/>
+					</template>
 				</m-flex>
-
-				<template v-if="thread.comment_count">
-					<m-time :datetime="thread.bumped_at" relative/>
-					<a-user v-if="thread.last_user" :user="thread.last_user" avatar-size="sm" :name="false"/>
-				</template>
 			</m-flex>
 		</m-flex>
 	</m-flex>
