@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                     return false;
                 }
                 elseif (APIService::checkSpamContent($value)) {
-                    abort(422, ':attribute contains spam content!');
+                    abort(422, "{$attribute}: contains spam content!");
                 }
             }
 
