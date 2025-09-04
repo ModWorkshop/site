@@ -465,7 +465,7 @@ class User extends Model implements
     {
         return $this->hasOne(Ban::class)
             ->where('active', true)
-            ->where('expire_date', '>', Carbon::now())
+            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
             ->whereNull('game_id');
     }
 
@@ -473,7 +473,7 @@ class User extends Model implements
     {
         return $this->hasOne(Ban::class)
             ->where('active', true)
-            ->where('expire_date', '>', Carbon::now())
+            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
             ->where('game_id', $this->eagerLoadedGameId);
     }
 
