@@ -1764,7 +1764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:^3.12.2, @nuxt/kit@npm:^3.15.4, @nuxt/kit@npm:^3.16.0, @nuxt/kit@npm:^3.17.2, @nuxt/kit@npm:^3.17.5, @nuxt/kit@npm:^3.17.6, @nuxt/kit@npm:^3.9.0":
+"@nuxt/kit@npm:^3.15.4, @nuxt/kit@npm:^3.16.0, @nuxt/kit@npm:^3.17.2, @nuxt/kit@npm:^3.17.5, @nuxt/kit@npm:^3.17.6, @nuxt/kit@npm:^3.9.0":
   version: 3.18.1
   resolution: "@nuxt/kit@npm:3.18.1"
   dependencies:
@@ -7622,7 +7622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"knitwork@npm:^1.0.0, knitwork@npm:^1.1.0, knitwork@npm:^1.2.0":
+"knitwork@npm:^1.0.0, knitwork@npm:^1.2.0":
   version: 1.2.0
   resolution: "knitwork@npm:1.2.0"
   checksum: 6c1f8faf3ca1ca0a9109f1aa17637877f85e3c8df0c22470d1ee560180388db644de659bfe59571c60843bd685fdedc918c0de90231fc1f0e1da48c0fa7fc461
@@ -8847,13 +8847,13 @@ __metadata:
   linkType: hard
 
 "nuxt-vitalizer@npm:latest":
-  version: 0.10.0
-  resolution: "nuxt-vitalizer@npm:0.10.0"
+  version: 1.0.0
+  resolution: "nuxt-vitalizer@npm:1.0.0"
   dependencies:
-    "@nuxt/kit": ^3.12.2
+    "@nuxt/kit": ^4.0.3
     defu: ^6.1.4
-    knitwork: ^1.1.0
-  checksum: 74f9285f6fdd741f922b7d39121495f87af881a9aa7628c3f679a1b07dcc17b12cef796a1ee50be0e1e9ec7c9f923dac07a17da51fb0561ebed41fa475a9c7ab
+    knitwork: ^1.2.0
+  checksum: 71d8b7a6b6fa72ebd280258b9a7097ce7cbb8fb08d3d31d82481c90f5a3f43610190c99e64b8dd11846186979b2c647a139a2eb230626efdb2bea0ffc245b60f
   languageName: node
   linkType: hard
 
