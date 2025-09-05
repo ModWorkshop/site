@@ -18,7 +18,7 @@
 							</template>
 						</i18n-t>
 					</m-flex>
-					<md-content :text="document.desc"/>
+					<md-content allow-anchors :text="document.desc"/>
 				</template>
 			</m-nav>
 		</m-flex>

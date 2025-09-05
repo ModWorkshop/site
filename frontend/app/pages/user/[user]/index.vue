@@ -36,13 +36,11 @@
 				</m-flex>
 			</m-content-block>
 			<m-content-block class="bio p-4 w-full">
-				<span class="text-lg">
-					<template v-if="isPublic">
-						<md-content v-if="user.bio" :text="user.bio"/>
-						<div v-else class="w-full">{{ $t('no_bio') }}</div>
-					</template>
-					<div v-else>{{ $t('private_profile_notice') }}</div>
-				</span>
+				<template v-if="isPublic">
+					<md-content v-if="user.bio" allow-anchors :text="user.bio"/>
+					<div v-else class="w-full">{{ $t('no_bio') }}</div>
+				</template>
+				<div v-else>{{ $t('private_profile_notice') }}</div>
 			</m-content-block>
 		</m-flex>
 		<template v-if="isPublic">

@@ -4,16 +4,17 @@
 </template>
 
 <script setup lang="ts">
-// You may wonder why the hell would you want this in a markdown content element?
+// You may wonder why the hell would you want removeTags in a markdown content element?
 // Simple, you may want to parse the markdown, but actually show no tags
 // This is useful in places like announcements where you have to cut the content, making it very odd to display formatted.
 // It does keep line breaks and paragraphs, though.
 
-const { text, padding = 2, parserVersion, removeTags } = defineProps<{
+const { text, padding = 4, parserVersion, removeTags, allowAnchors = false } = defineProps<{
 	text?: string;
 	padding?: number;
 	parserVersion?: number;
 	removeTags?: boolean;
+	allowAnchors?: boolean;
 }>();
 
 const element = ref();
@@ -27,9 +28,9 @@ const mdText = computed(() => {
 	}
 
 	if (parserVersion == 1) {
-		return oldParseMarkdown(text);
+		return oldParseMarkdown(text, allowAnchors);
 	} else {
-		return parseMarkdown(text, removeTags);
+		return parseMarkdown(text, allowAnchors, removeTags);
 	}
 });
 </script>

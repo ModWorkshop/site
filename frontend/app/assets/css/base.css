@@ -398,13 +398,13 @@ a:link:hover, a:visited:hover {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-weight: 800;
+    font-weight: 650;
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: .5rem;
     margin-top: 0;
-    font-weight: 800;
+    font-weight: 650;
 }
 
 .h1, h1 {

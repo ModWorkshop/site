@@ -8015,6 +8015,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"markdown-it-anchor@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "markdown-it-anchor@npm:9.2.0"
+  peerDependencies:
+    "@types/markdown-it": "*"
+    markdown-it: "*"
+  checksum: 63f9ab99332d90fc09f8cede359f4c7f1c8d9765a0cd4d006538a072a9b5c9069e4e962c246ad7bc7a87a3ebb7e655e9f22f60e696ad855bdb51b7bfbae65c33
+  languageName: node
+  linkType: hard
+
 "markdown-it-color-inline@npm:^1.9.5":
   version: 1.9.5
   resolution: "markdown-it-color-inline@npm:1.9.5"
@@ -8397,6 +8407,7 @@ __metadata:
     humanize-duration: ^3.32.1
     isomorphic-dompurify: ^2.20.0
     markdown-it: ^14.1.0
+    markdown-it-anchor: ^9.2.0
     markdown-it-color-inline: ^1.9.5
     markdown-it-task-lists: ^2.1.1
     nuxt: latest

@@ -121,3 +121,23 @@ blockquote::after {
 .markdown ul, .markdown ol {
 	padding-left: 1.5rem;
 }
+
+.header-anchor {
+	color: inherit;
+}
+
+.header-anchor {
+	margin-left: -10px;
+	margin-top: 2px;
+	opacity: 0;
+}
+
+.md-header:hover .header-anchor {
+	opacity: 1;
+}
+
+.md-header {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}

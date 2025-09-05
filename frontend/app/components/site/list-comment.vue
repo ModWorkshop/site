@@ -18,7 +18,7 @@
 							<i-mdi-pin class="transform rotate-45"/>
 						</span>
 					</m-flex>
-					<md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version"/>
+					<md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version" :padding="2"/>
 				</m-flex>
 				<div v-if="url" class="absolute" style="right: 0; top: -0.5rem;">
 					<m-flex class="comment-actions text-body flex-col md:flex-row" :style="{ visibility: areActionsVisible ? 'visible' : null }">
