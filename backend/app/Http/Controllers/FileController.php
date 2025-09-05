@@ -6,11 +6,9 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Mod;
-use App\Models\Setting;
 use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use App\Models\PendingFile;
@@ -18,8 +16,6 @@ use App\Services\Utils;
 use Auth;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
-use Illuminate\Http\UploadedFile;
-use Log;
 use Storage;
 use Str;
 
@@ -40,28 +36,26 @@ class FileController extends Controller
     public function index(FilteredRequest $request, Mod $mod)
     {
         $val = $request->validate([
-            'version' => 'string|nullable'
+            'version' => 'string|nullable',
+            'prerelease' => 'boolean|nullable',
         ]);
 
         return BaseResource::collectionResponse($mod->files()->queryGet($val, function($query, $val) use ($mod) {
-            $semVerRegex = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$';
             $query->with('user');
 
-            if ($mod->download_type == 'file' && isset($mod->download_id)) {
-                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC");
-            }
-
-            $query->orderByRaw("display_order DESC, semver_version DESC, updated_at DESC");
-
             if (!empty($val['version'])) {
-                if (preg_match($semVerRegex, $val['version_range'])) {
-                    $query->where('semver_version', $val['version']);
-                } else {
-                    $query->where('version', $val['version']);
-                }
+                $query->where('semver_version', $val['version'])->orWhere('version', $val['version']);
             }
 
-            $query->orderByRaw("display_order DESC, updated_at DESC");
+            if (!isset($val['prerelease']) || !$val['prerelease']) {
+                $query->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");
+            }
+
+            if ($mod->download_type == 'file' && isset($mod->download_id)) {
+                $query->orderByRaw("(id = $mod->download_id) DESC, display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, updated_at DESC");
+            } else {
+                $query->orderByRaw("display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, updated_at DESC");
+            }
         }));
     }
 
@@ -275,6 +269,10 @@ class FileController extends Controller
             $file->mod->bump();
         }
 
+        if (array_key_exists('display_order', $val)) {
+            $val['display_order'] ??= 0;
+        }
+
         $file->update($val);
 
         return new FileResource($file);
@@ -363,19 +361,17 @@ class FileController extends Controller
      * Get Latest File
      *
      * Returns the latest file (non prerelease by default). This works best with semver
-     * If you wish to get prerelease, include ?prerelease=1 in the search query
+     * If you wish to include prerelease, include ?prerelease=1 in the search query
      */
     public function getLatestFile(Request $request, Mod $mod) {
         $val = $request->validate([
             'prerelease' => 'boolean|nullable',
         ]);
 
-        $files = $mod->files()->orderByRaw("semver_version DESC, display_order DESC, updated_at DESC");
+        $files = $mod->files()->orderByRaw("semver_version IS NOT NULL DESC, display_order DESC, semver_version DESC, updated_at DESC");
 
-        if (isset($val['prerelease']) && $val['prerelease']) {
-            $files->whereRaw('get_semver_prerelease(semver_version) IS NOT NULL');
-        } else {
-            $files->whereRaw("get_semver_prerelease(semver_version) IS NULL");
+        if (!isset($val['prerelease']) || !$val['prerelease']) {
+            $files->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");
         }
         return $files->first();
     }
