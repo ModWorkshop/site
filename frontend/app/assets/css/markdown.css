@@ -124,12 +124,12 @@ blockquote::after {
 
 @media (prefers-color-scheme: light) {
 	.md-color {
-		text-shadow: 1px 1px 3px #000000ad;
+		text-shadow: 1px 1px 2px #000000d2;
 	}
 }
 
 .light .md-color {
-	text-shadow: 1px 1px 3px #000000ab;
+	text-shadow: 1px 1px 2px #000000d2;
 }
 
 .header-anchor {
