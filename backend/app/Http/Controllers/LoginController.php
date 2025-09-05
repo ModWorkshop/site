@@ -130,7 +130,7 @@ class LoginController extends Controller
 
         $user = User::forceCreate([
             'name' => $val['name'],
-            'unique_name' => $val['unique_name'],
+            'unique_name' => Str::lower($val['unique_name']),
             'email' => $val['email'],
             'password' => Hash::make($val['password']),
             'last_online' => Carbon::now(),
@@ -252,7 +252,7 @@ class LoginController extends Controller
             //Create a user
             $user = User::forceCreate([
                 'name' => $name,
-                'unique_name' => $uniqueName,
+                'unique_name' => Str::lower($uniqueName),
                 'avatar' => $avatarFileName,
                 'last_online' => Carbon::now(),
                 'activated' => true

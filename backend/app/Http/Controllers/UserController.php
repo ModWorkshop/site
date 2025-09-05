@@ -226,8 +226,8 @@ class UserController extends Controller
         if (isset($val['unique_name'])) {
             $val['unique_name'] = Str::lower($val['unique_name']);
 
-            if ($val['unique_name'] != $user->unique_name) {
-                if (User::where(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
+            if ($val['unique_name'] != Str::lower($user->unique_name)) {
+                if (User::where(DB::raw('LOWER(unique_name)'), $val['unique_name'])->exists()) {
                     abort(422, 'Unique name or email already used!');
                 }
             }
