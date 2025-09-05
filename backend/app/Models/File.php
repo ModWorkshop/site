@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Storage;
 use Str;
-
+use z4kn4fein\SemVer\Version;
 
 /**
  *
@@ -67,8 +67,12 @@ class File extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $hidden = ['mod'];
+    protected $hidden = ['mod', 'semver_version'];
     protected $with = [];
+
+    protected $casts = [
+        'semver_version' => 'string'
+    ];
 
     protected $appends = ['download_url', 'type'];
 
@@ -127,6 +131,14 @@ class File extends Model
 
 
     protected static function booted() {
+        static::saving(function(File $file) {
+            if (!empty($file->version) && Version::parseOrNull($file->version) != null) {
+                $file->semver_version = $file->version;
+            } else {
+                $file->semver_version = null;
+            }
+        });
+
         static::deleting(function(File $file) {
             Storage::delete('mods/files/'.$file->file);
         });

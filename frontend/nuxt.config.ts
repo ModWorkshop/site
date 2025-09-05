@@ -9,10 +9,6 @@ export default defineNuxtConfig({
 		host: '0.0.0.0'
 	},
 
-	future: {
-		compatibilityVersion: 4
-	},
-
 	features: {
 		inlineStyles: true
 	},
@@ -49,7 +45,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
-			version: '3.6.1',
+			version: '3.6.2',
 			presignedUpload: false,
 			commitHash: ''
 		},

@@ -39,15 +39,32 @@ class FileController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        return BaseResource::collectionResponse($mod->files()->queryGet($request->val(), function($query, $val) use ($mod) {
+        $val = $request->validate([
+            'version' => 'string|nullable'
+        ]);
+
+        return BaseResource::collectionResponse($mod->files()->queryGet($val, function($query, $val) use ($mod) {
+            $semVerRegex = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$';
             $query->with('user');
+
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
-                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC, display_order DESC, updated_at DESC");
-            } else {
-                $query->orderByRaw("display_order DESC, updated_at DESC");
+                $query->orderByRaw("(CASE WHEN id = $mod->download_id THEN 0 ELSE 1 END) ASC");
             }
+
+            $query->orderByRaw("display_order DESC, semver_version DESC, updated_at DESC");
+
+            if (!empty($val['version'])) {
+                if (preg_match($semVerRegex, $val['version_range'])) {
+                    $query->where('semver_version', $val['version']);
+                } else {
+                    $query->where('version', $val['version']);
+                }
+            }
+
+            $query->orderByRaw("display_order DESC, updated_at DESC");
         }));
     }
+
 
     public function beginUpload(Request $request, Mod $mod) {
         $remainingStorage = $mod->currentStorage;
@@ -128,7 +145,7 @@ class FileController extends Controller
             // For whatever reason this doesn't work with the normal Storage::move
             /** @var S3Client */
             $client = $disk->getClient();
-            $client->copyObject([ 
+            $client->copyObject([
                 'Bucket' => config('filesystems.disks.s3.bucket'),
                 'CopySource' => config('filesystems.disks.s3.bucket').'/'.$tempFilePath,
                 'Key' => 'mods/files/'.$pendingFile->file_name,
@@ -160,7 +177,7 @@ class FileController extends Controller
 
             // Done copying and moving the file + updating the related file
             // In case anything above fails, we'd handle it in DeleteLoosePendingFiles job
-            $pendingFile->delete(); 
+            $pendingFile->delete();
 
             $mod->refresh();
             $mod->bump(false);
@@ -340,5 +357,38 @@ class FileController extends Controller
     public function registerDownload(Request $request, File $file)
     {
         ModService::registerDownload($file);
+    }
+
+    /**
+     * Get Latest File
+     *
+     * Returns the latest file (non prerelease by default). This works best with semver
+     * If you wish to get prerelease, include ?prerelease=1 in the search query
+     */
+    public function getLatestFile(Request $request, Mod $mod) {
+        $val = $request->validate([
+            'prerelease' => 'boolean|nullable',
+        ]);
+
+        $files = $mod->files()->orderByRaw("semver_version DESC, display_order DESC, updated_at DESC");
+
+        if (isset($val['prerelease']) && $val['prerelease']) {
+            $files->whereRaw('get_semver_prerelease(semver_version) IS NOT NULL');
+        } else {
+            $files->whereRaw("get_semver_prerelease(semver_version) IS NULL");
+        }
+        return $files->first();
+    }
+
+    /**
+     * Get File by Version
+     *
+     * Gets a file using a specific version (works only with semver)
+     */
+    public function getFileByVersion(Mod $mod, string $version) {
+        $file = $mod->files()->whereNotNull('semver_version')
+            ->where('semver_version', '=', $version)
+            ->first();
+        return $file;
     }
 }

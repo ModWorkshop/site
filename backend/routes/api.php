@@ -64,6 +64,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+## Files
 APIService::resource('files', FileController::class, 'mods');
 APIService::resource('images', ImageController::class, 'mods');
 
@@ -71,6 +72,13 @@ Route::middleware('can:view,file')->get('files/{file}/download', [FileController
 Route::middleware('can:view,file')->get('files/{file}/version', [FileController::class, 'fileVersion']);
 Route::post('files/{file}/register-download', [FileController::class, 'registerDownload']);
 Route::middleware('can:view,mod')->get('mods/{mod}/download', [ModController::class, 'downloadPrimaryFile']);
+
+// @group Mods
+Route::middleware('can:view,mod')->group(function() {
+    Route::get('mods/{mod}/version', [ModController::class, 'getVersion']);
+    Route::get('mods/{mod}/files/latest', [FileController::class, 'getLatestFile']);
+    Route::get('mods/{mod}/files/{version}', [FileController::class, 'getFileByVersion']);
+});
 
 //General mods
 APIService::resource('links', LinkController::class, 'mods');
@@ -101,7 +109,6 @@ Route::get('games/{game}/popular-and-latest', [ModController::class, 'popularAnd
 Route::middleware('auth:sanctum')->get('games/{game}/admin-data', [GameController::class, 'getAdminData']);
 Route::get('popular-and-latest', [ModController::class, 'popularAndLatest']);
 
-Route::middleware('can:view,mod')->get('mods/{mod}/version', [ModController::class, 'getVersion']); // @group Mods
 Route::get('mods/versions', [ModController::class, 'getVersions']);
 
 Route::middleware('can:manage,mod')->group(function() {
