@@ -122,6 +122,16 @@ blockquote::after {
 	padding-left: 1.5rem;
 }
 
+@media (prefers-color-scheme: light) {
+	.md-color {
+		text-shadow: 1px 1px 3px #000000ad;
+	}
+}
+
+.light .md-color {
+	text-shadow: 1px 1px 3px #000000ab;
+}
+
 .header-anchor {
 	color: inherit;
 }
