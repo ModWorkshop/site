@@ -242,7 +242,7 @@ class UserController extends Controller
         $trustLevel = $user->getTrustLevel();
         $banned = $user->isBanned();
         if ($trustLevel == 0 || $banned) {
-            $values = ['bio', 'banner_file', 'background_file', 'custom_title', 'donation_url'];
+            $values = ['bio', 'avatar_file', 'banner_file', 'background_file', 'custom_title', 'donation_url'];
             foreach ($values as $value) {
                 if (!empty($val[$value])) {
                     if ($banned) {
