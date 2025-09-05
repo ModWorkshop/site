@@ -377,6 +377,44 @@ class FileController extends Controller
     }
 
     /**
+     * Get Latest File Version
+     *
+     * Same as Get Latest File, but returns the version of the file
+     */
+    function getLatestFileVersion(Request $request, Mod $mod) {
+        $file = $this->getLatestFile($request, $mod);
+        if (!isset($file)) {
+            abort(404);
+        }
+        return $file->version;
+    }
+
+
+    /**
+     * Get Primary File
+     *
+     * Returns the primary file of the mod (the primary download)
+     */
+    public function getPrimaryFile(Request $request, Mod $mod) {
+        if ($mod->download_type == 'file') {
+            return $mod->downloadRelation;
+        }
+    }
+
+    /**
+     * Get Primary File Version
+     *
+     * Same as Get Primary File, but returns the version of the file
+     */
+    function getPrimaryFileVersion(Request $request, Mod $mod) {
+        $file = $this->getPrimaryFile($request, $mod);
+        if (!isset($file)) {
+            abort(404);
+        }
+        return $file->version;
+    }
+
+    /**
      * Get File by Version
      *
      * Gets a file using a specific version (works only with semver)
