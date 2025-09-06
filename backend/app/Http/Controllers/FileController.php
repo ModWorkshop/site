@@ -389,6 +389,18 @@ class FileController extends Controller
         return $file->version;
     }
 
+    /**
+     * Get Latest File Version
+     *
+     * Same as Get Latest File, but returns the version of the file
+     */
+    function downloadLatestFileVersion(Request $request, Mod $mod) {
+        $file = $this->getLatestFile($request, $mod);
+        if (!isset($file)) {
+            abort(404);
+        }
+        return redirect($file->downloadUrl);
+    }
 
     /**
      * Get Primary File

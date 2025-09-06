@@ -78,6 +78,7 @@ Route::middleware('can:view,mod')->group(function() {
     Route::get('mods/{mod}/version', [ModController::class, 'getVersion']);
     Route::get('mods/{mod}/files/latest', [FileController::class, 'getLatestFile']);
     Route::get('mods/{mod}/files/latest/version', [FileController::class, 'getLatestFileVersion']);
+    Route::get('mods/{mod}/files/latest/download', [FileController::class, 'downloadLatestFileVersion']);
     Route::get('mods/{mod}/files/primary', [FileController::class, 'getPrimaryFile']);
     Route::get('mods/{mod}/files/primary/version', [FileController::class, 'getPrimaryFileVersion']);
     Route::get('mods/{mod}/files/{version}', [FileController::class, 'getFileByVersion']);
