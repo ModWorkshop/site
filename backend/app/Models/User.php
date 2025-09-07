@@ -869,7 +869,7 @@ class User extends Model implements
             $gamePerms = $this->getGamePerms($game->id);
             //Game version of the admin permission
 
-            if ($this->existsAndTrue($gamePerms, 'manage-game')) {
+            if ($this->existsAndTrue($gamePerms, 'manage-game') || $this->existsAndTrue($perms, 'manage-games')) {
                 return true;
             }
 
