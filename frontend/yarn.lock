@@ -3306,19 +3306,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylistic/eslint-plugin@npm:^5.2.3":
-  version: 5.2.3
-  resolution: "@stylistic/eslint-plugin@npm:5.2.3"
+"@stylistic/eslint-plugin@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "@stylistic/eslint-plugin@npm:5.3.1"
   dependencies:
     "@eslint-community/eslint-utils": ^4.7.0
-    "@typescript-eslint/types": ^8.38.0
+    "@typescript-eslint/types": ^8.41.0
     eslint-visitor-keys: ^4.2.1
     espree: ^10.4.0
     estraverse: ^5.3.0
     picomatch: ^4.0.3
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: d953c40c8a6b0cfe0188c420692271c3146bf81cf72dc6fae205ef947265ea5aa244bd3e8fe110be7b3b7cbce8d1153ad4ef16b93219a85987bfc9bea0e10014
+  checksum: b0d63621b984e8ccd04a7de5bf94eb7b70bd39af8c689e2b4773bdffe6802209ff233f9c7d504f027e59d7f50338ee6fb7dc8bb549d7b40b3274a06735355cec
   languageName: node
   linkType: hard
 
@@ -3648,7 +3648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:8.40.0, @typescript-eslint/types@npm:^8.38.0, @typescript-eslint/types@npm:^8.40.0":
+"@typescript-eslint/types@npm:8.40.0, @typescript-eslint/types@npm:^8.40.0":
   version: 8.40.0
   resolution: "@typescript-eslint/types@npm:8.40.0"
   checksum: b5b251114f103bf74a2cde558f8715e8ffc7bed5f8bc11de77036dc09252b0f7b5eb634759cfd67ab4dace42c2074687ebdb4f89264ae72afdb9296ee3810bf0
@@ -9024,7 +9024,7 @@ __metadata:
     "@nuxtjs/robots": ^5.5.1
     "@nuxtjs/tailwindcss": ^6.14.0
     "@pinia/nuxt": 0.11.2
-    "@stylistic/eslint-plugin": ^5.2.3
+    "@stylistic/eslint-plugin": ^5.3.1
     "@types/node": ^24.3.0
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^8.41.0
