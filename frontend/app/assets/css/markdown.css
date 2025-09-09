@@ -147,7 +147,5 @@ blockquote::after {
 }
 
 .md-header {
-	display: flex;
-	align-items: center;
 	gap: 2px;
 }
