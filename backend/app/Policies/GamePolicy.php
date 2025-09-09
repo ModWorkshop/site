@@ -54,7 +54,7 @@ class GamePolicy
      */
     public function update(User $user, Game $game)
     {
-        return $user->hasPermission('manage-games', $game) ? Response::allow() : Response::deny('You cannot update games');
+        return $user->hasPermission('manage-game', $game) ? Response::allow() : Response::deny('You cannot update games');
     }
 
     /**
