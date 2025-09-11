@@ -11,21 +11,23 @@ return [    // The HTML <title> for the generated documentation.
     'title' => 'ModWorkshop API Documentation',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => 'The ModWorkshop API is available for everyone to use.',
+    'description' => <<<INTRO
+The ModWorkshop API is available for everyone to use.
 
-    // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
-    'intro_text' => <<<INTRO
 Do note that by using the API you must follow the following guidelines:
 
 1. Do not spam the API.
 
-2. Do not replicate the site or remove the need to visit the site to download mods.
+2. Do not replicate the site or remove the need to visit the site to download mods without getting permission to do so.
 Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
 
-3. Respect user's privacy and do not store their information without their consent.
+3. Respect user's privacy and do not store their personal information without their consent.
 
 At the moment, the API <b>only supports GET requests</b>. More support will come in the future, but will require the use of API keys.
 INTRO,
+
+    // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
+    'intro_text' => '',
 
     // The base URL displayed in the docs.
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
