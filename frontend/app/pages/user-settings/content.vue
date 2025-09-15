@@ -19,7 +19,7 @@
 		<m-tab name="follow" :title="$t('following')">
 			<m-list :limit="10" :title="$t('followed_games')" url="followed-games" :item-link="item => `/g/${item.short_name}`">
 				<template #before-item="{ item }">
-					<game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
+					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
 				</template>
 				<template #item-buttons="{ item, items }">
 					<m-button @click.prevent="unfollowGame(item, items.data)"><i-mdi-remove/> {{ $t('unfollow') }}</m-button>
@@ -61,7 +61,7 @@
 			</m-list>
 			<m-list :title="$t('ignored_games')" url="ignored-games" :limit="10">
 				<template #before-item="{ item }">
-					<game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
+					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
 				</template>
 				<template #item-buttons="{ item, items }">
 					<m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
@@ -69,7 +69,7 @@
 			</m-list>
 			<m-list :title="$t('ignored_mods')" url="ignored-mods" :limit="10">
 				<template #before-item="{ item }">
-					<game-thumbnail :src="item.thumbnail" style="width: 128px; height: 64px;"/>
+					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
 				</template>
 				<template #item-buttons="{ item, items }">
 					<m-button @click.prevent="unignoreMod(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>

@@ -11,7 +11,7 @@
 	>
 		<m-img-uploader id="thumbnail" v-model="thumbnailBlob" clear-button :label="$t('thumbnail')" :src="category.thumbnail">
 			<template #image="{ src }">
-				<game-thumbnail :src="src" style="width: 250px;"/>
+				<a-thumbnail :src="src" :has-thumb="false" url-prefix="games/images" style="width: 250px;"/>
 			</template>
 		</m-img-uploader>
 		<m-input v-model="category.name" :label="$t('name')"/>
