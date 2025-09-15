@@ -4412,7 +4412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:13.9.0":
+"@vueuse/core@npm:13.9.0, @vueuse/core@npm:^13.9.0":
   version: 13.9.0
   resolution: "@vueuse/core@npm:13.9.0"
   dependencies:
@@ -4437,19 +4437,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^13.7.0":
-  version: 13.7.0
-  resolution: "@vueuse/core@npm:13.7.0"
-  dependencies:
-    "@types/web-bluetooth": ^0.0.21
-    "@vueuse/metadata": 13.7.0
-    "@vueuse/shared": 13.7.0
-  peerDependencies:
-    vue: ^3.5.0
-  checksum: 9bb75c4c278cad99548ee5209add11773c7bd198f632ee8c6c310711c92c52a6dfcc6f26613f7946bcc9afb403d1a363281aa2cdaa619c81d47a327d93e169a1
-  languageName: node
-  linkType: hard
-
 "@vueuse/metadata@npm:10.11.1":
   version: 10.11.1
   resolution: "@vueuse/metadata@npm:10.11.1"
@@ -4461,13 +4448,6 @@ __metadata:
   version: 13.6.0
   resolution: "@vueuse/metadata@npm:13.6.0"
   checksum: ace720412fb225e8fa9f93c95aab3363770e55e6f49ab67c52361dd5e9c64920fab3fa8da7c918884dfc7248fea621e34f8816397c20c949c3f3f299b9632b04
-  languageName: node
-  linkType: hard
-
-"@vueuse/metadata@npm:13.7.0":
-  version: 13.7.0
-  resolution: "@vueuse/metadata@npm:13.7.0"
-  checksum: 25164bb674273e6a8497d105d0aff6136aa114f92bf12e271f3c997ef671f9cd0d05770585151c4c78ff51a28021cdb35b72b4495841bf6f3b82f4bff9b8691b
   languageName: node
   linkType: hard
 
@@ -4508,15 +4488,6 @@ __metadata:
   peerDependencies:
     vue: ^3.5.0
   checksum: 16a24201b7d4a80559ee75db371a48c9d703979d6c1cb86ba7dbf47187e332f6ca5fbbb0b2f1e28aceefb88f1b68d8a1425050850670609e173f69dd53434abb
-  languageName: node
-  linkType: hard
-
-"@vueuse/shared@npm:13.7.0":
-  version: 13.7.0
-  resolution: "@vueuse/shared@npm:13.7.0"
-  peerDependencies:
-    vue: ^3.5.0
-  checksum: 71a79bb46a6ea2315c92f735a52786dd7adfa246250ced4227cef2d86bccb5abbfe1c34664c544097762a513a2bb1f671aaa9e2bc0b8434f3e63738a91cb9690
   languageName: node
   linkType: hard
 
@@ -9126,7 +9097,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^8.41.0
     "@typescript-eslint/parser": ^8.40.0
     "@vueuse/components": ^13.9.0
-    "@vueuse/core": ^13.7.0
+    "@vueuse/core": ^13.9.0
     "@vueuse/nuxt": ^13.1.0
     axios: ^1.12.0
     colorjs.io: ^0.5.2
