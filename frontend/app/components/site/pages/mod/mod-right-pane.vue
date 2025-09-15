@@ -52,7 +52,13 @@
 
 			<m-flex v-if="mod.repo_url" :title="$t('repo_url')" gap="6">
 				<span class="text-secondary whitespace-pre"><i-mdi-git/> {{ $t('repo_url') }} </span>
-				<NuxtLink class="ml-auto text-body text-right truncate" :to="mod.repo_url">{{ mod.repo_url }}</NuxtLink>
+				<NuxtLink class="ml-auto text-body text-right truncate" :to="mod.repo_url">
+					<i-ri-github-fill v-if="mod.repo_url.startsWith('https://github.com')"/>
+					<i-ri-gitlab-fill v-else-if="mod.repo_url.startsWith('https://gitlab.com')"/>
+					<i-mdi-bitbucket v-else-if="mod.repo_url.startsWith('https://bitbucket.org')"/>
+					<i-mdi-link-variant v-else/>
+					{{ $t('link') }}
+				</NuxtLink>
 			</m-flex>
 
 			<template v-if="mod.tags.length">
