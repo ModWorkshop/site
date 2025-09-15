@@ -12,7 +12,7 @@
 						<NuxtLink class="text-body" :to="`/thread/${thread.id}`">
 							<m-time :datetime="thread.created_at" relative/>
 						</NuxtLink>
-						<span v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :title="thread.updated_at">{{ $t('edited') }}</span>
+						<m-time v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :datetime="thread.updated_at" :text="$t('edited')"/>
 					</m-flex>
 					<md-content class="w-full" :padding="6" allow-anchors :text="thread.content" :parser-version="thread.parser_version"/>
 				</m-flex>

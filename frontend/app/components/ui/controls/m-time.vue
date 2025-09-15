@@ -16,12 +16,13 @@
 <script setup lang="ts">
 import { differenceInMonths, differenceInSeconds, parseISO } from 'date-fns';
 
-const { datetime, timeStyle = 'short', dateStyle = 'short', relative, relativeTimeStyle = 'long' } = defineProps<{
+const { text, datetime, timeStyle = 'short', dateStyle = 'short', relative, relativeTimeStyle = 'long' } = defineProps<{
 	datetime?: string | Date;
 	dateStyle?: false | 'full' | 'long' | 'medium' | 'short';
 	timeStyle?: false | 'full' | 'long' | 'medium' | 'short';
 	relativeTimeStyle?: Intl.RelativeTimeFormatStyle;
 	relative?: boolean;
+	text?: string;
 }>();
 
 const { locale, t } = useI18n();
@@ -38,6 +39,10 @@ const dateTimeHack = computed(() => {
 const useRelativeTime = useConsentedCookie('use-relative-time', { default: () => true, expires: longExpiration() });
 
 const overrideText = computed(() => {
+	if (text) {
+		return text;
+	}
+
 	if (!datetime) {
 		return;
 	}
@@ -77,7 +82,11 @@ const overrideText = computed(() => {
 
 function mouseEntered() {
 	if (datetime) {
-		const formatter = new Intl.DateTimeFormat(locale.value);
+		const formatter = new Intl.DateTimeFormat(locale.value, {
+			timeStyle: 'short',
+			dateStyle: 'long'
+		});
+
 		titleHover.value = formatter.format(typeof datetime == 'string' ? parseISO(datetime) : datetime);
 	}
 }

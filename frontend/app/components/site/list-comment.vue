@@ -13,7 +13,7 @@
 						<NuxtLink class="ml-1 text-secondary" :to="commentPage">
 							<m-time :datetime="comment.created_at" relative/>
 						</NuxtLink>
-						<span v-if="comment.updated_at != comment.created_at" class="text-secondary" :title="comment.updated_at">{{ $t('edited') }}</span>
+						<m-time v-if="comment.updated_at != comment.created_at" class="text-secondary" :datetime="comment.updated_at" :text="$t('edited')"/>
 						<span v-if="showPins && comment.pinned" :title="$t('pinned')">
 							<i-mdi-pin class="transform rotate-45"/>
 						</span>
