@@ -233,12 +233,12 @@ watch(query, val => {
 
 onMounted(() => {
 	window.addEventListener('keydown', function (e) {
-		if (e.ctrlKey && e.key == 'k' /** k */) {
+		if (e.ctrlKey && e.key === 'k' /** k */) {
 			showSearch.value = true;
 			e.preventDefault();
 		}
 
-		if (e.key == 'Escape') {
+		if (e.key === 'Escape') {
 			showSearch.value = false;
 		}
 	});

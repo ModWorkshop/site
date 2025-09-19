@@ -21,7 +21,7 @@ const { user } = defineProps<{
 const { hasPermission, user: me } = useStore();
 const canEditComments = computed(() => hasPermission('manage-discussions'));
 
-if (user.id != me?.id) {
+if (user.id !== me?.id) {
 	useNeedsPermission('manage-discussions');
 }
 </script>

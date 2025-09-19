@@ -7,7 +7,7 @@ export default function (md) {
 		const prev = state.src.charCodeAt(start - 1);
 
 		// A mention must begin with either nothing, line feed, tab or space. Otherwise ignore. Prevents highlighting things such as emails.
-		if (silent || state.src.charCodeAt(start) !== 64/* @ */ || !(prev == 10 || prev == 9 || prev == 32 || Number.isNaN(prev))) {
+		if (silent || state.src.charCodeAt(start) !== 64/* @ */ || !(prev === 10 || prev === 9 || prev === 32 || Number.isNaN(prev))) {
 			return false;
 		}
 		if (start + 2 >= max) {
@@ -23,7 +23,7 @@ export default function (md) {
 		}
 
 		// Avoid highlighting lone @'s
-		if (end - start == 1) {
+		if (end - start === 1) {
 			return false;
 		}
 

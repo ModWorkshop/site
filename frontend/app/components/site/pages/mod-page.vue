@@ -56,7 +56,7 @@ if (mod.value.game) {
 if (mod.value.id && import.meta.client) {
 	postRequest(`mods/${mod.value.id}/register-view`, null, {
 		onResponse(response: any) {
-			if (response.status == 201) {
+			if (response.status === 201) {
 				mod.value.views++;
 			}
 		}
@@ -72,7 +72,7 @@ const breadcrumb = computed(() => {
 		breadcrumb.push(...mod.value.breadcrumb);
 	}
 
-	if (route.name == 'mod-mod-edit') {
+	if (route.name === 'mod-mod-edit') {
 		breadcrumb.push({ name: t('edit') });
 	}
 

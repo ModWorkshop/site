@@ -47,7 +47,7 @@ const overrideText = computed(() => {
 		return;
 	}
 
-	const date = typeof datetime == 'string' ? parseISO(datetime) : datetime;
+	const date = typeof datetime === 'string' ? parseISO(datetime) : datetime;
 	const secs = Math.abs(differenceInSeconds(now.value, date));
 
 	if (relative && useRelativeTime.value) {
@@ -87,7 +87,7 @@ function mouseEntered() {
 			dateStyle: 'long'
 		});
 
-		titleHover.value = formatter.format(typeof datetime == 'string' ? parseISO(datetime) : datetime);
+		titleHover.value = formatter.format(typeof datetime === 'string' ? parseISO(datetime) : datetime);
 	}
 }
 </script>

@@ -8,7 +8,7 @@ export default async function<T extends object>(name: string, url: string, templ
 
 	const id = route.params[`${name}`];
 
-	if (template && (id === undefined || id == 'new')) {
+	if (template && (id === undefined || id === 'new')) {
 		return { data: ref(clone(template)) as Ref<T> };
 	} else {
 		const res = await useFetchData<T>(`${url}/${id}`, { params });

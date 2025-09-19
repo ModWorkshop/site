@@ -46,9 +46,9 @@ const clss = computed(() => ({
 	'button': !props.unstyled,
 	[`button-${props.color}`]: !props.unstyled,
 	'button-no-bg': props.noBg,
-	'button-sm': props.size == 'sm',
-	'button-xs': props.size == 'xs',
-	'button-lg': props.size == 'lg',
+	'button-sm': props.size === 'sm',
+	'button-xs': props.size === 'xs',
+	'button-lg': props.size === 'lg',
 	'cursor-pointer': props.unstyled
 }));
 

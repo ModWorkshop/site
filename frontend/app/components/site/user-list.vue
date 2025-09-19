@@ -39,7 +39,7 @@ const { url = 'users', column = false, userLink, altBackground = false } = defin
 }>();
 
 function getUserLink(user) {
-	if (typeof userLink == 'function') {
+	if (typeof userLink === 'function') {
 		return userLink(user);
 	} else {
 		return `/user/${user.id}`;

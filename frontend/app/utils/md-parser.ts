@@ -86,7 +86,7 @@ container(md, 'spoiler', {
 		const token = tokens[idx];
 		if (token.nesting === 1) {
 			let title = token.info;
-			if (!title || title.length == 0) {
+			if (!title || title.length === 0) {
 				title = 'Spoiler!';
 			}
 			return `<details class="spoiler"><summary>${title}</summary><div class="spoiler-body">`;

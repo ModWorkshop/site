@@ -19,7 +19,7 @@ export default async function<T = any>(url: string | (() => string), params: Sea
 	const { data, status, refresh } = ret;
 
 	const { start: startPlanLoad } = useTimeoutFn(async () => {
-		if (typeof url == 'function' ? url() : url) {
+		if (typeof url === 'function' ? url() : url) {
 			await refresh();
 		}
 	}, 250, { immediate: false });
@@ -34,7 +34,7 @@ export default async function<T = any>(url: string | (() => string), params: Sea
 	const watchStuff: any[] = [];
 
 	for (const [key, value] of Object.entries(params)) {
-		if (key != 'page' && typeof value == 'object') {
+		if (key !== 'page' && typeof value === 'object') {
 			watchStuff.push(value);
 		}
 	}
@@ -46,5 +46,5 @@ export default async function<T = any>(url: string | (() => string), params: Sea
 		startPlanLoad();
 	});
 
-	return { ...ret, data: reactive(data ?? new Paginator()), loading: computed(() => status.value == 'pending') };
+	return { ...ret, data: reactive(data ?? new Paginator()), loading: computed(() => status.value === 'pending') };
 }

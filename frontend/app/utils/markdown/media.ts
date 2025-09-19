@@ -203,11 +203,11 @@ function tokenizeImagesAndMedia(state: any, silent: boolean, md: MarkdownIt): bo
 	);
 
 	const mediaType = guessMediaType(href);
-	const tag = mediaType == 'image' ? 'img' : mediaType;
+	const tag = mediaType === 'image' ? 'img' : mediaType;
 
 	const token = state.push(mediaType, tag, 0);
 	token.attrs = attrs = [['src', href]];
-	if (mediaType == 'image')
+	if (mediaType === 'image')
 		attrs.push(['alt', '']);
 
 	token.children = tokens;
@@ -248,9 +248,9 @@ function guessMediaType(url: string): string {
 	const extension = extensionMatch[1];
 
 	if (extension) {
-		if (validAudioExtensions.indexOf(extension.toLowerCase()) != -1)
+		if (validAudioExtensions.indexOf(extension.toLowerCase()) !== -1)
 			return 'audio';
-		else if (validVideoExtensions.indexOf(extension.toLowerCase()) != -1)
+		else if (validVideoExtensions.indexOf(extension.toLowerCase()) !== -1)
 			return 'video';
 	}
 
@@ -258,7 +258,7 @@ function guessMediaType(url: string): string {
 }
 
 function makeIFrame(src: string, w = 560, h = 315) {
-	return `<iframe 
+	return `<iframe
 		width="${w}"
 		height="${h}"
 		src="${src}"
@@ -301,8 +301,8 @@ function renderMedia(tokens: Token[], idx: number, options: Options, env, md: Ma
 		return '';
 
 	let attrs;
-	if (type == 'video' || type == 'audio') {
-		attrs = type == 'video' ? videoAttrs : audioAttrs;
+	if (type === 'video' || type === 'audio') {
+		attrs = type === 'video' ? videoAttrs : audioAttrs;
 		if (attrs)
 			attrs = ' ' + attrs.trim();
 	} else {
@@ -312,7 +312,7 @@ function renderMedia(tokens: Token[], idx: number, options: Options, env, md: Ma
 	// We'll always have a URL for non-image media: they are detected by URL
 	const url = token.attrs[token.attrIndex('src')][1];
 
-	if (type == 'iframe') {
+	if (type === 'iframe') {
 		const html = renderIframe(url, md);
 		if (html) {
 			return html;
@@ -320,7 +320,7 @@ function renderMedia(tokens: Token[], idx: number, options: Options, env, md: Ma
 	}
 
 	// Title is set like this: ![descriptive text](video.mp4 "title")
-	const title = token.attrIndex('title') != -1
+	const title = token.attrIndex('title') !== -1
 		? ` title="${md.utils.escapeHtml(token.attrs[token.attrIndex('title')][1])}"`
 		: '';
 

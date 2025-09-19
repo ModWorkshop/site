@@ -25,7 +25,7 @@ const name = computed(() => {
 		return null;
 	}
 
-	if (typeof props.object == 'string') {
+	if (typeof props.object === 'string') {
 		return props.object;
 	}
 
@@ -35,7 +35,7 @@ const name = computed(() => {
 const typeHint = computed(() => {
 	const n = name.value;
 
-	if (typeof props.object == 'string') {
+	if (typeof props.object === 'string') {
 		return null;
 	}
 
@@ -45,5 +45,5 @@ const typeHint = computed(() => {
 	}
 });
 
-const link = computed(() => typeof props.object == 'object' ? getObjectLink(props.type, props.object) : null);
+const link = computed(() => typeof props.object === 'object' ? getObjectLink(props.type, props.object) : null);
 </script>

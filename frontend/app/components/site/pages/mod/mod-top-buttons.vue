@@ -43,7 +43,7 @@ function deleteAllFiles() {
 		async yes() {
 			await deleteRequest(`mods/${props.mod.id}/files`);
 			props.mod.files = new Paginator();
-			if (props.mod.download_type == 'file') {
+			if (props.mod.download_type === 'file') {
 				props.mod.download = undefined;
 				props.mod.download_type = undefined;
 			}

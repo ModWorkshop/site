@@ -54,7 +54,7 @@ export default defineNuxtConfig({
 
 	hooks: {
 		'pages:extend': routes => {
-			const userSettings = routes.find(page => page.path == '/user-settings');
+			const userSettings = routes.find(page => page.path === '/user-settings');
 
 			userSettings?.children?.push({ path: '/user-settings/profile', file: '~/pages/user-settings/index.vue' });
 
@@ -76,16 +76,16 @@ export default defineNuxtConfig({
 			]);
 
 			// Kinda disgusting, but other way is making components for each one of them and then pages...
-			const mod = routes.find(page => page.path == '/mod/:mod()');
+			const mod = routes.find(page => page.path === '/mod/:mod()');
 			mod?.children?.push({ path: '/mod/:mod/post/:comment', file: '~/pages/mod/[mod]/index.vue' });
 
-			const thread = routes.find(page => page.path == '/thread/:thread()');
+			const thread = routes.find(page => page.path === '/thread/:thread()');
 			thread?.children?.push({ path: '/thread/:thread/post/:comment', file: '~/pages/thread/[thread]/index.vue' });
 
-			const game = routes.find(page => page.path == '/g/:game()');
+			const game = routes.find(page => page.path === '/g/:game()');
 
 			if (game && game.children) {
-				const gameAdmin = game.children.find(page => page.path == 'admin');
+				const gameAdmin = game.children.find(page => page.path === 'admin');
 				if (gameAdmin && gameAdmin.children) {
 					gameAdmin.children.push(...[
 						{ path: 'bans', file: '~/pages/admin/bans/index.vue' },

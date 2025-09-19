@@ -47,18 +47,18 @@ export default function (name, defaultValue, cast, statefully) {
 	return computed({
 		get() {
 			const data = current.value;
-			if (data == null || data == undefined) {
-				return (cast == 'array' ? clone(defaultValue) : defaultValue) ?? null;
+			if (data === null || data === undefined) {
+				return (cast === 'array' ? clone(defaultValue) : defaultValue) ?? null;
 			}
 
 			if (cast === 'number') {
 				return parseInt(data);
 			} else if (cast === 'boolean') {
 				return data ? 1 : 0;
-			} else if (typeof cast == 'function') {
+			} else if (typeof cast === 'function') {
 				return cast(data);
-			} else if (cast == 'array') {
-				if (typeof data == 'string') {
+			} else if (cast === 'array') {
+				if (typeof data === 'string') {
 					return data.split(',').map(value => parseInt(value));
 				} else {
 					return clone(defaultValue);
@@ -68,7 +68,7 @@ export default function (name, defaultValue, cast, statefully) {
 			return data;
 		},
 		set(v) {
-			if (cast == 'array') {
+			if (cast === 'array') {
 				if (v.length) {
 					v = v.join(',');
 				} else {

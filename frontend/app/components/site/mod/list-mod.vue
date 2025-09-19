@@ -74,7 +74,7 @@ const { mod, noGame, displayMode = 1, sort } = defineProps<{
 }>();
 
 const showGame = computed(() => !noGame && mod.game);
-const date = computed(() => sort == 'published_at' ? mod.published_at : mod.bumped_at);
+const date = computed(() => sort === 'published_at' ? mod.published_at : mod.bumped_at);
 const gameUrl = computed(() => `/g/${store.currentGame?.short_name || mod.game?.short_name || mod.game?.id}`);
 const locale = computed(() => useI18n().locale.value);
 const tags = computed(() => {

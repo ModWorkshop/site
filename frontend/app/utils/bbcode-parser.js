@@ -278,7 +278,7 @@ function tagLoop(tagsMap, cleanUp, parent) {
 }
 
 function processTag(tag, module, content) {
-	const isString = typeof module == 'string';
+	const isString = typeof module === 'string';
 
 	if (!isString && module.special)
 		return content.replace('[TAG-' + tag.index + ']', module.open);

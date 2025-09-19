@@ -354,7 +354,7 @@ function fileDeleted(file: MWSFile) {
 		mod.value.used_storage -= file.size;
 	}
 
-	if (files.value.length == 0) {
+	if (files.value.length === 0) {
 		filesPage.value = 1;
 		refreshFiles();
 	}
@@ -373,7 +373,7 @@ async function deleteLink(link: Link) {
 	remove(links.value, link);
 	updateHasDownload();
 
-	if (links.value.length == 0) {
+	if (links.value.length === 0) {
 		linksPage.value = 1;
 		refreshLinks();
 	}
@@ -397,7 +397,7 @@ async function saveEditLink(error) {
 
 	try {
 		if (link) {
-			if (link.id == -1) {
+			if (link.id === -1) {
 				if (mod.value.id) {
 					const newLink = await postRequest<Link>(`mods/${mod.value.id}/links`, link);
 					links.value.push(newLink);

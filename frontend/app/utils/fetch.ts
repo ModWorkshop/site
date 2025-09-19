@@ -11,7 +11,7 @@ export function buildQueryParams(params, addQueryPrefix = true) {
 		arrayFormat: 'indices',
 		addQueryPrefix,
 		encoder: function (str, defaultEncoder, charset, type) {
-			if (type == 'value' && typeof str == 'boolean') {
+			if (type === 'value' && typeof str === 'boolean') {
 				return str ? 1 : 0;
 			}
 			return str;

@@ -92,7 +92,7 @@ const uniqueId = useId();
 const err = useWatchValidation(vm, elementRef);
 
 const labelId = ref(props.id || uniqueId);
-const isCheckbox = computed(() => props.type == 'checkbox');
+const isCheckbox = computed(() => props.type === 'checkbox');
 const classes = computed(() => ({
 	'mw-input': true,
 	'input-error': !!err.value

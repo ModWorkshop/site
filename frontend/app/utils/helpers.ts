@@ -101,7 +101,7 @@ export function setQuery(key: string, value: LocationQueryValueRaw | LocationQue
 export function serializeObject(data: Record<string, unknown>) {
 	const copy = { ...data };
 	for (const [key, value] of Object.entries(copy)) {
-		if (value instanceof Array && value.length == 0) {
+		if (value instanceof Array && value.length === 0) {
 			copy[key] = null; // Thanks web standards for not supporting something as simple as a FUCKING EMPTY ARRAY
 		}
 	}
@@ -120,7 +120,7 @@ export function strReplacRange(str: string, start: number, end: number, replacem
  * Returns whether or not the src URL is external. If it begins with a URL http/https or data: it's "external"
  */
 export function isSrcExternal(src?: string | object | Blob) {
-	if (typeof src == 'string') {
+	if (typeof src === 'string') {
 		return src && (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:') || src.startsWith('blob:'));
 	} else {
 		return true;
@@ -194,13 +194,13 @@ function hexToInt(hex: string) {
 }
 
 function hexToColor(color: string) {
-	if (color[0] == '#') {
+	if (color[0] === '#') {
 		color = color.substring(1);
 	}
 
-	if (color.length == 3) {
+	if (color.length === 3) {
 		return [hexToInt(color[0] + color[0]), hexToInt(color[1] + color[1]), hexToInt(color[2] + color[2])];
-	} else if (color.length == 6) {
+	} else if (color.length === 6) {
 		return [hexToInt(color.substring(0, 2)), hexToInt(color.substring(2, 4)), hexToInt(color.substring(4, 6))];
 	} else {
 		return [255, 255, 255];
@@ -218,8 +218,8 @@ function luminance(color: number[]) {
 }
 
 export function getContrast(color1: string | number[], color2: string | number[]) {
-	const lum1 = luminance(typeof color1 == 'string' ? hexToColor(color1) : color1);
-	const lum2 = luminance(typeof color2 == 'string' ? hexToColor(color2) : color2);
+	const lum1 = luminance(typeof color1 === 'string' ? hexToColor(color1) : color1);
+	const lum2 = luminance(typeof color2 === 'string' ? hexToColor(color2) : color2);
 
 	return (Math.max(lum1, lum2) + 0.05) / (Math.min(lum1, lum2) + 0.05);
 }
@@ -228,7 +228,7 @@ export function getContrast(color1: string | number[], color2: string | number[]
 export function convertRGBDecimalToHex(rgb) {
 	const regex = /rgb *\( *([0-9]{1,3}) *, *([0-9]{1,3}) *, *([0-9]{1,3}) *\)/;
 	const values = regex.exec(rgb);
-	if (!values || values.length != 4) {
+	if (!values || values.length !== 4) {
 		return '#fff'; // fall back to white
 	}
 	return '#'
@@ -254,7 +254,7 @@ export async function markAllNotificationsAsRead(notifications?: Notification[],
  */
 export function firstNonEmpty(...strs) {
 	for (const s of strs) {
-		if (typeof s == 'string' && s.length > 0) {
+		if (typeof s === 'string' && s.length > 0) {
 			return s;
 		}
 	}

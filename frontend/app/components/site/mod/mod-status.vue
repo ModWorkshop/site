@@ -27,11 +27,11 @@ const status = computed<[Component, string, string?] | null>(() => {
 		return [MdiCloseThick, 'mod_rejected', 'text-danger'];
 	} else if (!mod.has_download) {
 		return [MdiDownloadOff, 'no_downloads', 'text-warning'];
-	} else if (mod.visibility == 'public' && !mod.published_at) {
+	} else if (mod.visibility === 'public' && !mod.published_at) {
 		return [MdiNewspaperRemove, 'not_published', 'text-warning'];
-	} else if (mod.visibility == 'unlisted') {
+	} else if (mod.visibility === 'unlisted') {
 		return [MdiEyeOff, 'unlisted'];
-	} else if (mod.visibility == 'private') {
+	} else if (mod.visibility === 'private') {
 		return [MdiLock, 'private'];
 	}
 

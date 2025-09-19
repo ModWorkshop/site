@@ -174,7 +174,7 @@ const selectedCategory = useRouteQuery('category');
 
 const sortByQuery = useRouteQuery('sort');
 const sortBy = computed(() => sortByQuery.value ?? props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at');
-const sortByPopularity = computed(() => sortBy.value == 'daily_score' || sortBy.value == 'weekly_score' || sortBy.value == 'score');
+const sortByPopularity = computed(() => sortBy.value === 'daily_score' || sortBy.value === 'weekly_score' || sortBy.value === 'score');
 const sortByOtherOptions = { best_match: true, random: true, likes: true, downloads: true, views: true, name: true };
 const sortByOther = computed(() => sortByOtherOptions[sortBy.value] === true);
 
@@ -221,6 +221,9 @@ const currentDisplayCats = computed(() => {
 	const cats: Category[] = [];
 
 	for (const cat of currCategories.value) {
+		// TODO: fix this equality check
+		// null (cat.parent_id) == undefined (selectedCategory.value) is true, so it may break if simply replacing with ===
+		// eslint-disable-next-line eqeqeq
 		if (cat.parent_id == selectedCategory.value) {
 			cats.push(cat);
 		}
@@ -257,7 +260,7 @@ watch(loadMorePageOverride, newVal => {
 		savedMods.value = currentMods.value;
 		fetchedMods.value = undefined;
 
-		loading.value = savedMods.value.length == 0;
+		loading.value = savedMods.value.length === 0;
 		planLoad();
 	}
 });

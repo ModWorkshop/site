@@ -147,7 +147,7 @@ const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCateg
 	immediate: !!currentForumId.value && props.filters
 });
 
-const currentCategory = computed(() => categories.value?.data.find(cat => cat.id == categoryId.value));
+const currentCategory = computed(() => categories.value?.data.find(cat => cat.id === categoryId.value));
 watch(categoryId, () => {
 	emit('selectCategory', currentCategory.value);
 	page.value = 1;

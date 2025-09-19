@@ -64,7 +64,7 @@ watch(() => showMoveMods, () => areYouSure.value = false);
 const gameId = route.params.game;
 const categoriesPage = getAdminUrl('categories', props.game);
 
-const canSaveOverride = computed(() => thumbnailBlob.value != undefined);
+const canSaveOverride = computed(() => thumbnailBlob.value !== null && thumbnailBlob.value !== undefined);
 
 function onSubmit() {
 	thumbnailBlob.value = undefined;
@@ -104,7 +104,7 @@ const validCategories = computed(() => categories.value?.data.filter(cat => {
 	}
 
 	// Don't include any child categories to avoid circular reference
-	return cat.parent_id != category.value.id;
+	return cat.parent_id !== category.value.id;
 }) || []);
 
 const validMoveCategories = computed(() => categories.value?.data.filter(cat => cat.id !== category.value.id) || []);

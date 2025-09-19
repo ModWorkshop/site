@@ -30,7 +30,7 @@ const props = defineProps({
 
 const tabState = inject('tabState');
 const lazy = inject('lazy');
-const show = computed(() => props.name == tabState.current);
+const show = computed(() => props.name === tabState.current);
 
 const renderedOnce = ref(false);
 

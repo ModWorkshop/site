@@ -144,7 +144,7 @@ const reachedMaxFiles = computed<boolean>(() => {
 	if (!props.maxFiles) {
 		return false;
 	}
-	return vm.value.length >= (typeof (props.maxFiles) == 'string' ? parseInt(props.maxFiles) : props.maxFiles);
+	return vm.value.length >= (typeof (props.maxFiles) === 'string' ? parseInt(props.maxFiles) : props.maxFiles);
 });
 const usedSize = computed(() => vm.value.reduce((prev, curr) => prev + curr.size, 0));
 
