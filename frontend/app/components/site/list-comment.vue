@@ -150,7 +150,7 @@ const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new P
 
 const isAnswer = computed(() => {
 	return props.commentable && Object.hasOwn(props.commentable, 'answer_comment_id')
-	  && (props.commentable as Thread)?.answer_comment_id == props.comment.id;
+	  && (props.commentable as Thread)?.answer_comment_id === props.comment.id;
 });
 
 watch(replies, val => {
@@ -159,7 +159,7 @@ watch(replies, val => {
 
 if (props.comment.mentions) {
 	content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
-		const user = props.comment.mentions.find(user => user.id == id);
+		const user = props.comment.mentions.find(user => user.id === id);
 
 		if (user) {
 			return `@${user.unique_name}`;
@@ -191,7 +191,7 @@ const canDelete = computed(() => {
 const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
 
 const classes = computed(() => {
-	const focus = focusComment.value == props.comment.id || (props.currentFocus && props.currentFocus.id == props.comment.id);
+	const focus = (focusComment.value && parseInt(focusComment.value) === props.comment.id) || (props.currentFocus && props.currentFocus.id === props.comment.id);
 	return {
 		comment: true,
 		reply: props.isReply,
@@ -211,7 +211,7 @@ const commentPage = computed(() => {
 });
 
 onMounted(() => {
-	if ((focusComment.value == props.comment?.id) || params.comment) {
+	if ((focusComment.value && focusComment.value === props.comment.id) || params.comment) {
 		const element: HTMLDivElement = contentBlockRef.value.element;
 
 		if (element) {

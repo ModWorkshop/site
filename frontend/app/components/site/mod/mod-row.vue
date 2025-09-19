@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<{
 }>(), { displayMode: 1, lite: false });
 
 const showGame = computed(() => !props.noGame && props.mod.game);
-const date = computed(() => props.sort == 'published_at' ? props.mod.published_at : props.mod.bumped_at);
+const date = computed(() => props.sort === 'published_at' ? props.mod.published_at : props.mod.bumped_at);
 const likes = computed(() => props.mod.likes);
 const downloads = computed(() => props.mod.downloads);
 const views = computed(() => props.mod.views);

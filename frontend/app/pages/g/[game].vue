@@ -18,7 +18,7 @@ definePageMeta({ alias: '/game/:game' });
 const game = ref<Game>();
 let mods: Paginator<Mod>;
 
-if (route.name == 'g-game') {
+if (route.name === 'g-game') {
 	const { data } = await useResource<{ game: Game; mods: Paginator<Mod> }>('game', id => `games/${id}/game-section-data`, undefined, {
 		'page': route.query.page,
 		'query': route.query.query,
@@ -55,19 +55,19 @@ const breadcrumb = computed(() => {
 		breadcrumb.push({ name: game.value.name, to: `g/${game.value.short_name || game.value.id}` });
 	}
 
-	if (route.name == 'game-game-upload') {
+	if (route.name === 'game-game-upload') {
 		breadcrumb.push({ name: t('upload_mod') });
 	} else if (route.name?.toString().startsWith('game-game-forum')) {
 		breadcrumb.push({ name: t('forum'), attachToPrev: 'forum' });
-	} else if (route.name == 'game-game-mods') {
+	} else if (route.name === 'game-game-mods') {
 		breadcrumb.push({ name: t('mods') });
-	} else if (route.name == 'game-game-user-user') {
+	} else if (route.name === 'game-game-user-user') {
 		breadcrumb.push({ name: t('game_preferences') });
 	} else {
 		return undefined;
 	}
 
-	if (route.name == 'game-game-forum-post') {
+	if (route.name === 'game-game-forum-post') {
 		breadcrumb.push({ name: t('post') });
 	}
 

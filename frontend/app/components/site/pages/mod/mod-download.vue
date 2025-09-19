@@ -46,5 +46,5 @@ const props = defineProps<{
 
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
-const image = computed(() => props.mod.images?.find(image => image.id == props.file.image_id));
+const image = computed(() => props.mod.images?.find(image => image.id === props.file.image_id));
 </script>

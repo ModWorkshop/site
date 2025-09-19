@@ -44,9 +44,9 @@ export const useStore = defineStore('main', {
 	}),
 	getters: {
 		theme(state) {
-			if (state.savedTheme == 'light') {
+			if (state.savedTheme === 'light') {
 				return 'light';
-			} else if (state.savedTheme == 'system') {
+			} else if (state.savedTheme === 'system') {
 				return 'system';
 			} else {
 				return 'dark';
@@ -64,7 +64,7 @@ export const useStore = defineStore('main', {
 	},
 	actions: {
 		setTheme(theme: 'light' | 'dark' | 'system') {
-			if (theme == 'dark') {
+			if (theme === 'dark') {
 				this.savedTheme = null;
 			} else {
 				this.savedTheme = theme === 'system' ? 'system' : 'light';
@@ -85,7 +85,7 @@ export const useStore = defineStore('main', {
 		async attemptLoginUser(redirect: string | boolean = '/') {
 			await this.loadSiteData();
 
-			if (typeof (redirect) == 'string') {
+			if (typeof (redirect) === 'string') {
 				useRouter().push(redirect);
 			}
 		},
@@ -143,7 +143,7 @@ export const useStore = defineStore('main', {
 		async logout(redirect: string | boolean = '/') {
 			const router = useRouter();
 
-			if (typeof (redirect) == 'string') {
+			if (typeof (redirect) === 'string') {
 				router.push(redirect);
 			}
 
@@ -181,7 +181,7 @@ export const useStore = defineStore('main', {
 				if (this.notifications) {
 					promises.push(this.getNotifications());
 				}
-				if (this.notificationCount != null) {
+				if (this.notificationCount !== null) {
 					promises.push(this.getNotificationCount());
 				}
 				if (this.currentGame) {

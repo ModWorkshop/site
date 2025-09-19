@@ -113,7 +113,7 @@ const emit = defineEmits<{
 }>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
-	immediate: props.immediateFetch && props.url != undefined,
+	immediate: props.immediateFetch && props.url !== undefined,
 	params: reactive({
 		query: searchDebounced,
 		...props.fetchParams
@@ -128,7 +128,7 @@ const { ctrl } = useMagicKeys();
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
 // Example: user query parameter to prefill a user
 const { data: fetchedSelected } = await useFetchMany(props.url ?? '', {
-	immediate: !!(props.url && first.value) && (typeof (first.value) == 'number' || first.value?.length > 0),
+	immediate: !!(props.url && first.value) && (typeof (first.value) === 'number' || first.value?.length > 0),
 	params: {
 		ids: selected.value,
 		...props.fetchParams
@@ -141,8 +141,8 @@ const opts = computed(() => {
 	if (props.options) {
 		return props.options ?? [];
 	} else {
-		const opts = reactive(asyncOptions.value != undefined ? [...asyncOptions.value.data] : []);
-		if (fetchedSelected.value != undefined && fetchedSelected.value.data) {
+		const opts = reactive(asyncOptions.value !== null && asyncOptions.value !== undefined ? [...asyncOptions.value.data] : []);
+		if (fetchedSelected.value !== null && fetchedSelected.value !== undefined && fetchedSelected.value.data) {
 			for (const opt of fetchedSelected.value.data) {
 				const val = opt ? optionValue(opt) : null;
 				if (!opts.find(option => optionValue(option) === val)) {
@@ -158,7 +158,7 @@ const selectedMax = computed(() => {
 	if (!props.max) {
 		return false;
 	}
-	const max = typeof props.max == 'number' ? props.max : parseInt(props.max);
+	const max = typeof props.max === 'number' ? props.max : parseInt(props.max);
 	return selected.value.length >= max;
 });
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value?.length > 10));
@@ -182,7 +182,7 @@ const filtered = computed(() => {
 	});
 
 	if (props.filterSelected) {
-		if (props.multiple && typeof selectedValue.value == 'object') {
+		if (props.multiple && typeof selectedValue.value === 'object') {
 			options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
 		} else {
 			options = options.filter(option => optionEnabled(option) && selectedValue.value === optionValue(option));
@@ -203,7 +203,7 @@ const selectedOptions = computed(() => {
 });
 
 const shownOptions = computed(() => selectedOptions.value.filter((_, i) => {
-	return !props.maxShown || i < (typeof props.maxShown == 'number' ? props.maxShown : parseInt(props.maxShown));
+	return !props.maxShown || i < (typeof props.maxShown === 'number' ? props.maxShown : parseInt(props.maxShown));
 }));
 
 const selectedOption = computed(() => {
@@ -237,7 +237,7 @@ watch(dropdownOpen, val => {
 
 function defaultBy(option, propName) {
 	if (typeof props[propName] === 'string') {
-		if (typeof option == 'object') {
+		if (typeof option === 'object') {
 			return option[props[propName]];
 		} else {
 			return option;
@@ -248,7 +248,7 @@ function defaultBy(option, propName) {
 }
 
 function optionEnabled(option) {
-	if (typeof props.enabledBy == 'function') {
+	if (typeof props.enabledBy === 'function') {
 		return props.enabledBy(option);
 	} else if (props.enabledBy) {
 		return defaultBy(option, 'enabledBy');
@@ -258,7 +258,7 @@ function optionEnabled(option) {
 }
 
 function optionName(option) {
-	if (typeof props.textBy == 'function') {
+	if (typeof props.textBy === 'function') {
 		return props.textBy(option);
 	} else {
 		return defaultBy(option, 'textBy');
@@ -266,7 +266,7 @@ function optionName(option) {
 }
 
 function optionValue(option) {
-	if (typeof props.valueBy == 'function') {
+	if (typeof props.valueBy === 'function') {
 		return props.valueBy(option);
 	} else {
 		return defaultBy(option, 'valueBy');
@@ -274,7 +274,7 @@ function optionValue(option) {
 }
 
 function optionColor(option) {
-	if (typeof props.colorBy == 'function') {
+	if (typeof props.colorBy === 'function') {
 		return props.colorBy(option);
 	} else if (props.colorBy) {
 		return defaultBy(option, 'colorBy');
@@ -288,7 +288,7 @@ watch(searchDebounced, async () => {
 });
 
 function clearAll() {
-	if (props.multiple && typeof selectedValue.value == 'object' && opts.value) {
+	if (props.multiple && typeof selectedValue.value === 'object' && opts.value) {
 		for (const option of opts.value) {
 			const value = optionValue(option);
 			if (optionEnabled(option)) {
@@ -325,7 +325,7 @@ function selectOption(option) {
 		dropdownOpen.value = false;
 	}
 
-	if (props.multiple && typeof selectedValue.value == 'object') {
+	if (props.multiple && typeof selectedValue.value === 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
 			setTimeout(() => {
@@ -369,7 +369,7 @@ function deselectOption(item) {
 		dropdownOpen.value = false;
 	}
 
-	if (props.multiple && typeof selectedValue == 'object') {
+	if (props.multiple && typeof selectedValue === 'object') {
 		remove(selectedValue.value, value);
 		emit('update:modelValue', selectedValue.value);
 	} else if (props.clearable) {

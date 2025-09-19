@@ -55,7 +55,7 @@ async function ban() {
 		});
 		if (bans.value) {
 			for (const b of bans.value.data) {
-				if (b.user_id == banUser.value) {
+				if (b.user_id === banUser.value) {
 					b.active = false;
 				}
 			}

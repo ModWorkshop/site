@@ -21,7 +21,7 @@ const menuOpen = inject<Ref<boolean>>('menuOpen', ref(false));
 const root = inject<string>('root', '');
 
 const compAlias = computed(() => {
-	if (typeof (props.alias) == 'string') {
+	if (typeof (props.alias) === 'string') {
 		return props.alias ? `${root}/${props.alias}` : root;
 	}
 });

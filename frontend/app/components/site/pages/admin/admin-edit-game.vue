@@ -52,7 +52,7 @@ const { data: modManagers } = await useFetchMany<ModManager>(mmUrl, {
 	}
 });
 
-const globalModManagers = computed(() => modManagers.value?.data.filter(mm => mm.game_id == null));
+const globalModManagers = computed(() => modManagers.value?.data.filter(mm => mm.game_id === undefined));
 
 const mergeParams = reactive({
 	thumbnail_file: thumbnailBlob,

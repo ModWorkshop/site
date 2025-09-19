@@ -111,7 +111,7 @@ const cannotCommentReason = computed(() => {
 
 async function markCommentAsAnswer(comment: Comment) {
 	try {
-		if (thread.answer_comment_id == comment.id) {
+		if (thread.answer_comment_id === comment.id) {
 			await patchRequest(`threads/${thread.id}`, {
 				answer_comment_id: null
 			});

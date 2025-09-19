@@ -122,7 +122,7 @@ async function addDependency(onError) {
 		dep.mod = selectedMod.value;
 	}
 	try {
-		if (dep.id == -1) {
+		if (dep.id === -1) {
 			if (props.paused) {
 				currentDep.value!.id = 0;
 				dependencies.value.push(currentDep.value!);

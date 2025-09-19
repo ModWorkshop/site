@@ -79,7 +79,7 @@ function clickTool(tool: Tool) {
 			inserted = '';
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				if (i != 0) {
+				if (i !== 0) {
 					inserted += '\n';
 				}
 
@@ -103,7 +103,7 @@ function clickTool(tool: Tool) {
 }
 
 function onKeyDown(e: KeyboardEvent) {
-	if (e.key == 'Tab') {
+	if (e.key === 'Tab') {
 		e.preventDefault();
 		clickTool({
 			insert: '\t$',
