@@ -52,5 +52,6 @@ function getTo(item: Breadcrumb, i: number) {
 // fortunately, props.item is referenced from props.items, so `i == props.item` works
 // (see: frontend/app/components/ui/layout/m-breadcrumb.vue:L4)
 // it is hard to replace deep-equal because it may break if the same item is used multiple times
+// eslint-disable-next-line eqeqeq
 const tos = computed(() => getTo(props.item, props.items.findIndex(i => i == props.item)));
 </script>

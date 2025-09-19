@@ -223,6 +223,7 @@ const currentDisplayCats = computed(() => {
 	for (const cat of currCategories.value) {
 		// TODO: fix this equality check
 		// null (cat.parent_id) == undefined (selectedCategory.value) is true, so it may break if simply replacing with ===
+		// eslint-disable-next-line eqeqeq
 		if (cat.parent_id == selectedCategory.value) {
 			cats.push(cat);
 		}

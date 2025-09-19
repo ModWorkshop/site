@@ -133,6 +133,7 @@ async function setImageOrder(img: Image, order: number) {
 
 		// TODO: fix this equality check
 		// I don't know this filter is working correctly...
+		// eslint-disable-next-line eqeqeq
 		images.value = images.value.filter(v => v != img);
 		images.value.splice(img.display_order, 0, img);
 
