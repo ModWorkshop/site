@@ -165,7 +165,7 @@ class Thread extends Model implements SubscribableInterface
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('taggables.created_at');;
     }
 
     public function tagsSpecial(): HasMany
