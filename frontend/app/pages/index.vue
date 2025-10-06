@@ -32,6 +32,8 @@
 				</m-toggle-group>
 			</template>
 		</mod-list>
+		<div id="mws-ads-mid" class="ad mx-auto"/>
+		<div id="mws-ads-mid-mobile" class="ad mx-auto"/>
 		<thread-list
 			v-if="user?.extra?.home_show_threads ?? true"
 			:title="$t('threads')"

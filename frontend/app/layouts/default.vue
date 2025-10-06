@@ -36,9 +36,6 @@
 
 			<slot/>
 
-			<div id="mws-ads-footer" class="ad mx-auto"/>
-			<div id="mws-ads-footer-mobile" class="ad mx-auto"/>
-
 			<div class="page-block-nm">
 				<m-flex v-if="activity" gap="2" class="text-xl ml-2 mr-auto mt-auto">
 					<span :title="$t('users')"><i-mdi-account/> {{ activity.users }}</span>
@@ -179,14 +176,14 @@ onMounted(() => {
 		mediaQuery: '(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)'
 	}));
 
-	ads.push(nitroAds.createAd('mws-ads-footer', {
+	ads.push(nitroAds.createAd('mws-ads-mid', {
 		...adConfig,
 		sizes: [['728', '90']],
 		mediaQuery: '(min-width: 1025px)',
 		renderVisibleOnly: true
 	}));
 
-	ads.push(nitroAds.createAd('mws-ads-footer-mobile', {
+	ads.push(nitroAds.createAd('mws-ads-mid-mobile', {
 		...adConfig,
 		sizes: [
 			['336', '280']
