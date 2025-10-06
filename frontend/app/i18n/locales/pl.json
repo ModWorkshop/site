@@ -563,7 +563,7 @@
     "reset_thumbnail": "Przywróć domyślną miniaturę",
     "game_buttons_desc": "Pozwala na dodanie unikalnych przycisków dla panelu nawigacyjnego gry. Format: nazwa przycisku{'|'}link{'|'}ikona,nazwa2{'|'}link2,... ikona jest opcjonalna. Możesz przeglądać dostępne ikony tutaj: https://icones.js.org/collection/mdi",
     "user_banner_desc": "Zalecany rozmiar to 1550x300. Maksymalny rozmiar pliku: {size}.",
-    "images_help": "Zalecany rozmiar 600x300 pixeli dla miniaturek i 1550x250 pixeli dla banerów.",
+    "images_help": "Zalecany rozmiar 600x300 pixeli dla miniaturek i 1000x250 pixeli dla banerów.",
     "user_avatar_desc": "Zalecany rozmiar to 150x150. Maksymalny rozmiar pliku: {size}.",
     "return_to_thread": "Wróć do Wątku",
     "deleted": "(Usunięto)",

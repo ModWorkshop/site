@@ -1,5 +1,9 @@
 <template>
-	<m-flex column :class="{ banner: true, round: true, 'default-banner': !src }" :style="{ height: `${height}px`, backgroundImage: `url('${bannerUrl}')` }">
+	<m-flex
+		column
+		:class="{ banner: true, round: true, 'default-banner': !src }"
+		:style="{ height: height ? `${height}px` : undefined, backgroundImage: `url('${bannerUrl}')` }"
+	>
 		<slot/>
 	</m-flex>
 </template>

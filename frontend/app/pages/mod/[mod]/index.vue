@@ -129,7 +129,7 @@ function commentSpecialTag(comment: Comment) {
 	display: grid;
 	grid-gap: 0.75rem;
 	margin-right: 0.75rem;
-	grid-template-columns: 70% 30%;
+	grid-template-columns: 66.5% 33.5%;
 }
 
 @media (min-width: 600px) and (max-width: 850px) {

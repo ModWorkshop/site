@@ -561,7 +561,7 @@
     "reset_banner": "Remettre La Bannière A Zéro",
     "reset_thumbnail": "Remettre La Miniature A Zéro",
     "best_match": "Meilleure Correspondance",
-    "images_help": "Taille recommandée de 600x300 pixels pour les miniatures et de 1550x250 pixels pour les bannières.",
+    "images_help": "Taille recommandée de 600x300 pixels pour les miniatures et de 1000x250 pixels pour les bannières.",
     "game_buttons_desc": "Vous laisse ajouter des boutons personnalisés a la barre de navigation du jeu. Format : bouton nom{'|'}lien{'|'}icone,nom2{'|'}lien2,... l'icone est optionnelle. vous pouvez voir les icones disponibles ici : https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Taille recommandée de 150x150. taille de fichier maximum : {size}.",
     "user_banner_desc": "Taille recommandée de 1550x300. Taille de fichier maximum : {size}.",

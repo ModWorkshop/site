@@ -553,7 +553,7 @@
     "best_match": "Paling Cocok",
     "reset_banner": "Atur Ulang Banner ke Default",
     "reset_thumbnail": "Atur Ulang Gambar Kecil ke Default",
-    "images_help": "Ukuran rekomendasi 600x300 pixel untuk thumbnail dan 1550x250 pixel untuk banner.",
+    "images_help": "Ukuran rekomendasi 600x300 pixel untuk thumbnail dan 1000x250 pixel untuk banner.",
     "game_buttons_desc": "Anda bisa menambahkan tombol custom ke bar navigasi game. Format: nama tombol{'|'}link{'|'}ikon,name2{'|'}link2,... ikon tidak wajib. Anda bisa melihat ikon yang tersedia di sini: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Ukuran rekomendasi 150x150. Maksimum Ukuran file: {size}.",
     "user_banner_desc": "Ukuran rekomendasi 1550x300. Maksimum ukuran file: {size}.",

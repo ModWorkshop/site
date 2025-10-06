@@ -561,7 +561,7 @@
     "best_match": "Mejor coincidencia",
     "reset_banner": "Restablecer banner al predeterminado",
     "reset_thumbnail": "Restablecer miniatura a la predeterminada",
-    "images_help": "El tamaño recomendado es de 600x300 píxeles para las miniaturas y de 1550x250 píxeles para los banners.",
+    "images_help": "El tamaño recomendado es de 600x300 píxeles para las miniaturas y de 1000x250 píxeles para los banners.",
     "game_buttons_desc": "Te permite añadir botones personalizados a la barra de navegación de los juegos. Formato: nombre del botón{'|'}enlace{'|'}ícono,nombre2{'|'}enlace2,... el ícono es opcional. Puedes ver los íconos disponibles aquí: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "El tamaño recomendado es de 150x150. Tamaño máximo: {size}.",
     "user_banner_desc": "El tamaño recomendado es de 1550x300. Tamaño máximo: {size}.",

@@ -561,7 +561,7 @@
     "best_match": "Bester Treffer",
     "reset_banner": "Banner zurücksetzen",
     "reset_thumbnail": "Thumbnail zurücksetzen",
-    "images_help": "Die empfohlene Größe ist 600x300 Pixel für Thumbnails und 1550x250 Pixel für Banner.",
+    "images_help": "Die empfohlene Größe ist 600x300 Pixel für Thumbnails und 1000x250 Pixel für Banner.",
     "game_buttons_desc": "Erstelle neue Buttons für die Navigationsleiste des Spieles. Format: button name{'|'}link{'|'}icon,name2{'|'}link2,... icon ist optional. Verfügbare Icons: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Empfohlene Größe ist 150x150 Pixel. Maximale Dateigröße: {size}.",
     "user_banner_desc": "Empfohlene Größe ist 1550x300 Pixel. Maximale Dateigröße: {size}.",

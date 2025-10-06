@@ -561,7 +561,7 @@
     "best_match": "Nejlepší Shoda",
     "reset_banner": "Resetovat Banner na Původní",
     "reset_thumbnail": "Resetovat Miniaturu na Původní",
-    "images_help": "Doporučená velikost pro miniatury je 600x300 pixelů a pro plakáty zase 1550x250 pixelů.",
+    "images_help": "Doporučená velikost pro miniatury je 600x300 pixelů a pro plakáty zase 1000x250 pixelů.",
     "game_buttons_desc": "Umožňuje přidat vlastní tlačítka pro herní navigační panel. Formát: název tlačítka{'|'}odkaz{'|'}ikona,název2{'|'}odkaz2,... ikona je dobrovolná. Dostupné ikony můžete vidět zde: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Doporučený rozměr je 150x150. Maximální velikost souboru: {size}.",
     "user_banner_desc": "Doporučený rozměr je 1550x300. Maximální velikost souboru: {size}.",

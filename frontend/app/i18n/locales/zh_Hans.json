@@ -561,7 +561,7 @@
     "best_match": "最佳匹配",
     "reset_banner": "重置为默认的横幅",
     "reset_thumbnail": "重置为默认的封面",
-    "images_help": "封面推荐使用600x300像素的图片，横幅推荐使用1550x250像素的图片。",
+    "images_help": "封面推荐使用600x300像素的图片，横幅推荐使用1000x250像素的图片。",
     "user_avatar_desc": "推荐大小：150x150。最大文件大小：{size}。",
     "user_banner_desc": "推荐大小：1550x300。最大文件大小： {size}。",
     "game_buttons_desc": "让你为游戏导航栏添加一个自定义的按钮。格式：按钮名字{'|'}链接{'|'}图标，名字2{'|'}链接2，...图标是可选项。你可以从这里了解到可用的图标https://icones.js.org/collection/mdi",

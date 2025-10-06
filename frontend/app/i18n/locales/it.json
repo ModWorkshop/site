@@ -561,7 +561,7 @@
     "best_match": "Miglior Risultato",
     "reset_banner": "Ripristina il Banner Predefinito",
     "reset_thumbnail": "Ripristina la Copertina Predefinita",
-    "images_help": "È raccomandata una dimensione di 600x300 pixel per le copertine e di 1550x250 pixel per i banner.",
+    "images_help": "È raccomandata una dimensione di 600x300 pixel per le copertine e di 1000x250 pixel per i banner.",
     "game_buttons_desc": "Permette di aggiungere dei tasti custom per la navbar del gioco. Formato: button name{'|'}link{'|'}icon,name2{'|'}link2,... (icon è opzionale). Per vedere tutte le icone disponibili visita: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Raccomandiamo una dimensione di 150x150. Dimensione massima del file: {size}.",
     "user_banner_desc": "Raccomandiamo una dimensione di 1550x300. Dimensione massima del file: {size}.",

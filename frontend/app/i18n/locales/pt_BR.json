@@ -564,7 +564,7 @@
     "game_buttons_desc": "Deixa você adicionar botões personalizados à barra de navegação do jogo. Formato: nome do botão{'|'}link{'|'}ícone,nome2{'|'}link2,... ícone é opcional. Você pode ver ícones disponíveis aqui: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "Recommended size of 150x150. Max file size: {size}.",
     "user_banner_desc": "Recommended size of 1550x300. Max file size: {size}.",
-    "images_help": "Tamanho recomendado para as miniaturas: 600x300 e para as capas: 1550x250",
+    "images_help": "Tamanho recomendado para as miniaturas: 600x300 e para as capas: 1000x250",
     "return_to_thread": "Voltar à discussão",
     "deleted": "(Excluído)",
     "mws_build_version": "ModWorkshop Build {version}",

@@ -556,7 +556,7 @@
     "game_buttons_desc": "ゲームナビゲーションバーにカスタムボタンを追加できます。規定フォーマット: button name{'|'}link{'|'}icon,name2{'|'}link2,... アイコンも追加可能です。利用可能なアイコンはこちら: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "推奨サイズは150x150pxです。最大サイズ: {size}。",
     "user_banner_desc": "推奨サイズは1550x300pxです。最大サイズ: {size}。",
-    "images_help": "推奨サイズは、サムネイルは600x300px、バナーは1550x250pxです。",
+    "images_help": "推奨サイズは、サムネイルは600x300px、バナーは1000x250pxです。",
     "return_to_thread": "スレッドに戻る",
     "deleted": "(削除済み)",
     "impressum": "管理者情報",

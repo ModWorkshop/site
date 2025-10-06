@@ -561,7 +561,7 @@
     "best_match": "최적의 결과",
     "reset_banner": "배너를 기본으로 초기화",
     "reset_thumbnail": "썸네일을 기본으로 초기화",
-    "images_help": "썸네일의 권장 크기는 600x300픽셀 이고, 배너의 권장 크기는 1550x250픽셀 입니다.",
+    "images_help": "썸네일의 권장 크기는 600x300픽셀 이고, 배너의 권장 크기는 1000x250픽셀 입니다.",
     "game_buttons_desc": "Lets you add custom buttons for the game navbar. Format: button name{'|'}link{'|'}icon,name2{'|'}link2,... icon is optional. You can see available icons here: https://icones.js.org/collection/mdi",
     "user_avatar_desc": "권장 사이즈는 150x150 입니다. 최대 파일 크기: {size}.",
     "user_banner_desc": "권장 사이즈는 1550x300 입니다. 최대 파일 크기: {size}.",
