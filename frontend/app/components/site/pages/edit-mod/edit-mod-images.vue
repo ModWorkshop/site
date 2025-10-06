@@ -131,6 +131,9 @@ async function setImageOrder(img: Image, order: number) {
 		await patchRequest(`images/${img.id}`, { display_order: img.display_order + order });
 		img.display_order = img.display_order + order;
 
+		// TODO: fix this equality check
+		// I don't know this filter is working correctly...
+		// eslint-disable-next-line eqeqeq
 		images.value = images.value.filter(v => v != img);
 		images.value.splice(img.display_order, 0, img);
 

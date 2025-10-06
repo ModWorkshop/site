@@ -67,7 +67,7 @@ function getCurrentTabs() {
 		if (tab.props) {
 			return { name: tab.props.name, title: tab.props.title };
 		}
-	}).filter(tab => typeof tab == 'object') as { name: string; title: string }[];
+	}).filter(tab => typeof tab === 'object') as { name: string; title: string }[];
 }
 
 const tabs = ref(getCurrentTabs());
@@ -78,7 +78,7 @@ function refreshTabs() {
 
 	// Check if our current tab exists, otherwise fallback to the first.
 	if (tabs.value.length > 0 && tabs.value[0]) {
-		if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name != tabState.current, true)) {
+		if (!tabState.current || tabs.value.reduce((prev, curr) => prev && curr.name !== tabState.current, true)) {
 			tabState.current = tabs.value[0].name;
 		}
 	}

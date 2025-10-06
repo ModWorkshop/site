@@ -22,31 +22,36 @@ function getTo(item: Breadcrumb, i: number) {
 		}
 	} else if (item.to) {
 		return `/${item.to}`;
-	} else if (item.type == 'game') {
+	} else if (item.type === 'game') {
 		return `/g/${item.id}`;
-	} else if (item.type == 'category') {
+	} else if (item.type === 'category') {
 		const first = props.items[0];
 		const second = props.items[1];
-		if (first && first.type == 'game') {
+		if (first && first.type === 'game') {
 			return getTo(first, 0) + `/mods?category=${item.id}`;
-		} else if (second && second.type == 'game') {
+		} else if (second && second.type === 'game') {
 			return getTo(second, 0) + `/mods?category=${item.id}`;
 		} else {
 			return `/category/${item.id}`;
 		}
-	} else if (item.type == 'forum_category') {
+	} else if (item.type === 'forum_category') {
 		const second = props.items[1];
-		if (second && second.type == 'game') {
+		if (second && second.type === 'game') {
 			return getTo(second, 0) + `/forum?category=${item.id}`;
 		} else {
 			return `/forum?category=${item.id}`;
 		}
-	} else if (item.type == 'mod') {
+	} else if (item.type === 'mod') {
 		return `/mod/${item.id}`;
-	} else if (item.type == 'thread') {
+	} else if (item.type === 'thread') {
 		return `/thread/${item.id}`;
 	}
 }
 
+// TODO: fix this equality check
+// fortunately, props.item is referenced from props.items, so `i == props.item` works
+// (see: frontend/app/components/ui/layout/m-breadcrumb.vue:L4)
+// it is hard to replace deep-equal because it may break if the same item is used multiple times
+// eslint-disable-next-line eqeqeq
 const tos = computed(() => getTo(props.item, props.items.findIndex(i => i == props.item)));
 </script>

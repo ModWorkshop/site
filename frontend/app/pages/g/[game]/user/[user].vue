@@ -86,18 +86,18 @@ function racalculateUserStuff() {
 
 	if (!user.value.custom_color) {
 		user.value.color
-            = firstVanity('color', hasGameRoles.value)?.color
-              ?? firstVanity('color', hasRoles.value)?.color
-              ?? firstRegular('color', hasGameRoles.value)?.color
-              ?? firstRegular('color', hasRoles.value)?.color;
+			= firstVanity('color', hasGameRoles.value)?.color
+			  ?? firstVanity('color', hasRoles.value)?.color
+			  ?? firstRegular('color', hasGameRoles.value)?.color
+			  ?? firstRegular('color', hasRoles.value)?.color;
 	}
 
 	if (user.value.show_tag !== 'none' && (!user.value.supporter || user.value.show_tag !== 'supporter_or_role')) {
 		user.value.tag
-            = firstRegular('tag', hasRoles.value)?.tag
-              ?? firstRegular('tag', hasGameRoles.value)?.tag
-              ?? firstVanity('tag', hasGameRoles.value)?.tag
-              ?? firstVanity('tag', hasRoles.value)?.tag;
+			= firstRegular('tag', hasRoles.value)?.tag
+			  ?? firstRegular('tag', hasGameRoles.value)?.tag
+			  ?? firstVanity('tag', hasGameRoles.value)?.tag
+			  ?? firstVanity('tag', hasRoles.value)?.tag;
 	}
 }
 </script>

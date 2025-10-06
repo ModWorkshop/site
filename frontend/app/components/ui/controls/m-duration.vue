@@ -56,7 +56,7 @@ const controlVm = computed({
 		}
 	},
 	set(val: Date | string) {
-		if (typeof val == 'string') {
+		if (typeof val === 'string') {
 			vm.value = val;
 			return;
 		}

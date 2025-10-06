@@ -70,7 +70,7 @@ const to = computed(() => {
 	} else {
 		let obj, objType;
 
-		if (defintion.value.link_object == 'context') {
+		if (defintion.value.link_object === 'context') {
 			obj = context.value;
 			objType = notif.value.context_type;
 		} else {

@@ -40,7 +40,7 @@ const store = useStore();
 const { t } = useI18n();
 const casesUrl = computed(() => getGameResourceUrl('cases', game));
 const contentTitle = computed(() => {
-	if (report.reportable_type == 'mod' || report.reportable_type == 'user') {
+	if (report.reportable_type === 'mod' || report.reportable_type === 'user') {
 		return t('name');
 	} else {
 		return t('content');
@@ -51,7 +51,7 @@ const currentContent = computed(() => {
 	if (!report.reportable) {
 		return;
 	}
-	if (report.reportable_type == 'mod' || report.reportable_type == 'user') {
+	if (report.reportable_type === 'mod' || report.reportable_type === 'user') {
 		return (report.reportable as Mod | User).name;
 	} else {
 		return (report.reportable as Comment).content;
@@ -59,7 +59,7 @@ const currentContent = computed(() => {
 });
 
 const content = computed(() => {
-	if (report.reportable_type == 'mod' || report.reportable_type == 'user') {
+	if (report.reportable_type === 'mod' || report.reportable_type === 'user') {
 		return report.name;
 	} else {
 		return report.data.content;
@@ -71,7 +71,7 @@ const reportedUser = computed(() => {
 		return;
 	}
 
-	if (report.reportable_type == 'user') {
+	if (report.reportable_type === 'user') {
 		return report.reportable as User;
 	} else {
 		return (report.reportable as { id: number; user: User }).user;

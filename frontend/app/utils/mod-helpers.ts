@@ -18,7 +18,7 @@ export function canEditMod(mod: Mod) {
 
 	const membership = mod.members.find(member => member.accepted && member.id === user.id);
 
-	return membership ? (membership.level == 'collaborator' || membership.level == 'maintainer') : false;
+	return membership ? (membership.level === 'collaborator' || membership.level === 'maintainer') : false;
 }
 
 /**

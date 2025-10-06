@@ -59,7 +59,7 @@ const rolesNoMember = computed(() => (gameId ? roles.value?.data : roles.value?.
 const rolesSorted = computed(() => {
 	const newRoles = rolesNoMember.value;
 	if (!gameId) {
-		const member = roles.value?.data.find(role => role.id == 1);
+		const member = roles.value?.data.find(role => role.id === 1);
 		if (member) {
 			newRoles.unshift(member);
 		}
@@ -88,7 +88,7 @@ function calculateHighestOrder() {
 	// Make sure that the user has the correct highest order
 	let highestOrder: number | undefined;
 	for (const role of roles.value!.data) {
-		if (!role.is_vanity && userRoleIds.value?.find(id => id == role.id) && (!highestOrder || highestOrder < role.order)) {
+		if (!role.is_vanity && userRoleIds.value?.find(id => id === role.id) && (!highestOrder || highestOrder < role.order)) {
 			highestOrder = role.order;
 		}
 	}
@@ -108,7 +108,7 @@ async function onDrop() {
 
 		let nextOrder = 1000;
 		for (const role of newRoles) {
-			if (role.id == hovering.id) {
+			if (role.id === hovering.id) {
 				dragged.order = nextOrder - 5;
 			}
 			role.order = nextOrder;

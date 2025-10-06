@@ -43,9 +43,9 @@ watch(vm, val => {
 
 const classes = computed(() => ({
 	'modal-body': true,
-	'modal-lg': size == 'lg',
-	'modal-md': size == 'md',
-	'modal-sm': size == 'sm'
+	'modal-lg': size === 'lg',
+	'modal-md': size === 'md',
+	'modal-sm': size === 'sm'
 }));
 
 function onClickOutside() {

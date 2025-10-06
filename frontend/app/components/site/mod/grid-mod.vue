@@ -65,7 +65,7 @@ const { mod, game, static: isStatic, noGame, sort } = defineProps<{
 const i18n = useI18n();
 const locale = computed(() => i18n.locale.value);
 const showGame = computed(() => !noGame && mod.game);
-const date = computed(() => sort == 'published_at' ? mod.published_at : mod.bumped_at);
+const date = computed(() => sort === 'published_at' ? mod.published_at : mod.bumped_at);
 const likes = computed(() => shortStat(mod.likes));
 const downloads = computed(() => shortStat(mod.downloads));
 const views = computed(() => shortStat(mod.views));

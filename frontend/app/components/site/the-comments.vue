@@ -222,7 +222,7 @@ function onTextareaKeyup(event: KeyboardEvent) {
 
 	mentionPos.value = [coords.left + rect.left, coords.top + rect.top];
 
-	if (event.key == 'Enter' || event.key == 'ArrowUp' || event.key == 'Ctrl' || event.key == 'ArrowDown') {
+	if (event.key === 'Enter' || event.key === 'ArrowUp' || event.key === 'Ctrl' || event.key === 'ArrowDown') {
 		showMentions.value = false;
 	}
 }
@@ -230,20 +230,20 @@ function onTextareaKeyup(event: KeyboardEvent) {
 function onTextareaInput(event: InputEvent) {
 	const textArea = event.target as HTMLTextAreaElement;
 
-	if (event.inputType == 'insertText' || event.inputType == 'insertFromPaste') {
-		if (event.inputType == 'insertText' && event.data == '@') {
+	if (event.inputType === 'insertText' || event.inputType === 'insertFromPaste') {
+		if (event.inputType === 'insertText' && event.data === '@') {
 			mentionRange.value = [textArea.selectionEnd, textArea.selectionEnd];
 			showMentions.value = true;
 		} else if (showMentions.value) {
 			mentionRange.value = [mentionRange.value[0], textArea.selectionEnd];
 		}
-	} else if (event.inputType == 'deleteContentBackward' && commentContent.value.charAt(mentionRange.value[0] - 1) != '@') {
+	} else if (event.inputType === 'deleteContentBackward' && commentContent.value.charAt(mentionRange.value[0] - 1) !== '@') {
 		showMentions.value = false;
 	}
 }
 
 function onTextareaMouseDown(event: MouseEvent) {
-	if (event.button == 0) {
+	if (event.button === 0) {
 		showMentions.value = false;
 	}
 }

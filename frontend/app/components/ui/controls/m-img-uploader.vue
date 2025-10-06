@@ -36,7 +36,7 @@ const fileRef = ref();
 const input = ref<HTMLInputElement>();
 const blob = ref();
 const currentSrc = computed(() => {
-	if (modelValue.value != '') {
+	if (modelValue.value !== '') {
 		return blob.value || src;
 	}
 });

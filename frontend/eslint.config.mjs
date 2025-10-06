@@ -40,6 +40,8 @@ export default typescriptEslint.config(
 			'@stylistic': stylistic
 		},
 		rules: {
+			'eqeqeq': ['error', 'always'],
+
 			// Replaced by the TS one
 			'no-unused-vars': 'off',
 

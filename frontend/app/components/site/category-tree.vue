@@ -57,7 +57,7 @@ const queryDelayed = refDebounced(queryVm, 250);
 const lowSearch = computed(() => queryDelayed.value.toLocaleLowerCase());
 
 const currentCategoryId = props.setQuery ? useRouteQuery('category') : useVModel(props);
-const selected = computed(() => props.category?.id == parseInt(currentCategoryId.value));
+const selected = computed(() => props.category?.id === parseInt(currentCategoryId.value));
 const classes = computed(() => ({ 'cursor-pointer': true, 'tree-button': true, 'selected': selected.value }));
 
 const open = ref(!props.category);
@@ -115,7 +115,7 @@ function hasDescendantSelected(category: Category, current: Category[] | null = 
 }
 
 function onClickCategory(category: Category) {
-	if (parseInt(currentCategoryId.value) == category.id) {
+	if (parseInt(currentCategoryId.value) === category.id) {
 		currentCategoryId.value = null;
 		open.value = false;
 	} else {

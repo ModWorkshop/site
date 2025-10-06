@@ -43,7 +43,7 @@ const icons = {
 };
 
 const currIcon = computed(() => {
-	if (typeof props.icon == 'string') {
+	if (typeof props.icon === 'string') {
 		return props.icon;
 	} else if (props.icon !== false) {
 		return icons[props.color];
@@ -58,10 +58,10 @@ const classes = computed(() => {
 		'flex': true,
 		'gap-2': true,
 		'text-body': true,
-		'alert-success': props.color == 'success',
-		'alert-danger': props.color == 'danger',
-		'alert-info': props.color == 'info',
-		'alert-warning': props.color == 'warning',
+		'alert-success': props.color === 'success',
+		'alert-danger': props.color === 'danger',
+		'alert-info': props.color === 'info',
+		'alert-warning': props.color === 'warning',
 		'items-center': true
 	};
 });

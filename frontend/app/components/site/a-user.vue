@@ -105,7 +105,7 @@ const userColor = computed(() => {
 
 const neededGap = computed(() => {
 	if (props.avatar) {
-		return props.avatarSize == 'xs' ? 1 : 2;
+		return props.avatarSize === 'xs' ? 1 : 2;
 	}
 });
 

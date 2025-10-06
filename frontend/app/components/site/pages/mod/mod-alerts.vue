@@ -70,7 +70,7 @@ const memberWaitingRole = computed(() => {
 		return t(`member_level_${member.level}`);
 	}
 });
-const showPublish = computed(() => canEdit.value && !props.mod.published_at && props.mod.visibility == 'public' && props.mod.has_download);
+const showPublish = computed(() => canEdit.value && !props.mod.published_at && props.mod.visibility === 'public' && props.mod.has_download);
 
 const hasAlerts = computed(() => {
 	const mod = props.mod;
@@ -79,7 +79,7 @@ const hasAlerts = computed(() => {
 		return false;
 	}
 
-	const transfer = mod.transfer_request && mod.transfer_request.user_id == user?.id;
+	const transfer = mod.transfer_request && mod.transfer_request.user_id === user?.id;
 
 	return !mod.has_download || !mod.approved || mod.suspended || memberWaiting.value || transfer || showPublish.value;
 });

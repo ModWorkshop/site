@@ -35,7 +35,7 @@ const store = useStore();
 
 const initialMod = defineModel<Mod>('mod', { required: true });
 
-if (initialMod.value.id == 0) {
+if (initialMod.value.id === 0) {
 	initialMod.value.user_id = store.user!.id;
 	initialMod.value.user = store.user!;
 }

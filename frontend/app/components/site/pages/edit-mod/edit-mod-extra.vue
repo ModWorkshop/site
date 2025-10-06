@@ -30,7 +30,7 @@ const { t } = useI18n();
 
 const superUpdate = inject<boolean>('canSuperUpdate');
 
-const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
+const member = computed(() => user ? mod.value.members.find(member => member.id === user.id) : null);
 const canDelete = computed(() => superUpdate || member.value?.level === 'maintainer');
 
 watch(() => mod.value.game_id, () => mod.value.category_id = undefined);

@@ -94,12 +94,12 @@ const classes = computed(() => ({
 const innerClasses = computed(() => ({
 	'mx-auto': true,
 	'page-content': true,
-	'page-block-nm': props.size == 'nm',
-	'page-block-full': props.size == 'full',
-	'page-block-md': props.size == 'md',
-	'page-block-sm': props.size == 'sm',
-	'page-block-xs': props.size == 'xs',
-	'page-block-2xs': props.size == '2xs'
+	'page-block-nm': props.size === 'nm',
+	'page-block-full': props.size === 'full',
+	'page-block-md': props.size === 'md',
+	'page-block-sm': props.size === 'sm',
+	'page-block-xs': props.size === 'xs',
+	'page-block-2xs': props.size === '2xs'
 }));
 
 </script>

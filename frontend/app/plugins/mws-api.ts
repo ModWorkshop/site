@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
 		credentials: 'include',
 		onRequest({ options }) {
 			// Handle custom query parameter formatting for GET requests
-			if (options && options.params && (!options.method || options.method == 'GET')) {
+			if (options && options.params && (!options.method || options.method === 'GET')) {
 				// This retarded code is brought you by stupid web standards https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings
 				// tl;dr - PHP and JS cannot agree on the format for arrays in queries, we shall use PHP's one.
 

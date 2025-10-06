@@ -111,17 +111,17 @@ useI18n({
 });
 
 const custom = computed(() => {
-	if (log.type == 'ban') {
+	if (log.type === 'ban') {
 		return log.data.with.expire_date ? `until ${log.data.with.expire_date}` : 'permanently';
-	} else if (log.type == 'mod_approve_status') {
+	} else if (log.type === 'mod_approve_status') {
 		return log.data.status ? 'approved' : 'rejected';
-	} else if (log.type == 'mod_suspend_status') {
+	} else if (log.type === 'mod_suspend_status') {
 		return log.data.status ? 'suspended' : 'unsuspended';
 	}
 });
 
 const customDetails = computed(() => {
-	if (log.type == 'mod_approve_status' || log.type == 'mod_suspend_status') {
+	if (log.type === 'mod_approve_status' || log.type === 'mod_suspend_status') {
 		return 'Reason: ' + log.data.reason;
 	}
 });

@@ -27,7 +27,7 @@ const mdText = computed(() => {
 		return '';
 	}
 
-	if (parserVersion == 1) {
+	if (parserVersion === 1) {
 		return oldParseMarkdown(text, allowAnchors);
 	} else {
 		return parseMarkdown(text, allowAnchors, removeTags);

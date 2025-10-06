@@ -104,7 +104,7 @@ const levelOptions = computed(() => {
 		levels.push({ name: t('member_level_maintainer'), id: 'maintainer' });
 	}
 
-	if (superUpdate || member.value?.level == 'maintainer') {
+	if (superUpdate || member.value?.level === 'maintainer') {
 		levels.push({ name: t('member_level_collaborator'), id: 'collaborator' });
 	}
 
@@ -116,7 +116,7 @@ const addingNew = ref(false);
 const showTransferOwner = ref(false);
 const members = ref<ModMember[]>(clone(mod.value.members));
 const transferOwner = ref({ owner_id: null, keep_owner_level: null });
-const member = computed(() => user ? mod.value.members.find(member => member.id == user.id) : null);
+const member = computed(() => user ? mod.value.members.find(member => member.id === user.id) : null);
 
 const selectedUser = ref<User>();
 const selectedLevel = ref<'collaborator' | 'maintainer' | 'contributor' | 'viewer'>('collaborator');
@@ -210,7 +210,7 @@ async function cancelTransferRequest() {
 }
 
 function canEditMember(member: ModMember) {
-	return (user && member.id == user.id) || (memberPerms.value ? memberPerms.value.includes(member.level) : false);
+	return (user && member.id === user.id) || (memberPerms.value ? memberPerms.value.includes(member.level) : false);
 }
 </script>
 

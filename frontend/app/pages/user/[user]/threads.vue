@@ -15,7 +15,7 @@ const { user } = defineProps<{
 	user: User;
 }>();
 
-if (user.id != me?.id) {
+if (user.id !== me?.id) {
 	useNeedsPermission('manage-discussions');
 }
 </script>
