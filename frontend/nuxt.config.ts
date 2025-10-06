@@ -45,7 +45,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
-			version: '3.6.3',
+			version: '3.6.4',
 			presignedUpload: false,
 			commitHash: ''
 		},
