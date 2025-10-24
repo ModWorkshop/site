@@ -1,3 +1,3 @@
 files:
   - source: /frontend/app/i18n/locales/en.json
-    translation: /%two_letters_code%.json
+    translation: /frontend/app/i18n/locales/%two_letters_code%.json
