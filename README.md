@@ -1,6 +1,9 @@
 <p align="center"><a href="https://modworkshop.net" target="_blank"><img src="https://modworkshop.net/assets/mws_logo_white.svg" width="200"></a></p>
 
 # ModWorkshop Monorepo
+
+[![Crowdin](https://badges.crowdin.net/modworkshop/localized.svg)](https://crowdin.com/project/modworkshop)
+
 This repository holds all of the code for modworkshop + docker compose + env files.
 
 ## Installing
