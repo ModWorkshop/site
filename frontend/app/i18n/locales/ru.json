@@ -29,7 +29,7 @@
     "images_help": "Рекомендуемый размер - 600x300 пикселей для миниатюр и 1000x250 пикселей для баннеров.",
     "type": "Тип",
     "wiki": "Вики",
-    "discord": "Discоrd",
+    "discord": "Discord",
     "support_us": "Поддержать нас",
     "support_mws": "Поддержать ModWorkshop",
     "rules": "Правила",
@@ -674,5 +674,5 @@
     "ignored_mods": "Игнорируемые моды",
     "audit_log": "Журнал аудита",
     "copy_link": "Скопировать ссылку",
-    "repository": "Repository"
+    "repository": "Хранилище"
 }
