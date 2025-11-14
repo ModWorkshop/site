@@ -12,7 +12,7 @@
 					:parser-version="thread.parser_version"
 				/>
 			</div>
-			<i-mdi-close class="ml-auto mb-auto" @click.prevent="$emit('hide', thread)"/>
+			<i-mdi-close class="ml-auto mb-auto p-2" @click.stop="$emit('hide', thread)"/>
 		</m-content-block>
 	</div>
 </template>
