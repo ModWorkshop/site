@@ -17,7 +17,7 @@ return new class extends Migration
             // CRUD actions, ban, unban, warn, suspend mod, unsuspend mod
             $table->tinyText('type');
 
-            $table->foreignId('user_id')->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('game_id')->nullable()->constrained()->nullOnDelete();
 
             $table->nullableMorphs('auditable');
