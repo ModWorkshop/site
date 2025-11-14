@@ -1,7 +1,7 @@
 <template>
 	<a-user v-if="type == 'user' && object && typeof object == 'object'" :user="(object as User)" :avatar="false" @click.prevent/>
 	<template v-else>
-		<NuxtLink v-if="link" :to="link" @click.stop>{{ name }}</NuxtLink>
+		<NuxtLink v-if="link" :to="link" @click.stop="clickLink">{{ name }}</NuxtLink>
 		<span v-else>{{ name }}</span><span v-if="typeHint"> ({{ typeHint }})</span>
 	</template>
 </template>
@@ -10,40 +10,45 @@
 import { useI18n } from 'vue-i18n';
 import type { User } from '~/types/models';
 
-const props = defineProps({
-	type: {
-		type: String,
-		default: 'err'
-	},
-	object: [Object, String]
-});
+const { notifType = 'err', object, ok } = defineProps<{
+	notifType?: string;
+	object: any;
+	ok?: () => void;
+}>();
 
 const { t } = useI18n();
+const { ctrl } = useMagicKeys();
 
 const name = computed(() => {
-	if (!props.object) {
+	if (!object) {
 		return null;
 	}
 
-	if (typeof props.object === 'string') {
-		return props.object;
+	if (typeof object === 'string') {
+		return object;
 	}
 
-	return props.object.name || t(props.type).toLowerCase();
+	return object.name || t(notifType).toLowerCase();
 });
 
 const typeHint = computed(() => {
 	const n = name.value;
 
-	if (typeof props.object === 'string') {
+	if (typeof object === 'string') {
 		return null;
 	}
 
-	const type = t(props.type).toLowerCase();
+	const type = t(notifType).toLowerCase();
 	if (n !== type) {
 		return type;
 	}
 });
 
-const link = computed(() => typeof props.object === 'object' ? getObjectLink(props.type, props.object) : null);
+const link = computed(() => typeof object === 'object' ? getObjectLink(notifType, object) : null);
+
+function clickLink() {
+	if (!ctrl?.value) {
+		ok?.();
+	}
+}
 </script>

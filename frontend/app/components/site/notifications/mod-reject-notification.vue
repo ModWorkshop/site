@@ -4,7 +4,7 @@
 		<div>
 			<i18n-t keypath="notification_mod_rejected" tag="span" style="word-wrap: anywhere;" scope="global">
 				<template #notifiable>
-					<base-notification type="mod" :object="notifiable"/>
+					<base-notification notif-type="mod" :object="notifiable"/>
 				</template>
 			</i18n-t>
 			<template v-if="data.reason">

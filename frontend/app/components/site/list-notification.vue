@@ -15,16 +15,16 @@
 			/>
 			<i18n-t v-else :keypath="`notification_${notification.type}`" tag="span" style="word-wrap: anywhere;" class="self-start" scope="global">
 				<template #user>
-					<base-notification type="user" :object="fromUser"/>
+					<base-notification notif-type="user" :object="fromUser" :ok="ok"/>
 				</template>
 				<template #context>
-					<base-notification :type="notification.context_type" :object="context"/>
+					<base-notification :notif-type="notification.context_type" :object="context" :ok="ok"/>
 				</template>
 				<template #notifiable>
-					<base-notification :type="notification.notifiable_type" :object="notifiable"/>
+					<base-notification :notif-type="notification.notifiable_type" :object="notifiable" :ok="ok"/>
 				</template>
 				<template #extra>
-					<base-notification v-if="defintion.extra" :type="defintion.extra.type" :object="defintion.extra.object"/>
+					<base-notification v-if="defintion.extra" :notif-type="defintion.extra.type" :object="defintion.extra.object" :ok="ok"/>
 					<span v-else>{{ 'not_available' }}</span>
 				</template>
 			</i18n-t>
@@ -62,6 +62,7 @@ const notifiable = computed(() => notif.value.notifiable);
 const context = computed(() => notif.value.context);
 const fromUser = computed(() => notif.value.from_user);
 const data = computed(() => notif.value.data || {});
+const { ctrl } = useMagicKeys();
 
 const defintion = computed(() => (typeDefintions[notif.value.type] || typeDefintions.default)());
 const to = computed(() => {
@@ -171,6 +172,10 @@ async function onClick() {
 	await markAsSeen();
 
 	router.push(to.value);
+
+	if (!ctrl?.value && props.ok) {
+		props.ok();
+	}
 
 	const click = defintion.value.onClick;
 
