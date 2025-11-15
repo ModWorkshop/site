@@ -290,8 +290,9 @@ class LoginController extends Controller
      */
     public function forgotPassword(Request $request)
     {
-        $request->validate(['email' => 'required|email|max:255']);
-        Password::sendResetLink($request->only('email'));
+        $val = $request->validate(['email' => 'required|email|max:255']);
+        $email = [Str::lower($val['email'])];
+        Password::sendResetLink($email);
         # Is there a need to handle errors?
     }
 
