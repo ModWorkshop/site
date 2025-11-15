@@ -175,7 +175,7 @@ class UserController extends Controller
 
         $valRules =[
             'name' => 'string|nullable|min:3|max:30',
-            'unique_name' => 'alpha_dash:ascii|nullable|min:3|max:50',
+            'unique_name' => ['alpha_dash:ascii', 'not_regex:/^\d+$/', 'nullable', 'min:3', 'max:50'],
             'avatar_file' => ['nullable', 'is_image'],
             'custom_color' => 'string|max:7|nullable',
             'bio' => 'string|spam_check|nullable|max:3000',
@@ -344,7 +344,7 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         $val = $request->validate([
-            'unique_name' => 'alpha_dash:ascii|required|min:3|max:50',
+            'unique_name' => ['alpha_dash:ascii', 'not_regex:/^\d+$/', 'nullable', 'min:3', 'max:50'],
             'are_you_sure' => 'required|boolean',
         ]);
 
