@@ -46,7 +46,7 @@ class ImagePolicy
      */
     public function create(User $user, Mod $mod)
     {
-        if ($mod->files()->count() >= 25) {
+        if ($mod->images()->count() >= 20) {
             return false;
         }
 
