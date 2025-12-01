@@ -6496,10 +6496,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-equals@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "fast-equals@npm:5.2.2"
-  checksum: 7156bcade0be5ee4dc335969d255a5815348d57080e1876fa1584451eafd0c92588de5f5840e55f81841b6d907ade2a49a46e4ec33e6f7a283a209c0fd8f8a59
+"fast-equals@npm:^5.3.2":
+  version: 5.3.2
+  resolution: "fast-equals@npm:5.3.2"
+  checksum: feffb528d089800a3ae0ad405736b7a182ed96229bedbca79b921cc4fcbc3e7a297e37f24cc4075698abb710b7926ac09dd7f5b260a6414c8734872fb43d2cc6
   languageName: node
   linkType: hard
 
@@ -8550,7 +8550,7 @@ __metadata:
     date-fns: ^4.1.0
     eslint: ^9.35.0
     eslint-plugin-vue: ^10.4.0
-    fast-equals: ^5.2.2
+    fast-equals: ^5.3.2
     filesize: ^11.0.2
     highlight.js: ^11.11.1
     humanize-duration: ^3.32.1
