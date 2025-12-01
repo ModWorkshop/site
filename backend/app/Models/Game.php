@@ -168,6 +168,10 @@ class Game extends Model
         return $this->belongsToMany(ModManager::class)->without('game');
     }
 
+    public function hiddenTags() {
+        return $this->belongsToMany(Tag::class, 'game_hidden_tags')->without('game');
+    }
+
     /**
      * Returns whether the game is followed by the authenticated user
      */

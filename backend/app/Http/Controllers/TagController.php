@@ -28,6 +28,7 @@ class TagController extends Controller
         $val = $request->val([
             'game_id' => 'integer|min:1|nullable|exists:games,id',
             'type' => 'string|in:mod,forum',
+            'show_hidden' => 'boolean|nullable',
             'global' => 'boolean|nullable'
         ]);
 
@@ -39,6 +40,11 @@ class TagController extends Controller
                 }
                 if (isset($val['global']) && $val['global']) {
                     $q->orWhereNull('game_id');
+                    if (isset($gameId) && !($val['show_hidden'] ?? false)) {
+                        $q->whereDoesntHaveIn('gamesHiding', function($q) use($gameId) { // Filters out tags that are hidden by the game
+                            $q->where('game_hidden_tags.game_id', $gameId);
+                        });
+                    }
                 }
                 if (isset($val['type'])) {
                     $q->where(fn($q) => $q->where('type', $val['type'])->orWhere('type', '')->orWhereNull('type'));

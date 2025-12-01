@@ -288,8 +288,17 @@ class ModController extends Controller
             $mod = Mod::create($val);
         }
 
+        $tagsHiddenByGame = $mod->game->hiddenTags;
+        $filteredTags = [];
+        foreach ($tags as $tag) {
+            \Log::info('exists?', ['tag' => $tag, 'check' => $tagsHiddenByGame->where('id', $tag)->first()]);
+            if (!$tagsHiddenByGame->where('id', $tag)->first()) {
+                $filteredTags[] = $tag;
+            }
+        }
+
         if(isset($tags)) {
-            $mod->tags()->sync($tags);
+            $mod->tags()->sync($filteredTags);
         }
 
         $currentTags = $mod->tags;

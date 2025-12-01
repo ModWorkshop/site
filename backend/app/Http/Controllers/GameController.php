@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Game;
 use App\Models\AuditLog;
 use App\Models\ModManager;
+use App\Models\Tag;
 use App\Models\User;
 use App\Services\APIService;
 use App\Services\ModService;
@@ -49,6 +50,8 @@ class GameController extends Controller
             'webhook_url' => 'string|nullable|max:1000',
             'mod_manager_ids' => 'array|nullable',
             'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id|nullable',
+            'hidden_tag_ids' => 'array|nullable',
+            'hidden_tag_ids.*' => 'integer|min:1|exists:tags,id|nullable',
             'default_mod_manager_id' => 'exists:mod_managers,id|nullable'
         ];
 
@@ -58,11 +61,13 @@ class GameController extends Controller
 
         $val = $request->validate($validateArr);
 
+        APIService::nullToEmptyArr($val, 'mod_manager_ids', 'hidden_tag_ids');
         APIService::nullToEmptyStr($val, 'webhook_url', 'buttons');
 
         $thumbnailFile = Arr::pull($val, 'thumbnail_file');
         $bannerFile = Arr::pull($val, 'banner_file');
         $modManagerIds = Arr::pull($val, 'mod_manager_ids');
+        $hiddenTagIds = Arr::pull($val, 'hidden_tag_ids');
 
         $wasCreated = false;
         if (!isset($game)) {
@@ -83,12 +88,25 @@ class GameController extends Controller
             $modManagerIds = [];
             foreach ($modManagers as $manager) {
                 if (!empty($manager->game_id)) {
-                    abort(406, 'You cannot add mod managers that a game owns.');
+                    abort(406, 'You cannot add mod managers that any game owns.');
                 }
 
                 $modManagerIds[] = $manager->id;
             }
             $game->modManagers()->sync($modManagerIds);
+        }
+
+        if (isset($hiddenTagIds)) {
+            $tags = Tag::whereIn('id', $hiddenTagIds)->get();
+            $hiddenTagIds = [];
+            foreach ($tags as $tag) {
+                if (!empty($tag->game_id)) {
+                    abort(406, 'You cannot hide tags that any game owns.');
+                }
+
+                $hiddenTagIds[] = $tag->id;
+            }
+            $game->hiddenTags()->sync($hiddenTagIds);
         }
 
         APIService::storeImage($thumbnailFile, 'games/images', $game->thumbnail, [
@@ -109,7 +127,10 @@ class GameController extends Controller
             $game->update($val);
         }
 
-        return $game;
+        $game->loadMissing('modManagers');
+        $game->loadMissing('hiddenTags');
+
+        return new GameResource($game);
     }
 
     /**
@@ -179,6 +200,7 @@ class GameController extends Controller
 
         $game->loadCount('viewableMods');
         $game->loadMissing('modManagers');
+        $game->loadMissing('hiddenTags');
 
         if (Auth::hasUser()) {
             $game->loadMissing('followed');

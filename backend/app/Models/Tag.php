@@ -88,6 +88,10 @@ class Tag extends Model
         return $this->morphedByMany(Mod::class, 'taggable');
     }
 
+    public function gamesHiding() {
+        return $this->belongsToMany(Tag::class, 'game_hidden_tags')->without('game');
+    }
+
     public function threads() {
         return $this->morphedByMany(Thread::class, 'taggable');
     }

@@ -29,11 +29,12 @@
 			<m-select v-model="vmGame.default_mod_manager_id" :options="modManagers?.data" :label="$t('default_mod_manager')" :desc="$t('default_mod_manager_desc')"/>
 			<m-select v-model="vmGame.mod_manager_ids" :options="globalModManagers" multiple :label="$t('applied_global_mod_managers')" :desc="$t('applied_global_mod_managers_desc')"/>
 		</m-flex>
+		<m-select v-model="vmGame.hidden_tag_ids" :options="tags.data" multiple color-by="color" list-tags :label="$t('hidden_tags')" :desc="$t('hidden_tags_desc')"/>
 	</simple-resource-form>
 </template>
 
 <script setup lang="ts">
-import type { Game, ModManager } from '~/types/models';
+import type { Game, ModManager, Tag } from '~/types/models';
 import { useStore } from '~/store/index';
 
 const thumbnailBlob = ref();
@@ -49,6 +50,12 @@ const { data: modManagers } = await useFetchMany<ModManager>(mmUrl, {
 	params: {
 		global: true,
 		show_hidden: true
+	}
+});
+
+const { data: tags } = await useFetchMany<Tag>('tags', {
+	params: {
+		global: true
 	}
 });
 
