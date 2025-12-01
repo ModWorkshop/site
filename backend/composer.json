@@ -27,6 +27,7 @@
         "lcobucci/jwt": "4.3.0",
         "league/flysystem-aws-s3-v3": "^3.10",
         "mailersend/laravel-driver": "^2.7",
+        "marceloeatworld/plunk-laravel": "^0.1.1",
         "nickurt/laravel-stopforumspam": "^2.0",
         "sentry/sentry-laravel": "^4.1",
         "socialiteproviders/discord": "^4.1",

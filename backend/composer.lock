@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd7e365b34c13791259b8df255e2d325",
+    "content-hash": "8b2abb3de2d37a16d6ba8ce0508226b0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4253,6 +4253,67 @@
                 "source": "https://github.com/mailersend/mailersend-php/tree/v0.34.0"
             },
             "time": "2025-06-04T07:53:52+00:00"
+        },
+        {
+            "name": "marceloeatworld/plunk-laravel",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marceloeatworld/plunk-laravel.git",
+                "reference": "42b220c7daeb3ae94445c74625e8e12aa0178aae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marceloeatworld/plunk-laravel/zipball/42b220c7daeb3ae94445c74625e8e12aa0178aae",
+                "reference": "42b220c7daeb3ae94445c74625e8e12aa0178aae",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/mail": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarceloEatWorld\\PlunkLaravel\\PlunkServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MarceloEatWorld\\PlunkLaravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "marcelo",
+                    "email": "diagngo@gmail.com"
+                }
+            ],
+            "description": "Laravel mail transport for Plunk API",
+            "keywords": [
+                "email",
+                "laravel",
+                "mail",
+                "plunk",
+                "transport"
+            ],
+            "support": {
+                "issues": "https://github.com/marceloeatworld/plunk-laravel/issues",
+                "source": "https://github.com/marceloeatworld/plunk-laravel/tree/0.1.1"
+            },
+            "time": "2025-07-04T09:15:20+00:00"
         },
         {
             "name": "mikebronner/laravel-pivot-events",
