@@ -95,7 +95,7 @@ function submit() {
 
 function discard() {
 	if (model.value) {
-		Object.assign(model.value, modelCopy.value);
+		Object.assign(model.value, clone(modelCopy.value));
 	}
 	emit('discard');
 }
