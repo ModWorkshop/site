@@ -38,6 +38,14 @@
 						<td>{{ $t('login_cookies') }}</td>
 						<td>{{ $t('login_cookies_desc') }}</td>
 					</tr>
+					<tr>
+						<td>use-relative-time</td>
+						<td>{{ $t('use_relative_time_desc') }}</td>
+					</tr>
+					<tr>
+						<td>use-system-date-format</td>
+						<td>{{ $t('use_system_date_format_desc') }}</td>
+					</tr>
 				</template>
 			</m-table>
 			<m-alert v-if="allowCookies == true" color="success">{{ $t('cookies_allowed_desc') }}</m-alert>

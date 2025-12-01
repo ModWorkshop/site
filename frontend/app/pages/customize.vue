@@ -30,6 +30,7 @@
 				</m-flex>
 				<m-select v-model="locale" default="en" :options="locales" :value-by="option => option.code" :label="$t('language')"/>
 				<m-input v-model="useRelativeTime" type="checkbox" :label="$t('use_relative_time')" :desc="$t('use_relative_time_desc')"/>
+				<m-input v-model="useSystemDateFormat" type="checkbox" :label="$t('use_system_date_format')" :desc="$t('use_system_date_format_desc')"/>
 			</m-flex>
 			<h2>Mods</h2>
 			<m-flex class="p-4" column gap="4">
@@ -60,6 +61,7 @@ const savedColorScheme = useConsentedCookie('color-scheme', { expires: longExpir
 const savedLocale = useConsentedCookie<string>('locale', { expires: longExpiration() });
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration() });
 const useRelativeTime = useConsentedCookie('use-relative-time', { default: () => true, expires: longExpiration() });
+const useSystemDateFormat = useConsentedCookie('use-system-date-format', { expires: longExpiration() });
 const theme = ref<'dark' | 'light' | 'system'>(store.theme ?? 'dark');
 const allowCookies = useCookie<boolean>('allow-cookies', { expires: longExpiration() });
 

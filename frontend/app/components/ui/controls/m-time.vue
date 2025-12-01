@@ -8,7 +8,7 @@
 		:date-style="dateStyle || undefined"
 		:time-style="timeStyle || undefined"
 		:title="titleHover"
-		:locale="locale"
+		:locale="useSystemDateFormat ? undefined : locale"
 		@mouseenter="mouseEntered"
 	/>
 </template>
@@ -37,6 +37,7 @@ const dateTimeHack = computed(() => {
 });
 
 const useRelativeTime = useConsentedCookie('use-relative-time', { default: () => true, expires: longExpiration() });
+const useSystemDateFormat = useConsentedCookie('use-system-date-format');
 
 const overrideText = computed(() => {
 	if (text) {
