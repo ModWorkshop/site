@@ -77,6 +77,7 @@ const thumbnail = computed(() => {
 
 useSeoMeta({
 	ogSiteName: threadGame.value ? `ModWorkshop - ${threadGame.value.name} - Thread` : 'ModWorkshop - Thread',
+	ogTitle: `${thread.name} by ${thread.user?.name ?? t('not_available')}`,
 	ogImage: thumbnail.value,
 	twitterCard: 'summary'
 });
