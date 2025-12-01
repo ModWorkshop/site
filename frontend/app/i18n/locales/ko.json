@@ -674,5 +674,9 @@
     "ignored_mods": "무시 모드",
     "audit_log": "심사 기록",
     "copy_link": "링크 복사",
-    "repository": "리포지토리"
+    "repository": "리포지토리",
+    "use_system_date_format": "Use System Date Format",
+    "use_system_date_format_desc": "Changes dates (non relative) to use the format defined on your system/browser instead of chosen language.",
+    "hidden_tags": "Hidden Tags",
+    "hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified."
 }
