@@ -74,6 +74,10 @@ return [
         'mailersend' => [
             'transport' => 'mailersend',
         ],
+
+        'plunk' => [
+            'transport' => 'plunk',
+        ]
     ],
 
     /*
