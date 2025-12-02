@@ -675,8 +675,8 @@
     "audit_log": "Registro de auditoría",
     "copy_link": "Copiar enlace",
     "repository": "Repositorio",
-    "use_system_date_format": "Use System Date Format",
-    "use_system_date_format_desc": "Changes dates (non relative) to use the format defined on your system/browser instead of chosen language.",
-    "hidden_tags": "Hidden Tags",
-    "hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified."
+    "use_system_date_format": "Usar formato de fecha del sistema",
+    "use_system_date_format_desc": "Cambia las fechas (no relativas) para que usen el formato configurado en tu sistema o navegador, en lugar del definido por el idioma elegido.",
+    "hidden_tags": "Etiquetas ocultas",
+    "hidden_tags_desc": "Oculta las etiquetas globales para que los usuarios no puedan seleccionarlas en los mods o hilos. Si algún mod ya usa estas etiquetas, será necesario actualizarlas manualmente."
 }
