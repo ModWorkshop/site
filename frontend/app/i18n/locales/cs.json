@@ -532,7 +532,7 @@
     "tag_notice": "Upozornění",
     "tag_notice_desc": "Upozornění, které se ukáže nad tím, na co je uplatněné.",
     "tag_notice_type": "Typ Upozornění",
-    "tag_notice_localized": "Localize Notice",
+    "tag_notice_localized": "Lokalizovat Oznámení",
     "tag_notice_info": "Info",
     "tag_notice_warn": "Varování",
     "tag_notice_danger": "Nebezpečí",
