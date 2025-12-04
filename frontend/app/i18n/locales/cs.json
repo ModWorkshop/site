@@ -519,7 +519,7 @@
     "game_role_policies": "Zásady Herních Rolí",
     "forum_category_can_view": "Může Zobrazit",
     "forum_category_can_post": "Může Přidávat",
-    "localized": "Localized",
+    "localized": "Lokalizovaný",
     "user_tag": "Štítek",
     "user_tag_help": "Štítek poblíž jména uživatele, který ukazuje význam této role, například Administrátor nebo Moderátor.",
     "permissions": "Oprávnění",
@@ -532,7 +532,7 @@
     "tag_notice": "Upozornění",
     "tag_notice_desc": "Upozornění, které se ukáže nad tím, na co je uplatněné.",
     "tag_notice_type": "Typ Upozornění",
-    "tag_notice_localized": "Localize Notice",
+    "tag_notice_localized": "Lokalizovat Oznámení",
     "tag_notice_info": "Info",
     "tag_notice_warn": "Varování",
     "tag_notice_danger": "Nebezpečí",
@@ -674,9 +674,9 @@
     "ignored_mods": "Ignorovaný Módy",
     "audit_log": "Protokol Auditu",
     "copy_link": "Zkopírovat Odkaz",
-    "repository": "Repository",
-    "use_system_date_format": "Use System Date Format",
-    "use_system_date_format_desc": "Changes dates (non relative) to use the format defined on your system/browser instead of chosen language.",
-    "hidden_tags": "Hidden Tags",
-    "hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified."
+    "repository": "Úložiště",
+    "use_system_date_format": "Použít Systémový Formát Data",
+    "use_system_date_format_desc": "Změní data (nerelativní) tak, aby používala formát definovaný ve vašem systému/prohlížeči místo zvoleného jazyka.",
+    "hidden_tags": "Skryté Značky",
+    "hidden_tags_desc": "Skrývá globální značky před výběrem uživateli v modech/vláknech. Módy, které tyto značky již používají, je nutné upravit ručně."
 }
