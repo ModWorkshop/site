@@ -39,10 +39,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/utils@npm:^9.2.0":
-  version: 9.2.0
-  resolution: "@antfu/utils@npm:9.2.0"
-  checksum: 6633223e9c367b8b653ae97e3c8e34c42a76272e3681c08977e2e8d71463d20d2b4627723b0e3e23ad00474e4a940b141d2acffc8a7a3c67e94ab6ffd7f9519c
+"@antfu/utils@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "@antfu/utils@npm:9.3.0"
+  checksum: 7893a291971f8bf3ffd0d428077fdea3129ba849baf66b9d2f397b9d36f0554dbc12fa484ce8891d747107efe1bc9de29a24309f2194ea685fc0c69e133400d9
   languageName: node
   linkType: hard
 
@@ -7447,7 +7447,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "mws-frontend@workspace:."
   dependencies:
-    "@antfu/utils": ^9.2.0
+    "@antfu/utils": ^9.3.0
     "@gerhobbelt/markdown-it-regexp": ^0.6.0-15
     "@hcaptcha/vue3-hcaptcha": ^1.3.0
     "@iconify-json/mdi": ^1.1.54
