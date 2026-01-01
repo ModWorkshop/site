@@ -240,7 +240,7 @@ class LoginController extends Controller
             $found = false;
             while(!$found) {
                 $current = $uniqueName.$num;
-                if (!Arr::first($users, fn($val) => Str::lower($val->unique_name) === $current)) {
+                if (!Arr::first($users->toArray(), fn($val) => Str::lower($val->unique_name) === $current)) {
                     $uniqueName = $current;
                     $found = true;
                 } else {
