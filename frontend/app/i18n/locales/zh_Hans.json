@@ -675,8 +675,8 @@
     "audit_log": "审计日志",
     "copy_link": "复制链接",
     "repository": "代码仓库",
-    "use_system_date_format": "Use System Date Format",
-    "use_system_date_format_desc": "Changes dates (non relative) to use the format defined on your system/browser instead of chosen language.",
-    "hidden_tags": "Hidden Tags",
-    "hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified."
+    "use_system_date_format": "使用系统日期格式",
+    "use_system_date_format_desc": "将非相对日期更改为使用系统/浏览器定义的格式，而非所选语言的格式。",
+    "hidden_tags": "隐藏的标签",
+    "hidden_tags_desc": "隐藏全局标签以避免被用户在模组/主题里选择，已使用这些标签的模组需手动修改。"
 }
