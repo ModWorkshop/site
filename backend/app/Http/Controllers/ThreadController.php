@@ -74,7 +74,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min_strict:3|max:150',
-            'content' => 'string|spam_check|required|min_strictn:2|max:30000',
+            'content' => 'string|spam_check|required|min_strict:2|max:30000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'tag_ids' => 'array|nullable',
