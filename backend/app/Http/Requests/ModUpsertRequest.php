@@ -24,8 +24,8 @@ class ModUpsertRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:100',
-            'desc' => 'string|min:3|max:30000',
+            'name' => 'string|min_strict:3|max:100',
+            'desc' => 'string|min_strict:3|max:30000',
             'license' => 'string|spam_check|nullable|max:30000',
             'changelog' => 'string|spam_check|nullable|max:30000',
             'instructions' => 'string|spam_check|nullable|max:30000',

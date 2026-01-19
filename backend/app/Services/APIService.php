@@ -67,6 +67,24 @@ class APIService {
     }
 
     /**
+     * Handles null values by removing them entirely from the array
+     * Useful for cases where you KNOW that the value cannot be null and null is as good as undefined
+     *
+     * @param array $arr
+     * @param string $key
+     * @return void
+     */
+    public static function nullToUndefined(array &$arr, string ...$keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $arr) && is_null($arr[$key])) {
+                unset($arr[$key]);
+            }
+        }
+    }
+
+
+    /**
      * The opposite of ConvertEmptyStringsToNull, this converst nulls we expect to be empty at times.
      * For example strings, if you send them as empty string, PHP doesn't know if it's null or empty string.
      *
@@ -95,6 +113,28 @@ class APIService {
         foreach ($keys as $key) {
             if (array_key_exists($key, $arr)) {
                 $arr[$key] ??= [];
+            }
+        }
+    }
+
+    /**
+     * Removes empty unicode strings, this is useful for strings which you want to ensure are not empty
+     *
+     * @param string $str
+     * @return void
+     */
+    public static function normalizeString(string $str) {
+        // Remove ALL invisible / control characters
+        $str = preg_replace('/[\p{C}]/u', '', $str);
+
+        // Normalize whitespace
+        return trim(preg_replace('/\s+/u', ' ', $str));
+    }
+
+    public static function normalizeStrings(array &$arr, string ...$keys) {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $arr) && is_string($arr[$key])) {
+                $arr[$key] = self::normalizeString($arr[$key]);
             }
         }
     }

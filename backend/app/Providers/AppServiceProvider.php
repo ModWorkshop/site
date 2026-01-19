@@ -42,6 +42,21 @@ class AppServiceProvider extends ServiceProvider
         Relation::macro('_constraints', fn() => self::$constraints);
         Relation::macro('_setConstraints', fn($val) => self::$constraints = $val);
 
+        Validator::extendImplicit('min_strict', function ($attribute, $value, $parameters, ValidationValidator $validator) {
+            // Only allow null values when nullable rule is used
+            if (is_null($value)) {
+                \Log::info("it is null!", ['data' => $value]);
+                return $validator->hasRule($attribute, 'Nullable');
+            }
+
+            $clean = APIService::normalizeString($value);
+            return mb_strlen($clean) >= (int)$parameters[0];
+        }, 'The :attribute must be at least :min characters.');
+
+        Validator::replacer('min_strict', function ($message, $attribute, $rule, $parameters) {
+            return str_replace(':min', $parameters[0], $message);
+        });
+
         Validator::extend('email_or_url', function ($attribute, $value, $parameters, ValidationValidator $validator) {
             if (!$validator->validateEmail($attribute, $value, ['rfc']) && !$validator->validateUrl($attribute, $value)) {
                 return false;

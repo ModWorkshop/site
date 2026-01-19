@@ -93,7 +93,7 @@ class LoginController extends Controller
     public function register(Request $request)
     {
         $val = $request->validate([
-            'name' => ['required'],
+            'name' => 'required|string|min_strict:3|max:30',
             'unique_name' => ['alpha_dash:ascii', 'not_regex:/^\d+$/', 'nullable', 'min:3', 'max:50'],
             'email' => ['required', 'email', new \nickurt\StopForumSpam\Rules\IsSpamEmail(2)],
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],

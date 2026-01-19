@@ -32,7 +32,7 @@ class DependencyService {
         if (!isset($dependency)) {
             abort(409, 'already exists');
         }
-        
+
         $dependency->loadMissing('mod');
 
         return $dependency;
@@ -46,8 +46,8 @@ class DependencyService {
         $val = null;
         if ($dependency->offsite) {
             $val = $request->validate([
-                'name' => 'string|min:3|max:150',
-                'url' => 'url|min:3|max:1000',    
+                'name' => 'string|min_strict:3|max:150',
+                'url' => 'url|min:3|max:1000',
                 'optional' => 'boolean',
                 'order' => 'integer'
             ]);
@@ -61,7 +61,7 @@ class DependencyService {
 
         $dependency->update($val);
         $dependency->load('mod');
-        
+
         return $dependency;
     }
 

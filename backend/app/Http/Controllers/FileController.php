@@ -64,7 +64,7 @@ class FileController extends Controller
         $remainingStorage = $mod->currentStorage;
 
         $val = $request->validate([
-            'name' => 'string|min:1|max:100',
+            'name' => 'string|min_strict:1|max:100',
             'size' => "required|int|max:{$remainingStorage}"
         ]);
 
@@ -76,7 +76,7 @@ class FileController extends Controller
         $remainingStorage = $file->mod->currentStorage - $file->size;
 
         $val = $request->validate([
-            'name' => 'string|min:1|max:100',
+            'name' => 'string|min_strict:1|max:100',
             'size' => "required|int|max:{$remainingStorage}"
         ]);
 
@@ -241,7 +241,7 @@ class FileController extends Controller
         $remainingStorage = $file->mod->currentStorage - $file->size;
 
         $val = $request->validate([
-            'name' => 'string|min:1|max:100',
+            'name' => 'string|min_strict:1|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version' => 'string|nullable|max:255',

@@ -174,7 +174,7 @@ class UserController extends Controller
         ];
 
         $valRules =[
-            'name' => 'string|nullable|min:3|max:30',
+            'name' => 'string|nullable|min_strict:3|max:30',
             'unique_name' => ['alpha_dash:ascii', 'not_regex:/^\d+$/', 'nullable', 'min:3', 'max:50'],
             'avatar_file' => ['nullable', 'is_image'],
             'custom_color' => 'string|max:7|nullable',
@@ -210,6 +210,10 @@ class UserController extends Controller
         }
 
         $val = $request->validate($valRules);
+
+        APIService::normalizeStrings($val, 'name');
+
+        APIService::nullToUndefined($val, 'name', 'unique_name', 'email');
 
         APIService::nullToEmptyStr($val,
             'custom_color',

@@ -69,7 +69,7 @@ class CommentService {
     public static function store(Request $request, Model $commentable, array $extraSet=null)
     {
         $val = $request->validate([
-            'content' => 'string|required|min:2|max:5000',
+            'content' => 'string|required|min_strict:2|max:5000',
             'mentions' => 'array',
             'mentions.*' => 'string',
             'reply_to' => 'integer|nullable|min:1|exists:comments,id,reply_to,NULL'

@@ -42,7 +42,7 @@ class GameController extends Controller
     public function update(Request $request, Game $game=null)
     {
         $validateArr = [
-            'name' => 'string|max:150',
+            'name' => 'string|min_strict:3|max:150',
             'buttons' => 'nullable|string|max:1000',
             'thumbnail_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',
             'banner_file' => 'nullable|max:512000|mimes:png,webp,avif,gif,jpg',

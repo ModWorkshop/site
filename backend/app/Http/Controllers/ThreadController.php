@@ -73,8 +73,8 @@ class ThreadController extends Controller
     public function store(Request $request, Forum $forum)
     {
         $val = $request->validate([
-            'name' => 'string|min:3|max:150',
-            'content' => 'string|spam_check|required|min:2|max:30000',
+            'name' => 'string|min_strict:3|max:150',
+            'content' => 'string|spam_check|required|min_strictn:2|max:30000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'tag_ids' => 'array|nullable',
@@ -142,8 +142,8 @@ class ThreadController extends Controller
     public function update(Request $request, Thread $thread)
     {
         $val = $request->validate([
-            'name' => 'string|min:3|max:150',
-            'content' => 'string|spam_check|min:2|max:30000',
+            'name' => 'string|min_strict:3|max:150',
+            'content' => 'string|spam_check|min_strict:2|max:30000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
             'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',

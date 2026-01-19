@@ -35,7 +35,7 @@ class ModManagerController extends Controller
             $user = Auth::user();
             if (isset($game)) {
                 $query->where('game_id', $game->id);
-            } 
+            }
             if (isset($val['global']) && $val['global']) {
                 $query->orWhereNull('game_id');
             }
@@ -70,7 +70,7 @@ class ModManagerController extends Controller
     public function update(Request $request, ModManager $modManager = null, Game $game=null)
     {
         $val = $request->validate([
-            'name' => 'string|min:3|max:100',
+            'name' => 'string|min_strict:3|max:100',
             'download_url' => 'string|max:1000',
             'site_url' => 'url|nullable|max:1000',
             'game_id' => 'integer|min:1|nullable|exists:games,id',

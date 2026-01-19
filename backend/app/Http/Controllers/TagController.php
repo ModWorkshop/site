@@ -81,9 +81,9 @@ class TagController extends Controller
     public function update(Request $request, Game $game=null, Tag $tag=null)
     {
         $val = $request->validate([
-            'name' => 'string|required|min:2|max:100',
+            'name' => 'string|required|min_strict:2|max:100',
             'color' => 'string|required|hex_color|max:8',
-            'notice' => 'string|nullable|min:3|max:1000',
+            'notice' => 'string|nullable|min_strict:3|max:1000',
             'notice_type' => 'string|nullable|in:info,warning,danger',
             'type' => 'string|nullable|in:all,forum,mod',
             'notice_localized' => 'boolean|nullable',

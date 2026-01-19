@@ -20,7 +20,7 @@ class InstructsTemplateController extends Controller
     }
     /**
      * List instructions templates
-     * 
+     *
      * @authenticated
      */
     public function index(Game $game, FilteredRequest $request)
@@ -56,7 +56,7 @@ class InstructsTemplateController extends Controller
     public function update(Request $request, Game $game, InstructsTemplate $instructsTemplate=null)
     {
         $val = $request->validate([
-            'name' => 'string|max:150',
+            'name' => 'string|min_strict:3|max:150',
             'instructions' => 'string|nullable|max:30000',
             'localized' => 'boolean|nullable',
         ]);

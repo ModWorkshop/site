@@ -62,7 +62,7 @@ class LinkController extends Controller
     public function update(Request $request, Mod $mod, Link $link=null)
     {
         $val = $request->validate([
-            'name' => 'required|min:3|max:255',
+            'name' => 'required|min_strict:3|max:255',
             'url' => 'required|url|min:3|max:1000',
             'desc' => 'string|nullable|max:1000',
             'label' => 'string|nullable|max:100',
@@ -103,7 +103,7 @@ class LinkController extends Controller
     {
         ModService::registerDownload($link);
     }
-    
+
     /**
      * Delete a link
      *
