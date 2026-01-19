@@ -219,6 +219,7 @@ export interface Game {
 	waiting_count?: number;
 	mod_managers?: ModManager[];
 	mod_manager_ids?: number[];
+	hidden_tag_ids?: number[];
 	default_mod_manager_id?: number;
 }
 
