@@ -29,7 +29,7 @@
 			<m-select v-model="vmGame.default_mod_manager_id" :options="modManagers?.data" :label="$t('default_mod_manager')" :desc="$t('default_mod_manager_desc')"/>
 			<m-select v-model="vmGame.mod_manager_ids" :options="globalModManagers" multiple :label="$t('applied_global_mod_managers')" :desc="$t('applied_global_mod_managers_desc')"/>
 		</m-flex>
-		<m-select v-model="vmGame.hidden_tag_ids" :options="tags.data" multiple color-by="color" list-tags :label="$t('hidden_tags')" :desc="$t('hidden_tags_desc')"/>
+		<m-select v-model="vmGame.hidden_tag_ids" :options="tags?.data" multiple color-by="color" list-tags :label="$t('hidden_tags')" :desc="$t('hidden_tags_desc')"/>
 	</simple-resource-form>
 </template>
 
@@ -46,7 +46,7 @@ const vmGame = defineModel<Game>({ required: true });
 const canDelete = computed(() => hasPermission('manage-games'));
 const mmUrl = getGameResourceUrl('mod-managers', vmGame.value);
 
-const { data: modManagers } = await useFetchMany<ModManager>(mmUrl, {
+const { data: modManagers } = await useFetchMany<ModManager>(() => mmUrl, {
 	params: {
 		global: true,
 		show_hidden: true
@@ -59,7 +59,7 @@ const { data: tags } = await useFetchMany<Tag>('tags', {
 	}
 });
 
-const globalModManagers = computed(() => modManagers.value?.data.filter(mm => mm.game_id === undefined));
+const globalModManagers = computed(() => modManagers.value?.data.filter(mm => !mm.game_id));
 
 const mergeParams = reactive({
 	thumbnail_file: thumbnailBlob,
