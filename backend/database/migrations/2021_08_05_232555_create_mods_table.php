@@ -52,7 +52,7 @@ class CreateModsTable extends Migration
             $table->tinyText('download_type')->nullable();
 
             $table->bigInteger('last_user_id')->unsigned()->nullable();
-            $table->foreign('last_user_id')->references('id')->on('users');
+            $table->foreign('last_user_id')->references('id')->on('users')->nullOnDelete();
 
             $table->boolean('has_download')->default(false);
             $table->boolean('approved')->nullable()->default(true);
