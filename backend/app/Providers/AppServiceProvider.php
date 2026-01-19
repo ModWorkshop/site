@@ -45,7 +45,6 @@ class AppServiceProvider extends ServiceProvider
         Validator::extendImplicit('min_strict', function ($attribute, $value, $parameters, ValidationValidator $validator) {
             // Only allow null values when nullable rule is used
             if (is_null($value)) {
-                \Log::info("it is null!", ['data' => $value]);
                 return $validator->hasRule($attribute, 'Nullable');
             }
 
