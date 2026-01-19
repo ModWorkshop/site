@@ -20,7 +20,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@antfu/utils": "^9.2.0",
+    "@antfu/utils": "^9.3.0",
     "@iconify-json/mdi": "^1.1.54",
     "@iconify-json/ri": "^1.2.1",
     "@iconify-json/svg-spinners": "^1.2.1",
