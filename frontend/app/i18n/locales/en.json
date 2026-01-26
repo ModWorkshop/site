@@ -678,5 +678,7 @@
 	"use_system_date_format": "Use System Date Format",
 	"use_system_date_format_desc": "Changes dates (non relative) to use the format defined on your system/browser instead of chosen language.",
 	"hidden_tags": "Hidden Tags",
-	"hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified."
+	"hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified.",
+	"install_with": "Install with {modManager}",
+	"mod_manager_not_installed": "Don't have {modManager}?"
 }
