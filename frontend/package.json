@@ -38,7 +38,7 @@
     "@typescript-eslint/parser": "^8.41.0",
     "@unhead/vue": "^2.0.3",
     "@vueuse/components": "^13.9.0",
-    "@vueuse/core": "^13.9.0",
+    "@vueuse/core": "^14.1.0",
     "@vueuse/nuxt": "^14.1.0",
     "eslint": "^9.35.0",
     "eslint-plugin-vue": "^10.4.0",
