@@ -678,5 +678,7 @@
     "use_system_date_format": "Usar formato de fecha del sistema",
     "use_system_date_format_desc": "Cambia las fechas (no relativas) para que usen el formato configurado en tu sistema o navegador, en lugar del definido por el idioma elegido.",
     "hidden_tags": "Etiquetas ocultas",
-    "hidden_tags_desc": "Oculta las etiquetas globales para que los usuarios no puedan seleccionarlas en los mods o hilos. Si algún mod ya usa estas etiquetas, será necesario actualizarlas manualmente."
+    "hidden_tags_desc": "Oculta las etiquetas globales para que los usuarios no puedan seleccionarlas en los mods o hilos. Si algún mod ya usa estas etiquetas, será necesario actualizarlas manualmente.",
+    "install_with": "Install with {modManager}",
+    "mod_manager_not_installed": "Don't have {modManager}?"
 }
