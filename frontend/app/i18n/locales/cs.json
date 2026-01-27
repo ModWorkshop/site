@@ -680,5 +680,5 @@
     "hidden_tags": "Skryté Značky",
     "hidden_tags_desc": "Skrývá globální značky před výběrem uživateli v modech/vláknech. Módy, které tyto značky již používají, je nutné upravit ručně.",
     "install_with": "Instalovat s {modManager}",
-    "mod_manager_not_installed": "Don't have {modManager}?"
+    "mod_manager_not_installed": "Nemáš {modManager}?"
 }
