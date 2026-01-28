@@ -75,12 +75,15 @@ class FileController extends Controller
     public function fileBeginUpload(Request $request, File $file) {
         $remainingStorage = $file->mod->currentStorage - $file->size;
 
+        if ($remainingStorage < 0) {
+            abort(403, "You don't have enough storage to upload this file");
+        }
+
         $val = $request->validate([
-            'name' => 'string|min_strict:1|max:100',
-            'size' => "required|int|max:{$remainingStorage}"
+            'name' => 'string|min_strict:1|max:100'
         ]);
 
-        return $this->createPendingFile($file->mod, $val['name'], $val['size'], $file);
+        return $this->createPendingFile($file->mod, $val['name'], $file->size, $file);
     }
 
     public function createPendingFile(Mod $mod, string $name, int $size, File $file = null) {
