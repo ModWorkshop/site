@@ -14,7 +14,7 @@
 			:upload-url="uploadLink"
 			:paused="!mod.id"
 			:paused-reason="$t('file_waiting')"
-			:max-size="maxSize"
+			:max-size="maxStorage"
 			url="files"
 			ask-before-remove
 			:presigned-upload="config.presignedUpload"
@@ -192,14 +192,6 @@ const maxStorage = computed(() => {
 		return Math.max(allowedStorage.value || 0, settings?.supporter_mod_storage_size || 0);
 	} else {
 		return allowedStorage.value || settings?.mod_storage_size || 0;
-	}
-});
-
-const maxSize = computed(() => {
-	if (mod.value.user?.has_supporter_perks) {
-		return settings?.supporter_mod_storage_size || 0;
-	} else {
-		return settings?.max_file_size || 0;
 	}
 });
 
