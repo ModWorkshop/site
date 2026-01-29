@@ -267,7 +267,7 @@ class ModController extends Controller
             }
 
             //Only moderators are allowed to change games of mods and allowed storage
-            if (!$this->user()->hasPermission('manage-mods')) {
+            if (!$this->user()->hasPermission('manage-mods', $mod->game)) {
                 unset($val['game_id']);
                 unset($val['allowed_storage']);
             } else if ($gameId !== $mod->game_id) {
@@ -277,7 +277,7 @@ class ModController extends Controller
             $mod->calculateFileStatus(false);
             $mod->update($val);
         } else {
-            if (!$this->user()->hasPermission('manage-mods')) {
+            if (!$this->user()->hasPermission('manage-mods', $game)) {
                 unset($val['allowed_storage']);
             }
 
