@@ -303,7 +303,7 @@ class UserController extends Controller
             if (!isset($user->password)) {
                 abort(422, 'Password is required to be set to set email!');
             }
-            $user->setEmail($email);
+            $user->setEmail(Str::lower($email));
         }
 
         $user->update($val);
