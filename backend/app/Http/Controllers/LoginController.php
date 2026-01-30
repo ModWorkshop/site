@@ -62,7 +62,7 @@ class LoginController extends Controller
 
         APIService::checkCaptcha($request);
 
-        if (Auth::attempt(['email' => $val['email'], 'password' => $val['password']], $val['remember'])) {
+        if (Auth::attempt(['email' => Str::lower($val['email']), 'password' => $val['password']], $val['remember'])) {
             $request->session()->regenerate();
             return response('');
         } else {
@@ -127,6 +127,8 @@ class LoginController extends Controller
 
         // Skip verification on dev
         $shouldVerify = app()->isLocal() && empty(env('MAIL_HOST'));
+
+        $val['email'] = Str::lower($val['email']);
 
         $user = User::forceCreate([
             'name' => $val['name'],
