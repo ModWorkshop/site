@@ -552,7 +552,7 @@ class Mod extends Model implements SubscribableInterface
         return Attribute::make(fn() => intval($this->withSecureConstraints(fn() => $this->files()->sum('size'))));
     }
 
-    public function currentStorage(): Attribute {
+    public function maxStorage(): Attribute {
         return Attribute::make(function() {
             $size = $this->allowed_storage ?? Setting::getValue('mod_storage_size');
 
@@ -560,9 +560,12 @@ class Mod extends Model implements SubscribableInterface
                 $size = max($size, Setting::getValue('supporter_mod_storage_size'));
             }
 
-            $size -= $this->usedStorage;
             return $size;
         });
+    }
+
+    public function currentStorage(): Attribute {
+        return Attribute::make(fn() => $this->maxStorage - $this->usedStorage);
     }
 
     public function modManagers(): Attribute {

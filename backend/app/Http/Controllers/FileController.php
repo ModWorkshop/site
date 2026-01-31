@@ -73,17 +73,20 @@ class FileController extends Controller
 
 
     public function fileBeginUpload(Request $request, File $file) {
-        $remainingStorage = $file->mod->currentStorage - $file->size;
+        $mod = $file->mod;
+        // Prevent replacing a file when losing supporter perks by limiting how much storage you can replace
+        $remainingStorage = $mod->currentStorage + min($file->size, $mod->maxStorage);
 
         if ($remainingStorage < 0) {
             abort(403, "You don't have enough storage to upload this file");
         }
 
         $val = $request->validate([
-            'name' => 'string|min_strict:1|max:100'
+            'name' => 'string|min_strict:1|max:100',
+            'size' => "required|int|max:{$remainingStorage}"
         ]);
 
-        return $this->createPendingFile($file->mod, $val['name'], $file->size, $file);
+        return $this->createPendingFile($file->mod, $val['name'], $val['size'], $file);
     }
 
     public function createPendingFile(Mod $mod, string $name, int $size, File $file = null) {
@@ -134,6 +137,14 @@ class FileController extends Controller
 
         try {
             $size = Storage::size($tempFilePath);
+            if (isset($pendingFile->file_id)) {
+                $file = $pendingFile->file;
+                if (isset($pendingFile)) {
+                    // Allow replacing the file while not allowing going over the current limit
+                    $remainingStorage = $mod->currentStorage + min($file->size, $mod->maxStorage);
+                }
+            }
+
             if ($size !== $pendingFile->size || $size > $remainingStorage) {
                 Storage::delete($tempFilePath);
                 abort(403, 'File size is invalid or exceeds allowed storage!');
@@ -241,7 +252,7 @@ class FileController extends Controller
     {
         set_time_limit(3600);
         // Since we are changing a file
-        $remainingStorage = $file->mod->currentStorage - $file->size;
+        $remainingStorage = $file->mod->currentStorage + min($file->size, $file->maxStorage);
 
         $val = $request->validate([
             'name' => 'string|min_strict:1|max:100',
