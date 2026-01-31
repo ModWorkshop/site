@@ -25,7 +25,7 @@
 						class="p-3"
 						:label="perm.name"
 						type="checkbox"
-						:disabled="!hasPermission(perm.name)"
+						:disabled="!hasPermission(perm.name, game)"
 						@click="togglePermission(perm.name)"
 					/>
 					<span v-if="!hasPermission(perm.name, game)">🔒</span>

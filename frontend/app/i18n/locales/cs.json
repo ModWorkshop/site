@@ -678,5 +678,7 @@
     "use_system_date_format": "Použít Systémový Formát Data",
     "use_system_date_format_desc": "Změní data (nerelativní) tak, aby používala formát definovaný ve vašem systému/prohlížeči místo zvoleného jazyka.",
     "hidden_tags": "Skryté Značky",
-    "hidden_tags_desc": "Skrývá globální značky před výběrem uživateli v modech/vláknech. Módy, které tyto značky již používají, je nutné upravit ručně."
+    "hidden_tags_desc": "Skrývá globální značky před výběrem uživateli v modech/vláknech. Módy, které tyto značky již používají, je nutné upravit ručně.",
+    "install_with": "Instalovat s {modManager}",
+    "mod_manager_not_installed": "Nemáš {modManager}?"
 }
