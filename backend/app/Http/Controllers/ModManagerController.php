@@ -18,7 +18,7 @@ use Illuminate\Support\Arr;
 class ModManagerController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(ModManager::class, 'mod_manager');
+        $this->authorizeGameResource(ModManager::class);
     }
 
     /**
