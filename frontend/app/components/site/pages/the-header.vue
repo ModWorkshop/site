@@ -51,14 +51,13 @@
 					<m-link class="max-sm:block hidden" to="https://translate.modworkshop.net/">{{ $t('translation_site') }}</m-link>
 				</m-flex>
 				<m-flex id="user-items" class="md:ml-auto mb-4 md:mb-0 md:mr-2 items-center" gap="4">
-					<m-dropdown v-model:open="showSearch" :trap-focus="false" :auto-hide="false" align="end" dropdown-class="search-dropdown">
+					<m-dropdown v-model:open="showSearch" :close-on-click="false" :trap-focus="false" :auto-hide="false" align="end" dropdown-class="search-dropdown">
 						<m-flex>
 							<input
 								v-if="showSearch"
 								id="header-search"
 								ref="searchInput"
 								v-model="query"
-								v-on-click-outside="() => showSearch = false"
 								class="searchbox"
 								inline
 								:placeholder="$t('search')"
@@ -91,7 +90,7 @@
 								</m-flex>
 								<template v-if="query && mods && mods.data.length">
 									<h3>{{ $t('mods') }}</h3>
-									<m-flex column gap="1">
+									<m-flex column gap="2">
 										<template v-if="mods">
 											<search-list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
 										</template>
@@ -196,6 +195,7 @@ const searchButtons = computed(() => {
 	const searching = query.value.length > 0;
 	const buttons = [
 		{ to: `/search/mods`, text: searching ? 'search_mods_matching' : 'mods' },
+		{ to: `/search/games`, text: searching ? 'search_games_matching' : 'games' },
 		{ to: `/search/threads`, text: searching ? 'search_threads_matching' : 'threads' },
 		{ to: `/search/users`, text: searching ? 'search_users_matching' : 'users' }
 	];
@@ -273,6 +273,7 @@ async function markAsRead() {
 	await markAllNotificationsAsRead(notifications.value?.data, notificationCount);
 }
 </script>
+
 <style scoped>
 .header-closer {
 	background-color: #00000080;
