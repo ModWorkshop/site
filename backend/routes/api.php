@@ -214,7 +214,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::resource('supporters', SupporterController::class);
-Route::get('supporters/tebex/webhook', [SupporterController::class, 'tebexWebhook']);
+Route::post('supporters/tebex/webhook', [SupporterController::class, 'tebexWebhook']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('supporters/nitro-check', [SupporterController::class, 'nitroCheck']);
     Route::middleware('throttle:10,1')->get('supporters/tebex/baskets', [SupporterController::class, 'tebexCreateBasket']);
