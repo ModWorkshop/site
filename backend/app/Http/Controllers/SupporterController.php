@@ -11,6 +11,8 @@ use App\Http\Resources\BaseResource;
 use App\Models\Subscription;
 use App\Services\APIService;
 use Illuminate\Http\Response;
+use Tebex\Webhook\Webhook;
+use Tebex\Webhooks;
 
 /**
  * @group Supporters
@@ -103,6 +105,16 @@ class SupporterController extends Controller
         $supporter->delete();
     }
 
+
+    public function tebexWebhook() {
+        Webhooks::setSecretKey(env('TEBEX_SECRET_KEY'));
+        $webhook = Webhook::parse();
+
+        // Respond to validation endpoint
+        if ($webhook->isType(\Tebex\Webhook\VALIDATION_WEBHOOK)) {
+            return ["id" => $webhook->getId()];
+        }
+    }
     /**
      * Checks nitro to update the subscription data
      * 

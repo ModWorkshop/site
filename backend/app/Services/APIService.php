@@ -399,33 +399,11 @@ class APIService {
         return $arr;
     }
 
+    /**
+     * @deprecated
+     */
     public static function nitroCheck(User $user) {
-        $signer = new \NitroPaySponsor\Signer(env('NITRO_TOKEN'));
 
-        $user->nitroToken = $signer->sign([
-            'siteId' => '92', // required
-            'userId' => $user->id, // required
-        ]);
-
-        $subInfo = $signer->getUserSubscription($user?->id);
-        $registeredSub = Supporter::where('provider', 'nitro')->where('user_id', $user->id)->first();
-
-        if (!isset($registeredSub)) {
-            if ($subInfo && $subInfo->status == 'active') {
-                $registeredSub = Supporter::create([
-                    'provider' => 'nitro',
-                    'user_id' => $user->id
-                ]);
-            } else {
-                return;
-            }
-        }
-
-        $registeredSub->expire_date = Carbon::create($subInfo->subscribedUntil);
-        $registeredSub->expired = $subInfo->status != 'active';
-        $registeredSub->save();
-
-        return $registeredSub;
     }
 
     public static function checkCaptcha(Request $request) {

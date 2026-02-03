@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b2abb3de2d37a16d6ba8ce0508226b0",
+    "content-hash": "93d7b8c537cbcb9dab554083780e1e2b",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1350,42 +1350,6 @@
                 "source": "https://github.com/mikebronner/laravel-model-caching/tree/12.0.2"
             },
             "time": "2025-02-27T00:34:22+00:00"
-        },
-        {
-            "name": "ggsoftwarellc/nitropay-sponsor-php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ModWorkshop/nitropay-sponsor-php.git",
-                "reference": "929b17cb9637f48bd382d547e5bb7885f6d71a0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ModWorkshop/nitropay-sponsor-php/zipball/929b17cb9637f48bd382d547e5bb7885f6d71a0b",
-                "reference": "929b17cb9637f48bd382d547e5bb7885f6d71a0b",
-                "shasum": ""
-            },
-            "require": {
-                "lcobucci/jwt": "4.3.*",
-                "php": ">=8.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^11"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "NitroPaySponsor\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "support": {
-                "source": "https://github.com/ModWorkshop/nitropay-sponsor-php/tree/master"
-            },
-            "time": "2024-10-03T09:34:52+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -10519,6 +10483,58 @@
             "time": "2023-03-30T14:14:55+00:00"
         },
         {
+            "name": "tebex/tebex-sdk-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tebexio/tebex-sdk-php.git",
+                "reference": "6feccef725b089222149215e6ea01b7b26bf8b60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tebexio/tebex-sdk-php/zipball/6feccef725b089222149215e6ea01b7b26bf8b60",
+                "reference": "6feccef725b089222149215e6ea01b7b26bf8b60",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.9",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tebex\\": "src/",
+                    "TebexCheckout\\": "src/Checkout/lib/",
+                    "TebexHeadless\\": "src/Headless/lib/",
+                    "TebexCheckout\\TebexCheckout\\": "src/Checkout/lib/",
+                    "TebexHeadless\\TebexHeadless\\": "src/Headless/lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Gaming payments done right - Tebex is the monetization platform designed to grow your gaming revenue streams",
+            "keywords": [
+                "api",
+                "game development",
+                "gaming",
+                "payment processing",
+                "payments",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/tebexio/tebex-sdk-php/issues",
+                "source": "https://github.com/tebexio/tebex-sdk-php/tree/v1.1.0"
+            },
+            "time": "2025-06-09T15:29:36+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.3.0",
             "source": {
@@ -13284,9 +13300,7 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {
-        "ggsoftwarellc/nitropay-sponsor-php": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

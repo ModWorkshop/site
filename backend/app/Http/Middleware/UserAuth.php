@@ -43,15 +43,6 @@ class UserAuth
 
             // Update the last online every 5 minutes or so.
             if (isset($user)) {
-                $signer = new \NitroPaySponsor\Signer(env('NITRO_TOKEN'));
-
-                $user->nitroToken = $signer->sign([
-                    'siteId' => '92', // required
-                    'userId' => $user->id, // required
-                ]);
-
-                // \Log::info((array)$signer->getUserSubscription($user?->id));
-
                 if (!isset($user->last_online) || $user->last_online->diffInSeconds($now) > 60) {
                     $user->update([
                         'last_online' => $now,
