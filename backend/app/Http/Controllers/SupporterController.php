@@ -13,6 +13,7 @@ use App\Services\APIService;
 use Illuminate\Http\Response;
 use Tebex\Webhook\Webhook;
 use Tebex\Webhooks;
+use function Illuminate\Log\log;
 
 /**
  * @group Supporters
@@ -112,7 +113,9 @@ class SupporterController extends Controller
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
+
         Webhooks::setSecretKey(env('TEBEX_SECRET_KEY'));
+        log($request->getContent());
         $webhook = Webhook::parse($request->getContent());
 
         // Respond to validation endpoint
