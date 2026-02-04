@@ -114,12 +114,18 @@ class SupporterController extends Controller
             $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
 
-        Webhooks::setSecretKey(env('TEBEX_SECRET_KEY'));
+        $secret = env('TEBEX_SECRET_KEY');
+        Webhooks::setSecretKey($secret);
 
-        $sign = file_get_contents('php://input');
-        log($sign);
+        $json = file_get_contents('php://input');
+        $json_sha256 = hash('sha256', $json);
+        $json_sha256_hmac = hash_hmac('sha256', $json_sha256, $secret);
+        log($secret);
+        log($json_sha256);
+        log($json_sha256_hmac);
+        log($json);
 
-        $webhook = Webhook::parse($sign);
+        $webhook = Webhook::parse($json);
 
         // Respond to validation endpoint
         if ($webhook->isType(\Tebex\Webhook\VALIDATION_WEBHOOK)) {
