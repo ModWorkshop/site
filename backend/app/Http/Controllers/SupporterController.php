@@ -107,6 +107,11 @@ class SupporterController extends Controller
 
 
     public function tebexWebhook(Request $request) {
+        // Issue: Tebex uses REMOTE_ADDR to ensure the IP is not tempered with
+        // This however isn't an issue on our end as we use a Proxy and replace that header with Caddy
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
         Webhooks::setSecretKey(env('TEBEX_SECRET_KEY'));
         $webhook = Webhook::parse($request->getContent());
 
