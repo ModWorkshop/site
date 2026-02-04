@@ -106,9 +106,9 @@ class SupporterController extends Controller
     }
 
 
-    public function tebexWebhook() {
+    public function tebexWebhook(Request $request) {
         Webhooks::setSecretKey(env('TEBEX_SECRET_KEY'));
-        $webhook = Webhook::parse();
+        $webhook = Webhook::parse($request->getContent());
 
         // Respond to validation endpoint
         if ($webhook->isType(\Tebex\Webhook\VALIDATION_WEBHOOK)) {
