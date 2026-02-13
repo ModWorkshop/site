@@ -118,13 +118,6 @@ class SupporterController extends Controller
         Webhooks::setSecretKey($secret);
 
         $json = file_get_contents('php://input');
-        $json_sha256 = hash('sha256', $json);
-        $json_sha256_hmac = hash_hmac('sha256', $json_sha256, $secret);
-        log($secret);
-        log($json_sha256);
-        log($json_sha256_hmac);
-        log($json);
-
         $webhook = Webhook::parse($json);
 
         // Respond to validation endpoint
