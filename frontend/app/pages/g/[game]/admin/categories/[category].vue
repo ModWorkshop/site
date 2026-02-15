@@ -21,7 +21,7 @@
 		<m-input v-model="category.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
 		<md-editor v-model="category.desc" :label="$t('description')"/>
 		<template #danger-zone>
-			<m-button v-if="hasPermission('admin')" color="danger" @click="showMoveMods = true"><i-mdi:cursor-move/> Move Mods</m-button>
+			<m-button v-if="hasPermission('admin')" color="danger" @click="showMoveMods = true"><i-mdi-cursor-move/> Move Mods</m-button>
 		</template>
 		<m-flex v-if="categories" column gap="2">
 			<label>{{ $t("parent_category") }}</label>
