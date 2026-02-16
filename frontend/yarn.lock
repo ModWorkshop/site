@@ -3704,7 +3704,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:13.9.0, @vueuse/core@npm:^13.9.0":
+"@vueuse/core@npm:13.9.0":
   version: 13.9.0
   resolution: "@vueuse/core@npm:13.9.0"
   dependencies:
@@ -3717,7 +3717,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:14.1.0":
+"@vueuse/core@npm:14.1.0, @vueuse/core@npm:^14.1.0":
   version: 14.1.0
   resolution: "@vueuse/core@npm:14.1.0"
   dependencies:
@@ -7766,7 +7766,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^8.41.0
     "@typescript-eslint/parser": ^8.41.0
     "@vueuse/components": ^13.9.0
-    "@vueuse/core": ^13.9.0
+    "@vueuse/core": ^14.1.0
     "@vueuse/nuxt": ^14.1.0
     axios: ^1.13.2
     colorjs.io: ^0.5.2
