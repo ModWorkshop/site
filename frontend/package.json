@@ -28,7 +28,7 @@
     "@nuxtjs/fontaine": "^0.5.0",
     "@nuxtjs/i18n": "^9.5.3",
     "@nuxtjs/tailwindcss": "^6.14.0",
-    "@pinia/nuxt": "0.11.2",
+    "@pinia/nuxt": "0.11.3",
     "@stylistic/eslint-plugin": "^5.3.1",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^24.10.1",
