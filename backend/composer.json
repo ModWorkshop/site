@@ -38,7 +38,7 @@
         "spatie/laravel-query-builder": "^6.2.0",
         "spatie/laravel-validation-rules": "^3.4",
         "teampanfu/laravel-hcaptcha": "^1.1",
-        "tebex/tebex-sdk-php": "dev-master",
+        "tebex/tebex-sdk-php": "^1.1",
         "ultrono/laravel-sitemap": "^9.3",
         "z4kn4fein/php-semver": "^3.0"
     },
@@ -81,12 +81,6 @@
             ]
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Luffyyy/tebex-sdk-php-fix-json"
-        }
-    ],
     "config": {
         "optimize-autoloader": true,
         "apcu-autoloader": true,
