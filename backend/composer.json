@@ -13,7 +13,7 @@
         "hammerstone/fast-paginate": "^2.0.0",
         "http-interop/http-factory-guzzle": "^1.2",
         "illuminatech/multipart-middleware": "^1.1",
-        "jcupitt/vips": "2.5.0",
+        "jcupitt/vips": "2.6.1",
         "knuckleswtf/scribe": "^5.2.1",
         "laravel/framework": "^12.0",
         "laravel/octane": "^2.10.0",
