@@ -4,8 +4,11 @@ import { serialize } from 'object-to-formdata';
 import type { LocationQueryValueRaw } from 'vue-router';
 import { addDays, formatDuration, intervalToDuration, parseISO } from 'date-fns';
 import { ColorSpace, HSL } from 'colorjs.io/fn';
+import humanizeDuration from 'humanize-duration';
 
 ColorSpace.register(HSL);
+
+export const convertMs = { y: 31557600000, mo: 2629800000, w: 604800000, d: 86400000, h: 3600000, m: 60000, s: 1000, ms: 1 };
 
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
@@ -302,4 +305,8 @@ export function pretty(str: string) {
 		return '';
 	}
 	return str.split('_').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '); ;
+}
+
+export function specificUnitDuration(num: number, str: string) {
+	return humanizeDuration(num * convertMs[str], { units: [str] });
 }

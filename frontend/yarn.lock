@@ -1847,6 +1847,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxt/scripts@npm:0.13.2":
+  version: 0.13.2
+  resolution: "@nuxt/scripts@npm:0.13.2"
+  dependencies:
+    "@nuxt/kit": ^4.2.2
+    "@vueuse/core": ^14.1.0
+    consola: ^3.4.2
+    defu: ^6.1.4
+    h3: ^1.15.4
+    magic-string: ^0.30.21
+    ofetch: ^1.5.1
+    ohash: ^2.0.11
+    pathe: ^2.0.3
+    pkg-types: ^2.3.0
+    sirv: ^3.0.2
+    std-env: ^3.10.0
+    ufo: ^1.6.1
+    unplugin: ^2.3.11
+    unstorage: ^1.17.3
+    valibot: ^1.2.0
+  peerDependencies:
+    "@googlemaps/markerclusterer": ^2.6.2
+    "@paypal/paypal-js": ^8.1.2 || ^9.0.0
+    "@stripe/stripe-js": ^7.0.0 || ^8.0.0
+    "@types/google.maps": ^3.58.1
+    "@types/vimeo__player": ^2.18.3
+    "@types/youtube": ^0.1.0
+    "@unhead/vue": ^2.0.3
+  peerDependenciesMeta:
+    "@googlemaps/markerclusterer":
+      optional: true
+    "@paypal/paypal-js":
+      optional: true
+    "@stripe/stripe-js":
+      optional: true
+    "@types/google.maps":
+      optional: true
+    "@types/vimeo__player":
+      optional: true
+    "@types/youtube":
+      optional: true
+  checksum: 9a2e531bdda5cf1a0ca3b1f3ae223bd0eae27e7637054e8a203e38e4c531c16807f8318d87fc8adccdd2744888e0edf0cfe0bce39a2b3df56029d657f06bcf94
+  languageName: node
+  linkType: hard
+
 "@nuxt/telemetry@npm:^2.6.6":
   version: 2.6.6
   resolution: "@nuxt/telemetry@npm:2.6.6"
@@ -3311,7 +3356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unhead/vue@npm:^2.0.19":
+"@unhead/vue@npm:^2.0.19, @unhead/vue@npm:^2.0.3":
   version: 2.1.2
   resolution: "@unhead/vue@npm:2.1.2"
   dependencies:
@@ -3742,6 +3787,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/core@npm:^14.1.0":
+  version: 14.2.0
+  resolution: "@vueuse/core@npm:14.2.0"
+  dependencies:
+    "@types/web-bluetooth": ^0.0.21
+    "@vueuse/metadata": 14.2.0
+    "@vueuse/shared": 14.2.0
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: dc9e0f530ff976db514bca89431da4d654397660176acd26fdeeea9f12238194b5437d01c5f9bb4b5b7555eaf04dc435574841ac19b8953cb52fe9ae210c5121
+  languageName: node
+  linkType: hard
+
 "@vueuse/metadata@npm:10.11.1":
   version: 10.11.1
   resolution: "@vueuse/metadata@npm:10.11.1"
@@ -3760,6 +3818,13 @@ __metadata:
   version: 14.1.0
   resolution: "@vueuse/metadata@npm:14.1.0"
   checksum: 2b68310bc5a7e72f1d94985d1ea3448c075c249bf504b2588b8ee160a4e7368b0216e55e3105129566f78e66dcf45f2141a459a14f79fd28e1bb3090040f999f
+  languageName: node
+  linkType: hard
+
+"@vueuse/metadata@npm:14.2.0":
+  version: 14.2.0
+  resolution: "@vueuse/metadata@npm:14.2.0"
+  checksum: 86d4565fd51279febc785b9e65fec8cfa83ea22111d645f66d9fcffd5f7adf0f6b9f0613f7ca9dbf3209f80c01f7730827670d16b9954ae05d429bb9344cb465
   languageName: node
   linkType: hard
 
@@ -3802,6 +3867,15 @@ __metadata:
   peerDependencies:
     vue: ^3.5.0
   checksum: e9bac5fb15a20ed6b4f92692932e7b8c7836388db7d8b3cac12477c15f2dc73862ddaf0ee4c6fe079e13b042432268682c299003268447b5a50af7744196e850
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:14.2.0":
+  version: 14.2.0
+  resolution: "@vueuse/shared@npm:14.2.0"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 2123d938acbce3422a4914aa9d058ca7dbf122eb31196d3ecfb377fac90ae2e9d6d2ac9a66fe5065b92c57fb88e584c6b91ae1238786dedeb095c01e285b1981
   languageName: node
   linkType: hard
 
@@ -7754,6 +7828,7 @@ __metadata:
     "@iconify-json/ri": ^1.2.1
     "@iconify-json/svg-spinners": ^1.2.1
     "@nuxt/devtools": ^2.6.4
+    "@nuxt/scripts": 0.13.2
     "@nuxtjs/fontaine": ^0.5.0
     "@nuxtjs/i18n": ^9.5.3
     "@nuxtjs/robots": ^5.5.1
@@ -7765,6 +7840,7 @@ __metadata:
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^8.41.0
     "@typescript-eslint/parser": ^8.41.0
+    "@unhead/vue": ^2.0.3
     "@vueuse/components": ^13.9.0
     "@vueuse/core": ^13.9.0
     "@vueuse/nuxt": ^14.1.0
@@ -11193,6 +11269,18 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
+  languageName: node
+  linkType: hard
+
+"valibot@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "valibot@npm:1.2.0"
+  peerDependencies:
+    typescript: ">=5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 2d63ef5e45dc9b0d430640e908f07aa7172e8a3ee1653d92f99d8f5e0b84558e0829a2cda8c75150df91eb2f51ba3222d055753336ea6ca3af82e7ded4e71703
   languageName: node
   linkType: hard
 

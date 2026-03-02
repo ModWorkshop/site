@@ -51,4 +51,8 @@ class Supporter extends Model
     {
         return $this->belongsTo(User::class)->without('supporter');
     }
+
+    public function supporterTransaction() {
+        return $this->hasOne(SupporterTransaction::class);
+    }
 }

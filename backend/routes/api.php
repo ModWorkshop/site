@@ -34,6 +34,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\SupporterController;
+use App\Http\Controllers\SupporterPackageController;
 use App\Http\Controllers\SuspensionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThreadCommentsController;
@@ -214,6 +215,8 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::resource('supporters', SupporterController::class);
+Route::resource('supporter-packages', SupporterPackageController::class);
+Route::post('supporters/tebex/baskets', [SupporterController::class, 'createTebexBasketWithPackage']);
 Route::post('supporters/tebex/webhook', [SupporterController::class, 'tebexWebhook']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('supporters/nitro-check', [SupporterController::class, 'nitroCheck']);

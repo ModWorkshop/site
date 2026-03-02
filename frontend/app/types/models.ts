@@ -548,6 +548,19 @@ export interface Supporter {
 	user?: User;
 }
 
+export interface SupporterPackage {
+	id: number;
+	name: string;
+	enabled: boolean;
+	order: number;
+	package_id: number;
+	price: number;
+	duration_type: 'mo' | 'y' | 'd' | 'w';
+	duration_number: number;
+	created_at?: string;
+	updated_at?: string;
+}
+
 export interface Report {
 	id: number;
 	name: string | null;

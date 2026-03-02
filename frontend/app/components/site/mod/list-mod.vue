@@ -5,7 +5,7 @@
 				<mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
 			</NuxtLink>
 			<m-flex column class="md:flex-1" gap="2">
-				<NuxtLink class="card-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
+				<NuxtLink class="card-title mod-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
 					<mod-status :mod="mod"/>
 					{{ mod.name }}
 				</NuxtLink>
@@ -94,6 +94,7 @@ const fullViews = computed(() => friendlyNumber(locale.value, mod.views));
 
 <style scoped>
 .mod-title {
+	font-size: 1.25rem;
 	overflow: hidden;
 	word-break: break-word;
 	white-space: pre-wrap;

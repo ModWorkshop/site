@@ -3,14 +3,43 @@
 		<Title>{{ $t('support_us') }}</Title>
 		<m-flex gap="6" class="items-center" column>
 			<m-img alt="logo" :src="logo" width="128" height="128" is-asset/>
-			<m-flex class="items-center" column>
+			<m-flex class="items-center" column gap="3">
 				<span class="h1 text-primary m-auto">{{ $t('support_mws') }}</span>
-				<span class="h2">{{ $t('supporter_desc') }}</span>
+				<span class="h2 whitespace-pre text-center">{{ $t('supporter_desc') }}</span>
+			</m-flex>
+
+			<m-flex gap="3">
+				<m-card v-for="pkg of supporterPackages?.data" :key="pkg.id" :title="pkg.name" :padding="6" :gap="3">
+					<div><span class="h1">€{{ pkg.price }}</span><span class="text-secondary"> / {{ specificUnitDuration(pkg.duration_number, pkg.duration_type) }}</span> </div>
+					<span class="text-base">
+						<m-dropdown type="tooltip" dropdown-class="p-2" :tool-tip-delay="0.1" :disabled="!!user">
+							<m-button
+								size="lg"
+								:disabled="!user"
+								:loading="loading"
+								@click="openPlan(pkg)"
+							>
+								Select Plan
+							</m-button>
+
+							<template #content>{{ $t('login_required') }}</template>
+						</m-dropdown>
+					</span>
+				</m-card>
+			</m-flex>
+
+			<m-flex v-if="supporters?.data.length" column gap="2" class="items-center">
+				<span class="h2">{{ $t('currently_supported') }}</span>
+				<m-flex wrap class="mb-3" style="max-width: 500px;">
+					<NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user!.unique_name ?? supporter.user!.id}`">
+						<m-avatar :src="supporter.user!.avatar"/>
+					</NuxtLink>
+				</m-flex>
 			</m-flex>
 
 			<m-flex column gap="4">
 				<span class="h2 text-center">{{ $t('supporter_you_get') }}</span>
-				<m-flex wrap class="perks">
+				<m-flex wrap class="perks justify-center whitespace-pre-line" gap="3">
 					<m-content-block>
 						<i-mdi-advertisements-off class="text-5xl"/>
 						<strong>{{ $t('supporter_no_ads') }}</strong>
@@ -55,70 +84,68 @@
 				</m-flex>
 			</m-flex>
 
-			<m-flex column class="items-center" gap="2">
-				<m-dropdown type="tooltip" dropdown-class="p-2" :tool-tip-delay="0.1" :disabled="!!user">
-					<m-button
-						size="lg"
-						:to="user ? `https://sponsor.nitrocnct.com/subscribe?token=${user.nitro_token}&cancelUrl=${supportUrl}&successUrl=${supportUrl}` : undefined"
-						:disabled="!user"
-					>
-						<i-mdi-heart-multiple/> {{ $t('supporter_via_nitro') }}
-					</m-button>
-
-					<template #content>{{ $t('login_required') }}</template>
-				</m-dropdown>
-				<m-button v-if="!user" to="/login">{{ $t('login') }}</m-button>
-				<m-alert v-if="user?.active_supporter" color="success" :icon="false">
-					<i18n-t keypath="supporter_already" tag="div" class="whitespace-pre text-center" scope="global">
-						<template #time>
-							<m-time :datetime="user.active_supporter.expire_date" relative/>
-						</template>
-					</i18n-t>
-				</m-alert>
-			</m-flex>
-
-			<m-flex v-if="supporters?.data.length" column gap="2" class="items-center">
-				<span class="h2">{{ $t('currently_supported') }}</span>
-				<m-flex wrap class="mb-3" style="max-width: 500px;">
-					<NuxtLink v-for="supporter of supporters.data" :key="supporter.id" :to="`user/${supporter.user!.unique_name ?? supporter.user!.id}`">
-						<m-avatar :src="supporter.user!.avatar"/>
-					</NuxtLink>
-				</m-flex>
-			</m-flex>
-
 			<m-flex column class="items-center" gap="3">
-				<b>{{ $t('supporter_just_support') }}</b>
+				<span class="h2 text-center">{{ $t('supporter_just_donate') }}</span>
 				<donation-button link="paypal.me/tsunavr"/>
 			</m-flex>
 
-			<m-alert>
-				<b>{{ $t('supporter_faq_q_1') }}</b>
-				<i>{{ $t('supporter_faq_a_1') }}</i>
-				<b>{{ $t('supporter_faq_q_2') }}</b>
-				<i>{{ $t('supporter_faq_a_2') }}</i>
-				<b>{{ $t('supporter_faq_q_3') }}</b>
-				<i>{{ $t('supporter_faq_a_3') }}</i>
-				<b>{{ $t('supporter_faq_q_4') }}</b>
-				<i>{{ $t('supporter_faq_a_4') }}</i>
-			</m-alert>
+			<m-flex column gap="3">
+				<span class="h2 text-center">{{ $t('supporter_faq') }}</span>
+
+				<m-alert>
+					<b>{{ $t('supporter_faq_q_1') }}</b>
+					<i>{{ $t('supporter_faq_a_1') }}</i>
+				</m-alert>
+				<m-alert>
+					<b>{{ $t('supporter_faq_q_2') }}</b>
+					<i>{{ $t('supporter_faq_a_2') }}</i>
+				</m-alert>
+				<m-alert>
+					<b>{{ $t('supporter_faq_q_3') }}</b>
+					<i>{{ $t('supporter_faq_a_3') }}</i>
+				</m-alert>
+			</m-flex>
 		</m-flex>
 	</page-block>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '~/store';
-import type { Supporter } from '~/types/models';
+import { type SupporterPackage, type Supporter } from '~/types/models';
 
-const { public: config } = useRuntimeConfig();
+useScript('https://js.tebex.io/v/1.js'); // Load the script only on this page as it's unecessary anywhere else
+
 const { user, settings } = useStore();
 const store = useStore();
+const showError = useQuickErrorToast();
+
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
-const supportUrl = `${config.siteUrl}/support`;
+
+const loading = ref(false);
 
 const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1&sort_by_id=1');
-if (user) {
-	const { data: subData } = await useFetchData<Supporter>('supporters/nitro-check');
-	user.active_supporter = subData.value ?? undefined;
+// if (user) {
+// 	const { data: subData } = await useFetchData<Supporter>('supporters/nitro-check');
+// 	user.active_supporter = subData.value ?? undefined;
+// }
+
+const { data: supporterPackages } = await useFetchMany<SupporterPackage>('supporter-packages');
+
+async function openPlan(supporterPackage: SupporterPackage) {
+	loading.value = true;
+
+	try {
+		const { ident } = await postRequest<{ ident: string }>('supporters/tebex/baskets', { supporter_package_id: supporterPackage.id });
+
+		console.log(ident);
+
+		window['Tebex'].checkout.init({ ident });
+		window['Tebex'].checkout.launch();
+	} catch (error) {
+		showError(error);
+	}
+
+	loading.value = false;
 }
 </script>
 
@@ -131,10 +158,11 @@ if (user) {
 }
 
 .perks > div {
-	width: 180px;
-	height: 180px;
+	width: 250px;
+	height: 250px;
 	align-items: center;
 	text-align: center;
 	justify-content: center;
+	font-size: 1.15rem;
 }
 </style>
