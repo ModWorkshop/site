@@ -143,13 +143,6 @@ class SupporterController extends Controller
 
         $userId = $this->userId();
         $package = SupporterPackage::find($val['supporter_package_id']);
-        $purchase = SupporterSubscription::create([ // Save the basket in the DB so we know who initiated this basket and who to give it to when webhook sends purchase complete
-            'user_id' => $userId,
-            'supporter_package_id' => $package->id,
-            'price' => $package->price,
-            'status' => 'waiting',
-            'provider' => 'tebex'
-        ]);
 
         $project = $this->getTebexProject();
         $basket = $project->createBasket(env('TEBEX_RETURN_URL'), env('TEBEX_RETURN_URL'));
@@ -158,7 +151,14 @@ class SupporterController extends Controller
         $basket = $basket->getBasket();
         $ident = $basket->getIdent();
 
-        $purchase->update(['provider_id' => 'tbx-r-'.$basket->getId()]);
+        SupporterSubscription::create([ // Save the basket in the DB so we know who initiated this basket and who to give it to when webhook sends purchase complete
+            'user_id' => $userId,
+            'supporter_package_id' => $package->id,
+            'price' => $package->price,
+            'status' => 'waiting',
+            'provider' => 'tebex',
+            'provider_id' => 'tbx-r-'.$basket->getId()
+        ]);
 
         return ['ident' => $ident];
     }
