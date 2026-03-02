@@ -8,7 +8,7 @@
         "php": "^8.3",
         "biiiiiigmonster/hasin": "^5.0",
         "fileeye/mimemap": "^2.0",
-        "genealabs/laravel-model-caching": "^12.0",
+        "genealabs/laravel-model-caching": "^13.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hammerstone/fast-paginate": "^2.0.0",
         "http-interop/http-factory-guzzle": "^1.2",
