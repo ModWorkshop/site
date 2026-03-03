@@ -11,7 +11,7 @@
 			<m-flex gap="3">
 				<m-card v-for="pkg of supporterPackages?.data" :key="pkg.id" :title="pkg.name" :padding="6" :gap="3">
 					<div><span class="h1">€{{ pkg.price }}</span><span class="text-secondary"> / {{ specificUnitDuration(pkg.duration_number, pkg.duration_type) }}</span> </div>
-					<span class="text-base">
+					<!-- <span class="text-base">
 						<m-dropdown type="tooltip" dropdown-class="p-2" :tool-tip-delay="0.1" :disabled="!!user">
 							<m-button
 								size="lg"
@@ -24,8 +24,16 @@
 
 							<template #content>{{ $t('login_required') }}</template>
 						</m-dropdown>
-					</span>
+					</span> -->
 				</m-card>
+			</m-flex>
+
+			<m-flex column class="items-center" gap="3">
+				<!-- <span class="h2 text-center">{{ $t('supporter_just_donate') }}</span> -->
+				<donation-button link="paypal.me/tsunavr"/>
+				<m-alert color="warning" class="whitespace-pre">
+					{{ $t('supporter_only_donations') }}
+				</m-alert>
 			</m-flex>
 
 			<m-flex v-if="supporters?.data.length" column gap="2" class="items-center">
@@ -84,18 +92,13 @@
 				</m-flex>
 			</m-flex>
 
-			<m-flex column class="items-center" gap="3">
-				<span class="h2 text-center">{{ $t('supporter_just_donate') }}</span>
-				<donation-button link="paypal.me/tsunavr"/>
-			</m-flex>
-
 			<m-flex column gap="3">
 				<span class="h2 text-center">{{ $t('supporter_faq') }}</span>
-
+<!-- 
 				<m-alert>
 					<b>{{ $t('supporter_faq_q_1') }}</b>
 					<i>{{ $t('supporter_faq_a_1') }}</i>
-				</m-alert>
+				</m-alert> -->
 				<!-- <m-alert>
 					<b>{{ $t('supporter_faq_q_2') }}</b>
 					<i>{{ $t('supporter_faq_a_2') }}</i>
@@ -113,7 +116,7 @@
 import { useStore } from '~/store';
 import { type SupporterPackage, type Supporter } from '~/types/models';
 
-const { user, settings } = useStore();
+const { settings } = useStore();
 const store = useStore();
 const showError = useQuickErrorToast();
 
