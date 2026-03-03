@@ -6,7 +6,6 @@ use App\Console\Commands\GenerateSitemap;
 use App\Jobs\CalculateModCounts;
 use App\Jobs\CalculatePopularity;
 use App\Jobs\CalculateThreadComments;
-use App\Jobs\CheckUsersSubscriptionStatus;
 use App\Jobs\DeleteLoosePendingFiles;
 use App\Jobs\DeleteOldAuditLogs;
 use App\Jobs\DeleteUnverifiedUsers;
@@ -39,7 +38,6 @@ class Kernel extends ConsoleKernel
         $schedule->job(new DeleteOldAuditLogs)->everySixHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
-        $schedule->job(new CheckUsersSubscriptionStatus)->everyThirtyMinutes();
         $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
 
         $schedule->command('sitemap:generate')->everyTwoHours();

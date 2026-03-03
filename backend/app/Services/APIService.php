@@ -399,13 +399,6 @@ class APIService {
         return $arr;
     }
 
-    /**
-     * @deprecated
-     */
-    public static function nitroCheck(User $user) {
-
-    }
-
     public static function checkCaptcha(Request $request) {
         if (app()->isProduction() && !empty(env('HCAPTCHA_SITEKEY'))) {
             $request->validate([
