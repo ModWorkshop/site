@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->float('price');
             $table->string('provider');
-            $table->string('provider_id'); // Tebex's case it's the reccuring payment ID
+            $table->string('provider_id');
 
             $table->timestamp('next_payment_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();

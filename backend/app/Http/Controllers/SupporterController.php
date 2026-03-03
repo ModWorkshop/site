@@ -8,32 +8,11 @@ use App\Services\Utils;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
-use App\Models\Subscription;
 use App\Models\SupporterPackage;
-use App\Models\SupporterPurchase;
 use App\Models\SupporterSubscription;
 use App\Models\SupporterTransaction;
-use App\Models\TebexBasket;
 use App\Models\User;
 use App\Services\APIService;
-use Arr;
-use Illuminate\Http\Response;
-use Tebex\Checkout;
-use Tebex\Headless;
-use Tebex\Webhook\PaymentRefundedWebhook;
-use Tebex\Webhook\Webhook;
-use Tebex\Webhooks;
-use TebexCheckout\Model\PaymentSubject;
-use TebexCheckout\Model\RecurringPaymentSubject;
-
-use const Tebex\Webhook\PAYMENT_COMPLETED;
-use const Tebex\Webhook\PAYMENT_DECLINED;
-use const Tebex\Webhook\PAYMENT_REFUNDED;
-use const Tebex\Webhook\RECURRING_PAYMENT_CANCELLATION_ABORTED;
-use const Tebex\Webhook\RECURRING_PAYMENT_CANCELLATION_REQUESTED;
-use const Tebex\Webhook\RECURRING_PAYMENT_ENDED;
-use const Tebex\Webhook\RECURRING_PAYMENT_RENEWED;
-use const Tebex\Webhook\RECURRING_PAYMENT_STARTED;
 
 const PAYMENT_STATUS = [
     1 => 'complete',
@@ -130,133 +109,122 @@ class SupporterController extends Controller
         $supporter->delete();
     }
 
-    public function getTebexProject() {
-        return Headless::setProject(env('TEBEX_PUBLIC_KEY'));
-    }
+    // public function getTebexProject() {
+    //     return Headless::setProject(env('TEBEX_PUBLIC_KEY'));
+    // }
 
-    public function createTebexBasketWithPackage(Request $request) {
-        $val = $request->validate([
-            'supporter_package_id' => "int|required|exists:supporter_packages,id"
-        ]);
+    // public function createTebexBasketWithPackage(Request $request) {
+    //     $val = $request->validate([
+    //         'supporter_package_id' => "int|required|exists:supporter_packages,id"
+    //     ]);
 
-        Checkout::setApiKeys(env('TEBEX_PROJECT_ID'), env('TEBEX_PRIVATE_KEY'));
+    //     Checkout::setApiKeys(env('TEBEX_PROJECT_ID'), env('TEBEX_PRIVATE_KEY'));
 
-        $userId = $this->userId();
-        $package = SupporterPackage::find($val['supporter_package_id']);
+    //     $userId = $this->userId();
+    //     $package = SupporterPackage::find($val['supporter_package_id']);
 
-        $project = $this->getTebexProject();
-        $basket = $project->createBasket(env('TEBEX_RETURN_URL'), env('TEBEX_RETURN_URL'));
+    //     $project = $this->getTebexProject();
+    //     $basket = $project->createBasket(env('TEBEX_RETURN_URL'), env('TEBEX_RETURN_URL'));
 
-        $basket->addPackage($project->getPackage($package->package_id));
-        $basket = $basket->getBasket();
-        $ident = $basket->getIdent();
+    //     $basket->addPackage($project->getPackage($package->package_id));
+    //     $basket = $basket->getBasket();
+    //     $ident = $basket->getIdent();
 
-        SupporterSubscription::create([ // Save the basket in the DB so we know who initiated this basket and who to give it to when webhook sends purchase complete
-            'user_id' => $userId,
-            'supporter_package_id' => $package->id,
-            'price' => $package->price,
-            'status' => 'waiting',
-            'provider' => 'tebex',
-            'provider_id' => 'tbx-r-'.$basket->getId()
-        ]);
+    //     SupporterSubscription::create([ // Save the basket in the DB so we know who initiated this basket and who to give it to when webhook sends purchase complete
+    //         'user_id' => $userId,
+    //         'supporter_package_id' => $package->id,
+    //         'price' => $package->price,
+    //         'status' => 'waiting',
+    //         'provider' => 'tebex',
+    //         'provider_id' => 'tbx-r-'.$basket->getId()
+    //     ]);
 
-        return ['ident' => $ident];
-    }
+    //     return ['ident' => $ident];
+    // }
 
-    public function tebexWebhook() {
-        // Issue: Tebex uses REMOTE_ADDR to ensure the IP is not tempered with
-        // This however isn't an issue on our end as we use a Proxy and replace that header with Caddy
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
+    // public function tebexWebhook() {
+    //     // Issue: Tebex uses REMOTE_ADDR to ensure the IP is not tempered with
+    //     // This however isn't an issue on our end as we use a Proxy and replace that header with Caddy
+    //     if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    //         $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    //     }
 
-        Webhooks::setSecretKey(env('TEBEX_WEBHOOK_SECRET_KEY'));
+    //     Webhooks::setSecretKey(env('TEBEX_WEBHOOK_SECRET_KEY'));
 
-        $json = file_get_contents('php://input');
-        $webhook = Webhook::parse($json);
+    //     $json = file_get_contents('php://input');
+    //     $webhook = Webhook::parse($json);
 
-        // Respond to validation endpoint
-        if ($webhook->isType(\Tebex\Webhook\VALIDATION_WEBHOOK)) {
-            return ["id" => $webhook->getId()];
-        } else if ($webhook->isTypeOfPayment()) {
-            /**
-             * @var PaymentSubject
-            */
-            $subject = $webhook->getSubject();
-            $prod = $subject->getProducts()[0];
-            $ref = $subject->getRecurringPaymentReference();
-            $sub = SupporterSubscription::find($ref);
+    //     // Respond to validation endpoint
+    //     if ($webhook->isType(\Tebex\Webhook\VALIDATION_WEBHOOK)) {
+    //         return ["id" => $webhook->getId()];
+    //     } else if ($webhook->isTypeOfPayment()) {
+    //         /**
+    //          * @var PaymentSubject
+    //         */
+    //         $subject = $webhook->getSubject();
+    //         $prod = $subject->getProducts()[0];
+    //         $ref = $subject->getRecurringPaymentReference();
+    //         $sub = SupporterSubscription::find($ref);
 
-            assert(isset($sub), "Reference {$ref} does not exist on site. Fix manually.");
+    //         assert(isset($sub), "Reference {$ref} does not exist on site. Fix manually.");
 
-            $user = User::find($sub->user_id);
-            $expiryDate = Carbon::parse($prod->getExpiresAt());
+    //         $user = User::find($sub->user_id);
+    //         $expiryDate = Carbon::parse($prod->getExpiresAt());
 
-            $transId = $subject->getTransactionId();
-            $trans = SupporterTransaction::where('provider', 'tebex')->where('provider_id', $transId);
-            if (!isset($trans)) {
-                $trans = SupporterTransaction::create([
-                    'user_id' => $user->id,
-                    'supporter_package_id' => $sub->supporter_package_id,
-                    'supporter_subcription_id' => $sub->id,
-                    'price' => $sub->price,
-                    'status' => 'complete',
-                    'provider' => 'tebex',
-                    'provider_id' => $subject->getTransactionId()
-                ]);
-            }
-            $trans->update([
-                'status' => PAYMENT_STATUS[$subject->getStatus()] ?? 'failed'
-            ]);
+    //         $transId = $subject->getTransactionId();
+    //         $trans = SupporterTransaction::where('provider', 'tebex')->where('provider_id', $transId);
+    //         if (!isset($trans)) {
+    //             $trans = SupporterTransaction::create([
+    //                 'user_id' => $user->id,
+    //                 'supporter_package_id' => $sub->supporter_package_id,
+    //                 'supporter_subcription_id' => $sub->id,
+    //                 'price' => $sub->price,
+    //                 'status' => 'complete',
+    //                 'provider' => 'tebex',
+    //                 'provider_id' => $subject->getTransactionId()
+    //             ]);
+    //         }
+    //         $trans->update([
+    //             'status' => PAYMENT_STATUS[$subject->getStatus()] ?? 'failed'
+    //         ]);
 
-            switch ($webhook->getType()) {
-                case PAYMENT_COMPLETED:
-                    Supporter::create([
-                        'supporter_transaction_id' => $trans->id,
-                        'user_id' => $user->id,
-                        'expire_date' => Carbon::create($expiryDate),
-                        'expired' => false
-                    ]);
-                    break;
-                case PAYMENT_DECLINED:
-                case PAYMENT_REFUNDED:
-                    if (isset($trans->supporter)) {
-                        $trans->supporter->expired = true;
-                        $trans->supporter->save();
-                    }
-                    break;
-            }
-        } else if ($webhook->isTypeOfRecurringPayment()) {
-            /**
-             * @var RecurringPaymentSubject
-            */
-            $subject = $webhook->getSubject();
-            $ref = $subject->getReference();
-            $sub = SupporterSubscription::find($ref);
+    //         switch ($webhook->getType()) {
+    //             case PAYMENT_COMPLETED:
+    //                 Supporter::create([
+    //                     'supporter_transaction_id' => $trans->id,
+    //                     'user_id' => $user->id,
+    //                     'expire_date' => Carbon::create($expiryDate),
+    //                     'expired' => false
+    //                 ]);
+    //                 break;
+    //             case PAYMENT_DECLINED:
+    //             case PAYMENT_REFUNDED:
+    //                 if (isset($trans->supporter)) {
+    //                     $trans->supporter->expired = true;
+    //                     $trans->supporter->save();
+    //                 }
+    //                 break;
+    //         }
+    //     } else if ($webhook->isTypeOfRecurringPayment()) {
+    //         /**
+    //          * @var RecurringPaymentSubject
+    //         */
+    //         $subject = $webhook->getSubject();
+    //         $ref = $subject->getReference();
+    //         $sub = SupporterSubscription::find($ref);
 
-            assert(isset($sub), "Reference {$ref} does not exist on site. Fix manually.");
+    //         assert(isset($sub), "Reference {$ref} does not exist on site. Fix manually.");
 
-            switch ($webhook->getType()) {
-                case RECURRING_PAYMENT_STARTED:
-                case RECURRING_PAYMENT_RENEWED:
-                case RECURRING_PAYMENT_CANCELLATION_ABORTED:
-                    $sub->update(['status' => 'active', 'next_payment_at' => $subject->getNextPaymentAt()]);
-                    break;
-                case RECURRING_PAYMENT_CANCELLATION_REQUESTED:
-                    $sub->update(['status' => 'cancelled', 'next_payment_at' => null]);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Checks nitro to update the subscription data
-     *
-     * @authenticated
-     *
-     * @hideFromApiDocumentation
-     */
-    public function nitroCheck() {
-        return APIService::nitroCheck($this->user());
-    }
+    //         switch ($webhook->getType()) {
+    //             case RECURRING_PAYMENT_STARTED:
+    //             case RECURRING_PAYMENT_RENEWED:
+    //             case RECURRING_PAYMENT_CANCELLATION_ABORTED:
+    //                 $sub->update(['status' => 'active', 'next_payment_at' => $subject->getNextPaymentAt()]);
+    //                 break;
+    //             case RECURRING_PAYMENT_CANCELLATION_REQUESTED:
+    //                 $sub->update(['status' => 'cancelled', 'next_payment_at' => null]);
+    //                 break;
+    //         }
+    //     }
+    // }
 }

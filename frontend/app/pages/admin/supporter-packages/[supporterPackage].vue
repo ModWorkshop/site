@@ -1,7 +1,7 @@
 <template>
 	<simple-resource-form v-model="supporterPackage" url="supporter-packages" delete-button :redirect-to="getAdminUrl('supporter-packages')">
 		<m-input v-model="supporterPackage.name" :label="$t('name')"/>
-		<m-input v-model="supporterPackage.package_id" label="Package ID" desc="The package ID found in Tebex"/>
+		<m-input v-model="supporterPackage.package_id" label="Package ID" desc="The package ID (On the provider)"/>
 		<m-input v-model="supporterPackage.enabled" label="Enabled" type="checkbox"/>
 		<m-input v-model="supporterPackage.order" label="Order" type="number"/>
 		<m-input v-model="supporterPackage.price" label="Price" desc="The price in Euros of the package" type="number"/>
@@ -15,7 +15,7 @@ import type { SupporterPackage } from '~/types/models';
 
 useNeedsPermission('admin');
 
-const { data: supporterPackage } = await useEditResource<SupporterPackage>('supporterpackage', 'supporter-packages', {
+const { data: supporterPackage } = await useEditResource<SupporterPackage>('supporterPackage', 'supporter-packages', {
 	id: 0,
 	enabled: true,
 	order: 0,

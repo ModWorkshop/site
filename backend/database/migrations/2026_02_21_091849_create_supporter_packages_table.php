@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // While this is designed for Tebex, it can be repurposed for anything
         Schema::create('supporter_packages', function (Blueprint $table) {
             $table->id();
             $table->string('name');

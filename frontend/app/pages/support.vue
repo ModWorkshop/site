@@ -96,10 +96,10 @@
 					<b>{{ $t('supporter_faq_q_1') }}</b>
 					<i>{{ $t('supporter_faq_a_1') }}</i>
 				</m-alert>
-				<m-alert>
+				<!-- <m-alert>
 					<b>{{ $t('supporter_faq_q_2') }}</b>
 					<i>{{ $t('supporter_faq_a_2') }}</i>
-				</m-alert>
+				</m-alert> -->
 				<m-alert>
 					<b>{{ $t('supporter_faq_q_3') }}</b>
 					<i>{{ $t('supporter_faq_a_3') }}</i>
@@ -113,8 +113,6 @@
 import { useStore } from '~/store';
 import { type SupporterPackage, type Supporter } from '~/types/models';
 
-useScript('https://js.tebex.io/v/1.js'); // Load the script only on this page as it's unecessary anywhere else
-
 const { user, settings } = useStore();
 const store = useStore();
 const showError = useQuickErrorToast();
@@ -124,23 +122,15 @@ const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mw
 const loading = ref(false);
 
 const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1&sort_by_id=1');
-// if (user) {
-// 	const { data: subData } = await useFetchData<Supporter>('supporters/nitro-check');
-// 	user.active_supporter = subData.value ?? undefined;
-// }
-
 const { data: supporterPackages } = await useFetchMany<SupporterPackage>('supporter-packages');
 
 async function openPlan(supporterPackage: SupporterPackage) {
 	loading.value = true;
 
 	try {
-		const { ident } = await postRequest<{ ident: string }>('supporters/tebex/baskets', { supporter_package_id: supporterPackage.id });
-
-		console.log(ident);
-
-		window['Tebex'].checkout.init({ ident });
-		window['Tebex'].checkout.launch();
+		// const { ident } = await postRequest<{ ident: string }>('supporters/tebex/baskets', { supporter_package_id: supporterPackage.id });
+		// window['Tebex'].checkout.init({ ident });
+		// window['Tebex'].checkout.launch();
 	} catch (error) {
 		showError(error);
 	}
