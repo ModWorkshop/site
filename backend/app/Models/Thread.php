@@ -115,7 +115,7 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
  */
 class Thread extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable, Reportable, Cachable;
+    use HasFactory, Subscribable, Reportable;
 
     protected $with = ['user', 'lastUser', 'category', 'game', 'tags'];
     protected $saveToReport = ['content'];
