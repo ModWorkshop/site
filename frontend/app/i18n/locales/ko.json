@@ -569,6 +569,7 @@
     "supporter_custom_name_color": "사용자 지정 이름 색상",
     "supporter_supporter_tag": "후원자 태그",
     "supporter_faq": "Frequently Asked Questions",
+    "supporter_only_donations": "Due to our payment processor deprecating the sponsor program,\nwe only accept manual donations via PayPal for now.\nContact one of the staff with proof of donation to get the perks.",
     "supporter_faq_q_1": "혜택은 어떻게 받나요?",
     "supporter_faq_a_1": "Nitro에서 구독하시면 이 페이지로 돌아옵니다. 혜택의 경우 ModWorkshop에서 자동으로 적용해드립니다. 만일 자동으로 적용되지 않았다면 담당자에게 문의해 주세요.",
     "supporter_faq_q_2": "",
