@@ -569,6 +569,7 @@
     "supporter_custom_name_color": "自定义名称颜色",
     "supporter_supporter_tag": "赞助者标签",
     "supporter_faq": "Frequently Asked Questions",
+    "supporter_only_donations": "Due to our payment processor deprecating the sponsor program,\nwe only accept manual donations via PayPal for now.\nContact one of the staff with proof of donation to get the perks.",
     "supporter_faq_q_1": "我怎样领取权益？",
     "supporter_faq_a_1": "在订阅完 Nitro 之后，您将会被重定向回这个页面。\nModWorkshop 将会为您自动应用权益。\n如果没有自动应用，请联系任意一位工作人员。",
     "supporter_faq_q_2": "",
