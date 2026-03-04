@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits(['update:modelValue', 'update:search']);
 const modelValue = defineModel<number | number[] | null>();
 const queryVm = useVModel(props, 'search', emit, { passive: true });
-const queryDelayed = refDebounced(queryVm, 250);
+const queryDelayed = refDebounced(queryVm);
 const lowSearch = computed(() => queryDelayed.value.toLocaleLowerCase());
 
 const currentCategoryId = props.setQuery ? useRouteQuery('category') : useVModel(props);

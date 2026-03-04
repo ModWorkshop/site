@@ -45,7 +45,9 @@ const page = useRouteQuery('page', 1);
 const query = useRouteQuery('query', '');
 const userId = useRouteQuery('user');
 
-const { data: mods } = await useWatchedFetchMany<Mod>(url.value, { page, query, user_id: userId });
+const { data: mods } = await useFetchMany<Mod>(url.value, {
+	query: { page, query: debouncedRef(query), user_id: userId }
+});
 
 function modApproved() {
 	if (props.game) {

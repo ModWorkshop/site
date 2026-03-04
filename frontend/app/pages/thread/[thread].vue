@@ -65,8 +65,10 @@ const showReportModal = ref(false);
 const forumId = ref(thread.value.forum_id);
 const categoryId = ref(thread.value.category_id);
 
-const { data: categories } = await useWatchedFetchMany<ForumCategory>('forum-categories', {
-	forum_id: forumId
+const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
+	query: {
+		forum_id: forumId
+	}
 });
 
 const canCloseInCategory = computed(() => thread.value.category?.can_close_threads);

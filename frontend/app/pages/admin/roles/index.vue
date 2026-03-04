@@ -47,7 +47,7 @@ const query = useRouteQuery('query');
 const url = computed(() => gameId ? `games/${gameId}/roles` : 'roles');
 const adminUrl = computed(() => getAdminUrl('roles', props.game));
 
-const { data: roles, loading } = await useWatchedFetchMany<Role>(url.value, { page, query });
+const { data: roles, loading } = await useFetchMany<Role>(url.value, { query: { page, query: refDebounced(query) } });
 
 onMounted(() => {
 	if (roles.value) {

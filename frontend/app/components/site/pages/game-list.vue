@@ -5,7 +5,7 @@
 				<m-input v-model="query" :label="$t('search')"/>
 			</m-content-block>
 			<m-flex grow style="flex: 4;" gap="1">
-				<m-list v-model:page="page" query :items="users" :loading="loading">
+				<m-list v-model:page="page" query :items="games" :loading="loading">
 					<template #item="{ item }">
 						<m-content-block :key="item.id" class="cursor-pointer items-center" :column="false" :alt-background="altBackground" :to="`g${item.short_name}`">
 							<game-thumbnail :game="item" style="width: 100px;"/>
@@ -38,9 +38,11 @@ const { column = false, altBackground = false } = defineProps<{
 	game?: Game;
 }>();
 
-const { data: users, loading } = await useWatchedFetchMany<User>('games', {
-	page,
-	query,
-	including_ignored: true
+const { data: games, loading } = await useFetchMany<Game>('games', {
+	query: {
+		page,
+		query: debouncedRef(query),
+		including_ignored: true
+	}
 });
 </script>

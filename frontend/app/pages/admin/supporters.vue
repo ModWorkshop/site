@@ -43,7 +43,7 @@ const yesNoModal = useYesNoModal();
 const { showToast } = useToaster();
 const { t } = useI18n();
 
-const { data: supporters, loading } = await useWatchedFetchMany<Supporter>('supporters', { page });
+const { data: supporters, loading } = await useFetchMany<Supporter>('supporters', { query: { page } });
 
 async function upgrade() {
 	try {

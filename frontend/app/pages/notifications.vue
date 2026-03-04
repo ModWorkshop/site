@@ -31,7 +31,7 @@ const { t } = useI18n();
 const page = ref(1);
 const { notificationCount } = storeToRefs(useStore());
 
-const { data: notifications, loading } = await useWatchedFetchMany<Notification>('notifications', { page, limit: 20 });
+const { data: notifications, loading } = await useFetchMany<Notification>('notifications', { query: { page, limit: 20 } });
 
 async function deleteAll() {
 	yesNoModal({

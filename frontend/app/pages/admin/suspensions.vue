@@ -48,10 +48,12 @@ const page = useRouteQuery('page');
 const yesNoModal = useYesNoModal();
 const { t } = useI18n();
 
-const { data, loading } = await useWatchedFetchMany<Suspension>(getGameResourceUrl('suspensions', props.game), {
-	user_id: userId,
-	query,
-	page
+const { data, loading } = await useFetchMany<Suspension>(getGameResourceUrl('suspensions', props.game), {
+	query: {
+		user_id: userId,
+		query: debouncedRef(query),
+		page
+	}
 });
 
 useNeedsPermission('manage-mods', props.game);

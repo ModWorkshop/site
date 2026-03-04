@@ -46,10 +46,12 @@ function getUserLink(user) {
 	}
 }
 
-const { data: users, loading } = await useWatchedFetchMany<User>(() => url, {
-	page,
-	query,
-	role_ids: roleIds,
-	game_role_ids: gameRoleIds
+const { data: users, loading } = await useFetchMany<User>(() => url, {
+	query: {
+		page,
+		query: refDebounced(query),
+		role_ids: roleIds,
+		game_role_ids: gameRoleIds
+	}
 });
 </script>

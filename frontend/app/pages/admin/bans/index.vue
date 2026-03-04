@@ -44,7 +44,7 @@ const page = ref(1);
 const banDuration = ref(null);
 const reason = ref('');
 
-const { data: bans, loading } = await useWatchedFetchMany<Ban>(url.value, { page, user_id: user, limit: 20 });
+const { data: bans, loading } = await useFetchMany<Ban>(url.value, { query: { page, user_id: user, limit: 20 } });
 
 async function ban() {
 	try {

@@ -15,9 +15,12 @@
 			</m-content-block>
 			<m-flex grow column style="flex: 4;" gap="1">
 				<m-pagination v-model="page" per-page="50" set-query :total="games?.meta.total"/>
-				<m-flex v-if="games" class="gap-2 games-grid" wrap>
+				<m-flex v-if="games?.data.length" class="gap-2 games-grid" wrap>
 					<grid-game v-for="game of games.data" :key="game.id" :game="game"/>
 				</m-flex>
+				<h3 v-else class="mx-auto p-4">
+					{{ $t('nothing_found') }}
+				</h3>
 			</m-flex>
 		</m-flex>
 	</page-block>
@@ -32,7 +35,9 @@ const { settings, games: storeGames } = useStore();
 const page = ref(1);
 const query = ref('');
 
-const { data: games, refresh } = await useWatchedFetchMany<Game>('games', { page, query, including_ignored: true });
+const { data: games, refresh } = await useFetchMany<Game>('games', {
+	query: { page, query: refDebounced(query), including_ignored: true }
+});
 
 watch(page, async () => await refresh());
 

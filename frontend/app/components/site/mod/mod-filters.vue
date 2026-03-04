@@ -15,11 +15,7 @@
 		clearable
 		list-tags
 		color-by="color"
-		:url="gameId ? `games/${gameId}/tags` : 'tags'"
-		:fetch-params="{
-			type: 'mod',
-			global: true
-		}"
+		:options="tags?.data"
 		max="10"
 		max-shown="2"
 	/>
@@ -30,11 +26,7 @@
 		clearable
 		list-tags
 		color-by="color"
-		:url="gameId ? `games/${gameId}/tags` : 'tags'"
-		:fetch-params="{
-			type: 'mod',
-			global: true
-		}"
+		:options="tags?.data"
 		max="10"
 		max-shown="2"
 	/>
@@ -42,7 +34,7 @@
 
 <script setup lang="ts">
 import type { AsyncDataExecuteOptions } from '~/types/core';
-import type { Category, Game } from '~/types/models';
+import type { Category, Game, Tag } from '~/types/models';
 
 const props = defineProps<{
 	refresh: (opts?: AsyncDataExecuteOptions) => Promise<void>;
@@ -59,6 +51,14 @@ const props = defineProps<{
 }>();
 
 const gameId = computed(() => props.game?.id ?? props.filters.game_id);
+
+const { data: tags } = await useFetchMany<Tag>(() => gameId.value ? `games/${gameId.value}/tags` : 'tags', {
+	watch: [gameId],
+	query: {
+		type: 'mod',
+		global: true
+	}
+});
 
 watch(() => props.filters.game_id, async () => {
 	await props.refresh();

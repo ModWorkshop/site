@@ -21,7 +21,7 @@ const url = computed(() => getGameResourceUrl('reports', props.game));
 const all = useRouteQuery('all', true, 'boolean');
 const page = ref(1);
 
-const { data: reports, loading } = await useWatchedFetchMany<Report>(url.value, { page, all: all.value });
+const { data: reports, loading } = await useFetchMany<Report>(url.value, { query: { page, all: all.value } });
 </script>
 
 <style>

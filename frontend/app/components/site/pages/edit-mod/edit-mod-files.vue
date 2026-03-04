@@ -172,14 +172,20 @@ const currentLink = ref<Link>();
 const filesPage = ref(1);
 const linksPage = ref(1);
 
-const { data: asyncFiles, refresh: refreshFiles } = await useWatchedFetchMany(`mods/${mod.value.id}/files`, {
-	limit: 10,
-	page: filesPage
-}, { immediate: !!mod.value.id });
-const { data: asyncLinks, refresh: refreshLinks } = await useWatchedFetchMany(`mods/${mod.value.id}/links`, {
-	limit: 10,
-	page: linksPage
-}, { immediate: !!mod.value.id });
+const { data: asyncFiles, refresh: refreshFiles } = await useFetchMany(`mods/${mod.value.id}/files`, {
+	query: {
+		limit: 10,
+		page: filesPage
+	},
+	immediate: !!mod.value.id
+});
+const { data: asyncLinks, refresh: refreshLinks } = await useFetchMany(`mods/${mod.value.id}/links`, {
+	query: {
+		limit: 10,
+		page: linksPage
+	},
+	immediate: !!mod.value.id
+});
 
 const filesRef = ref<MWSFile[]>([]);
 const linksRef = ref<Link[]>([]);

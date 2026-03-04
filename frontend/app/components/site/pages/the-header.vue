@@ -206,13 +206,23 @@ const searchButtons = computed(() => {
 	return buttons;
 });
 
+const debouncedQuery = refDebounced(query);
+
 // Simple mod searcher
-const { data: mods } = await useWatchedFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
-	limit: 5,
-	sort: 'best_match',
-	query: query,
-	cacheData: true
-}, { onChange: () => query.value.length > 0, immediate: false });
+const { data: mods, refresh } = await useFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
+	query: {
+		limit: 5,
+		sort: 'best_match',
+		query: debouncedQuery
+	},
+	immediate: false
+});
+
+watch(debouncedQuery, val => {
+	if (val.length) {
+		refresh();
+	}
+}, { once: true });
 
 watch(showNotifications, async () => {
 	if (!notifications.value) {

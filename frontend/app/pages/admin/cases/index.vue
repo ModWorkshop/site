@@ -39,7 +39,7 @@ const page = ref(1);
 
 const showErrorToast = useQuickErrorToast();
 
-const { data: cases, loading } = await useWatchedFetchMany<UserCase>(url.value, { page, user_id: user, limit: 5 });
+const { data: cases, loading } = await useFetchMany<UserCase>(url.value, { query: { page, user_id: user, limit: 5 } });
 
 const reason = ref('');
 const warnDuration = ref();

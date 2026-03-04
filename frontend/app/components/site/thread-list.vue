@@ -157,7 +157,7 @@ const params = reactive({
 	forum_id: currentForumId,
 	tags: selectedTags,
 	category_id: categoryId,
-	query: query,
+	query: refDebounced(query),
 	closed: displayClosed,
 	no_pins: props.noPins ? 1 : 0,
 	limit: props.limit,

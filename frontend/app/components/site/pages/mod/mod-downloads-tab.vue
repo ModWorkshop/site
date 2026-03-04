@@ -24,6 +24,13 @@ const props = defineProps<{
 const filesPage = ref(1);
 const linksPage = ref(1);
 
-const { data: files, loading: loadingFiles } = await useWatchedFetchMany(`mods/${props.mod.id}/files`, { page: filesPage, limit: 5 }, { lazy: true });
-const { data: links, loading: loadingLinks } = await useWatchedFetchMany(`mods/${props.mod.id}/links`, { page: linksPage, limit: 5 }, { lazy: true });
+const { data: files, loading: loadingFiles } = await useFetchMany(`mods/${props.mod.id}/files`, {
+	query: { page: filesPage, limit: 5 },
+	lazy: true
+});
+
+const { data: links, loading: loadingLinks } = await useFetchMany(`mods/${props.mod.id}/links`, {
+	query: { page: linksPage, limit: 5 },
+	lazy: true
+});
 </script>

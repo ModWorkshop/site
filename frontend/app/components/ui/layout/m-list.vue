@@ -76,11 +76,15 @@ const page = props.query ? useRouteQuery('page', 1) : ref(vmPage.value);
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 
-const { data: loadedItems, loading: innerLoading, error } = await useWatchedFetchMany(props.url ?? '', Object.assign(props.params || {}, {
-	page: page,
-	query: queryRef,
-	limit: props.limit
-}), { immediate: !!props.url });
+const { data: loadedItems, loading: innerLoading, error } = await useFetchMany(props.url ?? '', {
+	query: {
+		...props.params ?? {},
+		page: page,
+		query: refDebounced(queryRef),
+		limit: props.limit
+	},
+	immediate: !!props.url
+});
 
 useHandleError(error);
 
