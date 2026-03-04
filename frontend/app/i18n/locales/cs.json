@@ -569,6 +569,7 @@
     "supporter_custom_name_color": "Vlastní Barvu Jména",
     "supporter_supporter_tag": "Značku Příznivce",
     "supporter_faq": "Frequently Asked Questions",
+    "supporter_only_donations": "Due to our payment processor deprecating the sponsor program,\nwe only accept manual donations via PayPal for now.\nContact one of the staff with proof of donation to get the perks.",
     "supporter_faq_q_1": "Jak získám výhody?",
     "supporter_faq_a_1": "Po zaplacení pomocí Nitro, byste měli být vráceni na tuto stránku.\nModWorkshop by vám měl výhody automaticky aplikovat.\nPokud se výhody neaplikují automaticky, kontaktujte prosím někoho z moderátorů.",
     "supporter_faq_q_2": "",
