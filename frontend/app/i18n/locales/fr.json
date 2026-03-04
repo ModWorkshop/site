@@ -569,6 +569,7 @@
     "supporter_custom_name_color": "Couleur de nom personalisé",
     "supporter_supporter_tag": "Tag de Supporter",
     "supporter_faq": "Frequently Asked Questions",
+    "supporter_only_donations": "Due to our payment processor deprecating the sponsor program,\nwe only accept manual donations via PayPal for now.\nContact one of the staff with proof of donation to get the perks.",
     "supporter_faq_q_1": "Comment recevoir mes avantages?",
     "supporter_faq_a_1": "Apres s'etre abonné dans Nitro, Vous devriez être redirigé sur cette page.\nModWorkshop devrais automatiquement vous appliquer les avantages.\nSi les avantages ne sont pas appliqués automatiquement, prière de contacter un membre du staff.",
     "supporter_faq_q_2": "",
