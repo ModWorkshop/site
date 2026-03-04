@@ -569,6 +569,7 @@
     "supporter_custom_name_color": "Color de nombre personalizado",
     "supporter_supporter_tag": "Etiqueta de Donador",
     "supporter_faq": "Preguntas frecuentes",
+    "supporter_only_donations": "Due to our payment processor deprecating the sponsor program,\nwe only accept manual donations via PayPal for now.\nContact one of the staff with proof of donation to get the perks.",
     "supporter_faq_q_1": "¿Cómo recibo los beneficios?",
     "supporter_faq_a_1": "Después de comprar un plan, ModWorkshop debería aplicarte automáticamente los beneficios.\nSi no se aplican automáticamente, contacta a alguno de los miembros del equipo de desarrollo.",
     "supporter_faq_q_2": "",
