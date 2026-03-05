@@ -51,7 +51,17 @@
 										<template #fallback>
 											<m-loading/>
 										</template>
-										<mod-filters :categories="currCategories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
+										<mod-filters
+											v-model:query="query"
+											v-model:game-id="selectedGame"
+											v-model:category-id="selectedCategory"
+											v-model:tags="selectedTags"
+											v-model:block-tags="selectedBlockTags"
+											:categories="currCategories"
+											:refresh-categories="refetchCats"
+											:refresh="refresh"
+											:game="game"
+										/>
 									</Suspense>
 								</m-flex>
 							</template>
@@ -84,7 +94,17 @@
 			<m-flex v-if="sideFilters" class="max-md:!w-full items-center" column :gap="adChildren > 0 ? 6 : 0" style="width: 300px;">
 				<div id="mws-ads-filters" ref="filtersAd"/>
 				<m-content-block class="mod-filters w-full">
-					<mod-filters :categories="currCategories" :refresh-categories="refetchCats" :refresh="refresh" :filters="searchParams" :game="game"/>
+					<mod-filters
+						v-model:query="query"
+						v-model:game-id="selectedGame"
+						v-model:category-id="selectedCategory"
+						v-model:tags="selectedTags"
+						v-model:block-tags="selectedBlockTags"
+						:categories="currCategories"
+						:refresh-categories="refetchCats"
+						:refresh="refresh"
+						:game="game"
+					/>
 				</m-content-block>
 			</m-flex>
 			<m-flex column class="flex-1">
@@ -183,10 +203,10 @@ const pages = ref(0);
 const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);
 const collabComp = computed(() => props.collab ? 1 : 0);
 
-const searchParams = reactive({
+const searchParams = {
 	'user_id': props.userId,
 	'page': fetchPage,
-	'query': query,
+	'query': refDebounced(query),
 	'fields[mods]': listModFields.join(','),
 	'game_id': selectedGame,
 	'category_id': selectedCategory,
@@ -197,7 +217,7 @@ const searchParams = reactive({
 	'sort': sortBy,
 	'limit': computed(() => props.limit),
 	...props.params
-});
+};
 
 const gameId = computed(() => props.game?.id ?? searchParams.game_id);
 
