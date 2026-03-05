@@ -53,8 +53,8 @@
 				<span v-if="!query">
 					{{ $t('search_start_searching') }}
 				</span>
-				<template v-else-if="gameMods?.data?.length || globalMods?.data?.length">
-					<m-flex v-if="currentGame && gameMods && gameMods.data?.length" column gap="2">
+				<template v-else-if="loadingMods || loadingGameMods || gameMods?.data?.length || globalMods?.data?.length">
+					<m-flex v-if="currentGame && (loadingGameMods || (gameMods?.data?.length))" column gap="2">
 						<h3>{{ $t('search_mods_game', [currentGame.name]) }}</h3>
 						<m-loading v-if="loadingGameMods"/>
 						<template v-else-if="gameMods">
@@ -62,7 +62,7 @@
 						</template>
 						<m-button color="subtle" :to="`/g/${currentGame.short_name}?query=${query}`">{{ $t('search_view_all') }}</m-button>
 					</m-flex>
-					<m-flex v-if="globalMods && globalMods.data?.length" column gap="2">
+					<m-flex v-if="loadingMods || globalMods?.data?.length" column gap="2">
 						<h3>{{ $t(currentGame ? 'search_mods_other_games' : 'mods') }}</h3>
 						<m-loading v-if="loadingMods"/>
 						<template v-else-if="globalMods">
@@ -71,7 +71,7 @@
 						<m-button color="subtle" :to="`/search/mods?query=${query}`">{{ $t('search_view_all') }}</m-button>
 					</m-flex>
 				</template>
-				<span v-else>
+				<span v-else-if="globalMods?.data?.length == 0 && gameMods?.data?.length == 0">
 					{{ $t('nothing_found') }}
 				</span>
 			</m-flex>
