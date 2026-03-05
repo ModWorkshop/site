@@ -11,7 +11,7 @@
 const props = withDefaults(defineProps<{
 	src?: string | Blob;
 	urlPrefix: string;
-	height?: number | string;
+	height?: null | number | string;
 }>(), {
 	height: 300
 });
