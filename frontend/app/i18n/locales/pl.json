@@ -51,7 +51,7 @@
     "api": "API",
     "search_mods": "Szukaj Modów",
     "search_mods_matching": "Mody Zawierające \"{0}\"",
-    "search_mods_game": "{1} Modów",
+    "search_mods_game": "{0} Modów",
     "search_mods_game_matching": "{1} Modów Zawierających \"{0}\"",
     "search_users": "Szukaj Użytkowników",
     "search_games": "Search Games",

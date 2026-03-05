@@ -53,6 +53,8 @@ class GetModsRequest extends FilteredRequest
             'categories.*' => 'integer|min:1|nullable',
             'block_tags' => 'array|max:10',
             'block_tags.*' => 'integer|min:1|nullable',
+            'exclude_game_ids' => 'array|max:10',
+            'exclude_game_ids.*' => 'integer|min:1|nullable',
             'user_id' => 'integer|nullable|min:1',
             'collab' => 'boolean|nullable',
             'including_ignored' => 'boolean|nullable',

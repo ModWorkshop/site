@@ -1,5 +1,5 @@
 <template>
-	<m-flex gap="2" inline class="items-center cursor-pointer" @click="modUrl ? $router.push(modUrl) : undefined">
+	<m-content-block gap="2" inline class="items-center cursor-pointer" :column="false" @click="modUrl ? $router.push(modUrl) : undefined">
 		<NuxtLink :to="modUrl" style="flex: 1;">
 			<mod-thumbnail :thumbnail="mod?.thumbnail"/>
 		</NuxtLink>
@@ -19,7 +19,7 @@
 				</NuxtLink>
 			</template>
 		</m-flex>
-	</m-flex>
+	</m-content-block>
 </template>
 
 <script setup lang="ts">

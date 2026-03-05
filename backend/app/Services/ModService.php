@@ -165,6 +165,10 @@ class ModService {
                 });
             }
 
+            if (!empty($val['exclude_game_ids'])) {
+                $query->whereNotIn('game_id', $val['exclude_game_ids']);
+            }
+
             if (!empty($val['block_tags'])) {
                 $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));

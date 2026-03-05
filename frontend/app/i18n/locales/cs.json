@@ -51,7 +51,7 @@
     "api": "API",
     "search_mods": "Hledat Módy",
     "search_mods_matching": "Módy Odpovídající \"{0}\"",
-    "search_mods_game": "{1} Módů",
+    "search_mods_game": "{0} Módů",
     "search_mods_game_matching": "{1} Módů Odpovídajících \"{0}\"",
     "search_users": "Hledat Uživatele",
     "search_games": "Hledat Hry",
