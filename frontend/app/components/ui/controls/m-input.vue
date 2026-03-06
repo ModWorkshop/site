@@ -1,5 +1,5 @@
 <template>
-	<m-flex class="input-container" inline wrap :column="!isCheckbox" :gap="2">
+	<m-flex class="input-container" inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
 		<label v-if="!isCheckbox && label" :class="{ required }" :for="labelId">
 			<slot name="label">
 				{{ label }}
