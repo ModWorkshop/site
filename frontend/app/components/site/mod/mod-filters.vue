@@ -17,7 +17,7 @@
 		color-by="color"
 		:options="tags?.data"
 		max="10"
-		max-shown="2"
+		max-shown="1"
 	/>
 	<m-select
 		v-model="blockTagsModel"
@@ -28,7 +28,7 @@
 		color-by="color"
 		:options="tags?.data"
 		max="10"
-		max-shown="2"
+		max-shown="1"
 	/>
 </template>
 
