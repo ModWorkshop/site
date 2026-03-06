@@ -143,7 +143,7 @@ function clickCheckbox() {
 .mw-input {
 	padding: 0.6rem;
 	flex: 1;
-	min-height: 40px;
+	min-height: 41px;
 	transition: border-color 0.25s;
 	height: auto;
 	color: var(--text-color);
