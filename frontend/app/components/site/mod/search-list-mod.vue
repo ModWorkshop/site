@@ -5,7 +5,7 @@
 		</NuxtLink>
 		<m-flex column gap="2" style="flex: 2;" @click.self="clickFunc">
 			<template v-if="mod">
-				<NuxtLink :to="modUrl">
+				<NuxtLink :to="modUrl" class="line-clamp-2">
 					{{ mod.name }}
 				</NuxtLink>
 				<a-user :user="mod.user" :static="static" avatar-size="xs" :show-mini-profile="false" class="self-start"/>
