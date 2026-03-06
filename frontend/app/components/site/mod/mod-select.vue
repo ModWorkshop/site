@@ -1,7 +1,7 @@
 <template>
 	<m-select v-model="vm" :url="url">
-		<template #any-option="{ option }">
-			<search-list-mod :key="option.id" :mod="option" static/>
+		<template #list-option="{ option }">
+			<search-list-mod :key="option.id" :mod="option" static :background="false"/>
 		</template>
 	</m-select>
 </template>

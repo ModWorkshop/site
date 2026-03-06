@@ -1,5 +1,5 @@
 <template>
-	<m-flex class="input-container" inline wrap :column="!isCheckbox" :gap="isCheckbox ? 1 : 2">
+	<m-flex class="input-container" inline wrap :column="!isCheckbox" :gap="2">
 		<label v-if="!isCheckbox && label" :class="{ required }" :for="labelId">
 			<slot name="label">
 				{{ label }}
@@ -143,6 +143,7 @@ function clickCheckbox() {
 .mw-input {
 	padding: 0.6rem;
 	flex: 1;
+	min-height: 40px;
 	transition: border-color 0.25s;
 	height: auto;
 	color: var(--text-color);
@@ -168,7 +169,8 @@ function clickCheckbox() {
 
 .mw-input[type='checkbox'] {
 	width: revert;
-	margin-top: 3px;
+	margin-top: 2px;
+	min-height: initial;
 }
 
 .mw-input:disabled {

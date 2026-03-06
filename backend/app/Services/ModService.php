@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Category;
-use App\Models\DownloadableDownload;
 use App\Models\File;
 use App\Models\Game;
 use App\Models\Link;
@@ -16,6 +15,7 @@ use App\Models\Visibility;
 use Arr;
 use Auth;
 use Cache;
+use Carbon\Carbon;
 use Closure;
 use DB;
 use Hash;
@@ -165,6 +165,10 @@ class ModService {
                 });
             }
 
+            if (!empty($val['exclude_game_ids'])) {
+                $query->whereNotIn('game_id', $val['exclude_game_ids']);
+            }
+
             if (!empty($val['block_tags'])) {
                 $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($val) {
                     $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
@@ -262,9 +266,9 @@ class ModService {
         Model::withoutTimestamps(fn () => $downloadable->increment('downloads'));
 
         if (isset($user)) {
-            $downloadable->downloadsRelation()->create(['user_id' => $user->id, 'ip_address' => $ip]);
+            $downloadable->downloadsRelation()->create(['created_at' => Carbon::now(), 'user_id' => $user->id, 'ip_address' => $ip]);
         } else {
-            $downloadable->downloadsRelation()->create(['ip_address' => $ip]);
+            $downloadable->downloadsRelation()->create(['created_at' => Carbon::now(), 'ip_address' => $ip]);
         }
 
         // Create download for mod
@@ -274,7 +278,9 @@ class ModService {
             return response()->noContent(201);
         }
 
-        $download = new ModDownload();
+        $download = new ModDownload([
+            'created_at' => Carbon::now()
+        ]);
         $download->mod_id = $mod->id;
         $download->ip_address = $ip;
         if (isset($user)) {

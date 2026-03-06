@@ -1,15 +1,15 @@
 <template>
-	<m-input v-model="filters.query" :label="$t('search')"/>
-	<game-select v-if="!game" v-model="filters.game_id" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
+	<m-input v-model="queryModel" :label="$t('search')"/>
+	<game-select v-if="!game" v-model="gameIdModel" :label="$t('game')" :placeholder="$t('any_game')" clearable/>
 	<category-select
 		v-if="categories && categories.length"
-		v-model="filters.category_id"
+		v-model="categoryIdModel"
 		:max-height="500"
 		:categories="categories"
 		:label="$t('category')"
 	/>
 	<m-select
-		v-model="filters.tags"
+		v-model="tagsModel"
 		:label="$t('tags')"
 		multiple
 		clearable
@@ -17,10 +17,10 @@
 		color-by="color"
 		:options="tags?.data"
 		max="10"
-		max-shown="2"
+		max-shown="1"
 	/>
 	<m-select
-		v-model="filters.block_tags"
+		v-model="blockTagsModel"
 		:label="$t('filter_out_tags')"
 		multiple
 		clearable
@@ -28,7 +28,7 @@
 		color-by="color"
 		:options="tags?.data"
 		max="10"
-		max-shown="2"
+		max-shown="1"
 	/>
 </template>
 
@@ -41,16 +41,15 @@ const props = defineProps<{
 	game?: Game;
 	categories?: Category[] | null;
 	refreshCategories: (opts?: AsyncDataExecuteOptions) => Promise<void>;
-	filters: {
-		query: string;
-		game_id: number;
-		tags: number[];
-		block_tags: number[];
-		category_id: number | null;
-	};
 }>();
 
-const gameId = computed(() => props.game?.id ?? props.filters.game_id);
+const queryModel = defineModel<string>('query');
+const gameIdModel = defineModel<number>('gameId');
+const tagsModel = defineModel<number[]>('tags');
+const blockTagsModel = defineModel<number[]>('blockTags');
+const categoryIdModel = defineModel<number>('categoryId');
+
+const gameId = computed(() => props.game?.id ?? gameIdModel.value);
 
 const { data: tags } = await useFetchMany<Tag>(() => gameId.value ? `games/${gameId.value}/tags` : 'tags', {
 	watch: [gameId],
@@ -60,10 +59,10 @@ const { data: tags } = await useFetchMany<Tag>(() => gameId.value ? `games/${gam
 	}
 });
 
-watch(() => props.filters.game_id, async () => {
+watch(gameIdModel, async () => {
 	await props.refresh();
 
-	if (props.filters.game_id) {
+	if (gameIdModel.value) {
 		await props.refreshCategories();
 	}
 });

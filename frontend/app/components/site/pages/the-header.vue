@@ -40,7 +40,6 @@
 							<m-dropdown-item to="https://translate.modworkshop.net/">{{ $t('translation_site') }}</m-dropdown-item>
 							<m-dropdown-item class="lg:!hidden" to="https://discord.gg/Eear4JW">{{ $t('discord') }}</m-dropdown-item>
 							<m-dropdown-item to="/document/rules" class="lg:!hidden">{{ $t('rules') }}</m-dropdown-item>
-							<m-dropdown-item to="/games" class="lg:!hidden">{{ $t('games') }}</m-dropdown-item>
 							<m-dropdown-item to="/forum?category=news" class="xl:!hidden">{{ $t('news') }}</m-dropdown-item>
 							<m-dropdown-item to="/forum" class="2xl:!hidden">{{ $t('forum') }}</m-dropdown-item>
 							<m-dropdown-item to="/support" class="xl:!hidden">{{ $t('support_us') }}</m-dropdown-item>
@@ -51,54 +50,7 @@
 					<m-link class="max-sm:block hidden" to="https://translate.modworkshop.net/">{{ $t('translation_site') }}</m-link>
 				</m-flex>
 				<m-flex id="user-items" class="md:ml-auto mb-4 md:mb-0 md:mr-2 items-center" gap="4">
-					<m-dropdown v-model:open="showSearch" :close-on-click="false" :trap-focus="false" :auto-hide="false" align="end" dropdown-class="search-dropdown">
-						<m-flex>
-							<input
-								v-if="showSearch"
-								id="header-search"
-								ref="searchInput"
-								v-model="query"
-								class="searchbox"
-								inline
-								:placeholder="$t('search')"
-								@click.stop
-								@keydown="onKeydownSearch"
-								@keyup.up.self="setSelectedSearch(-1)"
-								@keyup.down.self="setSelectedSearch(1)"
-								@keyup.enter="clickSelectedSearch"
-							>
-							<m-flex v-else id="header-search" inline class="searchbox">
-								<i-mdi-magnify/><span class="text-secondary my-auto">{{ $t('search') }}</span>
-								<span class="ml-auto my-auto max-md:hidden">
-									<kbd>CTRL</kbd> <kbd>K</kbd>
-								</span>
-							</m-flex>
-						</m-flex>
-						<template #content>
-							<ClientOnly>
-								<h3>{{ $t('search') }}</h3>
-								<m-flex column gap="1">
-									<m-button
-										v-for="[i, button] in searchButtons.entries()"
-										:key="button.text"
-										:to="`${button.to}?query=${query}`"
-										:color="selectedSearch == i ? 'primary' : 'subtle'"
-										class="search-button"
-									>
-										{{ $t(button.text, [query, currentGame?.name]) }}
-									</m-button>
-								</m-flex>
-								<template v-if="query && mods && mods.data.length">
-									<h3>{{ $t('mods') }}</h3>
-									<m-flex column gap="2">
-										<template v-if="mods">
-											<search-list-mod v-for="mod of mods.data" :key="mod.id" lite :mod="mod"/>
-										</template>
-									</m-flex>
-								</template>
-							</ClientOnly>
-						</template>
-					</m-dropdown>
+					<the-header-search/>
 					<m-flex v-if="user" class="items-center" gap="4">
 						<m-flex v-if="user.ban" column>
 							<span class="text-danger">
@@ -151,30 +103,18 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useStore } from '~/store';
-import { vOnClickOutside } from '@vueuse/components';
-import type { Mod } from '~/types/models';
-
-const router = useRouter();
 
 const store = useStore();
 const {
 	user,
 	notifications,
 	notificationCount,
-	currentGame,
 	reportCount,
 	waitingCount
 } = storeToRefs(store);
 
 const headerClosed = ref(true);
-const query = ref('');
 const showNotifications = ref(false);
-const showSearch = ref(false);
-const selectedSearch = ref(0);
-const searchInput = ref();
-const unlockedOwO = useState('unlockedOwO');
-const searchBus = useEventBus<string>('search');
-
 const settings = computed(() => store.settings);
 const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
@@ -191,93 +131,11 @@ const userLink = computed(() => {
 	}
 });
 
-const searchButtons = computed(() => {
-	const searching = query.value.length > 0;
-	const buttons = [
-		{ to: `/search/mods`, text: searching ? 'search_mods_matching' : 'mods' },
-		{ to: `/search/games`, text: searching ? 'search_games_matching' : 'games' },
-		{ to: `/search/threads`, text: searching ? 'search_threads_matching' : 'threads' },
-		{ to: `/search/users`, text: searching ? 'search_users_matching' : 'users' }
-	];
-	if (currentGame.value) {
-		buttons.unshift({ to: `/g/${currentGame.value.short_name}/forum`, text: searching ? 'search_threads_game_matching' : 'search_threads_game' });
-		buttons.unshift({ to: `/g/${currentGame.value.short_name}/mods`, text: searching ? 'search_mods_game_matching' : 'search_mods_game' });
-	}
-	return buttons;
-});
-
-const debouncedQuery = refDebounced(query);
-
-// Simple mod searcher
-const { data: mods, refresh } = await useFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : 'mods', {
-	query: {
-		limit: 5,
-		sort: 'best_match',
-		query: debouncedQuery
-	},
-	immediate: false
-});
-
-watch(debouncedQuery, val => {
-	if (val.length) {
-		refresh();
-	}
-}, { once: true });
-
 watch(showNotifications, async () => {
 	if (!notifications.value) {
 		await store.getNotifications(1, 20);
 	}
 });
-
-watch(searchInput, val => {
-	if (val) {
-		setTimeout(() => val.focus(), 100);
-	}
-});
-
-watch(query, val => {
-	unlockedOwO.value = val.toLowerCase() === 'owo';
-	searchBus.emit(val);
-});
-
-onMounted(() => {
-	window.addEventListener('keydown', function (e) {
-		if (e.ctrlKey && e.key === 'k' /** k */) {
-			showSearch.value = true;
-			e.preventDefault();
-		}
-
-		if (e.key === 'Escape') {
-			showSearch.value = false;
-		}
-	});
-});
-
-function onKeydownSearch() {
-	if (query.value) {
-		showSearch.value = true;
-	}
-}
-
-function setSelectedSearch(direction: number) {
-	selectedSearch.value += direction;
-
-	if (selectedSearch.value >= searchButtons.value.length) {
-		selectedSearch.value = 0;
-	}
-
-	if (selectedSearch.value < 0) {
-		selectedSearch.value = searchButtons.value.length - 1;
-	}
-}
-
-function clickSelectedSearch() {
-	router.replace({
-		path: searchButtons.value[selectedSearch.value]?.to ?? '/search/mods',
-		query: { query: query.value }
-	});
-}
 
 async function markAsRead() {
 	await markAllNotificationsAsRead(notifications.value?.data, notificationCount);
@@ -292,13 +150,6 @@ async function markAsRead() {
 	height: 100%;
 	z-index: 10;
 }
-.selected-search {
-	background-color: var(--primary-color);
-}
-
-.search-button {
-	min-width: 250px;
-}
 
 header {
 	top: 0;
@@ -309,10 +160,6 @@ header {
 	display: flex;
 	grid-area: header;
 	transition: left 0.25s;
-}
-
-kbd {
-	vertical-align: middle;
 }
 
 #header-buttons {
@@ -366,18 +213,6 @@ kbd {
 </style>
 
 <style>
-#header-search {
-	line-height: revert;
-	width: 280px;
-	height: 36px;
-}
-
-@media (max-width: 1024px) {
-	#header-search {
-		width: 200px;
-	}
-}
-
 .md-editor-open header {
 	z-index: 0;
 }
@@ -389,25 +224,6 @@ kbd {
 .left-slide-enter-from, .left-slide-leave-to {
 	opacity: 0;
 	transform: translateX(-100%);
-}
-
-.search-dropdown {
-	max-height: 64vh;
-	padding: 1rem;
-}
-
-.searchbox:focus-visible {
-	outline: none;
-	border-color: var(--primary-color);
-}
-
-.searchbox {
-	padding: 0.7rem;
-	flex: 1;
-	transition: border-color 0.25s;
-	color: var(--text-color);
-	background-color: var(--input-bg-color);
-	border-radius: var(--border-radius);
 }
 
 .user-dropdown {

@@ -95,7 +95,7 @@ watch(open, () => {
 .m-dropdown {
 	background: var(--dropdown-bg);
 	color: var(--text-color);
-	border-radius: var(--border-radius);
+	border-radius: var(--content-border-radius);
 	box-shadow: var(--content-box-shadow);
 	border: 1px solid rgba(120, 120, 120, 0.15);
 	max-width: 400px;

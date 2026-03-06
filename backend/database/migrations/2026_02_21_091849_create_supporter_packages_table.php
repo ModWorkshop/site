@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('enabled');
             $table->integer('order');
-            $table->bigInteger('package_id');
+            $table->bigInteger('package_id')->nullable();
             $table->integer('price');
             $table->integer('duration_number');
             $table->enum('duration_type', ['mo', 'y', 'w', 'd']);

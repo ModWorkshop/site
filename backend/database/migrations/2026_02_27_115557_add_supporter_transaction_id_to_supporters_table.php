@@ -12,6 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('supporters', function (Blueprint $table) {
+            $table->integer('price')->default(0);
+
+            $table->foreignId('supporter_package_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('supporter_transaction_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
@@ -23,6 +26,8 @@ return new class extends Migration
     {
         Schema::table('supporters', function (Blueprint $table) {
             $table->dropColumn('supporter_transaction_id');
+            $table->dropColumn('supporter_package_id');
+            $table->dropColumn('price');
         });
     }
 };

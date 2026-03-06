@@ -8,13 +8,13 @@
 				<template v-if="multiple && shownOptions.length">
 					<slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
 						<slot name="any-option" :option="option">
-							<m-tag :color="optionColor(option)" :style="{ padding: classic ? '0.3rem 0.5rem' : undefined }">
+							<m-tag :color="optionColor(option)" :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">
 								<i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click.stop="deselectOption(option)"/> {{ optionName(option) }}
 							</m-tag>
 						</slot>
 					</slot>
 					<template v-if="shownOptions.length < selected.length">
-						<m-tag>+{{ selected.length - shownOptions.length }}</m-tag>
+						<m-tag :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">+{{ selected.length - shownOptions.length }}</m-tag>
 					</template>
 				</template>
 				<slot v-else-if="selectedOption" name="option" :option="selectedOption">
@@ -61,12 +61,12 @@
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
+import clone from 'rfdc/default';
 
 const props = withDefaults(defineProps<{
 	url?: string;
 	fetchParams?: Record<string, any>;
 	immediateFetch?: boolean;
-	modelValue: any;
 	default?: any;
 	options?: any[];
 	clearable?: boolean;
@@ -107,10 +107,11 @@ const showInvalid = ref(false);
 const searchElement = ref<HTMLInputElement>();
 
 const emit = defineEmits<{
-	(e: 'update:modelValue', value: any | any[]): void;
 	(e: 'selectOption', option: any | any[]): void;
 	(e: 'fetched', options: any[]): void;
 }>();
+
+const modelValue = defineModel<unknown>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
 	immediate: props.immediateFetch && props.url !== undefined,
@@ -120,7 +121,13 @@ const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
 	})
 });
 
-const selectedValue = computed(() => props.modelValue ?? props.default);
+const selectedValue = computed(() => {
+	const value = modelValue.value ?? props.default;
+	if (props.multiple) {
+		return clone(value);
+	}
+	return value;
+});
 const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[] : [selectedValue.value]);
 const first = computed<any[]>(() => selected.value?.[0]);
 const { ctrl } = useMagicKeys();
@@ -296,7 +303,7 @@ function clearAll() {
 			}
 		}
 
-		emit('update:modelValue', selectedValue.value);
+		modelValue.value = selectedValue.value;
 	} else {
 		deselectOption(selected.value);
 	}
@@ -321,11 +328,22 @@ function selectOption(option) {
 	const value = optionValue(option);
 	emit('selectOption', option);
 
-	if (!ctrl.value) {
+	if (!ctrl?.value) {
 		dropdownOpen.value = false;
 	}
 
-	if (props.multiple && typeof selectedValue.value === 'object') {
+	if (!props.multiple) {
+		const set = () => {
+			dropdownOpen.value = false;
+			modelValue.value = value;
+		};
+
+		if (!props.beforeSelect) {
+			set();
+		} else {
+			props.beforeSelect(option, set);
+		}
+	} else if (typeof selectedValue.value === 'object') {
 		if (selectedMax.value) {
 			showInvalid.value = true;
 			setTimeout(() => {
@@ -339,7 +357,7 @@ function selectOption(option) {
 				selectedValue.value.push(value);
 			}
 
-			emit('update:modelValue', selectedValue.value);
+			modelValue.value = selectedValue.value;
 		};
 
 		// Allow for the interception of options before they're selected
@@ -349,31 +367,22 @@ function selectOption(option) {
 			props.beforeSelect(option, set);
 		}
 	} else {
-		const set = () => {
-			dropdownOpen.value = false;
-			emit('update:modelValue', value);
-		};
-
-		if (!props.beforeSelect) {
-			set();
-		} else {
-			props.beforeSelect(option, set);
-		}
+		console.log('Multi select must have an array as the value!');
 	}
 }
 
 function deselectOption(item) {
 	const value = optionValue(item);
 
-	if (!ctrl.value) {
+	if (!ctrl?.value) {
 		dropdownOpen.value = false;
 	}
 
 	if (props.multiple && typeof selectedValue === 'object') {
 		remove(selectedValue.value, value);
-		emit('update:modelValue', selectedValue.value);
+		modelValue.value = selectedValue.value;
 	} else if (props.clearable) {
-		emit('update:modelValue', props.nullClear ? null : undefined);
+		modelValue.value = props.nullClear ? null : undefined;
 		dropdownOpen.value = false;
 	}
 }

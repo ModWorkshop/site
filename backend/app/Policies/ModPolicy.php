@@ -173,7 +173,7 @@ class ModPolicy
     public function createComment(User $user, Mod $mod)
     {
         if (!$user->hasPermission('create-discussions', $mod->game) || $mod->user->blockedMe) {
-            return false;
+            return $this->update($user, $mod);
         }
 
         if ($mod->comments_disabled) {
