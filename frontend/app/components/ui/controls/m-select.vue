@@ -8,13 +8,13 @@
 				<template v-if="multiple && shownOptions.length">
 					<slot v-for="option of shownOptions" :key="optionValue(option)" name="option" :option="option">
 						<slot name="any-option" :option="option">
-							<m-tag :color="optionColor(option)" :style="{ padding: classic ? '0.3rem 0.5rem' : undefined }">
+							<m-tag :color="optionColor(option)" :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">
 								<i-mdi-close-thick v-if="!disabled && optionEnabled(option)" class="cursor-pointer text-md" @click.stop="deselectOption(option)"/> {{ optionName(option) }}
 							</m-tag>
 						</slot>
 					</slot>
 					<template v-if="shownOptions.length < selected.length">
-						<m-tag>+{{ selected.length - shownOptions.length }}</m-tag>
+						<m-tag :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">+{{ selected.length - shownOptions.length }}</m-tag>
 					</template>
 				</template>
 				<slot v-else-if="selectedOption" name="option" :option="selectedOption">
