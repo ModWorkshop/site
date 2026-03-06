@@ -19,7 +19,7 @@ export default async function<T = any>(url: string | (() => string), options?: U
 	}
 
 	const ret = await useFetchData<Paginator<T>>(url, options);
-	const { status } = ret;
+	const { status, data } = ret;
 
-	return { ...ret, loading: computed(() => status.value === 'pending') };
+	return { ...ret, data: reactive(data), loading: computed(() => status.value === 'pending') };
 }
