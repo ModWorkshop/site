@@ -80,7 +80,14 @@ const { mod } = defineProps<{
 const showReportModal = ref(false);
 const canEdit = computed(() => canEditMod(mod));
 const canDeleteComments = computed(() => canEdit.value && store.hasPermission('delete-own-mod-comments', mod.game));
-const canComment = computed(() => !mod.user?.blocked_me && !store.isBanned && (!mod.comments_disabled || canEdit.value));
+const canComment = computed(() => {
+	if (canEdit.value) {
+		return true;
+	}
+
+	return !mod.user?.blocked_me && !store.isBanned && !mod.comments_disabled;
+});
+
 const cannotCommentReason = computed(() => {
 	if (mod.comments_disabled) {
 		return t('comments_disabled');
