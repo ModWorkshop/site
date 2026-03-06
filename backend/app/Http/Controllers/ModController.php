@@ -26,6 +26,7 @@ use App\Services\ModService;
 use App\Services\Utils;
 use Arr;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
@@ -369,7 +370,9 @@ class ModController extends Controller
             return;
         }
 
-        $view = new ModView();
+        $view = new ModView([
+            'created_at' => Carbon::now()
+        ]);
         $view->mod_id = $mod->id;
         if (isset($user)) {
             $view->user_id = $user->id;
