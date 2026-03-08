@@ -141,7 +141,7 @@ const areActionsVisible = ref(false);
 
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 
-const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
+const { data: fetchedReplies, refresh: loadReplies } = await useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
 	immediate: props.fetchReplies,
 	lazy: true,
 	params: reactive({ page, limit: 20 })
