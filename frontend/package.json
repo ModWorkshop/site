@@ -63,7 +63,7 @@
     "axios": "^1.13.5",
     "colorjs.io": "^0.5.2",
     "date-fns": "^4.1.0",
-    "fast-equals": "^5.3.2",
+    "fast-equals": "^6.0.0",
     "filesize": "^11.0.2",
     "highlight.js": "^11.11.1",
     "humanize-duration": "^3.32.1",
