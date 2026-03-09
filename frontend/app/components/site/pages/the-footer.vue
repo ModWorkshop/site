@@ -41,6 +41,7 @@
 					<m-link to="/cookies">{{ $t('cookie_policy') }}</m-link>
 					<m-link to="/document/policy">{{ $t('privacy') }}</m-link>
 					<m-link to="/document/impressum">{{ $t('impressum') }}</m-link>
+					<m-link to="/document/copyright">{{ $t('copyright') }}</m-link>
 				</m-flex>
 			</div>
 
