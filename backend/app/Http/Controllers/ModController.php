@@ -679,14 +679,12 @@ class ModController extends Controller
      * @group Files
      */
     public function downloadPrimaryFile(Mod $mod) {
-        $file = $mod->downloadRelation;
-        if (!$file instanceof File) {
-            $file = $mod->files()->firstOrFail();
-        }
+        $file = $mod->download;
+
         if (isset($file)) {
             return redirect($file->downloadUrl);
         } else {
-            return abort(404, 'Mod has no files!');
+            return abort(404, 'Mod has no files or has no primary file');
         }
     }
 
