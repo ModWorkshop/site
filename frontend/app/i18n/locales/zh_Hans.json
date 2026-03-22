@@ -575,7 +575,7 @@
     "supporter_faq_a_3": "持续时间可以在 Nitro 的页面上查看。",
     "supporter_faq_q_4": "这是订阅制的吗？我可以只赞助一次吗？",
     "supporter_faq_a_4": "通常 Nitro 是订阅制的。但您随时都可以取消续费，只赞助一次。",
-    "supporter_just_donate": "You can also donate without the perks",
+    "supporter_just_donate": "你可以在不获取权益的情况下进行捐赠",
     "cookies": "Cookie",
     "cookie_policy": "Cookie 政策",
     "cookies_desc": "我们使用 Cookie 来提升您的用户体验！我们不会存储任何用于跟踪您的 Cookie。",
@@ -679,6 +679,6 @@
     "use_system_date_format_desc": "将非相对日期更改为使用系统/浏览器定义的格式，而非所选语言的格式。",
     "hidden_tags": "隐藏的标签",
     "hidden_tags_desc": "隐藏全局标签以避免被用户在模组/主题里选择，已使用这些标签的模组需手动修改。",
-    "install_with": "Install with {modManager}",
-    "mod_manager_not_installed": "Don't have {modManager}?"
+    "install_with": "使用 {modManager} 安装",
+    "mod_manager_not_installed": "没有 {modManager}？"
 }
