@@ -30,7 +30,7 @@
 
 			<m-flex column class="items-center" gap="3">
 				<!-- <span class="h2 text-center">{{ $t('supporter_just_donate') }}</span> -->
-				<donation-button link="paypal.me/tsunavr"/>
+				<donation-button link="paypal.me/DanielLuffy"/>
 				<m-alert color="warning" class="whitespace-pre">
 					{{ $t('supporter_only_donations') }}
 				</m-alert>
