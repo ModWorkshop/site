@@ -61,7 +61,7 @@
 				</NuxtLink>
 			</m-flex>
 
-			<template v-if="mod.tags.length">
+			<template v-if="mod.tags?.length">
 				<span class="text-secondary">
 					<i-mdi-tag-multiple/> {{ $t('tags') }}
 				</span>
