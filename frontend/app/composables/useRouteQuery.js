@@ -54,7 +54,7 @@ export default function (name, defaultValue, cast, statefully) {
 			if (cast === 'number') {
 				return parseInt(data);
 			} else if (cast === 'boolean') {
-				return data ? 1 : 0;
+				return Boolean(data);
 			} else if (typeof cast === 'function') {
 				return cast(data);
 			} else if (cast === 'array') {
