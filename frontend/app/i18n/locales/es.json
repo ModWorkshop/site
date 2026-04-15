@@ -294,7 +294,7 @@
     "add_offsite_mod": "Añadir mod externo",
     "add_mod": "Añadir mod",
     "mod_page": "Página del mod",
-    "mod_name_desc": "Un máximo de 150 letras y un mínimo de 3.",
+    "mod_name_desc": "Un máximo de 100 letras y un mínimo de 3.",
     "follow_mod_notifs": "Seguir y recibir notificaciones al actualizarse",
     "main_tab": "Principal",
     "downloads_tab": "Descargas y actualizaciones",
