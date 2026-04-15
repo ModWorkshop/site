@@ -293,7 +293,7 @@
     "add_offsite_mod": "外部サイトのMod",
     "add_mod": "Modを追加",
     "mod_page": "Modページ",
-    "mod_name_desc": "3文字以上150文字以下",
+    "mod_name_desc": "3文字以上100文字以下",
     "follow_mod_notifs": "フォローして更新通知を受け取る",
     "main_tab": "メイン",
     "downloads_tab": "ダウンロードとアップデート",

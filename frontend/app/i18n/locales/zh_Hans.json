@@ -293,7 +293,7 @@
     "add_offsite_mod": "添加站外模组",
     "add_mod": "添加模组",
     "mod_page": "模组页面",
-    "mod_name_desc": "上限 150 字符，至少 3 字符",
+    "mod_name_desc": "上限 100 字符，至少 3 字符",
     "follow_mod_notifs": "关注并随时获取更新通知",
     "main_tab": "主页",
     "downloads_tab": "下载与更新",

@@ -293,7 +293,7 @@
     "add_offsite_mod": "Externe Mod hinzufügen",
     "add_mod": "Mod hinzufügen",
     "mod_page": "Modseite",
-    "mod_name_desc": "Maximal 150 und minimal 3 Buchstaben",
+    "mod_name_desc": "Maximal 100 und minimal 3 Buchstaben",
     "follow_mod_notifs": "Folge und bekomme Benachrichtigungen für Updates",
     "main_tab": "Primär",
     "downloads_tab": "Downloads & Aktualisierungen",

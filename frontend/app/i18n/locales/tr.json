@@ -293,7 +293,7 @@
     "add_offsite_mod": "Site-dışı Mod Ekle",
     "add_mod": "Mod Ekle",
     "mod_page": "Mod Sayfası",
-    "mod_name_desc": "En fazla 150, en az 3 karakter",
+    "mod_name_desc": "En fazla 100, en az 3 karakter",
     "follow_mod_notifs": "Takip edin ve güncellemelerden haberdar olun",
     "main_tab": "Ana",
     "downloads_tab": "İndirmeler & Güncellemeler",
