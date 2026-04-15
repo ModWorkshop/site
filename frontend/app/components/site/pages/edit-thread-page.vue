@@ -83,7 +83,7 @@ if (!useCanEditThread(thread.value, g)) {
 const canManage = computed(() => store.hasPermission('manage-discussions', game));
 
 const { data: tags } = await useFetchMany<Tag>('tags', {
-	params: {
+	query: {
 		game_id: game?.id,
 		type: 'forum',
 		global: 1
@@ -91,10 +91,9 @@ const { data: tags } = await useFetchMany<Tag>('tags', {
 });
 
 const { data: categories } = await useFetchMany<ForumCategory>('forum-categories', {
-	params: {
+	query: {
 		forum_id: thread.value.forum_id
-	},
-	cacheData: true
+	}
 });
 
 const allowedCategories = computed(() => {

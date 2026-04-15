@@ -87,7 +87,7 @@ const { data: adminData } = await useFetchData<{
 	user_cases?: UserCase[];
 	reports?: Report[];
 	bans?: Ban[];
-}>(url.value, { params: { all: true, limit: 3 } });
+}>(url.value, { query: { all: true, limit: 3 } });
 </script>
 
 <style scoped>

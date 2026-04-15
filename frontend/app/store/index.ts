@@ -157,7 +157,7 @@ export const useStore = defineStore('main', {
 
 		async getNotifications(page = 1, limit = 40) {
 			const { $mwsAPI } = useNuxtApp();
-			this.notifications = await $mwsAPI<Paginator<Notification>>('/notifications', { params: { page, limit } });
+			this.notifications = await $mwsAPI<Paginator<Notification>>('/notifications', { query: { page, limit } });
 		},
 
 		async getNotificationCount() {

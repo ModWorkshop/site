@@ -26,7 +26,7 @@ if (route.query.error) {
 
 if (import.meta.client && user) {
 	try {
-		await $mwsAPI(`/email/verify/${route.params.id}/${route.params.hash}`, { params: route.query });
+		await $mwsAPI(`/email/verify/${route.params.id}/${route.params.hash}`, { query: route.query });
 		verifying.value = false;
 		reloadUser();
 	} catch (e) {

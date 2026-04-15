@@ -200,7 +200,15 @@ const sortByOther = computed(() => sortByOtherOptions[sortBy.value] === true);
 
 const pages = ref(0);
 
-const fetchPage = computed(() => loadMorePageOverride.value ?? page.value);
+const fetchPage = computed({ // Ensure that any change to this computed value is reflected in the page ref
+	get() {
+		return loadMorePageOverride.value ?? page.value;
+	},
+	set(val) {
+		page.value = val;
+	}
+});
+
 const collabComp = computed(() => props.collab ? 1 : 0);
 
 const searchParams = {
@@ -227,7 +235,7 @@ const { data: fetchCategories, refresh: refetchCats } = await useFetchMany<Categ
 });
 
 const { data: fetchedMods, refresh, error } = await useFetchMany<Mod>(() => props.url, {
-	params: searchParams,
+	query: searchParams,
 	immediate: !props.initialMods
 });
 

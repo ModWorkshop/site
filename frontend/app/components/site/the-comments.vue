@@ -140,7 +140,7 @@ const posting = ref(false);
 const showError = useQuickErrorToast();
 
 if (focusComment.value) {
-	const { data: foundPage } = await useFetchData<number>(`comments/${focusComment.value}/page`, { params: { limit: 20 } });
+	const { data: foundPage } = await useFetchData<number>(`comments/${focusComment.value}/page`, { query: { limit: 20 } });
 
 	page.value = foundPage.value;
 }
@@ -162,7 +162,7 @@ watch([commentContent, mentionRange], async () => {
 
 		lastTimeout = setTimeout(async () => {
 			users.value = undefined;
-			users.value = await getRequest<Paginator<User>>('users', { params: { query } });
+			users.value = await getRequest<Paginator<User>>('users', { query: { query } });
 			for (const user of users.value.data) {
 				usersCache[user.unique_name] = user;
 			}

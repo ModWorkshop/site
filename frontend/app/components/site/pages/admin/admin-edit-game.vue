@@ -47,14 +47,14 @@ const canDelete = computed(() => hasPermission('manage-games'));
 const mmUrl = getGameResourceUrl('mod-managers', vmGame.value);
 
 const { data: modManagers } = await useFetchMany<ModManager>(() => mmUrl, {
-	params: {
+	query: {
 		global: true,
 		show_hidden: true
 	}
 });
 
 const { data: tags } = await useFetchMany<Tag>('tags', {
-	params: {
+	query: {
 		global: true
 	}
 });

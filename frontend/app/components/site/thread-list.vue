@@ -143,26 +143,28 @@ const currentGameId = computed(() => props.gameId);
 const currentUrl = computed(() => props.url ?? (props.userId ? `/users/${props.userId}/threads` : '/threads'));
 
 const { data: categories, refresh: refreshCats } = await useFetchMany<ForumCategory>('forum-categories', {
-	params: reactive({ forum_id: currentForumId }),
+	query: { forum_id: currentForumId },
 	immediate: !!currentForumId.value && props.filters
 });
 
 const currentCategory = computed(() => categories.value?.data.find(cat => cat.id === categoryId.value));
-watch(categoryId, () => {
-	emit('selectCategory', currentCategory.value);
-	page.value = 1;
-}, { immediate: true });
+const debouncedQuery = refDebounced(query);
 
-const params = reactive({
+const params = {
 	forum_id: currentForumId,
 	tags: selectedTags,
 	category_id: categoryId,
-	query: refDebounced(query),
+	query: debouncedQuery,
 	closed: displayClosed,
 	no_pins: props.noPins ? 1 : 0,
 	limit: props.limit,
 	page
-});
+};
+
+watch(currentCategory, () => {
+	emit('selectCategory', currentCategory.value);
+	page.value = 1;
+}, { immediate: true });
 
 watch(() => currentCategory.value?.can_close_threads, canClose => {
 	if (canClose) {
@@ -172,7 +174,7 @@ watch(() => currentCategory.value?.can_close_threads, canClose => {
 	}
 });
 
-const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, params });
+const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, query: params });
 
 async function onVisChange(entries: IntersectionObserverEntry[]) {
 	if (entries[0]?.isIntersecting) {
@@ -183,10 +185,10 @@ async function onVisChange(entries: IntersectionObserverEntry[]) {
 
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>(currentGameId.value ? `games/${currentGameId.value}/tags` : 'tags', {
 	immediate: props.filters,
-	params: reactive({
+	query: {
 		type: 'forum',
 		global: 1
-	})
+	}
 });
 
 const { data: games } = await useFetchMany<Game>('games', { immediate: !currentGameId.value && props.filters });

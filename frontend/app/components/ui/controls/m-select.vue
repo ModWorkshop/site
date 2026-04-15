@@ -115,10 +115,10 @@ const modelValue = defineModel<unknown>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
 	immediate: props.immediateFetch && props.url !== undefined,
-	params: reactive({
+	query: {
 		query: searchDebounced,
 		...props.fetchParams
-	})
+	}
 });
 
 const selectedValue = computed(() => {
@@ -136,7 +136,7 @@ const { ctrl } = useMagicKeys();
 // Example: user query parameter to prefill a user
 const { data: fetchedSelected } = await useFetchMany(props.url ?? '', {
 	immediate: !!(props.url && first.value) && (typeof (first.value) === 'number' || first.value?.length > 0),
-	params: {
+	query: {
 		ids: selected.value,
 		...props.fetchParams
 	}

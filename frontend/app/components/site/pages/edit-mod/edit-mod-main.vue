@@ -53,11 +53,11 @@ const visItems = [
 const gameId = computed(() => mod.value.game_id);
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { immediate: !!gameId.value });
 const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
-	params: reactive({
+	query: {
 		game_id: gameId,
 		type: 'mod',
 		global: 1
-	}),
+	},
 	immediate: !!gameId.value
 });
 

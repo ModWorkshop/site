@@ -63,7 +63,7 @@ const { data: role } = await useEditResource<Role>('role', url.value, {
 	permissions: {}
 });
 
-const { data: roles } = await useFetchMany<Role>('roles', { params: { with_permissions: 1 } });
+const { data: roles } = await useFetchMany<Role>('roles', { query: { with_permissions: 1 } });
 
 const member = computed(() => roles.value?.data[0]);
 
