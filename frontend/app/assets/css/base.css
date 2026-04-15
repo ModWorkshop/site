@@ -516,10 +516,6 @@ a {
     box-shadow: var(--content-box-shadow);
 }
 
-* {
-    unicode-bidi: bidi-override;
-}
-
 .text-success {
     color: var(--success-color);
 }
