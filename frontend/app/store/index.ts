@@ -219,7 +219,7 @@ export const useStore = defineStore('main', {
 				return true;
 			} else if (game && game.user_data && game.user_data.permissions) {
 				// Game managers have all *game* permissions. Don't call this on non game permissions.
-				if (game.user_data.permissions['manage-game'] === true) {
+				if (game.user_data.permissions['manage-game'] === true || (permissions && permissions['manage-games'] === true)) {
 					return true;
 				}
 				return game.user_data.permissions[perm] === true;
