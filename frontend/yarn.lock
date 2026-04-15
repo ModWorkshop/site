@@ -3254,12 +3254,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.10.1":
-  version: 24.11.0
-  resolution: "@types/node@npm:24.11.0"
+"@types/node@npm:^25.3.5":
+  version: 25.3.5
+  resolution: "@types/node@npm:25.3.5"
   dependencies:
-    undici-types: ~7.16.0
-  checksum: 21bc65998faab117bead0bf372bd2fcacd12a5b25cdb88a947154b0b0b212aa4bc78a116467a963f9aafad68032421ebd4b6063396ba858c49cbcfebbc3e83a7
+    undici-types: ~7.18.0
+  checksum: bc8400baaf2023c8d843526e13ac1c50f46b8416eb3c5480c9f01b3f3787ecc7c8c740110cce3568776c8f73be06eaaba7bfcb601f5946c56785589a6a3bd148
   languageName: node
   linkType: hard
 
@@ -7947,7 +7947,7 @@ __metadata:
     "@pinia/nuxt": 0.11.3
     "@stylistic/eslint-plugin": ^5.3.1
     "@types/markdown-it": ^14.1.2
-    "@types/node": ^24.10.1
+    "@types/node": ^25.3.5
     "@types/qs": ^6.9.7
     "@typescript-eslint/eslint-plugin": ^8.41.0
     "@typescript-eslint/parser": ^8.41.0
@@ -10984,10 +10984,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.16.0":
-  version: 7.16.0
-  resolution: "undici-types@npm:7.16.0"
-  checksum: 1ef68fc6c5bad200c8b6f17de8e5bc5cfdcadc164ba8d7208cd087cfa8583d922d8316a7fd76c9a658c22b4123d3ff847429185094484fbc65377d695c905857
+"undici-types@npm:~7.18.0":
+  version: 7.18.2
+  resolution: "undici-types@npm:7.18.2"
+  checksum: 23da306c8366574adec305b06a8519ab5c7d09e3f5d16c1a98709a34fae17da09ec95198f30f86c00055e02efa8bfcc843e84e8aebeb9b8d6bb3e06afccae07a
   languageName: node
   linkType: hard
 
