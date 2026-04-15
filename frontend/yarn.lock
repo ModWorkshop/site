@@ -4766,10 +4766,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorjs.io@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "colorjs.io@npm:0.5.2"
-  checksum: f4ad8a0ead4e7eb74612a5fed9ae999201116b215b2eac70660c1f643e21980922741641209bdbd010723923762e8e80bd499250acf7505605309f01b76f53fa
+"colorjs.io@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "colorjs.io@npm:0.6.1"
+  checksum: 6a6b78e4bb9efe36f91081aa4bf0fa18636c537af7a0de5a20eb27ddfaf6e399a4879f554758290d6262ca31533582e9c7da1b7af1f5046af27e6509dc5a2b5b
   languageName: node
   linkType: hard
 
@@ -8025,7 +8025,7 @@ __metadata:
     "@vueuse/core": ^14.1.0
     "@vueuse/nuxt": ^14.1.0
     axios: ^1.15.0
-    colorjs.io: ^0.5.2
+    colorjs.io: ^0.6.1
     date-fns: ^4.1.0
     eslint: ^9.35.0
     eslint-plugin-vue: ^10.4.0
