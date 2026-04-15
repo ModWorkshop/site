@@ -294,7 +294,7 @@
     "add_offsite_mod": "외부 사이트 모드 추가",
     "add_mod": "모드 추가",
     "mod_page": "모드 페이지",
-    "mod_name_desc": "최대 글자 수 150자, 최소 3자",
+    "mod_name_desc": "최대 글자 수 100자, 최소 3자",
     "follow_mod_notifs": "팔로우 및 업데이트 알림 받기",
     "main_tab": "메인",
     "downloads_tab": "다운로드 & 업데이트",
