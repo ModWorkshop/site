@@ -598,7 +598,7 @@ p {
     margin-bottom: 1rem;
 }
 
-p:last-child {
+.markdown > p:last-child {
     margin-bottom: 0;
 }
 
