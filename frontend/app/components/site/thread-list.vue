@@ -36,12 +36,13 @@
 				<m-alert v-if="currentCategory && currentCategory.desc" color="info">
 					{{ currentCategory.desc }}
 				</m-alert>
-				<m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
 
 				<m-toggle-group v-if="currentCategory?.can_close_threads" v-model:selected="displayClosed" gap="1" button-style="nav">
 					<m-toggle-group-item :value="false">{{ $t('open_threads') }}</m-toggle-group-item>
 					<m-toggle-group-item :value="true">{{ $t('closed_threads') }}</m-toggle-group-item>
 				</m-toggle-group>
+
+				<m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
 
 				<template v-if="!loading && threads?.data.length">
 					<m-flex v-if="currentCategory?.grid_mode" gap="2" class="threads-grid" column>
