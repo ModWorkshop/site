@@ -266,9 +266,10 @@ class FileController extends Controller
 
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
 
-        if ((isset($val['version']) && $val['version'] !== $file->version)) {
-            $file->mod->bump();
-        }
+        // Disabled for now: https://modworkshop.net/thread/13138
+        // if ((isset($val['version']) && $val['version'] !== $file->version)) {
+        //     $file->mod->bump();
+        // }
 
         if (isset($val['change_file'])) {
             [$uploadFile, $name, $type] = ModService::attemptUpload($file->mod, Arr::pull($val, 'change_file'));
