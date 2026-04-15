@@ -90,10 +90,15 @@ const bannedCommenting = computed(() => {
 });
 
 const canComment = computed(() => {
+	if (canModerate.value) {
+		return true;
+	}
+
 	if (bannedCommenting.value || thread.user?.blocked_me) {
 		return false;
 	}
-	return !thread.locked || canModerate.value || (thread.user_id === user?.id && !thread.locked_by_mod);
+
+	return !thread.locked || (thread.user_id === user?.id && !thread.locked_by_mod);
 });
 
 const cannotCommentReason = computed(() => {

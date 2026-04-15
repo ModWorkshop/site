@@ -141,7 +141,7 @@ const areActionsVisible = ref(false);
 
 const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(props.comment));
 
-const { data: fetchedReplies, refresh: loadReplies } = useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
+const { data: fetchedReplies, refresh: loadReplies } = await useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
 	immediate: props.fetchReplies,
 	lazy: true,
 	params: reactive({ page, limit: 20 })
@@ -188,7 +188,13 @@ const canDelete = computed(() => {
 	return user?.id === props.comment.user_id || store.hasPermission('manage-discussions', props.game) || props.canEditAll || props.canDeleteAll;
 });
 
-const canReply = computed(() => props.canComment && !props.comment.user?.blocked_me);
+const canReply = computed(() => {
+	if (!props.canComment) {
+		return false;
+	}
+
+	return props.canEditResource || !props.comment.user?.blocked_me;
+});
 
 const classes = computed(() => {
 	const focus = (focusComment.value && parseInt(focusComment.value) === props.comment.id) || (props.currentFocus && props.currentFocus.id === props.comment.id);

@@ -87,8 +87,6 @@ const store = useStore();
 const router = useRouter();
 const query = ref('');
 const debouncedQuery = refDebounced(query);
-const startedModsSearch = ref(false);
-const startedGameModsSearch = ref(false);
 const showSearch = ref(false);
 
 const { currentGame } = storeToRefs(store);
@@ -97,19 +95,6 @@ const searchInput = ref();
 watch(searchInput, val => {
 	if (val) {
 		setTimeout(() => val.focus(), 100);
-	}
-});
-
-watch(debouncedQuery, val => {
-	if (val.length) {
-		if (!startedModsSearch.value) {
-			refreshGlobal();
-			startedModsSearch.value = true;
-		}
-		if (!startedGameModsSearch.value) {
-			refreshGame();
-			startedGameModsSearch.value = true;
-		}
 	}
 });
 
@@ -137,7 +122,7 @@ const { data: globalMods, refresh: refreshGlobal, loading: loadingMods } = await
 		query: debouncedQuery,
 		exclude_game_ids: computed(() => currentGame.value ? [currentGame.value?.id] : undefined)
 	},
-	watch: [debouncedQuery, currentGame],
+	watch: [],
 	immediate: false
 });
 
@@ -147,8 +132,18 @@ const { data: gameMods, refresh: refreshGame, loading: loadingGameMods } = await
 		sort: 'best_match',
 		query: debouncedQuery
 	},
-	watch: [debouncedQuery, currentGame],
+	watch: [],
 	immediate: false
+});
+
+watch([debouncedQuery, currentGame, showSearch], val => {
+	if (showSearch.value && val.length) {
+		refreshGlobal();
+
+		if (currentGame.value) {
+			refreshGame();
+		}
+	}
 });
 
 onMounted(() => {
