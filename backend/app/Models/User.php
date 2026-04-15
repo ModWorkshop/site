@@ -250,7 +250,9 @@ class User extends Model implements
 
     public function blockedMe(): HasOne
     {
-        return $this->hasOne(BlockedUser::class)->where('block_user_id', Auth::user()->id);
+        return $this->hasOne(BlockedUser::class)
+            ->where('block_user_id', Auth::user()->id)
+            ->where('silent', false);
     }
 
     /**
