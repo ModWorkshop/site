@@ -21,5 +21,5 @@ const sortBy = computed(() => props.params?.sort);
 
 const displayMode = useConsentedCookie('mods-displaymode', { default: () => 0, expires: longExpiration() });
 
-const { data: fetchedMods, error } = await useFetchMany<Mod>('mods', { params: props.params });
+const { data: fetchedMods, error } = await useFetchMany<Mod>('mods', { query: props.params });
 </script>

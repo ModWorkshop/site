@@ -3,19 +3,14 @@ import { Paginator } from '~/types/paginator';
 /**
     Fetches stuff from the API that are many, essentially wrapping it in a paginator.
  */
-export default async function<T = any>(url: string | (() => string), options?: UseFetchOptions<Paginator<T>> & { watchDelay?: number }) {
-	// TODO: deprecate use of .params
-	const watchRefs = options?.watch ?? Object.values(toRaw(options?.query ?? options?.params) ?? {});
-
-	if (options?.watchDelay && watchRefs) {
-		const newWatch: Ref[] = [];
-		for (const v of watchRefs) {
-			if (typeof v === 'object') {
-				newWatch.push(refDebounced(v as Ref, options.watchDelay));
+export default async function<T = any>(url: string | (() => string), options?: UseFetchOptions<Paginator<T>>) {
+	// Resets page when any other query param changes
+	if (options?.query && options?.query['page']) {
+		watch(Object.values({ ...options.query, page: undefined }), () => {
+			if (options.query) {
+				options.query['page'].value = 1;
 			}
-		}
-
-		options.watch = newWatch;
+		});
 	}
 
 	const ret = await useFetchData<Paginator<T>>(url, options);

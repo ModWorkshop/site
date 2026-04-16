@@ -516,10 +516,6 @@ a {
     box-shadow: var(--content-box-shadow);
 }
 
-* {
-    unicode-bidi: bidi-override;
-}
-
 .text-success {
     color: var(--success-color);
 }
@@ -598,7 +594,7 @@ p {
     margin-bottom: 1rem;
 }
 
-p:last-child {
+.markdown > p:last-child {
     margin-bottom: 0;
 }
 

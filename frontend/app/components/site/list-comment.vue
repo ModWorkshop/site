@@ -144,7 +144,7 @@ const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(pro
 const { data: fetchedReplies, refresh: loadReplies } = await useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
 	immediate: props.fetchReplies,
 	lazy: true,
-	params: reactive({ page, limit: 20 })
+	query: { page, limit: 5 }
 });
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
 

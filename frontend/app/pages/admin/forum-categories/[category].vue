@@ -78,7 +78,7 @@ const addGameRole = ref<number>();
 const redirectUrl = computed(() => getAdminUrl('forum-categories', props.game));
 
 const { data: roles } = await useFetchMany<Role>('roles', {
-	params: {
+	query: {
 		filter: { is_vanity: false }
 	}
 });
