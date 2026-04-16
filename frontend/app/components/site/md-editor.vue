@@ -1,16 +1,16 @@
 <template>
 	<m-input>
-		<m-tabs :class="classes">
+		<m-tabs :class="classes" :style="{height: `${parseInt(rows as string) * 24}px`}">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
-				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
+				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" @keydown="onKeyDown"/>
 			</m-tab>
-			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block p-2" >
-				<md-content :text="vm"/>
+			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block">
+				<md-content :text="vm" :padding="6"/>
 			</m-tab>
 			<m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
 				<m-flex class="overflow-hidden h-full" gap="2">
 					<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;" @keydown="onKeyDown"/>
-					<div class="preview content-block" ref="mdText">
+					<div ref="mdText" class="preview content-block">
 						<md-content :text="vm"/>
 					</div>
 				</m-flex>
@@ -127,6 +127,12 @@ watch(fullscreen, status => {
 .tab-panel, .tab-panels {
 	height: 100%;
 }
+
+.md-editor .nav-menu-content {
+	display: flex;
+	flex-direction: column;
+}
+
 </style>
 
 <style scoped>
