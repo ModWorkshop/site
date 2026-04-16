@@ -4,13 +4,15 @@
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
 				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
 			</m-tab>
-			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview p-2" >
+			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block p-2" >
 				<md-content :text="vm"/>
 			</m-tab>
 			<m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
-				<m-flex class="overflow-hidden h-full">
+				<m-flex class="overflow-hidden h-full" gap="2">
 					<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;" @keydown="onKeyDown"/>
-					<md-content ref="mdText" class="preview" :text="vm"/>
+					<div class="preview content-block" ref="mdText">
+						<md-content :text="vm"/>
+					</div>
 				</m-flex>
 			</m-tab>
 
@@ -129,7 +131,6 @@ watch(fullscreen, status => {
 
 <style scoped>
 .preview {
-	background: var(--content-bg-color);
 	overflow-y: scroll;
 	flex: 1;
 }
