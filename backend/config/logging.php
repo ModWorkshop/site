@@ -100,6 +100,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'deprecations' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel-deprecations.log'),
+        ],
     ],
 
 ];
