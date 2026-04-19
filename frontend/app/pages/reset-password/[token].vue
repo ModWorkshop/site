@@ -54,6 +54,7 @@ const passwordConfirm = ref('');
 const sent = ref(false);
 const sending = ref(false);
 const showError = useQuickErrorToast();
+const { showToast } = useToaster();
 
 const passValidity = computed(() => {
 	const validity = passwordValidity(password.value);
@@ -75,6 +76,10 @@ async function reset() {
 			email: user ? user.email : email.value,
 			password: password.value,
 			token: route.params.token
+		});
+		showToast({
+			desc: t('successfully_banned'),
+			color: 'success'
 		});
 		router.push('/login');
 	} catch (error) {
