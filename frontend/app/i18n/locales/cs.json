@@ -453,7 +453,7 @@
     "personal_mods": "Osobní Módy",
     "collab_mods": "Spolupracující Módy",
     "password_reset_sent": "Odkaz k resetování hesla Vám byl zaslán na zadanou e-mailovou adresu, pokud je k ní přiřazen účet.",
-    "password_reset_success": "Password has been successfully reset",
+    "password_reset_success": "Password has been successfully changed",
     "password_reset_sent_unknown": "E-mail s odkazem na resetování hesla Vám byl úspěšně zaslán na Vaší e-mailovou adresu.",
     "send_link": "Poslat Odkaz",
     "home_page": "Hlavní Stránka",
