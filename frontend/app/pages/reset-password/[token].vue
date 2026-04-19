@@ -78,7 +78,7 @@ async function reset() {
 			token: route.params.token
 		});
 		showToast({
-			desc: t('successfully_banned'),
+			desc: t('password_reset_success'),
 			color: 'success'
 		});
 		router.push('/login');
