@@ -453,6 +453,7 @@
     "personal_mods": "あなたのMod",
     "collab_mods": "共同制作のMod",
     "password_reset_sent": "アカウントがこの電子メール アドレスに関連付けられている場合、パスワードリセットリンクが指定された電子メール アドレスに送信されました。",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "パスワードリセットリンクがメールアドレスに正常に送信されました。",
     "send_link": "リンクを送信",
     "home_page": "ホームページ",
