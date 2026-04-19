@@ -453,6 +453,7 @@
     "personal_mods": "Osobiste Modyfikacje",
     "collab_mods": "Mody Współopracowane",
     "password_reset_sent": "Link do resetowania twojego hasła został wysłany na podany adres email, o ile podany adres miał przypisane konto.",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "Pomyślnie wysłano link do resetowania hasła na twój adres email.",
     "send_link": "Wyślij Link",
     "home_page": "Strona Główna",
