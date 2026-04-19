@@ -453,6 +453,7 @@
     "personal_mods": "个人模组",
     "collab_mods": "合作模组",
     "password_reset_sent": "密码重置链接已发送至此电子邮箱（若此邮箱有关联的账号）。",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "已成功将密码重置链接发送到您的电子邮箱。",
     "send_link": "发送链接",
     "home_page": "主页",
