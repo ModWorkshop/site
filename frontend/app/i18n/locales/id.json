@@ -453,6 +453,7 @@
     "personal_mods": "Mod Pribadi",
     "collab_mods": "Mod Kolaborasi",
     "password_reset_sent": "Link ganti kata kunci sudah dikirim ke alamat email yang diberikan jika akun berhubungan dengan alamat email ini.",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "Link ganti kata kunci berhasil dikirim ke alamat email Anda.",
     "send_link": "Kirim link",
     "home_page": "Halaman Utama",
