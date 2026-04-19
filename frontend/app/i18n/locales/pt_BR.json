@@ -453,6 +453,7 @@
     "personal_mods": "Mods criados",
     "collab_mods": "Mods colaborados",
     "password_reset_sent": "Um link para trocar de senha foi enviado ao email vinculado à sua conta, se tiver uma.",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "Link para troca de senha enviado ao seu email com sucesso.",
     "send_link": "Enviar Link",
     "home_page": "Página Principal",
