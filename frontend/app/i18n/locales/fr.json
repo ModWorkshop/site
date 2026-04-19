@@ -453,6 +453,7 @@
     "personal_mods": "Mods Personnels",
     "collab_mods": "Mods Collaborés",
     "password_reset_sent": "Le lien de réinitialisation du mot de passe a été envoyé à l'adresse Email donné, si un compte est associé à celui-ci.",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "Le lien de réinitialisation du mot de passe a été envoyé avec succès à votre adresse email.",
     "send_link": "Envoyer le lien",
     "home_page": "Accueil",
