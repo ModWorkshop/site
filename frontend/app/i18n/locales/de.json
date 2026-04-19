@@ -453,6 +453,7 @@
     "personal_mods": "Eigene Mods",
     "collab_mods": "Mitgewirkte Mods",
     "password_reset_sent": "Link zum Zurücksetzen des Passworts wurde an Email Adresse geschickt, sollte eine angegeben worden sein.",
+    "password_reset_success": "Password has been successfully reset",
     "password_reset_sent_unknown": "Link zum Zurücksetzen des Passworts wurde erfolgreich an deine Email Adresse geschickt.",
     "send_link": "Link schicken",
     "home_page": "Startseite",
