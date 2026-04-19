@@ -303,13 +303,19 @@ class LoginController extends Controller
      */
     public function resetPassword(Request $request)
     {
-        $request->validate([
+        $val = $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => ['required', APIService::getPasswordRule(), 'max:128'],
         ]);
 
-        $status = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
+        $cred = [
+            'email' => Str::lower($val['email']),
+            'password' => $val['password'],
+            'token' => $val['token']
+        ];
+
+        $status = Password::reset($cred, function ($user, $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
