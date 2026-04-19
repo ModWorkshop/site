@@ -301,7 +301,7 @@ class LoginController extends Controller
     /**
      * The request that actually resets the password. After getting a token from /forgot-password
      */
-    public function resetPassword(Request $request): string
+    public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required',
@@ -319,6 +319,8 @@ class LoginController extends Controller
             event(new PasswordReset($user));
         });
 
-        return __($status);
+        if ($status !== Password::PASSWORD_RESET) {
+            return response(['message' => __($status)], 400);
+        }
     }
 }
