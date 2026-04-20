@@ -453,7 +453,7 @@
     "personal_mods": "Personal Mods",
     "collab_mods": "Collaborated Mods",
     "password_reset_sent": "Password reset link has been sent to the given email address if an account is associated with this email address.",
-    "password_reset_success": "Password has been successfully reset",
+    "password_reset_success": "Password has been successfully changed",
     "password_reset_sent_unknown": "Successfully sent password reset link to your email address.",
     "send_link": "Send Link",
     "home_page": "Home Page",
