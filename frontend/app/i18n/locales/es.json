@@ -453,7 +453,7 @@
     "personal_mods": "Mods personales",
     "collab_mods": "Mods colaborados",
     "password_reset_sent": "El enlace para restablecer tu contraseña ha sido enviado al correo electrónico proporcionado, si es que hay alguna cuenta asociada al mismo.",
-    "password_reset_success": "Password has been successfully changed",
+    "password_reset_success": "La contraseña ha sido cambiada con éxito",
     "password_reset_sent_unknown": "El enlace para restablecer tu contraseña ha sido enviado correctamente a tu correo electrónico.",
     "send_link": "Enviar enlace",
     "home_page": "Página principal",
