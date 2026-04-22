@@ -80,7 +80,7 @@ class Utils {
     {
         $permissions = [];
         foreach ($roles as $role) {
-            if (!$role->is_vanity && $role->relationLoaded('permissions')) {
+            if (!$role->is_vanity) {
                 foreach ($role->cachedPermissions as $perm) {
                     $permissions[$perm->name] = true;
                 }
