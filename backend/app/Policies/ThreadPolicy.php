@@ -39,7 +39,7 @@ class ThreadPolicy
     {
         $forumCateogry = $thread->category;
         if ($forumCateogry?->private_threads) {
-            if (!isset($user) || ($thread->user_id !== $user->id && !$user->hasPermission('manage-users'))) {
+            if (!isset($user) || ($thread->user_id !== $user->id && !$user->hasPermission('manage-users', $thread->game))) {
                 return false;
             }
         }
