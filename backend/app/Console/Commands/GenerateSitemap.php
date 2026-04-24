@@ -55,19 +55,34 @@ class GenerateSitemap extends Command
     {
         ini_set('memory_limit', '2G');
 
-        $sitemapIndex = App::make ("sitemap");
+        $chunkSize = 25000;
+        $sitemapIndex = App::make("sitemap");
         $url = env('FRONTEND_URL').'/';
+
+        if (strlen($url) == 1)  { // In case the env variable is missing fallback to hardcoded
+            // While it shouldn't really happen it did happen, no clue yet why.
+            $url = 'https://modworkshop.net/';
+        }
+
         $startT = time();
         $progress = $this->progress('Generating...', 4);
 
         // Mods
-        $modsSitemap = App::make('sitemap');
         $progress->setMessage('Generating mods sitemap');
-        foreach (ModService::viewFilters(Mod::with([]))->get() as $mod) {
-            $modsSitemap->add($url.'mod/'.$mod->id, Carbon::create($mod->bumped_at), 0.8, 'weekly');
-        }
-        $modsSitemap->store('xml', 'mods_sitemap');
-        $sitemapIndex->addSitemap($url.'mods_sitemap.xml');
+        $pubMods = ModService::viewFilters(Mod::with([]));
+        $modI = 0;
+        $pubMods->chunk($chunkSize, function($mods) use (&$modI, $url, $sitemapIndex) {
+            $modI++;
+
+            $sitemap = App::make('sitemap');
+
+            foreach ($mods as $mod) {
+                $sitemap->add($url.'mod/'.$mod->id, Carbon::create($mod->bumped_at), 0.8, 'weekly');
+            }
+
+            $sitemap->store('xml', 'mods_'.$modI.'_sitemap');
+            $sitemapIndex->addSitemap($url.'mods_'.$modI.'_sitemap.xml');
+        });
         $progress->advance();
         //////////////
 
@@ -108,7 +123,7 @@ class GenerateSitemap extends Command
         $progress->setMessage('Generating users sitemap');
         $pubUsers = User::wherePrivateProfile(false)->with([])->select(['id', 'updated_at']);
         $userI = 0;
-        $pubUsers->chunk(50000, function($users) use (&$userI, $url, $sitemapIndex) {
+        $pubUsers->chunk($chunkSize, function($users) use (&$userI, $url, $sitemapIndex) {
             $userI++;
 
             $sitemap = App::make('sitemap');
