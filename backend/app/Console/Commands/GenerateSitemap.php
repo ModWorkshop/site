@@ -121,7 +121,7 @@ class GenerateSitemap extends Command
 
         // Users
         $progress->setMessage('Generating users sitemap');
-        $pubUsers = User::wherePrivateProfile(false)->with([])->select(['id', 'updated_at']);
+        $pubUsers = User::wherePrivateProfile(false)->whereNotExists('ban')->with([])->select(['id', 'updated_at']);
         $userI = 0;
         $pubUsers->chunk($chunkSize, function($users) use (&$userI, $url, $sitemapIndex) {
             $userI++;
