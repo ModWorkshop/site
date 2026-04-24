@@ -120,34 +120,6 @@ class Utils {
     }
 
     /**
-     * Returns a unique name for a user (DO NOT USE, only migration code)
-     */
-    public static function getUniqueNameCached(string $name): string
-    {
-        static $used = [];
-
-        $uniqueName ??= $name;
-        $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
-        if (strlen($uniqueName) == 0) {
-            $uniqueName = 'mws';
-        }
-
-        //Try to make a unique name for the user
-        $num = null;
-        $found = false;
-        while(!$found) {
-            $current = $uniqueName.(isset($num) ? '-'.$num : '');
-            if (!isset($used[$current])) {
-                $used[$current] = true;
-                return $current;
-            } else {
-                $num ??= 0;
-                $num++;
-            }
-        }
-    }
-
-    /**
      * Restores user's bans, warnings and social logins in order to prevent users from (too easily) evading bans.
      * Why the too easy? Obviously, it's not too hard to fool the system and it's impossible to have a perfect system.
      */
