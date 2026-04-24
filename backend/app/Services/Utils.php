@@ -166,7 +166,7 @@ class Utils {
         }
 
         // Moderate users can see all private threads
-        if ($thread && !$user->hasPermission('moderate-users')) {
+        if ($thread && (!isset($user) || !$user->hasPermission('moderate-users'))) {
             $q->where('private_threads', false)->orWhereHas('game', function($q) use($moderateUserGameRoles) {
                 $q->whereIn('id', Arr::pluck($moderateUserGameRoles, 'game_id'));
             });
