@@ -185,14 +185,19 @@ class Utils {
 
         $roleIds = [1];
         $gameRoleIds = null;
+        $moderateUserGameRoles = [];
 
         if (isset($user)) {
             $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
             $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
+            $moderateUserGameRoles = $user->getAllGamesRolesHavingPermission('moderate-users');
         }
 
-        if ($thread) {
-            $q->where('private_threads', false);
+        // Moderate users can see all private threads
+        if ($thread && !$user->hasPermission('moderate-users')) {
+            $q->where('private_threads', false)->orWhereHas('game', function($q) use($moderateUserGameRoles) {
+                $q->whereIn('id', Arr::pluck($moderateUserGameRoles, 'game_id'));
+            });
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {

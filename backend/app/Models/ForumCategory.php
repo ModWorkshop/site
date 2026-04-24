@@ -111,6 +111,11 @@ class ForumCategory extends Model
         return $this->morphedByMany(GameRole::class, 'role', 'forum_category_roles')->withPivot(['can_view', 'can_post']);
     }
 
+    public function game() : BelongsTo
+    {
+        return $this->belongsTo(Game::class, 'forum_id', 'forum_id');
+    }
+
     /**
      * Returns whether or not the user can view the forum category.
      * If private, the user must have at least wone role that allows them to view it. Guests are denied.

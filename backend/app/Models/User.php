@@ -844,6 +844,30 @@ class User extends Model implements
     }
 
     /**
+     * Returns an array of game roles that have a specified permission
+     * NOTE: This does not handle global roles, if a user has a global permission, you should handle it separately
+     * Many times it's much easier to check glboal permissions due to not needing to depend on the game
+     * Therefore you could skip on expensive queries by using a simple check of hasPermission
+     *
+     * @param string $toWhat
+     * @return GameRoles having that permissions
+     */
+    public function getAllGamesRolesHavingPermission(string $toWhat) {
+        $gameRoles = [];
+
+        $allGameRoles = $this->allGameRoles;
+        foreach ($allGameRoles as $gameRole) {
+            foreach ($gameRole->cachedPermissions as $perm) {
+                if ($perm->name === $toWhat || $perm->name === 'manage-game') {
+                    $gameRoles[] = $gameRole;
+                }
+            }
+        }
+
+        return $gameRoles;
+    }
+
+    /**
      * Checks whether the user has a certain permission.
      * First it checks if the user has admin permission, admin bypasses all permissions at the moment.
      * Guests are permission-less meaning that if we want to let them see something, that thing must have no needed permissions.
