@@ -69,6 +69,11 @@ class GenerateSitemap extends Command
 
         // Mods
         $progress->setMessage('Generating mods sitemap');
+
+        if (!file_exists('public/sitemap')) {
+            mkdir("public/sitemap");
+        }
+
         $pubMods = ModService::viewFilters(Mod::with([]));
         $modI = 0;
         $pubMods->chunk($chunkSize, function($mods) use (&$modI, $url, $sitemapIndex) {
@@ -80,8 +85,8 @@ class GenerateSitemap extends Command
                 $sitemap->add($url.'mod/'.$mod->id, Carbon::create($mod->bumped_at), 0.8, 'weekly');
             }
 
-            $sitemap->store('xml', 'mods_'.$modI.'_sitemap');
-            $sitemapIndex->addSitemap($url.'mods_'.$modI.'_sitemap.xml');
+            $sitemap->store('xml', 'sitemap/mods_'.$modI.'_sitemap');
+            $sitemapIndex->addSitemap($url.'sitemap/mods_'.$modI.'_sitemap.xml');
         });
         $progress->advance();
         //////////////
@@ -92,8 +97,8 @@ class GenerateSitemap extends Command
         foreach (ThreadService::filters(Thread::with([]))->get() as $thread) {
             $threadsSitemap->add($url.'thread/'.$thread->id, Carbon::create($thread->bumped_at), 0.6, 'weekly');
         }
-        $threadsSitemap->store('xml', 'threads_sitemap');
-        $sitemapIndex->addSitemap($url.'threads_sitemap.xml');
+        $threadsSitemap->store('xml', 'sitemap/threads_sitemap');
+        $sitemapIndex->addSitemap($url.'sitemap/threads_sitemap.xml');
         $progress->advance();
         //////////////
 
@@ -114,8 +119,8 @@ class GenerateSitemap extends Command
             }
             $gamesSitemap->add($gameUrl.'/forum', Carbon::create($game->forum->updated_at), 0.7, 'daily');
         }
-        $gamesSitemap->store('xml', 'games_sitemap');
-        $sitemapIndex->addSitemap($url.'games_sitemap.xml');
+        $gamesSitemap->store('xml', 'sitemap/games_sitemap');
+        $sitemapIndex->addSitemap($url.'sitemap/games_sitemap.xml');
         $progress->advance();
         //////////////
 
@@ -132,13 +137,13 @@ class GenerateSitemap extends Command
                 $sitemap->add($url.'user/'.$user->id, Carbon::create($user->updated_at), 0.5, 'weekly');
             }
 
-            $sitemap->store('xml', 'users_'.$userI.'_sitemap');
-            $sitemapIndex->addSitemap($url.'users_'.$userI.'_sitemap.xml');
+            $sitemap->store('xml', 'sitemap/users_'.$userI.'_sitemap');
+            $sitemapIndex->addSitemap($url.'sitemap/users_'.$userI.'_sitemap.xml');
         });
         $progress->advance();
         //////////////
 
-        $sitemapIndex->store('sitemapindex','sitemap_index');
+        $sitemapIndex->store('sitemapindex','sitemap/sitemap_index');
         $this->newLine();
         $this->info('Done. Took: '.time()-$startT.' seconds');
     }
