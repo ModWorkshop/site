@@ -689,6 +689,7 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
         z-index: 100;
         height: calc(100vh - 70px);
         flex: 1;
+		overflow-y: auto;
     }
 }
 
