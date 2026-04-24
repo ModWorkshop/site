@@ -340,4 +340,14 @@ Route::get('v2API', function(Request $request) {
     echo $val['command'];
 });
 
+// Simple healthcheck so we can safely swap between container
+Route::get('/health', function () {
+    try {
+        DB::connection()->getPdo();
+        return response()->json(['status' => 'healthy'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error'], 500);
+    }
+});
+
 // Route::middleware('has_permission:create-api-tokens')->resource('tokens', TokenController::class);
