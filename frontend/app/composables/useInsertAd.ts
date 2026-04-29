@@ -24,20 +24,20 @@ export default function (name: string, cfg: NitroAdConfig) {
 		}
 
 		if (import.meta.client) {
-			window['nitroAds'].createAd(name, {
-				refreshLimit: 0,
-				refreshTime: 30,
-				renderVisibleOnly: false,
-				refreshVisibleOnly: true,
-				...cfg,
-				report: {
-					enabled: true,
-					icon: false,
-					wording: 'Report Ad',
-					position: 'bottom-right-side',
-					...(cfg.report ?? {})
-				}
-			});
+			// window['nitroAds'].createAd(name, {
+			// 	refreshLimit: 0,
+			// 	refreshTime: 30,
+			// 	renderVisibleOnly: false,
+			// 	refreshVisibleOnly: true,
+			// 	...cfg,
+			// 	report: {
+			// 		enabled: true,
+			// 		icon: false,
+			// 		wording: 'Report Ad',
+			// 		position: 'bottom-right-side',
+			// 		...(cfg.report ?? {})
+			// 	}
+			// });
 		}
 	});
 }

@@ -17,21 +17,21 @@ export default defineNuxtConfig({
 		name: 'ModWorkshop'
 	},
 
-	app: {
-		head: {
-			script: [
-				{
-					'innerHTML': 'window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};',
-					'data-cfasync': false
-				},
-				{
-					'src': 'https://s.nitropay.com/ads-92.js',
-					'data-cfasync': false,
-					'async': true
-				}
-			]
-		}
-	},
+	// app: {
+	// 	head: {
+	// 		script: [
+	// 			{
+	// 				'innerHTML': 'window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};',
+	// 				'data-cfasync': false
+	// 			},
+	// 			{
+	// 				'src': 'https://s.nitropay.com/ads-92.js',
+	// 				'data-cfasync': false,
+	// 				'async': true
+	// 			}
+	// 		]
+	// 	}
+	// },
 
 	umami: {
 		ignoreLocalhost: true,

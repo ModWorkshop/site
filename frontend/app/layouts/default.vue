@@ -127,70 +127,70 @@ onMounted(() => {
 		}
 	});
 
-	console.log('Mount ads');
+	// console.log('Mount ads');
 
-	const nitroAds = window['nitroAds'];
+	// const nitroAds = window['nitroAds'];
 
-	const adConfig = {
-		refreshLimit: 0,
-		refreshTime: 30,
-		renderVisibleOnly: false,
-		refreshVisibleOnly: true,
-		report: {
-			enabled: true,
-			icon: true,
-			wording: 'Report Ad',
-			position: 'bottom-right-side'
-		}
-	};
+	// const adConfig = {
+	// 	refreshLimit: 0,
+	// 	refreshTime: 30,
+	// 	renderVisibleOnly: false,
+	// 	refreshVisibleOnly: true,
+	// 	report: {
+	// 		enabled: true,
+	// 		icon: true,
+	// 		wording: 'Report Ad',
+	// 		position: 'bottom-right-side'
+	// 	}
+	// };
 
-	ads.push(nitroAds.createAd('mws-ads-left', {
-		...adConfig,
-		sizes: [['160', '600']],
-		report: {
-			...adConfig.report,
-			position: 'bottom-left'
-		}
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-left', {
+	// 	...adConfig,
+	// 	sizes: [['160', '600']],
+	// 	report: {
+	// 		...adConfig.report,
+	// 		position: 'bottom-left'
+	// 	}
+	// }));
 
-	ads.push(nitroAds.createAd('mws-ads-right', {
-		...adConfig,
-		sizes: [['160', '600']],
-		report: {
-			...adConfig.report,
-			position: 'bottom-right'
-		}
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-right', {
+	// 	...adConfig,
+	// 	sizes: [['160', '600']],
+	// 	report: {
+	// 		...adConfig.report,
+	// 		position: 'bottom-right'
+	// 	}
+	// }));
 
-	ads.push(nitroAds.createAd('mws-ads-top', {
-		...adConfig,
-		sizes: [['728', '90']],
-		mediaQuery: '(min-width: 1025px)'
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-top', {
+	// 	...adConfig,
+	// 	sizes: [['728', '90']],
+	// 	mediaQuery: '(min-width: 1025px)'
+	// }));
 
-	ads.push(nitroAds.createAd('mws-ads-top-mobile', {
-		...adConfig,
-		sizes: [
-			['320', '100'], ['320', '50']
-		],
-		mediaQuery: '(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)'
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-top-mobile', {
+	// 	...adConfig,
+	// 	sizes: [
+	// 		['320', '100'], ['320', '50']
+	// 	],
+	// 	mediaQuery: '(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)'
+	// }));
 
-	ads.push(nitroAds.createAd('mws-ads-mid', {
-		...adConfig,
-		sizes: [['728', '90']],
-		mediaQuery: '(min-width: 1025px)',
-		renderVisibleOnly: true
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-mid', {
+	// 	...adConfig,
+	// 	sizes: [['728', '90']],
+	// 	mediaQuery: '(min-width: 1025px)',
+	// 	renderVisibleOnly: true
+	// }));
 
-	ads.push(nitroAds.createAd('mws-ads-mid-mobile', {
-		...adConfig,
-		sizes: [
-			['336', '280']
-		],
-		mediaQuery: '(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)',
-		renderVisibleOnly: true
-	}));
+	// ads.push(nitroAds.createAd('mws-ads-mid-mobile', {
+	// 	...adConfig,
+	// 	sizes: [
+	// 		['336', '280']
+	// 	],
+	// 	mediaQuery: '(min-width: 768px) and (max-width: 1024px), (min-width: 320px) and (max-width: 767px)',
+	// 	renderVisibleOnly: true
+	// }));
 });
 </script>
 

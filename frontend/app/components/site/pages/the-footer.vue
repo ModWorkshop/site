@@ -25,7 +25,7 @@
 				</m-flex>
 				<m-flex column gap="4" style="grid-area: pages;">
 					<m-link @click="scrollToTop">{{ $t('return_to_top') }}</m-link>
-					<m-link to="/support">{{ $t('support_us') }}</m-link>
+					<!-- <m-link to="/support">{{ $t('support_us') }}</m-link> -->
 					<m-link to="/about">{{ $t('about') }}</m-link>
 					<m-link to="/document/rules">{{ $t('rules') }}</m-link>
 				</m-flex>

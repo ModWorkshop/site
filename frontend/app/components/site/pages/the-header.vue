@@ -31,7 +31,7 @@
 					<m-link v-if="settings?.news_forum_category" class="max-xl:hidden" :to="`/forum?category=${settings?.news_forum_category}`">{{ $t('news') }}</m-link>
 					<m-link class="max-lg:hidden" to="https://discord.gg/Eear4JW">{{ $t('discord') }}</m-link>
 					<m-link class="max-2xl:hidden" to="/forum">{{ $t('forum') }}</m-link>
-					<m-link class="max-xl:hidden" to="/support">{{ $t('support_us') }}</m-link>
+					<!-- <m-link class="max-xl:hidden" to="/support">{{ $t('support_us') }}</m-link> -->
 					<m-link class="max-lg:hidden" to="/document/rules">{{ $t('rules') }}</m-link>
 					<m-dropdown class="max-md:hidden">
 						<m-link>{{ $t('more') }} <i-mdi-chevron-down/></m-link>
