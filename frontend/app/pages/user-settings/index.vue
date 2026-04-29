@@ -18,7 +18,7 @@
 			<m-input v-model="user.name" :label="$t('display_name')" maxlength="30"/>
 			<m-input v-model="user.custom_color" :disabled="!user.has_supporter_perks" :label="true" :desc="$t('custom_color_desc')" type="color">
 				<template #label>
-					{{ $t('custom_color') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+					{{ $t('custom_color') }} {{ $t('supporters_only') }}
 				</template>
 			</m-input>
 		</m-flex>
@@ -45,7 +45,7 @@
 			:disabled="!user.has_supporter_perks"
 		>
 			<template #label>
-				{{ $t('supporter_background') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+				{{ $t('supporter_background') }} {{ $t('supporters_only') }}
 			</template>
 			<template #image="{ src }">
 				<m-banner v-if="src" :src="src" url-prefix="users/images"/>
@@ -62,7 +62,7 @@
 			max="1"
 		>
 			<template #label>
-				{{ $t('supporter_background_opacity') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+				{{ $t('supporter_background_opacity') }} {{ $t('supporters_only') }}
 			</template>
 		</m-input>
 

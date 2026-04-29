@@ -25,7 +25,7 @@
 				<a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
 			</template>
 			<template #label>
-				{{ $t('supporter_background') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+				{{ $t('supporter_background') }} {{ $t('supporters_only') }}
 			</template>
 		</m-select>
 	</m-flex>
@@ -39,7 +39,7 @@
 		max="1"
 	>
 		<template #label>
-			{{ $t('supporter_background_opacity') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+			{{ $t('supporter_background_opacity') }} {{ $t('supporters_only') }}
 		</template>
 	</m-input>
 

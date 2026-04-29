@@ -42,7 +42,7 @@
 							<m-dropdown-item to="/document/rules" class="lg:!hidden">{{ $t('rules') }}</m-dropdown-item>
 							<m-dropdown-item to="/forum?category=news" class="xl:!hidden">{{ $t('news') }}</m-dropdown-item>
 							<m-dropdown-item to="/forum" class="2xl:!hidden">{{ $t('forum') }}</m-dropdown-item>
-							<m-dropdown-item to="/support" class="xl:!hidden">{{ $t('support_us') }}</m-dropdown-item>
+							<!-- <m-dropdown-item to="/support" class="xl:!hidden">{{ $t('support_us') }}</m-dropdown-item> -->
 						</template>
 					</m-dropdown>
 
