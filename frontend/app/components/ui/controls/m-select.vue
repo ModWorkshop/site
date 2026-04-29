@@ -13,8 +13,8 @@
 							</m-tag>
 						</slot>
 					</slot>
-					<template v-if="shownOptions.length < selected.length">
-						<m-tag :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">+{{ selected.length - shownOptions.length }}</m-tag>
+					<template v-if="shownOptions.length < selectedValue.length">
+						<m-tag :style="{ padding: classic ? '0.25rem 0.5rem' : undefined }">+{{ selectedValue.length - shownOptions.length }}</m-tag>
 					</template>
 				</template>
 				<slot v-else-if="selectedOption" name="option" :option="selectedOption">
@@ -128,8 +128,8 @@ const selectedValue = computed(() => {
 	}
 	return value;
 });
-const selected = computed<any[]>(() => props.multiple ? selectedValue.value as any[] : [selectedValue.value]);
-const first = computed<any[]>(() => selected.value?.[0]);
+const selectedValueArray = computed<any[]>(() => props.multiple ? selectedValue.value as any[] : [selectedValue.value]);
+const first = computed<any[]>(() => selectedValueArray.value?.[0]);
 const { ctrl } = useMagicKeys();
 
 // Only necessary to retrieve the v-model that may not be contained in asyncOptions
@@ -137,7 +137,7 @@ const { ctrl } = useMagicKeys();
 const { data: fetchedSelected } = await useFetchMany(props.url ?? '', {
 	immediate: !!(props.url && first.value) && (typeof (first.value) === 'number' || first.value?.length > 0),
 	query: {
-		ids: selected.value,
+		ids: selectedValueArray.value,
 		...props.fetchParams
 	}
 });
@@ -166,7 +166,7 @@ const selectedMax = computed(() => {
 		return false;
 	}
 	const max = typeof props.max === 'number' ? props.max : parseInt(props.max);
-	return selected.value.length >= max;
+	return selectedValue.value.length >= max;
 });
 const compFilterable = computed(() => props.filterable ?? (!!props.url || opts.value?.length > 10));
 const filtered = computed(() => {
@@ -190,7 +190,7 @@ const filtered = computed(() => {
 
 	if (props.filterSelected) {
 		if (props.multiple && typeof selectedValue.value === 'object') {
-			options = options.filter(option => optionEnabled(option) && !selected.value.includes(optionValue(option)));
+			options = options.filter(option => optionEnabled(option) && !selectedValue.value.includes(optionValue(option)));
 		} else {
 			options = options.filter(option => optionEnabled(option) && selectedValue.value === optionValue(option));
 		}
@@ -201,8 +201,8 @@ const filtered = computed(() => {
 
 const selectedOptions = computed(() => {
 	return opts.value.filter(option => {
-		if (selected.value && selected.value.includes) {
-			return selected.value.includes(optionValue(option));
+		if (selectedValue.value && selectedValue.value.includes) {
+			return selectedValue.value.includes(optionValue(option));
 		} else {
 			return false;
 		}
@@ -305,7 +305,7 @@ function clearAll() {
 
 		modelValue.value = selectedValue.value;
 	} else {
-		deselectOption(selected.value);
+		deselectOption(selectedValueArray.value);
 	}
 }
 
@@ -353,7 +353,7 @@ function selectOption(option) {
 		}
 
 		const set = () => {
-			if (!selected.value.includes(value)) {
+			if (!selectedValue.value.includes(value)) {
 				selectedValue.value.push(value);
 			}
 

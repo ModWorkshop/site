@@ -47,8 +47,8 @@ const { t } = useI18n();
 const { start: prepareSaveGameRoles } = useTimeoutFn(saveGameRoles, 500, { immediate: false });
 const showError = useQuickErrorToast();
 
-const roleIds = reactive(props.user.role_ids ?? []);
-const gameRoleIds = reactive(props.user.game_role_ids ?? []);
+const roleIds = ref(clone(props.user.role_ids) ?? []);
+const gameRoleIds = ref(clone(props.user.game_role_ids) ?? []);
 
 let prevGameRoles, prevRoles;
 
@@ -59,7 +59,7 @@ onMounted(() => {
 
 async function saveGameRoles() {
 	try {
-		await patchRequest(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: props.user.game_role_ids });
+		await patchRequest(`games/${currentGame!.id}/users/${props.user.id}/roles`, { role_ids: gameRoleIds.value });
 		prevGameRoles = clone(props.user.game_role_ids);
 	} catch (error) {
 		showError(error);
@@ -70,7 +70,7 @@ async function saveGameRoles() {
 const { start: prepareSaveRoles } = useTimeoutFn(saveRoles, 500, { immediate: false });
 async function saveRoles() {
 	try {
-		await patchRequest(`users/${props.user.id}/roles`, { role_ids: props.user.role_ids });
+		await patchRequest(`users/${props.user.id}/roles`, { role_ids: roleIds.value });
 		prevRoles = clone(props.user.role_ids);
 	} catch (error) {
 		showError(error);
