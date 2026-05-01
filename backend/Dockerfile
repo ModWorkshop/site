@@ -30,14 +30,17 @@ disable_functions=phpinfo
 opcache.enable=1
 opcache.enable_cli=1
 opcache.jit_buffer_size=250M
+opcache.jit=1255
 opcache.memory_consumption=1024
 opcache.max_accelerated_files=20000
 opcache.validate_timestamps=0
-opcache.interned_strings_buffer=8
+opcache.interned_strings_buffer=64
 opcache.fast_shutdown=1
-realpath_cache_size=4096K
+realpath_cache_size=16M
 realpath_cache_ttl=600
 zend.max_allowed_stack_size=-1
+zend.enable_gc=1
+opcache.huge_code_pages=1
 EOF
 
 # Install composer from the official image
