@@ -230,7 +230,7 @@ const searchParams = {
 const gameId = computed(() => props.game?.id ?? selectedGame.value);
 
 const { data: fetchCategories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, {
-	immediate: !!searchParams.game_id && !props.categories,
+	immediate: !!searchParams.game_id.value && !props.categories,
 	lazy: true
 });
 
