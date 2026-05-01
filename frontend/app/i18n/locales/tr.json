@@ -453,7 +453,7 @@
     "personal_mods": "Kişisel Modlar",
     "collab_mods": "Ortak Modlar",
     "password_reset_sent": "Bu e-posta adresiyle ilişkili bir hesap varsa, verilen e-posta adresine şifre sıfırlama bağlantısı gönderilmiştir.",
-    "password_reset_success": "Password has been successfully reset",
+    "password_reset_success": "Password has been successfully changed",
     "password_reset_sent_unknown": "Parola sıfırlama bağlantısı e-posta adresinize başarıyla gönderildi.",
     "send_link": "Bağlantı Gönder",
     "home_page": "Ana Sayfa",

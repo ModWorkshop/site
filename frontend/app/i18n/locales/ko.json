@@ -453,7 +453,7 @@
     "personal_mods": "개인 모드",
     "collab_mods": "협력 모드",
     "password_reset_sent": "만약 계정이 이메일과 연결되어 있다면 주어진 이메일로 비밀번호 재설정 링크가 보내질 겁니다.",
-    "password_reset_success": "Password has been successfully reset",
+    "password_reset_success": "Password has been successfully changed",
     "password_reset_sent_unknown": "귀하의 이메일 주소로 비밀번호 재설정 링크를 성공적으로 전송했습니다.",
     "send_link": "링크 보내기",
     "home_page": "홈페이지",

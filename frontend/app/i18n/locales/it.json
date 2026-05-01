@@ -453,7 +453,7 @@
     "personal_mods": "Mod Personali",
     "collab_mods": "Mod in Collaborazione",
     "password_reset_sent": "Il link per resettare la password è stato inviato alla email fornita nel caso questa sia collegata con un account ModWorkshop.",
-    "password_reset_success": "Password has been successfully reset",
+    "password_reset_success": "Password has been successfully changed",
     "password_reset_sent_unknown": "Email per il reset della password inviata correttamente.",
     "send_link": "Invia Link",
     "home_page": "Pagina Principale",
