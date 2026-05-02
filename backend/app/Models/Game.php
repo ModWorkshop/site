@@ -193,14 +193,14 @@ class Game extends Model
         return Attribute::make(function() {
             $user = Auth::user();
             if (isset($user)) {
-                $userCon = app(UserController::class);
-                $gameUser = $userCon->getUser($user->id, $this);
+                APIService::setCurrentGame($this);
+                $user->currentGameChanged();
                 return [
-                    'user' => $gameUser,
+                    'user' => new UserResource($user),
                     'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this->id), 'id'))),
                     'highest_role_order' => $user->getGameHighestOrder($this->id),
                     'permissions' => $user->getGamePerms($this->id),
-                    'ban' => $gameUser->last_game_ban
+                    'ban' => $user->last_game_ban
                 ];
             } else {
                 return new MissingValue();

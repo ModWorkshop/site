@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Http\Resources\MissingValue;
 use Log;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
@@ -279,11 +280,10 @@ class Mod extends Model implements SubscribableInterface
     // Gets loaded in mod page
     public const SHOW_MOD_WITH = [
         'game',
-        'user',
+        // 'user', loadMissingSeems to ignore the DEFAULT_MOD_WITH
         'tags',
         'images',
-        'banner',
-        'lastUser',
+        // 'lastUser',
         'liked',
         'transferRequest',
         'subscribed',
@@ -291,7 +291,6 @@ class Mod extends Model implements SubscribableInterface
         'instructsTemplate',
         'members',
         'category',
-        'thumbnail',
         'background'
     ];
 
@@ -319,7 +318,8 @@ class Mod extends Model implements SubscribableInterface
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
         $this->loadMissing(self::SHOW_MOD_WITH);
-        $this->append('download');
+        $this->loadCount(['links', 'files']);
+        $this->append(['download', 'lastUserAttribute']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -540,16 +540,53 @@ class Mod extends Model implements SubscribableInterface
         ];
     }
 
-    public function filesCount(): Attribute {
-        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->files()->count()))->shouldCache();
+    // Returns some banner loaded either from "banner" or through loaded images if exists
+    public function bannerAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('banner')) {
+                return $this->banner;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->banner_id);
+            }
+            return new MissingValue;
+        });
     }
 
-    public function linksCount(): Attribute {
-        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->links()->count()))->shouldCache();
+    public function lastUserAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('last_user')) {
+                return $this->last_user;
+            }
+            if ($this->user_id === $this->last_user_id) {
+                return $this->user;
+            }
+            return $this->last_user; // Eager load it anyway
+        });
     }
 
-    public function usedStorage(): Attribute {
-        return Attribute::make(fn() => intval($this->withSecureConstraints(fn() => $this->files()->sum('size'))));
+    public function ThumbnailAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('thumbnail')) {
+                return $this->thumbnail;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->thumbnail_id);
+            }
+            return new MissingValue;
+        });
+    }
+
+    public function BackgroundAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('background_id')) {
+                return $this->background;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->background_id);
+            }
+            return new MissingValue;
+        });
     }
 
     public function maxStorage(): Attribute {
@@ -565,7 +602,7 @@ class Mod extends Model implements SubscribableInterface
     }
 
     public function currentStorage(): Attribute {
-        return Attribute::make(fn() => $this->maxStorage - $this->usedStorage);
+        return Attribute::make(fn() => $this->maxStorage - $this->filesSizeSum);
     }
 
     public function modManagers(): Attribute {

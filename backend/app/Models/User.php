@@ -181,7 +181,7 @@ class User extends Model implements
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles.permissions', 'bans', 'supporter'];
+    protected $with = ['roles', 'bans', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
