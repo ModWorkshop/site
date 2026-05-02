@@ -87,6 +87,7 @@ const props = withDefaults(defineProps<{
 	listTags?: boolean;
 	postFetchFilter?: boolean;
 	nullClear?: boolean;
+	lazy?: boolean;
 	height?: number | string;
 }>(), {
 	valueBy: 'id',
@@ -115,6 +116,7 @@ const modelValue = defineModel<unknown>();
 
 const { data: asyncOptions, refresh } = await useFetchMany(props.url ?? '', {
 	immediate: props.immediateFetch && props.url !== undefined,
+	lazy: props.lazy,
 	query: {
 		query: searchDebounced,
 		...props.fetchParams

@@ -1,5 +1,5 @@
 <template>
-	<m-select v-model="vm" url="games">
+	<m-select v-model="vm" url="games" lazy>
 		<template #any-option="{ option }">
 			<simple-game :game="option"/>
 		</template>

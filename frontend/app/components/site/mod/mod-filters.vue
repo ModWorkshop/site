@@ -53,6 +53,7 @@ const gameId = computed(() => props.game?.id ?? gameIdModel.value);
 
 const { data: tags } = await useFetchMany<Tag>(() => gameId.value ? `games/${gameId.value}/tags` : 'tags', {
 	watch: [gameId],
+	lazy: true,
 	query: {
 		type: 'mod',
 		global: true
