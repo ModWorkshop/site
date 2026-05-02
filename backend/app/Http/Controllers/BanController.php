@@ -76,9 +76,9 @@ class BanController extends Controller
 
         # Deactivate existing ban, allowing moderators to more easily update bans.
         if (isset($game)) {
-            $banUser->gameBan?->deactivate();
+            $banUser->last_game_ban?->deactivate();
         } else {
-            $banUser->ban?->deactivate();
+            $banUser->last_ban?->deactivate();
         }
 
         $gameId = $game?->id;

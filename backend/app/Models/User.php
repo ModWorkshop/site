@@ -181,7 +181,7 @@ class User extends Model implements
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles.permissions', 'ban', 'supporter'];
+    protected $with = ['roles.permissions', 'bans', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -463,25 +463,9 @@ class User extends Model implements
         return $this->belongsToMany(GameRole::class)->where('game_id', $this->eagerLoadedGameId)->orderBy('order')->distinct();
     }
 
-    public function ban() : HasOne
+    public function bans(): HasMany
     {
-        return $this->hasOne(Ban::class)
-            ->where('active', true)
-            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
-            ->whereNull('game_id');
-    }
-
-    public function gameBan(): HasOne
-    {
-        return $this->hasOne(Ban::class)
-            ->where('active', true)
-            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
-            ->where('game_id', $this->eagerLoadedGameId);
-    }
-
-    public function gameBans(): HasMany
-    {
-        return $this->hasMany(Ban::class)->whereNotNull('game_id');
+        return $this->hasMany(Ban::class)->active();
     }
 
     public function supporter(): HasOne
@@ -663,13 +647,7 @@ class User extends Model implements
     public function getLastGameBanAttribute()
     {
         if ($this->eagerLoadedGameId) {
-            if (!$this->relationLoaded('gameBan')) {
-                $this->load('gameBan');
-            }
-            $ban = $this->gameBan;
-            if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
-                return $ban;
-            }
+            return $this->bans->where('game_id', $this->eagerLoadedGameId)->first();
         }
 
         return null;
@@ -678,14 +656,7 @@ class User extends Model implements
     // Returns last ban. This is fine to use anywhere
     public function getLastBanAttribute()
     {
-        if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
-            $ban = $this->ban;
-            if (isset($ban) && ($ban->active && (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)))) {
-                return $ban;
-            }
-        }
-
-        return null;
+        return $this->bans->whereNull('game_id')->first();
     }
 
     public function getHasSupporterPerksAttribute() {
@@ -707,13 +678,11 @@ class User extends Model implements
 
         if ($currentGame) {
             if ($this->relationLoaded('roles')) {
-                $this->load(['gameBan', 'gameRoles']);
+                $this->load(['gameRoles']);
             } else {
                 $this->with[] = 'gameRoles';
-                $this->with[] = 'gameBan';
             }
         } else {
-            $this->unsetRelation('gameBan');
             $this->unsetRelation('gameRoles');
         }
     }
@@ -796,11 +765,7 @@ class User extends Model implements
      * Safely check if a user is banned in game
      */
     public function getLastGameban(int $gameId) {
-        $ban = $this->withSecureConstraints(fn() => $this->gameBans()->where('game_id', $gameId)->first());
-        if (isset($ban) && (($ban->active && !isset($ban->expire_date)) || Carbon::now()->lessThan($ban->expire_date))) {
-            return $ban;
-        }
-        return null;
+        return $this->bans->where('game_id', $gameId)->first();
     }
 
     public function getGamePerms(int $gameId): array

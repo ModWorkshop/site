@@ -80,4 +80,9 @@ class Ban extends Model
             'active' => false
         ]);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true)->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', now()));
+    }
 }
