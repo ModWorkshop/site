@@ -25,10 +25,16 @@ class CommentService {
      *
      * @return Response
      */
-    public static function index(FilteredRequest $request, Model $commentable, array $options=[], $replies=null)
+    public static function index(Request $request, Model $commentable, array $options=[], $replies=null)
     {
+        $val = $request->validate([
+            'limit' => 'integer|min:1|max:50',
+            'ids' => 'array|nullable|max:50',
+            'ids.*' => 'integer|min:1|nullable'
+        ]);
+
         /**
-         * @var Builder
+         * @var ?Builder
          */
         $query = null;
         if (isset($replies)) {
@@ -41,7 +47,7 @@ class CommentService {
             APIService::setCurrentGame($commentable->game);
         }
 
-        $comments = $query->queryGet($request->validated(), function($query, array $val) use ($options, $replies, $commentable) {
+        $comments = $query->queryGet($val, function($query, array $val) use ($options, $replies, $commentable) {
             if ($options['include_last_replies'] ?? true) {
                 $query->with('lastReplies');
             }
