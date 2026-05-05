@@ -46,7 +46,7 @@ class UserAuth
                 if (!isset($user->last_online) || $user->last_online->diffInSeconds($now) > 60) {
                     $user->update([
                         'last_online' => $now,
-                        'last_ip_address' => $request->ip
+                        'last_ip_address' => $request->ip()
                     ]);
                 }
             }
