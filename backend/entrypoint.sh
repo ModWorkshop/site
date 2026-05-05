@@ -1,12 +1,14 @@
 #!/bin/sh
 
-# Cache stuff for performance
+echo "Running scribe generate"
+php artisan scribe:generate
 
-echo "Clear and cache config"
-php artisan config:clear && php artisan config:cache
+echo "Running artisan optimize"
+php artisan route:clear
+php artisan optimize
 
-echo "Clear and cache route"
-php artisan route:clear && php artisan route:cache
+echo "Running storage link"
+php artisan storage:link
 
 echo "Run supervisord"
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
