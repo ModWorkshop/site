@@ -60,6 +60,11 @@ class ModController extends Controller
         return ModResource::collectionResponse($mods);
     }
 
+    /**
+     * List of followed mods
+     *
+     * @authenticated
+     */
     public function followed(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
