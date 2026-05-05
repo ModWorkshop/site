@@ -19,7 +19,7 @@ class SuspensionPolicy
      * @param User $user
      * @return Response|bool
      */
-    public function viewAny(?User $user, Game $game=null)
+    public function viewAny(User $user, Game $game=null)
     {
         return $user->hasPermission('manage-mods', $game);
     }
