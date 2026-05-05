@@ -19,7 +19,7 @@ Do note that by using the API you must follow the following guidelines:
 1. Do not spam the API.
 
 2. Do not replicate the site or remove the need to visit the site to download mods without getting permission to do so.
-Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
+Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too.
 
 3. Respect user's privacy and do not store their personal information without their consent.
 
