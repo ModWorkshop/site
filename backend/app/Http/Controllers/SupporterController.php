@@ -45,7 +45,7 @@ class SupporterController extends Controller
         }
         if (isset($val['active_only']) && $val['active_only']) {
             $q->where('expired', false);
-            $q->where(fn($q) => $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now()));
+            $q->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()));
         }
 
         return BaseResource::collectionResponse($q->get()->unique('user_id')->flatten()->paginate(1000));
@@ -65,7 +65,7 @@ class SupporterController extends Controller
 
         Utils::convertToUTC($val, 'expire_date');
 
-        if (Supporter::where('user_id', $val['user_id'])->where(fn($q) => $q->whereNull('expire_date')->orWhereDate('expire_date', '>', Carbon::now()))->exists()) {
+        if (Supporter::where('user_id', $val['user_id'])->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))->exists()) {
             abort(409, 'Supporter membership already exists!');
         }
 
