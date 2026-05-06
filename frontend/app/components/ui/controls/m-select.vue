@@ -130,7 +130,15 @@ const selectedValue = computed(() => {
 	}
 	return value;
 });
-const selectedValueArray = computed<any[]>(() => props.multiple ? selectedValue.value as any[] : [selectedValue.value]);
+const selectedValueArray = computed<any[]>(() => {
+	if (props.multiple) {
+		return selectedValue.value as any[];
+	} else if (selectedValue.value) {
+		return [selectedValue.value];
+	} else {
+		return [];
+	}
+});
 const first = computed<any[]>(() => selectedValueArray.value?.[0]);
 const { ctrl } = useMagicKeys();
 
@@ -227,7 +235,7 @@ const compClearable = computed(() => {
 	if (props.disabled) {
 		return false;
 	}
-	return selectedOptions.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
+	return selectedValueArray.value?.length > 0 && (props.clearable ?? (props.multiple && (selectedOptions.value.length || selectedOption.value)));
 });
 
 watch(dropdownOpen, val => {
