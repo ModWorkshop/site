@@ -262,7 +262,7 @@ class APIService {
 
     public static function getAnnouncements(Game $game=null)
     {
-        return Cache::remember('thread:announcements-'.(isset($game) ? $game->id : 0), 60, function() {
+        return Cache::remember('thread:announcements-'.(isset($game) ? $game->id : 0), 60, function() use ($game) {
             $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)->where('announce', true)->get();
 
             $now = Carbon::now();
