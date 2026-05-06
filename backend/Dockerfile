@@ -70,12 +70,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends cron \
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --apcu-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php
 
-RUN php artisan scribe:generate #TODO: find a better way to generate these so we can include auth ones too
-
-RUN php artisan route:cache \
-    && php artisan optimize \
-    && php artisan storage:link
-
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 FROM build AS dev

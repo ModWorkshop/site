@@ -18,6 +18,7 @@ use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use Storage;
 use Str;
+use z4kn4fein\SemVer\Version;
 
 /**
  * @group Files
@@ -44,7 +45,12 @@ class FileController extends Controller
             $query->with('user');
 
             if (!empty($val['version'])) {
-                $query->where('semver_version', $val['version'])->orWhere('version', $val['version']);
+                // Check semver only if the query is valid semver
+                if (Version::parseOrNull($val['version']) != null) {
+                    $query->where('semver_version', $val['version'])->orWhere('version', $val['version']);
+                } else {
+                    $query->where('version', $val['version']);
+                }
             }
 
             if (!isset($val['prerelease']) || !$val['prerelease']) {
@@ -449,6 +455,10 @@ class FileController extends Controller
      * Gets a file using a specific version (works only with semver)
      */
     public function getFileByVersion(Mod $mod, string $version) {
+        if (Version::parseOrNull($version) == null) {
+            abort(422, 'Invalid semver');
+        }
+
         $file = $mod->files()->whereNotNull('semver_version')
             ->where('semver_version', '=', $version)
             ->first();

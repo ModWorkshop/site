@@ -20,23 +20,23 @@ return [
         'redirect' => env('SOCIALITE_REDIRECT_URL').'steam',
     ],
 
-    'discord' => [    
-        'client_id' => env('DISCORD_CLIENT_ID'),  
-        'client_secret' => env('DISCORD_CLIENT_SECRET'),  
+    'discord' => [
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
         'redirect' => env('SOCIALITE_REDIRECT_URL').'discord',
         'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'webp'), // only pick from jpg, png, webp
     ],
 
-    'github' => [    
-        'client_id' => env('GITHUB_CLIENT_ID'),  
-        'client_secret' => env('GITHUB_CLIENT_SECRET'),  
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => env('SOCIALITE_REDIRECT_URL').'github'
     ],
 
-    'gitlab' => [    
-        'client_id' => env('GITLAB_CLIENT_ID'),  
-        'client_secret' => env('GITLAB_CLIENT_SECRET'),  
+    'gitlab' => [
+        'client_id' => env('GITLAB_CLIENT_ID'),
+        'client_secret' => env('GITLAB_CLIENT_SECRET'),
         'redirect' => env('SOCIALITE_REDIRECT_URL').'gitlab'
     ],
 
@@ -44,6 +44,7 @@ return [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
     ],
 
     'postmark' => [

@@ -19,7 +19,7 @@ Do note that by using the API you must follow the following guidelines:
 1. Do not spam the API.
 
 2. Do not replicate the site or remove the need to visit the site to download mods without getting permission to do so.
-Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too (We'll add ways to download mods directly to mod managers soon).
+Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too.
 
 3. Respect user's privacy and do not store their personal information without their consent.
 
@@ -136,7 +136,7 @@ INTRO,
     // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
     'auth' => [
         // Set this to true if ANY endpoints in your API use authentication.
-        'enabled' => false,
+        'enabled' => true,
 
         // Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
         // You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
@@ -264,6 +264,7 @@ INTRO,
                 only: ['GET *'],
                 // Recommended: disable debug mode in response calls to avoid error stack traces in responses
                 config: [
+                    'app.url' => 'localhost:8000',
                     'app.debug' => false,
                 ]
             )
@@ -276,7 +277,7 @@ INTRO,
     // For response calls, API resource responses and transformer responses,
     // Scribe will try to start database transactions, so no changes are persisted to your database.
     // Tell Scribe which connections should be transacted here. If you only use one db connection, you can leave this as is.
-    'database_connections_to_transact' => [],
+    'database_connections_to_transact' => [config('database.default')],
 
     'fractal' => [
         // If you are using a custom serializer with league/fractal, you can specify it here.
