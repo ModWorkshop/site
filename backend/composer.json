@@ -18,7 +18,7 @@
         "laravel/framework": "^12.0",
         "laravel/octane": "^2.10.0",
         "laravel/sanctum": "^4.1.1",
-        "laravel/scout": "^10.0.2",
+        "laravel/scout": "^11.1.0",
         "laravel/socialite": "^5.12.1",
         "laravel/telescope": "^5.9.1",
         "laravel/tinker": "^2.7.3",
