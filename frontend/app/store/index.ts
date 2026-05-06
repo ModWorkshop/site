@@ -19,6 +19,7 @@ interface MainStore {
 	announcements: Thread[];
 	colorScheme: string;
 	games: Game[] | null;
+	gamesCount?: number;
 	tags: Paginator<Tag> | null;
 	settings: Settings | null;
 }
@@ -38,6 +39,7 @@ export const useStore = defineStore('main', {
 		currentGame: null,
 		settings: null,
 		games: null,
+		gamesCount: null,
 		tags: null,
 		user: null,
 		ads: []
@@ -107,6 +109,7 @@ export const useStore = defineStore('main', {
 				user?: User;
 				activity: { users: number; guests: number };
 				games: Game[];
+				games_count: number;
 			};
 
 			let siteData;
@@ -133,6 +136,7 @@ export const useStore = defineStore('main', {
 			this.reportCount = siteData.report_count ?? null;
 			this.waitingCount = siteData.waiting_count ?? null;
 			this.activity = siteData.activity;
+			this.gamesCount = siteData.games_count;
 		},
 
 		async reloadUser() {

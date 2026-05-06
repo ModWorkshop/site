@@ -2,7 +2,7 @@
 	<page-block>
 		<Title>{{ $t('games') }}</Title>
 		<m-flex column class="items-center">
-			<h2>{{ $t('games_hosted', { n: storeGames?.length }) }}</h2>
+			<h2>{{ $t('games_hosted', { n: gamesCount }) }}</h2>
 			<i18n-t keypath="want_your_game" tag="h3" scope="global">
 				<template #here>
 					<NuxtLink :to="`forum?category=${settings?.game_requests_forum_category}`">{{ $t('here') }}</NuxtLink>
@@ -31,7 +31,7 @@
 import type { Game } from '~/types/models';
 import { useStore } from '../store/index';
 
-const { settings, games: storeGames } = useStore();
+const { settings, gamesCount } = useStore();
 
 const page = ref(1);
 const query = ref('');
