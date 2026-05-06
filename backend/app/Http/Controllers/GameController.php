@@ -206,7 +206,7 @@ class GameController extends Controller
     {
         APIService::setCurrentGame($game);
 
-        $game->loadCount('viewableMods');
+        $game->append('mods_count');
         $game->loadMissing('modManagers');
         $game->loadMissing('hiddenTags');
 
