@@ -98,7 +98,7 @@ class CommentService {
 
         if (isset($mentions)) {
             $uniqueNames = array_slice($mentions, 0, 10);
-            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->get();
+            $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->get();
         }
 
         $val['user_id'] = $user->id;
@@ -194,7 +194,7 @@ class CommentService {
 
         if (isset($mentions)) {
             $uniqueNames = array_slice($mentions, 0, 10);
-            $mentionedUsers = User::whereIn(DB::raw('LOWER(unique_name)'), $uniqueNames)->limit(10)->without('roles')->get('id');
+            $mentionedUsers = User::whereIn('unique_name', $uniqueNames)->limit(10)->without('roles')->get('id');
         }
 
         if (isset($mentions)) {

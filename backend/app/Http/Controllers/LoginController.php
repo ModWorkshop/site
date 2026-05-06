@@ -114,7 +114,7 @@ class LoginController extends Controller
 
         APIService::checkCaptcha($request);
 
-        if (User::where('email', $val['email'])->orWhere(DB::raw('LOWER(unique_name)'), Str::lower($val['unique_name']))->exists()) {
+        if (User::where('email', $val['email'])->orWhere(DB::raw('unique_name'), Str::lower($val['unique_name']))->exists()) {
             abort(409);
         }
 

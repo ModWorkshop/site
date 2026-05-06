@@ -70,7 +70,7 @@ class UserController extends Controller
                     $q->where('id', $query);
                 }
                 if (mb_strlen($query) > 2) {
-                    $q->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $query)->orWhereRaw("unique_name ILIKE '%' || ? || '%'", $query));
+                    $q->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $query)->orWhereRaw("unique_name LIKE '%' || ? || '%'", Str::lower($query)));
                     $q->orWhere(fn($q) => $q->whereRaw('name % ?', $query)->orWhereRaw("name ILIKE '%' || ? || '%'", $query));
                 }
             }
@@ -130,7 +130,7 @@ class UserController extends Controller
         if (ctype_digit($user) && $user < PHP_INT_MAX) {
             $foundUser = User::where('id', $user)->with('extra')->firstOrFail();
         } else {
-            $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->with('extra')->firstOrFail();
+            $foundUser = User::where('unique_name', Str::lower($user))->with('extra')->firstOrFail();
         }
 
         $foundUser->loadCount('viewableMods');
@@ -231,7 +231,7 @@ class UserController extends Controller
             $val['unique_name'] = Str::lower($val['unique_name']);
 
             if ($val['unique_name'] != Str::lower($user->unique_name)) {
-                if (User::where(DB::raw('LOWER(unique_name)'), $val['unique_name'])->exists()) {
+                if (User::where('unique_name', $val['unique_name'])->exists()) {
                     abort(422, 'Unique name or email already used!');
                 }
             }
