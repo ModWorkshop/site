@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Cache;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * App\Models\TrackSession
@@ -29,7 +31,21 @@ class TrackSession extends Model
 
     protected $guarded = [];
 
+    public static function userCount() {
+        return Cache::remember('user-count', 60,
+            fn() => TrackSession::whereNotNull('user_id')
+                ->where('updated_at', '>', Carbon::now()->subMinutes(15))
+                ->count()
+        );
+    }
 
+    public static function guestCount() {
+        return Cache::remember('guest-count', 60,
+            fn() => TrackSession::whereNull('user_id')
+                ->where('updated_at', '>', Carbon::now()->subMinutes(15))
+                ->count()
+        );
+    }
 
     use HasFactory;
 }

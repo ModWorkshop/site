@@ -17,12 +17,8 @@ use Auth;
 use Cache;
 use Carbon\Carbon;
 use Closure;
-use DB;
-use Hash;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Log;
 use Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
@@ -178,9 +174,9 @@ class ModService {
     }
 
     // More lightweight version of filters that skips on the whole options
-    public static function viewFilters($query, array $opt = []) {
-         $query->where(function($query) {
-            $user = Auth::user();
+    public static function viewFilters($query, bool $forceGuest=false) {
+        $query->where(function($query) use ($forceGuest) {
+            $user = $forceGuest ? null : Auth::user();
 
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
             if ($user?->hasPermission('manage-mods', APIService::currentGame())) {

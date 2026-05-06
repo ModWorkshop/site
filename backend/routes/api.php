@@ -255,20 +255,18 @@ Route::get('site-data', function(Request $request) {
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
-    $MinAgo = Carbon::now()->subMinutes(15);
-    $users = TrackSession::whereNotNull('user_id')->where('updated_at', '>', $MinAgo)->count();
-    $guests = TrackSession::whereNull('user_id')->where('updated_at', '>', $MinAgo)->count();
 
-    $games = Game::OrderByRaw('last_date DESC nulls last')
-        ->withCount('viewableMods')
-        ->whereNotIn('id', fn($q) => $q->select('game_id')->from('ignored_games')->where('user_id', Auth::id()))
-        ->get(10);
+    $users = TrackSession::guestCount();
+    $guests = TrackSession::userCount();
+    $games = Game::lastUpdatedGames();
+    $gamesCount = Game::gamesCount();
 
     $data = [
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
         'games' => $games,
+        'games_count' => $gamesCount,
         'activity' => [
             'users' => $users,
             'guests' => $guests

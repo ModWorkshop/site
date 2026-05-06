@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\UserCase;
 use Arr;
 use Auth;
+use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
@@ -261,16 +262,18 @@ class APIService {
 
     public static function getAnnouncements(Game $game=null)
     {
-        $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)->where('announce', true)->get();
+        return Cache::remember('thread:announcements-'.(isset($game) ? $game->id : 0), 60, function() {
+            $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)->where('announce', true)->get();
 
-        $now = Carbon::now();
-        foreach ($announcements as $annoucement) {
-            if (isset($annoucement->announce_until) && $now->greaterThan($annoucement->announce_until)) {
-                $annoucement->update(['announce' => false]);
+            $now = Carbon::now();
+            foreach ($announcements as $annoucement) {
+                if (isset($annoucement->announce_until) && $now->greaterThan($annoucement->announce_until)) {
+                    $annoucement->update(['announce' => false]);
+                }
             }
-        }
 
-        return AnnouncementResource::collection($announcements->take(2));
+            return AnnouncementResource::collection($announcements->take(2));
+        });
     }
 
     public static function currentGame(): ?Game

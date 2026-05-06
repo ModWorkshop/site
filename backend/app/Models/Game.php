@@ -8,7 +8,9 @@ use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
 use Auth;
+use Cache;
 use Carbon\Carbon;
+use DB;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -91,8 +93,10 @@ class Game extends Model
 
     protected $guarded = [];
     protected $hidden = ['webhook_url', 'viewable_mods_count'];
-    protected $appends = ['mods_count'];
+    protected $appends = [];
     protected $with = ['followed', 'ignored'];
+
+    public int $_modsCount;
 
     protected $casts = [
         'last_date' => 'datetime',
@@ -100,6 +104,36 @@ class Game extends Model
 
     public function getMorphClass(): string {
         return 'game';
+    }
+
+    public static function gamesCount() {
+        return Cache::remember('games:count', 300, fn() => DB::selectOne('SELECT COUNT(*) FROM games')->count);
+    }
+
+    public static function lastUpdatedGames() {
+        return Cache::remember('games:last-updated-games', 120,
+            function() {
+                $games = Game::orderByRaw('last_date DESC nulls last')->limit(10)->get()->append('mods_count');
+                $gameModCounts = self::getGameModCounts();
+
+                foreach ($games as $game) {
+                    $gameCount = $gameModCounts->where('game_id', $game->id)->first();
+                    $game->_modsCount = isset($gameCount) ? $gameCount['count'] : 0;
+                }
+
+                return $games;
+            }
+        );
+    }
+
+    public static function getGameModCounts() {
+        return Cache::remember('games:mods-counts', 120, function() {
+            $gameModCountsQuery = Mod::withOnly([])->selectRaw('game_id, COUNT(*)');
+            ModService::viewFilters($gameModCountsQuery, forceGuest: true);
+            $gameModCountsQuery->groupBy('game_id');
+
+            return $gameModCountsQuery->get();
+        });
     }
 
     public function resolveRouteBinding($value, $field = null)
@@ -126,11 +160,11 @@ class Game extends Model
         return $this->hasOne(Forum::class)->without('game');
     }
 
-    // Mods that the current user is able to see
+    // Mods that the any user is able to see TODO: allow game admins to see the true count somewhere else
     public function viewableMods(): HasMany
     {
         $mods = $this->hasMany(Mod::class)->without('game');
-        ModService::viewFilters($mods);
+        ModService::viewFilters($mods, forceGuest: true);
         return $mods;
     }
 
@@ -220,7 +254,12 @@ class Game extends Model
 
     public function modsCount(): Attribute
     {
-        return Attribute::make(fn() => $this->viewable_mods_count);
+        return Attribute::make(fn() => Cache::remember('game:'.$this->id.':modsCounter'.$this->last_date, 300, function() {
+            if (isset($this->_modsCount)) return $this->_modsCount;
+
+            $this->loadCount('viewableMods');
+            return $this->viewable_mods_count;
+        }));
     }
 
     public function announcements(): Attribute

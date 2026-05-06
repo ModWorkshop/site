@@ -174,7 +174,6 @@ class GameController extends Controller
 
 
         $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
-            $query->withCount('viewableMods');
             if ($val['only_names'] ?? false) {
                 $query->select(['id', 'name']);
             }
@@ -185,8 +184,17 @@ class GameController extends Controller
                 });
             }
 
-            $query->OrderByRaw('last_date DESC nulls last');
+            $query->orderByRaw('last_date DESC nulls last');
         });
+
+        $games->append('mods_count');
+
+        $gameModCounts = Game::getGameModCounts();
+
+        foreach ($games as $game) {
+            $gameCount = $gameModCounts->where('game_id', $game->id)->first();
+            $game->_modsCount = isset($gameCount) ? $gameCount['count'] : 0;
+        }
 
         return GameResource::collectionResponse($games);
     }
