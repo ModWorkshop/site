@@ -180,7 +180,7 @@ export const useStore = defineStore('main', {
 
 		// Essentially reloads the site data so people don't have to refresh the page
 		async reloadSiteData(initial = false) {
-			if (!initial && this.user) {
+			if (!initial && this.user && !document.hidden) {
 				const promises: Promise<any>[] = [];
 				if (this.notifications) {
 					promises.push(this.getNotifications());
