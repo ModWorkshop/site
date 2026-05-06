@@ -32,7 +32,7 @@ class NotificationController extends Controller
 
         $userId = $request->user()->id;
 
-        $notifications = Notification::queryGet($val, function(Builder $query, array $val) use ($request, $userId) {
+        $notifications = Notification::detailed()->queryGet($val, function(Builder $query, array $val) use ($request, $userId) {
             $query->where('user_id', $userId);
             $query->orderByDesc('id');
             if (isset($val['unseen_only'])) {
@@ -48,7 +48,7 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        return $notification;
+        return $notification->load(Notification::DETAILED_WITH);
     }
 
     /**

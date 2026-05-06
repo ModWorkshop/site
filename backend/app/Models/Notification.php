@@ -50,11 +50,17 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $with = ['user', 'notifiable', 'context', 'fromUser'];
+    public const DETAILED_WITH = ['user', 'notifiable', 'context', 'fromUser'];
+
+    protected $with = [];
 
     protected $casts = [
         'data' => 'array'
     ];
+
+    public function scopeDetailed(Builder $query) {
+        $query->with(self::DETAILED_WITH);
+    }
 
     public function getMorphClass(): string {
         return 'notification';
