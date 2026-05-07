@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Models\Thread

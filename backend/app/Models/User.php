@@ -166,6 +166,10 @@ use Str;
  * @method static Builder|User whereAvatarHasThumb($value)
  * @property-read Collection<int, \App\Models\Game> $ignoredGames
  * @property-read int|null $ignored_games_count
+ * @property-read Collection<int, \App\Models\Ban> $bans
+ * @property-read int|null $bans_count
+ * @property-read Collection<int, \App\Models\Mod> $ignoredMods
+ * @property-read int|null $ignored_mods_count
  * @mixin Eloquent
  */
 class User extends Model implements

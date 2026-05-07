@@ -188,6 +188,14 @@ abstract class Visibility {
  * @property string|null $repo_url
  * @property-read \App\Models\IgnoredGame|null $gameIgnoredByMe
  * @method static Builder<static>|Mod whereRepoUrl($value)
+ * @property-read mixed $background_attribute
+ * @property-read mixed $thumbnail_attribute
+ * @property-read Collection<int, \App\Models\User> $acceptedMembersForSearch
+ * @property-read int|null $accepted_members_for_search_count
+ * @property-read mixed $banner_attribute
+ * @property-read \App\Models\IgnoredMod|null $ignored
+ * @property-read mixed $last_user_attribute
+ * @property-read mixed $max_storage
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface

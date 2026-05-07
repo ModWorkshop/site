@@ -15,8 +15,6 @@ use Str;
 use z4kn4fein\SemVer\Version;
 
 /**
- *
- *
  * @property int $id
  * @property int $user_id
  * @property int $mod_id

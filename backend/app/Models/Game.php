@@ -85,6 +85,8 @@ use Illuminate\Contracts\Support\Arrayable;
  * @property-read Collection<int, \App\Models\FollowedGame> $followers
  * @property-read int|null $followers_count
  * @property-read \App\Models\IgnoredGame|null $ignored
+ * @property-read Collection<int, \App\Models\Tag> $hiddenTags
+ * @property-read int|null $hidden_tags_count
  * @mixin Eloquent
  */
 class Game extends Model

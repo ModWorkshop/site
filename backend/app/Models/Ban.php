@@ -41,6 +41,7 @@ use Log;
  * @method static Builder|Ban whereActive($value)
  * @method static Builder|Ban whereModUserId($value)
  * @property-read \App\Models\Game|null $game
+ * @method static Builder<static>|Ban active()
  * @mixin Eloquent
  */
 class Ban extends Model

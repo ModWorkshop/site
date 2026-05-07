@@ -58,6 +58,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ForumCategory whereCanCloseThreads($value)
  * @method static Builder|ForumCategory whereGridMode($value)
  * @method static Builder|ForumCategory whereHidden($value)
+ * @property-read \App\Models\Game $game
  * @mixin Eloquent
  */
 class ForumCategory extends Model

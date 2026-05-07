@@ -30,6 +30,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Supporter whereExpired($value)
  * @property string|null $provider
  * @method static Builder|Supporter whereProvider($value)
+ * @property int $price
+ * @property int|null $supporter_package_id
+ * @property int|null $supporter_transaction_id
+ * @property-read \App\Models\SupporterTransaction|null $supporterTransaction
+ * @method static Builder<static>|Supporter wherePrice($value)
+ * @method static Builder<static>|Supporter whereSupporterPackageId($value)
+ * @method static Builder<static>|Supporter whereSupporterTransactionId($value)
  * @mixin Eloquent
  */
 class Supporter extends Model

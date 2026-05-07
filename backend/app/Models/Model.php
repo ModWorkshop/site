@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 // Extend of the regular eloquent model with some convenient/missing functions
 /**
- * 
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Model newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Model newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Model query()

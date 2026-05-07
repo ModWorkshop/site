@@ -44,6 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $from_user_id
  * @property-read User|null $fromUser
  * @method static Builder|Notification whereFromUserId($value)
+ * @method static Builder<static>|Notification detailed()
  * @mixin Eloquent
  */
 class Notification extends Model
