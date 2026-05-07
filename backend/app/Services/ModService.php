@@ -48,9 +48,9 @@ class ModService {
         if (isset(self::SORT_OPTIONS[$sortBy])) {
             if ($sortBy === 'random') {
                 // $query->orderByRaw('RANDOM()');
-            } else if ($sortBy === 'name' || $sortBy === 'best_match') {
-                $modSearch->sort('name');
-            } else {
+            } else if ($sortBy === 'name') {
+                $modSearch->sort('name:asc');
+            } else if ($sortBy != 'best_match') {
                 $modSearch->sort($sortBy.':desc');
             }
         }
