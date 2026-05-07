@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Resources\MissingValue;
+use Laravel\Scout\Searchable;
 use Log;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Tags\Url;
@@ -191,7 +192,7 @@ abstract class Visibility {
  */
 class Mod extends Model implements SubscribableInterface
 {
-    use HasFactory, RelationsListener, Subscribable, Reportable;
+    use HasFactory, RelationsListener, Subscribable, Reportable, Searchable;
 
     public static $allowedIncludes = [
         'category',
@@ -302,6 +303,31 @@ class Mod extends Model implements SubscribableInterface
         'bumped_at' => 'datetime',
         'published_at' => 'datetime',
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'bumped_at' => $this->bumped_at?->timestamp,
+            'game_id' => $this->game_id,
+            'category_id' => $this->category_id,
+            'tag_ids' => $this->tags->pluck('id'),
+            'member_ids' => $this->acceptedMembersForSearch->pluck('id'),
+            'score' => $this->score,
+            'daily_score' => $this->daily_score,
+            'weekly_score' => $this->weekly_score,
+            'published_at' => $this->published_at?->timestamp,
+            'user_id' => $this->user_id,
+            'likes' => $this->likes,
+            'downloads' => $this->downloads,
+            'views' => $this->views,
+            'visibility' => $this->visibility,
+            'suspended' => $this->suspended,
+            'approved' => $this->approved,
+            'has_download' => $this->has_download
+        ];
+    }
 
     public function resolveRouteBinding($value, $field = null)
     {
@@ -451,6 +477,11 @@ class Mod extends Model implements SubscribableInterface
     public function members()
     {
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
+    }
+
+        public function acceptedMembersForSearch()
+    {
+        return $this->belongsToMany(User::class, 'mod_members')->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
     }
 
     /**

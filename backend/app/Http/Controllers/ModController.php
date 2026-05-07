@@ -51,11 +51,7 @@ class ModController extends Controller
     {
         $val = $request->val();
 
-        if (isset($game)) {
-            $mods = ModService::mods(val: $val, query: $game->mods(), cacheForGuests: $game->short_name.'-index');
-        } else {
-            $mods = ModService::mods($val, cacheForGuests: 'index');
-        }
+        $mods = ModService::meilisearch($val, $game);
 
         return ModResource::collectionResponse($mods);
     }

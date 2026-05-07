@@ -43,3 +43,14 @@ services:
     image: redis:7-alpine
     container_name: cache
     command: [redis-server]
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    ports: [7700:7700]
+    env_file: meilisearch.env
+    volumes:
+      - './sail-meilisearch:/meili_data'
+    healthcheck:
+        test: set -o pipefail;curl -fsS http://localhost:7700/health | grep -q '{"status":"available"}'
+        retries: 3
+        timeout: 5s

@@ -16,14 +16,124 @@ use Arr;
 use Auth;
 use Cache;
 use Carbon\Carbon;
+use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Closure;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Meilisearch\Contracts\SearchQuery;
 use Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
+    public const SORT_OPTIONS = [
+        'bumped_at' => true,
+        'published_at' => true,
+        'daily_score' => true,
+        'weekly_score' => true,
+        'score' => true,
+        'best_match' => true,
+        'random' => true,
+        'likes' => true,
+        'downloads' => true,
+        'views' => true,
+        'name' => true,
+    ];
+
+    public static function meilisearch(array $val, ?Game $game=null) {
+        $user = Auth::user();
+        $modSearch = MeilisearchQuery::for(Mod::class);
+
+        $sortBy = Arr::get($val, 'sort', 'bumped_at');
+        if (isset(self::SORT_OPTIONS[$sortBy])) {
+            if ($sortBy === 'random') {
+                // $query->orderByRaw('RANDOM()');
+            } else if ($sortBy === 'name' || $sortBy === 'best_match') {
+                $modSearch->sort('name');
+            } else {
+                $modSearch->sort($sortBy.':desc');
+            }
+        }
+
+        $gameId = Arr::get($val, 'game_id', $game?->id);
+        if (isset($gameId)) {
+            $modSearch->where('game_id', $gameId);
+        }
+
+        // User ownership
+        if (!$user?->hasPermission('manage-mods', $game)) {
+            $modSearch->where(function(MeilisearchQuery $search) use ($user) {
+                $search->where('visibility', Visibility::public)
+                    ->whereNot('published_at', 'IS NULL')
+                    ->where('suspended', false)
+                    ->where('approved', true)
+                    ->where('has_download', true);
+
+                if (isset($user)) {
+                    $search->orWhere('user_id', $user->id)
+                        ->orWhere('member_ids', $user->id);
+                }
+                return $search;
+            });
+        }
+
+        // User preferences
+        if (isset($user) && (!isset($val['including_ignored']) || !$val['including_ignored']) && !$user->hasPermission('manage-mods', $game)) {
+            $modSearch->where(function($search) use ($user, $game, $val) {
+                $blockedTags = $user->blockedTags->pluck('id')->toArray();
+                $blockedUsers = $user->blockedUsers->pluck('id')->toArray();
+                $ignoredGames = $user->ignoredGames->pluck('id')->toArray();
+                $ignored = $user->ignoredMods->pluck('id')->toArray();
+
+                return $search->whereNotIn('tag_ids', $blockedTags)
+                    ->whereNotIn('game_id', $blockedTags)
+                    ->whereNotIn('game_id', $ignoredGames)
+                    ->whereNotIn('id', $ignored)
+                    ->whereNotIn('user_id', $blockedUsers);
+            });
+        }
+
+        // Queries/filters
+        if (isset($val['category_id'])) {
+            $cat = Category::where('id', $val['category_id'])->first();
+            $modSearch->whereIn('category_id', [$cat->id, ...($cat->computed_children ?? [])]);
+        }
+
+        if (isset($val['user_id'])) {
+            if ($val['collab'] ?? false) {
+                $modSearch->whereIn('member_ids', $val['user_id']);
+            } else {
+                $modSearch->where('user_id', $val['user_id']);
+            }
+        }
+
+        if (!empty($val['categories'])) {
+            $modSearch->whereIn('category_id', $val['categories']);
+        }
+
+        if (!empty($val['block_tags'])) {
+            $modSearch->whereNotIn('tag_ids', $val['block_tags']);
+        }
+
+        if (!empty($val['tags'])) {
+            $modSearch->whereIn('tag_ids', $val['tags']);
+        }
+
+        if (!empty($val['exclude_game_ids'])) {
+            $modSearch->whereNotIn('game_id', $val['exclude_game_ids']);
+        }
+
+        if (!empty($val['block_tags'])) {
+            $modSearch->whereNotIn('tag_ids',  $val['block_tags']);
+        }
+
+        $mods = $modSearch->search($val['query'] ?? '')->paginate(20);
+
+        $mods->load(Mod::LIST_MOD_WITH);
+
+        return $mods;
+    }
+
     public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null, ?Closure $sortByFunc = null): LengthAwarePaginator
     {
         $user = Auth::user();
