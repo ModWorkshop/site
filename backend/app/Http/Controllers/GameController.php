@@ -9,6 +9,7 @@ use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\AuditLog;
+use App\Models\Mod;
 use App\Models\ModManager;
 use App\Models\Tag;
 use App\Models\User;
@@ -17,6 +18,7 @@ use App\Services\ModService;
 use Arr;
 use Auth;
 use Cache;
+use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -139,8 +141,7 @@ class GameController extends Controller
      * It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster.
      */
     function gameSectionData(GetModsRequest $request, Game $game) {
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $mods */
-        $mods = ModService::mods(val: $request->val(), query: $game->mods()->without('game'), cacheForGuests: $game->short_name.'-index');
+        $mods = ModService::meilisearchModsGuestCache($request->val(), 'mods', $game, queryFunc: fn($q) => $q->without(['game']));
         $game->load('categories');
         $game = $this->show($game);
 

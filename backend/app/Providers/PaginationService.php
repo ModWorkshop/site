@@ -61,7 +61,8 @@ class PaginationService extends ServiceProvider
                 $callback($this, $val);
             }
 
-            return $this->paginate($val['limit'] ?? 50);
+            $limit = Arr::get($val, 'limit', 20);
+            return $this->paginate(Number::clamp($limit, 1, 100));
         });
     }
 }

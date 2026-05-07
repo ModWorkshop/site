@@ -46,13 +46,11 @@ class FollowedGameController extends Controller
     public function mods(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
-        $mods = ModService::mods($val, function($query, $val) use ($user) {
+        $mods = ModService::dbFilteredMods($val, function($query, $val) use ($user) {
             $query->whereExists(function($query) use ($user) {
                 $query->from('followed_games')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_games.game_id', 'mods.game_id');
             });
-
-            ModService::filters($query, $val);
         });
         return ModResource::collectionResponse($mods);
     }

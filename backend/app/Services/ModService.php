@@ -18,8 +18,10 @@ use Cache;
 use Carbon\Carbon;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Number;
 use Meilisearch\Contracts\SearchQuery;
 use Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -40,24 +42,22 @@ class ModService {
         'name' => true,
     ];
 
-    public static function meilisearch(array $val, ?Game $game=null) {
+    public static function meilisearch(array $val=[], ?Game $game=null, ?callable $filterFunc=null, ?callable $queryFunc=null) {
         $user = Auth::user();
         $modSearch = MeilisearchQuery::for(Mod::class);
 
+        // Sorting
         $sortBy = Arr::get($val, 'sort', 'bumped_at');
         if (isset(self::SORT_OPTIONS[$sortBy])) {
-            if ($sortBy === 'random') {
-                // $query->orderByRaw('RANDOM()');
-            } else if ($sortBy === 'name') {
+            if ($sortBy === 'name') {
                 $modSearch->sort('name:asc');
             } else if ($sortBy != 'best_match') {
                 $modSearch->sort($sortBy.':desc');
             }
         }
 
-        $gameId = Arr::get($val, 'game_id', $game?->id);
-        if (isset($gameId)) {
-            $modSearch->where('game_id', $gameId);
+        if (isset($filterFunc)) {
+            $filterFunc($modSearch, $val, $game);
         }
 
         // User ownership
@@ -74,9 +74,9 @@ class ModService {
         }
 
         // User preferences
-        $includingIgnored = Arr::get('including_ignored', false);
+        $includingIgnored = Arr::get($val, 'including_ignored', false);
         if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
-            $modSearch->where(function($search) use ($user, $game, $val) {
+            $modSearch->where(function($search) use ($user) {
                 $blockedTags = $user->blockedTags->pluck('id')->toArray();
                 $blockedUsers = $user->blockedUsers->pluck('id')->toArray();
                 $ignoredGames = $user->ignoredGames->pluck('id')->toArray();
@@ -91,6 +91,11 @@ class ModService {
         }
 
         // Queries/filters
+        $gameId = Arr::get($val, 'game_id', $game?->id);
+        if (isset($gameId)) {
+            $modSearch->where('game_id', $gameId);
+        }
+
         if (isset($val['category_id'])) {
             $cat = Category::where('id', $val['category_id'])->first();
             $modSearch->whereIn('category_id', [$cat->id, ...($cat->computed_children ?? [])]);
@@ -102,6 +107,10 @@ class ModService {
             } else {
                 $modSearch->where('user_id', $val['user_id']);
             }
+        }
+
+        if (!empty($val['ids'])) {
+            $modSearch->whereIn('id', $val['ids']);
         }
 
         if (!empty($val['categories'])) {
@@ -124,70 +133,64 @@ class ModService {
             $modSearch->whereNotIn('tag_ids',  $val['block_tags']);
         }
 
-        $mods = $modSearch->search($val['query'] ?? '')->paginate(20);
+        $limit = Arr::get($val, 'limit', 20);
 
-        $mods->load(Mod::LIST_MOD_WITH);
+        $builder = $modSearch->search($val['query'] ?? '');
+
+        if (isset($queryFunc)) {
+            $builder->query(function(Builder $q) use ($builder, $queryFunc, $val, $game) {
+                $queryFunc($q, $val, $game);
+                $q->with(Mod::LIST_MOD_WITH);
+                $builder->query(null); // A hack to prevent Scout from trying to count it via DB
+            });
+        }
+        $mods = $builder->paginate(Number::clamp($limit, 1, 100));
 
         return $mods;
     }
 
-    public static function mods(array $val, callable $querySetup=null, $query=null, string $cacheForGuests=null, ?Closure $sortByFunc = null): LengthAwarePaginator
+    public static function meilisearchModsGuestCache(array $val=[], ?string $cacheForGuests=null, ?Game $game=null, ?callable $filterFunc=null, ?callable $queryFunc=null): LengthAwarePaginator
     {
-        $user = Auth::user();
-        if (!isset($user) && isset($cacheForGuests)) {
-            return Cache::remember(
-                'mods-'.$cacheForGuests.'-'.APIService::hashByQuery(),
-                30,
-                fn() => self::_mods($val, $querySetup, $query, $sortByFunc)
+        if (!Auth::check() && isset($cacheForGuests)) {
+            $cacheKey = 'mods:'.($game ? 'game:'.$game->name : '').$cacheForGuests.'-'.APIService::hashByQuery();
+            return Cache::remember($cacheKey, 30,
+                fn() => self::meilisearch($val, $game, $filterFunc, $queryFunc)
             );
         } else {
-            return self::_mods($val, $querySetup, $query, $sortByFunc);
+            return self::meilisearch($val, $game, $filterFunc, $queryFunc);
         }
     }
 
-    private static function _mods(array $val, callable $querySetup=null, $query=null, ?Closure $sortByFunc = null) {
-        return QueryBuilder::for($query ?? Mod::class)
-            ->with(Mod::LIST_MOD_WITH)
-            ->allowedFields(Mod::$allowedFields)
-            ->allowedIncludes(Mod::$allowedIncludes)
+    public static function dbFilteredMods(array $val, ?callable $querySetup=null, ?Closure $sortByFunc = null) {
+        return Mod::with(Mod::LIST_MOD_WITH)
             ->queryGet($val, function($q) use($val, $querySetup, $sortByFunc) {
                 if (isset($querySetup)) {
                     $q->where(fn($q) => $querySetup($q, $val));
                 }
-                ModService::filters($q, $val, $sortByFunc);
-            }, true);
+                self::filters($q, $val, $sortByFunc);
+            });
     }
 
-    public static function filters($query, array $val, ?Closure $sortByFunc = null) {
+    public static function filters(Builder $query, array $val, ?Closure $sortByFunc = null) {
         /** @var User */
         $user = Auth::user();
 
-        if (!isset($sortByFunc) || !$sortByFunc($query, $val)) {
+        // Sorting
+        $sortBy = Arr::get($val, 'sort', 'bumped_at');
+        if ((!isset($sortByFunc) || !$sortByFunc($query, $val)) && isset(self::SORT_OPTIONS[$sortBy])) {
             $sortBy = $val['sort'] ?? 'bumped_at';
             $name = $val['query'] ?? null;
 
-            if (!isset($name) && $sortBy == 'best_match') {
-                $sortBy = 'name';
-            }
-
             if ($sortBy === 'random') {
                 $query->orderByRaw('RANDOM()');
-            } else if ($sortBy === 'name') {
+            } else if ($sortBy === 'name' || ($sortBy == 'best_match' && empty($name))) {
                 $query->orderBy('name');
-            } else if ($sortBy === 'best_match') {
-                $query->orderByRaw(
-                    "lower(name) = lower(?) DESC,
-                    name ILIKE '%' || ? || '%' DESC,
-                    similarity(name, ?) DESC",
-
-                    [$name, $name, $name]
-                );
+            } else if ($sortBy == 'best_match') {
+                $query->orderByRaw("similarity(name, ?) DESC", [$name]);
+            } else if ($sortBy === 'published_at') {
+                $query->orderByRaw('published_at DESC NULLS LAST');
             } else {
-                if ($sortBy === 'published_at') {
-                    $query->orderByRaw('published_at DESC NULLS LAST');
-                } else {
-                    $query->orderByDesc($sortBy);
-                }
+                $query->orderByDesc($sortBy);
             }
         }
 
@@ -209,76 +212,72 @@ class ModService {
             $query->with(['game']);
         }
 
-        //These are global filters. Either things user has blocked or limits in general.
-        $query->where(function($query) use ($user, $game, $val) {
-            //Hide blocked user's mods (unless a moderator)
-
-            $includingIgnored = Arr::get('including_ignored', false);
-            if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
-                $query->whereDoesntHaveIn('blockedByMe');
-                $query->whereDoesntHaveIn('gameIgnoredByMe');
-                $query->whereDoesntHaveIn('ignored');
-            }
-
-            // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
-            if (!isset($user) || !$user->hasPermission('manage-mods', $game)) {
+        // User ownership
+        if (!$user->hasPermission('manage-mods', $game)) {
+            $query->where(function($query) use ($user) {
+                // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
                 $query->where('visibility', Visibility::public)->whereNotNull('published_at')->where('suspended', false)->where('approved', true)->where('has_download', true);
-            }
 
-            if (isset($user)) {
-                $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($user) {
-                    $q->join('blocked_tags', 'taggables.tag_id', '=', 'blocked_tags.tag_id');
-                    $q->where('blocked_tags.user_id', $user->id);
-                });
-
-                $query->orWhere('user_id', $user->id);
-
-                //let members see mods if they've accepted their membership
-                $query->orWhereHasIn('selfMember');
-            }
-        });
-
-        //These are filters the user inputted
-        $query->where(function($query) use ($val, $gameId) {
-            if (isset($gameId)) {
-                $query->where('game_id', $gameId);
-            }
-
-            if (isset($val['category_id'])) {
-                $cat = Category::where('id', $val['category_id'])->first();
-                $query->whereIn('category_id', [$cat->id, ...($cat->computed_children ?? [])]);
-            }
-
-            if (isset($val['user_id'])) {
-                if ($val['collab'] ?? false) {
-                    $query->whereHasIn('members', function($q) use ($val) {
-                        $q->where('user_id', $val['user_id'])->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
-                    });
-                } else {
-                    $query->where('user_id', $val['user_id']);
+                if (isset($user)) {
+                    $query->orWhere('user_id', $user->id)
+                        ->orWhereHasIn('selfMember'); //let members see mods if they've accepted their membership
                 }
-            }
+            });
+        }
 
-            if (!empty($val['categories'])) {
-                $query->whereIn('category_id', $val['categories']);
-            }
+        // User preferences
+        $includingIgnored = Arr::get('including_ignored', false);
+        if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
+            $query->where(function($query) use ($user) {
+                $query->whereDoesntHaveIn('blockedByMe')
+                    ->whereDoesntHaveIn('gameIgnoredByMe')
+                    ->whereDoesntHaveIn('ignored')
+                    ->whereDoesntHaveIn('tagsSpecial', function($q) use ($user) {
+                        $q->join('blocked_tags', 'taggables.tag_id', '=', 'blocked_tags.tag_id');
+                        $q->where('blocked_tags.user_id', $user->id);
+                    });
+            });
+        }
 
-            if (!empty($val['tags'])) {
-                $query->whereHasIn('tagsSpecial', function($q) use ($val) {
-                    $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
+        // Queries/filters
+        if (isset($gameId)) {
+            $query->where('game_id', $gameId);
+        }
+
+        if (isset($val['category_id'])) {
+            $cat = Category::where('id', $val['category_id'])->first();
+            $query->whereIn('category_id', [$cat->id, ...($cat->computed_children ?? [])]);
+        }
+
+        if (isset($val['user_id'])) {
+            if ($val['collab'] ?? false) {
+                $query->whereHasIn('members', function($q) use ($val) {
+                    $q->where('user_id', $val['user_id'])->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
                 });
+            } else {
+                $query->where('user_id', $val['user_id']);
             }
+        }
 
-            if (!empty($val['exclude_game_ids'])) {
-                $query->whereNotIn('game_id', $val['exclude_game_ids']);
-            }
+        if (!empty($val['categories'])) {
+            $query->whereIn('category_id', $val['categories']);
+        }
 
-            if (!empty($val['block_tags'])) {
-                $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($val) {
-                    $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
-                });
-            }
-        });
+        if (!empty($val['tags'])) {
+            $query->whereHasIn('tagsSpecial', function($q) use ($val) {
+                $q->whereIn('taggables.tag_id', array_map('intval', $val['tags']));
+            });
+        }
+
+        if (!empty($val['exclude_game_ids'])) {
+            $query->whereNotIn('game_id', $val['exclude_game_ids']);
+        }
+
+        if (!empty($val['block_tags'])) {
+            $query->whereDoesntHaveIn('tagsSpecial', function($q) use ($val) {
+                $q->whereIn('taggables.tag_id', array_map('intval', $val['block_tags']));
+            });
+        }
     }
 
     // More lightweight version of filters that skips on the whole options

@@ -49,9 +49,7 @@ class ModController extends Controller
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
-        $val = $request->val();
-
-        $mods = ModService::meilisearch($val, $game);
+        $mods = ModService::meilisearchModsGuestCache($request->val(), 'index', $game);
 
         return ModResource::collectionResponse($mods);
     }
@@ -65,7 +63,7 @@ class ModController extends Controller
     {
         $val = $request->val();
 
-        return ModResource::collectionResponse(ModService::mods($val, function($q) use ($user) {
+        return ModResource::collectionResponse(ModService::dbFilteredMods($val, function($q) use ($user) {
             $q->whereExists(function($query) use ($user) {
                 $query->from('followed_mods')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_mods.mod_id', 'mods.id');
@@ -90,17 +88,13 @@ class ModController extends Controller
      */
     public function popularAndLatest(Request $request, Game $game=null)
     {
-        if (isset($game)) {
-            return [
-                'latest' => ModService::mods(['limit' => 20], query: $game->mods(), cacheForGuests: 'pal-latest')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], query: $game->mods(), cacheForGuests: 'pal-popular')->items(),
-            ];
-        } else {
-            return [
-                'latest' => ModService::mods(['limit' => 20], cacheForGuests: 'pal-latest')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], cacheForGuests: 'pal-popular')->items(),
-            ];
-        }
+        return [
+            'latest' => ModService::meilisearchModsGuestCache([], 'pal-latest', $game)->items(),
+            'popular' => ModService::meilisearchModsGuestCache([
+                'sort_by' => 'daily_score',
+                'limit' => 5
+            ], 'pal-popular', $game)->items(),
+        ];
     }
 
     /**
@@ -112,7 +106,7 @@ class ModController extends Controller
      */
     public function liked(GetLikedModsRequest $request)
     {
-        $mods = ModService::mods($request->val(), fn($q) => $q->whereHasIn('liked'), sortByFunc: function($q, $val) {
+        $mods = ModService::dbFilteredMods($request->val(), fn($q) => $q->whereHasIn('liked'), sortByFunc: function($q, $val) {
             if (isset($val['sort']) && $val['sort'] === 'liked_at') {
                 $q->orderBy(function($query) {
                     $query->select('created_at')
@@ -140,9 +134,9 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::mods($request->val(), function($q, $val) {
-            $q->whereNull('approved');
-        }, $game?->mods());
+        $mods = ModService::meilisearch($request->val(), $game, function($modSearch) {
+            $modSearch->whereNull('approved');
+        });
 
         return ModResource::collectionResponse($mods);
     }
@@ -701,7 +695,11 @@ class ModController extends Controller
             'mod_ids.*' => 'integer|min:1',
         ]);
 
-        $mods = ModService::mods(val: $val, query: Mod::whereIn('id', $val['mod_ids']));
+        $mods = ModService::meilisearch([
+            'ids' => $val['mod_ids'],
+            'limit' => 100,
+        ]);
+
         $onlyVersions = [];
         foreach($mods as $mod) {
             $onlyVersions[$mod->id] = $mod->version;
