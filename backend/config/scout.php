@@ -154,7 +154,8 @@ return [
                     'suspended',
                     'approved',
                     'has_download',
-                    'user_id'
+                    'user_id',
+                    'listed'
                 ],
                 'sortableAttributes' => [
                     'bumped_at',

@@ -325,7 +325,8 @@ class Mod extends Model implements SubscribableInterface
             'visibility' => $this->visibility,
             'suspended' => $this->suspended,
             'approved' => $this->approved,
-            'has_download' => $this->has_download
+            'has_download' => $this->has_download,
+            'listed' => $this->has_download && $this->approved && !$this->suspended && $this->visibility == Visibility::public && $this->published_at != null
         ];
     }
 

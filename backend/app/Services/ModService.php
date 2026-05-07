@@ -63,11 +63,7 @@ class ModService {
         // User ownership
         if (!$user?->hasPermission('manage-mods', $game)) {
             $modSearch->where(function(MeilisearchQuery $search) use ($user) {
-                $search->where('visibility', Visibility::public)
-                    ->whereNot('published_at', 'IS NULL')
-                    ->where('suspended', false)
-                    ->where('approved', true)
-                    ->where('has_download', true);
+                $search->where('listed', true);
 
                 if (isset($user)) {
                     $search->orWhere('user_id', $user->id)
