@@ -74,7 +74,8 @@ class ModService {
         }
 
         // User preferences
-        if (isset($user) && (!isset($val['including_ignored']) || !$val['including_ignored']) && !$user->hasPermission('manage-mods', $game)) {
+        $includingIgnored = Arr::get('including_ignored', false);
+        if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
             $modSearch->where(function($search) use ($user, $game, $val) {
                 $blockedTags = $user->blockedTags->pluck('id')->toArray();
                 $blockedUsers = $user->blockedUsers->pluck('id')->toArray();
@@ -212,7 +213,8 @@ class ModService {
         $query->where(function($query) use ($user, $game, $val) {
             //Hide blocked user's mods (unless a moderator)
 
-            if (isset($user) && (!isset($val['including_ignored']) || !$val['including_ignored']) && !$user->hasPermission('manage-mods', $game)) {
+            $includingIgnored = Arr::get('including_ignored', false);
+            if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
                 $query->whereDoesntHaveIn('blockedByMe');
                 $query->whereDoesntHaveIn('gameIgnoredByMe');
                 $query->whereDoesntHaveIn('ignored');
