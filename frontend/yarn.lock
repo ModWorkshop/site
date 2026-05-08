@@ -1402,7 +1402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/utils@npm:^3.0.2":
+"@iconify/utils@npm:^3.1.0":
   version: 3.1.3
   resolution: "@iconify/utils@npm:3.1.3"
   dependencies:
@@ -8303,7 +8303,7 @@ __metadata:
     textarea-caret: ^3.1.0
     typescript: ^5.6.3
     typescript-eslint: ^8.50.0
-    unplugin-icons: ^22.0.0
+    unplugin-icons: ^23.0.1
     unplugin-vue-components: ^29.0.0
     vite: ^7.3.2
     vue: ^3.5.32
@@ -11490,22 +11490,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-icons@npm:^22.0.0":
-  version: 22.5.0
-  resolution: "unplugin-icons@npm:22.5.0"
+"unplugin-icons@npm:^23.0.1":
+  version: 23.0.1
+  resolution: "unplugin-icons@npm:23.0.1"
   dependencies:
     "@antfu/install-pkg": ^1.1.0
-    "@iconify/utils": ^3.0.2
-    debug: ^4.4.3
+    "@iconify/utils": ^3.1.0
     local-pkg: ^1.1.2
-    unplugin: ^2.3.10
+    obug: ^2.1.1
+    unplugin: ^2.3.11
   peerDependencies:
     "@svgr/core": ">=7.0.0"
     "@svgx/core": ^1.0.1
-    "@vue/compiler-sfc": ^3.0.2 || ^2.7.0
+    "@vue/compiler-sfc": ^3.0.2
     svelte: ^3.0.0 || ^4.0.0 || ^5.0.0
-    vue-template-compiler: ^2.6.12
-    vue-template-es2015-compiler: ^1.9.0
   peerDependenciesMeta:
     "@svgr/core":
       optional: true
@@ -11515,11 +11513,7 @@ __metadata:
       optional: true
     svelte:
       optional: true
-    vue-template-compiler:
-      optional: true
-    vue-template-es2015-compiler:
-      optional: true
-  checksum: e8172282152f79da9a63c712df791930e5ed8277c8055859cbb998f59568b7b94667f98372ea377fea94bc766eff2f4946fe1c0788f87ebc3acd8bef37b14136
+  checksum: f0ca87a9b5516351cd5fadb9506cf626544ff8e7cfa6eeb642176567d1bbcd6850634995175d40cc48965786f60087f1f89035e420647bd228da86c0365dbf08
   languageName: node
   linkType: hard
 
