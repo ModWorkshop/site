@@ -648,7 +648,7 @@
     "thread_answer": "Tato zpráva byla vybrána jako nejlepší odpověď na příspěvek",
     "login_required": "Je Vyžadováno Přihlášení",
     "manager_site_url": "URL Stránky",
-    "manager_site_url_desc": "URL webu správce módů nebo místa, odkud jej lze získat (Zatím není implementováno)",
+    "manager_site_url_desc": "URL webu správce módů nebo místa, odkud jej lze získat",
     "manager_download_url": "URL Pro Stáhnutí",
     "manager_download_url_desc": "URL pro zpracování stahování & instalace souborů pro módy. Aktuálně dostupné parametry: :mod_id, :file_id, :game_id, :manager_name a :game_short_name.",
     "status": "Status",

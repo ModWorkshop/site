@@ -648,7 +648,7 @@
     "thread_answer": "This reply was chosen as the answer for the post",
     "login_required": "Login Required",
     "manager_site_url": "Site URL",
-    "manager_site_url_desc": "URL to the mod manager's site or place to get it from (Not implemented yet)",
+    "manager_site_url_desc": "URL to the mod manager's site or place to get it from",
     "manager_download_url": "Download URL",
     "manager_download_url_desc": "URL for handling download & installation of files of mods. Currently available parameters: :mod_id, :file_id, :game_id, :manager_name and :game_short_name.",
     "status": "Status",

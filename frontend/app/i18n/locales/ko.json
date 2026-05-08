@@ -648,7 +648,7 @@
     "thread_answer": "해당 답변은 게시물에 대한 답변으로 선택되었습니다.",
     "login_required": "로그인이 필요합니다.",
     "manager_site_url": "사이트 URL",
-    "manager_site_url_desc": "모드 관리자 사이트 또는 해당 모드를 가져올 수 있는 사이트의 URL입니다 (아직 구현되지 않음).",
+    "manager_site_url_desc": "모드 관리자 사이트 또는 해당 모드를 가져올 수 있는 사이트의 URL입니다.",
     "manager_download_url": "다운로드 URL",
     "manager_download_url_desc": "모드 파일 다운로드 및 설치를 관리하는 URL입니다. 현재 사용 가능한 매개변수는 mod_id, :file_id, :game_id, :manager_name, :game_short_name 입니다.",
     "status": "상태",

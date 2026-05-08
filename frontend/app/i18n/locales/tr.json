@@ -648,7 +648,7 @@
     "thread_answer": "Bu yanıt gönderinin cevabı olarak seçildi",
     "login_required": "Oturum Açma Gerekli",
     "manager_site_url": "Site bağlantısı",
-    "manager_site_url_desc": "Mod yöneticisinin sitesinden indirmek için bağlantı (henüz yerleştirilmedi)",
+    "manager_site_url_desc": "Mod yöneticisinin sitesinden indirmek için bağlantı",
     "manager_download_url": "İndirme bağlantısı",
     "manager_download_url_desc": "Mod dosyalarının indirilmesi ve kurulumu için URL. Şu anda kullanılabilir parametreler: :mod_id, :file_id, :game_id, :manager_name ve :game_short_name.",
     "status": "Durum",

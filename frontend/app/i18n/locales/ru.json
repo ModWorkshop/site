@@ -648,7 +648,7 @@
     "thread_answer": "Этот ответ был выбран в качестве ответа на сообщение",
     "login_required": "Требуется вход",
     "manager_site_url": "URL-адрес сайта",
-    "manager_site_url_desc": "URL-адрес сайта менеджера мода или места, откуда его можно взять (Пока не реализовано)",
+    "manager_site_url_desc": "URL-адрес сайта менеджера мода или места, откуда его можно взять",
     "manager_download_url": "Ссылка на загрузку",
     "manager_download_url_desc": "URL для обработки загрузки и установки файлов модов. Доступные параметры: :mod_id, :file_id, :game_id, :manager_name и :game_short_name.",
     "status": "Статус",

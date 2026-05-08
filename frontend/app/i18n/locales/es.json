@@ -648,7 +648,7 @@
     "thread_answer": "Este comentario fue elegido como respuesta para la publicación",
     "login_required": "Es necesario iniciar sesión",
     "manager_site_url": "Enlace del sitio",
-    "manager_site_url_desc": "Los enlaces al sitio web del Administrador de Mods o al lugar donde se puede conseguir (no implementado aún)",
+    "manager_site_url_desc": "Los enlaces al sitio web del Administrador de Mods o al lugar donde se puede conseguir",
     "manager_download_url": "Enlace de descarga",
     "manager_download_url_desc": "Un enlace para manejar la descarga e instalación de los archivos de los mods. Parámetros disponibles actualmente: :mod_id, :file_id, :game_id, :manager_name y :game_short_name.",
     "status": "Estado",
