@@ -164,7 +164,6 @@ const params = {
 
 watch(currentCategory, () => {
 	emit('selectCategory', currentCategory.value);
-	page.value = 1;
 }, { immediate: true });
 
 watch(() => currentCategory.value?.can_close_threads, canClose => {
