@@ -205,7 +205,7 @@ class ModPolicy
 
     public function updateMember(User $user, Mod $mod, User $member)
     {
-        return $user->id === $member->user_id || $this->authorize('storeMember', $mod);
+        return $user->id === $member->id || $this->authorize('storeMember', $mod);
     }
 
     public function deleteMember(User $user, Mod $mod, User $member)
