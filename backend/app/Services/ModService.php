@@ -103,7 +103,7 @@ class ModService {
 
         if (isset($val['user_id'])) {
             if ($val['collab'] ?? false) {
-                $modSearch->whereIn('member_ids', $val['user_id']);
+                $modSearch->where('member_ids', $val['user_id']);
             } else {
                 $modSearch->where('user_id', $val['user_id']);
             }
@@ -138,8 +138,8 @@ class ModService {
         $builder = $modSearch->search($val['query'] ?? '');
 
         if (isset($queryFunc)) {
-            $builder->query(function(Builder $q) use ($builder, $queryFunc, $val, $game) {
-                $queryFunc($q, $val, $game);
+        $builder->query(function(Builder $q) use ($builder, $queryFunc, $val, $game) {
+                    $queryFunc($q, $val, $game);
                 $q->with(Mod::LIST_MOD_WITH);
                 $builder->query(null); // A hack to prevent Scout from trying to count it via DB
             });
