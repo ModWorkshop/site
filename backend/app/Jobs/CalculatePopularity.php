@@ -37,7 +37,7 @@ class CalculatePopularity implements ShouldQueue
 
         Log::info('Calculating Popularity...');
 
-        PopularityLog::whereDate('updated_at', '>', Carbon::now()->addYear(1))->delete();
+        PopularityLog::where('updated_at', '<', Carbon::now()->addYear())->delete();
 
         $getScores = function(Carbon $date) {
             $scores = [];
@@ -75,14 +75,14 @@ class CalculatePopularity implements ShouldQueue
         $scoresDaily = $getScores(Carbon::now()->subDay());
 
         Log::info('Calculating scores of all mods...');
-        
+
         Mod::setEagerLoads([])->chunkById(1000, function($mods) use (&$scoresDaily, &$scoresWeekly, &$scoresMonthly, &$bulkUpdates) {
             foreach ($mods as $mod) {
                 $score = $scoresMonthly[$mod->id] ?? 0;
                 $dailyScore = $scoresDaily[$mod->id] ?? 0;
                 $weeklyScore = $scoresWeekly[$mod->id] ?? 0;
 
-                
+
                 if(abs($score - $mod->score) > 0.00001 || abs($dailyScore - $mod->daily_score) > 0.00001 || abs($weeklyScore - $mod->weekly_score) > 0.00001) {
                     $mod->timestamps = false;
                     $mod->daily_score = $dailyScore;
