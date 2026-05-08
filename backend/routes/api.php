@@ -256,8 +256,8 @@ Route::get('site-data', function(Request $request) {
     $announcements = APIService::getAnnouncements();
     $settings = APIService::getSettings();
 
-    $users = TrackSession::guestCount();
-    $guests = TrackSession::userCount();
+    $guests = TrackSession::guestCount();
+    $users = TrackSession::userCount();
     $games = Game::lastUpdatedGames();
     $gamesCount = Game::gamesCount();
 
