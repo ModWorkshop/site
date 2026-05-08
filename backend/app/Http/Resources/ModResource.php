@@ -96,7 +96,7 @@ class ModResource extends BaseResource
             'category' => $this->whenLoaded('category', fn() => $this->fullLoad ? new CategoryResource($this->category) : new SmallCategoryResource($this->category)),
             'transfer_request' => $this->whenLoaded('transferRequest'),
             'last_user' => $this->whenAppended('lastUserAttribute', fn() => new UserResource($this->lastUserAttribute)),
-            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'tags' => $this->whenLoaded('tags', fn() => $this->tags),
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'liked' => $this->whenLoaded('liked'),
             'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),

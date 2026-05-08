@@ -457,7 +457,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('taggables.created_at');
+        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('taggables.id');
     }
 
     public function images()
