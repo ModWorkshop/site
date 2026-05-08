@@ -2,6 +2,7 @@
 
 use App\Models\Mod;
 use App\Models\Thread;
+use App\Models\User;
 
 return [
 
@@ -192,6 +193,22 @@ return [
                     'name'
                 ]
             ],
+            User::class => [
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'unique_name',
+                    'role_ids',
+                    'game_role_ids',
+                ],
+                'sortableAttributes' => [
+                    'id'
+                ],
+                'searchableAttributes' => [
+                    'name',
+                    'unique_name',
+                    'id',
+                ]
             ]
         ],
     ],

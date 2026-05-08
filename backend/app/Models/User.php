@@ -34,6 +34,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Scout\Searchable;
 use Storage;
 use Str;
 
@@ -178,7 +179,7 @@ class User extends Model implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use HasFactory, HasApiTokens, Notifiable, Reportable;
+    use HasFactory, HasApiTokens, Notifiable, Reportable, Searchable;
     use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmailTrait;
 
     protected $saveToReport = ['bio', 'custom_title'];
@@ -244,6 +245,17 @@ class User extends Model implements
         'email_verified_at' => 'datetime',
         'last_online' => 'datetime',
     ];
+
+   public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'unique_name' => $this->unique_name,
+            'role_ids' => $this->roles->pluck('id'),
+            'game_role_ids' => $this->gameRoles->pluck('id'),
+        ];
+    }
 
     #region Relations
 

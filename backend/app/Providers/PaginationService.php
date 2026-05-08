@@ -6,6 +6,7 @@ use Arr;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 
 class PaginationService extends ServiceProvider
