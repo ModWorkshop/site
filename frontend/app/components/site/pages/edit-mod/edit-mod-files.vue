@@ -95,7 +95,7 @@
 		<m-input v-model="currentLink.url" type="url" required :label="$t('url')"/>
 		<m-input v-model="currentLink.version" :label="$t('version')"/>
 		<m-input v-model="currentLink.display_order" :label="$t('order')"/>
-		<m-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+		<m-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 			<template #any-option="{ option }">
 				<m-img style="width: 100px; height: 100px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
 			</template>
@@ -127,7 +127,7 @@
 			:disabled="disableChangeFile"
 			type="file"
 		/>
-		<m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+		<m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 			<template #any-option="{ option }">
 				<m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
 			</template>
