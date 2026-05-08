@@ -1,6 +1,6 @@
 <template>
 	<m-input>
-		<m-tabs :class="classes" :style="{height: `${parseInt(rows as string) * 24}px`}">
+		<m-tabs :class="classes" :style="{height: h}">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
 				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" @keydown="onKeyDown"/>
 			</m-tab>
@@ -10,7 +10,7 @@
 			<m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
 				<m-flex class="overflow-hidden h-full" gap="2">
 					<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;" @keydown="onKeyDown"/>
-					<div ref="mdText" class="preview content-block">
+					<div class="preview content-block">
 						<md-content :text="vm"/>
 					</div>
 				</m-flex>
@@ -50,9 +50,9 @@ const classes = computed(() => ({
 }));
 
 const textAreaComp = ref();
-const mdText = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
+const h = useMemoize(() => `${parseInt(props.rows as string) * 24}px`);
 
 provide('err', err);
 
