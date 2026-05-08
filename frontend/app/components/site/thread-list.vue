@@ -178,7 +178,7 @@ watch(() => currentCategory.value?.can_close_threads, canClose => {
 const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, query: params });
 
 async function onVisChange(entries: IntersectionObserverEntry[]) {
-	if (entries[0]?.isIntersecting) {
+	if (entries[0]?.isIntersecting && !loaded.value) {
 		await refresh();
 		loaded.value = true;
 	}
