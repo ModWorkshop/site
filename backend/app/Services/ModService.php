@@ -137,13 +137,13 @@ class ModService {
 
         $builder = $modSearch->search($val['query'] ?? '');
 
-        if (isset($queryFunc)) {
         $builder->query(function(Builder $q) use ($builder, $queryFunc, $val, $game) {
+                if (isset($queryFunc)) {
                     $queryFunc($q, $val, $game);
+                }
                 $q->with(Mod::LIST_MOD_WITH);
                 $builder->query(null); // A hack to prevent Scout from trying to count it via DB
             });
-        }
         $mods = $builder->paginate(Number::clamp($limit, 1, 100));
 
         return $mods;
