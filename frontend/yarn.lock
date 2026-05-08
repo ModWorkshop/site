@@ -1845,7 +1845,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/devtools-kit@npm:3.2.4, @nuxt/devtools-kit@npm:^3.2.1, @nuxt/devtools-kit@npm:^3.2.2":
+"@nuxt/devtools-kit@npm:3.2.4, @nuxt/devtools-kit@npm:^3.2.1, @nuxt/devtools-kit@npm:^3.2.2, @nuxt/devtools-kit@npm:^3.2.4":
   version: 3.2.4
   resolution: "@nuxt/devtools-kit@npm:3.2.4"
   dependencies:
@@ -1923,7 +1923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:4.4.4, @nuxt/kit@npm:^4.0.1, @nuxt/kit@npm:^4.1.1, @nuxt/kit@npm:^4.2.0, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.2.2, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.2, @nuxt/kit@npm:^4.4.4":
+"@nuxt/kit@npm:4.4.4, @nuxt/kit@npm:^4.0.1, @nuxt/kit@npm:^4.1.1, @nuxt/kit@npm:^4.2.0, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.2, @nuxt/kit@npm:^4.4.4":
   version: 4.4.4
   resolution: "@nuxt/kit@npm:4.4.4"
   dependencies:
@@ -2038,34 +2038,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/scripts@npm:0.13.2":
-  version: 0.13.2
-  resolution: "@nuxt/scripts@npm:0.13.2"
+"@nuxt/scripts@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@nuxt/scripts@npm:1.0.6"
   dependencies:
-    "@nuxt/kit": ^4.2.2
-    "@vueuse/core": ^14.1.0
+    "@nuxt/devtools-kit": ^3.2.4
+    "@nuxt/kit": ^4.4.4
+    "@vueuse/core": ^14.3.0
+    "@vueuse/shared": ^14.3.0
     consola: ^3.4.2
-    defu: ^6.1.4
-    h3: ^1.15.4
+    defu: ^6.1.7
+    h3: ^1.15.11
     magic-string: ^0.30.21
     ofetch: ^1.5.1
     ohash: ^2.0.11
+    oxc-parser: ^0.128.0
+    oxc-walker: ^0.7.0
     pathe: ^2.0.3
-    pkg-types: ^2.3.0
+    pkg-types: ^2.3.1
     sirv: ^3.0.2
-    std-env: ^3.10.0
-    ufo: ^1.6.1
-    unplugin: ^2.3.11
-    unstorage: ^1.17.3
-    valibot: ^1.2.0
+    std-env: ^4.1.0
+    ufo: ^1.6.4
+    ultrahtml: ^1.6.0
+    unplugin: ^3.0.0
+    unstorage: ^1.17.5
+    valibot: ^1.3.1
   peerDependencies:
     "@googlemaps/markerclusterer": ^2.6.2
     "@paypal/paypal-js": ^8.1.2 || ^9.0.0
-    "@stripe/stripe-js": ^7.0.0 || ^8.0.0
+    "@stripe/stripe-js": ^7.0.0 || ^8.0.0 || ^9.0.0
     "@types/google.maps": ^3.58.1
     "@types/vimeo__player": ^2.18.3
     "@types/youtube": ^0.1.0
     "@unhead/vue": ^2.0.3
+    posthog-js: ^1.0.0
   peerDependenciesMeta:
     "@googlemaps/markerclusterer":
       optional: true
@@ -2079,7 +2085,11 @@ __metadata:
       optional: true
     "@types/youtube":
       optional: true
-  checksum: 9a2e531bdda5cf1a0ca3b1f3ae223bd0eae27e7637054e8a203e38e4c531c16807f8318d87fc8adccdd2744888e0edf0cfe0bce39a2b3df56029d657f06bcf94
+    posthog-js:
+      optional: true
+  bin:
+    nuxt-scripts: bin/cli.mjs
+  checksum: 99acc461210c98a6cf87cf8a92f81f777f484e2bf79989afe1539baa68d71caa0b516d8ab80d5c3e07c662e8557f63bcc6523d01d577c1e249e6ed2e1513bf7e
   languageName: node
   linkType: hard
 
@@ -4232,7 +4242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:14.3.0, @vueuse/core@npm:^14.1.0":
+"@vueuse/core@npm:14.3.0, @vueuse/core@npm:^14.1.0, @vueuse/core@npm:^14.3.0":
   version: 14.3.0
   resolution: "@vueuse/core@npm:14.3.0"
   dependencies:
@@ -4311,7 +4321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:14.3.0":
+"@vueuse/shared@npm:14.3.0, @vueuse/shared@npm:^14.3.0":
   version: 14.3.0
   resolution: "@vueuse/shared@npm:14.3.0"
   peerDependencies:
@@ -8259,7 +8269,7 @@ __metadata:
     "@iconify-json/ri": ^1.2.1
     "@iconify-json/svg-spinners": ^1.2.1
     "@nuxt/devtools": ^3.2.2
-    "@nuxt/scripts": 0.13.2
+    "@nuxt/scripts": 1.0.6
     "@nuxtjs/fontaine": ^0.5.0
     "@nuxtjs/i18n": ^10.2.4
     "@nuxtjs/robots": ^5.5.1
@@ -11601,7 +11611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unstorage@npm:^1.16.1, unstorage@npm:^1.17.3, unstorage@npm:^1.17.5":
+"unstorage@npm:^1.16.1, unstorage@npm:^1.17.5":
   version: 1.17.5
   resolution: "unstorage@npm:1.17.5"
   dependencies:
@@ -11755,7 +11765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"valibot@npm:^1.2.0":
+"valibot@npm:^1.3.1":
   version: 1.4.0
   resolution: "valibot@npm:1.4.0"
   peerDependencies:
