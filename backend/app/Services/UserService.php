@@ -99,27 +99,6 @@ class UserService {
             }
         }
 
-        if (isset($query) && mb_strlen($query) > 2) {
-            if (ctype_digit($query) && $query < PHP_INT_MAX) {
-                $q->orderByRaw("
-                    id = CAST($1 AS INTEGER) DESC,
-                    unique_name = $1 DESC,
-                    unique_name ILIKE '%' || $1 || '%' DESC,
-                    unique_name % $1 DESC,
-                    name ILIKE '%' || $1 || '%' DESC,
-                    name % $1 DESC
-                ");
-            } else {
-                $q->orderByRaw("
-                    unique_name = $1 DESC,
-                    unique_name ILIKE '%' || $1 || '%' DESC,
-                    unique_name % $1 DESC,
-                    name ILIKE '%' || $1 || '%' DESC,
-                    name % $1 DESC
-                ");
-            }
-        }
-
         $q->orderBy('id');
     }
 }
