@@ -116,7 +116,7 @@ use Laravel\Scout\Searchable;
  */
 class Thread extends Model implements SubscribableInterface
 {
-    use HasFactory, Subscribable, Reportable;
+    use HasFactory, Subscribable, Reportable, Searchable;
 
     protected $with = ['user', 'lastUser', 'category', 'game', 'tags'];
     protected $saveToReport = ['content'];
@@ -129,6 +129,22 @@ class Thread extends Model implements SubscribableInterface
         'bumped_at' => 'datetime',
         'announce_until' => 'datetime',
     ];
+
+   public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'tag_ids' => $this->tags->pluck('id'),
+            'forum_id' => $this->forum_id,
+            'user_id' => $this->user_id,
+            'pinned_at' => $this->pinned_at,
+            'closed' => $this->closed,
+            'bumped_at' => $this->bumped_at,
+            'category_id' => $this->category_id,
+            'category_name' => $this->category?->name // TODO: when category name changes you must update this
+        ];
+    }
 
     public function getMorphClass(): string {
         return 'thread';

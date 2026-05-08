@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Mod;
+use App\Models\Thread;
 
 return [
 
@@ -171,6 +172,26 @@ return [
                 'searchableAttributes' => [
                     'name'
                 ]
+            ],
+            Thread::class => [
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'tag_ids',
+                    'forum_id',
+                    'user_id',
+                    'category_id',
+                    'category_name',
+                    'closed'
+                ],
+                'sortableAttributes' => [
+                    'bumped_at',
+                    'pinned_at',
+                ],
+                'searchableAttributes' => [
+                    'name'
+                ]
+            ],
             ]
         ],
     ],
