@@ -21,6 +21,7 @@ class UserResource extends BaseResource
         $user = $request->user();
 
         $isMe = $user?->id === $this->id;
+        $isMeOrUserMod = $isMe || $user->hasPermission('manage-users');
         $notMeNotGuest = isset($user) && !$isMe;
 
         return [
@@ -35,8 +36,7 @@ class UserResource extends BaseResource
             'role_names' => Arr::pluck($this->roleList, 'name'),
             'permissions' => $this->when($isMe, $this->permissionList),
             'tag' => $this->tag,
-            'email' => $this->when($isMe, $this->email),
-            'nitro_token' => $this->when($isMe, $this->nitroToken),
+            'email' => $this->when($isMeOrUserMod, $this->email),
             'pending_email' => $this->when($isMe, $this->pending_email),
             'email_verified_at' => $this->when($isMe, $this->email_verified_at),
             'activated' => $this->when($isMe, $this->activated),
