@@ -1,107 +1,115 @@
 <template>
-	<m-tabs gap="3" lazy>
-		<template #pre-panels>
-			<m-alert class="my-1" type="info">{{ $t('content_page_info') }}</m-alert>
-		</template>
-		<m-tab v-if="user.extra" name="customize" :title="$t('customize')">
-			<m-select v-model="user.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
-			<m-select v-model="user.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
-			<h2>{{ $t('home_page') }}</h2>
-			<m-select v-model="user.extra.home_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
-			<m-input v-model="user.extra.home_show_last_games" :label="$t('show_last_updated')" type="checkbox"/>
-			<m-input v-model="user.extra.home_show_mods" :label="$t('show_mods')" type="checkbox"/>
-			<m-input v-model="user.extra.home_show_threads" :label="$t('show_threads')" type="checkbox"/>
-			<h2>{{ $t('game_sections') }}</h2>
-			<m-select v-model="user.extra.game_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
-			<m-input v-model="user.extra.game_show_mods" :label="$t('show_mods')" type="checkbox"/>
-			<m-input v-model="user.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
-		</m-tab>
-		<m-tab name="follow" :title="$t('following')">
-			<m-list :limit="10" :title="$t('followed_games')" url="followed-games" :item-link="item => `/g/${item.short_name}`">
-				<template #before-item="{ item }">
-					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
-				</template>
-				<template #item-buttons="{ item, items }">
-					<m-button @click.prevent="unfollowGame(item, items.data)"><i-mdi-remove/> {{ $t('unfollow') }}</m-button>
-				</template>
-			</m-list>
+	<m-form v-model="userForm" float-save-gui autocomplete="off" @submit="save">
+		<m-tabs gap="3" lazy>
+			<template #pre-panels>
+				<m-alert class="my-1" type="info">{{ $t('content_page_info') }}</m-alert>
+			</template>
+			<m-tab v-if="userForm.extra" name="customize" :title="$t('customize')">
+				<m-select v-model="userForm.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
+				<m-select v-model="userForm.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+				<h2>{{ $t('home_page') }}</h2>
+				<m-select v-model="userForm.extra.home_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+				<m-input v-model="userForm.extra.home_show_last_games" :label="$t('show_last_updated')" type="checkbox"/>
+				<m-input v-model="userForm.extra.home_show_mods" :label="$t('show_mods')" type="checkbox"/>
+				<m-input v-model="userForm.extra.home_show_threads" :label="$t('show_threads')" type="checkbox"/>
+				<h2>{{ $t('game_sections') }}</h2>
+				<m-select v-model="userForm.extra.game_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+				<m-input v-model="userForm.extra.game_show_mods" :label="$t('show_mods')" type="checkbox"/>
+				<m-input v-model="userForm.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
+			</m-tab>
+			<m-tab name="follow" :title="$t('following')">
+				<m-list :limit="10" :title="$t('followed_games')" url="followed-games" :item-link="item => `/g/${item.short_name}`">
+					<template #before-item="{ item }">
+						<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
+					</template>
+					<template #item-buttons="{ item, items }">
+						<m-button @click.prevent="unfollowGame(item, items.data)"><i-mdi-remove/> {{ $t('unfollow') }}</m-button>
+					</template>
+				</m-list>
 
-			<m-list :limit="10" url="followed-users" :title="$t('followed_users')">
-				<template #item="{ item, items }">
-					<a-user class="list-button" :user="item">
-						<template #attach>
-							<m-button class="ml-auto my-auto" @click.prevent="unfollowUser(item, items.data)">
-								<i-mdi-remove/> {{ $t('unfollow') }}
-							</m-button>
-						</template>
-					</a-user>
-				</template>
-			</m-list>
-			<m-list :title="$t('followed_mods')" :limit="10" url="followed-mods" :item-link="item => `/mod/${item.id}`">
-				<template #before-item="{ item }">
-					<mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
-				</template>
-				<template #item-buttons="{ item, items }">
-					<m-button @click.prevent="unfollowMod(item, items.data)"><i-mdi-remove/> {{ $t('unfollow') }}</m-button>
-				</template>
-			</m-list>
-		</m-tab>
+				<m-list :limit="10" url="followed-users" :title="$t('followed_users')">
+					<template #item="{ item, items }">
+						<a-user class="list-button" :user="item">
+							<template #attach>
+								<m-button class="ml-auto my-auto" @click.prevent="unfollowUser(item, items.data)">
+									<i-mdi-remove/> {{ $t('unfollow') }}
+								</m-button>
+							</template>
+						</a-user>
+					</template>
+				</m-list>
+				<m-list :title="$t('followed_mods')" :limit="10" url="followed-mods" :item-link="item => `/mod/${item.id}`">
+					<template #before-item="{ item }">
+						<mod-thumbnail :thumbnail="item.thumbnail" style="width: 128px; height: 64px;"/>
+					</template>
+					<template #item-buttons="{ item, items }">
+						<m-button @click.prevent="unfollowMod(item, items.data)"><i-mdi-remove/> {{ $t('unfollow') }}</m-button>
+					</template>
+				</m-list>
+			</m-tab>
 
-		<m-tab name="block" :title="$t('blocking')">
-			<m-list :title="$t('blocked_users')" url="blocked-users" :limit="10">
-				<template #item="{ item, items }">
-					<a-user class="list-button" :user="item">
-						<template #attach>
-							<m-button class="ml-auto my-auto" @click.prevent="unblockUser(item, items.data)">
-								<i-mdi-remove/> {{ $t('unblock') }}
-							</m-button>
-						</template>
-					</a-user>
-				</template>
-			</m-list>
-			<m-list :title="$t('ignored_games')" url="ignored-games" :limit="10">
-				<template #before-item="{ item }">
-					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
-				</template>
-				<template #item-buttons="{ item, items }">
-					<m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
-				</template>
-			</m-list>
-			<m-list :title="$t('ignored_mods')" url="ignored-mods" :limit="10">
-				<template #before-item="{ item }">
-					<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
-				</template>
-				<template #item-buttons="{ item, items }">
-					<m-button @click.prevent="unignoreMod(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
-				</template>
-			</m-list>
-			<m-list :title="$t('blocked_tags')" url="blocked-tags" :limit="10">
-				<template #item-name="{ item }">
-					<m-tag>{{ item.name }}</m-tag>
-				</template>
-				<template #buttons="{ items }">
-					<m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="err => submitBlockTag(err, items.data)">
-						<m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
-					</m-form-modal>
-					<m-button class="ml-auto" @click="showBlockTag = true">{{ $t('block') }}</m-button>
-				</template>
-				<template #item-buttons="{ item, items }">
-					<m-button @click.prevent="unblockTag(item, items.data)"><i-mdi-remove/> {{ $t('unblock') }}</m-button>
-				</template>
-			</m-list>
-		</m-tab>
-	</m-tabs>
+			<m-tab name="block" :title="$t('blocking')">
+				<m-list :title="$t('blocked_users')" url="blocked-users" :limit="10">
+					<template #item="{ item, items }">
+						<a-user class="list-button" :user="item">
+							<template #attach>
+								<m-button class="ml-auto my-auto" @click.prevent="unblockUser(item, items.data)">
+									<i-mdi-remove/> {{ $t('unblock') }}
+								</m-button>
+							</template>
+						</a-user>
+					</template>
+				</m-list>
+				<m-list :title="$t('ignored_games')" url="ignored-games" :limit="10">
+					<template #before-item="{ item }">
+						<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
+					</template>
+					<template #item-buttons="{ item, items }">
+						<m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
+					</template>
+				</m-list>
+				<m-list :title="$t('ignored_mods')" url="ignored-mods" :limit="10">
+					<template #before-item="{ item }">
+						<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
+					</template>
+					<template #item-buttons="{ item, items }">
+						<m-button @click.prevent="unignoreMod(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
+					</template>
+				</m-list>
+				<m-list :title="$t('blocked_tags')" url="blocked-tags" :limit="10">
+					<template #item-name="{ item }">
+						<m-tag>{{ item.name }}</m-tag>
+					</template>
+					<template #buttons="{ items }">
+						<m-form-modal v-model="showBlockTag" :title="$t('block_tag')" @submit="err => submitBlockTag(err, items.data)">
+							<m-select v-model="blockTag" url="tags" list-tags color-by="color" :value-by="false"/>
+						</m-form-modal>
+						<m-button class="ml-auto" @click="showBlockTag = true">{{ $t('block') }}</m-button>
+					</template>
+					<template #item-buttons="{ item, items }">
+						<m-button @click.prevent="unblockTag(item, items.data)"><i-mdi-remove/> {{ $t('unblock') }}</m-button>
+					</template>
+				</m-list>
+			</m-tab>
+		</m-tabs>
+	</m-form>
 </template>
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '~/store';
 import type { Game, Mod, Tag, User, UserForm } from '~/types/models';
 import { setFollowGame, setFollowMod, setFollowUser } from '~/utils/follow-helpers';
+import clone from 'rfdc/default';
 
-defineProps<{
+const { user } = defineProps<{
 	user: UserForm;
 }>();
+
+const userForm = reactive({
+	extra: clone(user.extra)
+});
 
 const isMe = inject<boolean>('isMe');
 
@@ -114,6 +122,7 @@ const { t } = useI18n();
 const blockTag = ref<Tag>();
 const showBlockTag = ref(false);
 const showError = useQuickErrorToast();
+const { setUser } = useStore();
 
 const viewOptions = [
 	{ id: 'followed', name: t('followed') },
@@ -188,6 +197,14 @@ async function submitBlockTag(err, blockedTags: Tag[]) {
 		showBlockTag.value = false;
 	} catch (error) {
 		err(error);
+	}
+}
+
+async function save() {
+	try {
+		setUser(await patchRequest<User>(`users/${user.id}`, userForm));
+	} catch (error) {
+		showError(error);
 	}
 }
 </script>

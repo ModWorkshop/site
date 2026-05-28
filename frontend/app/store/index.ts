@@ -2,6 +2,7 @@ import type { User, Game, Tag, Notification, Settings, Thread } from '~/types/mo
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import type { CookieRef } from '#app';
+import clone from 'rfdc/default';
 
 interface MainStore {
 	user: User | null;
@@ -19,7 +20,7 @@ interface MainStore {
 	announcements: Thread[];
 	colorScheme: string;
 	games: Game[] | null;
-	gamesCount?: number;
+	gamesCount?: number | null;
 	tags: Paginator<Tag> | null;
 	settings: Settings | null;
 }
@@ -209,6 +210,10 @@ export const useStore = defineStore('main', {
 				}
 				lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
 			}
+		},
+
+		setUser(user: User) {
+			this.user = clone(user);
 		},
 
 		setUserAvatar(avatar: string) {
