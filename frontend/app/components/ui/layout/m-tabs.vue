@@ -6,17 +6,17 @@
 			</m-link>
 			<span v-if="currentTab" class="text-2xl">{{ currentTab.title }}</span>
 		</m-flex>
-		<m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap">
+		<m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap" :padding="padding">
 			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
 			<Transition name="left-slide">
 				<m-flex
 					v-show="!side || menuOpen"
 					:wrap="!scrollOnOverflow"
-					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow }"
+					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'tab-menu-bg': true, side }"
 					:style="{ flex: side ? 1 : undefined }"
 					:column="side" role="tablist"
 				>
-					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'flex-shrink-0': scrollOnOverflow, [`p-${padding}`]: padding !== 0 }">
+					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'flex-shrink-0': scrollOnOverflow }" gap="2">
 						<m-tab-link
 							v-for="tab of tabs"
 							ref="tabLinks"
@@ -32,7 +32,7 @@
 				</m-flex>
 			</Transition>
 			<slot name="pre-panels"/>
-			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'nav-menu-bg': background, [`p-${padding}`]: padding !== 0 }" :style="{ flex: 4 }">
+			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'nav-menu-bg': background }" :style="{ flex: 4 }">
 				<slot/>
 			</div>
 		</m-flex>
@@ -43,7 +43,7 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const { padding = 2, side, query, lazy, background = false, gap = 0 } = defineProps<{
+const { padding = 2, side, query, lazy, background = false, gap = 2 } = defineProps<{
 	side?: boolean;
 	query?: boolean;
 	gap?: string | number;
@@ -162,6 +162,17 @@ if (query) {
 .nav-menu-bg {
 	border-radius: var(--content-border-radius);
 	background-color: var(--content-bg-color);
+    box-shadow: var(--content-box-shadow);
 	padding: 1.5rem;
+}
+
+.tab-menu-bg.side {
+	align-self: start;
+}
+
+.tab-menu-bg {
+	border-radius: var(--content-border-radius);
+	background-color: var(--content-bg-color);
+    box-shadow: var(--content-box-shadow);
 }
 </style>

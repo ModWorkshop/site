@@ -2,10 +2,10 @@
 	<m-input>
 		<m-tabs :class="classes" :style="{height: h}">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
-				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" @keydown="onKeyDown"/>
+				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
 			</m-tab>
-			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block">
-				<md-content :text="vm" :padding="6"/>
+			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block p-2" >
+				<md-content :text="vm"/>
 			</m-tab>
 			<m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
 				<m-flex class="overflow-hidden h-full" gap="2">
@@ -127,12 +127,6 @@ watch(fullscreen, status => {
 .tab-panel, .tab-panels {
 	height: 100%;
 }
-
-.md-editor .nav-menu-content {
-	display: flex;
-	flex-direction: column;
-}
-
 </style>
 
 <style scoped>

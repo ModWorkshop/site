@@ -2,7 +2,7 @@
 	<a
 		:id="`${tabName}-tab-link`"
 		role="tab"
-		:class="{ 'nav-link': true, 'nav-link-side': side, selected: tabState.current == tabName }"
+		:class="{ 'tab-link': true, 'tab-link-side': side, selected: tabState.current == tabName }"
 		:data-selected="tabState.current == tabName"
 		:tabindex="tabState.current == tabName ? 0 : -1"
 		:aria-selected="tabState.current == tabName"
@@ -22,3 +22,33 @@ defineProps({
 const tabState = inject('tabState');
 const side = inject('side', false);
 </script>
+
+<style>
+.tab-link {
+	font-size: 1.125rem;
+	border-radius: var(--border-radius);
+	padding: 1rem 2rem;
+	text-align: center;
+	color: var(--secondary-text-color);
+	transition: ease-in-out 0.15s;
+	transition-property: color, background-color;
+	/* background-color: var(--secondary-content-bg-color); */
+}
+
+.tab-link:hover {
+	cursor: pointer;
+	/* background-color: var(--tab-selected-color); */
+	color: var(--primary-color);
+}
+
+.tab-link.selected {
+	color: var(--primary-color);
+	background-color: var(--tab-selected-color);
+}
+
+.tab-link-side {
+	text-align: left;
+	padding: 1rem;
+	min-width: 200px;
+}
+</style>
