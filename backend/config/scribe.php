@@ -12,18 +12,9 @@ return [    // The HTML <title> for the generated documentation.
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
     'description' => <<<INTRO
-The ModWorkshop API is available for everyone to use.
-
-Do note that by using the API you must follow the following guidelines:
-
-1. Do not spam the API.
-
-2. Do not replicate the site or remove the need to visit the site to download mods without getting permission to do so.
-Exceptions: You are allowed to implement updates, you are allowed to make a mod downloadable to ease the process of joining a game with mods (Example: downloading maps). Integration to the site itself is fine too.
-
-3. Respect user's privacy and do not store their personal information without their consent.
-
-At the moment, the API <b>only supports GET requests</b>. More support will come in the future, but will require the use of API keys.
+The ModWorkshop API is available for everyone to use. 
+    
+By using the API, you must follow the following guidelines found here: https://modworkshop.net/document/api-rules.
 INTRO,
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
