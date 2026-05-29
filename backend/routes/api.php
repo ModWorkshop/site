@@ -42,6 +42,7 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\TrackSessionController;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\IgnoredGame;
@@ -180,6 +181,7 @@ Route::middleware('can:view,comment')->group(function() {
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::resource('track-sessions', TrackSessionController::class)->only(['index']);
 APIService::gameResource('bans', BanController::class, ['parentOptional' => true]);
 APIService::gameResource('user-cases', UserCaseController::class, ['parentOptional' => true]);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);

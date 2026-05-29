@@ -31,6 +31,10 @@ class TrackSession extends Model
 
     protected $guarded = [];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public static function userCount() {
         return Cache::remember('user-count', 60,
             fn() => TrackSession::whereNotNull('user_id')

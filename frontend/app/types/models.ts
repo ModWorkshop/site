@@ -613,3 +613,8 @@ export interface AuditLog extends Model {
 	context_name?: string;
 	context?: Model;
 }
+
+export interface TrackSession extends Model {
+	ip_address: string;
+	user_id: number;
+}
