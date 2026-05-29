@@ -208,6 +208,7 @@ class User extends Model implements
         'avatar',
         'avatar_has_thumb',
         'last_online',
+        'last_ip_address',
         'custom_color',
         'unique_name',
         'banner',
