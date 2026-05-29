@@ -1,6 +1,6 @@
 <template>
 	<m-input>
-		<m-tabs :class="classes" :style="{height: h}">
+		<m-tabs :class="classes">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
 				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
 			</m-tab>
@@ -39,20 +39,21 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
 const vm = useVModel(props, 'modelValue', emit);
 
+const h = computed(() => `${parseInt(props.rows as string) * 24}px`);
+
 const fullscreen = ref(false);
 const splitMode = ref(false);
 
 const classes = computed(() => ({
+	'initial-height': true,
 	'md-editor': true,
 	'p-2': true,
 	'fullscreen': fullscreen.value,
-	'split': splitMode.value
 }));
 
 const textAreaComp = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
-const h = useMemoize(() => `${parseInt(props.rows as string) * 24}px`);
 
 provide('err', err);
 
@@ -81,14 +82,17 @@ function clickTool(tool: Tool) {
 			inserted = '';
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				if (i !== 0) {
-					inserted += '\n';
+
+				if (line) {
+					if (i !== 0) {
+						inserted += '\n';
+					}
+
+					const strWithLineNum = insert.replace('$line', (i + 1).toString());
+					inserted += strWithLineNum.replace('$', line);
+
+					focusEnd += strWithLineNum.indexOf('$');
 				}
-
-				const strWithLineNum = insert.replace('$line', (i + 1).toString());
-				inserted += strWithLineNum.replace('$', line);
-
-				focusEnd += strWithLineNum.indexOf('$');
 			}
 
 			focusEnd--;
@@ -130,6 +134,10 @@ watch(fullscreen, status => {
 </style>
 
 <style scoped>
+.initial-height {
+	height: v-bind(h);
+}
+
 .preview {
 	overflow-y: scroll;
 	flex: 1;
