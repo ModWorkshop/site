@@ -1,5 +1,5 @@
 <template>
-	<m-flex class="tabs" gap="3">
+	<m-flex class="tabs overflow-x-hidden" gap="3">
 		<m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
 			<m-link class="collapse-button">
 				<i-mdi-menu/>
