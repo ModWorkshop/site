@@ -205,9 +205,9 @@ return [
                     'id'
                 ],
                 'searchableAttributes' => [
+                    'id',
                     'name',
                     'unique_name',
-                    'id',
                 ]
             ]
         ],

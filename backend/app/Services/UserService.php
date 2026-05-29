@@ -60,7 +60,7 @@ class UserService {
         $roleIds = Arr::get($val, 'role_ids');
         $gameRoleIds = Arr::get($val, 'game_role_ids');
 
-        if (mb_strlen($query) > 2 || !empty($roleIds) || !empty($gameRoleIds)) {
+        if (mb_strlen($query) > 0 || !empty($roleIds) || !empty($gameRoleIds)) {
             return self::meilisearch($val);
         } else {
             return self::dbFilteredUsers($val);
