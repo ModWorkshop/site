@@ -108,6 +108,10 @@ class LoginController extends Controller
 
         }
 
+        if (APIService::isIpBanned()) {
+            abort(400);
+        }
+
         if (APIService::containsSpammyWords($val['name']) || APIService::containsSpammyWords($val['unique_name'])) {
             abort(400);
         };
@@ -179,6 +183,10 @@ class LoginController extends Controller
 
     public function socialiteLogin(Request $request, string $provider)
     {
+        if (APIService::isIpBanned()) {
+            abort(400);
+        }
+
         $this->validateProvider($provider);
         $driver = Socialite::driver($provider);
 

@@ -644,4 +644,8 @@ class APIService {
         }
         return null;
     }
+
+    public static function isIpBanned() {
+        return Ban::active()->where('ip_address', Request::ip())->where('ip_ban', true)->exists();
+    }
 }

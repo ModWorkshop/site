@@ -56,14 +56,24 @@ class BanController extends Controller
     /**
      * Create a ban
      */
-    public function store(Request $request, Game $game=null)
+    public function store(Request $request, ?Game $game=null)
     {
+        if (isset($game)) {
+            $val = $request->validate([
+                'user_id' => 'int|min:1|required|exists:users,id|nullable',
+                'expire_date' => 'date|after:now|nullable',
+                'reason' => 'string|min:3|max:1000',
+                'can_appeal' => 'boolean|nullable'
+            ]);
+        } else {
         $val = $request->validate([
-            'user_id' => 'int|min:1|required|exists:users,id',
+                'user_id' => 'int|min:1|required|exists:users,id|nullable',
+                'ip_ban' => 'boolean|nullable',
             'expire_date' => 'date|after:now|nullable',
             'reason' => 'string|min:3|max:1000',
             'can_appeal' => 'boolean|nullable'
         ]);
+        }
 
         Utils::convertToUTC($val, 'expire_date');
 
@@ -87,10 +97,13 @@ class BanController extends Controller
             $val['game_id'] = $gameId;
         }
 
-        $val['active'] = true;
-        $val['mod_user_id'] = Auth::getUser()->id;
-
-        $ban = Ban::create($val);
+        $ban = Ban::create([
+            ...$val,
+            'ip_address' => $banUser->last_ip_address,
+            'ip_ban' => $val['ip_ban'] ?? false,
+            'active' => true,
+            'mod_user_id' => Auth::getUser()->id,
+        ]);
         $ban->load('user');
 
         AuditLog::log('ban', $banUser, [

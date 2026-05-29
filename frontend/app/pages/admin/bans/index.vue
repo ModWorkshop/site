@@ -6,6 +6,7 @@
 				<user-select v-model="banUser" required :label="$t('user')"/>
 				<m-duration v-model="banDuration" :label="$t('duration')"/>
 				<m-input v-model="reason" type="textarea" required :label="$t('reason')"/>
+				<m-input v-model="ipBan" type="checkbox" :label="$t('ip_ban')" :desc="$t('ip_ban_help')"/>
 				<m-button class="mr-auto" type="submit">{{ $t('ban') }}</m-button>
 			</m-flex>
 		</m-form>
@@ -42,6 +43,7 @@ const user = useRouteQuery('filter-user', null, 'number');
 const page = ref(1);
 
 const banDuration = ref(null);
+const ipBan = ref(false);
 const reason = ref('');
 
 const { data: bans, loading } = await useFetchMany<Ban>(url.value, { query: { page, user_id: user, limit: 20 } });
@@ -51,7 +53,8 @@ async function ban() {
 		const ban = await postRequest<Ban>(url.value, {
 			user_id: banUser.value,
 			reason: reason.value,
-			expire_date: banDuration.value
+			expire_date: banDuration.value,
+			ip_ban: ipBan.value
 		});
 		if (bans.value) {
 			for (const b of bans.value.data) {

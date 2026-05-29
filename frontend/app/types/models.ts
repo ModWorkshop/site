@@ -261,6 +261,7 @@ export interface Ban {
 	reason: string;
 	case_id: number;
 	can_appeal: boolean;
+	ip_ban: boolean;
 	user: User;
 	case: UserCase;
 }
