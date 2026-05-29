@@ -687,11 +687,11 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
         background: var(--content-bg-color);
         border-radius: var(--border-radius);
         left: 4px;
-        top: 64px;
+        top: 72px;
         align-items: start;
         position: fixed;
         z-index: 100;
-        height: calc(100vh - 70px);
+        height: calc(100vh - 78px);
         flex: 1;
 		overflow-y: auto;
     }

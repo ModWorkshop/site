@@ -1,10 +1,10 @@
 <template>
 	<m-flex class="tabs overflow-x-hidden" gap="3">
-		<m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
-			<m-link class="collapse-button">
+		<m-flex v-if="side" class="items-center lg:hidden" @click="menuOpen = !menuOpen">
+			<m-link class="collapse-button mt-1">
 				<i-mdi-menu/>
 			</m-link>
-			<span v-if="currentTab" class="text-2xl">{{ currentTab.title }}</span>
+			<strong v-if="currentTab" class="text-2xl">{{ currentTab.title }}</strong>
 		</m-flex>
 		<m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap" :padding="padding">
 			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>

@@ -26,7 +26,7 @@ const side = inject('side', false);
 <style>
 .tab-link {
 	font-size: 1.125rem;
-	border-radius: var(--border-radius);
+	border-radius: var(--content-border-radius);
 	padding: 1rem 2rem;
 	text-align: center;
 	color: var(--secondary-text-color);
