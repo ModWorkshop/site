@@ -66,13 +66,13 @@ class BanController extends Controller
                 'can_appeal' => 'boolean|nullable'
             ]);
         } else {
-        $val = $request->validate([
+            $val = $request->validate([
                 'user_id' => 'int|min:1|required|exists:users,id|nullable',
                 'ip_ban' => 'boolean|nullable',
-            'expire_date' => 'date|after:now|nullable',
-            'reason' => 'string|min:3|max:1000',
-            'can_appeal' => 'boolean|nullable'
-        ]);
+                'expire_date' => 'date|after:now|nullable',
+                'reason' => 'string|min:3|max:1000',
+                'can_appeal' => 'boolean|nullable'
+            ]);
         }
 
         Utils::convertToUTC($val, 'expire_date');
@@ -80,7 +80,7 @@ class BanController extends Controller
         /** @var User */
         $banUser = User::find($val['user_id']);
 
-        if (!$banUser->canBeEdited()) {
+        if (!empty($val['user_id']) && !$banUser->canBeBanned($game)) {
             abort(403, 'Cannot ban user');
         }
 

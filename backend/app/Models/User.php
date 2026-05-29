@@ -917,6 +917,40 @@ class User extends Model implements
     }
 
     /**
+     * Returns whether or not the user can be banned by the "other" user.
+     * The other user defaults to the currently authenticated user
+     */
+    public function canBeBanned(?Game $game=null)
+    {
+        $me = Auth::user();
+
+        // Not signed in? BTFU
+        // If we try to ban ourselves then return false!
+        if (!isset($me) || $me->id === $this->id) {
+            return false;
+        }
+
+        $myHighestOrder = $me->highestRoleOrder;
+        $highestOrder = $this->highestRoleOrder;
+
+        if (isset($game)) { // In case this is for a game
+            $myHighestOrder = $me->getGameHighestOrder($game->id);
+            $highestOrder = $this->getGameHighestOrder($game->id);
+        }
+
+        // We can't ban other users without permission and order
+        // We may also not ban moderators with 'manage-users' perm
+        // A role without an order is invalid, the only one that's allowed to not have one is Member.
+        if (!$me->hasPermission('manage-users', $game) || $this->hasPermission('manage-users', $game) || !isset($myHighestOrder)) {
+            return false;
+        }
+
+        // We have permission to manage user and now let's make sure our order is higher.
+        return !$highestOrder || $myHighestOrder > $highestOrder;
+    }
+
+
+    /**
      * Returns whether or not the user can be edited by the "other" user.
      * The other user defaults to the currently authenticated user
      */
