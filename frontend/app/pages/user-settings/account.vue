@@ -1,5 +1,5 @@
 <template>
-	<m-form v-model="userForm" float-save-gui autocomplete="off" @submit="save">
+	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex gap="2" column>
 			<m-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
 			<m-input v-model="userForm.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
@@ -85,6 +85,7 @@ const userForm = reactive({
 
 const { public: config } = useRuntimeConfig();
 
+const fc = createEventHook();
 const { t } = useI18n();
 const changePassword = ref(false);
 const { user: me, setUser, logout } = useStore();
@@ -159,6 +160,8 @@ async function save() {
 		userForm.password = '';
 		userForm.confirm_password = '';
 		userForm.current_password = '';
+
+		fc.trigger(userForm);
 	} catch (error) {
 		showError(error);
 	}

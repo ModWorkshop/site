@@ -1,5 +1,5 @@
 <template>
-	<m-form v-model="userForm" float-save-gui autocomplete="off" @submit="save">
+	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex gap="6" column>
 			<m-img-uploader
 				v-model="userForm.avatar_file"
@@ -100,6 +100,7 @@ const { user } = defineProps<{
 
 const { setUser } = useStore();
 const showError = useQuickErrorToast();
+const fc = createEventHook();
 
 const { data: pinnedMods } = await useFetchData<Mod[]>(`users/${user.id}/pinned-mods`);
 
@@ -137,6 +138,8 @@ async function save() {
 		userForm.avatar_file = undefined;
 		userForm.banner_file = undefined;
 		userForm.background_file = undefined;
+
+		fc.trigger(userForm);
 	} catch (error) {
 		showError(error);
 	}

@@ -1,5 +1,5 @@
 <template>
-	<m-form v-model="userForm" float-save-gui autocomplete="off" @submit="save">
+	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex column gap="3">
 			<m-select v-model="userForm.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
 			<m-select v-model="userForm.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
@@ -37,6 +37,7 @@ if (!isMe) {
 }
 
 const { t } = useI18n();
+const fc = createEventHook();
 
 const showError = useQuickErrorToast();
 const { setUser } = useStore();
@@ -62,6 +63,7 @@ const sortOptions = [
 async function save() {
 	try {
 		setUser(await patchRequest<User>(`users/${user.id}`, userForm));
+		fc.trigger(userForm);
 	} catch (error) {
 		showError(error);
 	}
