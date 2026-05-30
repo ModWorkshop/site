@@ -299,6 +299,11 @@ class User extends Model implements
         return $this->belongsToMany(Game::class, IgnoredGame::class)->select('games.*');
     }
 
+    public function ignoredCategories() : BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, IgnoredCategory::class)->select('categories.*');
+    }
+
     public function ignoredMods() : BelongsToMany
     {
         return $this->belongsToMany(Mod::class, IgnoredMod::class)->select('mods.*');

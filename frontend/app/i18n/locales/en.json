@@ -674,6 +674,8 @@
     "unignore": "Unignore",
     "ignored_games": "Ignored Games",
     "ignored_mods": "Ignored Mods",
+	"ignored_categories": "Ignored Categories",
+	"ignore_category": "Ignore Category",
     "audit_log": "Audit Log",
     "copy_link": "Copy Link",
     "repository": "Repository",

@@ -21,6 +21,29 @@
 				<m-button @click.prevent="unignoreGame(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
 			</template>
 		</m-list>
+		<m-list :title="$t('ignored_categories')" url="ignored-categories" :limit="10">
+			<template #buttons="{ items }">
+				<m-form-modal v-model="showIgnoreCategory" :title="$t('ignore_category')" @submit="err => submitIgnoreCategory(err, items.data)">
+					<game-select v-model="ignoreCategoryGameId" :label="$t('game')" clearable/>
+					<category-select
+						v-if="ignoreCategoryGameId"
+						v-model="ignoreCategoryId"
+						:max-height="500"
+						:categories="categories?.data ?? []"
+						:label="$t('category')"
+					/>
+				</m-form-modal>
+				<m-button class="ml-auto" @click="showIgnoreCategory = true">{{ $t('ignore') }}</m-button>
+			</template>
+			<template #item-name="{ item }">
+				<span class="self-center">
+					{{ item.path }}
+				</span>
+			</template>
+			<template #item-buttons="{ item, items }">
+				<m-button @click.prevent="unignoreCategory(item, items.data)"><i-mdi-remove/> {{ $t('unignore') }}</m-button>
+			</template>
+		</m-list>
 		<m-list :title="$t('ignored_mods')" url="ignored-mods" :limit="10">
 			<template #before-item="{ item }">
 				<game-thumbnail :game="item" style="width: 128px; height: 64px;"/>
@@ -48,7 +71,7 @@
 
 <script setup lang="ts">
 import { remove } from '@antfu/utils';
-import type { Game, Mod, Tag, User } from '~/types/models';
+import type { Game, Category, Mod, Tag, User } from '~/types/models';
 
 const isMe = inject<boolean>('isMe');
 
@@ -58,11 +81,34 @@ if (!isMe) {
 
 const blockTag = ref<Tag>();
 const showBlockTag = ref(false);
+const showIgnoreCategory = ref(false);
 const showError = useQuickErrorToast();
+
+const ignoreCategoryGameId = ref();
+const ignoreCategoryId = ref();
+
+const { data: categories, refresh } = await useFetchMany<Category>('categories', {
+	immediate: false,
+	query: {
+		include_paths: true,
+		game_id: ignoreCategoryGameId
+	}
+});
+
+watch(ignoreCategoryGameId, refresh);
 
 async function unignoreGame(game: Game, ignoredGames: Game[]) {
 	await setIgnoreGame(game, false);
 	remove(ignoredGames, game);
+}
+
+async function unignoreCategory(cat: Category, ignoredCats: Category[]) {
+	try {
+		await deleteRequest(`ignored-categories/${cat.id}`);
+		remove(ignoredCats, cat);
+	} catch (error) {
+		showError(error);
+	}
 }
 
 async function unignoreMod(mod: Mod, ignoredMods: Mod[]) {
@@ -85,6 +131,24 @@ async function unblockUser(user: User, blockedUsers: User[]) {
 		remove(blockedUsers, user);
 	} catch (error) {
 		showError(error);
+	}
+}
+
+async function submitIgnoreCategory(err, ignoredCats: Category[]) {
+	if (!ignoreCategoryId.value) {
+		return;
+	}
+
+	try {
+		await postRequest('ignored-categories', { category_id: ignoreCategoryId.value });
+		const cat = categories.value?.data.find(cat => cat.id === ignoreCategoryId.value);
+		if (cat) {
+			ignoredCats.push(cat);
+		}
+		ignoreCategoryId.value = undefined;
+		showIgnoreCategory.value = false;
+	} catch (error) {
+		err(error);
 	}
 }
 

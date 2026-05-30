@@ -732,6 +732,11 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasOne(IgnoredGame::class, 'game_id', 'game_id')->where('user_id', Auth::id());
     }
 
+    public function categoryIgnoredByMe()
+    {
+        return $this->hasOne(IgnoredCategory::class, 'category_id', 'category_id')->where('user_id', Auth::id());
+    }
+
     /**
      * Returns whether the mod is ignored by the authenticated user
      */

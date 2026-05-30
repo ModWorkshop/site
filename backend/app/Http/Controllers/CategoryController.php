@@ -33,7 +33,8 @@ class CategoryController extends Controller
             'game_id' => 'integer|min:1|exists:games,id',
             //Returns only the names of the categories
             'only_names' => 'boolean',
-            'include_paths' => 'boolean'
+            'include_paths' => 'boolean',
+            'include_game_in_paths' => 'boolean'
         ]);
 
         $val['limit'] ??= 1000;
@@ -56,7 +57,11 @@ class CategoryController extends Controller
 
         $incPaths = $val['include_paths'] ?? false;
         if ($incPaths) {
-            APIService::appendToItems($categories, 'path');
+            $incGameInPaths = $val['include_game_in_paths'] ?? true;
+            foreach ($categories as $cat) {
+                $cat->includeGameInPath = $incGameInPaths;
+                $cat->path = $cat->path;
+            }
         }
 
         return CategoryResource::collectionResponse($categories);

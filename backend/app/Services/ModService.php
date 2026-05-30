@@ -80,11 +80,12 @@ class ModService {
                 $blockedTags = $user->blockedTags->pluck('id')->toArray();
                 $blockedUsers = $user->blockedUsers->pluck('id')->toArray();
                 $ignoredGames = $user->ignoredGames->pluck('id')->toArray();
+                $ignoredCats = $user->ignoredCategories->pluck('id')->toArray();
                 $ignored = $user->ignoredMods->pluck('id')->toArray();
 
                 return $search->whereNotIn('tag_ids', $blockedTags)
-                    ->whereNotIn('game_id', $blockedTags)
                     ->whereNotIn('game_id', $ignoredGames)
+                    ->whereNotIn('category_id', $ignoredCats)
                     ->whereNotIn('id', $ignored)
                     ->whereNotIn('user_id', $blockedUsers);
             });
@@ -231,6 +232,7 @@ class ModService {
             $query->where(function($query) use ($user) {
                 $query->whereDoesntHaveIn('blockedByMe')
                     ->whereDoesntHaveIn('gameIgnoredByMe')
+                    ->whereDoesntHaveIn('categoryIgnoredByMe')
                     ->whereDoesntHaveIn('ignored')
                     ->whereDoesntHaveIn('tagsSpecial', function($q) use ($user) {
                         $q->join('blocked_tags', 'taggables.tag_id', '=', 'blocked_tags.tag_id');
