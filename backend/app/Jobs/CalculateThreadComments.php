@@ -23,9 +23,12 @@ class CalculateThreadComments implements ShouldQueue
     {
         Thread::orderBy('id')->chunk(1000, function(Collection $threads) {
             foreach ($threads as $thread) {
-                $thread->update([
-                    'comment_count' => $thread->comments()->count()
-                ]);
+                $count = $thread->comments()->count();
+                if ($count !== $thread->comment_count) {
+                    $thread->update([
+                        'comment_count' => $count
+                    ]);
+                }
             }
         });
     }
