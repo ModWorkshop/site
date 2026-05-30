@@ -21,6 +21,14 @@ class CalculateThreadComments implements ShouldQueue
      */
     public function __construct()
     {
+
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {
         Thread::orderBy('id')->chunk(1000, function(Collection $threads) {
             foreach ($threads as $thread) {
                 $count = $thread->comments()->count();
@@ -31,13 +39,5 @@ class CalculateThreadComments implements ShouldQueue
                 }
             }
         });
-    }
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
-    {
-        //
     }
 }
