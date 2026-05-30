@@ -6,33 +6,22 @@ use App\Http\Resources\UserResource;
 use App\Models\Ban;
 use App\Models\SocialLogin;
 use App\Models\User;
-use App\Models\UserCase;
 use App\Models\UserRecord;
 use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Console\Migrations\ResetCommand;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\ViewErrorBag;
-use nickurt\StopForumSpam\Rules\IsSpamEmail;
-use nickurt\StopForumSpam\Rules\IsSpamUsername;
 use Socialite;
-use SplFileInfo;
 use StopForumSpam;
-use Storage;
 use Str;
 use FileEye\MimeMap\Type;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\UploadedFile;
-use Log;
 use Password;
 use Throwable;
 use Jcupitt\Vips;
@@ -68,8 +57,6 @@ class LoginController extends Controller
         } else {
             return response('Email or password are incorrect', Response::HTTP_UNAUTHORIZED);
         }
-
-        return response('Something went wrong', Response::HTTP_BAD_REQUEST);
     }
 
     /**

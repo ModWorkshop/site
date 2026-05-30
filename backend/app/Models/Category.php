@@ -142,15 +142,6 @@ class Category extends Model
         ];
     }
 
-    public function toSearchableArray()
-    {
-        $this->with(['parent', 'game']);
-
-        return [
-            'name' => $this->name
-        ];
-     }
-
     public static function booted()
     {
         static::creating(function(Category $cat) {
