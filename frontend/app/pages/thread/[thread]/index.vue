@@ -7,10 +7,10 @@
 					<m-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
 				</NuxtLink>
 				<m-flex column wrap class="overflow-hidden w-full">
-					<m-flex class="items-center" wrap>
+					<m-flex wrap column>
 						<a-user :avatar="false" :user="thread.user"/>
 						<m-flex wrap>
-							<NuxtLink class="text-body" :to="`/thread/${thread.id}`">
+							<NuxtLink class="text-secondary" :to="`/thread/${thread.id}`">
 								<m-time :datetime="thread.created_at" relative/>
 							</NuxtLink>
 							<m-time v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :datetime="thread.updated_at" :text="$t('edited')"/>
