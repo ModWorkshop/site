@@ -179,18 +179,15 @@ class UserController extends Controller
             'background_file'
         );
 
-        $extra = Arr::pull($val, 'extra');
-
         $pinnedModIds = Arr::pull($val, 'pinned_mod_ids');
-        $fetchedPinnedModsCount = Mod::whereIn('id', $pinnedModIds)->where(function($q) use ($user) {
-            $q->where('user_id', $user->id)->orWhere(fn($q) => $q->isMemberOf($user->id));
-        })->count();
-
-        if ($fetchedPinnedModsCount != count($pinnedModIds)) {
-            abort(422, 'Invalid pinned mods. You must be the owner or one of the members to pin these mods.');
-        }
-
         if (isset($pinnedModIds)) {
+            $fetchedPinnedModsCount = Mod::whereIn('id', $pinnedModIds)->where(function($q) use ($user) {
+                $q->where('user_id', $user->id)->orWhere(fn($q) => $q->isMemberOf($user->id));
+            })->count();
+
+            if ($fetchedPinnedModsCount != count($pinnedModIds)) {
+                abort(422, 'Invalid pinned mods. You must be the owner or one of the members to pin these mods.');
+            }
             $user->pinnedMods()->sync($pinnedModIds);
         }
 
@@ -274,6 +271,7 @@ class UserController extends Controller
         }
 
         $user->update($val);
+        $extra = Arr::pull($val, 'extra');
         if (isset($extra)) {
             $user->extra->update($extra);
         }
