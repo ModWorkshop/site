@@ -27,6 +27,7 @@ use App\Services\Utils;
 use Arr;
 use Auth;
 use Carbon\Carbon;
+use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
@@ -134,8 +135,8 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::meilisearch($request->val(), $game, function($modSearch) {
-            $modSearch->whereNull('approved');
+        $mods = ModService::meilisearch($request->val(), $game, function(MeilisearchQuery $modSearch) {
+            $modSearch->whereIsNull('approved');
         });
 
         return ModResource::collectionResponse($mods);

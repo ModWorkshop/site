@@ -95,7 +95,7 @@ class ModResource extends BaseResource
             'game' => $this->whenLoaded('game', fn() => $this->fullLoad ? new GameResource($this->game) : new SmallGameResource($this->game)),
             'category' => $this->whenLoaded('category', fn() => $this->fullLoad ? new CategoryResource($this->category) : new SmallCategoryResource($this->category)),
             'transfer_request' => $this->whenLoaded('transferRequest'),
-            'last_user' => $this->whenAppended('lastUserAttribute', fn() => new UserResource($this->lastUserAttribute)),
+            'last_user' => $this->whenAppended('last_user_attribute', fn() => new UserResource($this->last_user_attribute)),
             'tags' => $this->whenLoaded('tags', fn() => $this->tags),
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'liked' => $this->whenLoaded('liked'),

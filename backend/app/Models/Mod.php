@@ -354,7 +354,7 @@ class Mod extends Model implements SubscribableInterface
         $this->fullLoad = true; // Files and links handled in resource
         $this->loadMissing(self::SHOW_MOD_WITH);
         $this->loadCount(['links', 'files']);
-        $this->append(['download', 'lastUserAttribute']);
+        $this->append(['download', 'last_user_attribute']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
