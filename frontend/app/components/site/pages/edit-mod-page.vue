@@ -50,6 +50,7 @@ if (!canEditMod(mod.value)) {
 
 provide('canSuperUpdate', canSuperUpdate(mod.value));
 provide('mod', mod);
+provide('initialMod', initialMod.value);
 
 watch(() => mod.value.game, () => {
 	if (mod.value.game) {
@@ -61,21 +62,22 @@ provide('flushChanges', flushChanges);
 
 async function save() {
 	try {
-		let fetchedMod;
-		if (!mod.value.id) {
+		let fetchedMod: Mod;
+		const newMod = !mod.value.id;
+		if (newMod) {
 			fetchedMod = await postRequest<Mod>(`/games/${mod.value.game_id}/mods`, mod.value);
-			if (fetchedMod) {
-				// router.push({ path: `/mod/${fetchedMod.id}/edit`, query: { tab: route.query.tab } });
-				flushChanges.trigger(fetchedMod);
-			}
 		} else {
 			fetchedMod = await patchRequest<Mod>(`mods/${mod.value.id}`, mod.value);
-			if (fetchedMod) {
-				flushChanges.trigger(mod.value);
-			}
+		}
+
+		if (fetchedMod) {
+			flushChanges.trigger(fetchedMod);
 		}
 
 		Object.assign(initialMod.value, fetchedMod);
+		if (newMod) {
+			window.history.replaceState(history.state, '', `/mod/${fetchedMod.id}/edit`);
+		}
 	} catch (error) {
 		showErrorToast(error);
 		return;

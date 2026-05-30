@@ -172,6 +172,8 @@ const currentLink = ref<Link>();
 const filesPage = ref(1);
 const linksPage = ref(1);
 
+const initialMod = inject<Mod>('initialMod');
+
 const { data: asyncFiles, refresh: refreshFiles } = await useFetchMany(`mods/${mod.value.id}/files`, {
 	query: {
 		limit: 10,
@@ -269,6 +271,11 @@ function updateHasDownload() {
 	mod.value.files_count = files.value.length ?? 0;
 	mod.value.links_count = links.value.length ?? 0;
 	mod.value.has_download = (mod.value.files_count > 0) || (mod.value.links_count > 0) || false;
+
+
+	if (initialMod) {
+		initialMod.has_download = mod.value.has_download;
+	}
 
 	if (Math.abs(mod.value.files_count - mod.value.links_count) === 1) {
 		mod.value.download = files.value[0] ?? links.value[0];
