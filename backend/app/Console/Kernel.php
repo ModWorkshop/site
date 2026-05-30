@@ -10,6 +10,7 @@ use App\Jobs\DeleteLoosePendingFiles;
 use App\Jobs\DeleteOldAuditLogs;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\RemoveExpiredRequests;
+use App\Jobs\SetUsersNeedsApprovalToFalse;
 use App\Jobs\TryActivatingUsers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -39,6 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
+        $schedule->job(new SetUsersNeedsApprovalToFalse)->everySixHours();
 
         $schedule->command('sitemap:generate')->everyTwoHours();
 

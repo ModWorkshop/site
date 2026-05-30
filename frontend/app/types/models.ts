@@ -325,6 +325,7 @@ export interface User {
 	supporter?: Supporter;
 	nitro_token?: string;
 	avatar_has_thumb?: boolean;
+	needs_mod_approval?: boolean;
 }
 
 export interface UserForm extends User {
@@ -475,6 +476,7 @@ export interface Settings {
 	news_forum_category: number;
 	edit_comment_threshold: number;
 	game_requests_forum_category: number;
+	new_user_first_upload_requires_approval: boolean;
 }
 
 export interface Document {

@@ -162,6 +162,7 @@ class ModController extends Controller
     public function update(ModUpsertRequest $request, Game $game=null, Mod $mod=null)
     {
         $val = $request->validated();
+        $user = $this->user();
 
         //Currently if we give this something like short_desc= we expect short_desc to get empty
         //However, Laravel sees this as a null value, while useful for integer filters, usually not so much for updating strings.
@@ -215,6 +216,11 @@ class ModController extends Controller
             if (!isset($category)) {
                 abort(409, 'Invalid category. It must belong to the game.');
             }
+        }
+
+        // New users need approval
+        if ($mod == null && Setting::get('new_user_first_upload_requires_approval') && $user->needs_mod_approval && $user->created_at->diffInMonths(Carbon::now()) < 1) {
+            $sendForApproval = true;
         }
 
         if ($sendForApproval) {
@@ -547,6 +553,13 @@ class ModController extends Controller
         $mod->update(['approved' => $approve]);
         if ($approve) {
             $mod->publish();
+        }
+
+        // Mod was approved, the user no longer needs approval for future mods
+        if ($approve && $mod->user->needs_mod_approval) {
+            $mod->user->update([
+                'needs_mod_approval' => false
+            ]);
         }
 
         // Send to discord about this

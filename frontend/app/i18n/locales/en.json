@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Once you're happy with the mod, you can publish it, allowing people to view & download it.",
     "edit_mod_warn_1": "In some cases, mods such as music mods require approval. If your mod contains music, send it for approval (Below)",
     "edit_mod_warn_2": "You should be familiar with our rules, found {here}",
+	"edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Auto-Subscribe to Mod Comments",
     "auto_subscribe_to_thread": "Auto-Subscribe to Thread",
     "mark_as_answer": "Mark as Answer",

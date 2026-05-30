@@ -61,6 +61,7 @@ class UserResource extends BaseResource
             'avatar_has_thumb' => $this->avatar_has_thumb,
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
+            'needs_mod_approval' => $this->needs_mod_approval,
             'mods_count' => $this->when($this->isVisibleForProfile('mods_count'), fn() => $this->whenCounted('viewableMods'))
         ];
     }

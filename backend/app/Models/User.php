@@ -218,6 +218,7 @@ class User extends Model implements
         'custom_title',
         'donation_url',
         'show_tag',
+        'needs_mod_approval'
     ];
 
     /**
