@@ -25,6 +25,15 @@
 			</m-flex>
 			<md-editor v-model="userForm.bio" rows="12" :label="$t('bio')" :desc="$t('bio_desc')"/>
 
+			<mod-select
+				v-model="userForm.pinned_mod_ids"
+				:fetch-params="{ user_id: user.id, including_collab: true }"
+				:max="5"
+				multiple
+				:label="$t('pinned_mods')"
+				:desc="$t('pinned_mods_desc')"
+			/>
+
 			<m-img-uploader
 				v-model="userForm.banner_file"
 				clear-button
@@ -83,7 +92,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useStore } from '~/store';
-import type { User } from '~/types/models';
+import type { Mod, User } from '~/types/models';
 
 const { user } = defineProps<{
 	user: User;
@@ -91,6 +100,11 @@ const { user } = defineProps<{
 
 const { setUser } = useStore();
 const showError = useQuickErrorToast();
+
+const { data: pinnedMods } = await useFetchData<Mod[]>(`users/${user.id}/pinned-mods`);
+
+const pinnedModIds: number[] = [];
+pinnedMods.value?.forEach(mod => pinnedModIds.push(mod.id));
 
 const userForm = reactive({
 	name: user.name,
@@ -104,6 +118,7 @@ const userForm = reactive({
 	invisible: user.invisible,
 	custom_title: user.custom_title,
 	custom_color: user.custom_color,
+	pinned_mod_ids: pinnedModIds,
 	avatar_file: undefined,
 	banner_file: undefined,
 	background_file: undefined

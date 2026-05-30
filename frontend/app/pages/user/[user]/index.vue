@@ -1,63 +1,73 @@
 <template>
-	<template v-if="tempBlockOverride || !isBlocked">
-		<m-banner :src="user.banner" url-prefix="users/images">
-			<m-avatar class="mt-auto d-inline-block mb-2 ml-2" size="3xl" :src="user.avatar"/>
-		</m-banner>
-		<m-flex gap="3" column class="details md:flex-row">
-			<m-content-block class="p-4 place-self-start max-sm:w-full">
-				<m-flex gap="3" column style="min-width: 300px;">
-					<a-user class="text-xl" :user="user" :avatar="false" static show-online-state>
-						<template #details>
-							<span v-if="user.unique_name" class="user-at text-base">@{{ user.unique_name }} / ID {{ user.id }}</span>
-							<span v-if="!userInvisible" class="text-base">{{ user.custom_title }}</span>
+	<m-flex v-if="tempBlockOverride || !isBlocked" column gap="6">
+		<m-flex column gap="3">
+			<m-banner :src="user.banner" url-prefix="users/images">
+				<m-avatar class="mt-auto d-inline-block mb-2 ml-2" size="3xl" :src="user.avatar"/>
+			</m-banner>
+			<m-flex gap="3" column class="details md:flex-row">
+				<m-content-block class="p-4 place-self-start max-sm:w-full">
+					<m-flex gap="3" column style="min-width: 300px;">
+						<a-user class="text-xl" :user="user" :avatar="false" static show-online-state>
+							<template #details>
+								<span v-if="user.unique_name" class="user-at text-base">@{{ user.unique_name }} / ID {{ user.id }}</span>
+								<span v-if="!userInvisible" class="text-base">{{ user.custom_title }}</span>
+							</template>
+						</a-user>
+						<template v-if="isPublic">
+							<m-flex v-if="user.created_at" column>
+								{{ $t('registration_date') }}
+								<m-time class="text-secondary" :datetime="user.created_at" :time-style="false"/>
+							</m-flex>
+							<m-flex v-if="!isOnline" column>
+								{{ $t('last_visit') }}
+								<m-time class="text-secondary" :datetime="user.last_online" relative/>
+							</m-flex>
+							<m-flex column>
+								{{ $t('mods') }}
+								<span class="text-secondary">{{ user.mods_count }}</span>
+							</m-flex>
+							<m-flex v-if="user.donation_url && linkToDonationType(user.donation_url)" column>
+								{{ $t('support_user') }}
+								<donation-button :link="user.donation_url"/>
+							</m-flex>
+							<m-flex column>
+								<role-selector :user="user"/>
+							</m-flex>
 						</template>
-					</a-user>
+					</m-flex>
+				</m-content-block>
+				<m-content-block class="bio p-4 w-full">
 					<template v-if="isPublic">
-						<m-flex v-if="user.created_at" column>
-							{{ $t('registration_date') }}
-							<m-time class="text-secondary" :datetime="user.created_at" :time-style="false"/>
-						</m-flex>
-						<m-flex v-if="!isOnline" column>
-							{{ $t('last_visit') }}
-							<m-time class="text-secondary" :datetime="user.last_online" relative/>
-						</m-flex>
-						<m-flex column>
-							{{ $t('mods') }}
-							<span class="text-secondary">{{ user.mods_count }}</span>
-						</m-flex>
-						<m-flex v-if="user.donation_url && linkToDonationType(user.donation_url)" column>
-							{{ $t('support_user') }}
-							<donation-button :link="user.donation_url"/>
-						</m-flex>
-						<m-flex column>
-							<role-selector :user="user"/>
-						</m-flex>
+						<md-content v-if="user.bio" allow-anchors :text="user.bio"/>
+						<div v-else class="w-full">{{ $t('no_bio') }}</div>
 					</template>
-				</m-flex>
-			</m-content-block>
-			<m-content-block class="bio p-4 w-full">
-				<template v-if="isPublic">
-					<md-content v-if="user.bio" allow-anchors :text="user.bio"/>
-					<div v-else class="w-full">{{ $t('no_bio') }}</div>
-				</template>
-				<div v-else>{{ $t('private_profile_notice') }}</div>
-			</m-content-block>
+					<div v-else>{{ $t('private_profile_notice') }}</div>
+				</m-content-block>
+			</m-flex>
 		</m-flex>
 		<template v-if="isPublic">
 			<template v-if="tempBlockOverride || !isHidingMods">
-				<m-flex class="overflow-x-auto w-full">
+				<m-flex v-if="user.pinned_mods?.length" column gap="3">
+					<NuxtLink class="h2 text-body self-start">{{ $t('pinned_mods') }}</NuxtLink>
+					<m-flex column>
+						<mod-list-skeleton :mods="user.pinned_mods"/>
+					</m-flex>
+				</m-flex>
+				<mod-list
+						v-if="isPublic || isOwnOrModerator"
+						:trigger-refresh="triggerRefresh"
+						:title="$t('mods')"
+						:user-id="user.id"
+						:collab="displayMods == 'collab'"
+						:params="{ including_ignored: true }"
+					>
+					<template #buttons>
 					<m-toggle-group v-model:selected="displayMods" gap="1" button-style="nav" :wrap="false">
 						<m-toggle-group-item value="personal" class="flex-shrink-0">{{ $t('personal_mods') }}</m-toggle-group-item>
 						<m-toggle-group-item value="collab" class="flex-shrink-0">{{ $t('collab_mods') }}</m-toggle-group-item>
 					</m-toggle-group>
-				</m-flex>
-				<mod-list
-					v-if="isPublic || isOwnOrModerator"
-					:trigger-refresh="triggerRefresh"
-					:user-id="user.id"
-					:collab="displayMods == 'collab'"
-					:params="{ including_ignored: true }"
-				/>
+					</template>
+				</mod-list>
 			</template>
 			<m-content-block v-else>
 				{{ $t('hiding_mods_view') }}
@@ -66,7 +76,7 @@
 				</div>
 			</m-content-block>
 		</template>
-	</template>
+	</m-flex>
 	<m-content-block v-else>
 		{{ $t('blocked_user_view') }}
 		<m-flex>

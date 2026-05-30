@@ -103,10 +103,15 @@ class ModService {
         }
 
         if (isset($val['user_id'])) {
-            if ($val['collab'] ?? false) {
+            $collab = $val['collab'] ?? false;
+            if ($collab) {
                 $modSearch->where('member_ids', $val['user_id']);
             } else {
                 $modSearch->where('user_id', $val['user_id']);
+            }
+
+            if (!$collab && ($val['including_collab'] ?? false)) {
+                $modSearch->orWhere('member_ids', $val['user_id']);
             }
         }
 
@@ -252,12 +257,15 @@ class ModService {
         }
 
         if (isset($val['user_id'])) {
-            if ($val['collab'] ?? false) {
-                $query->whereHasIn('members', function($q) use ($val) {
-                    $q->where('user_id', $val['user_id'])->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
-                });
+           $collab = $val['collab'] ?? false;
+            if ($collab) {
+                $query->isMemberOf($val['user_id']);
             } else {
                 $query->where('user_id', $val['user_id']);
+            }
+
+            if (!$collab && ($val['including_collab'] ?? false)) {
+                $query->orWhere(fn($q) => $q->isMemberOf($val['user_id']));
             }
         }
 

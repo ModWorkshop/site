@@ -330,6 +330,12 @@ class User extends Model implements
         return $this->belongsToMany(User::class, FollowedUser::class, null, 'follow_user_id')->select('users.*');
     }
 
+    public function pinnedMods() : BelongsToMany {
+        $mods = $this->belongsToMany(Mod::class, 'user_pinned_mods')->with(Mod::LIST_MOD_WITH);
+        ModService::viewFilters($mods);
+        return $mods;
+    }
+
     public function getMorphClass(): string {
         return 'user';
     }

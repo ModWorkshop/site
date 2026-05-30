@@ -21,7 +21,7 @@ class UserResource extends BaseResource
         $user = $request->user();
 
         $isMe = $user?->id === $this->id;
-        $isMeOrUserMod = $isMe || $user->hasPermission('manage-users');
+        $isMeOrUserMod = $isMe || $user?->hasPermission('manage-users');
         $notMeNotGuest = isset($user) && !$isMe;
 
         return [
@@ -62,7 +62,8 @@ class UserResource extends BaseResource
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
             'needs_mod_approval' => $this->needs_mod_approval,
-            'mods_count' => $this->when($this->isVisibleForProfile('mods_count'), fn() => $this->whenCounted('viewableMods'))
+            'mods_count' => $this->when($this->isVisibleForProfile('mods_count'), fn() => $this->whenCounted('viewableMods')),
+            'pinned_mods' => $this->whenLoaded('pinnedMods')
         ];
     }
 }

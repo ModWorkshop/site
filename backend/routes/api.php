@@ -194,6 +194,7 @@ Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
 });
 
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
+Route::get('users/{user}/pinned-mods', [UserController::class, 'getPinnedMods']);
 
 Route::middleware('can:viewDiscussions,user')->get('users/{user}/comments', [UserController::class, 'getComments']);
 Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [UserController::class, 'getThreads']);

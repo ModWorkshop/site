@@ -13,6 +13,7 @@ use Auth;
 use Carbon\Carbon;
 use Database\Factories\ModFactory;
 use Eloquent;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -488,9 +489,9 @@ class Mod extends Model implements SubscribableInterface
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
     }
 
-        public function acceptedMembersForSearch()
+    public function acceptedMembersForSearch()
     {
-        return $this->belongsToMany(User::class, 'mod_members')->where('accepted', true)->whereIn('level', ['maintainer', 'collaborator']);
+        return $this->belongsToMany(User::class, 'mod_members')->where('accepted', true)->whereNot('level', 'viewer');
     }
 
     /**
@@ -823,5 +824,13 @@ class Mod extends Model implements SubscribableInterface
         if ($save) {
             $this->save();
         }
+    }
+
+    #[Scope]
+    protected function isMemberOf(Builder $query, int $userId): void
+    {
+        $query->whereHasIn('members', function($q) use ($userId) {
+            $q->where('user_id', $userId)->where('accepted', true)->whereNot('level', 'viewer');
+        });
     }
 }

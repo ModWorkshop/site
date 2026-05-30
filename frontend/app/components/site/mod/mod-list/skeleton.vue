@@ -34,7 +34,7 @@ const props = defineProps<{
 	displayMode?: number;
 	sortBy?: string;
 	game?: Game;
-	noGame: boolean;
+	noGame?: boolean;
 	error?: Error | null;
 	mods?: Mod[];
 }>();

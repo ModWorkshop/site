@@ -12,7 +12,6 @@ use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\Mod;
 use App\Models\AuditLog;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
 use App\Services\CommentService;
@@ -20,13 +19,10 @@ use App\Services\ThreadService;
 use Auth;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
 use Str;
 use UserService;
 
@@ -66,8 +62,12 @@ class UserController extends Controller
      *
      * @urlParam user integer required The ID of the user
      */
-    public function getUser(string $user, Game $game=null)
+    public function getUser(Request $request, string $user, Game $game=null)
     {
+        $val = $request->validate([
+            'include_pinned_mods' => 'boolean|nullable'
+        ]);
+
         if (isset($game)) {
             APIService::setCurrentGame($game);
         }
@@ -88,6 +88,11 @@ class UserController extends Controller
 
         if ($foundUser->id === $this->userId() || Auth::user()?->hasPermission('manage-users')) {
             $foundUser->append('signable');
+        }
+
+
+        if ($val['include_pinned_mods'] ?? false) {
+            $foundUser->load('pinnedMods');
         }
 
         return new UserResource($foundUser);
@@ -134,6 +139,8 @@ class UserController extends Controller
             'background_file' => ['nullable', 'is_image'],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
+            'pinned_mod_ids' => 'nullable|array|max:5',
+            'pinned_mod_ids.*' => 'int|min:1|exists:mods,id',
             'extra.default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.home_default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.game_default_mods_sort' => ['nullable', Rule::in($sorting)],
@@ -160,7 +167,7 @@ class UserController extends Controller
 
         APIService::normalizeStrings($val, 'name');
 
-        APIService::nullToUndefined($val, 'name', 'unique_name', 'email');
+        APIService::nullToUndefined($val, 'name', 'unique_name', 'email', 'pinned_mods');
 
         APIService::nullToEmptyStr($val,
             'custom_color',
@@ -173,6 +180,19 @@ class UserController extends Controller
         );
 
         $extra = Arr::pull($val, 'extra');
+
+        $pinnedModIds = Arr::pull($val, 'pinned_mod_ids');
+        $fetchedPinnedModsCount = Mod::whereIn('id', $pinnedModIds)->where(function($q) use ($user) {
+            $q->where('user_id', $user->id)->orWhere(fn($q) => $q->isMemberOf($user->id));
+        })->count();
+
+        if ($fetchedPinnedModsCount != count($pinnedModIds)) {
+            abort(422, 'Invalid pinned mods. You must be the owner or one of the members to pin these mods.');
+        }
+
+        if (isset($pinnedModIds)) {
+            $user->pinnedMods()->sync($pinnedModIds);
+        }
 
         if (isset($val['unique_name'])) {
             $val['unique_name'] = Str::lower($val['unique_name']);
@@ -480,5 +500,12 @@ class UserController extends Controller
     public function cancelPendingEmail()
     {
         $this->user()->forceFill(['pending_email' => null, 'pending_email_set_at' => null])->save();
+    }
+
+    /**
+     * Returns the pinned mods (in profile) of the user
+     */
+    public function getPinnedMods(User $user) {
+        return $user->pinnedMods;
     }
 }

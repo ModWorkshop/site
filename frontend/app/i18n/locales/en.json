@@ -690,5 +690,7 @@
 	"sessions": "Sessions",
 	"ip_address": "IP Address",
 	"ip_ban": "IP Ban",
-	"ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution."
+	"ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+	"pinned_mods": "Pinned Mods",
+	"pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }
