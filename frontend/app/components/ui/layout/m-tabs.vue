@@ -142,6 +142,9 @@ function setCurrentTab(name: string, skipSetQuery = false) {
 if (query) {
 	watch(queryTab, val => {
 		setCurrentTab(val, true);
+		if (!val) {
+			refreshTabs();
+		}
 	});
 }
 </script>
