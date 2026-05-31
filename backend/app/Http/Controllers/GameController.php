@@ -300,8 +300,8 @@ class GameController extends Controller
      *
      * Returns the user as they are supposed to be when inside of a game. Handles roles and colors.
      */
-    public function getGameUser(UserController $con, Game $game=null, string $user) {
-        return $con->getUser($user, $game);
+    public function getGameUser(Request $request, UserController $con, Game $game=null, string $user) {
+        return $con->getUser($request, $user, $game);
     }
 
     /**
