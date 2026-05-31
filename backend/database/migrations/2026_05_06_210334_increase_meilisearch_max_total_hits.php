@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $client = new \Meilisearch\Client('http://meilisearch:7700', env('MEILISEARCH_KEY'));
+        $client = new \Meilisearch\Client(env('MEILISEARCH_HOST'), env('MEILISEARCH_KEY'));
         $mods = $client->index('mods');
         $threads = $client->index('threads');
         $users = $client->index('users');
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $client = new \Meilisearch\Client('http://meilisearch:7700', env('MEILISEARCH_KEY'));
+        $client = new \Meilisearch\Client(env('MEILISEARCH_HOST'), env('MEILISEARCH_KEY'));
         $mods = $client->index('mods');
         $threads = $client->index('threads');
         $users = $client->index('users');
