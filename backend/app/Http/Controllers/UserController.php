@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Services\APIService;
 use App\Services\CommentService;
 use App\Services\ThreadService;
+use App\Services\UserService;
 use Auth;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -24,7 +25,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Str;
-use UserService;
 
 /**
  * @group Users
