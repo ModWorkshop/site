@@ -102,11 +102,4 @@ class Tag extends Model
     {
         return Attribute::make(fn($value) => trim($value));
     }
-
-    public function toSearchableArray()
-    {
-        return [
-            'name' => $this->name,
-        ];
-    }
 }
