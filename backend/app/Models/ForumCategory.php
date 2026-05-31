@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
@@ -117,6 +118,10 @@ class ForumCategory extends Model
         return $this->belongsTo(Game::class, 'forum_id', 'forum_id');
     }
 
+    public function threads() : HasMany {
+        return $this->hasMany(Thread::class, 'category_id');
+    }
+
     /**
      * Returns whether or not the user can view the forum category.
      * If private, the user must have at least wone role that allows them to view it. Guests are denied.
@@ -201,6 +206,15 @@ class ForumCategory extends Model
             }
 
             return $canPost && !$this->is_private;
+        });
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($cat) {
+            if ($cat->isDirty('name')) {
+                $cat->threads()->searchable();
+            }
         });
     }
 }

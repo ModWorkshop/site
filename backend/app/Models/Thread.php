@@ -142,7 +142,7 @@ class Thread extends Model implements SubscribableInterface
             'closed' => $this->closed,
             'bumped_at' => $this->bumped_at,
             'category_id' => $this->category_id,
-            'category_name' => $this->category?->name // TODO: when category name changes you must update this
+            'category_name' => $this->category?->name
         ];
     }
 
