@@ -200,6 +200,7 @@ return [
                     'unique_name',
                     'role_ids',
                     'game_role_ids',
+                    'purged_user'
                 ],
                 'sortableAttributes' => [
                     'id'

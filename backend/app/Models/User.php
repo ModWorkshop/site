@@ -218,7 +218,8 @@ class User extends Model implements
         'custom_title',
         'donation_url',
         'show_tag',
-        'needs_mod_approval'
+        'needs_mod_approval',
+        'purged_user'
     ];
 
     /**
@@ -254,6 +255,7 @@ class User extends Model implements
             'id' => $this->id,
             'name' => $this->name,
             'unique_name' => $this->unique_name,
+            'purged_user' => $this->purged_user,
             'role_ids' => $this->roles->pluck('id'),
             'game_role_ids' => $this->gameRoles->pluck('id'),
         ];

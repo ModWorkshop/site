@@ -8,6 +8,7 @@ use Illuminate\Support\Number;
 class UserService {
     public static function meilisearch(array $val) {
         $search = MeilisearchQuery::for(User::class);
+        $me = Auth::user();
         // $q->withCount('viewableMods');
 
         if (isset($val['ids'])) {
@@ -32,6 +33,10 @@ class UserService {
             if (!empty($roleIds)) {
                 $search->whereIn('game_role_ids', $roleIds);
             }
+        }
+
+        if (!$me?->hasPermission('moderate-users')) {
+            $search->where('purged_user', false);
         }
 
         $query = $val['query'] ?? '';
@@ -72,6 +77,8 @@ class UserService {
     }
 
     public static function dbFilters(Builder $q, array $val) {
+        $me = Auth::user();
+
         $q->withCount('viewableMods');
 
         if (isset($val['id'])) {
@@ -97,6 +104,10 @@ class UserService {
             if (!empty($roleIds)) {
                 $q->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
             }
+        }
+
+        if (!$me?->hasPermission('moderate-users')) {
+            $q->where('purged_user', false);
         }
 
         $q->orderBy('id');

@@ -326,6 +326,7 @@ export interface User {
 	nitro_token?: string;
 	avatar_has_thumb?: boolean;
 	needs_mod_approval?: boolean;
+	purged_user?: boolean;
 	pinned_mods?: Mod[];
 }
 

@@ -73,11 +73,16 @@ class UserController extends Controller
         }
 
         $foundUser = null;
+        $me = Auth::user();
 
         if (ctype_digit($user) && $user < PHP_INT_MAX) {
             $foundUser = User::where('id', $user)->with('extra')->firstOrFail();
         } else {
             $foundUser = User::where('unique_name', Str::lower($user))->with('extra')->firstOrFail();
+        }
+
+        if (!$me?->hasPermission('moderate-users')) {
+            abort(403, 'This user cannot be viewed.');
         }
 
         $foundUser->loadCount('viewableMods');
@@ -86,7 +91,7 @@ class UserController extends Controller
             $foundUser->loadMissing('followed');
         }
 
-        if ($foundUser->id === $this->userId() || Auth::user()?->hasPermission('manage-users')) {
+        if ($foundUser->id === $this->userId() || $me?->hasPermission('manage-users')) {
             $foundUser->append('signable');
         }
 
@@ -110,7 +115,9 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $passwordRule = APIService::getPasswordRule();
-        $canManageUsers = Auth::user()->hasPermission('manage-users');
+
+        $me = Auth::user();
+        $canManageUsers = $me->hasPermission('manage-users');
 
         $sorting = [
             'bumped_at',
@@ -161,6 +168,10 @@ class UserController extends Controller
             $valRules['current_password'] = ['nullable', 'required_with:password'];
         } else {
             $valRules['password'] = ['nullable', $passwordRule, 'max:128'];
+        }
+
+        if ($canManageUsers) {
+            $val['purged_user'] = ['boolean|nullable'];
         }
 
         $val = $request->validate($valRules);
@@ -405,6 +416,7 @@ class UserController extends Controller
         APIService::deleteImage('users/images', $user->avatar);
         APIService::deleteImage('users/images', $user->banner);
         $user->update([
+            'purged_user' => true,
             'avatar' => '',
             'banner' => '',
             'bio' => '',

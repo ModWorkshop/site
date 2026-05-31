@@ -2,6 +2,13 @@
 	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex gap="2" column>
 			<m-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
+			<m-input
+				v-if="hasPermission('manage-users')"
+				v-model="userForm.purged_user"
+				label="Purged User"
+				type="checkbox"
+				desc="This option is generally used with the Purge User option as a tool against bots. It essentailly hides the user from appearing on sitemap and such.."
+			/>
 			<m-input v-model="userForm.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
 			<m-input v-model="userForm.email" maxlength="255" :label="$t('email')"/>
 			<m-flex class="items-center my-3">
@@ -80,7 +87,8 @@ const userForm = reactive({
 	email: user.email,
 	password: '',
 	current_password: '',
-	confirm_password: ''
+	confirm_password: '',
+	purged_user: user.purged_user
 });
 
 const { public: config } = useRuntimeConfig();
@@ -88,7 +96,7 @@ const { public: config } = useRuntimeConfig();
 const fc = createEventHook();
 const { t } = useI18n();
 const changePassword = ref(false);
-const { user: me, setUser, logout } = useStore();
+const { user: me, setUser, logout, hasPermission } = useStore();
 
 const { showToast } = useToaster();
 const showError = useQuickErrorToast();

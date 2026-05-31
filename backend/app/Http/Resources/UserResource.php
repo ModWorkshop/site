@@ -62,6 +62,7 @@ class UserResource extends BaseResource
             'signable' => $this->when($this->hasAppended('signable'), fn() => $this->signable),
             'extra' => $this->whenLoaded('extra'),
             'needs_mod_approval' => $this->needs_mod_approval,
+            'purged_user' => $this->purged_user,
             'mods_count' => $this->when($this->isVisibleForProfile('mods_count'), fn() => $this->whenCounted('viewableMods')),
             'pinned_mods' => $this->whenLoaded('pinnedMods')
         ];
