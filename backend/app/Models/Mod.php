@@ -313,6 +313,11 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->withOnly(['tags', 'acceptedMembersForSearch']);
+    }
+
     public function toSearchableArray(): array
     {
         return [

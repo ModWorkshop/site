@@ -249,6 +249,11 @@ class User extends Model implements
         'last_online' => 'datetime',
     ];
 
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->withOnly(['roles', 'gameRoles']);
+    }
+
    public function toSearchableArray(): array
     {
         return [

@@ -130,7 +130,12 @@ class Thread extends Model implements SubscribableInterface
         'announce_until' => 'datetime',
     ];
 
-   public function toSearchableArray(): array
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->withOnly(['tags', 'category']);
+    }
+
+    public function toSearchableArray(): array
     {
         return [
             'id' => $this->id,
