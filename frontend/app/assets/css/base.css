@@ -775,3 +775,7 @@ kbd {
     margin: 0 0.5rem;
     -webkit-box-orient: vertical;
 }
+
+* {
+	overflow-anchor: none;
+}
