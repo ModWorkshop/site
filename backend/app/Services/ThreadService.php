@@ -43,9 +43,14 @@ class ThreadService {
                     ->when($forumId, fn($q, $forumId) => $q->where('forum_id', $forumId))
                     ->where(fn($q) => Utils::forumCategoriesFilter($q, true));
 
-                return $q->where('user_id', $user?->id)
+                if (isset($user)) {
+                    return $q->where('user_id', $user?->id)
                     ->orWhere('category_id', 'IS NULL')
                     ->orWhereIn('category_id', $forumCats->pluck('id')->toArray());
+                } else {
+                    return $q->Where('category_id', 'IS NULL')
+                        ->orWhereIn('category_id', $forumCats->pluck('id')->toArray());
+                }
             });
         }
 
