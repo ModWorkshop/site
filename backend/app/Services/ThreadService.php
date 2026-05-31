@@ -7,12 +7,13 @@ use App\Models\Thread;
 use Arr;
 use Auth;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Number;
 
 class ThreadService {
     public static function threads(array $val, callable $querySetup=null, $query=null)
     {
-        return ($query ?? Thread::query())->queryGet($val, function($query, array $val) use ($querySetup) {
+        return ($query ?? Thread::query()->forListing())->queryGet($val, function($query, array $val) use ($querySetup) {
             if (isset($querySetup)) {
                 $querySetup($query, $val);
             }
@@ -71,8 +72,13 @@ class ThreadService {
         }
 
         $limit = Arr::get($val, 'limit', 20);
-        $threads = $search->search($val['query'] ?? '')->paginate(Number::clamp($limit, 1, 100));
-        return $threads;
+        $builder = $search->search($val['query'] ?? '');
+
+        $builder->query(function(Builder $q) use ($builder) {
+            $q->forListing();
+            $builder->query(null); // A hack to prevent Scout from trying to count it via DB
+        });
+        return $builder->paginate(Number::clamp($limit, 1, 100));
     }
 
     // Filters to get threads that the user can see

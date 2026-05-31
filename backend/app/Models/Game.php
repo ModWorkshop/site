@@ -23,6 +23,7 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Spatie\QueryBuilder\QueryBuilder;
 use Storage;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 
 /**
  * App\Models\Game
@@ -96,7 +97,8 @@ class Game extends Model
     protected $guarded = [];
     protected $hidden = ['webhook_url', 'viewable_mods_count'];
     protected $appends = [];
-    protected $with = ['followed', 'ignored'];
+    public const WITH_USER_PERFS = ['followed', 'ignored'];
+    protected $with = [];
 
     public int $_modsCount;
 
@@ -106,6 +108,11 @@ class Game extends Model
 
     public function getMorphClass(): string {
         return 'game';
+    }
+
+    #[Scope]
+    public static function withUserPerfs(Builder $q) {
+        return $q->with(self::WITH_USER_PERFS);
     }
 
     public static function gamesCount() {
@@ -145,8 +152,7 @@ class Game extends Model
         }
 
         $game = QueryBuilder::for(Game::class)
-            ->allowedIncludes(['roles', 'forum', 'categories'])
-            ->with('forum');
+            ->allowedIncludes(['roles', 'forum', 'categories']);
 
         if (is_numeric($value)) {
             $game = $game->where('id', $value);

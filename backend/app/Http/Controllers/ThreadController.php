@@ -131,7 +131,14 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        $thread->load(['forum.game', 'tags', 'subscribed', 'answerComment']);
+        $thread->load([
+            'user',
+            'category',
+            'game' => fn($q) => $q->withUserPerfs(),
+            'tags',
+            'subscribed',
+            'answerComment'
+        ]);
         return new ThreadResource($thread);
     }
 

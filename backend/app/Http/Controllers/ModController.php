@@ -8,17 +8,14 @@ use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\AuditLog;
 use App\Models\Category;
-use App\Models\File;
 use App\Models\Game;
 use App\Models\Mod;
-use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\PopularityLog;
 use App\Models\Setting;
 use App\Models\Suspension;
-use App\Models\Tag;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Services\APIService;
@@ -150,6 +147,8 @@ class ModController extends Controller
     public function show(Game $game=null, Mod $mod)
     {
         $mod->append(['mod_managers', 'used_storage']);
+        $mod->withFetchResourceGame();
+
         return new ModResource($mod);
     }
 

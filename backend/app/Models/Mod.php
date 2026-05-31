@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
-use App\Services\APIService;
-use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
 use App\Traits\Reportable;
@@ -19,7 +17,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -27,9 +24,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Resources\MissingValue;
 use Laravel\Scout\Searchable;
-use Log;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class Visibility {
@@ -287,23 +281,6 @@ class Mod extends Model implements SubscribableInterface
 
     public $fullLoad = false;
 
-    // Gets loaded in mod page
-    public const SHOW_MOD_WITH = [
-        'game',
-        // 'user', loadMissingSeems to ignore the DEFAULT_MOD_WITH
-        'tags',
-        'images',
-        // 'lastUser',
-        'liked',
-        'transferRequest',
-        'subscribed',
-        'dependencies',
-        'instructsTemplate',
-        'members',
-        'category',
-        'background'
-    ];
-
     protected $with = self::DEFAULT_MOD_WITH;
     protected $appends = [];
     protected $hidden = [];
@@ -346,7 +323,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $mod = QueryBuilder::for(Mod::class)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        $mod = QueryBuilder::for(Mod::without(self::DEFAULT_MOD_WITH))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
         return $mod->findOrFail($value);
     }
 
@@ -358,7 +335,22 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
-        $this->loadMissing(self::SHOW_MOD_WITH);
+        // Gets loaded on mod page
+        $this->Load(['game' => fn($q) => $q->withUserPerfs()]);
+        $this->loadMissing([
+            // 'user', loadMissingSeems to ignore the DEFAULT_MOD_WITH
+            'tags',
+            'images',
+            // 'lastUser',
+            'liked',
+            'transferRequest',
+            'subscribed',
+            'dependencies',
+            'instructsTemplate',
+            'members',
+            'category',
+            'background'
+        ]);
         $this->loadCount(['links', 'files']);
         $this->append(['download', 'last_user_attribute']);
         if (Auth::hasUser()) {

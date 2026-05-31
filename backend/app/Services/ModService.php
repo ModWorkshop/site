@@ -369,10 +369,12 @@ class ModService {
          * @var Builder
          */
         $downloads = $downloadable->downloadsRelation();
-        if (isset($user) && $downloads->where('user_id', $user->id)->exists()) {
-            return;
-        } else if ($downloads->where('ip_address', $ip)->exists()) {
-            return;
+        $alreadyDownloadedFile = $downloads->when(isset($user), fn($q) => $q->where('user_id', $user->id))
+            ->orWhere('ip_address', $ip)
+            ->exists();
+
+        if ($alreadyDownloadedFile) {
+            return response()->noContent(201);
         }
 
         // Create download for file or link
@@ -385,9 +387,12 @@ class ModService {
         }
 
         // Create download for mod
-        if (isset($user) && ModDownload::where('user_id', $user->id)->where('mod_id', $mod->id)->exists()) {
-            return response()->noContent(201);
-        } else if (ModDownload::where('ip_address', $ip)->where('mod_id', $mod->id)->exists()) {
+        $alreadyDownloadedMod = ModDownload::where(function($q) use ($user, $ip) {
+            $q->when(isset($user), fn($q) => $q->where('user_id', $user->id))
+                ->orWhere('ip_address', $ip);
+        })->where('mod_id', $mod->id)->exists();
+
+        if ($alreadyDownloadedMod) {
             return response()->noContent(201);
         }
 

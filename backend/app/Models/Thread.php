@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Laravel\Scout\Searchable;
 
 /**
@@ -118,7 +119,7 @@ class Thread extends Model implements SubscribableInterface
 {
     use HasFactory, Subscribable, Reportable, Searchable;
 
-    protected $with = ['user', 'lastUser', 'category', 'game', 'tags'];
+    // protected $with = ['user', 'lastUser', 'category', 'game', 'tags'];
     protected $saveToReport = ['content'];
 
     public $commentsOrder = 'ASC';
@@ -129,6 +130,17 @@ class Thread extends Model implements SubscribableInterface
         'bumped_at' => 'datetime',
         'announce_until' => 'datetime',
     ];
+
+    #[Scope]
+    protected static function forListing(Builder $query) {
+        $query->with([
+            'user',
+            'lastUser',
+            'category',
+            'game',
+            'tags',
+        ]);
+    }
 
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
