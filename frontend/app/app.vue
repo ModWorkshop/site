@@ -54,6 +54,14 @@ if (import.meta.server) {
 		twitterCard: 'summary'
 	});
 }
+
+useSchemaOrg([
+	defineOrganization({
+		name: 'ModWorkshop',
+		description: () => t('mws_short_about'),
+		logo: `${config.siteUrl}/assets/mws_logo_black.png`
+	})
+]);
 </script>
 
 <style>

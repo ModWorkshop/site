@@ -84,6 +84,20 @@ useSeoMeta({
 	twitterCard: 'summary'
 });
 
+useSchemaOrg([
+	defineArticle({
+		'@id': '#commentable',
+		'headline': thread.name,
+		'thumbnailUrl': thumbnail,
+		'datePublished': thread.created_at,
+		'dateModified': thread.edited_at,
+		'author': {
+			name: thread.user?.name,
+			url: `/user/${thread.user?.id}`
+		}
+	})
+]);
+
 const bannedCommenting = computed(() => {
 	const canAppeal = ban?.can_appeal ?? true;
 	const canAppealGame = gameBan?.can_appeal ?? true;

@@ -115,6 +115,15 @@ useSeoMeta({
 	twitterCard: 'summary'
 });
 
+useSchemaOrg([
+	definePerson({
+		'@id': '#user',
+		'name': user?.name,
+		'url': `/user/${user.unique_name}`,
+		'image': thumbnail.value
+	})
+]);
+
 const { hasPermission, user: me } = useStore();
 
 const canModerateUsers = computed(() => hasPermission('moderate-users'));

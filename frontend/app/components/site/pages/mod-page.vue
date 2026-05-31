@@ -49,6 +49,22 @@ useSeoMeta({
 	twitterCard: 'summary'
 });
 
+useSchemaOrg([
+	defineSoftwareApp({
+		'@id': '#commentable',
+		'name': mod.value.name,
+		'description': mod.value.short_desc,
+		'applicationCategory': 'GameApplication',
+		'datePublished': mod.value.created_at,
+		'dateModified': mod.value.bumped_at,
+		'image': thumbnail.value,
+		'author': {
+			name: mod.value.user?.name,
+			url: `/user/${mod.value.user?.id}`
+		}
+	})
+]);
+
 if (mod.value.game) {
 	setGame(mod.value.game);
 }

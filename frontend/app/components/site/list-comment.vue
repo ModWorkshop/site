@@ -130,6 +130,20 @@ const emit = defineEmits<{
 	markAsAnswer: [comment: Comment];
 }>();
 
+useSchemaOrg([
+	defineComment({
+		'text': props.comment.content,
+		'@id': `${props.pageUrl}#comment-${props.comment.id}`,
+		'isPartOf': { '@id': '#commentable' },
+		'datePublished': props.comment.created_at,
+		'dateModified': props.comment.updated_at,
+		'author': {
+			name: props.comment.user?.name,
+			url: `/user/${props.comment.user?.id}`
+		}
+	})
+]);
+
 const page = useRouteQuery('page', 1, null, true);
 const store = useStore();
 const { user } = store;
