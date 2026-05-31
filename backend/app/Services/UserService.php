@@ -1,6 +1,10 @@
 <?php
+namespace App\Services;
 
 use App\Models\User;
+use Arr;
+use Auth;
+use Str;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Number;
