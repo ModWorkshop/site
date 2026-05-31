@@ -3,6 +3,7 @@
 import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import Components from 'unplugin-vue-components/vite';
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
 	devServer: {
@@ -148,6 +149,7 @@ export default defineNuxtConfig({
 			chunkSizeWarningLimit: 1000
 		},
 		plugins: [
+			tailwindcss(),
 			Components({
 				resolvers: [IconsResolver()]
 			}),
@@ -220,5 +222,5 @@ export default defineNuxtConfig({
 		sitemap: '/sitemap.xml'
 	},
 
-	modules: ['@nuxtjs/robots', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@vueuse/nuxt', 'unplugin-icons/nuxt', '@nuxtjs/i18n', 'nuxt-umami', '@nuxtjs/fontaine', 'nuxt-easy-lightbox', 'nuxt-vitalizer', 'nuxt-seo-utils', '@nuxt/scripts']
+	modules: ['@nuxtjs/robots', '@pinia/nuxt', '@vueuse/nuxt', 'unplugin-icons/nuxt', '@nuxtjs/i18n', 'nuxt-umami', '@nuxtjs/fontaine', 'nuxt-easy-lightbox', 'nuxt-vitalizer', 'nuxt-seo-utils', '@nuxt/scripts', 'nuxt-schema-org']
 });

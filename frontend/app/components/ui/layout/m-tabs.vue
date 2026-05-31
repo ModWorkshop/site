@@ -12,7 +12,7 @@
 				<m-flex
 					v-show="!side || menuOpen"
 					:wrap="!scrollOnOverflow"
-					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'tab-menu-bg': true, side }"
+					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'tab-menu-bg': true, side, 'p-2': true }"
 					:style="{ flex: side ? 1 : undefined }"
 					:column="side" role="tablist"
 				>
@@ -43,7 +43,7 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const { padding = 2, side, query, lazy, background = false, gap = 2 } = defineProps<{
+const { padding = 0, side, query, lazy, background = false, gap = 2 } = defineProps<{
 	side?: boolean;
 	query?: boolean;
 	gap?: string | number;
