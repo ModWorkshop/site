@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Una vez que estés satisfecho con el mod, puedes publicarlo y permitir que las personas puedan verlo y descargarlo.",
     "edit_mod_warn_1": "En algunos casos, los mods (como los de música) requieren aprobación. Si tu mod contiene música, envíalo para su aprobación (más abajo)",
     "edit_mod_warn_2": "Debes estar familiarizado con nuestras reglas. Puedes encontrarlas {here}",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Suscribirse automáticamente a los comentarios de los mods",
     "auto_subscribe_to_thread": "Suscribirse automáticamente a los hilos",
     "mark_as_answer": "Marcar como respuesta",
@@ -674,6 +675,8 @@
     "unignore": "Dejar de ignorar",
     "ignored_games": "Juegos ignorados",
     "ignored_mods": "Mods ignorados",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "Registro de auditoría",
     "copy_link": "Copiar enlace",
     "repository": "Repositorio",
@@ -682,5 +685,12 @@
     "hidden_tags": "Etiquetas ocultas",
     "hidden_tags_desc": "Oculta las etiquetas globales para que los usuarios no puedan seleccionarlas en los mods o hilos. Si algún mod ya usa estas etiquetas, será necesario actualizarlas manualmente.",
     "install_with": "Instalar con {modManager}",
-    "mod_manager_not_installed": "¿No tienes {modManager}?"
+    "mod_manager_not_installed": "¿No tienes {modManager}?",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }
