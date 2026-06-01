@@ -4,17 +4,18 @@
 			<m-tab name="description" :title="$t('description')">
 				<md-content allow-anchors :text="mod.desc" :parser-version="mod.parser_version"/>
 			</m-tab>
-			<m-tab v-if="mod.images && visibleImages.length > 0" name="images" :title="$t('images')" :column="false" wrap gap="2">
-				<m-img
-					v-for="(image, i) of visibleImages"
-					:key="image.id"
-					loading="lazy"
-					class="mod-image cursor-pointer"
-					url-prefix="mods/images"
-					:src="`${(image.has_thumb ? 'thumbnail_' : '') + image.file}`"
-					height="200"
-					@click="showImage(i)"
-				/>
+			<m-tab v-if="mod.images && visibleImages.length > 0" name="images" :title="$t('images')">
+				<div class="gallery">
+					<m-img
+						v-for="(image, i) of visibleImages"
+						:key="image.id"
+						loading="lazy"
+						class="mod-image cursor-pointer"
+						url-prefix="mods/images"
+						:src="`${(image.has_thumb ? 'thumbnail_' : '') + image.file}`"
+						@click="showImage(i)"
+					/>
+				</div>
 				<vue-easy-lightbox move-disabled :visible="galleryVisible" :imgs="images" :index="imageIndex" @hide="galleryVisible = false"/>
 			</m-tab>
 			<m-tab v-if="mod.has_download" name="downloads" :title="$t('downloads')">
@@ -106,9 +107,3 @@ const images = computed(() => {
 	return images;
 });
 </script>
-
-<style scoped>
-.mod-image {
-	object-fit: cover;
-}
-</style>
