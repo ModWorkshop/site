@@ -143,6 +143,18 @@ class Thread extends Model implements SubscribableInterface
         ]);
     }
 
+    #[Scope]
+    protected static function forPage(Builder $query) {
+        $query->load([
+            'user',
+            'category',
+            'game' => fn($q) => $q->withUserPerfs(),
+            'tags',
+            'subscribed',
+            'answerComment'
+        ]);
+    }
+
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
         return $query->withOnly(['tags', 'category']);

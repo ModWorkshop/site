@@ -119,7 +119,7 @@ class ThreadController extends Controller
             $thread->tags()->sync($tags);
         }
 
-        $thread->load('tags');
+        $thread->forPage();
 
         $this->uploadThumbnail($request, $thread);
 
@@ -131,14 +131,7 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        $thread->load([
-            'user',
-            'category',
-            'game' => fn($q) => $q->withUserPerfs(),
-            'tags',
-            'subscribed',
-            'answerComment'
-        ]);
+        $thread->forPage();
         return new ThreadResource($thread);
     }
 
