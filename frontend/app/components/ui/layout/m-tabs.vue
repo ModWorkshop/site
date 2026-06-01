@@ -175,12 +175,12 @@ if (query) {
 
 .tab-menu-bg.side {
 	border-radius: var(--content-border-radius);
-	align-self: start;
 }
 
 .tab-menu-bg {
 	border-radius: var(--content-border-radius);
 	background-color: var(--secondary-content-bg-color);
+	align-self: start;
 }
 
 .alt-background.tab-menu-bg {

@@ -10,7 +10,7 @@
 					<m-flex wrap column>
 						<m-flex>
 							<a-user :avatar="false" :user="comment.user"/>
-							<span v-if="specialTag" class="text-success">({{ specialTag }})</span>
+							<span v-if="specialTag" class="text-success self-center">({{ specialTag }})</span>
 						</m-flex>
 						<m-flex>
 							<NuxtLink class="text-secondary" :to="commentPage">

@@ -130,6 +130,9 @@ watch(fullscreen, status => {
 .tab-panel, .tab-panels {
 	height: 100%;
 }
+.md-editor .tab-menu-bg {
+	align-self: normal;
+}
 </style>
 
 <style scoped>

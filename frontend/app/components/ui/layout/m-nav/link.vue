@@ -91,7 +91,7 @@ function clickLink() {
 }
 
 .nav-link-side {
-	padding: 1rem;
+	padding: 0.75rem;
 	min-width: 200px;
 }
 </style>

@@ -27,17 +27,15 @@ const side = inject('side', false);
 .tab-link {
 	font-size: 1.125rem;
 	border-radius: var(--content-border-radius);
-	padding: 1rem 2rem;
+	padding: 0.75rem 2rem;
 	text-align: center;
 	color: var(--secondary-text-color);
 	transition: ease-in-out 0.15s;
 	transition-property: color, background-color;
-	/* background-color: var(--secondary-content-bg-color); */
 }
 
 .tab-link:hover {
 	cursor: pointer;
-	/* background-color: var(--tab-selected-color); */
 	color: var(--primary-color);
 }
 
@@ -48,7 +46,7 @@ const side = inject('side', false);
 
 .tab-link-side {
 	text-align: left;
-	padding: 1rem;
+	padding: 0.75rem;
 	min-width: 200px;
 }
 </style>
