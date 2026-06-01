@@ -338,7 +338,7 @@ class Mod extends Model implements SubscribableInterface
         // Gets loaded on mod page
         $this->Load(['game' => fn($q) => $q->withUserPerfs()]);
         $this->loadMissing([
-            // 'user', loadMissingSeems to ignore the DEFAULT_MOD_WITH
+            'user',
             'tags',
             'images',
             // 'lastUser',
