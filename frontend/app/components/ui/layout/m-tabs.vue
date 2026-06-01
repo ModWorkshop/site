@@ -6,17 +6,17 @@
 			</m-link>
 			<strong v-if="currentTab" class="text-2xl">{{ currentTab.title }}</strong>
 		</m-flex>
-		<m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap" :padding="padding">
+		<m-flex :class="{ 'menu-open': menuOpen, 'grow': true, 'h-full': true}" :column="!side" :gap="gap">
 			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
 			<Transition name="left-slide">
 				<m-flex
 					v-show="!side || menuOpen"
 					:wrap="!scrollOnOverflow"
-					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'tab-menu-bg': true, side, 'p-2': true }"
+					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'alt-background': altBackground, 'tab-menu-bg': background, side }"
 					:style="{ flex: side ? 1 : undefined }"
 					:column="side" role="tablist"
 				>
-					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'flex-shrink-0': scrollOnOverflow }" gap="2">
+					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'shrink-0': scrollOnOverflow }" gap="2" padding="1">
 						<m-tab-link
 							v-for="tab of tabs"
 							ref="tabLinks"
@@ -32,7 +32,7 @@
 				</m-flex>
 			</Transition>
 			<slot name="pre-panels"/>
-			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'nav-menu-bg': background }" :style="{ flex: 4 }">
+			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'alt-background': altBackground, 'nav-menu-bg': background, [`p-${padding}`]: true }" :style="{ flex: 4 }">
 				<slot/>
 			</div>
 		</m-flex>
@@ -43,7 +43,7 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const { padding = 0, side, query, lazy, background = false, gap = 2 } = defineProps<{
+const { padding = 6, side, query, lazy, background = true, gap = 1 } = defineProps<{
 	side?: boolean;
 	query?: boolean;
 	gap?: string | number;
@@ -51,6 +51,7 @@ const { padding = 0, side, query, lazy, background = false, gap = 2 } = definePr
 	scrollOnOverflow?: boolean;
 	padding?: string | number;
 	background?: boolean;
+	altBackground?: boolean;
 }>();
 
 const slots = useSlots();
@@ -166,16 +167,23 @@ if (query) {
 	border-radius: var(--content-border-radius);
 	background-color: var(--content-bg-color);
     box-shadow: var(--content-box-shadow);
-	padding: 1.5rem;
+}
+
+.alt-background.nav-menu-bg {
+	background-color: var(--alt-content-bg-color);
 }
 
 .tab-menu-bg.side {
+	border-radius: var(--content-border-radius);
 	align-self: start;
 }
 
 .tab-menu-bg {
 	border-radius: var(--content-border-radius);
-	background-color: var(--content-bg-color);
-    box-shadow: var(--content-box-shadow);
+	background-color: var(--secondary-content-bg-color);
+}
+
+.alt-background.tab-menu-bg {
+	background-color: var(--alt-content-bg-color);
 }
 </style>

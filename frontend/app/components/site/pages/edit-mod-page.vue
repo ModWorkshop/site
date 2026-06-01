@@ -1,6 +1,6 @@
 <template>
 	<m-form v-model="mod" :created="!!mod.id" float-save-gui :flush-changes="flushChanges" :exclude-from-compare="excludeFromCompare" @submit="save">
-		<m-tabs padding="4" side query background>
+		<m-tabs side query background>
 			<m-tab name="main" :title="$t('main_tab')">
 				<edit-mod-main v-model="mod"/>
 			</m-tab>

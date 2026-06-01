@@ -1,6 +1,6 @@
 <template>
 	<m-input>
-		<m-tabs :class="classes">
+		<m-tabs :class="classes" :alt-background="altBackground">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
 				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
 			</m-tab>
@@ -30,16 +30,16 @@
 <script setup lang="ts">
 import type { Tool } from '~/types/tools';
 
-const props = defineProps({
-	labelId: String,
-	modelValue: String,
-	rows: { type: [String, Number], default: 12 }
-});
+const { rows = 12, altBackground = true } = defineProps<{
+	labelId?: string;
+	altBackground?: boolean;
+	rows?: string | number;
+}>();
 
-const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
-const vm = useVModel(props, 'modelValue', emit);
+defineEmits(['textarea-keyup']);
+const vm = defineModel<string>();
 
-const h = computed(() => `${parseInt(props.rows as string) * 24}px`);
+const h = computed(() => `${parseInt(rows as string) * 24}px`);
 
 const fullscreen = ref(false);
 const splitMode = ref(false);
@@ -47,8 +47,7 @@ const splitMode = ref(false);
 const classes = computed(() => ({
 	'initial-height': true,
 	'md-editor': true,
-	'p-2': true,
-	'fullscreen': fullscreen.value,
+	'fullscreen': fullscreen.value
 }));
 
 const textAreaComp = ref();
@@ -102,7 +101,7 @@ function clickTool(tool: Tool) {
 
 		// textarea.setRangeText(inserted, start, end, 'select');
 		document.execCommand('insertText', false, inserted); // If it's deprecated, then what the fuck am I supposed to use?
-		emit('update:modelValue', textarea.value);
+		vm.value = textarea.value;
 		textarea.focus();
 		textarea.setSelectionRange(focusStart, focusEnd);
 	}
@@ -171,7 +170,6 @@ watch(fullscreen, status => {
 }
 
 .md-editor {
-	background-color: var(--alt-content-bg-color);
 	border-radius: var(--border-radius);
 	resize: vertical;
 	overflow-y: hidden;

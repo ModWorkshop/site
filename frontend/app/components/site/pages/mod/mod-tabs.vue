@@ -1,6 +1,6 @@
 <template>
 	<m-flex grow class="overflow-hidden self-start w-full" style="min-height: 365px;">
-		<m-tabs class="flex-grow" query lazy scroll-on-overflow background>
+		<m-tabs class="grow" query lazy scroll-on-overflow>
 			<m-tab name="description" :title="$t('description')">
 				<md-content allow-anchors :text="mod.desc" :parser-version="mod.parser_version"/>
 			</m-tab>
