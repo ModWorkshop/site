@@ -14,6 +14,9 @@
 .mb-auto { margin-bottom: auto; }
 .ml-auto { margin-left: auto; margin-inline-start: auto; }
 .mr-auto { margin-right: auto; margin-inline-end: auto; }
+.hidden {
+    display: none;
+}
 
 body, html {
     background-color: var(--bg-color);
