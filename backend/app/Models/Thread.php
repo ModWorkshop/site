@@ -113,6 +113,7 @@ use Laravel\Scout\Searchable;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereClosedByMod($value)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereParserVersion($value)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Thread whereThumbnail($value)
+ * @method static Builder<static>|Thread forListing()
  * @mixin Eloquent
  */
 class Thread extends Model implements SubscribableInterface

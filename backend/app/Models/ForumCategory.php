@@ -60,6 +60,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ForumCategory whereGridMode($value)
  * @method static Builder|ForumCategory whereHidden($value)
  * @property-read \App\Models\Game $game
+ * @property-read Collection<int, \App\Models\Thread> $threads
+ * @property-read int|null $threads_count
  * @mixin Eloquent
  */
 class ForumCategory extends Model

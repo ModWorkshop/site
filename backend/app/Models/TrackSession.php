@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @method static Builder|TrackSession whereIpAddress($value)
  * @method static Builder|TrackSession whereUpdatedAt($value)
  * @method static Builder|TrackSession whereUserId($value)
+ * @property-read \App\Models\User|null $user
  * @mixin Eloquent
  */
 class TrackSession extends Model

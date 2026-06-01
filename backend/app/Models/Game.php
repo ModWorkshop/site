@@ -88,6 +88,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
  * @property-read \App\Models\IgnoredGame|null $ignored
  * @property-read Collection<int, \App\Models\Tag> $hiddenTags
  * @property-read int|null $hidden_tags_count
+ * @method static Builder<static>|Game withUserPerfs()
  * @mixin Eloquent
  */
 class Game extends Model

@@ -13746,10 +13746,6 @@ namespace Illuminate\Support\Facades {
          * header value is a comma+space separated list of IP addresses, the left-most
          * being the original client, and each successive proxy that passed the request
          * adding the IP address where it received the request from.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
-         * argument of the Request::setTrustedProxies() method instead.
          *
          * @see getClientIps()
          * @see https://wikipedia.org/wiki/X-Forwarded-For
@@ -25720,11 +25716,12 @@ namespace  {
          * @see \App\Providers\PaginationService::boot()
          * @param array $val
          * @param \Closure|null $callback
+         * @param array|null $cache
          * @static
          */
-        public static function queryGet($val, $callback = null)
+        public static function queryGet($val, $callback = null, $cache = null)
         {
-            return \Illuminate\Database\Eloquent\Builder::queryGet($val, $callback);
+            return \Illuminate\Database\Eloquent\Builder::queryGet($val, $callback, $cache);
         }
 
         /**

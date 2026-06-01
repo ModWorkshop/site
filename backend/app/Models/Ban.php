@@ -42,6 +42,10 @@ use Log;
  * @method static Builder|Ban whereModUserId($value)
  * @property-read \App\Models\Game|null $game
  * @method static Builder<static>|Ban active()
+ * @property string|null $ip_address
+ * @property bool $ip_ban
+ * @method static Builder<static>|Ban whereIpAddress($value)
+ * @method static Builder<static>|Ban whereIpBan($value)
  * @mixin Eloquent
  */
 class Ban extends Model

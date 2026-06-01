@@ -191,6 +191,8 @@ abstract class Visibility {
  * @property-read \App\Models\IgnoredMod|null $ignored
  * @property-read mixed $last_user_attribute
  * @property-read mixed $max_storage
+ * @property-read \App\Models\IgnoredCategory|null $categoryIgnoredByMe
+ * @method static Builder<static>|Mod isMemberOf(int $userId)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface

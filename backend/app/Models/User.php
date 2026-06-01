@@ -171,6 +171,14 @@ use Str;
  * @property-read int|null $bans_count
  * @property-read Collection<int, \App\Models\Mod> $ignoredMods
  * @property-read int|null $ignored_mods_count
+ * @property bool $needs_mod_approval
+ * @property bool $purged_user
+ * @property-read Collection<int, \App\Models\Category> $ignoredCategories
+ * @property-read int|null $ignored_categories_count
+ * @property-read Collection<int, \App\Models\Mod> $pinnedMods
+ * @property-read int|null $pinned_mods_count
+ * @method static Builder<static>|User whereNeedsModApproval($value)
+ * @method static Builder<static>|User wherePurgedUser($value)
  * @mixin Eloquent
  */
 class User extends Model implements
