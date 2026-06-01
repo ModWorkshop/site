@@ -25,9 +25,14 @@ class InstructsTemplateController extends Controller
      */
     public function index(Game $game, FilteredRequest $request)
     {
+        $cache = [
+            'key' => 'instructions-templates:'.($game ? 'game:'.$game->name : ''),
+            'ttl' => 60
+        ];
+
         return BaseResource::collectionResponse(InstructsTemplate::queryGet($request->val(), function($q) use ($game) {
             $q->where('game_id', $game->id);
-        }));
+        }, $cache));
     }
 
     /**

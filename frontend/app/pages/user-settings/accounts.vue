@@ -73,7 +73,7 @@ const providers = computed(() => {
 
 	if (accounts.value) {
 		for (const account of accounts.value) {
-			providers[account.social_id].account = account;
+			providers[account.social_id]!.account = account;
 		}
 	}
 

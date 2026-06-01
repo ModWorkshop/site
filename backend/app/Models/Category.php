@@ -89,6 +89,8 @@ class Category extends Model
         'disable_mod_managers' => 'boolean',
     ];
 
+    public bool $includeGameInPath = false;
+
     public function getMorphClass(): string {
         return 'category';
     }
@@ -96,14 +98,14 @@ class Category extends Model
     public function getPathAttribute()
     {
         // Paths are shown after selecting a game, therefore we don't really need to include the game in them
-        $breadcrumb = $this->getBreadcrumbAttribute(includeGame: false);
+        $breadcrumb = $this->getBreadcrumbAttribute($this->includeGameInPath);
         $path = '';
 
         foreach ($breadcrumb as $crumb) {
             if (empty($path)) {
                 $path = $crumb['name'];
             } else {
-                $path = $crumb['name'] . ' / ' . $path;
+                $path = $path . ' > ' . $crumb['name'];
             }
         }
 
@@ -139,15 +141,6 @@ class Category extends Model
             ...$this->computed_breadcrumb
         ];
     }
-
-    public function toSearchableArray()
-    {
-        $this->with(['parent', 'game']);
-
-        return [
-            'name' => $this->name
-        ];
-     }
 
     public static function booted()
     {

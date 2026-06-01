@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property int $id
  * @property string $downloadable_type
  * @property int $downloadable_id
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|DownloadableDownload whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DownloadableDownload whereIpAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DownloadableDownload whereUserId($value)
+ * @property string|null $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DownloadableDownload whereCreatedAt($value)
  * @mixin \Eloquent
  */
 class DownloadableDownload extends Model

@@ -23,6 +23,7 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Spatie\QueryBuilder\QueryBuilder;
 use Storage;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 
 /**
  * App\Models\Game
@@ -85,6 +86,9 @@ use Illuminate\Contracts\Support\Arrayable;
  * @property-read Collection<int, \App\Models\FollowedGame> $followers
  * @property-read int|null $followers_count
  * @property-read \App\Models\IgnoredGame|null $ignored
+ * @property-read Collection<int, \App\Models\Tag> $hiddenTags
+ * @property-read int|null $hidden_tags_count
+ * @method static Builder<static>|Game withUserPerfs()
  * @mixin Eloquent
  */
 class Game extends Model
@@ -94,7 +98,8 @@ class Game extends Model
     protected $guarded = [];
     protected $hidden = ['webhook_url', 'viewable_mods_count'];
     protected $appends = [];
-    protected $with = ['followed', 'ignored'];
+    public const WITH_USER_PERFS = ['followed', 'ignored'];
+    protected $with = [];
 
     public int $_modsCount;
 
@@ -104,6 +109,11 @@ class Game extends Model
 
     public function getMorphClass(): string {
         return 'game';
+    }
+
+    #[Scope]
+    public static function withUserPerfs(Builder $q) {
+        return $q->with(self::WITH_USER_PERFS);
     }
 
     public static function gamesCount() {
@@ -143,8 +153,7 @@ class Game extends Model
         }
 
         $game = QueryBuilder::for(Game::class)
-            ->allowedIncludes(['roles', 'forum', 'categories'])
-            ->with('forum');
+            ->allowedIncludes(['roles', 'forum', 'categories']);
 
         if (is_numeric($value)) {
             $game = $game->where('id', $value);
@@ -227,14 +236,14 @@ class Game extends Model
         return Attribute::make(function() {
             $user = Auth::user();
             if (isset($user)) {
-                $userCon = app(UserController::class);
-                $gameUser = $userCon->getUser($user->id, $this);
+                APIService::setCurrentGame($this);
+                $user->currentGameChanged();
                 return [
-                    'user' => $gameUser,
+                    'user' => new UserResource($user),
                     'role_ids' => array_values(array_unique(Arr::pluck($user->getGameRoles($this->id), 'id'))),
                     'highest_role_order' => $user->getGameHighestOrder($this->id),
                     'permissions' => $user->getGamePerms($this->id),
-                    'ban' => $gameUser->gameBan
+                    'ban' => $user->last_game_ban
                 ];
             } else {
                 return new MissingValue();

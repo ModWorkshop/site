@@ -38,7 +38,8 @@ class ThreadController extends Controller
      */
     public function index(GetThreadRequest $request)
     {
-        return ThreadResource::collectionResponse(ThreadService::threads($request->val()));
+
+        return ThreadResource::collectionResponse(ThreadService::meiliSearch($request->val()));
     }
 
     /**
@@ -118,7 +119,7 @@ class ThreadController extends Controller
             $thread->tags()->sync($tags);
         }
 
-        $thread->load('tags');
+        $thread->forPage();
 
         $this->uploadThumbnail($request, $thread);
 
@@ -130,7 +131,7 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        $thread->load(['forum.game', 'tags', 'subscribed', 'answerComment']);
+        $thread->forPage();
         return new ThreadResource($thread);
     }
 

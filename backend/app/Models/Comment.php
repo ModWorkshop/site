@@ -103,14 +103,6 @@ class Comment extends Model implements SubscribableInterface
         return $this->belongsToMany(User::class, Mention::class);
     }
 
-    #[SearchUsingFullText(['content'])]
-    public function toSearchableArray()
-    {
-        return [
-            'content' => $this->content
-        ];
-    }
-
     public static function booted()
     {
         static::created(function(Comment $comment) {

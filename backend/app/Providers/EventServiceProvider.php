@@ -22,12 +22,6 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
             \SocialiteProviders\GitHub\GitHubExtendSocialite::class.'@handle',
             \SocialiteProviders\GitLab\GitLabExtendSocialite::class.'@handle',
-        ],
-        'Illuminate\Auth\Events\Authenticated' => [
-            'App\Listeners\UserAuthenticated'
-        ],
-        \Illuminate\Auth\Events\Login::class => [
-            'App\Listeners\UserAuthenticated'
         ]
     ];
 

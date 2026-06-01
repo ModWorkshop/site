@@ -43,7 +43,7 @@
 				{{ $t('nothing_found') }}
 			</span>
 		</m-flex>
-		<div v-else class="grid file-list p-3 alt-content-bg">
+		<div v-else class="grid gallery p-3 alt-content-bg">
 			<template v-if="combinedFiles.length">
 				<div v-for="file of combinedFiles" :key="file.id ?? file.created_at" class="file-item" @click.prevent>
 					<m-img class="file-thumbnail" height="200" loading="lazy" :src="getFileThumb(file)" :url-prefix="urlPrefix"/>
@@ -341,15 +341,9 @@ async function handleRemove(file: UploadFile) {
 	opacity: 0.5;
 }
 
-.file-list {
-	justify-content: center;
-	grid-template-columns: repeat(auto-fill, 200px);
-	gap: 0.25rem;
-}
-
 .file-thumbnail {
 	width: 100%;
-	height: 200px;
+	height: 200px !important;
 }
 
 .file-item {
@@ -379,6 +373,7 @@ async function handleRemove(file: UploadFile) {
 	height: 100%;
 	padding: 1.25rem;
 	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: var(--border-radius);
 	transition: opacity 0.25s ease-in-out;
 	opacity: flex;
 	opacity: 0;

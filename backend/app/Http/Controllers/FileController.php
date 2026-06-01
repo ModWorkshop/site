@@ -36,7 +36,7 @@ class FileController extends Controller
      */
     public function index(FilteredRequest $request, Mod $mod)
     {
-        $val = $request->validate([
+        $val = $request->val([
             'version' => 'string|nullable',
             'prerelease' => 'boolean|nullable',
         ]);

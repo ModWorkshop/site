@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@source inline("p{,l,r,x,y,b,t}-{0..15}");
+@source inline("m{,l,r,x,y,b,t}-{0..15}");
+
+@theme {
+  --preflight: false;
+}
+
+/* @source inline("m{,l,r,x,y,b,t}-auto"); Doesn't work for some reason, so we do the below */
+.m-auto { margin: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+.mt-auto { margin-top: auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left: auto; margin-inline-start: auto; }
+.mr-auto { margin-right: auto; margin-inline-end: auto; }
+.hidden {
+    display: none;
+}

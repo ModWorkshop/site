@@ -1,16 +1,16 @@
 <template>
 	<m-input>
-		<m-tabs :class="classes" :style="{height: `${parseInt(rows as string) * 24}px`}">
+		<m-tabs :class="classes" :alt-background="altBackground">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
-				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" @keydown="onKeyDown"/>
+				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
 			</m-tab>
-			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block">
-				<md-content :text="vm" :padding="6"/>
+			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block p-2" >
+				<md-content :text="vm"/>
 			</m-tab>
 			<m-tab v-else name="split-mode" :title="$t('split_mode_tab')">
 				<m-flex class="overflow-hidden h-full" gap="2">
 					<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" style="flex:1;" @keydown="onKeyDown"/>
-					<div ref="mdText" class="preview content-block">
+					<div class="preview content-block">
 						<md-content :text="vm"/>
 					</div>
 				</m-flex>
@@ -30,27 +30,27 @@
 <script setup lang="ts">
 import type { Tool } from '~/types/tools';
 
-const props = defineProps({
-	labelId: String,
-	modelValue: String,
-	rows: { type: [String, Number], default: 12 }
-});
+const { rows = 12, altBackground = true } = defineProps<{
+	labelId?: string;
+	altBackground?: boolean;
+	rows?: string | number;
+}>();
 
-const emit = defineEmits(['update:modelValue', 'textarea-keyup']);
-const vm = useVModel(props, 'modelValue', emit);
+defineEmits(['textarea-keyup']);
+const vm = defineModel<string>();
+
+const h = computed(() => `${parseInt(rows as string) * 24}px`);
 
 const fullscreen = ref(false);
 const splitMode = ref(false);
 
 const classes = computed(() => ({
+	'initial-height': true,
 	'md-editor': true,
-	'p-2': true,
-	'fullscreen': fullscreen.value,
-	'split': splitMode.value
+	'fullscreen': fullscreen.value
 }));
 
 const textAreaComp = ref();
-const mdText = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
 
@@ -81,14 +81,17 @@ function clickTool(tool: Tool) {
 			inserted = '';
 			for (let i = 0; i < lines.length; i++) {
 				const line = lines[i];
-				if (i !== 0) {
-					inserted += '\n';
+
+				if (line) {
+					if (i !== 0) {
+						inserted += '\n';
+					}
+
+					const strWithLineNum = insert.replace('$line', (i + 1).toString());
+					inserted += strWithLineNum.replace('$', line);
+
+					focusEnd += strWithLineNum.indexOf('$');
 				}
-
-				const strWithLineNum = insert.replace('$line', (i + 1).toString());
-				inserted += strWithLineNum.replace('$', line);
-
-				focusEnd += strWithLineNum.indexOf('$');
 			}
 
 			focusEnd--;
@@ -98,7 +101,7 @@ function clickTool(tool: Tool) {
 
 		// textarea.setRangeText(inserted, start, end, 'select');
 		document.execCommand('insertText', false, inserted); // If it's deprecated, then what the fuck am I supposed to use?
-		emit('update:modelValue', textarea.value);
+		vm.value = textarea.value;
 		textarea.focus();
 		textarea.setSelectionRange(focusStart, focusEnd);
 	}
@@ -127,15 +130,16 @@ watch(fullscreen, status => {
 .tab-panel, .tab-panels {
 	height: 100%;
 }
-
-.md-editor .nav-menu-content {
-	display: flex;
-	flex-direction: column;
+.md-editor .tab-menu-bg {
+	align-self: normal;
 }
-
 </style>
 
 <style scoped>
+.initial-height {
+	height: v-bind(h);
+}
+
 .preview {
 	overflow-y: scroll;
 	flex: 1;
@@ -169,7 +173,6 @@ watch(fullscreen, status => {
 }
 
 .md-editor {
-	background-color: var(--alt-content-bg-color);
 	border-radius: var(--border-radius);
 	resize: vertical;
 	overflow-y: hidden;

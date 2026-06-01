@@ -11,7 +11,7 @@
 				<m-avatar :size="avatarSize" :src="user?.avatar" :use-thumb="useThumb" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
 			</NuxtLink>
 
-			<m-flex gap="1" class="break-words" column>
+			<m-flex gap="1" class="wrap-break-word" column>
 				<NuxtLink v-if="name" class="flex gap-1 items-center flex-wrap" :to="link">
 					<component :is="isBanned ? 's' : 'span'" :style="{ color: userColor }" class="break-all text-body">{{ user?.name ?? $t('invalid_user') }}</component>
 					<m-tag v-if="tag && userTag" small>{{ userTag }}</m-tag>

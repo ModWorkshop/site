@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
@@ -58,6 +59,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ForumCategory whereCanCloseThreads($value)
  * @method static Builder|ForumCategory whereGridMode($value)
  * @method static Builder|ForumCategory whereHidden($value)
+ * @property-read \App\Models\Game $game
+ * @property-read Collection<int, \App\Models\Thread> $threads
+ * @property-read int|null $threads_count
  * @mixin Eloquent
  */
 class ForumCategory extends Model
@@ -114,6 +118,10 @@ class ForumCategory extends Model
     public function game() : BelongsTo
     {
         return $this->belongsTo(Game::class, 'forum_id', 'forum_id');
+    }
+
+    public function threads() : HasMany {
+        return $this->hasMany(Thread::class, 'category_id');
     }
 
     /**
@@ -200,6 +208,15 @@ class ForumCategory extends Model
             }
 
             return $canPost && !$this->is_private;
+        });
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($cat) {
+            if ($cat->isDirty('name')) {
+                $cat->threads()->searchable();
+            }
         });
     }
 }

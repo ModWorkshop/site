@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.12.2-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.12.3-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends supervisor
 
@@ -24,7 +24,7 @@ RUN <<EOF cat >> $PHP_INI_DIR/php.ini
 ffi.enable=true
 post_max_size=100M
 upload_max_filesize=100M
-memory_limit=512M
+memory_limit=1G
 max_execution_time=150
 disable_functions=phpinfo
 opcache.enable=1

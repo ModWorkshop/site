@@ -10,8 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
- *
- *
  * @property int $id
  * @property string $type
  * @property int $user_id

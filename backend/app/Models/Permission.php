@@ -46,6 +46,11 @@ use Illuminate\Support\Carbon;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission sum($column)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission truncate()
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Permission withCacheCooldownSeconds(?int $seconds = null)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Permission getInnerBuilder()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Permission isCacheConnectionException(\Throwable $exception)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Permission setInnerBuilder(\Illuminate\Database\Eloquent\Builder $builder)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Permission shouldFallbackToDatabase()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Permission withCacheFallback(callable $operation, string $context, ?callable $fallback = null)
  * @mixin Eloquent
  */
 class Permission extends Model

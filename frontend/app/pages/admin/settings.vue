@@ -1,6 +1,7 @@
 <template>
 	<m-form v-if="settings" v-model="settings" created float-save-gui :flush-changes="flushChanges" @submit="submit">
 		<m-flex column gap="3">
+			<m-input v-model="settings.new_user_first_upload_requires_approval" type="checkbox" label="New accounts (less than a month old) should require approval for first upload"/>
 			<m-input v-model="settings.max_file_size" type="number" label="Max file size"/>
 			<m-input v-model="settings.image_max_file_size" type="number" label="Image max file size"/>
 			<m-input v-model="settings.mod_storage_size" type="number" label="Storage size per mod"/>

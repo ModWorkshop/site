@@ -1,2 +1,5 @@
 postgres/
 !postgres/Dockerfile
+sail-meilisearch
+backend/public/sitemap
+meilisearch.env

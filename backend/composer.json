@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.3",
         "biiiiiigmonster/hasin": "^5.0",
+        "chr15k/laravel-meilisearch-advanced-query": "^2.2",
         "fileeye/mimemap": "^2.0",
         "genealabs/laravel-model-caching": "^13.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -25,6 +26,7 @@
         "lcobucci/jwt": "4.3.0",
         "league/flysystem-aws-s3-v3": "^3.10",
         "livewire/livewire": "^4.2",
+        "meilisearch/meilisearch-php": "^1.16",
         "nickurt/laravel-stopforumspam": "^2.0",
         "sentry/sentry-laravel": "^4.1",
         "socialiteproviders/discord": "^4.1",

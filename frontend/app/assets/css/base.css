@@ -132,7 +132,7 @@ body {
 :root {
     --dark-bg-color: #212529;
     --dark-content-bg-color: #2b3036;
-    --dark-secondary-content-bg-color: #24282d;
+    --dark-secondary-content-bg-color: hsl(213, 10%, 17%);
     --dark-content-bg-color-glass: #2b3036ce;
     --dark-alt-content-bg-color: #22262b;
     --dark-table-odd-color: hsl(213, 11%, 17%);
@@ -142,7 +142,7 @@ body {
     --dark-dropdown-selected-bg: #252b31;
     --dark-dropdown-text-color: #ccc;
     --dark-text-color: #fff;
-    --dark-secondary-text-color: #bfbfbf;
+    --dark-secondary-text-color: hsl(0, 0%, 70%);
     --dark-text-inactive: #6d6d6d;
     --dark-secondary-color: #404040;
     --dark-secondary-hover-color: #4d4d4d;
@@ -159,7 +159,7 @@ body {
     --dark-success-bg-color: #1e3b28;
     --dark-kbd-bg: #474747;
     --dark-breadcrumb-secondary: #9c9c9c;
-    --dark-float-bg-color: #252b31;
+    --dark-float-bg-color: #21262c;
 
     --light-bg-color: #cfd0d3;
     --light-content-bg-color: #e9e9e9;
@@ -444,10 +444,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--secondary-text-color);
 }
 
-a {
-    display: inline-block;
-}
-
 /* Animation stuff */
 .v-enter-active,
 .v-leave-active {
@@ -461,6 +457,10 @@ a {
 
 .round {
     border-radius: var(--border-radius);
+}
+
+.extra-round {
+    border-radius: var(--content-border-radius);
 }
 
 .banner {
@@ -683,11 +683,11 @@ but we decided to go with 14px so guess what? gap is inconsistent as there is no
         background: var(--content-bg-color);
         border-radius: var(--border-radius);
         left: 4px;
-        top: 64px;
+        top: 72px;
         align-items: start;
         position: fixed;
         z-index: 100;
-        height: calc(100vh - 70px);
+        height: calc(100vh - 78px);
         flex: 1;
 		overflow-y: auto;
     }
@@ -753,4 +753,37 @@ kbd {
     display: -webkit-box;
     margin: 0 0.5rem;
     -webkit-box-orient: vertical;
+}
+
+* {
+	overflow-anchor: none;
+}
+
+.gallery img {
+	object-fit: contain !important;
+	background-color: rgba(0, 0, 0, 0.1);
+	height: 100%;
+	width: 100%;
+	max-height: 200px;
+	border-radius: var(--border-radius);
+}
+
+.gallery {
+	justify-content: center;
+    display: grid;
+	grid-template-columns: repeat(auto-fill, 220px);
+	gap: 1rem;
+}
+
+
+@media (max-width:1280px) {
+	.gallery {
+		grid-template-columns: repeat(auto-fill, 200px);
+	}
+}
+
+@media (max-width:1024px) {
+	.gallery {
+		grid-template-columns: repeat(auto-fill, 150px);
+	}
 }

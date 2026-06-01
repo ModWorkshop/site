@@ -15,8 +15,6 @@ use Str;
 use z4kn4fein\SemVer\Version;
 
 /**
- *
- *
  * @property int $id
  * @property int $user_id
  * @property int $mod_id
@@ -60,6 +58,8 @@ use z4kn4fein\SemVer\Version;
  * @method static Builder<static>|File whereUpdatedAt($value)
  * @method static Builder<static>|File whereUserId($value)
  * @method static Builder<static>|File whereVersion($value)
+ * @property string|null $legacy_mime
+ * @method static Builder<static>|File whereLegacyMime($value)
  * @mixin Eloquent
  */
 class File extends Model
@@ -67,7 +67,7 @@ class File extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $hidden = ['mod', 'semver_version'];
+    protected $hidden = ['mod', 'semver_version', 'legacy_mime'];
     protected $with = [];
 
     protected $casts = [

@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @method static Builder|TrackSession whereIpAddress($value)
  * @method static Builder|TrackSession whereUpdatedAt($value)
  * @method static Builder|TrackSession whereUserId($value)
+ * @property-read \App\Models\User|null $user
  * @mixin Eloquent
  */
 class TrackSession extends Model
@@ -30,6 +31,10 @@ class TrackSession extends Model
     public const CREATED_AT = null;
 
     protected $guarded = [];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 
     public static function userCount() {
         return Cache::remember('user-count', 60,

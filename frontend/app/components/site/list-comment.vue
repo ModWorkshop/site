@@ -1,25 +1,29 @@
 <template>
 	<list-comment-container :comment="comment" :is-reply="isReply">
 		<m-content-block ref="contentBlockRef" :alt-background="isReply" :gap="3" :padding="6" :class="classes">
-			<m-flex class="comment-body">
+			<m-flex column class="comment-body">
 				<div v-if="!isReply && comment.reply_to" :title="$t('reply')" class="my-auto"><i-mdi-reply/></div>
-				<NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
-					<m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
-				</NuxtLink>
-				<m-flex column wrap class="overflow-hidden w-full">
-					<m-flex wrap class="items-center">
-						<a-user :avatar="false" :user="comment.user"/>
-						<span v-if="specialTag" class="text-success">({{ specialTag }})</span>
-						<NuxtLink class="ml-1 text-secondary" :to="commentPage">
-							<m-time :datetime="comment.created_at" relative/>
-						</NuxtLink>
-						<m-time v-if="comment.updated_at != comment.created_at" class="text-secondary" :datetime="comment.updated_at" :text="$t('edited')"/>
-						<span v-if="showPins && comment.pinned" :title="$t('pinned')">
-							<i-mdi-pin class="transform rotate-45"/>
-						</span>
+				<m-flex class="items-center">
+					<NuxtLink class="mr-1 self-start" :to="`/user/${comment.user_id}`">
+						<m-avatar class="align-middle" :src="comment.user?.avatar" size="md" :use-thumb="comment.user?.avatar_has_thumb"/>
+					</NuxtLink>
+					<m-flex wrap column>
+						<m-flex>
+							<a-user :avatar="false" :user="comment.user"/>
+							<span v-if="specialTag" class="text-success self-center">({{ specialTag }})</span>
+						</m-flex>
+						<m-flex>
+							<NuxtLink class="text-secondary" :to="commentPage">
+								<m-time :datetime="comment.created_at" relative/>
+							</NuxtLink>
+							<m-time v-if="comment.updated_at != comment.created_at" class="text-secondary" :datetime="comment.updated_at" :text="$t('edited')"/>
+							<span v-if="showPins && comment.pinned" :title="$t('pinned')">
+								<i-mdi-pin class="transform rotate-45"/>
+							</span>
+						</m-flex>
 					</m-flex>
-					<md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version" :padding="2"/>
 				</m-flex>
+				<md-content class="w-full comment-content" :text="content" :parser-version="comment.parser_version" :padding="2"/>
 				<div v-if="url" class="absolute" style="right: 0; top: -0.5rem;">
 					<m-flex class="comment-actions text-body flex-col md:flex-row" :style="{ visibility: areActionsVisible ? 'visible' : null }">
 						<m-button v-if="canReply" class="cursor-pointer" :title="$t('reply')" size="sm" @click="user ? $emit('reply', comment) : $router.push('/login')">
@@ -126,6 +130,20 @@ const emit = defineEmits<{
 	markAsAnswer: [comment: Comment];
 }>();
 
+useSchemaOrg([
+	defineComment({
+		'text': props.comment.content,
+		'@id': `${props.pageUrl}#comment-${props.comment.id}`,
+		'isPartOf': { '@id': '#commentable' },
+		'datePublished': props.comment.created_at,
+		'dateModified': props.comment.updated_at,
+		'author': {
+			name: props.comment.user?.name,
+			url: `/user/${props.comment.user?.id}`
+		}
+	})
+]);
+
 const page = useRouteQuery('page', 1, null, true);
 const store = useStore();
 const { user } = store;
@@ -144,7 +162,7 @@ const specialTag = computed(() => props.getSpecialTag && props.getSpecialTag(pro
 const { data: fetchedReplies, refresh: loadReplies } = await useFetchMany<Comment>(props.fetchReplies ? `comments/${props.comment.id}/replies` : '', {
 	immediate: props.fetchReplies,
 	lazy: true,
-	query: { page, limit: 5 }
+	query: { page, limit: 20 }
 });
 const replies = computed(() => props.fetchReplies ? fetchedReplies.value : new Paginator<Comment>(props.comment.last_replies));
 

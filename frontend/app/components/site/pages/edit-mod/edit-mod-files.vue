@@ -95,7 +95,7 @@
 		<m-input v-model="currentLink.url" type="url" required :label="$t('url')"/>
 		<m-input v-model="currentLink.version" :label="$t('version')"/>
 		<m-input v-model="currentLink.display_order" :label="$t('order')"/>
-		<m-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+		<m-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 			<template #any-option="{ option }">
 				<m-img style="width: 100px; height: 100px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
 			</template>
@@ -127,7 +127,7 @@
 			:disabled="disableChangeFile"
 			type="file"
 		/>
-		<m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable>
+		<m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 			<template #any-option="{ option }">
 				<m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
 			</template>
@@ -171,6 +171,8 @@ const currentLink = ref<Link>();
 
 const filesPage = ref(1);
 const linksPage = ref(1);
+
+const initialMod = inject<Mod>('initialMod');
 
 const { data: asyncFiles, refresh: refreshFiles } = await useFetchMany(`mods/${mod.value.id}/files`, {
 	query: {
@@ -269,6 +271,11 @@ function updateHasDownload() {
 	mod.value.files_count = files.value.length ?? 0;
 	mod.value.links_count = links.value.length ?? 0;
 	mod.value.has_download = (mod.value.files_count > 0) || (mod.value.links_count > 0) || false;
+
+
+	if (initialMod) {
+		initialMod.has_download = mod.value.has_download;
+	}
 
 	if (Math.abs(mod.value.files_count - mod.value.links_count) === 1) {
 		mod.value.download = files.value[0] ?? links.value[0];

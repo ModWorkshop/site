@@ -24,6 +24,7 @@ use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\IgnoredCategoryController;
 use App\Http\Controllers\IgnoredModController;
 use App\Http\Controllers\ModManagerController;
 use App\Http\Controllers\ModMemberController;
@@ -42,6 +43,7 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\TrackSessionController;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\IgnoredGame;
@@ -180,6 +182,7 @@ Route::middleware('can:view,comment')->group(function() {
  * @group Users
  */
 Route::resource('users', UserController::class)->except(['store', 'show']);
+Route::resource('track-sessions', TrackSessionController::class)->only(['index']);
 APIService::gameResource('bans', BanController::class, ['parentOptional' => true]);
 APIService::gameResource('user-cases', UserCaseController::class, ['parentOptional' => true]);
 Route::resource('notifications', NotificationController::class)->only(['index', 'store', 'destroy', 'update']);
@@ -191,6 +194,7 @@ Route::middleware('can:viewAny,App\Models\Notification')->group(function() {
 });
 
 Route::get('users/{user}', [UserController::class, 'getUser'])->where('user', '[0-9a-zA-Z\-_]+');
+Route::get('users/{user}/pinned-mods', [UserController::class, 'getPinnedMods']);
 
 Route::middleware('can:viewDiscussions,user')->get('users/{user}/comments', [UserController::class, 'getComments']);
 Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [UserController::class, 'getThreads']);
@@ -210,6 +214,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('followed-users/mods', [FollowedUserController::class, 'mods']);
     Route::resource('followed-games', FollowedGameController::class)->except('show', 'update');
     Route::resource('ignored-games', IgnoredGameController::class)->except('show', 'update');
+    Route::resource('ignored-categories', IgnoredCategoryController::class)->except('show', 'update');
     Route::resource('ignored-mods', IgnoredModController::class)->except('show', 'update');
     Route::get('followed-games/mods', [FollowedGameController::class, 'mods']);
 });

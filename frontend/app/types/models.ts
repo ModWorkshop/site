@@ -261,6 +261,7 @@ export interface Ban {
 	reason: string;
 	case_id: number;
 	can_appeal: boolean;
+	ip_ban: boolean;
 	user: User;
 	case: UserCase;
 }
@@ -324,6 +325,9 @@ export interface User {
 	supporter?: Supporter;
 	nitro_token?: string;
 	avatar_has_thumb?: boolean;
+	needs_mod_approval?: boolean;
+	purged_user?: boolean;
+	pinned_mods?: Mod[];
 }
 
 export interface UserForm extends User {
@@ -474,6 +478,7 @@ export interface Settings {
 	news_forum_category: number;
 	edit_comment_threshold: number;
 	game_requests_forum_category: number;
+	new_user_first_upload_requires_approval: boolean;
 }
 
 export interface Document {
@@ -612,4 +617,9 @@ export interface AuditLog extends Model {
 	context_id?: number;
 	context_name?: string;
 	context?: Model;
+}
+
+export interface TrackSession extends Model {
+	ip_address: string;
+	user_id: number;
 }
