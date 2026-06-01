@@ -132,6 +132,8 @@ class Thread extends Model implements SubscribableInterface
         'announce_until' => 'datetime',
     ];
 
+    public static array $RELATIONS_FOR_PAGE = [];
+
     #[Scope]
     protected static function forListing(Builder $query) {
         $query->with([
@@ -140,18 +142,6 @@ class Thread extends Model implements SubscribableInterface
             'category',
             'game',
             'tags',
-        ]);
-    }
-
-    #[Scope]
-    protected static function forPage(Builder $query) {
-        $query->load([
-            'user',
-            'category',
-            'game' => fn($q) => $q->withUserPerfs(),
-            'tags',
-            'subscribed',
-            'answerComment'
         ]);
     }
 
@@ -234,7 +224,16 @@ class Thread extends Model implements SubscribableInterface
     {
         return $this->belongsTo(Comment::class);
     }
+
     protected static function booted() {
+        self::$RELATIONS_FOR_PAGE = [
+            'user',
+            'category',
+            'game' => fn($q) => $q->withUserPerfs(),
+            'tags',
+            'subscribed',
+            'answerComment',
+        ];
         static::created(function(Thread $thread) {
             if ($thread->user->extra->auto_subscribe_to_thread) {
                 $thread->subscriptions()->create([

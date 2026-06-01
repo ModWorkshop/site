@@ -119,7 +119,7 @@ class ThreadController extends Controller
             $thread->tags()->sync($tags);
         }
 
-        $thread->forPage();
+        $thread->load(Thread::$RELATIONS_FOR_PAGE);
 
         $this->uploadThumbnail($request, $thread);
 
@@ -131,7 +131,7 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
-        $thread->forPage();
+        $thread->load(Thread::$RELATIONS_FOR_PAGE);
         return new ThreadResource($thread);
     }
 
