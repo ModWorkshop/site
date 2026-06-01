@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new CalculatePopularity)->everyThirtyMinutes();
+        $schedule->job(new CalculatePopularity)->everyTwoHours();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
         $schedule->job(new DeleteOldAuditLogs)->everySixHours();
