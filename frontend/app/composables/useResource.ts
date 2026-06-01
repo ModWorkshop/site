@@ -47,6 +47,7 @@ export default async function<T>(
 		404: t('page_error_404'),
 		403: t('page_error_403'),
 		429: t('error_429'),
+		500: t('error_500'),
 		...errorMessages
 	});
 
