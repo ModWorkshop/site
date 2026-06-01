@@ -25,4 +25,4 @@ On Windows you'll need WSL2.
 
 ## Security
 If you discover a security vulnerability, please submit a [private vulnerability report](https://github.com/ModWorkshop/site/security/advisories/new).
-Alternatively, you can email me directly at luffy@modworkshop.net.
+Alternatively, you can email me directly at daniel@modworkshop.net.
