@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\APIService;
 use Arr;
+use Cache;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -28,42 +30,30 @@ class PaginationService extends ServiceProvider
      */
     public function boot()
     {
-        // Figure this
-
-        // Model::resolveRelationUsing('queryGet', function(Model $model, array $val, \Closure $callback = null) {
-        //     $model->query()->queryGet($val, $callback);
-        // });
-
-        Builder::macro('queryGet', function(array $val, Closure $callback = null, $useTrigrams=false) {
-            /**
-             * @var Builder $this
-            */
-
-            if (isset($val['query']) && !empty($val['query'])) {
-                $query = trim($val['query']);
-
-                if ($useTrigrams && mb_strlen($query) > 2) {
-                    $this->where(function(Builder $q) use ($query) {
-                        $q->whereRaw("name @@ websearch_to_tsquery(?)", [$query])
-                        ->orWhereRaw("levenshtein(name, ?) <= 4", [$query])
-                        ->orWhereRaw("name ILIKE ?", ['%' . $query . '%']);
-                    });
-                } else {
-                    $this->whereRaw("name ILIKE '%' || ? || '%'", [$query]);
+        Builder::macro('queryGet', function(array $val, Closure $callback = null, ?array $cache=null) {
+            $getFunc = function(Builder $q) use ($val, $callback) {
+                if (isset($val['query']) && !empty($val['query'])) {
+                    $q->whereRaw("name ILIKE '%' || ? || '%'", [trim($val['query'])]);
                 }
-            }
 
-            $ids = Arr::pull($val, 'ids');
-            if (isset($ids) && is_array($ids) && !empty($ids)) {
-                $this->whereIn('id', $ids);
-            }
+                $ids = Arr::pull($val, 'ids');
+                if (isset($ids) && is_array($ids) && !empty($ids)) {
+                    $q->whereIn('id', $ids);
+                }
 
-            if (isset($callback)) {
-                $callback($this, $val);
-            }
+                if (isset($callback)) {
+                    $callback($q, $val);
+                }
 
-            $limit = Arr::get($val, 'limit', 20);
-            return $this->paginate(Number::clamp($limit, 1, 100));
+                $limit = Arr::get($val, 'limit', 20);
+                return $q->paginate(Number::clamp($limit, 1, 100));
+            };
+
+            if ($cache === null) {
+                return $getFunc($this);
+            } else {
+                return Cache::remember($cache['key'].APIService::hashByQuery(), $cache['ttl'], fn() => $getFunc($this));
+            }
         });
     }
 }
