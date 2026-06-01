@@ -66,6 +66,8 @@ use Illuminate\Support\Carbon;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag sum($column)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag truncate()
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag withCacheCooldownSeconds(?int $seconds = null)
+ * @property-read Collection<int, Tag> $gamesHiding
+ * @property-read int|null $games_hiding_count
  * @mixin Eloquent
  */
 class Tag extends Model
@@ -99,12 +101,5 @@ class Tag extends Model
     public function color(): Attribute
     {
         return Attribute::make(fn($value) => trim($value));
-    }
-
-    public function toSearchableArray()
-    {
-        return [
-            'name' => $this->name,
-        ];
     }
 }

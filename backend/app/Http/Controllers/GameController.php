@@ -9,6 +9,7 @@ use App\Http\Resources\ModResource;
 use App\Models\Category;
 use App\Models\Game;
 use App\Models\AuditLog;
+use App\Models\Mod;
 use App\Models\ModManager;
 use App\Models\Tag;
 use App\Models\User;
@@ -17,6 +18,7 @@ use App\Services\ModService;
 use Arr;
 use Auth;
 use Cache;
+use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -139,8 +141,7 @@ class GameController extends Controller
      * It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster.
      */
     function gameSectionData(GetModsRequest $request, Game $game) {
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $mods */
-        $mods = ModService::mods(val: $request->val(), query: $game->mods()->without('game'), cacheForGuests: $game->short_name.'-index');
+        $mods = ModService::meilisearchModsGuestCache($request->val(), 'mods', $game, queryFunc: fn($q) => $q->without(['game']));
         $game->load('categories');
         $game = $this->show($game);
 
@@ -174,7 +175,6 @@ class GameController extends Controller
 
 
         $games = QueryBuilder::for(Game::class)->allowedIncludes(['roles'])->queryGet($val, function(Builder $query, array $val) {
-            $query->withCount('viewableMods');
             if ($val['only_names'] ?? false) {
                 $query->select(['id', 'name']);
             }
@@ -185,8 +185,17 @@ class GameController extends Controller
                 });
             }
 
-            $query->OrderByRaw('last_date DESC nulls last');
+            $query->orderByRaw('last_date DESC nulls last');
         });
+
+        $games->append('mods_count');
+
+        $gameModCounts = Game::getGameModCounts();
+
+        foreach ($games as $game) {
+            $gameCount = $gameModCounts->where('game_id', $game->id)->first();
+            $game->_modsCount = isset($gameCount) ? $gameCount['count'] : 0;
+        }
 
         return GameResource::collectionResponse($games);
     }
@@ -198,7 +207,7 @@ class GameController extends Controller
     {
         APIService::setCurrentGame($game);
 
-        $game->loadCount('viewableMods');
+        $game->append('mods_count');
         $game->loadMissing('modManagers');
         $game->loadMissing('hiddenTags');
 
@@ -291,8 +300,8 @@ class GameController extends Controller
      *
      * Returns the user as they are supposed to be when inside of a game. Handles roles and colors.
      */
-    public function getGameUser(UserController $con, Game $game=null, string $user) {
-        return $con->getUser($user, $game);
+    public function getGameUser(Request $request, UserController $con, Game $game=null, string $user) {
+        return $con->getUser($request, $user, $game);
     }
 
     /**

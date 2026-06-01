@@ -57,6 +57,7 @@ class GetModsRequest extends FilteredRequest
             'exclude_game_ids.*' => 'integer|min:1|nullable',
             'user_id' => 'integer|nullable|min:1',
             'collab' => 'boolean|nullable',
+            'including_collab' => 'boolean|nullable',
             'including_ignored' => 'boolean|nullable',
             'sort' => Rule::in($this->sortOptions())
         ];

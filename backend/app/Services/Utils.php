@@ -80,7 +80,7 @@ class Utils {
     {
         $permissions = [];
         foreach ($roles as $role) {
-            if (!$role->is_vanity && $role->relationLoaded('permissions')) {
+            if (!$role->is_vanity) {
                 foreach ($role->cachedPermissions as $perm) {
                     $permissions[$perm->name] = true;
                 }
@@ -117,34 +117,6 @@ class Utils {
         }
 
         return $uniqueName;
-    }
-
-    /**
-     * Returns a unique name for a user (DO NOT USE, only migration code)
-     */
-    public static function getUniqueNameCached(string $name): string
-    {
-        static $used = [];
-
-        $uniqueName ??= $name;
-        $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
-        if (strlen($uniqueName) == 0) {
-            $uniqueName = 'mws';
-        }
-
-        //Try to make a unique name for the user
-        $num = null;
-        $found = false;
-        while(!$found) {
-            $current = $uniqueName.(isset($num) ? '-'.$num : '');
-            if (!isset($used[$current])) {
-                $used[$current] = true;
-                return $current;
-            } else {
-                $num ??= 0;
-                $num++;
-            }
-        }
     }
 
     /**
@@ -185,14 +157,20 @@ class Utils {
 
         $roleIds = [1];
         $gameRoleIds = null;
+        $managingGameIds = [];
 
         if (isset($user)) {
             $roleIds = [1, ...Arr::pluck($user->roles, 'id')];
             $gameRoleIds = Arr::pluck($user->allGameRoles, 'id');
+            $moderateUserGameRoles = $user->getAllGamesRolesHavingPermission('moderate-users');
+            $managingGameIds = Arr::pluck($moderateUserGameRoles, 'game_id');
         }
 
-        if ($thread) {
-            $q->where('private_threads', false);
+        // Moderate users can see all private threads
+        if ($thread && (!isset($user) || !$user->hasPermission('moderate-users'))) {
+            $q->where('private_threads', false)->orWhereHas('game', function($q) use ($managingGameIds) {
+                $q->whereIn('id', $managingGameIds);
+            });
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {

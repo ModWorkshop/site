@@ -10,6 +10,7 @@ use App\Jobs\DeleteLoosePendingFiles;
 use App\Jobs\DeleteOldAuditLogs;
 use App\Jobs\DeleteUnverifiedUsers;
 use App\Jobs\RemoveExpiredRequests;
+use App\Jobs\SetUsersNeedsApprovalToFalse;
 use App\Jobs\TryActivatingUsers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -32,13 +33,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new CalculatePopularity)->everyFiveMinutes();
+        $schedule->job(new CalculatePopularity)->everyThirtyMinutes();
         $schedule->job(new TryActivatingUsers)->everyTwoHours();
         $schedule->job(new DeleteUnverifiedUsers)->everyTwoHours();
         $schedule->job(new DeleteOldAuditLogs)->everySixHours();
         $schedule->job(new CalculateThreadComments)->everyTwoHours();
         $schedule->job(new RemoveExpiredRequests)->everyTwoHours();
         $schedule->job(new DeleteLoosePendingFiles)->everyThreeMinutes();
+        $schedule->job(new SetUsersNeedsApprovalToFalse)->everySixHours();
 
         $schedule->command('sitemap:generate')->everyTwoHours();
 

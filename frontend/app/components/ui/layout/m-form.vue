@@ -45,6 +45,11 @@ const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
 const disableButtons = ref(false);
 const modelCopy = ref<object>();
+const yesNoModal = useYesNoModal();
+const router = useRouter();
+
+const forcedOut = ref(false);
+
 const { t } = useI18n();
 
 const currentCanSave = computed(() => {
@@ -83,6 +88,21 @@ watch(() => flushChanges, () => {
 
 watch(currentCanSave, val => {
 	emit('stateChanged', val);
+});
+
+onBeforeRouteLeave(to => {
+	if (currentCanSave.value && !forcedOut.value) {
+		yesNoModal({
+			title: t('are_you_sure'),
+			desc: t('unsaved_changes'),
+			async yes() {
+				forcedOut.value = true;
+				router.push(to);
+			}
+		});
+
+		return false;
+	}
 });
 
 const currentSaveButtonText = computed(() => saveButtonText || (created ? t('save') : t('submit')));

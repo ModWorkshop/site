@@ -9,7 +9,7 @@
 
 	<m-alert :desc="$t('images_help')"/>
 
-	<m-flex v-if="mod.id" class="items-center">
+	<m-flex v-if="mod.id" class="md:items-center max-md:flex-col">
 		<m-select v-model="mod.thumbnail_id" :options="images" :label="$t('thumbnail')" :filterable="false" clearable null-clear height="64px">
 			<template #any-option="{ option }">
 				<a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
@@ -25,7 +25,7 @@
 				<a-thumbnail url-prefix="mods/images" :src="option.file" style="height: 64px;"/>
 			</template>
 			<template #label>
-				{{ $t('supporter_background') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+				{{ $t('supporter_background') }} {{ $t('supporters_only') }}
 			</template>
 		</m-select>
 	</m-flex>
@@ -39,7 +39,7 @@
 		max="1"
 	>
 		<template #label>
-			{{ $t('supporter_background_opacity') }} <NuxtLink to="/support">{{ $t('supporters_only') }}</NuxtLink>
+			{{ $t('supporter_background_opacity') }} {{ $t('supporters_only') }}
 		</template>
 	</m-input>
 
@@ -138,7 +138,7 @@ async function setImageOrder(img: Image, order: number) {
 		images.value.splice(img.display_order, 0, img);
 
 		for (let i = 0; i < images.value.length; i++) {
-			images.value[i].display_order = i;
+			images.value[i]!.display_order = i;
 		}
 	} catch (error) {
 		showError(error);
@@ -163,13 +163,13 @@ function fileDeleted(image: Image) {
 	}
 
 	for (let i = 0; i < images.value.length; i++) {
-		images.value[i].display_order = i;
+		images.value[i]!.display_order = i;
 	}
 }
 
 function fileUploaded() {
 	for (let i = 0; i < images.value.length; i++) {
-		images.value[i].display_order = i;
+		images.value[i]!.display_order = i;
 	}
 }
 </script>

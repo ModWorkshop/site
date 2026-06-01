@@ -72,7 +72,7 @@
 				</template>
 				<m-loading v-else-if="loading || !loaded" class="m-auto"/>
 				<h3 v-else class="mx-auto">
-					{{ $t('no_threads_found') }}
+					{{ $t(error ? 'something_went_wrong': 'no_threads_found') }}
 				</h3>
 				<m-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
 			</m-flex>
@@ -164,7 +164,6 @@ const params = {
 
 watch(currentCategory, () => {
 	emit('selectCategory', currentCategory.value);
-	page.value = 1;
 }, { immediate: true });
 
 watch(() => currentCategory.value?.can_close_threads, canClose => {
@@ -175,10 +174,10 @@ watch(() => currentCategory.value?.can_close_threads, canClose => {
 	}
 });
 
-const { data: threads, refresh } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, query: params });
+const { data: threads, refresh, error } = await useFetchMany<Thread>(currentUrl.value, { immediate: !props.lazy, query: params });
 
 async function onVisChange(entries: IntersectionObserverEntry[]) {
-	if (entries[0]?.isIntersecting) {
+	if (entries[0]?.isIntersecting && !loaded.value) {
 		await refresh();
 		loaded.value = true;
 	}

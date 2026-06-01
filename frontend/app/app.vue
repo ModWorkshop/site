@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import '~/assets/css/normalize.css';
 import '~/assets/css/base.css';
+import '~/assets/css/tailwind.css';
 import '~/assets/css/markdown.css';
 import '~/assets/css/github-dark.css';
 import { useI18n } from 'vue-i18n';
@@ -54,6 +55,14 @@ if (import.meta.server) {
 		twitterCard: 'summary'
 	});
 }
+
+useSchemaOrg([
+	defineOrganization({
+		name: 'ModWorkshop',
+		description: () => t('mws_short_about'),
+		logo: `${config.siteUrl}/assets/mws_logo_black.png`
+	})
+]);
 </script>
 
 <style>

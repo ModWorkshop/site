@@ -25,7 +25,7 @@
 				</m-flex>
 				<m-flex column gap="4" style="grid-area: pages;">
 					<m-link @click="scrollToTop">{{ $t('return_to_top') }}</m-link>
-					<m-link to="/support">{{ $t('support_us') }}</m-link>
+					<!-- <m-link to="/support">{{ $t('support_us') }}</m-link> -->
 					<m-link to="/about">{{ $t('about') }}</m-link>
 					<m-link to="/document/rules">{{ $t('rules') }}</m-link>
 				</m-flex>
@@ -51,7 +51,7 @@
 						ModWorkshop {{ runtimeConfig.version }} (<NuxtLink :to="`https://github.com/ModWorkshop/site/commit/${commitHash}`">{{ commitHash }}</NuxtLink>) Made With ❤ By <NuxtLink to="/user/Luffy">Luffy</NuxtLink>
 					</span>
 					<m-flex class="items-center">
-						Operated By <m-img class="inline-block" src="milk_deluxe.webp" loading="lazy" is-asset width="40" height="24" alt="CompanyLogo"/> Milk Deluxe
+						© Sidetrack Games B.V.
 					</m-flex>
 				</m-flex>
 				<m-flex class="sm:ml-auto text-2xl" gap="3">

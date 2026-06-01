@@ -8,17 +8,14 @@ use App\Http\Requests\ModUpsertRequest;
 use App\Http\Resources\ModResource;
 use App\Models\AuditLog;
 use App\Models\Category;
-use App\Models\File;
 use App\Models\Game;
 use App\Models\Mod;
-use App\Models\ModDownload;
 use App\Models\ModLike;
 use App\Models\ModView;
 use App\Models\Notification;
 use App\Models\PopularityLog;
 use App\Models\Setting;
 use App\Models\Suspension;
-use App\Models\Tag;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Services\APIService;
@@ -27,6 +24,7 @@ use App\Services\Utils;
 use Arr;
 use Auth;
 use Carbon\Carbon;
+use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
@@ -49,22 +47,21 @@ class ModController extends Controller
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
-        $val = $request->val();
-
-        if (isset($game)) {
-            $mods = ModService::mods(val: $val, query: $game->mods(), cacheForGuests: $game->short_name.'-index');
-        } else {
-            $mods = ModService::mods($val, cacheForGuests: 'index');
-        }
+        $mods = ModService::meilisearchModsGuestCache($request->val(), 'index', $game);
 
         return ModResource::collectionResponse($mods);
     }
 
+    /**
+     * List of followed mods
+     *
+     * @authenticated
+     */
     public function followed(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
 
-        return ModResource::collectionResponse(ModService::mods($val, function($q) use ($user) {
+        return ModResource::collectionResponse(ModService::dbFilteredMods($val, function($q) use ($user) {
             $q->whereExists(function($query) use ($user) {
                 $query->from('followed_mods')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_mods.mod_id', 'mods.id');
@@ -89,17 +86,13 @@ class ModController extends Controller
      */
     public function popularAndLatest(Request $request, Game $game=null)
     {
-        if (isset($game)) {
-            return [
-                'latest' => ModService::mods(['limit' => 20], query: $game->mods(), cacheForGuests: 'pal-latest')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], query: $game->mods(), cacheForGuests: 'pal-popular')->items(),
-            ];
-        } else {
-            return [
-                'latest' => ModService::mods(['limit' => 20], cacheForGuests: 'pal-latest')->items(),
-                'popular' => ModService::mods(['sort_by' => 'daily_score', 'limit' => 5], cacheForGuests: 'pal-popular')->items(),
-            ];
-        }
+        return [
+            'latest' => ModService::meilisearchModsGuestCache([], 'pal-latest', $game)->items(),
+            'popular' => ModService::meilisearchModsGuestCache([
+                'sort_by' => 'daily_score',
+                'limit' => 5
+            ], 'pal-popular', $game)->items(),
+        ];
     }
 
     /**
@@ -111,7 +104,7 @@ class ModController extends Controller
      */
     public function liked(GetLikedModsRequest $request)
     {
-        $mods = ModService::mods($request->val(), fn($q) => $q->whereHasIn('liked'), sortByFunc: function($q, $val) {
+        $mods = ModService::dbFilteredMods($request->val(), fn($q) => $q->whereHasIn('liked'), sortByFunc: function($q, $val) {
             if (isset($val['sort']) && $val['sort'] === 'liked_at') {
                 $q->orderBy(function($query) {
                     $query->select('created_at')
@@ -139,9 +132,9 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::mods($request->val(), function($q, $val) {
-            $q->whereNull('approved');
-        }, $game?->mods());
+        $mods = ModService::meilisearch($request->val(), $game, function(MeilisearchQuery $modSearch) {
+            $modSearch->whereIsNull('approved');
+        });
 
         return ModResource::collectionResponse($mods);
     }
@@ -154,6 +147,8 @@ class ModController extends Controller
     public function show(Game $game=null, Mod $mod)
     {
         $mod->append(['mod_managers', 'used_storage']);
+        $mod->withFetchResourceGame();
+
         return new ModResource($mod);
     }
 
@@ -167,6 +162,7 @@ class ModController extends Controller
     public function update(ModUpsertRequest $request, Game $game=null, Mod $mod=null)
     {
         $val = $request->validated();
+        $user = $this->user();
 
         //Currently if we give this something like short_desc= we expect short_desc to get empty
         //However, Laravel sees this as a null value, while useful for integer filters, usually not so much for updating strings.
@@ -220,6 +216,11 @@ class ModController extends Controller
             if (!isset($category)) {
                 abort(409, 'Invalid category. It must belong to the game.');
             }
+        }
+
+        // New users need approval
+        if ($mod == null && Setting::get('new_user_first_upload_requires_approval') && $user->needs_mod_approval && $user->created_at->diffInMonths(Carbon::now()) < 1) {
+            $sendForApproval = true;
         }
 
         if ($sendForApproval) {
@@ -554,6 +555,13 @@ class ModController extends Controller
             $mod->publish();
         }
 
+        // Mod was approved, the user no longer needs approval for future mods
+        if ($approve && $mod->user->needs_mod_approval) {
+            $mod->user->update([
+                'needs_mod_approval' => false
+            ]);
+        }
+
         // Send to discord about this
         $moderator = $this->user();
         $send = [Setting::getValue('discord_approval_webhook')];
@@ -700,7 +708,11 @@ class ModController extends Controller
             'mod_ids.*' => 'integer|min:1',
         ]);
 
-        $mods = ModService::mods(val: $val, query: Mod::whereIn('id', $val['mod_ids']));
+        $mods = ModService::meilisearch([
+            'ids' => $val['mod_ids'],
+            'limit' => 100,
+        ]);
+
         $onlyVersions = [];
         foreach($mods as $mod) {
             $onlyVersions[$mod->id] = $mod->version;

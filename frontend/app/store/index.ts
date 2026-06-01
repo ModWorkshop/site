@@ -2,6 +2,7 @@ import type { User, Game, Tag, Notification, Settings, Thread } from '~/types/mo
 import { defineStore } from 'pinia';
 import { Paginator } from '../types/paginator';
 import type { CookieRef } from '#app';
+import clone from 'rfdc/default';
 
 interface MainStore {
 	user: User | null;
@@ -19,6 +20,7 @@ interface MainStore {
 	announcements: Thread[];
 	colorScheme: string;
 	games: Game[] | null;
+	gamesCount?: number | null;
 	tags: Paginator<Tag> | null;
 	settings: Settings | null;
 }
@@ -38,6 +40,7 @@ export const useStore = defineStore('main', {
 		currentGame: null,
 		settings: null,
 		games: null,
+		gamesCount: null,
 		tags: null,
 		user: null,
 		ads: []
@@ -107,6 +110,7 @@ export const useStore = defineStore('main', {
 				user?: User;
 				activity: { users: number; guests: number };
 				games: Game[];
+				games_count: number;
 			};
 
 			let siteData;
@@ -133,6 +137,7 @@ export const useStore = defineStore('main', {
 			this.reportCount = siteData.report_count ?? null;
 			this.waitingCount = siteData.waiting_count ?? null;
 			this.activity = siteData.activity;
+			this.gamesCount = siteData.games_count;
 		},
 
 		async reloadUser() {
@@ -176,7 +181,7 @@ export const useStore = defineStore('main', {
 
 		// Essentially reloads the site data so people don't have to refresh the page
 		async reloadSiteData(initial = false) {
-			if (!initial && this.user) {
+			if (!initial && this.user && !document.hidden) {
 				const promises: Promise<any>[] = [];
 				if (this.notifications) {
 					promises.push(this.getNotifications());
@@ -205,6 +210,10 @@ export const useStore = defineStore('main', {
 				}
 				lastTimeout = setTimeout(() => this.reloadSiteData(), 60 * 1000);
 			}
+		},
+
+		setUser(user: User) {
+			this.user = clone(user);
 		},
 
 		setUserAvatar(avatar: string) {

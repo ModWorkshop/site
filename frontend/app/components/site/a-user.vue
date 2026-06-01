@@ -8,10 +8,10 @@
 	>
 		<m-flex inline :column="column" class="items-center" :gap="neededGap">
 			<NuxtLink v-if="avatar" class="inline-flex" :to="link">
-				<m-avatar :size="avatarSize" :src="user?.avatar" :use-thumb="user?.avatar_has_thumb" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
+				<m-avatar :size="avatarSize" :src="user?.avatar" :use-thumb="useThumb" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
 			</NuxtLink>
 
-			<m-flex gap="1" class="break-words" column>
+			<m-flex gap="1" class="wrap-break-word" column>
 				<NuxtLink v-if="name" class="flex gap-1 items-center flex-wrap" :to="link">
 					<component :is="isBanned ? 's' : 'span'" :style="{ color: userColor }" class="break-all text-body">{{ user?.name ?? $t('invalid_user') }}</component>
 					<m-tag v-if="tag && userTag" small>{{ userTag }}</m-tag>
@@ -78,6 +78,13 @@ const canModerateUsers = computed(() => hasPermission('moderate-users'));
 const isOwnOrModerator = computed(() => me && (props.user?.id === me.id || canModerateUsers.value));
 const statusString = computed(() => t(isOnline.value ? 'online' : 'offline'));
 const statusColor = computed(() => isOnline.value ? 'green' : 'gray');
+
+const useThumb = computed(() => {
+	if (!props.user?.avatar_has_thumb) {
+		return false;
+	}
+	return props.avatarSize === 'xs' || props.avatarSize === 'sm';
+});
 
 const isBanned = computed(() => !!(props.user?.ban || props.user?.game_ban));
 const userTag = computed(() => {

@@ -38,6 +38,9 @@
 							<i-mdi-eye-off v-else/>
 							{{ $t(mod.ignored ? 'unignore' : 'ignore') }}
 						</m-dropdown-item>
+						<m-dropdown-item v-if="user && mod.members.find(member => member.id == user?.id)" @click="leaveMembers">
+							<i-mdi-exit-to-app/> {{ $t('leave_members') }}
+						</m-dropdown-item>
 					</template>
 				</m-dropdown>
 			</m-flex>
@@ -69,9 +72,13 @@
 import { useStore } from '~/store';
 import type { Mod, Comment } from '~/types/models';
 import { useI18n } from 'vue-i18n';
+import { remove } from '@antfu/utils';
 const store = useStore();
+const { user } = useStore();
 const { t } = useI18n();
 const { public: config } = useRuntimeConfig();
+const showToast = useQuickErrorToast();
+const yesNoModal = useYesNoModal();
 
 const { mod } = defineProps<{
 	mod: Mod;
@@ -115,6 +122,22 @@ function commentSpecialTag(comment: Comment) {
 			return t(`member_level_${member.level}`);
 		}
 	}
+}
+
+async function leaveMembers() {
+	if (!user) return;
+	yesNoModal({
+		title: t('are_you_sure'),
+		desc: t('irreversible_action'),
+		async yes() {
+			try {
+				await deleteRequest(`mods/${mod.id}/members/${user.id}`);
+				remove(mod.members, mod.members.find(member => member.id === user.id));
+			} catch (error) {
+				showToast(error);
+			}
+		}
+	});
 }
 </script>
 

@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.11.3-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.12.3-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends supervisor
 
@@ -24,20 +24,23 @@ RUN <<EOF cat >> $PHP_INI_DIR/php.ini
 ffi.enable=true
 post_max_size=100M
 upload_max_filesize=100M
-memory_limit=512M
+memory_limit=1G
 max_execution_time=150
 disable_functions=phpinfo
 opcache.enable=1
 opcache.enable_cli=1
 opcache.jit_buffer_size=250M
+opcache.jit=1255
 opcache.memory_consumption=1024
 opcache.max_accelerated_files=20000
 opcache.validate_timestamps=0
-opcache.interned_strings_buffer=8
+opcache.interned_strings_buffer=64
 opcache.fast_shutdown=1
-realpath_cache_size=4096K
+realpath_cache_size=16M
 realpath_cache_ttl=600
 zend.max_allowed_stack_size=-1
+zend.enable_gc=1
+opcache.huge_code_pages=1
 EOF
 
 # Install composer from the official image
@@ -66,12 +69,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends cron \
 
 # Install composer packages & cache this layer
 RUN composer install --no-interaction --no-dev --optimize-autoloader --apcu-autoloader --no-progress --ignore-platform-reqs --ignore-platform-req=php
-
-RUN php artisan scribe:generate #TODO: find a better way to generate these so we can include auth ones too
-
-RUN php artisan route:cache \
-    && php artisan optimize \
-    && php artisan storage:link
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 

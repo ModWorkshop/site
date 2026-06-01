@@ -108,7 +108,7 @@
 				</m-content-block>
 			</m-flex>
 			<m-flex column class="flex-1">
-				<div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-3">
+				<div v-if="game && currentDisplayCats.length" class="categories-grid mb-3 gap-2">
 					<grid-category v-for="cat of currentDisplayCats" :key="cat.id" :game="game" :category="cat"/>
 				</div>
 				<m-flex column grow gap="4" class="mods" style="flex:1; min-height: 150px;">
@@ -230,7 +230,7 @@ const searchParams = {
 const gameId = computed(() => props.game?.id ?? selectedGame.value);
 
 const { data: fetchCategories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, {
-	immediate: !!searchParams.game_id && !props.categories,
+	immediate: !!searchParams.game_id.value && !props.categories,
 	lazy: true
 });
 

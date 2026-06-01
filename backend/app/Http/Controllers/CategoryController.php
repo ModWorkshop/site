@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Models\AuditLog;
 use App\Services\APIService;
 use Arr;
+use Cache;
 use Date;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -26,38 +27,47 @@ class CategoryController extends Controller
     /**
      * List categories
      */
-    public function index(FilteredRequest $request, Game $game=null)
+    public function index(FilteredRequest $request, ?Game $game=null)
     {
         // Query parameters
         $val = $request->val([
             'game_id' => 'integer|min:1|exists:games,id',
             //Returns only the names of the categories
             'only_names' => 'boolean',
-            'include_paths' => 'boolean'
+            'include_paths' => 'boolean',
+            'include_game_in_paths' => 'boolean'
         ]);
 
         $val['limit'] ??= 1000;
 
-        $categories = Category::queryGet($val, function($query, array $val) use ($game) {
-            $query->orderByRaw("display_order DESC, name ASC");
+        $categories = Cache::remember('categories:'.($game ? 'game:'.$game->name : ''), 120, function() use ($val, $game) {
+            $cats = Category::queryGet($val, function($query, array $val) use ($game) {
+                $query->orderByRaw("display_order DESC, name ASC");
 
-            if (($val['only_names'] ?? false)) {
-                $query->select(['id', 'name']);
+                if (($val['only_names'] ?? false)) {
+                    $query->select(['id', 'name']);
+                }
+
+                if (isset($game)) {
+                    $val['game_id'] ??= $game->id;
+                }
+
+                if (!empty($val['game_id'])) {
+                    $query->where('game_id', $val['game_id']);
+                }
+            });
+
+            $incPaths = $val['include_paths'] ?? false;
+            if ($incPaths) {
+                $incGameInPaths = $val['include_game_in_paths'] ?? true;
+                foreach ($cats as $cat) {
+                    $cat->includeGameInPath = $incGameInPaths;
+                    $cat->path = $cat->path;
+                }
             }
 
-            if (isset($game)) {
-                $val['game_id'] ??= $game->id;
-            }
-
-            if (!empty($val['game_id'])) {
-                $query->where('game_id', $val['game_id']);
-            }
+            return $cats;
         });
-
-        $incPaths = $val['include_paths'] ?? false;
-        if ($incPaths) {
-            APIService::appendToItems($categories, 'path');
-        }
 
         return CategoryResource::collectionResponse($categories);
     }

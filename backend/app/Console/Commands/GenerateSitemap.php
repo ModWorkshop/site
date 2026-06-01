@@ -55,19 +55,39 @@ class GenerateSitemap extends Command
     {
         ini_set('memory_limit', '2G');
 
-        $sitemapIndex = App::make ("sitemap");
+        $chunkSize = 25000;
+        $sitemapIndex = App::make("sitemap");
         $url = env('FRONTEND_URL').'/';
+
+        if (strlen($url) == 1)  { // In case the env variable is missing fallback to hardcoded
+            // While it shouldn't really happen it did happen, no clue yet why.
+            $url = 'https://modworkshop.net/';
+        }
+
         $startT = time();
         $progress = $this->progress('Generating...', 4);
 
         // Mods
-        $modsSitemap = App::make('sitemap');
         $progress->setMessage('Generating mods sitemap');
-        foreach (ModService::viewFilters(Mod::with([]))->get() as $mod) {
-            $modsSitemap->add($url.'mod/'.$mod->id, Carbon::create($mod->bumped_at), 0.8, 'weekly');
+
+        if (!file_exists('public/sitemap')) {
+            mkdir("public/sitemap");
         }
-        $modsSitemap->store('xml', 'mods_sitemap');
-        $sitemapIndex->addSitemap($url.'mods_sitemap.xml');
+
+        $pubMods = ModService::viewFilters(Mod::with([]));
+        $modI = 0;
+        $pubMods->chunk($chunkSize, function($mods) use (&$modI, $url, $sitemapIndex) {
+            $modI++;
+
+            $sitemap = App::make('sitemap');
+
+            foreach ($mods as $mod) {
+                $sitemap->add($url.'mod/'.$mod->id, Carbon::create($mod->bumped_at), 0.8, 'weekly');
+            }
+
+            $sitemap->store('xml', 'sitemap/mods_'.$modI.'_sitemap');
+            $sitemapIndex->addSitemap($url.'sitemap/mods_'.$modI.'_sitemap.xml');
+        });
         $progress->advance();
         //////////////
 
@@ -77,8 +97,8 @@ class GenerateSitemap extends Command
         foreach (ThreadService::filters(Thread::with([]))->get() as $thread) {
             $threadsSitemap->add($url.'thread/'.$thread->id, Carbon::create($thread->bumped_at), 0.6, 'weekly');
         }
-        $threadsSitemap->store('xml', 'threads_sitemap');
-        $sitemapIndex->addSitemap($url.'threads_sitemap.xml');
+        $threadsSitemap->store('xml', 'sitemap/threads_sitemap');
+        $sitemapIndex->addSitemap($url.'sitemap/threads_sitemap.xml');
         $progress->advance();
         //////////////
 
@@ -99,16 +119,16 @@ class GenerateSitemap extends Command
             }
             $gamesSitemap->add($gameUrl.'/forum', Carbon::create($game->forum->updated_at), 0.7, 'daily');
         }
-        $gamesSitemap->store('xml', 'games_sitemap');
-        $sitemapIndex->addSitemap($url.'games_sitemap.xml');
+        $gamesSitemap->store('xml', 'sitemap/games_sitemap');
+        $sitemapIndex->addSitemap($url.'sitemap/games_sitemap.xml');
         $progress->advance();
         //////////////
 
         // Users
         $progress->setMessage('Generating users sitemap');
-        $pubUsers = User::wherePrivateProfile(false)->with([])->select(['id', 'updated_at']);
+        $pubUsers = User::wherePrivateProfile(false)->whereDoesntHave('ban')->with([])->select(['id', 'updated_at']);
         $userI = 0;
-        $pubUsers->chunk(50000, function($users) use (&$userI, $url, $sitemapIndex) {
+        $pubUsers->chunk($chunkSize, function($users) use (&$userI, $url, $sitemapIndex) {
             $userI++;
 
             $sitemap = App::make('sitemap');
@@ -117,13 +137,13 @@ class GenerateSitemap extends Command
                 $sitemap->add($url.'user/'.$user->id, Carbon::create($user->updated_at), 0.5, 'weekly');
             }
 
-            $sitemap->store('xml', 'users_'.$userI.'_sitemap');
-            $sitemapIndex->addSitemap($url.'users_'.$userI.'_sitemap.xml');
+            $sitemap->store('xml', 'sitemap/users_'.$userI.'_sitemap');
+            $sitemapIndex->addSitemap($url.'sitemap/users_'.$userI.'_sitemap.xml');
         });
         $progress->advance();
         //////////////
 
-        $sitemapIndex->store('sitemapindex','sitemap_index');
+        $sitemapIndex->store('sitemapindex','sitemap/sitemap_index');
         $this->newLine();
         $this->info('Done. Took: '.time()-$startT.' seconds');
     }

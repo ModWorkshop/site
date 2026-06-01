@@ -1,22 +1,22 @@
 <template>
-	<m-flex class="tabs" gap="3">
-		<m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
-			<m-link class="collapse-button">
+	<m-flex class="tabs overflow-x-hidden" gap="3">
+		<m-flex v-if="side" class="items-center lg:hidden" @click="menuOpen = !menuOpen">
+			<m-link class="collapse-button mt-1">
 				<i-mdi-menu/>
 			</m-link>
-			<span v-if="currentTab" class="text-2xl">{{ currentTab.title }}</span>
+			<strong v-if="currentTab" class="text-2xl">{{ currentTab.title }}</strong>
 		</m-flex>
-		<m-flex :class="[menuOpen && 'menu-open', 'flex-grow', 'h-full']" :column="!side" :gap="gap">
+		<m-flex :class="{ 'menu-open': menuOpen, 'grow': true, 'h-full': true}" :column="!side" :gap="gap">
 			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
 			<Transition name="left-slide">
 				<m-flex
 					v-show="!side || menuOpen"
 					:wrap="!scrollOnOverflow"
-					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow }"
+					:class="{ 'nav-menu': true, 'overflow-x-auto': scrollOnOverflow, 'alt-background': altBackground, 'tab-menu-bg': background, side }"
 					:style="{ flex: side ? 1 : undefined }"
 					:column="side" role="tablist"
 				>
-					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'flex-shrink-0': scrollOnOverflow, [`p-${padding}`]: padding !== 0 }">
+					<m-flex :wrap="!scrollOnOverflow" grow :column="side" :class="{ 'shrink-0': scrollOnOverflow }" gap="2" padding="1">
 						<m-tab-link
 							v-for="tab of tabs"
 							ref="tabLinks"
@@ -32,7 +32,7 @@
 				</m-flex>
 			</Transition>
 			<slot name="pre-panels"/>
-			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'nav-menu-bg': background, [`p-${padding}`]: padding !== 0 }" :style="{ flex: 4 }">
+			<div ref="tabContentHolder" :class="{ 'nav-menu-content': true, 'alt-background': altBackground, 'nav-menu-bg': background, [`p-${padding}`]: true }" :style="{ flex: 4 }">
 				<slot/>
 			</div>
 		</m-flex>
@@ -43,7 +43,7 @@
 const route = useRoute();
 const queryTab = useRouteQuery('tab');
 
-const { padding = 2, side, query, lazy, background = false, gap = 0 } = defineProps<{
+const { padding = 6, side, query, lazy, background = true, gap = 1 } = defineProps<{
 	side?: boolean;
 	query?: boolean;
 	gap?: string | number;
@@ -51,6 +51,7 @@ const { padding = 2, side, query, lazy, background = false, gap = 0 } = definePr
 	scrollOnOverflow?: boolean;
 	padding?: string | number;
 	background?: boolean;
+	altBackground?: boolean;
 }>();
 
 const slots = useSlots();
@@ -142,6 +143,9 @@ function setCurrentTab(name: string, skipSetQuery = false) {
 if (query) {
 	watch(queryTab, val => {
 		setCurrentTab(val, true);
+		if (!val) {
+			refreshTabs();
+		}
 	});
 }
 </script>
@@ -162,6 +166,24 @@ if (query) {
 .nav-menu-bg {
 	border-radius: var(--content-border-radius);
 	background-color: var(--content-bg-color);
-	padding: 1.5rem;
+    box-shadow: var(--content-box-shadow);
+}
+
+.alt-background.nav-menu-bg {
+	background-color: var(--alt-content-bg-color);
+}
+
+.tab-menu-bg.side {
+	border-radius: var(--content-border-radius);
+}
+
+.tab-menu-bg {
+	border-radius: var(--content-border-radius);
+	background-color: var(--secondary-content-bg-color);
+	align-self: start;
+}
+
+.alt-background.tab-menu-bg {
+	background-color: var(--alt-content-bg-color);
 }
 </style>

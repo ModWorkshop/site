@@ -64,7 +64,18 @@
 				<m-flex column class="mx-auto page-block-xs float-bg" gap="0">
 					<h3 v-if="replyingComment">{{ $t('replying') }}</h3>
 					<h3 v-else-if="editingComment">{{ $t('editing') }}</h3>
-					<md-editor v-model="commentContent" class="mt-2" rows="12" minlength="2" maxlength="5000" required @keyup="onTextareaKeyup" @mousedown="onTextareaMouseDown" @input="onTextareaInput"/>
+					<md-editor
+						v-model="commentContent"
+						class="mt-2"
+						rows="12"
+						minlength="2"
+						maxlength="5000"
+						:alt-background="false"
+						required
+						@keyup="onTextareaKeyup"
+						@mousedown="onTextareaMouseDown"
+						@input="onTextareaInput"
+					/>
 					<m-flex class="text-right p-2">
 						<m-button :disabled="posting || commentContent.length < 2" @click="submit">
 							<i-mdi-comment/> {{ $t('submit') }}
@@ -404,7 +415,7 @@ function beginEditingComment(comment: Comment) {
 }
 
 .floating-editor > div {
-	border-radius: var(--border-radius);
-	padding: 1rem;
+	border-radius: var(--content-border-radius);
+	padding: 2rem;
 }
 </style>

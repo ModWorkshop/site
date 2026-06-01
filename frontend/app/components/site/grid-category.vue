@@ -1,6 +1,6 @@
 <template>
 	<NuxtLink class="category" :to="`/g/${game.short_name}?category=${category.id}`">
-		<m-card center :padding="2">
+		<m-card center :padding="3">
 			<template #thumbnail>
 				<a-thumbnail v-if="category.thumbnail" url-prefix="games/images" :src="category.thumbnail" :title="category.name"/>
 			</template>

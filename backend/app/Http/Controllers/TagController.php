@@ -7,6 +7,7 @@ use App\Http\Resources\TagResource;
 use App\Models\Game;
 use App\Models\AuditLog;
 use App\Models\Tag;
+use App\Services\APIService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Log;
@@ -32,6 +33,11 @@ class TagController extends Controller
             'global' => 'boolean|nullable'
         ]);
 
+        $cache = [
+            'key' => 'tags:'.($game ? 'game:'.$game->name : ''),
+            'ttl' => 120
+        ];
+
         $tags = Tag::queryGet($val, function($query, array $val) use($game) {
             $query->where(function($q) use ($val, $game) {
                 $gameId = $game?->id ?? $val['game_id'] ?? null;
@@ -50,7 +56,7 @@ class TagController extends Controller
                     $q->where(fn($q) => $q->where('type', $val['type'])->orWhere('type', '')->orWhereNull('type'));
                 }
             });
-        });
+        }, $cache);
 
         return TagResource::collectionResponse($tags);
     }

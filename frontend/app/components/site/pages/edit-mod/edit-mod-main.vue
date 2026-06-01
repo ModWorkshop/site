@@ -1,20 +1,25 @@
 <template>
-	<m-flex v-if="!mod.id" class="max-sm:flex-col" gap="2">
-		<m-alert :title="$t('edit_mod_tips_title')">
-			<ul style="padding-inline-start: 1rem;">
-				<li>{{ $t('edit_mod_tip_1') }}</li>
-				<li>{{ $t('edit_mod_tip_2') }}</li>
-			</ul>
-		</m-alert>
-		<m-alert :title="$t('edit_mod_warns_title')" color="warning">
-			<ul style="padding-inline-start: 1rem;">
-				<li>{{ $t('edit_mod_warn_1') }}</li>
-				<i18n-t keypath="edit_mod_warn_2" tag="li" scope="global">
-					<template #here>
-						<NuxtLink to="/document/rules">{{ $t('here') }}</NuxtLink>
-					</template>
-				</i18n-t>
-			</ul>
+	<m-flex v-if="!mod.id" gap="2" column>
+		<m-flex class="max-sm:flex-col" gap="2">
+			<m-alert :title="$t('edit_mod_tips_title')">
+				<ul style="padding-inline-start: 1rem;">
+					<li>{{ $t('edit_mod_tip_1') }}</li>
+					<li>{{ $t('edit_mod_tip_2') }}</li>
+				</ul>
+			</m-alert>
+			<m-alert :title="$t('edit_mod_warns_title')" color="warning">
+				<ul style="padding-inline-start: 1rem;">
+					<li>{{ $t('edit_mod_warn_1') }}</li>
+					<i18n-t keypath="edit_mod_warn_2" tag="li" scope="global">
+						<template #here>
+							<NuxtLink to="/document/rules">{{ $t('here') }}</NuxtLink>
+						</template>
+					</i18n-t>
+				</ul>
+			</m-alert>
+		</m-flex>
+		<m-alert v-if="newUserWarn" :title="$t('edit_mod_warns_title')" color="warning">
+			{{ $t('edit_mod_warn_new_user') }}
 		</m-alert>
 	</m-flex>
 	<m-input v-model="mod.name" placeholder="My Cool Mod" :label="$t('name')" maxlength="100" minlength="3" required :desc="$t('mod_name_desc')"/>
@@ -40,9 +45,11 @@ import { useStore } from '~/store';
 const { t } = useI18n();
 const route = useRoute();
 
-const { hasPermission } = useStore();
+const { hasPermission, settings, user: me } = useStore();
 const mod = defineModel<Mod>({ required: true });
 const isModerator = computed(() => hasPermission('manage-mods', mod.value.game));
+
+const newUserWarn = computed(() => settings?.new_user_first_upload_requires_approval && me!.needs_mod_approval);
 
 const visItems = [
 	{ name: t('public'), id: 'public' },

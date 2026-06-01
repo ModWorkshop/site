@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Interfaces\SubscribableInterface;
-use App\Services\APIService;
-use App\Services\ModService;
 use App\Services\Utils;
 use App\Traits\RelationsListener;
 use App\Traits\Reportable;
@@ -13,20 +11,19 @@ use Auth;
 use Carbon\Carbon;
 use Database\Factories\ModFactory;
 use Eloquent;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Log;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
+use Illuminate\Http\Resources\MissingValue;
+use Laravel\Scout\Searchable;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class Visibility {
@@ -186,11 +183,21 @@ abstract class Visibility {
  * @property string|null $repo_url
  * @property-read \App\Models\IgnoredGame|null $gameIgnoredByMe
  * @method static Builder<static>|Mod whereRepoUrl($value)
+ * @property-read mixed $background_attribute
+ * @property-read mixed $thumbnail_attribute
+ * @property-read Collection<int, \App\Models\User> $acceptedMembersForSearch
+ * @property-read int|null $accepted_members_for_search_count
+ * @property-read mixed $banner_attribute
+ * @property-read \App\Models\IgnoredMod|null $ignored
+ * @property-read mixed $last_user_attribute
+ * @property-read mixed $max_storage
+ * @property-read \App\Models\IgnoredCategory|null $categoryIgnoredByMe
+ * @method static Builder<static>|Mod isMemberOf(int $userId)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
 {
-    use HasFactory, RelationsListener, Subscribable, Reportable;
+    use HasFactory, RelationsListener, Subscribable, Reportable, Searchable;
 
     public static $allowedIncludes = [
         'category',
@@ -276,25 +283,6 @@ class Mod extends Model implements SubscribableInterface
 
     public $fullLoad = false;
 
-    // Gets loaded in mod page
-    public const SHOW_MOD_WITH = [
-        'game',
-        'user',
-        'tags',
-        'images',
-        'banner',
-        'lastUser',
-        'liked',
-        'transferRequest',
-        'subscribed',
-        'dependencies',
-        'instructsTemplate',
-        'members',
-        'category',
-        'thumbnail',
-        'background'
-    ];
-
     protected $with = self::DEFAULT_MOD_WITH;
     protected $appends = [];
     protected $hidden = [];
@@ -304,9 +292,40 @@ class Mod extends Model implements SubscribableInterface
         'published_at' => 'datetime',
     ];
 
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->withOnly(['tags', 'acceptedMembersForSearch']);
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'bumped_at' => $this->bumped_at?->timestamp,
+            'game_id' => $this->game_id,
+            'category_id' => $this->category_id,
+            'tag_ids' => $this->tags->pluck('id'),
+            'member_ids' => $this->acceptedMembersForSearch->pluck('id'),
+            'score' => $this->score,
+            'daily_score' => $this->daily_score,
+            'weekly_score' => $this->weekly_score,
+            'published_at' => $this->published_at?->timestamp,
+            'user_id' => $this->user_id,
+            'likes' => $this->likes,
+            'downloads' => $this->downloads,
+            'views' => $this->views,
+            'visibility' => $this->visibility,
+            'suspended' => $this->suspended,
+            'approved' => $this->approved,
+            'has_download' => $this->has_download,
+            'listed' => $this->has_download && $this->approved && !$this->suspended && $this->visibility == Visibility::public && $this->published_at != null
+        ];
+    }
+
     public function resolveRouteBinding($value, $field = null)
     {
-        $mod = QueryBuilder::for(Mod::class)->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
+        $mod = QueryBuilder::for(Mod::without(self::DEFAULT_MOD_WITH))->allowedFields(Mod::$allowedFields)->allowedIncludes(Mod::$allowedIncludes);
         return $mod->findOrFail($value);
     }
 
@@ -318,8 +337,24 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->append('breadcrumb');
         $this->fullLoad = true; // Files and links handled in resource
-        $this->loadMissing(self::SHOW_MOD_WITH);
-        $this->append('download');
+        // Gets loaded on mod page
+        $this->Load(['game' => fn($q) => $q->withUserPerfs()]);
+        $this->loadMissing([
+            'user',
+            'tags',
+            'images',
+            // 'lastUser',
+            'liked',
+            'transferRequest',
+            'subscribed',
+            'dependencies',
+            'instructsTemplate',
+            'members',
+            'category',
+            'background'
+        ]);
+        $this->loadCount(['links', 'files']);
+        $this->append(['download', 'last_user_attribute']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -422,7 +457,7 @@ class Mod extends Model implements SubscribableInterface
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('taggables.created_at');
+        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('taggables.id');
     }
 
     public function images()
@@ -451,6 +486,11 @@ class Mod extends Model implements SubscribableInterface
     public function members()
     {
         return $this->belongsToMany(User::class, 'mod_members')->withPivot(['level', 'accepted', 'created_at']);
+    }
+
+    public function acceptedMembersForSearch()
+    {
+        return $this->belongsToMany(User::class, 'mod_members')->where('accepted', true)->whereNot('level', 'viewer');
     }
 
     /**
@@ -540,16 +580,53 @@ class Mod extends Model implements SubscribableInterface
         ];
     }
 
-    public function filesCount(): Attribute {
-        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->files()->count()))->shouldCache();
+    // Returns some banner loaded either from "banner" or through loaded images if exists
+    public function bannerAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('banner')) {
+                return $this->banner;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->banner_id);
+            }
+            return new MissingValue;
+        });
     }
 
-    public function linksCount(): Attribute {
-        return Attribute::make(fn() => $this->withSecureConstraints(fn() => $this->links()->count()))->shouldCache();
+    public function lastUserAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('last_user')) {
+                return $this->last_user;
+            }
+            if ($this->user_id === $this->last_user_id) {
+                return $this->user;
+            }
+            return $this->last_user; // Eager load it anyway
+        });
     }
 
-    public function usedStorage(): Attribute {
-        return Attribute::make(fn() => intval($this->withSecureConstraints(fn() => $this->files()->sum('size'))));
+    public function ThumbnailAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('thumbnail')) {
+                return $this->thumbnail;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->thumbnail_id);
+            }
+            return new MissingValue;
+        });
+    }
+
+    public function BackgroundAttribute(): Attribute {
+        return Attribute::make(function() {
+            if ($this->relationLoaded('background_id')) {
+                return $this->background;
+            }
+            if ($this->relationLoaded('images')) {
+                return $this->images->find($this->background_id);
+            }
+            return new MissingValue;
+        });
     }
 
     public function maxStorage(): Attribute {
@@ -565,7 +642,7 @@ class Mod extends Model implements SubscribableInterface
     }
 
     public function currentStorage(): Attribute {
-        return Attribute::make(fn() => $this->maxStorage - $this->usedStorage);
+        return Attribute::make(fn() => $this->maxStorage - $this->filesSizeSum);
     }
 
     public function modManagers(): Attribute {
@@ -655,6 +732,11 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasOne(IgnoredGame::class, 'game_id', 'game_id')->where('user_id', Auth::id());
     }
 
+    public function categoryIgnoredByMe()
+    {
+        return $this->hasOne(IgnoredCategory::class, 'category_id', 'category_id')->where('user_id', Auth::id());
+    }
+
     /**
      * Returns whether the mod is ignored by the authenticated user
      */
@@ -741,5 +823,13 @@ class Mod extends Model implements SubscribableInterface
         if ($save) {
             $this->save();
         }
+    }
+
+    #[Scope]
+    protected function isMemberOf(Builder $query, int $userId): void
+    {
+        $query->whereHasIn('members', function($q) use ($userId) {
+            $q->where('user_id', $userId)->where('accepted', true)->whereNot('level', 'viewer');
+        });
     }
 }

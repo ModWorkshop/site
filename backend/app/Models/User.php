@@ -34,6 +34,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification as NotificationsNotification;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Scout\Searchable;
 use Storage;
 use Str;
 
@@ -166,6 +167,18 @@ use Str;
  * @method static Builder|User whereAvatarHasThumb($value)
  * @property-read Collection<int, \App\Models\Game> $ignoredGames
  * @property-read int|null $ignored_games_count
+ * @property-read Collection<int, \App\Models\Ban> $bans
+ * @property-read int|null $bans_count
+ * @property-read Collection<int, \App\Models\Mod> $ignoredMods
+ * @property-read int|null $ignored_mods_count
+ * @property bool $needs_mod_approval
+ * @property bool $purged_user
+ * @property-read Collection<int, \App\Models\Category> $ignoredCategories
+ * @property-read int|null $ignored_categories_count
+ * @property-read Collection<int, \App\Models\Mod> $pinnedMods
+ * @property-read int|null $pinned_mods_count
+ * @method static Builder<static>|User whereNeedsModApproval($value)
+ * @method static Builder<static>|User wherePurgedUser($value)
  * @mixin Eloquent
  */
 class User extends Model implements
@@ -174,14 +187,14 @@ class User extends Model implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use HasFactory, HasApiTokens, Notifiable, Reportable;
+    use HasFactory, HasApiTokens, Notifiable, Reportable, Searchable;
     use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmailTrait;
 
     protected $saveToReport = ['bio', 'custom_title'];
 
     // Always return roles for users
     protected $appends = ['color', 'active_supporter'];
-    protected $with = ['roles.permissions', 'ban', 'supporter'];
+    protected $with = ['roles', 'bans', 'supporter'];
 
     //Permissions and roles stuff
     private $gameRolesCache = [];
@@ -203,6 +216,7 @@ class User extends Model implements
         'avatar',
         'avatar_has_thumb',
         'last_online',
+        'last_ip_address',
         'custom_color',
         'unique_name',
         'banner',
@@ -212,6 +226,8 @@ class User extends Model implements
         'custom_title',
         'donation_url',
         'show_tag',
+        'needs_mod_approval',
+        'purged_user'
     ];
 
     /**
@@ -240,6 +256,23 @@ class User extends Model implements
         'email_verified_at' => 'datetime',
         'last_online' => 'datetime',
     ];
+
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->withOnly(['roles', 'gameRoles']);
+    }
+
+   public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'unique_name' => $this->unique_name,
+            'purged_user' => $this->purged_user,
+            'role_ids' => $this->roles->pluck('id'),
+            'game_role_ids' => $this->gameRoles->pluck('id'),
+        ];
+    }
 
     #region Relations
 
@@ -282,6 +315,11 @@ class User extends Model implements
         return $this->belongsToMany(Game::class, IgnoredGame::class)->select('games.*');
     }
 
+    public function ignoredCategories() : BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, IgnoredCategory::class)->select('categories.*');
+    }
+
     public function ignoredMods() : BelongsToMany
     {
         return $this->belongsToMany(Mod::class, IgnoredMod::class)->select('mods.*');
@@ -305,6 +343,12 @@ class User extends Model implements
     public function followedUsers() : BelongsToMany
     {
         return $this->belongsToMany(User::class, FollowedUser::class, null, 'follow_user_id')->select('users.*');
+    }
+
+    public function pinnedMods() : BelongsToMany {
+        $mods = $this->belongsToMany(Mod::class, 'user_pinned_mods')->with(Mod::LIST_MOD_WITH);
+        ModService::viewFilters($mods);
+        return $mods;
     }
 
     public function getMorphClass(): string {
@@ -463,25 +507,9 @@ class User extends Model implements
         return $this->belongsToMany(GameRole::class)->where('game_id', $this->eagerLoadedGameId)->orderBy('order')->distinct();
     }
 
-    public function ban() : HasOne
+    public function bans(): HasMany
     {
-        return $this->hasOne(Ban::class)
-            ->where('active', true)
-            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
-            ->whereNull('game_id');
-    }
-
-    public function gameBan(): HasOne
-    {
-        return $this->hasOne(Ban::class)
-            ->where('active', true)
-            ->where(fn($q) => $q->whereNull('expire_date')->orWhere('expire_date', '>', Carbon::now()))
-            ->where('game_id', $this->eagerLoadedGameId);
-    }
-
-    public function gameBans(): HasMany
-    {
-        return $this->hasMany(Ban::class)->whereNotNull('game_id');
+        return $this->hasMany(Ban::class)->active();
     }
 
     public function supporter(): HasOne
@@ -663,13 +691,7 @@ class User extends Model implements
     public function getLastGameBanAttribute()
     {
         if ($this->eagerLoadedGameId) {
-            if (!$this->relationLoaded('gameBan')) {
-                $this->load('gameBan');
-            }
-            $ban = $this->gameBan;
-            if (isset($ban) && ($ban->active && !isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date))) {
-                return $ban;
-            }
+            return $this->bans->where('game_id', $this->eagerLoadedGameId)->first();
         }
 
         return null;
@@ -678,14 +700,7 @@ class User extends Model implements
     // Returns last ban. This is fine to use anywhere
     public function getLastBanAttribute()
     {
-        if ($this->relationLoaded('ban') && !$this->hasPermission('moderate-users')) {
-            $ban = $this->ban;
-            if (isset($ban) && ($ban->active && (!isset($ban->expire_date) || Carbon::now()->lessThan($ban->expire_date)))) {
-                return $ban;
-            }
-        }
-
-        return null;
+        return $this->bans->whereNull('game_id')->first();
     }
 
     public function getHasSupporterPerksAttribute() {
@@ -707,13 +722,11 @@ class User extends Model implements
 
         if ($currentGame) {
             if ($this->relationLoaded('roles')) {
-                $this->load(['gameBan', 'gameRoles']);
+                $this->load(['gameRoles']);
             } else {
                 $this->with[] = 'gameRoles';
-                $this->with[] = 'gameBan';
             }
         } else {
-            $this->unsetRelation('gameBan');
             $this->unsetRelation('gameRoles');
         }
     }
@@ -796,11 +809,7 @@ class User extends Model implements
      * Safely check if a user is banned in game
      */
     public function getLastGameban(int $gameId) {
-        $ban = $this->withSecureConstraints(fn() => $this->gameBans()->where('game_id', $gameId)->first());
-        if (isset($ban) && (($ban->active && !isset($ban->expire_date)) || Carbon::now()->lessThan($ban->expire_date))) {
-            return $ban;
-        }
-        return null;
+        return $this->bans->where('game_id', $gameId)->first();
     }
 
     public function getGamePerms(int $gameId): array
@@ -841,6 +850,30 @@ class User extends Model implements
         }
 
         return false;
+    }
+
+    /**
+     * Returns an array of game roles that have a specified permission
+     * NOTE: This does not handle global roles, if a user has a global permission, you should handle it separately
+     * Many times it's much easier to check glboal permissions due to not needing to depend on the game
+     * Therefore you could skip on expensive queries by using a simple check of hasPermission
+     *
+     * @param string $toWhat
+     * @return GameRoles having that permissions
+     */
+    public function getAllGamesRolesHavingPermission(string $toWhat) {
+        $gameRoles = [];
+
+        $allGameRoles = $this->allGameRoles;
+        foreach ($allGameRoles as $gameRole) {
+            foreach ($gameRole->cachedPermissions as $perm) {
+                if ($perm->name === $toWhat || $perm->name === 'manage-game') {
+                    $gameRoles[] = $gameRole;
+                }
+            }
+        }
+
+        return $gameRoles;
     }
 
     /**
@@ -910,6 +943,40 @@ class User extends Model implements
         }
 
     }
+
+    /**
+     * Returns whether or not the user can be banned by the "other" user.
+     * The other user defaults to the currently authenticated user
+     */
+    public function canBeBanned(?Game $game=null)
+    {
+        $me = Auth::user();
+
+        // Not signed in? BTFU
+        // If we try to ban ourselves then return false!
+        if (!isset($me) || $me->id === $this->id) {
+            return false;
+        }
+
+        $myHighestOrder = $me->highestRoleOrder;
+        $highestOrder = $this->highestRoleOrder;
+
+        if (isset($game)) { // In case this is for a game
+            $myHighestOrder = $me->getGameHighestOrder($game->id);
+            $highestOrder = $this->getGameHighestOrder($game->id);
+        }
+
+        // We can't ban other users without permission and order
+        // We may also not ban moderators with 'manage-users' perm
+        // A role without an order is invalid, the only one that's allowed to not have one is Member.
+        if (!$me->hasPermission('manage-users', $game) || $this->hasPermission('manage-users', $game) || !isset($myHighestOrder)) {
+            return false;
+        }
+
+        // We have permission to manage user and now let's make sure our order is higher.
+        return !$highestOrder || $myHighestOrder > $highestOrder;
+    }
+
 
     /**
      * Returns whether or not the user can be edited by the "other" user.

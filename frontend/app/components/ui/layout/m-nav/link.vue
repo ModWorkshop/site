@@ -73,7 +73,7 @@ function clickLink() {
 <style>
 .nav-link {
 	font-size: 1.125rem;
-	border-radius: 4px;
+	border-radius: var(--content-border-radius);
 	padding: 0.75rem 2rem;
 	color: var(--text-color);
 	transition: ease-in-out 0.15s;
@@ -91,7 +91,7 @@ function clickLink() {
 }
 
 .nav-link-side {
-	padding: 0.75rem 1.25rem;
+	padding: 0.75rem;
 	min-width: 200px;
 }
 </style>

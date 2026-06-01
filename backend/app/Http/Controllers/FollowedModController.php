@@ -33,7 +33,7 @@ class FollowedModController extends Controller
      */
     public function index(GetModsRequest $request, Authenticatable $user)
     {
-        $mods = ModService::mods($request->val(), function($query) use ($user) {
+        $mods = ModService::dbFilteredMods($request->val(), function($query) use ($user) {
             $query->whereExists(function($query) use ($user) {
                 $query->from('followed_mods')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_mods.mod_id', 'mods.id');

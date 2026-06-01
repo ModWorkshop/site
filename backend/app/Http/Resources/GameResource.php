@@ -57,7 +57,6 @@ class GameResource extends BaseResource
             'roles' => $this->whenLoaded('roles'),
             'categories' => $this->whenLoaded('categories'),
             'reports' => $this->whenLoaded('reports'),
-            'reports' => $this->whenLoaded('reports'),
             'mod_managers' => $this->whenLoaded('modManagers'),
 
             'webhook_url' => $this->when($user?->hasPermission('manage-game', $this->resource), $this->webhook_url),
@@ -65,7 +64,7 @@ class GameResource extends BaseResource
             'waiting_count' => $this->when($isCurrent && $manageMods, fn() => $this->waitingCount),
             'user_data' => $this->when($isCurrent, fn() => $this->userData),
             'announcements' => $this->when($isCurrent, fn() => $this->announcements),
-            'mods_count' => $this->whenCounted('viewableMods'),
+            'mods_count' => $this->whenAppended('mods_count'),
             'mod_manager_ids' => $this->whenLoaded('modManagers', fn () => Arr::pluck($this->modManagers, 'id')),
             'hidden_tag_ids' => $this->whenLoaded('hiddenTags', fn () => Arr::pluck($this->hiddenTags, 'id')),
         ];

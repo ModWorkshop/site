@@ -113,33 +113,37 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~/store';
-import { type SupporterPackage, type Supporter } from '~/types/models';
+const { t } = useI18n();
+throw createError({ statusCode: 404, statusMessage: t('page_error_404'), fatal: true });
 
-const { settings } = useStore();
-const store = useStore();
-const showError = useQuickErrorToast();
+// import { useStore } from '~/store';
+// import { type SupporterPackage, type Supporter } from '~/types/models';
 
-const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
+// const { settings } = useStore();
+// const store = useStore();
+// const showError = useQuickErrorToast();
 
-const loading = ref(false);
+// const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 
-const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1&sort_by_id=1');
-const { data: supporterPackages } = await useFetchMany<SupporterPackage>('supporter-packages');
+// const loading = ref(false);
 
-async function openPlan(supporterPackage: SupporterPackage) {
-	loading.value = true;
+// const { data: supporters } = await useFetchMany<Supporter>('supporters?active_only=1&sort_by_id=1');
+// const { data: supporterPackages } = await useFetchMany<SupporterPackage>('supporter-packages');
 
-	try {
-		// const { ident } = await postRequest<{ ident: string }>('supporters/tebex/baskets', { supporter_package_id: supporterPackage.id });
-		// window['Tebex'].checkout.init({ ident });
-		// window['Tebex'].checkout.launch();
-	} catch (error) {
-		showError(error);
-	}
+// async function openPlan(supporterPackage: SupporterPackage) {
+// 	loading.value = true;
 
-	loading.value = false;
-}
+// 	try {
+// 		// const { ident } = await postRequest<{ ident: string }>('supporters/tebex/baskets', { supporter_package_id: supporterPackage.id });
+// 		// window['Tebex'].checkout.init({ ident });
+// 		// window['Tebex'].checkout.launch();
+// 	} catch (error) {
+// 		showError(error);
+// 	}
+
+// 	loading.value = false;
+// }
+
 </script>
 
 <style scoped>

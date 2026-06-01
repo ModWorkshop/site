@@ -12,21 +12,18 @@ use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\Mod;
 use App\Models\AuditLog;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\APIService;
 use App\Services\CommentService;
 use App\Services\ThreadService;
+use App\Services\UserService;
 use Auth;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
 use Str;
 
 /**
@@ -57,61 +54,7 @@ class UserController extends Controller
             APIService::setCurrentGame($game);
         }
 
-        $query = Arr::pull($val, 'query');
-
-        $users = User::queryGet($val, function($q, $val) use ($game, $query) {
-            $q->withCount('viewableMods');
-
-            if (isset($val['id'])) {
-                $q->where('id', $val['id']);
-            }
-            if (isset($query) && !empty($query)) {
-                if (ctype_digit($query) && $query < PHP_INT_MAX) {
-                    $q->where('id', $query);
-                }
-                if (mb_strlen($query) > 2) {
-                    $q->orWhere(fn($q) => $q->whereRaw('unique_name % ?', $query)->orWhereRaw("unique_name ILIKE '%' || ? || '%'", $query));
-                    $q->orWhere(fn($q) => $q->whereRaw('name % ?', $query)->orWhereRaw("name ILIKE '%' || ? || '%'", $query));
-                }
-            }
-            if (isset($val['role_ids'])) {
-                $roleIds = array_filter($val['role_ids'], fn($id) => $id != 1);
-                if (!empty($roleIds)) {
-                    $q->whereHasIn('roles', fn($q) => $q->whereIn('roles.id', $val['role_ids']));
-                }
-            }
-            if (isset($game) && isset($val['game_role_ids'])) {
-                $roleIds = $val['game_role_ids'];
-                if (!empty($roleIds)) {
-                    $q->whereHasIn('gameRoles', fn($q) => $q->whereIn('game_roles.id', $val['game_role_ids']));
-                }
-            }
-
-            if (isset($query) && mb_strlen($query) > 2) {
-                if (ctype_digit($query) && $query < PHP_INT_MAX) {
-                    $q->orderByRaw("
-                        id = CAST($1 AS INTEGER) DESC,
-                        unique_name = $1 DESC,
-                        unique_name ILIKE '%' || $1 || '%' DESC,
-                        unique_name % $1 DESC,
-                        name ILIKE '%' || $1 || '%' DESC,
-                        name % $1 DESC
-                    ");
-                } else {
-                    $q->orderByRaw("
-                        unique_name = $1 DESC,
-                        unique_name ILIKE '%' || $1 || '%' DESC,
-                        unique_name % $1 DESC,
-                        name ILIKE '%' || $1 || '%' DESC,
-                        name % $1 DESC
-                    ");
-                }
-            }
-
-            $q->orderBy('id');
-        });
-
-        return UserResource::collectionResponse($users);
+        return UserResource::collectionResponse(UserService::users($val));
     }
 
     /**
@@ -119,18 +62,27 @@ class UserController extends Controller
      *
      * @urlParam user integer required The ID of the user
      */
-    public function getUser(string $user, Game $game=null)
+    public function getUser(Request $request, string $user, Game $game=null)
     {
+        $val = $request->validate([
+            'include_pinned_mods' => 'boolean|nullable'
+        ]);
+
         if (isset($game)) {
             APIService::setCurrentGame($game);
         }
 
         $foundUser = null;
+        $me = Auth::user();
 
         if (ctype_digit($user) && $user < PHP_INT_MAX) {
             $foundUser = User::where('id', $user)->with('extra')->firstOrFail();
         } else {
-            $foundUser = User::where(DB::raw('LOWER(unique_name)'), Str::lower($user))->with('extra')->firstOrFail();
+            $foundUser = User::where('unique_name', Str::lower($user))->with('extra')->firstOrFail();
+        }
+
+        if (!$me?->hasPermission('moderate-users')) {
+            abort(403, 'This user cannot be viewed.');
         }
 
         $foundUser->loadCount('viewableMods');
@@ -139,8 +91,13 @@ class UserController extends Controller
             $foundUser->loadMissing('followed');
         }
 
-        if ($foundUser->id === $this->userId() || Auth::user()?->hasPermission('manage-users')) {
+        if ($foundUser->id === $this->userId() || $me?->hasPermission('manage-users')) {
             $foundUser->append('signable');
+        }
+
+
+        if ($val['include_pinned_mods'] ?? false) {
+            $foundUser->load('pinnedMods');
         }
 
         return new UserResource($foundUser);
@@ -158,7 +115,9 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $passwordRule = APIService::getPasswordRule();
-        $canManageUsers = Auth::user()->hasPermission('manage-users');
+
+        $me = Auth::user();
+        $canManageUsers = $me->hasPermission('manage-users');
 
         $sorting = [
             'bumped_at',
@@ -187,6 +146,8 @@ class UserController extends Controller
             'background_file' => ['nullable', 'is_image'],
             'donation_url' => 'email_or_url|nullable|max:255',
             'show_tag' => 'in:role,supporter_or_role,none|nullable',
+            'pinned_mod_ids' => 'nullable|array|max:5',
+            'pinned_mod_ids.*' => 'int|min:1|exists:mods,id',
             'extra.default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.home_default_mods_sort' => ['nullable', Rule::in($sorting)],
             'extra.game_default_mods_sort' => ['nullable', Rule::in($sorting)],
@@ -209,11 +170,15 @@ class UserController extends Controller
             $valRules['password'] = ['nullable', $passwordRule, 'max:128'];
         }
 
+        if ($canManageUsers) {
+            $val['purged_user'] = ['boolean|nullable'];
+        }
+
         $val = $request->validate($valRules);
 
         APIService::normalizeStrings($val, 'name');
 
-        APIService::nullToUndefined($val, 'name', 'unique_name', 'email');
+        APIService::nullToUndefined($val, 'name', 'unique_name', 'email', 'pinned_mods');
 
         APIService::nullToEmptyStr($val,
             'custom_color',
@@ -225,13 +190,23 @@ class UserController extends Controller
             'background_file'
         );
 
-        $extra = Arr::pull($val, 'extra');
+        $pinnedModIds = Arr::pull($val, 'pinned_mod_ids');
+        if (isset($pinnedModIds)) {
+            $fetchedPinnedModsCount = Mod::whereIn('id', $pinnedModIds)->where(function($q) use ($user) {
+                $q->where('user_id', $user->id)->orWhere(fn($q) => $q->isMemberOf($user->id));
+            })->count();
+
+            if ($fetchedPinnedModsCount != count($pinnedModIds)) {
+                abort(422, 'Invalid pinned mods. You must be the owner or one of the members to pin these mods.');
+            }
+            $user->pinnedMods()->sync($pinnedModIds);
+        }
 
         if (isset($val['unique_name'])) {
             $val['unique_name'] = Str::lower($val['unique_name']);
 
             if ($val['unique_name'] != Str::lower($user->unique_name)) {
-                if (User::where(DB::raw('LOWER(unique_name)'), $val['unique_name'])->exists()) {
+                if (User::where('unique_name', $val['unique_name'])->exists()) {
                     abort(422, 'Unique name or email already used!');
                 }
             }
@@ -307,6 +282,7 @@ class UserController extends Controller
         }
 
         $user->update($val);
+        $extra = Arr::pull($val, 'extra');
         if (isset($extra)) {
             $user->extra->update($extra);
         }
@@ -440,6 +416,7 @@ class UserController extends Controller
         APIService::deleteImage('users/images', $user->avatar);
         APIService::deleteImage('users/images', $user->banner);
         $user->update([
+            'purged_user' => true,
             'avatar' => '',
             'banner' => '',
             'bio' => '',
@@ -533,5 +510,12 @@ class UserController extends Controller
     public function cancelPendingEmail()
     {
         $this->user()->forceFill(['pending_email' => null, 'pending_email_set_at' => null])->save();
+    }
+
+    /**
+     * Returns the pinned mods (in profile) of the user
+     */
+    public function getPinnedMods(User $user) {
+        return $user->pinnedMods;
     }
 }

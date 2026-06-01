@@ -77,7 +77,9 @@ const { public: config } = useRuntimeConfig();
 
 const { t } = useI18n();
 
-const { data: user } = await useResource<User>('user', 'users');
+const { data: user } = await useResource<User>('user', 'users', undefined, {
+	include_pinned_mods: true
+});
 const thumbnail = computed(() => {
 	const avatar = user.value.avatar;
 	if (avatar) {

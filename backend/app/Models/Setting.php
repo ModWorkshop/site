@@ -47,6 +47,11 @@ use Illuminate\Support\Carbon;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Setting sum($column)
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Setting truncate()
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Setting withCacheCooldownSeconds(?int $seconds = null)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Setting getInnerBuilder()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Setting isCacheConnectionException(\Throwable $exception)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Setting setInnerBuilder(\Illuminate\Database\Eloquent\Builder $builder)
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Setting shouldFallbackToDatabase()
+ * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder<static>|Setting withCacheFallback(callable $operation, string $context, ?callable $fallback = null)
  * @mixin Eloquent
  */
 class Setting extends Model

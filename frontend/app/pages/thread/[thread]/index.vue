@@ -2,21 +2,23 @@
 	<m-flex column gap="3">
 		<div class="text-3xl break-words overflow-hidden">{{ thread.name }}</div>
 		<m-content-block :padding="6">
-			<m-flex>
+			<m-flex class="items-center">
 				<NuxtLink class="mr-1 self-start" :to="`/user/${thread.user_id}`">
 					<m-avatar class="align-middle" :src="thread.user?.avatar" size="lg"/>
 				</NuxtLink>
 				<m-flex column wrap class="overflow-hidden w-full">
-					<m-flex class="items-center">
+					<m-flex wrap column>
 						<a-user :avatar="false" :user="thread.user"/>
-						<NuxtLink class="text-body" :to="`/thread/${thread.id}`">
-							<m-time :datetime="thread.created_at" relative/>
-						</NuxtLink>
-						<m-time v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :datetime="thread.updated_at" :text="$t('edited')"/>
+						<m-flex wrap>
+							<NuxtLink class="text-secondary" :to="`/thread/${thread.id}`">
+								<m-time :datetime="thread.created_at" relative/>
+							</NuxtLink>
+							<m-time v-if="thread.edited_at && thread.edited_at != thread.created_at" class="text-secondary" :datetime="thread.updated_at" :text="$t('edited')"/>
+						</m-flex>
 					</m-flex>
-					<md-content class="w-full" :padding="2" allow-anchors :text="thread.content" :parser-version="thread.parser_version"/>
 				</m-flex>
 			</m-flex>
+			<md-content class="w-full" :padding="2" allow-anchors :text="thread.content" :parser-version="thread.parser_version"/>
 			<m-flex v-if="thread.tags?.length">
 				<m-tag v-for="tag in thread.tags" :key="tag.id" :color="tag.color">{{ tag.name }}</m-tag>
 			</m-flex>
@@ -81,6 +83,20 @@ useSeoMeta({
 	ogImage: thumbnail.value,
 	twitterCard: 'summary'
 });
+
+useSchemaOrg([
+	defineArticle({
+		'@id': '#commentable',
+		'headline': thread.name,
+		'thumbnailUrl': thumbnail,
+		'datePublished': thread.created_at,
+		'dateModified': thread.edited_at,
+		'author': {
+			name: thread.user?.name,
+			url: `/user/${thread.user?.id}`
+		}
+	})
+]);
 
 const bannedCommenting = computed(() => {
 	const canAppeal = ban?.can_appeal ?? true;

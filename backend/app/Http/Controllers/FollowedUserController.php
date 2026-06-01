@@ -47,13 +47,11 @@ class FollowedUserController extends Controller
     public function mods(GetModsRequest $request, Authenticatable $user)
     {
         $val = $request->val();
-        $mods = ModService::mods($val, function($query, $val) use ($user) {
+        $mods = ModService::dbFilteredMods($val, function($query, $val) use ($user) {
             $query->whereExists(function($query) use ($user) {
                 $query->from('followed_users')->select(DB::raw(1))->where('user_id', $user->id);
                 $query->whereColumn('followed_users.follow_user_id', 'mods.user_id');
             });
-
-            ModService::filters($query, $val);
         });
         return ModResource::collectionResponse($mods);
     }
