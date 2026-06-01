@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "一旦您对模组满意，就可以发布它，让大家查看和下载。",
     "edit_mod_warn_1": "在某些情况下，模组需要审核（例如音乐模组）。如果您的模组包含了音乐，请在下方提交审核",
     "edit_mod_warn_2": "您必须要遵守我们的用户守则，查看 {here}",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "自动订阅模组评论区",
     "auto_subscribe_to_thread": "自动订阅主题",
     "mark_as_answer": "标记为正确回答",
@@ -674,6 +675,8 @@
     "unignore": "取消忽略",
     "ignored_games": "忽略的游戏",
     "ignored_mods": "忽略的模组",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "审计日志",
     "copy_link": "复制链接",
     "repository": "代码仓库",
@@ -682,5 +685,12 @@
     "hidden_tags": "隐藏的标签",
     "hidden_tags_desc": "隐藏全局标签以避免被用户在模组/主题里选择，已使用这些标签的模组需手动修改。",
     "install_with": "使用 {modManager} 安装",
-    "mod_manager_not_installed": "没有 {modManager}？"
+    "mod_manager_not_installed": "没有 {modManager}？",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }
