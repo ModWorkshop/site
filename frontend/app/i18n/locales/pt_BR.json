@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Quando estiver satisfeito com o mod, você pode publicá-lo. Permitindo que as pessoas o visualizem e baixem.",
     "edit_mod_warn_1": "Em alguns casos, mods como mods musicais requerem aprovação. Se seu mod contém músicas, envie-o para aprovação (Abaixo)",
     "edit_mod_warn_2": "Você deve estar familiarizado com nossas regras, encontradas {aqui}",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Inscrever-se automaticamente nos comentários do Mod",
     "auto_subscribe_to_thread": "Inscrever-se automaticamente nos comentários da discussão",
     "mark_as_answer": "Marcar como Resposta",
@@ -674,6 +675,8 @@
     "unignore": "Designorar",
     "ignored_games": "Jogos Ignorados",
     "ignored_mods": "Mods Ignorados",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "Registro de Auditoria",
     "copy_link": "Copiar Link",
     "repository": "Repositório",
@@ -682,5 +685,12 @@
     "hidden_tags": "Hidden Tags",
     "hidden_tags_desc": "Hides global tags from being selected in mods/threads by users, mods already using these tags need to be manually modified.",
     "install_with": "Install with {modManager}",
-    "mod_manager_not_installed": "Don't have {modManager}?"
+    "mod_manager_not_installed": "Don't have {modManager}?",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }
