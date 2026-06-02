@@ -27,7 +27,6 @@ use Carbon\Carbon;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Str;
@@ -133,7 +132,7 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::dbFilteredMods($request->val(), $game, function(Builder $q) {
+        $mods = ModService::dbFilteredMods($request->val(), $game, function($q) {
             $q->whereNull('approved');
         });
 
