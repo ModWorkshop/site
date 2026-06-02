@@ -649,7 +649,7 @@
     "thread_answer": "Balasan ini dipilih sebagai jawaban utasan ini",
     "login_required": "Login Dibutuhkan",
     "manager_site_url": "Tautan Situs",
-    "manager_site_url_desc": "URL to the mod manager's site or place to get it from",
+    "manager_site_url_desc": "Tautan ke situs mod manager",
     "manager_download_url": "Tautan Unduh",
     "manager_download_url_desc": "Tautan untuk mengatur unduhan & instalasi mod. Parameter yang dapat dipakai: :mod_id, :file_id, :game_id, :manager_name dan :game_short_name.",
     "status": "Status",
