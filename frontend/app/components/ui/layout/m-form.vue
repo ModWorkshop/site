@@ -52,7 +52,7 @@ const forcedOut = ref(false);
 
 const { t } = useI18n();
 
-const currentCanSave = computed(() => {
+const wasChanged = computed(() => {
 	let A = model.value, B = modelCopy.value;
 	if (preCompare || excludeFromCompare) {
 		A = clone(A);
@@ -72,8 +72,10 @@ const currentCanSave = computed(() => {
 		}
 	}
 
-	return !created || canSave || !deepEqual(A, B);
+	return !deepEqual(A, B);
 });
+
+const currentCanSave = computed(() => !created || canSave || wasChanged.value);
 
 disableButtons.value = false;
 modelCopy.value = clone(model.value);
@@ -91,7 +93,7 @@ watch(currentCanSave, val => {
 });
 
 onBeforeRouteLeave(to => {
-	if (currentCanSave.value && !forcedOut.value) {
+	if (wasChanged.value && !forcedOut.value) {
 		yesNoModal({
 			title: t('are_you_sure'),
 			desc: t('unsaved_changes'),

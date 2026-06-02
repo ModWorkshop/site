@@ -69,6 +69,7 @@ async function submit() {
 
 		if (!vm.value.id) {
 			const model = await postRequest<{ id: number }>(createUrl.value, params);
+			fc.value.trigger(model);
 			if (props.redirectTo) {
 				router.replace(`${props.redirectTo}/${model.id}`);
 			}
