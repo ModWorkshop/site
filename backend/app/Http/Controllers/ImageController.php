@@ -34,7 +34,7 @@ class ImageController extends Controller
         ]);
 
         return BaseResource::collectionResponse($mod->images()->queryGet($val, function($q, $val) {
-            if ($val['only_visible']) {
+            if ($val['only_visible'] ?? false) {
                 $q->where('visible', true);
             }
         }));
