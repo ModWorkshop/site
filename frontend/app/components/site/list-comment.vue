@@ -144,7 +144,7 @@ useSchemaOrg([
 	})
 ]);
 
-const page = useRouteQuery('page', 1, null, true);
+const page = useRouteQuery('page', 1);
 const store = useStore();
 const { user } = store;
 const YesNoModal = useYesNoModal();

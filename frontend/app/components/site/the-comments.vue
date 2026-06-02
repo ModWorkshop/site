@@ -131,7 +131,7 @@ const route = useRoute();
 const focusComment = useRouteQuery('comment');
 
 const isLoaded = ref(false);
-const page = useRouteQuery('page', 1, null, true);
+const page = useRouteQuery('page', 1);
 
 const commentContent = ref('');
 const showCommentDialog = ref(false);
