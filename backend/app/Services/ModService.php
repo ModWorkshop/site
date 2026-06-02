@@ -298,10 +298,14 @@ class ModService {
                 return;
             }
 
-            $query->where('visibility', Visibility::public)->whereNotNull('published_at')->where('suspended', false)->where('approved', true)->where('has_download', true);
+            $query->where('mods.visibility', Visibility::public)
+                  ->whereNotNull('mods.published_at')
+                  ->where('mods.suspended', false)
+                  ->where('mods.approved', true)
+                  ->where('mods.has_download', true);
 
             if (isset($user)) {
-                $query->orWhere('user_id', $user->id);
+                $query->orWhere('mods.user_id', $user->id);
 
                 //let members see mods if they've accepted their membership
                 if ($opt['check_members'] ?? true) {
