@@ -40,7 +40,28 @@ class ModService {
         'name' => true,
     ];
 
-    public static function meilisearch(array $val=[], ?Game $game=null, ?callable $filterFunc=null, ?callable $queryFunc=null) {
+    public static function getGame(array $val=[]) {
+        // TODO: is it possible we'd need a different game than the current game?
+        $gameId = Arr::get($val, 'game_id');
+        $game = APIService::currentGame();
+
+        if (isset($game)) return $game;
+
+        if (isset($gameId)) {
+            $game = Game::where('id', $gameId)->first();
+            APIService::setCurrentGame($game);
+        } else {
+            $request = request();
+            $game = $request->route('game');
+            if (isset($game) && get_class($game) === Game::class) {
+                APIService::setCurrentGame($game);
+            }
+        }
+
+        return $game;
+    }
+
+    public static function meilisearch(array $val=[], ?callable $filterFunc=null, ?callable $queryFunc=null) {
         $user = Auth::user();
         $modSearch = MeilisearchQuery::for(Mod::class);
 
@@ -53,6 +74,9 @@ class ModService {
                 $modSearch->sort($sortBy.':desc');
             }
         }
+
+
+        $game = self::getGame();
 
         if (isset($filterFunc)) {
             $filterFunc($modSearch, $val, $game);
@@ -153,15 +177,28 @@ class ModService {
         return $mods;
     }
 
-    public static function meilisearchModsGuestCache(array $val=[], ?string $cacheForGuests=null, ?Game $game=null, ?callable $filterFunc=null, ?callable $queryFunc=null): LengthAwarePaginator
+    public static function mods(array $val=[], ?callable $filterFunc=null, ?callable $queryFunc=null, ?string $cacheForGuests=null) {
+        $sortBy = Arr::get($val, 'sort', 'bumped_at');
+        // TODO: use DB for searching in some cases
+        // If we do this, we'd need to deal with filterFunc since meilisearch/scout and eloquent aren't the same
+        if ($sortBy == 'random') {
+            return self::dbFilteredMods($val, $queryFunc);
+        } else {
+            return self::meilisearchModsGuestCache($val, $filterFunc, $queryFunc, $cacheForGuests);
+        }
+    }
+
+    public static function meilisearchModsGuestCache(array $val=[], ?callable $filterFunc=null, ?callable $queryFunc=null, ?string $cacheForGuests=null): LengthAwarePaginator
     {
         if (!Auth::check() && isset($cacheForGuests)) {
+            $game = self::getGame();
+
             $cacheKey = 'mods:'.($game ? 'game:'.$game->name : '').$cacheForGuests.'-'.APIService::hashByQuery();
             return Cache::remember($cacheKey, 30,
-                fn() => self::meilisearch($val, $game, $filterFunc, $queryFunc)
+                fn() => self::meilisearch($val, $filterFunc, $queryFunc)
             );
         } else {
-            return self::meilisearch($val, $game, $filterFunc, $queryFunc);
+            return self::meilisearch($val, $filterFunc, $queryFunc);
         }
     }
 
@@ -198,19 +235,7 @@ class ModService {
             }
         }
 
-        $gameId = Arr::get($val, 'game_id');
-        $game = null;
-
-        if (isset($gameId)) {
-            $game = Game::where('id', $gameId)->first();
-            APIService::setCurrentGame($game);
-        } else {
-            $request = request();
-            $game = $request->route('game');
-            if (isset($game) && get_class($game) === Game::class) {
-                APIService::setCurrentGame($game);
-            }
-        }
+        $game = self::getGame();
 
         if (!isset($game)) {
             $query->with(['game']);
@@ -245,8 +270,8 @@ class ModService {
         }
 
         // Queries/filters
-        if (isset($gameId)) {
-            $query->where('game_id', $gameId);
+        if (isset($game)) {
+            $query->where('game_id', $game->id);
         }
 
         if (isset($val['category_id'])) {

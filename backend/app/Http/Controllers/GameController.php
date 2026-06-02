@@ -141,7 +141,7 @@ class GameController extends Controller
      * It's like /mods but returns the game too. It's used to avoid 2 requests in the game section so it's faster.
      */
     function gameSectionData(GetModsRequest $request, Game $game) {
-        $mods = ModService::meilisearchModsGuestCache($request->val(), 'mods', $game, queryFunc: fn($q) => $q->without(['game']));
+        $mods = ModService::mods($request->val(), queryFunc: fn($q) => $q->without(['game']), cacheForGuests: 'mods');
         $game->load('categories');
         $game = $this->show($game);
 

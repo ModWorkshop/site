@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use DB;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Str;
@@ -47,7 +48,7 @@ class ModController extends Controller
      */
     public function index(GetModsRequest $request, Game $game=null)
     {
-        $mods = ModService::meilisearchModsGuestCache($request->val(), 'index', $game);
+        $mods = ModService::mods($request->val(), cacheForGuests: 'index');
 
         return ModResource::collectionResponse($mods);
     }
@@ -86,12 +87,12 @@ class ModController extends Controller
      */
     public function popularAndLatest(Request $request, Game $game=null)
     {
-        return [
-            'latest' => ModService::meilisearchModsGuestCache([], 'pal-latest', $game)->items(),
-            'popular' => ModService::meilisearchModsGuestCache([
-                'sort_by' => 'daily_score',
-                'limit' => 5
-            ], 'pal-popular', $game)->items(),
+        return [ //NOT USED
+            // 'latest' => ModService::mods([], cacheForGuests: 'pal-latest')->items(),
+            // 'popular' => ModService::mods([
+            //     'sort_by' => 'daily_score',
+            //     'limit' => 5
+            // ], cacheForGuests: 'pal-popular')->items(),
         ];
     }
 
@@ -128,12 +129,12 @@ class ModController extends Controller
      *
      * @authenticated
      */
-    public function waiting(GetModsRequest $request, Game $game=null)
+    public function waiting(GetModsRequest $request, ?Game $game=null)
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::meilisearch($request->val(), $game, function(MeilisearchQuery $modSearch) {
-            $modSearch->whereIsNull('approved');
+        $mods = ModService::dbFilteredMods($request->val(), $game, function(Builder $q) {
+            $q->whereNull('approved');
         });
 
         return ModResource::collectionResponse($mods);
@@ -708,7 +709,7 @@ class ModController extends Controller
             'mod_ids.*' => 'integer|min:1',
         ]);
 
-        $mods = ModService::meilisearch([
+        $mods = ModService::mods([
             'ids' => $val['mod_ids'],
             'limit' => 100,
         ]);
