@@ -70,7 +70,6 @@
 						rows="12"
 						minlength="2"
 						maxlength="5000"
-						:alt-background="false"
 						required
 						@keyup="onTextareaKeyup"
 						@mousedown="onTextareaMouseDown"

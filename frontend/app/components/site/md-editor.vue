@@ -168,6 +168,7 @@ watch(fullscreen, status => {
 
 .md-editor.fullscreen {
 	height: 100% !important;
+	background-color: var(--content-bg-color);
 	max-height: initial;
 	resize: none;
 }
