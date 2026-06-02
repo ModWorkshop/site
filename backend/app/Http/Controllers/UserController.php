@@ -81,7 +81,7 @@ class UserController extends Controller
             $foundUser = User::where('unique_name', Str::lower($user))->with('extra')->firstOrFail();
         }
 
-        if (!$me?->hasPermission('moderate-users')) {
+        if ($foundUser->purged_user && !$me?->hasPermission('moderate-users')) {
             abort(403, 'This user cannot be viewed.');
         }
 
