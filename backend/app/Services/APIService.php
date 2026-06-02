@@ -8,10 +8,8 @@ use App\Models\Game;
 use App\Models\Notification;
 use App\Models\Report;
 use App\Models\Setting;
-use App\Models\Supporter;
 use App\Models\Suspension;
 use App\Models\Thread;
-use App\Models\User;
 use App\Models\UserCase;
 use Arr;
 use Auth;
@@ -25,7 +23,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\Password;
 use Storage;
 use Jcupitt\Vips;
-use Log;
 use Route;
 use Str;
 
@@ -646,6 +643,6 @@ class APIService {
     }
 
     public static function isIpBanned() {
-        return Ban::active()->where('ip_address', Request::ip())->where('ip_ban', true)->exists();
+        return Ban::active()->where('ip_address', request()->ip())->where('ip_ban', true)->exists();
     }
 }

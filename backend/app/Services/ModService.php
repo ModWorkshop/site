@@ -22,9 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Number;
-use Meilisearch\Contracts\SearchQuery;
 use Request;
-use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class ModService {
@@ -360,7 +358,7 @@ class ModService {
     public static function registerDownload(File|Link $downloadable)
     {
         $user = Auth::user();
-        $ip = Request::ip();
+        $ip = request()->ip();
 
         $mod = $downloadable->mod;
         PopularityLog::log($mod, 'down');
