@@ -5,6 +5,7 @@ import clone from 'rfdc/default';
 export default async function<T extends object>(name: string, url: string, template: T | null = null, params?: SearchParameters) {
 	const route = useRoute();
 	const { t } = useI18n();
+	const handleError = useHandleError();
 
 	const id = route.params[`${name}`];
 
@@ -14,7 +15,7 @@ export default async function<T extends object>(name: string, url: string, templ
 		const res = await useFetchData<T>(`${url}/${id}`, { params });
 		const { error } = res;
 
-		useHandleError(error, {
+		handleError(error, {
 			404: t('page_error_404')
 		});
 

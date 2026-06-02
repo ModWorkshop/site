@@ -29,8 +29,8 @@ export default async function<T>(
 	fallback?: T
 ): Promise<_AsyncData<T, Error | null>> {
 	const route = useRoute();
-
 	const { t } = useI18n();
+	const handleError = useHandleError();
 
 	const id = route.params[`${name}`];
 
@@ -43,11 +43,9 @@ export default async function<T>(
 
 	const { error } = res;
 
-	useHandleError(error, {
+	handleError(error, {
 		404: t('page_error_404'),
 		403: t('page_error_403'),
-		429: t('error_429'),
-		500: t('error_500'),
 		...errorMessages
 	});
 

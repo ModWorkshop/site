@@ -8,7 +8,6 @@
 </template>
 <script setup lang="ts">
 import { useStore } from '~/store';
-import { AxiosError } from 'axios';
 
 definePageMeta({
 	middleware: 'guests-only'
@@ -17,6 +16,7 @@ definePageMeta({
 const store = useStore();
 const route = useRoute();
 const error = ref();
+const handleError = useHandleError();
 
 if (route.query.error) {
 	showError({ statusCode: 500, statusMessage: route.query.error_description as string });
@@ -35,9 +35,7 @@ if (import.meta.client) {
 		await reloadToken();
 		store.attemptLoginUser('/');
 	} catch (e) {
-		if (e instanceof AxiosError && e.response) {
-			showError({ statusCode: e.response.status, statusMessage: e.response.statusText });
-		}
+		handleError(e);
 	}
 }
 </script>

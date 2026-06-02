@@ -76,6 +76,8 @@ const page = props.query ? useRouteQuery('page', 1) : ref(vmPage.value);
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 
+const handleError = useHandleError();
+
 const { data: loadedItems, loading: innerLoading, error } = await useFetchMany(props.url ?? '', {
 	query: {
 		...props.params ?? {},
@@ -86,7 +88,7 @@ const { data: loadedItems, loading: innerLoading, error } = await useFetchMany(p
 	immediate: !!props.url
 });
 
-useHandleError(error);
+handleError(error);
 
 const items = computed<Paginator<any>>(() => props.items ?? loadedItems.value ?? new Paginator());
 const total = computed(() => items.value.meta?.total ?? 0);

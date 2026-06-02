@@ -21,6 +21,7 @@ const route = useRoute();
 const done = ref(false);
 const { t } = useI18n();
 const { user } = useStore();
+const handleError = useHandleError();
 
 if (route.query.error) {
 	showError({ statusCode: 500, statusMessage: route.query.error_description as string });
@@ -39,7 +40,7 @@ if (import.meta.client) {
 		done.value = true;
 		user!.activated = true;
 	} catch (e) {
-		useHandleError(e, {
+		handleError(e, {
 			409: t('account_already_linked')
 		});
 	}
