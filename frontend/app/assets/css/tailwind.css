@@ -6,6 +6,14 @@
   --preflight: false;
 }
 
+@layer base {
+	ul, ol {
+		list-style: revert;
+		margin: revert;
+		padding: revert;
+	}
+}
+
 /* @source inline("m{,l,r,x,y,b,t}-auto"); Doesn't work for some reason, so we do the below */
 .m-auto { margin: auto; }
 .mx-auto { margin-left: auto; margin-right: auto; }
