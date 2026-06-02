@@ -53,7 +53,8 @@ class FileController extends Controller
                 }
             }
 
-            if (!isset($val['prerelease']) || !$val['prerelease']) {
+            $preRelease = Arr::pull($val, 'prerelease', true);
+            if (!$preRelease) {
                 $query->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");
             }
 
