@@ -1,5 +1,5 @@
 <template>
-	<page-block size="sm" :breadcrumb="breadcrumb">
+	<page-block size="md" :breadcrumb="breadcrumb">
 		<edit-thread-page/>
 	</page-block>
 </template>
