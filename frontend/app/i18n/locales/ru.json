@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Когда вы будете довольны модом, вы можете опубликовать его, чтобы люди могли просмотреть и скачать его.",
     "edit_mod_warn_1": "В некоторых случаях моды, например, музыкальные, требуют одобрения. Если ваш мод содержит музыку, отправьте его на одобрение (Ниже)",
     "edit_mod_warn_2": "Вы должны быть знакомы с нашими правилами, которые можно найти {here}",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Автоматическая подписка на комментарии модераторов",
     "auto_subscribe_to_thread": "Автоподписка на тему",
     "mark_as_answer": "Пометить как ответ",
@@ -674,6 +675,8 @@
     "unignore": "Не игнорировать",
     "ignored_games": "Игнорируемые игры",
     "ignored_mods": "Игнорируемые моды",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "Журнал аудита",
     "copy_link": "Скопировать ссылку",
     "repository": "Хранилище",
@@ -682,5 +685,12 @@
     "hidden_tags": "Скрытые теги",
     "hidden_tags_desc": "Скрывает глобальные теги от того, что были выбраны в модах/потоках пользователями, моды уже использующие эти теги должны быть изменены вручную.",
     "install_with": "Установить с помощью {modManager}",
-    "mod_manager_not_installed": "У вас нет {modManager}?"
+    "mod_manager_not_installed": "У вас нет {modManager}?",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }

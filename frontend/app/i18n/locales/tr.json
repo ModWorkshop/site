@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Once you're happy with the mod, you can publish it. allowing people to view & download it.",
     "edit_mod_warn_1": "Müzik modları gibi azı durumlarda, onaylama gereklidir. Eğer modunuz onaylama içeriyorsa onaylamaya gönderin. (Aşağıda)",
     "edit_mod_warn_2": "Kurallarımıza aşina olmalısınız. Kuralları {here} buradadır",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Mod yorumlarını otomatik olarak abone ol",
     "auto_subscribe_to_thread": "Başlıklara otomatik olarak abone ol",
     "mark_as_answer": "Cevap olarak işaretle",
@@ -674,6 +675,8 @@
     "unignore": "Yok Saymayı Kaldır",
     "ignored_games": "Göz ardı edilmiş Oyunlar",
     "ignored_mods": "Yok sayılan modlar",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "Denetim günlüğü",
     "copy_link": "Bağlantıyı Kopyala",
     "repository": "Depo",
@@ -682,5 +685,12 @@
     "hidden_tags": "Gizlenmiş etiketler",
     "hidden_tags_desc": "Kullanıcıların modlarda/konularda global etiketleri seçmesini engeller, bu etiketleri zaten kullanan modlar manuel olarak değiştirilmelidir.",
     "install_with": "{modManager} ile indir",
-    "mod_manager_not_installed": "{modManager}'e sahip değil misin?"
+    "mod_manager_not_installed": "{modManager}'e sahip değil misin?",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }

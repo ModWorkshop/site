@@ -641,6 +641,7 @@
     "edit_mod_tip_2": "Jakmile budete s módem spokojeni, můžete jej publikovat a umožnit tím lidem jej prohlížet a stahovat.",
     "edit_mod_warn_1": "V některých případech, módy jako jsou například hudební módy, vyžadují schválení. Pokud Váš mód obsahuje hudbu, pošlete jej ke schválení (Níže)",
     "edit_mod_warn_2": "Měli byste znát naše pravidla, která naleznete zde {here}",
+    "edit_mod_warn_new_user": "As a new user, your first upload must be approved by a moderator. Afterwards you should be able to upload freely.",
     "auto_subscribe_to_mod": "Automatické Přihlášení k Odběru Komentářů u Módu",
     "auto_subscribe_to_thread": "Automatické Přihlášení k Odběru Komentářů u Vlákna",
     "mark_as_answer": "Označit jako Odpověď",
@@ -674,6 +675,8 @@
     "unignore": "Přestat Ignorovat",
     "ignored_games": "Ignorované Hry",
     "ignored_mods": "Ignorovaný Módy",
+    "ignored_categories": "Ignored Categories",
+    "ignore_category": "Ignore Category",
     "audit_log": "Protokol Auditu",
     "copy_link": "Zkopírovat Odkaz",
     "repository": "Úložiště",
@@ -682,5 +685,12 @@
     "hidden_tags": "Skryté Značky",
     "hidden_tags_desc": "Skrývá globální značky před výběrem uživateli v modech/vláknech. Módy, které tyto značky již používají, je nutné upravit ručně.",
     "install_with": "Instalovat s {modManager}",
-    "mod_manager_not_installed": "Nemáš {modManager}?"
+    "mod_manager_not_installed": "Nemáš {modManager}?",
+    "leave_members": "Leave Members",
+    "sessions": "Sessions",
+    "ip_address": "IP Address",
+    "ip_ban": "IP Ban",
+    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
+    "pinned_mods": "Pinned Mods",
+    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
 }
