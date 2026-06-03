@@ -376,7 +376,7 @@ class FileController extends Controller
      */
     public function registerDownload(Request $request, File $file)
     {
-        ModService::registerDownload($file);
+        return ModService::registerDownload($file);
     }
 
     /**
