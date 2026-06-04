@@ -7,7 +7,7 @@
 		:disabled="!showMiniProfile || static"
 	>
 		<m-flex inline :column="column" class="items-center" :gap="neededGap">
-			<NuxtLink v-if="avatar" class="inline-flex" :to="link">
+			<NuxtLink v-if="avatar" class="flex shrink-0" :to="link">
 				<m-avatar :size="avatarSize" :src="user?.avatar" :use-thumb="useThumb" :style="{ opacity: isBanned ? 0.6 : 1 }"/>
 			</NuxtLink>
 
