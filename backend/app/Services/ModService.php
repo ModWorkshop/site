@@ -169,6 +169,9 @@ class ModService {
                 if (isset($queryFunc)) {
                     $queryFunc($q, $val, $game);
                 }
+                if (!isset($game)) {
+                    $q->with(['game']);
+                }
                 $q->with(Mod::LIST_MOD_WITH);
                 $builder->query(null); // A hack to prevent Scout from trying to count it via DB
             });
@@ -237,15 +240,7 @@ class ModService {
 
         $game = self::getGame();
 
-        if (request()->path() == 'mods' && isset($game)) {
-            \Log::info('Something is wrong, a game is set on mods route...');
-        }
-
         if (!isset($game)) {
-            if (request()->path() == 'mods') {
-                \Log::info('with game on mods');
-            }
-
             $query->with(['game']);
         }
 
