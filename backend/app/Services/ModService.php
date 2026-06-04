@@ -41,11 +41,11 @@ class ModService {
     ];
 
     public static function getGame(array $val=[]) {
+        static $currentGame; // Temp fix
         // TODO: is it possible we'd need a different game than the current game?
         $gameId = Arr::get($val, 'game_id');
-        $game = APIService::currentGame();
 
-        if (isset($game)) return $game;
+        if (isset($currentGame)) return $currentGame;
 
         if (isset($gameId)) {
             $game = Game::where('id', $gameId)->first();
@@ -57,6 +57,8 @@ class ModService {
                 APIService::setCurrentGame($game);
             }
         }
+
+        $currentGame = $game;
 
         return $game;
     }
