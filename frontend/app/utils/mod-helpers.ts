@@ -34,8 +34,13 @@ export function canSuperUpdate(mod: Mod) {
 	return (mod.user_id === user.id && hasPermission('create-mods', mod.game)) || hasPermission('manage-mods', mod.game);
 }
 
-export function registerDownload(downlaod_type: 'file' | 'link', download: File | Link) {
-	postRequest(`${downlaod_type}s/${download.id}/register-download`, null);
+export function registerDownload(downloadType: 'file' | 'link', download: File | Link) {
+	const { $mwsAPI } = useNuxtApp();
+
+	$mwsAPI(`${downloadType}s/${download.id}/register-download`, {
+		method: 'POST',
+		keepalive: true
+	});
 }
 
 // Bare minimum fields required for a list mod to function for optimization purposes.
