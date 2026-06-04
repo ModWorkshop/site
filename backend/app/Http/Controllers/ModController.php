@@ -293,7 +293,6 @@ class ModController extends Controller
         $tagsHiddenByGame = $mod->game->hiddenTags;
         $filteredTags = [];
         foreach ($tags as $tag) {
-            \Log::info('exists?', ['tag' => $tag, 'check' => $tagsHiddenByGame->where('id', $tag)->first()]);
             if (!$tagsHiddenByGame->where('id', $tag)->first()) {
                 $filteredTags[] = $tag;
             }
