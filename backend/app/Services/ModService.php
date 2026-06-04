@@ -41,11 +41,11 @@ class ModService {
     ];
 
     public static function getGame(array $val=[]) {
-        static $currentGame; // Temp fix
         // TODO: is it possible we'd need a different game than the current game?
         $gameId = Arr::get($val, 'game_id');
+        $game = APIService::currentGame();
 
-        if (isset($currentGame)) return $currentGame;
+        if (isset($game)) return $game;
 
         if (isset($gameId)) {
             $game = Game::where('id', $gameId)->first();
@@ -57,8 +57,6 @@ class ModService {
                 APIService::setCurrentGame($game);
             }
         }
-
-        $currentGame = $game;
 
         return $game;
     }
@@ -239,7 +237,15 @@ class ModService {
 
         $game = self::getGame();
 
+        if (request()->path() == 'mods' && isset($game)) {
+            \Log::info('Something is wrong, a game is set on mods route...');
+        }
+
         if (!isset($game)) {
+            if (request()->path() == 'mods') {
+                \Log::info('with game on mods');
+            }
+
             $query->with(['game']);
         }
 
