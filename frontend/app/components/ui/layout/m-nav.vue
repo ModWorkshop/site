@@ -1,6 +1,6 @@
 <template>
 	<div class="nav">
-		<m-flex v-if="side" class="items-center hidden max-lg:block" @click="menuOpen = !menuOpen">
+		<m-flex v-if="side" class="items-center lg:hidden" @click="menuOpen = !menuOpen">
 			<m-link class="collapse-button">
 				<i-mdi-menu/>
 			</m-link>

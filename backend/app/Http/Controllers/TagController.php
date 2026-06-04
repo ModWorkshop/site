@@ -33,6 +33,8 @@ class TagController extends Controller
             'global' => 'boolean|nullable'
         ]);
 
+        $val['limit'] ??= 50; // TODO: utilize m-select with fetch more for tags
+
         $cache = [
             'key' => 'tags:'.($game ? 'game:'.$game->name : ''),
             'ttl' => 120

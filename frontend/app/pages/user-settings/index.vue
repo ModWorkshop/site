@@ -15,7 +15,7 @@
 					<m-avatar size="md" :src="src"/>
 				</template>
 			</m-img-uploader>
-			<m-flex flex>
+			<m-flex flex wrap gap="3">
 				<m-input v-model="userForm.name" :label="$t('display_name')" maxlength="30"/>
 				<m-input v-model="userForm.custom_color" :disabled="!user.has_supporter_perks" :label="true" :desc="$t('custom_color_desc')" type="color">
 					<template #label>
@@ -77,11 +77,11 @@
 			</m-input>
 
 			<m-select v-model="userForm.show_tag" :options="showTagOptions" :label="$t('show_tag')" :desc="$t('show_tag_desc')"/>
-			<m-flex>
+			<m-flex wrap gap="3">
 				<m-input v-model="userForm.donation_url" :validity="donationValid" :label="$t('donation')" :desc="$t('donation_desc')"/>
 				<m-input v-model="userForm.custom_title" :label="$t('custom_title')"/>
 			</m-flex>
-			<m-flex>
+			<m-flex wrap gap="3">
 				<m-input v-model="userForm.private_profile" :label="$t('private_profile')" :desc="$t('private_profile_desc')" type="checkbox"/>
 				<m-input v-model="userForm.invisible" :label="$t('invisible')" :desc="$t('invisible_desc')" type="checkbox"/>
 			</m-flex>

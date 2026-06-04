@@ -51,12 +51,13 @@
 		</m-flex>
 		<m-dropdown v-model:open="showMentions" :style="{ left: `${mentionPos[0]}px`, top: `${mentionPos[1]+16}px`, position: 'fixed' }">
 			<template #content>
-				<m-flex v-if="users" column class="p-3" style="max-width: 300px; word-break: normal; overflow: hidden;">
-					<template v-if="users.data.length">
-						<a-user v-for="u in users.data" :key="u.id" :user="u" avatar static show-at class="cursor-pointer whitespace-pre" @click="e => onClickMention(e, u)"/>
-					</template>
-					<div v-else>{{ $t('no_users_found') }}</div>
-				</m-flex>
+				<template v-if="users?.data.length">
+					<m-dropdown-item v-for="u in users.data" :key="u.id">
+						<a-user :user="u" avatar static show-at @click="e => onClickMention(e, u)"/>
+					</m-dropdown-item>
+				</template>
+				<m-loading v-else-if="usersLoading"/>
+				<div v-else>{{ $t('no_users_found') }}</div>
 			</template>
 		</m-dropdown>
 		<transition>
@@ -91,7 +92,6 @@
 
 <script setup lang="ts">
 import type { Comment, Game, User } from '~/types/models';
-import { Paginator } from '~/types/paginator';
 import { vIntersectionObserver } from '@vueuse/components';
 import { useStore } from '~/store';
 import { remove } from '@antfu/utils';
@@ -142,7 +142,6 @@ const editingComment = ref<Comment>();
 const mentionPos = ref([0, 0]);
 const showMentions = ref(false);
 const mentionRange = ref([-1, -1]);
-const users = ref<Paginator<User>>();
 const usersCache: Record<string, User> = {};
 
 const posting = ref(false);
@@ -162,21 +161,30 @@ const { data: comments, execute: loadComments } = await useFetchMany<Comment>(pr
 
 watch(comments, () => isLoaded.value = !!comments.value, { immediate: true });
 
-let lastTimeout: NodeJS.Timeout;
-watch([commentContent, mentionRange], async () => {
-	if (lastTimeout) {
-		clearTimeout(lastTimeout);
-	}
-	if (showMentions.value) {
-		const query = commentContent.value.substring(mentionRange.value[0], mentionRange.value[1]);
+const query = ref('');
+const queryDebounced = refDebounced(query, 200);
+const firstTime = ref(true);
+const { data: users, loading: usersLoading, refresh } = await useFetchMany<User>('users', {
+	query: { query: queryDebounced },
+	watch: [queryDebounced],
+	immediate: false
+});
 
-		lastTimeout = setTimeout(async () => {
-			users.value = undefined;
-			users.value = await getRequest<Paginator<User>>('users', { query: { query } });
-			for (const user of users.value.data) {
-				usersCache[user.unique_name] = user;
-			}
-		}, 150);
+watch(users, () => {
+	if (users.value) {
+		for (const user of users.value.data) {
+			usersCache[user.unique_name] = user;
+		}
+	}
+});
+
+watch([commentContent, mentionRange], async () => {
+	if (mentionRange.value?.[0] !== undefined) {
+		query.value = commentContent.value.substring(mentionRange.value[0], mentionRange.value[1]);
+		if (firstTime.value) {
+			refresh();
+		}
+		firstTime.value = false;
 	}
 });
 
