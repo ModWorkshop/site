@@ -281,6 +281,13 @@ class Mod extends Model implements SubscribableInterface
         'tags',
     ];
 
+    public const LIST_MOD_EXTRA_WITH = [
+        'category',
+        'thumbnail',
+        'tags',
+        'game'
+    ];
+
     public $fullLoad = false;
 
     protected $with = self::DEFAULT_MOD_WITH;

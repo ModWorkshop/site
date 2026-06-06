@@ -346,7 +346,7 @@ class User extends Model implements
     }
 
     public function pinnedMods() : BelongsToMany {
-        $mods = $this->belongsToMany(Mod::class, 'user_pinned_mods')->with(Mod::LIST_MOD_WITH);
+        $mods = $this->belongsToMany(Mod::class, 'user_pinned_mods')->with(Mod::LIST_MOD_EXTRA_WITH);
         ModService::viewFilters($mods);
         return $mods;
     }
