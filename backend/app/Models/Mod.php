@@ -361,6 +361,7 @@ class Mod extends Model implements SubscribableInterface
             'background'
         ]);
         $this->loadCount(['links', 'files']);
+        $this->loadSum('files', 'size');
         $this->append(['download', 'last_user_attribute']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
@@ -649,7 +650,12 @@ class Mod extends Model implements SubscribableInterface
     }
 
     public function currentStorage(): Attribute {
-        return Attribute::make(fn() => $this->maxStorage - $this->filesSizeSum);
+        return Attribute::make(function() {
+            if (!isset($this->files_sum_size)) {
+                $this->loadSum('files', 'size');
+            }
+            return $this->maxStorage - $this->files_sum_size;
+        });
     }
 
     public function modManagers(): Attribute {
