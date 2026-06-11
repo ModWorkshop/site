@@ -181,7 +181,7 @@ if (query) {
 	border-radius: var(--content-border-radius);
 	background-color: var(--secondary-content-bg-color);
 	align-self: start;
-	width: 100%;
+	max-width: 100%;
 }
 
 .alt-background.tab-menu-bg {
