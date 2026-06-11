@@ -8,7 +8,6 @@ let queue = {};
 export default function (name, defaultValue, cast, statefully) {
 	const router = useRouter();
 	const route = useRoute();
-	const isLoading = useState('loading');
 
 	if (Array.isArray(defaultValue)) {
 		cast = 'array';
@@ -29,20 +28,6 @@ export default function (name, defaultValue, cast, statefully) {
 			current.value = v;
 		}
 	});
-
-	let lastTImeout;
-
-	function replaceRoute() {
-		if (isLoading.value) { // Prevents breaking page, remove when https://github.com/nuxt/nuxt/issues/13350 is resolved
-			if (lastTImeout) {
-				clearTimeout(lastTImeout);
-			}
-			lastTImeout = setTimeout(replaceRoute, 50);
-		} else {
-			router.replace({ query: { ...route.query, ...queue } });
-			nextTick(() => queue = {});
-		}
-	}
 
 	return computed({
 		get() {
@@ -79,7 +64,10 @@ export default function (name, defaultValue, cast, statefully) {
 			queue[name] = (v === defaultValue || v === null) ? undefined : v;
 			current.value = queue[name];
 
-			nextTick(replaceRoute);
+			nextTick(() => {
+				router.replace({ query: { ...route.query, ...queue } });
+				nextTick(() => queue = {});
+			});
 		}
 	});
 }
