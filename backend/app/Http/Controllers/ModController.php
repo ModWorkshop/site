@@ -132,7 +132,7 @@ class ModController extends Controller
     {
         $this->authorize('manageAny', [Mod::class, $game]);
 
-        $mods = ModService::dbFilteredMods($request->val(), $game, function($q) {
+        $mods = ModService::dbFilteredMods($request->val(), function($q) {
             $q->whereNull('approved');
         });
 
