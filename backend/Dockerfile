@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.12.3-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.12.4-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends supervisor
 
@@ -93,4 +93,4 @@ RUN chown -R devuser:devuser /app
 USER devuser
 
 # Install composer packages
-CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && php artisan serve --host=0.0.0.0"]
+CMD ["/bin/sh", "-c", "composer install --no-interaction --ignore-platform-req=php && php artisan mws:install --auto && (php artisan schedule:work &) && php artisan serve --host=0.0.0.0"]
