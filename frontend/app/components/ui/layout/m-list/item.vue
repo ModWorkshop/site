@@ -17,3 +17,9 @@ withDefaults(defineProps<{
 	textBy?: string;
 }>(), { textBy: 'name' });
 </script>
+
+<style scoped>
+.list-button {
+	width: 100%;
+}
+</style>

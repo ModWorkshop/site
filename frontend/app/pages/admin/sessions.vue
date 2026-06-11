@@ -5,9 +5,9 @@
 		<user-select v-model="user" :label="$t('user')" clearable/>
 		<m-list v-model:page="page" query :items="sessions" :loading="loading">
 			<template #before-item="{ item }">
-				<a-user :user="item.user">
+				<a-user :user="item.user" class="overflow-hidden">
 					<template #details>
-						{{ item.ip_address }}
+						<span>{{ item.ip_address }}</span>
 						<m-time :datetime="item.updated_at" relative/>
 					</template>
 				</a-user>

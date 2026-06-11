@@ -1,6 +1,6 @@
 <template>
-	<m-list :items="data" :loading="loading">
-		<template #buttons>
+	<m-list :items="data" :loading="loading" :title="$t('suspensions')">
+		<template #filters>
 			<m-input v-model="query" :label="$t('search')"/>
 			<user-select v-model="userId" :label="$t('user')" clearable/>
 		</template>

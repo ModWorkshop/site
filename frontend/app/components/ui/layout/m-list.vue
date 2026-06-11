@@ -1,6 +1,6 @@
 <template>
 	<m-flex column gap="4" style="flex: 1;">
-		<m-flex v-if="title || $slots.title" class="items-center">
+		<m-flex v-if="title || $slots.title || $slots.buttons" class="items-center">
 			<slot name="title">
 				<h2 v-if="title">{{ title }}</h2>
 			</slot>
@@ -13,6 +13,8 @@
 				<m-button v-if="typeof newButton == 'string'" class="mt-auto" :to="newButton">{{ $t('new') }}</m-button>
 			</m-flex>
 		</m-flex>
+
+		<slot name="filters" :items="items"/>
 
 		<m-pagination v-if="pagination" v-model="page" :total="total" :per-page="limit">
 			<slot name="pagination" :items="items"/>
@@ -71,8 +73,8 @@ const props = withDefaults(defineProps<{
 	column: true
 });
 
-const vmPage = defineModel<number>('page');
-const page = props.query ? useRouteQuery('page', 1) : ref(vmPage.value);
+const vmPage = defineModel<number>('page', { default: undefined });
+const page = !vmPage.value ? useRouteQuery('page', 1) : ref(vmPage.value);
 
 const queryRef = props.query ? useRouteQuery('query', '') : ref('');
 

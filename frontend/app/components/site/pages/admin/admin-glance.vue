@@ -1,6 +1,6 @@
 <template>
 	<span v-if="adminData" class="h2">{{ $t('admin_at_a_glance') }}</span>
-	<m-flex v-if="adminData" class="max-md:flex-wrap">
+	<m-flex v-if="adminData" class="max-md:flex-col overflow-hidden">
 		<m-flex class="flex-1" column>
 			<NuxtLink :to="reportsUrl" class="glance-block">
 				<span class="text-2xl text-body">{{ $t('last_reports') }}</span>
@@ -37,12 +37,12 @@
 				<span class="text-2xl text-body">{{ $t('last_suspensions') }}</span>
 				<m-flex v-if="adminData.suspensions" column>
 					<template v-if="adminData.suspensions.length">
-						<m-content-block v-for="sus of adminData.suspensions" :key="sus.id" class="text-body" :column="false">
-							<mod-thumbnail :thumbnail="sus.mod.thumbnail" style="width: 96px; height: 48px;"/>
-							<m-flex column>
+						<m-content-block v-for="sus of adminData.suspensions" :key="sus.id" class="text-body items-center" :column="false" wrap>
+							<m-flex class="items-center">
+								<mod-thumbnail :thumbnail="sus.mod.thumbnail" style="width: 96px; height: 48px;"/>
 								<span>{{ sus.mod.name }}</span>
-								<span>{{ $t('reason') }}: {{ sus.reason }}</span>
 							</m-flex>
+							<span>{{ $t('reason') }}: {{ sus.reason }}</span>
 						</m-content-block>
 					</template>
 					<span v-else class="text-body">
