@@ -125,16 +125,20 @@ class ModService {
         }
 
         if (isset($val['user_id'])) {
-            $collab = $val['collab'] ?? false;
-            if ($collab) {
-                $modSearch->where('member_ids', $val['user_id']);
-            } else {
-                $modSearch->where('user_id', $val['user_id']);
-            }
+            $modSearch->where(function($search) use ($val) {
+                $collab = $val['collab'] ?? false;
+                if ($collab) {
+                    $search = $search->where('member_ids', $val['user_id']);
+                } else {
+                    $search = $search->where('user_id', $val['user_id']);
+                }
 
-            if (!$collab && ($val['including_collab'] ?? false)) {
-                $modSearch->orWhere('member_ids', $val['user_id']);
-            }
+                if (!$collab && ($val['including_collab'] ?? false)) {
+                    $search = $search->orWhere('member_ids', $val['user_id']);
+                }
+
+                return $search;
+            });
         }
 
         if (!empty($val['ids'])) {
