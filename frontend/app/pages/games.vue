@@ -9,8 +9,8 @@
 				</template>
 			</i18n-t>
 		</m-flex>
-		<m-flex :gap="3">
-			<m-content-block grow class="self-start" style="flex: 1;" padding="4">
+		<m-flex :gap="3" class="max-lg:flex-col">
+			<m-content-block grow class="lg:self-start flex-1 max-2xl:flex-1/7" padding="4">
 				<m-input v-model="query" :label="$t('search')"/>
 			</m-content-block>
 			<m-flex grow column style="flex: 4;" gap="1">
