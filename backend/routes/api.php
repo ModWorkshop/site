@@ -106,7 +106,7 @@ Route::middleware('can:super-update,mod')->group(function() {
 });
 Route::patch('mods/{mod}/members/accept', [ModMemberController::class, 'accept']);
 Route::resource('mods.members', ModMemberController::class)->only(['store', 'destroy', 'update']);
-Route::resource('mods.dependencies', ModDependencyController::class);
+Route::resource('mods.dependencies', ModDependencyController::class)->except(['index']);
 Route::patch('mods/{mod}/owner/accept', [ModController::class, 'acceptTransferRequest']);
 Route::post('mods/{mod}/register-view', [ModController::class, 'registerView']);
 Route::get('mods/waiting', [ModController::class, 'waiting']);
