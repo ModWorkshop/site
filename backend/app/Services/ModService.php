@@ -98,16 +98,21 @@ class ModService {
         // User preferences
         $includingIgnored = Arr::get($val, 'including_ignored', false);
         if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
-            $modSearch->where(function($search) use ($user) {
+            $modSearch->where(function($search) use ($user, $game) {
                 $blockedTags = $user->blockedTags->pluck('id')->toArray();
                 $blockedUsers = $user->blockedUsers->pluck('id')->toArray();
                 $ignoredGames = $user->ignoredGames->pluck('id')->toArray();
                 $ignoredCats = $user->ignoredCategories->pluck('id')->toArray();
                 $ignored = $user->ignoredMods->pluck('id')->toArray();
 
-                return $search->whereNotIn('tag_ids', $blockedTags)
-                    ->whereNotIn('game_id', $ignoredGames)
-                    ->whereNotIn('category_id', $ignoredCats)
+                $search = $search->whereNotIn('tag_ids', $blockedTags);
+
+                // Don't ignore games when in the game section itself lol
+                if (!isset($game)) {
+                    $search->whereNotIn('game_id', $ignoredGames);
+                }
+
+                return $search->whereNotIn('category_id', $ignoredCats)
                     ->whereNotIn('id', $ignored)
                     ->whereNotIn('user_id', $blockedUsers);
             });
@@ -264,9 +269,12 @@ class ModService {
         // User preferences
         $includingIgnored = Arr::get('including_ignored', false);
         if (isset($user) && !$includingIgnored && !$user->hasPermission('manage-mods', $game)) {
-            $query->where(function($query) use ($user) {
+            $query->where(function($query) use ($user, $game) {
+                if (!isset($game)) {
+                    $query->whereDoesntHaveIn('gameIgnoredByMe');
+                }
+
                 $query->whereDoesntHaveIn('blockedByMe')
-                    ->whereDoesntHaveIn('gameIgnoredByMe')
                     ->whereDoesntHaveIn('categoryIgnoredByMe')
                     ->whereDoesntHaveIn('ignored')
                     ->whereDoesntHaveIn('tagsSpecial', function($q) use ($user) {
