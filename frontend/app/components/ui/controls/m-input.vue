@@ -14,6 +14,7 @@
 				:class="classes"
 				:disabled="disabled"
 				style="width: 100px;"
+				@click="clickInput"
 				@input="forceUpdateColor"
 			>
 			<textarea
@@ -23,6 +24,7 @@
 				class="mw-input"
 				:rows="rows"
 				v-bind="$attrs"
+				@click="clickInput"
 				:disabled="disabled"
 			/>
 			<input
@@ -55,9 +57,11 @@
 				:class="classes"
 				:type="type"
 				:disabled="disabled"
+				@click="clickInput"
 				:style="{ padding: type == 'range' ? 0 : undefined }"
 			>
 			<span v-if="type == 'range'" class="text-xl">{{ vm }}</span>
+			<slot name="next-to"/>
 		</m-flex>
 		<slot v-else/>
 		<label v-if="isCheckbox && label" :for="labelId" class="flex-grow">
@@ -84,8 +88,9 @@ const props = defineProps<{
 	type?: string;
 	value?: string;
 	required?: boolean;
+	clickCopy?: boolean;
 }>();
-const emit = defineEmits(['update:elementRef']);
+const emit = defineEmits(['update:elementRef', 'clickInput']);
 const vm = defineModel<any>('modelValue');
 const elementRef = defineModel<HTMLInputElement>('elementRef');
 const uniqueId = useId();
@@ -108,6 +113,13 @@ watch(() => props.validity, val => {
 		}
 	}
 });
+
+function clickInput(e) {
+	emit('clickInput', e);
+	if (props.clickCopy) {
+		navigator.clipboard.writeText(vm.value);
+	}
+}
 
 // force refresh for firefox
 function forceUpdateColor(element) {
