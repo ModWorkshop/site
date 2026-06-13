@@ -67,6 +67,8 @@ class GameResource extends BaseResource
             'mods_count' => $this->whenAppended('mods_count'),
             'mod_manager_ids' => $this->whenLoaded('modManagers', fn () => Arr::pluck($this->modManagers, 'id')),
             'hidden_tag_ids' => $this->whenLoaded('hiddenTags', fn () => Arr::pluck($this->hiddenTags, 'id')),
+
+            'game_sdk_key' => $this->when($user?->hasPermission('admin'), $this->game_sdk_key)
         ];
     }
 }

@@ -97,4 +97,8 @@ class GamePolicy
     {
         return $user->id === $model->id || $user->hasPermission('manage-roles', $game);
     }
+
+    public function rerollGameSDKKey(User $user, Game $game) {
+        return $user->hasPermission('admin');
+    }
 }

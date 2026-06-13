@@ -18,6 +18,16 @@ class ModDependencyController extends Controller
     }
 
     /**
+     * Returns mod dependencies
+     *
+     * @authenticated
+     */
+    public function index(Request $request, Mod $mod)
+    {
+        return DependencyService::index($request, $mod);
+    }
+
+    /**
      * Create a mod dependency
      *
      * @authenticated

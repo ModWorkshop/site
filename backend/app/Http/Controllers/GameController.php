@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
+use Str;
 use Auth;
 use Cache;
 use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
@@ -310,5 +311,15 @@ class GameController extends Controller
     public function getAdminData(Game $game)
     {
         return APIService::adminData($game);
+    }
+
+    /**
+     * @hideFromApiDocumentation
+     */
+    public function rerollGameSDKKey(Game $game) {
+        $game->game_sdk_key = Str::random(32);
+        $game->save();
+
+        return $game->game_sdk_key;
     }
 }

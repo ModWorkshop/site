@@ -95,8 +95,10 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    protected $hidden = ['webhook_url', 'viewable_mods_count'];
+    protected $guarded = [
+        'game_sdk_key'
+    ];
+    protected $hidden = ['webhook_url', 'viewable_mods_count', 'game_sdk_key'];
     protected $appends = [];
     public const WITH_USER_PERFS = ['followed', 'ignored'];
     protected $with = [];

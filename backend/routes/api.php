@@ -138,6 +138,7 @@ APIService::gameResource('mod-managers', ModManagerController::class, ['parentOp
 APIService::gameResource('categories', CategoryController::class);
 Route::middleware('can:massUpdateMods,category')->patch('categories/{category}/mods', [CategoryController::class, 'updateMods']);
 Route::resource('games', GameController::class);
+Route::middleware('can:rerollGameSDKKey,game')->post('games/{game}/reroll-game-sdk-key', [GameController::class, 'rerollGameSDKKey']);
 Route::get('games/{game}/game-section-data', [GameController::class, 'gameSectionData']);
 Route::get('games/{game}/categories', [CategoryController::class, 'index']);
 Route::get('games/{game}/users/{user}', [GameController::class, 'getGameUser']);

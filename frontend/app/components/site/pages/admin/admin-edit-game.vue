@@ -30,6 +30,14 @@
 			<m-select v-model="vmGame.mod_manager_ids" :options="globalModManagers" multiple :label="$t('applied_global_mod_managers')" :desc="$t('applied_global_mod_managers_desc')"/>
 		</m-flex>
 		<m-select v-model="vmGame.hidden_tag_ids" :options="tags?.data" multiple color-by="color" list-tags :label="$t('hidden_tags')" :desc="$t('hidden_tags_desc')"/>
+
+		<m-flex class="items-end">
+			<m-input v-model="gameSDKKey" readonly label="Game SDK Key" click-copy>
+				<template #next-to>
+					<m-button @click="rerollGameSDKKey">Reroll</m-button>
+				</template>
+			</m-input>
+		</m-flex>
 	</simple-resource-form>
 </template>
 
@@ -45,6 +53,7 @@ const { hasPermission } = useStore();
 const vmGame = defineModel<Game>({ required: true });
 const canDelete = computed(() => hasPermission('manage-games'));
 const mmUrl = getGameResourceUrl('mod-managers', vmGame.value);
+const gameSDKKey = ref(vmGame.value.game_sdk_key);
 
 const { data: modManagers } = await useFetchMany<ModManager>(() => mmUrl, {
 	query: {
@@ -69,5 +78,10 @@ const mergeParams = reactive({
 function submit() {
 	thumbnailBlob.value = null;
 	bannerBlob.value = null;
+}
+
+async function rerollGameSDKKey() {
+	const newKey = await postRequest<string>(`games/${vmGame.value.id}/reroll-game-sdk-key`);
+	gameSDKKey.value = newKey;
 }
 </script>
