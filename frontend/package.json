@@ -33,7 +33,7 @@
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^25.3.5",
     "@types/qs": "^6.9.7",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/eslint-plugin": "^8.60.1",
     "@typescript-eslint/parser": "^8.41.0",
     "@unhead/vue": "^2.0.3",
     "@vueuse/components": "^13.9.0",
