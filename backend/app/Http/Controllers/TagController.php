@@ -95,6 +95,7 @@ class TagController extends Controller
             'notice_type' => 'string|nullable|in:info,warning,danger',
             'type' => 'string|nullable|in:all,forum,mod',
             'notice_localized' => 'boolean|nullable',
+            'display_order' => 'integer|min:-32768|max:32767'
         ]);
 
         $val['type'] ??= '';

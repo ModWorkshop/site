@@ -8,6 +8,7 @@
 		</div>
 		<m-input v-model="tag.name" :label="$t('name')"/>
 		<m-input v-model="tag.color" :label="$t('color')" type="color"/>
+		<m-input v-model="tag.display_order" :label="$t('order')" type="number"/>
 		<m-select v-model="tag.type" :options="types" :label="$t('type')"/>
 		<md-editor v-model="tag.notice" :label="$t('tag_notice')" :desc="$t('tag_notice_desc')"/>
 		<m-select v-model="tag.notice_type" :options="noticeTypes" :label="$t('tag_notice_type')"/>

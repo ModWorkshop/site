@@ -248,6 +248,7 @@ export interface Tag {
 	sections?: Array<Game> | null;
 	categories_count?: number | null;
 	sections_count?: number | null;
+	display_order?: number;
 	type: string;
 }
 
