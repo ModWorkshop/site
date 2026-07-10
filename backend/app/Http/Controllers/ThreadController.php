@@ -258,7 +258,7 @@ class ThreadController extends Controller
 
         $thread->timestamps = true;
 
-        $thread->load(['category', 'tags']);
+        $thread->load(Thread::$RELATIONS_FOR_PAGE);
 
         $this->uploadThumbnail($request, $thread);
 
