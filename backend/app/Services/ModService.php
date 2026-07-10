@@ -329,8 +329,8 @@ class ModService {
     }
 
     // More lightweight version of filters that skips on the whole options
-    public static function viewFilters($query, bool $forceGuest=false) {
-        $query->where(function($query) use ($forceGuest) {
+    public static function viewFilters($query, bool $forceGuest=false, bool $showUnlisted=false) {
+        $query->where(function($query) use ($forceGuest, $showUnlisted) {
             $user = $forceGuest ? null : Auth::user();
 
             // If a guest or a user that doesn't have the edit-mod permission then we should hide any invisible or suspended mod
@@ -338,11 +338,17 @@ class ModService {
                 return;
             }
 
-            $query->where('mods.visibility', Visibility::public)
-                  ->whereNotNull('mods.published_at')
-                  ->where('mods.suspended', false)
-                  ->where('mods.approved', true)
-                  ->where('mods.has_download', true);
+            $query->where(function($q) use ($showUnlisted) {
+                $q->where('mods.visibility', Visibility::public);
+                if ($showUnlisted) {
+                    $q->orWhere('mods.visibility', Visibility::unlisted);
+                }
+            });
+
+            $query->whereNotNull('mods.published_at')
+                ->where('mods.suspended', false)
+                ->where('mods.approved', true)
+                ->where('mods.has_download', true);
 
             if (isset($user)) {
                 $query->orWhere('mods.user_id', $user->id);
