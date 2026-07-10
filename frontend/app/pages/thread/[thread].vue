@@ -72,7 +72,7 @@ const { data: categories } = await useFetchMany<ForumCategory>('forum-categories
 });
 
 const canCloseInCategory = computed(() => thread.value.category?.can_close_threads);
-const threadGame = computed(() => thread.value.forum?.game);
+const threadGame = computed(() => thread.value.game ?? thread.value.forum?.game);
 const thumbnail = computed(() => {
 	const avatar = thread.value.user?.avatar;
 	if (avatar) {

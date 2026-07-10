@@ -64,7 +64,7 @@ const commentSpecialTag = function (comment: Comment) {
 	}
 };
 
-const threadGame = computed(() => thread.forum?.game);
+const threadGame = computed(() => thread.game ?? thread.forum?.game);
 const canModerate = computed(() => hasPermission('manage-discussions', threadGame.value));
 const canEditThread = computed(() => canModerate.value || (user ? user.id === thread.user_id : false));
 
