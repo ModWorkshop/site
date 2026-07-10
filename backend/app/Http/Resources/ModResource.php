@@ -100,7 +100,7 @@ class ModResource extends BaseResource
             'tag_ids' => $this->whenLoaded('tags', fn () => Arr::pluck($this->tags, 'id')),
             'liked' => $this->whenLoaded('liked'),
             'subscribed' => $this->whenLoaded('subscribed', fn() => isset($this->subscribed)),
-            'used_storage' => $this->whenAggregated('files', 'size', 'sum'),
+            'used_storage' => $this->whenAggregated('files', 'size', 'sum', fn($val) => intval($val)),
             'ignored' => $this->whenLoaded('ignored'),
         ];
     }
