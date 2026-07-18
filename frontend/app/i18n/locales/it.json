@@ -44,7 +44,7 @@
     "likes": "Mi Piace",
     "load_more": "Altri Risultati",
     "search": "Cerca",
-    "game_search": "Game Search",
+    "game_search": "Cerca Titolo",
     "user": "Utente",
     "mod": "Mod",
     "all": "Tutti",
@@ -686,11 +686,11 @@
     "hidden_tags_desc": "Nega agli utenti la possibilità di selezionare le etichette globali per mod e thread. Le mod che già utilizzano queste etichette dovranno essere modificate manualmente.",
     "install_with": "Installa tramite {modManager}",
     "mod_manager_not_installed": "Non hai {modManager} installato?",
-    "leave_members": "Leave Members",
-    "sessions": "Sessions",
-    "ip_address": "IP Address",
-    "ip_ban": "IP Ban",
-    "ip_ban_help": "Bans the user and their IP. Note: this shouldn't really be relied on too much, users can easily change IPs, this is more of a bandage solution.",
-    "pinned_mods": "Pinned Mods",
-    "pinned_mods_desc": "Pinned mods appear on top of your regular mod list. You may choose up to 5 mods you own or a mod you are a member of (except viewer)."
+    "leave_members": "Abbandona Membri",
+    "sessions": "Sessioni",
+    "ip_address": "Indirizzo_IP",
+    "ip_ban": "Blocca IP",
+    "ip_ban_help": "Blocca l'utente e il suo indirizzo IP. Nota: questa funzione può essere facilmente aggirata dagli utenti cambiando indirizzo IP, consigliamo di utilizzarla unicamente come soluzione temporanea.",
+    "pinned_mods": "Mod Fissate",
+    "pinned_mods_desc": "Le mod fissate appariranno in cima alla tua lista delle mod. Puoi scegliere fino a 5 mod di cui sei il creatore o una mod di cui fai parte (non come visualizzatore)."
 }
