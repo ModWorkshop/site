@@ -37,7 +37,7 @@ class CalculatePopularity implements ShouldQueue
 
         Log::info('Calculating Popularity...');
 
-        PopularityLog::where('updated_at', '<', Carbon::now()->addYear())->delete();
+        PopularityLog::where('updated_at', '<', Carbon::now()->subYear())->delete();
 
         $getScores = function(Carbon $date) {
             $scores = [];
