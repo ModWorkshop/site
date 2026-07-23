@@ -430,8 +430,8 @@ class FileController extends Controller
      * Returns the primary file of the mod or the only file
      */
     public function getPrimaryFile(Request $request, Mod $mod) {
-        $file = $mod->download;
-        if (!$file instanceof File) {
+        $file = $mod->download_strictly_file;
+        if (!isset($file)) {
             abort(404);
         }
         return $file;

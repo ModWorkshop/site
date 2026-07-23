@@ -674,7 +674,8 @@ class Mod extends Model implements SubscribableInterface
     /**
      * Smartly returns current download ($this->download)
      * In case it's not loaded, tries to calculate it using download_id and download_type
-     * If download_id is not set, it will return either first link or first file.
+     *
+     * It may not be set, the default behavior of the site is to show "downloads" when there are multiple files and no primary file set
      */
     public function download(): Attribute {
         return Attribute::make(function() {
@@ -694,9 +695,8 @@ class Mod extends Model implements SubscribableInterface
             $linksCount = $this->links_count;
             $hasPrimary = isset($id) && isset($type);
 
-
             // Has no files or links
-            if ($filesCount == 0 && $linksCount == 0) {
+            if ($linksLoaded && $filesLoaded && $filesCount == 0 && $linksCount == 0) {
                 return null;
             }
 
@@ -729,6 +729,47 @@ class Mod extends Model implements SubscribableInterface
             }
         });
     }
+
+    /**
+     * Similar to download but returns only files. Meant to be used for API use where downloading links aren't supported.
+     * If download_id is not set, it will return first file.
+     */
+    public function downloadStrictlyFile(): Attribute {
+        return Attribute::make(function() {
+            $filesLoaded = $this->relationLoaded('files');
+            $id = $this->download_id;
+            $type = $this->download_type;
+            $hasPrimaryFileSet = isset($id) && isset($type) && $type != 'link';
+
+            // If download exists, just return it
+            if ($hasPrimaryFileSet && ($this->relationLoaded('downloadRelation') || !$filesLoaded)) {
+                if (isset($this->downloadRelation)) {
+                    return $this->downloadRelation;
+                }
+            }
+
+            // Has no files or links
+            if ($filesLoaded && $this->files_count == 0) {
+                return null;
+            }
+
+            // Has primary download and both links and files relations are loaded
+            if ($hasPrimaryFileSet) {
+               if ($filesLoaded && ($link = $this->files->find($id))) {
+                    return $link;
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->files()->find($id));
+                }
+            }
+
+            if ($filesLoaded) {
+                return $this->files[0];
+            } else {
+                return $this->withSecureConstraints(fn() => $this->files()->first());
+            }
+        });
+    }
+
 
     public function liked()
     {

@@ -686,7 +686,7 @@ class ModController extends Controller
      * @group Files
      */
     public function downloadPrimaryFile(Mod $mod) {
-        $file = $mod->download;
+        $file = $mod->download_strictly_file;
 
         if (isset($file)) {
             return redirect($file->downloadUrl);
