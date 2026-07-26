@@ -692,5 +692,7 @@
     "ip_ban": "Blocca IP",
     "ip_ban_help": "Blocca l'utente e il suo indirizzo IP. Nota: questa funzione può essere facilmente aggirata dagli utenti cambiando indirizzo IP, consigliamo di utilizzarla unicamente come soluzione temporanea.",
     "pinned_mods": "Mod Fissate",
-    "pinned_mods_desc": "Le mod fissate appariranno in cima alla tua lista delle mod. Puoi scegliere fino a 5 mod di cui sei il creatore o una mod di cui fai parte (non come visualizzatore)."
+    "pinned_mods_desc": "Le mod fissate appariranno in cima alla tua lista delle mod. Puoi scegliere fino a 5 mod di cui sei il creatore o una mod di cui fai parte (non come visualizzatore).",
+    "maintenance_mode": "Modworkshop Is Under Maintenance",
+    "maintenance_mode_desc": "It will be back shortly :)"
 }
