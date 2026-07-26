@@ -692,5 +692,7 @@
     "ip_ban": "IP Yasaklaması",
     "ip_ban_help": "Kullanıcıyı ve IP Adresini yasakla\nNot: buna çok fazla güvenmemelisiniz tabii, kullanıcılar rahatlıkla IP adreslerini değiştirebilirler. Bu daha çok geçiçi bir çözümdür.",
     "pinned_mods": "Başa tutturduğunuz modlar",
-    "pinned_mods_desc": "Başa tutturduğunuz modlar normal mod listenizin en tepesinde görünür. Sahibi veya katkıda bulunduğunuz 5 modu başa tutturabilirsiniz (\"izleyici\" hariç)."
+    "pinned_mods_desc": "Başa tutturduğunuz modlar normal mod listenizin en tepesinde görünür. Sahibi veya katkıda bulunduğunuz 5 modu başa tutturabilirsiniz (\"izleyici\" hariç).",
+    "maintenance_mode": "Modworkshop Is Under Maintenance",
+    "maintenance_mode_desc": "It will be back shortly :)"
 }
