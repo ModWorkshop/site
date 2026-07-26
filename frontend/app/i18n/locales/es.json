@@ -692,5 +692,7 @@
     "ip_ban": "Veto por IP",
     "ip_ban_help": "Aplica un veto al usuario y a su IP. Nota: no es un método muy fiable, ya que los usuarios pueden cambiar de IP fácilmente; es más bien una solución temporal.",
     "pinned_mods": "Mods fijados",
-    "pinned_mods_desc": "Los mods fijados aparecen al principio de tu lista de mods. Puedes fijar hasta 5 mods que poseas o de los que seas miembro (excepto como Espectador)."
+    "pinned_mods_desc": "Los mods fijados aparecen al principio de tu lista de mods. Puedes fijar hasta 5 mods que poseas o de los que seas miembro (excepto como Espectador).",
+    "maintenance_mode": "Modworkshop Is Under Maintenance",
+    "maintenance_mode_desc": "It will be back shortly :)"
 }
