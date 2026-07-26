@@ -43,6 +43,8 @@ class SettingsController extends Controller
             'mod_max_image_count' => 'integer',
             'news_forum_category' => 'integer',
             'game_requests_forum_category' => 'integer',
+            'maintenance_mode' => 'boolean',
+            'new_user_first_upload_requires_approval' => 'boolean',
             'discord_webhook' => 'string|nullable|max:255',
             'discord_suspension_webhook' => 'string|nullable|max:255',
             'discord_approval_webhook' => 'string|nullable|max:255',

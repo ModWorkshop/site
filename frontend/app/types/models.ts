@@ -482,6 +482,7 @@ export interface Settings {
 	edit_comment_threshold: number;
 	game_requests_forum_category: number;
 	new_user_first_upload_requires_approval: boolean;
+	maintenance_mode: boolean;
 }
 
 export interface Document {

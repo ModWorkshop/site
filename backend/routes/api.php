@@ -258,9 +258,18 @@ Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware
 Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:1,1']);
 
 Route::get('site-data', function(Request $request) {
+    $settings = APIService::getSettings();
+    $user = Auth::user();
+
+    $maintenanceMode = $settings['maintenance_mode'] ?? false;
+    if ($maintenanceMode && (!isset($user) || !$user->hasPermission('admin'))) {
+        return [
+            'maintenance_mode' => true
+        ];
+    }
+
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
-    $settings = APIService::getSettings();
 
     $guests = TrackSession::guestCount();
     $users = TrackSession::userCount();
@@ -268,6 +277,7 @@ Route::get('site-data', function(Request $request) {
     $gamesCount = Game::gamesCount();
 
     $data = [
+        'maintenance_mode' => $maintenanceMode,
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
@@ -280,7 +290,6 @@ Route::get('site-data', function(Request $request) {
     ];
 
     if (Auth::hasUser()) {
-        $user = Auth::user();
         if ($user->hasPermission('moderate-users')) {
             $data['report_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(null)->count();
