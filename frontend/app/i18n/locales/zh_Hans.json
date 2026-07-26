@@ -692,5 +692,7 @@
     "ip_ban": "IP 封禁",
     "ip_ban_help": "封禁用户及其 IP 地址。注意：此方法不宜过度依赖，因为用户可轻易更换 IP 地址，这更多只是一种权宜之计。",
     "pinned_mods": "置顶的模组",
-    "pinned_mods_desc": "置顶的模组会显示在您普通模组列表的顶部。您最多可选择 5 个您拥有的模组，或您是其中成员（查看者除外）的模组。"
+    "pinned_mods_desc": "置顶的模组会显示在您普通模组列表的顶部。您最多可选择 5 个您拥有的模组，或您是其中成员（查看者除外）的模组。",
+    "maintenance_mode": "Modworkshop Is Under Maintenance",
+    "maintenance_mode_desc": "It will be back shortly :)"
 }
