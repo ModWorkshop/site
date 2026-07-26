@@ -222,6 +222,7 @@ export interface Game {
 	hidden_tag_ids?: number[];
 	default_mod_manager_id?: number;
 	game_sdk_key?: string;
+	mod_types_definition?: string;
 }
 
 export interface SocialLogin {

@@ -55,7 +55,8 @@ class GameController extends Controller
             'mod_manager_ids.*' => 'integer|min:1|exists:mod_managers,id|nullable',
             'hidden_tag_ids' => 'array|nullable',
             'hidden_tag_ids.*' => 'integer|min:1|exists:tags,id|nullable',
-            'default_mod_manager_id' => 'exists:mod_managers,id|nullable'
+            'default_mod_manager_id' => 'exists:mod_managers,id|nullable',
+            'mod_types_definition' => 'json|nullable'
         ];
 
         if (!isset($game)) {

@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.12.4-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.12.6-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends supervisor
 
@@ -15,7 +15,14 @@ RUN install-php-extensions \
     pdo_pgsql \
     pcntl \
     zip \
+    fileinfo \
     vips
+
+RUN curl -fL -o /usr/local/bin/pie https://github.com/php/pie/releases/latest/download/pie.phar \
+    && chmod +x /usr/local/bin/pie
+
+RUN pie install cataphract/rar \
+    && docker-php-ext-enable rar
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
