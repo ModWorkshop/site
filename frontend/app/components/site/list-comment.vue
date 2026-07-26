@@ -177,7 +177,7 @@ watch(replies, val => {
 
 if (props.comment.mentions) {
 	content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
-		const user = props.comment.mentions.find(user => user.id === id);
+		const user = props.comment.mentions.find(user => user.id === parseInt(id));
 
 		if (user) {
 			return `@${user.unique_name}`;
