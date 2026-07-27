@@ -15,6 +15,7 @@
 				<m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
 				<m-nav-link v-if="canSeeAduitLog" to="audit-log" :title="$t('audit_log')"/>
 				<m-nav-link v-if="moderateUsers" to="sessions" :title="$t('sessions')"/>
+				<m-nav-link v-if="moderateUsers" href="/document/moderation" title="Moderation Document"/>
 				<h3 v-if="canManageContent" class="mt-4!">{{ $t('content') }}</h3>
 				<m-nav-link v-if="hasPermission('manage-games')" to="games" :title="$t('games')"/>
 				<m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>

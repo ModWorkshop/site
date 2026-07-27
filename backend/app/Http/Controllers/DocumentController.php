@@ -25,9 +25,7 @@ class DocumentController extends Controller
      */
     public function index(FilteredRequest $request, Game $game=null)
     {
-        $val = $request->val([
-            'get_unlisted' => 'boolean',
-        ]);
+        $val = $request->val();
 
         $user = $this->user();
 
@@ -35,15 +33,14 @@ class DocumentController extends Controller
         $manageDocsGame = $user?->hasPermission('manage-documents', $game) ?? false;
 
         return BaseResource::collectionResponse(Document::queryGet($val, function($q, $val) use($game, $manageDocs, $manageDocsGame) {
-            $getUnlisted = Arr::get($val, 'get_unlisted');
             if (isset($game)) {
                 $q->where('game_id', $game->id);
-                if (!$getUnlisted || !$manageDocsGame) {
+                if (!$manageDocsGame) {
                     $q->where('is_unlisted', false);
                 }
             } else {
                 $q->whereNull('game_id');
-                if (!$getUnlisted || !$manageDocs) {
+                if (!$manageDocs) {
                     $q->where('is_unlisted', false);
                 }
             }
