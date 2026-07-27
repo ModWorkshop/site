@@ -281,6 +281,15 @@ class UserController extends Controller
             $user->setEmail(Str::lower($email));
         }
 
+
+        AuditLog::logUpdate($user, [
+            'name' => $val['name'] ?? $user->name,
+            'unique_name' => $val['unique_name'] ?? $user->unique_name,
+            'custom_title' => $val['custom_title'] ?? $user->custom_title,
+            'bio' => $val['bio'] ?? $user->bio,
+            'donation_url' => $val['donation_url'] ?? $user->donation_url,
+        ]);
+
         $user->update($val);
         $extra = Arr::pull($val, 'extra');
         if (isset($extra)) {
