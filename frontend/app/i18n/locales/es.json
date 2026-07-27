@@ -694,5 +694,13 @@
     "pinned_mods": "Mods fijados",
     "pinned_mods_desc": "Los mods fijados aparecen al principio de tu lista de mods. Puedes fijar hasta 5 mods que poseas o de los que seas miembro (excepto como Espectador).",
     "maintenance_mode": "Modworkshop Is Under Maintenance",
-    "maintenance_mode_desc": "It will be back shortly :)"
+    "maintenance_mode_desc": "It will be back shortly :)",
+    "webhooks": "Webhooks",
+    "webhook_event_mod_approval_new": "New Mod to Approve",
+    "webhook_event_mod_approval": "Mod was Approved or Rejected (:status contains the string of the status)",
+    "webhook_event_mod_deleted": "Mod was Deleted",
+    "webhook_event_mod_published": "Mod Published",
+    "webhook_event_report_new": "Report Creation",
+    "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
+    "webhook_event": "Event"
 }
