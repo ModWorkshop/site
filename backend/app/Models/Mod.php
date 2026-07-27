@@ -457,12 +457,15 @@ class Mod extends Model implements SubscribableInterface
 
     public function tagsSpecial(): HasMany
     {
-        return $this->hasMany(Taggable::class, 'taggable_id')->where('taggable_type', 'mod');
+        return $this->hasMany(Taggable::class, 'taggable_id')
+            ->where('taggable_type', 'mod');
     }
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('tags.display_order DESC, taggables.id ASC');
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->orderByRaw('tags.display_order DESC, taggables.id ASC')
+            ->withPivot('applied_by_mod');
     }
 
     public function images()

@@ -292,9 +292,31 @@ class ModController extends Controller
 
         $tagsHiddenByGame = $mod->game->hiddenTags;
         $filteredTags = [];
+        $appliedByMod = [];
+        $canManageMods = $this->user()->hasPermission('manage-mods', $mod->game);
+        $members = [$mod->user_id, ...$mod->membersThatCanEdit->pluck('id')];
+
         foreach ($tags as $tag) {
+            $tag = intval($tag);
             if (!$tagsHiddenByGame->where('id', $tag)->first()) {
-                $filteredTags[] = $tag;
+                $appliedByMod = false;
+                // If this tag is new, check if the user is a moderator applying it someone else's mod
+                if (!in_array($user->id, $members) && $canManageMods && !$mod->tags->contains('id', $tag)) {
+                    $appliedByMod = true;
+                }
+
+                $filteredTags[$tag] = ['applied_by_mod' => $appliedByMod];
+            }
+        }
+
+        // Ensure the old ones stay that way
+        foreach ($mod->tags as $tag) {
+            $appliedByMod = $tag->pivot->applied_by_mod;
+
+            // If a regular user - force the moderator applied tag back
+            // If a moderator - keep the old value if it's still in list of tags
+            if ($appliedByMod && (!$canManageMods || array_key_exists($tag->id, $filteredTags))) {
+                $filteredTags[$tag->id] = ['applied_by_mod' => $appliedByMod];
             }
         }
 

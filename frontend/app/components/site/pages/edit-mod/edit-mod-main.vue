@@ -30,7 +30,7 @@
 
 	<category-select v-if="categories?.data.length" v-model="mod.category_id" :label="$t('category')" :desc="$t('category_desc')" :categories="categories.data"/>
 
-	<m-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
+	<m-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')" :enabled-by="tagEnabledBy"/>
 
 	<m-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
 
@@ -72,6 +72,14 @@ const approvalOnlyForced = computed(() => {
 	const category = categories.value?.data.find(cat => cat.id === mod.value.category_id);
 	return mod.value.approved === null && (category?.approval_only ?? false);
 });
+
+function tagEnabledBy(tag: Tag) {
+	const mod_tag = mod.value.tags?.find(t => t.id === tag.id);
+	if (mod_tag) {
+		return !mod_tag.applied_by_mod;
+	}
+	return true;
+}
 
 const game = computed(() => route.params.game);
 
