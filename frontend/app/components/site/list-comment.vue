@@ -150,7 +150,7 @@ const { user } = store;
 const YesNoModal = useYesNoModal();
 const { t } = useI18n();
 
-const focusComment = useRouteQuery('comment');
+const focusComment = useRouteQuery('comment', undefined, 'number');
 const { params } = useRoute();
 const content = toRef(props.comment, 'content');
 const showReportModal = ref(false);
