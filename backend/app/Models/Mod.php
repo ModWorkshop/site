@@ -313,6 +313,7 @@ class Mod extends Model implements SubscribableInterface
             'id' => $this->id,
             'name' => $this->name,
             'bumped_at' => $this->bumped_at?->timestamp,
+            'hot_score' => $this->bumped_at?->timestamp / 3600 + log($this->daily_score + 1, 2)*2.4,
             'game_id' => $this->game_id,
             'category_id' => $this->category_id,
             'tag_ids' => $this->tags->pluck('id'),

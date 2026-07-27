@@ -67,7 +67,7 @@ class ModService {
 
         // Sorting
         $sortBy = Arr::get($val, 'sort', 'bumped_at');
-        if (isset(self::SORT_OPTIONS[$sortBy])) {
+        if (isset(self::SORT_OPTIONS[$sortBy]) || $sortBy == 'hot_score') {
             if ($sortBy === 'name') {
                 $modSearch->sort('name:asc');
             } else if ($sortBy != 'best_match') {
