@@ -44,6 +44,7 @@ use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\TrackSessionController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\IgnoredGame;
@@ -152,6 +153,8 @@ Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyC
 APIService::gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
     'roles' => 'game-role'
 ]);
+
+APIService::gameResource('webhooks', WebhookController::class, ['parentOptional' => true]);
 
 /**
  * @group Forums

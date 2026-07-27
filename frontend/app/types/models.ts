@@ -627,3 +627,11 @@ export interface TrackSession extends Model {
 	ip_address: string;
 	user_id: number;
 }
+
+export interface Webhook extends Model {
+	name: string;
+	url: string;
+	game_id?: number;
+	content: string;
+	event: string;
+}

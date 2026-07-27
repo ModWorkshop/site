@@ -24,6 +24,7 @@
 			<m-nav-link v-if="hasPermission('manage-forum-categories', game)" to="forum-categories" :title="$t('forum_categories')"/>
 			<m-nav-link v-if="hasPermission('manage-instructions', game)" to="instructs-templates" :title="$t('instructions_templates')"/>
 			<m-nav-link v-if="manageMods" to="mod-managers" :title="$t('mod_managers')"/>
+			<m-nav-link v-if="hasPermission('manage-webhooks', game)" to="webhooks" :title="$t('webhooks')"/>
 			<template #content>
 				<NuxtPage :game="game"/>
 			</template>

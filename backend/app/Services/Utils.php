@@ -3,57 +3,73 @@
 namespace App\Services;
 
 use App\Models\Ban;
+use App\Models\Mod;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
+use App\Models\Webhook;
 use Arr;
 use Auth;
 use Carbon\Carbon;
-
-const bbCodeConversion = [
-    "[b]" => "**",
-    "[/b]" => "**",
-    "[u]" => "__",
-    "[/u]" => "__",
-    "[s]" => "~~",
-    "[/s]" => "~~",
-    "[i]" => "*",
-    "[/i]" => "*"
-];
+use Illuminate\Database\Eloquent\Collection;
 
 class Utils {
+    static function sendModWebhook(string $event, Mod $mod, array $args=[]){
+        $webhooks = Webhook::where('event', $event)
+            ->where(fn($q) => $q->whereNull('game_id')->orWhere('game_id', $mod->game_id))
+            ->get();
+
+        $siteUrl = env('FRONTEND_URL');
+        $user = Auth::user();
+
+        Utils::sendWebhook($webhooks, [
+            'id' => $mod->id,
+            'name' => $mod->name,
+            'link' => "{$siteUrl}/mod/{$mod->id}",
+            'user_id' => $mod->user->id,
+            'user_name' => $mod->user->name,
+            'user_link' => "{$siteUrl}/user/{$mod->user_id}",
+            'auth_user_name' => $user?->name,
+            ...$args
+        ]);
+    }
+
     /**
-     * Send a message to Discord via a webhook
-     * Handles some form of markdown escaping to avoid webhook mentioning users (only args, careful with the message!)
+     * Send a message to a webhook URL
+     * Handles some form of markdown escaping to avoid webhook mentioning users on sites like Discord (only args, careful with the message!)
+     *
+     * If you are handling the message yourself, the content is in "content".
+     *
+     * @param Webhook[]|Collection<int, Webhook> $webhooks
      */
-    static function sendDiscordMessage(string|array $webhook, string $message, array $args=[]){
-        //BB-Code to Discord formating
-
-        foreach ($args as $i => $v) {
-            //Escape @
-            $v = preg_replace('/(@)/', '@​', $v); //This contains a zero width space.
-            //Escape markdown
-            $args[$i] = preg_replace('/(\*|\\\|_|@|`|~|>|\|)/', '\\\\$0', $v);
+    static function sendWebhook($webhooks, array $args=[]){
+        foreach ($args as $k => $v) {
+            $args["{{$k}}"] = $v;
         }
 
-        $message = strtr(sprintf($message, ...$args), bbCodeConversion);
+        $args = [
+            ...$args,
+            '\n' => "\n", // This looks silly but PHP registers the newlines inside the content only with this
+        ];
 
-        //Assemble the Data
-        $assemble = ['content' => $message];
+        foreach ($webhooks as $webhook) {
+            foreach ($args as $i => $v) {
+                //Escape @
+                $v = preg_replace('/(@)/', '@​', $v); //This contains a zero width space.
+                //Escape markdown
+                $args[$i] = preg_replace('/(\*|\\\|_|@|`|~|>|\|)/', '\\\\$0', $v);
+            }
 
-        //Convert the data to Json
-        $data_string = json_encode($assemble);
+            $content = strtr($webhook->content, $args);
 
-        //Build the Curl request and its settings.
-        if (!is_array($webhook)) {
-            $webHook = [$webhook];
-        }
-        foreach ($webhook as $wb) {
-            $handle = curl_init($wb);
+            //Convert the data to Json
+            $dataString = json_encode(['content' => $content]);
+
+            $handle = curl_init($webhook->url);
             if ($handle) {
                 curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($handle, CURLOPT_POSTFIELDS, $data_string);
+                curl_setopt($handle, CURLOPT_POSTFIELDS, $dataString);
                 curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($handle, CURLOPT_TIMEOUT, 10); // shorter overall timeout
                 curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 3); // quicker connect timeout
@@ -61,14 +77,13 @@ class Utils {
                 curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
                 curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
                 curl_setopt($handle, CURLOPT_FAILONERROR, true);
-                curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($data_string)]);
+                curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($dataString)]);
 
                 // Execute and log failures
                 $result = curl_exec($handle);
                 if ($result === false) {
-                    \Log::warning('Utils::sendDiscordMessage: curl_exec failed for webhook '.($wb ?? '<unknown>').' - '.curl_error($handle));
+                    \Log::warning('Utils::sendWebhook: curl_exec failed for webhook '.($wb ?? '<unknown>').' - '.curl_error($handle));
                 }
-                curl_close($handle);
             }
         }
 	}

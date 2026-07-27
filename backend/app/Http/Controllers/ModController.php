@@ -233,9 +233,9 @@ class ModController extends Controller
             }
         }
 
-        $sendDiscordApproval = false;
+        $sendWebhook = false;
         if (array_key_exists('approved', $val) && $val['approved'] === null) {
-            $sendDiscordApproval = !isset($mod) || $val['approved'] !== $mod->approved;
+            $sendWebhook = !isset($mod) || $val['approved'] !== $mod->approved;
         }
 
 
@@ -316,11 +316,9 @@ class ModController extends Controller
             $mod->publish();
         }
 
-        $send = [Setting::getValue('discord_approval_webhook')];
 
-        if ($sendDiscordApproval && count($send)) {
-            $siteUrl = env('FRONTEND_URL');
-            Utils::sendDiscordMessage($send, "The mod **%s** is waiting for approval. {$siteUrl}/mod/%s", [$mod->name, $mod->id]);
+        if ($sendWebhook) {
+            Utils::sendModWebhook('mod_approval_new', $mod);
         }
 
         return new ModResource($mod);
@@ -563,7 +561,7 @@ class ModController extends Controller
 
         // Send to discord about this
         $moderator = $this->user();
-        $send = [Setting::getValue('discord_approval_webhook')];
+
         AuditLog::log(
             type: 'mod_approve_status',
             auditable: $mod,
@@ -572,15 +570,13 @@ class ModController extends Controller
                 'reason' => $val['reason']
             ]
         );
-        if (count($send)) {
-            $siteUrl = env('FRONTEND_URL');
-            $status = $approve ? 'approved' : 'rejected';
-            $reason = !$approve ? "\nReason: ".$val['reason'] : '';
-            Utils::sendDiscordMessage($send, "The mod **%s** has been {$status} by {$moderator->name} <{$siteUrl}/mod/%s>.{$reason}", [
-                $mod->name,
-                $mod->id
-            ]);
-        }
+
+
+        Utils::sendModWebhook('mod_approval', $mod, [
+            'status' => $approve ? 'approved' : 'rejected',
+            'moderator' => $moderator->name,
+            'reason' => $val['reason']
+        ]);
     }
 
     /**
@@ -636,7 +632,7 @@ class ModController extends Controller
         }
 
         $mod->update(['suspended' => $suspend]);
-       AuditLog::log(
+        AuditLog::log(
             type: 'mod_suspend_status',
             auditable: $mod,
             data: [
@@ -645,24 +641,11 @@ class ModController extends Controller
             ]
         );
 
-        // Send to discord about this
-        $send = [Setting::getValue('discord_suspension_webhook')];
-        if (count($send)) {
-            $siteUrl = env('FRONTEND_URL');
-            $moderator = Auth::user()->name;
-            $userLink = env('FRONTEND_URL').'/user/'.($mod->user_id);
-            $status = $suspend ? 'suspended' : 'unsuspended';
-            $case = Str::random(20);
-            $message = Str::repeat('-', 100);
-            $message .= "\nThe mod **%s**, which is owned by <$userLink>, has been {$status} by {$moderator}.";
-            $message .= "\nLink to the mod: {$siteUrl}/mod/%s.";
-            if (isset($val['reason'])) {
-                $message .= "\nReason: {$val['reason']}\n";
-            }
-            $message .= Str::repeat('-', 30)."CASE {$case}".Str::repeat('-', 30);
-
-            Utils::sendDiscordMessage($send, $message, [$mod->name, $mod->id]);
-        }
+        Utils::sendModWebhook('mod_suspended', $mod, [
+            'status' => $suspend ? 'suspended' : 'unsuspended',
+            'moderator' => Auth::user()->name,
+            'reason' => $val['reason']
+        ]);
 
         return $suspension;
     }

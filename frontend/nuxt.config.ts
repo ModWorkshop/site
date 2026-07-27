@@ -107,7 +107,9 @@ export default defineNuxtConfig({
 						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
 						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
 						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
-						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' }
+						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' },
+						{ path: 'webhooks', file: '~/pages/admin/webhooks/index.vue' },
+						{ path: 'webhooks/:webhook', file: '~/pages/admin/webhooks/[webhook].vue' }
 					]);
 				}
 			}

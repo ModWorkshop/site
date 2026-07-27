@@ -193,6 +193,9 @@ abstract class Visibility {
  * @property-read mixed $max_storage
  * @property-read \App\Models\IgnoredCategory|null $categoryIgnoredByMe
  * @method static Builder<static>|Mod isMemberOf(int $userId)
+ * @property string|null $mod_type
+ * @property-read mixed $download_strictly_file
+ * @method static Builder<static>|Mod whereModType($value)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
@@ -378,13 +381,7 @@ class Mod extends Model implements SubscribableInterface
         });
 
         static::deleting(function(Mod $mod) {
-            if ($mod->approved == null) {
-                // Send to discord about this
-                $send = [Setting::getValue('discord_approval_webhook')];
-                if (count($send)) {
-                    Utils::sendDiscordMessage($send, "The mod **%s** which was waiting for approval, was deleted.", [$mod->name]);
-                }
-            }
+            Utils::sendModWebhook('mod_deleted', $mod);
 
             foreach ($mod->comments as $comment) {
                 $comment->delete();
@@ -843,17 +840,9 @@ class Mod extends Model implements SubscribableInterface
         $game = $this->game;
         $category = $this->category;
 
-        //Send to main webhook and webhooks that were set by game or category
-        $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category?->webhook_url];
-
-        if (count($send)) {
-            $siteUrl = env('FRONTEND_URL');
-            Utils::sendDiscordMessage($send, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
-                $this->name,
-                ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''),
-                $this->id
-            ]);
-        }
+        Utils::sendModWebhook('mod_published', $this, [
+            'location' => ($game ? $game->name : 'NA').($category ? '/'.$category->name : '')
+        ]);
 
         // Update the game's last date since the mod was published
         $game->update([
