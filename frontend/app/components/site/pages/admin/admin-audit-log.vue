@@ -121,7 +121,7 @@ const custom = computed(() => {
 });
 
 const customDetails = computed(() => {
-	if (log.type === 'mod_approve_status' || log.type === 'mod_suspend_status') {
+	if ((log.type === 'mod_approve_status' || log.type === 'mod_suspend_status') && log.data.reason) {
 		return 'Reason: ' + log.data.reason;
 	}
 });
