@@ -719,13 +719,13 @@ class Mod extends Model implements SubscribableInterface
             }
 
             //Has only a single file/link so just return it
-            if (abs($filesCount - $linksCount) === 1) {
-                if ($linksLoaded && $link = $this->links[0]) {
-                    return $link;
-                } else if ($filesLoaded) {
-                    return $this->files[0];
-                }else {
-                    return $this->withSecureConstraints(fn() => $this->links()->first() ?? $this->files()->first());
+            if ($filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
+                if ($filesLoaded && $file = $this->files[0]) {
+                    return $file;
+                } else if ($linksLoaded) {
+                    return $this->links[0];
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->files()->first() ?? $this->links()->first());
                 }
             }
         });
