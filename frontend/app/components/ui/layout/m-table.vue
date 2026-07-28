@@ -1,6 +1,6 @@
 <template>
 	<m-flex column class="table-container">
-		<table :class="{ table: true, 'table-bg': background, 'alt-table-bg': altBackground }">
+		<table :class="{ table: true, 'table-bg': background, 'alt-table-bg': altBackground, 'table-fixed': fixed }">
 			<slot>
 				<thead>
 					<tr>
@@ -15,17 +15,12 @@
 	</m-flex>
 </template>
 
-<script setup>
-defineProps({
-	background: {
-		type: Boolean,
-		default: true
-	},
-	altBackground: {
-		type: Boolean,
-		default: false
-	}
-});
+<script setup lang="ts">
+const { background = true } = defineProps<{
+	background?: boolean;
+	altBackground?: boolean;
+	fixed?: boolean;
+}>();
 </script>
 
 <style scoped>
@@ -46,7 +41,7 @@ defineProps({
 }
 
 .markdown td, .table td {
-	padding: 0.5rem 1.5rem;
+	padding: 1rem;
 }
 
 .markdown th, .table th {
@@ -65,10 +60,6 @@ defineProps({
 	background-color: var(--content-bg-color);
 }
 
-.markdown table, .table {
-	border-collapse: separate;
-}
-
 .table-bg tr:nth-child(2n + 1) td {
 	background-color: var(--table-odd-color);
 }
@@ -77,21 +68,31 @@ defineProps({
 	background-color: var(--table-even-color);
 }
 
-.markdown tr:nth-child(2n) td, .alt-table-bg tr:nth-child(2n) td {
+.markdown tr:nth-child(2n of tr) td, .alt-table-bg tr:nth-child(2n of tr) td {
 	background-color: var(--alt-table-even-color);
 }
 
-.markdown tr:nth-child(2n+1) td, .alt-table-bg tr:nth-child(2n+1) td {
+.markdown tr:nth-child(2n+1 of tr) td, .alt-table-bg tr:nth-child(2n+1 of tr) td {
 	background-color: var(--alt-table-odd-color);
 }
 
-.table td:first-child, .table th:first-child {
-	border-bottom-left-radius: var(--border-radius);
-	border-top-left-radius: var(--border-radius);
+.table th:first-child {
+	border-top-left-radius: var(--content-border-radius);
 }
 
-.table td:last-child, .table th:last-child {
-	border-bottom-right-radius: var(--border-radius);
-	border-top-right-radius: var(--border-radius);
+.table th:last-child {
+	border-top-right-radius: var(--content-border-radius);
+}
+
+.table tr td {
+	border-bottom: 2px solid var(--content-bg-color);
+}
+
+.table tr:nth-last-child(1 of tr:not(.hidden)) td:first-child {
+	border-bottom-left-radius: var(--content-border-radius);
+}
+
+.table tr:nth-last-child(1 of tr:not(.hidden)) td:last-child {
+	border-bottom-right-radius: var(--content-border-radius);
 }
 </style>

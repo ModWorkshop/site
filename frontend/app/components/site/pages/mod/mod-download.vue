@@ -1,38 +1,59 @@
 <template>
-	<m-flex wrap class="flex-col xl:flex-row list-button items-center !p-4" gap="3">
-		<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="100" height="100"/>
-		<m-img v-else src="file-download.webp" is-asset width="100" height="100"/>
-		<m-flex grow column style="flex: 1; overflow-wrap: anywhere" gap="2">
-			<m-flex class="items-center" style="font-size: 1.15rem;">
-				<m-tag v-if="file.label">{{ file.label }}</m-tag>
-				<strong v-if="file.name" class="items-center">{{ file.name }}</strong>
-				<strong v-else class="items-center">{{ $t(`file_type_${type}`) }}</strong>
+	<tr class="hover:cursor-pointer download-tr" @click="showDetails = !showDetails">
+		<td :class="{ 'collapse-col': !image }">
+			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
+		</td>
+		<td>
+			<div class="text-ellipsis overflow-hidden" style="width: 100px;" :title="file.version">
+				{{ file.version || 'N/A' }}
+			</div>
+		</td>
+		<td class="whitespace-pre-line wrap-anywhere">
+			<m-flex class="items-center">
+				<template v-if="file.type">
+					{{ file.name + '.' + file.type }}
+				</template>
+				<template v-else>
+					{{ file.name }}
+				</template>
+				<m-tag v-if="file.label" class="whitespace-pre">{{ file.label }}</m-tag>
 			</m-flex>
-			<span v-if="file.version" :title="$t('version')">
-				<i-mdi-tag/> {{ file.version }}
-			</span>
-			<md-content v-if="file.desc" :text="file.desc" :padding="0"/>
-			<m-flex :title="$t('downloads')" class="items-center">
-				<i-mdi-download/> <span :title="file.downloads.toString()">{{ friendlyNumber(locale, file.downloads) }}</span>
+		</td>
+		<td>
+			{{ friendlyNumber(locale, file.downloads) }}
+		</td>
+		<td v-if="file.size">
+			{{ friendlySize(file.size) }}
+		</td>
+		<td v-if="file.updated_at">
+			<m-time :datetime="file.updated_at" relative relative-time-style="narrow"/>
+		</td>
+		<td>
+			<m-flex class="items-end">
+				<m-flex class="ml-auto">
+					<mod-download-buttons :mod="mod" :download="file" :type="type" small/>
+				</m-flex>
 			</m-flex>
-			<m-flex class="items-center" wrap>
-				<span :title="$t('upload_date')">
-					<i-mdi-clock/>
-				</span>
-				<i18n-t keypath="by_user_time_ago" scope="global">
-					<template #time>
-						<m-time :datetime="file.updated_at" relative/>
-					</template>
-					<template #user>
-						<a-user :user="file.user" :avatar="false"/>
-					</template>
-				</i18n-t>
+		</td>
+	</tr>
+	<tr :class="{hidden: !showDetails, 'download-tr': showDetails}">
+		<td colspan="10">
+			<m-flex class="p-3" column gap="2">
+				<md-content v-if="file.desc" :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
+				<m-flex class="items-center" wrap>
+					<i18n-t keypath="updated_by_user_time_ago" scope="global">
+						<template #time>
+							<m-time :datetime="file.updated_at" relative/>
+						</template>
+						<template #user>
+							<a-user :user="file.user" :avatar="false"/>
+						</template>
+					</i18n-t>
+				</m-flex>
+				{{ $t(type + '_id') }}: {{ file.id }}
 			</m-flex>
-		</m-flex>
-		<m-flex column class="my-auto xl:mx-auto max-xl:w-full" gap="1">
-			<mod-download-buttons :mod="mod" :download="file" :type="type"/>
-		</m-flex>
-	</m-flex>
+		</td>
+	</tr>
 </template>
 
 <script setup lang="ts">
@@ -45,6 +66,21 @@ const props = defineProps<{
 }>();
 
 const i18n = useI18n();
+const showDetails = ref(false);
 const locale = computed(() => i18n.locale.value);
 const image = computed(() => props.mod.images?.find(image => image.id === props.file.image_id));
 </script>
+
+<style>
+.collapse-col {
+	width: 0%;
+}
+
+.downloads-table tr:nth-child(4n of tr) td, .downloads-table tr:nth-child(4n+3) td {
+	background-color: var(--alt-table-even-color) !important;
+}
+
+.downloads-table tr:nth-child(4n+1 of tr) td, .downloads-table tr:nth-child(4n+2 of tr) td {
+	background-color: var(--alt-table-odd-color) !important;
+}
+</style>

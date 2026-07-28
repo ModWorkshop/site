@@ -1,11 +1,16 @@
 <template>
-	<m-flex column gap="4" style="flex: 1;">
-		<m-flex v-if="title || $slots.title || $slots.buttons" class="items-center">
+	<m-flex column gap="3" style="flex: 1;">
+		<m-flex v-if="title || pagination || $slots.title || $slots.buttons" class="items-center">
 			<slot name="title">
 				<h2 v-if="title">{{ title }}</h2>
 			</slot>
 			<slot name="buttons" :items="items"/>
+			<m-pagination v-if="pagination" v-model="page" :total="total" :per-page="limit" class="ml-auto">
+				<slot name="pagination" :items="items"/>
+			</m-pagination>
 		</m-flex>
+
+		<slot name="below-title"/>
 
 		<m-flex v-if="search || typeof newButton == 'string'" column gap="3">
 			<m-flex>
@@ -15,10 +20,6 @@
 		</m-flex>
 
 		<slot name="filters" :items="items"/>
-
-		<m-pagination v-if="pagination" v-model="page" :total="total" :per-page="limit">
-			<slot name="pagination" :items="items"/>
-		</m-pagination>
 
 		<m-flex column :gap="gap">
 			<slot v-if="items.data.length" name="items" :items="items">
@@ -40,7 +41,7 @@
 			</h3>
 		</m-flex>
 
-		<m-pagination v-if="pagination && !isLoading" v-model="page" :total="total" :per-page="limit">
+		<m-pagination v-if="pagination && !isLoading" v-model="page" :total="total" :per-page="limit" class="ml-auto">
 			<slot name="pagination" :items="items"/>
 		</m-pagination>
 	</m-flex>
