@@ -13,6 +13,7 @@ class UserService {
     public static function meilisearch(array $val) {
         $search = MeilisearchQuery::for(User::class);
         $me = Auth::user();
+        $game = APIService::currentGame();
         // $q->withCount('viewableMods');
 
         if (isset($val['ids'])) {
@@ -82,6 +83,7 @@ class UserService {
 
     public static function dbFilters(Builder $q, array $val) {
         $me = Auth::user();
+        $game = APIService::currentGame();
 
         $q->withCount('viewableMods');
 
