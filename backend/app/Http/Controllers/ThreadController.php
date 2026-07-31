@@ -75,7 +75,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min_strict:3|max:150',
-            'content' => 'string|spam_check|required|min_strict:2|max:30000',
+            'content' => 'string|spam_check|required|min_strict:2|max:40000',
             'announce_until' => 'date|nullable',
             'announce' => 'boolean',
             'tag_ids' => 'array|nullable',
@@ -144,7 +144,7 @@ class ThreadController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min_strict:3|nullable|max:150',
-            'content' => 'string|spam_check|min_strict:2|nullable|max:30000',
+            'content' => 'string|spam_check|min_strict:2|nullable|max:40000',
             'category_id' => 'integer|min:1|nullable|exists:forum_categories,id',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
             'answer_comment_id' => 'integer|min:1|nullable|exists:comments,id',
