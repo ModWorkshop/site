@@ -8,7 +8,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<slot name="body"/>
+					<slot name="body">
+						<tr>
+							<td colspan="199" class="text-center">
+								{{ $t('nothing_found') }}
+							</td>
+						</tr>
+					</slot>
 				</tbody>
 			</slot>
 		</table>

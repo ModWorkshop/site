@@ -42,11 +42,6 @@
 						</td>
 					</tr>
 				</template>
-				<tr v-else>
-					<td colspan="5" class="text-center">
-						{{ $t('nothing_found') }}
-					</td>
-				</tr>
 			</template>
 		</m-table>
 	</m-flex>
