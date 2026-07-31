@@ -4,6 +4,7 @@
 		:new-button="`${url}/new`"
 		:url="`games/${gameId}/instructs-templates`"
 		:item-link="item => `${url}/${item.id}`"
+		:title="$t('instructions_templates')"
 	/>
 </template>
 

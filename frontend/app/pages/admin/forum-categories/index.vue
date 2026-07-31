@@ -1,5 +1,13 @@
 <template>
-	<m-list url="forum-categories" query :pagination="false" :params="{ game_id: gameId, forum_id: !gameId ? 1 : undefined }" :item-link="item => `${pageLink}/${item.id}`" :new-button="`${pageLink}/new`"/>
+	<m-list
+		url="forum-categories"
+		query
+		:pagination="false"
+		:params="{ game_id: gameId, forum_id: !gameId ? 1 : undefined }"
+		:item-link="item => `${pageLink}/${item.id}`"
+		:new-button="`${pageLink}/new`"
+		:title="$t('forum_categories')"
+	/>
 </template>
 
 <script setup lang="ts">

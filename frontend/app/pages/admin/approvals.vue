@@ -1,8 +1,8 @@
 <template>
-	<m-list :items="mods">
-		<template #buttons>
+	<m-list :items="mods" :title="$t('approvals')">
+		<template #filters>
 			<m-input v-model="query" :label="$t('search')"/>
-			<user-select v-model="userId" clearable/>
+			<user-select v-model="userId" clearable :label="$t('user')"/>
 		</template>
 		<template #items="{ items }">
 			<m-table alt-background>

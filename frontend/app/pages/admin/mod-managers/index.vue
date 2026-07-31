@@ -5,6 +5,7 @@
 		:item-link="item => `${pageLink}/${item.id}`"
 		:new-button="`${pageLink}/new`"
 		:params="{ global: !game, show_hidden: true }"
+		:title="$t('mod_managers')"
 	/>
 </template>
 

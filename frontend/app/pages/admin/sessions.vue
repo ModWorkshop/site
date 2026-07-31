@@ -1,9 +1,10 @@
 <template>
-	<m-flex column gap="3" style="flex: 1;">
-		<h2>{{ $t('sessions') }}</h2>
-		<m-input v-model="ipAddress" :label="$t('ip_address')" clearable/>
-		<user-select v-model="user" :label="$t('user')" clearable/>
-		<m-list v-model:page="page" query :items="sessions" :loading="loading">
+	<m-flex column gap="3" style="flex: 1;" :title="$t('sessions')">
+		<m-list v-model:page="page" query :items="sessions" :loading="loading" :title="$t('sessions')">
+			<template #filters>
+				<m-input v-model="ipAddress" :label="$t('ip_address')" clearable/>
+				<user-select v-model="user" :label="$t('user')" clearable/>
+			</template>
 			<template #before-item="{ item }">
 				<a-user :user="item.user" class="overflow-hidden">
 					<template #details>

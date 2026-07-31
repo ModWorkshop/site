@@ -5,6 +5,7 @@
 		:item-link="item => `${url}/${item.id}`"
 		:new-button="`${url}/new`"
 		:params="{ game_id: game?.id, global: !game }"
+		:title="$t('webhooks')"
 	/>
 </template>
 

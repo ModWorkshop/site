@@ -1,6 +1,7 @@
 <template>
 	<m-form v-if="settings" v-model="settings" created float-save-gui :flush-changes="flushChanges" @submit="submit">
 		<m-flex column gap="3">
+			<h2>{{ $t('settings') }}</h2>
 			<m-input v-model="settings.maintenance_mode" type="checkbox" label="Maintenance Mode"/>
 
 			<m-input v-model="settings.new_user_first_upload_requires_approval" type="checkbox" label="New accounts (less than a month old) should require approval for first upload"/>

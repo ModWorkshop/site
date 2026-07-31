@@ -1,8 +1,8 @@
 <template>
 	<m-flex column gap="3" style="flex: 1;">
-		<m-flex v-if="title || pagination || $slots.title || $slots.buttons" class="items-center">
+		<m-flex v-if="title || pagination || $slots.title || $slots.buttons" class="lg:items-center max-lg:flex-col">
 			<slot name="title">
-				<h2 v-if="title">{{ title }}</h2>
+				<h2 >{{ title }}</h2>
 			</slot>
 			<slot name="buttons" :items="items"/>
 			<m-pagination v-if="pagination" v-model="page" :total="total" :per-page="limit" class="ml-auto">
@@ -12,11 +12,9 @@
 
 		<slot name="below-title"/>
 
-		<m-flex v-if="search || typeof newButton == 'string'" column gap="3">
-			<m-flex>
-				<m-input v-if="search" v-model="queryRef" :label="$t('search')"/>
-				<m-button v-if="typeof newButton == 'string'" class="mt-auto" :to="newButton">{{ $t('new') }}</m-button>
-			</m-flex>
+		<m-flex v-if="search || typeof newButton == 'string'" gap="3">
+			<m-input v-if="search" v-model="queryRef" :label="$t('search')"/>
+			<m-button v-if="typeof newButton == 'string'" class="mt-auto" style="margin-bottom: 5px;" :to="newButton">{{ $t('new') }}</m-button>
 		</m-flex>
 
 		<slot name="filters" :items="items"/>

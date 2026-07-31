@@ -1,11 +1,9 @@
 <template>
-	<div>
-		<m-list v-model:page="page" query :items="reports" :loading="loading">
-			<template #item="{ item }">
-				<admin-report :report="item" :reports="reports!.data" :game="game"/>
-			</template>
-		</m-list>
-	</div>
+	<m-list v-model:page="page" query :items="reports" :loading="loading" :title="$t('reports')">
+		<template #item="{ item }">
+			<admin-report :report="item" :reports="reports!.data" :game="game"/>
+		</template>
+	</m-list>
 </template>
 
 <script setup lang="ts">

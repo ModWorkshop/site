@@ -1,5 +1,5 @@
 <template>
-	<m-list url="games" query :item-link="item => `/g/${item.id}/admin`" new-button="/g/new">
+	<m-list url="games" query :item-link="item => `/g/${item.id}/admin`" new-button="/g/new" :title="$t('games')">
 		<template #before-item="{ item }">
 			<game-thumbnail :game="item" style="width: 100px;"/>
 		</template>
