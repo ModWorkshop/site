@@ -5,7 +5,7 @@
 		</template>
 		<m-flex>
 			<m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" :disabled="disabled" @click="clear"><i-mdi-remove/></m-button>
-			<m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @update:model-value="onChange"/>
+			<m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" :required="required" type="file" @update:model-value="onChange"/>
 		</m-flex>
 		<m-uploader-progress v-if="progress?.progress" :progress="progress"/>
 	</m-input>
@@ -18,6 +18,7 @@ const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
 	id?: string;
 	urlPrefix?: string;
 	disabled?: boolean;
+	required?: boolean;
 	clearButton?: boolean;
 	localClearButton?: boolean;
 	maxFileSize?: number | string;
