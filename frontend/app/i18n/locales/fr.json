@@ -19,6 +19,7 @@
     "changelog": "Liste des changements",
     "description": "Description",
     "version": "Version",
+    "include_prerelease": "Include Prerelease",
     "tags": "Mots-clés",
     "filter_out_tags": "Filtrer les Tags",
     "mods": "Mods",
@@ -707,5 +708,7 @@
     "webhook_event_mod_published": "Mod Published",
     "webhook_event_report_new": "Report Creation",
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
-    "webhook_event": "Event"
+    "webhook_event": "Event",
+    "files_are_versions": "File are Versions",
+    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
 }
