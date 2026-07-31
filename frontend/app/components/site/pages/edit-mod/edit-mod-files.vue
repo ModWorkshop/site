@@ -5,6 +5,12 @@
 	</m-flex>
 
 	<label>{{ $t('files') }}</label>
+	<m-input
+		v-model="mod.files_are_versions"
+		label="File are Versions"
+		type="checkbox"
+		desc="Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+	/>
 	<m-flex column>
 		<m-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
 		<m-uploader

@@ -11,19 +11,26 @@
 			</m-flex>
 		</m-flex>
 		<m-list v-if="files?.meta.total" v-model:page="filesPage" :limit="20" :title="$t('files')" :items="files" :loading="loadingFiles">
+			<template #buttons>
+				<m-input v-model="prerelease" :label="$t('include_prerelease')" type="checkbox" class="ml-auto" style="flex: revert;"/>
+			</template>
 			<template #items="{ items }">
 				<m-table alt-background class="downloads-table">
 					<template #head>
 						<th/>
-						<th style="width: 10%;">{{ $t('version') }}</th>
+						<th style="width: 15%;">{{ $t('version') }}</th>
 						<th style="width: 25%;">{{ $t('name') }}</th>
 						<th style="width: 10%;">{{ $t('downloads') }}</th>
 						<th style="width: 10%;">{{ $t('file_size') }}</th>
-						<th style="width: 10%;">{{ $t('date') }}</th>
+						<th style="width: 5%;">{{ $t('date') }}</th>
 						<th style="width: 25%;"/>
 					</template>
 					<template #body>
-						<mod-download v-for="file of items.data" :key="file.id" :file="file" :mod="mod" type="file"/>
+						<mod-download v-for="file of items.data" :key="file.id" :file="file" :mod="mod" type="file">
+							<template #buttons>
+								<mod-download-buttons :mod="mod" :download="file" type="file" small/>
+							</template>
+						</mod-download>
 					</template>
 				</m-table>
 			</template>
@@ -41,7 +48,11 @@
 						<th style="width: 25%;"/>
 					</template>
 					<template #body>
-						<mod-download v-for="link of items.data" :key="link.id" :file="link" :mod="mod" type="link"/>
+						<mod-download v-for="link of items.data" :key="link.id" :file="link" :mod="mod" type="link">
+							<template #buttons>
+								<mod-download-buttons :mod="mod" :download="link" type="link" small/>
+							</template>
+						</mod-download>
 					</template>
 				</m-table>
 			</template>
@@ -58,6 +69,7 @@ const props = defineProps<{
 
 const filesPage = ref(1);
 const linksPage = ref(1);
+const prerelease = useRouteQuery('prerelease', false, 'boolean');
 
 const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
 const managers = computed(() => props.mod.mod_managers ?? []);
@@ -75,7 +87,7 @@ const primaryModManager = computed(() => {
 });
 
 const { data: files, loading: loadingFiles } = await useFetchMany(`mods/${props.mod.id}/files`, {
-	query: { page: filesPage, limit: 20 },
+	query: { page: filesPage, limit: 20, prerelease: prerelease },
 	lazy: true
 });
 

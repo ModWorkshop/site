@@ -366,7 +366,7 @@ class Mod extends Model implements SubscribableInterface
         ]);
         $this->loadCount(['links', 'files']);
         $this->loadSum('files', 'size');
-        $this->append(['download', 'last_user_attribute']);
+        $this->append(['download', 'last_user_attribute', 'download_version']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -476,7 +476,13 @@ class Mod extends Model implements SubscribableInterface
 
     public function files() : HasMany
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(File::class)->where('completed', true);
+    }
+
+    public function sortedFiles() : HasMany {
+        return $this->hasMany(File::class)
+            ->where('completed', true)
+            ->orderByRaw("semver_version IS NOT NULL DESC, (get_semver_prerelease (semver_version) = '') IS FALSE, semver_version DESC, display_order DESC, updated_at DESC");
     }
 
     public function links()
@@ -713,19 +719,20 @@ class Mod extends Model implements SubscribableInterface
                     if ($filesLoaded && ($link = $this->files->find($id))) {
                         return $link;
                     } else {
-                        return $this->withSecureConstraints(fn() => $this->files()->find($id));
+                        return $this->withSecureConstraints(fn() => $this->sortedFiles()->find($id));
                     }
                 }
             }
 
-            //Has only a single file/link so just return it
-            if ($filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
+            // Has only a single file/link so just return it
+            // Or mod uses files as versions
+            if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
                 if ($filesLoaded && $file = $this->files[0]) {
                     return $file;
                 } else if ($linksLoaded) {
                     return $this->links[0];
                 } else {
-                    return $this->withSecureConstraints(fn() => $this->files()->first() ?? $this->links()->first());
+                    return $this->withSecureConstraints(fn() => $this->sortedFiles()->first() ?? $this->links()->first());
                 }
             }
         });
@@ -771,6 +778,15 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
+    public function downloadVersion(): Attribute {
+        return Attribute::make(function() {
+            if ($this->files_are_versions) {
+                return $this->download?->version ?? $this->version;
+            }
+
+            return $this->version;
+        });
+    }
 
     public function liked()
     {

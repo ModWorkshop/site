@@ -117,6 +117,7 @@ export interface Mod {
 	suspended: boolean;
 	liked?: boolean;
 	comments_disabled: boolean;
+	files_are_versions: boolean;
 	has_download: boolean;
 	approved: boolean;
 	bumped_at?: string;

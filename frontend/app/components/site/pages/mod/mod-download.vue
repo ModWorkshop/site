@@ -4,12 +4,12 @@
 			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
 		</td>
 		<td>
-			<div class="text-ellipsis overflow-hidden" style="width: 100px;" :title="file.version">
+			<div class="text-ellipsis overflow-hidden" style="width: 120px;" :title="file.version">
 				{{ file.version || 'N/A' }}
 			</div>
 		</td>
-		<td class="whitespace-pre-line wrap-anywhere">
-			<m-flex class="items-center">
+		<td class="whitespace-pre-line wrap-anywhere" >
+			<m-flex class="items-center" style="width: 200px;">
 				<template v-if="file.type">
 					{{ file.name + '.' + file.type }}
 				</template>

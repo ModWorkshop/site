@@ -1,7 +1,7 @@
 <template>
 	<m-content-block alt-background :column="false" wrap>
 		<slot name="before-info" :file="file"/>
-		<m-flex column class="break-words overflow-hidden">
+		<m-flex column class="wrap-break-word overflow-hidden">
 			<span>{{ file.name }} ({{ friendlySize(file.size) }})</span>
 			<span v-if="paused">{{ pausedReason ?? $t('waiting') }}</span>
 			<m-time v-else-if="file.created_at" :datetime="file.created_at"/>
