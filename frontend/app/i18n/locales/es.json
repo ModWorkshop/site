@@ -19,7 +19,7 @@
     "changelog": "Registro de cambios",
     "description": "Descripción",
     "version": "Versión",
-    "include_prerelease": "Include Prerelease",
+    "include_prerelease": "Incluir pre-lanzamiento",
     "tags": "Etiquetas",
     "filter_out_tags": "Excluir etiquetas",
     "mods": "Mods",
@@ -709,6 +709,6 @@
     "webhook_event_report_new": "Creación de informes",
     "webhook_event_mod_suspended": "Suspensión del mod (:status contiene la cadena del estado)",
     "webhook_event": "Evento",
-    "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+    "files_are_versions": "Los archivos son versiones",
+    "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior."
 }
