@@ -182,7 +182,7 @@
     "stop": "Detener",
     "file_uploader_drop": "Arrastra los archivos aquí o haz clic en el área para subir archivos",
     "uploading": "Subiendo: {0}%",
-    "uploading_detailed": "Quedan {time} - {current} de {total} ({speed}/s)",
+    "uploading_detailed": "Quedan {time} - {current}/{total} ({speed}/s)",
     "file_name_too_large": "¡El archivo {name} es muy grande!",
     "file_name_too_large_max_size": "El archivo {name} es muy grande. Intenta liberar algo de espacio",
     "file_size": "Tamaño",
@@ -315,7 +315,9 @@
     "links": "Enlaces",
     "files": "Archivos",
     "edit_file": "Editar archivo",
+    "create_file": "Create File",
     "edit_link": "Editar enlace",
+    "create_link": "Create Link",
     "banner_preview": "Vista previa del banner",
     "thumbnail_preview": "Vista previa de la miniatura/tarjeta del mod",
     "no_mods_found": "No se han encontrado mods :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Suspensión del mod (:status contiene la cadena del estado)",
     "webhook_event": "Evento",
     "files_are_versions": "Los archivos son versiones",
-    "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior."
+    "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior.",
+    "file_missing": "Missing File"
 }
