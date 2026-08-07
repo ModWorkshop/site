@@ -182,7 +182,7 @@
     "stop": "Dur",
     "file_uploader_drop": "Dosyaları buraya sürükle veya alana tıklayıp dosyaları yükle",
     "uploading": "Yükleniyor: {0}%",
-    "uploading_detailed": "{time} kaldı - {current}'in {total} ({speed}/s)",
+    "uploading_detailed": "{time} kaldı - {current}/{total} ({speed}/s)",
     "file_name_too_large": "{name} adlı dosya çok büyük!",
     "file_name_too_large_max_size": "{name} adlı dosya çok büyük, biraz yer açmaya çalış",
     "file_size": "Boyut",
@@ -315,7 +315,9 @@
     "links": "Bağlantılar",
     "files": "Dosyalar",
     "edit_file": "Dosyayı Düzenle",
+    "create_file": "Create File",
     "edit_link": "Bağlantıyı Düzenle",
+    "create_link": "Create Link",
     "banner_preview": "Kapak Resmi Ön izleme",
     "thumbnail_preview": "Minik Resim/Mod Kartı Ön İzleme",
     "no_mods_found": "Mod Bulunamadı :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Mod Askıya Alma (:status contains string of the status)",
     "webhook_event": "Event",
     "files_are_versions": "Versiyonlar Dosyadır",
-    "files_are_versions_desc": "Bunu açmak dosyalarınızı ve linklerinizi alakasız dosyalar yerine sürümler olarak sayar. Manuel olarak ayarlanmamışsa ana indirme en üstteki dosya olur."
+    "files_are_versions_desc": "Bunu açmak dosyalarınızı ve linklerinizi alakasız dosyalar yerine sürümler olarak sayar. Manuel olarak ayarlanmamışsa ana indirme en üstteki dosya olur.",
+    "file_missing": "Missing File"
 }
