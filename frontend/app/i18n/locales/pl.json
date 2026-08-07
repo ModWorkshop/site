@@ -182,7 +182,7 @@
     "stop": "Stop",
     "file_uploader_drop": "Upuść pliki tutaj lub kliknij obszar aby przesłać pliki",
     "uploading": "Przesyłanie: {0}%",
-    "uploading_detailed": "{time} pozostało - {current} z {total} ({speed}/s)",
+    "uploading_detailed": "{time} pozostało - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Plik {name} jest zbyt duży!",
     "file_name_too_large_max_size": "Plik {name} jest zbyt duży, spróbuj zwolnić trochę miejsca",
     "file_size": "Size",
@@ -315,7 +315,9 @@
     "links": "Linki",
     "files": "Pliki",
     "edit_file": "Edytuj Plik",
+    "create_file": "Create File",
     "edit_link": "Edytuj Link",
+    "create_link": "Create Link",
     "banner_preview": "Podgląd Banera",
     "thumbnail_preview": "Podgląd miniatury/karty moda",
     "no_mods_found": "Nie Znaleziono Modów :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
     "webhook_event": "Event",
     "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "file_missing": "Missing File"
 }
