@@ -182,7 +182,7 @@
     "stop": "Остановить",
     "file_uploader_drop": "Закиньте файлы сюда или нажмите в область чтобы загрузить файлы",
     "uploading": "Загружаем: {0}%",
-    "uploading_detailed": "Осталось {time} - {current} из {total} ({speed}/сек)",
+    "uploading_detailed": "Осталось {time} - {current}/{total} ({speed}/сек)",
     "file_name_too_large": "Файл {name} слишком большой!",
     "file_name_too_large_max_size": "Файл {name} слишком большой, попробуйте подчистить место",
     "file_size": "Size",
@@ -315,7 +315,9 @@
     "links": "Ссылки",
     "files": "Файлы",
     "edit_file": "Изменить файл",
+    "create_file": "Create File",
     "edit_link": "Изменить Ссылку",
+    "create_link": "Create Link",
     "banner_preview": "Предпросмотр Баннера",
     "thumbnail_preview": "Миниатюра/Предпросмотр карточки мода",
     "no_mods_found": "Модов нет :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
     "webhook_event": "Event",
     "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "file_missing": "Missing File"
 }
