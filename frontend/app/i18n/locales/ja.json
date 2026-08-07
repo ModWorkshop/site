@@ -178,7 +178,7 @@
     "stop": "停止",
     "file_uploader_drop": "ファイルをドロップするかクリックしてアップロード",
     "uploading": "アップロード中: {0}%",
-    "uploading_detailed": "{time} left - {current} of {total} ({speed}/s)",
+    "uploading_detailed": "{time} left - {current}/{total} ({speed}/s)",
     "file_name_too_large": "ファイル: {name}の容量が大きすぎます！",
     "file_name_too_large_max_size": "ファイル: {name}の容量が大きすぎます。少し容量を開けてみてください。",
     "failed_upload": "アップロードに失敗",

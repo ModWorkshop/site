@@ -178,7 +178,7 @@
     "stop": "Detener",
     "file_uploader_drop": "Arrastra los archivos aquí o haz clic en el área para subir archivos",
     "uploading": "Subiendo: {0}%",
-    "uploading_detailed": "Quedan {time} - {current} de {total} ({speed}/s)",
+    "uploading_detailed": "Quedan {time} - {current}/{total} ({speed}/s)",
     "file_name_too_large": "¡El archivo {name} es muy grande!",
     "file_name_too_large_max_size": "El archivo {name} es muy grande. Intenta liberar algo de espacio",
     "failed_upload": "No se ha podido subir",

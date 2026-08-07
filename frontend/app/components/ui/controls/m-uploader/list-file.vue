@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import type { UploadFile } from '~/types/core';
+import type { UploadSimpleFile } from '~/types/core';
 
 const { file } = defineProps<{
-	file: UploadFile;
+	file: UploadSimpleFile;
 	paused?: boolean;
 	pausedReason?: string;
 }>();

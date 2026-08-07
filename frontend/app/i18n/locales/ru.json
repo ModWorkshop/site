@@ -178,7 +178,7 @@
     "stop": "Остановить",
     "file_uploader_drop": "Закиньте файлы сюда или нажмите в область чтобы загрузить файлы",
     "uploading": "Загружаем: {0}%",
-    "uploading_detailed": "Осталось {time} - {current} из {total} ({speed}/сек)",
+    "uploading_detailed": "Осталось {time} - {current}/{total} ({speed}/сек)",
     "file_name_too_large": "Файл {name} слишком большой!",
     "file_name_too_large_max_size": "Файл {name} слишком большой, попробуйте подчистить место",
     "failed_upload": "Не удалось загрузить",

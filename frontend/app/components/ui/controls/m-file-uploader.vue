@@ -1,5 +1,5 @@
 <template>
-	<m-input :id="labelId">
+	<m-input :id="labelId" :required="required">
 		<template #label>
 			<slot name="label"/>
 		</template>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import type { AxiosProgressEvent, Canceler } from 'axios';
 
-const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
+const { maxFileSize, storage, id, localClearButton = true, cancel } = defineProps<{
 	id?: string;
 	urlPrefix?: string;
 	disabled?: boolean;
@@ -22,6 +22,7 @@ const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
 	clearButton?: boolean;
 	localClearButton?: boolean;
 	maxFileSize?: number | string;
+	storage?: number | string;
 	cancel?: Canceler;
 }>();
 
@@ -37,13 +38,14 @@ const uniqueId = useId();
 const labelId = computed(() => id || uniqueId);
 
 const maxFileSizeBytes = computed(() => parseInt(maxFileSize as string));
+const storageBytes = computed(() => parseInt(storage as string));
 
 watch(modelValue, (value, oldValue) => {
 	if (input.value && oldValue && !value) {
 		input.value.value = '';
 		progress.value = undefined;
 	}
-});
+}, { immediate: true });
 
 function clear() {
 	if (cancel) {
@@ -60,6 +62,20 @@ function onChange() {
 				desc: t('file_name_too_large', { name: file.name }),
 				color: 'danger'
 			});
+			if (input.value) {
+				input.value.value = '';
+			}
+			return;
+		}
+
+		if (file.size > storageBytes.value) {
+			showToast({
+				desc: t('file_name_too_large_max_size', { name: file.name }),
+				color: 'danger'
+			});
+			if (input.value) {
+				input.value.value = '';
+			}
 			return;
 		}
 	}

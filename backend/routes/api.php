@@ -94,7 +94,6 @@ Route::post('links/{link}/register-download', [LinkController::class, 'registerD
 APIService::gameResource('mods', ModController::class);
 
 Route::middleware('can:update,file')->post('files/{file}/begin-pending', [FileController::class, 'fileBeginUpload']);
-Route::middleware('can:create,App\Models\File,mod')->post('mods/{mod}/files/begin-pending', [FileController::class, 'beginUpload']);
 Route::middleware('can:complete,pendingFile')->post('pending-files/{pendingFile}/complete', [FileController::class, 'completePendingFileUpload']);
 
 Route::middleware('can:update,mod')->group(function() {

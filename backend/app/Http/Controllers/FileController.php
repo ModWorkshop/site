@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileRequest;
 use App\Http\Requests\FilteredRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
@@ -39,9 +40,10 @@ class FileController extends Controller
         $val = $request->val([
             'version' => 'string|nullable',
             'prerelease' => 'boolean|nullable',
+            'include_incomplete' => 'boolean|nullable',
         ]);
 
-        return BaseResource::collectionResponse($mod->files()->queryGet($val, function($query, $val) use ($mod) {
+        return BaseResource::collectionResponse($mod->allFiles()->queryGet($val, function($query, $val) use ($mod) {
             $query->with('user');
 
             if (!empty($val['version'])) {
@@ -58,6 +60,11 @@ class FileController extends Controller
                 $query->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");
             }
 
+            $includeIncomplete = Arr::pull($val, 'include_incomplete', false);
+            if (!$includeIncomplete) {
+                $query->where("completed", true);
+            }
+
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
                 $query->orderByRaw("(id = $mod->download_id) DESC, display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, updated_at DESC");
             } else {
@@ -65,19 +72,6 @@ class FileController extends Controller
             }
         }));
     }
-
-
-    public function beginUpload(Request $request, Mod $mod) {
-        $remainingStorage = $mod->currentStorage;
-
-        $val = $request->validate([
-            'name' => 'string|min_strict:1|max:100',
-            'size' => "required|int|max:{$remainingStorage}"
-        ]);
-
-        return $this->createPendingFile($mod, $val['name'], $val['size']);
-    }
-
 
     public function fileBeginUpload(Request $request, File $file) {
         $mod = $file->mod;
@@ -96,11 +90,11 @@ class FileController extends Controller
         return $this->createPendingFile($file->mod, $val['name'], $val['size'], $file);
     }
 
-    public function createPendingFile(Mod $mod, string $name, int $size, File $file = null) {
+    public function createPendingFile(Mod $mod, string $name, int $size, File $file) {
         $fileType = Utils::safeFileType($name);
 
         $pendingFile = PendingFile::create([
-            'name' => explode('.', $name)[0],
+            'name' => '',
             'file_type' => $fileType,
             'file_name' => $mod->id.'_'.Auth::user()->id.'_'.Str::random(40).(!empty($fileType) ? '.'.$fileType : ''),
             'user_id' => $this->user()->id,
@@ -140,17 +134,12 @@ class FileController extends Controller
         ]);
 
         $mod = $pendingFile->mod;
-        $remainingStorage = $mod->currentStorage;
+
+        // Allow replacing the file despite having full storage
+        $remainingStorage = $mod->currentStorage + ($pendingFile->file?->size ?? 0);
 
         try {
             $size = Storage::size($tempFilePath);
-            if (isset($pendingFile->file_id)) {
-                $file = $pendingFile->file;
-                if (isset($pendingFile)) {
-                    // Allow replacing the file while not allowing going over the current limit
-                    $remainingStorage = $mod->currentStorage + min($file->size, $mod->maxStorage);
-                }
-            }
 
             if ($size !== $pendingFile->size || $size > $remainingStorage) {
                 Storage::delete($tempFilePath);
@@ -170,25 +159,15 @@ class FileController extends Controller
             $disk->delete($tempFilePath);
 
             $file = null;
-            if (isset($pendingFile->file_id)) {
-                $pendingFile->file->update([
-                    'file' => $pendingFile->file_name,
-                    'type' => $pendingFile->file_type,
-                    'size' => $size
-                ]);
+            $pendingFile->file->update([
+                'completed' => true,
+                'file' => $pendingFile->file_name,
+                'type' => $pendingFile->file_type,
+                'size' => $size
+            ]);
 
-                $file = $pendingFile->file;
-                $file->refresh();
-            } else {
-                $file = $mod->files()->create([
-                    'name' => $pendingFile->name,
-                    'desc' => '',
-                    'user_id' => $pendingFile->user_id,
-                    'file' => $pendingFile->file_name,
-                    'type' => $pendingFile->file_type,
-                    'size' => $pendingFile->size
-                ]);
-            }
+            $file = $pendingFile->file;
+            $file->refresh();
 
             // Done copying and moving the file + updating the related file
             // In case anything above fails, we'd handle it in DeleteLoosePendingFiles job
@@ -212,29 +191,47 @@ class FileController extends Controller
      *
      * @authenticated
      */
-    public function store(Request $request, Mod $mod)
+    public function store(FileRequest $request, Mod $mod)
     {
         set_time_limit(3600);
 
         $remainingStorage = $mod->currentStorage;
-        $val = $request->validate([
-            'file' => "required|file|max:{$remainingStorage}"
+        $val = $request->val([
+            'actual_file' => "nullable|file|max:{$remainingStorage}"
         ]);
 
-        [$uploadedFile, $name, $type] = ModService::attemptUpload($mod, $val['file']);
+        APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
+
+        $imageId = Arr::pull($val, 'image_id');
+        if (isset($imageId) && !$mod->images()->where('id', $imageId)->exists()) {
+            abort(422, 'Invalid image. Are you sure it exists and belongs to the mod?');
+        }
+
+        $actualFile = Arr::pull($val, 'actual_file');
+        $hasFile = isset($actualFile);
+
+        if ($hasFile) {
+            [$uploadedFile, $name, $type] = ModService::attemptUpload($mod, $actualFile);
+        }
 
         $file = $mod->files()->create([
             // This is not the actual name of the file stored in our storage
-            'name' => explode('.', $uploadedFile->getClientOriginalName())[0],
-            'desc' => '',
-            'user_id' => $this->user()->id,
-            'file' => $name, // This is though
-            'type' => $type,
-            'size' => $uploadedFile->getSize()
+            'name' => isset($uploadedFile) ? explode('.', $uploadedFile->getClientOriginalName())[0] : explode('.', $val['name'])[0],
+            'desc' => $val['desc'],
+            'user_id' => $this->userId(),
+            'file' => $name ?? '', // This is though
+            'type' => $type ?? '',
+            'size' => isset($uploadedFile) ? $uploadedFile->getSize() : 0,
+            'completed' => isset($hasFile),
+            'label' => $val['label'],
+            'version' => $val['version'],
+            'image_id' => $imageId,
         ]);
 
         $mod->refresh();
-        $mod->bump(false);
+        if (isset($uploadedFile)) {
+            $mod->bump(false);
+        }
         $mod->calculateFileStatus(); //Here it saves
 
         return response($file, 201);
@@ -255,31 +252,31 @@ class FileController extends Controller
      *
      * @authenticated
      */
-    public function update(Request $request, File $file)
+    public function update(FileRequest $request, File $file)
     {
         set_time_limit(3600);
         // Since we are changing a file
-        $remainingStorage = $file->mod->currentStorage + min($file->size, $file->maxStorage);
+        $remainingStorage = $file->mod->currentStorage + $file->size;
 
-        $val = $request->validate([
-            'name' => 'string|min_strict:1|max:100',
-            'label' => 'string|nullable|max:100',
-            'desc' => 'string|nullable|max:1000',
-            'version' => 'string|nullable|max:255',
-            'display_order' => 'integer|min:-1000|max:1000|nullable',
-            'image_id' => 'int|nullable|exists:images,id',
-            'change_file' => "nullable|file|max:{$remainingStorage}"
+        $val = $request->val([
+            'actual_file' => "nullable|file|max:{$remainingStorage}"
         ]);
 
         APIService::nullToEmptyStr($val, 'label', 'desc', 'version');
+
+        $imageId = Arr::pull($val, 'image_id');
+        if (isset($imageId) && !$file->mod->images()->where('id', $imageId)->exists()) {
+            abort(422, 'Invalid image. Are you sure it exists and belongs to the mod?');
+        }
 
         // Disabled for now: https://modworkshop.net/thread/13138
         // if ((isset($val['version']) && $val['version'] !== $file->version)) {
         //     $file->mod->bump();
         // }
 
-        if (isset($val['change_file'])) {
-            [$uploadFile, $name, $type] = ModService::attemptUpload($file->mod, Arr::pull($val, 'change_file'));
+        $actualFile = Arr::pull($val, 'actual_file');
+        if (isset($actualFile)) {
+            [$uploadFile, $name, $type] = ModService::attemptUpload($file->mod, $actualFile);
 
             //Delete old file
             Storage::delete('mods/files/'.$file->file);

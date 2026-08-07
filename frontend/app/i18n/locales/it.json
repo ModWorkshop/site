@@ -178,7 +178,7 @@
     "stop": "Ferma",
     "file_uploader_drop": "Lascia i File qui o clicca l'area per caricare dei File",
     "uploading": "Upload: {0}%",
-    "uploading_detailed": "{time} rimanenti - {current} di {total} ({speed}/s)",
+    "uploading_detailed": "{time} rimanenti - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Il file {name} è troppo grande!",
     "file_name_too_large_max_size": "Il file {name} è troppo grande, cerca di liberare spazio",
     "failed_upload": "Upload Fallito",

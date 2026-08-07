@@ -178,7 +178,7 @@
     "stop": "Hentikan",
     "file_uploader_drop": "Jatuhkan file di sini atau klik area untuk mengunggah file",
     "uploading": "Pengunggahan: {0}%",
-    "uploading_detailed": "{time} tersisa - {current} dari {total} ({speed}/s)",
+    "uploading_detailed": "{time} tersisa - {current}/{total} ({speed}/s)",
     "file_name_too_large": "File {name} terlalu besar!",
     "file_name_too_large_max_size": "File {name} terlalu besar, tolong bersihkan ruang penyimpanan",
     "failed_upload": "Pengunggahan Gagal",

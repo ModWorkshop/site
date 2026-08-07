@@ -39,10 +39,10 @@ class DeleteLoosePendingFiles implements ShouldQueue
         // Loose pending file is a pending file that is still in the DB
         // Generally the upload process is supposed to delete the pending file after a successful upload
         // If anything fails, we must clean up here
-        $aDayAgo = Carbon::now()->subHours(12);
+        $aDayAgo = Carbon::now()->subHours(6);
         $files = PendingFile::where('created_at', '<=', $aDayAgo->toDateTimeString())->get();
 
-        // Case 1 file was uploaded to temp folder, not completed within 12 hours.
+        // Case 1 file was uploaded to temp folder, not completed within 6 hours.
         // Case 2 file was uploaded, moved to temp folder and for some reason wasn't properly applied (Possible error)
         // For case 2 we wanna ensure the file doesn't belong to any existing file, making sure it's truly loose.
         foreach ($files as $pending) {

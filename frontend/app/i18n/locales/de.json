@@ -178,7 +178,7 @@
     "stop": "Stop",
     "file_uploader_drop": "Bewege Dateien hier her oder klicke das Feld um Dateien hochzuladen",
     "uploading": "Hochladen: {0}%",
-    "uploading_detailed": "{time} verbleibend - {current} von {total} ({speed}/s)",
+    "uploading_detailed": "{time} verbleibend - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Datei {name} ist zu groß!",
     "file_name_too_large_max_size": "Datei {name} ist zu groß, versuche etwas Platz zu schaffen",
     "failed_upload": "Upload fehlgeschlagen",

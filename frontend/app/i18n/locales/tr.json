@@ -178,7 +178,7 @@
     "stop": "Dur",
     "file_uploader_drop": "Dosyaları buraya sürükle veya alana tıklayıp dosyaları yükle",
     "uploading": "Yükleniyor: {0}%",
-    "uploading_detailed": "{time} kaldı - {current}'in {total} ({speed}/s)",
+    "uploading_detailed": "{time} kaldı - {current}/{total} ({speed}/s)",
     "file_name_too_large": "{name} adlı dosya çok büyük!",
     "file_name_too_large_max_size": "{name} adlı dosya çok büyük, biraz yer açmaya çalış",
     "failed_upload": "Yükleme Başarısız",

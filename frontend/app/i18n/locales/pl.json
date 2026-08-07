@@ -178,7 +178,7 @@
     "stop": "Stop",
     "file_uploader_drop": "Upuść pliki tutaj lub kliknij obszar aby przesłać pliki",
     "uploading": "Przesyłanie: {0}%",
-    "uploading_detailed": "{time} pozostało - {current} z {total} ({speed}/s)",
+    "uploading_detailed": "{time} pozostało - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Plik {name} jest zbyt duży!",
     "file_name_too_large_max_size": "Plik {name} jest zbyt duży, spróbuj zwolnić trochę miejsca",
     "failed_upload": "Przesyłanie nie powiodło się",

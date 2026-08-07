@@ -178,7 +178,7 @@
     "stop": "Zastavit",
     "file_uploader_drop": "Přetáhněte soubory sem nebo klikněte na oblast pro nahrání souborů",
     "uploading": "Nahrávání: {0}%",
-    "uploading_detailed": "zbývá {time} - {current} z {total} ({speed}/s)",
+    "uploading_detailed": "zbývá {time} - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Soubor {name} je příliš velký!",
     "file_name_too_large_max_size": "Soubor {name} je příliš velký, zkuste uvolnit místo",
     "failed_upload": "Nahrání se Nezdařilo",
