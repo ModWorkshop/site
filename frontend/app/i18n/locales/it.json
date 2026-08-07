@@ -182,7 +182,7 @@
     "stop": "Ferma",
     "file_uploader_drop": "Lascia i File qui o clicca l'area per caricare dei File",
     "uploading": "Upload: {0}%",
-    "uploading_detailed": "{time} rimanenti - {current} di {total} ({speed}/s)",
+    "uploading_detailed": "{time} rimanenti - {current}/{total} ({speed}/s)",
     "file_name_too_large": "Il file {name} è troppo grande!",
     "file_name_too_large_max_size": "Il file {name} è troppo grande, cerca di liberare spazio",
     "file_size": "Size",
@@ -315,7 +315,9 @@
     "links": "Link",
     "files": "File",
     "edit_file": "Modifica File",
+    "create_file": "Create File",
     "edit_link": "Modifica Link",
+    "create_link": "Create Link",
     "banner_preview": "Anteprima Banner",
     "thumbnail_preview": "Anteprima di Copertina e Tessera della Mod",
     "no_mods_found": "Nessuna Mod Trovata :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
     "webhook_event": "Event",
     "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "file_missing": "Missing File"
 }
