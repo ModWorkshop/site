@@ -8116,7 +8116,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"nanoid@npm:^3.3.12, nanoid@npm:^3.3.17":
+"nanoid@npm:^3.3.17":
   version: 3.3.18
   resolution: "nanoid@npm:3.3.18"
   bin:
@@ -9487,18 +9487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.15, postcss@npm:^8.5.6":
-  version: 8.5.17
-  resolution: "postcss@npm:8.5.17"
-  dependencies:
-    nanoid: ^3.3.12
-    picocolors: ^1.1.1
-    source-map-js: ^1.2.1
-  checksum: 5dfa52963e1044eb6c622efa047bf7b48aee0a6cce5d6c34788024ee7dd1540dc50a84dc1a56f968cebb84f3c8213d9f2582ce1deafc10c7342f3a538cf9d7b1
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.5.19, postcss@npm:^8.5.25":
+"postcss@npm:^8.5.15, postcss@npm:^8.5.19, postcss@npm:^8.5.25, postcss@npm:^8.5.6":
   version: 8.5.26
   resolution: "postcss@npm:8.5.26"
   dependencies:
