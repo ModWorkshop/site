@@ -182,7 +182,7 @@
     "stop": "정지",
     "file_uploader_drop": "파일을 여기에 놓거나 클릭해서 파일을 업로드 하세요",
     "uploading": "업로드중: {0}%",
-    "uploading_detailed": "{time} 초 남음 - {current} / {total} ({speed}/s)",
+    "uploading_detailed": "{time} 초 남음 - {current}/{total} ({speed}/s)",
     "file_name_too_large": "파일 {name} 이(가) 너무 큽니다!",
     "file_name_too_large_max_size": "파일 {name} 이(가) 너무 큽니다, 공간을 비워보세요",
     "file_size": "Size",
@@ -315,7 +315,9 @@
     "links": "주소",
     "files": "파일",
     "edit_file": "파일 수정",
+    "create_file": "Create File",
     "edit_link": "주소 수정",
+    "create_link": "Create Link",
     "banner_preview": "배너 미리보기",
     "thumbnail_preview": "썸네일/모드 카드 미리보기",
     "no_mods_found": "모드를 찾을 수 없음 :/",
@@ -710,5 +712,6 @@
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
     "webhook_event": "Event",
     "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file."
+    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "file_missing": "Missing File"
 }
