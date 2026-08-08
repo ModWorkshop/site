@@ -17,6 +17,7 @@
 				style="width: 100px;"
 				@click="clickInput"
 				@input="forceUpdateColor"
+				@invalid="handleTabValidation"
 			>
 			<textarea
 				v-if="type == 'textarea'"
@@ -28,6 +29,7 @@
 				:disabled="disabled"
 				:required="required"
 				@click="clickInput"
+				@invalid="handleTabValidation"
 			/>
 			<input
 				v-else-if="isCheckbox"
@@ -40,6 +42,7 @@
 				:required="required"
 				:checked="vm ? true : undefined"
 				@click="clickCheckbox"
+				@invalid="handleTabValidation"
 			>
 			<input
 				v-else-if="type == 'file'"
@@ -51,6 +54,7 @@
 				:type="type"
 				:disabled="disabled"
 				:required="required"
+				@invalid="handleTabValidation"
 			>
 			<input
 				v-else
@@ -63,6 +67,7 @@
 				:disabled="disabled"
 				:required="required"
 				@click="clickInput"
+				@invalid="handleTabValidation"
 				:style="{ padding: type == 'range' ? 0 : undefined }"
 			>
 			<span v-if="type == 'range'" class="text-xl">{{ vm }}</span>
@@ -107,6 +112,8 @@ const classes = computed(() => ({
 	'mw-input': true,
 	'input-error': !!err.value
 }));
+
+const handleTabValidation = useHandleTabsValidation();
 
 watch(elementRef, val => emit('update:elementRef', val));
 watch(() => props.validity, val => {

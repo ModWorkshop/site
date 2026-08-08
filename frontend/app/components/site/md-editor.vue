@@ -2,7 +2,15 @@
 	<m-input>
 		<m-tabs :class="classes" :alt-background="altBackground">
 			<m-tab v-if="!splitMode" name="write" :title="$t('write_tab')">
-				<md-editor-textarea ref="textAreaComp" v-model="vm" :label-id="labelId" :rows="rows" v-bind="$attrs" @keydown="onKeyDown"/>
+				<md-editor-textarea
+					ref="textAreaComp"
+					v-model="vm"
+					:label-id="labelId"
+					:rows="rows"
+					v-bind="$attrs"
+					@keydown="onKeyDown"
+					@invalid="handleTabValidation"
+				/>
 			</m-tab>
 			<m-tab v-if="!splitMode" name="preview" :title="$t('preview_tab')" class="preview content-block p-2" >
 				<md-content :text="vm"/>
@@ -53,6 +61,7 @@ const classes = computed(() => ({
 const textAreaComp = ref();
 const textArea = computed<HTMLTextAreaElement>(() => textAreaComp.value?.element);
 const err = useWatchValidation(vm, textArea);
+const handleTabValidation = useHandleTabsValidation();
 
 provide('err', err);
 

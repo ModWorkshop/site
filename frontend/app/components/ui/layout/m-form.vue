@@ -8,7 +8,7 @@
 -->
 
 <template>
-	<form @submit.prevent="submit">
+	<form ref="currentElement" @submit.prevent="submit">
 		<Transition v-if="floatSaveGui">
 			<m-flex v-if="currentCanSave" class="fixed float-bg content-block round float-save items-center">
 				<span class="mr-2">
@@ -43,10 +43,12 @@ const model = defineModel<object>();
 
 const emit = defineEmits(['submit', 'discard', 'stateChanged']);
 
+const currentElement = ref<HTMLFormElement>();
 const disableButtons = ref(false);
 const modelCopy = ref<object>();
 const yesNoModal = useYesNoModal();
 const router = useRouter();
+provide('form', currentElement);
 
 const forcedOut = ref(false);
 

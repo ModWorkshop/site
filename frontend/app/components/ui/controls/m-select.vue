@@ -33,7 +33,7 @@
 		</m-flex>
 		<template #content>
 			<m-flex column :class="listClass" style="min-width: 200px; max-height: inherit; overflow-y: hidden;">
-				<m-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="flex-grow" autofocus/>
+				<m-input v-if="compFilterable" v-model:element-ref="searchElement" v-model="search" class="grow" autofocus/>
 				<m-flex column class="overflow-hidden">
 					<m-flex column class="overflow-auto">
 						<m-dropdown-item

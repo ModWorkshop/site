@@ -1,6 +1,6 @@
 <template>
 	<m-input class="relative" :required="required" :disabled="disabled">
-		<input class="kinda-hidden" :value="hasValue ? 1 : undefined" :required="required">
+		<input class="kinda-hidden" :value="hasValue ? 1 : undefined" :required="required" @invalid="handleTabValidation">
 		<template #label>
 			<slot name="label"/>
 		</template>
@@ -51,6 +51,7 @@ withDefaults(defineProps<{
 });
 
 const shown = defineModel<boolean>('shown', { default: false });
+const handleTabValidation = useHandleTabsValidation();
 </script>
 
 <style scoped>

@@ -28,6 +28,8 @@ const props = defineProps({
 	}
 });
 
+provide('tab-name', props.name);
+
 const tabState = inject('tabState');
 const lazy = inject('lazy');
 const show = computed(() => props.name === tabState.current);
