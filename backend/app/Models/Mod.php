@@ -366,7 +366,7 @@ class Mod extends Model implements SubscribableInterface
         ]);
         $this->loadCount(['links', 'files']);
         $this->loadSum('files', 'size');
-        $this->append(['download', 'last_user_attribute', 'download_version']);
+        $this->append(['download', 'last_user_attribute', 'version']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -783,13 +783,20 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
-    public function downloadVersion(): Attribute {
+    public function version(): Attribute {
         return Attribute::make(function() {
             if ($this->files_are_versions) {
-                return $this->download?->version ?? $this->version;
+                $primary = $this->download;
+                if (isset($primary)) {
+                    if ($primary->version === '') {
+                        return $this->custom_version;
+                    } else {
+                        return $primary->version;
+                    }
+                }
             }
 
-            return $this->version;
+            return $this->custom_version;
         });
     }
 

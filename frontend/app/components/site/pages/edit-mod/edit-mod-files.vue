@@ -4,13 +4,6 @@
 		<m-button class="ml-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</m-button>
 	</m-flex>
 
-	<m-input
-		v-model="mod.files_are_versions"
-		:label="$t('files_are_versions')"
-		:desc="$t('files_are_versions_desc')"
-		type="checkbox"
-	/>
-
 	<edit-mod-file-uploader
 		v-model="files"
 		v-model:mod="mod"
@@ -77,27 +70,35 @@
 
 	<span class="h2 my-4">{{ $t('updates') }}</span>
 
-	<m-input v-if="!light" v-model="mod.version" :label="$t('version')"/>
-	<m-input v-if="!light" v-model="mod.repo_url" :label="$t('repo_url')" type="url"/>
-	<md-editor v-if="!light" v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
-	<m-input v-if="!light" v-model="mod.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
+	<md-editor v-model="mod.changelog" :label="$t('changelog')" rows="12"/>
+	<m-input v-model="mod.repo_url" :label="$t('repo_url')" type="url"/>
+	<m-input v-model="mod.custom_version" :label="$t('version')" :desc="$t('custom_version_help')"/>
 	<m-input v-if="canModerate && !light" v-model="mod.allowed_storage" type="number" max="1000" :label="$t('allowed_storage')" :desc="$t('allowed_storage_help')"/>
+	<m-input
+		v-model="mod.files_are_versions"
+		:label="$t('files_are_versions')"
+		:desc="$t('files_are_versions_desc')"
+		type="checkbox"
+	/>
+	<m-input v-model="mod.disable_mod_managers" :label="$t('disable_mod_managers')" :desc="$t('disable_mod_managers_desc')" type="checkbox"/>
 
 	<m-form-modal
 		v-if="currentLink"
 		v-model="showEditLink"
-		:title="!currentLink.id ? $t('create_link') : $t('edit_link')"
+		:title="!currentLink.id ? $t('new_link') : $t('edit_link')"
 		:close-on-click-outside="false"
 		size="lg" @submit="saveEditLink"
 	>
+		<m-input v-model="currentLink.url" type="url" required :label="$t('url')"/>
 		<m-flex>
 			<m-input v-model="currentLink.name" required :label="$t('name')"/>
-			<m-input v-model="currentLink.label" :label="$t('label')"/>
+			<m-input v-model="currentLink.version" :label="$t('version')"/>
 		</m-flex>
-		<m-input v-model="currentLink.url" type="url" required :label="$t('url')"/>
-		<m-input v-model="currentLink.version" :label="$t('version')"/>
 		<md-editor v-model="currentLink.desc" rows="8" :label="$t('description')"/>
-		<m-input v-model="currentLink.display_order" :label="$t('order')"/>
+		<m-flex>
+			<m-input v-model="currentLink.label" :label="$t('label')"/>
+			<m-input v-model="currentLink.display_order" :label="$t('order')"/>
+		</m-flex>
 		<m-select v-model="currentLink.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 			<template #any-option="{ option }">
 				<m-img style="width: 100px; height: 100px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />

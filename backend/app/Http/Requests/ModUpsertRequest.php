@@ -33,7 +33,7 @@ class ModUpsertRequest extends FormRequest
             'short_desc' => 'string|spam_check|nullable|max:150',
             'donation' => 'string|nullable|max:100',
             'repo_url' => 'url:https|nullable|max:255',
-            'version' => 'string|nullable|max:128',
+            'custom_version' => 'string|nullable|max:128',
             'visibility' => 'nullable|in:public,private,unlisted',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',

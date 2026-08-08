@@ -113,6 +113,7 @@ export interface Mod {
 	likes: number;
 	views: number;
 	version: string;
+	custom_version: string;
 	donation: string;
 	suspended: boolean;
 	liked?: boolean;

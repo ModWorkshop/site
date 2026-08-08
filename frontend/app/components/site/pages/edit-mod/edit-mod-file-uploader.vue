@@ -53,11 +53,13 @@
 			/>
 			<m-flex>
 				<m-input v-model="currentFile.name" required :label="$t('name')"/>
-				<m-input v-model="currentFile.label" :label="$t('label')"/>
+				<m-input v-model="currentFile.version" :label="$t('version')"/>
 			</m-flex>
-			<m-input v-model="currentFile.version" :label="$t('version')"/>
 			<md-editor v-model="currentFile.desc" rows="8" :label="$t('description')"/>
-			<m-input v-model="currentFile.display_order" :label="$t('order')"/>
+			<m-flex>
+				<m-input v-model="currentFile.label" :label="$t('label')"/>
+				<m-input v-model="currentFile.display_order" :label="$t('order')"/>
+			</m-flex>
 			<m-select v-model="currentFile.image_id" :label="$t('thumbnail')" :options="mod.images" :filterable="false" clearable null-clear>
 				<template #any-option="{ option }">
 					<m-img style="width: 150px; height: 150px; object-fit: contain" loading="lazy" url-prefix="mods/images" :src="option.file" />
