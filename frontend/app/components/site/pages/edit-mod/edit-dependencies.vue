@@ -29,10 +29,10 @@
 	</m-table>
 	<m-form-modal v-if="currentDep" v-model="showAddModModal" :title="$t(currentDep.offsite ? 'add_offsite_mod' : 'add_mod')" @submit="addDependency">
 		<template v-if="currentDep.offsite">
-			<m-input v-model="currentDep.name" :label="$t('name')"/>
-			<m-input v-model="currentDep.url" type="url" :label="$t('url')"/>
+			<m-input v-model="currentDep.name" :label="$t('name')" required/>
+			<m-input v-model="currentDep.url" type="url" :label="$t('url')" required/>
 		</template>
-		<mod-select v-else v-model="currentDep.mod_id" :label="$t('mod')" @select-option="option => selectedMod = option"/>
+		<mod-select v-else v-model="currentDep.mod_id" required :label="$t('mod')" @select-option="option => selectedMod = option"/>
 		<m-input v-model="currentDep.optional" type="checkbox" :label="$t('optional')"/>
 		<m-input v-model="currentDep.order" type="number" :label="$t('order')"/>
 	</m-form-modal>
