@@ -148,7 +148,8 @@ export default defineNuxtConfig({
 
 	vite: {
 		build: {
-			chunkSizeWarningLimit: 1000
+			chunkSizeWarningLimit: 1000,
+			cssMinify: 'esbuild' // Broken build since aroound Nuxt 4.5, I assume because of Tailwind
 		},
 		plugins: [
 			tailwindcss(),
