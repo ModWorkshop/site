@@ -4,7 +4,7 @@
 		query
 		:item-link="item => `${url}/${item.id}`"
 		:new-button="`${url}/new`"
-		:params="{ game_id: game?.id, get_unlisted: true }"
+		:params="{ game_id: game?.id }"
 	>
 		<template #item-buttons="{ item }">
 			<m-button @click.prevent="$router.push(`/${pageUrl}/${item.id}`)"><i-mdi-launch/></m-button>

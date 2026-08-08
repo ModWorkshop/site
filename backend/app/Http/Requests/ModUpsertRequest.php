@@ -25,14 +25,15 @@ class ModUpsertRequest extends FormRequest
     {
         return [
             'name' => 'string|min_strict:3|max:100',
-            'desc' => 'string|min_strict:3|max:30000',
-            'license' => 'string|spam_check|nullable|max:30000',
-            'changelog' => 'string|spam_check|nullable|max:30000',
-            'instructions' => 'string|spam_check|nullable|max:30000',
+            'desc' => 'string|min_strict:3|max:40000',
+            'license' => 'string|spam_check|nullable|max:40000',
+            'changelog' => 'string|spam_check|nullable|max:40000',
+            'instructions' => 'string|spam_check|nullable|max:40000',
+            'ai_disclosure' => 'string|spam_check|nullable|max:1000',
             'short_desc' => 'string|spam_check|nullable|max:150',
             'donation' => 'string|nullable|max:100',
             'repo_url' => 'url:https|nullable|max:255',
-            'version' => 'string|nullable|max:100',
+            'version' => 'string|nullable|max:128',
             'visibility' => 'nullable|in:public,private,unlisted',
             'category_id' => 'integer|min:1|nullable|exists:categories,id',
             'thumbnail_id' => 'integer|min:1|nullable|exists:images,id',
@@ -50,6 +51,7 @@ class ModUpsertRequest extends FormRequest
             'send_for_approval' => 'boolean|nullable',
             'publish' => 'boolean|nullable',
             'disable_mod_managers' => 'boolean|nullable',
+            'files_are_versions' => 'boolean|nullable'
         ];
     }
 }

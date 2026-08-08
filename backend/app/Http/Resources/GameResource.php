@@ -48,6 +48,7 @@ class GameResource extends BaseResource
             'updated_at' => $this->updated_at,
             'forum_id' => $this->forum_id,
             'default_mod_manager_id' => $this->default_mod_manager_id,
+            'mod_types_definition' => $this->mod_types_definition,
 
             'followed' => $this->whenLoaded('followed'),
             'ignored' => $this->whenLoaded('ignored'),

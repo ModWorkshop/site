@@ -1,5 +1,5 @@
 <template>
-	<m-list :url="url" query limit="25">
+	<m-list :url="url" query limit="25" :title="$t('audit_log')">
 		<template #item="{ item, items }">
 			<admin-audit-log :log="item" :logs="items.data"/>
 		</template>

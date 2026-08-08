@@ -98,10 +98,19 @@ class CommentPolicy
             return true;
         } else {
             $commentable = $comment->commentable;
+            if ($user->hasPermission('manage-discussions', $commentable->game)) {
+                return true;
+            }
+
             if ($commentable instanceof Mod && $this->authorize('update', $commentable)) {
-                return $user->hasPermission('delete-own-mod-comments', $commentable->game);
-            } else {
-                return $user->hasPermission('manage-discussions', $commentable->game);
+                if ($user->hasPermission('delete-own-mod-comments', $commentable->game)) {
+                    // Don't allow deleting moderator comments
+                    if ($comment->user->hasPermission('manage-discussions', $commentable->game)) {
+                        return Response::deny('You cannot delete moderator comments!');
+                    } else {
+                        return true;
+                    }
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-	<m-list url="mods" query :item-link="item => `/mod/${item.id}/edit`" :params="{ game_id: game?.id }">
+	<m-list url="mods" query :item-link="item => `/mod/${item.id}/edit`" :params="{ game_id: game?.id }" :title="$t('mods')">
 		<template #before-item="{ item }">
 			<mod-thumbnail :thumbnail="item.thumbnail" style="width: 100px;"/>
 		</template>

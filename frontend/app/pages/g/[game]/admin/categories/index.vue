@@ -1,5 +1,6 @@
 <template>
-	<m-flex column>
+	<m-flex column gap="3">
+		<h2>{{ $t('categories') }}</h2>
 		<category-tree :categories="categories?.data">
 			<template #buttons>
 				<m-button class="ml-auto" to="categories/new">{{ $t('new') }}</m-button>

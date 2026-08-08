@@ -46,7 +46,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
-			version: '3.7.3',
+			version: '3.8.0',
 			presignedUpload: false,
 			commitHash: ''
 		},
@@ -107,7 +107,9 @@ export default defineNuxtConfig({
 						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
 						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
 						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
-						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' }
+						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' },
+						{ path: 'webhooks', file: '~/pages/admin/webhooks/index.vue' },
+						{ path: 'webhooks/:webhook', file: '~/pages/admin/webhooks/[webhook].vue' }
 					]);
 				}
 			}
@@ -146,7 +148,8 @@ export default defineNuxtConfig({
 
 	vite: {
 		build: {
-			chunkSizeWarningLimit: 1000
+			chunkSizeWarningLimit: 1000,
+			cssMinify: 'esbuild' // Broken build since aroound Nuxt 4.5, I assume because of Tailwind
 		},
 		plugins: [
 			tailwindcss(),

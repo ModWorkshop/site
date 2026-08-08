@@ -30,6 +30,7 @@ class GetModsRequest extends FilteredRequest
             'daily_score',
             'random',
             'best_match',
+            'hot_score',
             'name'
         ];
     }

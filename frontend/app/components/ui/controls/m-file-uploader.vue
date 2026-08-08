@@ -1,11 +1,11 @@
 <template>
-	<m-input :id="labelId">
+	<m-input :id="labelId" :required="required">
 		<template #label>
 			<slot name="label"/>
 		</template>
 		<m-flex>
 			<m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" :disabled="disabled" @click="clear"><i-mdi-remove/></m-button>
-			<m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" type="file" @update:model-value="onChange"/>
+			<m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" :required="required" type="file" @update:model-value="onChange"/>
 		</m-flex>
 		<m-uploader-progress v-if="progress?.progress" :progress="progress"/>
 	</m-input>
@@ -14,13 +14,15 @@
 <script setup lang="ts">
 import type { AxiosProgressEvent, Canceler } from 'axios';
 
-const { maxFileSize, id, localClearButton = true, cancel } = defineProps<{
+const { maxFileSize, storage, id, localClearButton = true, cancel } = defineProps<{
 	id?: string;
 	urlPrefix?: string;
 	disabled?: boolean;
+	required?: boolean;
 	clearButton?: boolean;
 	localClearButton?: boolean;
 	maxFileSize?: number | string;
+	storage?: number | string;
 	cancel?: Canceler;
 }>();
 
@@ -36,13 +38,14 @@ const uniqueId = useId();
 const labelId = computed(() => id || uniqueId);
 
 const maxFileSizeBytes = computed(() => parseInt(maxFileSize as string));
+const storageBytes = computed(() => parseInt(storage as string));
 
 watch(modelValue, (value, oldValue) => {
 	if (input.value && oldValue && !value) {
 		input.value.value = '';
 		progress.value = undefined;
 	}
-});
+}, { immediate: true });
 
 function clear() {
 	if (cancel) {
@@ -59,6 +62,20 @@ function onChange() {
 				desc: t('file_name_too_large', { name: file.name }),
 				color: 'danger'
 			});
+			if (input.value) {
+				input.value.value = '';
+			}
+			return;
+		}
+
+		if (file.size > storageBytes.value) {
+			showToast({
+				desc: t('file_name_too_large_max_size', { name: file.name }),
+				color: 'danger'
+			});
+			if (input.value) {
+				input.value.value = '';
+			}
 			return;
 		}
 	}

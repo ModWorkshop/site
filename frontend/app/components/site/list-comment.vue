@@ -150,7 +150,7 @@ const { user } = store;
 const YesNoModal = useYesNoModal();
 const { t } = useI18n();
 
-const focusComment = useRouteQuery('comment');
+const focusComment = useRouteQuery('comment', undefined, 'number');
 const { params } = useRoute();
 const content = toRef(props.comment, 'content');
 const showReportModal = ref(false);
@@ -177,7 +177,7 @@ watch(replies, val => {
 
 if (props.comment.mentions) {
 	content.value = content.value.replace(/<@([0-9]+)>/g, (match, id) => {
-		const user = props.comment.mentions.find(user => user.id === id);
+		const user = props.comment.mentions.find(user => user.id === parseInt(id));
 
 		if (user) {
 			return `@${user.unique_name}`;

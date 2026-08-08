@@ -13,7 +13,7 @@ export const convertMs = { y: 31557600000, mo: 2629800000, w: 604800000, d: 8640
 /**
  * Converts bytes to human readable KiB/MiB(Kibiytes/Mebibytes)/etc.
  */
-export const friendlySize = partial({ base: 2 });
+export const friendlySize = partial({ base: 2, round: 1 });
 
 /**
  * Permissions that make the admin page available to the user

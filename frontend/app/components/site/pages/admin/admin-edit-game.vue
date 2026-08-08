@@ -38,6 +38,16 @@
 				</template>
 			</m-input>
 		</m-flex>
+
+		<m-input
+			v-model="vmGame.mod_types_definition"
+			label="Mod Types Definition"
+			rows="2"
+			type="textarea"
+			:desc="`
+				A JSON object containing data for the mod type detector.
+			`"
+		/>
 	</simple-resource-form>
 </template>
 

@@ -25,11 +25,6 @@
 					</td>
 				</tr>
 			</template>
-			<tr v-else>
-				<td colspan="5" class="text-center">
-					{{ $t('nothing_found') }}
-				</td>
-			</tr>
 		</template>
 	</m-table>
 	<m-form-modal v-if="currentDep" v-model="showAddModModal" :title="$t(currentDep.offsite ? 'add_offsite_mod' : 'add_mod')" @submit="addDependency">

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Notification
@@ -67,7 +66,7 @@ class Notification extends Model
         return 'notification';
     }
 
-    public static function send(string $type, User $user, Model $notifiable = null, Model $context = null, bool $hideSender = false, array $data=null)
+    public static function send(string $type, User $user, ?Model $notifiable = null, ?Model $context = null, bool $hideSender = false, array $data=null)
     {
         $authUser = Auth::user();
 

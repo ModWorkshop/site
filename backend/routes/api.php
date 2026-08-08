@@ -44,6 +44,7 @@ use App\Http\Controllers\UserCaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\TrackSessionController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Resources\UserResource;
 use App\Models\Game;
 use App\Models\IgnoredGame;
@@ -93,7 +94,6 @@ Route::post('links/{link}/register-download', [LinkController::class, 'registerD
 APIService::gameResource('mods', ModController::class);
 
 Route::middleware('can:update,file')->post('files/{file}/begin-pending', [FileController::class, 'fileBeginUpload']);
-Route::middleware('can:create,App\Models\File,mod')->post('mods/{mod}/files/begin-pending', [FileController::class, 'beginUpload']);
 Route::middleware('can:complete,pendingFile')->post('pending-files/{pendingFile}/complete', [FileController::class, 'completePendingFileUpload']);
 
 Route::middleware('can:update,mod')->group(function() {
@@ -152,6 +152,8 @@ Route::resource('instructs-templates.dependencies', InstructsTemplateDependencyC
 APIService::gameResource('roles', GameRoleController::class, ['shallow' => false])->parameters([
     'roles' => 'game-role'
 ]);
+
+APIService::gameResource('webhooks', WebhookController::class, ['parentOptional' => true]);
 
 /**
  * @group Forums
@@ -258,9 +260,18 @@ Route::post('/email/resend', [UserController::class, 'resendEmail'])->middleware
 Route::post('/email/cancel-pending', [UserController::class, 'cancelPendingEmail'])->middleware(['auth', 'throttle:1,1']);
 
 Route::get('site-data', function(Request $request) {
+    $settings = APIService::getSettings();
+    $user = Auth::user();
+
+    $maintenanceMode = $settings['maintenance_mode'] ?? false;
+    if ($maintenanceMode && (!isset($user) || !$user->hasPermission('admin'))) {
+        return [
+            'maintenance_mode' => true
+        ];
+    }
+
     $unseen = APIService::getUnseenNotifications();
     $announcements = APIService::getAnnouncements();
-    $settings = APIService::getSettings();
 
     $guests = TrackSession::guestCount();
     $users = TrackSession::userCount();
@@ -268,6 +279,7 @@ Route::get('site-data', function(Request $request) {
     $gamesCount = Game::gamesCount();
 
     $data = [
+        'maintenance_mode' => $maintenanceMode,
         'unseen_notifications' => $unseen,
         'announcements' => $announcements,
         'settings' => $settings,
@@ -280,7 +292,6 @@ Route::get('site-data', function(Request $request) {
     ];
 
     if (Auth::hasUser()) {
-        $user = Auth::user();
         if ($user->hasPermission('moderate-users')) {
             $data['report_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(null)->count();

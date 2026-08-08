@@ -1,5 +1,12 @@
 <template>
-	<div>
+	<div v-if="store.maintenanceMode && !store.hasPermission('admin')">
+		<m-flex column class="items-center justify-center h-screen m-auto" >
+			<m-img alt="logo" :src="logo" width="128" height="128" is-asset/>
+			<h1 >{{ $t('maintenance_mode') }}</h1>
+			<h2 >{{ $t('maintenance_mode_desc') }}</h2>
+		</m-flex>
+	</div>
+	<div v-else>
 		<NuxtLayout>
 			<NuxtPage/>
 			<NuxtLoadingIndicator color="var(--primary-color)"/>
@@ -33,6 +40,7 @@ const yesNoModals = useState<YesNoModal[]>('yesNoModals', () => []);
 const firstModal = computed(() => yesNoModals.value[yesNoModals.value.length - 1]);
 const { t, locale } = useI18n();
 const { public: config } = useRuntimeConfig();
+const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mws_logo_white.svg');
 
 useHeadSafe({
 	// titleTemplate: (titleChunk) => {

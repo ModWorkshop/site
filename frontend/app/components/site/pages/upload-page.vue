@@ -46,6 +46,7 @@ const newMod = ref<Mod>({
 	comments_disabled: false,
 	approved: false,
 	has_download: false,
-	disable_mod_managers: false
+	disable_mod_managers: false,
+	files_are_versions: true
 });
 </script>

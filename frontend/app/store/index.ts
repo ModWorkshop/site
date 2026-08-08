@@ -23,6 +23,7 @@ interface MainStore {
 	gamesCount?: number | null;
 	tags: Paginator<Tag> | null;
 	settings: Settings | null;
+	maintenanceMode: boolean;
 }
 
 let lastTimeout;
@@ -43,6 +44,7 @@ export const useStore = defineStore('main', {
 		gamesCount: null,
 		tags: null,
 		user: null,
+		maintenanceMode: false,
 		ads: []
 	}),
 	getters: {
@@ -105,6 +107,7 @@ export const useStore = defineStore('main', {
 				settings: Settings;
 				announcements: Thread[];
 				unseen_notifications: number;
+				maintenance_mode?: boolean;
 				report_count?: number;
 				waiting_count?: number;
 				user?: User;
@@ -131,6 +134,7 @@ export const useStore = defineStore('main', {
 			}
 
 			this.games = siteData.games;
+			this.maintenanceMode = siteData.maintenance_mode;
 			this.settings = siteData.settings;
 			this.announcements = siteData.announcements;
 			this.notificationCount = siteData.unseen_notifications;

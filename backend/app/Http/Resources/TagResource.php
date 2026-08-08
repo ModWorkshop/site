@@ -15,6 +15,9 @@ class TagResource extends BaseResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'applied_by_mod' => $this->whenPivotLoaded('taggables', fn() => $this->pivot->applied_by_mod),
+            ...parent::toArray($request)
+        ];
     }
 }

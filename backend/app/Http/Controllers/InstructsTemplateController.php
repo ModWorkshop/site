@@ -62,7 +62,7 @@ class InstructsTemplateController extends Controller
     {
         $val = $request->validate([
             'name' => 'string|min_strict:3|max:150',
-            'instructions' => 'string|nullable|max:30000',
+            'instructions' => 'string|nullable|max:40000',
             'localized' => 'boolean|nullable',
         ]);
 

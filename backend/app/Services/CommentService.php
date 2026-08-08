@@ -91,7 +91,7 @@ class CommentService {
             }
         }
 
-        //Make sure to limit this to 20 users and not include ourselves!
+        //Make sure to limit this to 10 users and not include ourselves!
         $mentions = Arr::pull($val, 'mentions');
         $uniqueNames = [];
         $mentionedUsers = [];

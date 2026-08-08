@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink :class="classes" :to="compTo" @click="clickLink">
+	<NuxtLink :class="classes" :href="href" :to="compTo" @click="clickLink">
 		<m-icon v-if="icon" :icon="icon"/> <slot>{{ title }}</slot>
 	</NuxtLink>
 </template>
@@ -8,6 +8,7 @@
 const props = defineProps<{
 	name?: string;
 	to?: string;
+	href?: string;
 	alias?: string;
 	icon?: Component;
 	title?: string;
@@ -26,7 +27,11 @@ const compAlias = computed(() => {
 	}
 });
 
-const compTo = computed(() => props.to ? `${root}/${props.to}` : root);
+const compTo = computed(() => {
+	if (!props.href) {
+		return props.to ? `${root}/${props.to}` : root;
+	}
+});
 
 const classes = computed(() => ({
 	'nav-link': true,

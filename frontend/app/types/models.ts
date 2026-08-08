@@ -117,6 +117,7 @@ export interface Mod {
 	suspended: boolean;
 	liked?: boolean;
 	comments_disabled: boolean;
+	files_are_versions: boolean;
 	has_download: boolean;
 	approved: boolean;
 	bumped_at?: string;
@@ -222,6 +223,7 @@ export interface Game {
 	hidden_tag_ids?: number[];
 	default_mod_manager_id?: number;
 	game_sdk_key?: string;
+	mod_types_definition?: string;
 }
 
 export interface SocialLogin {
@@ -481,6 +483,7 @@ export interface Settings {
 	edit_comment_threshold: number;
 	game_requests_forum_category: number;
 	new_user_first_upload_requires_approval: boolean;
+	maintenance_mode: boolean;
 }
 
 export interface Document {
@@ -624,4 +627,12 @@ export interface AuditLog extends Model {
 export interface TrackSession extends Model {
 	ip_address: string;
 	user_id: number;
+}
+
+export interface Webhook extends Model {
+	name: string;
+	url: string;
+	game_id?: number;
+	content: string;
+	event: string;
 }

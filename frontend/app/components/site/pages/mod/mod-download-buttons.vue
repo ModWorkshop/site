@@ -2,23 +2,29 @@
 	<m-flex>
 		<m-button
 			v-if="download && type == 'file'"
-			class="large-button flex-1"
+			:class="classes"
 			:to="!static ? downloadUrl : undefined"
 			download
 			@click="!static && registerDownload('file', download);"
 		>
-			<i-mdi-download/> {{ $t('download') }}
-			<span style="text-transform:uppercase;">{{ (download as any).type }}</span> ({{ friendlySize((download as any).size) }})
+			<i-mdi-download/>
+			{{ $t('download') }}
+			<template v-if="!small">
+				<span v-if="!small" style="text-transform:uppercase;">{{ (download as any).type }}</span> ({{ friendlySize((download as any).size) }})
+			</template>
 		</m-button>
 		<m-dropdown v-else-if="download && type == 'link'" class="flex-1 flex">
-			<m-button class="large-button flex-1" @click="!static && registerDownload('link', download);">
+			<m-button :class="classes" @click="!static && registerDownload('link', download);">
 				<i-mdi-download/> {{ $t('show_download_link') }}
 			</m-button>
 			<template #content>
 				<div class="word-break p-2" style="width: 250px;">
-					{{ $t('show_download_link_warn') }}
+					<b>
+						{{ $t('show_download_link_warn') }}
+					</b>
 					<br>
-					<a class="text-lg font-bold" :href="(download as any).url">{{ (download as any).url }}</a>
+					<br>
+					<a :href="(download as any).url">{{ (download as any).url }}</a>
 				</div>
 			</template>
 		</m-dropdown>
@@ -26,16 +32,19 @@
 	</m-flex>
 	<m-flex v-if="primaryModManager && download && type == 'file'">
 		<m-flex column class="w-full">
-			<m-button class="large-button" style="flex: 6;" :to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined">
-				<i-mdi-progress-wrench/> {{ $t('install_with', { modManager: primaryModManager.name }) }}
+			<m-button
+				:class="classes"
+				style="flex: 6;" :to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined"
+			>
+				<i-mdi-progress-wrench/> {{ small ? $t('install') : $t('install_with', { modManager: primaryModManager.name }) }}
 			</m-button>
-			<small v-if="primaryModManager.site_url">
+			<small v-if="!small && primaryModManager.site_url">
 				<NuxtLink :to="primaryModManager.site_url"> {{ $t('mod_manager_not_installed', { modManager: primaryModManager.name }) }} </NuxtLink>
 			</small>
 		</m-flex>
 
-		<m-dropdown class="self-start">
-			<m-button class="large-button text-center h-full">
+		<m-dropdown v-if="!small" class="self-start">
+			<m-button :class="classes">
 				<i-mdi-chevron-down/>
 			</m-button>
 			<template #content>
@@ -51,6 +60,7 @@ import type { Mod, ModManager, File, Link } from '~/types/models';
 const props = defineProps<{
 	mod: Mod;
 	download?: File | Link;
+	small?: boolean;
 	static?: boolean;
 	type?: 'link' | 'file';
 }>();
@@ -58,6 +68,12 @@ const props = defineProps<{
 const chosenModManager = useCookie<number>(props.mod.game_id + '-mod-manager', { decode: parseInt, expires: longExpiration() });
 
 const managers = computed(() => props.mod.mod_managers ?? []);
+
+const classes = computed(() => ({
+	'download-button': true,
+	'flex-1': true,
+	'download-button-small': props.small
+}));
 
 // const downloadUrl = computed(() => `/mod/${props.mod.id}/download/${props.download!.id}`);
 const downloadUrl = computed(() => (props.download as File).download_url);
@@ -90,3 +106,16 @@ function getManagerDownloadUrl(manager: ModManager, file: File) {
 	return manager.download_url.replaceAll(/:\w+_?\w*/g, str => replace[str]);
 }
 </script>
+
+<style>
+.download-button {
+	font-size: 1.15rem;
+	padding: 1rem !important;
+	text-align: center;
+}
+
+.download-button-small {
+	font-size: 1rem;
+	padding: 0.75rem !important;
+}
+</style>

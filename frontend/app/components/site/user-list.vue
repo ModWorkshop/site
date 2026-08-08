@@ -7,7 +7,7 @@
 				<m-select v-if="game" v-model="gameRoleIds" multiple :url="`games/${game.id}/roles`" :label="$t('game_roles')"/>
 			</m-content-block>
 			<m-flex grow style="flex: 4;" gap="1">
-				<m-list v-model:page="page" query :items="users" :loading="loading">
+				<m-list v-model:page="page" query :items="users" :loading="loading" :title="$t('users')">
 					<template #item="{ item }">
 						<m-content-block :key="item.id" class="cursor-pointer" :alt-background="altBackground" @click="() => $router.push(getUserLink(item))">
 							<a-user :user="item"/>

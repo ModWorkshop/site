@@ -1,10 +1,14 @@
 <template>
 	<m-flex column gap="3">
-		<m-flex>
-			<m-input v-model="query" :label="$t('search')"/>
-			<m-button class="mt-auto" style="margin-bottom: 2px;" :to="`${adminUrl}/new`">{{ $t('new') }}</m-button>
-		</m-flex>
-		<m-list v-model:page="page" query :loading="loading" :items="roles">
+		<m-list
+			v-model:page="page"
+			query
+			:loading="loading"
+			:items="roles"
+			:title="$t('tags')"
+			search
+			:new-button="`${adminUrl}/new`"
+		>
 			<template #items>
 				<TransitionGroup name="list">
 					<admin-role v-for="[, role] of Object.entries(rolesSorted)"

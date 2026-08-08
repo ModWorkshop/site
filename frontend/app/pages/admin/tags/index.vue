@@ -1,5 +1,12 @@
 <template>
-	<m-list url="tags" query :item-link="item => `${url}/${item.id}`" :new-button="`${url}/new`" :params="{ game_id: game?.id, global: !game }">
+	<m-list
+		url="tags"
+		:title="$t('tags')"
+		query
+		:item-link="item => `${url}/${item.id}`"
+		:new-button="`${url}/new`"
+		:params="{ game_id: game?.id, global: !game }"
+	>
 		<template #item-name="{ item }">
 			<m-tag :color="item.color">{{ item.name }}</m-tag>
 		</template>

@@ -89,6 +89,10 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
  * @property-read Collection<int, \App\Models\Tag> $hiddenTags
  * @property-read int|null $hidden_tags_count
  * @method static Builder<static>|Game withUserPerfs()
+ * @property string|null $game_sdk_key
+ * @property string|null $mod_types_definition
+ * @method static Builder<static>|Game whereGameSdkKey($value)
+ * @method static Builder<static>|Game whereModTypesDefinition($value)
  * @mixin Eloquent
  */
 class Game extends Model

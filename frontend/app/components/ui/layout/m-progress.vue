@@ -1,5 +1,5 @@
 <template>
-	<m-flex class="round progress relative" :style="{ height: `${height}px` }">
+	<m-flex class="progress relative" :style="{ height: `${height}px` }">
 		<span class="progress-text ml-auto">{{ textToShow }}</span>
 		<div :class="progressClasses" :style="{ width: `${percentToShow}%` }"/>
 	</m-flex>
@@ -59,6 +59,7 @@ const progressClasses = computed(() => {
 <style scoped>
 .progress {
 	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: var(--content-border-radius);
 }
 .progress-bar {
 	transition: width 0.25s ease-in-out;

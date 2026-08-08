@@ -37,7 +37,7 @@ class CalculatePopularity implements ShouldQueue
 
         Log::info('Calculating Popularity...');
 
-        PopularityLog::where('updated_at', '<', Carbon::now()->addYear())->delete();
+        PopularityLog::where('updated_at', '<', Carbon::now()->subYear())->delete();
 
         $getScores = function(Carbon $date) {
             $scores = [];
@@ -83,7 +83,7 @@ class CalculatePopularity implements ShouldQueue
                 $weeklyScore = $scoresWeekly[$mod->id] ?? 0;
 
 
-                if(abs($score - $mod->score) > 0.00001 || abs($dailyScore - $mod->daily_score) > 0.00001 || abs($weeklyScore - $mod->weekly_score) > 0.00001) {
+                if(abs($score - $mod->score) > 0.01 || abs($dailyScore - $mod->daily_score) > 0.01 || abs($weeklyScore - $mod->weekly_score) > 0.01) {
                     $mod->timestamps = false;
                     $mod->daily_score = $dailyScore;
                     $mod->weekly_score = $weeklyScore;

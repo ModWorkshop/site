@@ -68,6 +68,8 @@ use Illuminate\Support\Carbon;
  * @method static \GeneaLabs\LaravelModelCaching\CachedBuilder|Tag withCacheCooldownSeconds(?int $seconds = null)
  * @property-read Collection<int, Tag> $gamesHiding
  * @property-read int|null $games_hiding_count
+ * @property int $display_order
+ * @method static Builder<static>|Tag whereDisplayOrder($value)
  * @mixin Eloquent
  */
 class Tag extends Model

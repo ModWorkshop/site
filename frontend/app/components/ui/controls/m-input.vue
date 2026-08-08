@@ -13,6 +13,7 @@
 				v-model="vm"
 				:class="classes"
 				:disabled="disabled"
+				:required="required"
 				style="width: 100px;"
 				@click="clickInput"
 				@input="forceUpdateColor"
@@ -24,8 +25,9 @@
 				class="mw-input"
 				:rows="rows"
 				v-bind="$attrs"
-				@click="clickInput"
 				:disabled="disabled"
+				:required="required"
+				@click="clickInput"
 			/>
 			<input
 				v-else-if="isCheckbox"
@@ -35,6 +37,7 @@
 				:class="classes"
 				type="checkbox"
 				:disabled="disabled"
+				:required="required"
 				:checked="vm ? true : undefined"
 				@click="clickCheckbox"
 			>
@@ -47,6 +50,7 @@
 				:class="{ 'input-error': !!err, 'file-button': true, 'button-primary': true }"
 				:type="type"
 				:disabled="disabled"
+				:required="required"
 			>
 			<input
 				v-else
@@ -57,6 +61,7 @@
 				:class="classes"
 				:type="type"
 				:disabled="disabled"
+				:required="required"
 				@click="clickInput"
 				:style="{ padding: type == 'range' ? 0 : undefined }"
 			>

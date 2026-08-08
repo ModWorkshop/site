@@ -270,7 +270,7 @@ class User extends Model implements
             'unique_name' => $this->unique_name,
             'purged_user' => $this->purged_user,
             'role_ids' => $this->roles->pluck('id'),
-            'game_role_ids' => $this->gameRoles->pluck('id'),
+            'game_role_ids' => $this->allGameRoles->pluck('id'),
         ];
     }
 

@@ -193,6 +193,9 @@ abstract class Visibility {
  * @property-read mixed $max_storage
  * @property-read \App\Models\IgnoredCategory|null $categoryIgnoredByMe
  * @method static Builder<static>|Mod isMemberOf(int $userId)
+ * @property string|null $mod_type
+ * @property-read mixed $download_strictly_file
+ * @method static Builder<static>|Mod whereModType($value)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface
@@ -310,6 +313,7 @@ class Mod extends Model implements SubscribableInterface
             'id' => $this->id,
             'name' => $this->name,
             'bumped_at' => $this->bumped_at?->timestamp,
+            'hot_score' => $this->bumped_at?->timestamp / 3600 + log($this->daily_score + 1, 2)*2.4,
             'game_id' => $this->game_id,
             'category_id' => $this->category_id,
             'tag_ids' => $this->tags->pluck('id'),
@@ -362,7 +366,7 @@ class Mod extends Model implements SubscribableInterface
         ]);
         $this->loadCount(['links', 'files']);
         $this->loadSum('files', 'size');
-        $this->append(['download', 'last_user_attribute']);
+        $this->append(['download', 'last_user_attribute', 'download_version']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -378,13 +382,7 @@ class Mod extends Model implements SubscribableInterface
         });
 
         static::deleting(function(Mod $mod) {
-            if ($mod->approved == null) {
-                // Send to discord about this
-                $send = [Setting::getValue('discord_approval_webhook')];
-                if (count($send)) {
-                    Utils::sendDiscordMessage($send, "The mod **%s** which was waiting for approval, was deleted.", [$mod->name]);
-                }
-            }
+            Utils::sendModWebhook('mod_deleted', $mod);
 
             foreach ($mod->comments as $comment) {
                 $comment->delete();
@@ -460,12 +458,15 @@ class Mod extends Model implements SubscribableInterface
 
     public function tagsSpecial(): HasMany
     {
-        return $this->hasMany(Taggable::class, 'taggable_id')->where('taggable_type', 'mod');
+        return $this->hasMany(Taggable::class, 'taggable_id')
+            ->where('taggable_type', 'mod');
     }
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable')->orderByRaw('tags.display_order DESC, taggables.id ASC');
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->orderByRaw('tags.display_order DESC, taggables.id ASC')
+            ->withPivot('applied_by_mod');
     }
 
     public function images()
@@ -473,9 +474,20 @@ class Mod extends Model implements SubscribableInterface
         return $this->hasMany(Image::class)->orderByRaw('display_order ASC, created_at ASC');
     }
 
-    public function files() : HasMany
+    public function allFiles() : HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function files() : HasMany
+    {
+        return $this->hasMany(File::class)->where('completed', true);
+    }
+
+    public function sortedFiles() : HasMany {
+        return $this->hasMany(File::class)
+            ->where('completed', true)
+            ->orderByRaw("semver_version IS NOT NULL DESC, (get_semver_prerelease (semver_version) = '') IS FALSE, semver_version DESC, display_order DESC, updated_at DESC");
     }
 
     public function links()
@@ -674,7 +686,8 @@ class Mod extends Model implements SubscribableInterface
     /**
      * Smartly returns current download ($this->download)
      * In case it's not loaded, tries to calculate it using download_id and download_type
-     * If download_id is not set, it will return either first link or first file.
+     *
+     * It may not be set, the default behavior of the site is to show "downloads" when there are multiple files and no primary file set
      */
     public function download(): Attribute {
         return Attribute::make(function() {
@@ -694,9 +707,8 @@ class Mod extends Model implements SubscribableInterface
             $linksCount = $this->links_count;
             $hasPrimary = isset($id) && isset($type);
 
-
             // Has no files or links
-            if ($filesCount == 0 && $linksCount == 0) {
+            if ($linksLoaded && $filesLoaded && $filesCount == 0 && $linksCount == 0) {
                 return null;
             }
 
@@ -712,21 +724,72 @@ class Mod extends Model implements SubscribableInterface
                     if ($filesLoaded && ($link = $this->files->find($id))) {
                         return $link;
                     } else {
-                        return $this->withSecureConstraints(fn() => $this->files()->find($id));
+                        return $this->withSecureConstraints(fn() => $this->sortedFiles()->find($id));
                     }
                 }
             }
 
-            //Has only a single file/link so just return it
-            if (abs($filesCount - $linksCount) === 1) {
-                if ($linksLoaded && $link = $this->links[0]) {
-                    return $link;
-                } else if ($filesLoaded) {
-                    return $this->files[0];
-                }else {
-                    return $this->withSecureConstraints(fn() => $this->links()->first() ?? $this->files()->first());
+            // Has only a single file/link so just return it
+            // Or mod uses files as versions
+            if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
+                if ($filesLoaded && $file = $this->files[0]) {
+                    return $file;
+                } else if ($linksLoaded) {
+                    return $this->links[0];
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->sortedFiles()->first() ?? $this->links()->first());
                 }
             }
+        });
+    }
+
+    /**
+     * Similar to download but returns only files. Meant to be used for API use where downloading links aren't supported.
+     * If download_id is not set, it will return first file.
+     */
+    public function downloadStrictlyFile(): Attribute {
+        return Attribute::make(function() {
+            $filesLoaded = $this->relationLoaded('files');
+            $id = $this->download_id;
+            $type = $this->download_type;
+            $hasPrimaryFileSet = isset($id) && isset($type) && $type != 'link';
+
+            // If download exists, just return it
+            if ($hasPrimaryFileSet && ($this->relationLoaded('downloadRelation') || !$filesLoaded)) {
+                if (isset($this->downloadRelation)) {
+                    return $this->downloadRelation;
+                }
+            }
+
+            // Has no files or links
+            if ($filesLoaded && $this->files_count == 0) {
+                return null;
+            }
+
+            // Has primary download and both links and files relations are loaded
+            if ($hasPrimaryFileSet) {
+               if ($filesLoaded && ($link = $this->files->find($id))) {
+                    return $link;
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->files()->find($id));
+                }
+            }
+
+            if ($filesLoaded) {
+                return $this->files[0];
+            } else {
+                return $this->withSecureConstraints(fn() => $this->files()->first());
+            }
+        });
+    }
+
+    public function downloadVersion(): Attribute {
+        return Attribute::make(function() {
+            if ($this->files_are_versions) {
+                return $this->download?->version ?? $this->version;
+            }
+
+            return $this->version;
         });
     }
 
@@ -802,17 +865,9 @@ class Mod extends Model implements SubscribableInterface
         $game = $this->game;
         $category = $this->category;
 
-        //Send to main webhook and webhooks that were set by game or category
-        $send = [Setting::getValue('discord_webhook'), $game->webhook_url, $category?->webhook_url];
-
-        if (count($send)) {
-            $siteUrl = env('FRONTEND_URL');
-            Utils::sendDiscordMessage($send, "The mod **%s** is now public for the first time in **%s**. {$siteUrl}/mod/%s", [
-                $this->name,
-                ($game ? $game->name : 'NA').($category ? '/'.$category->name : ''),
-                $this->id
-            ]);
-        }
+        Utils::sendModWebhook('mod_published', $this, [
+            'location' => ($game ? $game->name : 'NA').($category ? '/'.$category->name : '')
+        ]);
 
         // Update the game's last date since the mod was published
         $game->update([

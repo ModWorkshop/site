@@ -78,7 +78,7 @@
 								<div class="dropdown-splitter"/>
 								<m-dropdown-item :to="userLink"><i-mdi-user/> {{ $t('profile') }}</m-dropdown-item>
 								<m-dropdown-item to="/user-settings"><i-mdi-account-settings-variant/> {{ $t('user_settings') }}</m-dropdown-item>
-								<m-dropdown-item to="/user-settings/content"><i-mdi-eye/> {{ $t('content_settings') }}</m-dropdown-item>
+								<m-dropdown-item to="/user-settings/blocking"><i-mdi-ban/> {{ $t('blocking') }}</m-dropdown-item>
 								<m-dropdown-item v-if="canSeeAdminPage" to="/admin"><i-mdi-cog/> {{ $t('admin_page') }}</m-dropdown-item>
 								<m-dropdown-item to="/customize"><i-ri-brush-2-fill/> {{ $t('customize') }}</m-dropdown-item>
 								<div class="dropdown-splitter"/>

@@ -164,6 +164,7 @@ return [
                     'name',
                     'score',
                     'daily_score',
+                    'hot_score',
                     'weekly_score',
                     'published_at',
                     'likes',
