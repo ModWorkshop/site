@@ -88,6 +88,7 @@ const { t } = useI18n();
 const showErrorToast = useQuickErrorToast();
 const yesNoModal = useYesNoModal();
 const { settings, user } = useStore();
+const router = useRouter();
 
 const vm = defineModel<UploadSimpleFile[]>({ default: () => [] });
 const mod = defineModel<Mod>('mod', { required: true });
@@ -96,8 +97,6 @@ const routeChangeUploadingFiles = useState<UploadFile[]>('uploadingFilesRouteCha
 const currentStorage = computed(() => mod.value.used_storage ?? 0);
 const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
 const queryTab = useRouteQuery('tab');
-
-const combinedFiles = computed(() => ([...uploadingFiles.value, ...vm.value]));
 
 const maxStorage = computed(() => {
 	if (mod.value.user?.has_supporter_perks) {
@@ -122,12 +121,24 @@ const currentFile = ref<UploadFile>();
 const currentFileIndex = ref<number>(-1);
 const changeFile = ref<File>();
 const canSubmitFile = ref(false);
+const forcedOut = ref(false);
 
 const page = ref(1);
 
 onBeforeRouteLeave(async (to, from) => {
 	if (from.name === 'upload' && to.name === 'mod-mod-edit') {
 		routeChangeUploadingFiles.value = uploadingFiles.value;
+	} else if (uploadingFiles.value.length && !forcedOut.value) {
+		yesNoModal({
+			title: t('are_you_sure'),
+			desc: t('uploading_files_warning'),
+			async yes() {
+				forcedOut.value = true;
+				router.push(to);
+			}
+		});
+
+		return false;
 	}
 });
 
@@ -148,6 +159,8 @@ const { data: asyncFiles, refresh } = await useFetchMany<MWSFile>(`mods/${mod.va
 	},
 	immediate: routeChangeUploadingFiles.value.length === 0 && !!mod.value.id
 });
+
+const combinedFiles = computed(() => ([...uploadingFiles.value, ...(asyncFiles.value?.data ?? [])]));
 
 watch(asyncFiles, () => {
 	if (asyncFiles.value) {
