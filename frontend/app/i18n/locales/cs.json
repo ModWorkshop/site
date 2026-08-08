@@ -315,9 +315,9 @@
     "links": "Odkazy",
     "files": "Soubory",
     "edit_file": "Upravit Soubor",
-    "create_file": "Create File",
+    "new_file": "Upload File",
     "edit_link": "Upravit Odkaz",
-    "create_link": "Create Link",
+    "new_link": "Add Link",
     "banner_preview": "Náhled Banneru",
     "thumbnail_preview": "Náhled Miniatury/Karty Módu",
     "no_mods_found": "Žádné Módy Nalezeny :/",
@@ -711,7 +711,8 @@
     "webhook_event_report_new": "Report Creation",
     "webhook_event_mod_suspended": "Mod Suspension (:status contains string of the status)",
     "webhook_event": "Event",
-    "files_are_versions": "File are Versions",
-    "files_are_versions_desc": "Turning this on treats your files and links as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "files_are_versions": "Files are Versions",
+    "files_are_versions_desc": "Turning this on treats your files as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
+    "custom_version_help": "Sets the version of the mod. If the Files are Versions option is turned on, the mod will try to take the version of the primary file first.",
     "file_missing": "Missing File"
 }
