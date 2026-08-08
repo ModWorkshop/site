@@ -32,6 +32,8 @@ const { setGame } = useStore();
 const showErrorToast = useQuickErrorToast();
 const flushChanges = createEventHook();
 const store = useStore();
+const router = useRouter();
+const queryTab = useRouteQuery('tab');
 
 const initialMod = defineModel<Mod>('mod', { required: true });
 
@@ -76,7 +78,7 @@ async function save() {
 
 		Object.assign(initialMod.value, fetchedMod);
 		if (newMod) {
-			window.history.replaceState(history.state, '', `/mod/${fetchedMod.id}/edit`);
+			router.replace({ path: `/mod/${fetchedMod.id}/edit`, query: { tab: queryTab.value || undefined } });
 		}
 	} catch (error) {
 		showErrorToast(error);

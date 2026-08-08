@@ -92,8 +92,10 @@ const { settings, user } = useStore();
 const vm = defineModel<UploadSimpleFile[]>({ default: () => [] });
 const mod = defineModel<Mod>('mod', { required: true });
 const uploadingFiles = ref<UploadFile[]>([]);
+const routeChangeUploadingFiles = useState<UploadFile[]>('uploadingFilesRouteChange', () => ([]));
 const currentStorage = computed(() => mod.value.used_storage ?? 0);
 const allowedStorage = computed(() => mod.value.allowed_storage ? (mod.value.allowed_storage * Math.pow(1024, 2)) : null);
+const queryTab = useRouteQuery('tab');
 
 const combinedFiles = computed(() => ([...uploadingFiles.value, ...vm.value]));
 
@@ -123,13 +125,28 @@ const canSubmitFile = ref(false);
 
 const page = ref(1);
 
+onBeforeRouteLeave(async (to, from) => {
+	if (from.name === 'upload' && to.name === 'mod-mod-edit') {
+		routeChangeUploadingFiles.value = uploadingFiles.value;
+	}
+});
+
+watch(mod, () => {
+	if (routeChangeUploadingFiles.value.length && mod.value.id) {
+		uploadingFiles.value = routeChangeUploadingFiles.value;
+		routeChangeUploadingFiles.value = [];
+		uploadWaitingFiles();
+		queryTab.value = 'downloads';
+	}
+}, { immediate: true });
+
 const { data: asyncFiles, refresh } = await useFetchMany<MWSFile>(`mods/${mod.value.id}/files`, {
 	query: {
 		limit: 20,
 		include_incomplete: true,
 		page: page
 	},
-	immediate: !!mod.value.id
+	immediate: routeChangeUploadingFiles.value.length === 0 && !!mod.value.id
 });
 
 watch(asyncFiles, () => {
@@ -140,7 +157,6 @@ watch(asyncFiles, () => {
 
 const input = ref();
 
-watch(paused, uploadWaitingFiles);
 watch(changeFile, () => {
 	if (changeFile.value && currentFile.value && !currentFile.value.name) {
 		currentFile.value.name ||= changeFile.value.name.split('.')[0] ?? '';
