@@ -315,9 +315,9 @@
     "links": "Enlaces",
     "files": "Archivos",
     "edit_file": "Editar archivo",
-    "new_file": "Upload File",
+    "new_file": "Subir archivo",
     "edit_link": "Editar enlace",
-    "new_link": "Add Link",
+    "new_link": "Añadir enlace",
     "banner_preview": "Vista previa del banner",
     "thumbnail_preview": "Vista previa de la miniatura/tarjeta del mod",
     "no_mods_found": "No se han encontrado mods :/",
@@ -711,8 +711,8 @@
     "webhook_event_report_new": "Creación de informes",
     "webhook_event_mod_suspended": "Suspensión del mod (:status contiene la cadena del estado)",
     "webhook_event": "Evento",
-    "files_are_versions": "Files are Versions",
-    "files_are_versions_desc": "Turning this on treats your files as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
-    "custom_version_help": "Sets the version of the mod. If the Files are Versions option is turned on, the mod will try to take the version of the primary file first.",
-    "file_missing": "Missing File"
+    "files_are_versions": "Los archivos son versiones",
+    "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior.",
+    "custom_version_help": "Establece la versión del mod. Si la opción \"Los archivos son versiones\" está activada, el mod intentará tomar primero la versión del archivo principal.",
+    "file_missing": "Archivo faltante"
 }
