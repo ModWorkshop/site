@@ -315,9 +315,9 @@
     "links": "Bağlantılar",
     "files": "Dosyalar",
     "edit_file": "Dosyayı Düzenle",
-    "new_file": "Upload File",
+    "new_file": "Dosya Yükle",
     "edit_link": "Bağlantıyı Düzenle",
-    "new_link": "Add Link",
+    "new_link": "Bağlantı Ekle",
     "banner_preview": "Kapak Resmi Ön izleme",
     "thumbnail_preview": "Minik Resim/Mod Kartı Ön İzleme",
     "no_mods_found": "Mod Bulunamadı :/",
@@ -711,8 +711,8 @@
     "webhook_event_report_new": "Rapor Oluştur",
     "webhook_event_mod_suspended": "Mod Askıya Alma (:status contains string of the status)",
     "webhook_event": "Event",
-    "files_are_versions": "Files are Versions",
-    "files_are_versions_desc": "Turning this on treats your files as versions rather than unrelated files. The primary download (if not set manually) is chosen as the top-most file.",
-    "custom_version_help": "Sets the version of the mod. If the Files are Versions option is turned on, the mod will try to take the version of the primary file first.",
-    "file_missing": "Missing File"
+    "files_are_versions": "Dosyalar Versiyondur",
+    "files_are_versions_desc": "Bunu açmak dosyalarınızı ve linklerinizi alakasız dosyalar yerine sürümler olarak sayar. Manuel olarak ayarlanmamışsa ana indirme en üstteki dosya olur.",
+    "custom_version_help": "Modun versiyonunu ayarlar. Eğer Dosyalar Versiyondur ayarı açıksa, mod ilk önce üstteki dosyanın versiyonunu almaya çalışır.",
+    "file_missing": "Eksik Dosya"
 }
