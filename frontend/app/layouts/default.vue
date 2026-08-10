@@ -23,7 +23,7 @@
 				</ClientOnly>
 			</m-flex>
 
-			<div id="mws-ads-top" class="ad mx-auto"/>
+			<!-- <div id="mws-ads-top" class="ad mx-auto"/>
 			<div id="mws-ads-top-mobile" class="ad mx-auto"/>
 
 			<div ref="adSidesFooterCheck" class="ad-sides" style="z-index: -99999; width: 1px; left:50%;"/>
@@ -32,7 +32,7 @@
 			</div>
 			<div :class="adClasses" style="right:4px;">
 				<div id="mws-ads-right"/>
-			</div>
+			</div> -->
 
 			<slot/>
 

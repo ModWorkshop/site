@@ -123,10 +123,11 @@ const innerClasses = computed(() => ({
 
 .page-block-nm, .page-block-full, .page-block-md, .page-block-nm, .page-block-sm, .page-block-xs, .page-block-2xs {
 	align-self: center;
+	width: stretch;
 }
 
 .page-block-nm {
-	width: 81%;
+	max-width: 1520px;
 }
 
 .page-block-full {
@@ -134,64 +135,28 @@ const innerClasses = computed(() => ({
 }
 
 .page-block-md {
-	width: 75%;
+	max-width: 1420px;
 }
 
 .page-block-sm {
-	width: 70%;
+	max-width: 1320px;
 }
 
 .page-block-xs {
-	width: 60%;
+	max-width: 1120px;
 }
 
 .page-block-2xs {
-	width: 50%;
+	max-width: 960px;
 }
-/*
-@media (min-width: 1024px) and (max-width: 1200px) {
-    .page-block-nm {
-        width: 68%
-    }
-} */
 
-@media (min-width: 1200px) and (max-width: 1249px) {
+@media (min-width: 1024px) and (max-width: 1349px) {
 	.page-block-nm {
-		width: 70%;
+		max-width: 100%;
 	}
 }
 
-@media (min-width: 1250px) and (max-width: 1349px) {
-	.page-block-nm {
-		width: 72%;
-	}
-}
-
-@media (min-width: 1350px) and (max-width: 1449px) {
-	.page-block-nm {
-		width: 74%;
-	}
-}
-
-@media (min-width: 1450px) and (max-width: 1549px) {
-	.page-block-nm {
-		width: 76%;
-	}
-}
-
-@media (min-width: 1550px) and (max-width: 1699px) {
-	.page-block-nm {
-		width: 78%;
-	}
-}
-
-@media (min-width: 1700px) and (max-width: 1800px) {
-	.page-block-nm {
-		width: 81%;
-	}
-}
-
-@media (max-width: 1199px) {
+@media (max-width: 1349px) {
     .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
 		width: 100% !important;
 	}

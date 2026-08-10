@@ -10,19 +10,18 @@
 			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
 		</td>
 		<td>
-			<div class="text-ellipsis overflow-hidden" style="width: 120px;" :title="download.version">
+			<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="download.version">
 				{{ download.version || 'N/A' }}
 			</div>
 		</td>
 		<td class="whitespace-pre-line wrap-anywhere" >
-			<m-flex class="items-center" style="width: 200px;">
+			<m-flex class="items-center" style="min-width: 80px; max-width: 200px;" wrap>
 				<template v-if="download.type">
 					{{ download.name + '.' + download.type }}
 				</template>
 				<template v-else>
 					{{ download.name }}
 				</template>
-				<m-tag v-if="download.label" class="whitespace-pre">{{ download.label }}</m-tag>
 			</m-flex>
 		</td>
 		<td v-if="download.size != undefined">
@@ -36,7 +35,7 @@
 		<td v-else-if="download.url">
 			{{ download.url }}
 		</td>
-		<td class="whitespace-pre-line wrap-anywhere">
+		<td>
 			<span v-if="paused">{{ $t('file_waiting') }}</span>
 			<m-uploader-progress v-else-if="download.progress" :progress="download.progress"/>
 			<m-time v-else-if="download.created_at" :datetime="download.created_at" relative relative-time-style="narrow"/>

@@ -28,38 +28,18 @@
 				<md-content allow-anchors :text="mod.license" :parser-version="mod.parser_version"/>
 			</m-tab>
 			<m-tab v-if="dependencies.length || instructions" name="instructions" :title="$t('instructions_tab')" gap="3">
-				<div v-if="dependencies.length">
-					<h2>{{ $t('dependencies') }}</h2>
-					<ol style="padding-inline-start: 16px;">
-						<li v-for="dep in dependencies" :key="dep.id" class="mb-1 align-middle">
-							<m-flex gap="2" inline class="items-center align-middle">
-								<NuxtLink :to="dep.mod ? `/mod/${dep.mod_id}` : dep.url">
-									<mod-thumbnail :thumbnail="dep.mod?.thumbnail" style="height: 48px;"/>
-								</NuxtLink>
-								<m-flex column>
-									<template v-if="dep.mod">
-										<NuxtLink :to="`/mod/${dep.mod_id}`">
-											{{ dep.mod.name }} <m-tag v-if="dep.optional">{{ $t('optional') }}</m-tag>
-										</NuxtLink>
-										<a-user avatar-size="xs" :user="dep.mod.user"/>
-									</template>
-									<template v-else>
-										<NuxtLink :to="dep.url">
-											{{ dep.name }} <m-tag v-if="dep.optional">{{ $t('optional') }}</m-tag>
-										</NuxtLink>
-										<span>
-											{{ $t('offsite_mod') }}
-										</span>
-									</template>
-								</m-flex>
-							</m-flex>
-						</li>
-					</ol>
-				</div>
-				<div v-if="instructions">
-					<h2>{{ $t('instructions') }}</h2>
-					<md-content class="mb-3" allow-anchors :text="instructions" :parser-version="mod.parser_version"/>
-				</div>
+				<m-flex wrap>
+					<div v-if="instructions" >
+						<h2>{{ $t('instructions') }}</h2>
+						<md-content class="mb-3" allow-anchors :text="instructions" :parser-version="mod.parser_version"/>
+					</div>
+					<div v-if="dependencies.length" class="flex-1">
+						<h2>{{ $t('dependencies') }}</h2>
+						<m-flex gap="1" column>
+							<dependency-list-mod v-for="dep in dependencies" :key="dep.id" :dep="dep"/>
+						</m-flex>
+					</div>
+				</m-flex>
 			</m-tab>
 		</m-tabs>
 	</m-flex>

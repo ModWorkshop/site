@@ -12,12 +12,12 @@
 
 		<m-table alt-background>
 			<template #head>
-				<th style="width: 5%;"/>
-				<th style="width: 15%;">{{ $t('version') }}</th>
-				<th style="width: 30%;">{{ $t('name') }}</th>
-				<th style="width: 10%;">{{ $t('file_size') }}</th>
-				<th style="width: 30%;">{{ $t('date') }}</th>
-				<th style="width: 10%;"/>
+				<th/>
+				<th>{{ $t('version') }}</th>
+				<th>{{ $t('name') }}</th>
+				<th>{{ $t('file_size') }}</th>
+				<th>{{ $t('date') }}</th>
+				<th/>
 			</template>
 			<template #body>
 				<mod-edit-download

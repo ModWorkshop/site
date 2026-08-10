@@ -9,10 +9,11 @@
 				<m-nav-link v-if="hasPermission('manage-users')" to="supporters" :title="$t('supporters')"/>
 				<h3 v-if="moderateUsers || manageMods" class="mt-4!">{{ $t('moderation') }}</h3>
 				<m-nav-link v-if="moderateUsers" to="cases" :title="$t('cases')"/>
-				<m-nav-link v-if="manageMods" to="approvals" :title="$t('approvals')"/>
 				<m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
-				<m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
 				<m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+				<m-nav-link v-if="manageMods" to="approvals" :title="$t('approvals')"/>
+				<m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
+				<m-nav-link v-if="hasPermission('manage-users')" to="users" :title="$t('users')"/>
 				<m-nav-link v-if="canSeeAduitLog" to="audit-log" :title="$t('audit_log')"/>
 				<m-nav-link v-if="moderateUsers" to="sessions" :title="$t('sessions')"/>
 				<m-nav-link v-if="moderateUsers" href="/document/moderation" title="Moderation Document"/>
@@ -21,7 +22,6 @@
 				<m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
 				<m-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>
 				<m-nav-link v-if="hasPermission('manage-docs')" to="documents" :title="$t('documents')"/>
-				<m-nav-link v-if="hasPermission('manage-users')" to="users" :title="$t('users')"/>
 				<m-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" :title="$t('forum_categories')"/>
 				<m-nav-link v-if="hasPermission('manage-webhooks')" to="webhooks" :title="$t('webhooks')"/>
 				<!-- <m-nav-link v-if="hasPermission('admin')" to="supporter-packages" title="Supporter Packages"/> -->

@@ -30,27 +30,26 @@
 		</m-dropdown>
 		<slot/>
 	</m-flex>
-	<m-flex v-if="primaryModManager && download && type == 'file'">
-		<m-flex column class="w-full">
+	<m-flex v-if="primaryModManager && download && type == 'file'" column>
+		<m-flex class="w-full">
 			<m-button
 				:class="classes"
-				style="flex: 6;" :to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined"
+				:to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined"
 			>
 				<i-mdi-progress-wrench/> {{ small ? $t('install') : $t('install_with', { modManager: primaryModManager.name }) }}
 			</m-button>
-			<small v-if="!small && primaryModManager.site_url">
-				<NuxtLink :to="primaryModManager.site_url"> {{ $t('mod_manager_not_installed', { modManager: primaryModManager.name }) }} </NuxtLink>
-			</small>
+			<m-dropdown v-if="!small">
+				<m-button :class="classes" style="height: stretch;">
+					<i-mdi-chevron-down/>
+				</m-button>
+				<template #content>
+					<m-dropdown-item v-for="manager of mod.mod_managers" :key="manager.id" @click="() => setModManager(manager)">{{ manager.name }}</m-dropdown-item>
+				</template>
+			</m-dropdown>
 		</m-flex>
-
-		<m-dropdown v-if="!small" class="self-start">
-			<m-button :class="classes">
-				<i-mdi-chevron-down/>
-			</m-button>
-			<template #content>
-				<m-dropdown-item v-for="manager of mod.mod_managers" :key="manager.id" @click="() => setModManager(manager)">{{ manager.name }}</m-dropdown-item>
-			</template>
-		</m-dropdown>
+		<small v-if="!small && primaryModManager.site_url">
+			<NuxtLink :to="primaryModManager.site_url"> {{ $t('mod_manager_not_installed', { modManager: primaryModManager.name }) }} </NuxtLink>
+		</small>
 	</m-flex>
 </template>
 

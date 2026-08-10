@@ -1,7 +1,5 @@
 <template>
 	<m-flex column class="self-start mod-info-holder" gap="3">
-		<mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
-
 		<m-flex class="content-block p-4" column>
 			<mod-buttons :mod="mod" :static="static"/>
 		</m-flex>
@@ -91,8 +89,6 @@
 				</m-flex>
 			</m-flex>
 		</m-flex>
-
-		<div id="mws-ads-mod-pane" class="ad mt-1"/>
 	</m-flex>
 </template>
 
@@ -131,11 +127,7 @@ const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 </script>
 
 <style>
-@media (min-width: 650px) and (max-width: 1280px) {
-	.mod-info.mod-thumbnail img {
-		width: 300px;
-	}
-
+@media (max-width: 1280px) {
 	.mod-info {
 		padding: 1.5rem;
 	}

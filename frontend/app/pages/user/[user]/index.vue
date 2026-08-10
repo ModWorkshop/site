@@ -5,7 +5,7 @@
 				<m-avatar class="mt-auto d-inline-block mb-2 ml-2" size="3xl" :src="user.avatar"/>
 			</m-banner>
 			<m-flex gap="3" column class="details md:flex-row">
-				<m-content-block class="p-4 place-self-start max-sm:w-full">
+				<m-content-block class="p-4 max-sm:w-full">
 					<m-flex gap="3" column style="min-width: 300px;">
 						<a-user class="text-xl" :user="user" :avatar="false" static show-online-state>
 							<template #details>

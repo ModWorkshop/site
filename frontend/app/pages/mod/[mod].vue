@@ -11,9 +11,17 @@ import type { Mod } from '~/types/models';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
-const { data: mod }: { data: Ref<Mod> } = await useResource<Mod>('mod', 'mods', {
+const { data: mod } = await useResource<Mod>('mod', 'mods', {
 	suspended: t('error_suspended'),
 	rejected: t('error_rejected'),
 	unapproved: t('error_unapproved')
 });
+
+// In case going from edit page to index causes issues
+// onBeforeRouteUpdate(async (to, from) => {
+// 	if (from.name === 'mod-mod-edit' && to.name === 'mod-mod') {
+// 		refresh();
+// 	}
+// });
+
 </script>

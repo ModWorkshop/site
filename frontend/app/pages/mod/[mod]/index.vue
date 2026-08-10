@@ -45,12 +45,12 @@
 				</m-dropdown>
 			</m-flex>
 		</m-flex>
-		<div class="mod-main mb-3">
-			<m-flex class="overflow-x-hidden" column gap="3">
-				<mod-banner class="desktop-banner" :mod="mod"/>
-				<mod-tabs :mod="mod"/>
-			</m-flex>
-			<mod-banner class="mobile-banner" :mod="mod"/>
+		<div class="mod-banner-thumb">
+			<mod-banner :mod="mod"/>
+			<mod-thumbnail :thumbnail="mod.thumbnail" prefer-hq/>
+		</div>
+		<div class="mod-main">
+			<mod-tabs :mod="mod"/>
 			<mod-right-pane :mod="mod"/>
 		</div>
 		<the-comments
@@ -142,60 +142,52 @@ async function leaveMembers() {
 </script>
 
 <style>
+.mod-banner-thumb .mod-thumbnail {
+	margin: 0 auto 0 auto;
+	width: 500px !important;
+}
+
 .large-button {
 	font-size: 1.15rem;
 	padding: 1rem !important;
 	text-align: center;
 }
-</style>
 
-<style scoped>
 .mod-title {
 	font-size: 1.5rem;
 	font-weight: 500;
 }
 
-.mod-main {
+.mod-banner-thumb {
 	display: grid;
 	grid-gap: 0.75rem;
 	margin-right: 0.75rem;
 	grid-template-columns: 66.5% 33.5%;
 }
 
-@media (min-width: 600px) and (max-width: 850px) {
-	.mod-info .thumbnail {
-		display: none;
-	}
+.mod-main {
+	display: grid;
+	grid-gap: 0.75rem;
+	margin-right: 0.75rem;
+	grid-template-columns: 66.66% 33.33%;
 }
 
-@media (min-width: 1280px) and (max-width: 1500px) {
-	.mod-main {
-		grid-template-columns: 60% 40%;
-	}
-}
-
-@media (min-width: 800px) and (max-width: 1280px) {
-	.mod-main {
-		grid-template-columns: 55% 45%;
-	}
-}
-
-@media (min-width: 800px) {
-	.mobile-banner {
-		display: none;
-	}
-
-	.desktop-banner {
-		display: block;
-	}
+.downloads-list {
+	display: none;
 }
 
 @media (max-width: 800px) {
-	.mobile-banner {
-		display: block;
+	.mod-banner-thumb {
+		display: flex;
+		flex-direction: column;
 	}
+}
 
-	.desktop-banner {
+@media (max-width: 1024px) {
+	.downloads-table {
+		display: table;
+	}
+	.downloads-list {
 		display: none;
 	}
 
@@ -203,18 +195,18 @@ async function leaveMembers() {
 		order: -1;
 	}
 
-	.mod-banner {
-		order: -1;
-	}
-
 	.mod-main {
 		grid-template-columns: auto;
 		margin-right: 0;
-		gap: 1px;
 	}
 }
 
-.mobile-banner {
-	margin-bottom: 1rem;
+@media (max-width: 800px) {
+	.downloads-table {
+		display: none;
+	}
+	.downloads-list {
+		display: flex;
+	}
 }
 </style>

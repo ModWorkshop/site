@@ -1,7 +1,7 @@
 <template>
-	<m-flex class="w-full mb-4">
-		<span class="h2">{{ $t('downloads') }}</span>
-		<m-button class="ml-auto" @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</m-button>
+	<m-flex class="w-full mb-4" wrap gap="3">
+		<span class="h2 flex-1">{{ $t('downloads') }}</span>
+		<m-button @click="setPrimaryDownload()"><i-mdi-close/> {{ $t('clear_primary_download') }}</m-button>
 	</m-flex>
 
 	<edit-mod-file-uploader
@@ -20,12 +20,12 @@
 		</m-flex>
 		<m-table alt-background>
 			<template #head>
-				<th style="width: 5%;"/>
-				<th style="width: 15%;">{{ $t('version') }}</th>
-				<th style="width: 20%;">{{ $t('name') }}</th>
-				<th style="width: 20%;">{{ $t('url') }}</th>
-				<th style="width: 30%;">{{ $t('date') }}</th>
-				<th style="width: 10%;"/>
+				<th/>
+				<th>{{ $t('version') }}</th>
+				<th>{{ $t('name') }}</th>
+				<th>{{ $t('url') }}</th>
+				<th>{{ $t('date') }}</th>
+				<th/>
 			</template>
 			<template #body>
 				<mod-edit-download
@@ -40,31 +40,6 @@
 				/>
 			</template>
 		</m-table>
-		<!-- <m-flex column>
-			<template v-if="links.length">
-				<m-content-block v-for="link of links" :key="link.id" alt-background :column="false" wrap class="items-center">
-					<input :checked="(link.id === mod.download_id && mod.download_type == 'link') ? true : undefined" type="radio" @change="setPrimaryDownload('link', link)">
-					<m-flex column class="wrap-break-word overflow-hidden">
-						<span>
-							{{ link.name }} ({{ link.url }})
-						</span>
-						<m-time v-if="link.id && link.updated_at" :datetime="link.updated_at"/>
-						<span v-else>{{ $t('waiting_for_mod') }}</span>
-					</m-flex>
-					<m-flex class="ml-auto">
-						<span class="text-center">
-							<m-flex inline>
-								<m-button color="danger" @click.prevent="deleteLink(link)"><i-mdi-delete/></m-button>
-								<m-button @click.prevent="editLink(link)"><i-mdi-cog/></m-button>
-							</m-flex>
-						</span>
-					</m-flex>
-				</m-content-block>
-			</template>
-			<span v-else class="text-center">
-				{{ $t('nothing_found') }}
-			</span>
-		</m-flex> -->
 		<m-pagination v-model="linksPage" :per-page="10" :total="asyncLinks?.meta.total"/>
 	</m-flex>
 
