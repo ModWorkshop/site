@@ -108,6 +108,7 @@
     "post": "Posten",
     "back_to_home": "Zurück zur Startseite",
     "unsaved_changes": "Du hast ungespeicherte Änderungen",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Zuletzt aktualisierte Mods",
     "popular_mods": "Beliebte Mods",
     "register": "Registrieren",
