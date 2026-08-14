@@ -108,6 +108,7 @@
     "post": "Ответить",
     "back_to_home": "Вернуться домой",
     "unsaved_changes": "У вас есть несохраненные изменения",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Последние обновленные моды",
     "popular_mods": "Популярные моды",
     "register": "Регистрация",
