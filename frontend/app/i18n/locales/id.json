@@ -108,6 +108,7 @@
     "post": "Buat",
     "back_to_home": "Kembali ke Halaman Utama",
     "unsaved_changes": "Anda mempunyai perubahan tak tersimpan",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Mod yang Terakhir Diperbarui",
     "popular_mods": "Mod yang Populer",
     "register": "Registrasi",
