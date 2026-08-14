@@ -108,6 +108,7 @@
     "post": "发布",
     "back_to_home": "回到主页",
     "unsaved_changes": "您有未保存的更改",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "最近更新的模组",
     "popular_mods": "热门模组",
     "register": "注册",
