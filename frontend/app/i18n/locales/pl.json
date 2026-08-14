@@ -108,6 +108,7 @@
     "post": "Komentuj",
     "back_to_home": "Wróć do strony głównej",
     "unsaved_changes": "Masz niezapisane zmiany",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Ostatnio Zaktualizowane Mody",
     "popular_mods": "Popularne Mody",
     "register": "Zarejestruj Się",
