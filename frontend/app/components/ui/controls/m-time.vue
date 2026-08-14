@@ -49,14 +49,16 @@ const overrideText = computed(() => {
 	}
 
 	const date = typeof datetime === 'string' ? parseISO(datetime) : datetime;
-	const secs = Math.abs(differenceInSeconds(now.value, date));
+	const secs = differenceInSeconds(date, now.value);
+	const secsAbs = Math.abs(secs);
+	const sign = Math.sign(secs);
 
 	if (relative && useRelativeTime.value) {
-		if (secs < 60) {
+		if (secsAbs < 60) {
 			return t('just_now');
 		} else {
-			const diffInHours = Math.floor(secs / 3600);
-			const diffInDays = Math.floor(secs / 86400);
+			const diffInHours = Math.floor(secsAbs / 3600);
+			const diffInDays = Math.floor(secsAbs / 86400);
 			const diffInMonths = differenceInMonths(now.value, date);
 
 			const rtf = new Intl.RelativeTimeFormat(locale.value, {
@@ -66,16 +68,16 @@ const overrideText = computed(() => {
 
 			if (diffInMonths >= 12) {
 				const years = Math.floor(diffInMonths / 12);
-				return rtf.format(-years, 'year');
+				return rtf.format(sign * years, 'year');
 			} else if (diffInMonths >= 1) {
-				return rtf.format(-diffInMonths, 'month');
+				return rtf.format(sign * diffInMonths, 'month');
 			} else if (diffInDays >= 1) {
-				return rtf.format(-diffInDays, 'day');
+				return rtf.format(sign * diffInDays, 'day');
 			} else if (diffInHours >= 1) {
-				return rtf.format(-diffInHours, 'hour');
+				return rtf.format(sign * diffInHours, 'hour');
 			} else {
-				const diffInMinutes = Math.floor(secs / 60);
-				return rtf.format(-diffInMinutes, 'minute');
+				const diffInMinutes = Math.floor(secsAbs / 60);
+				return rtf.format(sign * diffInMinutes, 'minute');
 			}
 		}
 	}
