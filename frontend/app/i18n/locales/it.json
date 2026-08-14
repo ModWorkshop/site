@@ -108,6 +108,7 @@
     "post": "Commenta",
     "back_to_home": "Torna alla Home",
     "unsaved_changes": "Ci sono cambiamenti non salvati",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Mod Aggiornate di Recente",
     "popular_mods": "Mod Popolari",
     "register": "Registrati",
