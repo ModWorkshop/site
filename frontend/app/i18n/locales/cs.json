@@ -108,6 +108,7 @@
     "post": "Zveřejnit",
     "back_to_home": "Zpět Domů",
     "unsaved_changes": "Máte neuložené změny",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Naposledy Aktualizované Módy",
     "popular_mods": "Populární Módy",
     "register": "Zaregistrovat Se",
