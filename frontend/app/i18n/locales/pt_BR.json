@@ -108,6 +108,7 @@
     "post": "Postar",
     "back_to_home": "Voltar ao inicio",
     "unsaved_changes": "Você tem mudanças que não estão salvas.",
+    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
     "latest_mods": "Últimos mods atualizados",
     "popular_mods": "Mods populares",
     "register": "Registrar",
