@@ -8,8 +8,8 @@
  */
 export default function () {
 	const queryTab = useRouteQuery('tab');
-	const tabName = inject<string>('tab-name');
-	const form = inject<Ref<HTMLFormElement>>('form');
+	const tabName = inject<string | undefined>('tab-name', undefined);
+	const form = inject<Ref<HTMLFormElement | undefined>>('form', ref());
 
 	let ignoreOnce = false;
 	return function () {
@@ -19,8 +19,8 @@ export default function () {
 			if (!ignoreOnce) {
 				setTimeout(() => {
 					ignoreOnce = true;
-					if (!form?.value.checkValidity()) {
-						form?.value.reportValidity();
+					if (!form?.value?.checkValidity()) {
+						form?.value?.reportValidity();
 					}
 					ignoreOnce = false;
 				}, 100);
