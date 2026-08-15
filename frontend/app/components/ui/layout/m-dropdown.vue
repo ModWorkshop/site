@@ -36,9 +36,28 @@
 				<slot/>
 			</TooltipTrigger>
 			<TooltipPortal v-if="!disabled">
-				<TooltipContent :side="side" :align="align" :class="computedClass" :side-offset="2" :collision-padding="32" :avoid-collisions="true">
-					<slot v-if="open" name="content"/>
-					<TooltipArrow class="m-dropdown-arrow"/>
+				<TooltipContent
+					:side="side"
+					:align="align"
+					class="z-50"
+					force-mount
+					:side-offset="2"
+					:collision-padding="32"
+					:avoid-collisions="true"
+				>
+					<AnimatePresence>
+						<Motion
+						v-if="open"
+						:class="computedClass"
+						:initial="{ opacity: 0, translateY: -8 }"
+						:animate="{ opacity: 1, translateY: 0 }"
+						:exit="{ opacity: 0, translateY: -8 }"
+						:transition="{ duration: 0.2, ease: 'backInOut' }"
+						>
+							<slot name="content"/>
+							<PopoverArrow class="m-dropdown-arrow"/>
+						</Motion>
+					</AnimatePresence>
 				</TooltipContent>
 			</TooltipPortal>
 		</TooltipRoot>
