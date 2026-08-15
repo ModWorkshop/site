@@ -225,5 +225,18 @@ export default defineNuxtConfig({
 		sitemap: '/sitemap.xml'
 	},
 
-	modules: ['@nuxtjs/robots', '@pinia/nuxt', '@vueuse/nuxt', 'unplugin-icons/nuxt', '@nuxtjs/i18n', 'nuxt-umami', '@nuxtjs/fontaine', 'nuxt-easy-lightbox', 'nuxt-vitalizer', 'nuxt-seo-utils', '@nuxt/scripts', 'nuxt-schema-org']
+	modules: [
+		'@nuxtjs/robots',
+		'@pinia/nuxt',
+		'@vueuse/nuxt',
+		'unplugin-icons/nuxt',
+		'@nuxtjs/i18n',
+		'nuxt-umami',
+		'@nuxtjs/fontaine',
+		'nuxt-easy-lightbox',
+		'nuxt-vitalizer',
+		'nuxt-seo-utils',
+		'@nuxt/scripts',
+		'nuxt-schema-org'
+	]
 });

@@ -5,16 +5,28 @@
 		</PopoverTrigger>
 		<PopoverPortal>
 			<PopoverContent
+				force-mount
 				:side="side"
 				:align="align"
-				:class="computedClass"
 				:side-offset="2"
 				:trap-focus="trapFocus"
+				class="z-50"
 				update-position-strategy="optimized"
 				@click="onClickContent"
 			>
-				<slot name="content"/>
-				<PopoverArrow class="m-dropdown-arrow"/>
+				<AnimatePresence>
+					<Motion
+					v-if="open"
+					:class="computedClass"
+					:initial="{ opacity: 0, translateY: -8 }"
+					:animate="{ opacity: 1, translateY: 0 }"
+					:exit="{ opacity: 0, translateY: -8 }"
+					:transition="{ duration: 0.2, ease: 'backInOut' }"
+					>
+						<slot name="content"/>
+						<PopoverArrow class="m-dropdown-arrow"/>
+					</Motion>
+				</AnimatePresence>
 			</PopoverContent>
 		</PopoverPortal>
 	</PopoverRoot>
@@ -34,8 +46,9 @@
 </template>
 
 <script setup lang="ts">
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger, PopoverArrow } from 'radix-vue';
-import { TooltipPortal, TooltipArrow, TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from 'radix-vue';
+import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger, PopoverArrow } from 'reka-ui';
+import { TooltipPortal, TooltipArrow, TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui';
+import { AnimatePresence, Motion } from 'motion-v';
 
 const {
 	side = 'bottom',
@@ -112,64 +125,7 @@ watch(open, () => {
 	/* overflow: auto; */
 }
 
-.m-dropdown[data-side='top'] {
-	animation-name: slideDownAndFade;
-}
-.m-dropdown[data-side='right'] {
-	animation-name: slideLeftAndFade;
-}
-.m-dropdown[data-side='bottom'] {
-	animation-name: slideUpAndFade;
-}
-.m-dropdown[data-side='left'] {
-	animation-name: slideRightAndFade;
-}
-
 .m-dropdown-arrow {
 	fill: var(--dropdown-bg);
-}
-
-@keyframes slideUpAndFade {
-	from {
-		opacity: 0;
-		transform: translateY(8px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slideRightAndFade {
-	from {
-		opacity: 0;
-		transform: translateX(-8px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-@keyframes slideDownAndFade {
-	from {
-		opacity: 0;
-		transform: translateY(-8px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slideLeftAndFade {
-	from {
-		opacity: 0;
-		transform: translateX(8px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
 }
 </style>
