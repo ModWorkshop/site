@@ -4,31 +4,16 @@
 	<category-select
 		v-if="categories && categories.length"
 		v-model="categoryIdModel"
-		:max-height="500"
+		:max-height="400"
 		:categories="categories"
 		:label="$t('category')"
 	/>
-	<m-select
-		v-model="tagsModel"
+	<m-allow-list
+		v-if="tags"
+		v-model:allow="tagsModel"
+		v-model:disallow="blockTagsModel"
 		:label="$t('tags')"
-		multiple
-		clearable
-		list-tags
-		color-by="color"
 		:options="tags?.data"
-		max="10"
-		max-shown="1"
-	/>
-	<m-select
-		v-model="blockTagsModel"
-		:label="$t('filter_out_tags')"
-		multiple
-		clearable
-		list-tags
-		color-by="color"
-		:options="tags?.data"
-		max="10"
-		max-shown="1"
 	/>
 </template>
 

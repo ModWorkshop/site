@@ -125,12 +125,6 @@ function onClickCategory(category: Category) {
 }
 </script>
 
-<style>
-.category summary {
-	display: flex;
-}
-</style>
-
 <style scoped>
 .category {
 	overflow: hidden;
@@ -138,6 +132,7 @@ function onClickCategory(category: Category) {
 .categories {
 	overflow: auto;
 	height: 100%;
+	padding: 0 0.25rem 0 0;
 }
 .tree-button {
 	display: flex;
