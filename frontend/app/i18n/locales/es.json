@@ -108,7 +108,7 @@
     "post": "Publicar",
     "back_to_home": "Volver al inicio",
     "unsaved_changes": "Tienes cambios sin guardar",
-    "uploading_files_warning": "Some files are still being uploaded, exiting the page will cancel the uploading process.",
+    "uploading_files_warning": "Algunos archivos todavía se están subiendo. Salir de la página va a cancelar el proceso de carga.",
     "latest_mods": "Mods actualizados recientemente",
     "popular_mods": "Mods populares",
     "register": "Registrarse",
