@@ -1,6 +1,6 @@
 <template>
 	<m-flex
-		:class="['thread', 'content-block', 'max-md:gap-2', !!thread.answer_comment_id ? 'thread-inactive' : undefined]"
+		:class="classes"
 		gap="1"
 		column
 	>
@@ -9,7 +9,7 @@
 
 			<m-flex class="w-full max-sm:flex-col" wrap gap="3">
 				<m-flex column class="md:flex-2 flex-1" gap="2">
-					<NuxtLink class="card-title !text-xl w-full" :to="`/thread/${thread.id}`">
+					<NuxtLink class="card-title text-xl! w-full" :to="`/thread/${thread.id}`">
 						<i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
 						<i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
 						<i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
@@ -64,16 +64,24 @@
 <script setup lang="ts">
 import type { Thread } from '~/types/models';
 
-const { thread, categoryLink } = defineProps<{
+const { thread, categoryLink, altBackground } = defineProps<{
 	thread: Thread;
 	userId?: number;
 	noPins?: boolean;
 	forumId?: number;
 	categoryLink?: boolean;
 	noCategory?: boolean;
+	altBackground?: boolean;
 }>();
 
 const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '/forum');
+const classes = computed(() => ({
+	'thread': true,
+	'content-block': true,
+	'max-md:gap-2': true,
+	'thread-inactive': !!thread.answer_comment_id,
+	'alt-content-bg': altBackground
+}));
 </script>
 
 <style scoped>

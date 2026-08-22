@@ -6,7 +6,6 @@ use App\Interfaces\SubscribableInterface;
 use App\Traits\Reportable;
 use App\Traits\Subscribable;
 use Eloquent;
-use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Laravel\Scout\Searchable;
 
@@ -162,7 +160,8 @@ class Thread extends Model implements SubscribableInterface
             'closed' => $this->closed,
             'bumped_at' => $this->bumped_at,
             'category_id' => $this->category_id,
-            'category_name' => $this->category?->name
+            'category_name' => $this->category?->name,
+            'ticket' => $this->category?->tickets_mode ?? false
         ];
     }
 

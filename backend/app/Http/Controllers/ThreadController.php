@@ -38,7 +38,6 @@ class ThreadController extends Controller
      */
     public function index(GetThreadRequest $request)
     {
-
         return ThreadResource::collectionResponse(ThreadService::meiliSearch($request->val()));
     }
 

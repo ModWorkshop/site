@@ -50,6 +50,7 @@ use App\Models\Game;
 use App\Models\IgnoredGame;
 use App\Models\Mod;
 use App\Models\Report;
+use App\Models\Thread;
 use App\Models\TrackSession;
 use App\Services\APIService;
 use Carbon\Carbon;
@@ -295,6 +296,11 @@ Route::get('site-data', function(Request $request) {
         if ($user->hasPermission('moderate-users')) {
             $data['report_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(null)->count();
+            $data['ticket_count'] = Thread::where('closed', false)
+                ->where('forum_id', 1)
+                ->whereHas('category', function($q) {
+                    $q->where('tickets_mode', true);
+                })->count();
         }
 
         $user = $request->user();

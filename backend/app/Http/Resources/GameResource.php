@@ -49,6 +49,7 @@ class GameResource extends BaseResource
             'forum_id' => $this->forum_id,
             'default_mod_manager_id' => $this->default_mod_manager_id,
             'mod_types_definition' => $this->mod_types_definition,
+            'appeals_forum_category_id' => $this->appeals_forum_category_id,
 
             'followed' => $this->whenLoaded('followed'),
             'ignored' => $this->whenLoaded('ignored'),
@@ -61,6 +62,7 @@ class GameResource extends BaseResource
             'mod_managers' => $this->whenLoaded('modManagers'),
 
             'webhook_url' => $this->when($user?->hasPermission('manage-game', $this->resource), $this->webhook_url),
+            'ticket_count' => $this->when($isCurrent && $moderateUsers && $manageMods, fn() => $this->ticketCount),
             'report_count' => $this->when($isCurrent && $moderateUsers, fn() => $this->reportCount),
             'waiting_count' => $this->when($isCurrent && $manageMods, fn() => $this->waitingCount),
             'user_data' => $this->when($isCurrent, fn() => $this->userData),

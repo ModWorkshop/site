@@ -106,5 +106,20 @@ class Forum extends Model
             'desc' => 'A forum to create requests for new mods.',
             'can_close_threads' => true
         ]));
+
+        $forumCat = $this->withSecureConstraints(fn() => $this->categories()->firstOrCreate([
+            'name' => 'Tickets',
+        ],[
+            'display_order' => 60,
+            'emoji' => '🎟️',
+            'desc' => 'Forum category for getting help from moderators or appealing moderation decisions.',
+            'can_close_threads' => true,
+            'private_threads' => true,
+            'tickets_mode' => true,
+        ]));
+
+        $this->game->update([
+            'appeals_forum_category_id' => $forumCat->id
+        ]);
     }
 }

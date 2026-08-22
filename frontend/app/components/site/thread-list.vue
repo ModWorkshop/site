@@ -4,8 +4,7 @@
 			<NuxtLink class="text-body" :to="titleLink">{{ title }}</NuxtLink>
 		</span>
 		<m-flex style="flex: 1;" class="flex-col md:flex-row" gap="3">
-			<m-flex v-if="filters" class="max-md:!w-full items-center" style="width: 300px;" column :gap="adChildren > 0 ? 6 : 0">
-				<div id="mws-ads-filters" ref="filtersAd"/>
+			<m-flex v-if="filters" class="max-md:w-full! items-center" style="width: 300px;" column>
 				<m-content-block column class="w-full">
 					<m-input v-model="query" :label="$t('search')"/>
 					<m-select v-if="!forumId" v-model="selectedForum" :label="$t('forum')" :placeholder="$t('any_forum')" clearable :options="forums"/>
@@ -37,7 +36,7 @@
 					{{ currentCategory.desc }}
 				</m-alert>
 
-				<m-toggle-group v-if="currentCategory?.can_close_threads" v-model:selected="displayClosed" gap="1" button-style="nav">
+				<m-toggle-group v-if="currentCategory?.can_close_threads || currentCategory?.tickets_mode" v-model:selected="displayClosed" gap="1" button-style="nav">
 					<m-toggle-group-item :value="false">{{ $t('open_threads') }}</m-toggle-group-item>
 					<m-toggle-group-item :value="true">{{ $t('closed_threads') }}</m-toggle-group-item>
 				</m-toggle-group>
@@ -67,6 +66,7 @@
 							:no-pins="noPins"
 							:forum-id="currentForumId"
 							:user-id="userId"
+							:alt-background="altBackground"
 						/>
 					</m-flex>
 				</template>
@@ -87,9 +87,6 @@ import { vIntersectionObserver } from '@vueuse/components';
 
 const searchBus = useEventBus<string>('search');
 
-const filtersAd = ref();
-const adChildren = useTrackElementChildren(filtersAd);
-
 const props = withDefaults(defineProps<{
 	title?: string;
 	titleLink?: string;
@@ -102,6 +99,8 @@ const props = withDefaults(defineProps<{
 	lazy?: boolean;
 	url?: string;
 	userId?: number;
+	altBackground?: boolean;
+	tickets?: boolean;
 }>(), {
 	lazy: false,
 	query: true,
@@ -159,6 +158,7 @@ const params = {
 	closed: displayClosed,
 	no_pins: props.noPins ? 1 : 0,
 	limit: props.limit,
+	tickets: props.tickets,
 	page
 };
 

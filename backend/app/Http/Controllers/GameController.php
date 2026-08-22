@@ -6,10 +6,8 @@ use App\Http\Requests\FilteredRequest;
 use App\Http\Requests\GetModsRequest;
 use App\Http\Resources\GameResource;
 use App\Http\Resources\ModResource;
-use App\Models\Category;
 use App\Models\Game;
 use App\Models\AuditLog;
-use App\Models\Mod;
 use App\Models\ModManager;
 use App\Models\Tag;
 use App\Models\User;
@@ -18,11 +16,8 @@ use App\Services\ModService;
 use Arr;
 use Str;
 use Auth;
-use Cache;
-use Chr15k\MeilisearchAdvancedQuery\MeilisearchQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Date;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -42,7 +37,7 @@ class GameController extends Controller
      *
      * @authenticated
      */
-    public function update(Request $request, Game $game=null)
+    public function update(Request $request, ?Game $game=null)
     {
         $validateArr = [
             'name' => 'string|min_strict:3|max:150',
@@ -273,6 +268,7 @@ class GameController extends Controller
         if (Auth::hasUser()) {
             $user = Auth::user();
             if ($user->hasPermission('moderate-users', $game)) {
+                $data['ticket_count'] = $game->ticketCount;
                 $data['report_count'] = $game->reportCount;
                 $data['waiting_count'] = $game->waitingCount;
             }
@@ -302,7 +298,7 @@ class GameController extends Controller
      *
      * Returns the user as they are supposed to be when inside of a game. Handles roles and colors.
      */
-    public function getGameUser(Request $request, UserController $con, Game $game=null, string $user) {
+    public function getGameUser(Request $request, UserController $con, Game $game, string $user) {
         return $con->getUser($request, $user, $game);
     }
 

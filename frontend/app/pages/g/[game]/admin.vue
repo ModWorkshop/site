@@ -14,6 +14,7 @@
 			<m-nav-link v-if="moderateUsers" to="bans" :title="$t('bans')"/>
 			<m-nav-link v-if="manageMods" to="suspensions" :title="$t('suspensions')"/>
 			<m-nav-link v-if="moderateUsers" to="reports" :title="$t('reports')"/>
+			<m-nav-link v-if="moderateUsers" to="tickets" :title="$t('tickets')"/>
 			<m-nav-link v-if="canSeeAuditLog" to="audit-log" :title="$t('audit_log')"/>
 			<h3 class="mt-4!">{{ $t('content') }}</h3>
 			<m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>

@@ -184,7 +184,8 @@ return [
                     'user_id',
                     'category_id',
                     'category_name',
-                    'closed'
+                    'closed',
+                    'ticket'
                 ],
                 'sortableAttributes' => [
                     'bumped_at',

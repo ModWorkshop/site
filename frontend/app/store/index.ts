@@ -9,6 +9,7 @@ interface MainStore {
 	notifications: Paginator<Notification> | null;
 	notificationCount: number | null;
 	reportCount: number | null;
+	ticketCount: number | null;
 	waitingCount: number | null;
 	activity: {
 		users: number;
@@ -33,6 +34,7 @@ export const useStore = defineStore('main', {
 		notifications: null,
 		notificationCount: null,
 		reportCount: null,
+		ticketCount: null,
 		waitingCount: null,
 		savedTheme: useCookie('theme'),
 		colorScheme: useCookie('color-scheme', { expires: longExpiration() }).value ?? 'blue',
@@ -109,6 +111,7 @@ export const useStore = defineStore('main', {
 				unseen_notifications: number;
 				maintenance_mode?: boolean;
 				report_count?: number;
+				ticket_count?: number;
 				waiting_count?: number;
 				user?: User;
 				activity: { users: number; guests: number };
@@ -140,6 +143,7 @@ export const useStore = defineStore('main', {
 			this.notificationCount = siteData.unseen_notifications;
 			this.reportCount = siteData.report_count ?? null;
 			this.waitingCount = siteData.waiting_count ?? null;
+			this.ticketCount = siteData.ticket_count ?? null;
 			this.activity = siteData.activity;
 			this.gamesCount = siteData.games_count;
 		},

@@ -61,13 +61,31 @@
 							</span>
 						</m-flex>
 						<m-flex class="text-lg max-sm:ml-auto" gap="2">
-							<NuxtLink v-if="canSeeReports" :title="$t('reports')" :class="{ 'text-warning': hasReports, 'text-body': !hasReports }" to="/admin/reports">
+							<NuxtLink
+								v-if="canSeeReports"
+								:title="$t('reports')"
+								:class="{ 'small-btn': true, 'text-warning': hasReports, 'text-body': !hasReports }"
+								to="/admin/reports"
+							>
 								<i-mdi-alert-box/> {{ reportCount }}
 							</NuxtLink>
-							<NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{ 'text-warning': hasWaiting, 'text-body': !hasWaiting }" to="/admin/approvals">
+							<NuxtLink
+								v-if="canSeeWaiting"
+								:title="$t('approvals')"
+								:class="{ 'small-btn': true, 'text-warning': hasWaiting, 'text-body': !hasWaiting }"
+								to="/admin/approvals"
+							>
 								<i-mdi-clock/> {{ waitingCount }}
 							</NuxtLink>
-							<span class="cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{ notificationCount }}</span>
+							<NuxtLink
+								v-if="canSeeTickets"
+								:title="$t('tickets')"
+								:class="{ 'small-btn': true, 'text-warning': hasTickets, 'text-body': !hasTickets }"
+								to="/admin/tickets"
+							>
+								<i-mdi-ticket-confirmation/> {{ ticketCount }}
+							</NuxtLink>
+							<span class="small-btn cursor-pointer" @click="showNotifications = true"><i-mdi-bell/> {{ notificationCount }}</span>
 						</m-flex>
 						<m-dropdown class="-order-1 md:order-1" align="end" dropdown-class="user-dropdown">
 							<m-flex class="items-center">
@@ -110,7 +128,8 @@ const {
 	notifications,
 	notificationCount,
 	reportCount,
-	waitingCount
+	waitingCount,
+	ticketCount
 } = storeToRefs(store);
 
 const headerClosed = ref(true);
@@ -120,8 +139,10 @@ const logo = computed(() => store.theme === 'light' ? 'mws_logo_black.svg' : 'mw
 const canSeeAdminPage = computed(() => adminPagePerms.some(perm => store.hasPermission(perm)));
 const hasReports = computed(() => reportCount?.value && reportCount.value > 0);
 const hasWaiting = computed(() => waitingCount?.value && waitingCount.value > 0);
+const hasTickets = computed(() => ticketCount?.value && ticketCount.value > 0);
 const canSeeReports = computed(() => store.hasPermission('manage-users'));
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods'));
+const canSeeTickets = computed(() => store.hasPermission('manage-mods') || store.hasPermission('manage-users')); // Can suspend/ban
 
 const userLink = computed(() => {
 	if (user.value!.unique_name) {
@@ -209,6 +230,12 @@ header {
 		flex-direction: column;
 		align-items: start !important;
 	}
+}
+
+.small-btn {
+	display: flex;
+	align-items: center;
+	gap: 1px;
 }
 </style>
 

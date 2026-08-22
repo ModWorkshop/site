@@ -1,5 +1,5 @@
 <template>
-	<m-content-block class="p-8 page-block-nm">
+	<m-content-block class="p-8 page-block-xs">
 		<simple-resource-form
 			v-model="thread"
 			url="threads"

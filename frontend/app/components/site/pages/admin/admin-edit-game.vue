@@ -31,6 +31,13 @@
 		</m-flex>
 		<m-select v-model="vmGame.hidden_tag_ids" :options="tags?.data" multiple color-by="color" list-tags :label="$t('hidden_tags')" :desc="$t('hidden_tags_desc')"/>
 
+		<m-select
+			v-model="vmGame.appeals_forum_category_id"
+			label="Appeals Forum Category"
+			url="forum-categories"
+			:fetch-params="{ forum_id: vmGame.forum_id }"
+		/>
+
 		<m-flex class="items-end">
 			<m-input v-model="gameSDKKey" readonly label="Game SDK Key" click-copy>
 				<template #next-to>

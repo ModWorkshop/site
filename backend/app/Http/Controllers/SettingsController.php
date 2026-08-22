@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use App\Services\APIService;
-use Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -30,7 +29,6 @@ class SettingsController extends Controller
      * Update a setting
      *
      * @param Request $request
-     * @param  int  $id
      * @return Response
      */
     public function update(Request $request)
@@ -43,6 +41,7 @@ class SettingsController extends Controller
             'mod_max_image_count' => 'integer',
             'news_forum_category' => 'integer',
             'game_requests_forum_category' => 'integer',
+            'appeals_forum_category_id' => 'integer',
             'maintenance_mode' => 'boolean',
             'new_user_first_upload_requires_approval' => 'boolean',
             'discord_webhook' => 'string|nullable|max:255',

@@ -101,6 +101,7 @@ export default defineNuxtConfig({
 						{ path: 'tags', file: '~/pages/admin/tags/index.vue' },
 						{ path: 'suspensions', file: '~/pages/admin/suspensions.vue' },
 						{ path: 'reports', file: '~/pages/admin/reports.vue' },
+						{ path: 'tickets', file: '~/pages/admin/tickets.vue' },
 						{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
 						{ path: 'mods', file: '~/pages/admin/mods.vue' },
 						{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
@@ -199,7 +200,6 @@ export default defineNuxtConfig({
 			{ code: 'id', language: 'id-ID', file: 'id.json', name: 'Bahasa Indonesia' }
 		],
 
-		lazy: true,
 		defaultLocale: 'en'
 	},
 

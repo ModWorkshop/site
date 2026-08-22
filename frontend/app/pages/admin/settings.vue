@@ -10,9 +10,6 @@
 			<m-input v-model="settings.mod_storage_size" type="number" label="Storage size per mod"/>
 			<m-input v-model="settings.supporter_mod_storage_size" type="number" label="Supporter Storage size per mod"/>
 			<m-input v-model="settings.mod_max_image_count" type="number" label="Max images per mod"/>
-			<m-input v-model="settings.discord_webhook" label="Discord Webhook for mods"/>
-			<m-input v-model="settings.discord_suspension_webhook" label="Discord Webhook for suspensions"/>
-			<m-input v-model="settings.discord_approval_webhook" label="Discord Webhook for approvals"/>
 			<m-input v-model="settings.edit_comment_threshold" type="number" label="Comment editing threshold"/>
 
 			<m-select
@@ -24,6 +21,13 @@
 			<m-select
 				v-model="settings.game_requests_forum_category"
 				label="Game Request Forum Category"
+				url="forum-categories"
+				:fetch-params="{ forum_id: 1 }"
+			/>
+
+			<m-select
+				v-model="settings.appeals_forum_category_id"
+				label="Appeals Forum Category"
 				url="forum-categories"
 				:fetch-params="{ forum_id: 1 }"
 			/>

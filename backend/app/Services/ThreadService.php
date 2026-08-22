@@ -55,6 +55,10 @@ class ThreadService {
             });
         }
 
+        if (isset($val['tickets'])) {
+            $search->where('ticket', true);
+        }
+
         if (isset($val['category_id'])) {
             $search->where('category_id', $val['category_id']);
         }

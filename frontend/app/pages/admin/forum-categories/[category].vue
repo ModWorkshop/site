@@ -57,9 +57,10 @@
 		<m-input v-model="category.is_private" type="checkbox" :label="$t('private_category')"/>
 		<m-input v-model="category.banned_can_post" type="checkbox" :label="$t('banned_can_post')"/>
 		<m-input v-model="category.private_threads" type="checkbox" :label="$t('private_threads')"/>
-		<m-input v-model="category.can_close_threads" type="checkbox" :label="$t('can_close_threads')"/>
+		<m-input v-if="!category.tickets_mode" v-model="category.can_close_threads" type="checkbox" :label="$t('can_close_threads')"/>
 		<m-input v-model="category.hidden" type="checkbox" :label="$t('hidden')"/>
 		<m-input v-model="category.grid_mode" type="checkbox" :label="$t('grid_mode')"/>
+		<m-input v-model="category.tickets_mode" type="checkbox" :label="$t('tickets')"/>
 	</simple-resource-form>
 </template>
 

@@ -29,6 +29,7 @@ class GetThreadRequest extends FilteredRequest
             'tags.*' => 'integer|min:1|nullable',
             'no_pins' => 'boolean|nullable',
             'closed' => 'boolean|nullable',
+            'tickets' => 'boolean|nullable',
             'forum_id' => 'integer|min:1|nullable|exists:forums,id',
         ];
     }

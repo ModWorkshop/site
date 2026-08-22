@@ -46,6 +46,9 @@
 					<NuxtLink v-if="canSeeWaiting" :title="$t('approvals')" :class="{ 'text-warning': hasWaiting, 'text-body': !hasWaiting }" :to="`/g/${game.short_name}/admin/approvals`">
 						<i-mdi-clock/> {{ waitingCount }}
 					</NuxtLink>
+					<NuxtLink v-if="canSeeTickets" :title="$t('tickets')" :class="{ 'text-warning': hasTickets, 'text-body': !hasTickets }" :to="`/g/${game.short_name}/admin/tickets`">
+						<i-mdi-ticket-confirmation/> {{ ticketCount }}
+					</NuxtLink>
 				</m-flex>
 				<m-link v-if="store.user" style="white-space: pre;" :to="!store.user && '/login'" @click="store.user && setFollowGame(game!)">
 					<i-mdi-minus-thick v-if="game.followed"/>
@@ -80,10 +83,13 @@ const { user } = storeToRefs(store);
 
 const reportCount = computed(() => game!.report_count ?? 0);
 const waitingCount = computed(() => game!.waiting_count ?? 0);
+const ticketCount = computed(() => game!.ticket_count ?? 0);
 const hasReports = computed(() => reportCount.value > 0);
+const hasTickets = computed(() => ticketCount.value > 0);
 const hasWaiting = computed(() => waitingCount.value > 0);
 const canSeeReports = computed(() => store.hasPermission('manage-users', game));
 const canSeeWaiting = computed(() => store.hasPermission('manage-mods', game));
+const canSeeTickets = computed(() => store.hasPermission('manage-users', game));
 
 const canSeeAdminGamePage = computed(() => game && adminGamePagePerms.some(perm => store.hasPermission(perm, game)));
 

@@ -11,12 +11,10 @@ use App\Models\Role;
 use App\Services\APIService;
 use App\Services\Utils;
 use Arr;
-use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use App\Models\AuditLog;
-use Illuminate\Http\Response;
 
 /**
  * @group Forums
@@ -58,7 +56,7 @@ class ForumCategoryController extends Controller
      *
      * @authenticated
      */
-    public function store(Request $request, Game $game=null)
+    public function store(Request $request, ?Game $game=null)
     {
         return $this->update($request, null, $game);
     }
@@ -76,7 +74,7 @@ class ForumCategoryController extends Controller
      *
      * @authenticated
      */
-    public function update(Request $request, ForumCategory $forumCategory=null, Game $game=null)
+    public function update(Request $request, ?ForumCategory $forumCategory=null, ?Game $game=null)
     {
         $val = $request->validate([
             'name' => 'string|nullable|min:3|max:150',
@@ -88,6 +86,7 @@ class ForumCategoryController extends Controller
             'private_threads' => 'boolean',
             'can_close_threads' => 'boolean',
             'grid_mode' => 'boolean',
+            'tickets_mode' => 'boolean',
             'role_policies' => 'array',
             'game_role_policies' => 'array',
             'display_order' => 'integer|min:-1000|max:1000|nullable',

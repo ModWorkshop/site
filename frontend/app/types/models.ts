@@ -225,6 +225,8 @@ export interface Game {
 	default_mod_manager_id?: number;
 	game_sdk_key?: string;
 	mod_types_definition?: string;
+	ticket_count?: number;
+	appeals_forum_category_id?: number;
 }
 
 export interface SocialLogin {
@@ -357,7 +359,7 @@ export interface Link {
 	image_id?: number;
 	created_at?: string;
 	updated_at?: string;
-	user: User;
+	user?: User;
 }
 
 export type Download = (File | Link) & { download_type: 'file' | 'link' };
@@ -458,6 +460,7 @@ export interface ForumCategory {
 	hidden?: boolean;
 	can_close_threads?: boolean;
 	grid_mode?: boolean;
+	tickets_mode?: boolean;
 }
 
 export interface Suspension {

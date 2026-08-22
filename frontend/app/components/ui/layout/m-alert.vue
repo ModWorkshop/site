@@ -5,7 +5,7 @@
 				<m-icon :icon="currIcon"/>
 			</span>
 
-			<m-flex column>
+			<m-flex column class="whitespace-pre" gap="2">
 				<strong v-if="title" class="flex gap-1 text-lg">
 					{{ title }}
 				</strong>

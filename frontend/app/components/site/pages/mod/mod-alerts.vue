@@ -16,6 +16,12 @@
 					<NuxtLink :to="`/forum?category=81`">{{ $t('forum').toLowerCase() }}</NuxtLink>
 				</template>
 			</i18n-t>
+
+			{{ $t('mod_suspended_appeal') }}
+
+			<br>
+
+			<m-button class="mr-auto" :to="appealUrl">{{ $t('open_ticket') }}</m-button>
 		</m-alert>
 		<m-alert v-if="!mod.has_download" color="warning" :title="$t('downloads_alert')" :desc="$t('downloads_alert_desc')"/>
 		<m-alert v-if="memberWaiting" color="warning">
@@ -45,6 +51,8 @@
 			{{ $t('publish_mod_desc') }}
 			<m-button class="mr-auto" @click="publish"><i-mdi-upload/> {{ $t('publish_mod') }}</m-button>
 		</m-alert>
+
+		<appeal-modal v-if="mod.last_suspension" v-model="showAppealModal" :url="`suspensions/${mod.last_suspension.id}/appeals`"/>
 	</m-flex>
 </template>
 
@@ -53,28 +61,42 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '~/store';
 import type { Mod } from '~/types/models';
 import { remove } from '@antfu/utils';
-const props = defineProps<{
+const { mod } = defineProps<{
 	mod: Mod;
 }>();
 
-const canEdit = computed(() => canEditMod(props.mod));
-const { hasPermission, user } = useStore();
+const canEdit = computed(() => canEditMod(mod));
+const { hasPermission, user, settings } = useStore();
 const { t } = useI18n();
-const canManage = computed(() => hasPermission('manage-mods', props.mod.game));
+const canManage = computed(() => hasPermission('manage-mods', mod.game));
 const showErrorToast = useQuickErrorToast();
+const showAppealModal = ref(false);
+const appealUrl = computed(() => {
+	if (!mod.game) {
+		if (settings?.appeals_forum_category_id) {
+			return `/forum/post?category=${settings?.appeals_forum_category_id}`;
+		} else {
+			return `/forum/post`;
+		}
+	}
 
-const memberWaiting = computed(() => user ? props.mod.members.find(member => !member.accepted && member.id === user.id) : null);
+	if (mod.game?.appeals_forum_category_id) {
+		return `/g/${mod.game.short_name}/forum/post?category=${mod.game.appeals_forum_category_id}`;
+	} else {
+		return `/g/${mod.game.short_name}/forum/post`;
+	}
+});
+
+const memberWaiting = computed(() => user ? mod.members.find(member => !member.accepted && member.id === user.id) : null);
 const memberWaitingRole = computed(() => {
 	const member = memberWaiting.value;
 	if (member) {
 		return t(`member_level_${member.level}`);
 	}
 });
-const showPublish = computed(() => canEdit.value && !props.mod.published_at && props.mod.visibility === 'public' && props.mod.has_download);
+const showPublish = computed(() => canEdit.value && !mod.published_at && mod.visibility === 'public' && mod.has_download);
 
 const hasAlerts = computed(() => {
-	const mod = props.mod;
-
 	if (!mod) {
 		return false;
 	}
@@ -85,25 +107,25 @@ const hasAlerts = computed(() => {
 });
 
 async function acceptMembership(accept: boolean) {
-	await patchRequest(`mods/${props.mod.id}/members/accept`, { accept });
+	await patchRequest(`mods/${mod.id}/members/accept`, { accept });
 	memberWaiting.value!.accepted = accept;
 	if (!accept) {
-		remove(props.mod.members, memberWaiting.value);
+		remove(mod.members, memberWaiting.value);
 	}
 }
 
 async function acceptTransfer(accept: boolean) {
-	await patchRequest(`mods/${props.mod.id}/owner/accept`, { accept });
+	await patchRequest(`mods/${mod.id}/owner/accept`, { accept });
 	if (accept) {
-		props.mod.user_id = user!.id;
-		props.mod.user = user!;
+		mod.user_id = user!.id;
+		mod.user = user!;
 	}
-	props.mod.transfer_request = undefined;
+	mod.transfer_request = undefined;
 }
 
 async function publish() {
 	try {
-		Object.assign(props.mod, await patchRequest<Mod>(`mods/${props.mod.id}`, { publish: true, ...props.mod }));
+		Object.assign(mod, await patchRequest<Mod>(`mods/${mod.id}`, { publish: true, ...mod }));
 	} catch (error) {
 		showErrorToast(error);
 	}

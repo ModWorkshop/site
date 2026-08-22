@@ -282,6 +282,17 @@ class Game extends Model
         return Attribute::make(fn() => APIService::getAnnouncements($this));
     }
 
+    public function ticketCount(): Attribute
+    {
+        return Attribute::make(function() {
+            return Thread::where('closed', false)
+                ->where('forum_id', $this->forum_id)
+                ->whereHas('category', function($q) {
+                    $q->where('tickets_mode', true);
+                })->count();
+        });
+    }
+
     public function ensureForumExists()
     {
         // Checking just in case because this does fail sometimes (like in migrations)
