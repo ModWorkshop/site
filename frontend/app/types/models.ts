@@ -488,6 +488,7 @@ export interface Settings {
 	game_requests_forum_category: number;
 	new_user_first_upload_requires_approval: boolean;
 	maintenance_mode: boolean;
+	appeals_forum_category_id?: number;
 }
 
 export interface Document {

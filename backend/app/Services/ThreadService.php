@@ -55,7 +55,8 @@ class ThreadService {
             });
         }
 
-        if (isset($val['tickets'])) {
+        $tickets = Arr::pull($val, 'tickets', false);
+        if ($tickets) {
             $search->where('ticket', true);
         }
 

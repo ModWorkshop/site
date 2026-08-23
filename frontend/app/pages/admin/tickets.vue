@@ -5,6 +5,9 @@
 		:forum-id="game?.forum_id ?? 1"
 		alt-background
 		:limit="10"
+		pagination
+		open-closed-toggle
+		tickets
 		no-pins
 		:query="false"
 		:filters="false"

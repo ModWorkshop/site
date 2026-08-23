@@ -7,11 +7,9 @@
 		</m-flex>
 		<m-flex :class="{ 'menu-open': menuOpen }" :column="!side" :gap="3">
 			<div v-if="menuOpen" class="menu-closer" @click.prevent="menuOpen = false"/>
-			<Transition name="left-slide">
-				<m-flex v-show="!side || menuOpen" :class="{ 'nav-menu': true, 'p-6': side }" :column="side">
-					<slot/>
-				</m-flex>
-			</Transition>
+			<m-nav-menu v-model:menu-open="menuOpen" :side="side" :root="root">
+				<slot/>
+			</m-nav-menu>
 			<m-flex column grow gap="3" :class="{ 'content-block': background, 'p-6': side, 'overflow-x-auto': true }">
 				<slot name="content"/>
 			</m-flex>
@@ -28,10 +26,6 @@ const { side = false, background = true, root } = defineProps<{
 }>();
 
 const menuOpen = ref(false);
-
-provide('root', root);
-provide('side', side);
-provide('menuOpen', menuOpen.value);
 </script>
 
 <style scoped>

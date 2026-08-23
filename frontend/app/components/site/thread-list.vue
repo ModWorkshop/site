@@ -36,12 +36,17 @@
 					{{ currentCategory.desc }}
 				</m-alert>
 
-				<m-toggle-group v-if="currentCategory?.can_close_threads || currentCategory?.tickets_mode" v-model:selected="displayClosed" gap="1" button-style="nav">
+				<m-toggle-group
+					v-if="openClosedToggle || currentCategory?.can_close_threads || currentCategory?.tickets_mode"
+					v-model:selected="displayClosed"
+					gap="1"
+					button-style="nav"
+				>
 					<m-toggle-group-item :value="false">{{ $t('open_threads') }}</m-toggle-group-item>
 					<m-toggle-group-item :value="true">{{ $t('closed_threads') }}</m-toggle-group-item>
 				</m-toggle-group>
 
-				<m-pagination v-if="filters && threads" v-model="page" :total="threads.meta.total" :per-page="20"/>
+				<m-pagination v-if="pagination || (filters && threads)" v-model="page" :total="threads?.meta.total" :per-page="20"/>
 
 				<template v-if="!loading && threads?.data.length">
 					<m-flex v-if="currentCategory?.grid_mode" gap="2" class="threads-grid" column>
@@ -74,7 +79,7 @@
 				<h3 v-else class="mx-auto">
 					{{ $t(error ? 'something_went_wrong': 'no_threads_found') }}
 				</h3>
-				<m-pagination v-if="filters && threads && !loading" v-model="page" :total="threads.meta.total" :per-page="20"/>
+				<m-pagination v-if="(pagination || (filters && threads)) && !loading" v-model="page" :total="threads?.meta.total" :per-page="20"/>
 			</m-flex>
 		</m-flex>
 	</m-flex>
@@ -97,6 +102,8 @@ const props = withDefaults(defineProps<{
 	filters?: boolean;
 	limit?: number;
 	lazy?: boolean;
+	pagination?: boolean;
+	openClosedToggle?: boolean;
 	url?: string;
 	userId?: number;
 	altBackground?: boolean;
