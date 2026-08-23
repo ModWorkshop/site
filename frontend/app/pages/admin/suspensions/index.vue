@@ -20,10 +20,13 @@
 						<template #definitions>
 							<td><m-time :datetime="suspension.created_at" relative/></td>
 							<td>{{ suspension.status ? '✔' : '❌' }}</td>
-							<td style="min-width: 300px;" class="whitespace-break-spaces">{{ suspension.reason }}</td>
+							<td class="whitespace-break-spaces" style="max-width: 300px;">{{ suspension.reason }}</td>
 							<td>
-								<mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
-								<m-button v-else color="danger" @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
+								<m-flex>
+									<mod-suspend v-if="suspension.status" :suspension="suspension" :mod="suspension.mod"/>
+									<m-button v-else color="danger" @click="deleteSuspension(suspension)"><i-mdi-delete/> {{ $t('delete') }}</m-button>
+									<m-button :to="`${url}/${suspension.id}`">{{ $t('edit') }}</m-button>
+								</m-flex>
 							</td>
 						</template>
 					</mod-row>
@@ -46,6 +49,7 @@ const userId = useRouteQuery('user', null, 'number');
 const query = useRouteQuery('query');
 const page = useRouteQuery('page');
 const yesNoModal = useYesNoModal();
+const url = getAdminUrl('suspensions', props.game);
 const { t } = useI18n();
 
 const { data, loading } = await useFetchMany<Suspension>(getGameResourceUrl('suspensions', props.game), {

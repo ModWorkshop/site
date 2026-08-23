@@ -140,6 +140,12 @@ async function leaveMembers() {
 	});
 }
 </script>
+<style scoped>
+.mod-title {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+</style>
 
 <style>
 .mod-banner-thumb .mod-thumbnail {
@@ -151,11 +157,6 @@ async function leaveMembers() {
 	font-size: 1.15rem;
 	padding: 1rem !important;
 	text-align: center;
-}
-
-.mod-title {
-	font-size: 1.5rem;
-	font-weight: 500;
 }
 
 .mod-banner-thumb {

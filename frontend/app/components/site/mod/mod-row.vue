@@ -1,12 +1,12 @@
 <template>
 	<tr class="mod items-center mt-2 content-block" :title="mod.short_desc">
-		<td v-if="displayMode == 1" width="200px;">
+		<td v-if="displayMode == 1" width="120px;">
 			<NuxtLink class="block" :to="!static && `/mod/${mod.id}` || undefined">
 				<mod-thumbnail :thumbnail="mod.thumbnail" :lazy="lazyThumbnail"/>
 			</NuxtLink>
 		</td>
 
-		<td style="min-width: 250px;">
+		<td style="max-width: 250px;">
 			<NuxtLink class="mod-title" :to="!static && `/mod/${mod.id}` || undefined" :title="mod.name">
 				<mod-status :mod="mod"/>
 				{{ mod.name }}
@@ -19,7 +19,7 @@
 
 		<td v-if="!lite && !noCategories">
 			<template v-if="(mod.game && showGame) || mod.category">
-				<NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || undefined" :title="mod.game">{{ mod.game!.name }}</NuxtLink>
+				<NuxtLink v-if="showGame" class="text-secondary" :to="!static && gameUrl || undefined" :title="mod.game?.name">{{ mod.game!.name }}</NuxtLink>
 				<template v-if="mod.category">
 					<span v-if="showGame" class="text-secondary"> / </span>
 					<NuxtLink class="text-secondary" :to="!static && `${gameUrl}/mods?category=${mod.category_id}` || undefined" :title="mod.category.name">{{ mod.category.name }}</NuxtLink>

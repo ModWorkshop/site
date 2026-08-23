@@ -84,8 +84,10 @@ class SuspensionController extends Controller
         ]);
 
         $val['status'] ??= $suspension->status;
-        
+
         $suspension->update($val);
+
+        return $suspension;
     }
 
     /**
