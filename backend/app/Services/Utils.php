@@ -15,15 +15,22 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class Utils {
-    static function sendModWebhook(string $event, Mod $mod, array $args=[]){
+    static function sendWebhook(string $event, array $args=[], ?array $specialArgs=[], ?int $gameId=null) {
         $webhooks = Webhook::where('event', $event)
-            ->where(fn($q) => $q->whereNull('game_id')->orWhere('game_id', $mod->game_id))
+            ->where(function($q) use ($gameId) {
+                $q->whereNull('game_id')
+                    ->when(isset($gameId), fn($q) => $q->orWhere('game_id', $gameId));
+            })
             ->get();
 
+        self::sendWebhooks($webhooks, $args, $specialArgs);
+    }
+
+    static function sendModWebhook(string $event, Mod $mod, array $args=[]){
         $siteUrl = env('FRONTEND_URL');
         $user = Auth::user();
 
-        Utils::sendWebhook($webhooks, [
+        self::sendWebhook($event, [
             'id' => $mod->id,
             'name' => $mod->name,
             'link' => "{$siteUrl}/mod/{$mod->id}",
@@ -43,9 +50,13 @@ class Utils {
      *
      * @param Webhook[]|Collection<int, Webhook> $webhooks
      */
-    static function sendWebhook($webhooks, array $args=[]){
+    static function sendWebhooks($webhooks, array $args=[], array $specialArgs=[]): void{
         foreach ($args as $k => $v) {
             $args["{{$k}}"] = $v;
+        }
+
+        foreach ($specialArgs as $k => $v) {
+            $specialArgs["{{$k}}"] = $v;
         }
 
         $args = [
@@ -62,6 +73,7 @@ class Utils {
             }
 
             $content = strtr($webhook->content, $args);
+            $content = strtr($content, $specialArgs);
 
             //Convert the data to Json
             $dataString = json_encode(['content' => $content]);

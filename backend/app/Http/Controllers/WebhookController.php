@@ -9,6 +9,16 @@ use App\Models\Game;
 use App\Models\Webhook;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+const WEBHOOK_TYPES = [
+    'mod_approval',
+    'mod_approval_new',
+    'mod_deleted',
+    'mod_suspended',
+    'mod_published',
+    'mod_bumped',
+    'file_uploaded',
+    'report_new'
+];
 
 class WebhookController extends Controller
 {
@@ -35,10 +45,11 @@ class WebhookController extends Controller
      */
     public function store(Request $request, ?Game $game=null)
     {
+        $webhookTypes = implode(',', WEBHOOK_TYPES);
         $val = $request->validate([
             'name' => 'max:120|min:3|required',
             'url' => 'max:1000|url|required',
-            'event' => 'in:mod_approval,mod_approval_new,mod_deleted,mod_suspended,mod_published,report_new|required',
+            'event' => "in:{$webhookTypes}|required",
             'content' => 'max:1000|required'
         ]);
 
@@ -62,10 +73,12 @@ class WebhookController extends Controller
      */
     public function update(Request $request, ?Webhook $webhook=null)
     {
+        $webhookTypes = implode(',', WEBHOOK_TYPES);
+
         $val = $request->validate([
             'name' => 'max:120|min:3|nullable',
             'url' => 'max:1000|url|nullable',
-            'event' => 'in:mod_approval,mod_approval_new,mod_deleted,mod_suspended,mod_published,report_new|required',
+            'event' => "in:{$webhookTypes}|required",
             'content' => 'max:1000|nullable'
         ]);
 

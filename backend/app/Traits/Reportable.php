@@ -37,10 +37,6 @@ trait Reportable {
 
         $siteUrl = env('FRONTEND_URL');
 
-        $webhooks = Webhook::where('event', 'report_new')
-            ->where(fn($q) => $q->whereNull('game_id')->orWhere('game_id', $this->game_id))
-            ->get();
-
         $url = match ($this::class) {
             User::class => "user/{$this->id}",
             Mod::class => "mod/{$this->id}",
@@ -48,7 +44,7 @@ trait Reportable {
             default => null
         };
 
-        Utils::sendWebhook($webhooks, [
+        Utils::sendWebhook('report_new', [
             'reason' => $reason,
             'resource_url' => "{$siteUrl}/{$url}",
             'reporter_name' => $user->name,
@@ -56,7 +52,7 @@ trait Reportable {
             'reported_user_id' => $report->reported_user_id,
             'reporter_link' => "{$siteUrl}/user/{$user->id}",
             'reported_user_link' => "{$siteUrl}/user/{$report->reported_user_id}",
-        ]);
+        ], gameId: $this->game_id);
 
         $this->withSecureConstraints(fn() => $this->reports()->save($report));
         $report->save();

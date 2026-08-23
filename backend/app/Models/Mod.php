@@ -885,6 +885,8 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->bumped_at = Carbon::now();
 
+        Utils::sendModWebhook('mod_bumped', $this);
+
         $userId = Auth::user()->id;
 
         //If we are the owner or one of the members, show ourselves as the last updater. Otherwise, show no one.

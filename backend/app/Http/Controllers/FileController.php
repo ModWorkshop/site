@@ -12,7 +12,9 @@ use App\Services\ModService;
 use Arr;
 use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
+use App\Models\Notification;
 use App\Models\PendingFile;
+use App\Models\Webhook;
 use App\Services\Utils;
 use Auth;
 use Aws\Exception\AwsException;
@@ -177,6 +179,11 @@ class FileController extends Controller
             $mod->bump(false);
             $mod->calculateFileStatus();
 
+            Utils::sendWebhook('file_uploaded', [
+                'file_id' => $file->id,
+                'mod_id' => $file->mod_id,
+                'user_id' => $this->userId(),
+            ], ['link' => $file->downloadUrl], $file->mod->game_id);
             return $file;
         } catch (AwsException $e) {
             // Output error message if something goes wrong

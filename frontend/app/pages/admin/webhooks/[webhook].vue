@@ -27,7 +27,9 @@ const events = [
 	'mod_published',
 	'mod_suspended',
 	'mod_deleted',
-	'report_new'
+	'report_new',
+	'mod_updated',
+	'file_uploaded'
 ];
 
 const { data: webhook } = await useEditResource<Webhook>('webhook', 'webhooks', {
