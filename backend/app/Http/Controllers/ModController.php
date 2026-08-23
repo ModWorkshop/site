@@ -251,21 +251,19 @@ class ModController extends Controller
                 $mod->parser_version = 2;
             }
 
-            if (!$request->boolean('silent')) {
-                //We changed the version, update mod.
-                if (isset($val['version']) && $val['version'] !== $mod->version) {
-                    $followers = $mod->followers;
-                    foreach ($followers as $follow) {
-                        Notification::send(
-                            notifiable: $mod,
-                            user: $follow->user,
-                            type: "follow_mod_new_version",
-                            data: ['version' => $val['version']]
-                        );
-                    }
-
-                    $mod->bump(false);
+            //We changed the version, update mod.
+            if (!$mod->files_are_versions && isset($val['version']) && $val['version'] !== $mod->version) {
+                $followers = $mod->followers;
+                foreach ($followers as $follow) {
+                    Notification::send(
+                        notifiable: $mod,
+                        user: $follow->user,
+                        type: "follow_mod_new_version",
+                        data: ['version' => $mod->version]
+                    );
                 }
+
+                $mod->bump(false);
             }
 
             //Only moderators are allowed to change games of mods and allowed storage

@@ -239,7 +239,6 @@ class Mod extends Model implements SubscribableInterface
         'downloads',
         'likes',
         'views',
-        'version',
         'donation',
         'suspended',
         'comments_disabled',

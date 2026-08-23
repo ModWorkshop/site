@@ -234,6 +234,19 @@ class FileController extends Controller
         }
         $mod->calculateFileStatus(); //Here it saves
 
+        if ($mod->files_are_versions && isset($val['version']) && $val['version'] !== $mod->version) {
+            $followers = $mod->followers;
+            foreach ($followers as $follow) {
+                Notification::send(
+                    notifiable: $mod,
+                    user: $follow->user,
+                    type: "follow_mod_new_version",
+                    data: ['version' => $mod->version]
+                );
+            }
+        }
+
+
         return response($file, 201);
     }
 
