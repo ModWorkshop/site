@@ -8,6 +8,7 @@ use App\Interfaces\SubscribableInterface;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Webhook;
 use App\Traits\Subscribable;
 use Arr;
 use Auth;
@@ -72,7 +73,7 @@ class CommentService {
      * @param Request $request
      * @return Response
      */
-    public static function store(Request $request, Model $commentable, array $extraSet=null)
+    public static function store(Request $request, Model $commentable, ?array $extraSet=null)
     {
         $val = $request->validate([
             'content' => 'string|required|min_strict:2|max:5000',
@@ -161,7 +162,19 @@ class CommentService {
             );
         }
 
-        $comment->load(['mentions', 'subscribed']);
+        $comment->load(['mentions', 'subscribed','user']);
+
+
+        if ($commentable->getMorphClass() === 'thread' && $commentable->category->tickets_mode) {
+            $siteUrl = env('FRONTEND_URL');
+
+            Webhook::sendEvent('ticket_reply', [
+                'thread' => $commentable,
+                'thread_url' => "{$siteUrl}/thread/{$commentable->id}",
+                'reply_url' => "{$siteUrl}/thread/{$commentable->id}?comment={$comment->id}",
+                'reply' => $comment
+            ], $commentable->forum->game_id);
+        }
 
         return new CommentResource($comment);
     }

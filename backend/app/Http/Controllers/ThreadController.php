@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BaseResource;
 use App\Models\AuditLog;
 use App\Models\Setting;
+use App\Models\Webhook;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rules\File;
 use Log;
@@ -121,6 +122,16 @@ class ThreadController extends Controller
         $thread->load(Thread::$RELATIONS_FOR_PAGE);
 
         $this->uploadThumbnail($request, $thread);
+
+        \Log::info('thread post', ['cat' => $category]);
+        if ($category->tickets_mode) {
+            $siteUrl = env('FRONTEND_URL');
+
+            Webhook::sendEvent('ticket_new', [
+                'thread' => $thread,
+                'thread_url' => "{$siteUrl}/thread/{$thread->id}"
+            ], $thread->forum->game_id);
+        }
 
         return new ThreadResource($thread);
     }

@@ -18,7 +18,9 @@ const WEBHOOK_TYPES = [
     'event_mod_published' => 'boolean',
     'event_mod_bumped' => 'boolean',
     'event_file_uploaded' => 'boolean',
-    'event_report_new' => 'boolean'
+    'event_report_new' => 'boolean',
+    'event_ticket_new' => 'boolean',
+    'event_ticket_reply' => 'boolean',
 ];
 
 class WebhookController extends Controller

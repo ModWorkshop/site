@@ -32,7 +32,9 @@ const events = [
 	'event_report_new',
 	'event_mod_updated',
 	'event_mod_bumped',
-	'event_file_uploaded'
+	'event_file_uploaded',
+	'event_ticket_new',
+	'event_ticket_reply'
 ];
 
 const { data: webhook } = await useEditResource<Webhook>('webhook', 'webhooks', {
