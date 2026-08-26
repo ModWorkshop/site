@@ -718,6 +718,8 @@
     "webhook_event_mod_bumped": "Mod revisado (cambio de versión/nuevo archivo)",
     "webhook_event_mod_updated": "Mod actualizado (cualquier cambio)",
     "webhook_event_file_uploaded": "Archivo subido",
+    "webhook_event_ticket_new": "New Ticket",
+    "webhook_event_ticket_reply": "New Ticket Reply",
     "webhook_custom_template": "Plantilla personalizada",
     "webhook_custom_template_help": "Las plantillas personalizadas te permiten controlar la carga útil del webhook. Si no se proporciona una, la carga útil se envía en formato JSON.",
     "files_are_versions": "Los archivos son versiones",
