@@ -381,7 +381,7 @@ class Mod extends Model implements SubscribableInterface
         });
 
         static::deleting(function(Mod $mod) {
-            Utils::sendModWebhook('mod_deleted', $mod);
+            Webhook::sendModEvent($mod, 'mod_deleted');
 
             foreach ($mod->comments as $comment) {
                 $comment->delete();
@@ -871,7 +871,7 @@ class Mod extends Model implements SubscribableInterface
         $game = $this->game;
         $category = $this->category;
 
-        Utils::sendModWebhook('mod_published', $this, [
+        Webhook::sendModEvent($this, 'mod_published', [
             'location' => ($game ? $game->name : 'NA').($category ? '/'.$category->name : '')
         ]);
 
@@ -885,7 +885,7 @@ class Mod extends Model implements SubscribableInterface
     {
         $this->bumped_at = Carbon::now();
 
-        Utils::sendModWebhook('mod_bumped', $this);
+        Webhook::sendModEvent($this, 'mod_bumped');
 
         $userId = Auth::user()->id;
 

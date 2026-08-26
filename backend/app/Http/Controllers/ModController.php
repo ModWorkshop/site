@@ -18,6 +18,7 @@ use App\Models\Setting;
 use App\Models\Suspension;
 use App\Models\TransferRequest;
 use App\Models\User;
+use App\Models\Webhook;
 use App\Services\APIService;
 use App\Services\ModService;
 use App\Services\Utils;
@@ -175,7 +176,7 @@ class ModController extends Controller
             'license',
             'changelog',
             'instructions',
-            'version',
+            'custom_version',
         );
 
         $val['legacy_banner_url'] = ''; //User is warned about this in the edit mod page
@@ -233,10 +234,11 @@ class ModController extends Controller
             }
         }
 
-        $sendWebhook = false;
+        $sendApprovalWebhook = false;
         if (array_key_exists('approved', $val) && $val['approved'] === null) {
-            $sendWebhook = !isset($mod) || $val['approved'] !== $mod->approved;
+            $sendApprovalWebhook = !isset($mod) || $val['approved'] !== $mod->approved;
         }
+        $sendUpdateWebhook = false;
 
 
         $val['parser_version'] = 2;
@@ -276,6 +278,8 @@ class ModController extends Controller
 
             $mod->calculateFileStatus(false);
             $mod->update($val);
+
+            $sendUpdateWebhook = true;
         } else {
             if (!$this->user()->hasPermission('manage-mods', $game)) {
                 unset($val['allowed_storage']);
@@ -337,8 +341,8 @@ class ModController extends Controller
         }
 
 
-        if ($sendWebhook) {
-            Utils::sendModWebhook('mod_approval_new', $mod);
+        if ($sendApprovalWebhook) {
+            Webhook::sendModEvent($mod, 'mod_approval_new');
         }
 
         return new ModResource($mod);
@@ -592,9 +596,9 @@ class ModController extends Controller
         );
 
 
-        Utils::sendModWebhook('mod_approval', $mod, [
+        Webhook::sendModEvent($mod, 'mod_approval', [
             'status' => $approve ? 'approved' : 'rejected',
-            'moderator' => $moderator->name,
+            'moderator' => $moderator,
             'reason' => $val['reason']
         ]);
     }
@@ -661,9 +665,9 @@ class ModController extends Controller
             ]
         );
 
-        Utils::sendModWebhook('mod_suspended', $mod, [
+        Webhook::sendModEvent($mod, 'mod_suspended', [
             'status' => $suspend ? 'suspended' : 'unsuspended',
-            'moderator' => Auth::user()->name,
+            'moderator' => Auth::user(),
             'reason' => $val['reason']
         ]);
 

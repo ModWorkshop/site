@@ -7,17 +7,18 @@ use App\Http\Resources\BaseResource;
 use App\Models\AuditLog;
 use App\Models\Game;
 use App\Models\Webhook;
+use App\Services\APIService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 const WEBHOOK_TYPES = [
-    'mod_approval',
-    'mod_approval_new',
-    'mod_deleted',
-    'mod_suspended',
-    'mod_published',
-    'mod_bumped',
-    'file_uploaded',
-    'report_new'
+    'event_mod_approval' => 'boolean',
+    'event_mod_approval_new' => 'boolean',
+    'event_mod_deleted' => 'boolean',
+    'event_mod_suspended' => 'boolean',
+    'event_mod_published' => 'boolean',
+    'event_mod_bumped' => 'boolean',
+    'event_file_uploaded' => 'boolean',
+    'event_report_new' => 'boolean'
 ];
 
 class WebhookController extends Controller
@@ -45,13 +46,15 @@ class WebhookController extends Controller
      */
     public function store(Request $request, ?Game $game=null)
     {
-        $webhookTypes = implode(',', WEBHOOK_TYPES);
         $val = $request->validate([
-            'name' => 'max:120|min:3|required',
+            'name' => 'max:120|min:2|required',
             'url' => 'max:1000|url|required',
-            'event' => "in:{$webhookTypes}|required",
-            'content' => 'max:1000|required'
+            'custom_template' => 'max:1000|json|nullable',
+            'is_active' => 'boolean',
+            ...WEBHOOK_TYPES
         ]);
+
+        APIService::nullToEmptyStr($val, 'custom_template');
 
         if (isset($game)) {
             $val['game_id'] = $game->id;
@@ -73,14 +76,15 @@ class WebhookController extends Controller
      */
     public function update(Request $request, ?Webhook $webhook=null)
     {
-        $webhookTypes = implode(',', WEBHOOK_TYPES);
-
         $val = $request->validate([
-            'name' => 'max:120|min:3|nullable',
+            'name' => 'max:120|min:2|nullable',
             'url' => 'max:1000|url|nullable',
-            'event' => "in:{$webhookTypes}|required",
-            'content' => 'max:1000|nullable'
+            'custom_template' => 'max:1000|json|nullable',
+            'is_active' => 'boolean',
+            ...WEBHOOK_TYPES
         ]);
+
+        APIService::nullToEmptyStr($val, 'custom_template');
 
         $webhook->update($val);
 

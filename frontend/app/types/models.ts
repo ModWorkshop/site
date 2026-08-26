@@ -638,6 +638,15 @@ export interface Webhook extends Model {
 	name: string;
 	url: string;
 	game_id?: number;
-	content: string;
-	event: string;
+	custom_template: string;
+	is_active: boolean;
+	event_mod_approval: boolean;
+	event_mod_approval_new: boolean;
+	event_mod_deleted: boolean;
+	event_mod_suspended: boolean;
+	event_mod_published: boolean;
+	event_mod_updated: boolean;
+	event_mod_bumped: boolean;
+	event_file_uploaded: boolean;
+	event_report_new: boolean;
 }

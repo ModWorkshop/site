@@ -3,102 +3,21 @@
 namespace App\Services;
 
 use App\Models\Ban;
-use App\Models\Mod;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\UserCase;
 use App\Models\UserRecord;
-use App\Models\Webhook;
 use Arr;
 use Auth;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 
 class Utils {
-    static function sendWebhook(string $event, array $args=[], ?array $specialArgs=[], ?int $gameId=null) {
-        $webhooks = Webhook::where('event', $event)
-            ->where(function($q) use ($gameId) {
-                $q->whereNull('game_id')
-                    ->when(isset($gameId), fn($q) => $q->orWhere('game_id', $gameId));
-            })
-            ->get();
-
-        self::sendWebhooks($webhooks, $args, $specialArgs);
+    static function discordEscape(string $msg) {
+        //Escape @
+        $msg = preg_replace('/(@)/', '@​', $msg); //This contains a zero width space.
+        //Escape markdown
+        return preg_replace('/(\*|\\\|_|@|`|~|>|\|)/', '\\\\$0', $msg);
     }
-
-    static function sendModWebhook(string $event, Mod $mod, array $args=[]){
-        $siteUrl = env('FRONTEND_URL');
-        $user = Auth::user();
-
-        self::sendWebhook($event, [
-            'id' => $mod->id,
-            'name' => $mod->name,
-            'link' => "{$siteUrl}/mod/{$mod->id}",
-            'user_id' => $mod->user->id,
-            'user_name' => $mod->user->name,
-            'user_link' => "{$siteUrl}/user/{$mod->user_id}",
-            'auth_user_name' => $user?->name,
-            ...$args
-        ]);
-    }
-
-    /**
-     * Send a message to a webhook URL
-     * Handles some form of markdown escaping to avoid webhook mentioning users on sites like Discord (only args, careful with the message!)
-     *
-     * If you are handling the message yourself, the content is in "content".
-     *
-     * @param Webhook[]|Collection<int, Webhook> $webhooks
-     */
-    static function sendWebhooks($webhooks, array $args=[], array $specialArgs=[]): void{
-        foreach ($args as $k => $v) {
-            $args["{{$k}}"] = $v;
-        }
-
-        foreach ($specialArgs as $k => $v) {
-            $specialArgs["{{$k}}"] = $v;
-        }
-
-        $args = [
-            ...$args,
-            '\n' => "\n", // This looks silly but PHP registers the newlines inside the content only with this
-        ];
-
-        foreach ($webhooks as $webhook) {
-            foreach ($args as $i => $v) {
-                //Escape @
-                $v = preg_replace('/(@)/', '@​', $v); //This contains a zero width space.
-                //Escape markdown
-                $args[$i] = preg_replace('/(\*|\\\|_|@|`|~|>|\|)/', '\\\\$0', $v);
-            }
-
-            $content = strtr($webhook->content, $args);
-            $content = strtr($content, $specialArgs);
-
-            //Convert the data to Json
-            $dataString = json_encode(['content' => $content]);
-
-            $handle = curl_init($webhook->url);
-            if ($handle) {
-                curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($handle, CURLOPT_POSTFIELDS, $dataString);
-                curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($handle, CURLOPT_TIMEOUT, 10); // shorter overall timeout
-                curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 3); // quicker connect timeout
-                curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, true);
-                curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
-                curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
-                curl_setopt($handle, CURLOPT_FAILONERROR, true);
-                curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($dataString)]);
-
-                // Execute and log failures
-                $result = curl_exec($handle);
-                if ($result === false) {
-                    \Log::warning('Utils::sendWebhook: curl_exec failed for webhook '.($wb ?? '<unknown>').' - '.curl_error($handle));
-                }
-            }
-        }
-	}
 
     /**
      * Collects permissions into a nice hash table
@@ -201,7 +120,7 @@ class Utils {
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {
-            $q->where('is_private', true)->where(fn($q) =>
+            $q->where()->where(fn($q) =>
                 $q->whereHasIn('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
                 ->when(isset($gameRoleIds))->orWhereHasIn('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
             )->orWhere('is_private', false)->where(fn($q) =>

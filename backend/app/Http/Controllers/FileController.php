@@ -179,11 +179,17 @@ class FileController extends Controller
             $mod->bump(false);
             $mod->calculateFileStatus();
 
-            Utils::sendWebhook('file_uploaded', [
-                'file_id' => $file->id,
-                'mod_id' => $file->mod_id,
-                'user_id' => $this->userId(),
-            ], ['link' => $file->downloadUrl], $file->mod->game_id);
+            $user = $this->user();
+
+            $message = str_replace('{download_url}', $file->downloadUrl, __('api.webhook_event_file_uploaded'));
+
+            Webhook::sendEvent('file_uploaded', [
+                'file' => $file,
+                'mod' => $mod,
+                'user' => $user,
+                'mod_url' => "https://modworkshop.net/{$mod->id}",
+            ], $file->mod->game_id, $message);
+
             return $file;
         } catch (AwsException $e) {
             // Output error message if something goes wrong

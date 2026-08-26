@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Models\Comment;
+use App\Models\Mod;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Webhook;
@@ -44,13 +46,14 @@ trait Reportable {
             default => null
         };
 
-        Utils::sendWebhook('report_new', [
+        Webhook::sendEvent('report_new', [
             'reason' => $reason,
+            'resource' => $this,
+            'resource_type' => $this->getMorphClass(),
             'resource_url' => "{$siteUrl}/{$url}",
-            'reporter_name' => $user->name,
-            'reporter_id' => $user->id,
-            'reported_user_id' => $report->reported_user_id,
-            'reporter_link' => "{$siteUrl}/user/{$user->id}",
+            'reporter_user' => $user,
+            'reported_user' => $this->user,
+            'reporter_user_link' => "{$siteUrl}/user/{$user->id}",
             'reported_user_link' => "{$siteUrl}/user/{$report->reported_user_id}",
         ], gameId: $this->game_id);
 
