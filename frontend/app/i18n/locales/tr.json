@@ -718,6 +718,8 @@
     "webhook_event_mod_bumped": "Mod Bumped (Version change/new file)",
     "webhook_event_mod_updated": "Mod Updated (Any change)",
     "webhook_event_file_uploaded": "File Uploaded",
+    "webhook_event_ticket_new": "New Ticket",
+    "webhook_event_ticket_reply": "New Ticket Reply",
     "webhook_custom_template": "Custom Template",
     "webhook_custom_template_help": "Custom templates allow you to control the payload of the webhook. If not supplied, the payload is sent as a JSON.",
     "files_are_versions": "Dosyalar Versiyondur",
