@@ -123,7 +123,6 @@ class ThreadController extends Controller
 
         $this->uploadThumbnail($request, $thread);
 
-        \Log::info('thread post', ['cat' => $category]);
         if ($category->tickets_mode) {
             $siteUrl = env('FRONTEND_URL');
 

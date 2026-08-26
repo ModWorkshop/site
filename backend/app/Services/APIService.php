@@ -257,10 +257,13 @@ class APIService {
         return Notification::where('user_id', $userId)->where('seen', false)->count();
     }
 
-    public static function getAnnouncements(Game $game=null)
+    public static function getAnnouncements(?Game $game=null)
     {
         return Cache::remember('thread:announcements-'.(isset($game) ? $game->id : 0), 60, function() use ($game) {
-            $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)->where('announce', true)->get();
+            $announcements = Thread::where('forum_id', isset($game) ? $game->forum_id : 1)
+                ->where('announce', true);
+
+            $announcements = ThreadService::filters($announcements)->get();
 
             $now = Carbon::now();
             foreach ($announcements as $annoucement) {

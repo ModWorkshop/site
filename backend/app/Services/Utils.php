@@ -120,7 +120,7 @@ class Utils {
         }
 
         $q->where(function($q) use ($roleIds, $gameRoleIds) {
-            $q->where()->where(fn($q) =>
+            $q->where(fn($q) =>
                 $q->whereHasIn('roles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $roleIds))
                 ->when(isset($gameRoleIds))->orWhereHasIn('gameRoles', fn($q) => $q->where('can_view', true)->whereIn('role_id', $gameRoleIds))
             )->orWhere('is_private', false)->where(fn($q) =>
