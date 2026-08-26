@@ -1,11 +1,11 @@
 <template>
 	<component :is="to ? NuxtLink : 'div'" :class="classes" :to="to">
 		<m-flex gap="2" class="w-full items-center">
-			<span v-if="currIcon" class="text-3xl self-start">
-				<m-icon :icon="currIcon"/>
+			<span v-if="currIcon" class="text-3xl">
+				<m-icon :icon="currIcon" class="toast-icon"/>
 			</span>
 
-			<m-flex column class="whitespace-pre" gap="2">
+			<m-flex column class="whitespace-pre" gap="0">
 				<strong v-if="title" class="flex gap-1 text-lg">
 					{{ title }}
 				</strong>
