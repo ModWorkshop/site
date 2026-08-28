@@ -214,7 +214,7 @@ class ForumCategory extends Model
     protected static function booted()
     {
         static::updated(function ($cat) {
-            if ($cat->isDirty('name') || $cat->isDirty('tickets_mode')) {
+            if ($cat->isDirty('name') || $cat->isDirty('tickets_mode') || $cat->isDirty('can_close_threads')) {
                 $cat->threads()->searchable();
             }
         });

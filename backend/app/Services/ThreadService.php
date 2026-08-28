@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Number;
 
 class ThreadService {
-    public static function threads(array $val, callable $querySetup=null, $query=null)
+    public static function threads(array $val, ?callable $querySetup=null, $query=null)
     {
         return ($query ?? Thread::query()->forListing())->queryGet($val, function($query, array $val) use ($querySetup) {
             if (isset($querySetup)) {

@@ -12,7 +12,7 @@
 					<NuxtLink class="card-title text-xl! w-full" :to="`/thread/${thread.id}`">
 						<i-mdi-pin v-if="!noPins && thread.pinned_at" class="text-secondary rotate-45"/>
 						<i-ri-checkbox-circle-fill v-if="!!thread.answer_comment_id" class="text-success"/>
-						<i-ri-checkbox-circle-line v-if="thread.closed || thread.closed_by_mod" class="text-secondary"/>
+						<i-ri-checkbox-circle-line v-if="(cat?.can_close_threads || cat?.tickets_mode) && (thread.closed || thread.closed_by_mod)" class="text-secondary"/>
 						{{ thread.name }}
 					</NuxtLink>
 
@@ -75,6 +75,8 @@ const { thread, categoryLink, altBackground } = defineProps<{
 }>();
 
 const to = computed(() => thread.game ? `/g/${thread.game.short_name}/forum` : '/forum');
+const cat = computed(() => thread.category);
+
 const classes = computed(() => ({
 	'thread': true,
 	'content-block': true,

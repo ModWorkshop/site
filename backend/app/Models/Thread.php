@@ -150,6 +150,8 @@ class Thread extends Model implements SubscribableInterface
 
     public function toSearchableArray(): array
     {
+        $cat = $this->category;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -157,11 +159,11 @@ class Thread extends Model implements SubscribableInterface
             'forum_id' => $this->forum_id,
             'user_id' => $this->user_id,
             'pinned_at' => $this->pinned_at,
-            'closed' => $this->closed,
+            'closed' => ($cat?->can_close_threads || $cat?->tickets_mode) && ($this->closed || $this->closed_by_mod),
             'bumped_at' => $this->bumped_at,
             'category_id' => $this->category_id,
             'category_name' => $this->category?->name,
-            'ticket' => $this->category?->tickets_mode ?? false
+            'ticket' => $cat?->tickets_mode ?? false
         ];
     }
 
