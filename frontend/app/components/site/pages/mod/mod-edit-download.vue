@@ -36,10 +36,12 @@
 			{{ download.url }}
 		</td>
 		<td>
-			<span v-if="paused">{{ $t('file_waiting') }}</span>
-			<m-uploader-progress v-else-if="download.progress" :progress="download.progress"/>
-			<m-time v-else-if="download.created_at" :datetime="download.created_at" relative relative-time-style="narrow"/>
-			<span v-else>{{ $t('waiting') }}</span>
+			<div style="max-width: 270px; min-width: 200px;">
+				<span v-if="paused">{{ $t('file_waiting') }}</span>
+				<m-uploader-progress v-else-if="download.progress" :progress="download.progress" type="circle"/>
+				<m-time v-else-if="download.created_at" :datetime="download.created_at" relative relative-time-style="narrow"/>
+				<span v-else>{{ $t('waiting') }}</span>
+			</div>
 		</td>
 		<td>
 			<m-flex class="items-end">
