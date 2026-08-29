@@ -419,7 +419,7 @@
     "link": "Verbinden",
     "unlink": "Entfernen",
     "unlink_warn": "Diese Aktion trennt die Verbindung zwischen diesem Account und deinem ModWorkshop Konto und du wirst dich nicht mehr damit einloggen können!",
-    "content_page_info": "\nHier kannst du den Inhalt der Seite anpassen.\nGeblockte Inhalte werden nicht angezeigt, sofern diese nicht explizit eingegeben werden.\nGefolgter Content wird auf der Startseite angezeigt.",
+    "content_page_info": "Hier kannst du den Inhalt der Seite anpassen.\nGeblockte Inhalte werden nicht angezeigt, sofern diese nicht explizit eingegeben werden.\nGefolgter Content wird auf der Startseite angezeigt.",
     "following": "Gefolgt",
     "blocking": "Blockiert",
     "followed": "Gefolgt",
