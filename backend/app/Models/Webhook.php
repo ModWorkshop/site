@@ -80,7 +80,7 @@ class Webhook extends Model
         $siteUrl = env('FRONTEND_URL');
         $user = Auth::user();
 
-        self::sendWebhook($event, [
+        self::sendEvent($event, [
             'mod_url' => "{$siteUrl}/mod/{$mod->id}",
             'mod' => $mod,
             'user' => $user,
