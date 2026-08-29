@@ -419,7 +419,7 @@
     "link": "Bağlantı",
     "unlink": "Bağlantıyı Kaldır",
     "unlink_warn": "Bu, hesabın ModWorkshop hesabınızla olan bağlantısını kaldıracak ve artık bu hesaba giriş yapmak için bu hesabı kullanamayacaksınız!",
-    "content_page_info": "\nBurada sitenin içeriğini özelleştirebilirsiniz.\nEngellenen herhangi bir içerik, açıkça girilmedikçe hiçbir yerde görüntülenmez.\nTakip edilen içerik ana sayfada gösterilir.",
+    "content_page_info": "Burada sitenin içeriğini özelleştirebilirsiniz.\nEngellenen herhangi bir içerik, açıkça girilmedikçe hiçbir yerde görüntülenmez.\nTakip edilen içerik ana sayfada gösterilir.",
     "following": "Takip Ediliyor",
     "blocking": "Engelleniyor",
     "followed": "Takip edildi",
