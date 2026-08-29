@@ -115,7 +115,7 @@ function onClickOption(option, allow: boolean) {
 .option {
 	display: flex;
 	align-items: center;
-	padding: 0.5rem;
+	padding: 0.25rem;
 	flex: 1;
 	border-radius: var(--border-radius);
 	transition: 0.15s ease-in-out;
