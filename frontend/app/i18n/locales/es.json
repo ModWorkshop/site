@@ -419,7 +419,7 @@
     "link": "Vincular",
     "unlink": "Desvincular",
     "unlink_warn": "¡Esto desvinculará la cuenta de tu cuenta de Modworkshop y ya no podrás utilizarla para iniciar sesión!",
-    "content_page_info": "\nAquí puedes personalizar el contenido del sitio.\nCualquier contenido bloqueado no se mostrará, salvo que sea accedido explícitamente.\nEl contenido que sigas será mostrado en la página principal.",
+    "content_page_info": "Aquí puedes personalizar el contenido del sitio.\nCualquier contenido bloqueado no se mostrará, salvo que sea accedido explícitamente.\nEl contenido que sigas será mostrado en la página principal.",
     "following": "Siguiendo",
     "blocking": "Bloqueando",
     "followed": "Seguidos",
