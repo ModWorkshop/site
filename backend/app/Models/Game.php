@@ -90,7 +90,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
  * @property-read int|null $hidden_tags_count
  * @method static Builder<static>|Game withUserPerfs()
  * @property string|null $game_sdk_key
- * @property string|null $mod_types_definition
+ * @property object|null $mod_types_definition
  * @method static Builder<static>|Game whereGameSdkKey($value)
  * @method static Builder<static>|Game whereModTypesDefinition($value)
  * @mixin Eloquent
@@ -110,7 +110,7 @@ class Game extends Model
     public int $_modsCount;
 
     protected $casts = [
-        'last_date' => 'datetime',
+        'last_date' => 'datetime'
     ];
 
     public function getMorphClass(): string {

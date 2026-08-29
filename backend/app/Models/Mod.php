@@ -365,7 +365,7 @@ class Mod extends Model implements SubscribableInterface
         ]);
         $this->loadCount(['links', 'files']);
         $this->loadSum('files', 'size');
-        $this->append(['download', 'last_user_attribute', 'version']);
+        $this->append(['download', 'last_user_attribute', 'version', 'mod_type']);
         if (Auth::hasUser()) {
             $this->loadMissing('followed');
             $this->loadMissing('ignored');
@@ -779,6 +779,17 @@ class Mod extends Model implements SubscribableInterface
             } else {
                 return $this->withSecureConstraints(fn() => $this->files()->first());
             }
+        });
+    }
+
+    public function modType(): Attribute {
+        return Attribute::make(function() {
+            $primary = $this->downloadStrictlyFile;
+            if (isset($primary)) {
+                return $primary->mod_type;
+            }
+
+            return 'unknown_no_file';
         });
     }
 

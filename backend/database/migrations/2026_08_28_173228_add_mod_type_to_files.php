@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('mods', function (Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->tinyText('mod_type')->nullable();
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('mods', function (Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('mod_type');
         });
     }
