@@ -419,7 +419,7 @@
     "link": "Link",
     "unlink": "Unlink",
     "unlink_warn": "This will unlink the account from your ModWorkshop account and you will not be able to use it to login to this account anymore!",
-    "content_page_info": "\nHere you can customize the content of the site.\nAny blocked content will not display anywhere unless entered explictly.\nFollowed content is displayed on the home page.",
+    "content_page_info": "Here you can customize the content of the site.\nAny blocked content will not display anywhere unless entered explictly.\nFollowed content is displayed on the home page.",
     "following": "Following",
     "blocking": "Blocking",
     "followed": "Followed",
