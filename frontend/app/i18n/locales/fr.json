@@ -419,7 +419,7 @@
     "link": "Lien",
     "unlink": "Retirer",
     "unlink_warn": "Ceci sépareras le compte de votre compte ModWorkshop et vous ne pourrez plus l'utiliser pour vous connecter a ce compte !",
-    "content_page_info": "\nIci vous pouvez customiser le contenu du site.\nLe contenu bloqué ne sera pas affiché a moins d'etre requis explicitement.\nLe contenu suivi est affiché sur la page principale.",
+    "content_page_info": "Ici vous pouvez customiser le contenu du site.\nLe contenu bloqué ne sera pas affiché a moins d'etre requis explicitement.\nLe contenu suivi est affiché sur la page principale.",
     "following": "Suivi",
     "blocking": "Bloqué",
     "followed": "Suivi",
