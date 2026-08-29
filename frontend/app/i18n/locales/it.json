@@ -419,7 +419,7 @@
     "link": "Collega",
     "unlink": "Scollega",
     "unlink_warn": "Questa azione scollegherà l'account dall'account ModWorkshop e non potrai più usarlo per effettuare l'accesso!",
-    "content_page_info": "\nQui puoi personalizzare tutti i contenuti del sito.\nTutti i contenuti bloccati non verranno mostrati a meno delle sezioni esplicite.\nContenuti seguiti verranno mostrati nella pagina principale.",
+    "content_page_info": "Qui puoi personalizzare tutti i contenuti del sito.\nTutti i contenuti bloccati non verranno mostrati a meno delle sezioni esplicite.\nContenuti seguiti verranno mostrati nella pagina principale.",
     "following": "Seguendo",
     "blocking": "Bloccato",
     "followed": "Seguito",
