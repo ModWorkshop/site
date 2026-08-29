@@ -23,14 +23,14 @@
 			<td>
 				{{ friendlyNumber(locale, file.downloads) }}
 			</td>
-			<td v-if="file.size">
+			<td v-if="type == 'file'">
 				{{ friendlySize(file.size) }}
 			</td>
 			<td v-if="file.updated_at">
 				<m-time :datetime="file.updated_at" relative relative-time-style="narrow"/>
 			</td>
 			<td>
-				<m-flex class="ml-auto justify-end" wrap @click.stop>
+				<m-flex class="ml-auto justify-end" @click.stop>
 					<mod-download-buttons :mod="mod" :download="file" :type="type" small/>
 				</m-flex>
 			</td>
@@ -55,13 +55,13 @@
 		</tr>
 	</template>
 	<m-flex v-else class="list-button" column>
-		<m-flex wrap class="flex-1 items-center hover:cursor-pointer" gap="3" @click="showDetails = !showDetails">
+		<m-flex class="flex-1 items-center hover:cursor-pointer" gap="3" @click="showDetails = !showDetails">
 			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
 			<m-img v-else src="file-download.webp" is-asset width="48" height="48"/>
 			<m-flex grow column style="flex: 1;" gap="2">
-				<m-flex class="items-center whitespace-pre-line" wrap style="max-width: 120px;">
+				<m-flex class="items-center whitespace-pre-line" wrap>
 					<m-tag v-if="file.label">{{ file.label }}</m-tag>
-					<strong v-if="file.name" class="items-center">{{ file.name }}</strong>
+					<strong v-if="file.name" class="items-center" style="word-break: break-word;">{{ file.name }}</strong>
 					<strong v-else class="items-center">{{ $t(`file_type_${type}`) }}</strong>
 				</m-flex>
 				<span v-if="file.version" :title="$t('version')">

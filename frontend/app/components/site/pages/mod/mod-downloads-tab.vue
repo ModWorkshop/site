@@ -94,7 +94,3 @@ const { data: links, loading: loadingLinks } = await useFetchMany(`mods/${props.
 	lazy: true
 });
 </script>
-
-<style>
-
-</style>

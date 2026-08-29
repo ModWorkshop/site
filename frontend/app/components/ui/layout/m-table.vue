@@ -47,7 +47,7 @@ const { background = true } = defineProps<{
 }
 
 .markdown td, .table td {
-	padding: 1rem;
+	padding: 0.75rem;
 }
 
 .markdown th, .table th {

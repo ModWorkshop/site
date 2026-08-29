@@ -8,10 +8,10 @@
 			@click="!static && registerDownload('file', download);"
 		>
 			<i-mdi-download/>
-			{{ $t('download') }}
-			<template v-if="!small">
-				<span v-if="!small" style="text-transform:uppercase;">{{ (download as any).type }}</span> ({{ friendlySize((download as any).size) }})
-			</template>
+			<span v-if="!small">
+				{{ $t('download') }}
+				<span style="text-transform:uppercase;">{{ (download as any).type }}</span> ({{ friendlySize((download as any).size) }})
+			</span>
 		</m-button>
 		<m-dropdown v-else-if="download && type == 'link'" class="flex-1 flex">
 			<m-button :class="classes" @click="!static && registerDownload('link', download);">
@@ -36,7 +36,7 @@
 				:class="classes"
 				:to="!static ? getManagerDownloadUrl(primaryModManager, download as File) : undefined"
 			>
-				<i-mdi-progress-wrench/> {{ small ? $t('install') : $t('install_with', { modManager: primaryModManager.name }) }}
+				<i-mdi-progress-wrench/> <span v-if="!small">{{ $t('install_with', { modManager: primaryModManager.name }) }}</span>
 			</m-button>
 			<m-dropdown v-if="!small">
 				<m-button :class="classes" style="height: stretch;">
