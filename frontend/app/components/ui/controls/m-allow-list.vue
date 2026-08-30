@@ -81,7 +81,7 @@ function onClickOption(option, allow: boolean) {
 		const removedAllowed = remove(allowList, val);
 		const removedDisallowed = remove(disallowList, val);
 
-		if ((allow && removedAllowed) || (!allow && removedDisallowed)) {
+		if ((allow && removedAllowed) || removedDisallowed) {
 			allowListVm.value = allowList;
 			disallowListVm.value = disallowList;
 
