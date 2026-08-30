@@ -235,7 +235,7 @@ class FileController extends Controller
             'file' => $name ?? '', // This is though
             'type' => $type ?? '',
             'size' => isset($uploadedFile) ? $uploadedFile->getSize() : 0,
-            'completed' => isset($hasFile),
+            'completed' => $hasFile,
             'label' => $val['label'],
             'version' => $val['version'],
             'image_id' => $imageId,
