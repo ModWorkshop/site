@@ -157,10 +157,10 @@ const { data: asyncFiles, refresh } = await useFetchMany<MWSFile>(`mods/${mod.va
 		include_incomplete: true,
 		page: page
 	},
-	immediate: routeChangeUploadingFiles.value.length === 0 && !!mod.value.id
+	immediate: uploadingFiles.value.length === 0 && !!mod.value.id
 });
 
-const combinedFiles = computed(() => ([...uploadingFiles.value, ...(asyncFiles.value?.data ?? [])]));
+const combinedFiles = computed(() => ([...uploadingFiles.value, ...vm.value]));
 
 watch(asyncFiles, () => {
 	if (asyncFiles.value) {
