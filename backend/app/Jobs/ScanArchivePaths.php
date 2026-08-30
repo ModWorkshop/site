@@ -33,6 +33,8 @@ class ScanArchivePaths implements ShouldQueue
      */
     public function handle(): void
     {
+        \Log::info('File scanning paths');
+
         $file = $this->file;
 
         $file->archive_paths = self::scanPathsInArchive($file);

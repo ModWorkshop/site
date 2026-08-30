@@ -223,6 +223,7 @@ class File extends Model
         static::saved(function(File $file) {
             if ($file->id && $file->isDirty('file')) {
                 ScanArchivePaths::dispatch($file);
+                \Log::info('Sent file for scanning paths');
             }
         });
 
