@@ -42,7 +42,7 @@ class ScanArchivePaths implements ShouldQueue
     }
 
     public static function scanPathsInArchive(File $file) {
-        if (ALLOWED_ARCHIVE_TYPES[$file->type] ?? false) {
+        if (!(ALLOWED_ARCHIVE_TYPES[$file->type] ?? false)) {
             return null;
         }
 
