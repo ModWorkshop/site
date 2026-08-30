@@ -38,7 +38,7 @@
 		<m-form-modal
 			v-if="currentFile"
 			v-model="showEditFile"
-			:title="!currentFile.id ? $t('create_file') : $t('edit_file')"
+			:title="!currentFile.id ? $t('new_file') : $t('edit_file')"
 			size="lg"
 			:can-submit="canSubmitFile"
 			:close-on-click-outside="false"
