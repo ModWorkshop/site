@@ -77,7 +77,7 @@
     "nuxt-seo-utils": "^7.0.19",
     "object-hash": "^3.0.0",
     "object-to-formdata": "^4.5.1",
-    "qs": "^6.15.2",
+    "qs": "^6.16.0",
     "reka-ui": "^2.10.3",
     "rfdc": "^1.4.1",
     "tailwindcss": "^4.3.3",
