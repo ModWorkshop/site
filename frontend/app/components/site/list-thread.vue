@@ -25,9 +25,9 @@
 								<m-time :datetime="thread.created_at" relative/>
 							</template>
 							<template #place>
-								<m-flex class="items-center">
+								<m-flex class="items-center" gap="0">
 									<NuxtLink v-if="!forumId" class="text-inherit" :to="thread.game_id ? `/g/${thread.game?.short_name}/forum` : '/forum'">
-										{{ thread.game_id ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
+										{{ thread.game ? (thread.game?.name ?? $t('not_available')) : $t('global_forum') }}
 									</NuxtLink>
 									<i-mdi-menu-right v-if="!forumId"/>
 									<NuxtLink class="text-inherit" :to="categoryLink ? `${to}?category=${thread.category_id}` : undefined">

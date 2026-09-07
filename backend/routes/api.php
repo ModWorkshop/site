@@ -297,7 +297,6 @@ Route::get('site-data', function(Request $request) {
             $data['report_count'] = Report::whereArchived(false)->count();
             $data['waiting_count'] = Mod::whereApproved(null)->count();
             $data['ticket_count'] = Thread::where('closed', false)
-                ->where('forum_id', 1)
                 ->whereHas('category', function($q) {
                     $q->where('tickets_mode', true);
                 })->count();
