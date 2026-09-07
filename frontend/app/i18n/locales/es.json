@@ -716,7 +716,6 @@
     "webhook_event_report_new": "Creación de informes",
     "webhook_event_mod_suspended": "Suspensión del mod",
     "webhook_event_mod_bumped": "Mod revisado (cambio de versión/nuevo archivo)",
-    "webhook_event_mod_updated": "Mod actualizado (cualquier cambio)",
     "webhook_event_file_uploaded": "Archivo subido",
     "webhook_event_ticket_new": "Nuevo ticket",
     "webhook_event_ticket_reply": "Nueva respuesta a ticket",
