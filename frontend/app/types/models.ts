@@ -645,7 +645,6 @@ export interface Webhook extends Model {
 	event_mod_deleted: boolean;
 	event_mod_suspended: boolean;
 	event_mod_published: boolean;
-	event_mod_updated: boolean;
 	event_mod_bumped: boolean;
 	event_file_uploaded: boolean;
 	event_report_new: boolean;
