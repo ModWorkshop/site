@@ -1,9 +1,12 @@
 <template>
 	<m-flex gap="3" column class="mt-2">
 		<m-flex gap="3" wrap>
-			<m-flex class="items-center" wrap>
-				<mod-status class="text-2xl mt-1" :mod="mod"/>
-				<span class="mod-title">{{ mod.name }}</span>
+			<m-flex class="self-center" column>
+				<m-flex class="items-center" wrap>
+					<mod-status class="text-2xl mt-1" :mod="mod"/>
+					<span class="mod-title">{{ mod.name }}</span>
+				</m-flex>
+				<span v-if="mod.short_desc" class="mod-short-desc">{{ mod.short_desc }}</span>
 			</m-flex>
 
 			<m-flex class="ml-auto mb-auto">

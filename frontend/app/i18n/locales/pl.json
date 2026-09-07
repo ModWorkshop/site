@@ -262,7 +262,7 @@
     "delete_images": "Usuń Obrazy",
     "delete_images_desc": "To usunie wszystkie obrazy tego moda, nie da się tego odwrócić!",
     "short_desc": "Krótki Opis",
-    "short_desc_desc": "Maksymalnie 150 znaków. Ten opis będzie widoczny w miejscach takich jak Discord lub przy najeżdżaniu na kartę moda",
+    "short_desc_desc": "Maksymalnie 250 znaków. Ten opis będzie widoczny w miejscach takich jak Discord lub przy najeżdżaniu na kartę moda",
     "license_cant_choose": "Nie możesz wybrać?",
     "disable_comments": "Wyłącz Komentarze",
     "transfer_ownership": "Przenieś Własność Moda",

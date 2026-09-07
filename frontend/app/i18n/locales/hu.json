@@ -262,7 +262,7 @@
     "delete_images": "Delete Images",
     "delete_images_desc": "This will delete all images of the mod, this cannot be reversed!",
     "short_desc": "Short Description",
-    "short_desc_desc": "Maximum of 150 letters. Will be shown in places like Discord, and when hovering mods",
+    "short_desc_desc": "Maximum of 250 letters. Will be shown in places like Discord, and when hovering mods",
     "license_cant_choose": "Can't choose?",
     "disable_comments": "Disable Comments",
     "transfer_ownership": "Transfer Ownership",

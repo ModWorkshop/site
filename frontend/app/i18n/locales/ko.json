@@ -613,7 +613,7 @@
     "cookies_banner": "저희는 쿠키를 사용합니다 🍪",
     "cookies_banner_desc": "저희는 사용자의 환경을 개선하기 위해 쿠키를 사용합니다. 쿠키를 저장하는 것을 허용하시겠습니까?",
     "guests": "게스트",
-    "user_avatar_desc": "권장 사이즈는 150x150 입니다. 최대 파일 크기: {size}.",
+    "user_avatar_desc": "권장 사이즈는 150x250 입니다. 최대 파일 크기: {size}.",
     "user_banner_desc": "권장 사이즈는 1550x300 입니다. 최대 파일 크기: {size}.",
     "impressum": "법적 고지",
     "about_mws": "ModWorkshop에 대해서",

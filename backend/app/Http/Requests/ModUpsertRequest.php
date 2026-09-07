@@ -30,7 +30,7 @@ class ModUpsertRequest extends FormRequest
             'changelog' => 'string|spam_check|nullable|max:40000',
             'instructions' => 'string|spam_check|nullable|max:40000',
             'ai_disclosure' => 'string|spam_check|nullable|max:1000',
-            'short_desc' => 'string|spam_check|nullable|max:150',
+            'short_desc' => 'string|spam_check|nullable|max:250',
             'donation' => 'string|nullable|max:100',
             'repo_url' => 'url:https|nullable|max:255',
             'custom_version' => 'string|nullable|max:128',

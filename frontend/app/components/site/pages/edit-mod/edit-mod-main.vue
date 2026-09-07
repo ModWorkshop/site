@@ -24,6 +24,8 @@
 	</m-flex>
 	<m-input v-model="mod.name" placeholder="My Cool Mod" :label="$t('name')" maxlength="100" minlength="3" required :desc="$t('mod_name_desc')"/>
 
+	<m-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="250" :desc="$t('short_desc_desc')"/>
+
 	<md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
 	<game-select v-if="!game && (isModerator || !mod.id)" v-model="mod.game_id" :label="$t('game')" required/>

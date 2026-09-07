@@ -262,7 +262,7 @@
     "delete_images": "Excluir imagens",
     "delete_images_desc": "Isto deletará todas as imagens do mod, não poderá restaurar!",
     "short_desc": "Descrição curta",
-    "short_desc_desc": "Máximo de 150 letras. Será mostrado em lugares como Discord, e quando estiver com o mouse em cima.",
+    "short_desc_desc": "Máximo de 250 letras. Será mostrado em lugares como Discord, e quando estiver com o mouse em cima.",
     "license_cant_choose": "Não sabe qual escolher?",
     "disable_comments": "Desativar comentários",
     "transfer_ownership": "Transferir autoria",

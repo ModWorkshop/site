@@ -262,7 +262,7 @@
     "delete_images": "Hapus Gambar",
     "delete_images_desc": "Ini akan menghapus semua gambar di mod ini, tindakan ini tidak bisa diundur!",
     "short_desc": "Deskripsi Pendek",
-    "short_desc_desc": "Maximum 150 huruf. Akan ditunjukkan di tempat seperti Discord dan ketika melayangkan kursor di atas mod",
+    "short_desc_desc": "Maximum 250 huruf. Akan ditunjukkan di tempat seperti Discord dan ketika melayangkan kursor di atas mod",
     "license_cant_choose": "Tidak bisa memilih?",
     "disable_comments": "Matikan Komentar",
     "transfer_ownership": "Pindahkan Kepemilikan",

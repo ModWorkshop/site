@@ -5,7 +5,6 @@
 		</template>
 	</md-editor>
 
-	<m-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="150" :desc="$t('short_desc_desc')"/>
 	<m-input v-model="mod.donation" :label="$t('donation')"/>
 	<m-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
 
