@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import type { File as MWSFile, PendingFileResponse, SimpleFile } from '~/types/models';
+import type { File as MWSFile, PendingFileResponse } from '~/types/models';
 import axios, { AxiosError, CanceledError } from 'axios';
 import { useI18n } from 'vue-i18n';
 import { remove } from '@antfu/utils';

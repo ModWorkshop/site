@@ -1,6 +1,6 @@
 <template>
 	<component :is="to ? NuxtLink : 'div'" :class="classes" :to="to">
-		<m-flex gap="2" class="w-full items-center">
+		<m-flex gap="2" class="w-full">
 			<span v-if="currIcon" class="text-3xl">
 				<m-icon :icon="currIcon" class="toast-icon"/>
 			</span>
