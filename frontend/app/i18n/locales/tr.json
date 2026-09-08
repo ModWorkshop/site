@@ -262,7 +262,7 @@
     "delete_images": "Resimleri Sil",
     "delete_images_desc": "Bu, modun tüm resimlerini siler, geri alınamaz!",
     "short_desc": "Kısa Açıklama",
-    "short_desc_desc": "En fazla 150 karakter. Discord gibi yerlerde ve modları gezinirken gösterilecek",
+    "short_desc_desc": "En fazla 250 karakter. Discord gibi yerlerde ve modları gezinirken gösterilecek",
     "license_cant_choose": "Karar veremedin mi?",
     "disable_comments": "Yorumları Kapat",
     "transfer_ownership": "Sahipliği Aktar",
