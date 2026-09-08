@@ -262,7 +262,7 @@
     "delete_images": "画像を削除",
     "delete_images_desc": "これによりModの全ての画像が削除されます。これは元に戻すことができません！",
     "short_desc": "短い説明",
-    "short_desc_desc": "最大150文字までです。Discordや、Modにカーソルを置いた時などに表示されます。",
+    "short_desc_desc": "Maximum of 250 letters. Will be shown in places like Discord, and when hovering mods",
     "license_cant_choose": "選べませんか？",
     "disable_comments": "コメントを無効にする",
     "transfer_ownership": "所有権を譲渡",
