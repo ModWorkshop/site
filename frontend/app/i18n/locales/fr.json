@@ -262,7 +262,7 @@
     "delete_images": "Supprimer Les Images",
     "delete_images_desc": "Ceci va supprimer toutes les images du mod, cette action est irréversible !",
     "short_desc": "Description Courte",
-    "short_desc_desc": "150 Lettres maximum. Sera affiché aux endroits comme Discord et survolant les mods",
+    "short_desc_desc": "250 Lettres maximum. Sera affiché aux endroits comme Discord et survolant les mods",
     "license_cant_choose": "Trop dur de choisir ?",
     "disable_comments": "Désactiver les commentaires",
     "transfer_ownership": "Transferer La Propriété",
