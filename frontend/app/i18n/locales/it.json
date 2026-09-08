@@ -262,7 +262,7 @@
     "delete_images": "Elimina Immagini",
     "delete_images_desc": "Questa azione eliminerà tutte le immagini della mod, non si può tornare indietro!",
     "short_desc": "Descrizione breve",
-    "short_desc_desc": "Puoi utilizzare al massimo 150 caratteri. Sarà presente in posti come Discord e mentre si sfogliano le mod",
+    "short_desc_desc": "Puoi utilizzare al massimo 250 caratteri. Sarà presente in posti come Discord e mentre si sfogliano le mod",
     "license_cant_choose": "Sei indeciso?",
     "disable_comments": "Disabilita Commenti",
     "transfer_ownership": "Trasferisci il Possesso della mod",
