@@ -262,7 +262,7 @@
     "delete_images": "Smazat Obrázky",
     "delete_images_desc": "Tímto smažete všechny obrázky tohoto módu, toto nelze vrátit zpět!",
     "short_desc": "Krátký Popis",
-    "short_desc_desc": "Maximum je 150 písmen. Toto bude zobrazeno na místech jako je Discord, a při přejetí kurzorem na módu",
+    "short_desc_desc": "Maximum je 250 písmen. Toto bude zobrazeno na místech jako je Discord, a při přejetí kurzorem na módu",
     "license_cant_choose": "Nemůžete si vybrat?",
     "disable_comments": "Vypnout Komentáře",
     "transfer_ownership": "Přesunout Vlastnictví",
