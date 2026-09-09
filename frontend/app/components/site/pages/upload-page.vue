@@ -5,31 +5,14 @@
 			<m-flex column gap="3">
 				<Title>{{ $t('upload_mod') }}</Title>
 				<m-flex v-if="!mod.id" gap="2" column>
-					<m-flex class="max-sm:flex-col" gap="2">
-						<m-alert :title="$t('edit_mod_tips_title')">
-							<ul style="padding-inline-start: 1rem;">
-								<li>{{ $t('edit_mod_tip_1') }}</li>
-								<li>{{ $t('edit_mod_tip_2') }}</li>
-							</ul>
-						</m-alert>
-						<m-alert :title="$t('edit_mod_warns_title')" color="warning">
-							<ul style="padding-inline-start: 1rem;">
-								<li>{{ $t('edit_mod_warn_1') }}</li>
-								<i18n-t keypath="edit_mod_warn_2" tag="li" scope="global">
-									<template #here>
-										<NuxtLink to="/document/rules">{{ $t('here') }}</NuxtLink>
-									</template>
-								</i18n-t>
-							</ul>
-						</m-alert>
-					</m-flex>
+					<m-alert :title="$t('edit_mod_tips_title')" color="info">
+						{{ $t('upload_mod_tip') }}
+					</m-alert>
 					<m-alert v-if="newUserWarn" :title="$t('edit_mod_warns_title')" color="warning">
 						{{ $t('edit_mod_warn_new_user') }}
 					</m-alert>
 				</m-flex>
 				<m-input v-model="mod.name" placeholder="My Cool Mod" :label="$t('name')" maxlength="100" minlength="3" required :desc="$t('mod_name_desc')"/>
-
-				<m-input v-model="mod.short_desc" :label="$t('short_desc')" type="textarea" rows="2" maxlength="250" :desc="$t('short_desc_desc')"/>
 
 				<md-editor v-model="mod.desc" :label="$t('description')" :desc="$t('mod_desc_help')" minlength="3" required rows="12"/>
 
@@ -37,9 +20,16 @@
 
 				<category-select v-if="categories?.data.length" v-model="mod.category_id" :label="$t('category')" :desc="$t('category_desc')" :categories="categories.data"/>
 
-				<m-select v-model="mod.tag_ids" :options="tags?.data" color-by="color" multiple list-tags :label="$t('tags')" :desc="$t('make_your_mod_discoverable')"/>
-
-				<m-select v-model="mod.visibility" :label="$t('visibility')" :options="visItems"/>
+				<span class="text-center">
+					<i18n-t keypath="upload_mod_rules_tos" scope="global">
+						<template #rules>
+							<NuxtLink to="/document/rules">{{ $t('rules') }}</NuxtLink>
+						</template>
+						<template #tos>
+							<NuxtLink to="/document/terms">{{ $t('terms') }}</NuxtLink>
+						</template>
+					</i18n-t>
+				</span>
 			</m-flex>
 		</m-form>
 	</m-content-block>
@@ -94,15 +84,8 @@ const showErrorToast = useQuickErrorToast();
 const router = useRouter();
 const queryTab = useRouteQuery('tab');
 const fc = createEventHook();
-const { t } = useI18n();
 
 const newUserWarn = computed(() => settings?.new_user_first_upload_requires_approval && me!.needs_mod_approval);
-
-const visItems = [
-	{ name: t('public'), id: 'public' },
-	{ name: t('private'), id: 'private' },
-	{ name: t('unlisted'), id: 'unlisted' }
-];
 
 watch(() => mod.value.game, () => {
 	if (mod.value.game) {
@@ -112,13 +95,6 @@ watch(() => mod.value.game, () => {
 
 const gameId = computed(() => mod.value.game_id || undefined);
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { immediate: !!gameId.value });
-const { data: tags, refresh: refreshTags } = await useFetchMany<Tag>('tags', {
-	query: {
-		game_id: gameId,
-		type: 'mod',
-		global: 1
-	}
-});
 
 watch(() => categories.value, () => {
 	if (categories.value && categories.value.data.length === 0) {
