@@ -650,6 +650,8 @@
     "updates": "업데이트",
     "edit_mod_tips_title": "기본 모드를 만들어 봅시다!",
     "edit_mod_warns_title": "알림",
+    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
+    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
     "edit_mod_tip_1": "가장 기본적으로 모드에는 이름, 설명, 게임, 다운로드가 필요합니다.",
     "edit_mod_tip_2": "Once you're happy with the mod, you can publish it. allowing people to view & download it.",
     "edit_mod_warn_1": "음악 모드 같은 일부 모드는 승인이 필요합니다. 모드에 음악이 포함된 경우, 아래 링크를 통해 승인을 요청하세요.",
