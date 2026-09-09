@@ -650,6 +650,8 @@
     "updates": "Mises à Jour",
     "edit_mod_tips_title": "Créons un mod basique!",
     "edit_mod_warns_title": "Attention",
+    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
+    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
     "edit_mod_tip_1": "Le mod le plus basique requiers un nom, une description, un jeu et un téléchargement.",
     "edit_mod_tip_2": "Once you're happy with the mod, you can publish it. allowing people to view & download it.",
     "edit_mod_warn_1": "Dans certains cas, les mods tels que les mods de musique doivent être approuvés. Si votre mod contient de la musique, envoyez-le pour approbation (ci-dessous)",
