@@ -650,6 +650,8 @@
     "updates": "Aktualizace",
     "edit_mod_tips_title": "Pojďme vytvořit základní mód!",
     "edit_mod_warns_title": "Upozornění",
+    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
+    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
     "edit_mod_tip_1": "Nejzákladnější mód vyžaduje název, popis, hru a stažení.",
     "edit_mod_tip_2": "Jakmile budete s módem spokojeni, můžete jej publikovat a umožnit tím lidem jej prohlížet a stahovat.",
     "edit_mod_warn_1": "V některých případech, módy jako jsou například hudební módy, vyžadují schválení. Pokud Váš mód obsahuje hudbu, pošlete jej ke schválení (Níže)",
