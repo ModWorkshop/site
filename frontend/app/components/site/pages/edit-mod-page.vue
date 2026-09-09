@@ -8,7 +8,7 @@
 				<edit-mod-files v-model="mod"/>
 			</m-tab>
 			<m-tab name="images" :title="$t('images_tab')">
-				<edit-mod-images v-model="mod"/>
+				<edit-mod-images v-model="mod" v-model:initial-mod="initialMod"/>
 			</m-tab>
 			<m-tab name="members" :title="$t('members_tab')">
 				<edit-mod-members v-model="mod"/>

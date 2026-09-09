@@ -100,16 +100,17 @@
 <script setup lang="ts">
 import type { Mod, Image } from '~/types/models';
 import { useStore } from '~/store';
-import clone from 'rfdc/default';
+import { remove } from '@antfu/utils';
 
 const { settings } = useStore();
 const showError = useQuickErrorToast();
 
 const mod = defineModel<Mod>({ required: true });
+const initialMod = defineModel<Mod>("initial-mod", { required: true });
 
 const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images` : '');
 
-const images = ref<Image[]>(clone(mod.value.images) ?? []);
+const images = computed(() => initialMod.value.images ?? []);
 
 function setBanner(banner?: Image) {
 	mod.value.banner_id = banner?.id;
@@ -131,11 +132,7 @@ async function setImageOrder(img: Image, order: number) {
 		await patchRequest(`images/${img.id}`, { display_order: img.display_order + order });
 		img.display_order = img.display_order + order;
 
-		// TODO: fix this equality check
-		// I don't know this filter is working correctly...
-		// eslint-disable-next-line eqeqeq
-		images.value = images.value.filter(v => v != img);
-		images.value.splice(img.display_order, 0, img);
+		remove(images.value, img);
 
 		for (let i = 0; i < images.value.length; i++) {
 			images.value[i]!.display_order = i;
