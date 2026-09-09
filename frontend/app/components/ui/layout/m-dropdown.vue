@@ -5,7 +5,6 @@
 		</PopoverTrigger>
 		<PopoverPortal>
 			<PopoverContent
-				force-mount
 				:side="side"
 				:align="align"
 				:side-offset="2"
