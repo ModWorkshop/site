@@ -650,6 +650,8 @@
     "updates": "Aggiornamenti",
     "edit_mod_tips_title": "Creiamo una mod partendo dalla base!",
     "edit_mod_warns_title": "Avviso",
+    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
+    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
     "edit_mod_tip_1": "La mod più semplice di tutte richiede un nome, una descrizione, un gioco e un download.",
     "edit_mod_tip_2": "Una volta che si è soddisfatti della mod, è possibile pubblicarla, consentendo alle persone di visualizzarla e scaricarla.",
     "edit_mod_warn_1": "In alcuni casi, alcune mod come quelle musicali richiedono l'approvazione. Se la tua mod contiene musica, inviala per l'approvazione (in basso)",
