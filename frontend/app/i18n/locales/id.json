@@ -650,6 +650,8 @@
     "updates": "Pembaruan",
     "edit_mod_tips_title": "Ayo buat mod sederhana!",
     "edit_mod_warns_title": "Pemberitahuan",
+    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
+    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
     "edit_mod_tip_1": "Mod yang sederhana membutuhkan nama, deskripsi, game dan file unduhan.",
     "edit_mod_tip_2": "Ketika anda sudah puas, mod bisa dipublikasikan, memperbolehkan orang lain untuk melihat dan mengunduh mod tersebut.",
     "edit_mod_warn_1": "Pada beberapa kasus, mod yang memodifikasi musik membutuhkan persetujuan. Jika mod anda memiliki konten musik, ajukan untuk disetujui (Dibawah)",
