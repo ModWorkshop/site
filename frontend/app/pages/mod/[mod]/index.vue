@@ -1,15 +1,15 @@
 <template>
 	<m-flex gap="3" column class="mt-2">
-		<m-flex gap="3" wrap>
-			<m-flex class="self-center" column>
-				<m-flex class="items-center" wrap>
-					<mod-status class="text-2xl mt-1" :mod="mod"/>
+		<m-flex gap="4" class="md:items-center max-sm:flex-col">
+			<m-flex class="flex-1" column>
+				<m-flex class="items-center">
+					<mod-status class="text-2xl mt-1 mb-auto" :mod="mod"/>
 					<span class="mod-title">{{ mod.name }}</span>
 				</m-flex>
 				<span v-if="mod.short_desc" class="mod-short-desc">{{ mod.short_desc }}</span>
 			</m-flex>
 
-			<m-flex class="ml-auto mb-auto">
+			<m-flex class="ml-auto">
 				<m-dropdown :disabled="!!mod.followed" align="end">
 					<m-button @click="mod.followed && setFollowMod(mod, false)">
 						{{ $t(mod.followed ? 'unfollow' : 'follow') }} <i-mdi-chevron-down/>
