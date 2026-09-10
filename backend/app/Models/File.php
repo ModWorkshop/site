@@ -151,7 +151,7 @@ class File extends Model
         }
 
         if (is_null($this->archive_paths)) {
-            return 'unknown_not_archive';
+            return 'unknown';
         }
 
         $gameDef = json_decode($gameDef, true);
