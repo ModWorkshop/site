@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1
 FROM dunglas/frankenphp:1.12.6-php8.3-bookworm AS build
 
-RUN apt-get update && apt-get install -y --no-install-recommends supervisor
+RUN apt-get update && apt-get install -y --no-install-recommends supervisor p7zip-full
 
 # # Using heredoc from dockerfile:1.4 (ref: https://www.docker.com/blog/introduction-to-heredocs-in-dockerfiles/)
 # # PHP ini configuration
