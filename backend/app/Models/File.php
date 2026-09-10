@@ -80,7 +80,7 @@ class File extends Model
     protected $guarded = [];
     // I'd like to make archive_paths public later, but it can be quite long so I may need to think of a better way
     // Graphql would've been sweet as REST APIs suck in this kind of thing
-    protected $hidden = ['mod', 'semver_version', 'legacy_mime', 'archive_paths'];
+    protected $hidden = ['mod', 'semver_version', 'legacy_mime', 'archive_paths', 'completed'];
     protected $with = [];
 
     protected $casts = [
