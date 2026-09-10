@@ -184,6 +184,7 @@
     "file_uploader_drop": "Solte os arquivos aqui ou clique para enviá-los",
     "uploading": "Enviando: {0}%",
     "uploading_detailed": "{time} restante - {current}/{total} ({speed}/s)",
+    "uploading_table": "{time} ({speed}/s)",
     "file_name_too_large": "O arquivo {name} é grande demais!",
     "file_name_too_large_max_size": "O arquivo {name} é grande mais, tente limpar mais espaço",
     "file_size": "Size",
