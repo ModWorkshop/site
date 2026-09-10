@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
+use App\Jobs\DetectGameFileModTypes;
 use App\Services\APIService;
 use App\Services\ModService;
 use Arr;
@@ -102,7 +103,7 @@ class Game extends Model
     protected $guarded = [
         'game_sdk_key'
     ];
-    protected $hidden = ['webhook_url', 'viewable_mods_count', 'game_sdk_key'];
+    protected $hidden = ['webhook_url', 'viewable_mods_count', 'game_sdk_key', 'mod_types_definition'];
     protected $appends = [];
     public const WITH_USER_PERFS = ['followed', 'ignored'];
     protected $with = [];
@@ -309,6 +310,12 @@ class Game extends Model
     {
         static::saving(fn(Game $game) => $game->ensureForumExists());
         static::created(fn(Game $game) => $game->ensureForumExists());
+
+        static::saved(function(Game $game) {
+            if ($game->id && $game->isDirty('mod_types_definition')) {
+                DetectGameFileModTypes::dispatch($game);
+            }
+        });
 
         static::deleting(function(Game $game) {
             Storage::delete('games/images/'.$game->banner);

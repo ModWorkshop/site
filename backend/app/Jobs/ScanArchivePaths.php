@@ -40,6 +40,8 @@ class ScanArchivePaths implements ShouldQueue
         $file->archive_paths = self::scanPathsInArchive($file);
         $file->timestamps = false;
 
+        $file->mod_type = $file->detectFileModType();
+
         $file->save();
     }
 
