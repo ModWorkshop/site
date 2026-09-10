@@ -44,17 +44,19 @@ import type { Dependency, Mod } from '~/types/models';
 import clone from 'rfdc/default';
 
 const props = defineProps<{
-	dependable: {
-		id: number;
-		dependencies?: Dependency[];
-	};
 	url: string;
 	paused?: boolean;
 }>();
 
 const showAddModModal = ref(false);
 const showError = useQuickErrorToast();
-const dependencies = ref<Dependency[]>(clone(props.dependable.dependencies ?? []));
+
+const dependable = defineModel<{
+	id: number;
+	dependencies?: Dependency[];
+}>({ required: true });
+
+const dependencies = computed(() => dependable.value.dependencies ?? []);
 
 const depTemplate: Dependency = {
 	id: -1,
@@ -83,7 +85,7 @@ watch(() => props.paused, async val => {
 		for (const dep of dependencies.value) {
 			if (!dep.id) {
 				try {
-					const newDep = await postRequest<Dependency>(`${props.url}/${props.dependable.id}/dependencies`, dep);
+					const newDep = await postRequest<Dependency>(`${props.url}/${dependable.value.id}/dependencies`, dep);
 					Object.assign(dep, newDep);
 				} catch (error) {
 					showError(error);
@@ -122,11 +124,11 @@ async function addDependency(onError) {
 				currentDep.value!.id = 0;
 				dependencies.value.push(currentDep.value!);
 			} else {
-				const dep = await postRequest<Dependency>(`${props.url}/${props.dependable.id}/dependencies`, currentDep.value);
+				const dep = await postRequest<Dependency>(`${props.url}/${dependable.value.id}/dependencies`, currentDep.value);
 				dependencies.value.push(dep);
 			}
 		} else if (dep.id) {
-			dep = await patchRequest<Dependency>(`${props.url}/${props.dependable.id}/dependencies/${currentDep.value!.id}`, currentDep.value);
+			dep = await patchRequest<Dependency>(`${props.url}/${dependable.value.id}/dependencies/${currentDep.value!.id}`, currentDep.value);
 		}
 
 		if (currentDepIndex.value !== undefined && currentDepIndex.value !== -1) {
@@ -144,7 +146,7 @@ async function addDependency(onError) {
 async function deleteDep(dep) {
 	try {
 		if (dep.id) {
-			await deleteRequest(`${props.url}/${props.dependable.id}/dependencies/${dep.id}`);
+			await deleteRequest(`${props.url}/${dependable.value.id}/dependencies/${dep.id}`);
 		}
 		remove(dependencies.value, dep);
 		showAddModModal.value = false;

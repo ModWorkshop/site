@@ -14,7 +14,7 @@
 				<edit-mod-members v-model="mod"/>
 			</m-tab>
 			<m-tab name="instructions" :title="$t('instructions_tab')">
-				<edit-mod-deps v-model="mod"/>
+				<edit-mod-deps v-model="mod" v-model:initial-mod="initialMod"/>
 			</m-tab>
 			<m-tab name="extra" :title="$t('extra_tab')">
 				<edit-mod-extra v-model="mod"/>

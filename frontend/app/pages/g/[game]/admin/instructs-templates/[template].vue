@@ -9,7 +9,7 @@
 		<m-input v-model="template.name" :label="$t('name')"/>
 		<md-editor v-model="template.instructions" :label="$t('instructions')"/>
 		<m-input v-model="template.localized" type="checkbox" :label="$t('localized')"/>
-		<edit-mod-edit-dependencies v-if="template.id" :dependable="template" url="instructs-templates"/>
+		<edit-mod-edit-dependencies v-if="template.id" v-model="template" url="instructs-templates"/>
 	</simple-resource-form>
 </template>
 

@@ -8,10 +8,11 @@
 		null-clear
 	/>
 	<md-editor v-model="mod.instructions" :label="$t('instructions')" rows="12"/>
-	<edit-mod-edit-dependencies :dependable="mod" :paused="!mod.id" url="mods"/>
+	<edit-mod-edit-dependencies v-model="initialMod" :paused="!mod.id" url="mods"/>
 </template>
 
 <script setup lang="ts">
 import type { Mod } from '~/types/models';
 const mod = defineModel<Mod>({ required: true });
+const initialMod = defineModel<Mod>('initial-mod', { required: true });
 </script>

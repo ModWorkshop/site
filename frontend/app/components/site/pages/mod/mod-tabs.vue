@@ -28,7 +28,7 @@
 				<md-content allow-anchors :text="mod.license" :parser-version="mod.parser_version"/>
 			</m-tab>
 			<m-tab v-if="dependencies.length || instructions" name="instructions" :title="$t('instructions_tab')" gap="3">
-				<m-flex wrap>
+				<m-flex column>
 					<div v-if="instructions" >
 						<h2>{{ $t('instructions') }}</h2>
 						<md-content class="mb-3" allow-anchors :text="instructions" :parser-version="mod.parser_version"/>
