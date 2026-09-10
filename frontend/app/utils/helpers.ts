@@ -15,6 +15,20 @@ export const convertMs = { y: 31557600000, mo: 2629800000, w: 604800000, d: 8640
  */
 export const friendlySize = partial({ base: 2, round: 1 });
 
+export function huamnizeDuration(seconds: number, durationFormat: Intl.DurationFormat) {
+	seconds = Math.round(seconds);
+	const minutes = Math.round(seconds / 60);
+	const hours = Math.round(minutes / 60);
+
+	if (hours >= 1) {
+		return durationFormat.format({ hours });
+	} else if (minutes >= 1) {
+		return durationFormat.format({ minutes });
+	}
+
+	return durationFormat.format({ seconds });
+}
+
 /**
  * Permissions that make the admin page available to the user
  */

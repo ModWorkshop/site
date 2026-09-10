@@ -6,9 +6,9 @@
 			:show-text="false"
 			:alt-background="altBackground"
 		/>
-		<span class="whitespace-pre-line">
+		<small class="whitespace-pre-line">
 			{{ $t('uploading_detailed', { current, total, speed, time }) }}
-		</span>
+		</small>
 	</m-flex>
 </template>
 
@@ -23,20 +23,8 @@ const { progress } = defineProps<{
 const { locale } = useI18n();
 const durationFormat = computed(() => new Intl.DurationFormat(locale.value, { style: 'narrow', secondsDisplay: 'always' }));
 
-const time = computed(() => {
-	const seconds = Math.round(progress?.estimated ?? 0);
-	const minutes = Math.round(seconds / 60);
-	const hours = Math.round(minutes / 60);
-
-	if (hours >= 1) {
-		return durationFormat.value.format({ hours });
-	} else if (minutes >= 1) {
-		return durationFormat.value.format({ minutes });
-	}
-
-	return durationFormat.value.format({ seconds });
-});
+const time = computed(() => huamnizeDuration(progress?.estimated ?? 0, durationFormat.value));
 const speed = computed(() => friendlySize(progress?.rate ?? 0));
-const current = computed(() => friendlySize(progress?.bytes ?? 0));
+const current = computed(() => friendlySize(progress?.loaded ?? 0));
 const total = computed(() => friendlySize(progress?.total ?? 0));
 </script>

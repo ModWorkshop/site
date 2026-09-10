@@ -36,9 +36,19 @@
 			{{ download.url }}
 		</td>
 		<td>
-			<div style="max-width: 270px; min-width: 200px;">
+			<div style="width: 100px;">
 				<span v-if="paused">{{ $t('file_waiting') }}</span>
-				<m-uploader-progress v-else-if="download.progress" :progress="download.progress" type="circle"/>
+				<m-flex v-else-if="download.progress" column>
+					<m-progress
+						:current="progress?.progress"
+						:height="8"
+						:show-text="false"
+					/>
+					<small class="whitespace-pre-line">
+						{{ $t('uploading_table', { current, total, speed, time }) }}
+					</small>
+				</m-flex>
+
 				<m-time v-else-if="download.created_at" :datetime="download.created_at" relative relative-time-style="narrow"/>
 				<span v-else>{{ $t('waiting') }}</span>
 			</div>
@@ -59,7 +69,7 @@
 import type { UploadSimpleFile } from '~/types/core';
 import type { Link, Mod } from '~/types/models';
 
-const props = defineProps<{
+const { mod, download } = defineProps<{
 	download;
 	type: 'file' | 'link';
 	paused?: boolean;
@@ -73,5 +83,13 @@ defineEmits<{
 	(e: 'setPrimaryDownload', type: 'file' | 'link', download: UploadSimpleFile & Link): void;
 }>();
 
-const image = computed(() => props.mod.images?.find(image => image.id === props.download.image_id));
+const image = computed(() => mod.images?.find(image => image.id === download.image_id));
+const progress = computed(() => download.progress);
+const { locale } = useI18n();
+const durationFormat = computed(() => new Intl.DurationFormat(locale.value, { style: 'narrow', secondsDisplay: 'always' }));
+
+const time = computed(() => huamnizeDuration(progress.value?.estimated ?? 0, durationFormat.value));
+const speed = computed(() => friendlySize(progress.value?.rate ?? 0));
+const current = computed(() => friendlySize(progress.value?.loaded ?? 0));
+const total = computed(() => friendlySize(progress.value?.total ?? 0));
 </script>
