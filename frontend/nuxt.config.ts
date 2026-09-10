@@ -100,6 +100,7 @@ export default defineNuxtConfig({
 						{ path: 'tags/:tag', file: '~/pages/admin/tags/[tag].vue' },
 						{ path: 'tags', file: '~/pages/admin/tags/index.vue' },
 						{ path: 'suspensions', file: '~/pages/admin/suspensions/index.vue' },
+						{ path: 'suspensions/:suspension', file: '~/pages/admin/suspensions/[suspension].vue' },
 						{ path: 'reports', file: '~/pages/admin/reports.vue' },
 						{ path: 'tickets', file: '~/pages/admin/tickets.vue' },
 						{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
