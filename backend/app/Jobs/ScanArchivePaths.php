@@ -54,6 +54,7 @@ class ScanArchivePaths implements ShouldQueue
 
         $tmpPath = $tmpDir->path($file->file);
         Http::sink($tmpPath)
+            ->timeout(300)
             ->get($file->downloadUrl);
 
         try {
