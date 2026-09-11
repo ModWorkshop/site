@@ -56,17 +56,17 @@
 	</template>
 	<m-flex v-else class="list-button" column>
 		<m-flex class="flex-1 items-center hover:cursor-pointer" gap="3" @click="showDetails = !showDetails">
-			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
-			<m-img v-else src="file-download.webp" is-asset width="48" height="48"/>
+			<m-img v-if="image" url-prefix="mods/images" class="mb-auto" :src="image.file" loading="lazy" width="48" height="48"/>
+			<m-img v-else src="file-download.webp" class="mb-auto" is-asset width="48" height="48"/>
 			<m-flex grow column style="flex: 1;" gap="2">
-				<m-flex class="items-center whitespace-pre-line" wrap>
-					<m-tag v-if="file.label">{{ file.label }}</m-tag>
+				<m-flex class="items-center whitespace-pre-line">
 					<strong v-if="file.name" class="items-center" style="word-break: break-word;">{{ file.name }}</strong>
 					<strong v-else class="items-center">{{ $t(`file_type_${type}`) }}</strong>
+					<m-tag v-if="file.label" class="mb-auto">{{ file.label }}</m-tag>
 				</m-flex>
-				<span v-if="file.version" :title="$t('version')">
-					<i-mdi-tag/> {{ file.version }}
-				</span>
+				<m-flex v-if="file.version" :title="$t('version')">
+					<i-mdi-tag/> <span class="wrap-anywhere">{{ file.version }}</span>
+				</m-flex>
 				<m-flex :title="$t('downloads')" class="items-center">
 					<i-mdi-download/> <span :title="file.downloads.toString()">{{ friendlyNumber(locale, file.downloads) }}</span>
 				</m-flex>

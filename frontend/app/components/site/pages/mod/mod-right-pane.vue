@@ -7,50 +7,48 @@
 		<m-flex column gap="4" class="mod-info content-block p-6">
 			<m-flex>
 				<span class="text-secondary"> <i-mdi-download/> {{ $t('downloads') }}</span>
-				<span class="ml-auto">{{ downloads }}</span>
+				<span class="stat-right">{{ downloads }}</span>
 			</m-flex>
 
 			<m-flex>
 				<span class="text-secondary"> <i-mdi-eye/> {{ $t('views') }}</span>
-				<span class="ml-auto">{{ views }}</span>
+				<span class="stat-right">{{ views }}</span>
 			</m-flex>
 
 			<m-flex v-if="mod.published_at">
 				<span class="text-secondary"> <i-mdi-calendar-import/> {{ $t('published_at') }}</span>
-				<m-time :datetime="mod.published_at" class="ml-auto" relative/>
+				<m-time :datetime="mod.published_at" class="stat-right" relative/>
 			</m-flex>
 			<m-flex v-else-if="mod.created_at">
 				<span class="text-secondary"> <i-mdi-calendar-plus/> {{ $t('upload_date') }}</span>
-				<m-time :datetime="mod.created_at" class="ml-auto" relative/>
+				<m-time :datetime="mod.created_at" class="stat-right" relative/>
 			</m-flex>
 
 			<m-flex class="items-center" gap="0">
 				<span :title="$t('last_updated')" class="text-secondary">
 					<i-mdi-clock/> {{ $t('last_updated') }}
 				</span>
-				<span v-if="mod.bumped_at" class="ml-auto">
+				<span v-if="mod.bumped_at" class="stat-right">
 					<m-time v-if="!mod.last_user" :datetime="mod.bumped_at" relative/>
-					<span v-else class="items-center inline-flex gap-1">
-						<i18n-t keypath="by_user_time_ago" scope="global">
-							<template #user>
-								<a-user avatar-size="xs" :user="mod.last_user" :tag="false" :avatar="false"/>
-							</template>
-							<template #time>
-								<m-time :datetime="mod.bumped_at" relative/>
-							</template>
-						</i18n-t>
-					</span>
+					<i18n-t v-else keypath="by_user_time_ago" scope="global">
+						<template #user>
+							<a-user avatar-size="xs" :user="mod.last_user" :tag="false" :avatar="false"/>
+						</template>
+						<template #time>
+							<m-time :datetime="mod.bumped_at" relative/>
+						</template>
+					</i18n-t>
 				</span>
 			</m-flex>
 
 			<m-flex v-if="mod.version" :title="$t('version')">
 				<span class="text-secondary"><i-mdi-tag/> {{ $t('version') }} </span>
-				<span class="ml-auto">{{ mod.version }}</span>
+				<span class="stat-right">{{ mod.version }}</span>
 			</m-flex>
 
 			<m-flex v-if="mod.repo_url" :title="$t('repo_url')" gap="6">
 				<span class="text-secondary whitespace-pre"><i-mdi-git/> {{ $t('repo_url') }} </span>
-				<NuxtLink class="ml-auto text-body text-right truncate" :to="mod.repo_url" target="_blank">
+				<NuxtLink class="stat-right text-body text-right truncate" :to="mod.repo_url" target="_blank">
 					<i-ri-github-fill v-if="mod.repo_url.startsWith('https://github.com')"/>
 					<i-ri-gitlab-fill v-else-if="mod.repo_url.startsWith('https://gitlab.com')"/>
 					<i-mdi-bitbucket v-else-if="mod.repo_url.startsWith('https://bitbucket.org')"/>
@@ -79,12 +77,12 @@
 				<m-flex class="colllaborators-block pt-2" column gap="2">
 					<m-flex wrap>
 						<a-user :user="mod.user" :details="$t('owner')"/>
-						<donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
+						<donation-button v-if="ownerDonation" class="stat-right" :link="ownerDonation"/>
 					</m-flex>
 
 					<m-flex v-for="member of members" :key="member.id">
 						<a-user :user="member" :details="$t(`member_level_${member.level}`)"/>
-						<donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
+						<donation-button v-if="member.donation_url" class="stat-right" :link="member.donation_url"/>
 					</m-flex>
 				</m-flex>
 			</m-flex>
@@ -131,5 +129,15 @@ const tagLink = computed(() => `/g/${props.mod?.game?.short_name}/mods`);
 	.mod-info {
 		padding: 1.5rem;
 	}
+}
+</style>
+
+<style scoped>
+.stat-right {
+	margin-left: auto;
+	width: 60%;
+	text-align: right;
+	word-wrap: break-word;
+	word-break: break-word;
 }
 </style>
