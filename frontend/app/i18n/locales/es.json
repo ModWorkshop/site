@@ -19,7 +19,6 @@
     "changelog": "Registro de cambios",
     "description": "Descripción",
     "version": "Versión",
-    "include_prerelease": "Incluir pre-lanzamiento",
     "tags": "Etiquetas",
     "filter_out_tags": "Excluir etiquetas",
     "mods": "Mods",
@@ -651,8 +650,8 @@
     "updates": "Actualizaciones",
     "edit_mod_tips_title": "¡Vamos a crear un mod básico!",
     "edit_mod_warns_title": "Aviso",
-    "upload_mod_rules_tos": "By uploading mods into the site, you agree to our {rules} and {tos}",
-    "upload_mod_tip": "To create a mod draft, you need to enter name, description and game. After submission your can enter the rest of the information.",
+    "upload_mod_rules_tos": "Al subir mods al sitio, aceptas nuestras {rules} y {tos}",
+    "upload_mod_tip": "Para crear el borrador de un mod, debes introducir un nombre, descripción y el juego. Una vez enviado, podrás agregar el resto de la información.",
     "edit_mod_tip_1": "El mod más básico requiere un nombre, una descripción, un juego y una descarga.",
     "edit_mod_tip_2": "Una vez que estés satisfecho con el mod, puedes publicarlo y permitir que las personas puedan verlo y descargarlo.",
     "edit_mod_warn_1": "En algunos casos, los mods (como los de música) requieren aprobación. Si tu mod contiene música, envíalo para su aprobación (más abajo)",
@@ -727,5 +726,9 @@
     "files_are_versions": "Los archivos son versiones",
     "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior.",
     "custom_version_help": "Establece la versión del mod. Si la opción \"Los archivos son versiones\" está activada, el mod intentará tomar primero la versión del archivo principal.",
-    "file_missing": "Archivo faltante"
+    "file_missing": "Archivo faltante",
+    "version_type": "Tipo de versión",
+    "version_release": "Lanzamiento",
+    "version_beta": "Beta",
+    "version_alpha": "Alfa"
 }
