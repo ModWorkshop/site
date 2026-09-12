@@ -75,6 +75,7 @@ export interface File extends SimpleFile {
 	download_url: string;
 	name: string;
 	version: string;
+	version_type: 'release' | 'beta' | 'alpha';
 	desc: string;
 	label: string;
 	image_id: number | null;

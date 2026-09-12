@@ -1,8 +1,9 @@
 <template>
 	<template v-if="table">
 		<tr class="hover:cursor-pointer download-tr" @click="showDetails = !showDetails">
-			<td :class="{ 'collapse-col': !image }">
+			<td class="collapse-col">
 				<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
+				<mod-file-version-type v-else-if="file.version_type" :file="file"/>
 			</td>
 			<td>
 				<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="file.version">
@@ -38,7 +39,16 @@
 		<tr :class="{hidden: !showDetails, 'download-tr': showDetails}">
 			<td colspan="10">
 				<m-flex class="p-3" column gap="2">
-					<md-content v-if="file.desc" :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
+					<span>
+						{{ $t(type + '_id') }}: {{ file.id }}
+					</span>
+					<span>
+						{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
+					</span>
+					<template v-if="file.desc">
+						{{ $t('description') }}:
+						<md-content :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
+					</template>
 					<m-flex class="items-center" wrap>
 						<i18n-t keypath="updated_by_user_time_ago" scope="global">
 							<template #time>
@@ -49,15 +59,15 @@
 							</template>
 						</i18n-t>
 					</m-flex>
-					{{ $t(type + '_id') }}: {{ file.id }}
 				</m-flex>
 			</td>
 		</tr>
 	</template>
 	<m-flex v-else class="list-button" column>
 		<m-flex class="flex-1 items-center hover:cursor-pointer" gap="3" @click="showDetails = !showDetails">
-			<m-img v-if="image" url-prefix="mods/images" class="mb-auto" :src="image.file" loading="lazy" width="48" height="48"/>
-			<m-img v-else src="file-download.webp" class="mb-auto" is-asset width="48" height="48"/>
+			<m-img v-if="image" url-prefix="mods/images" class="mb-auto" :src="image.file" loading="lazy" width="32" height="32"/>
+			<mod-file-version-type v-else-if="file.version_type" class="mb-auto" :file="file"/>
+
 			<m-flex grow column style="flex: 1;" gap="2">
 				<m-flex class="items-center whitespace-pre-line">
 					<strong v-if="file.name" class="items-center" style="word-break: break-word;">{{ file.name }}</strong>
@@ -79,7 +89,16 @@
 			</m-flex>
 		</m-flex>
 		<m-flex :class="{ hidden: !showDetails, 'p-3': true }" column gap="2">
-			<md-content v-if="file.desc" :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
+			<span>
+				{{ $t(type + '_id') }}: {{ file.id }}
+			</span>
+			<span>
+				{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
+			</span>
+			<template v-if="file.desc">
+				{{ $t('description') }}:
+				<md-content :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
+			</template>
 			<m-flex class="items-center" wrap>
 				<i18n-t keypath="updated_by_user_time_ago" scope="global">
 					<template #time>
@@ -90,7 +109,6 @@
 					</template>
 				</i18n-t>
 			</m-flex>
-			{{ $t(type + '_id') }}: {{ file.id }}
 		</m-flex>
 	</m-flex>
 </template>
@@ -98,7 +116,7 @@
 <script setup lang="ts">
 import type { File, Link, Mod } from '~/types/models';
 
-const props = defineProps<{
+const { file, mod } = defineProps<{
 	file: File & Link;
 	type: 'file' | 'link';
 	table?: boolean;
@@ -108,7 +126,8 @@ const props = defineProps<{
 const i18n = useI18n();
 const showDetails = ref(false);
 const locale = computed(() => i18n.locale.value);
-const image = computed(() => props.mod.images?.find(image => image.id === props.file.image_id));
+const image = computed(() => mod.images?.find(image => image.id === file.image_id));
+
 </script>
 
 <style>

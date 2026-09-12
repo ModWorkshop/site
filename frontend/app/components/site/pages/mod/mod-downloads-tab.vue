@@ -11,9 +11,6 @@
 			</m-flex>
 		</m-flex>
 		<m-list v-if="files?.meta.total" v-model:page="filesPage" :limit="20" :title="$t('files')" :items="files" :loading="loadingFiles">
-			<template #buttons>
-				<m-input v-model="prerelease" :label="$t('include_prerelease')" type="checkbox" class="ml-auto" style="flex: revert;"/>
-			</template>
 			<template #items="{ items }">
 				<m-table alt-background class="downloads-table">
 					<template #head>

@@ -41,7 +41,6 @@ class FileController extends Controller
     {
         $val = $request->val([
             'version' => 'string|nullable',
-            'prerelease' => 'boolean|nullable',
             'include_incomplete' => 'boolean|nullable',
         ]);
 
@@ -55,11 +54,6 @@ class FileController extends Controller
                 } else {
                     $query->where('version', $val['version']);
                 }
-            }
-
-            $preRelease = Arr::pull($val, 'prerelease', true);
-            if (!$preRelease) {
-                $query->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");
             }
 
             $includeIncomplete = Arr::pull($val, 'include_incomplete', false);
@@ -231,6 +225,7 @@ class FileController extends Controller
             // This is not the actual name of the file stored in our storage
             'name' => isset($uploadedFile) ? explode('.', $uploadedFile->getClientOriginalName())[0] : explode('.', $val['name'])[0],
             'desc' => $val['desc'],
+            'version_type' => $val['version_type'] ?? 'release',
             'user_id' => $this->userId(),
             'file' => $name ?? '', // This is though
             'type' => $type ?? '',
@@ -313,6 +308,8 @@ class FileController extends Controller
 
             $file->mod->bump();
         }
+
+        $val['image_id'] = $imageId;
 
         if (array_key_exists('display_order', $val)) {
             $val['display_order'] ??= 0;

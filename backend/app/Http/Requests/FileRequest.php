@@ -27,6 +27,7 @@ class FileRequest extends FormRequest
             'name' => 'string|min_strict:1|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
+            'version_type' => 'string|in:release,beta,alpha|nullable',
             'version' => 'string|nullable|max:255',
             'display_order' => 'integer|min:-1000|max:1000|nullable',
             'image_id' => 'int|nullable|exists:images,id'

@@ -13,6 +13,7 @@
 		<m-table alt-background>
 			<template #head>
 				<th/>
+				<th/>
 				<th>{{ $t('version') }}</th>
 				<th>{{ $t('name') }}</th>
 				<th>{{ $t('file_size') }}</th>
@@ -51,8 +52,9 @@
 				:storage="storageLeft + currentFile.size"
 				type="file"
 			/>
+			<m-input v-model="currentFile.name" required :label="$t('name')"/>
 			<m-flex>
-				<m-input v-model="currentFile.name" required :label="$t('name')"/>
+				<m-select v-model="currentFile.version_type" :label="$t('version_type')" :options="versionTypes" :text-by="t => $t('version_' + t)"/>
 				<m-input v-model="currentFile.version" :label="$t('version')"/>
 			</m-flex>
 			<md-editor v-model="currentFile.desc" rows="8" :label="$t('description')"/>
@@ -122,6 +124,8 @@ const currentFileIndex = ref<number>(-1);
 const changeFile = ref<File>();
 const canSubmitFile = ref(false);
 const forcedOut = ref(false);
+
+const versionTypes = ['release', 'beta', 'alpha'];
 
 const page = ref(1);
 
@@ -407,6 +411,7 @@ function createNewFile() {
 		id: 0,
 		user_id: user!.id,
 		mod_id: mod.value.id,
+		version_type: 'release',
 		size: 0,
 		name: '',
 		desc: '',

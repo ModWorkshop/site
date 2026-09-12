@@ -1,18 +1,25 @@
 <template>
 	<tr>
 		<td>
-			<input
-				:checked="(download.id === mod.download_id && mod.download_type == 'file') ? true : undefined"
-				type="radio"
-				:disabled="!download.size"
-				@change="$emit('setPrimaryDownload', type, download)"
-			>
+			<m-flex>
+				<input
+					:checked="(download.id === mod.download_id && mod.download_type == 'file') ? true : undefined"
+					type="radio"
+					:disabled="!download.size"
+					@change="$emit('setPrimaryDownload', type, download)"
+				>
+			</m-flex>
+		</td>
+		<td class="collapse-col">
 			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
+			<mod-file-version-type v-else-if="download.version_type" :file="download"/>
 		</td>
 		<td>
-			<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="download.version">
-				{{ download.version || 'N/A' }}
-			</div>
+			<m-flex class="items-center" gap="3">
+				<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="download.version">
+					{{ download.version || 'N/A' }}
+				</div>
+			</m-flex>
 		</td>
 		<td class="whitespace-pre-line wrap-anywhere" >
 			<m-flex class="items-center" style="min-width: 80px; max-width: 200px;" wrap>

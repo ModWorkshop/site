@@ -21,6 +21,7 @@
 		<m-table alt-background>
 			<template #head>
 				<th/>
+				<th/>
 				<th>{{ $t('version') }}</th>
 				<th>{{ $t('name') }}</th>
 				<th>{{ $t('url') }}</th>
