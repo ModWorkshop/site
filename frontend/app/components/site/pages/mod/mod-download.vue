@@ -42,7 +42,7 @@
 					<span>
 						{{ $t(type + '_id') }}: {{ file.id }}
 					</span>
-					<span>
+					<span v-if="file.version_type">
 						{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
 					</span>
 					<template v-if="file.desc">
@@ -92,7 +92,7 @@
 			<span>
 				{{ $t(type + '_id') }}: {{ file.id }}
 			</span>
-			<span>
+			<span v-if="file.version_type">
 				{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
 			</span>
 			<template v-if="file.desc">
