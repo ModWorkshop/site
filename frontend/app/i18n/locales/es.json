@@ -727,8 +727,8 @@
     "files_are_versions_desc": "Al activar esta opción, los archivos y enlaces se tratarán como versiones en lugar de como archivos independientes. La descarga principal (si no se establece manualmente) se seleccionará a partir del archivo situado en la posición superior.",
     "custom_version_help": "Establece la versión del mod. Si la opción \"Los archivos son versiones\" está activada, el mod intentará tomar primero la versión del archivo principal.",
     "file_missing": "Archivo faltante",
-    "version_type": "Version Type",
-    "version_release": "Release",
+    "version_type": "Tipo de versión",
+    "version_release": "Lanzamiento",
     "version_beta": "Beta",
-    "version_alpha": "Alpha"
+    "version_alpha": "Alfa"
 }
