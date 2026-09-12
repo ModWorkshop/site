@@ -221,9 +221,9 @@ class UserController extends Controller
         $trustLevel = $user->getTrustLevel();
         $banned = $user->isBanned();
         if ($trustLevel == 0 || $banned) {
-            $values = ['bio', 'avatar_file', 'banner_file', 'background_file', 'custom_title', 'donation_url'];
+            $values = ['bio', 'avatar_file', 'banner_file', 'background_file', 'custom_title', 'donation_url', 'name', 'unique_name'];
             foreach ($values as $value) {
-                if (!empty($val[$value])) {
+                if (!empty($val[$value]) && $user[$value] != $val[$value]) {
                     if ($banned) {
                         abort(422, 'Banned users cannot set these fields!');
                     } else {
