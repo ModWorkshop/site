@@ -62,9 +62,9 @@ class FileController extends Controller
             }
 
             if ($mod->download_type == 'file' && isset($mod->download_id)) {
-                $query->orderByRaw("(id = $mod->download_id) DESC, display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, updated_at DESC");
+                $query->orderByRaw("(id = $mod->download_id) DESC, display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, created_at DESC");
             } else {
-                $query->orderByRaw("display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, updated_at DESC");
+                $query->orderByRaw("display_order DESC, semver_version IS NOT NULL DESC, semver_version DESC, created_at DESC");
             }
         }));
     }
@@ -410,7 +410,7 @@ class FileController extends Controller
             'prerelease' => 'boolean|nullable',
         ]);
 
-        $files = $mod->files()->orderByRaw("semver_version IS NOT NULL DESC, display_order DESC, semver_version DESC, updated_at DESC");
+        $files = $mod->files()->orderByRaw("semver_version IS NOT NULL DESC, display_order DESC, semver_version DESC, created_at DESC");
 
         if (!isset($val['prerelease']) || !$val['prerelease']) {
             $files->whereRaw("(get_semver_prerelease (semver_version) = '') IS NOT FALSE");

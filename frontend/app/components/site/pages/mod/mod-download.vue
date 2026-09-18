@@ -27,8 +27,8 @@
 			<td v-if="type == 'file'">
 				{{ friendlySize(file.size) }}
 			</td>
-			<td v-if="file.updated_at">
-				<m-time :datetime="file.updated_at" relative relative-time-style="narrow"/>
+			<td v-if="file.created_at">
+				<m-time :datetime="file.created_at" relative relative-time-style="narrow"/>
 			</td>
 			<td>
 				<m-flex class="ml-auto justify-end" @click.stop>

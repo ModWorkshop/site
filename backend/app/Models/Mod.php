@@ -486,12 +486,12 @@ class Mod extends Model implements SubscribableInterface
     public function sortedFiles() : HasMany {
         return $this->hasMany(File::class)
             ->where('completed', true)
-            ->orderByRaw("semver_version IS NOT NULL DESC, (get_semver_prerelease (semver_version) = '') IS FALSE, semver_version DESC, display_order DESC, updated_at DESC");
+            ->orderByRaw("semver_version IS NOT NULL DESC, (get_semver_prerelease (semver_version) = '') IS FALSE, semver_version DESC, display_order DESC, created_at DESC");
     }
 
     public function links()
     {
-        return $this->hasMany(Link::class)->orderByRaw("display_order DESC, updated_at DESC");
+        return $this->hasMany(Link::class)->orderByRaw("display_order DESC, created_at DESC");
     }
 
     public function selfMember()
