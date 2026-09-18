@@ -35,6 +35,7 @@ class InstallMWS extends Command
     {
         $this->info("ModWorkshop Installation");
         $this->call('scribe:generate');
+        $this->call('scout:sync-index-settings');
 
         $auto = $this->option('auto');
         $force = $this->option('force');

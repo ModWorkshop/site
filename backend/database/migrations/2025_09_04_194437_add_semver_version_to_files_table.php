@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::raw('CREATE EXTENSION IF NOT EXISTS "semver"');
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "semver"');
         Schema::table('files', function (Blueprint $table) {
             DB::statement('ALTER TABLE files ADD semver_version SEMVER');
             DB::statement('CREATE INDEX files_semver_version_index ON files(semver_version)');
