@@ -944,6 +944,11 @@ class User extends Model implements
 
     }
 
+    public function getAuthPassword()
+    {
+        return $this->{$this->getAuthPasswordName()} ?? '';
+    }
+
     /**
      * Returns whether or not the user can be banned by the "other" user.
      * The other user defaults to the currently authenticated user
