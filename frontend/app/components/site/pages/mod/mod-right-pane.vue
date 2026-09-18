@@ -77,12 +77,12 @@
 				<m-flex class="colllaborators-block pt-2" column gap="2">
 					<m-flex wrap>
 						<a-user :user="mod.user" :details="$t('owner')"/>
-						<donation-button v-if="ownerDonation" class="stat-right" :link="ownerDonation"/>
+						<donation-button v-if="ownerDonation" class="ml-auto" :link="ownerDonation"/>
 					</m-flex>
 
 					<m-flex v-for="member of members" :key="member.id">
 						<a-user :user="member" :details="$t(`member_level_${member.level}`)"/>
-						<donation-button v-if="member.donation_url" class="stat-right" :link="member.donation_url"/>
+						<donation-button v-if="member.donation_url" class="ml-auto" :link="member.donation_url"/>
 					</m-flex>
 				</m-flex>
 			</m-flex>
