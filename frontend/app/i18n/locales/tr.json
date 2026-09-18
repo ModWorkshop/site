@@ -19,7 +19,6 @@
     "changelog": "Değişim Günlüğü",
     "description": "Açıklama",
     "version": "Versiyon",
-    "include_prerelease": "Önsürümleri dahil et",
     "tags": "Etiketler",
     "filter_out_tags": "Etiketleri Filtrele",
     "mods": "Modlar",
@@ -727,5 +726,9 @@
     "files_are_versions": "Dosyalar Versiyondur",
     "files_are_versions_desc": "Bunu açmak dosyalarınızı ve linklerinizi alakasız dosyalar yerine sürümler olarak sayar. Manuel olarak ayarlanmamışsa ana indirme en üstteki dosya olur.",
     "custom_version_help": "Modun versiyonunu ayarlar. Eğer Dosyalar Versiyondur ayarı açıksa, mod ilk önce üstteki dosyanın versiyonunu almaya çalışır.",
-    "file_missing": "Eksik Dosya"
+    "file_missing": "Eksik Dosya",
+    "version_type": "Version Type",
+    "version_release": "Release",
+    "version_beta": "Beta",
+    "version_alpha": "Alpha"
 }
