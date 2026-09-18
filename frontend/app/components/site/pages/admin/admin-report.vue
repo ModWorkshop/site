@@ -1,6 +1,6 @@
 <template>
-	<m-flex class="list-button" gap="3">
-		<m-flex column :class="{ archived: report.archived, 'w-full': true, 'wrap-break-word': true }">
+	<m-flex class="list-button" gap="3" wrap>
+		<m-flex column :class="{ archived: report.archived, 'wrap-break-word': true }">
 			<m-tag class="capitalize mr-auto">{{ report.reportable_type }}</m-tag>
 			<m-flex class="items-center" wrap>{{ $t('reported_by') }}: <a-user :user="report.user" avatar-size="xs"/> <m-time :datetime="report.created_at" relative/></m-flex>
 			<m-flex class="items-center">{{ $t('reported_user') }}: <a-user :user="report.reported_user ?? reportedUser" avatar-size="xs"/></m-flex>
@@ -10,12 +10,12 @@
 			<details>{{ content }}</details>
 		</m-flex>
 		<m-flex column wrap class="ml-auto my-auto max-lg:flex-row">
-			<m-flex class="ml-auto" wrap>
+			<m-flex class="md:ml-auto place-content-end" wrap>
 				<m-button v-if="report.reportable?.user_id" :to="`/admin/${casesUrl}?user=${report.reportable.user_id}`">{{ $t('warn_owner') }}</m-button>
 				<mod-suspend v-if="report.reportable_type == 'mod' && report.reportable" :mod="report.reportable as Mod"/>
 				<m-button v-if="reportLink" :to="reportLink">{{ $t('go_to_content') }}</m-button>
 			</m-flex>
-			<m-flex class="lg:ml-auto">
+			<m-flex class="md:ml-auto">
 				<m-button v-if="report.archived" color="danger" @click="deleteReport"><i-mdi-delete/> {{ $t('delete') }}</m-button>
 				<m-button style="opacity: 1;" @click="toggleArchiveReport">{{ $t(report.archived ? 'unarchive' : 'archive') }}</m-button>
 			</m-flex>
