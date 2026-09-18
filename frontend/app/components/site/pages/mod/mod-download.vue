@@ -6,7 +6,7 @@
 				<mod-file-version-type v-else-if="file.version_type" :file="file"/>
 			</td>
 			<td>
-				<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="file.version">
+				<div class="whitespace-pre-line wrap-anywhere" style="max-width: 200px;" :title="file.version">
 					{{ file.version || 'N/A' }}
 				</div>
 			</td>
@@ -38,28 +38,7 @@
 		</tr>
 		<tr :class="{hidden: !showDetails, 'download-tr': showDetails}">
 			<td colspan="10">
-				<m-flex class="p-3" column gap="2">
-					<span>
-						{{ $t(type + '_id') }}: {{ file.id }}
-					</span>
-					<span v-if="file.version_type">
-						{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
-					</span>
-					<template v-if="file.desc">
-						{{ $t('description') }}:
-						<md-content :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
-					</template>
-					<m-flex class="items-center" wrap>
-						<i18n-t keypath="updated_by_user_time_ago" scope="global">
-							<template #time>
-								<m-time :datetime="file.updated_at" relative/>
-							</template>
-							<template #user>
-								<a-user :user="file.user" :avatar="false"/>
-							</template>
-						</i18n-t>
-					</m-flex>
-				</m-flex>
+				<mod-download-details :file="file" :type="type"/>
 			</td>
 		</tr>
 	</template>
@@ -69,10 +48,14 @@
 			<mod-file-version-type v-else-if="file.version_type" class="mb-auto" :file="file"/>
 
 			<m-flex grow column style="flex: 1;" gap="2">
-				<m-flex class="items-center whitespace-pre-line">
-					<strong v-if="file.name" class="items-center" style="word-break: break-word;">{{ file.name }}</strong>
-					<strong v-else class="items-center">{{ $t(`file_type_${type}`) }}</strong>
-					<m-tag v-if="file.label" class="mb-auto">{{ file.label }}</m-tag>
+				<m-flex class="items-center whitespace-pre-line wrap-anywhere">
+					<template v-if="file.type">
+						{{ file.name + '.' + file.type }}
+					</template>
+					<template v-else>
+						{{ file.name }}
+					</template>
+					<m-tag v-if="file.label" class="whitespace-pre">{{ file.label }}</m-tag>
 				</m-flex>
 				<m-flex v-if="file.version" :title="$t('version')">
 					<i-mdi-tag/> <span class="wrap-anywhere">{{ file.version }}</span>
@@ -88,28 +71,7 @@
 				<mod-download-buttons :mod="mod" :download="file" :type="type" small/>
 			</m-flex>
 		</m-flex>
-		<m-flex :class="{ hidden: !showDetails, 'p-3': true }" column gap="2">
-			<span>
-				{{ $t(type + '_id') }}: {{ file.id }}
-			</span>
-			<span v-if="file.version_type">
-				{{ $t('version_type') }}: {{ $t(`version_${file.version_type}`) }}
-			</span>
-			<template v-if="file.desc">
-				{{ $t('description') }}:
-				<md-content :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
-			</template>
-			<m-flex class="items-center" wrap>
-				<i18n-t keypath="updated_by_user_time_ago" scope="global">
-					<template #time>
-						<m-time :datetime="file.updated_at" relative/>
-					</template>
-					<template #user>
-						<a-user :user="file.user" :avatar="false"/>
-					</template>
-				</i18n-t>
-			</m-flex>
-		</m-flex>
+		<mod-download-details :class="{ hidden: !showDetails }" :file="file" :type="type"/>
 	</m-flex>
 </template>
 

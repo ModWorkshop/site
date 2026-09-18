@@ -16,7 +16,7 @@
 		</td>
 		<td>
 			<m-flex class="items-center" gap="3">
-				<div class="text-ellipsis overflow-hidden" style="max-width: 120px;" :title="download.version">
+				<div class="whitespace-pre-line wrap-anywhere" style="max-width: 200px;" :title="download.version">
 					{{ download.version || 'N/A' }}
 				</div>
 			</m-flex>

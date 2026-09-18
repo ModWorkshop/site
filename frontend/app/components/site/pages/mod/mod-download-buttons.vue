@@ -8,7 +8,7 @@
 			@click="!static && registerDownload('file', download);"
 		>
 			<i-mdi-download/>
-			<span v-if="!small">
+			<span v-if="!small" class="wrap-anywhere">
 				{{ $t('download') }}
 				<span style="text-transform:uppercase;">{{ (download as any).type }}</span> ({{ friendlySize((download as any).size) }})
 			</span>
