@@ -1,7 +1,7 @@
 <template>
 	<template v-if="table">
 		<tr class="hover:cursor-pointer download-tr" @click="showDetails = !showDetails">
-			<td class="collapse-col">
+			<td>
 				<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
 				<mod-file-version-type v-else-if="file.version_type" :file="file"/>
 			</td>
@@ -93,10 +93,6 @@ const image = computed(() => mod.images?.find(image => image.id === file.image_i
 </script>
 
 <style>
-.collapse-col {
-	width: 0%;
-}
-
 .downloads-table tr:nth-child(4n of tr) td, .downloads-table tr:nth-child(4n+3) td {
 	background-color: var(--alt-table-even-color) !important;
 }

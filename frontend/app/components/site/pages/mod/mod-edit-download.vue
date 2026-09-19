@@ -10,7 +10,7 @@
 				>
 			</m-flex>
 		</td>
-		<td class="collapse-col">
+		<td>
 			<m-img v-if="image" url-prefix="mods/images" :src="image.file" loading="lazy" width="48" height="48"/>
 			<mod-file-version-type v-else-if="download.version_type" :file="download"/>
 		</td>
