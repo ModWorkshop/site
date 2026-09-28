@@ -715,7 +715,7 @@
     "webhook_event_mod_approval": "La Mod è stata approvata o rifiutata",
     "webhook_event_mod_deleted": "La Mod è stata eliminata",
     "webhook_event_mod_published": "Mod Pubblicata",
-    "webhook_event_report_new": "Report Creation",
+    "webhook_event_report_new": "Creazione della segnalazione",
     "webhook_event_mod_suspended": "Sospensione Mod",
     "webhook_event_mod_bumped": "Mod Aggiornata (Modifica della versione/nuovo file)",
     "webhook_event_file_uploaded": "File Caricato",
