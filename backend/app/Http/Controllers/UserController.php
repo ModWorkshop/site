@@ -304,6 +304,25 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    public function setExtra(Request $request) {
+        $val = $request->validate([
+            'default_mods_view' => ['nullable', Rule::in(['all', 'followed'])],
+            'home_show_last_games' => 'boolean|nullable',
+            'home_show_mods' => 'boolean|nullable',
+            'home_show_threads' => 'boolean|nullable',
+            'game_show_mods' => 'boolean|nullable',
+            'game_show_threads' => 'boolean|nullable',
+            'auto_subscribe_to_mod' => 'boolean|nullable',
+            'auto_subscribe_to_thread' => 'boolean|nullable',
+            'background_opacity' => 'numeric|min:0|max:1|nullable',
+            'developer_mode' => 'boolean|nullable',
+            'accepted_rules' => 'boolean|nullable',
+        ]);
+
+        $user = $this->user();
+        $user->extra()->update($val);
+    }
+
     /**
      * Set User Roles
      *

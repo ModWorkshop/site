@@ -204,6 +204,7 @@ Route::middleware('can:viewDiscussions,user')->get('users/{user}/comments', [Use
 Route::middleware('can:viewDiscussions,user')->get('users/{user}/threads', [UserController::class, 'getThreads']);
 
 Route::middleware('auth:sanctum')->group(function() {
+    Route::patch('user/extra', [UserController::class, 'setExtra']);
     Route::get('/user', [UserController::class, 'currentUser']);
     Route::patch('/user', [UserController::class, 'updateCurrent']);
     Route::middleware('throttle:1,1')->get('/user-data', [UserController::class, 'userData']);

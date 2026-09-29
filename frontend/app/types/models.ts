@@ -328,6 +328,7 @@ export interface User {
 		background?: string;
 		background_opacity?: number;
 		developer_mode?: boolean;
+		accepted_rules?: boolean;
 	};
 	mods_count?: number;
 	supporter?: Supporter;

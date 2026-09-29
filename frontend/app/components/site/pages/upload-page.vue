@@ -32,11 +32,16 @@
 				</span>
 			</m-flex>
 		</m-form>
+		<m-form-modal v-model="showRulesModal" alt-background size="lg" :title="$t('upload_mod_rules_first_time')" :save-text="$t('i_agree')" @submit="acceptRulesAndSubmit">
+			<m-content-block alt-background>
+				<md-content v-if="rules" :text="rules.desc" style="height: 500px;" class="overflow-auto"/>
+			</m-content-block>
+		</m-form-modal>
 	</m-content-block>
 </template>
 
 <script setup lang="ts">
-import type { Category, Game, Mod, Tag } from '~/types/models';
+import type { Category, Document, Game, Mod } from '~/types/models';
 import { useStore } from '~/store/index';
 
 const store = useStore();
@@ -84,6 +89,7 @@ const showErrorToast = useQuickErrorToast();
 const router = useRouter();
 const queryTab = useRouteQuery('tab');
 const fc = createEventHook();
+const showRulesModal = ref(false);
 
 const newUserWarn = computed(() => settings?.new_user_first_upload_requires_approval && me!.needs_mod_approval);
 
@@ -95,6 +101,7 @@ watch(() => mod.value.game, () => {
 
 const gameId = computed(() => mod.value.game_id || undefined);
 const { data: categories, refresh: refetchCats } = await useFetchMany<Category>(() => `games/${gameId.value}/categories`, { immediate: !!gameId.value });
+const { data: rules } = useFetchData<Document>('documents/rules');
 
 watch(() => categories.value, () => {
 	if (categories.value && categories.value.data.length === 0) {
@@ -105,11 +112,35 @@ watch(() => categories.value, () => {
 watch(gameId, val => {
 	if (val) {
 		refetchCats();
-		refreshTags();
 	}
 });
 
-async function save() {
+async function acceptRulesAndSubmit() {
+	try {
+		patchRequest('user/extra', {
+			accepted_rules: true
+		});
+	} catch (e) {
+		console.log('Something went wrong while accepting rules', e);
+	}
+
+	// We attempt to save the value, but we shouldn't prevent the user from submitting even if it fails, the user agreed to the rules.
+
+	if (me?.extra) {
+		me.extra.accepted_rules = true;
+	}
+
+	showRulesModal.value = false;
+
+	save(true);
+}
+
+async function save(force = false) {
+	if (!force && !me?.extra?.accepted_rules) {
+		showRulesModal.value = true;
+		return;
+	}
+
 	try {
 		fc.trigger(await postRequest<Mod>(`/games/${mod.value.game_id}/mods`, mod.value));
 		router.replace({ path: `/mod/${mod.value.id}/edit`, query: { tab: queryTab.value || undefined } });

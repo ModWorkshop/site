@@ -9,9 +9,9 @@
 				<m-alert v-if="descType" :color="descType" :desc="desc"/>
 				<span v-else-if="desc">{{ desc }}</span>
 				<slot/>
-				<m-flex class="ml-auto" gap="1">
-					<m-button :disabled="!canSubmit" type="submit">{{ saveText ?? $t('submit') }}</m-button>
-					<m-button color="danger" @click="onCancel">{{ cancelText ?? $t('cancel') }}</m-button>
+				<m-flex class="w-1/3 ml-auto" gap="2">
+					<m-button :disabled="!canSubmit || disableButtons" type="submit" class="flex-1">{{ saveText ?? $t('submit') }}</m-button>
+					<m-button :disabled="disableButtons" color="secondary" class="flex-1" @click="onCancel">{{ cancelText ?? $t('cancel') }}</m-button>
 				</m-flex>
 			</m-flex>
 		</m-form>
@@ -32,11 +32,14 @@ const { canSubmit = true } = defineProps<{
 const emit = defineEmits(['submit', 'cancel']);
 const vModel = defineModel<boolean>({ required: true });
 const showToast = useQuickErrorToast();
+const disableButtons = ref(false);
 
 function onSubmit() {
+	disableButtons.value = true;
 	emit('submit', e => {
 		showToast(e);
 	});
+	setTimeout(() => disableButtons.value = false, 3000);
 }
 
 function onCancel() {
