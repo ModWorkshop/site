@@ -682,104 +682,78 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
+    public function getDownload(bool $onlyFiles = false) {
+        $linksLoaded = $this->relationLoaded('links');
+        $filesLoaded = $this->relationLoaded('files');
+
+        // If download exists, just return it
+        if ($this->relationLoaded('downloadRelation') || !($linksLoaded && $filesLoaded)) {
+            if (isset($this->downloadRelation)) {
+                return $this->downloadRelation;
+            }
+        }
+
+        $id = $this->download_id;
+        $type = $this->download_type;
+        $filesCount = $this->files_count;
+        $linksCount = $this->links_count;
+        $hasPrimary = isset($id) && isset($type);
+
+        // Has no files or links
+        if ($linksLoaded && $filesLoaded && $filesCount == 0 && $linksCount == 0) {
+            return null;
+        }
+
+        // Has primary download and both links and files relations are loaded
+        if ($hasPrimary && (!$onlyFiles || $type !== 'link')) {
+            if ($type === 'link') {
+                if ($linksLoaded && ($link = $this->links->find($id))) {
+                    return $link;
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->links()->find($id));
+                }
+            } else {
+                if ($filesLoaded && ($link = $this->files->find($id))) {
+                    return $link;
+                } else {
+                    return $this->withSecureConstraints(fn() => $this->sortedFiles()->find($id));
+                }
+            }
+        }
+
+        // Has only a single file/link so just return it
+        // Or mod uses files as versions
+        if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
+            if ($filesLoaded && $file = $this->files[0]) {
+                return $file;
+            } else if ($linksLoaded) {
+                if (!$onlyFiles) {
+                    return $this->links[0];
+                }
+            } else if (!$onlyFiles) {
+                return $this->withSecureConstraints(fn() => $this->sortedFiles()->first() ?? $this->links()->first());
+            } else {
+                return $this->withSecureConstraints(fn() => $this->sortedFiles()->first());
+            }
+        }
+    }
+
     /**
      * Smartly returns current download ($this->download)
      * In case it's not loaded, tries to calculate it using download_id and download_type
-     *
-     * It may not be set, the default behavior of the site is to show "downloads" when there are multiple files and no primary file set
      */
     public function download(): Attribute {
-        return Attribute::make(function() {
-            $linksLoaded = $this->relationLoaded('links');
-            $filesLoaded = $this->relationLoaded('files');
-
-            // If download exists, just return it
-            if ($this->relationLoaded('downloadRelation') || !($linksLoaded && $filesLoaded)) {
-                if (isset($this->downloadRelation)) {
-                    return $this->downloadRelation;
-                }
-            }
-
-            $id = $this->download_id;
-            $type = $this->download_type;
-            $filesCount = $this->files_count;
-            $linksCount = $this->links_count;
-            $hasPrimary = isset($id) && isset($type);
-
-            // Has no files or links
-            if ($linksLoaded && $filesLoaded && $filesCount == 0 && $linksCount == 0) {
-                return null;
-            }
-
-            // Has primary download and both links and files relations are loaded
-            if ($hasPrimary) {
-                if ($type == 'link') {
-                    if ($linksLoaded && ($link = $this->links->find($id))) {
-                        return $link;
-                    } else {
-                        return $this->withSecureConstraints(fn() => $this->links()->find($id));
-                    }
-                } else {
-                    if ($filesLoaded && ($link = $this->files->find($id))) {
-                        return $link;
-                    } else {
-                        return $this->withSecureConstraints(fn() => $this->sortedFiles()->find($id));
-                    }
-                }
-            }
-
-            // Has only a single file/link so just return it
-            // Or mod uses files as versions
-            if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
-                if ($filesLoaded && $file = $this->files[0]) {
-                    return $file;
-                } else if ($linksLoaded) {
-                    return $this->links[0];
-                } else {
-                    return $this->withSecureConstraints(fn() => $this->sortedFiles()->first() ?? $this->links()->first());
-                }
-            }
-        });
+        return Attribute::make(fn() => $this->getDownload());
     }
 
     /**
      * Similar to download but returns only files. Meant to be used for API use where downloading links aren't supported.
-     * If download_id is not set, it will return first file.
+     *
+     * Generally the result should almost always be the same, possible difference is if a mod has purposely set primary download as link
+     * The API then will try to get the first file it sees (as long as the mod uses files are versions)
      */
     public function downloadStrictlyFile(): Attribute {
-        return Attribute::make(function() {
-            $filesLoaded = $this->relationLoaded('files');
-            $id = $this->download_id;
-            $type = $this->download_type;
-            $hasPrimaryFileSet = isset($id) && isset($type) && $type != 'link';
-
-            // If download exists, just return it
-            if ($hasPrimaryFileSet && ($this->relationLoaded('downloadRelation') || !$filesLoaded)) {
-                if (isset($this->downloadRelation)) {
-                    return $this->downloadRelation;
-                }
-            }
-
-            // Has no files or links
-            if ($filesLoaded && $this->files_count == 0) {
-                return null;
-            }
-
-            // Has primary download and both links and files relations are loaded
-            if ($hasPrimaryFileSet) {
-               if ($filesLoaded && ($link = $this->files->find($id))) {
-                    return $link;
-                } else {
-                    return $this->withSecureConstraints(fn() => $this->files()->find($id));
-                }
-            }
-
-            if ($filesLoaded) {
-                return $this->files[0];
-            } else {
-                return $this->withSecureConstraints(fn() => $this->files()->first());
-            }
-        });
+        return Attribute::make(fn() => $this->getDownload(true));
     }
 
     public function modType(): Attribute {
