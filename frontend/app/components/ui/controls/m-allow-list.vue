@@ -22,7 +22,7 @@
 					<m-button
 						color="subtle"
 						size="sm"
-						class="disallow ml-auto opacity-0 hover:opacity-100"
+						class="disallow ml-auto opacity-0"
 						@click.stop="onClickOption(option, false)"
 					>
 						<i-mdi-block/>
@@ -131,6 +131,10 @@ function onClickOption(option, allow: boolean) {
 	background-color: var(--tab-selected-color);
 	transition: 0.15s ease-in-out;
 	transition-property: background-color, color, border-color;
+}
+
+.option:hover .disallow {
+	opacity: 100%;
 }
 
 .option.disallowed {
