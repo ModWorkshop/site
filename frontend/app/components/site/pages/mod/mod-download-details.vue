@@ -55,7 +55,7 @@
 				</i18n-t>
 			</m-flex>
 		</m-flex>
-		<m-flex v-if="file.desc" column>
+		<m-flex v-if="file.desc" column class="text-wrap">
 			<span class="text-secondary">{{ $t('description') }}</span>
 			<md-content :text="file.desc" :padding="1" style="max-height: 250px; overflow-y: auto;"/>
 		</m-flex>
