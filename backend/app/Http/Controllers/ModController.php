@@ -254,7 +254,7 @@ class ModController extends Controller
             }
 
             //We changed the version, update mod.
-            if (!$mod->files_are_versions && isset($val['version']) && $val['version'] !== $mod->version) {
+            if (isset($val['version']) && $val['version'] !== $mod->version) {
                 $followers = $mod->followers;
                 foreach ($followers as $follow) {
                     Notification::send(
