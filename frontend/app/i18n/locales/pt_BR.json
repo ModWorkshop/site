@@ -181,6 +181,7 @@
     "color": "Cor",
     "stop": "Parar",
     "file_uploader_drop": "Solte os arquivos aqui ou clique para enviá-los",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Enviando: {0}%",
     "uploading_detailed": "{time} restante - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
