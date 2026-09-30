@@ -150,7 +150,7 @@ class Utils {
      * @param integer $limit
      * @return string
      */
-    public static function safeFileType(string $name, int $limit = 2) {
+    public static function safeFileType(string $name, int $limit = 1) {
         if (empty($name)) {
             return '';
         }
