@@ -181,6 +181,7 @@
     "color": "色",
     "stop": "停止",
     "file_uploader_drop": "ファイルをドロップするかクリックしてアップロード",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "アップロード中: {0}%",
     "uploading_detailed": "{time} left - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
