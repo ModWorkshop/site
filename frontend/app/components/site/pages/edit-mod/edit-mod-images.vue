@@ -133,6 +133,7 @@ async function setImageOrder(img: Image, order: number) {
 		img.display_order = img.display_order + order;
 
 		remove(images.value, img);
+		images.value.splice(img.display_order, 0, img);
 
 		for (let i = 0; i < images.value.length; i++) {
 			images.value[i]!.display_order = i;
