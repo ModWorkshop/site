@@ -63,6 +63,8 @@
     "search_start_searching": "Enter query to start searching...",
     "search_threads": "스레드 검색",
     "comments_disabled": "댓글이 비활성화되어 있으며 모드 제작자, 구성원, 모더레이터만 댓글을 남길 수 있습니다.",
+    "sort_hot": "Hot",
+    "sort_new": "New",
     "popularity": "인기순",
     "popular_today": "오늘 인기순",
     "popular_weekly": "주간 인기순",
