@@ -32,7 +32,7 @@
 						<template #content>
 							<m-flex column>
 								<m-toggle-group v-model:selected="sortBy" column button-style="dropdown" @update:selected="value => sortByQuery = value">
-									<m-toggle-group-item value="bumepd_at"><i-mdi-clock/> {{ $t('last_updated') }} </m-toggle-group-item>
+									<m-toggle-group-item value="bumped_at"><i-mdi-clock/> {{ $t('last_updated') }} </m-toggle-group-item>
 									<m-toggle-group-item value="best_match"><i-mdi-magnify/> {{ $t('best_match') }} </m-toggle-group-item>
 									<m-toggle-group-item value="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{ $t('random') }}</m-toggle-group-item>
 									<m-toggle-group-item value="likes"><i-mdi-heart/> {{ $t('likes') }}</m-toggle-group-item>
