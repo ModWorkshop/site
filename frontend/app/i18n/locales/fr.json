@@ -63,6 +63,8 @@
     "search_start_searching": "Enter query to start searching...",
     "search_threads": "Rechercher Des Sujets",
     "comments_disabled": "Les commentaires ont été désactivés ; seuls le propriétaire du mod, les membres et les modérateurs peuvent commenter.",
+    "sort_hot": "Hot",
+    "sort_new": "New",
     "popularity": "Popularité",
     "popular_today": "Populaire Aujourd'hui",
     "popular_weekly": "Populaire Cette Semaine",
