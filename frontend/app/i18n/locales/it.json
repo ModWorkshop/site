@@ -181,6 +181,7 @@
     "color": "Colore",
     "stop": "Ferma",
     "file_uploader_drop": "Lascia i File qui o clicca l'area per caricare dei File",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Upload: {0}%",
     "uploading_detailed": "{time} rimanenti - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
