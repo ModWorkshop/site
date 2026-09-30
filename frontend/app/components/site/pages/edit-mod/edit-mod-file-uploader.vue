@@ -191,7 +191,17 @@ const input = ref();
 
 watch(changeFile, () => {
 	if (changeFile.value && currentFile.value && !currentFile.value.name) {
-		currentFile.value.name ||= changeFile.value.name.split('.')[0] ?? '';
+		const fullName = changeFile.value.name;
+		const splt = fullName.split('.');
+
+		if (splt.length === 1 && splt[0]) {
+			currentFile.value.name = splt[0];
+		} else if (splt.length > 1) {
+			splt.splice(splt.length - 1, 1);
+			currentFile.value.name = splt.join('.');
+		} else {
+			currentFile.value.name = ''; // Force the user set it
+		}
 	}
 });
 
