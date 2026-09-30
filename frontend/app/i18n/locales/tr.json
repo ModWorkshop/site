@@ -181,6 +181,7 @@
     "color": "Renk",
     "stop": "Dur",
     "file_uploader_drop": "Dosyaları buraya sürükle veya alana tıklayıp dosyaları yükle",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Yükleniyor: {0}%",
     "uploading_detailed": "{time} kaldı - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
