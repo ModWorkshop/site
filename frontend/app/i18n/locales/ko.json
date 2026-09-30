@@ -181,6 +181,7 @@
     "color": "색상",
     "stop": "정지",
     "file_uploader_drop": "파일을 여기에 놓거나 클릭해서 파일을 업로드 하세요",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "업로드중: {0}%",
     "uploading_detailed": "{time} 초 남음 - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
