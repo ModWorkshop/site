@@ -181,6 +181,7 @@
     "color": "Color",
     "stop": "Detener",
     "file_uploader_drop": "Arrastra los archivos aquí o haz clic en el área para subir archivos",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Subiendo: {0}%",
     "uploading_detailed": "Quedan {time} - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
