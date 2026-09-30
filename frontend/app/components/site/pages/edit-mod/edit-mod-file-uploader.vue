@@ -233,22 +233,39 @@ async function uploadWaitingFiles() {
 		if (uploadFile.waiting) {
 			uploadFile.waiting = false;
 
+			function successFunc(file: MWSFile) {
+				if (mod.value.used_storage !== undefined) {
+					mod.value.used_storage -= uploadFile.size;
+					mod.value.used_storage += file.size;
+				}
+
+				Object.assign(uploadFile, file);
+				uploadFile.progress = undefined;
+				uploadFile.cancel = undefined;
+				uploadFile.actualFile = undefined;
+
+				remove(uploadingFiles.value, uploadFile);
+				vm.value.unshift(uploadFile);
+
+				emit('updateHasDownload');
+			}
+
 			if (config.presignedUpload) {
-				startThreeStageUpload(uploadFile);
+				startThreeStageUpload(uploadFile, successFunc);
 			} else {
-				startUpload(uploadFile);
+				startUpload(uploadFile, successFunc);
 			}
 		}
 	}
 }
 
-async function startUpload(uploadFile: UploadSimpleFile) {
+async function startUpload(uploadFile: UploadSimpleFile, successFunc: (file: MWSFile) => void) {
 	if (!uploadFile.actualFile) {
 		return;
 	}
 
 	const formData = new FormData();
-	formData.append('file', uploadFile.actualFile);
+	formData.append('actual_file', uploadFile.actualFile);
 
 	await editOrCreateFile(uploadFile);
 
@@ -263,13 +280,7 @@ async function startUpload(uploadFile: UploadSimpleFile) {
 			cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
 		});
 
-		Object.assign(uploadFile, data);
-		uploadFile.thumbnail = undefined;
-		uploadFile.cancel = undefined;
-		uploadFile.progress = undefined;
-
-		remove(uploadingFiles.value, uploadFile);
-		vm.value.unshift(uploadFile);
+		successFunc(data);
 	} catch (e) {
 		if (e instanceof AxiosError && !(e instanceof CanceledError)) {
 			input.value.value = null;
@@ -279,7 +290,7 @@ async function startUpload(uploadFile: UploadSimpleFile) {
 	}
 }
 
-async function startThreeStageUpload(uploadFile: UploadSimpleFile) {
+async function startThreeStageUpload(uploadFile: UploadSimpleFile, successFunc: (file: MWSFile) => void) {
 	if (!uploadFile.actualFile) {
 		return;
 	}
@@ -305,22 +316,9 @@ async function startThreeStageUpload(uploadFile: UploadSimpleFile) {
 			cancelToken: new axios.CancelToken(c => uploadFile.cancel = c)
 		});
 
-		const fileData = await postRequest<File>(`pending-files/${data.id}/complete`);
+		const fileData = await postRequest<MWSFile>(`pending-files/${data.id}/complete`);
 
-		if (mod.value.used_storage !== undefined) {
-			mod.value.used_storage -= uploadFile.size;
-			mod.value.used_storage += fileData.size;
-		}
-
-		Object.assign(uploadFile, fileData);
-		uploadFile.progress = undefined;
-		uploadFile.cancel = undefined;
-		uploadFile.actualFile = undefined;
-
-		remove(uploadingFiles.value, uploadFile);
-		vm.value.unshift(uploadFile);
-
-		emit('updateHasDownload');
+		successFunc(fileData);
 	} catch (e) {
 		if (e instanceof AxiosError && !(e instanceof CanceledError)) {
 			removeFile(uploadFile);

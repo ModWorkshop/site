@@ -24,7 +24,6 @@ class FileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min_strict:1|max:100',
             'label' => 'string|nullable|max:100',
             'desc' => 'string|nullable|max:1000',
             'version_type' => 'string|in:release,beta,alpha|nullable',

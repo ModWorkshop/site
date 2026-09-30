@@ -204,6 +204,7 @@ class FileController extends Controller
 
         $remainingStorage = $mod->currentStorage;
         $val = $request->val([
+            'name' => 'string|min_strict:1|max:100',
             'actual_file' => "nullable|file|max:{$remainingStorage}"
         ]);
 
@@ -280,6 +281,7 @@ class FileController extends Controller
         $remainingStorage = $file->mod->currentStorage + $file->size;
 
         $val = $request->val([
+            'name' => 'string|min_strict:1|max:100|nullable',
             'actual_file' => "nullable|file|max:{$remainingStorage}"
         ]);
 
