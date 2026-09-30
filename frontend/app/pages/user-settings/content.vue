@@ -2,14 +2,14 @@
 	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex column gap="3">
 			<m-select v-model="userForm.extra.default_mods_view" :options="viewOptions" :label="$t('default_view')"/>
-			<m-select v-model="userForm.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+			<m-select v-model="userForm.extra.default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="hot_score" clearable null-clear/>
 			<h2>{{ $t('home_page') }}</h2>
-			<m-select v-model="userForm.extra.home_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+			<m-select v-model="userForm.extra.home_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="hot_score" clearable null-clear/>
 			<m-input v-model="userForm.extra.home_show_last_games" :label="$t('show_last_updated')" type="checkbox"/>
 			<m-input v-model="userForm.extra.home_show_mods" :label="$t('show_mods')" type="checkbox"/>
 			<m-input v-model="userForm.extra.home_show_threads" :label="$t('show_threads')" type="checkbox"/>
 			<h2>{{ $t('game_sections') }}</h2>
-			<m-select v-model="userForm.extra.game_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="bumped_at" clearable null-clear/>
+			<m-select v-model="userForm.extra.game_default_mods_sort" :options="sortOptions" :label="$t('default_sorting')" default="hot_score" clearable null-clear/>
 			<m-input v-model="userForm.extra.game_show_mods" :label="$t('show_mods')" type="checkbox"/>
 			<m-input v-model="userForm.extra.game_show_threads" :label="$t('show_threads')" type="checkbox"/>
 		</m-flex>
@@ -48,8 +48,9 @@ const viewOptions = [
 ];
 
 const sortOptions = [
+	{ id: 'hot_score', name: t('sort_hot') },
 	{ id: 'bumped_at', name: t('last_updated') },
-	{ id: 'published_at', name: t('published_at') },
+	{ id: 'published_at', name: t('sort_new') },
 	{ id: 'score', name: t('popular_monthly') },
 	{ id: 'daily_score', name: t('popular_today') },
 	{ id: 'weekly_score', name: t('popular_weekly') },

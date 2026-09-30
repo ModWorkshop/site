@@ -25,7 +25,7 @@
 		>
 			<template #buttons>
 				<m-toggle-group v-if="user" v-model:selected="selectedView" button-style="nav" :wrap="false" class="overflow-auto">
-					<m-flex class="flex-shrink-0">
+					<m-flex class="shrink-0">
 						<m-toggle-group-item value="all"><i-mdi-layers/> {{ $t('all') }}</m-toggle-group-item>
 						<m-toggle-group-item value="followed"><i-mdi-plus-thick/> {{ $t('followed') }}</m-toggle-group-item>
 					</m-flex>
@@ -63,7 +63,7 @@ const links = {
 };
 const currentFollowUrl = computed(() => links[selectedView.value]);
 
-const sortBy = computed(() => selectedView.value === 'all' ? (user.value?.extra?.home_default_mods_sort ?? 'bumped_at') : undefined);
+const sortBy = computed(() => selectedView.value === 'all' ? (user.value?.extra?.home_default_mods_sort ?? 'hot_score') : undefined);
 
 watch(selectedView, async () => {
 	await patchRequest('user', {

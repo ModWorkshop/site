@@ -7,12 +7,12 @@
 		<slot name="buttons"/>
 		<m-flex class="max-md:flex-col">
 			<m-flex class="overflow-auto">
-				<m-flex class="flex-shrink-0">
-					<m-button :color="sortBy == 'bumped_at' ? 'primary' : 'secondary'" @click="setSortBy('bumped_at')">
-						<i-mdi-clock/> {{ $t('last_updated') }}
+				<m-flex class="shrink-0">
+					<m-button :color="sortBy == 'hot_score' ? 'primary' : 'secondary'" @click="setSortBy('hot_score')">
+						<i-mdi-flame/> {{ $t('sort_hot') }}
 					</m-button>
 					<m-button :color="sortBy == 'published_at' ? 'primary' : 'secondary'" @click="setSortBy('published_at')">
-						<i-mdi-upload/> {{ $t('published_at') }}
+						<i-mdi-upload/> {{ $t('sort_new') }}
 					</m-button>
 					<m-dropdown>
 						<m-button :color="sortByPopularity ? 'primary' : 'secondary'"><i-mdi-star/> {{ $t('popularity') }} <i-mdi-chevron-down/></m-button>
@@ -32,8 +32,8 @@
 						<template #content>
 							<m-flex column>
 								<m-toggle-group v-model:selected="sortBy" column button-style="dropdown" @update:selected="value => sortByQuery = value">
+									<m-toggle-group-item value="bumepd_at"><i-mdi-clock/> {{ $t('last_updated') }} </m-toggle-group-item>
 									<m-toggle-group-item value="best_match"><i-mdi-magnify/> {{ $t('best_match') }} </m-toggle-group-item>
-									<m-toggle-group-item value="hot_score"><i-mdi-flame/> Hot</m-toggle-group-item>
 									<m-toggle-group-item value="random" @click="sortBy == 'random' && refresh()"><i-mdi-dice/> {{ $t('random') }}</m-toggle-group-item>
 									<m-toggle-group-item value="likes"><i-mdi-heart/> {{ $t('likes') }}</m-toggle-group-item>
 									<m-toggle-group-item value="downloads"><i-mdi-download/> {{ $t('downloads') }}</m-toggle-group-item>
@@ -194,7 +194,7 @@ const selectedCategories = ref([]);
 const selectedCategory = useRouteQuery('category');
 
 const sortByQuery = useRouteQuery('sort');
-const sortBy = computed(() => sortByQuery.value ?? props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'bumped_at');
+const sortBy = computed(() => sortByQuery.value ?? props.defaultSortBy ?? user?.extra?.default_mods_sort ?? 'hot_score');
 const sortByPopularity = computed(() => sortBy.value === 'daily_score' || sortBy.value === 'weekly_score' || sortBy.value === 'score');
 const sortByOtherOptions = { best_match: true, random: true, likes: true, downloads: true, views: true, name: true };
 const sortByOther = computed(() => sortByOtherOptions[sortBy.value] === true);
