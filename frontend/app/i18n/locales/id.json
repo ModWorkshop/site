@@ -181,6 +181,7 @@
     "color": "Warna",
     "stop": "Hentikan",
     "file_uploader_drop": "Jatuhkan file di sini atau klik area untuk mengunggah file",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Pengunggahan: {0}%",
     "uploading_detailed": "{time} tersisa - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
