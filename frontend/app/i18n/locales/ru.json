@@ -181,6 +181,7 @@
     "color": "Цвет",
     "stop": "Остановить",
     "file_uploader_drop": "Закиньте файлы сюда или нажмите в область чтобы загрузить файлы",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Загружаем: {0}%",
     "uploading_detailed": "Осталось {time} - {current}/{total} ({speed}/сек)",
     "uploading_table": "{time} ({speed}/s)",
