@@ -118,7 +118,7 @@ class Forum extends Model
             'tickets_mode' => true,
         ]));
 
-        $this->game->update([
+        $this->game->updateQuietly([
             'appeals_forum_category_id' => $forumCat->id
         ]);
     }
