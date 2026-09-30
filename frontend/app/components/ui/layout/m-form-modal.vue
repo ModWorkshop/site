@@ -5,7 +5,7 @@
 			<i-mdi-close class="cursor-pointer ml-auto text-xl" @click="onCancel"/>
 		</template>
 		<m-form class="flex overflow-hidden" @submit="onSubmit()">
-			<m-flex column gap="4" class="overflow-hidden">
+			<m-flex column gap="4" class="overflow-hidden w-full">
 				<m-alert v-if="descType" :color="descType" :desc="desc"/>
 				<span v-else-if="desc">{{ desc }}</span>
 				<m-flex column gap="4" class="overflow-y-auto h-full p-2">
