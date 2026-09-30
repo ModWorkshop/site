@@ -45,7 +45,7 @@ services:
     command: [redis-server]
 
   meilisearch:
-    image: getmeili/meilisearch:latest
+    image: getmeili/meilisearch:v1.45.1
     ports: [7700:7700]
     env_file: meilisearch.env
     volumes:
