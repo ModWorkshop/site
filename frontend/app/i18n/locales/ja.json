@@ -63,6 +63,8 @@
     "search_start_searching": "Enter query to start searching...",
     "search_threads": "スレッドを検索",
     "comments_disabled": "コメントは無効化されています。コメントができるのは、Modの所有者、メンバー、およびモデレーターだけです。",
+    "sort_hot": "Hot",
+    "sort_new": "New",
     "popularity": "人気順",
     "popular_today": "今日の人気",
     "popular_weekly": "週間の人気",
