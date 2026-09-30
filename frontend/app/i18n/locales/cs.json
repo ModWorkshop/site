@@ -181,6 +181,7 @@
     "color": "Barva",
     "stop": "Zastavit",
     "file_uploader_drop": "Přetáhněte soubory sem nebo klikněte na oblast pro nahrání souborů",
+    "file_uploader_drop_single": "Drop a file here or click the area to upload a file",
     "uploading": "Nahrávání: {0}%",
     "uploading_detailed": "zbývá {time} - {current}/{total} ({speed}/s)",
     "uploading_table": "{time} ({speed}/s)",
