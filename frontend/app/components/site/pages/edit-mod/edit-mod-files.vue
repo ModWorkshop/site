@@ -15,7 +15,7 @@
 		<m-flex class="items-center">
 			<label>{{ $t('links') }}</label>
 			<m-button v-if="links" class="ml-auto" @click="createNewLink">
-				<i-mdi-plus-thick/>
+				<i-mdi-plus-thick/> {{ $t('new_link') }}
 			</m-button>
 		</m-flex>
 		<m-table alt-background>

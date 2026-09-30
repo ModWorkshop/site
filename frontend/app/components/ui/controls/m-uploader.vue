@@ -1,10 +1,11 @@
 <template>
 	<m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="onDragDrop">
-		<label v-if="dropper" :class="classes" :for="`${name}-file-browser-open`">
-			<span class="text-3xl">
+		<label v-if="dropper" class="upload-area" :for="`${name}-file-browser-open`">
+			<m-flex class="text-xl items-center text-secondary" column>
+				<i-mdi-upload class="upload-icon"/>
 				{{ $t('file_uploader_drop') }}
 				<template v-if="maxFiles">({{ vm.length }}/{{ maxFiles }})</template>
-			</span>
+			</m-flex>
 		</label>
 		<input
 			:id="`${name}-file-browser-open`"
@@ -148,17 +149,6 @@ function getFileThumb(file: UploadSimpleFile) {
 
 	return thumb;
 }
-
-const classes = computed(() => {
-	return {
-		'alt-content-bg': true,
-		'extra-round': true,
-		'p-6': true,
-		'text-center': true,
-		'upload-area': true,
-		'upload-area-disabled': reachedMaxFiles.value || disabled
-	};
-});
 
 const input = ref();
 const reachedMaxFiles = computed<boolean>(() => {
@@ -391,15 +381,6 @@ async function handleRemove(file: UploadSimpleFile) {
 </script>
 
 <style>
-.upload-area {
-	cursor: pointer;
-}
-
-.upload-area-disabled {
-	cursor: inherit;
-	opacity: 0.5;
-}
-
 .file-thumbnail {
 	width: 100%;
 	height: 200px !important;
@@ -445,5 +426,18 @@ async function handleRemove(file: UploadSimpleFile) {
 
 .file-item img {
 	object-fit: cover;
+}
+
+.upload-area {
+	background-color: var(--alt-content-bg-color);
+	border-radius: var(--border-radius);
+	padding: 1.5rem;
+	text-align: center;
+	cursor: pointer;
+}
+
+.upload-area:disabled {
+	cursor: inherit;
+	opacity: 0.5;
 }
 </style>

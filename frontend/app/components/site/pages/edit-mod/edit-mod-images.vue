@@ -106,7 +106,7 @@ const { settings } = useStore();
 const showError = useQuickErrorToast();
 
 const mod = defineModel<Mod>({ required: true });
-const initialMod = defineModel<Mod>("initial-mod", { required: true });
+const initialMod = defineModel<Mod>('initial-mod', { required: true });
 
 const uploadLink = computed(() => mod.value ? `mods/${mod.value.id}/images` : '');
 

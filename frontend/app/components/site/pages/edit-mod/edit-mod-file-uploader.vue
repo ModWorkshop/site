@@ -1,14 +1,28 @@
 <template>
-	<m-flex column gap="1" class="w-full">
+	<m-flex column gap="1" class="w-full" @dragover.prevent="" @drop.prevent="onDragDrop">
 		<m-flex class="items-center">
 			<label>{{ $t('files') }}</label>
 			<m-button v-if="vm" class="ml-auto" @click="createNewFile">
-				<i-mdi-plus-thick/>
+				<i-mdi-plus-thick/> {{ $t('new_file') }}
 			</m-button>
 		</m-flex>
 
 		<m-progress :percent="usedSizePercent" :text="usedSizeText" :color="fileSizeColor"/>
 		<m-pagination v-model="page" :per-page="asyncFiles?.meta.per_page" :total="asyncFiles?.meta.total"/>
+
+		<label class="upload-area" for="edit-mod-file-browser-open">
+			<m-flex class="text-xl text-secondary items-center" column>
+				<i-mdi-upload class="upload-icon"/>
+				{{ $t('file_uploader_drop_single') }}
+			</m-flex>
+		</label>
+		<input
+			id="edit-mod-file-browser-open"
+			ref="input"
+			type="file"
+			hidden
+			@change="e => uploadFileIntoModal((e.target as HTMLInputElement).files)"
+		>
 
 		<m-table alt-background>
 			<template #head>
@@ -48,6 +62,7 @@
 			<m-file-uploader
 				v-model="changeFile"
 				:label="$t('upload_file')"
+				clear-button
 				:required="!currentFile?.id && !currentFile.actualFile"
 				:storage="storageLeft + currentFile.size"
 				type="file"
@@ -179,6 +194,21 @@ watch(changeFile, () => {
 		currentFile.value.name ||= changeFile.value.name.split('.')[0] ?? '';
 	}
 });
+
+function uploadFileIntoModal(files: FileList | null) {
+	if (!files) return;
+
+	createNewFile();
+
+	changeFile.value = files[0];
+}
+
+function onDragDrop(e: DragEvent) {
+	if (e.dataTransfer) {
+		uploadFileIntoModal(e.dataTransfer.files);
+	}
+}
+
 function removeFile(file: UploadSimpleFile) {
 	remove(vm.value, file);
 	remove(uploadingFiles.value, file);

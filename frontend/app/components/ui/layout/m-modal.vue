@@ -128,18 +128,15 @@ function onClickOutside() {
 }
 
 .modal-lg {
-	max-width: 90%;
-	width: 1000px;
+	max-width: 1000px;
 }
 
 .modal-md {
-	max-width: 75%;
-	width: 800px;
+	max-width: 800px;
 }
 
 .modal-sm {
-	max-width: 60%;
-	width: 600px;
+	max-width: 600px;
 }
 
 .modal-body {

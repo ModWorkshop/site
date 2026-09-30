@@ -54,7 +54,7 @@ const shown = defineModel<boolean>('shown', { default: false });
 const handleTabValidation = useHandleTabsValidation();
 </script>
 
-<style scoped>
+<style>
 .kinda-hidden {
 	opacity: 0;
 	width: 100%;

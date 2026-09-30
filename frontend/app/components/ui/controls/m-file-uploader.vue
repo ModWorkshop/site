@@ -4,8 +4,26 @@
 			<slot name="label"/>
 		</template>
 		<m-flex>
-			<m-button v-if="(localClearButton && fileRef) || (modelValue && clearButton)" :disabled="disabled" @click="clear"><i-mdi-remove/></m-button>
-			<m-input :id="labelId" v-model:element-ref="input" :disabled="disabled" :required="required" type="file" @update:model-value="onChange"/>
+			<input :id="labelId" ref="input" :disabled="disabled" type="file" class="kinda-hidden" @change="onChange">
+			<input :disabled="disabled" class="kinda-hidden mr-auto" :value="modelValue ? 'a' : ''" :required="required">
+			<label :class="{'mw-input': true, 'm-file-uploader-path': true, 'cursor-pointer': !disabled}" :for="labelId">
+				<m-flex class="mx-auto items-center text-center text-secondary" column gap="2">
+					<i-mdi-upload class="upload-icon"/>
+					<span v-if="!modelValue">
+						{{ $t('file_uploader_drop_single') }}
+					</span>
+					<span v-else class="text-body">
+						{{ modelValue?.name }}
+					</span>
+				</m-flex>
+
+				<i-mdi-remove
+					v-if="!disabled && ((localClearButton && fileRef) || (modelValue && clearButton))"
+					class="absolute"
+					style="right: 16px;"
+					@click.prevent="clear"
+				/>
+			</label>
 		</m-flex>
 		<m-uploader-progress v-if="progress?.progress" :progress="progress"/>
 	</m-input>
@@ -52,6 +70,7 @@ function clear() {
 		cancel();
 	}
 	modelValue.value = undefined;
+	fileRef.value = undefined;
 }
 
 function onChange() {
@@ -84,3 +103,20 @@ function onChange() {
 	modelValue.value = file;
 }
 </script>
+
+<style>
+.m-file-uploader-path {
+	padding: 1.5rem 1rem;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.upload-icon {
+	font-size: 1rem;
+	color: var(--secondary-text-color);
+	background-color: rgba(255, 255, 252, 0.1);
+	border-radius: 100%;
+	padding: 0.5rem;
+}
+</style>
