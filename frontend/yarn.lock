@@ -7303,9 +7303,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it@npm:^14.1.1":
-  version: 14.3.0
-  resolution: "markdown-it@npm:14.3.0"
+"markdown-it@npm:^14.3.1":
+  version: 14.3.1
+  resolution: "markdown-it@npm:14.3.1"
   dependencies:
     argparse: ^2.0.1
     entities: ^4.5.0
@@ -7315,7 +7315,7 @@ __metadata:
     uc.micro: ^2.1.0
   bin:
     markdown-it: bin/markdown-it.mjs
-  checksum: 738b14c8e34cade05e153bfcea4f3e669fa98e669e1373e505b6f2a384ce8146e25cc0449bd4675d4df52e12e46f85d5018a9f2fb3decee90fbb0aa526fb7383
+  checksum: 5c0646f921012740ce63ec2cd78394ce4a2ece61cd709bc37dcab090e23d782268b6fb0085175d26b0c48f75a0c51f0761b26b8bbb6268b07c40c5e10a842c5c
   languageName: node
   linkType: hard
 
@@ -7586,7 +7586,7 @@ __metadata:
     highlight.js: ^11.11.1
     humanize-duration: ^3.32.1
     isomorphic-dompurify: ^3.18.0
-    markdown-it: ^14.1.1
+    markdown-it: ^14.3.1
     markdown-it-anchor: ^9.2.0
     markdown-it-color-inline: ^1.9.5
     markdown-it-task-lists: ^2.1.1
