@@ -228,9 +228,8 @@ class LoginController extends Controller
                 }
             }
 
-            $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
+            $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName)) || 'unknown';
             $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
-            $uniqueName |= 'unknown';
 
             //Try to make a unique name for the user
             $num = '';
