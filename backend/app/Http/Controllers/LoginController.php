@@ -228,19 +228,27 @@ class LoginController extends Controller
                 }
             }
 
-            $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName)) || 'unknown';
-            $users = User::where('unique_name', 'ILIKE', $uniqueName.'%')->get();
+            // Don't bother removing characters if empty
+            if (!empty($uniqueName)) {
+                $uniqueName = preg_replace('([^a-zA-Z0-9-_])', '', strtolower($uniqueName));
+            }
 
-            //Try to make a unique name for the user
+            // If name doesn't have enough characters give up and just do unknown until we find a suitable name below
+            if (mb_strlen($uniqueName) < 3 || is_numeric($uniqueName)) {
+                $uniqueName = 'unknown';
+            }
+
             $num = '';
             $found = false;
             while(!$found) {
                 $current = $uniqueName.$num;
-                if (!$users->first(fn($val) => Str::lower($val->unique_name) === Str::lower($current))) {
+                if (!User::where('unique_name', $current)->exists()) {
                     $uniqueName = $current;
                     $found = true;
                 } else {
-                    $num ??= 0;
+                    if ($num === '')
+                        $num = 0;
+
                     $num++;
                 }
             }
