@@ -68,6 +68,7 @@ const store = useStore();
 const showErrorToast = useQuickErrorToast();
 const toaster = useToaster();
 const router = useRouter();
+const { public: config } = useRuntimeConfig();
 
 const user = reactive({
 	name: '',
@@ -95,7 +96,7 @@ const confirmPassValidity = computed(() => {
 
 const loading = ref(false);
 const captchaToken = ref<string>('');
-const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && captchaToken.value);
+const canRegister = computed(() => user.name && user.email && user.unique_name && user.password && user.password_confirm && (!config.hcaptchaSiteKey || captchaToken.value));
 
 async function register() {
 	if (user.password_confirm !== user.password) {
