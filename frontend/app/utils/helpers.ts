@@ -38,7 +38,7 @@ export const adminPagePerms = [
 	'moderate-users',
 	'manage-mods',
 	'manage-tags',
-	'manage-docs',
+	'manage-documents',
 	'manage-users',
 	'manage-forum-categories'
 ];
@@ -52,7 +52,7 @@ export const adminGamePagePerms = [
 	'moderate-users',
 	'manage-mods',
 	'manage-tags',
-	'manage-docs',
+	'manage-documents',
 	'manage-forum-categories'
 ];
 

@@ -22,7 +22,7 @@
 				<m-nav-link v-if="hasPermission('manage-games')" to="games" :title="$t('games')"/>
 				<m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
 				<m-nav-link v-if="hasPermission('manage-tags')" to="tags" :title="$t('tags')"/>
-				<m-nav-link v-if="hasPermission('manage-docs')" to="documents" :title="$t('documents')"/>
+				<m-nav-link v-if="hasPermission('manage-documents')" to="documents" :title="$t('documents')"/>
 				<m-nav-link v-if="hasPermission('manage-forum-categories')" to="forum-categories" :title="$t('forum_categories')"/>
 				<m-nav-link v-if="hasPermission('manage-webhooks')" to="webhooks" :title="$t('webhooks')"/>
 				<!-- <m-nav-link v-if="hasPermission('admin')" to="supporter-packages" title="Supporter Packages"/> -->
@@ -48,7 +48,7 @@ const moderateUsers = computed(() => hasPermission('moderate-users'));
 const canSeeAduitLog = computed(() => hasPermission('can-see-audit-log'));
 const manageMods = computed(() => hasPermission('manage-mods'));
 const canManageContent = computed(() =>
-	hasPermission('manage-games') || hasPermission('manage-docs') || hasPermission('manage-users')
+	hasPermission('manage-games') || hasPermission('manage-documents') || hasPermission('manage-users')
 	|| hasPermission('manage-forum-categories') || hasPermission('manage-tags') || manageMods.value
 );
 </script>

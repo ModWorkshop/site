@@ -19,7 +19,7 @@
 			<h3 class="mt-4!">{{ $t('content') }}</h3>
 			<m-nav-link v-if="manageMods" to="mods" :title="$t('mods')"/>
 			<m-nav-link v-if="hasPermission('manage-tags', game)" to="tags" :title="$t('tags')"/>
-			<m-nav-link v-if="hasPermission('manage-docs', game)" to="documents" :title="$t('docs')"/>
+			<m-nav-link v-if="hasPermission('manage-documents', game)" to="documents" :title="$t('docs')"/>
 			<m-nav-link v-if="hasPermission('manage-roles', game)" to="users" :title="$t('users')"/>
 			<m-nav-link v-if="hasPermission('manage-categories', game)" to="categories" :title="$t('categories')"/>
 			<m-nav-link v-if="hasPermission('manage-forum-categories', game)" to="forum-categories" :title="$t('forum_categories')"/>

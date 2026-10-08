@@ -18,7 +18,7 @@ const props = defineProps<{
 	game: Game;
 }>();
 
-useNeedsPermission('manage-docs', props.game);
+useNeedsPermission('manage-documents', props.game);
 
 const route = useRoute();
 
