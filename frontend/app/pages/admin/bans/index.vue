@@ -39,7 +39,7 @@ const { t } = useI18n();
 const url = computed(() => getGameResourceUrl('bans', props.game));
 
 const banUser = useRouteQuery('user', null, 'number');
-const user = useRouteQuery('filter-user', null, 'number');
+const user = useRouteQuery('filter-user', banUser.value, 'number');
 const page = ref(1);
 
 const banDuration = ref(null);
