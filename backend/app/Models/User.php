@@ -1162,10 +1162,10 @@ class User extends Model implements
         $this->loadCount(['mods', 'threads', 'comments']);
 
         return 1
-            + $this->mod_count * 2
+            + $this->mod_count * 3
             + $this->threads_count
-            + $this->comments_count
-            + $this->created_at->diffInMonths(Carbon::now());
+            + $this->comments_count * 2
+            + $this->created_at->diffInDays(Carbon::now()) / 2;
     }
 
     /**
