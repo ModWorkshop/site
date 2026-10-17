@@ -19,6 +19,8 @@ const game = ref<Game>();
 let mods: Paginator<Mod>;
 
 if (route.name === 'g-game') {
+	const sortBy = computed(() => store.user?.extra?.game_default_mods_sort ?? 'hot_score');
+
 	const { data } = await useResource<{ game: Game; mods: Paginator<Mod> }>('game', id => `games/${id}/game-section-data`, undefined, {
 		'page': route.query.page,
 		'query': route.query.query,
@@ -26,7 +28,7 @@ if (route.name === 'g-game') {
 		'category_id': route.query.category,
 		'tags': useRouteQuery('selected-tags', []).value,
 		'block_tags': useRouteQuery('filtered-tags', []).value,
-		'sort': useRouteQuery('sort', 'bumped_at').value,
+		'sort': useRouteQuery('sort', sortBy).value,
 		'limit': 20
 	});
 	game.value = data.value.game;
