@@ -307,6 +307,7 @@ class FileController extends Controller
             $val['file'] = $name;
             $val['type'] = $type;
             $val['size'] = $uploadFile->getSize();
+            $val['completed'] = true;
 
             $file->mod->bump();
         }
