@@ -1,17 +1,34 @@
 <template>
-	<m-content-block gap="2" inline :class="{'items-center': true, 'cursor-pointer': true, 'no-background': !background}" :column="false" @click.self="clickFunc">
-		<NuxtLink :to="modUrl" style="flex: 1;">
+	<m-content-block
+		gap="2"
+		inline
+		:class="{'items-center': true, 'cursor-pointer': true, 'no-background': !background}"
+		:padding="1"
+		:column="false"
+		@click.self="clickFunc"
+	>
+		<NuxtLink :to="modUrl" style="height: 48px; aspect-ratio: 2/1;">
 			<mod-thumbnail :thumbnail="mod?.thumbnail"/>
 		</NuxtLink>
-		<m-flex column gap="2" style="flex: 2;" @click.self="clickFunc">
+		<m-flex column gap="1" @click.self="clickFunc">
 			<template v-if="mod">
-				<NuxtLink :to="modUrl" class="line-clamp-2">
+				<NuxtLink :to="modUrl" class="line-clamp-2" style="word-break: break-all;">
 					{{ mod.name }}
 				</NuxtLink>
-				<a-user :user="mod.user" :static="static" avatar-size="xs" :show-mini-profile="false" class="self-start"/>
-				<NuxtLink v-if="mod.game" class="text-secondary" :to="!static && gameUrl || undefined" :title="mod.game.name">
-					{{ mod.game.name }}
-				</NuxtLink>
+				<m-flex class="items-center" style="word-break: break-all;" wrap>
+					<i18n-t v-if="showGame && mod.game" keypath="user_posted_place_no_date">
+						<template #user>
+							<a-user :user="mod.user" :static="static" avatar-size="xs" :show-mini-profile="false" class="self-start"/>
+						</template>
+						<template #place>
+							<NuxtLink class="text-secondary" :to="!static && gameUrl || undefined" :title="mod.game.name">
+								{{ mod.game.name }}
+							</NuxtLink>
+						</template>
+					</i18n-t>
+
+					<a-user v-else :user="mod.user" :static="static" avatar-size="xs" :show-mini-profile="false" class="self-start"/>
+				</m-flex>
 			</template>
 			<template v-else>
 				<NuxtLink :to="url">
@@ -26,12 +43,13 @@
 import { useStore } from '~/store';
 import type { Mod } from '~/types/models';
 
-const { mod, static: stat, url, background = true } = defineProps<{
+const { mod, static: stat, url, background = true, showGame = true } = defineProps<{
 	mod?: Mod;
 	url?: string;
 	name?: string;
 	static?: boolean;
 	background?: boolean;
+	showGame?: boolean;
 }>();
 
 const store = useStore();

@@ -24,7 +24,7 @@ function onClick(e) {
 
 <style>
 .dropdown-splitter {
-	height: 1px;
+	min-height: 1px;
 	margin: 6px;
 	background: var(--secondary-text-color);
 	opacity: 0.25;

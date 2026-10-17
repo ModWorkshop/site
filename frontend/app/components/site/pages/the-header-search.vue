@@ -22,58 +22,74 @@
 			</m-flex>
 		</m-flex>
 		<template #content>
-			<m-flex column gap="4" class="p-2 items-center">
-				<m-flex v-if="gameButtons" class="w-full" column gap="2">
-					<h3>{{ $t('game_search') }}</h3>
-					<div class="search-buttons">
-						<m-button
-							v-for="[, button] in gameButtons.entries()"
-							:key="button.text"
-							:to="`${button.to}?query=${query}`"
-							color="subtle"
-						>
-							{{ $t(button.text) }}
-						</m-button>
-					</div>
-				</m-flex>
+			<template v-if="query && currentGame">
+				<m-flex column>
+					<span class="text-secondary m-2">{{ $t('search_results_game', [currentGame.name]) }}</span>
 
-				<m-flex class="w-full" column gap="2">
-					<h3>{{ $t('search') }}</h3>
-					<div class="search-buttons">
-						<m-button
-							v-for="[, button] in searchButtons.entries()"
-							:key="button.text"
-							:to="`${button.to}?query=${query}`"
-							color="subtle"
-						>
-							{{ $t(button.text) }}
-						</m-button>
-					</div>
-				</m-flex>
-				<span v-if="!query">
-					{{ $t('search_start_searching') }}
-				</span>
-				<template v-else-if="loadingMods || loadingGameMods || gameMods?.data?.length || globalMods?.data?.length">
-					<m-flex v-if="currentGame && (loadingGameMods || (gameMods?.data?.length))" column gap="2">
-						<h3>{{ $t('search_mods_game', [currentGame.name]) }}</h3>
+					<m-flex v-if="currentGame && (loadingGameMods || (gameMods?.data?.length))" column gap="2" class="w-full px-2">
 						<m-loading v-if="loadingGameMods"/>
 						<template v-else-if="gameMods">
-							<search-list-mod v-for="mod of gameMods.data" :key="mod.id" lite :mod="mod" @click="showSearch = false"/>
+							<search-list-mod v-for="mod of gameMods.data" :key="mod.id" :mod="mod" :show-game="false" @click="showSearch = false"/>
 						</template>
-						<m-button color="subtle" :to="`/g/${currentGame.short_name}?query=${query}`">{{ $t('search_view_all') }}</m-button>
+						<m-button color="subtle" :to="`/g/${currentGame.short_name}?query=${query}`"><i-mdi-magnify/> {{ $t('search_view_all') }}</m-button>
 					</m-flex>
-					<m-flex v-if="loadingMods || globalMods?.data?.length" column gap="2">
-						<h3>{{ $t(currentGame ? 'search_mods_other_games' : 'mods') }}</h3>
+					<h4 v-else-if="gameMods?.data?.length == 0" class="px-2 text-center">
+						{{ $t('no_mods_found') }}
+					</h4>
+				</m-flex>
+
+				<div class="dropdown-splitter"/>
+			</template>
+
+			<template v-if="query">
+				<m-flex column>
+					<span class="text-secondary m-2">{{ $t('search_results') }}</span>
+
+					<m-flex v-if="loadingMods || globalMods?.data?.length" column gap="2" class="w-full px-2">
 						<m-loading v-if="loadingMods"/>
 						<template v-else-if="globalMods">
-							<search-list-mod v-for="mod of globalMods.data" :key="mod.id" lite :mod="mod" @click="showSearch = false"/>
+							<search-list-mod v-for="mod of globalMods.data" :key="mod.id" :mod="mod" @click="showSearch = false"/>
 						</template>
-						<m-button color="subtle" :to="`/search/mods?query=${query}`">{{ $t('search_view_all') }}</m-button>
+						<m-button color="subtle" :to="`/search/mods?query=${query}`"><i-mdi-magnify/> {{ $t('search_view_all') }}</m-button>
 					</m-flex>
-				</template>
-				<span v-else-if="globalMods?.data?.length == 0 && gameMods?.data?.length == 0">
-					{{ $t('nothing_found') }}
-				</span>
+					<h4 v-else-if="globalMods?.data?.length == 0" class="px-2 text-center">
+						{{ $t('no_mods_found') }}
+					</h4>
+				</m-flex>
+
+				<div class="dropdown-splitter"/>
+			</template>
+
+			<template v-if="currentGame">
+				<m-flex v-if="gameButtons" column>
+					<span class="text-secondary m-2">{{ $t('search_in_game', [currentGame.name]) }}</span>
+					 <m-flex column>
+						<m-dropdown-item
+							v-for="[, button] in gameButtons.entries()"
+							:key="button.text"
+								:icon="button.icon"
+								:to="`${button.to}?query=${query}`"
+								color="subtle"
+							>
+								{{ $t(button.text) }}
+						</m-dropdown-item>
+					 </m-flex>
+				 </m-flex>
+
+				<div class="dropdown-splitter"/>
+			</template>
+
+			<m-flex column>
+				<span class="text-secondary m-2">{{ $t('search_globally') }}</span>
+
+				<m-dropdown-item
+					v-for="[, button] in searchButtons.entries()"
+					:key="button.text"
+					:icon="button.icon"
+					:to="`${button.to}?query=${query}`"
+				>
+					{{ $t(button.text) }}
+				</m-dropdown-item>
 			</m-flex>
 		</template>
 	</m-dropdown>
@@ -82,6 +98,11 @@
 import { storeToRefs } from 'pinia';
 import { useStore } from '~/store';
 import type { Mod } from '~/types/models';
+
+import IMdiPuzzle from '~icons/mdi/puzzle';
+import IMdiController from '~icons/mdi/controller';
+import IMdiForum from '~icons/mdi/forum';
+import IMdiUser from '~icons/mdi/user';
 
 const store = useStore();
 const router = useRouter();
@@ -99,17 +120,17 @@ watch(searchInput, val => {
 });
 
 const searchButtons = [
-	{ to: `/search/mods`, text: 'mods' },
-	{ to: `/search/threads`, text: 'threads' },
-	{ to: `/search/users`, text: 'users' },
-	{ to: `/search/games`, text: 'games' }
+	{ to: `/search/mods`, text: 'mods', icon: IMdiPuzzle },
+	{ to: `/search/threads`, text: 'threads', icon: IMdiForum },
+	{ to: `/search/users`, text: 'users', icon: IMdiUser },
+	{ to: `/search/games`, text: 'games', icon: IMdiController }
 ];
 
 const gameButtons = computed(() => {
 	if (currentGame.value) {
 		return [
-			{ to: `/g/${currentGame.value.short_name}/mods`, text: 'mods' },
-			{ to: `/g/${currentGame.value.short_name}/forum`, text: 'threads' }
+			{ to: `/g/${currentGame.value.short_name}/mods`, text: 'mods', icon: IMdiPuzzle },
+			{ to: `/g/${currentGame.value.short_name}/forum`, text: 'threads', icon: IMdiForum }
 		];
 	}
 });
@@ -117,7 +138,7 @@ const gameButtons = computed(() => {
 // Simple mod searcher
 const { data: globalMods, refresh: refreshGlobal, loading: loadingMods } = await useFetchMany<Mod>('mods', {
 	query: {
-		limit: 5,
+		limit: 4,
 		sort: 'best_match',
 		query: debouncedQuery,
 		exclude_game_ids: computed(() => currentGame.value ? [currentGame.value?.id] : undefined)
@@ -128,7 +149,7 @@ const { data: globalMods, refresh: refreshGlobal, loading: loadingMods } = await
 
 const { data: gameMods, refresh: refreshGame, loading: loadingGameMods } = await useFetchMany<Mod>(() => currentGame.value ? `games/${currentGame.value.id}/mods` : '', {
 	query: {
-		limit: 5,
+		limit: 4,
 		sort: 'best_match',
 		query: debouncedQuery
 	},
@@ -193,16 +214,16 @@ kbd {
 }
 
 .search-buttons {
-	display: grid;
+	display: flex;
+	flex-wrap: wrap;
 	width: 100%;
 	gap: 0.25rem;
-	grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
 }
 
 .search-dropdown {
 	width: 500px;
 	max-width: 500px;
-	max-height: 72vh;
+	max-height: calc(100vh - 64px);
 	padding: 1rem;
 }
 
@@ -222,7 +243,8 @@ kbd {
 
 @media (max-width: 767px) {
 	.search-dropdown {
-		max-width: 360px;
+		max-width: calc(100vw - 8px);
+		max-height: calc(100vh - 250px);
 	}
 }
 </style>
