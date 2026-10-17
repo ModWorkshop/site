@@ -91,7 +91,7 @@ class AppServiceProvider extends ServiceProvider
                 if ($user->getAccountAgeInHours() < 1 && APIService::countLinks($value) > 0) {
                     return false;
                 }
-                elseif (APIService::checkSpamContent($value)) {
+                elseif (isset($value) && APIService::checkSpamContent($value)) {
                     abort(422, "{$attribute}: contains spam content!");
                 }
             }
