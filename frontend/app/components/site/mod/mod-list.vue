@@ -43,31 +43,7 @@
 							</m-flex>
 						</template>
 					</m-dropdown>
-					<m-flex v-if="!sideFilters">
-						<m-dropdown :close-on-click="false">
-							<m-button><i-mdi-filter/></m-button>
-							<template #content>
-								<m-flex class="p-4" gap="3" column style="width: 300px;">
-									<Suspense>
-										<template #fallback>
-											<m-loading/>
-										</template>
-										<mod-filters
-											v-model:query="query"
-											v-model:game-id="selectedGame"
-											v-model:category-id="selectedCategory"
-											v-model:tags="selectedTags"
-											v-model:block-tags="selectedBlockTags"
-											:categories="currCategories"
-											:refresh-categories="refetchCats"
-											:refresh="refresh"
-											:game="game"
-										/>
-									</Suspense>
-								</m-flex>
-							</template>
-						</m-dropdown>
-					</m-flex>
+					<m-button v-if="!props.sideFilters" :color="sideFilters ? 'primary' : 'secondary'" @click="sideFilters = !sideFilters"><i-mdi-filter/></m-button>
 				</m-flex>
 			</m-flex>
 
@@ -92,7 +68,7 @@
 		</m-flex>
 
 		<m-flex gap="3" class="md:flex-row flex-col">
-			<m-flex v-if="sideFilters" class="max-md:!w-full items-center" column :gap="adChildren > 0 ? 6 : 0" style="width: 300px;">
+			<m-flex v-if="sideFilters" class="max-md:!w-full items-center" column style="width: 300px;">
 				<div id="mws-ads-filters" ref="filtersAd"/>
 				<m-content-block class="mod-filters w-full">
 					<mod-filters
@@ -145,8 +121,8 @@ const props = withDefaults(defineProps<{
 	game?: Game;
 	userId?: number;
 	collab?: boolean;
-	triggerRefresh?: EventHook<void>;
 	sideFilters?: boolean;
+	triggerRefresh?: EventHook<void>;
 	limit?: number;
 	query?: boolean;
 	url?: string;
@@ -162,25 +138,13 @@ const props = withDefaults(defineProps<{
 
 const { user } = useStore();
 
-if (props.sideFilters) {
-	useInsertAd('mws-ads-filters', {
-		sizes: [['300', '250']],
-		renderVisibleOnly: true,
-		report: {
-			position: 'bottom-left'
-		}
-	});
-}
-
 const query = props.query ? useRouteQuery('query', '') : ref('');
 
 if (props.query) {
 	searchBus.on(search => query.value = search);
 }
 
-const filtersAd = ref();
-
-const adChildren = useTrackElementChildren(filtersAd);
+const sideFilters = ref(props.sideFilters);
 
 const page = useRouteQuery('page', 1, 'number');
 const loadMorePageOverride = ref<number>();
