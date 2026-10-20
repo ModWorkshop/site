@@ -89,7 +89,7 @@ container(md, 'spoiler', {
 			if (!title || title.length === 0) {
 				title = 'Spoiler!';
 			}
-			return `<details class="spoiler"><summary>${title}</summary><div class="spoiler-body">`;
+			return `<details class="spoiler"><summary>${md.utils.escapeHtml(title)}</summary><div class="spoiler-body">`;
 		} else {
 			return '</div></details>';
 		}
