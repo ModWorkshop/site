@@ -7,7 +7,13 @@
 			<m-flex grow style="flex: 4;" gap="1">
 				<m-list v-model:page="page" query :items="games" :loading="loading">
 					<template #item="{ item }">
-						<m-content-block :key="item.id" class="cursor-pointer items-center" :column="false" :alt-background="altBackground" :to="`g${item.short_name}`">
+						<m-content-block
+							:key="item.id"
+							class="cursor-pointer items-center"
+							:column="false"
+							:alt-background="altBackground"
+							@click="$router.push(`/g/${item.short_name}`)"
+						>
 							<game-thumbnail :game="item" style="width: 100px;"/>
 							<m-flex column gap="2">
 								<span>{{ item.name }}</span>
