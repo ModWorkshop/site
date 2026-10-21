@@ -1,5 +1,5 @@
 #### Stage 1 ####
-FROM node:22-bookworm-slim AS builder
+FROM node:26-bookworm-slim AS builder
 
 # Copy and set directory
 COPY . /var/www/html
@@ -9,7 +9,7 @@ ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV NITRO_PRESET=node_cluster
 
 # Install deps and cache image layer
-RUN yarn
+RUN npm install -g corepack && yarn
 # Build project and cache image layer
 
 ENV NODE_ENV=production
@@ -17,7 +17,7 @@ RUN yarn build
 ########
 
 #### Stage 2 ####
-FROM node:22-bookworm-slim AS prod
+FROM node:26-bookworm-slim AS prod
 
 WORKDIR /var/www/html
 
@@ -32,6 +32,9 @@ ENV NUXT_PUBLIC_COMMIT_HASH=${GIT_VERSION_HASH}
 ENV NODE_ENV=production
 
 RUN apt-get update && apt-get install -y curl
+
+# Install Yarn
+RUN npm install -g corepack && yarn
 
 RUN yarn global add pm2
 

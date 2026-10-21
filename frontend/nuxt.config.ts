@@ -4,6 +4,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import Components from 'unplugin-vue-components/vite';
 import tailwindcss from '@tailwindcss/vite';
+import { createResolver } from '@nuxt/kit';
 
 export default defineNuxtConfig({
 	devServer: {
@@ -56,32 +57,33 @@ export default defineNuxtConfig({
 	hooks: {
 		'pages:extend': routes => {
 			const userSettings = routes.find(page => page.path === '/user-settings');
+			const { resolve } = createResolver(import.meta.url);
 
-			userSettings?.children?.push({ path: '/user-settings/profile', file: '~/pages/user-settings/index.vue' });
+			userSettings?.children?.push({ path: '/user-settings/profile', file: resolve('./app/pages/user-settings/index.vue') });
 
 			routes.push(...[
 				{
 					path: '/user/:user/edit',
-					file: '~/pages/user-settings.vue',
+					file: resolve('./app/pages/user-settings.vue'),
 					children: [
-						{ path: '', file: '~/pages/user-settings/index.vue' },
-						{ path: 'account', file: '~/pages/user-settings/account.vue' },
-						{ path: 'content', file: '~/pages/user-settings/content.vue' },
-						{ path: 'profile', file: '~/pages/user-settings/index.vue' },
-						{ path: 'accounts', file: '~/pages/user-settings/accounts.vue' },
-						{ path: 'api', file: '~/pages/user-settings/api.vue' }
+						{ path: '', file: resolve('./app/pages/user-settings/index.vue') },
+						{ path: 'account', file: resolve('./app/pages/user-settings/account.vue') },
+						{ path: 'content', file: resolve('./app/pages/user-settings/content.vue') },
+						{ path: 'profile', file: resolve('./app/pages/user-settings/index.vue') },
+						{ path: 'accounts', file: resolve('./app/pages/user-settings/accounts.vue') },
+						{ path: 'api', file: resolve('./app/pages/user-settings/api.vue') }
 					]
 				},
-				{ path: '/g/:game/documents', file: '~/pages/documents.vue' },
-				{ path: '/g/:game/document/:document', file: '~/pages/document/[document].vue' }
+				{ path: '/g/:game/documents', file: resolve('./app/pages/documents.vue') },
+				{ path: '/g/:game/document/:document', file: resolve('./app/pages/document/[document].vue') }
 			]);
 
 			// Kinda disgusting, but other way is making components for each one of them and then pages...
 			const mod = routes.find(page => page.path === '/mod/:mod()');
-			mod?.children?.push({ path: '/mod/:mod/post/:comment', file: '~/pages/mod/[mod]/index.vue' });
+			mod?.children?.push({ path: '/mod/:mod/post/:comment', file: resolve('./app/pages/mod/[mod]/index.vue') });
 
 			const thread = routes.find(page => page.path === '/thread/:thread()');
-			thread?.children?.push({ path: '/thread/:thread/post/:comment', file: '~/pages/thread/[thread]/index.vue' });
+			thread?.children?.push({ path: '/thread/:thread/post/:comment', file: resolve('./app/pages/thread/[thread]/index.vue') });
 
 			const game = routes.find(page => page.path === '/g/:game()');
 
@@ -89,29 +91,29 @@ export default defineNuxtConfig({
 				const gameAdmin = game.children.find(page => page.path === 'admin');
 				if (gameAdmin && gameAdmin.children) {
 					gameAdmin.children.push(...[
-						{ path: 'bans', file: '~/pages/admin/bans/index.vue' },
-						{ path: 'bans/:ban', file: '~/pages/admin/bans/[ban].vue' },
-						{ path: 'cases', file: '~/pages/admin/cases/index.vue' },
-						{ path: 'cases/:case', file: '~/pages/admin/cases/[case].vue' },
-						{ path: 'forum-categories/:category', file: '~/pages/admin/forum-categories/[category].vue' },
-						{ path: 'forum-categories', file: '~/pages/admin/forum-categories/index.vue' },
-						{ path: 'roles/:role', file: '~/pages/admin/roles/[role].vue' },
-						{ path: 'roles', file: '~/pages/admin/roles/index.vue' },
-						{ path: 'tags/:tag', file: '~/pages/admin/tags/[tag].vue' },
-						{ path: 'tags', file: '~/pages/admin/tags/index.vue' },
-						{ path: 'suspensions', file: '~/pages/admin/suspensions/index.vue' },
-						{ path: 'suspensions/:suspension', file: '~/pages/admin/suspensions/[suspension].vue' },
-						{ path: 'reports', file: '~/pages/admin/reports.vue' },
-						{ path: 'tickets', file: '~/pages/admin/tickets.vue' },
-						{ path: 'approvals', file: '~/pages/admin/approvals.vue' },
-						{ path: 'mods', file: '~/pages/admin/mods.vue' },
-						{ path: 'documents', file: '~/pages/admin/documents/index.vue' },
-						{ path: 'documents/:document', file: '~/pages/admin/documents/[document].vue' },
-						{ path: 'mod-managers', file: '~/pages/admin/mod-managers/index.vue' },
-						{ path: 'mod-managers/:modManager', file: '~/pages/admin/mod-managers/[modManager].vue' },
-						{ path: 'audit-log', file: '~/pages/admin/audit-log.vue' },
-						{ path: 'webhooks', file: '~/pages/admin/webhooks/index.vue' },
-						{ path: 'webhooks/:webhook', file: '~/pages/admin/webhooks/[webhook].vue' }
+						{ path: 'bans', file: resolve('./app/pages/admin/bans/index.vue') },
+						{ path: 'bans/:ban', file: resolve('./app/pages/admin/bans/[ban].vue') },
+						{ path: 'cases', file: resolve('./app/pages/admin/cases/index.vue') },
+						{ path: 'cases/:case', file: resolve('./app/pages/admin/cases/[case].vue') },
+						{ path: 'forum-categories/:category', file: resolve('./app/pages/admin/forum-categories/[category].vue') },
+						{ path: 'forum-categories', file: resolve('./app/pages/admin/forum-categories/index.vue') },
+						{ path: 'roles/:role', file: resolve('./app/pages/admin/roles/[role].vue') },
+						{ path: 'roles', file: resolve('./app/pages/admin/roles/index.vue') },
+						{ path: 'tags/:tag', file: resolve('./app/pages/admin/tags/[tag].vue') },
+						{ path: 'tags', file: resolve('./app/pages/admin/tags/index.vue') },
+						{ path: 'suspensions', file: resolve('./app/pages/admin/suspensions/index.vue') },
+						{ path: 'suspensions/:suspension', file: resolve('./app/pages/admin/suspensions/[suspension].vue') },
+						{ path: 'reports', file: resolve('./app/pages/admin/reports.vue') },
+						{ path: 'tickets', file: resolve('./app/pages/admin/tickets.vue') },
+						{ path: 'approvals', file: resolve('./app/pages/admin/approvals.vue') },
+						{ path: 'mods', file: resolve('./app/pages/admin/mods.vue') },
+						{ path: 'documents', file: resolve('./app/pages/admin/documents/index.vue') },
+						{ path: 'documents/:document', file: resolve('./app/pages/admin/documents/[document].vue') },
+						{ path: 'mod-managers', file: resolve('./app/pages/admin/mod-managers/index.vue') },
+						{ path: 'mod-managers/:modManager', file: resolve('./app/pages/admin/mod-managers/[modManager].vue') },
+						{ path: 'audit-log', file: resolve('./app/pages/admin/audit-log.vue') },
+						{ path: 'webhooks', file: resolve('./app/pages/admin/webhooks/index.vue') },
+						{ path: 'webhooks/:webhook', file: resolve('./app/pages/admin/webhooks/[webhook].vue') }
 					]);
 				}
 			}
