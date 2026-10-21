@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1.12.6-php8.3-bookworm AS build
+FROM dunglas/frankenphp:1.13.1-php8.3-bookworm AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends supervisor p7zip-full
 
