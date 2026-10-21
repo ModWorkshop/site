@@ -187,7 +187,11 @@ function onKeydownSearch() {
 }
 
 function clickSelectedSearch() {
-	router.replace({ path: '/search/mods', query: { query: query.value } });
+	if (currentGame.value) {
+		router.replace({ path: `/g/${currentGame.value.short_name}/mods`, query: { query: query.value } });
+	} else {
+		router.replace({ path: '/search/mods', query: { query: query.value } });
+	}
 }
 
 </script>
