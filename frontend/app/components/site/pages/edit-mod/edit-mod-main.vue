@@ -76,6 +76,10 @@ const approvalOnlyForced = computed(() => {
 });
 
 function tagEnabledBy(tag: Tag) {
+	if (isModerator.value) {
+		return true;
+	}
+
 	const mod_tag = mod.value.tags?.find(t => t.id === tag.id);
 	if (mod_tag) {
 		return !mod_tag.applied_by_mod;
