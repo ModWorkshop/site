@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cache;
 use Database\Factories\TagFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * App\Models\Tag
@@ -103,5 +105,23 @@ class Tag extends Model
     public function color(): Attribute
     {
         return Attribute::make(fn($value) => trim($value));
+    }
+
+    #[Override]
+    protected static function booted()
+    {
+        // Clear cached data when updating/creating them
+        self::saved(function(Tag $tag) {
+            $game = $tag->game;
+            if (isset($game)) {
+                Cache::forget('tags:game:'.$game->name);
+            } else {
+                $games = Game::all();
+                foreach ($games as $game) {
+                    Cache::forget('tags:game:'.$game->name);
+                }
+                Cache::forget('tags');
+            }
+        });
     }
 }
