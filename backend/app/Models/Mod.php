@@ -381,6 +381,7 @@ class Mod extends Model implements SubscribableInterface
         });
 
         static::deleting(function(Mod $mod) {
+            $mod->load('user');
             Webhook::sendModEvent($mod, 'mod_deleted');
 
             foreach ($mod->comments as $comment) {
