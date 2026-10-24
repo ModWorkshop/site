@@ -682,6 +682,12 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
+    public function getPageUrlAttribute() {
+        $siteUrl = env('FRONTEND_URL');
+
+        return "{$siteUrl}/mod/{$this->id}";
+    }
+
     public function getDownload(bool $onlyFiles = false) {
         $linksLoaded = $this->relationLoaded('links');
         $filesLoaded = $this->relationLoaded('files');
@@ -784,6 +790,13 @@ class Mod extends Model implements SubscribableInterface
         });
     }
 
+    public function getlocationAttribute() {
+        $game = $this->game;
+        $category = $this->category;
+
+        return ($game ? $game->name : 'NA').($category ? '/'.$category->name : '');
+    }
+
     public function liked()
     {
         return $this->hasOne(ModLike::class)->where('user_id', Auth::id());
@@ -853,15 +866,10 @@ class Mod extends Model implements SubscribableInterface
             $this->save();
         }
 
-        $game = $this->game;
-        $category = $this->category;
-
-        Webhook::sendModEvent($this, 'mod_published', [
-            'location' => ($game ? $game->name : 'NA').($category ? '/'.$category->name : '')
-        ]);
+        Webhook::sendModEvent($this, 'mod_published');
 
         // Update the game's last date since the mod was published
-        $game->update([
+        $this->game->update([
             'last_date' => Carbon::now()
         ]);
     }

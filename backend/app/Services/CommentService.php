@@ -170,8 +170,6 @@ class CommentService {
 
             Webhook::sendEvent('ticket_reply', [
                 'thread' => $commentable,
-                'thread_url' => "{$siteUrl}/thread/{$commentable->id}",
-                'reply_url' => "{$siteUrl}/thread/{$commentable->id}?comment={$comment->id}",
                 'reply' => $comment
             ], $commentable->forum->game_id);
         }

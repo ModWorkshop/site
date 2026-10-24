@@ -294,6 +294,12 @@ class Game extends Model
         });
     }
 
+    public function getPageUrlAttribute() {
+        $siteUrl = env('FRONTEND_URL');
+
+        return "{$siteUrl}/g/{$this->short_name}";
+    }
+
     public function ensureForumExists()
     {
         // Checking just in case because this does fail sometimes (like in migrations)

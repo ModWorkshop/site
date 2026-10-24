@@ -53,8 +53,11 @@ class Webhook extends Model
             })
             ->get();
 
+        $args['initiator'] = Auth::user();
+
         foreach ($args as $k => $v) {
             if (is_object($v)) {
+                $v->append('page_url');
                 $args[$k] = $v->toArray();
             }
         }
@@ -78,12 +81,9 @@ class Webhook extends Model
 
     static function sendModEvent(Mod $mod, string $event, array $args=[], ?string $content=null){
         $siteUrl = env('FRONTEND_URL');
-        $user = Auth::user();
 
         self::sendEvent($event, [
-            'mod_url' => "{$siteUrl}/mod/{$mod->id}",
             'mod' => $mod,
-            'user' => $user,
             ...$args
         ], $mod->game_id, $content);
     }

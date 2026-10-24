@@ -708,6 +708,12 @@ class User extends Model implements
         return $this->activeSupporter || $this->hasPermission('has-supporter-perks');
     }
 
+    public function getPageUrlAttribute() {
+        $siteUrl = env('FRONTEND_URL');
+
+        return "{$siteUrl}/user/{$this->id}";
+    }
+
     #endregion
 
     #region Methods

@@ -39,22 +39,10 @@ trait Reportable {
 
         $siteUrl = env('FRONTEND_URL');
 
-        $url = match ($this::class) {
-            User::class => "user/{$this->id}",
-            Mod::class => "mod/{$this->id}",
-            Comment::class => "{$this->commentable_type}/{$this->commentable_id}/post/{$this->id}",
-            default => null
-        };
-
         Webhook::sendEvent('report_new', [
             'reason' => $reason,
             'resource' => $this,
-            'resource_type' => $this->getMorphClass(),
-            'resource_url' => "{$siteUrl}/{$url}",
-            'reporter_user' => $user,
-            'reported_user' => $this->user,
-            'reporter_user_link' => "{$siteUrl}/user/{$user->id}",
-            'reported_user_link' => "{$siteUrl}/user/{$report->reported_user_id}",
+            'resource_type' => $this->getMorphClass()
         ], gameId: $this->game_id);
 
         $this->withSecureConstraints(fn() => $this->reports()->save($report));

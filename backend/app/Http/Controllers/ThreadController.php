@@ -127,8 +127,7 @@ class ThreadController extends Controller
             $siteUrl = env('FRONTEND_URL');
 
             Webhook::sendEvent('ticket_new', [
-                'thread' => $thread,
-                'thread_url' => "{$siteUrl}/thread/{$thread->id}"
+                'thread' => $thread
             ], $thread->forum->game_id);
         }
 

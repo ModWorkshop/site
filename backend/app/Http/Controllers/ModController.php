@@ -583,9 +583,6 @@ class ModController extends Controller
             ]);
         }
 
-        // Send to discord about this
-        $moderator = $this->user();
-
         AuditLog::log(
             type: 'mod_approve_status',
             auditable: $mod,
@@ -598,7 +595,6 @@ class ModController extends Controller
 
         Webhook::sendModEvent($mod, 'mod_approval', [
             'status' => $approve ? 'approved' : 'rejected',
-            'moderator' => $moderator,
             'reason' => $val['reason']
         ]);
     }
@@ -667,7 +663,6 @@ class ModController extends Controller
 
         Webhook::sendModEvent($mod, 'mod_suspended', [
             'status' => $suspend ? 'suspended' : 'unsuspended',
-            'moderator' => Auth::user(),
             'reason' => $val['reason']
         ]);
 

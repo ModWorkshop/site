@@ -103,6 +103,12 @@ class Comment extends Model implements SubscribableInterface
         return $this->belongsToMany(User::class, Mention::class);
     }
 
+    public function getPageUrlAttribute() {
+        $siteUrl = env('FRONTEND_URL');
+
+        return "{$siteUrl}/thread/{$this->commentable_id}?comment={$this->id}";
+    }
+
     public static function booted()
     {
         static::created(function(Comment $comment) {

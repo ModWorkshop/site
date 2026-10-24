@@ -226,6 +226,12 @@ class Thread extends Model implements SubscribableInterface
         return $this->belongsTo(Comment::class);
     }
 
+    public function getPageUrlAttribute() {
+        $siteUrl = env('FRONTEND_URL');
+
+        return "{$siteUrl}/thread/{$this->id}";
+    }
+
     protected static function booted() {
         self::$RELATIONS_FOR_PAGE = [
             'user',

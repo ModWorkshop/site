@@ -181,7 +181,6 @@ class FileController extends Controller
                 'file' => $file,
                 'mod' => $mod,
                 'user' => $user,
-                'mod_url' => "https://modworkshop.net/{$mod->id}",
             ], $file->mod->game_id, $message);
 
             return $file;
