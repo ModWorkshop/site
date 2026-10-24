@@ -395,6 +395,8 @@ class Mod extends Model implements SubscribableInterface
                 $file->delete();
             }
             $mod->subscriptions()->delete();
+
+            Notification::deleteRelated($mod);
         });
         static::creating(function(Mod $mod) {
             $mod->bumped_at ??= $mod->freshTimestampString();
