@@ -123,6 +123,8 @@ class Thread extends Model implements SubscribableInterface
 
     public $commentsOrder = 'ASC';
 
+    protected $appends = ['page_url'];
+
     protected $guarded = [];
 
     protected $casts = [

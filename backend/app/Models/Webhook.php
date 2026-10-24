@@ -57,7 +57,6 @@ class Webhook extends Model
 
         foreach ($args as $k => $v) {
             if (is_object($v)) {
-                $v->append('page_url');
                 $args[$k] = $v->toArray();
             }
         }
@@ -80,8 +79,6 @@ class Webhook extends Model
     }
 
     static function sendModEvent(Mod $mod, string $event, array $args=[], ?string $content=null){
-        $siteUrl = env('FRONTEND_URL');
-
         self::sendEvent($event, [
             'mod' => $mod,
             ...$args

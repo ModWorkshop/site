@@ -67,6 +67,8 @@ class Comment extends Model implements SubscribableInterface
     protected $with = ['user', 'mentions', 'subscribed'];
     protected $guarded = [];
     protected $hidden = [];
+    protected $appends = ['page_url'];
+
     protected $saveToReport = ['content'];
 
     public function getMorphClass(): string {

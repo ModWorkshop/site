@@ -104,7 +104,7 @@ class Game extends Model
         'game_sdk_key'
     ];
     protected $hidden = ['webhook_url', 'viewable_mods_count', 'game_sdk_key', 'mod_types_definition'];
-    protected $appends = [];
+    protected $appends = ['page_url'];
     public const WITH_USER_PERFS = ['followed', 'ignored'];
     protected $with = [];
 

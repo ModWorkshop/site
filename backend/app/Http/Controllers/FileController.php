@@ -175,13 +175,11 @@ class FileController extends Controller
 
             $user = $this->user();
 
-            $message = str_replace('{download_url}', $file->downloadUrl, __('api.webhook_event_file_uploaded'));
-
             Webhook::sendEvent('file_uploaded', [
                 'file' => $file,
                 'mod' => $mod,
                 'user' => $user,
-            ], $file->mod->game_id, $message);
+            ], $file->mod->game_id);
 
             return $file;
         } catch (AwsException $e) {
@@ -254,6 +252,13 @@ class FileController extends Controller
             }
         }
 
+        if ($hasFile) {
+            Webhook::sendEvent('file_uploaded', [
+                'file' => $file,
+                'mod' => $mod,
+                'user' => $this->user(),
+            ], $file->mod->game_id);
+        }
 
         return response($file, 201);
     }
@@ -307,6 +312,12 @@ class FileController extends Controller
             $val['type'] = $type;
             $val['size'] = $uploadFile->getSize();
             $val['completed'] = true;
+
+            Webhook::sendEvent('file_uploaded', [
+                'file' => $file,
+                'mod' => $file->mod,
+                'user' => $this->user(),
+            ], $file->mod->game_id);
 
             $file->mod->bump();
         }

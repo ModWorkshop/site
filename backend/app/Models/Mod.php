@@ -293,7 +293,7 @@ class Mod extends Model implements SubscribableInterface
     public $fullLoad = false;
 
     protected $with = self::DEFAULT_MOD_WITH;
-    protected $appends = [];
+    protected $appends = ['page_url'];
     protected $hidden = [];
 
     protected $casts = [

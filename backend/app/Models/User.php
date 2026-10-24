@@ -193,7 +193,7 @@ class User extends Model implements
     protected $saveToReport = ['bio', 'custom_title'];
 
     // Always return roles for users
-    protected $appends = ['color', 'active_supporter'];
+    protected $appends = ['color', 'active_supporter', 'page_url'];
     protected $with = ['roles', 'bans', 'supporter'];
 
     //Permissions and roles stuff
