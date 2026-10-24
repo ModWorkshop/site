@@ -868,6 +868,7 @@ class Mod extends Model implements SubscribableInterface
             $this->save();
         }
 
+        $this->append('location');
         Webhook::sendModEvent($this, 'mod_published');
 
         // Update the game's last date since the mod was published
