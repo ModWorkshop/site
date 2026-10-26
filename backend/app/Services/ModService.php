@@ -76,7 +76,7 @@ class ModService {
         }
 
 
-        $game = self::getGame();
+        $game = self::getGame($val);
 
         if (isset($filterFunc)) {
             $filterFunc($modSearch, $val, $game);
@@ -119,7 +119,7 @@ class ModService {
         }
 
         // Queries/filters
-        $gameId = Arr::get($val, 'game_id', $game?->id);
+        $gameId = $game?->id;
         if (isset($gameId)) {
             $modSearch->where('game_id', $gameId);
         }
@@ -203,7 +203,7 @@ class ModService {
     public static function meilisearchModsGuestCache(array $val=[], ?callable $filterFunc=null, ?callable $queryFunc=null, ?string $cacheForGuests=null): LengthAwarePaginator
     {
         if (!Auth::check() && isset($cacheForGuests)) {
-            $game = self::getGame();
+            $game = self::getGame($val);
 
             $cacheKey = 'mods:'.($game ? 'game:'.$game->name : '').$cacheForGuests.'-'.APIService::hashByQuery();
             return Cache::remember($cacheKey, 30,
@@ -247,7 +247,7 @@ class ModService {
             }
         }
 
-        $game = self::getGame();
+        $game = self::getGame($val);
 
         if (!isset($game)) {
             $query->with(['game']);
