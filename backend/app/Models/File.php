@@ -174,13 +174,14 @@ class File extends Model
         foreach ($gameDef as $kind => $def) {
             foreach ($this->archive_paths as $path => $item) {
                 $containsBlacklisted = false;
-                $containsAny = false;
+                $matchesType = false;
 
                 $withoutRoot = str_replace($rootPath.'/', '', $path);
 
-                if (isset($def['doesnt_contain'])) {
+                // Must not contain any of these
+                if (!empty($def['doesnt_contain'])) {
                     foreach ($def['doesnt_contain'] as $folder) {
-                        if (str_starts_with($withoutRoot, $folder)) {
+                        if (fnmatch($folder, $withoutRoot)) {
                             $containsBlacklisted = true;
                             break;
                         }
@@ -191,14 +192,29 @@ class File extends Model
                     break; // Can't be this kind...
                 }
 
-                foreach ($def['contains_any'] as $folder) {
-                    if (str_starts_with($withoutRoot, $folder)) {
-                        $containsAny = true;
-                        break;
+                // If contains even one, clear to go
+                if (!empty($def['contains_any'])) {
+                    foreach ($def['contains_any'] as $folder) {
+                        if (fnmatch($folder, $withoutRoot)) {
+                            $matchesType = true;
+                            break;
+                        }
+                    }
+                } else {
+                    $matchesType = true;
+                }
+
+                // Must contain all defined here
+                if ($matchesType && !empty($def['contains_all'])) {
+                    foreach ($def['contains_all'] as $folder) {
+                        if (!fnmatch($folder, $withoutRoot)) {
+                            $matchesType = false;
+                            break;
+                        }
                     }
                 }
 
-                if ($containsAny) {
+                if ($matchesType) {
                     return $kind;
                 }
             }
