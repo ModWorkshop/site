@@ -139,7 +139,7 @@ class File extends Model
     {
         return Attribute::make(function() {
             $encode = rawurlencode($this->safeFileName);
-            return Storage::disk('s3')->url('mods/files/'.$this->file)."?filename={$encode}";
+            return Storage::url('mods/files/'.$this->file)."?filename={$encode}";
         });
     }
 
