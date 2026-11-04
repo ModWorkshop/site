@@ -43,7 +43,10 @@ export default function () {
 				if (options.no) {
 					options.no();
 				}
-				remove(yesNoModals.value, modal);
+
+				setTimeout(() => {
+					remove(yesNoModals.value, modal);
+				}, 500);
 			}
 		};
 		yesNoModals.value.push(modal);

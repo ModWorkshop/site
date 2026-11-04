@@ -99,7 +99,8 @@ const innerClasses = computed(() => ({
 	'page-block-md': props.size === 'md',
 	'page-block-sm': props.size === 'sm',
 	'page-block-xs': props.size === 'xs',
-	'page-block-2xs': props.size === '2xs'
+	'page-block-2xs': props.size === '2xs',
+	'page-block-3xs': props.size === '3xs'
 }));
 
 </script>
@@ -121,7 +122,7 @@ const innerClasses = computed(() => ({
     margin-top: 8px;
 } */
 
-.page-block-nm, .page-block-full, .page-block-md, .page-block-nm, .page-block-sm, .page-block-xs, .page-block-2xs {
+.page-block-nm, .page-block-full, .page-block-md, .page-block-nm, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-3xs {
 	align-self: center;
 	width: stretch;
 }
@@ -150,6 +151,10 @@ const innerClasses = computed(() => ({
 	max-width: 960px;
 }
 
+.page-block-3xs {
+	max-width: 600px;
+}
+
 @media (min-width: 1024px) and (max-width: 1349px) {
 	.page-block-nm {
 		max-width: 100%;
@@ -157,7 +162,7 @@ const innerClasses = computed(() => ({
 }
 
 @media (max-width: 1349px) {
-    .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-nm {
+    .page-block, .page-block-md, .page-block-sm, .page-block-xs, .page-block-2xs, .page-block-3xs, .page-block-nm {
 		width: 100% !important;
 	}
 }

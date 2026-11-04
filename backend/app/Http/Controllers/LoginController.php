@@ -36,6 +36,20 @@ class LoginController extends Controller
     public function __construct() {
 
     }
+
+    public function checkTwoFactorAuth(Request $request, User $user, bool $remember) {
+        if ($user->two_factor_secret && !is_null($user->two_factor_confirmed_at)) {
+            $request->session()->put([
+                'login.id' => $user->getKey(),
+                'login.remember' => $remember
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Login user
      *
@@ -45,15 +59,32 @@ class LoginController extends Controller
     {
         $val = $request->validate([
             'email' => 'required|email', //blabla@email.com
-            'password' => ['required', 'max:128'],
+            'password' => 'required|max:128',
             'remember' => 'boolean',
         ]);
 
         APIService::checkCaptcha($request);
 
-        if (Auth::attempt(['email' => Str::lower($val['email']), 'password' => $val['password']], $val['remember'])) {
+        $email = Str::lower($val['email']);
+        $remember = Arr::get($val, 'remember', false);
+
+        $user = User::where('email', $email)->first();
+        \Log::info('user', ['user' => $user]);
+
+        if (!isset($user) || empty($user->password) || !Hash::check($val['password'], $user->password)) {
+            return response('Email or password are incorrect', Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($this->checkTwoFactorAuth($request, $user, $remember)) {
+            return response()->json([
+                'two_factor' => true,
+                'message' => 'Two factor challenge required'
+            ]);
+        }
+
+        if (Auth::attempt(['email' => Str::lower($email), 'password' => $val['password']], $remember)) {
             $request->session()->regenerate();
-            return response('');
+            return response()->noContent();
         } else {
             return response('Email or password are incorrect', Response::HTTP_UNAUTHORIZED);
         }
@@ -276,9 +307,16 @@ class LoginController extends Controller
             }
         }
 
-        //Attention: this only runs AFTER we verify the user has logged in. This data is returned by the provider, therefore we can safely login the user.
-        if (Auth::login($user, true)) {
-            $request->session()->regenerate();
+        if ($this->checkTwoFactorAuth($request, $user, true)) {
+            return response()->json([
+                'two_factor' => true,
+                'message' => 'Two factor challenge required'
+            ]);
+        } else {
+            //Attention: this only runs AFTER we verify the user has logged in. This data is returned by the provider, therefore we can safely login the user.
+            if (Auth::login($user, true)) {
+                $request->session()->regenerate();
+            }
         }
     }
 

@@ -53,9 +53,11 @@
 			<m-flex class="items-center my-3">
 				<label>{{ $t('2fa') }}</label>
 				<m-flex v-if="isMe" class="ml-auto">
-					<m-button v-if="!user.two_factor_confirmed_at" @click="showTwoFactorModal = 'enable'">{{ $t('enable_2fa') }}</m-button>
-					<m-button v-else @click="showTwoFactorModal = 'disable'">{{ $t('disable_2fa') }}</m-button>
-					<m-button @click="showTwoFactorModal = 'recovery-codes'">{{ $t('2fa_recovery_codes') }}</m-button>
+					<template v-if="user.two_factor_confirmed_at">
+						<m-button @click="showTwoFactorModal = 'disable'">{{ $t('disable_2fa') }}</m-button>
+						<m-button @click="showTwoFactorModal = 'recovery-codes'">{{ $t('2fa_recovery_codes') }}</m-button>
+					</template>
+					<m-button v-else @click="showTwoFactorModal = 'enable'">{{ $t('enable_2fa') }}</m-button>
 				</m-flex>
 				<h3 v-else-if="hasPermission('manage-users')" class="ml-auto">
 					{{ user.two_factor_confirmed_at ? '✅' : '❎' }}

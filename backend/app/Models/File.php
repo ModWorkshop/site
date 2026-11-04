@@ -73,6 +73,62 @@ const ALLOWED_ARCHIVE_TYPES = [
     '7z' => true
 ];
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $mod_id
+ * @property string $name
+ * @property string $desc
+ * @property string $file
+ * @property string $type
+ * @property int|null $image_id
+ * @property int $size
+ * @property string $label
+ * @property string $version
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property int $display_order
+ * @property int $downloads
+ * @property string|null $semver_version
+ * @property string|null $legacy_mime
+ * @property bool $completed
+ * @property string|null $mod_type
+ * @property array<array-key, mixed>|null $archive_paths
+ * @property string $version_type
+ * @property-read mixed $download_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DownloadableDownload> $downloadsRelation
+ * @property-read int|null $downloads_relation_count
+ * @property-read mixed $file_ext
+ * @property-read \App\Models\Image|null $image
+ * @property-read \App\Models\Mod $mod
+ * @property-read mixed $safe_file_name
+ * @property-read \App\Models\User $user
+ * @method static Builder<static>|File newModelQuery()
+ * @method static Builder<static>|File newQuery()
+ * @method static Builder<static>|File query()
+ * @method static Builder<static>|File whereArchivePaths($value)
+ * @method static Builder<static>|File whereCompleted($value)
+ * @method static Builder<static>|File whereCreatedAt($value)
+ * @method static Builder<static>|File whereDesc($value)
+ * @method static Builder<static>|File whereDisplayOrder($value)
+ * @method static Builder<static>|File whereDownloads($value)
+ * @method static Builder<static>|File whereFile($value)
+ * @method static Builder<static>|File whereId($value)
+ * @method static Builder<static>|File whereImageId($value)
+ * @method static Builder<static>|File whereLabel($value)
+ * @method static Builder<static>|File whereLegacyMime($value)
+ * @method static Builder<static>|File whereModId($value)
+ * @method static Builder<static>|File whereModType($value)
+ * @method static Builder<static>|File whereName($value)
+ * @method static Builder<static>|File whereSemverVersion($value)
+ * @method static Builder<static>|File whereSize($value)
+ * @method static Builder<static>|File whereType($value)
+ * @method static Builder<static>|File whereUpdatedAt($value)
+ * @method static Builder<static>|File whereUserId($value)
+ * @method static Builder<static>|File whereVersion($value)
+ * @method static Builder<static>|File whereVersionType($value)
+ * @mixin Eloquent
+ */
 class File extends Model
 {
     use HasFactory;

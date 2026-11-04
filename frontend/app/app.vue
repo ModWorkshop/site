@@ -22,6 +22,7 @@
 			size="sm"
 			@submit="firstModal.yes"
 			@cancel="firstModal.no"
+			@closed="firstModal.closed"
 		/>
 	</div>
 </template>

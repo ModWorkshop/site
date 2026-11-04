@@ -25,6 +25,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Taggable whereTaggableId($value)
  * @method static Builder|Taggable whereTaggableType($value)
  * @method static Builder|Taggable whereUpdatedAt($value)
+ * @property bool $applied_by_mod
+ * @method static Builder<static>|Taggable whereAppliedByMod($value)
  * @mixin Eloquent
  */
 class Taggable extends Model

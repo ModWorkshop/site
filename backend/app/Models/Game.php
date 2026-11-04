@@ -94,6 +94,10 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
  * @property object|null $mod_types_definition
  * @method static Builder<static>|Game whereGameSdkKey($value)
  * @method static Builder<static>|Game whereModTypesDefinition($value)
+ * @property int|null $appeals_forum_category_id
+ * @property-read mixed $page_url
+ * @property-read mixed $ticket_count
+ * @method static Builder<static>|Game whereAppealsForumCategoryId($value)
  * @mixin Eloquent
  */
 class Game extends Model

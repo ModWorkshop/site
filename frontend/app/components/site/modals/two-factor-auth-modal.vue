@@ -98,7 +98,9 @@ function handleActions() {
 function passConfirmed() {
 	showPassConfirm.value = false;
 	showEnableTwoFactor.value = true;
-	showEnableTwoFactorAuthModal();
+	setTimeout(() => {
+		handleActions();
+	}, 500);
 }
 
 function closeModal(prev: string) {

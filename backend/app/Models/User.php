@@ -180,6 +180,13 @@ use Str;
  * @property-read int|null $pinned_mods_count
  * @method static Builder<static>|User whereNeedsModApproval($value)
  * @method static Builder<static>|User wherePurgedUser($value)
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
+ * @property-read mixed $page_url
+ * @method static Builder<static>|User whereTwoFactorConfirmedAt($value)
+ * @method static Builder<static>|User whereTwoFactorRecoveryCodes($value)
+ * @method static Builder<static>|User whereTwoFactorSecret($value)
  * @mixin Eloquent
  */
 class User extends Model implements

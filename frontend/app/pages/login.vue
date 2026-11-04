@@ -1,28 +1,31 @@
 <template>
-	<page-block size="2xs">
+	<page-block size="3xs">
 		<Title>{{ $t('login') }}</Title>
-		<m-form @submit="login">
-			<h1>{{ $t('login') }}</h1>
-			<m-content-block column gap="3">
-				<m-input v-model="user.email" :label="$t('email')" type="email"/>
-				<m-input v-model="user.password" :label="$t('password')" type="password"/>
-				<m-flex>
-					<m-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
-					<NuxtLink to="forgot-password" class="ml-auto">{{ $t('forgot_password_button') }}</NuxtLink>
-				</m-flex>
-				<div>
-					<m-button type="submit" :disabled="!canLogin">{{ $t('login') }}</m-button>
-				</div>
-				<m-flex column>
-					<NuxtLink class="mt-2" to="register">{{ $t('dont_have_account') }}</NuxtLink>
-					<m-flex column>
-						{{ $t('login_using_services') }}
-						<the-social-logins/>
-					</m-flex>
-				</m-flex>
-				<a-captcha v-model="captchaToken"/>
-			</m-content-block>
-		</m-form>
+			<m-flex gap="3" column>
+				<h1>{{ $t('login') }}</h1>
+				<two-factor-login v-if="twoFactor"/>
+				<m-form v-else @submit="login">
+					<m-content-block column gap="3">
+						<m-input v-model="user.email" :label="$t('email')" type="email"/>
+						<m-input v-model="user.password" :label="$t('password')" type="password"/>
+						<m-flex>
+							<m-input v-model="user.remember" :label="$t('remember_me')" type="checkbox"/>
+							<NuxtLink to="forgot-password" class="ml-auto">{{ $t('forgot_password_button') }}</NuxtLink>
+						</m-flex>
+						<div>
+							<m-button type="submit" :disabled="!canLogin">{{ $t('login') }}</m-button>
+						</div>
+						<m-flex column>
+							<NuxtLink class="mt-2" to="register">{{ $t('dont_have_account') }}</NuxtLink>
+							<m-flex column>
+								{{ $t('login_using_services') }}
+								<the-social-logins/>
+							</m-flex>
+						</m-flex>
+						<a-captcha v-model="captchaToken"/>
+					</m-content-block>
+				</m-form>
+			</m-flex>
 	</page-block>
 </template>
 
@@ -36,6 +39,7 @@ definePageMeta({
 
 const showErrorToast = useQuickErrorToast();
 const allowCookies = useCookie('allow-cookies');
+const twoFactor = ref(false);
 
 const { t } = useI18n();
 
@@ -46,14 +50,20 @@ const user = reactive({
 });
 
 const canLogin = computed(() => user.email && user.password);
-const store = useStore();
+const { attemptLoginUser } = useStore();
 
 const captchaToken = ref<string>('');
 
 async function login() {
 	try {
-		await postRequest('/login', { ...user, 'h-captcha-response': captchaToken.value });
-		store.attemptLoginUser();
+		const data = await postRequest<{ two_factor?: boolean }>('/login', { ...user, 'h-captcha-response': captchaToken.value });
+
+		if (data.two_factor) {
+			twoFactor.value = true;
+			return;
+		}
+
+		attemptLoginUser();
 		reloadToken();
 	} catch (e) {
 		showErrorToast(e, {

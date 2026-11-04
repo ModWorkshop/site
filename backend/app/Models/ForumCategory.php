@@ -62,6 +62,8 @@ use Illuminate\Support\Carbon;
  * @property-read \App\Models\Game $game
  * @property-read Collection<int, \App\Models\Thread> $threads
  * @property-read int|null $threads_count
+ * @property bool $tickets_mode
+ * @method static Builder<static>|ForumCategory whereTicketsMode($value)
  * @mixin Eloquent
  */
 class ForumCategory extends Model

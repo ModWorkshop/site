@@ -62,6 +62,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $game_default_mods_sort
  * @method static Builder<static>|UserExtra whereGameDefaultModsSort($value)
  * @method static Builder<static>|UserExtra whereHomeDefaultModsSort($value)
+ * @property bool $accepted_rules
+ * @method static Builder<static>|UserExtra whereAcceptedRules($value)
  * @mixin Eloquent
  */
 class UserExtra extends Model

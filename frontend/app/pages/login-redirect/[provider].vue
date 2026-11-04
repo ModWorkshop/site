@@ -1,6 +1,7 @@
 <template>
 	<page-block>
-		<m-flex v-if="!error" column class="mx-auto">
+		<two-factor-login v-if="twoFactor"/>
+		<m-flex v-else-if="!error" column class="mx-auto">
 			<h2 class="mx-auto">{{ $t('logging_you_in') }}</h2>
 			<m-loading/>
 		</m-flex>
@@ -13,10 +14,11 @@ definePageMeta({
 	middleware: 'guests-only'
 });
 
-const store = useStore();
+const { attemptLoginUser } = useStore();
 const route = useRoute();
 const error = ref();
 const handleError = useHandleError();
+const twoFactor = ref(false);
 
 if (route.query.error) {
 	showError({ statusCode: 500, statusMessage: route.query.error_description as string });
@@ -31,9 +33,13 @@ if (import.meta.client) {
 	}
 
 	try {
-		await postRequest(`/social-logins/${route.params.provider}/login-callback`, serializeObject(newQuery));
-		await reloadToken();
-		store.attemptLoginUser('/');
+		const data = await postRequest<{ two_factor?: boolean }>(`/social-logins/${route.params.provider}/login-callback`, serializeObject(newQuery));
+		if (data.two_factor) {
+			twoFactor.value = true;
+		} else {
+			await reloadToken();
+			attemptLoginUser('/');
+		}
 	} catch (e) {
 		handleError(e);
 	}

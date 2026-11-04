@@ -31,6 +31,30 @@ use StringTemplate\RecursiveArrayOnlyIterator;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereUrl($value)
+ * @property bool $event_mod_approval
+ * @property bool $event_mod_approval_new
+ * @property bool $event_mod_deleted
+ * @property bool $event_mod_suspended
+ * @property bool $event_mod_published
+ * @property bool $event_mod_bumped
+ * @property bool $event_file_uploaded
+ * @property bool $event_report_new
+ * @property bool $is_active
+ * @property string $custom_template
+ * @property bool $event_ticket_new
+ * @property bool $event_ticket_reply
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereCustomTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventFileUploaded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModApproval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModApprovalNew($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModBumped($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModPublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventModSuspended($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventReportNew($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventTicketNew($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereEventTicketReply($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Webhook whereIsActive($value)
  * @mixin \Eloquent
  */
 class Webhook extends Model

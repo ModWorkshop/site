@@ -196,6 +196,16 @@ abstract class Visibility {
  * @property string|null $mod_type
  * @property-read mixed $download_strictly_file
  * @method static Builder<static>|Mod whereModType($value)
+ * @property string $custom_version
+ * @property bool $files_are_versions
+ * @property-read Collection<int, \App\Models\File> $allFiles
+ * @property-read int|null $all_files_count
+ * @property-read mixed $page_url
+ * @property-read mixed $location
+ * @property-read Collection<int, \App\Models\File> $sortedFiles
+ * @property-read int|null $sorted_files_count
+ * @method static Builder<static>|Mod whereCustomVersion($value)
+ * @method static Builder<static>|Mod whereFilesAreVersions($value)
  * @mixin Eloquent
  */
 class Mod extends Model implements SubscribableInterface

@@ -58,6 +58,7 @@ use Laravel\Scout\Attributes\SearchUsingFullText;
  * @property-read int|null $reports_count
  * @property int $parser_version
  * @method static Builder|Comment whereParserVersion($value)
+ * @property-read mixed $page_url
  * @mixin Eloquent
  */
 class Comment extends Model implements SubscribableInterface
