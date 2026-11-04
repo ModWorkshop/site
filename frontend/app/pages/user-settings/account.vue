@@ -2,6 +2,7 @@
 	<m-form v-model="userForm" float-save-gui autocomplete="off" :flush-changes="fc" @submit="save">
 		<m-flex gap="2" column>
 			<m-alert v-if="isMe && !user.signable" color="warning" :title="$t('sso_only_warning')" :desc="$t('sso_only_warning_desc')"/>
+			<h2>{{ $t('account_tab') }}</h2>
 			<m-input
 				v-if="hasPermission('manage-users')"
 				v-model="userForm.purged_user"
@@ -11,6 +12,8 @@
 			/>
 			<m-input v-model="userForm.unique_name" :label="$t('unique_name')" :desc="$t('unique_name_desc')"/>
 			<m-input v-model="userForm.email" maxlength="255" :label="$t('email')"/>
+			<div class="dropdown-splitter"/>
+			<h2>{{ $t('password_and_security') }}</h2>
 			<m-flex class="items-center my-3">
 				<label>{{ $t('change_password') }}</label>
 				<m-button class="ml-auto" @click="changePassword = !changePassword">{{ $t(changePassword ? 'cancel' : 'edit') }}</m-button>
@@ -47,6 +50,17 @@
 				<small>{{ $t('password_guide') }}</small>
 				<m-link v-if="user.signable" disabled @click="reset">{{ $t('forgot_password_button') }}</m-link>
 			</template>
+			<m-flex class="items-center my-3">
+				<label>{{ $t('2fa') }}</label>
+				<m-flex v-if="isMe" class="ml-auto">
+					<m-button v-if="!user.two_factor_confirmed_at" @click="showTwoFactorModal = 'enable'">{{ $t('enable_2fa') }}</m-button>
+					<m-button v-else @click="showTwoFactorModal = 'disable'">{{ $t('disable_2fa') }}</m-button>
+					<m-button @click="showTwoFactorModal = 'recovery-codes'">{{ $t('2fa_recovery_codes') }}</m-button>
+				</m-flex>
+				<h3 v-else-if="hasPermission('manage-users')" class="ml-auto">
+					{{ user.two_factor_confirmed_at ? '✅' : '❎' }}
+				</h3>
+			</m-flex>
 			<m-alert v-if="isMe" color="info" :title="$t('request_my_data')">
 				{{ $t('request_my_data_desc') }}
 				<a ref="downloadDataButton" download :href="`${config.apiUrl}/user-data`"/>
@@ -69,6 +83,8 @@
 				<m-input v-model="deleteUserCheckBox" :label="$t('delete_user_checkbox')" type="checkbox"/>
 				<a-captcha v-model="captchaToken"/>
 			</m-form-modal>
+
+			<two-factor-auth-modal v-model="showTwoFactorModal" :user="user"/>
 		</m-flex>
 	</m-form>
 </template>
@@ -107,6 +123,9 @@ const showDeletUser = ref(false);
 const deleteUserUniqueName = ref('');
 const deleteUserCheckBox = ref(false);
 const captchaToken = ref('-');
+
+const showTwoFactorModal = ref<'hidden' | 'enable' | 'disable' | 'recovery-codes'>('hidden');
+
 const canDeleteUser = computed(() =>
 	deleteUserCheckBox.value && captchaToken.value && deleteUserUniqueName.value === userForm?.unique_name ? true : false
 );
@@ -187,4 +206,5 @@ async function reset() {
 		});
 	}
 }
+
 </script>

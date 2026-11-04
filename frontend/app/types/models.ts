@@ -337,6 +337,7 @@ export interface User {
 	needs_mod_approval?: boolean;
 	purged_user?: boolean;
 	pinned_mods?: Mod[];
+	two_factor_confirmed_at?: string;
 }
 
 export interface UserForm extends User {

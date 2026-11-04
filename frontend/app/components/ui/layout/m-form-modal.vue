@@ -1,5 +1,5 @@
 <template>
-	<m-modal v-model="vModel" :size="size" :title="title">
+	<m-modal v-model="vModel" :size="size" :title="title" @opened="$emit('opened')" @closed="$emit('closed')">
 		<template #title>
 			<h2 v-if="title">{{ title }}</h2>
 			<i-mdi-close class="cursor-pointer ml-auto text-xl" @click="onCancel"/>
@@ -7,7 +7,8 @@
 		<m-form class="flex overflow-hidden" @submit="onSubmit()">
 			<m-flex column gap="4" class="overflow-hidden w-full">
 				<m-alert v-if="descType" :color="descType" :desc="desc"/>
-				<span v-else-if="desc">{{ desc }}</span>
+				<span v-else-if="desc" class="whitespace-pre">{{ desc }}</span>
+				<slot v-else name="desc"/>
 				<m-flex column gap="3" class="overflow-y-auto h-full p-2">
 					<slot/>
 				</m-flex>
@@ -31,7 +32,7 @@ const { canSubmit = true } = defineProps<{
 	canSubmit?: boolean;
 }>();
 
-const emit = defineEmits(['submit', 'cancel']);
+const emit = defineEmits(['submit', 'cancel', 'closed', 'opened']);
 const vModel = defineModel<boolean>({ required: true });
 const showToast = useQuickErrorToast();
 const disableButtons = ref(false);

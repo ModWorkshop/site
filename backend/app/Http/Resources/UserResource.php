@@ -64,7 +64,9 @@ class UserResource extends BaseResource
             'needs_mod_approval' => $this->needs_mod_approval,
             'purged_user' => $this->purged_user,
             'mods_count' => $this->when($this->isVisibleForProfile('mods_count'), fn() => $this->whenCounted('viewableMods')),
-            'pinned_mods' => $this->whenLoaded('pinnedMods')
+            'pinned_mods' => $this->whenLoaded('pinnedMods'),
+             // Also for moderators to know whether the user has 2FA, not ability to interact with it though.
+            'two_factor_confirmed_at' => $this->when($isMeOrUserMod, $this->two_factor_confirmed_at)
         ];
     }
 }

@@ -32,6 +32,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification as NotificationsNotification;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Scout\Searchable;
@@ -190,6 +191,8 @@ class User extends Model implements
     use HasFactory, HasApiTokens, Notifiable, Reportable, Searchable;
     use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmailTrait;
 
+    use TwoFactorAuthenticatable;
+
     protected $saveToReport = ['bio', 'custom_title'];
 
     // Always return roles for users
@@ -247,6 +250,10 @@ class User extends Model implements
         'bio',
         'custom_title',
         'created_at',
+
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'two_factor_confirmed_at' // Should also be private, duh
     ];
 
     /**

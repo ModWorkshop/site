@@ -40,6 +40,9 @@ export default function () {
 				}
 			},
 			closed() {
+				if (options.no) {
+					options.no();
+				}
 				remove(yesNoModals.value, modal);
 			}
 		};

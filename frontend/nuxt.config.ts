@@ -47,7 +47,7 @@ export default defineNuxtConfig({
 			siteUrl: '',
 			storageUrl: '',
 			hcaptchaSiteKey: '',
-			version: '3.8.2',
+			version: '3.8.3',
 			presignedUpload: false,
 			commitHash: ''
 		},
@@ -143,6 +143,7 @@ export default defineNuxtConfig({
 		'~/components/site',
 		'~/components/site/pages',
 		'~/components/site/mod',
+		'~/components/site/modals',
 		'~/components/site/notifications'
 	],
 
