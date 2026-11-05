@@ -17,7 +17,7 @@
 				<li><NuxtLink href="https://www.microsoft.com/en-us/security/mobile-authenticator-app">Microsoft Authenticator</NuxtLink></li>
 			</ul>
 		</template>
-		<m-flex class="items-center self-center">
+		<m-flex class="items-center self-center p-4" style="background-color: #fff;">
 			<img v-if="svgData" :src="svgData.svg" width="256" class="self-center">
 		</m-flex>
 		<m-input v-model="twoFactorConfirmCode" :label="$t('2fa_confirm_code')"/>
@@ -26,10 +26,10 @@
 	<m-modal
 		v-model="isShowRecoveryModal"
 		:title="$t('2fa_recovery_codes')"
-		:desc="$t('2fa_recovery_codes_desc')"
 		size="sm"
 		@closed="closeModal('recovery-codes')"
 	>
+		{{ $t('2fa_recovery_codes_desc') }}
 		<m-flex wrap class="justify-around">
 			<h3 v-for="code of recoveryCodes" :key="code">
 				{{ code }}
@@ -97,10 +97,7 @@ function handleActions() {
 
 function passConfirmed() {
 	showPassConfirm.value = false;
-	showEnableTwoFactor.value = true;
-	setTimeout(() => {
-		handleActions();
-	}, 500);
+	handleActions();
 }
 
 function closeModal(prev: string) {
@@ -114,8 +111,10 @@ async function disableTwoFactorAuth() {
 		await deleteRequest('/user/two-factor-authentication');
 		user.two_factor_confirmed_at = undefined;
 		vm.value = 'hidden';
-	} catch {
-		showPassConfirm.value = true;
+	} catch (e) {
+		if (!checkNeedPasswordConfirmation(e)) {
+			showError(e);
+		}
 		return;
 	}
 }
@@ -123,8 +122,10 @@ async function disableTwoFactorAuth() {
 async function showEnableTwoFactorAuthModal() {
 	try {
 		await postRequest('/user/two-factor-authentication');
-	} catch {
-		showPassConfirm.value = true;
+	} catch (e) {
+		if (!checkNeedPasswordConfirmation(e)) {
+			showError(e);
+		}
 		return;
 	}
 
@@ -180,6 +181,7 @@ async function submitConfirm() {
 		await reloadUser();
 		user.two_factor_confirmed_at = storeUser?.two_factor_confirmed_at;
 
+		twoFactorConfirmCode.value = '';
 		vm.value = 'recovery-codes';
 	} catch (e) {
 		if (e instanceof AxiosError) {

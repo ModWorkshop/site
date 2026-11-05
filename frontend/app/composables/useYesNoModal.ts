@@ -5,6 +5,7 @@ interface YesNoModalOptions {
 	descType?: string;
 	yes?: (error?: (e) => void) => Promise<void>;
 	no?: (error?: (e) => void) => Promise<void>;
+	close?: () => void;
 }
 
 export interface YesNoModal extends YesNoModalOptions {
@@ -40,8 +41,8 @@ export default function () {
 				}
 			},
 			closed() {
-				if (options.no) {
-					options.no();
+				if (options.close) {
+					options.close();
 				}
 
 				setTimeout(() => {

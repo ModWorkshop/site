@@ -24,6 +24,7 @@ const { size = 'md', closeOnClickOutside = true, title } = defineProps<{
 const emit = defineEmits<{
 	(e: 'opened'): void;
 	(e: 'closed'): void;
+	(e: 'clickOutside'): void;
 }>();
 
 const vm = defineModel<boolean>({ default: false });
@@ -49,6 +50,8 @@ const classes = computed(() => ({
 }));
 
 function onClickOutside() {
+	emit('clickOutside');
+
 	if (closeOnClickOutside) {
 		vm.value = false;
 	}

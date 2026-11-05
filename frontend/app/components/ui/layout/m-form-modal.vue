@@ -1,5 +1,5 @@
 <template>
-	<m-modal v-model="vModel" :size="size" :title="title" @opened="$emit('opened')" @closed="$emit('closed')">
+	<m-modal v-model="vModel" :size="size" :title="title" @opened="$emit('opened')" @closed="emit('closed')" @click-outside="emit('cancel')">
 		<template #title>
 			<h2 v-if="title">{{ title }}</h2>
 			<i-mdi-close class="cursor-pointer ml-auto text-xl" @click="onCancel"/>
