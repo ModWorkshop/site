@@ -10,16 +10,25 @@
 		@closed="closeModal('enable')"
 	>
 		<template #desc>
-			<span>{{ $t('enable_2fa_modal_desc') }}</span>
-			<span>{{ $t('enable_2fa_examples') }}</span>
-			<ul>
-				<li><NuxtLink href="https://support.google.com/accounts/answer/1066447?hl=en">Google Authenticator</NuxtLink></li>
-				<li><NuxtLink href="https://www.microsoft.com/en-us/security/mobile-authenticator-app">Microsoft Authenticator</NuxtLink></li>
-			</ul>
+			<i18n-t keypath="enable_2fa_modal_desc" tag="span" class="whitespace-pre-line">
+				<template #authy>
+					<NuxtLink href="https://www.authy.com/" target="_blank">Authy</NuxtLink>
+				</template>
+				<template #microsoft>
+					<NuxtLink href="https://www.microsoft.com/en-us/security/mobile-authenticator-app" target="_blank">Microsoft Authenticator</NuxtLink>
+				</template>
+				<template #google>
+					<NuxtLink href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</NuxtLink>
+				</template>
+			</i18n-t>
 		</template>
-		<m-flex class="items-center self-center p-4" style="background-color: #fff;">
+		<m-flex class="items-center self-center p-4 rounded" style="background-color: #fff;">
 			<img v-if="svgData" :src="svgData.svg" width="256" class="self-center">
 		</m-flex>
+		{{ $t('enable_2fa_manual') }}
+		<h3>
+			{{ key }}
+		</h3>
 		<m-input v-model="twoFactorConfirmCode" :label="$t('2fa_confirm_code')"/>
 	</m-form-modal>
 
@@ -57,6 +66,7 @@ const { reloadUser, user: storeUser } = useStore();
 const showEnableTwoFactor = ref(false);
 const showPassConfirm = ref(false);
 const svgData = ref<TwoFactorResponse>();
+const key = ref('');
 
 const isShowRecoveryModal = ref(false);
 const recoveryCodes = ref<string[]>();
@@ -135,6 +145,15 @@ async function showEnableTwoFactorAuthModal() {
 		svg: URL.createObjectURL(blob),
 		url: data.url
 	};
+
+	const url = new URL(data.url);
+	const secret = url.searchParams.get('secret')!;
+	let k = '';
+	for (let i = 0; i < secret.length / 4; i++) {
+		k += (i === 0 ? '' : '\t') + secret.substring(i * 4, (i + 1) * 4);
+	}
+	key.value = k;
+
 	showEnableTwoFactor.value = true;
 }
 
