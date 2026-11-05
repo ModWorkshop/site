@@ -387,7 +387,7 @@
     "password_error_wrong": "Password is incorrect!",
     "password_and_security": "Password and Security",
     "2fa_recovery_codes": "Recovery Codes",
-    "2fa_recovery_codes_desc": "Keep them somewhere safe! You need them if you lose access to your authenticator.",
+    "2fa_recovery_codes_desc": "These are your recovery codes. If you lose access to your authenticator, you may use these codes instead. Download them and keep them safe.",
     "2fa_recovery_codes_regenerate": "Regenerate Codes",
     "2fa": "Two-Factor Authentication",
     "enable_2fa": "Enable Two-Factor Authentication",
