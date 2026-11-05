@@ -61,7 +61,7 @@ const { user } = defineProps<{
 	user: User;
 }>();
 
-const { reloadUser, user: storeUser } = useStore();
+const { reloadUser } = useStore();
 
 const showEnableTwoFactor = ref(false);
 const showPassConfirm = ref(false);
@@ -197,7 +197,7 @@ async function submitConfirm() {
 			code: twoFactorConfirmCode.value
 		});
 
-		await reloadUser();
+		const storeUser = await reloadUser();
 		user.two_factor_confirmed_at = storeUser?.two_factor_confirmed_at;
 
 		twoFactorConfirmCode.value = '';

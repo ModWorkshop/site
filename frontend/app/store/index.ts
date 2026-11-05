@@ -151,6 +151,7 @@ export const useStore = defineStore('main', {
 		async reloadUser() {
 			const { $mwsAPI } = useNuxtApp();
 			this.user = await $mwsAPI<User>('user');
+			return this.user;
 		},
 
 		async logout(redirect: string | boolean = '/') {
