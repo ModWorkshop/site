@@ -739,7 +739,7 @@ class Mod extends Model implements SubscribableInterface
         // Has only a single file/link so just return it
         // Or mod uses files as versions
         if ($this->files_are_versions || $filesCount === 1 || ($filesCount === 0 && $linksCount === 1)) {
-            if ($filesLoaded && $file = $this->files[0]) {
+            if ($filesLoaded && $file = $this->files[0] ?? null) {
                 return $file;
             } else if ($linksLoaded) {
                 if (!$onlyFiles) {
