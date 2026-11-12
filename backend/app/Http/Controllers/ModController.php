@@ -272,6 +272,7 @@ class ModController extends Controller
             if (!$this->user()->hasPermission('manage-mods', $mod->game)) {
                 unset($val['game_id']);
                 unset($val['allowed_storage']);
+                unset($val['custom_mod_type']);
             } else if ($gameId !== $mod->game_id) {
                 $val['category_id'] ??= null; // Ensure to empty the category in case we change the game.
             }
@@ -283,6 +284,7 @@ class ModController extends Controller
         } else {
             if (!$this->user()->hasPermission('manage-mods', $game)) {
                 unset($val['allowed_storage']);
+                unset($val['custom_mod_type']);
             }
 
             $val['user_id'] = $request->user()->id;

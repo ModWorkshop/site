@@ -241,6 +241,8 @@ class File extends Model
                 ScanArchivePaths::dispatch($file);
                 \Log::info('Sent file for scanning paths');
             }
+
+            $file->mod->computedModType();
         });
 
         static::deleting(function(File $file) {
@@ -254,6 +256,8 @@ class File extends Model
                 $mod->download_id = null;
                 $mod->download_type = null;
             }
+
+            $mod->computedModType(false);
 
             $mod->calculateFileStatus(); // Saved here
         });

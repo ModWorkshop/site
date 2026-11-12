@@ -411,6 +411,12 @@ class Mod extends Model implements SubscribableInterface
                 ]);
             }
         });
+
+        static::saving(function(Mod $mod) {
+            if ($mod->isDirty('custom_mod_type')) {
+                $mod->computedModType(false); // Save happens after this event
+            }
+        });
     }
 
     public function scopeList(Builder $query)
@@ -839,6 +845,23 @@ class Mod extends Model implements SubscribableInterface
     public function lastSuspension() : HasOne
     {
         return $this->hasOne(Suspension::class)->where('status', true);
+    }
+
+    public function computedModType(bool $save=true) {
+        if ($this->mod_type_set_by_mod) {
+            return;
+        }
+
+        $modType = $this->custom_mod_type;
+        if (empty($modType)) {
+            $modType = $this->getDownload(true)?->mod_type ?? 'unknown';
+        }
+
+        $this->mod_type = $modType;
+
+        if ($save) {
+            $this->save();
+        }
     }
 
     /**

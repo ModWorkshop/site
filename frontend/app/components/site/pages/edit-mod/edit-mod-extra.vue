@@ -7,6 +7,7 @@
 
 	<m-input v-model="mod.donation" :label="$t('donation')"/>
 	<m-input v-model="mod.comments_disabled" type="checkbox" :label="$t('disable_comments')"/>
+	<m-input v-if="hasPermission('manage-mods', mod.game)" v-model="mod.custom_mod_type" label="Custom Mod Type"/>
 
 	<m-alert v-if="mod.id && canDelete" class="w-full" color="danger" :title="$t('danger_zone')">
 		<div>
@@ -24,7 +25,7 @@ const mod = defineModel<Mod>({ required: true });
 
 const yesNoModal = useYesNoModal();
 const router = useRouter();
-const { user } = useStore();
+const { user, hasPermission } = useStore();
 const { t } = useI18n();
 
 const superUpdate = inject<boolean>('canSuperUpdate');
