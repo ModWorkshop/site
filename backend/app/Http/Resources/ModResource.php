@@ -64,6 +64,8 @@ class ModResource extends BaseResource
             'instructs_template_id' => $this->instructs_template_id,
             'disable_mod_managers' => $this->disable_mod_managers,
             'parser_version' => $this->parser_version,
+            'mod_type' => $this->mod_type,
+            'custom_mod_type' => $this->custom_mod_type,
             'breadcrumb' => $this->whenAppended('breadcrumb'),
             'download' => $this->whenAppended('download'),
             'version' => $this->whenAppended('version'),
