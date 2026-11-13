@@ -24,6 +24,7 @@ use App\Http\Controllers\ModCommentsController;
 use App\Http\Controllers\ModController;
 use App\Http\Controllers\ModDependencyController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\HighlightedModController;
 use App\Http\Controllers\IgnoredCategoryController;
 use App\Http\Controllers\IgnoredModController;
 use App\Http\Controllers\ModManagerController;
@@ -121,6 +122,8 @@ Route::get('mods/versions', [ModController::class, 'getVersions']);
 
 Route::middleware('can:manage,mod')->group(function() {
     Route::post('mods/{mod}/suspensions', [ModController::class, 'suspend']);
+    Route::post('mods/{mod}/highlight', [ModController::class, 'highlight']);
+    Route::delete('mods/{mod}/highlight', [ModController::class, 'unhighlight']);
     Route::patch('mods/{mod}/approved', [ModController::class, 'approve']);
 });
 Route::middleware('can:report,mod')->post('mods/{mod}/reports', [ModController::class, 'report']);
@@ -134,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('mods/{mod}/comments/subscription', [ModCommentsController::class, 'unsubscribe']);
 });
 APIService::gameResource('mod-managers', ModManagerController::class, ['parentOptional' => true]);
+APIService::gameResource('highlighted-mods', HighlightedModController::class, ['parentOptional' => true]);
 
 //Games/categories/tags
 APIService::gameResource('categories', CategoryController::class);
